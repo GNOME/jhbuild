@@ -94,6 +94,9 @@ def do_sanitycheck(config, args):
     if not check_version('pkg-config --version',
                          r'^([\d.]+)', '0.14.0'):
         print 'pkg-config >= 0.14.0 not found'
+    if not check_version('db2html --version',
+                         r'.* version ([\d.]+)', '0.0'):
+        print 'db2html not found'
     if not check_version('autoconf --version',
                          r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
         print 'autoconf >= 2.53 not found'
@@ -122,5 +125,25 @@ def do_sanitycheck(config, args):
             print "aclocal-%s can't see gettext macros" % amver
         if not inpath('pkg.m4', path):
             print "aclocal-%s can't see pkg-config macros" % amver
+
+    # XML catalog sanity checks
+    if not os.access('/etc/xml/catalog', os.R_OK):
+        print 'Could not find XML catalog'
+    else:
+        for (item, name) in [('-//OASIS//DTD DocBook XML V4.1.2//EN',
+                              'DocBook XML DTD V4.1.2'),
+                             ('http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl',
+                              'DocBook XSL Stylesheets')]:
+            try:
+                data = get_output('xmlcatalog /etc/xml/catalog "%s"' % item)
+            except:
+                print 'Could not find %s in XML catalog' % name            
+
+    # Perl modules used by tools such as intltool:
+    for perlmod in [ 'XML::Parser' ]:
+        try:
+            get_output('perl -M%s -e exit' % perlmod)
+        except:
+            print 'Could not find the perl module %s' % perlmod
 
 register_command('sanitycheck', do_sanitycheck)
