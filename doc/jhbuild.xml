@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?><!--*- mode: nxml -*-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- process to HTML with: xmlto xhtml-nochunks jhbuild.xml -->
+<!-- process to HTML with: xmlto xhtml-nochunks -m custom.xsl jhbuild.xml -->
 <article id="index">
   <articleinfo>
     <title>JHBuild Manual</title>
@@ -759,7 +759,305 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
   <section id="config-reference">
     <title>Configuration File Reference</title>
 
-    <para></para>
+    <para>The <filename>~/.jhbuildrc</filename> file uses standard
+    Python syntax.  The file is run, and the resulting variables
+    defined in the namespace are used to control how JHBuild acts.  A
+    set of default values are inserted into the namespace before
+    running the user's configuration file.</para>
+
+    <section id="config-reference-variables">
+      <title>Configuration Variables</title>
+
+      <variablelist>
+	<?dbhtml list-presentation="table"?>
+	<varlistentry>
+	  <term><varname>alwaysautogen</varname></term>
+	  <listitem>
+	    <simpara>If set to <constant>True</constant>, then always
+	    run <command>autogen.sh</command> before
+	    <command>make</command> even if a makefile exists.  This
+	    is equivalent to passing <option>--always-autogen</option>
+	    option to JHBuild.  Defaults to
+	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>autogenargs</varname></term>
+	  <listitem>
+	    <simpara>A string containing arguments passed to the
+	    <command>autogen.sh</command> script of all modules.  Can
+	    be overriden for particular modules using the
+	    <varname>module_autogenargs</varname>
+	    dictionary.</simpara>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>builddir_pattern</varname></term>
+	  <listitem>
+	    <simpara>A <function>printf</function> style formatting
+	    pattern used to generate build directory names.  This is
+	    only used when using separate source and build trees.  The
+	    <literal>%s</literal> in the format string will be
+	    replaced with the source directory name.  Defaults to
+	    <literal>'%s'</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>buildroot</varname></term>
+	  <listitem>
+	    <simpara>A string giving the parent directory to place
+	    build trees.  Defaults to <constant>None</constant>, which
+	    causes builds to be performed within the source
+	    trees.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>checkoutroot</varname></term>
+	  <listitem>
+	    <simpara>A string giving the directory to unpack source
+	    trees to.  Unless <varname>buildroot</varname> is set,
+	    builds will occur in this directory too.  Defaults to
+	    <filename>~/cvs/gnome2</filename>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>cvsroots</varname></term>
+	  <listitem>
+	    <simpara>A dictionary that can be used to change the CVS
+	    roots used to check out source code.  If you have a CVS
+	    account for a particular project, you can set the
+	    associated key to use that account rather than the
+	    anonymous account.  For example, you might want to set
+	    <literal>'gnome.org'</literal> to
+	    <literal>':ext:<replaceable>username</replaceable>@cvs.gnome.org:/cvs/gnome'</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>branches</varname></term>
+	  <listitem>
+	    <simpara>A dictionary that can be used to override the
+	    branch used for a particular module.  This is useful if
+	    you are doing some changes on a branch of a module and
+	    want JHBuild to build that branch instead of the one
+	    listed in the module set.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>makeargs</varname></term>
+	  <listitem>
+	    <simpara>A string listing additional arguments to be
+	    passed to <command>make</command>.  Defaults to
+	    <literal>''</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>makecheck</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to run
+	    <command>make check</command> after
+	    <command>make</command>.  This might be useful in a
+	    tinderbox-style setup.  Defaults to
+	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>makeclean</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to run
+	    <command>make clean</command> before
+	    <command>make</command>.  Defaults to
+	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>module_autogenargs</varname></term>
+	  <listitem>
+	    <simpara>A dictionary mapping module names to strings
+	    giving arguments to be passed to
+	    <command>autogen.sh</command>.  If a particular module
+	    isn't listed in the dictionary, the global
+	    <varname>autogenargs</varname> will be used
+	    instead.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>module_makeargs</varname></term>
+	  <listitem>
+	    <simpara>A dictionary mapping module names to strings
+	    giving arguments to be passed to <command>make</command>.
+	    If a particular module isn't listed in the dictionary, the
+	    global <varname>makeargs</varname> will be used
+	    instead.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>modules</varname></term>
+	  <listitem>
+	    <simpara>A list of module names to build.  This list will
+	    be expanded using the dependency information found in the
+	    module set.  Defaults to <literal>[ 'meta-gnome-desktop'
+	    ]</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>moduleset</varname></term>
+	  <listitem>
+	    <simpara>A string giving the name of the module set to
+	    use.  This can either be a short string to refer to one of
+	    JHBuild's included module sets, or a full HTTP URL to
+	    refer to an externally managed module set.  Currently
+	    defaults to <literal>'gnome-2.10'</literal>, but is
+	    usually updated as Gnome development progresses.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>nonetwork</varname></term>
+	  <listitem>
+	    <simpara>A boolean value saying whether to access the
+	    network or not.  This affects checking out or updating CVS
+	    modules, downloading tarballs and updating module sets.
+	    Setting this to <constant>True</constant> is equivalent to
+	    passing the <option>--no-network</option> option to
+	    JHBuild.  Defaults to
+	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>prefix</varname></term>
+	  <listitem>
+	    <simpara>A string giving the prefix to install modules to.
+	    Defaults to <literal>'/opt/gnome2'</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>pretty_print</varname></term>
+	  <listitem>
+	    <simpara>A boolean value that can be used to disable
+	    pretty printing of subprocess output.  Currently there is
+	    only support for pretty printing CVS output.  You probably
+	    only want to disable this if the pretty printing causes
+	    problems.  Defaults to <literal>True</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>skip</varname></term>
+	  <listitem>
+	    <simpara>A list of modules to skip when expanding the list
+	    of modules to build.  This is similar to the
+	    <option>--skip</option> option (in fact, the
+	    <option>--skip</option> option extends this list).  This
+	    list is empty by default.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>sticky_date</varname></term>
+	  <listitem>
+	    <simpara>If set, JHBuild will attempt to check out modules
+	    as they existed at the given date.  The date should be
+	    given in the form
+	    <literal>'<replaceable>yyyy</replaceable>-<replaceable>mm</replaceable>-<replaceable>dd</replaceable>'</literal>.
+	    Defaults to <constant>None</constant>.</simpara>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>svnroots</varname></term>
+	  <listitem>
+	    <simpara>Similar to <varname>cvsroots</varname> but for
+	    Subversion repositories.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>tarballdir</varname></term>
+	  <listitem>
+	    <simpara>If set, tarballs will be downloaded to this
+	    directory instead of <varname>checkoutroot</varname>.
+	    This is useful if you have multiple JHBuild environments
+	    or regularly blow away your
+	    <varname>checkoutroot</varname> and want to reduce
+	    bandwidth usage.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>tinderbox_outputdir</varname></term>
+	  <listitem>
+	    <simpara>A string giving the directory to store
+	    <command>jhbuild tinderbox</command> output.  This string
+	    can be overridden by the <option>--output</option> option.
+	    Defaults to <constant>None</constant>, so either the
+	    command line option must be used or this variable must be
+	    set in the configuration file.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>use_lib64</varname></term>
+	  <listitem>
+	    <simpara>A boolean value that specifies whether to install
+	    libraries to <filename>lib64</filename> directories.  If
+	    this is set,
+	    <literal>--libdir=\${exec_prefix}/lib64</literal> will be
+	    passed to configure.  Defaults to
+	    <constant>True</constant> if running on
+	    <literal>x86_64</literal>, <literal>ppc64</literal> or
+	    <literal>s390x</literal> Linux, and
+	    <constant>False</constant> on other systems.</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </section>
+
+    <section id="config-reference-other">
+      <title>Other Configuration File Structures</title>
+
+      <para>In addition to the above variables, there are some other
+      things that can be set in the configuration file:</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term><varname>os.environ</varname></term>
+	  <listitem>
+	    <para>This is dictionary represents the environment of the
+	    process (which also gets passed on to processes that
+	    JHBuild spawns).</para>
+	    <para>Some environment variables you may want to set
+	    include <envar>CFLAGS</envar>, <envar>INSTALL</envar> (to
+	    use the more efficient <command>install-check</command>
+	    program included with JHBuild) and
+	    <envar>LDFLAGS</envar>.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><function>addpath</function>(<parameter>envvar</parameter>,
+	  <parameter>pathname</parameter>)</term>
+	  <listitem>
+	    <para>This will add a directory to a
+	    <envar>PATH</envar>-style environment variable.  It will
+	    correctly handle the case when the environment variable is
+	    initially empty (having a stray colon at the beginning or
+	    end of an environment variable can have unexpected
+	    consequences).</para>
+	    <para>This function has special handling for the
+	    <envar>ACLOCAL_FLAGS</envar> environment variable, which
+	    expects paths to be listed in the form <literal>-I
+	    <replaceable>pathname</replaceable></literal>.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><function>prependpath</function>(<parameter>envvar</parameter>,
+	  <parameter>pathname</parameter>)</term>
+	  <listitem>
+	    <para>After processing the configuration file, JHBuild
+	    will alter some paths based on variables such as
+	    <varname>prefix</varname> (eg. adding
+	    <literal>$prefix/bin</literal> to the start of
+	    <envar>PATH</envar>).</para>
+	    <para>The <function>prependpath</function> function works
+	    like <function>addpath</function>, except that the
+	    environment variable is modified after JHBuild has made
+	    its changes to the environment.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </section>
   </section>
 
   <section id="moduleset-syntax">
@@ -776,9 +1074,9 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<title>General JHBuild Questions</title>
 	<qandaentry>
 	  <question>
-	    <simpara>I am behind a firewall, so
-	    <command>wget</command> can't download any
-	    tarballs.</simpara>
+	    <simpara>The <command>wget</command> command can't
+	    download any tarballs.  How do I get it to work with my
+	    firewall?</simpara>
 	  </question>
 	  <answer>
 	    <para>This can be fixed by creating or editing a
@@ -792,6 +1090,46 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    <programlisting>passive_ftp = on</programlisting>
 	    <para>This will fix all uses of the
 	    <command>wget</command> command.</para>
+	  </answer>
+	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>Building stuff is slow.  Is there any way I can
+	    speed it up?</simpara>
+	  </question>
+	  <answer>
+	    <para>Other than buying a faster CPU, hard disk or getting
+	    more memory, you might want to install <ulink
+	    url="http://ccache.samba.org/">CCache</ulink>, which can
+	    cache compilation results for you.  It is available with
+	    most distributions.</para>
+	    <para>After installing CCache, set the cache size with the
+	    following command:</para>
+	    <programlisting>ccache -M 2G</programlisting>
+	    <para>(replace <literal>2G</literal> with the size you
+	    want for your cache).  Then create symlinks to CCache for
+	    your compiler in <filename>~/bin</filename>:</para>
+	    <programlisting>cd ~/bin
+for cmd in cc gcc c++ g++; do
+  ln -s /usr/bin/ccache $cmd
+done</programlisting>
+            <para>You can check the status of your cache (such as
+            cache hit rates) with the following command:</para>
+	    <programlisting>ccache -s</programlisting>
+	  </answer>
+	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>Is there a better way to monitor the status of
+	    the build than looking at terminal window?</simpara>
+	  </question>
+	  <answer>
+	    <para>If you have Zenity >= 2.9 installed on your system,
+	    JHBuild will display an icon in the system tray.  The icon
+	    will display the current build stage, and the tooltip will
+	    show the last message from JHBuild.</para>
+	    <para>In the future, the icon may get support for popping
+	    up a balloon on error.</para>
 	  </answer>
 	</qandaentry>
       </qandadiv>
@@ -859,7 +1197,7 @@ exec jhbuild run gnome-session</programlisting>
 	  <question>
 	    <simpara>I built Gnome using JHBuild with
 	    <varname>prefix</varname> set to <filename>/usr</filename>,
-	    and now my system is broken.</simpara>
+	    and now my system is broken.  What should I do?</simpara>
 	  </question>
 	  <answer>
 	    <para>Don't set <varname>prefix</varname> to
