@@ -62,7 +62,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         ret = os.system(command)
         return ret
 
-    def build(self,interact):
+    def build(self, interact=True):
         poison = [] # list of modules that couldn't be built
 
         self.module_num = 0

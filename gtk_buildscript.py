@@ -360,7 +360,7 @@ class GtkBuildScript(buildscript.BuildScript):
         return return_code
 
 
-    def build(self, interact=1):
+    def build(self, interact=True):
         self.window.show_all()
         
         poison = [] # list of modules that couldn't be built
