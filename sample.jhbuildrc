@@ -4,8 +4,8 @@
 
 import os
 
-# what cvs root should be used to checkout the files?
-cvsroot = ':pserver:billh@cvs.gnome.org:/cvs/gnome'
+# if you have a cvs account, uncomment this line
+# cvsroots['gnome.org'] = ':pserver:user@cvs.gnome.org:/cvs/gnome'
 
 # what module set should be used?
 moduleset = 'gnome24'
@@ -15,10 +15,10 @@ moduleset = 'gnome24'
 modules = [ 'meta-gnome-desktop' ]
 
 # what directory should the source be checked out to?
-checkoutroot = '/opt/gnome-2.0/cvs'
+checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
 
 # the prefix to configure/install modules to (must have write access)
-prefix = '/opt/gnome-2.4'
+prefix = '/opt/gnome2'
 
 # extra arguments to pass to all autogen.sh scripts
 # to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
