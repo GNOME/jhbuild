@@ -62,14 +62,14 @@ head.add(Module(name='nautilus',
          dependencies=['esound','eel','librsvg','libgnomeui']))
 head.add(Module(name='metacity',
          dependencies=['gtk+']))
+head.add(Module(name='metatheme',
+         dependencies=['libgnomeui']))
 head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
                   dependencies=['glib']))
 head.add(Module(name='procman',
          dependencies=['libgnomeui','libwnck','libgtop']))
 head.add(Module(name='gnome-control-center',
          dependencies=['libgnomeui', 'esound']))
-head.add(Module(name='control-center-plus',
-         dependencies=['gnome-control-center']))
 head.add(Module(name='yelp',
          dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs']))
 head.add(Module(name='gnome-utils',
@@ -83,6 +83,12 @@ head.add(Module(name='profterm',
                 dependencies=['libglade', 'libgnomeui', 'libzvt']))
 head.add(Module(name='gtk-engines',
                 dependencies=['gtk+']))
+head.add(Module(name='gedit',
+                dependencies=['libgnomeui', 'libgnomeprintui']))
+head.add(Module(name='libgnomeprintui',
+                dependencies=['libgnomeprint']))
+head.add(Module(name='libgnomeprint',
+                dependencies=['libbonobo', 'libart_lgpl']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
