@@ -113,7 +113,7 @@ head.add(Task(name='gnome-libs', modules=['libgnome', 'libbonobo',
                                           'libbonoboui', 'libgnomeui']))
 head.add(Task(name='gnome-core', modules=['gnome-desktop', 'gnome-panel',
                                           'gnome-session', 'profterm']))
-head.add(Task(name='desktop', modules=['gnome-core', 'nautilus', 'yelp']))
+head.add(Task(name='desktop', modules=['gnome-core', 'nautilus', 'yelp', 'bug-buddy']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
