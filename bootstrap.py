@@ -22,7 +22,7 @@ import urllib
 
 _isxterm = os.environ.get('TERM', '') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput rmso', 'r').read()
+_normal = os.popen('tput sgr0', 'r').read()
 
 class Bootstrap:
     def __init__(self, package, version, sourceurl, sourcesize, patches=[],

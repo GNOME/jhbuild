@@ -1,3 +1,8 @@
+2002-12-14  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* bootstrap.py (_normal): Use 'tput sgr0' instead of 'tput rmso'
+	to fix bold uglyness, as already done in module.py.
+
 2002-12-14  James Henstridge  <james@daa.com.au>
 
 	* module.py (CVSModule.do_build): allow going to 'configure' state
@@ -66,11 +71,11 @@
 
 2002-11-28  Daniel Elstner  <daniel.elstner@gmx.net>
 
-	module.py (_normal): Use 'tput sgr0' instead of 'tput rmso'.
+	* module.py (_normal): Use 'tput sgr0' instead of 'tput rmso'.
 	According to the tput/terminfo manpages 'rmso' is meant to
 	complement 'smso', which isn't necessarily the same as 'bold'.
  	'sgr0' turns off all attribute modes and works fine for me.
-	
+
 2002-12-05  Glynn Foster   <glynn.foster@sun.com>
 	
 	* moduleinfo.py: Fix up the bonobo stuff for proper branches. 
