@@ -9,7 +9,7 @@ update:
 
 bindir=$(HOME)/bin
 
-install:
+install: install-check
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
 	@echo '#!/bin/sh' > $(bindir)/jhbuild
