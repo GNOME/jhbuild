@@ -208,10 +208,11 @@ class MozillaModule(CVSModule):
 	mozilla_path = buildscript.config.prefix + '/lib/mozilla-' + \
                        self.get_mozilla_ver(buildscript)
         
-        cmd = './configure --prefix %s %s %s ' + \
-              '--with-default-mozilla-five-home=%s' % \
-              (buildscript.config.prefix, buildscript.config.autogenargs,
-               self.autogenargs, mozilla_path)
+        cmd = './configure ' + \
+              '--prefix %s ' % buildscript.config.prefix + \
+              '%s %s ' % (buildscript.config.autogenargs, self.autogenargs) + \
+              '--with-default-mozilla-five-home=%s' % mozilla_path
+        
         if not buildscript.execute(cmd):
             return (self.STATE_BUILD, None, None)
         else:
