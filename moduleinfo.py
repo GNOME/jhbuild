@@ -1,4 +1,4 @@
-from module import Module, Task, ModuleSet
+from module import Module, MetaModule, ModuleSet
 
 # gnome 2.0 support
 head = ModuleSet()
@@ -64,6 +64,7 @@ head.add(Module(name='librsvg',
          dependencies=['gnome-xml','gtk+', 'libart_lgpl', 'gnome-common']))
 head.add(Module(name='nautilus',
          dependencies=['esound','eel','librsvg','libgnomeui','gnome-desktop']))
+head.add(Module(name='nautilus-gtkhtml', dependencies=['nautilus', 'gtkhtml2']))
 head.add(Module(name='metacity',
          dependencies=['gtk+','gconf']))
 head.add(Module(name='metatheme',
@@ -107,13 +108,20 @@ head.add(Module(name='gnumeric',
                 dependencies=['libole2', 'gal']))
 head.add(Module(name='glade', revision='glade-gnome2-branch',
 		dependencies=['gtk+', 'gnome-xml', 'libgnomeui', 'libgnomeprintui']))
+head.add(Module(name='gtkglarea', dependencies=['gtk+']))
 
 # some simple tasks to make using jhbuild a bit easier
-head.add(Task(name='gnome-libs', modules=['libgnome', 'libbonobo',
-                                          'libbonoboui', 'libgnomeui']))
-head.add(Task(name='gnome-core', modules=['gnome-desktop', 'gnome-panel',
-                                          'gnome-session', 'profterm']))
-head.add(Task(name='desktop', modules=['gnome-core', 'nautilus', 'yelp', 'bug-buddy']))
+head.add(MetaModule(name='meta-gnome-devel-platform',
+                    modules=['libgnome', 'libbonobo', 'libbonoboui',
+                             'libgnomeui']))
+head.add(MetaModule(name='meta-gnome-core',
+                    modules=['gnome-desktop', 'gnome-panel', 'gnome-session',
+                             'profterm']))
+head.add(MetaModule(name='meta-nautilus',
+                    modules=['nautilus', 'nautilus-gtkhtml']))
+head.add(MetaModule(name='meta-gnome-desktop',
+                    modules=['meta-gnome-core', 'gnome-control-center',
+                             'meta-nautilus', 'yelp', 'bug-buddy']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()

@@ -49,7 +49,9 @@ class Module:
         '''return extra arguments to pass to autogen'''
         return self.autogenargs
 
-class Task:
+class MetaModule:
+    '''MetaModules are like Modules, except that nothing needs to be
+    done to build them (they only have dependencies).'''
     def __init__(self, name, modules):
         self.name = name
         self.modules = modules
@@ -64,11 +66,12 @@ class ModuleSet:
     # functions for handling dep expansion
     def __expand_mod_list(self, modlist):
         '''expands a list of names to a list of Module objects.  Expands
-        Task objects as expected.  Does not handle loops in task deps''' #"
+        MetaModule objects as expected.  Does not handle loops in task
+        deps''' #"
         ret = []
         for modname in modlist:
             mod = self.modules[modname]
-            if isinstance(mod, Task):
+            if isinstance(mod, MetaModule):
                 ret = ret + self.__expand_mod_list(mod.modules)
             else:
                 ret.append(mod)
