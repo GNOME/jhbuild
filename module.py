@@ -28,9 +28,9 @@ class Module:
         '''arguments to checkout the module'''
         ret = 'checkout '
         if self.checkoutdir:
-            ret = ret + '-d ' + self.checkoutdir
+            ret = ret + '-d ' + self.checkoutdir + ' '
         if self.revision:
-            ret = ret + '-r ' + self.revision
+            ret = ret + '-r ' + self.revision + ' '
         else:
             ret = ret + '-A '
         return ret + self.name
@@ -39,7 +39,7 @@ class Module:
         '''arguments to update the module (to be run from checkout dir)'''
         ret = 'update '
         if self.revision:
-            ret = ret + '-r ' + self.revision
+            ret = ret + '-r ' + self.revision + ' '
         else:
             ret = ret + '-A '
         return ret + '.'
