@@ -19,10 +19,10 @@
 
 import os
 import urllib
-import getopt
 
 from jhbuild.commands.base import register_command
 from jhbuild.utils import cmds
+from jhbuild.errors import UsageError, FatalError
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -218,7 +218,7 @@ bootstraps = [
 
 def do_bootstrap(config, args):
     if args:
-        raise getopt.error, 'no extra arguments expected'
+        raise UsageError('no extra arguments expected')
 
     for bootstrap in bootstraps:
         bootstrap.build(config)

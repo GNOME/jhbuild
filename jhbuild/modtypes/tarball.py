@@ -20,6 +20,7 @@
 import os
 
 import base
+from jhbuild.errors import FatalError
 
 class Tarball(base.Package):
     STATE_DOWNLOAD  = 'download'
@@ -95,7 +96,7 @@ class Tarball(base.Package):
         elif localfile.endswith('.gz'):
             res = buildscript.execute('gunzip -dc %s | tar xf -' % localfile)
         else:
-            raise TypeError, "don't know how to handle: %s" % localfile
+            raise FatalError("don't know how to handle: %s" % localfile)
         
         if res or not os.path.exists(checkoutdir):
             return (self.STATE_PATCH, 'could not unpack tarball', [])

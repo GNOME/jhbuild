@@ -21,10 +21,12 @@ import os
 import sys
 import urlparse
 
+from jhbuild.errors import UsageError, FatalError
+
 try:
     import xml.dom.minidom
 except ImportError:
-    raise SystemExit, 'Python xml packages are required but could not be found'
+    raise FatalError('Python xml packages are required but could not be found')
 
 from jhbuild import modtypes
 from jhbuild.utils import cvs
@@ -78,7 +80,7 @@ class ModuleSet:
                 if self.modules.has_key(modname):
                     ret.append(self.modules[modname])
                 else:
-                    raise ValueError('module "%s" not found' % modname)
+                    raise UsageError('module "%s" not found' % modname)
         # expand dependencies
         i = 0
         while i < len(ret):
@@ -87,7 +89,7 @@ class ModuleSet:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
-                    raise ValueError('dependant module "%s" not found'
+                    raise UsageError('dependant module "%s" not found'
                                      % modname)
                 if depmod not in ret[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)

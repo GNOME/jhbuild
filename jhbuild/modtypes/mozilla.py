@@ -22,6 +22,7 @@ import os
 
 import base
 from jhbuild.utils import cvs
+from jhbuild.errors import FatalError
 
 class MozillaModule(base.CVSModule):
     def __init__(self, name, revision, autogenargs='',
@@ -40,7 +41,7 @@ class MozillaModule(base.CVSModule):
 	    if line[0] not in ('#', '\0', '\n'):
                 return line[:-1]
         else:
-            raise AssertionError
+            raise FatalError('could not determine mozilla version')
 
     def checkout(self, buildscript):
         buildscript.set_action('Checking out', self)

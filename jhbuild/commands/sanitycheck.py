@@ -22,14 +22,8 @@ import os
 import re
 
 from jhbuild.commands.base import register_command
-
-def get_output(cmd):
-    fp = os.popen('{ %s; } 2>&1' % cmd, 'r')
-    data = fp.read()
-    status = fp.close()
-    if status and (not os.WIFEXITED(status) or os.WEXITSTATUS(status) != 0):
-        raise RuntimeError('program exited abnormally')
-    return data
+from jhbuild.utils.cmds import get_output
+from jhbuild.errors import UsageError, FatalError
 
 def check_version(cmd, regexp, minver):
     try:
@@ -76,6 +70,9 @@ def inpath(filename, path):
     return False
 
 def do_sanitycheck(config, args):
+    if args:
+        raise UsageError('no extra arguments expected')
+    
     # check whether the checkout root and install prefix are writable
     if not (os.path.isdir(config.checkoutroot) and
             os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):

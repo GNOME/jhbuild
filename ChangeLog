@@ -1,3 +1,45 @@
+2004-03-03  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/main.py (main): remove the catch-all except clause,
+	instead replacing it with clauses for UsageError (print error and
+	a usage message) and FatalError (print error).  This way real
+	jhbuild bugs should result in useful tracebacks while simple
+	runtime errors should result in nice error messages.
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_unpack): raise
+	FatalError instead of TypeError.
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.get_mozilla_ver):
+	raise FatalError.
+
+	* jhbuild/frontends/buildscript.py (BuildScript.__init__): raise
+	FatalError rather than use asserts.
+
+	* jhbuild/commands/sanitycheck.py (do_sanitycheck): raise
+	UsageError if extra arguments found.
+
+	* jhbuild/commands/bootstrap.py (do_bootstrap): raise UsageError
+	rather than getopt.error.
+
+	* jhbuild/commands/base.py (run): raise FatalError instead of
+	RuntimeError.
+	(do_update_one): raise FatalError rather than SystemExit.
+	(do_build_one): same here.
+
+	* jhbuild/config.py (Config.__init__): print tracebacks for bugs
+	in config files.
+
+	* jhbuild/moduleset.py (ModuleSet.get_module_list): raise
+	UsageError instead of ValueError.
+
+	* jhbuild/errors.py: new file for common exceptions used by
+	jhbuild.  Currently just a "UsageError" one.
+
+2004-02-24  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.end_phase):
+	flush the index file fp after each stage.
+
 2004-02-27  Murray Cumming  <murrayc@gnome.org>
 
 	* modulesets/gnome26.modules: Added gnome-netstatus, because it is new

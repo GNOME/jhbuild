@@ -195,6 +195,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                % (error, state))
         else:
             self.indexfp.write('<span class="success">%s</span>\n' % state)
+        self.indexfp.flush()
 
     def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''

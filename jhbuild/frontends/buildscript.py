@@ -20,6 +20,8 @@
 
 import os
 
+from jhbuild.errors import FatalError
+
 class BuildScript:
     def __init__(self, config, module_list):
         if self.__class__ is BuildScript:
@@ -30,16 +32,16 @@ class BuildScript:
 
         self.config = config
 
-        assert os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK), \
-               'checkout root must be writable'
-        assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \
-               'install prefix must be writable'
+        if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError('checkout root must be writable')
+        if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError('install prefix must be writable')
 
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code.
         The optional argument is to give a hint about the type of output
         that will be produced.'''
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def build(self):
         '''start the build of the current configuration'''

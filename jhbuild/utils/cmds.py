@@ -50,9 +50,9 @@ if pty:
         try:
             mode = pty.tty.tcgetattr(pty.STDIN_FILENO)
             pty.tty.setraw(pty.STDIN_FILENO)
-            restore = 1
+            restore = True
         except pty.tty.error:    # This is the same as termios.error
-            restore = 0
+            restore = False
         fcntl.fcntl(master_fd, fcntl.F_SETFL, os.O_NDELAY |
                     fcntl.fcntl(master_fd, fcntl.F_GETFL))
         try:

@@ -18,10 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys, os, getopt
+import sys, os
+import getopt
+import traceback
 
 import jhbuild.config
 import jhbuild.commands
+from jhbuild.errors import UsageError, FatalError
 
 BuildScript = None
 
@@ -82,7 +85,11 @@ def main(args):
         elif opt == '--no-interact':
             nointeract = True
 
-    config = jhbuild.config.Config(configfile)
+    try:
+        config = jhbuild.config.Config(configfile)
+    except:
+        sys.exit(1)
+
     if nointeract: config.interact = False
 
     if not args or args[0][0] == '-':
@@ -93,17 +100,16 @@ def main(args):
 
     try:
         jhbuild.commands.run(command, config, args)
+    except UsageError, exc:
+        sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
+        sys.stderr.write(usage + '\n')
+        sys.exit(1)
+    except FatalError, exc:
+        sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
+        sys.exit(1)
     except KeyboardInterrupt:
         print "Interrupted"
         sys.exit(1)
     except EOFError:
         print "EOF"
-        sys.exit(1)
-    except SystemExit:
-        raise
-    except Exception, exc:
-        #import traceback
-        #traceback.print_exc()
-        sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
-        sys.stderr.write(usage + '\n')
         sys.exit(1)

@@ -22,6 +22,8 @@ import getopt
 import jhbuild.moduleset
 import jhbuild.frontends
 
+from jhbuild.errors import UsageError, FatalError
+
 __all__ = [ 'register_command', 'run' ]
 
 # handle registration of new commands
@@ -33,7 +35,7 @@ def run(command, config, args):
     if not _commands.has_key(command):
         __import__('jhbuild.commands.%s' % command)
     if not _commands.has_key(command):
-        raise RuntimeError('command not found')
+        raise FatalError('command not found')
 
     func = _commands[command]
     return func(config, args)
@@ -80,7 +82,7 @@ def do_update_one(config, args):
     try:
         module_list = [ module_set.modules[modname] for modname in args ]
     except KeyError:
-        raise SystemExit, "A module called '%s' could not be found." % modname
+        raise FatalError("A module called '%s' could not be found." % modname)
 	
     # don't actually perform build ...
     config.nobuild = True
@@ -142,7 +144,7 @@ def do_build_one(config, args):
     try:
         module_list = [ module_set.modules[modname] for modname in args ]
     except KeyError:
-        raise SystemExit, "A module called '%s' could not be found." % modname
+        raise FatalError("A module called '%s' could not be found." % modname)
 	
     build = jhbuild.frontends.get_buildscript(config, module_list)
     build.build()

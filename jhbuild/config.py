@@ -18,6 +18,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import traceback
+
+from jhbuild.errors import UsageError, FatalError
 
 __all__ = [ 'Config' ]
 
@@ -51,9 +54,17 @@ class Config:
             '__file__': _defaults_file,
             'addpath':  addpath
             }
-        execfile(_defaults_file, config)
+        try:
+            execfile(_defaults_file, config)
+        except:
+            traceback.print_exc()
+            raise FatalError('could not load config defaults')
         config['__file__'] = filename
-        execfile(filename, config)
+        try:
+            execfile(filename, config)
+        except:
+            traceback.print_exc()
+            raise FatalError('could not load config file')
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
@@ -79,7 +90,7 @@ class Config:
             try:
                 os.makedirs(self.prefix)
             except:
-                raise "Can't create %s directory" % prefix
+                raise FatalError("Can't create %s directory" % prefix)
 	        
         #includedir = os.path.join(prefix, 'include')
         #addpath('C_INCLUDE_PATH', includedir)
