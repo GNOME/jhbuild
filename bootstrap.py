@@ -58,8 +58,9 @@ class Bootstrap:
                     if os.stat(localfile)[6] == self.sourcesize:
                         break # we got the file
                     print 'downloaded file does not match expected size'
-                except IOError:
-                    print 'could not download file'
+                except IOError, e:
+                    print 'Could not download file. Exception was: '
+                    print e
                 val = raw_input('try downloading again? ')
                 if val and string.lower(val)[0] == 'n':
                     return
