@@ -62,6 +62,30 @@ class Tarball(base.Package):
     def get_revision(self):
         return self.version
 
+    def check_localfile(self, buildscript):
+        '''returns None if local copy of tarball is okay.  Otherwise,
+        returns a string error message.'''
+        localfile = self.get_localfile(buildscript)
+        if not os.path.exists(localfile):
+            return 'file not downloaded'
+        if self.source_size:
+            local_size = os.stat(localfile)[6]
+            if local_size != self.source_size:
+                return 'downloaded file of incorrect size ' \
+                       '(expected %d, got %d)' % (self.source_size, local_size)
+        if self.source_md5:
+            import md5
+            sum = md5.new()
+            fp = open(localfile, 'rb')
+            data = fp.read(4192)
+            while data:
+                sum.update(data)
+                data = fp.read(4192)
+            fp.close()
+            if sum.hexdigest() != self.source_md5:
+                return 'file MD5 sum incorrect (expected %s, got %s)' % \
+                       (self.source_md5, sum.hexdigest())
+
     def do_start(self, buildscript):
         # check if jhbuild previously built it ...
         checkoutdir = self.get_builddir(buildscript)
@@ -73,29 +97,17 @@ class Tarball(base.Package):
     def do_download(self, buildscript):
         localfile = self.get_localfile(buildscript)
         if not buildscript.config.nonetwork:
-            if (not os.path.exists(localfile) or
-                os.stat(localfile)[6] != self.source_size):
+            if self.check_localfile(buildscript) is not None:
+                # don't have a local copy
                 buildscript.set_action('Downloading', self, action_target=self.source_url)
                 res = buildscript.execute('wget "%s" -O "%s"' %
                                           (self.source_url, localfile))
                 if res:
                     return (self.STATE_UNPACK, 'error downloading file', [])
 
-        if not os.path.exists(localfile):
-            return (self.STATE_UNPACK, 'file not downloaded', [])
-        if os.stat(localfile)[6] != self.source_size:
-            return (self.STATE_UNPACK, 'downloaded file of incorrect size', [])
-        if self.source_md5:
-            import md5
-            sum = md5.new()
-            fp = open(localfile, 'rb')
-            data = fp.read(4192)
-            while data:
-                sum.update(data)
-                data = fp.read(4192)
-            fp.close()
-            if sum.hexdigest() != self.source_md5:
-                return (self.STATE_UNPACK, 'file MD5 sum incorrect', [])
+        status = self.check_localfile(buildscript)
+        if status is not None:
+            return (self.STATE_UNPACK, status, [])
         return (self.STATE_UNPACK, None, None)
 
     def do_unpack(self, buildscript):

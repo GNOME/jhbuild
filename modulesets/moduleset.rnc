@@ -1,0 +1,62 @@
+default namespace = ""
+
+start = moduleset
+
+moduleset = element moduleset { cvsroot*, (\include|cvsmodule|metamodule|
+                                           tarball|mozillamodule)* }
+
+cvsroot = element cvsroot {
+  attribute name { text },
+  attribute root { text },
+  attribute password { text}?,
+  attribute default { "yes" | "no" }?
+}
+
+\include = element include {
+  attribute href { xsd:anyURI }
+}
+
+dep = element dep {
+  attribute package { text }
+}
+dependencies = element dependencies { dep+ }
+suggests = element suggests { dep+ }
+
+common = attribute id { text } & dependencies* & suggests*
+
+cvsmodule = element cvsmodule {
+  attribute module { text }?,
+  attribute revision { text }?,
+  attribute checkoutdir { text }?,
+  attribute autogenargs { text }?,
+  attribute cvsroot { text }?,
+
+  common
+}
+
+metamodule = element metamodule { common }
+
+tarball = element tarball {
+  attribute version { text },
+  attribute autogenargs { text }?,
+
+  (element source {
+     attribute href { text },
+     attribute size { text }?,
+     attribute md5sum { text }? } &
+   element patches {
+     element patch {
+       attribute file { text },
+       attribute strip { text }?
+     }+ }? &
+   common)
+}
+
+mozillamodule = element mozillamodule {
+  attribute module { text }?,
+  attribute revision { text }?,
+  attribute checkoutdir { text }?,
+  attribute autogenargs { text }?,
+  attribute cvsroot { text }?,
+  common
+}
