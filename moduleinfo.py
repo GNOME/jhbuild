@@ -16,7 +16,7 @@ head = gnome2 # for compat.
 
 gnome2.addmod('intltool')
 gnome2.addmod('gnome-common')
-gnome2.addmod('gtk-doc')
+gnome2.addmod('gtk-doc', dependencies=['libxslt'])
 gnome2.addmod('glib', revision='glib-2-0', dependencies=['gtk-doc'])
 gnome2.addmod('pango', revision='pango-1-0', dependencies=['glib'])
 gnome2.addmod('atk', dependencies=['glib'])
