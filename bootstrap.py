@@ -122,7 +122,7 @@ bootstraps = [
               'ftp://ftp.gnu.org/pub/gnu/autoconf/autoconf-2.52.tar.gz',
               846656,
               None,
-              'autoconf --version | head -1'),
+	      '((which autoconf2.50 &> /dev/null && autoconf2.50 --version) || autoconf --version) | head -1'),
     Bootstrap('libtool', '1.4.2',
               'ftp://ftp.gnu.org/pub/gnu/libtool/libtool-1.4.2.tar.gz',
               1184578,

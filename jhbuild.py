@@ -22,7 +22,7 @@ Options for the build/buildone commands:
   -c, --clean                  run make clean before make
   -n, --no-cvs                 skip cvs update
   -s, --skip=MODULES           treat the given modules (and deps) as up to date
-'''
+''' # for xemacs/jed "
 
 default_config = {
     'cvsroot': ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome',
@@ -38,7 +38,10 @@ default_config = {
 
 def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
     config = default_config.copy()
-    execfile(file, config)
+    try:
+	execfile(file, config)
+    except IOError:
+	raise SystemExit, 'Please create ' + file
     return config
 
 def do_update(config, args, interact=1):
@@ -50,7 +53,7 @@ def do_update(config, args, interact=1):
         module_list = module_set.get_full_module_list()
     else:
         module_list = module_set.get_module_list(config['modules'])
-
+	
     build = module.BuildScript(cvsroot=config['cvsroot'],
                                modulelist=module_list,
                                autogenargs=config['autogenargs'],
@@ -114,7 +117,7 @@ def do_build_one(config, args, interact=1):
 
     module_set = getattr(moduleinfo, config['moduleset'])
     module_list = [module_set.modules[mod]]
-
+	
     build = module.BuildScript(cvsroot=config['cvsroot'],
                                modulelist=module_list,
                                autogenargs=config['autogenargs'],
@@ -168,7 +171,10 @@ def setup_env(config):
         val = os.environ['ACLOCAL_FLAGS']
         os.environ['ACLOCAL_FLAGS'] = '%s -I %s' % (val, aclocaldir)
     except KeyError:
-        os.environ['ACLOCAL_FLAGS'] = '-I %s' % aclocaldir
+	if not os.path.exists (aclocaldir):
+	    os.mkdir (os.path.split (aclocaldir)[0])
+	    os.mkdir (aclocaldir)
+	os.environ['ACLOCAL_FLAGS'] = '-I %s' % aclocaldir
     os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
     installprog = config['installprog']
