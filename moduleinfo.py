@@ -267,7 +267,7 @@ gnome22.add(Tarball('startup-notification', '0.4',
                     199548, [],
                     'pkg-config --modversion libstartup-notification-1.0'))
 gnome22.add(FcPackage('2.1',
-                      'http://www.fontconfig.org/release/fcpackage.2_1.tar.gz',
+                      'http://nexp.cs.pdx.edu/fontconfig/release/fcpackage.2_1.tar.gz',
                       544661))
 
 gnome22.addmod('gnome-common')
