@@ -34,6 +34,7 @@ def parse_xml_node(node, config, dependencies, suggests, cvsroot):
     return parser(node, config, dependencies, suggests, cvsroot)
 
 class Package:
+    type = 'base'
     STATE_START = 'start'
     STATE_DONE  = 'done'
     def __init__(self, name, dependencies=[], suggests=[]):
@@ -58,6 +59,7 @@ class Package:
         return method(buildscript)
 
 class CVSModule(Package):
+    type = 'cvs'
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_CONFIGURE      = 'configure'
@@ -197,6 +199,7 @@ def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):
 register_module_type('cvsmodule', parse_cvsmodule)
 
 class MetaModule(Package):
+    type = 'meta'
     def get_builddir(self, buildscript):
         return buildscript.config.checkoutroot
     

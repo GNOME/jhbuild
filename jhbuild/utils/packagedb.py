@@ -87,3 +87,11 @@ class PackageDB:
         if version:
             if version != p_version: return False
         return True
+
+    def installdate(self, package, version=None):
+        '''Get the install date for a particular module.'''
+        if not self.entries.has_key(package): return None
+        p_version, p_installed = self.entries[package]
+        if version:
+            if version != p_version: return none
+        return p_installed

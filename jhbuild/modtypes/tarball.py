@@ -26,6 +26,7 @@ jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
 
 class Tarball(base.Package):
+    type = 'tarball'
     STATE_DOWNLOAD  = 'download'
     STATE_UNPACK    = 'unpack'
     STATE_PATCH     = 'patch'

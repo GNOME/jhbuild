@@ -47,8 +47,9 @@ Commands:
   sanitycheck                  check that required support tools exists
   bootstrap                    build required support tools
   list [ opts ... ] [modules]  list what modules would be built
-  dot [modules]                output a dot file of dependencies suitable
+  dot [ modules ]              output a dot file of dependencies suitable
                                for processing with graphviz
+  info modules...              prints information about modules
 
 Options valid for the build, buildone, tinderbox and update commands:
   -s, --skip=MODULES           treat the given modules (and deps) as up to date
