@@ -41,7 +41,7 @@ gnome20.add(Tarball('scrollkeeper', '0.3.11',
                     dependencies=['libxml2', 'libxslt', 'intltool']))
 
 gnome20.addmod('intltool')
-gnome20.addmod('gnome-common', revision='gnome-2-0',)
+gnome20.addmod('gnome-common', revision='gnome-2-0')
 gnome20.addmod('gtk-doc', dependencies=['libxslt'])
 gnome20.addmod('glib', revision='glib-2-0', dependencies=['gtk-doc'])
 gnome20.addmod('pango', revision='pango-1-0', dependencies=['glib'])
@@ -217,6 +217,14 @@ gnome20.addmod('gnet', dependencies=['glib'],autogenargs='--enable-glib2')
 gnome20.addmod('gnomeicu', dependencies=['libgnomeui','gnet'])
 gnome20.addmod('gnome-vfs-extras', dependencies=['gnome-vfs'])
 
+gnome20.addmod('at-spi', revision='gnome-2-0', dependencies=['libbonobo', 'gail'])
+gnome20.addmod('libgail-gnome', revision='gnome-2-0', dependencies=['at-spi', 'libgnomeui'])
+gnome20.addmod('at-poke', dependencies=['libgail-gnome'])
+gnome20.addmod('gnome-mag', revision='gnome-2-0', dependencies=['at-spi'])
+gnome20.addmod('gok', dependencies=['at-spi', 'libgnomeui', 'libwnck', 'esound'])
+gnome20.addmod('gnome-speech', dependencies=['libbonobo'])
+gnome20.addmod('gnopernicus', dependencies=['gconf', 'libgnomeui', 'gnome-speech', 'gnome-mag'])
+
 # some simple tasks to make using jhbuild a bit easier
 gnome20.add(MetaModule('meta-gnome-devel-platform',
                        dependencies=['libgnome', 'libbonobo', 'libbonoboui',
@@ -238,6 +246,9 @@ gnome20.add(MetaModule('meta-gnome-python',
                        dependencies=['gnome-python/pygtk', 'gnome-python/gnome-python']))
 gnome20.add(MetaModule('meta-gnome-c++',
                        dependencies=['gtkmm2', 'gnomemm/libgnomeuimm']))
+gnome20.add(MetaModule('meta-gnome-accessibility',
+                       dependencies=['libgail-gnome', 'at-poke', 'gnome-mag',
+                                     'gok', 'gnome-speech', 'gnopernicus']))
 
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
@@ -245,8 +256,8 @@ gnome22.add(Tarball('startup-notification', '0.4',
                     'http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.4.tar.gz',
                     199548, [],
                     'pkg-config --modversion libstartup-notification-1.0'))
-gnome22.addmod('gnome-common');
-gnome22.addmod('gnome-icon-theme');
+gnome22.addmod('gnome-common')
+gnome22.addmod('gnome-icon-theme')
 gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
@@ -319,6 +330,10 @@ gnome22.addmod('gnome-media', dependencies=['scrollkeeper', 'libgnomeui',
 
 gnome22.addmod('fontilus', dependencies=['gnome-vfs', 'gtk+'])
 gnome22.addmod('sodipodi', dependencies=['gtk+', 'libgnomeprintui-2.0', 'libart_lgpl', 'libxml2'])
+
+gnome22.addmod('at-spi', dependencies=['libbonobo', 'gail'])
+gnome22.addmod('libgail-gnome', dependencies=['at-spi', 'libgnomeui'])
+gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
