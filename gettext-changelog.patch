@@ -1,37 +1,475 @@
-  This patch prevents gettextize from screwing up po/ChangeLog
-  The gettext maintainers were on crack when adding this `feature'
+  This patch prevents gettextize from screwing up any of the ChangeLogs
+  or the makefiles or the configure files.  The 0.11.x releases are
+  even worse than the 0.10.x releases :(
 
---- gettext-0.10.38/misc/gettextize.in.cl	Wed May 23 00:57:18 2001
-+++ gettext-0.10.38/misc/gettextize.in	Thu Jul 12 09:56:35 2001
-@@ -178,31 +178,14 @@
-   { $echo "Copying file po/$file"; cp $file $srcdir/po/$file; }
- done
- DATE=`date +%Y-%m-%d`
--cat > $srcdir/po/ChangeLog.tmp <<EOF
--$DATE  gettextize  <bug-gnu-utils@gnu.org>
--
--	* Makefile.in.in: Upgrade to gettext-${version}.
--EOF
+--- gettext-0.11.2/misc/gettextize.in.old	Sat Jun  1 16:16:37 2002
++++ gettext-0.11.2/misc/gettextize.in	Sat Jun  1 16:27:54 2002
+@@ -102,7 +102,6 @@ fi
+ prefix=@prefix@
+ gettext_dir=@datadir@/gettext
+ 
+-modified_ChangeLog=
+ added_directories=
+ removed_directory=
+ added_extradist=
+@@ -243,7 +242,6 @@ fi
+ 
+ # Copy files to po/ subdirectory.
+ cd po
+-modified_poChangeLog=
+ for file in Makefile.in.in; do
+   same=no
+   if test -f $srcdir/po/$file; then
+@@ -253,18 +251,6 @@ for file in Makefile.in.in; do
+   else
+     added_acoutput="$added_acoutput po/Makefile.in"
+   fi
+-  if $do_changelog && test $same = no; then
+-    if test -z "$modified_poChangeLog"; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/po/ChangeLog.tmp
+-      echo >> $srcdir/po/ChangeLog.tmp
+-      modified_poChangeLog=yes
+-    fi
+-    if test -f $srcdir/po/$file; then
+-      echo "	* $file: Upgrade to gettext-${version}." >> $srcdir/po/ChangeLog.tmp
+-    else
+-      echo "	* $file: New file, from gettext-${version}." >> $srcdir/po/ChangeLog.tmp
+-    fi
+-  fi
+   if test -f $srcdir/po/$file; then
+     rm -f $srcdir/po/$file~
+     cp -p $srcdir/po/$file $srcdir/po/$file~
+@@ -302,18 +288,6 @@ You can then remove po/$file.template.
+           same=yes
+         fi
+       fi
+-      if $do_changelog && test $same = no; then
+-        if test -z "$modified_poChangeLog"; then
+-          echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/po/ChangeLog.tmp
+-          echo >> $srcdir/po/ChangeLog.tmp
+-          modified_poChangeLog=yes
+-        fi
+-        if test -f $srcdir/po/$file; then
+-          echo "	* $file: Upgrade to gettext-${version}." >> $srcdir/po/ChangeLog.tmp
+-        else
+-          echo "	* $file: New file, from gettext-${version}." >> $srcdir/po/ChangeLog.tmp
+-        fi
+-      fi
+       if test -f $srcdir/po/$file; then
+         rm -f $srcdir/po/$file~
+         cp -p $srcdir/po/$file $srcdir/po/$file~
+@@ -327,414 +301,10 @@ done
  if test -f $srcdir/po/cat-id-tbl.c; then
    $echo "Removing po/cat-id-tbl.c"
    rm -f $srcdir/po/cat-id-tbl.c
--  $echo "	* cat-id-tbl.c: Remove file." >> $srcdir/po/ChangeLog.tmp
+-  if $do_changelog; then
+-    if test -z "$modified_poChangeLog"; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/po/ChangeLog.tmp
+-      echo >> $srcdir/po/ChangeLog.tmp
+-      modified_poChangeLog=yes
+-    fi
+-    $echo "	* cat-id-tbl.c: Remove file." >> $srcdir/po/ChangeLog.tmp
+-  fi
  fi
  if test -f $srcdir/po/stamp-cat-id; then
    $echo "Removing po/stamp-cat-id"
    rm -f $srcdir/po/stamp-cat-id
--  $echo "	* stamp-cat-id: Remove file." >> $srcdir/po/ChangeLog.tmp
- fi
--$echo >> $srcdir/po/ChangeLog.tmp
--if test -f $srcdir/po/ChangeLog; then
--  $echo "Adding an entry to po/ChangeLog (backup is in po/ChangeLog~)"
--  cat $srcdir/po/ChangeLog >> $srcdir/po/ChangeLog.tmp
--  cp -p $srcdir/po/ChangeLog $srcdir/po/ChangeLog~
--else
--  $echo "Creating po/ChangeLog"
+-  if $do_changelog; then
+-    if test -z "$modified_poChangeLog"; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/po/ChangeLog.tmp
+-      echo >> $srcdir/po/ChangeLog.tmp
+-      modified_poChangeLog=yes
+-    fi
+-    $echo "	* stamp-cat-id: Remove file." >> $srcdir/po/ChangeLog.tmp
+-  fi
 -fi
--cp $srcdir/po/ChangeLog.tmp $srcdir/po/ChangeLog
--rm -f $srcdir/po/ChangeLog.tmp
+-if $do_changelog && test -n "$modified_poChangeLog"; then
+-  $echo >> $srcdir/po/ChangeLog.tmp
+-  if test -f $srcdir/po/ChangeLog; then
+-    $echo "Adding an entry to po/ChangeLog (backup is in po/ChangeLog~)"
+-    cat $srcdir/po/ChangeLog >> $srcdir/po/ChangeLog.tmp
+-    cp -p $srcdir/po/ChangeLog $srcdir/po/ChangeLog~
+-  else
+-    $echo "Creating po/ChangeLog"
+-  fi
+-  cp $srcdir/po/ChangeLog.tmp $srcdir/po/ChangeLog
+-  rm -f $srcdir/po/ChangeLog.tmp
+-fi
+-
+-m4filelist='  codeset.m4 gettext.m4 glibc21.m4 iconv.m4 isc-posix.m4 lcmessage.m4
+-  lib-ld.m4 lib-link.m4 lib-prefix.m4 progtest.m4'
+-# We cannot omit codeset.m4, glibc21.m4, isc-posix.m4, lcmessage.m4 if
+-# test -z "$intldir", otherwise "aclocal -I m4" might give an error.
+-# (aclocal doesn't know which macros are really needed, it looks which macros
+-# are potentially needed.)
+-
+-# All sorts of bugs could occur if the configure file was remade with the wrong
+-# version of gettext.m4 et al. (because then the configure and the po/Makefile.in.in
+-# don't fit together). It is therefore important that the package carries the
+-# right versions of gettext.m4 et al. with it.
+-if test -f $srcdir/Makefile.am; then
+-  # A package using automake.
+-  # Extract the macro directory name from Makefile.am.
+-  aclocal_amflags=`grep '^ACLOCAL_AMFLAGS[ 	]*=' $srcdir/Makefile.am | sed -e 's/^ACLOCAL_AMFLAGS[ 	]*=\(.*\)$/\1/'`
+-  m4dir=m4
+-  m4dir_is_next=
+-  for arg in $aclocal_amflags; do
+-    if test -n "$m4dir_is_next"; then
+-      m4dir="$arg"
+-      break
+-    else
+-      if test "X$arg" = "X-I"; then
+-        m4dir_is_next=yes
+-      else
+-        m4dir_is_next=
+-      fi
+-    fi
+-  done
+-  # Update the *.m4 files and the corresponding Makefile.am.
+-  modified_m4ChangeLog=
+-  added_m4files=
+-  if test -d "$srcdir/$m4dir"; then
+-    :
+-  else
+-    $echo "Creating directory $m4dir"
+-    mkdir "$srcdir/$m4dir"
+-    added_directories="$added_directories $m4dir"
+-  fi
+-  for file in $m4filelist; do
+-    same=no
+-    if test -f "$srcdir/$m4dir/$file"; then
+-      if cmp -s @datadir@/aclocal/$file $srcdir/$m4dir/$file; then
+-        same=yes
+-      fi
+-    else
+-      added_m4files="$added_m4files $file"
+-    fi
+-    if $do_changelog && test $same = no; then
+-      if test -z "$modified_m4ChangeLog"; then
+-        echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/$m4dir/ChangeLog.tmp
+-        echo >> $srcdir/$m4dir/ChangeLog.tmp
+-        modified_m4ChangeLog=yes
+-      fi
+-      if test -f "$srcdir/$m4dir/$file"; then
+-        echo "	* $file: Upgrade to gettext-${version}." >> $srcdir/$m4dir/ChangeLog.tmp
+-      else
+-        echo "	* $file: New file, from gettext-${version}." >> $srcdir/$m4dir/ChangeLog.tmp
+-      fi
+-    fi
+-    if test -f "$srcdir/$m4dir/$file"; then
+-      rm -f $srcdir/$m4dir/$file~
+-      cp -p $srcdir/$m4dir/$file $srcdir/$m4dir/$file~
+-    fi
+-    rm -f $srcdir/$m4dir/$file
+-    ($try_ln_s && ln -s @datadir@/aclocal/$file $srcdir/$m4dir/$file && $echo "Symlinking file $m4dir/$file") 2>/dev/null ||
+-    { $echo "Copying file $m4dir/$file"; cp @datadir@/aclocal/$file $srcdir/$m4dir/$file; }
+-  done
+-  if test -n "$added_m4files"; then
+-    if test -f $srcdir/$m4dir/Makefile.am; then
+-      $echo "Updating EXTRA_DIST in $m4dir/Makefile.am (backup is in $m4dir/Makefile.am~)"
+-      rm -f $srcdir/$m4dir/Makefile.am~
+-      cp -p $srcdir/$m4dir/Makefile.am $srcdir/$m4dir/Makefile.am~
+-      rm -f $srcdir/$m4dir/Makefile.am
+-      if grep '^EXTRA_DIST[ 	]*=' $srcdir/$m4dir/Makefile.am~ > /dev/null; then
+-        sed -e "s%^\(EXTRA_DIST[ 	]*=\)%\\1$added_m4files %" < $srcdir/$m4dir/Makefile.am~ > $srcdir/$m4dir/Makefile.am
+-        $do_changelog && echo "	* Makefile.am (EXTRA_DIST): Add the new files." >> $srcdir/$m4dir/ChangeLog.tmp
+-      else
+-        (cat $srcdir/$m4dir/Makefile.am~; echo; echo "EXTRA_DIST =$added_m4files") > $srcdir/$m4dir/Makefile.am
+-        $do_changelog && echo "	* Makefile.am (EXTRA_DIST): New variable." >> $srcdir/$m4dir/ChangeLog.tmp
+-      fi
+-    else
+-      $echo "Creating $m4dir/Makefile.am"
+-      echo "EXTRA_DIST =$added_m4files" > $srcdir/$m4dir/Makefile.am
+-      $do_changelog && echo "	* Makefile.am: New file." >> $srcdir/$m4dir/ChangeLog.tmp
+-      added_acoutput="$added_acoutput $m4dir/Makefile"
+-    fi
+-  fi
+-  if $do_changelog && test -n "$modified_m4ChangeLog"; then
+-    echo >> $srcdir/$m4dir/ChangeLog.tmp
+-    if test -f $srcdir/$m4dir/ChangeLog; then
+-      $echo "Adding an entry to $m4dir/ChangeLog (backup is in $m4dir/ChangeLog~)"
+-      cat $srcdir/$m4dir/ChangeLog >> $srcdir/$m4dir/ChangeLog.tmp
+-      cp -p $srcdir/$m4dir/ChangeLog $srcdir/$m4dir/ChangeLog~
+-    else
+-      $echo "Creating $m4dir/ChangeLog"
+-    fi
+-    cp $srcdir/$m4dir/ChangeLog.tmp $srcdir/$m4dir/ChangeLog
+-    rm -f $srcdir/$m4dir/ChangeLog.tmp
+-  fi
+-  # Also create $m4dir/Makefile.in from $m4dir/Makefile.am, because automake
+-  # doesn't do it by itself.
+-  case "$added_acoutput" in
+-    *" $m4dir/Makefile")
+-      (cd $srcdir && automake $m4dir/Makefile) 2>/dev/null ||
+-      please="$please
+-Please run 'automake $m4dir/Makefile' to create $m4dir/Makefile.in
+-"
+-      ;;
+-  esac
+-  # Update the top-level Makefile.am.
+-  if test -n "$added_directories" || test -n "$removed_directory" || test -z "$m4dir_is_next" || test -n "$added_extradist"; then
+-    if $do_changelog; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-      echo >> $srcdir/ChangeLog.tmp
+-      modified_ChangeLog=yes
+-    fi
+-    $echo "Updating Makefile.am (backup is in Makefile.am~)"
+-    rm -f $srcdir/Makefile.am~
+-    cp -p $srcdir/Makefile.am $srcdir/Makefile.am~
+-    rm -f $srcdir/Makefile.am
+-    first="* Makefile.am "
+-    if test -n "$added_directories"; then
+-      if grep '^SUBDIRS[ 	]*=' $srcdir/Makefile.am~ > /dev/null; then
+-        sed -e "s%^\(SUBDIRS[ 	]*=\)%\\1$added_directories %" < $srcdir/Makefile.am~ > $srcdir/Makefile.am~1
+-        $do_changelog && echo "	$first(SUBDIRS): Add "`echo $added_directories | sed -e 's/ /, /g'`'.' >> $srcdir/ChangeLog.tmp
+-      else
+-        (cat $srcdir/Makefile.am~; echo; echo "SUBDIRS =$added_directories") > $srcdir/Makefile.am~1
+-        $do_changelog && echo "	$first(SUBDIRS): New variable." >> $srcdir/ChangeLog.tmp
+-      fi
+-      first=
+-    else
+-      cp $srcdir/Makefile.am~ $srcdir/Makefile.am~1
+-    fi
+-    if test -n "$removed_directory"; then
+-      sed -e '/^SUBDIRS[ 	]*=/ {
+-          :a
+-          s%\([ 	]\)'"$removed_directory"'[ 	]%\1%
+-          s%[ 	]'"$removed_directory"'$%%
+-          tb
+-          :b
+-          s%\\$%\\%
+-          tc
+-          bd
+-          :c
+-          n
+-          ba
+-        :d
+-      }' < $srcdir/Makefile.am~1 > $srcdir/Makefile.am~2
+-      if cmp -s $srcdir/Makefile.am~1 $srcdir/Makefile.am~2; then
+-        :
+-      else
+-        $do_changelog && echo "	$first(SUBDIRS): Remove $removed_directory." >> $srcdir/ChangeLog.tmp
+-      fi
+-      first=
+-    else
+-      cp $srcdir/Makefile.am~1 $srcdir/Makefile.am~2
+-    fi
+-    if test -z "$m4dir_is_next"; then
+-      if grep '^ACLOCAL_AMFLAGS[ 	]*=' $srcdir/Makefile.am~ > /dev/null; then
+-        sed -e "s%^\(ACLOCAL_AMFLAGS[ 	]*=\)%\\1 -I $m4dir %" < $srcdir/Makefile.am~2 > $srcdir/Makefile.am~3
+-        $do_changelog && echo "	$first(ACLOCAL_AMFLAGS): Add -I $m4dir." >> $srcdir/ChangeLog.tmp
+-      else
+-        (cat $srcdir/Makefile.am~2; echo; echo "ACLOCAL_AMFLAGS = -I $m4dir") > $srcdir/Makefile.am~3
+-        $do_changelog && echo "	$first(ACLOCAL_AMFLAGS): New variable." >> $srcdir/ChangeLog.tmp
+-      fi
+-      # Also update Makefile.in and, if existent, Makefile. Otherwise they
+-      # would take into account the new flags only after a few rounds of
+-      # "./configure", "make", "touch configure.in", "make distclean".
+-      for file in $srcdir/Makefile.in $srcdir/Makefile; do
+-        if test -f $file; then
+-          rm -f $file~
+-          cp -p $file $file~
+-          rm -f $file
+-          sed -e "s%(ACLOCAL)%(ACLOCAL) -I $m4dir%" < $file~ > $file
+-        fi
+-      done
+-      first=
+-    else
+-      cp $srcdir/Makefile.am~2 $srcdir/Makefile.am~3
+-    fi
+-    if test -n "$added_extradist"; then
+-      if grep '^EXTRA_DIST[ 	]*=' $srcdir/Makefile.am~ > /dev/null; then
+-        sed -e "s%^\(EXTRA_DIST[ 	]*=\)%\\1$added_extradist %" < $srcdir/Makefile.am~3 > $srcdir/Makefile.am
+-        $do_changelog && echo "	$first(EXTRA_DIST): Add$added_extradist." >> $srcdir/ChangeLog.tmp
+-      else
+-        (cat $srcdir/Makefile.am~3; echo; echo "EXTRA_DIST =$added_extradist") > $srcdir/Makefile.am
+-        $do_changelog && echo "	$first(EXTRA_DIST): New variable." >> $srcdir/ChangeLog.tmp
+-      fi
+-      first=
+-    else
+-      cp $srcdir/Makefile.am~3 $srcdir/Makefile.am
+-    fi
+-    rm -f $srcdir/Makefile.am~1 $srcdir/Makefile.am~2 $srcdir/Makefile.am~3
+-  fi
+-  please="$please
+-Please run 'aclocal -I $m4dir' to regenerate the aclocal.m4 file.
+-You need aclocal from GNU automake 1.5 (or newer) to do this.
+-Then run 'autoconf' to regenerate the configure file.
+-"
+-else
+-  please="$please
+-Please add the files
+-$m4filelist
+-from the @datadir@/aclocal directory to your aclocal.m4 file.
+-"
+-fi
+-modified_configure_in=
+-if test -n "$added_acoutput"; then
+-  if grep '^AC_CONFIG_FILES(' $srcdir/$configure_in > /dev/null; then
+-    $echo "Updating $configure_in (backup is in $configure_in~)"
+-    rm -f $srcdir/$configure_in~
+-    cp -p $srcdir/$configure_in $srcdir/$configure_in~
+-    rm -f $srcdir/$configure_in
+-    sed -e "s%^\\(AC_CONFIG_FILES([^])\\,]*\\)%\\1$added_acoutput %" < $srcdir/$configure_in~ > $srcdir/$configure_in
+-    if $do_changelog; then
+-      if test -z "$modified_ChangeLog"; then
+-        echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-        echo >> $srcdir/ChangeLog.tmp
+-        modified_ChangeLog=yes
+-      fi
+-      echo "	* $configure_in (AC_CONFIG_FILES): Add "`echo $added_acoutput | sed -e 's/ /, /g'`'.' >> $srcdir/ChangeLog.tmp
+-    fi
+-    modified_configure_in=yes
+-  else
+-    if grep '^AC_OUTPUT(' $srcdir/$configure_in > /dev/null; then
+-      $echo "Updating $configure_in (backup is in $configure_in~)"
+-      rm -f $srcdir/$configure_in~
+-      cp -p $srcdir/$configure_in $srcdir/$configure_in~
+-      rm -f $srcdir/$configure_in
+-      sed -e "s%^\\(AC_OUTPUT([^])\\,]*\\)%\\1$added_acoutput %" < $srcdir/$configure_in~ > $srcdir/$configure_in
+-      if $do_changelog; then
+-        if test -z "$modified_ChangeLog"; then
+-          echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-          echo >> $srcdir/ChangeLog.tmp
+-          modified_ChangeLog=yes
+-        fi
+-        echo "	* $configure_in (AC_OUTPUT): Add "`echo $added_acoutput | sed -e 's/ /, /g'`'.' >> $srcdir/ChangeLog.tmp
+-      fi
+-      modified_configure_in=yes
+-    else
+-      please="$please
+-Please add$added_acoutput to the AC_OUTPUT or AC_CONFIG_FILES invocation in the $configure_in file.
+-"
+-    fi
+-  fi
+-fi
+-if test -n "$removed_acoutput"; then
+-  for file in $removed_acoutput; do
+-    tag=
+-    sedprog='{
+-      s%\([[ 	]\)'"$file"'[ 	]%\1%
+-      s%\([[ 	]\)'"$file"'\([]),]\)%\1\2%
+-      s%[[ 	]'"$file"'$%%
+-        :a
+-        tb
+-        :b
+-        s%\\$%\\%
+-        tc
+-        bd
+-        :c
+-        n
+-        s%\([ 	]\)'"$file"'[ 	]%\1%
+-        s%\([ 	]\)'"$file"'\([]),]\)%\1\2%
+-        s%[ 	]'"$file"'$%%
+-        ba
+-      :d
+-    }'
+-    sed -e '/^AC_CONFIG_FILES(/'"$sedprog" < $srcdir/$configure_in > $srcdir/$configure_in.tmp
+-    if cmp -s $srcdir/$configure_in $srcdir/$configure_in.tmp; then
+-      sed -e '/^AC_OUTPUT(/'"$sedprog" < $srcdir/$configure_in > $srcdir/$configure_in.tmp
+-      if cmp -s $srcdir/$configure_in $srcdir/$configure_in.tmp; then
+-        :
+-      else
+-        tag=AC_OUTPUT
+-      fi
+-    else
+-      tag=AC_CONFIG_FILES
+-    fi
+-    if test -n "$tag"; then
+-      if test -z "$modified_configure_in"; then
+-        $echo "Updating $configure_in (backup is in $configure_in~)"
+-        rm -f $srcdir/$configure_in~
+-        cp -p $srcdir/$configure_in $srcdir/$configure_in~
+-      fi
+-      rm -f $srcdir/$configure_in
+-      cp $srcdir/$configure_in.tmp $srcdir/$configure_in
+-      if $do_changelog; then
+-        if test -z "$modified_ChangeLog"; then
+-          echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-          echo >> $srcdir/ChangeLog.tmp
+-          modified_ChangeLog=yes
+-        fi
+-        if test -z "$modified_configure_in"; then
+-          echo "	* $configure_in ($tag): Remove $file." >> $srcdir/ChangeLog.tmp
+-        else
+-          echo "	($tag): Remove $file." >> $srcdir/ChangeLog.tmp
+-        fi
+-      fi
+-      modified_configure_in=yes
+-    else
+-      if test "$file" != intl/intlh.inst; then
+-        please="$please
+-Please remove $file from the AC_OUTPUT or AC_CONFIG_FILES invocation
+-in the $configure_in file.
+-"
+-      fi
+-    fi
+-    rm -f $srcdir/$configure_in.tmp
+-  done
+-fi
+-sed -e 's%sed -e "/POTFILES =/r po/POTFILES" po/Makefile\.in > po/Makefile *;* *%%' < $srcdir/$configure_in > $srcdir/$configure_in.tmp
+-if cmp -s $srcdir/$configure_in $srcdir/$configure_in.tmp; then
+-  :
+-else
+-  if test -z "$modified_configure_in"; then
+-    $echo "Updating $configure_in (backup is in $configure_in~)"
+-    rm -f $srcdir/$configure_in~
+-    cp -p $srcdir/$configure_in $srcdir/$configure_in~
+-  fi
+-  rm -f $srcdir/$configure_in
+-  cp $srcdir/$configure_in.tmp $srcdir/$configure_in
+-  if $do_changelog; then
+-    if test -z "$modified_ChangeLog"; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-      echo >> $srcdir/ChangeLog.tmp
+-      modified_ChangeLog=yes
+-    fi
+-    if test -z "$modified_configure_in"; then
+-      echo "	* $configure_in (AC_OUTPUT): Remove command that created po/Makefile." >> $srcdir/ChangeLog.tmp
+-    else
+-      echo "	(AC_OUTPUT): Remove command that created po/Makefile." >> $srcdir/ChangeLog.tmp
+-    fi
+-  fi
+-  modified_configure_in=yes
+-fi
+-rm -f $srcdir/$configure_in.tmp
+-sed -e '/^\(dnl \|\)AC_LINK_FILES(\$nls_cv_header_libgt, \$nls_cv_header_intl)$/d' < $srcdir/$configure_in > $srcdir/$configure_in.tmp
+-if cmp -s $srcdir/$configure_in $srcdir/$configure_in.tmp; then
+-  :
+-else
+-  if test -z "$modified_configure_in"; then
+-    $echo "Updating $configure_in (backup is in $configure_in~)"
+-    rm -f $srcdir/$configure_in~
+-    cp -p $srcdir/$configure_in $srcdir/$configure_in~
+-  fi
+-  rm -f $srcdir/$configure_in
+-  cp $srcdir/$configure_in.tmp $srcdir/$configure_in
+-  if $do_changelog; then
+-    if test -z "$modified_ChangeLog"; then
+-      echo "$DATE  gettextize  <bug-gnu-gettext@gnu.org>" > $srcdir/ChangeLog.tmp
+-      echo >> $srcdir/ChangeLog.tmp
+-      modified_ChangeLog=yes
+-    fi
+-    if test -z "$modified_configure_in"; then
+-      echo "	* $configure_in (AC_LINK_FILES): Remove invocation." >> $srcdir/ChangeLog.tmp
+-    else
+-      echo "	(AC_LINK_FILES): Remove invocation." >> $srcdir/ChangeLog.tmp
+-    fi
+-  fi
+-  modified_configure_in=yes
+-fi
+-rm -f $srcdir/$configure_in.tmp
+-if $do_changelog && test -n "$modified_ChangeLog"; then
+-  echo >> $srcdir/ChangeLog.tmp
+-  if test -f $srcdir/ChangeLog; then
+-    $echo "Adding an entry to ChangeLog (backup is in ChangeLog~)"
+-    cat $srcdir/ChangeLog >> $srcdir/ChangeLog.tmp
+-    cp -p $srcdir/ChangeLog $srcdir/ChangeLog~
+-  else
+-    $echo "Creating ChangeLog"
+-  fi
+-  cp $srcdir/ChangeLog.tmp $srcdir/ChangeLog
+-  rm -f $srcdir/ChangeLog.tmp
+ fi
  
- echo
- echo "Please add the files"
+ # Recommend replacement for deprecated Makefile variables.

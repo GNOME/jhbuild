@@ -85,6 +85,7 @@ class BuildScript:
         self.modulelist = modulelist
         self.autogenargs = autogenargs
         self.prefix = prefix
+        self.module_num = 0
         
         if not self.autogenargs:
             self.autogenargs = '--disable-static --disable-gtk-doc'
@@ -100,9 +101,13 @@ class BuildScript:
                'install prefix must be writable'
 
     def _message(self, msg):
-        print '%s*** %s ***%s' % (_boldcode, msg, _normal)
+        if self.module_num > 0:
+            percent = ' [%d/%d]' % (self.module_num, len(self.modulelist))
+        else:
+            percent = ''
+        print '%s*** %s ***%s%s' % (_boldcode, msg, percent, _normal)
         if _isxterm:
-            print '\033]0;jhbuild: %s\007' % msg
+            print '\033]0;jhbuild: %s%s\007' % (msg, percent)
 
     def _execute(self, command):
         print command
@@ -206,7 +211,9 @@ class BuildScript:
             'checkout', 'configure', 'clean', 'build', 'install', 'done'
         ]
 
+        self.module_num = 0
         for module in self.modulelist:
+            self.module_num = self.module_num + 1
             if module.name in skip: continue
             force_configure = 0
 

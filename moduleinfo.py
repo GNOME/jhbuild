@@ -120,6 +120,17 @@ gnome2.addmod('libmrproject', cvsroot=codefactory_cvsroot,
 gnome2.addmod('mrproject', cvsroot=codefactory_cvsroot,
               dependencies=['libmrproject', 'libgnomeui'])
 
+gnome2.addmod('gtkmm-1.3',dependencies=['gtk+'])
+gnome2.addmod('gnomemm/libgnomemm',dependencies=['libgnome', 'gtkmm-1.3'])
+gnome2.addmod('gnomemm/libbonobomm',dependencies=['libbonobo'])
+gnome2.addmod('gnomemm/libbonobouimm',dependencies=['libbonoboui',
+                                                    'libbonobomm'])
+gnome2.addmod('gnomemm/libgnomecanvasmm',dependencies=['libgnomecanvas'])
+gnome2.addmod('gnomemm/gconfmm',dependencies=['gconf', 'gtkmm-1.3'])
+gnome2.addmod('gnomemm/libgnomeuimm',dependencies=['gtkmm-1.3', 'libgnomeui',
+                                                   'gnomemm/libgnomemm',
+                                                   'gnomemm/gconfmm'])
+
 # some simple tasks to make using jhbuild a bit easier
 gnome2.add(MetaModule('meta-gnome-devel-platform',
                       modules=['libgnome', 'libbonobo', 'libbonoboui',
@@ -138,6 +149,9 @@ gnome2.add(MetaModule('meta-gnome-devel-tools',
 gnome2.add(MetaModule('meta-gnome-python',
                       modules=['gnome-python/pygtk', 'orbit-python',
                                'gnome-python/gnome-python']))
+gnome2.add(MetaModule('meta-gnome-c++',
+                      modules=['gtkmm-1.3', 'libgnomeuimm']))
+
 
 # gnome 1.x support
 gnome1 = ModuleSet()

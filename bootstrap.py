@@ -114,9 +114,9 @@ class Bootstrap:
             return
 
 bootstraps = [
-    Bootstrap('gettext', '0.10.40',
-              'ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.40.tar.gz',
-              1352976,
+    Bootstrap('gettext', '0.11.2',
+              'ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.11.2.tar.gz',
+              3170203,
               'gettext-changelog.patch',  # patch to unbreak gettext ...
               'gettextize --version | head -1'),
     Bootstrap('autoconf', '2.53',
@@ -150,6 +150,11 @@ bootstraps = [
               332223,
               None,
               'audiofile-config --version'),
+    Bootstrap('scrollkeeper', '0.3.9',
+              'http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.9.tar.gz',
+              418815,
+              None,
+              'scrollkeeper-config --version'),
 ]
 
 def build_bootstraps(config):
