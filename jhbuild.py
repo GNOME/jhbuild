@@ -158,6 +158,12 @@ def setup_env(config):
         os.environ[envvar] = envval
 
     prefix = config['prefix']
+    if not os.path.exists(prefix):
+	try:
+	    os.mkdir(prefix)
+	except:
+	    raise "Can't create %s directory" % prefix
+	        
     includedir = os.path.join(prefix, 'include')
     addpath('C_INCLUDE_PATH', includedir)
     libdir = os.path.join(prefix, 'lib')
@@ -167,13 +173,14 @@ def setup_env(config):
     pkgconfigdir = os.path.join(libdir, 'pkgconfig')
     addpath('PKG_CONFIG_PATH', pkgconfigdir)
     aclocaldir = os.path.join(prefix, 'share', 'aclocal')
+    if not os.path.exists(aclocaldir):
+	os.mkdir(os.path.split(aclocaldir)[0])
+	os.mkdir(aclocaldir)
+    
     try:
         val = os.environ['ACLOCAL_FLAGS']
         os.environ['ACLOCAL_FLAGS'] = '%s -I %s' % (val, aclocaldir)
     except KeyError:
-	if not os.path.exists (aclocaldir):
-	    os.mkdir (os.path.split (aclocaldir)[0])
-	    os.mkdir (aclocaldir)
 	os.environ['ACLOCAL_FLAGS'] = '-I %s' % aclocaldir
     os.environ['ACLOCAL_AMFLAGS'] = os.environ['ACLOCAL_FLAGS']
     os.environ['CERTIFIED_GNOMIE'] = 'yes'
