@@ -43,6 +43,30 @@ head.add(Module(name='gnome-python/pygtk',
          dependencies=['gtk+', 'libglade']))
 head.add(Module(name='gnome-python/gnome-python',
          dependencies=['gnome-python/pygtk', 'libgnomecanvas']))
+head.add(Module(name='libwnck',
+         dependencies=['gtk+']))
+head.add(Module(name='libcapplet',
+         dependencies=['libgnomeui']))
+head.add(Module(name='gnome-core',
+         dependencies=['libwnck','libgnomeui']))
+head.add(Module(name='gnome-applets',
+         dependencies=['gnome-core']))
+head.add(Module(name='eel',
+         dependencies=['librsvg','libgnomeui']))
+head.add(Module(name='librsvg',
+         dependencies=['gnome-xml','gtk+', 'libart_lgpl']))
+head.add(Module(name='nautilus',
+         dependencies=['eel','librsvg','libgnomeui']))
+head.add(Module(name='metacity',
+         dependencies=['gtk+']))
+head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
+                  dependencies=['glib']))
+head.add(Module(name='procman',
+         dependencies=['libgnomeui','libwnck','libgtop']))
+head.add(Module(name='gnome-control-center',
+         dependencies=['libcapplet', 'gnome-core']))
+head.add(Module(name='control-center-plus',
+         dependencies=['gnome-control-center']))
 
 
 # gnome 1.x support
