@@ -6,6 +6,7 @@ def sfcvsroot(project):
 
 thinice_cvsroot     = sfcvsroot('thinice')
 gstreamer_cvsroot   = sfcvsroot('gstreamer')
+fileroller_cvsroot   = sfcvsroot('fileroller')
 codefactory_cvsroot = ':pserver:anoncvs@cvs.codefactory.se:/cvs'
 
 # gnome 2.0 support
@@ -89,8 +90,9 @@ gnome2.addmod('libgnomeprint', dependencies=['libbonobo', 'libart_lgpl'])
 gnome2.addmod('memprof', dependencies=['libgnomeui'])
 gnome2.addmod('eog', dependencies=['libgnomeui', 'libgnomeprint'])
 gnome2.addmod('gal', revision='gal-2', dependencies=['libgnomeui'])
-gnome2.addmod('libole2', dependencies=['glib'])
-gnome2.addmod('gnumeric', dependencies=['libole2', 'gal'])
+gnome2.addmod('libole2', dependencies=['glib','gnome-xml'])
+gnome2.addmod('libgsf', dependencies=['glib'])
+gnome2.addmod('gnumeric', dependencies=['libole2', 'libgsf', 'gal'])
 
 gnome2.addmod('gimp',dependencies=['gtk+', 'libart_lgpl'])
 
@@ -120,9 +122,29 @@ gnome2.addmod('libmrproject', cvsroot=codefactory_cvsroot,
 gnome2.addmod('mrproject', cvsroot=codefactory_cvsroot,
               dependencies=['libmrproject', 'libgnomeui'])
 
+gnome2.addmod('balsa', revision='BALSA_2',
+              dependencies=['libgnomeui'])
+gnome2.addmod('pan',
+              dependencies=['libgnomeui'])
+gnome2.addmod('fileroller', cvsroot=fileroller_cvsroot,
+              dependencies=['nautilus'])
+gnome2.addmod('ggv',
+              dependencies=['libgnomeui'])
+
+gnome2.addmod('gtksourceview',
+              dependencies=['gtk+'])
+gnome2.addmod('glimmer',
+              dependencies=['gtksourceview'])
+gnome2.addmod('gdl',
+              dependencies=['libgnomeui'])
+gnome2.addmod('gnome-build',
+              dependencies=['gdl'])
+gnome2.addmod('anjuta2',
+              dependencies=['libgnomeui', 'gnome-build'])
+
 gnome2.addmod('gtkmm-1.3', dependencies=['gtk+'])
 gnome2.addmod('gnomemm/libgnomemm', dependencies=['libgnome', 'gtkmm-1.3'])
-gnome2.addmod('gnomemm/libbonobomm', dependencies=['libbonobo'])
+gnome2.addmod('gnomemm/libbonobomm', dependencies=['libbonobo', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libbonobouimm',
               dependencies=['libbonoboui', 'gnomemm/libbonobomm'])
 gnome2.addmod('gnomemm/libgnomecanvasmm',
