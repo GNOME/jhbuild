@@ -42,7 +42,7 @@ gnome20.addmod('pango', revision='pango-1-0', dependencies=['glib'])
 gnome20.addmod('atk', dependencies=['glib'])
 gnome20.addmod('gtk+', revision='gtk-2-0', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
-gnome20.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
+gnome20.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'], revision='gnome-2-0')
 gnome20.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
 gnome20.addmod('gnome-xml', checkoutdir='libxml2')
 gnome20.addmod('libxslt', dependencies=['gnome-xml'])
