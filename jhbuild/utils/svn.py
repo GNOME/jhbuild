@@ -63,9 +63,6 @@ class SVNRoot:
         if date:
             cmd += '-r "{%s}" ' % date
 
-        if checkoutdir is not None:
-            cmd += checkoutdir
-
         return buildscript.execute(cmd, 'svn')
 
     def update(self, buildscript, module, date=None, checkoutdir=None):

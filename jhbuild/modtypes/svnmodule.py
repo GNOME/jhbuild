@@ -32,7 +32,7 @@ class SVNModule(AutogenModule):
     def __init__(self, svnmodule, checkoutdir=None,
                  autogenargs='', makeargs='', dependencies=[], suggests=[],
                  svnroot=None, supports_non_srcdir_builds=True):
-        AutogenModule.__init__(self,checkoutdir or os.path.basename(svnmodule),
+        AutogenModule.__init__(self, checkoutdir or os.path.basename(svnmodule),
                                autogenargs, makeargs,
                                dependencies, suggests,
                                supports_non_srcdir_builds)
@@ -116,6 +116,9 @@ def parse_svnmodule(node, config, dependencies, suggests, root,
                     SVNModule=SVNModule):
     if root[0] != 'svn':
         raise FatalError('%s is not a Subversion repository' % root[1])
+    if not root[1]:
+        raise FatalError('missing svnroot')
+        
     svnroot = root[1]
     id = node.getAttribute('id')
     module = id
