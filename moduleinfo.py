@@ -234,7 +234,7 @@ gnome20.add(MetaModule('meta-gnome-core',
                                 'gnome-session', 'gnome-terminal',
                                 'gnome-applets']))
 gnome20.add(MetaModule('meta-nautilus',
-                       dependencies=['nautilus', 'nautilus-gtkhtml']))
+                       dependencies=['nautilus']))
 gnome20.add(MetaModule('meta-gnome-desktop',
                        dependencies=['meta-gnome-core', 'gnome-control-center',
                                 'meta-nautilus', 'yelp', 'bug-buddy', 'gedit',
