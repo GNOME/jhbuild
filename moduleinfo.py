@@ -303,7 +303,7 @@ gnome22.addmod('yelp',
                dependencies=['scrollkeeper', 'libgnomeui', 'gtkhtml2',
                              'gnome-vfs'])
 gnome22.addmod('file-roller',
-               dependencies=['scrollkeeper', 'nautilus'])
+               revision='gnome-2-2', dependencies=['scrollkeeper', 'nautilus'])
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'libxml2', 'gail'])
 gnome22.addmod('libglade', dependencies=['gtk+', 'libxml2'])
