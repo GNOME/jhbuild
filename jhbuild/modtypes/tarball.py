@@ -171,14 +171,14 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
             source_size = int(childnode.getAttribute('size'))
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
-                if patch.nodeType == patch.ELEMENT_NODE:
-                    assert patch.nodeName == 'patch'
-                    patchfile = node.getAttribute('file')
-                    if node.hasAttribute('strip'):
-                        patchstrip = int(node.getAttribute('strip'))
-                    else:
-                        patchstrip = 0
-                    patches.append((patchfile, patchstrip))
+                if patch.nodeType != patch.ELEMENT_NODE: continue
+                if patch.nodeName != 'patch': continue
+                patchfile = patch.getAttribute('file')
+                if patch.hasAttribute('strip'):
+                    patchstrip = int(patch.getAttribute('strip'))
+                else:
+                    patchstrip = 0
+                patches.append((patchfile, patchstrip))
 
     return Tarball(name, version, source_url, source_size,
                    patches, versioncheck, dependencies, suggests)

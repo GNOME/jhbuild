@@ -57,6 +57,8 @@ def do_tinderbox(config, args):
     if startat:
         while module_list and module_list[0].name != startat:
             del module_list[0]
+        if not module_list:
+            raise FatalError('%s not in module list' % startat)
 
     build = jhbuild.frontends.get_buildscript(config, module_list)
     build.build()

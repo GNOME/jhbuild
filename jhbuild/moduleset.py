@@ -159,8 +159,8 @@ class ModuleSet:
                 inlist[dep] = None
         fp.write('}\n')
 
-def load(config):
-    uri = config.moduleset
+def load(config, uri=None):
+    if uri is None: uri = config.moduleset
     if '/' not in uri:
         uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
                            uri + '.modules')

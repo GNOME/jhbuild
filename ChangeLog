@@ -1,5 +1,27 @@
 2004-03-23  James Henstridge  <james@daa.com.au>
 
+	* jhbuild/commands/tinderbox.py (do_tinderbox): same here.
+
+	* jhbuild/commands/base.py (do_update): raise an error if the
+	module list is empty after removing modules before "startat".
+	This indicates that startat wasn't in the module list.
+	(do_build): same here.
+
+	* README (command): update information about initial setup.
+
+	* jhbuild/modtypes/tarball.py (parse_tarball): fix up parsing of
+	<patch> subelements.
+
+	* jhbuild/commands/bootstrap.py (do_bootstrap): change code so
+	that it simply calls the build engine on the 'meta-bootstrap'
+	module in the 'bootstrap' module set.
+
+	* jhbuild/moduleset.py (load): allow specifying of a different
+	moduleset URI.
+
+	* modulesets/bootstrap.modules: a modules file containing all the
+	current bootstraps.
+
 	* modulesets/moduleset.dtd: update DTD.
 
 	* jhbuild/modtypes/tarball.py (Tarball.do_patch): look for patches

@@ -52,25 +52,45 @@ For people using vicious-build-scripts to build gnome 2.0, the
 vbs-head.jhbuildrc sample configuration file might be a good one to
 start with.
 
-To build some gnome 2.0 modules, you may need a newer version of one
-of the auto* tools, or pkg-config.  If you are unsure, type the
-following to check:
-  jhbuild bootstrap
-
-This will check your tools, and optionally download and build the
-required versions (they will be installed under the prefix given in
-your .jhbuildrc file).  Currently it checks for and builds the
-following:
-  gettext 0.11.5 (applies the patch to fix the po/ChangeLog problem)
-  autoconf 2.59
-  libtool 1.5.2
+Before you can build packages from CVS, you will need to have various
+build tools installed.  Currently, these include:
+  gettext >= 0.10.40
+  libtool >= 1.5
+  autoconf >= 2.58
   automake 1.4-p6
-  automake 1.6.3
-  automake 1.7.9
-  automake 1.8.2
-  pkg-config 0.15.0
-  python 2.x
-  audiofile 0.2.5
+  automake 1.6.x
+  automake 1.7.x
+  automake 1.8.x
+  pkg-config >= 0.14
+  python >= 2.0
+  audiofile
+
+You can check whether the tools are available by running the following
+command:
+  jhbuild sanitycheck
+
+If any problems are reported, you have two options:
+
+1) install packages from your distribution to satisfy the
+   requirements.  You may need to pull some packages from the
+   development branch of your distro (eg. for Red Hat 9 or Fedora Core
+   1 you would need updated automake packages from
+   rawhide/development).
+
+2) Run jhbuild's bootstrap procedure to install all the build tools to
+   your jhbuild installroot.  This can be done by running the
+   following command:
+     jhbuild bootstrap
+
+   Note that if you depend on m4 macros or pkg-config files in /usr,
+   you might need to adjust ACLOCAL_FLAGS and PKG_CONFIG_PATH after
+   running bootstrap.  This can be done by adding the following lines
+   to your ~/.jhbuildrc file:
+     addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
+     addpath('PKG_CONFIG_PATH', '/usr/lib/pkgconfig')
+
+After installing the required build tools, rerun sanitycheck to make
+sure everything is okay.
 
 Bootstrapping should only need to be done once (unless the
 requirements of some package change).
