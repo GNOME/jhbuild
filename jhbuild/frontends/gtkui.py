@@ -245,8 +245,7 @@ class GtkBuildScript(buildscript.BuildScript):
     def _getTerminalCommand(self):
         client = gconf.client_get_default()
         command = client.get_string("/desktop/gnome/applications/terminal/exec")
-        command_argument = client.get_string("/desktop/gnome/applications/terminal/exec_arg")
-        return '%s %s' % (command, command_argument)
+        return command
         
     def message(self, msg, module_num = -1):
         '''shows a message to the screen'''
@@ -415,8 +414,8 @@ class GtkBuildScript(buildscript.BuildScript):
             elif val == 3:
                 return 'fail'
             elif val == 4:
-                #post_terminal_action = '\'cd \"%s\\'"' % module.get_builddir(self)
-                command = '%s %s' % (self.terminal_command, post_terminal_action)
+                command = 'cd %s; %s' % (module.get_builddir(self),
+                                         self.terminal_command)
                 os.system(command)
             else:
                 val = int(val)
