@@ -126,9 +126,9 @@ gnome20.addmod('gnome-terminal', revision='gnome-2-0',
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
 gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
-               dependencies=['libbonobo', 'libart_lgpl'])
+               dependencies=['libart_lgpl'])
 gnome20.addmod('libgnomeprintui', revision='gnome-2-0',
-               dependencies=['libgnomeprint'])
+               dependencies=['libgnomeprint', 'gtk+'])
 gnome20.addmod('memprof', dependencies=['libgnomeui'])
 gnome20.addmod('eog', dependencies=['libgnomeui', 'libgnomeprint'])
 gnome20.addmod('gal', revision='gal-2', dependencies=['libgnomeui','libgnomeprintui'])
