@@ -36,6 +36,10 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print' ]
 
+env_prepends = {}
+def prependpath(envvar, path):
+    env_prepends.setdefault(envvar, []).append(path)
+
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
     # special case ACLOCAL_FLAGS
@@ -54,8 +58,10 @@ class Config:
     def __init__(self, filename=_default_jhbuildrc):
         config = {
             '__file__': _defaults_file,
-            'addpath':  addpath
+            'addpath':  addpath,
+            'prependpath':  prependpath
             }
+        env_prepends.clear()
         try:
             execfile(_defaults_file, config)
         except:
@@ -99,29 +105,44 @@ class Config:
 
         #includedir = os.path.join(prefix, 'include')
         #addpath('C_INCLUDE_PATH', includedir)
+
+        # LD_LIBRARY_PATH
         if self.use_lib64:
             libdir = os.path.join(self.prefix, 'lib64')
         else:
             libdir = os.path.join(self.prefix, 'lib')
         addpath('LD_LIBRARY_PATH', libdir)
+
+        # PATH
         bindir = os.path.join(self.prefix, 'bin')
         addpath('PATH', bindir)
+
+        # PKG_CONFIG_PATH
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
         if not os.environ.has_key('PKG_CONFIG_PATH'):
             pkgconfigdir = pkgconfigdir + ':/usr/lib/pkgconfig'
         addpath('PKG_CONFIG_PATH', pkgconfigdir)
+
+        # XDG_DATA_DIRS
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
+
+        # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
             try:
                 os.makedirs(aclocaldir)
             except:
                 raise FatalError("Can't create %s directory" % aclocaldir)
-
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
+
+        # handle environment prepends ...
+        for envvar in env_prepends.keys():
+            for path in env_prepends[envvar]:
+                addpath(envvar, path)
+        
 
         # get rid of gdkxft from the env -- it will cause problems.
         if os.environ.has_key('LD_PRELOAD'):
