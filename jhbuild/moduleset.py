@@ -178,11 +178,16 @@ def _parse_module_set(config, uri):
 
     # load up list of cvsroots
     cvsroots = {}
+    svnroots = {}
     default_cvsroot = None
+    default_svnroot = None
     for key in config.cvsroots.keys():
         value = config.cvsroots[key]
         cvs.login(value)
         cvsroots[key] = value
+    for key in config.svnroots.keys():
+        value = config.svnroots[key]
+        svnroots[key] = value
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsroot':
@@ -199,6 +204,16 @@ def _parse_module_set(config, uri):
                 cvsroots[name] = cvsroot
             if is_default:
                 default_cvsroot = name
+        elif node.nodeName == 'svnroot':
+            name = node.getAttribute('name')
+            svnroot = node.getAttribute('root')
+            is_default = False
+            if node.hasAttribute('default'):
+                is_default = node.getAttribute('default') == 'yes'
+            if not svnroots.has_key(name):
+                svnroots[name] = svnroot
+            if is_default:
+                default_svnroot = name
 
     # and now module definitions
     for node in document.documentElement.childNodes:
@@ -208,13 +223,22 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             inc_moduleset = _parse_module_set(config, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
-        elif node.nodeName == 'cvsroot':
+        elif node.nodeName in ('cvsroot', 'svnroot'):
             pass
         else:
-            if node.hasAttribute('cvsroot'):
-                cvsroot = cvsroots[node.getAttribute('cvsroot')]
-            else:
-                cvsroot = cvsroots.get(default_cvsroot)
+            root = ''
+
+            if node.nodeName == 'cvsmodule':
+                if node.hasAttribute('cvsroot'):
+                    root = cvsroots[node.getAttribute('cvsroot')]
+                else:
+                    root = cvsroots.get(default_cvsroot)
+            elif node.nodeName == 'svnmodule':
+                if node.hasAttribute('svnroot'):
+                    root = svnroots[node.getAttribute('svnroot')]
+                else:
+                    root = svnroots.get(default_svnroot)
+
             # deps
             dependencies = []
             suggests = []
@@ -230,8 +254,10 @@ def _parse_module_set(config, uri):
                         if dep.nodeType == dep.ELEMENT_NODE:
                             assert dep.nodeName == 'dep'
                             suggests.append(dep.getAttribute('package'))
-                    
+
             moduleset.add(modtypes.parse_xml_node(node, config,
                                                   dependencies, suggests,
-                                                  cvsroot))
+                                                  root))
+
+
     return moduleset

@@ -1,8 +1,27 @@
 2004-07-20  James Henstridge  <james@jamesh.id.au>
 
+	Based on patch from Christian Hammond chipx86@gnupdate.org in
+	bug #145159.
+
+	* modulesets/moduleset.dtd, modulesets/moduleset.rnc: add handling
+	of extra elements to schemas.
+
+	* jhbuild/modtypes/svnmodule.py: code for handling builds of
+	Subversion hosted modules.
+
+	* jhbuild/config.py (_known_keys): grab svnroots from config file.
+
+	* jhbuild/utils/svn.py: utility functions for subversion
+	manipulating working copies.
+
+	* jhbuild/moduleset.py (_parse_module_set): parse svnroot
+	elements.
+
+2004-07-20  James Henstridge  <james@jamesh.id.au>
+
 	* modulesets/freedesktop.modules: some changes from Daniel minus
 	the debrix ones (will need to wait til jhbuild supports Arch).
-	From bug #144230.
+	(from bug #144230).
 
 	* modulesets/bootstrap.modules (python): update to Python 2.3.4.
 

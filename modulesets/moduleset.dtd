@@ -1,10 +1,16 @@
-<!ELEMENT moduleset (cvsroot*,(include|cvsmodule|metamodule|tarball|mozillamodule)*) >
+<!ELEMENT moduleset ((cvsroot|svnroot)*,(include|cvsmodule|svnmodule|metamodule|tarball|mozillamodule)*) >
 
 <!ELEMENT cvsroot EMPTY >
 <!ATTLIST cvsroot
   name CDATA #REQUIRED
   root CDATA #REQUIRED
   password CDATA #IMPLIED
+  default (yes|no) 'no' >
+
+<!ELEMENT svnroot EMPTY >
+<!ATTLIST svnroot
+  name CDATA #REQUIRED
+  root CDATA #REQUIRED
   default (yes|no) 'no' >
 
 <!ELEMENT include EMPTY >
@@ -20,6 +26,16 @@
   autogenargs CDATA #IMPLIED
   makeargs CDATA #IMPLIED
   cvsroot CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
+
+<!ELEMENT svnmodule (dependencies?,suggests?) >
+<!ATTLIST svnmodule
+  id CDATA #REQUIRED
+  module CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  autogenargs CDATA #IMPLIED
+  makeargs CDATA #IMPLIED
+  svnroot CDATA #IMPLIED
   supports-non-srcdir-builds (yes|no) 'yes' >
 
 <!ELEMENT metamodule (dependencies) >

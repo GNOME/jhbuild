@@ -1,4 +1,4 @@
-<?xml version='1.0'?> <!--*- mode: xml -*-->
+<?xml version='1.0'?> <!--*- mode: nxml -*-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0">
 
@@ -15,6 +15,11 @@
               padding: 0.5em;
               margin: 0.5em;
               background: #87CEFA;
+            }
+            div.svnmodule {
+              padding: 0.5em;
+              margin: 0.5em;
+              background: #67AEDA;
             }
             div.metamodule {
               padding: 0.5em;
@@ -92,6 +97,54 @@
           <tr>
             <th align="left">CVS Root:</th>
             <td><xsl:value-of select="@cvsroot" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="dependencies">
+          <tr>
+            <th align="left" valign="top">Dependencies:</th>
+            <td><xsl:apply-templates select="dependencies" /></td>
+          </tr>
+        </xsl:if>
+      </table>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="svnmodule">
+    <div class="{name(.)}">
+      <h2>
+        <xsl:value-of select="@id" />
+        <a name="{generate-id(.)}" />
+      </h2>
+      <table>
+        <tr>
+          <th align="left">Module:</th>
+          <td>
+            <xsl:choose>
+              <xsl:when test="@module">
+                <xsl:value-of select="@module" />
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="@id" />
+              </xsl:otherwise>
+            </xsl:choose>
+          </td>
+        </tr>
+        <xsl:if test="@checkoutdir">
+          <tr>
+            <th align="left">Checkout directory:</th>
+            <td><xsl:value-of select="@checkoutdir" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="@autogenargs">
+          <tr>
+            <th align="left">Autogen args:</th>
+            <td><xsl:value-of select="@autogenargs" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="@svnroot">
+          <tr>
+            <th align="left">SVN Repository:</th>
+            <td><xsl:value-of select="@svnroot" /><xsl:if test="@path"><xsl:value-of select="@path" /></xsl:if></td>
           </tr>
         </xsl:if>
         <xsl:if test="dependencies">
