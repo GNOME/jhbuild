@@ -63,7 +63,8 @@ gnome20.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
 gnome20.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
 
 gnome20.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
-gnome20.addmod('gnome-games', dependencies=['libgnomeui'])
+gnome20.addmod('gnome-games', revision='gnome-2-0',
+               dependencies=['libgnomeui'])
 gnome20.addmod('eel', dependencies=['librsvg','libgnomeui','gail'])
 gnome20.addmod('librsvg',
                dependencies=['gnome-xml','gtk+', 'libart_lgpl',
@@ -80,7 +81,8 @@ gnome20.addmod('procman', dependencies=['libgnomeui','libwnck','libgtop'])
 gnome20.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 gnome20.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
-gnome20.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
+gnome20.addmod('gnome-utils', revision='gnome-2-0',
+               dependencies=['libgnomeui', 'gnome-panel'])
 gnome20.addmod('gconf-editor', dependencies=['gconf'])
 gnome20.addmod('esound')
 gnome20.addmod('gnome-media', dependencies=['libgnomeui', 'esound', 'gail'])
@@ -88,8 +90,10 @@ gnome20.addmod('gdm2', dependencies=['librsvg'])
 gnome20.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
 gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
-gnome20.addmod('libgnomeprintui', dependencies=['libgnomeprint'])
-gnome20.addmod('libgnomeprint', dependencies=['libbonobo', 'libart_lgpl'])
+gnome20.addmod('libgnomeprint', revision='gnome-2-0',
+               dependencies=['libbonobo', 'libart_lgpl'])
+gnome20.addmod('libgnomeprintui', revision='gnome-2-0',
+               dependencies=['libgnomeprint'])
 gnome20.addmod('memprof', dependencies=['libgnomeui'])
 gnome20.addmod('eog', dependencies=['libgnomeui', 'libgnomeprint'])
 gnome20.addmod('gal', revision='gal-2', dependencies=['libgnomeui'])
