@@ -87,7 +87,9 @@ class CVSModule(Package):
 
     def do_checkout(self, buildscript, force_checkout=False):
         if self.cvsroot:
-            cvsroot = cvs.CVSRoot(self.cvsroot,buildscript.config.checkoutroot)
+            cvsroot = cvs.CVSRoot(buildscript,
+                                  self.cvsroot,
+                                  buildscript.config.checkoutroot)
         else:
             cvsroot = buildscript.cvsroot
         checkoutdir = self.get_builddir(buildscript)
@@ -111,7 +113,9 @@ class CVSModule(Package):
 
     def do_force_checkout(self, buildscript):
         if self.cvsroot:
-            cvsroot = cvs.CVSRoot(self.cvsroot,buildscript.config.checkoutroot)
+            cvsroot = cvs.CVSRoot(buildscript,
+                                  self.cvsroot,
+                                  buildscript.config.checkoutroot)
         else:
             cvsroot = buildscript.cvsroot
 
@@ -388,7 +392,8 @@ class BuildScript:
         self.config.checkoutroot = configdict.get('checkoutroot')
         if not self.config.checkoutroot:
             self.config.checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
-        self.cvsroot = cvs.CVSRoot(configdict['cvsroot'],
+        self.cvsroot = cvs.CVSRoot(self,
+                                   configdict['cvsroot'],
                                    self.config.checkoutroot)
 
         assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \

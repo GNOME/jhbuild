@@ -22,13 +22,13 @@ import os, string
 class CVSRoot:
     '''A class to wrap up various CVS opperations.'''
     
-    def __init__(self, cvsroot, checkoutroot):
+    def __init__(self, buildscript, cvsroot, checkoutroot):
         self.cvsroot = cvsroot
         self.localroot = checkoutroot
 
-        self._login()
+        self._login(buildscript)
         
-    def _login(self):
+    def _login(self, buildscript):
         '''Maybe log in (if there are no entries in ~/.cvspass)'''
         loggedin = 0
         try:
@@ -47,7 +47,7 @@ class CVSRoot:
         except IOError:
             pass
         if not loggedin:
-            return _execute('cvs -d %s login' % self.cvsroot)
+            return buildscript.execute('cvs -d %s login' % self.cvsroot)
 
     def getcheckoutdir(self, module, checkoutdir=None):
         if checkoutdir:

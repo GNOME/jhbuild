@@ -126,7 +126,7 @@ gnome20.addmod('gnome-utils', revision='gnome-2-0',
                dependencies=['libgnomeui', 'gnome-panel'])
 gnome20.addmod('gconf-editor', dependencies=['gconf'])
 gnome20.addmod('esound')
-gnome20.addmod('gnome-media',
+gnome20.addmod('gnome-media', revision='gnome-2-0',
                dependencies=['scrollkeeper', 'libgnomeui', 'esound', 'gail'])
 gnome20.addmod('gdm2', dependencies=['librsvg'])
 gnome20.addmod('gnome-terminal', revision='gnome-2-0',
@@ -213,8 +213,9 @@ gnome20.addmod('gnomemm/libgnomeuimm',
                              'gnomemm/libglademm', 'gnomemm/libbonobouimm'])
 gnome20.addmod('regexxer', cvsroot=regexxer_cvsroot, dependencies=['gtkmm2'])
 
-gnome20.addmod('gnet',dependencies=['glib'],autogenargs='--enable-glib2')
-gnome20.addmod('gnomeicu',dependencies=['libgnomeui','gnet'])
+gnome20.addmod('gnet', dependencies=['glib'],autogenargs='--enable-glib2')
+gnome20.addmod('gnomeicu', dependencies=['libgnomeui','gnet'])
+gnome20.addmod('gnome-vfs-extras', dependencies=['gnome-vfs'])
 
 # some simple tasks to make using jhbuild a bit easier
 gnome20.add(MetaModule('meta-gnome-devel-platform',
@@ -237,7 +238,6 @@ gnome20.add(MetaModule('meta-gnome-python',
                        dependencies=['gnome-python/pygtk', 'gnome-python/gnome-python']))
 gnome20.add(MetaModule('meta-gnome-c++',
                        dependencies=['gtkmm2', 'gnomemm/libgnomeuimm']))
-
 
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
@@ -314,6 +314,8 @@ gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 
 gnome22.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint-2.0'])
 gnome22.addmod('nautilus-media', dependencies=['nautilus', 'gstreamer', 'gst-plugins'])
+gnome22.addmod('gnome-media', dependencies=['scrollkeeper', 'libgnomeui',
+                                            'esound', 'gail', 'gstreamer'])
 
 gnome22.addmod('fontilus', dependencies=['gnome-vfs', 'gtk+'])
 gnome22.addmod('sodipodi', dependencies=['gtk+', 'libgnomeprintui-2.0', 'libart_lgpl', 'libxml2'])
