@@ -73,15 +73,28 @@ def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
     return config
 
 def do_update(config, args, interact=1):
-    if args:
-        raise getopt.error, 'no extra arguments expected'
+    opts, args = getopt.getopt(args, 's:t:', ['skip=', 'start-at='])
+
+    startat = None
+    for opt, arg in opts:
+        if opt in ('-s', '--skip'):
+            config['skip'] = config.get('skip', []) + string.split(arg, ',')
+        elif opt in ('-t', '--start-at'):
+            startat = arg
 
     module_set = module.read_module_set(config['moduleset'])
-    if config['modules'] == 'all':
+    if args:
+        module_list = module_set.get_module_list(args, config['skip'])
+    elif config['modules'] == 'all':
         module_list = module_set.get_full_module_list(config['skip'])
     else:
         module_list = module_set.get_module_list(config['modules'],
                                                  config['skip'])
+
+    # remove modules up to startat
+    if startat:
+        while module_list and module_list[0].name != startat:
+            del module_list[0]
 
     # don't actually perform build ...
     config['nobuild'] = True
