@@ -1063,7 +1063,347 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
   <section id="moduleset-syntax">
     <title>Module Set File Syntax</title>
 
-    <para></para>
+    <para>JHBuild uses simple XML files to describe the dependencies
+    between modules.  A RELAX-NG schema and Document Type Definition
+    are included with JHBuild in the <filename>modulesets/</filename>
+    directory.  The RELAX-NG schema makes it trivial to edit module
+    set files using <literal>nxml-mode</literal> in Emacs.</para>
+
+    <para>The toplevel element in a module set file is <sgmltag
+    class="element">moduleset</sgmltag> element.  Currently no XML
+    namespace is used, but in the future this might change.  The
+    elements below the toplevel come in three types: module sources,
+    include statements and module definitions.</para>
+
+    <section id="moduleset-syntax-sources">
+      <title>Module Sources</title>
+
+      <para>Rather than listing the full location of every module, a
+      number of "module sources" are listed in the module set, and
+      then referenced by name in the module definitions.  As well as
+      reducing the amount of redundant information in the module set,
+      it makes it easy for a user to specify an alternative source for
+      those modules (for CVS and Subversion, it is common for
+      developers and users to use different repository access
+      methods).</para>
+
+      <section id="moduleset-syntax-sources-cvsroot">
+	<title>cvsroot</title>
+
+	<para>The <sgmltag class="element">cvsroot</sgmltag> element
+	is used to describe a CVS repository.</para>
+
+	<programlisting>
+&lt;cvsroot name="<replaceable>rootname</replaceable>"
+         [ default="<replaceable>yes|no</replaceable>" ]
+         root="<replaceable>anon-cvsroot</replaceable>"
+         password="<replaceable>anon-password</replaceable>"/&gt;
+</programlisting>
+
+        <para>The <sgmltag class="attribute">name</sgmltag> attribute
+        should be a unique identifier for the CVS repository.</para>
+
+	<para>If <sgmltag class="attribute">default</sgmltag>
+	attribute says whether this is the default module source for
+	this module set file.</para>
+
+	<para>The <sgmltag class="attribute">root</sgmltag> attribute
+	lists the CVS root used for anonymous access to this
+	repository, and the <sgmltag
+	class="attribute">password</sgmltag> attribute gives the
+	password used for anonymous access.</para>
+      </section>
+
+      <section id="moduleset-syntax-sources-svnroot">
+	<title>svnroot</title>
+
+	<para>The <sgmltag class="element">svnroot</sgmltag> element
+	is used to describe a Subversion repository.</para>
+
+	<programlisting>
+&lt;svnroot name="<replaceable>rootname</replaceable>"
+         [ default="<replaceable>yes|no</replaceable>" ]
+         href="<replaceable>anon-svnroot</replaceable>"/&gt;
+</programlisting>
+
+        <para>The <sgmltag class="attribute">name</sgmltag> attribute
+        should be a unique identifier for the Subversion
+        repository.</para>
+
+	<para>If <sgmltag class="attribute">default</sgmltag>
+	attribute says whether this is the default module source for
+	this module set file.</para>
+
+	<para>The <sgmltag class="attribute">href</sgmltag> attribute
+	lists the base URL for the repository.  This will probably be
+	either a <literal>http</literal>, <literal>https</literal> or
+	<literal>svn</literal> URL.</para>
+      </section>
+
+      <section id="moduleset-syntax-sources-arch-archive">
+	<title>arch-archive</title>
+
+	<para>The <sgmltag class="element">arch-archive</sgmltag> element
+	is used to describe a GNU Arch archive.</para>
+
+	<programlisting>
+&lt;arch-archive name="<replaceable>archivename</replaceable>"
+              [ default="<replaceable>yes|no</replaceable>" ]
+              href="<replaceable>mirror-url</replaceable>"/&gt;
+</programlisting>
+
+        <para>The <sgmltag class="attribute">name</sgmltag> attribute
+        should be the Arch archive name.</para>
+
+	<para>If <sgmltag class="attribute">default</sgmltag>
+	attribute says whether this is the default module source for
+	this module set file.</para>
+
+	<para>The <sgmltag class="attribute">href</sgmltag> attribute
+	lists a public mirror URL for the archive.</para>
+      </section>
+    </section>
+
+    <section id="moduleset-syntax-includes">
+      <title>Including Other Module Sets</title>
+
+      <para>JHBuild allows one module set to include the contents of
+      another by reference using the <sgmltag
+      class="element">include</sgmltag> element.</para>
+
+      <programlisting>
+&lt;include href="<replaceable>uri</replaceable>"/&gt;
+</programlisting>
+
+      <para>The <sgmltag class="attribute">href</sgmltag> is a URI
+      reference to the module set to be included, relative to the file
+      containing the <sgmltag class="element">include</sgmltag>
+      element.</para>
+
+      <para>Only module definitions are imported from the referenced
+      module set &mdash; module sources are not.  Multiple levels of
+      includes are allowed, but include loops are not (there isn't any
+      code to handle loops at the moment).</para>
+    </section>
+
+    <section id="moduleset-syntax-defs">
+      <title>Module Definitions</title>
+
+      <para>There are various types of module definitions that can be
+      used in a module set file, and the list can easily be extended.
+      Only the most common ones will be mentioned here.</para>
+
+      <section id="moduleset-syntax-defs-cvsmodule">
+	<title>cvsmodule</title>
+
+	<para>The <sgmltag class="element">cvsmodule</sgmltag> element
+	is used to define a module that is to be built from
+	CVS.</para>
+
+	<programlisting>
+&lt;cvsmodule module="<replaceable>modulename</replaceable>"
+           [ revision="<replaceable>branch-or-tag</replaceable>" ]
+           [ checkoutdir="<replaceable>directory</replaceable>" ]
+           [ root="<replaceable>rootname</replaceable>" ]
+           [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+           [ makeargs="<replaceable>makeargs</replaceable>" ]
+           [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;suggests&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/suggests&gt;
+&lt;/cvsmodule&gt;
+</programlisting>
+
+        <para>The <sgmltag class="attribute">module</sgmltag>,
+        <sgmltag class="attribute">revision</sgmltag> and <sgmltag
+        class="attribute">root</sgmltag> attributes identify the
+        module to check out from CVS.  The <sgmltag
+        class="attribute">checkoutdir</sgmltag> attribute can be used
+        to specify an alternative directory to check out to (by
+        default, the value of <sgmltag
+        class="attribute">module</sgmltag> is used).</para>
+
+	<para>The <sgmltag class="attribute">autogenargs</sgmltag>,
+	<sgmltag class="attribute">makeargs</sgmltag> and <sgmltag
+	class="attribute">supports-non-srcdir-builds</sgmltag>
+	attributes are common to many different module types.  The
+	<sgmltag class="attribute">autogenargs</sgmltag> attribute
+	lists additional arguments to be passed to
+	<command>autogen.sh</command>, and <sgmltag
+	class="attribute">makeargs</sgmltag> lists additional
+	arguments to be passed to <command>make</command>.  The
+	<sgmltag
+	class="attribute">supports-non-srcdir-builds</sgmltag>
+	attribute is used to mark modules that can't be cleanly built
+	using a separate source directory.</para>
+
+	<para>The <sgmltag class="element">dependencies</sgmltag> and
+	<sgmltag class="element">suggests</sgmltag> elements are used
+	to declare the dependencies of the module.  Any modules listed
+	in the <sgmltag class="element">dependencies</sgmltag> element
+	will be added to the module list for <command>jhbuild
+	build</command> if it isn't already included, and make sure
+	the dependent modules are built first.</para>
+
+	<para>After generating the modules list, the modules listed in
+	the <sgmltag class="element">suggests</sgmltag> element will
+	be used to further sort the modules list (although it will not
+	pull any additional modules).  This is intended for cases
+	where a module has an optional dependency on another
+	module.</para>
+      </section>
+
+      <section id="moduleset-syntax-defs-svnmodule">
+	<title>svnmodule</title>
+
+	<para>The <sgmltag class="element">svnmodule</sgmltag> element
+	is used to define a module that is to be built from
+	Subversion.</para>
+
+	<programlisting>
+&lt;svnmodule module="<replaceable>modulename</replaceable>"
+           [ checkoutdir="<replaceable>directory</replaceable>" ]
+           [ root="<replaceable>rootname</replaceable>" ]
+           [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+           [ makeargs="<replaceable>makeargs</replaceable>" ]
+           [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;suggests&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/suggests&gt;
+&lt;/svnmodule&gt;
+</programlisting>
+        <para>The <sgmltag class="attribute">module</sgmltag>
+        attribute gives the path of the module relative to the
+        repository URI.  All other options for this element are
+        processed as for <link
+        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+        class="element">cvsmodule</sgmltag></link>.</para>
+      </section>
+
+      <section id="moduleset-syntax-defs-archmodule">
+	<title>archmodule</title>
+
+	<para>The <sgmltag class="element">archmodule</sgmltag> element
+	is used to define a module that is to be built from
+	a GNU Arch archive.</para>
+
+	<programlisting>
+&lt;archmodule version="<replaceable>modulename</replaceable>"
+            [ checkoutdir="<replaceable>directory</replaceable>" ]
+            [ root="<replaceable>rootname</replaceable>" ]
+            [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+            [ makeargs="<replaceable>makeargs</replaceable>" ]
+            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;suggests&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/suggests&gt;
+&lt;/archmodule&gt;
+</programlisting>
+        <para>The <sgmltag class="attribute">version</sgmltag>
+        attribute gives the version to be checked out from the archive
+        specified by <sgmltag class="attribute">root</sgmltag>.  All
+        other options for this element are processed as for <link
+        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+        class="element">cvsmodule</sgmltag></link>.</para>
+      </section>
+
+      <section id="moduleset-syntax-defs-tarball">
+	<title>tarball</title>
+
+	<para>The <sgmltag class="element">tarball</sgmltag> element
+	is used to define a module that is to be built from
+	a tarball.</para>
+
+	<programlisting>
+&lt;tarball id="<replaceable>modulename</replaceable>"
+            [ version="<replaceable>version</replaceable>" ]
+            [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+            [ makeargs="<replaceable>makeargs</replaceable>" ]
+            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;source href="<replaceable>source-url</replaceable>"
+          [ size="<replaceable>source-size</replaceable>" ]
+          [ md5sum="<replaceable>source-md5sum</replaceable>" ]/&gt;
+  &lt;patches&gt;
+    &lt;patch file="<replaceable>filename</replaceable>" strip="<replaceable>level</replaceable>"/&gt;
+    ...
+  &lt;/patches&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;suggests&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/suggests&gt;
+&lt;/tarball&gt;
+</programlisting>
+        <para>The <sgmltag class="attribute">id</sgmltag> and <sgmltag
+        class="attribute">version</sgmltag> attributes are used to
+        identify the module.</para>
+	<para>The <sgmltag class="element">source</sgmltag> element
+	specifies the file to download and compile.  The <sgmltag
+	class="attribute">href</sgmltag> attribute is mandatory, while
+	the <sgmltag class="attribute">size</sgmltag> and <sgmltag
+	class="attribute">md5sum</sgmltag> attributes are optional.
+	If the last two attributes are present, they are used to check
+	that the source package was downloaded correctly.</para>
+	<para>The <sgmltag class="element">patches</sgmltag> element
+	is used to specify one or more patches to apply to the source
+	tree after unpacking.  The patch files are looked up in the
+	<filename>jhbuild/patches/</filename> directory, and the
+	<sgmltag class="attribute">strip</sgmltag> attribute says how
+	many levels of directories to prune when applying the
+	patch.</para>
+	<para>The other attributes and the <sgmltag
+	class="element">dependencies</sgmltag> and <sgmltag
+	class="element">suggests</sgmltag> sub-elements are processed
+	as for <link
+	linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+	class="element">cvsmodule</sgmltag></link>.</para>
+      </section>
+
+      <section id="moduleset-syntax-defs-metamodule">
+	<title>metamodule</title>
+
+	<para>The <sgmltag class="element">metamodule</sgmltag>
+	element defines a module that doesn't actually do anythin.
+	The only purpose of a module of this type is its
+	dependencies.</para>
+
+	<programlisting>
+&lt;metamodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;suggests&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/suggests&gt;
+&lt;/metamodule&gt;
+</programlisting>
+        <para>The <sgmltag class="attribute">id</sgmltag> attribute
+        gives the name of the module.  The child elements are handled
+        as for <link
+        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+        class="element">cvsmodule</sgmltag></link>.</para>
+      </section>
+    </section>
   </section>
 
   <section id="faq">
@@ -1202,6 +1542,33 @@ exec jhbuild run gnome-session</programlisting>
 	  <answer>
 	    <para>Don't set <varname>prefix</varname> to
 	    <filename>/usr</filename>.</para>
+	  </answer>
+	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>How do I get
+	    <command>gnome-volume-manager</command> to work when
+	    running in a prefix?</simpara>
+	  </question>
+	  <answer>
+	    <para>The <command>gnome-volume-manager</command> program
+	    reacts to messages from <command>hald</command> over the
+	    system message bus, which must be running as root.
+	    Assuming that your distribution comes with
+	    <acronym>HAL</acronym>, the main problem is getting
+	    <command>gnome-volume-manager</command> to talk to the
+	    system message bus.</para>
+	    <para>Since communication is done over a UNIX domain
+	    socket, the easiest way to do this is to create a symlink
+	    from <filename>/var/run/dbus</filename> to
+	    <filename>$prefix/var/run/dbus</filename>:</para>
+	    <programlisting>mkdir -p $prefix/var/run
+cd $prefix/var/run
+ln -s /var/run/dbus dbus</programlisting>
+            <para>You may also have trouble building HAL with JHBuild,
+            since it tries to install some things outside of its build
+            root.  Running <userinput>make -k install</userinput> in
+            the hal directory might help here.</para>
 	  </answer>
 	</qandaentry>
       </qandadiv>
