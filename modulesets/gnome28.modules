@@ -25,8 +25,6 @@
   <cvsroot name="bakery.sf.net"
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/bakery"
      password="" />
-  <arch-archive name="rhythmbox-devel@gnome.org--2004"
-		href="http://web.rhythmbox.org/arch/2004" />
 
   <tarball id="scrollkeeper" version="0.3.14">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -69,7 +67,7 @@
       <dep package="gtk-doc" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="pango" autogenargs="--with-qt=no">
+  <cvsmodule id="pango" revision="pango-1-6" autogenargs="--with-qt=no">
     <dependencies>
       <dep package="glib" />
       <dep package="Xft" />
@@ -526,13 +524,6 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="librep" />
-  <archmodule id="rhythmbox" root="rhythmbox-devel@gnome.org--2004"
-	      revision="rhythmbox--main--0.9" checkoutdir="rhythmbox">
-    <dependencies>
-      <dep package="libgnomeui" />
-      <dep package="gst-plugins"/>
-    </dependencies>
-  </archmodule>
   <cvsmodule id="gstreamer" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org">
     <dependencies>
       <dep package="glib" />
