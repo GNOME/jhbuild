@@ -170,20 +170,28 @@ class BuildScript:
         return self._execute(cmd)
 
     def _configure(self, module):
+        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        os.chdir(checkoutdir)
         self._message('running autogen.sh script for %s' % module.name)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (self.prefix, self.autogenargs, module.autogen_args())
         return self._execute(cmd)
 
     def _makeclean(self, module):
+        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        os.chdir(checkoutdir)
         self._message('running make clean for %s' % module.name)
         return self._execute('make clean')
 
     def _make(self, module):
+        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        os.chdir(checkoutdir)
         self._message('running make for %s' % module.name)
         return self._execute('make')
 
     def _makeinstall(self, module):
+        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        os.chdir(checkoutdir)
         self._message('running make install for %s' % module.name)
         return self._execute('make install')
 
