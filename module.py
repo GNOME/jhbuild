@@ -556,6 +556,12 @@ def read_module_set(configdict):
                             assert dep.nodeName == 'dep'
                             dependencies.append(dep.getAttribute('package'))
                     break
+
+            # override revision tag if requested.
+            if branches.has_key(module):
+                revision = branches[module]
+            if module_autogenargs.has_key(module):
+                autogenargs = module_autogenargs[module]
             moduleset.add(MozillaModule(name, branch, autogenargs, dependencies,
                                         cvsroot))
         elif node.nodeName == 'tarball':
