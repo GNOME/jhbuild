@@ -97,7 +97,8 @@ class CVSModule(Package):
         checkoutdir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
         res = cvsroot.update(buildscript, self.cvsmodule,
-                             self.revision, self.checkoutdir)
+                             self.revision, buildscript.config.sticky_date,
+                             checkoutdir=self.checkoutdir)
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -119,7 +120,8 @@ class CVSModule(Package):
         checkoutdir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
         res = cvsroot.checkout(buildscript, self.cvsmodule,
-                               self.revision, self.checkoutdir)
+                               self.revision, buildscript.config.sticky_date,
+                               checkoutdir=self.checkoutdir)
         if res == 0 and os.path.exists(checkoutdir):
             return (self.STATE_CONFIGURE, None, None)
         else:

@@ -1,3 +1,42 @@
+2004-02-09  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/main.py (help): add a line to the help text.
+
+	* jhbuild/commands/tinderbox.py (do_tinderbox): same here.
+
+	* jhbuild/commands/base.py (do_update): add support for -D option
+	to specify a sticky date.
+	(do_update_one): same here.
+	(do_build): same here.
+	(do_build_one): same here.
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.checkout): same here.
+
+	* jhbuild/modtypes/base.py (CVSModule.do_checkout): pass
+	sticky_date to "cvs update".
+	(CVSModule.do_force_checkout): same here.
+
+	* jhbuild/defaults.jhbuildrc, jhbuild/config.py: declare
+	sticky_date config value.
+
+	* jhbuild/commands/tinderbox.py (do_tinderbox): same here.
+
+	* jhbuild/commands/base.py (do_update): convert the bunch of if
+	statements to a single get_module_list() call.
+	(do_build): same here.
+	(do_list): same here.
+
+	* jhbuild/moduleset.py (ModuleSet.get_module_list): make this
+	handle the case of the module list being equal to 'all', so we can
+	simplify the callers of this code.
+
+	* jhbuild/modtypes/base.py (CVSModule.do_checkout): pass
+	checkoutdir as keyword argument.
+	(CVSModule.do_force_checkout): same here.
+
+	* jhbuild/utils/cvs.py (CVSRoot.checkout): add a "date" argument.
+	(CVSRoot.update): same here.
+
 2004-02-08  James Henstridge  <james@daa.com.au>
 
 	* jhbuild/commands/bootstrap.py: import getopt.

@@ -68,6 +68,10 @@ class ModuleSet:
     def get_module_list(self, seed, skip=[]):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list''' #"
+
+        if seed == 'all':
+            return self.get_full_module_list(skip)
+        
         ret = [ self.modules[modname]
                 for modname in seed if modname not in skip ]
         i = 0

@@ -29,7 +29,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'cvsroots', 'branches', 'module_autogenargs',
                 'interact', 'buildscript',
                 'nonetwork', 'alwaysautogen', 'nobuild', 'makeclean',
-                'use_lib64', 'tinderbox_outputdir' ]
+                'use_lib64', 'tinderbox_outputdir', 'sticky_date' ]
 
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''

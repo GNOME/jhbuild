@@ -40,7 +40,7 @@ def run(command, config, args):
 
 # standard commands:
 def do_update(config, args):
-    opts, args = getopt.getopt(args, 's:t:', ['skip=', 'start-at='])
+    opts, args = getopt.getopt(args, 's:t:D:', ['skip=', 'start-at='])
 
     startat = None
     for opt, arg in opts:
@@ -48,15 +48,12 @@ def do_update(config, args):
             config.skip = config.skip + arg.split(',')
         elif opt in ('-t', '--start-at'):
             startat = arg
+        elif opt == '-D':
+            config.sticky_date = arg
 
     module_set = jhbuild.moduleset.load(config)
-    if args:
-        module_list = module_set.get_module_list(args, config.skip)
-    elif config.modules == 'all':
-        module_list = module_set.get_full_module_list(config.skip)
-    else:
-        module_list = module_set.get_module_list(config.modules,
-                                                 config.skip)
+    module_list = module_set.get_module_list(args or config.modules,
+                                             config.skip)
 
     # remove modules up to startat
     if startat:
@@ -73,7 +70,11 @@ def do_update(config, args):
 register_command('update', do_update)
 
 def do_update_one(config, args):
-    opts, args = getopt.getopt(args, '', [])
+    opts, args = getopt.getopt(args, 'D:', [])
+
+    for opt, arg in opts:
+        if opt == '-D':
+            config.sticky_date = arg
 
     module_set = jhbuild.moduleset.load(config)
     try:
@@ -91,7 +92,7 @@ def do_update_one(config, args):
 register_command('updateone', do_update_one)
 
 def do_build(config, args):
-    opts, args = getopt.getopt(args, 'acns:t:',
+    opts, args = getopt.getopt(args, 'acns:t:D:',
                                ['autogen', 'clean', 'no-network', 'skip=',
                                 'start-at='])
 
@@ -107,14 +108,11 @@ def do_build(config, args):
             config.skip = config.skip + arg.split(',')
         elif opt in ('-t', '--start-at'):
             startat = arg
+        elif opt == '-D':
+            config.sticky_date = arg
     module_set = jhbuild.moduleset.load(config)
-    if args:
-        module_list = module_set.get_module_list(args, config.skip)
-    elif config.modules == 'all':
-        module_list = module_set.get_full_module_list(config.skip)
-    else:
-        module_list = module_set.get_module_list(config.modules,
-                                                 config.skip)
+    module_list = module_set.get_module_list(args or config.modules,
+                                             config.skip)
 
     # remove modules up to startat
     if startat:
@@ -127,7 +125,8 @@ def do_build(config, args):
 register_command('build', do_build)
 
 def do_build_one(config, args):
-    opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-network'])
+    opts, args = getopt.getopt(args, 'acnD:',
+                               ['autogen', 'clean', 'no-network'])
 
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
@@ -136,6 +135,8 @@ def do_build_one(config, args):
             config.makeclean = True
         elif opt in ('-n', '--no-network'):
             config.nonetwork = True
+        elif opt == '-D':
+            config.sticky_date = arg
 
     module_set = jhbuild.moduleset.load(config)
     try:
@@ -166,13 +167,8 @@ def do_list(config, args):
         if opt in ('-s', '--skip'):
             config.skip = config.skip + arg.split(',')
     module_set = jhbuild.moduleset.load(config)
-    if args:
-        module_list = module_set.get_module_list(args, config.skip)
-    elif config.modules == 'all':
-        module_list = module_set.get_full_module_list(config.skip)
-    else:
-        module_list = module_set.get_module_list(config.modules,
-                                                 config.skip)
+    module_list = module_set.get_module_list(args or config.modules,
+                                             config.skip)
 
     for mod in module_list:
         if show_rev:

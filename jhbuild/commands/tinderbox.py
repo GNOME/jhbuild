@@ -24,19 +24,16 @@ import jhbuild.frontends
 def do_tinderbox(config, args):
     config.buildscript = 'tinderbox'
 
-    opts, args = getopt.getopt(args, 'o:', ['output='])
+    opts, args = getopt.getopt(args, 'o:D:', ['output='])
     for opt, arg in opts:
         if opt in ('-o', '--output'):
             config.tinderbox_outputdir = arg
+        elif opt == '-D':
+            config.sticky_date = arg
 
     module_set = jhbuild.moduleset.load(config)
-    if args:
-        module_list = module_set.get_module_list(args, config.skip)
-    elif config.modules == 'all':
-        module_list = module_set.get_full_module_list(config.skip)
-    else:
-        module_list = module_set.get_module_list(config.modules,
-                                                 config.skip)
+    module_list = module_set.get_module_list(args or config.modules,
+                                             config.skip)
 
     build = jhbuild.frontends.get_buildscript(config, module_list)
     build.build()
