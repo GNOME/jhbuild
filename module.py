@@ -176,13 +176,10 @@ class MozillaModule(CVSModule):
 
     def checkout(self, buildscript):
         buildscript.setAction('Checking out', self)
-        os.chdir(buildscript.config.checkoutroot)
-        res = buildscript.execute(
-            'cvs -z3 -q -d %s checkout' % self.cvsroot + \
-	    ' -r %s mozilla/client.mk' % self.revision)
+        cvsroot = cvs.CVSRoot(self.cvsroot, buildscript.config.checkoutroot)
+        res = cvsroot.checkout(buildscript, 'mozilla/client.mk', self.revision)
         if res != 0:
-            raise SystemExit, \
-                "something went wrong while checking out mozilla, please try again later"
+            return res
 
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
@@ -190,7 +187,9 @@ class MozillaModule(CVSModule):
         
     def do_checkout(self, buildscript, force_checkout=False):
         checkoutdir = self.get_builddir(buildscript)
-        if not os.path.exists(os.path.join('Makefile.in')):
+        client_mk = os.path.join(checkoutdir, 'client.mk')
+        if not os.path.exists(client_mk) or \
+               cvs.check_sticky_tag(client_mk) != self.revision:
             res = self.checkout(buildscript)
         else:
             os.chdir(checkoutdir)
@@ -553,10 +552,10 @@ def read_module_set(configdict):
                     break
 
             # override revision tag if requested.
-            if branches.has_key(module):
-                revision = branches[module]
-            if module_autogenargs.has_key(module):
-                autogenargs = module_autogenargs[module]
+            if branches.has_key(name):
+                revision = branches[name]
+            if module_autogenargs.has_key(name):
+                autogenargs = module_autogenargs[name]
             moduleset.add(MozillaModule(name, revision, autogenargs,
                                         dependencies, cvsroot))
         elif node.nodeName == 'tarball':

@@ -58,6 +58,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def execute(self, command):
         '''executes a command, and returns the error code'''
+        print command
         ret = os.system(command)
         return ret
 

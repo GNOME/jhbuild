@@ -1,3 +1,25 @@
+2003-10-07  James Henstridge  <james@daa.com.au>
+
+	* module.py (MozillaModule.do_checkout): redo checkout of mozilla
+	if client.mk sticky tag is wrong.
+
+	* cvs.py (check_sticky_tag): simple program to find the sticky tag
+	for a file.
+
+	* module.py (MozillaModule.checkout): use the code in the cvs
+	module to construct the CVS command line to checkout
+	mozilla/client.mk.
+	(MozillaModule.checkout): rather than exiting if you can't
+	checkout mozilla/client.mk, just return the error result code,
+	which do_checkout() should be able to handle correctly.
+
+	* terminal_buildscript.py (TerminalBuildScript.execute): print the
+	command that is about to be executed, like it did before.
+
+	* module.py (MozillaModule.do_checkout): construct the path
+	properly, so that it checks for Makefile.in in the mozilla
+	directory.
+
 2003-10-06  James Henstridge  <james@daa.com.au>
 
 	* modulesets/gnome26.modules (mozilla): same here.

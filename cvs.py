@@ -82,6 +82,23 @@ def login(cvsroot, password=None):
             sys.stderr.write('could not log into %s\n' % cvsroot)
             sys.exit(1)
 
+def check_sticky_tag(filename):
+    dirname = os.path.dirname(filename)
+    basename = os.path.basename(filename)
+    entries_file = os.path.join(dirname, 'CVS', 'Entries')
+    fp = open(entries_file, 'r')
+    line = fp.readline()
+    while line:
+        parts = line.strip().split('/')
+        if parts[1] == basename:
+            # parts[5] is the tag for this file
+            if parts[5] == '':
+                return None
+            else:
+                return parts[5][1:]
+        line = fp.readline()
+    raise RuntimeError('%s is not managed by CVS' % filename)
+
 class CVSRoot:
     '''A class to wrap up various CVS opperations.'''
     
