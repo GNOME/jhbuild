@@ -12,8 +12,8 @@
   <cvsroot name="mozilla.org"
      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
      password="anonymous" />
-  <cvsroot name="gstreamer.net"
-     root=":pserver:anonymous@cvs.gstreamer.sourceforge.net:/cvsroot/gstreamer"
+  <cvsroot name="gstreamer.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/gstreamer"
      password="" />
 
   <cvsroot name="regexxer.sf.net"
@@ -534,20 +534,20 @@
       <dep package="gst-plugins" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gstreamer" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.net">
+  <cvsmodule id="gstreamer" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org">
     <dependencies>
       <dep package="glib" />
       <dep package="libxml2" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gst-plugins" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.net">
+  <cvsmodule id="gst-plugins" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org">
     <dependencies>
       <dep package="gstreamer" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gst-player" cvsroot="gstreamer.net">
+  <cvsmodule id="gst-player" cvsroot="gstreamer.freedesktop.org">
     <dependencies>
       <dep package="gstreamer" />
       <dep package="gst-plugins" />
