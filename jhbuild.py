@@ -79,4 +79,6 @@ try:
                 nobuild=nobuild, skip=uptodate, interact=interact)
 except KeyboardInterrupt:
     print "Interrupted"
+except EOFError:
+    print "EOF"
 
