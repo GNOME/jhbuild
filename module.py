@@ -194,10 +194,10 @@ class MozillaModule(CVSModule):
         return buildscript.execute('make -f client.mk checkout')
         
     def do_checkout(self, buildscript, force_checkout=False):
+        checkoutdir = self.get_builddir(buildscript)
         if not os.path.exists(os.path.join('Makefile.in')):
             res = self.checkout(buildscript)
         else:
-            checkoutdir = self.get_builddir(buildscript)
             os.chdir(checkoutdir)
             buildscript.message('updating %s' % self.name)
             res = buildscript.execute('make -f client.mk fast-update')
