@@ -153,7 +153,7 @@ class Tarball(base.Package):
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
-        if buildscript.config.builddir and not os.path.exists(builddir):
+        if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
         os.chdir(builddir)
         buildscript.set_action('Configuring', self)
