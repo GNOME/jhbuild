@@ -31,9 +31,9 @@ Global options:
 
 Commands:
   update                       update from cvs
-  build [ options ... ]        update and compile (the default)
-  buildone module              build a single module
-  run program [ args ... ]     run a command in the build environment
+  build [ opts... ] [modules]  update and compile (the default)
+  buildone [ opts... ] module  build a single module
+  run program [ args... ]      run a command in the build environment
   shell                        start a shell in the build environment
   bootstrap                    build required support tools.
 

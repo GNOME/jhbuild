@@ -85,7 +85,8 @@ gnome20.addmod('libwnck', dependencies=['gtk+'], revision='gnome-2-0')
 
 gnome20.addmod('gnome-panel', revision='gnome-2-0',
                dependencies=['libgnomeui','gnome-desktop'])
-gnome20.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
+gnome20.addmod('gnome-desktop', revision='gnome-2-0',
+               dependencies=['libgnomeui', 'libwnck'])
 gnome20.addmod('gnome-session', revision='gnome-2-0',
                dependencies=['libgnomeui', 'libwnck'])
 
@@ -95,7 +96,7 @@ gnome20.addmod('gnome-games', revision='gnome-2-0',
                dependencies=['libgnomeui'])
 gnome20.addmod('eel', revision='gnome-2-0',
                dependencies=['librsvg','libgnomeui','gail'])
-gnome20.addmod('librsvg',
+gnome20.addmod('librsvg', revision='gnome-2-0',
                dependencies=['gnome-xml','gtk+', 'libart_lgpl',
                              'gnome-common'])
 gnome20.addmod('nautilus', revision='gnome-2-0',
@@ -154,8 +155,9 @@ gnome20.addmod('rhythmbox', dependencies=['monkey-media', 'gnome-panel',
 gnome20.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
 gnome20.addmod('gstreamer', cvsroot=gstreamer_cvsroot,
                dependencies=['glib', 'gnome-xml'],
-               # gstreamer requires a '-- ' for configure args to be passed in.  This means that
-               # args like --enable-maintainer-mode aren't passed through.
+               # gstreamer requires a '-- ' for configure args to be
+               # passed in.  This means that args like
+               # --enable-maintainer-mode aren't passed through.
                autogenargs='-- --disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'gnome-vfs', 'gtk+'],
@@ -216,7 +218,8 @@ gnome20.add(MetaModule('meta-gnome-desktop',
                                 'meta-nautilus', 'yelp', 'bug-buddy',
                                 'gtk-engines']))
 gnome20.add(MetaModule('meta-gnome-devel-tools',
-                       modules=['glade', 'memprof', 'gconf-editor']))
+                       modules=['glade', 'memprof', 'gconf-editor',
+                                'devhelp']))
 gnome20.add(MetaModule('meta-gnome-python',
                        modules=['gnome-python/pygtk', 'orbit-python',
                                 'gnome-python/gnome-python']))
@@ -251,6 +254,9 @@ gnome22.addmod('libgnome',
 gnome22.addmod('libgnomecanvas',
                dependencies=['gtk+', 'libart_lgpl', 'libglade','gnome-common'])
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade'])
+gnome22.addmod('librsvg',
+               dependencies=['gnome-xml','gtk+', 'libart_lgpl',
+                             'gnome-common'])
 gnome22.addmod('eel', dependencies=['librsvg','libgnomeui','gail'])
 gnome22.addmod('nautilus',
                dependencies=['esound', 'eel', 'librsvg', 'libgnomeui',
