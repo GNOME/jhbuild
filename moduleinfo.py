@@ -132,7 +132,7 @@ gnome20.addmod('gdm2', dependencies=['librsvg'])
 gnome20.addmod('gnome-terminal', revision='gnome-2-0',
                dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
-gnome20.addmod('gedit',
+gnome20.addmod('gedit', revision='gnome-2-0',
                dependencies=['scrollkeeper', 'libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
                dependencies=['libart_lgpl', 'glib', 'gnome-common', 'pango'])
@@ -237,7 +237,7 @@ gnome20.add(MetaModule('meta-nautilus',
                        dependencies=['nautilus', 'nautilus-gtkhtml']))
 gnome20.add(MetaModule('meta-gnome-desktop',
                        dependencies=['meta-gnome-core', 'gnome-control-center',
-                                'meta-nautilus', 'yelp', 'bug-buddy',
+                                'meta-nautilus', 'yelp', 'bug-buddy', 'gedit',
                                 'gtk-engines']))
 gnome20.add(MetaModule('meta-gnome-devel-tools',
                        dependencies=['glade', 'memprof', 'gconf-editor',
@@ -256,7 +256,7 @@ gnome22 = ModuleSet(gnome20)
 #Add this again to gnome22, replacing the gnome20 version:
 gnome22.add(MetaModule('meta-gnome-desktop',
                        dependencies=['meta-gnome-core', 'gnome-control-center',
-                                'meta-nautilus', 'yelp', 'bug-buddy',
+                                'meta-nautilus', 'yelp', 'bug-buddy', 'gedit',
                                 'gtk-engines',
                                 'acme', 'ggv', 'file-roller', 'metacity', 
                                 'gstreamer', 'nautilus-media']))
@@ -351,6 +351,9 @@ gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 
 gnome22.addmod('gnome-themes')
 gnome22.addmod('acme', dependencies=['gob'])
+
+gnome22.addmod('gedit',
+               dependencies=['scrollkeeper', 'libgnomeui', 'eel', 'libgnomeprintui'])
 
 # So far gob is only used by acme, and only when building from cvs.
 gnome22.addmod('gob')
