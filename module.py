@@ -81,15 +81,13 @@ class ModuleSet:
         return self.get_module_list(self.modules.keys())
 
 class BuildScript:
-    def __init__(self, cvsroot, modulelist, autogenargs=None, cflags=None,
-                 prefix=None, checkoutroot=None, installprog=None):
+    def __init__(self, cvsroot, modulelist, autogenargs=None,
+                 prefix=None, checkoutroot=None):
         self.cvsroot = cvsroot
         self.modulelist = modulelist
         self.autogenargs = autogenargs
-        self.cflags = cflags
         self.prefix = prefix
         self.checkoutroot = checkoutroot
-        self.installprog = installprog
         
         if not self.autogenargs:
             self.autogenargs = '--disable-static --disable-gtk-doc'
@@ -102,7 +100,6 @@ class BuildScript:
                'install prefix must be writable'
 
         self.login()
-        self.setupenv()
 
     def login(self):
         '''make sure we are logged into the cvs server first'''
@@ -121,38 +118,6 @@ class BuildScript:
             pass
         if not loggedin:
             os.system('cvs -d %s login' % self.cvsroot)
-
-    def __addpath(self, envvar, path):
-        try:
-            envval = os.environ[envvar]
-            if string.find(envval, path) < 0:
-                envval = path + ':' + envval
-        except KeyError:
-            envval = path
-        os.environ[envvar] = envval
-    def setupenv(self):
-        '''set environment variables for using prefix'''
-        includedir = os.path.join(self.prefix, 'include')
-        self.__addpath('C_INCLUDE_PATH', includedir)
-        libdir = os.path.join(self.prefix, 'lib')
-        self.__addpath('LD_LIBRARY_PATH', libdir)
-        bindir = os.path.join(self.prefix, 'bin')
-        self.__addpath('PATH', bindir)
-        pkgconfigdir = os.path.join(libdir, 'pkgconfig')
-        self.__addpath('PKG_CONFIG_PATH', pkgconfigdir)
-        aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
-        try:
-            val = os.environ['ACLOCAL_FLAGS']
-            os.environ['ACLOCAL_FLAGS'] = '%s -I %s' % (val, aclocaldir)
-        except KeyError:
-            os.environ['ACLOCAL_FLAGS'] = '-I %s' % aclocaldir
-        os.environ['CERTIFIED_GNOMIE'] = 'yes'
-
-        if self.installprog:
-            os.environ['INSTALL'] = self.installprog
-
-        if self.cflags:
-            os.environ['CFLAGS'] = self.cflags
 
     def _message(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)

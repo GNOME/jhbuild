@@ -5,16 +5,65 @@ This is another set of scripts for building GNOME 2.  They are still a
 little rough around the edges, but may still be useful to you.
 
 They don't enforce any particular checkout, build or install
-directories for your gnome2 setup.  Currently, it doesn't handle
-external modules that must be installed (such as gettext, libtool,
-etc) -- those will need to be installed manually.
+directories for your gnome2 setup (this is deduced from the config
+file).
 
-Once the dependency information is added, the script should be usable
-for a stable gnome setup as well.
+You must have python >= 1.5.2 installed for jhbuild to run.
+
+
+Why use jhbuild?
+----------------
+
+I wrote jhbuild because there were a few features missing from
+vicious-build-scripts that I wanted.  The main one is dependency
+handling.
+
+With vicious-build-scripts, there is a list of modules that get built
+in order.  In contrast, jhbuild stores a list of modules along with
+their dependencies.  In the config file, you specify what modules you
+want to end up with, and it will work out what dependencies need to be
+built.
+
+The other main feature of jhbuild is its error handling.  If an error
+occurs while building a module, you are given a number of options:
+rerun the build stage, start a shell, give up on the module, or ignore
+the error.  If you give up on the module, then jhbuild will not
+attempt to build any module that depends on it (taking into account
+transitive dependencies, as needed).  At the end of the build, a list
+of unbuilt modules is printed.
+
+If you wish to run a non interactive build, you can pass the
+--no-interact option.
+
+
+Configuring
+-----------
 
 To install the scripts run "make install", and then copy
 sample.jhbuildrc to ~/.jhbuildrc and edit to match your setup.  My rc
 file is provided for reference as jamesh.jhbuildrc.
+
+For people using vicious-build-scripts to build gnome 2.0, the
+vbs-head.jhbuildrc sample configuration file might be a good one to
+start with.
+
+To build some gnome 2.0 modules, you may need a newer version of one
+of the auto* tools, or pkg-config.  If you are unsure, type the
+following to check:
+  jhbuild bootstrap
+
+This will check your tools, and optionally download and build the
+required versions (they will be installed under the prefix given in
+your .jhbuildrc file).  Currently it checks for and builds the
+following:
+  gettext 0.10.40 (applies the patch to fix the po/ChangeLog problem)
+  autoconf 2.52
+  libtool 1.4.2
+  automake 1.5
+  pkg-config 0.8.0
+
+Bootstrapping should only need to be done once (unless the
+requirements of some package change).
 
 
 Using jhbuild
@@ -22,8 +71,10 @@ Using jhbuild
 
 To build everything, just type 'jhbuild build', or just 'jhbuild'.
 Some useful options that this command takes include:
+
   --autogen       always run autogen.sh
   --clean         run "make clean" before make when building
+  --no-cvs        don't update source from cvs
   --skip=MODULES  skip building the given modules
 
 If you just want to checkout the latest versions of everything, run:
@@ -32,7 +83,7 @@ If you just want to checkout the latest versions of everything, run:
 If you want to build everything without updating from CVS (for
 instance, when disconnected from the internet), use the following
 command:
-  jhbuild compile
+  jhbuild build --no-cvs
 
 (this command takes the same options as 'jhbuild build').
 
@@ -42,6 +93,12 @@ LD_LIBRARY_PATH, etc all configured), use the following command:
 
 For example, to start a shell in the build environment:
   jhbuild run bash
+
+To build a single module with no dependencies, use the following
+command:
+  jhbuild buildone modulename
+
+(this command takes the same extra options as 'jhbuild build').
 
 
 Error handling

@@ -1,0 +1,37 @@
+  This patch prevents gettextize from screwing up po/ChangeLog
+  The gettext maintainers were on crack when adding this `feature'
+
+--- gettext-0.10.38/misc/gettextize.in.cl	Wed May 23 00:57:18 2001
++++ gettext-0.10.38/misc/gettextize.in	Thu Jul 12 09:56:35 2001
+@@ -178,31 +178,14 @@
+   { $echo "Copying file po/$file"; cp $file $srcdir/po/$file; }
+ done
+ DATE=`date +%Y-%m-%d`
+-cat > $srcdir/po/ChangeLog.tmp <<EOF
+-$DATE  gettextize  <bug-gnu-utils@gnu.org>
+-
+-	* Makefile.in.in: Upgrade to gettext-${version}.
+-EOF
+ if test -f $srcdir/po/cat-id-tbl.c; then
+   $echo "Removing po/cat-id-tbl.c"
+   rm -f $srcdir/po/cat-id-tbl.c
+-  $echo "	* cat-id-tbl.c: Remove file." >> $srcdir/po/ChangeLog.tmp
+ fi
+ if test -f $srcdir/po/stamp-cat-id; then
+   $echo "Removing po/stamp-cat-id"
+   rm -f $srcdir/po/stamp-cat-id
+-  $echo "	* stamp-cat-id: Remove file." >> $srcdir/po/ChangeLog.tmp
+ fi
+-$echo >> $srcdir/po/ChangeLog.tmp
+-if test -f $srcdir/po/ChangeLog; then
+-  $echo "Adding an entry to po/ChangeLog (backup is in po/ChangeLog~)"
+-  cat $srcdir/po/ChangeLog >> $srcdir/po/ChangeLog.tmp
+-  cp -p $srcdir/po/ChangeLog $srcdir/po/ChangeLog~
+-else
+-  $echo "Creating po/ChangeLog"
+-fi
+-cp $srcdir/po/ChangeLog.tmp $srcdir/po/ChangeLog
+-rm -f $srcdir/po/ChangeLog.tmp
+ 
+ echo
+ echo "Please add the files"
