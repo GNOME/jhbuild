@@ -238,6 +238,8 @@ gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
 gnome22.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
+gnome22.addmod('gnome-vfs',
+               dependencies=['libbonobo', 'gconf', 'gnome-mime-data'])
 gnome22.addmod('vte', dependencies=['gtk+'])
 gnome22.addmod('gnome-terminal',
                dependencies=['libglade', 'libgnomeui', 'libzvt','vte'],
