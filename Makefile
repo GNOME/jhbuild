@@ -1,3 +1,6 @@
+PACKAGE = jhbuild
+VERSION = 0.1
+
 CC = gcc
 CFLAGS = -Wall -O2
 
@@ -27,11 +30,30 @@ install: install-check
 	@[ -f $(HOME)/.jhbuildrc ]||echo "Don't forget to create ~/.jhbuildrc"
 	install -m755 install-check $(bindir)/install-check
 
+distdir = $(PACKAGE)-$(VERSION)
 dist:
-	ln -sf . jhbuild
-	tar czf jhbuild.tar.gz jhbuild/Makefile jhbuild/COPYING \
-	  jhbuild/README jhbuild/ChangeLog jhbuild/*.py jhbuild/*.c \
-	  jhbuild/*.patch jhbuild/*.jhbuildrc jhbuild/jhbuild.glade jhbuild/jhbuild.desktop
-	rm -f jhbuild
+	-rm -rf $(distdir)
+	mkdir $(distdir)
+	cp -p README COPYING ChangeLog Makefile jhbuild.in jhbuild.desktop $(distdir)/
+	cp -p *.c *.jhbuildrc changecvsroot.py $(distdir)/
+	mkdir $(distdir)/modulesets
+	cp -p modulesets/*.modules $(distdir)/modulesets/
+	cp -p modulesets/moduleset.dtd modulesets/moduleset.xsl $(distdir)/modulesets/
+	mkdir $(distdir)/patches
+	cp -p patches/*.patch $(distdir)/patches/
+	mkdir $(distdir)/jhbuild
+	cp -p jhbuild/*.py jhbuild/defaults.jhbuildrc $(distdir)/jhbuild/
+	mkdir $(distdir)/jhbuild/commands
+	cp -p jhbuild/commands/*.py $(distdir)/jhbuild/commands/
+	mkdir $(distdir)/jhbuild/frontends
+	cp -p jhbuild/frontends/*.py $(distdir)/jhbuild/frontends/
+	cp -p jhbuild/frontends/jhbuild.glade $(distdir)/jhbuild/frontends/
+	mkdir $(distdir)/jhbuild/modtypes
+	cp -p jhbuild/modtypes/*.py $(distdir)/jhbuild/modtypes/
+	mkdir $(distdir)/jhbuild/utils
+	cp -p jhbuild/utils/*.py $(distdir)/jhbuild/utils/
+	chmod -R a+r $(distdir)
+	tar czf $(distdir).tar.gz $(distdir)
+	rm -rf $(distdir)
 
 .PHONY: all update install
