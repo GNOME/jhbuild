@@ -37,23 +37,22 @@ head.add(Module(name='libgnomeui', dependencies=['libbonoboui', 'libglade']))
 
 head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+', 'gnome-common']))
 head.add(Module(name='libglade',
-         dependencies=['gtk+', 'gnome-xml']))
+                dependencies=['gtk+', 'gnome-xml']))
 head.add(Module(name='gnome-python/pygtk',
-         dependencies=['gtk+', 'libglade']))
+                dependencies=['gtk+', 'libglade']))
 head.add(Module(name='orbit-python',
                 dependencies=['libIDL', 'ORBit2']))
 head.add(Module(name='gnome-python/gnome-python',
          dependencies=['gnome-python/pygtk', 'libgnomecanvas', 'libgnomeui']))
 head.add(Module(name='bug-buddy',
-         dependencies=['libgnomeui']))
+                dependencies=['libgnomeui']))
 head.add(Module(name='libwnck',
-         dependencies=['gtk+']))
+                dependencies=['gtk+']))
 
 head.add(Module(name='gnome-panel',
-         dependencies=['gtk+','libgnomeui','libbonoboui','gnome-desktop']))
-head.add(Module(name='gnome-desktop',
-         dependencies=['gtk+','libgnomeui']))
-head.add(Module(name='gnome-session'))
+                dependencies=['libgnomeui','gnome-desktop']))
+head.add(Module(name='gnome-desktop', dependencies=['libgnomeui', 'libwnck']))
+head.add(Module(name='gnome-session', dependencies=['libgnomeui', 'libwnck']))
 
 head.add(Module(name='gnome-applets',
          dependencies=['gnome-panel','libgtop']))
