@@ -196,8 +196,8 @@ bootstraps = [
               [],
               'echo "import sys, string; print string.split(sys.version)[0]" | python -'),
     Bootstrap('audiofile', '0.2.3',
-              'ftp://oss.sgi.com/projects/audiofile/download/audiofile-0.2.3.tar.gz',
-              332223,
+              'http://www.68k.org/~michael/audiofile/audiofile-0.2.4.tar.gz',
+              360358, 
               [],
               'audiofile-config --version'),
 ]
