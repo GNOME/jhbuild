@@ -54,7 +54,8 @@ gnome20.addmod('ORBit2', dependencies=['linc', 'libIDL'])
 gnome20.addmod('bonobo-activation',
                dependencies=['intltool', 'gnome-common', 'ORBit2',
                              'gnome-xml'])
-gnome20.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
+gnome20.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'],
+               revision='gconf-1-2')
 gnome20.addmod('libbonobo', dependencies=['ORBit2', 'bonobo-activation'])
 gnome20.addmod('gnome-mime-data', dependencies=['gnome-common'])
 gnome20.addmod('gnome-vfs', revision='gnome-2-0',
@@ -229,6 +230,7 @@ gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
+gnome22.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
 gnome22.addmod('gnome-terminal',
                dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome22.addmod('gnome-control-center',
