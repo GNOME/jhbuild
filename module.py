@@ -126,7 +126,7 @@ class BuildScript:
         try:
             envval = os.environ[envvar]
             if string.find(envval, path) < 0:
-                envval = envval + ':' + path
+                envval = path + ':' + envval
         except KeyError:
             envval = path
         os.environ[envvar] = envval
