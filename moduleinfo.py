@@ -78,11 +78,14 @@ gnome20.addmod('gnome-python/gnome-python',
 gnome20.addmod('bug-buddy', dependencies=['libgnomeui'])
 gnome20.addmod('libwnck', dependencies=['gtk+'])
 
-gnome20.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
+gnome20.addmod('gnome-panel', revision='gnome-2-0',
+               dependencies=['libgnomeui','gnome-desktop'])
 gnome20.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
-gnome20.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
+gnome20.addmod('gnome-session', revision='gnome-2-0',
+               dependencies=['libgnomeui', 'libwnck'])
 
-gnome20.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
+gnome20.addmod('gnome-applets', revision='gnome-2-0',
+               dependencies=['gnome-panel','libgtop', 'gail'])
 gnome20.addmod('gnome-games', revision='gnome-2-0',
                dependencies=['libgnomeui'])
 gnome20.addmod('eel', dependencies=['librsvg','libgnomeui','gail'])
@@ -216,6 +219,11 @@ gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
 gnome22.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
+gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
+gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
+gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
+gnome22.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
+
 
 # gnome 1.x support
 gnome1 = ModuleSet()
