@@ -9,12 +9,6 @@
   <cvsroot name="rhug.sources.redhat.com"
      root=":pserver:anoncvs@sources.redhat.com:/cvs/rhug"
      password="" />
-  <cvsroot name="mauve.sources.redhat.com"
-     root=":pserver:anoncvs@sources.redhat.com:/cvs/mauve"
-     password="anoncvs" />
-  <cvsroot name="oss.software.ibm.com"
-     root=":pserver:anoncvs@oss.software.ibm.com:/usr/cvs/jikes"
-     password="anoncvs" />
   <cvsroot name="gdb.sources.redhat.com"
      root=":pserver:anoncvs@sources.redhat.com:/cvs/src"
      password="anoncvs" />
@@ -24,11 +18,8 @@
   <cvsroot name="classpath.savannah.gnu.org"
      root=":ext:anoncvs@savannah.gnu.org:/cvsroot/classpath"
      password="" />
-  <cvsroot name="classpathx.savannah.gnu.org"
-     root=":ext:anoncvs@savannah.gnu.org:/cvsroot/classpathx"
-     password="" />
 
-  <include href="gnome-2.10.modules" />
+  <include href="gtk28.modules" />
 
   <gdbmodule id="gdb" cvsroot="gdb.sources.redhat.com" />
 
@@ -36,13 +27,13 @@
     <dependencies>
       <dep package="cairo" />
       <dep package="gtk+" />
-      <dep package="gdb" />
     </dependencies>
   </gcjmodule>
 
   <cvsmodule id="java-gcj-compat" cvsroot="rhug.sources.redhat.com">
     <dependencies>
       <dep package="ecj-for-jhbuild" />
+      <dep package="gjdoc" />
     </dependencies>
   </cvsmodule>
 
@@ -53,58 +44,27 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="jaxp" cvsroot="classpathx.savannah.gnu.org" >
-    <dependencies>
-      <dep package="gcj" />
-      <dep package="libxml2" />
-      <dep package="libxslt" />
-    </dependencies>
-  </cvsmodule>
-
-  
   <cvsmodule id="gjdoc" cvsroot="classpath.savannah.gnu.org" >
     <dependencies>
       <dep package="gcj" />
-      <dep package="jaxp" />
     </dependencies>
   </cvsmodule>
 
-  <!-- The mauve, verify and jacks test suites cannot be built using
-  jhbuild build.  They can be checked out using jhbuild updateone,
-  then built by running make check in libgcj's build directory. -->
-
-  <cvsmodule id="mauve" cvsroot="mauve.sources.redhat.com" >
-    <dependencies>
-      <dep package="gcj" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="verify" cvsroot="mauve.sources.redhat.com" >
-    <dependencies>
-      <dep package="gcj" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="jacks" cvsroot="oss.software.ibm.com" >
-    <dependencies>
-      <dep package="gcj" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="wonka" cvsroot="mauve.sources.redhat.com" supports-non-srcdir-builds="no">
-    <dependencies>
-      <dep package="gcj" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="java-gnome" cvsroot="gnome.org"
-	     supports-non-srcdir-builds="no">
+  <cvsmodule id="java-gnome" cvsroot="gnome.org">
     <suggests>
       <dep package="gcj" />
     </suggests>
     <dependencies>
-      <dep package="libgnomeui" />
-      <dep package="gtkhtml2" />
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="libgtk-java" cvsroot="gnome.org">
+    <suggests>
+      <dep package="gcj" />
+    </suggests>
+    <dependencies>
+      <dep package="java-gnome" />
     </dependencies>
   </cvsmodule>
 
