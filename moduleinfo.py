@@ -279,7 +279,7 @@ gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop', 'metacity'])
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
 gnome22.addmod('gnome-desktop',
-               dependencies=['libgnomeui', 'libwnck', 'startup-notification'])
+               dependencies=['libgnomeui', 'libwnck', 'startup-notification', 'gnome-themes'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-applets',
                dependencies=['scrollkeeper', 'gnome-panel','libgtop', 'gail'])
