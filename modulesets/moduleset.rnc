@@ -2,26 +2,40 @@ default namespace = ""
 
 start = moduleset
 
-moduleset = element moduleset { (cvsroot|svnroot)*,
-                                (\include|cvsmodule|svnmodule|metamodule|
-                                 tarball|mozillamodule)* }
+moduleset = element moduleset { roots,
+                                (\include|package)* }
+
+roots = (cvsroot|svnroot|arch-archive)*
 
 cvsroot = element cvsroot {
   attribute name { text },
   attribute root { text },
-  attribute password { text}?,
+  attribute password { text }?,
   attribute default { "yes" | "no" }?
 }
 
 svnroot = element svnroot {
   attribute name { text },
-  attribute root { text },
+  attribute href { xsd:anyURI },
+  attribute default { "yes" | "no" }?
+}
+
+arch-archive = element arch-archive {
+  attribute name { text },
+  attribute href { xsd:anyURI },
   attribute default { "yes" | "no" }?
 }
 
 \include = element include {
   attribute href { xsd:anyURI }
 }
+
+package = cvsmodule |
+          svnmodule |
+          archmodule |
+          metamodule |
+          tarball |
+          mozillamodule
 
 dep = element dep {
   attribute package { text }
@@ -47,6 +61,14 @@ cvsmodule = element cvsmodule {
 
 svnmodule = element svnmodule {
   attribute module { text }?,
+  attribute checkoutdir { text }?,
+  attribute root { text }?,
+
+  autogen_common
+}
+
+archmodule = element archmodule {
+  attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute root { text }?,
 

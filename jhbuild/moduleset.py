@@ -30,6 +30,7 @@ except ImportError:
 
 from jhbuild import modtypes
 from jhbuild.utils import cvs
+from jhbuild.utils import arch
 from jhbuild.utils import httpcache
 
 __all__ = [ 'load' ]
@@ -179,13 +180,15 @@ def _parse_module_set(config, uri):
     # load up list of cvsroots
     roots = {}
     default_root = None
-    for key in config.cvsroots.keys():
-        value = config.cvsroots[key]
+    for (key, value) in config.cvsroots.items():
         cvs.login(value)
         roots[key] = ('cvs', value)
-    for key in config.svnroots.keys():
-        value = config.svnroots[key]
+    for (key, value) in config.svnroots.items():
         roots[key] = ('svn', value)
+    for (key, value) in config.arch_archives.items():
+        if not arch.is_registered(value):
+            raise FatalError('Arch archive %s not registered' % value)
+        roots[key] = ('arch', value)
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsroot':
@@ -204,12 +207,23 @@ def _parse_module_set(config, uri):
                 default_root = name
         elif node.nodeName == 'svnroot':
             name = node.getAttribute('name')
-            svnroot = node.getAttribute('root')
+            svnroot = node.getAttribute('href')
             is_default = False
             if node.hasAttribute('default'):
                 is_default = node.getAttribute('default') == 'yes'
             if not roots.has_key(name):
                 roots[name] = ('svn', svnroot)
+            if is_default:
+                default_root = name
+        elif node.nodeName == 'arch-archive':
+            name = node.getAttribute('name')
+            uri = node.getAttribute('href')
+            is_default = False
+            if node.hasAttribute('default'):
+                is_default = node.getAttribute('default') == 'yes'
+            if not roots.has_key(name):
+                arch.register(name, uri)
+                roots[name] = ('arch', name)
             if is_default:
                 default_root = name
 
@@ -221,7 +235,7 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             inc_moduleset = _parse_module_set(config, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
-        elif node.nodeName in ('cvsroot', 'svnroot'):
+        elif node.nodeName in ['cvsroot', 'svnroot', 'arch-archive']:
             pass
         else:
             # only one default root in the file.  Is this a good thing?
