@@ -61,7 +61,7 @@ head.add(Module(name='librsvg',
 head.add(Module(name='nautilus',
          dependencies=['esound','eel','librsvg','libgnomeui']))
 head.add(Module(name='metacity',
-         dependencies=['gtk+']))
+         dependencies=['gtk+','gconf']))
 head.add(Module(name='metatheme',
          dependencies=['libgnomeui']))
 head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',

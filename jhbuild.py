@@ -73,11 +73,11 @@ def do_build(config, args, interact=1, cvsupdate=1):
             cvsupdate = 0
         elif opt in ('-s', '--skip'):
             skip = skip + string.split(arg, ',')
-    if args:
-        raise getopt.error, 'no non option arguments expected'
 
     module_set = getattr(moduleinfo, config['moduleset'])
-    if config['modules'] == 'all':
+    if args:
+        module_list = module_set.get_module_list(args)
+    elif config['modules'] == 'all':
         module_list = module_set.get_full_module_list()
     else:
         module_list = module_set.get_module_list(config['modules'])

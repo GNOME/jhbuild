@@ -5,12 +5,14 @@ all:
 update:
 	cvs -z3 -q update -Pd .
 
+bindir=$(HOME)/bin
+
 install:
-	@echo "Creating $(HOME)/bin/jhbuild"
-	@mkdir -p $(HOME)/bin
-	@echo '#!/bin/sh' > $(HOME)/bin/jhbuild
-	@echo 'python '`pwd`'/jhbuild.py "$$@"' >> $(HOME)/bin/jhbuild
-	@chmod a+x $(HOME)/bin/jhbuild
+	@echo "Creating $(bindir)/jhbuild"
+	@mkdir -p $(bindir)
+	@echo '#!/bin/sh' > $(bindir)/jhbuild
+	@echo 'python '`pwd`'/jhbuild.py "$$@"' >> $(bindir)/jhbuild
+	@chmod a+x $(bindir)/jhbuild
 	@[ -f $(HOME)/.jhbuildrc ]||echo "Don't forget to create ~/.jhbuildrc"
 
 .PHONY: all update install
