@@ -31,3 +31,8 @@ head.add(Module(name='libgnomeui', dependencies=['libbonoboui']))
 
 head.add(Module(name='libglade',
          dependencies=['gtk+', 'gnome-xml', 'libbonoboui', 'libgnomeui']))
+head.add(Module(name='gnome-python/pygtk',
+         dependencies=['gtk+', 'libglade']))
+head.add(Module(name='gnome-python/gnome-python',
+         dependencies=['gnome-python/pygtk', 'libgnomecanvas']))
+
