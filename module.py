@@ -146,7 +146,7 @@ class CVSModule(Package):
             return (self.STATE_INSTALL, None, None)
         else:
             return (self.STATE_INSTALL, 'could not build module',
-                    [self.STATE_FORCE_CHECKOUT])
+                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))

@@ -261,7 +261,7 @@ gnome22.addmod('gnome-vfs',
                dependencies=['libbonobo', 'gconf', 'gnome-mime-data'])
 gnome22.addmod('vte', dependencies=['gtk+'])
 gnome22.addmod('gnome-terminal',
-               dependencies=['libglade', 'libgnomeui', 'libzvt','vte',
+               dependencies=['libglade', 'libgnomeui', 'vte',
                              'startup-notification'],
                autogenargs='--with-widget=vte')
 gnome22.addmod('gnome-control-center',
