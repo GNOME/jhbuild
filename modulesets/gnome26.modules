@@ -942,6 +942,35 @@
       <dep package="libgnomeui" />
     </dependencies>
   </cvsmodule>
+  <tarball id="libgpg-error" version="0.7">
+    <source href="ftp://ftp.gnupg.org/gcrypt/alpha/libgpg-error/libgpg-error-0.7.tar.gz" size="312770" />
+  </tarball>
+  <tarball id="libgcrypt" version="1.1.94">
+    <source href="ftp://ftp.gnupg.org/gcrypt/alpha/libgcrypt/libgcrypt-1.1.94.tar.gz" size="847472" />
+    <dependencies>
+      <dep package="libgpg-error" />
+    </dependencies>
+  </tarball>
+  <tarball id="libtasn1" version="0.2.7">
+    <source href="ftp://ftp.gnutls.org/pub/gnutls/libtasn1/libtasn1-0.2.7.tar.gz" size="529912" />
+  </tarball>
+  <tarball id="opencdk" version="0.5.4">
+    <source href="ftp://ftp.gnutls.org/pub/gnutls/opencdk/opencdk-0.5.4.tar.gz" size="442746" />
+  </tarball>
+  <tarball id="gnutls" version="1.0.10">
+    <source href="ftp://ftp.gnutls.org/pub/gnutls/gnutls-1.0.10.tar.gz" size="1424663" />
+    <dependencies>
+      <dep package="libgcrypt" />
+      <dep package="libtasn1" />
+      <dep package="opencdk" />
+    </dependencies>
+  </tarball>
+  <cvsmodule id="libsoup">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="gnutls" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="gtkhtml">
     <dependencies>
       <dep package="gtk+" />
@@ -953,11 +982,6 @@
       <dep package="libgnomeprintui" />
       <dep package="libsoup" />
       <dep package="gal" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="libsoup">
-    <dependencies>
-      <dep package="glib" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="evolution-data-server">

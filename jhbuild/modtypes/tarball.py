@@ -157,7 +157,6 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     autogenargs = ''
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
-    dependencies = []
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'source':
