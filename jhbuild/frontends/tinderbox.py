@@ -173,12 +173,13 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.indexfp = None
 
     def start_module(self, module):
+        filename='%s.txt' % module.replace('/','_')
         self.indexfp.write('<tr>'
                            '<td>%s</td>'
-                           '<td><a href="%s.txt">%s</a></td>'
-                           '<td>\n' % (self.timestamp(), module, module))
+                           '<td><a href="%s">%s</a></td>'
+                           '<td>\n' % (self.timestamp(), filename, module))
         self.modulefp = open(os.path.join(self.outputdir,
-                                          '%s.txt' % module), 'w')
+                                          filename), 'w')
     def end_module(self, module, failed):
         self.modulefp.close()
         self.modulefp = None
