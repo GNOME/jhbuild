@@ -47,7 +47,7 @@ class CVSRoot:
         except IOError:
             pass
         if not loggedin:
-            return buildscript.execute('cvs -d %s login' % self.cvsroot)
+            return buildscript.execute('runsocks cvs -d %s login' % self.cvsroot)
 
     def getcheckoutdir(self, module, checkoutdir=None):
         if checkoutdir:
@@ -57,7 +57,7 @@ class CVSRoot:
 
     def checkout(self, buildscript, module, revision=None, checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'cvs -z3 -q -d %s checkout ' % self.cvsroot
+        cmd = 'runsocks cvs -z3 -q -d %s checkout ' % self.cvsroot
 
         if checkoutdir:
             cmd = cmd + '-d %s ' % checkoutdir
@@ -78,7 +78,7 @@ class CVSRoot:
             return self.checkout(buildscript, module, revision, checkoutdir)
         
         os.chdir(dir)
-        cmd = 'cvs -z3 -q -d %s update -dP ' % self.cvsroot
+        cmd = 'runsocks cvs -z3 -q -d %s update -dP ' % self.cvsroot
 
         if revision:
             cmd = cmd + '-r %s ' % revision
