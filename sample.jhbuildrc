@@ -7,15 +7,15 @@ import os
 # what cvs root should be used to checkout the files?
 cvsroot = ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome'
 
-# what module set should be used? (only head supported at the moment)
-moduleset = 'gnome20'
+# what module set should be used?
+moduleset = 'gnome22'
 
 # either a list of modules to build, or 'all' to build all
 # modules in the set.
-modules = 'all'
+modules = [ 'meta-gnome-desktop' ]
 
 # what directory should the source be checked out to?
-checkoutroot = os.environ['HOME'] +  '/cvs/gnome2'
+checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
 
 # the prefix to configure/install modules to (must have write access)
 prefix = '/opt/gnome2'
@@ -24,7 +24,10 @@ prefix = '/opt/gnome2'
 # to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
 #   autogenargs=''
 
+# set CFLAGS:
+#   cflags = '-g -O2'
+
 # a alternative install program to use.
 # The included install-check program won't update timestamps if the
 # header hasn't changed
-#   installprog = '/home/james/bin/install-check'
+installprog = os.path.join(os.environ['HOME'], 'bin', 'install-check')
