@@ -20,34 +20,25 @@
 import os
 
 import base
-from base import Package
+from base import AutogenModule
 from base import register_module_type
 from jhbuild.utils import svn
 from jhbuild.errors import FatalError
 
-class SVNModule(Package):
+class SVNModule(AutogenModule):
     SVNRoot = svn.SVNRoot
-
     type = 'svn'
-    STATE_CHECKOUT       = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_CLEAN          = 'clean'
-    STATE_CONFIGURE      = 'configure'
-    STATE_BUILD          = 'build'
-    STATE_CHECK          = 'check'
-    STATE_INSTALL        = 'install'
 
     def __init__(self, svnmodule, checkoutdir=None,
                  autogenargs='', makeargs='', dependencies=[], suggests=[],
                  svnroot=None, supports_non_srcdir_builds=True):
-        Package.__init__(self, checkoutdir or os.path.basename(svnmodule),
-                         dependencies, suggests)
+        AutogenModule.__init__(self,checkoutdir or os.path.basename(svnmodule),
+                               autogenargs, makeargs,
+                               dependencies, suggests,
+                               supports_non_srcdir_builds)
         self.svnmodule   = svnmodule
         self.checkoutdir = checkoutdir
-        self.autogenargs = autogenargs
-        self.makeargs    = makeargs
         self.svnroot     = svnroot
-        self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_srcdir(self, buildscript):
         return os.path.join(buildscript.config.checkoutroot,
@@ -69,25 +60,11 @@ class SVNModule(Package):
         # Use this to give a meaningful revision number.
         path_parts = self.svnmodule.split('/')
         for i in range(len(path_parts) - 1):
-            if path_parts[i] in ('branches', 'tags'):
+            if path_parts[i] in ['branches', 'tags', 'releases']:
                 return path_parts[i+1]
             elif path_parts[i] == 'trunk':
                 break
         return None
-
-    def do_start(self, buildscript):
-        builddir = self.get_builddir(buildscript)
-        if not buildscript.config.nonetwork: # normal start state
-            return (self.STATE_CHECKOUT, None, None)
-        elif buildscript.config.nobuild:
-            return (self.STATE_DONE, None, None)
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            return (self.STATE_CONFIGURE, None, None)
-        elif buildscript.config.makeclean:
-            return (self.STATE_CLEAN, None, None)
-        else:
-            return (self.STATE_BUILD, None, None)
 
     def do_checkout(self, buildscript):
         svnroot = self.SVNRoot(self.svnroot,
@@ -135,78 +112,11 @@ class SVNModule(Package):
             return (nextstate, 'could not checkout module',
                     [self.STATE_FORCE_CHECKOUT])
 
-    def do_configure(self, buildscript):
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.buildroot and not os.path.exists(builddir):
-            os.makedirs(builddir)
-        os.chdir(builddir)
-        buildscript.set_action('Configuring', self)
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            cmd = self.get_srcdir(buildscript) + '/autogen.sh'
-        else:
-            cmd = './autogen.sh'
-        cmd += ' --prefix %s' % buildscript.config.prefix
-        if buildscript.config.use_lib64:
-            cmd += " --libdir '${exec_prefix}/lib64'"
-        cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)
-        if buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
-        if buildscript.execute(cmd) == 0:
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not configure module',
-                    [self.STATE_FORCE_CHECKOUT])
-
-    def do_clean(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
-        buildscript.set_action('Cleaning', self)
-        cmd = 'make %s %s clean' % (buildscript.config.makeargs, self.makeargs)
-        if buildscript.execute(cmd) == 0:
-            return (self.STATE_BUILD, None, None)
-        else:
-            return (self.STATE_BUILD, 'could not clean module',
-                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
-
-    def do_build(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
-        buildscript.set_action('Building', self)
-        cmd = 'make %s %s' % (buildscript.config.makeargs, self.makeargs)
-        if buildscript.config.makecheck:
-            nextstate = self.STATE_CHECK
-        else:
-            nextstate = self.STATE_INSTALL
-        if buildscript.execute(cmd) == 0:
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not build module',
-                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
-
-    def do_check(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
-        buildscript.set_action('Checking', self)
-        cmd = 'make %s %s check' % (buildscript.config.makeargs, self.makeargs)
-        if buildscript.execute(cmd) == 0:
-            return (self.STATE_INSTALL, None, None)
-        else:
-            return (self.STATE_INSTALL, 'test suite failed',
-                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
-
-    def do_install(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
-        buildscript.set_action('Installing', self)
-        cmd = 'make %s %s install' % (buildscript.config.makeargs,
-                                      self.makeargs)
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not make module'
-        else:
-            buildscript.packagedb.add(self.name, self.get_revision() or '')
-        return (self.STATE_DONE, error, [])
-
-def parse_svnmodule(node, config, dependencies, suggests, svnroot,
+def parse_svnmodule(node, config, dependencies, suggests, root,
                     SVNModule=SVNModule):
+    if root[0] != 'svn':
+        raise FatalError('%s is not a Subversion repository' % root[1])
+    svnroot = root[1]
     id = node.getAttribute('id')
     module = id
     checkoutdir = None

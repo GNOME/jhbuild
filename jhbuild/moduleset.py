@@ -226,11 +226,11 @@ def _parse_module_set(config, uri):
         else:
             # only one default root in the file.  Is this a good thing?
             if node.hasAttribute('cvsroot'):
-                root = roots[node.getAttribute('cvsroot')][1]
-            elif node.hasAttribute('svnroot'):
-                root = roots[node.getAttribute('svnroot')][1]
+                root = roots[node.getAttribute('cvsroot')]
+            elif node.hasAttribute('root'):
+                root = roots[node.getAttribute('root')]
             else:
-                root = roots.get(default_root, (None, None))[1]
+                root = roots.get(default_root, (None, None))
 
             # deps
             dependencies = []

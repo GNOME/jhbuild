@@ -31,27 +31,26 @@ suggests = element suggests { dep+ }
 
 common = attribute id { text } & dependencies* & suggests*
 
+autogen_common = attribute autogenargs { text }? &
+                 attribute makeargs { text }? &
+                 attribute supports-non-srcdir-builds { "yes" | "no" }? &
+                 common
+
 cvsmodule = element cvsmodule {
   attribute module { text }?,
   attribute revision { text }?,
   attribute checkoutdir { text }?,
-  attribute autogenargs { text }?,
-  attribute makeargs { text }?,
   attribute cvsroot { text }?,
-  attribute supports-non-srcdir-builds { "yes" | "no" }?,
 
-  common
+  autogen_common
 }
 
 svnmodule = element svnmodule {
   attribute module { text }?,
   attribute checkoutdir { text }?,
-  attribute autogenargs { text }?,
-  attribute makeargs { text }?,
-  attribute svnroot { text }?,
-  attribute supports-non-srcdir-builds { "yes" | "no" }?,
+  attribute root { text }?,
 
-  common
+  autogen_common
 }
 
 metamodule = element metamodule { common }

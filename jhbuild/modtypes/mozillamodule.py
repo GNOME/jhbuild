@@ -113,7 +113,10 @@ class MozillaModule(base.CVSModule):
             return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
 
-def parse_mozillamodule(node, config, dependencies, suggests, cvsroot):
+def parse_mozillamodule(node, config, dependencies, suggests, root):
+    if root[0] != 'cvs':
+        raise FatalError('%s is not a CVS root' % root[1])
+    cvsroot = root[1]
     name = node.getAttribute('id')
     revision = None
     autogenargs = ''

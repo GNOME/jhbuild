@@ -20,7 +20,7 @@
 import os
 
 from jhbuild.utils import cvs
-
+from jhbuild.errors import FatalError
 
 __all__ = [ 'Package', 'CVSModule',
             'register_module_type', 'parse_xml_node' ]
@@ -68,10 +68,12 @@ class Package:
         method = getattr(self, 'do_' + state)
         return method(buildscript)
 
-class CVSModule(Package):
-    CVSRoot = cvs.CVSRoot
-    
-    type = 'cvs'
+class AutogenModule(Package):
+    '''Base type for modules that are distributed with a Gnome style
+    "autogen.sh" script and the GNU build tools.  Subclasses are
+    responsible for downloading/updating the working copy.'''
+    type = 'autogen'
+
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_CLEAN          = 'clean'
@@ -80,34 +82,20 @@ class CVSModule(Package):
     STATE_CHECK          = 'check'
     STATE_INSTALL        = 'install'
 
-    def __init__(self, cvsmodule, checkoutdir=None, revision=None,
-                 autogenargs='', makeargs='', dependencies=[], suggests=[],
-                 cvsroot=None, supports_non_srcdir_builds=True):
-        Package.__init__(self, checkoutdir or cvsmodule, dependencies,
-                         suggests)
-        self.cvsmodule   = cvsmodule
-        self.checkoutdir = checkoutdir
-        self.revision    = revision
+    def __init__(self, name, autogenargs='', makeargs='',
+                 dependencies=[], suggests=[],
+                 supports_non_srcdir_builds=True):
+        Package.__init__(self, name, dependencies, suggests)
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
-        self.cvsroot     = cvsroot
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_srcdir(self, buildscript):
-        return os.path.join(buildscript.config.checkoutroot,
-                            self.checkoutdir or self.cvsmodule)
-        
+        raise NotImplementedError
     def get_builddir(self, buildscript):
-        if buildscript.config.buildroot and \
-               self.supports_non_srcdir_builds:
-            d = buildscript.config.builddir_pattern % (self.checkoutdir or
-                                                       self.cvsmodule)
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return self.get_srcdir(buildscript)
-
+        raise NotImplementedError
     def get_revision(self):
-        return self.revision
+        raise NotImplementedError
 
     def do_start(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -124,50 +112,10 @@ class CVSModule(Package):
             return (self.STATE_BUILD, None, None)
 
     def do_checkout(self, buildscript):
-        cvsroot = self.CVSRoot(self.cvsroot,
-                               buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        buildscript.set_action('Checking out', self)
-        res = cvsroot.update(buildscript, self.cvsmodule,
-                             self.revision, buildscript.config.sticky_date,
-                             checkoutdir=self.checkoutdir)
-
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            nextstate = self.STATE_CONFIGURE
-        elif buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
-        # did the checkout succeed?
-        if res == 0 and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
+        raise NotImplementedError
 
     def do_force_checkout(self, buildscript):
-        cvsroot = self.CVSRoot(self.cvsroot,
-                              buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        else:
-            nextstate = self.STATE_CONFIGURE
-
-        buildscript.set_action('Checking out', self)
-        res = cvsroot.checkout(buildscript, self.cvsmodule,
-                               self.revision, buildscript.config.sticky_date,
-                               checkoutdir=self.checkoutdir)
-        if res == 0 and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
+        raise NotImplementedError
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -236,11 +184,92 @@ class CVSModule(Package):
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
         else:
-            buildscript.packagedb.add(self.name, self.revision or '')
+            buildscript.packagedb.add(self.name, self.get_revision() or '')
         return (self.STATE_DONE, error, [])
 
-def parse_cvsmodule(node, config, dependencies, suggests, cvsroot,
+class CVSModule(AutogenModule):
+    CVSRoot = cvs.CVSRoot
+    type = 'cvs'
+
+    def __init__(self, cvsmodule, checkoutdir=None, revision=None,
+                 autogenargs='', makeargs='', dependencies=[], suggests=[],
+                 cvsroot=None, supports_non_srcdir_builds=True):
+        AutogenModule.__init__(self, checkoutdir or cvsmodule,
+                               autogenargs, makeargs,
+                               dependencies, suggests,
+                               supports_non_srcdir_builds)
+        self.cvsmodule   = cvsmodule
+        self.checkoutdir = checkoutdir
+        self.revision    = revision
+        self.cvsroot     = cvsroot
+
+    def get_srcdir(self, buildscript):
+        return os.path.join(buildscript.config.checkoutroot,
+                            self.checkoutdir or self.cvsmodule)
+        
+    def get_builddir(self, buildscript):
+        if buildscript.config.buildroot and \
+               self.supports_non_srcdir_builds:
+            d = buildscript.config.builddir_pattern % (self.checkoutdir or
+                                                       self.cvsmodule)
+            return os.path.join(buildscript.config.buildroot, d)
+        else:
+            return self.get_srcdir(buildscript)
+
+    def get_revision(self):
+        return self.revision
+
+    def do_checkout(self, buildscript):
+        cvsroot = self.CVSRoot(self.cvsroot,
+                               buildscript.config.checkoutroot)
+        srcdir = self.get_srcdir(buildscript)
+        builddir = self.get_builddir(buildscript)
+        buildscript.set_action('Checking out', self)
+        res = cvsroot.update(buildscript, self.cvsmodule,
+                             self.revision, buildscript.config.sticky_date,
+                             checkoutdir=self.checkoutdir)
+
+        if buildscript.config.nobuild:
+            nextstate = self.STATE_DONE
+        elif buildscript.config.alwaysautogen or \
+                 not os.path.exists(os.path.join(builddir, 'Makefile')):
+            nextstate = self.STATE_CONFIGURE
+        elif buildscript.config.makeclean:
+            nextstate = self.STATE_CLEAN
+        else:
+            nextstate = self.STATE_BUILD
+        # did the checkout succeed?
+        if res == 0 and os.path.exists(srcdir):
+            return (nextstate, None, None)
+        else:
+            return (nextstate, 'could not update module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_force_checkout(self, buildscript):
+        cvsroot = self.CVSRoot(self.cvsroot,
+                              buildscript.config.checkoutroot)
+        srcdir = self.get_srcdir(buildscript)
+        builddir = self.get_builddir(buildscript)
+        if buildscript.config.nobuild:
+            nextstate = self.STATE_DONE
+        else:
+            nextstate = self.STATE_CONFIGURE
+
+        buildscript.set_action('Checking out', self)
+        res = cvsroot.checkout(buildscript, self.cvsmodule,
+                               self.revision, buildscript.config.sticky_date,
+                               checkoutdir=self.checkoutdir)
+        if res == 0 and os.path.exists(srcdir):
+            return (nextstate, None, None)
+        else:
+            return (nextstate, 'could not checkout module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+def parse_cvsmodule(node, config, dependencies, suggests, root,
                     CVSModule=CVSModule):
+    if root[0] != 'cvs':
+        raise FatalError('%s is not a CVS root' % root[1])
+    cvsroot = root[1]
     id = node.getAttribute('id')
     module = id
     revision = None

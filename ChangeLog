@@ -1,5 +1,21 @@
 2004-07-30  James Henstridge  <james@jamesh.id.au>
 
+	* modulesets/moduleset.{dtd,rnc}: change the svnroot attribute of
+	<svnmodule> to root.
+
+	* jhbuild/moduleset.py (_parse_module_set): rather than just
+	passing in the root as a string, pass a (roottype, root) tuple, so
+	that we can pick up errors where a CVS root is passed to
+	<svnmodule>
+
+	* jhbuild/modtypes/svnmodule.py (SVNModule): derive from
+	AutogenModule, and remove all the code that was in common with
+	CVSModule.
+
+	* jhbuild/modtypes/base.py (AutogenModule, CVSModule): split
+	CVSModule into two classes.  All the generic code is in
+	AutogenModule, and then CVSModule adds the CVS specific code.
+
 	* jhbuild/modtypes/svnmodule.py (SVNModule.get_builddir):
 	s/self.module/self.svnmodule/.
 
