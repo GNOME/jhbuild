@@ -24,9 +24,23 @@ import jhbuild.frontends
 def do_tinderbox(config, args):
     config.buildscript = 'tinderbox'
 
-    opts, args = getopt.getopt(args, 'o:D:', ['output='])
+    startat = None
+    opts, args = getopt.getopt(args, 'acno:s:t:D:',
+                               ['autogen', 'clean', 'no-network', 'output=',
+                                'skip=', 'start-at='])
+
     for opt, arg in opts:
-        if opt in ('-o', '--output'):
+        if opt in ('-a', '--autogen'):
+            config.alwaysautogen = True
+        elif opt in ('-c', '--clean'):
+            config.makeclean = True
+        elif opt in ('-n', '--no-network'):
+            config.nonetwork = True
+        elif opt in ('-s', '--skip'):
+            config.skip = config.skip + arg.split(',')
+        elif opt in ('-t', '--start-at'):
+            startat = arg
+        elif opt in ('-o', '--output'):
             config.tinderbox_outputdir = arg
         elif opt == '-D':
             config.sticky_date = arg
@@ -34,6 +48,11 @@ def do_tinderbox(config, args):
     module_set = jhbuild.moduleset.load(config)
     module_list = module_set.get_module_list(args or config.modules,
                                              config.skip)
+
+    # remove modules up to startat
+    if startat:
+        while module_list and module_list[0].name != startat:
+            del module_list[0]
 
     build = jhbuild.frontends.get_buildscript(config, module_list)
     build.build()
