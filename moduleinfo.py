@@ -41,7 +41,7 @@ gnome20.addmod('glib', revision='glib-2-0', dependencies=['gtk-doc'])
 gnome20.addmod('pango', revision='pango-1-0', dependencies=['glib'])
 gnome20.addmod('atk', dependencies=['glib'])
 gnome20.addmod('gtk+', revision='gtk-2-0', dependencies=['pango', 'atk'],
-               autogenargs='-- --with-qt=no')
+               autogenargs='--with-qt=no')
 gnome20.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome20.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
 gnome20.addmod('gnome-xml', checkoutdir='libxml2')
@@ -103,7 +103,8 @@ gnome20.addmod('libgtop', revision='libgtop-GNOME-2-0-port',
 gnome20.addmod('procman', dependencies=['libgnomeui','libwnck','libgtop'])
 gnome20.addmod('gnome-control-center', revision='gnome-2-0',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
-gnome20.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
+gnome20.addmod('yelp', revision='gnome-2-0',
+               dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 gnome20.addmod('gnome-utils', revision='gnome-2-0',
                dependencies=['libgnomeui', 'gnome-panel'])
 gnome20.addmod('gconf-editor', dependencies=['gconf'])
@@ -125,7 +126,7 @@ gnome20.addmod('libgsf', dependencies=['glib'])
 gnome20.addmod('gnumeric', dependencies=['libole2', 'libgsf', 'gal'])
 
 gnome20.addmod('gimp',dependencies=['gtk+', 'libart_lgpl'],
-               autogenargs='-- --disable-print')
+               autogenargs='--disable-print')
 
 gnome20.addmod('glade', revision='glade-gnome2-branch',
                dependencies=['gtk+', 'gnome-xml', 'libgnomeui',
@@ -143,10 +144,10 @@ gnome20.addmod('rhythmbox', dependencies=['monkey-sound', 'gnome-panel',
 gnome20.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
 gnome20.addmod('gstreamer', cvsroot=gstreamer_cvsroot,
                dependencies=['glib', 'gnome-xml'], 
-               autogenargs='-- --disable-plugin-builddir --disable-tests')
+               autogenargs='--disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'gnome-vfs', 'gtk+'],
-               autogenargs='-- --disable-plugin-builddir --disable-tests')
+               autogenargs='--disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-player', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'libgnomeui'])
 gnome20.addmod('libmrproject', cvsroot=codefactory_cvsroot,
@@ -215,7 +216,7 @@ gnome22 = ModuleSet(gnome20)
 gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
-               autogenargs='-- --with-qt=no')
+               autogenargs='--with-qt=no')
 gnome22.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
@@ -223,6 +224,7 @@ gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
 gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
+gnome22.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 
 
 # gnome 1.x support
