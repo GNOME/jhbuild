@@ -6,6 +6,9 @@
   <cvsroot name="gnome.org" default="yes"
      root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
      password="" />
+  <cvsroot name="keithp.com"
+     root=":pserver:anoncvs@keithp.com:/local/src/CVS"
+     password="" />
   <cvsroot name="mozilla.org"
      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
      password="anonymous" />
@@ -37,9 +40,20 @@
   <tarball id="startup-notification" version="0.5" versioncheck="pkg-config --modversion libstartup-notification-1.0">
     <source href="http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.5.tar.gz" size="211978" />
   </tarball>
-  <fcpackage id="fcpackage" version="2.1">
-    <source href="http://nexp.cs.pdx.edu/fontconfig/release/fcpackage.2_1.tar.gz" size="544661" />
-  </fcpackage>
+
+  <cvsmodule id="fontconfig" revision="fc-2_2_branch" cvsroot="keithp.com" />
+  <cvsmodule id="Render" cvsroot="keithp.com" />
+  <cvsmodule id="Xrender" cvsroot="keithp.com">
+    <dependencies>
+      <dep package="Render" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xft" cvsroot="keithp.com">
+    <dependencies>
+      <dep package="fontconfig" />
+      <dep package="Xrender" />
+    </dependencies>
+  </cvsmodule>
 
   <cvsmodule id="intltool" />
   <cvsmodule id="gnome-common" revision="gnome-2-2"/>
@@ -62,7 +76,7 @@
   <cvsmodule id="pango" revision="pango-1-2" autogenargs="--with-qt=no">
     <dependencies>
       <dep package="glib" />
-      <dep package="fcpackage" />
+      <dep package="Xft" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="atk" revision="gnome-2-2">

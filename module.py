@@ -335,123 +335,6 @@ class Tarball(Package):
             open('jhbuild-build-stamp', 'w').write('stamp')
         return (self.STATE_DONE, error, [])
 
-class FcPackage(Tarball):
-    STATE_CONFIGURE_FONTCONFIG = 'configure_fontconfig'
-    STATE_BUILD_FONTCONFIG     = 'build_fontconfig'
-    STATE_INSTALL_FONTCONFIG   = 'install_fontconfig'
-    STATE_CONFIGURE_XRENDER    = 'configure_xrender'
-    STATE_BUILD_XRENDER        = 'build_xrender'
-    STATE_INSTALL_XRENDER      = 'install_xrender'
-    STATE_CONFIGURE_XFT2       = 'configure_xft2'
-    STATE_BUILD_XFT2           = 'build_xft2'
-    STATE_INSTALL_XFT2         = 'install_xft2'
-
-    STATE_CONFIGURE = STATE_CONFIGURE_FONTCONFIG # glue into Tarball's states
-
-    def __init__(self, version, source_url, source_size):
-        Tarball.__init__(self, 'fcpackage', version, source_url, source_size,
-                         [], versioncheck='pkg-config --modversion xft',
-                         dependencies=[])
-
-    def do_configure_fontconfig(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
-        buildscript.message('configuring fcpackage/fontconfig')
-        res = buildscript.execute('./configure --prefix=%s' %
-                                  buildscript.config.prefix)
-        error = None
-        if res != 0:
-            error = 'could not configure fontconfig'
-        return (self.STATE_BUILD_FONTCONFIG, error, [])
-
-    def do_build_fontconfig(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
-        buildscript.message('building fcpackage/fontconfig')
-        cmd = 'make %s' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not build fontconfig'
-        return (self.STATE_INSTALL_FONTCONFIG, error, [])
-
-    def do_install_fontconfig(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
-        buildscript.message('installing fcpackage/fontconfig')
-        cmd = 'make %s install' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not install fontconfig'
-        return (self.STATE_CONFIGURE_XRENDER, error, [])
-
-    def do_configure_xrender(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
-        buildscript.message('configuring fcpackage/Xrender')
-        res = buildscript.execute('mkdir -p exports/include/X11/extensions')
-        if res != 0:
-            return (self.STATE_BUILD_XRENDER,
-                    'could not configure Xrender', [])
-
-        res = buildscript.execute('ln -s ../../../../render.h exports/include/X11/extensions')
-        if res != 0:
-            return (self.STATE_BUILD_XRENDER,
-                    'could not configure Xrender', [])
-
-        res = buildscript.execute('xmkmf -DProjectRoot=%s' %
-                                  buildscript.config.prefix)
-        if res != 0:
-            return (self.STATE_BUILD_XRENDER,
-                    'could not configure Xrender', [])
-
-        return (self.STATE_BUILD_XRENDER, None, [])
-
-    def do_build_xrender(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
-        buildscript.message('building fcpackage/Xrender')
-        cmd = 'make INCROOT=/usr/X11R6/include USRLIBDIR=/usr/X11R6/lib ' \
-              '%s depend all' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not build Xrender'
-        return (self.STATE_INSTALL_XRENDER, error, [])
-
-    def do_install_xrender(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
-        buildscript.message('installing fcpackage/Xrender')
-        cmd = 'make %s install' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not install Xrender'
-        return (self.STATE_CONFIGURE_XFT2, error, [])
-
-    def do_configure_xft2(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
-        buildscript.message('configuring fcpackage/Xft')
-        res = buildscript.execute('./configure --prefix=%s' %
-                                  buildscript.config.prefix)
-        error = None
-        if res != 0:
-            error = 'could not configure xft2'
-        return (self.STATE_BUILD_XFT2, error, [])
-
-    def do_build_xft2(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
-        buildscript.message('building fcpackage/Xft')
-        cmd = 'make %s' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not build xft2'
-        return (self.STATE_INSTALL_XFT2, error, [])
-
-    def do_install_xft2(self, buildscript):
-        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
-        buildscript.message('installing fcpackage/Xft')
-        cmd = 'make %s install' % buildscript.config.makeargs
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not install xft2'
-        else:
-            os.chdir(self.get_builddir(buildscript))
-            open('jhbuild-build-stamp', 'w').write('stamp')
-        return (self.STATE_DONE, error, [])
-
 class ModuleSet:
     def __init__(self):
         self.modules = {}
@@ -558,14 +441,10 @@ def read_module_set(configdict):
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsroot':
-            name = ''
-            cvsroot = ''
+            name = node.getAttribute('name')
+            cvsroot = node.getAttribute('root')
             password = None
             is_default = False
-            if node.hasAttribute('name'):
-                name = node.getAttribute('name')
-            if node.hasAttribute('root'):
-                cvsroot = node.getAttribute('root')
             if node.hasAttribute('password'):
                 password = node.getAttribute('password')
             if node.hasAttribute('default'):
@@ -660,17 +539,6 @@ def read_module_set(configdict):
                             dependencies.append(dep.getAttribute('package'))
             moduleset.add(Tarball(name, version, source_url, source_size,
                                   patches, versioncheck, dependencies))
-        elif node.nodeName == 'fcpackage':
-            name = node.getAttribute('id')
-            version = node.getAttribute('version')
-            source_url = None
-            source_size = None
-            for childnode in node.childNodes:
-                if childnode.nodeType != childnode.ELEMENT_NODE: continue
-                if childnode.nodeName == 'source':
-                    source_url = childnode.getAttribute('href')
-                    source_size = int(childnode.getAttribute('size'))
-            moduleset.add(FcPackage(version, source_url, source_size))
         elif node.nodeName == 'metamodule':
             id = node.getAttribute('id')
             dependencies = []

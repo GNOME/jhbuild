@@ -11,7 +11,7 @@
         <title>Module Set</title>
         <style type="text/css">
           <xsl:text>
-            div.cvsmodule {
+            div.cvsmodule, div.mozillamodule {
               padding: 0.5em;
               margin: 0.5em;
               background: #87CEFA;
@@ -21,7 +21,7 @@
               margin: 0.5em;
               background: #F08080;
             }
-            div.tarball, div.fcpackage {
+            div.tarball {
               padding: 0.5em;
               margin: 0.5em;
               background: #EEDD82;
@@ -175,30 +175,48 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="fcpackage">
+  <xsl:template match="mozillamodule">
     <div class="{name(.)}">
       <h2>
         <xsl:value-of select="@id" />
         <a name="{generate-id(.)}" />
       </h2>
       <table>
-        <tr>
-          <th align="left">Version:</th>
-          <td><xsl:value-of select="@version" /></td>
-        </tr>
-        <tr>
-          <th align="left">Source:</th>
+	<tr>
+          <th align="left">Module:</th>
           <td>
-            <a href="{source/@href}">
-              <xsl:value-of select="source/@href" />
-            </a>
-            <xsl:if test="source/@size">
-              <xsl:text> (</xsl:text>
-              <xsl:value-of select="source/@size" />
-              <xsl:text> bytes)</xsl:text>
+            <xsl:choose>
+              <xsl:when test="@module">
+                <xsl:value-of select="@module" />
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="@id" />
+              </xsl:otherwise>
+            </xsl:choose>
+            <xsl:if test="@revision">
+              <xsl:text> rv:</xsl:text>
+              <xsl:value-of select="@revision" />
             </xsl:if>
           </td>
         </tr>
+        <xsl:if test="@checkoutdir">
+          <tr>
+            <th align="left">Checkout directory:</th>
+            <td><xsl:value-of select="@checkoutdir" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="@autogenargs">
+          <tr>
+            <th align="left">Autogen args:</th>
+            <td><xsl:value-of select="@autogenargs" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="@cvsroot">
+          <tr>
+            <th align="left">CVS Root:</th>
+            <td><xsl:value-of select="@cvsroot" /></td>
+          </tr>
+        </xsl:if>
         <xsl:if test="dependencies">
           <tr>
             <th align="left" valign="top">Dependencies:</th>
