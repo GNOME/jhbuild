@@ -67,7 +67,6 @@ class TrayIcon:
             self.fp.write(cmd)
             self.fp.flush()
         except (IOError, OSError), err:
-            print 'error:', str(err)
             self.close()
     def set_icon(self, icon):
         self._send_cmd('icon: %s\n' % icon)
