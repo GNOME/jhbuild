@@ -28,6 +28,8 @@ except ImportError:
 
 import cvs
 
+user_shell = os.environ.get('SHELL', '/bin/sh')
+
 class Package:
     STATE_START = 'start'
     STATE_DONE  = 'done'
