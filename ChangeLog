@@ -1,5 +1,23 @@
 2004-09-30  James Henstridge  <james@jamesh.id.au>
 
+	* README: update to indicate that tla is only needed to build
+	modules managed with Arch.
+
+	* modulesets/gnome-2.10.modules (rhythmbox): same here.
+
+	* modulesets/gnome28.modules (rhythmbox): add this back, and
+	change revision attribute to version.
+
+	* jhbuild/modtypes/archmodule.py (parse_archmodule): lookup the
+	full "archive/category--branch--version" string in the
+	config.branches directory, since if people are overriding the
+	location, they are probably overriding the fully specified one.
+
+	* jhbuild/moduleset.py (_parse_module_set): don't register arch
+	archives, and get rid of the config.arch_archives dictionary,
+	since it doesn't really add much above tla's internal archive
+	registration method.
+
 	* modulesets/gnome-2.10.modules: rename from gnome210.modules.
 
 2004-09-29  Matthias Clasen  <mclasen@redhat.com>

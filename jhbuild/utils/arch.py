@@ -28,15 +28,28 @@ def is_registered(archive):
 
 def register(archive, uri):
     if not is_registered(archive):
-        res = os.system('tla register-archive %s %s' % (archive, uri))
+        assert uri is not None, 'can not register archive without uri'
+        res = os.system('tla register-archive %s' % uri)
         if res != 0:
             raise jhbuild.errors.FatalError('could not register archive %s'
                                             % archive)
 
-def get_revision(directory):
+def get_version(directory):
+    '''Gets the tree version for a particular directory.'''
     data = jhbuild.utils.cmds.get_output('tla tree-version %s' % directory)
-    archive, revision = data.strip().split('/')
-    return archive, revision
+    archive, version = data.strip().split('/')
+    return archive, version
+
+def split_name(version):
+    '''Returns an (archive, version) pair for the string passed in.  If
+    no archive is mentioned, use the default archive name.'''
+    if '/' in version:
+        (archive, version) = version.split('/')
+    else:
+        # no archive specified -- use default.
+        archive = open(os.path.join(os.environ['HOME'], '.arch-params',
+                                    '=default-archive'), 'r').read().strip()
+    return (archive, version)
 
 class ArchArchive:
     '''A class to wrap up various Arch operations.'''
@@ -45,15 +58,15 @@ class ArchArchive:
         self.archive = archive
         self.localroot = checkoutroot
 
-    def getcheckoutdir(self, revision, checkoutdir=None):
+    def getcheckoutdir(self, version, checkoutdir=None):
         if checkoutdir:
             return os.path.join(self.localroot, checkoutdir)
         else:
-            return os.path.join(self.localroot, revision)
+            return os.path.join(self.localroot, version)
 
-    def checkout(self, buildscript, revision, date=None, checkoutdir=None):
+    def checkout(self, buildscript, version, date=None, checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'tla get -A %s %s ' % (self.archive, revision)
+        cmd = 'tla get -A %s %s ' % (self.archive, version)
 
         if checkoutdir:
             cmd += '%s ' % checkoutdir
@@ -64,20 +77,20 @@ class ArchArchive:
 
         return buildscript.execute(cmd, 'arch')
 
-    def update(self, buildscript, revision, date=None, checkoutdir=None):
+    def update(self, buildscript, version, date=None, checkoutdir=None):
         '''Perform a "svn update" (or possibly a checkout)'''
-        dir = self.getcheckoutdir(revision, checkoutdir)
+        dir = self.getcheckoutdir(version, checkoutdir)
         if not os.path.exists(dir):
-            return self.checkout(buildscript, revision, date, checkoutdir)
+            return self.checkout(buildscript, version, date, checkoutdir)
 
         os.chdir(dir)
 
         # how do you move a working copy to another branch?
-        wc_archive, wc_revision = get_revision('.')
-        if (wc_archive, wc_revision) != (self.archive, revision):
+        wc_archive, wc_version = get_version('.')
+        if (wc_archive, wc_version) != (self.archive, version):
             sys.stderr.write('working copy does not point at right branch\n')
-            sys.stderr.write('%s/%s != %s/%s\n' % (wc_archive, wc_revision,
-                                                   self.archive, revision))
+            sys.stderr.write('%s/%s != %s/%s\n' % (wc_archive, wc_version,
+                                                   self.archive, version))
             sys.stderr.write('XXXX - need code to switch the working copy\n')
             return -1
 

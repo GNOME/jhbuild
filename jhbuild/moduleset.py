@@ -185,10 +185,6 @@ def _parse_module_set(config, uri):
         roots[key] = ('cvs', value)
     for (key, value) in config.svnroots.items():
         roots[key] = ('svn', value)
-    for (key, value) in config.arch_archives.items():
-        if not arch.is_registered(value):
-            raise FatalError('Arch archive %s not registered' % value)
-        roots[key] = ('arch', value)
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsroot':
@@ -221,9 +217,7 @@ def _parse_module_set(config, uri):
             is_default = False
             if node.hasAttribute('default'):
                 is_default = node.getAttribute('default') == 'yes'
-            if not roots.has_key(name):
-                arch.register(name, arch_uri)
-                roots[name] = ('arch', name)
+            roots[name] = ('arch', name, arch_uri)
             if is_default:
                 default_root = name
 

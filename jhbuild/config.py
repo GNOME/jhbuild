@@ -29,7 +29,7 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
-                'cvsroots', 'svnroots', 'arch_archives', 'branches',
+                'cvsroots', 'svnroots', 'branches',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',

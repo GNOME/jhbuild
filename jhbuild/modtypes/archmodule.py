@@ -29,26 +29,28 @@ class ArchModule(AutogenModule):
     ArchArchive = arch.ArchArchive
     type = 'arch'
 
-    def __init__(self, revision, checkoutdir=None,
+    def __init__(self, version, checkoutdir=None,
                  autogenargs='', makeargs='', dependencies=[], suggests=[],
-                 archive=None, supports_non_srcdir_builds=True):
+                 archive=None, archive_uri=None,
+                 supports_non_srcdir_builds=True):
         AutogenModule.__init__(self,checkoutdir or branch,
                                autogenargs, makeargs,
                                dependencies, suggests,
                                supports_non_srcdir_builds)
-        self.revision    = revision
+        self.version     = version
         self.checkoutdir = checkoutdir
         self.archive     = archive
+        self.archive_uri = archive_uri
 
     def get_srcdir(self, buildscript):
         return os.path.join(buildscript.config.checkoutroot,
-                            self.checkoutdir or self.revision)
+                            self.checkoutdir or self.version)
 
     def get_builddir(self, buildscript):
         if buildscript.config.buildroot and \
                self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern \
-                % (self.checkoutdir or self.revision)
+                % (self.checkoutdir or self.version)
             return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
@@ -58,15 +60,17 @@ class ArchModule(AutogenModule):
         # branch under trunk/, branches under branches/foo/ and tags
         # under tags/bar/.
         # Use this to give a meaningful revision number.
-        return self.revision
+        return self.version
 
     def do_checkout(self, buildscript):
+        # make sure that the archive is registered
+        arch.register(self.archive, self.archive_uri)
         archive = self.ArchArchive(self.archive,
                                    buildscript.config.checkoutroot)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
-        res = archive.update(buildscript, self.revision,
+        res = archive.update(buildscript, self.version,
                              buildscript.config.sticky_date,
                              checkoutdir=self.checkoutdir)
 
@@ -87,6 +91,8 @@ class ArchModule(AutogenModule):
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_force_checkout(self, buildscript):
+        # make sure that the archive is registered
+        arch.register(self.archive, self.archive_uri)
         archive = self.ArchArchive(self.archive,
                                    buildscript.config.checkoutroot)
         srcdir = self.get_srcdir(buildscript)
@@ -97,7 +103,7 @@ class ArchModule(AutogenModule):
             nextstate = self.STATE_CONFIGURE
 
         buildscript.set_action('Checking out', self)
-        res = archive.checkout(buildscript, self.revision,
+        res = archive.checkout(buildscript, self.version,
                                buildscript.config.sticky_date,
                                checkoutdir=self.checkoutdir)
         if res == 0 and os.path.exists(srcdir):
@@ -111,14 +117,15 @@ def parse_archmodule(node, config, dependencies, suggests, root,
     if root[0] != 'arch':
         raise FatalError('%s is not a ArchArchive' % root[1])
     archive = root[1]
+    archive_uri = root[2]
     id = node.getAttribute('id')
     revision = id
     checkoutdir = None
     autogenargs = ''
     makeargs = ''
     supports_non_srcdir_builds = True
-    if node.hasAttribute('revision'):
-        revision = node.getAttribute('revision')
+    if node.hasAttribute('version'):
+        version = node.getAttribute('version')
     if node.hasAttribute('checkoutdir'):
         checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
@@ -130,13 +137,18 @@ def parse_archmodule(node, config, dependencies, suggests, root,
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
     # override revision tag if requested.
-    revision = config.branches.get(revision, revision)
+    full_version = '%s/%s' % (archive, version)
+    if config.branches.has_key(full_version):
+        archive, version = arch.split_name(config.branches[full_version])
+        archie_uri = None
+
     autogenargs = config.module_autogenargs.get(revision, autogenargs)
     makeargs = config.module_makeargs.get(revision, makeargs)
 
-    return ArchModule(revision, checkoutdir,
+    return ArchModule(version, checkoutdir,
                       autogenargs, makeargs,
                       archive=archive,
+                      archive_uri=archive_uri,
                       dependencies=dependencies,
                       suggests=suggests,
                       supports_non_srcdir_builds=supports_non_srcdir_builds)
