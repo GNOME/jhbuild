@@ -63,39 +63,49 @@ main (int    argc,
 {
   struct stat buf;
   char **args;
-  int i;
-  char *dot;
+  int i, len;
+  char *dot, *lastarg, *start;
 
-  /* questionable optimization: are there some cases where there is a
-   * dependency that doesn't end in .h* ?
-   */
-  dot = strrchr (argv[argc - 1], '.');
-  if (dot && dot[1] == 'h')
+  lastarg = argv[argc - 1];
+
+  dot = strrchr (lastarg, '.');
+  if (dot == NULL)
     {
-      if ((argc == 4) &&
-	  (strcmp (argv[1], "-c") == 0) &&
-	  (strcmp (argv[2], "-d") != 0) &&
-	  !stat (argv[3], &buf) &&
-	  !S_ISDIR (buf.st_mode))
-	compare (argv[2], argv[3]);
-      else if ((argc == 3) &&
-	       (strcmp (argv[1], "-d") != 0) &&
-	       !stat (argv[2], &buf) &&
-	       !S_ISDIR (buf.st_mode))
-	compare (argv[1], argv[2]);
-      else if ((argc == 6) &&
-	       (strcmp (argv[1], "-c") == 0) &&
-	       (strcmp (argv[2], "-m") == 0) &&
-	       !stat (argv[5], &buf) &&
-	       !S_ISDIR (buf.st_mode))
-	compare (argv[4], argv[5]);
-      else if ((argc == 5) &&
-	       (strcmp (argv[1], "-m") == 0) &&
-	       !stat (argv[4], &buf) &&
-	       !S_ISDIR (buf.st_mode))
-	compare (argv[3], argv[4]);
-    }
+      len = strlen (lastarg);
+      if (len < strlen ("orbit-idl-2"))
+	goto install;
 
+      start = lastarg + len - strlen ("orbit-idl-2");
+      if (strcmp (start, "orbit-idl-2") != 0)
+	goto install;
+    }
+  else if (dot[1] != 'h' && strcmp (dot + 1, "idl") != 0)
+    goto install;
+
+  if ((argc == 4) &&
+      (strcmp (argv[1], "-c") == 0) &&
+      (strcmp (argv[2], "-d") != 0) &&
+      !stat (argv[3], &buf) &&
+      !S_ISDIR (buf.st_mode))
+    compare (argv[2], argv[3]);
+  else if ((argc == 3) &&
+	   (strcmp (argv[1], "-d") != 0) &&
+	   !stat (argv[2], &buf) &&
+	   !S_ISDIR (buf.st_mode))
+    compare (argv[1], argv[2]);
+  else if ((argc == 6) &&
+	   (strcmp (argv[1], "-c") == 0) &&
+	   (strcmp (argv[2], "-m") == 0) &&
+	   !stat (argv[5], &buf) &&
+	   !S_ISDIR (buf.st_mode))
+    compare (argv[4], argv[5]);
+  else if ((argc == 5) &&
+	   (strcmp (argv[1], "-m") == 0) &&
+	   !stat (argv[4], &buf) &&
+	   !S_ISDIR (buf.st_mode))
+    compare (argv[3], argv[4]);
+
+install:
   args = malloc (sizeof (char *) * (argc + 1));
 
   args[0] = "/usr/bin/install";
