@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2002  James Henstridge
+# Copyright (C) 2001-2003  James Henstridge
 #
 #   module.py: logic for running the build.
 #
@@ -18,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os, sys, string
+import xml.dom.minidom
 import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
@@ -400,10 +401,8 @@ class FcPackage(Tarball):
         return (self.STATE_DONE, error, [])
 
 class ModuleSet:
-    def __init__(self, baseset=None):
+    def __init__(self):
         self.modules = {}
-        if baseset:
-            self.modules.update(baseset.modules)
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
@@ -489,6 +488,98 @@ class ModuleSet:
                 if not inlist.has_key(dep): modules.append(dep)
                 inlist[dep] = None
         fp.write('}\n')
+
+def read_module_set(name):
+    filename = os.path.join(os.path.dirname(__file__), 'modulesets',
+                            name + '.modules')
+    document = xml.dom.minidom.parse(filename)
+    assert document.documentElement.nodeName == 'moduleset'
+    moduleset = ModuleSet()
+    for node in document.documentElement.childNodes:
+        if node.nodeType != node.ELEMENT_NODE: continue
+        if node.nodeName == 'cvsmodule':
+            id = node.getAttribute('id')
+            module = id
+            revision = None
+            checkoutdir = None
+            autogenargs = ''
+            cvsroot = None
+            dependencies = []
+            if node.hasAttribute('module'):
+                module = node.getAttribute('module')
+            if node.hasAttribute('revision'):
+                revision = node.getAttribute('revision')
+            if node.hasAttribute('checkoutdir'):
+                checkoutdir = node.getAttribute('checkoutdir')
+            if node.hasAttribute('autogenargs'):
+                autogenargs = node.getAttribute('autogenargs')
+            if node.hasAttribute('cvsroot'):
+                cvsroot = node.getAttribute('cvsroot')
+            # deps
+            for childnode in node.childNodes:
+                if childnode.nodeType == childnode.ELEMENT_NODE and \
+                       childnode.nodeName == 'dependencies':
+                    for dep in childnode.childNodes:
+                        if dep.nodeType == dep.ELEMENT_NODE:
+                            assert dep.nodeName == 'dep'
+                            dependencies.append(dep.getAttribute('package'))
+                    break
+            moduleset.add(CVSModule(module, checkoutdir, revision,
+                                    autogenargs, cvsroot=cvsroot,
+                                    dependencies=dependencies))
+        elif node.nodeName == 'tarball':
+            name = node.getAttribute('id')
+            version = node.getAttribute('version')
+            versioncheck = None
+            source_url = None
+            source_size = None
+            patches = []
+            dependencies = []
+            if node.hasAttribute('versioncheck'): versioncheck = node.getAttribute('versioncheck')
+            for childnode in node.childNodes:
+                if childnode.nodeType != childnode.ELEMENT_NODE: continue
+                if childnode.nodeName == 'source':
+                    source_url = childnode.getAttribute('href')
+                    source_size = int(childnode.getAttribute('size'))
+                elif childnode.nodeName == 'patches':
+                    for patch in childnode.childNodes:
+                        if patch.nodeType == dep.ELEMENT_NODE:
+                            assert patch.nodeName == 'patch'
+                            text = ''.join([node.data
+                                            for node in patch.childNodes
+                                            if node.nodeType==node.TEXT_NODE])
+                            patch.append(text)
+                elif childnode.nodeName == 'dependencies':
+                    for dep in childnode.childNodes:
+                        if dep.nodeType == dep.ELEMENT_NODE:
+                            assert dep.nodeName == 'dep'
+                            dependencies.append(dep.getAttribute('package'))
+            moduleset.add(Tarball(name, version, source_url, source_size,
+                                  patches, versioncheck, dependencies))
+        elif node.nodeName == 'fcpackage':
+            name = node.getAttribute('id')
+            version = node.getAttribute('version')
+            source_url = None
+            source_size = None
+            for childnode in node.childNodes:
+                if childnode.nodeType != childnode.ELEMENT_NODE: continue
+                if childnode.nodeName == 'source':
+                    source_url = childnode.getAttribute('href')
+                    source_size = int(childnode.getAttribute('size'))
+            moduleset.add(FcPackage(version, source_url, source_size))
+        elif node.nodeName == 'metamodule':
+            id = node.getAttribute('id')
+            dependencies = []
+            for childnode in node.childNodes:
+                if childnode.nodeType == childnode.ELEMENT_NODE and \
+                       childnode.nodeName == 'dependencies':
+                    for dep in childnode.childNodes:
+                        if dep.nodeType == dep.ELEMENT_NODE:
+                            assert dep.nodeName == 'dep'
+                            dependencies.append(dep.getAttribute('package'))
+                    break
+            moduleset.add(MetaModule(id, dependencies=dependencies))
+    return moduleset
 
 class BuildScript:
     def __init__(self, configdict, module_list):

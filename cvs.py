@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2002  James Henstridge
+# Copyright (C) 2001-2003  James Henstridge
 #
 #   cvs.py: some code to handle various cvs operations
 #

@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2002  James Henstridge
+# Copyright (C) 2001-2003  James Henstridge
 #
 #   jhbuild.py: parses command line arguments and starts the build
 #
@@ -24,7 +24,6 @@ if not hasattr(__builtins__, 'True'):
     __builtins__.False = (1 != 1)
 
 import module
-import moduleinfo
 
 usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).
@@ -77,7 +76,7 @@ def do_update(config, args, interact=1):
     if args:
         raise getopt.error, 'no extra arguments expected'
 
-    module_set = getattr(moduleinfo, config['moduleset'])
+    module_set = module.read_module_set(config['moduleset'])
     if config['modules'] == 'all':
         module_list = module_set.get_full_module_list(config['skip'])
     else:
@@ -109,7 +108,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
             config['skip'] = config.get('skip', []) + string.split(arg, ',')
         elif opt in ('-t', '--start-at'):
             startat = arg
-    module_set = getattr(moduleinfo, config['moduleset'])
+    module_set = module.read_module_set(config['moduleset'])
     if args:
         module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
@@ -138,7 +137,7 @@ def do_build_one(config, args, interact=1):
         elif opt in ('-n', '--no-network'):
             config['nonetwork'] = True
 
-    module_set = getattr(moduleinfo, config['moduleset'])
+    module_set = module.read_module_set(config['moduleset'])
     try:
         module_list = [ module_set.modules[modname] for modname in args ]
     except KeyError:
@@ -166,7 +165,7 @@ def do_list(config, args, interact=1):
     for opt, arg in opts:
         if opt in ('-s', '--skip'):
             config['skip'] = config.get('skip', []) + string.split(arg, ',')
-    module_set = getattr(moduleinfo, config['moduleset'])
+    module_set = module.read_module_set(config['moduleset'])
     if args:
         module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
@@ -175,11 +174,11 @@ def do_list(config, args, interact=1):
         module_list = module_set.get_module_list(config['modules'],
                                                  config['skip'])
 
-    for module in module_list:
-        print module.name
+    for mod in module_list:
+        print mod.name
 
 def do_dot(config, args, interact=1):
-    module_set = getattr(moduleinfo, config['moduleset'])
+    module_set = module.read_module_set(config['moduleset'])
     if args:
         modules = args
     elif config['modules'] == 'all':

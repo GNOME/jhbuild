@@ -1,0 +1,40 @@
+<!ELEMENT moduleset (cvsmodule|metamodule|tarball|fcpackage)* >
+
+<!ELEMENT cvsmodule (dependencies?) >
+<!ATTLIST cvsmodule
+  id CDATA #REQUIRED
+  module CDATA #IMPLIED
+  revision CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  autogenargs CDATA #IMPLIED
+  cvsroot CDATA #IMPLIED >
+
+<!ELEMENT metamodule (dependencies) >
+<!ATTLIST metamodule
+  id CDATA #REQUIRED >
+
+<!ELEMENT tarball
+  (source,patches?,dependencies?) >
+<!ATTLIST tarball
+  id CDATA #REQUIRED
+  version CDATA #REQUIRED
+  versioncheck CDATA #IMPLIED >
+
+<!ELEMENT fcpackage (source,patches?) >
+<!ATTLIST fcpackage
+  id CDATA #REQUIRED
+  version CDATA #REQUIRED >
+
+<!-- Tarball sub-elements -->
+<!ELEMENT source EMPTY >
+<!ATTLIST source
+  href CDATA #REQUIRED
+  size CDATA #IMPLIED >
+<!ELEMENT patches (patch)* >
+<!ELEMENT patch (#PCDATA) >
+
+<!-- common sub-elements -->
+<!ELEMENT dependencies (dep*) >
+<!ELEMENT dep EMPTY >
+<!ATTLIST dep
+  package CDATA #REQUIRED >
