@@ -164,7 +164,7 @@ gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'gnome-vfs', 'gtk+'],
                autogenargs='--disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-player', cvsroot=gstreamer_cvsroot,
-               dependencies=['gstreamer', 'libgnomeui'])
+               dependencies=['gstreamer', 'gst-plugins', 'libgnomeui'])
 gnome20.addmod('libmrproject',
                dependencies=['glib', 'gnome-xml', 'libgsf'])
 gnome20.addmod('mrproject',
