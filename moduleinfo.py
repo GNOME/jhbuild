@@ -108,6 +108,7 @@ head.add(Module(name='gnumeric',
                 dependencies=['libole2', 'gal']))
 head.add(Module(name='glade', revision='glade-gnome2-branch',
 		dependencies=['gtk+', 'gnome-xml', 'libgnomeui', 'libgnomeprintui']))
+head.add(Module(name='glade2c', dependencies=['gtk+', 'gnome-xml', 'libgnomeui']))
 head.add(Module(name='gtkglarea', dependencies=['gtk+']))
 
 # some simple tasks to make using jhbuild a bit easier
@@ -124,7 +125,7 @@ head.add(MetaModule(name='meta-gnome-desktop',
                              'meta-nautilus', 'yelp', 'bug-buddy',
                              'gtk-engines']))
 head.add(MetaModule(name='meta-gnome-devel-tools',
-                    modules=['glade', 'memprof']))
+                    modules=['glade', 'memprof', 'gconf-editor']))
 head.add(MetaModule(name='meta-gnome-python',
                     modules=['gnome-python/pygtk', 'orbit-python',
                              'gnome-python/gnome-python']))

@@ -175,6 +175,7 @@ def setup_env(config):
 	    os.mkdir (os.path.split (aclocaldir)[0])
 	    os.mkdir (aclocaldir)
 	os.environ['ACLOCAL_FLAGS'] = '-I %s' % aclocaldir
+    os.environ['ACLOCAL_AMFLAGS'] = os.environ['ACLOCAL_FLAGS']
     os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
     installprog = config['installprog']

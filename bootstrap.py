@@ -118,9 +118,9 @@ bootstraps = [
               1352976,
               'gettext-changelog.patch',  # patch to unbreak gettext ...
               'gettextize --version | head -1'),
-    Bootstrap('autoconf', '2.52',
-              'ftp://ftp.gnu.org/pub/gnu/autoconf/autoconf-2.52.tar.gz',
-              846656,
+    Bootstrap('autoconf', '2.53',
+              'ftp://ftp.gnu.org/pub/gnu/autoconf/autoconf-2.53.tar.gz',
+              990527,
               None,
 	      '((which autoconf2.50 &> /dev/null && autoconf2.50 --version) || autoconf --version) | head -1'),
     Bootstrap('libtool', '1.4.2',
@@ -129,21 +129,21 @@ bootstraps = [
               None,
               'libtoolize --version'),
     # some would argue that 1.4-p5 is a better choice, but ...
-    Bootstrap('automake', '1.5',
-              'ftp://ftp.gnu.org/pub/gnu/automake/automake-1.5.tar.gz',
-              526934,
+    Bootstrap('automake', '1.6',
+              'ftp://ftp.gnu.org/pub/gnu/automake/automake-1.6.tar.gz',
+              588712,
               None,
               'automake --version | head -1'),
-    Bootstrap('pkg-config', '0.8.0',
-              'http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.8.0.tar.gz',
-              585852,
+    Bootstrap('pkg-config', '0.12.0',
+              'http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.12.0.tar.gz',
+              603456,
               None,
               'pkg-config --version'),
     Bootstrap('python', '2.x',
               'http://www.python.org/ftp/python/2.2/Python-2.2.tgz',
               6542443,
               None,
-              'echo "import sys, string; print string.split(sys.version)[0];" | python -')
+              'echo "import sys, string; print string.split(sys.version)[0]" | python -')
 ]
 
 def build_bootstraps(config):
