@@ -177,17 +177,15 @@ def _parse_module_set(config, uri):
     moduleset = ModuleSet()
 
     # load up list of cvsroots
-    cvsroots = {}
-    svnroots = {}
-    default_cvsroot = None
-    default_svnroot = None
+    roots = {}
+    default_root = None
     for key in config.cvsroots.keys():
         value = config.cvsroots[key]
         cvs.login(value)
-        cvsroots[key] = value
+        roots[key] = ('cvs', value)
     for key in config.svnroots.keys():
         value = config.svnroots[key]
-        svnroots[key] = value
+        roots[key] = ('svn', value)
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsroot':
@@ -199,21 +197,21 @@ def _parse_module_set(config, uri):
                 password = node.getAttribute('password')
             if node.hasAttribute('default'):
                 is_default = node.getAttribute('default') == 'yes'
-            if not cvsroots.has_key(name):
+            if not roots.has_key(name):
                 cvs.login(cvsroot, password)
-                cvsroots[name] = cvsroot
+                roots[name] = ('cvs', cvsroot)
             if is_default:
-                default_cvsroot = name
+                default_root = name
         elif node.nodeName == 'svnroot':
             name = node.getAttribute('name')
             svnroot = node.getAttribute('root')
             is_default = False
             if node.hasAttribute('default'):
                 is_default = node.getAttribute('default') == 'yes'
-            if not svnroots.has_key(name):
-                svnroots[name] = svnroot
+            if not roots.has_key(name):
+                roots[name] = ('svn', svnroot)
             if is_default:
-                default_svnroot = name
+                default_root = name
 
     # and now module definitions
     for node in document.documentElement.childNodes:
@@ -226,18 +224,13 @@ def _parse_module_set(config, uri):
         elif node.nodeName in ('cvsroot', 'svnroot'):
             pass
         else:
-            root = ''
-
-            if node.nodeName == 'cvsmodule':
-                if node.hasAttribute('cvsroot'):
-                    root = cvsroots[node.getAttribute('cvsroot')]
-                else:
-                    root = cvsroots.get(default_cvsroot)
-            elif node.nodeName == 'svnmodule':
-                if node.hasAttribute('svnroot'):
-                    root = svnroots[node.getAttribute('svnroot')]
-                else:
-                    root = svnroots.get(default_svnroot)
+            # only one default root in the file.  Is this a good thing?
+            if node.hasAttribute('cvsroot'):
+                root = roots[node.getAttribute('cvsroot')][1]
+            elif node.hasAttribute('svnroot'):
+                root = roots[node.getAttribute('svnroot')][1]
+            else:
+                root = roots.get(default_root, (None, None))[1]
 
             # deps
             dependencies = []
