@@ -105,7 +105,7 @@ class MozillaModule(base.CVSModule):
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' --with-default-mozilla-five-home=%s' % mozilla_path
-        cmd += ' %s %s' % (buildscript.config.autogenargs, self.autogenargs)
+        cmd += ' %s' % self.autogenargs
         
         if not buildscript.execute(cmd):
             return (self.STATE_BUILD, None, None)
@@ -131,8 +131,9 @@ def parse_mozillamodule(node, config, dependencies, suggests, root):
 
     # override revision tag if requested.
     revision = config.branches.get(name, revision)
-    autogenargs = config.module_autogenargs.get(name, autogenargs)
-    makeargs = config.module_makeargs.get(name, makeargs)
+    autogenargs += ' ' + config.module_autogenargs.get(name,
+                                                       config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
     return MozillaModule(name, revision, autogenargs, makeargs,
                          dependencies, suggests, cvsroot)

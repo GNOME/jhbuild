@@ -130,7 +130,7 @@ class AutogenModule(Package):
         cmd += ' --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
-        cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)
+        cmd += ' %s' % self.autogenargs
         if buildscript.config.makeclean:
             nextstate = self.STATE_CLEAN
         else:
@@ -144,7 +144,7 @@ class AutogenModule(Package):
     def do_clean(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Cleaning', self)
-        cmd = 'make %s %s clean' % (buildscript.config.makeargs, self.makeargs)
+        cmd = 'make %s clean' % self.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
@@ -154,7 +154,7 @@ class AutogenModule(Package):
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
-        cmd = 'make %s %s' % (buildscript.config.makeargs, self.makeargs)
+        cmd = 'make %s' % self.makeargs
         if buildscript.config.makecheck:
             nextstate = self.STATE_CHECK
         else:
@@ -168,7 +168,7 @@ class AutogenModule(Package):
     def do_check(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Checking', self)
-        cmd = 'make %s %s check' % (buildscript.config.makeargs, self.makeargs)
+        cmd = 'make %s check' % self.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
@@ -178,8 +178,7 @@ class AutogenModule(Package):
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s %s install' % (buildscript.config.makeargs,
-                                      self.makeargs)
+        cmd = 'make %s install' % self.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
@@ -293,8 +292,9 @@ def parse_cvsmodule(node, config, dependencies, suggests, root,
 
     # override revision tag if requested.
     revision = config.branches.get(module, revision)
-    autogenargs = config.module_autogenargs.get(module, autogenargs)
-    makeargs = config.module_makeargs.get(module, makeargs)
+    autogenargs += ' ' + config.module_autogenargs.get(module,
+                                                       config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(module, makeargs)
 
     return CVSModule(module, checkoutdir, revision,
                      autogenargs, makeargs,

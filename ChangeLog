@@ -1,5 +1,22 @@
 2004-09-30  James Henstridge  <james@jamesh.id.au>
 
+	Should fix bug #145394.
+
+	* jhbuild/modtypes/tarball.py (parse_tarball): same here.
+
+	* jhbuild/modtypes/mozillamodule.py (parse_mozillamodule): same
+	here.
+
+	* jhbuild/modtypes/archmodule.py (parse_archmodule): same here.
+
+	* jhbuild/modtypes/svnmodule.py (parse_svnmodule): same here.
+
+	* jhbuild/modtypes/base.py (parse_cvsmodule): make the
+	module_autogenargs replace the global autogenargs instead of the
+	ones defined in the moduleset.  Same for makeargs.
+	(AutogenModule): since self.autogenargs and self.makeargs now
+	include the global options too, don't explicitly include them.
+
 	* README: update to indicate that tla is only needed to build
 	modules managed with Arch.
 

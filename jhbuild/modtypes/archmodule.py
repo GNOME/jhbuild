@@ -119,7 +119,7 @@ def parse_archmodule(node, config, dependencies, suggests, root,
     archive = root[1]
     archive_uri = root[2]
     id = node.getAttribute('id')
-    revision = id
+    version = id
     checkoutdir = None
     autogenargs = ''
     makeargs = ''
@@ -142,8 +142,8 @@ def parse_archmodule(node, config, dependencies, suggests, root,
         archive, version = arch.split_name(config.branches[full_version])
         archie_uri = None
 
-    autogenargs = config.module_autogenargs.get(revision, autogenargs)
-    makeargs = config.module_makeargs.get(revision, makeargs)
+    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(id, makeargs)
 
     return ArchModule(version, checkoutdir,
                       autogenargs, makeargs,

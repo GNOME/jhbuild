@@ -172,7 +172,7 @@ class Tarball(base.Package):
         cmd += ' --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
-        cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)
+        cmd += ' %s' % self.autogenargs
         res = buildscript.execute(cmd)
         error = None
         if res != 0:
@@ -182,7 +182,7 @@ class Tarball(base.Package):
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
-        cmd = 'make %s %s' % (buildscript.config.makeargs, self.makeargs)
+        cmd = 'make %s' % self.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
@@ -191,8 +191,7 @@ class Tarball(base.Package):
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s %s install' % (buildscript.config.makeargs,
-                                      self.makeargs)
+        cmd = 'make %s install' % self.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
@@ -235,7 +234,9 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                     patchstrip = 0
                 patches.append((patchfile, patchstrip))
 
-    makeargs = config.module_makeargs.get(name, makeargs)
+    autogenargs += ' ' + config.module_autogenargs.get(name,
+                                                       config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
     return Tarball(name, version, source_url, source_size, source_md5,
                    patches, autogenargs, makeargs, dependencies, suggests,
