@@ -167,6 +167,7 @@ class BuildScript:
     ERR_RERUN = 0
     ERR_CONT = 1
     ERR_GIVEUP = 2
+    ERR_CONFIGURE = 3
     def _handle_error(self, module, stage):
         '''Ask the user what to do about an error.
 
@@ -176,18 +177,21 @@ class BuildScript:
         while 1:
             print
             print '  [1] rerun %s' % stage
-            print '  [2] start shell'
-            print '  [3] give up on module'
-            print '  [4] continue (ignore error)'
+            print '  [2] rerun configure'
+            print '  [3] start shell'
+            print '  [4] give up on module'
+            print '  [5] continue (ignore error)'
             val = raw_input('choice: ')
             if val == '1':
                 return self.ERR_RERUN
             elif val == '2':
+                return self.ERR_CONFIGURE
+            elif val == '3':
                 print 'exit shell to continue with build'
                 os.system(user_shell)
-            elif val == '3':
-                return self.ERR_GIVEUP
             elif val == '4':
+                return self.ERR_GIVEUP
+            elif val == '5':
                 return self.ERR_CONT
             else:
                 print 'invalid option'
@@ -210,6 +214,7 @@ class BuildScript:
 
         for module in self.modulelist:
             if module.name in skip: continue
+            force_configure = 0
 
             # check if any dependencies have been poisoned
             poisoned = 0
@@ -244,7 +249,7 @@ class BuildScript:
                             os.chdir(checkoutdir)
 
                 elif state == STATE_CONFIGURE:
-                    if not os.path.exists('Makefile') or alwaysautogen:
+                    if not os.path.exists('Makefile') or force_configure or alwaysautogen:
                         ret = self._configure(module)
                     next_state = STATE_CLEAN
 
@@ -271,6 +276,10 @@ class BuildScript:
                         err = self.ERR_GIVEUP # non interactive
                     if err == self.ERR_CONT:
                         state = next_state
+                    elif err == self.ERR_CONFIGURE:
+                        state = STATE_CHECKOUT
+                        force_configure = 1
+                        pass
                     elif err == self.ERR_RERUN:
                         pass # redo stage
                     elif err == self.ERR_GIVEUP:

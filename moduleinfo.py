@@ -65,7 +65,7 @@ head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
 head.add(Module(name='procman',
          dependencies=['libgnomeui','libwnck','libgtop']))
 head.add(Module(name='gnome-control-center',
-         dependencies=['gnome-core']))
+         dependencies=['libgnomeui', 'esound']))
 head.add(Module(name='control-center-plus',
          dependencies=['gnome-control-center']))
 head.add(Module(name='yelp',
