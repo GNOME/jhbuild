@@ -17,12 +17,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, string
+from commands import getoutput
+import os
+import string
 import urllib
 
 _isxterm = os.environ.get('TERM', '') == 'xterm'
-_boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput sgr0', 'r').read()
+_boldcode = getoutput('tput bold')
+_normal = getoutput('tput sgr0')
+
+jhbuild_directory = os.path.split(os.path.abspath(__file__))[0]
 
 class Bootstrap:
     def __init__(self, package, version, sourceurl, sourcesize, patches=[],
@@ -33,15 +37,18 @@ class Bootstrap:
         self.sourcesize = sourcesize
         self.patches = patches
         self.versioncheck = versioncheck
+        
     def _bold(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)
         if _isxterm:
             print '\033]0;jhbuild: %s\007' % msg
+            
     def _execute(self, command):
         print command
         ret = os.system(command)
         print
         return ret
+    
     def wants_package(self):
         self._bold('checking for %s %s' % (self.package, self.version))
         if self.versioncheck:
@@ -57,7 +64,8 @@ class Bootstrap:
                 else:
                     return 0
             else:
-                if out[-1] == '\n': out = out[:-1]
+                if out[-1] == '\n':
+                    out = out[:-1]
                 print 'might be okay:'
                 print out
         val = raw_input('do you want to install %s %s [Y/n]? '
@@ -65,6 +73,7 @@ class Bootstrap:
         if val and string.lower(val)[0] == 'n':
             return 0
         return 1
+
     def build(self, config):
         if not self.wants_package():
             return
@@ -98,19 +107,19 @@ class Bootstrap:
             return
 
         # change to package directory
-        if localfile[-7:] == '.tar.gz':
+        if localfile.endswith('.tar.gz'):
             os.chdir(localfile[:-7])
-        elif localfile[-4:] == '.tgz':
+        elif localfile.endswith('.tgz'):
             os.chdir(localfile[:-4])
         else:
             print 'unknown package extension: ', self.package
             return
 
         # is there a patch to apply?
-        for patch in self.patches:
-            patchfile = os.path.join(os.path.dirname(__file__), patch[0])
-            self._bold('applying patch %s' % patch[0])
-            ret = self._execute('patch -p%d < %s' % (patch[1], patchfile))
+        for patch_filename, patch_options in self.patches:
+            patchfile = os.path.join(jhbuild_directory, patch_filename)
+            self._bold('applying patch %s' % patch_filename)
+            ret = self._execute('patch -p%d < %s' % (patch_options, patchfile))
             if ret != 0:
                 print 'failed to patch', self.package
                 return
@@ -146,7 +155,7 @@ bootstraps = [
               'http://ftp.gnu.org/gnu/autoconf/autoconf-2.57.tar.gz',
               1074128,
               [],
-	      '((which autoconf2.50 &> /dev/null && autoconf2.50 --version) || autoconf --version) | head -1'),
+	      'autoconf --version | head -1'),
     Bootstrap('libtool', '1.5',
               'http://ftp.gnu.org/gnu/libtool/libtool-1.5.tar.gz',
               2816075,

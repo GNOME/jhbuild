@@ -4,6 +4,15 @@
 
 2003-05-05  Johan Dahlin  <jdahlin@async.com.br>
 
+	* bootstrap.py: python seems to be confused about __file__ when 
+	doing os.chdir(), save the absolute path before calling os.chdir().
+	(Bootstrap.build): Use jhbuild_directory here.
+	(Bootstrap.build): Use .endswith instead of slicing.
+	(bootstraps): Simplify autoconf check
+	(_boldcode, _normal): Use commands.getoutput() here.
+
+2003-05-05  Johan Dahlin  <jdahlin@async.com.br>
+
 	* module.py: Import check for xml.dom.minidom.
 	refactor get_mozilla_ver and put it under __init__
 	remove MozillaModule.do_install method, since it was on crack
