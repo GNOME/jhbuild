@@ -338,11 +338,7 @@
   </cvsmodule>
   <cvsmodule id="nautilus-cd-burner">
     <dependencies>
-      <dep package="libgnome" />
-      <dep package="gtk+" />
-      <dep package="gnome-vfs" />
-      <dep package="libglade" />
-      <dep package="eel" />
+      <dep package="nautilus" />
     </dependencies>
   </cvsmodule>      
   <cvsmodule id="nautilus-media" supports-non-srcdir-builds="no">
@@ -951,6 +947,13 @@
       <dep package="gnopernicus" />
     </dependencies>
   </metamodule>
+  <metamodule id="meta-gnome-proposed">
+    <dependencies>
+      <dep package="totem"/>
+      <dep package="gnome-schedule"/>
+      <dep package="gnome-backgrounds"/>
+    </dependencies>
+  </metamodule>
   <cvsmodule id="sodipodi">
     <dependencies>
       <dep package="gtk+" />
@@ -1132,6 +1135,7 @@
   <cvsmodule id="totem" autogenargs="--enable-gstreamer">
     <dependencies>
       <dep package="gnome-desktop" />
+      <dep package="nautilus-cd-burner" />
       <dep package="gstreamer" />
       <dep package="gst-plugins" />
     </dependencies>
@@ -1368,4 +1372,11 @@
       <dep package="libgnomeui" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="gnome-schedule">
+    <dependencies>
+      <dep package="gnome-python/pygtk"/>
+      <dep package="yelp"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-backgrounds"/>
 </moduleset>
