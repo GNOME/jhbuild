@@ -300,7 +300,7 @@ gnome22.addmod('gnome-panel', revision='gnome-2-2',
 gnome22.addmod('gnome-desktop',
                dependencies=['libgnomeui', 'libwnck', 'startup-notification', 'gnome-themes'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
-gnome22.addmod('gnome-applets',
+gnome22.addmod('gnome-applets', revision='gnome-2-2',
                dependencies=['scrollkeeper', 'gnome-panel','libgtop', 'gail'])
 gnome22.addmod('yelp',
                dependencies=['scrollkeeper', 'libgnomeui', 'gtkhtml2',
