@@ -22,6 +22,7 @@ import sys
 import os
 import buildscript
 from jhbuild.utils import cmds
+from jhbuild.utils import trayicon
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -40,7 +41,24 @@ except: pass
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
+# tray icon stuff ...
+icondir = os.path.join(os.path.dirname(__file__), 'icons')
+action_map = {
+    'Checking out':   'checkout.png',
+    'Updating':       'checkout.png',
+    'Downloading':    'checkout.png',
+    'Applying Patch': 'checkout.png',
+    'Configuring':    'configure.png',
+    'Building':       'build.png',
+    #'Checking':       'check.png',
+    'Installing':     'install.png',
+    }
+
 class TerminalBuildScript(buildscript.BuildScript):
+    def __init__(self, config, module_list):
+        buildscript.BuildScript.__init__(self, config, module_list)
+        self.trayicon = trayicon.TrayIcon()
+
     def message(self, msg, module_num=-1):
         '''Display a message to the user'''
         
@@ -53,13 +71,16 @@ class TerminalBuildScript(buildscript.BuildScript):
         print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
         if is_xterm:
             print '\033]0;jhbuild: %s%s\007' % (msg, progress)
+        self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
     def set_action(self, action, module, module_num=-1, action_target=None):
         if module_num == -1:
             module_num = self.module_num
         if not action_target:
             action_target = module.name
-        self.message('%s %s' % (action, action_target), module_num)        
+        self.message('%s %s' % (action, action_target), module_num)
+        self.trayicon.set_icon(os.path.join(icondir,
+                               action_map.get(action, 'build.png')))
 
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
@@ -101,6 +122,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
+        self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
 
         if not self.config.interact:
             return 'fail'

@@ -1,5 +1,20 @@
 2004-09-30  James Henstridge  <james@jamesh.id.au>
 
+	Implements the feature mentioned in bug #151004.  Davyd Madeley's
+	code was used as a base, but the implementation uses Zenity.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.__init__):
+	create a trayicon when running in terminal mode.
+	(TerminalBuildScript.message): set tooltip of trayicon to the
+	message.
+	(TerminalBuildScript.set_action): set an image for the trayicon
+	corresponding to the build state.
+	(TerminalBuildScript.handle_error): show an error image in the
+	trayicon.
+
+	* jhbuild/utils/trayicon.py (TrayIcon): simple wrapper for a
+	zenity based tray icon.
+
 	* modulesets/freedesktop.modules: move shared-mime-info and
 	desktop-file-utils from here to gnome26.modules, gnome28.modules
 	and gnome-2.10.modules to resolve the dependency issues with
