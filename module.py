@@ -169,25 +169,38 @@ class MozillaModule(CVSModule):
 			   dependencies = dependencies, cvsroot = cvsroot)
         
     def get_mozilla_ver(self, buildscript):
-	checkoutdir = self.get_builddir(buildscript)
-	fp = open(os.path.join(checkoutdir, 'config/milestone.txt'), 'r')
+        filename = os.path.join(self.get_builddir(buildscript),
+                                'config', 'milestone.txt')
+	fp = open(filename, 'r')
 	for line in fp.readlines():
 	    if line[0] not in ('#', '\0', '\n'):
                 return line[:-1]
         else:
             raise AssertionError
+
+    def checkout(self, buildscript):
+        buildscript.message('checking out %s' % self.name)
+        os.chdir(buildscript.config.checkoutroot)
+        if not os.path.exists(os.path.join('mozilla', 'client.mk')):
+            res = buildscript.execute(
+                'cvs -z3 -q -d %s checkout -A mozilla/client.mk' %
+                self.cvsroot)
+            if res != 0:
+                raise SystemExit, \
+                      "something went wrong while checking out mozilla, please try again later"
+        else:
+            checkoutdir = self.get_builddir(buildscript)
+            os.chdir(checkoutdir)
+            return buildscript.execute('make -f client.mk checkout')
         
     def do_checkout(self, buildscript, force_checkout=False):
         checkoutdir = self.get_builddir(buildscript)
-        buildscript.message('checking out %s' % self.name)
-	os.chdir(buildscript.config.checkoutroot)
-	res = buildscript.execute(
-            'cvs -z3 -q -d %s checkout -A mozilla/client.mk' %
-            self.cvsroot)
-
-        if res == 0:
-	    os.chdir(checkoutdir)
-            res = buildscript.execute('make -f client.mk checkout')
+        os.chdir(checkoutdir)
+        if not os.path.exists(os.path.join('Makefile.in')):
+            res = self.checkout(buildscript)
+        else:
+            buildscript.message('updating %s' % self.name)
+            res = buildscript.execute('make -f client.mk fast-update')
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -201,6 +214,14 @@ class MozillaModule(CVSModule):
             return (nextstate, 'could not update module',
                     [self.STATE_FORCE_CHECKOUT])
 
+    def do_force_checkout(self, buildscript):
+        res = self.checkout(buildscript)
+        if res == 0:
+            return (self.STATE_CONFIGURE, None, None)
+        else:
+            return (nextstate, 'could not checkout module',
+                    [self.STATE_FORCE_CHECKOUT])
+        
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
