@@ -74,5 +74,9 @@ build = module.BuildScript(cvsroot=config['cvsroot'],
                            checkoutroot=config['checkoutroot'],
                            installprog=config['installprog'])
 
-build.build(cvsupdate=cvsupdate, alwaysautogen=clean, makeclean=clean,
-            nobuild=nobuild, skip=uptodate, interact=interact)
+try:
+    build.build(cvsupdate=cvsupdate, alwaysautogen=clean, makeclean=clean,
+                nobuild=nobuild, skip=uptodate, interact=interact)
+except KeyboardInterrupt:
+    print "Interrupted"
+

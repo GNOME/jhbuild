@@ -13,6 +13,7 @@ head.add(Module(name='gtk+',
                 dependencies=['pango', 'atk']))
 head.add(Module(name='gail', dependencies=['gtk+', 'atk']))
 head.add(Module(name='gnome-xml', checkoutdir='libxml2'))
+head.add(Module(name='libxslt', dependencies=['gnome-xml']))
 head.add(Module(name='linc', dependencies=['glib']))
 head.add(Module(name='libIDL', dependencies=['glib']))
 head.add(Module(name='ORBit2', dependencies=['linc', 'libIDL']))
@@ -20,12 +21,15 @@ head.add(Module(name='bonobo-activation',
          dependencies=['intltool', 'gnome-common','ORBit2','gnome-xml']))
 head.add(Module(name='gconf', dependencies=['ORBit2','gnome-xml','gtk+']))
 head.add(Module(name='libbonobo', dependencies=['ORBit2','bonobo-activation']))
-head.add(Module(name='gnome-vfs', dependencies=['libbonobo','gconf']))
+head.add(Module(name='gnome-mime-data'))
+head.add(Module(name='gnome-vfs',
+         dependencies=['libbonobo', 'gconf', 'gnome-mime-data']))
 head.add(Module(name='libart_lgpl'))
 head.add(Module(name='bonobo-config',
                 dependencies=['libbonobo', 'intltool']))
 head.add(Module(name='libgnome',
-                dependencies=['libbonobo','gnome-vfs','gconf']))
+                dependencies=['gnome-xml', 'libxslt', 'libbonobo',
+                              'gnome-vfs', 'gconf']))
 head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade']))
 head.add(Module(name='libbonoboui',
                 dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade']))
