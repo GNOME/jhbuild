@@ -176,7 +176,6 @@ bootstraps = [
               'http://ftp.gnu.org/gnu/libtool/libtool-1.5.2.tar.gz', 
               2653072,
               [('libtool-1.4.3-ltmain-SED.patch', 1),
-               ('libtool-1.4.2-expsym-linux.patch', 1),
                ('libtool-1.4.2-multilib.patch', 1),
                ('libtool-1.5-libtool.m4-x86_64.patch', 1)],
               'libtoolize --version | head -1'),
