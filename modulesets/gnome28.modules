@@ -1,0 +1,1162 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <cvsroot name="gnome.org" default="yes"
+     root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+     password="" />
+  <cvsroot name="cairo.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
+     password="" />
+  <cvsroot name="mozilla.org"
+     root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
+     password="anonymous" />
+  <cvsroot name="gstreamer.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/gstreamer"
+     password="" />
+
+  <cvsroot name="regexxer.sf.net"
+     root=":pserver:anonymous@cvs.regexxer.sourceforge.net:/cvsroot/regexxer"
+     password="" />
+  <cvsroot name="elysium-project.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/elysium-project"
+     password="" />
+  <cvsroot name="gaim.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/gaim"
+     password="" />
+  <cvsroot name="bakery.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/bakery"
+     password="" />
+
+  <tarball id="scrollkeeper" version="0.3.14">
+    <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz" size="679513" />
+    <dependencies>
+      <dep package="libxml2" />
+      <dep package="libxslt" />
+      <dep package="intltool" />
+    </dependencies>
+  </tarball>
+
+  <include href="freedesktop.modules" />
+
+  <cvsmodule id="cairo-gtk-engine" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="cairo" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="intltool" />
+  <cvsmodule id="gnome-common" />
+  <cvsmodule id="libxml2" module="gnome-xml" checkoutdir="libxml2" />
+  <cvsmodule id="libxslt">
+    <dependencies>
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtk-doc">
+    <dependencies>
+      <dep package="libxslt" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="glib">
+    <dependencies>
+      <dep package="gtk-doc" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="pango" autogenargs="--with-qt=no">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="Xft" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="atk">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtk+">
+    <dependencies>
+      <dep package="pango" />
+      <dep package="atk" />
+      <dep package="shared-mime-info" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gail">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="atk" />
+      <dep package="libgnomecanvas" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtkhtml2">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="gail" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libIDL">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="ORBit2">
+    <dependencies>
+      <dep package="libIDL" />
+      <dep package="gnome-common" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gconf">
+    <dependencies>
+      <dep package="ORBit2" />
+      <dep package="libxml2" />
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libbonobo">
+    <dependencies>
+      <dep package="ORBit2" />
+      <dep package="intltool" />
+      <dep package="gnome-common" />
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-mime-data">
+    <dependencies>
+      <dep package="gnome-common" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-icon-theme">
+    <dependencies>
+      <dep package="hicolor-icon-theme" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-vfs">
+    <dependencies>
+      <dep package="libbonobo" />
+      <dep package="gconf" />
+      <dep package="gnome-mime-data" />
+      <dep package="shared-mime-info" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-keyring">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libart_lgpl" />
+  <cvsmodule id="libgnome">
+    <dependencies>
+      <dep package="libxml2" />
+      <dep package="libxslt" />
+      <dep package="libbonobo" />
+      <dep package="gnome-vfs" />
+      <dep package="gconf" />
+      <dep package="esound" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomecanvas">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libart_lgpl" />
+      <dep package="libglade" />
+      <dep package="gnome-common" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libbonoboui">
+    <dependencies>
+      <dep package="libgnome" />
+      <dep package="libbonobo" />
+      <dep package="libgnomecanvas" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomeui">
+    <dependencies>
+      <dep package="libbonoboui" />
+      <dep package="libglade" />
+      <dep package="gnome-icon-theme" />
+      <dep package="gnome-keyring" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libglade">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-python/pygtk">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-python/pyorbit">
+    <dependencies>
+      <dep package="ORBit2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-python/gnome-python">
+    <dependencies>
+      <dep package="gnome-python/pygtk" />
+      <dep package="gnome-python/pyorbit" />
+      <dep package="libgnomecanvas" />
+      <dep package="libgnomeui" />
+    </dependencies>
+    <suggests>
+      <dep package="gnome-panel" />
+      <dep package="nautilus" />
+      <dep package="gtkhtml2" />
+      <dep package="libgnomeprint" />
+      <dep package="libgnomeprintui" />
+    </suggests>
+  </cvsmodule>
+  <cvsmodule id="bug-buddy">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libwnck">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="startup-notification" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-desktop">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="startup-notification" />
+      <dep package="gnome-themes" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-panel">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+      <dep package="gnome-desktop" />
+      <dep package="libwnck" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-session">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="libwnck" />
+      <dep package="esound" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-applets">
+    <dependencies>
+      <dep package="gnome-panel" />
+      <dep package="libgtop" />
+      <dep package="gail" />
+      <dep package="libxklavier" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-games">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libcroco">
+    <dependencies>
+      <dep package="libxml2" />
+      <dep package="pango" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="librsvg">
+    <dependencies>
+      <dep package="libxml2" />
+      <dep package="gtk+" />
+      <dep package="libart_lgpl" />
+      <dep package="gnome-common" />
+      <dep package="libgsf" />
+      <dep package="libcroco" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="eel">
+    <dependencies>
+      <dep package="librsvg" />
+      <dep package="libgnomeui" />
+      <dep package="gail" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="nautilus">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="esound" />
+      <dep package="eel" />
+      <dep package="librsvg" />
+      <dep package="libgnomeui" />
+      <dep package="gnome-desktop" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="nautilus-cd-burner">
+    <dependencies>
+      <dep package="libgnome" />
+      <dep package="gtk+" />
+      <dep package="gnome-vfs" />
+      <dep package="libglade" />
+      <dep package="eel" />
+    </dependencies>
+  </cvsmodule>      
+  <cvsmodule id="nautilus-gtkhtml">
+    <dependencies>
+      <dep package="nautilus" />
+      <dep package="gtkhtml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="nautilus-media">
+    <dependencies>
+      <dep package="nautilus" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="metacity">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="gconf" />
+      <dep package="intltool" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgtop">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="procman">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="libwnck" />
+      <dep package="libgtop" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-control-center">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="esound" />
+      <dep package="gnome-desktop" />
+      <dep package="metacity" />
+      <dep package="nautilus" />
+      <dep package="libxklavier" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="yelp">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+      <dep package="gtkhtml2" />
+      <dep package="gnome-vfs" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="devhelp">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="gtkhtml2" />
+      <dep package="gnome-vfs" />
+      <dep package="libgsf" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-utils">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="gnome-panel" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gconf-editor">
+    <dependencies>
+      <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
+  <tarball id="audiofile" version="0.2.5">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz"
+            size="362370" />
+  </tarball>
+  <cvsmodule id="esound">
+    <dependencies>
+      <dep package="audiofile" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-media">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+      <dep package="esound" />
+      <dep package="gail" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gdm2">
+    <dependencies>
+      <dep package="librsvg" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="vte">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-terminal">
+    <dependencies>
+      <dep package="libglade" />
+      <dep package="libgnomeui" />
+      <dep package="vte" />
+      <dep package="startup-notification" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtk-engines">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomeprint">
+    <dependencies>
+      <dep package="intltool" />
+      <dep package="libart_lgpl" />
+      <dep package="glib" />
+      <dep package="gnome-common" />
+      <dep package="pango" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomeprintui">
+    <dependencies>
+      <dep package="libgnomeprint" />
+      <dep package="gtk+" />
+      <dep package="libgnomecanvas" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gedit">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+      <dep package="eel" />
+      <dep package="libgnomeprintui" />
+      <dep package="gtksourceview" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gedit-plugins">
+    <dependencies>
+      <dep package="gedit" />
+      <dep package="libgnomeui" />
+      <dep package="eel" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="memprof">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="eog">
+    <dependencies>
+      <dep package="eel" />
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprint" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gal">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgsf">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="gnome-vfs" />
+      <dep package="libbonobo" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnumeric" autogenargs="--with-bonobo --with-gda">
+    <dependencies>
+      <dep package="libgsf" />
+      <dep package="libgda" />
+      <dep package="gnome-python/pygtk"/>
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gimp" autogenargs="--disable-print">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libart_lgpl" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gimp-freetype">
+    <dependencies>
+      <dep package="gimp" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="glade">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="glade2c">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="sawfish" revision="gnome-2">
+    <dependencies>
+      <dep package="rep-gtk" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="rep-gtk">
+    <dependencies>
+      <dep package="librep" />
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="librep" />
+  <cvsmodule id="rhythmbox">
+    <dependencies>
+      <dep package="gnome-panel" />
+      <dep package="gst-plugins" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gstreamer" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gst-plugins" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer" />
+      <dep package="gnome-vfs" />
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gst-player" cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="planner">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="libxml2" />
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprintui" />
+      <dep package="libgsf" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="file-roller">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="nautilus" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="balsa" revision="BALSA_2">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="pan">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="gnet" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gcalctool">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="ggv">
+    <dependencies>
+      <dep package="scrollkeeper" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemeeting">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gucharmap">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtksourceview">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="libgnomeprint" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="glimmer">
+    <dependencies>
+      <dep package="gtksourceview" />
+      <dep package="libgnomeprint" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gdl">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="librsvg" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-build">
+    <dependencies>
+      <dep package="gdl" />
+      <dep package="gnome-vfs" />
+      <dep package="gtkhtml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gdl">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="scaffold">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="vte" />
+      <dep package="gdl" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libsigc++2" />
+  <cvsmodule id="glibmm">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="libsigc++2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtkmm">
+    <dependencies>
+      <dep package="glibmm" />
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="orbitcpp">
+    <dependencies>
+      <dep package="ORBit2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgnomemm">
+    <dependencies>
+      <dep package="libgnome" />
+      <dep package="gtkmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libglademm">
+    <dependencies>
+      <dep package="libglade" />
+      <dep package="gtkmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libbonobomm">
+    <dependencies>
+      <dep package="libbonobo" />
+      <dep package="gtkmm" />
+      <dep package="orbitcpp" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libbonobouimm">
+    <dependencies>
+      <dep package="libbonoboui" />
+      <dep package="gnomemm/libbonobomm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgnomecanvasmm">
+    <dependencies>
+      <dep package="libgnomecanvas" />
+      <dep package="gtkmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/gconfmm">
+    <dependencies>
+      <dep package="gconf" />
+      <dep package="gtkmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgnomeuimm">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="libgnomeui" />
+      <dep package="gnomemm/libgnomemm" />
+      <dep package="gnomemm/gconfmm" />
+      <dep package="gnomemm/libgnomecanvasmm" />
+      <dep package="gnomemm/libglademm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/gnome-vfsmm">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="gnome-vfs" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libpanelappletmm">
+    <dependencies>
+      <dep package="gtkmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgnomeprintmm">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="libgnomeprint" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgnomeprintuimm">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomemm/libgdamm">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="libgda" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="regexxer" cvsroot="regexxer.sf.net">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="gnomemm/gconfmm" />
+      <dep package="gnomemm/gnome-vfsmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnet" revision="GNET_1_1" autogenargs="--enable-glib2">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomeicu">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="at-spi">
+    <dependencies>
+      <dep package="libbonobo" />
+      <dep package="gail" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgail-gnome">
+    <dependencies>
+      <dep package="at-spi" />
+      <dep package="libgnomeui" />
+      <dep package="gnome-panel" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="at-poke">
+    <dependencies>
+      <dep package="libgail-gnome" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-mag">
+    <dependencies>
+      <dep package="at-spi" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gok">
+    <dependencies>
+      <dep package="at-spi" />
+      <dep package="libgnomeui" />
+      <dep package="libwnck" />
+      <dep package="esound" />
+      <dep package="scrollkeeper" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-speech">
+    <dependencies>
+      <dep package="libbonobo" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnopernicus">
+    <dependencies>
+      <dep package="gconf" />
+      <dep package="libgnomeui" />
+      <dep package="gnome-speech" />
+      <dep package="gnome-mag" />
+    </dependencies>
+  </cvsmodule>
+    <cvsmodule id="dasher" autogenargs="--with-a11y --with-gnome">
+    <dependencies>
+      <dep package="at-spi" />
+      <dep package="libgnomeui" />
+      <dep package="gnome-speech" />
+      <dep package="gnome-vfs" />
+    </dependencies>
+  </cvsmodule>
+  <metamodule id="meta-gnome-devel-platform">
+    <dependencies>
+      <dep package="libgnome" />
+      <dep package="libbonobo" />
+      <dep package="libbonoboui" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-core">
+    <dependencies>
+      <dep package="gnome-desktop" />
+      <dep package="gnome-panel" />
+      <dep package="gnome-session" />
+      <dep package="gnome-terminal" />
+      <dep package="gnome-applets" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-nautilus">
+    <dependencies>
+      <dep package="nautilus" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-desktop">
+    <dependencies>
+      <dep package="meta-gnome-core" />
+      <dep package="gnome-control-center" />
+      <dep package="meta-nautilus" />
+      <dep package="yelp" />
+      <dep package="bug-buddy" />
+      <dep package="gedit" />
+      <dep package="gtk-engines" />
+      <dep package="eog" />
+      <dep package="ggv" />
+      <dep package="metacity" />
+      <dep package="gconf-editor" />
+      <dep package="gnome-utils" />
+      <dep package="procman" />
+      <dep package="gstreamer" />
+      <dep package="gnome-media" />
+      <dep package="nautilus-media" />
+      <dep package="gnome-netstatus" />
+      <dep package="gcalctool" />
+      <dep package="gpdf" />
+      <dep package="gucharmap" />
+      <dep package="nautilus-cd-burner" />
+      <dep package="zenity" />
+      <dep package="gnopernicus" />
+      <dep package="gok" />
+      <dep package="epiphany" />
+      <dep package="gnome-games" />
+      <dep package="gnome-user-docs" />
+      <dep package="gnomemeeting" />
+      <dep package="file-roller" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-devel-tools">
+    <dependencies>
+      <dep package="glade" />
+      <dep package="memprof" />
+      <dep package="gconf-editor" />
+      <dep package="devhelp" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-python">
+    <dependencies>
+      <dep package="gnome-python/pygtk" />
+      <dep package="gnome-python/gnome-python" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-c++">
+    <dependencies>
+      <dep package="gtkmm" />
+      <dep package="gnomemm/libgnomeuimm" />
+      <dep package="gnomemm/gnome-vfsmm" />
+      <dep package="gnomemm/libpanelappletmm" />
+      <dep package="gnomemm/libbonobouimm" />
+      <dep package="gnomemm/libgnomeprintuimm" />
+      <dep package="libxml++" />
+      <dep package="bakery_gnomeui" />
+      <dep package="gnomemm/libgdamm" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-accessibility">
+    <dependencies>
+      <dep package="libgail-gnome" />
+      <dep package="at-poke" />
+      <dep package="gnome-mag" />
+      <dep package="gok" />
+      <dep package="gnome-speech" />
+      <dep package="gnopernicus" />
+    </dependencies>
+  </metamodule>
+  <cvsmodule id="sodipodi">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libgnomeprintui" />
+      <dep package="libart_lgpl" />
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-mag">
+    <dependencies>
+      <dep package="at-spi" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-themes">
+    <dependencies>
+      <dep package="gtk-engines" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gob" />
+  <cvsmodule id="libgtcpsocket">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="gconf" />
+      <dep package="intltool" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgircclient">
+    <dependencies>
+      <dep package="libgtcpsocket" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnomechat">
+    <dependencies>
+      <dep package="libgtcpsocket" />
+      <dep package="libgircclient" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2" cvsroot="mozilla.org" revision="MOZILLA_1_6_RELEASE">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </mozillamodule>
+  <cvsmodule id="epiphany">
+    <dependencies>
+      <dep package="mozilla" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="epiphany-extensions">
+    <dependencies>
+      <dep package="epiphany" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="galeon">
+    <dependencies>
+      <dep package="mozilla" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtkhtml">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libgnomeui" />
+      <dep package="libbonoboui" />
+      <dep package="libglade" />
+      <dep package="gail" />
+      <dep package="libgnomeprint" />
+      <dep package="libgnomeprintui" />
+      <dep package="libsoup" />
+      <dep package="gal" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libsoup">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="evolution-data-server">
+    <dependencies>
+      <dep package="libbonobo" />
+      <dep package="libgnome" />
+      <dep package="libsoup" />
+      <dep package="libxml2" />
+      <dep package="gconf" />
+      <dep package="gnome-vfs" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="evolution">
+    <dependencies>
+      <dep package="evolution-data-server" />
+      <dep package="gtkhtml" />
+      <dep package="libgnomeui" />
+      <dep package="libbonoboui" />
+    </dependencies>
+  </cvsmodule>
+  <tarball id="xchat" version="2.0.7">
+    <source href="http://www.xchat.org/files/source/2.0/xchat-2.0.7.tar.bz2" size="943633" />
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+    </dependencies>
+  </tarball>
+  <tarball id="camorama" version="0.17">
+    <source href="http://camorama.fixedgear.org/downloads/camorama-0.17.tar.bz2" size="312233" />
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </tarball>
+  <cvsmodule id="gtk-engines-cleanice" cvsroot="elysium-project.sf.net">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gaim" cvsroot="gaim.sf.net">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="zenity">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="gconf" />
+      <dep package="libgnomecanvas" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gpdf">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="libbonoboui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-netstatus">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="gnome-panel" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="totem" autogenargs="--enable-gstreamer">
+    <dependencies>
+      <dep package="gnome-desktop" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-themes-extras">
+    <dependencies>
+      <dep package="gnome-themes" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgda">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="ORBit2" />
+      <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomedb" autogenargs="--enable-gnome=yes">
+    <dependencies>
+      <dep package="libgda" />
+      <dep package="libgnomeui" />
+      <dep package="libbonoboui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="mergeant" revision="release-0-12-branch">
+    <dependencies>
+      <dep package="libgnomedb" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtranslator">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-spell">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomecups">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-cups-manager">
+    <dependencies>
+      <dep package="libgnomecups" />
+      <dep package="libgnomeui" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libxml++">
+    <dependencies>
+      <dep package="libxml2" />
+      <dep package="glibmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="bakery" cvsroot="bakery.sf.net">
+    <dependencies>
+      <dep package="libxml++" />
+      <dep package="gtkmm" />
+      <dep package="gnomemm/libglademm" />
+      <dep package="gnomemm/gconfmm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="bakery_gnomeui" cvsroot="bakery.sf.net">
+    <dependencies>
+      <dep package="bakery" />
+      <dep package="gnomemm/libgnomeuimm" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-hello">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="libgnome" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-system-tools">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-user-docs">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="loudmouth">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gossip">
+    <dependencies>
+      <dep package="loudmouth" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="conglomerate">
+   <dependencies>
+    <dep package="libxslt" />
+    <dep package="gconf" />
+    <dep package="libgnomeui" />
+   </dependencies>
+  </cvsmodule>
+  <cvsmodule id="sound-juicer">
+    <dependencies>
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-network">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="anjuta" revision="ANJUTA_1_2_0">
+    <dependencies>
+      <dep package="libbonoboui" />
+      <dep package="libgnomeprintui" />
+      <dep package="vte" />
+    </dependencies>
+  </cvsmodule>  
+  <cvsmodule id="OpenApplet">
+    <dependencies>
+      <dep package="gnome-panel" />
+    </dependencies>
+  </cvsmodule> 
+  <cvsmodule id="gtetrinet">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>  
+</moduleset>
