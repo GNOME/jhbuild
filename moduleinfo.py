@@ -103,12 +103,18 @@ gnome2.addmod('gtkglarea', dependencies=['gtk+'])
 gnome2.addmod('sawfish', revision='gnome-2', dependencies=['rep-gtk'])
 gnome2.addmod('rep-gtk', dependencies=['librep', 'gtk+'])
 gnome2.addmod('librep')
+gnome2.addmod('monkey-sound', dependencies=['libgnomeui', 'gstreamer'])
+gnome2.addmod('rhythmbox-new', dependencies=['monkey-sound', 'gnome-panel'])
 
 gnome2.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
 gnome2.addmod('gstreamer', cvsroot=gstreamer_cvsroot,
-              dependencies=['glib', 'gnome-xml'])
+              dependencies=['glib', 'gnome-xml'], 
+	      autogenargs='-- --disable-plugin-builddir --disable-tests')
 gnome2.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
-              dependencies=['gstreamer', 'gnome-vfs', 'gtk+'])
+              dependencies=['gstreamer', 'gnome-vfs', 'gtk+'],
+	      autogenargs='-- --disable-plugin-builddir --disable-tests')
+gnome2.addmod('gst-player', cvsroot=gstreamer_cvsroot,
+              dependencies=['gstreamer', 'libgnomeui'])
 gnome2.addmod('libmrproject', cvsroot=codefactory_cvsroot,
               dependencies=['glib', 'gnome-xml'])
 gnome2.addmod('mrproject', cvsroot=codefactory_cvsroot,
