@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2003  James Henstridge
+# Copgyright (C) 2001-2003  James Henstridge
 #
 #   bootstrap.py: code to check whether prerequisite modules are installed
 #
@@ -103,7 +103,10 @@ class Bootstrap:
         os.chdir(buildroot)
         localfile = os.path.basename(self.sourceurl)
         self._bold('untaring %s' % localfile)
-        ret = self._execute('gunzip -dc %s | tar xf -' % localfile)
+        if localfile.endswith('.bz2'):
+            ret = self._execute('bzip2 -dc %s | tar xf -' % localfile)
+        else:
+            ret = self._execute('gzip -dc %s | tar xf -' % localfile)
         if ret != 0:
             print 'failed to untar', self.package
             return
@@ -113,6 +116,8 @@ class Bootstrap:
             os.chdir(localfile[:-7])
         elif localfile.endswith('.tgz'):
             os.chdir(localfile[:-4])
+        elif localfile.endswith('.tar.bz2'):
+            os.chdir(localfile[:-8])
         else:
             print 'unknown package extension: ', self.package
             return
@@ -186,8 +191,8 @@ bootstraps = [
               [],
               'pkg-config --version'),
     Bootstrap('python', '2.x',
-              'http://www.python.org/ftp/python/2.2.2/Python-2.2.2.tgz',
-              6669400,
+              'http://www.python.org/ftp/python/2.3.2/Python-2.3.2.tar.bz2',
+              7161770,
               [],
               'echo "import sys, string; print string.split(sys.version)[0]" | python -'),
     Bootstrap('audiofile', '0.2.3',
