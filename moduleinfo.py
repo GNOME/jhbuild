@@ -319,7 +319,7 @@ gnome22.addmod('libgnomecanvas',
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
 gnome22.addmod('libgnomeprint', revision='gnome-2-2', dependencies=['intltool', 'libart_lgpl', 'glib', 'gnome-common', 'pango'])
 gnome22.addmod('libgnomeprintui', revision='gnome-2-2', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
-gnome22.addmod('gnome-games',
+gnome22.addmod('gnome-games', revision='gnome-2-2', 
                dependencies=['scrollkeeper', 'libgnomeui'])
 
 # libgnomeprint-2.0 and libgnomeprintui-2.0 are the gnome 2.0 versions
