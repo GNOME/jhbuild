@@ -243,7 +243,7 @@ def setup_env(config):
     def addpath(envvar, path):
         try:
             envval = os.environ[envvar]
-            if string.find(envval, path) < 0:
+            if string.find(envval, path) != 0:
                 envval = path + ':' + envval
         except KeyError:
             envval = path
