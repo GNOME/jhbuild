@@ -135,7 +135,7 @@ class CVSModule(Package):
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
-            return (self.STATE_MAKE, 'could not configure module',
+            return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_build(self, buildscript):
