@@ -35,7 +35,7 @@ gnome20 = ModuleSet()
 gnome2 = gnome20
 
 gnome20.addmod('intltool')
-gnome20.addmod('gnome-common')
+gnome20.addmod('gnome-common', revision='gnome-2-0',)
 gnome20.addmod('gtk-doc', dependencies=['libxslt'])
 gnome20.addmod('glib', revision='glib-2-0', dependencies=['gtk-doc'])
 gnome20.addmod('pango', revision='pango-1-0', dependencies=['glib'])
@@ -226,6 +226,7 @@ gnome20.add(MetaModule('meta-gnome-c++',
 
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
+gnome22.addmod('gnome-common');
 gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
@@ -259,7 +260,7 @@ gnome22.addmod('nautilus',
 # gnome 1.x support
 gnome1 = ModuleSet()
 gnome1.addmod('intltool')
-gnome1.addmod('gnome-common')
+gnome1.addmod('gnome-common', revision='gnome-2-0')
 gnome1.addmod('esound')
 gnome1.addmod('gtk-doc')
 gnome1.addmod('glib', revision='glib-1-2', dependencies=['gtk-doc'])
