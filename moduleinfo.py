@@ -11,6 +11,7 @@ head.add(Module(name='pango', dependencies=['glib']))
 head.add(Module(name='atk', dependencies=['glib']))
 head.add(Module(name='gtk+',
                 dependencies=['pango', 'atk']))
+head.add(Module(name='gail', dependencies=['gtk+', 'atk']))
 head.add(Module(name='gnome-xml', checkoutdir='libxml2'))
 head.add(Module(name='linc', dependencies=['glib']))
 head.add(Module(name='libIDL', dependencies=['glib']))
