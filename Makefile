@@ -1,11 +1,13 @@
+CC = gcc
+CFLAGS = -Wall -O2
 
-all:
+all: install-check
 	@echo 'Run "make install" to install.'
 
 update:
 	cvs -z3 -q update -Pd .
 
-bindir=$(HOME)/bin
+bindir=/usr/local/bin
 
 install:
 	@echo "Creating $(bindir)/jhbuild"
@@ -15,5 +17,8 @@ install:
 	@chmod a+x $(bindir)/jhbuild
 	@[ -f $(HOME)/.jhbuildrc ]||echo "Don't forget to create ~/.jhbuildrc"
 	install -m755 install-check $(bindir)/install-check
+
+install-check: install-check.c
+	$(CC) $(CFLAGS) -o install-check install-check.c
 
 .PHONY: all update install
