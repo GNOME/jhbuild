@@ -291,7 +291,8 @@ gnome22.addmod('gnome-terminal',
                autogenargs='--with-widget=vte')
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop', 'metacity'])
-gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
+gnome22.addmod('gnome-panel', revision='gnome-2-2', 
+               dependencies=['libgnomeui','gnome-desktop'])
 gnome22.addmod('gnome-desktop',
                dependencies=['libgnomeui', 'libwnck', 'startup-notification', 'gnome-themes'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
