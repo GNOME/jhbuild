@@ -153,7 +153,8 @@ def do_run(config, args):
 register_command('run', do_run)
 
 def do_shell(config, args):
-    os.execlp(module.user_shell, module.user_shell)
+    user_shell = os.environ.get('SHELL', '/bin/sh')
+    os.execlp(user_shell, user_shell)
 register_command('shell', do_shell)
 
 def do_list(config, args):

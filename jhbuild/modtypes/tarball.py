@@ -18,7 +18,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import string
 
 import base
 
@@ -61,7 +60,7 @@ class Tarball(base.Package):
         # check if we already have it ...
         if self.versioncheck:
             out = os.popen(self.versioncheck, 'r').read()
-            if out and string.find(out, self.version) >= 0:
+            if out and out.find(self.version) >= 0:
                 return (self.STATE_DONE, None, None)
 
         return (self.STATE_DOWNLOAD, None, None)

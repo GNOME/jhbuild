@@ -1,3 +1,13 @@
+2004-02-06  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/commands/base.py (do_shell): fix up reference to
+	"user_shell" that broke in the reorg.  This command should work
+	again now (fixes bug #133594).
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_start): replace use of
+	string.find with a string method, and remove the import of the
+	string module.
+
 2004-02-05  Marco Pesenti Gritti  <marco@gnome.org>
 
 	* modulesets/gnome26.modules:
