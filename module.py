@@ -64,7 +64,7 @@ class ModuleSet:
     # functions for handling dep expansion
     def __expand_mod_list(self, modlist):
         '''expands a list of names to a list of Module objects.  Expands
-        Task objects as expected.  Does not handle loops in task deps'''
+        Task objects as expected.  Does not handle loops in task deps''' #"
         ret = []
         for modname in modlist:
             mod = self.modules[modname]
@@ -76,7 +76,7 @@ class ModuleSet:
         
     def get_module_list(self, seed):
         '''gets a list of module objects (in correct dependency order)
-        needed to build the modules in the seed list'''
+        needed to build the modules in the seed list''' #"
         module_list = self.__expand_mod_list(seed)
         i = 0
         while i < len(module_list):
@@ -126,10 +126,9 @@ class BuildScript:
             home = os.environ['HOME']
             fp = open(os.path.join(home, '.cvspass'), 'r')
             for line in fp.readlines():
-                pos = string.find(line, ' ')
-                if pos > 0:
-                    line = line[:pos]
-                if line == self.cvsroot:
+		line = line.split (' ')[1]
+                if line.replace (':2401', ':') == \
+		   self.cvsroot.replace (':2401', ':'):
                     loggedin = 1
                     break
         except IOError:
@@ -188,7 +187,7 @@ class BuildScript:
     def _handle_error(self, module, stage):
         '''Ask the user what to do about an error.
 
-        Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.'''
+        Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.''' #"
 
         self._message('error during %s for module %s' % (stage, module.name))
         while 1:
