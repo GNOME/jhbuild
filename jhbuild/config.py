@@ -90,7 +90,7 @@ class Config:
             try:
                 os.makedirs(self.prefix)
             except:
-                raise FatalError("Can't create %s directory" % prefix)
+                raise FatalError("Can't create %s directory" % self.prefix)
 
         #includedir = os.path.join(prefix, 'include')
         #addpath('C_INCLUDE_PATH', includedir)
