@@ -64,6 +64,8 @@ class TerminalBuildScript(buildscript.BuildScript):
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         print command
+        # get rid of hint if pretty printing is disabled.
+        if not self.config.pretty_print: hint = None
         if hint == 'cvs':
             conflicts = []
             def format_line(line, conflicts=conflicts):
