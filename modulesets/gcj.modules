@@ -18,6 +18,9 @@
   <cvsroot name="classpath.savannah.gnu.org"
      root=":ext:anoncvs@savannah.gnu.org:/cvsroot/classpath"
      password="" />
+  <cvsroot name="cairo.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
+     password="" />
 
   <include href="gtk28.modules" />
 
@@ -59,12 +62,23 @@
     </dependencies>
   </cvsmodule>
 
+  <cvsmodule id="cairo-java" cvsroot="cairo.freedesktop.org">
+    <suggests>
+      <dep package="gcj" />
+    </suggests>
+    <dependencies>
+      <dep package="java-gnome" />
+      <dep package="cairo" />
+    </dependencies>
+  </cvsmodule>
+
   <cvsmodule id="libgtk-java" cvsroot="gnome.org">
     <suggests>
       <dep package="gcj" />
     </suggests>
     <dependencies>
       <dep package="java-gnome" />
+      <dep package="cairo-java" />
     </dependencies>
   </cvsmodule>
 
