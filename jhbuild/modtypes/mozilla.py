@@ -25,10 +25,11 @@ from jhbuild.utils import cvs
 
 class MozillaModule(base.CVSModule):
     def __init__(self, name, revision, autogenargs='',
-                 dependencies=[], cvsroot = None):
+                 dependencies=[], suggests=[], cvsroot=None):
         base.CVSModule.__init__(self, name, revision=revision,
                                 autogenargs=autogenargs,
                                 dependencies=dependencies,
+                                suggests=suggests,
                                 cvsroot=cvsroot)
         
     def get_mozilla_ver(self, buildscript):
@@ -109,7 +110,7 @@ class MozillaModule(base.CVSModule):
             return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
 
-def parse_mozillamodule(node, config, dependencies, cvsroot):
+def parse_mozillamodule(node, config, dependencies, suggests, cvsroot):
     name = node.getAttribute('id')
     revision = None
     autogenargs = ''
@@ -124,6 +125,6 @@ def parse_mozillamodule(node, config, dependencies, cvsroot):
     autogenargs = config.module_autogenargs.get(name, autogenargs)
 
     return MozillaModule(name, revision, autogenargs,
-                         dependencies, cvsroot)
+                         dependencies, suggests, cvsroot)
 
 base.register_module_type('mozillamodule', parse_mozillamodule)

@@ -29,16 +29,17 @@ _module_types = {}
 def register_module_type(name, parse_func):
     _module_types[name] = parse_func
 
-def parse_xml_node(node, config, dependencies, cvsroot):
+def parse_xml_node(node, config, dependencies, suggests, cvsroot):
     parser = _module_types[node.nodeName]
-    return parser(node, config, dependencies, cvsroot)
+    return parser(node, config, dependencies, suggests, cvsroot)
 
 class Package:
     STATE_START = 'start'
     STATE_DONE  = 'done'
-    def __init__(self, name, dependencies=[]):
+    def __init__(self, name, dependencies=[], suggests=[]):
         self.name = name
         self.dependencies = dependencies
+        self.suggests = suggests
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
@@ -64,8 +65,10 @@ class CVSModule(Package):
     STATE_INSTALL        = 'install'
 
     def __init__(self, cvsmodule, checkoutdir=None, revision=None,
-                 autogenargs='', dependencies=[], cvsroot=None):
-        Package.__init__(self, checkoutdir or cvsmodule, dependencies)
+                 autogenargs='', dependencies=[], suggests=[],
+                 cvsroot=None):
+        Package.__init__(self, checkoutdir or cvsmodule, dependencies,
+                         suggests)
         self.cvsmodule   = cvsmodule
         self.checkoutdir = checkoutdir
         self.revision    = revision
@@ -166,7 +169,7 @@ class CVSModule(Package):
             error = 'could not make module'
         return (self.STATE_DONE, error, [])
 
-def parse_cvsmodule(node, config, dependencies, cvsroot):
+def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):
     id = node.getAttribute('id')
     module = id
     revision = None
@@ -187,7 +190,8 @@ def parse_cvsmodule(node, config, dependencies, cvsroot):
 
     return CVSModule(module, checkoutdir, revision,
                      autogenargs, cvsroot=cvsroot,
-                     dependencies=dependencies)
+                     dependencies=dependencies,
+                     suggests=suggests)
 register_module_type('cvsmodule', parse_cvsmodule)
 
 class MetaModule(Package):
@@ -198,7 +202,7 @@ class MetaModule(Package):
     def do_start(self, buildscript):
         return (self.STATE_DONE, None, None)
 
-def parse_metamodule(node, config, dependencies, cvsroot):
+def parse_metamodule(node, config, dependencies, suggests, cvsroot):
     id = node.getAttribute('id')
-    return MetaModule(id, dependencies=dependencies)
+    return MetaModule(id, dependencies=dependencies, suggests=suggests)
 register_module_type('metamodule', parse_metamodule)

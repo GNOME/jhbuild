@@ -1,3 +1,33 @@
+2004-02-21  James Henstridge  <james@daa.com.au>
+
+	* modulesets/gnome26.modules (gnome-python/gnome-python): add
+	suggestions.
+
+	* modulesets/freedesktop.modules (shared-mime-info): add a
+	suggestion of intltool.  Not exactly correct, but will get things
+	ordered correctly if you build both packages.
+
+	* modulesets/moduleset.dtd: add suggests element to DTD.
+
+	* jhbuild/moduleset.py (ModuleSet.get_module_list): add support
+	for suggestions.
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.__init__): and here.
+	(parse_mozillamodule): and here.
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): and here.
+	(parse_tarball): and here.
+
+	* jhbuild/modtypes/base.py (parse_xml_node): pass the suggests
+	argument.
+	(Package.__init__): same here.
+	(CVSModule.__init__): and here.
+	(parse_cvsmodule): and here.
+	(parse_metamodule): and here.
+
+	* jhbuild/moduleset.py (_parse_module_set): parse a "suggests"
+	element for all module nodes.
+
 2004-02-19  James Henstridge  <james@daa.com.au>
 
 	* jhbuild/frontends/tinderbox.py

@@ -29,8 +29,9 @@ class Tarball(base.Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size,
-                 patches=[], versioncheck=None, dependencies=[]):
-        base.Package.__init__(self, name, dependencies)
+                 patches=[], versioncheck=None, dependencies=[],
+                 suggests=[]):
+        base.Package.__init__(self, name, dependencies, suggests)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
@@ -148,7 +149,7 @@ class Tarball(base.Package):
             open('jhbuild-build-stamp', 'w').write('stamp')
         return (self.STATE_DONE, error, [])
 
-def parse_tarball(node, config, dependencies, cvsroot):
+def parse_tarball(node, config, dependencies, suggests, cvsroot):
     name = node.getAttribute('id')
     version = node.getAttribute('version')
     versioncheck = None
@@ -173,6 +174,6 @@ def parse_tarball(node, config, dependencies, cvsroot):
                     patch.append(text)
 
     return Tarball(name, version, source_url, source_size,
-                   patches, versioncheck, dependencies)
+                   patches, versioncheck, dependencies, suggests)
 
 base.register_module_type('tarball', parse_tarball)

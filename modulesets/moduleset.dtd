@@ -11,7 +11,7 @@
 <!ATTLIST include
   href CDATA #REQUIRED >
 
-<!ELEMENT cvsmodule (dependencies?) >
+<!ELEMENT cvsmodule (dependencies?,suggests?) >
 <!ATTLIST cvsmodule
   id CDATA #REQUIRED
   module CDATA #IMPLIED
@@ -25,13 +25,13 @@
   id CDATA #REQUIRED >
 
 <!ELEMENT tarball
-  (source,patches?,dependencies?) >
+  (source,patches?,dependencies?,suggests?) >
 <!ATTLIST tarball
   id CDATA #REQUIRED
   version CDATA #REQUIRED
   versioncheck CDATA #IMPLIED >
 
-<!ELEMENT mozillamodule (dependencies?) >
+<!ELEMENT mozillamodule (dependencies?,suggests?) >
 <!ATTLIST mozillamodule
   id CDATA #REQUIRED
   module CDATA #IMPLIED
@@ -50,6 +50,7 @@
 
 <!-- common sub-elements -->
 <!ELEMENT dependencies (dep*) >
+<!ELEMENT suggests (dep*) >
 <!ELEMENT dep EMPTY >
 <!ATTLIST dep
   package CDATA #REQUIRED >

@@ -79,6 +79,7 @@ class ModuleSet:
                     ret.append(self.modules[modname])
                 else:
                     raise ValueError('module "%s" not found' % modname)
+        # expand dependencies
         i = 0
         while i < len(ret):
             depadd = []
@@ -94,6 +95,22 @@ class ModuleSet:
                 ret[i:i] = depadd
             else:
                 i = i + 1
+        # and now suggestions.
+        i = 0
+        while i < len(ret):
+            depadd = []
+            for modname in ret[i].dependencies + ret[i].suggests:
+                if self.modules.has_key(modname):
+                    depmod = self.modules[modname]
+                else:
+                    continue # don't care about unknown suggestions
+                if depmod in ret and depmod not in ret[:i+1]:
+                    depadd.append(depmod)
+            if depadd:
+                ret[i:i] = depadd
+            else:
+                i = i + 1
+        # remove duplicates
         i = 0
         while i < len(ret):
             if ret[i] in ret[:i]:
@@ -195,14 +212,21 @@ def _parse_module_set(config, uri):
                 cvsroot = cvsroots.get(default_cvsroot)
             # deps
             dependencies = []
+            suggests = []
             for childnode in node.childNodes:
-                if childnode.nodeType == childnode.ELEMENT_NODE and \
-                       childnode.nodeName == 'dependencies':
+                if childnode.nodeType != childnode.ELEMENT_NODE: continue
+                if childnode.nodeName == 'dependencies':
                     for dep in childnode.childNodes:
                         if dep.nodeType == dep.ELEMENT_NODE:
                             assert dep.nodeName == 'dep'
                             dependencies.append(dep.getAttribute('package'))
-                    break
+                elif childnode.nodeName == 'suggests':
+                    for dep in childnode.childNodes:
+                        if dep.nodeType == dep.ELEMENT_NODE:
+                            assert dep.nodeName == 'dep'
+                            suggests.append(dep.getAttribute('package'))
+                    
             moduleset.add(modtypes.parse_xml_node(node, config,
-                                                  dependencies, cvsroot))
+                                                  dependencies, suggests,
+                                                  cvsroot))
     return moduleset
