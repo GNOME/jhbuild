@@ -150,7 +150,7 @@ gnome2.add(MetaModule('meta-gnome-python',
                       modules=['gnome-python/pygtk', 'orbit-python',
                                'gnome-python/gnome-python']))
 gnome2.add(MetaModule('meta-gnome-c++',
-                      modules=['gtkmm-1.3', 'libgnomeuimm']))
+                      modules=['gtkmm-1.3', 'gnomemm/libgnomeuimm']))
 
 
 # gnome 1.x support
