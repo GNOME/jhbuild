@@ -33,6 +33,7 @@ default_config = {
     'autogenargs': '',
     'cflags': None,
     'installprog': None,
+    'skip': [],
 }
 
 def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
@@ -63,7 +64,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
 
     autogen = 0
     clean = 0
-    skip = []
+    skip = config['skip']
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
             autogen = 1
