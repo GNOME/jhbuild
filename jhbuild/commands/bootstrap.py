@@ -17,18 +17,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from commands import getoutput
 import os
 import urllib
 import getopt
 
 from jhbuild.commands.base import register_command
+from jhbuild.utils import cmds
 
 term = os.environ.get('TERM', '')
-_isxterm = term.find('xterm') >= 0 or term == 'rxvt'
+is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
-_boldcode = getoutput('tput bold')
-_normal = getoutput('tput sgr0')
+try: t_bold = cmds.get_output('tput bold')
+except: t_bold = ''
+try: t_reset = cmds.get_output('tput sgr0')
+except: t_reset = ''
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -44,8 +46,8 @@ class Bootstrap:
         self.versioncheck = versioncheck
         
     def _bold(self, msg):
-        print '%s*** %s ***%s' % (_boldcode, msg, _normal)
-        if _isxterm:
+        print '%s*** %s ***%s' % (t_bold, msg, t_reset)
+        if is_xterm:
             print '\033]0;jhbuild: %s\007' % msg
             
     def _execute(self, command):

@@ -132,7 +132,7 @@ class CVSRoot:
 
         cmd += module
 
-        return buildscript.execute(cmd)
+        return buildscript.execute(cmd, 'cvs')
 
     def update(self, buildscript, module, revision=None, date=None,
                checkoutdir=None):
@@ -154,4 +154,4 @@ class CVSRoot:
 
         cmd += '.'
 
-        return buildscript.execute(cmd)
+        return buildscript.execute(cmd, 'cvs')

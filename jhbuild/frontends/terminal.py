@@ -18,14 +18,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import sys
 import os
 import buildscript
+from jhbuild.utils import cmds
 
 term = os.environ.get('TERM', '')
-_isxterm = term.find('xterm') >= 0 or term == 'rxvt'
+is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
-_boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput sgr0', 'r').read()
+
+try: t_bold = cmds.get_output('tput bold')
+except: t_bold = ''
+try: t_reset = cmds.get_output('tput sgr0')
+except: t_reset = ''
+t_colour = [''] * 16
+try:
+    for i in range(8):
+        t_colour[i] = cmds.get_output('tput setf %d' % i)
+        t_colour[i+8] = t_bold + t_colour[i]
+except: pass
+
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
 class TerminalBuildScript(buildscript.BuildScript):
@@ -38,8 +50,8 @@ class TerminalBuildScript(buildscript.BuildScript):
             progress = ' [%d/%d]' % (module_num, len(self.modulelist))
         else:
             progress = ''
-        print '%s*** %s ***%s%s' % (_boldcode, msg, progress, _normal)
-        if _isxterm:
+        print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
+        if is_xterm:
             print '\033]0;jhbuild: %s%s\007' % (msg, progress)
 
     def set_action(self, action, module, module_num=-1, action_target=None):
@@ -52,7 +64,26 @@ class TerminalBuildScript(buildscript.BuildScript):
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         print command
-        ret = os.system(command)
+        if hint == 'cvs':
+            conflicts = []
+            def format_line(line, conflicts=conflicts):
+                if line.startswith('C '):
+                    conflicts.append(line)
+                    return '%s%s%s' % (t_colour[12], line, t_reset)
+                elif line.startswith('M '):
+                    return '%s%s%s' % (t_colour[10], line, t_reset)
+                elif line.startswith('? '):
+                    return '%s%s%s' % (t_colour[8], line, t_reset)
+                else:
+                    return line
+            ret = cmds.execute_pprint(command, format_line)
+            if conflicts:
+                sys.stdout.write('%sConflicts during checkout:%s\n'
+                                 % (t_bold, t_normal))
+                for line in conflicts:
+                    sys.stdout.write('%s%s%s' % (t_colour[12], line, t_reset))
+        else:
+            ret = os.system(command)
         return ret
 
     def end_build(self, failures):
