@@ -107,7 +107,7 @@ gnome20.addmod('gconf-editor', dependencies=['gconf'])
 gnome20.addmod('esound')
 gnome20.addmod('gnome-media', dependencies=['libgnomeui', 'esound', 'gail'])
 gnome20.addmod('gdm2', dependencies=['librsvg'])
-gnome20.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
+gnome20.addmod('profterm', revision='gnome-2-0', dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
 gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
@@ -213,6 +213,7 @@ gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='-- --with-qt=no')
+gnome22.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
