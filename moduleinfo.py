@@ -7,7 +7,7 @@ head.add(Module(name='gnome-common'))
 head.add(Module(name='gtk-doc'))
 head.add(Module(name='glib',
                 dependencies=['gtk-doc']))
-head.add(Module(name='pango', dependencies=['glib']))
+head.add(Module(name='pango', revision='pango-1-0', dependencies=['glib']))
 head.add(Module(name='atk', dependencies=['glib']))
 head.add(Module(name='gtk+',
                 dependencies=['pango', 'atk']))
