@@ -1,6 +1,7 @@
 <?xml version="1.0" standalone="no"?><!--*- mode: nxml -*-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- process to HTML with: xmlto xhtml-nochunks jhbuild.xml -->
 <article id="index">
   <articleinfo>
     <title>JHBuild Manual</title>
@@ -765,5 +766,107 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
     <title>Module Set File Syntax</title>
 
     <para></para>
+  </section>
+
+  <section id="faq">
+    <title>Frequently Asked Questions</title>
+
+    <qandaset defaultlabel="qanda">
+      <qandadiv>
+	<title>General JHBuild Questions</title>
+	<qandaentry>
+	  <question>
+	    <simpara>I am behind a firewall, so
+	    <command>wget</command> can't download any
+	    tarballs.</simpara>
+	  </question>
+	  <answer>
+	    <para>This can be fixed by creating or editing a
+	    <filename>~/.wgetrc</filename> file.  If you need to go
+	    through an HTTP proxy to access FTP sites, add a line like
+	    the following to the file:</para>
+	    <programlisting>ftp_proxy = http://<replaceable>hostname</replaceable>:<replaceable>port</replaceable>/</programlisting>
+	    <para>If you just need to use passive FTP connections
+	    (sometimes needed with NAT firewalls), add the following
+	    line:</para>
+	    <programlisting>passive_ftp = on</programlisting>
+	    <para>This will fix all uses of the
+	    <command>wget</command> command.</para>
+	  </answer>
+	</qandaentry>
+      </qandadiv>
+      <qandadiv>
+	<title>Building Gnome</title>
+	<qandaentry>
+	  <question>
+	    <simpara>What other prerequisites are needed to build Gnome
+	    with JHBuild?</simpara>
+	  </question>
+	  <answer>
+	    <para>Some of the packages you will need on your system
+	    include:</para>
+	    <itemizedlist>
+	      <listitem>
+		<simpara>DocBook XML DTD and XSLT stylesheets.  These
+		need to be registered in the XML catalog
+		(<filename>/etc/xml/catalog</filename>).</simpara>
+	      </listitem>
+	      <listitem>
+		<simpara>X libraries</simpara>
+	      </listitem>
+	      <listitem>
+		<simpara>fam or gamin (used by gnome-vfs for file
+		monitoring).</simpara>
+	      </listitem>
+	      <listitem>
+		<simpara><filename>libsmbclient</filename> from Samba
+		(used for browsing Windows networks).</simpara>
+	      </listitem>
+	      <listitem>
+	      <simpara><filename>libbz2</filename> from
+		bzip2.</simpara>
+	      </listitem>
+	      <listitem>
+		<simpara><filename>libpng</filename>,
+		<filename>libjpeg</filename> and
+		<filename>libtiff</filename> (used for image
+		loading).</simpara>
+	      </listitem>
+	    </itemizedlist>
+	    <para>If you are installing distro packages, you may need
+	    to install corresponding "dev" or "devel" packages.  Note
+	    that this list is just a starting point &mdash; not a
+	    comprehensive list.</para>
+	  </answer>
+	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>I've built Gnome with JHBuild.  How do I run
+	    it?</simpara>
+	  </question>
+	  <answer>
+	    <para>You will want to create a
+	    <filename>~/.xsession</filename> file, which is run by the
+	    display manager when you log in.  This file should look
+	    something like this:</para>
+	    <programlisting>#!/bin/sh
+exec jhbuild run gnome-session</programlisting>
+	    <para>Finally, you should make sure that the
+	    <filename>~/.xsession</filename> file is executable.</para>
+	  </answer>
+	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>I built Gnome using JHBuild with
+	    <varname>prefix</varname> set to <filename>/usr</filename>,
+	    and now my system is broken.</simpara>
+	  </question>
+	  <answer>
+	    <para>Don't set <varname>prefix</varname> to
+	    <filename>/usr</filename>.</para>
+	  </answer>
+	</qandaentry>
+      </qandadiv>
+    </qandaset>
   </section>
 </article>
