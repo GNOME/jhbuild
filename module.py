@@ -454,9 +454,10 @@ class ModuleSet:
                 inlist[dep] = None
         fp.write('}\n')
 
-def read_module_set(configdict):
-    filename = os.path.join(os.path.dirname(__file__), 'modulesets',
-                            configdict['moduleset'] + '.modules')
+def read_module_set(configdict, filename=None):
+    if not filename:
+        filename = os.path.join(os.path.dirname(__file__), 'modulesets',
+                                configdict['moduleset'] + '.modules')
     document = xml.dom.minidom.parse(filename)
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
@@ -490,7 +491,12 @@ def read_module_set(configdict):
     # and now module definitions
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
-        if node.nodeName == 'cvsmodule':
+        if node.nodeName == 'include':
+            href = node.getAttribute('href')
+            inc_filename = os.path.join(os.path.dirname(filename), href)
+            inc_moduleset = read_module_set(configdict, inc_filename)
+            moduleset.modules.update(inc_moduleset.modules)
+        elif node.nodeName == 'cvsmodule':
             id = node.getAttribute('id')
             module = id
             revision = None
