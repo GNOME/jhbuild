@@ -47,18 +47,16 @@ def execute_pprint(cmd, format_line, split_stderr=False):
     out_eof = False
     fcntl.fcntl(out_fd, fcntl.F_SETFL,
                 fcntl.fcntl(out_fd, fcntl.F_GETFL) | os.O_NDELAY)
-    if split_stderr:
-        err_fp = child.childerr
+    err_fp = child.childerr
+    err_fd = -1
+    err_eof = True
+    read_fds = [ out_fd ]
+    if err_fp:
         err_fd = err_fp.fileno()
         err_eof = False
         fcntl.fcntl(err_fd, fcntl.F_SETFL,
                     fcntl.fcntl(err_fd, fcntl.F_GETFL) | os.O_NDELAY)
-        read_fds = [out_fd, err_fd]
-    else:
-        err_fp = None
-        err_fd = -1
-        err_eof = True
-        read_fds = [out_fd]
+        read_fds.append(err_fd)
     out_data = err_data = ''
     try:
         while True:
@@ -84,5 +82,3 @@ def execute_pprint(cmd, format_line, split_stderr=False):
         pass
     status = child.wait()
     return status
-
-
