@@ -23,8 +23,8 @@ import module
 import moduleinfo
 
 if not hasattr(__builtins__, 'True'):
-    True = (1 == 1)
-    False = (1 != 1)
+    __builtins__.True = (1 == 1)
+    __builtins__.False = (1 != 1)
 
 usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).

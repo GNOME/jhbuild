@@ -28,10 +28,6 @@ user_shell = os.environ.get('SHELL', '/bin/sh')
 class _Struct:
     pass
 
-if not hasattr(__builtins__, 'True'):
-    True = (1 == 1)
-    False = (1 != 1)
-
 class Package:
     STATE_START = 'start'
     STATE_DONE  = 'done'
