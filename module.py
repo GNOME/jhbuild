@@ -247,7 +247,10 @@ class Tarball(Package):
             res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
             if res != 0:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
-        return (self.STATE_CONFIGURE, None, None)
+        if buildscript.config.nobuild:
+            return (self.STATE_DONE, None, None)
+        else:
+            return (self.STATE_CONFIGURE, None, None)
 
     def do_configure(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
