@@ -170,8 +170,7 @@ gnome20.addmod('mrproject',
                dependencies=['libmrproject', 'libgnomeui'])
 gnome20.addmod('dia-newcanvas',
                dependencies=['gtk+', 'libglade'])
-gnome20.addmod('gael2', cvsroot=gael_cvsroot,
-               dependencies=['dia-newcanvas', 'libglade', 'libgnomeui','gnome-xml'])
+gnome20.addmod('gael', dependencies=['dia-newcanvas', 'libglade', 'libgnomeui','gnome-xml'])
 
 gnome20.addmod('balsa', revision='BALSA_2',
                dependencies=['libgnomeui'])
