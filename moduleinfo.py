@@ -106,7 +106,7 @@ gnome2.addmod('sawfish', revision='gnome-2', dependencies=['rep-gtk'])
 gnome2.addmod('rep-gtk', dependencies=['librep', 'gtk+'])
 gnome2.addmod('librep')
 gnome2.addmod('monkey-sound', dependencies=['libgnomeui', 'gstreamer'])
-gnome2.addmod('rhythmbox-new', dependencies=['monkey-sound', 'gnome-panel'])
+gnome2.addmod('rhythmbox', dependencies=['monkey-sound', 'gnome-panel', 'gst-plugins'])
 
 gnome2.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
 gnome2.addmod('gstreamer', cvsroot=gstreamer_cvsroot,
