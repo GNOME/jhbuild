@@ -37,7 +37,6 @@ class ArchModule(AutogenModule):
                                dependencies, suggests,
                                supports_non_srcdir_builds)
         self.revision    = revision
-        self.archmodule  = archmodule
         self.checkoutdir = checkoutdir
         self.archive     = archive
 

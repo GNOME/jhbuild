@@ -217,12 +217,12 @@ def _parse_module_set(config, uri):
                 default_root = name
         elif node.nodeName == 'arch-archive':
             name = node.getAttribute('name')
-            uri = node.getAttribute('href')
+            arch_uri = node.getAttribute('href')
             is_default = False
             if node.hasAttribute('default'):
                 is_default = node.getAttribute('default') == 'yes'
             if not roots.has_key(name):
-                arch.register(name, uri)
+                arch.register(name, arch_uri)
                 roots[name] = ('arch', name)
             if is_default:
                 default_root = name

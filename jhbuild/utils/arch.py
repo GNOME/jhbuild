@@ -35,7 +35,7 @@ def register(archive, uri):
 
 def get_revision(directory):
     data = jhbuild.utils.cmds.get_output('tla tree-version %s' % directory)
-    archive, revision = contents.split('/')
+    archive, revision = data.strip().split('/')
     return archive, revision
 
 class ArchArchive:
@@ -73,9 +73,11 @@ class ArchArchive:
         os.chdir(dir)
 
         # how do you move a working copy to another branch?
-        wc_archive, wc_revision = get_branch('.')
+        wc_archive, wc_revision = get_revision('.')
         if (wc_archive, wc_revision) != (self.archive, revision):
             sys.stderr.write('working copy does not point at right branch\n')
+            sys.stderr.write('%s/%s != %s/%s\n' % (wc_archive, wc_revision,
+                                                   self.archive, revision))
             sys.stderr.write('XXXX - need code to switch the working copy\n')
             return -1
 
