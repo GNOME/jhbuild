@@ -92,7 +92,7 @@ def do_sanitycheck(config, args):
                          r'^([\d.]+)', '0.14.0'):
         print 'pkg-config >= 0.14.0 not found'
     if not check_version('db2html --version',
-                         r'.* version ([\d.]+)', '0.0'):
+                         r'.* ([\d.]+)', '0.0'):
         print 'db2html not found'
     if not check_version('autoconf --version',
                          r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
