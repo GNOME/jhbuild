@@ -2,6 +2,7 @@
 import os, string
 import urllib
 
+_isxterm = os.environ.get('TERM', '') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
 _normal = os.popen('tput rmso', 'r').read()
 
@@ -16,6 +17,8 @@ class Bootstrap:
         self.versioncheck = versioncheck
     def _bold(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)
+        if _isxterm:
+            print '\033]0;jhbuild: %s\007' % msg
     def _execute(self, command):
         print command
         ret = os.system(command)
@@ -27,7 +30,7 @@ class Bootstrap:
             out = os.popen(self.versioncheck, 'r').read()
             if out == '':
                 print 'package not found'
-            elif string.find(out, self.version):
+            elif string.find(out, self.version) >= 0:
                 print 'package found'
                 return 0
             else:

@@ -1,5 +1,6 @@
 import os, string
 
+_isxterm = os.environ.get('TERM','') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
 _normal = os.popen('tput rmso', 'r').read()
 
@@ -121,6 +122,8 @@ class BuildScript:
 
     def _message(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)
+        if _isxterm:
+            print '\033]0;jhbuild: %s\007' % msg
 
     def _execute(self, command):
         print command
