@@ -89,6 +89,16 @@ head.add(Module(name='libgnomeprintui',
                 dependencies=['libgnomeprint']))
 head.add(Module(name='libgnomeprint',
                 dependencies=['libbonobo', 'libart_lgpl']))
+head.add(Module(name='memprof',
+                dependencies=['libgnomeui']))
+head.add(Module(name='eog',
+                dependencies=['libgnomeui']))
+head.add(Module(name='gal2', revision='gal-2',
+                dependencies=['libgnomeui']))
+head.add(Module(name='libole2',
+                dependencies=['glib']))
+head.add(Module(name='gnumeric',
+                dependencies=['libole2', 'gal2']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
