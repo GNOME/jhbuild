@@ -6,6 +6,9 @@
   <cvsroot name="gcc.gnu.org"
      root=":pserver:anoncvs@gcc.gnu.org:/cvs/gcc"
      password="" />
+  <cvsroot name="rhug.sources.redhat.com"
+     root=":pserver:anoncvs@sources.redhat.com:/cvs/rhug"
+     password="" />
   <cvsroot name="mauve.sources.redhat.com"
      root=":pserver:anoncvs@sources.redhat.com:/cvs/mauve"
      password="anoncvs" />
@@ -18,18 +21,53 @@
   <cvsroot name="gnome.org"
      root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
      password="" />
+  <cvsroot name="classpath.savannah.gnu.org"
+     root=":ext:anoncvs@savannah.gnu.org:/cvsroot/classpath"
+     password="" />
+  <cvsroot name="classpathx.savannah.gnu.org"
+     root=":ext:anoncvs@savannah.gnu.org:/cvsroot/classpathx"
+     password="" />
 
   <include href="gnome-2.10.modules" />
 
   <gdbmodule id="gdb" cvsroot="gdb.sources.redhat.com" />
 
-  <gcjmodule id="gcj" revision="java-gui-branch" cvsroot="gcc.gnu.org">
+  <gcjmodule id="gcj" cvsroot="gcc.gnu.org">
     <dependencies>
       <dep package="cairo" />
       <dep package="gtk+" />
       <dep package="gdb" />
     </dependencies>
   </gcjmodule>
+
+  <cvsmodule id="java-gcj-compat" cvsroot="rhug.sources.redhat.com">
+    <dependencies>
+      <dep package="ecj-for-jhbuild" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="ecj-for-jhbuild" cvsroot="rhug.sources.redhat.com"
+	     supports-non-srcdir-builds="no">
+    <dependencies>
+      <dep package="gcj" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="jaxp" cvsroot="classpathx.savannah.gnu.org" >
+    <dependencies>
+      <dep package="gcj" />
+      <dep package="libxml2" />
+      <dep package="libxslt" />
+    </dependencies>
+  </cvsmodule>
+
+  
+  <cvsmodule id="gjdoc" cvsroot="classpath.savannah.gnu.org" >
+    <dependencies>
+      <dep package="gcj" />
+      <dep package="jaxp" />
+    </dependencies>
+  </cvsmodule>
 
   <!-- The mauve, verify and jacks test suites cannot be built using
   jhbuild build.  They can be checked out using jhbuild updateone,

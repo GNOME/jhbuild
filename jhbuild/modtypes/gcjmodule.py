@@ -162,6 +162,9 @@ class GCJModule(base.CVSModule):
             if not os.path.exists(os.path.join(buildscript.config.prefix, 'bin', 'gij')):
                 os.symlink(os.path.join(buildscript.config.prefix, 'gcj-bin', 'gij'), \
                            os.path.join(buildscript.config.prefix, 'bin', 'gij'))
+            if not os.path.exists(os.path.join(buildscript.config.prefix, 'bin', 'gcj-dbtool')):
+                os.symlink(os.path.join(buildscript.config.prefix, 'gcj-bin', 'gcj-dbtool'), \
+                           os.path.join(buildscript.config.prefix, 'bin', 'gcj-dbtool'))
         return (self.STATE_DONE, error, [])
 
 def parse_gcjmodule(node, config, dependencies, suggests, cvsroot):
