@@ -120,7 +120,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
 
     # remove modules up to startat
     if startat:
-        while module_list[0].name != startat:
+        while module_list and module_list[0].name != startat:
             del module_list[0]
 
     build = module.BuildScript(config, module_list=module_list)
