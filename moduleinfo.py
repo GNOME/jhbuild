@@ -191,7 +191,7 @@ gnome20.addmod('pan',
 gnome20.addmod('ggv', dependencies=['scrollkeeper', 'libgnomeui'])
 
 gnome20.addmod('gtksourceview', dependencies=['gtk+'])
-gnome20.addmod('glimmer', dependencies=['gtksourceview'])
+gnome20.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint'])
 gnome20.addmod('gdl', dependencies=['libgnomeui', 'librsvg'])
 gnome20.addmod('gnome-build', dependencies=['gdl', 'gnome-vfs', 'gtkhtml2'])
 gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build', 'libzvt'])
@@ -241,6 +241,10 @@ gnome20.add(MetaModule('meta-gnome-c++',
 
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
+gnome22.add(Tarball('startup-notification', '0.4',
+                    'http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.4.tar.gz',
+                    199548, [],
+                    'pkg-config --modversion libstartup-notification-1.0'))
 gnome22.addmod('gnome-common');
 gnome22.addmod('gnome-icon-theme');
 gnome22.addmod('glib', dependencies=['gtk-doc'])
@@ -257,12 +261,14 @@ gnome22.addmod('gnome-vfs',
                dependencies=['libbonobo', 'gconf', 'gnome-mime-data'])
 gnome22.addmod('vte', dependencies=['gtk+'])
 gnome22.addmod('gnome-terminal',
-               dependencies=['libglade', 'libgnomeui', 'libzvt','vte'],
-							 autogenargs='--with-widget=vte')
+               dependencies=['libglade', 'libgnomeui', 'libzvt','vte',
+                             'startup-notification'],
+               autogenargs='--with-widget=vte')
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop', 'metacity'])
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
-gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
+gnome22.addmod('gnome-desktop',
+               dependencies=['libgnomeui', 'libwnck', 'startup-notification'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-applets',
                dependencies=['scrollkeeper', 'gnome-panel','libgtop', 'gail'])
@@ -283,7 +289,7 @@ gnome22.addmod('libgnomecanvas',
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
 gnome22.addmod('libgnomeprint', dependencies=['libart_lgpl', 'glib', 'gnome-common', 'pango'])
 gnome22.addmod('libgnomeprintui', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
-gnome20.addmod('gnome-games',
+gnome22.addmod('gnome-games',
                dependencies=['scrollkeeper', 'libgnomeui'])
 
 # libgnomeprint-2.0 and libgnomeprintui-2.0 are the gnome 2.0 versions
@@ -305,6 +311,8 @@ gnome22.addmod('bug-buddy', dependencies=['libgnomeui'])
 gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
 
 gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
+
+gnome22.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint-2.0'])
 gnome22.addmod('nautilus-media', dependencies=['nautilus', 'gstreamer', 'gst-plugins'])
 
 # gnome 1.x support
