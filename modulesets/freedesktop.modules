@@ -2,27 +2,138 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <cvsroot name="xlibs.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xlibs"
-     password="" />
-  <cvsroot name="fontconfig.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
-     password="" />
   <cvsroot name="cairo.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
-     password="" />
-  <cvsroot name="startup-notification.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/startup-notification"
      password="" />
   <cvsroot name="dbus.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/dbus"
      password="" />
+  <cvsroot name="fontconfig.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
+     password="" />
+  <cvsroot name="startup-notification.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/startup-notification"
+     password="" />
+  <cvsroot name="xlibs.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xlibs"
+     password="" />
+  <cvsroot name="xserver.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xserver"
+     password="" />
+
+  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
+  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="slim" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="libpixregion" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="libic" />
+      <dep package="Xft" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" />
 
   <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" />
-  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org">
+  
+  <cvsmodule id="startup-notification"
+             cvsroot="startup-notification.freedesktop.org" />
+    
+  <cvsmodule id="CompositeExt" cvsroot="xlibs.freedesktop.org"> 
     <dependencies>
-      <dep package="Render" />
+      <dep package="XExtensions" />
+      <dep package="FixesExt" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="DamageExt" cvsroot="xlibs.freedesktop.org"> 
+    <dependencies>
+      <dep package="FixesExt" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="FixesExt" cvsroot="xlibs.freedesktop.org"> 
+    <dependencies>
+      <dep package="XExtensions" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="ICE" cvsroot="xlibs.freedesktop.org"> 
+    <dependencies>
+      <dep package="xtrans" />
+      <dep package="X11" />
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Randr" cvsroot="xlibs.freedesktop.org" /> 
+  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="ResourceExt" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="SM" cvsroot="xlibs.freedesktop.org"> 
+    <dependencies>
+      <dep package="ICE" />
+      <dep package="X11" />
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="X11" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="xtrans" />
+      <dep package="Xau" />
+      <dep package="Xdmcp" />
+      <dep package="XExtensions" />
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="XExtensions" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="XRes" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="ResourceExt" />
+      <dep package="X11" />
+      <dep package="Xext" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xau" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xcursor" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="XRender" />
+      <dep package="XFixes" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xdamage" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="X11" />
+      <dep package="DamangeExt" />
+      <dep package="Xfixes" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xdmcp" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xext" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="X11" />
+      <dep package="XExtensions" />
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xfixes" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="FixesExt" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xfont" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="Xproto" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="Xft" cvsroot="xlibs.freedesktop.org">
@@ -31,31 +142,40 @@
       <dep package="Xrender" />
     </dependencies>
   </cvsmodule>
-
-  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
-
-  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
+  <cvsmodule id="Xi" cvsroot="xlibs.freedesktop.org">
     <dependencies>
-      <dep package="slim" />
+      <dep package="Xproto" />
+      <dep package="X11" />
     </dependencies>
   </cvsmodule>
-
-  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
+  <cvsmodule id="Xproto" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="Xrandr" cvsroot="xlibs.freedesktop.org">
     <dependencies>
-      <dep package="libpixregion" />
+      <dep package="Randr" />
+      <dep package="Xext" />
+      <dep package="Xrender" />
     </dependencies>
   </cvsmodule>
-
-  <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
+  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org">
     <dependencies>
-      <dep package="libic" />
-      <dep package="Xft" />
+      <dep package="Render" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="xtrans" cvsroot="xlibs.freedesktop.org" />
 
-  <cvsmodule id="startup-notification"
-             cvsroot="startup-notification.freedesktop.org" />
-    
-  <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" />
-
+  <cvsmodule id="xserver" cvsroot="xserver.freedesktop.org">
+    <dependencies>
+      <dep package="xtrans" />
+      <dep package="FixesExt" />
+      <dep package="DamageExt" />
+      <dep package="Randr" />
+      <dep package="Render" />
+      <dep package="ResourceExt" />
+      <dep package="Xau" />
+      <dep package="Xext" />
+      <dep package="XExtensions" />
+      <dep package="Xfont" />
+      <dep package="Xproto" />
+    </dependencies>
+  </cvsmodule>
 </moduleset>
