@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (cvsroot*,(cvsmodule|metamodule|tarball|mozillamodule)*) >
+<!ELEMENT moduleset (cvsroot*,(include|cvsmodule|metamodule|tarball|mozillamodule)*) >
 
 <!ELEMENT cvsroot EMPTY >
 <!ATTLIST cvsroot
@@ -6,6 +6,10 @@
   root CDATA #REQUIRED
   password CDATA #IMPLIED
   default (yes|no) 'no' >
+
+<!ELEMENT include EMPTY >
+<!ATTLIST include
+  href CDATA #REQUIRED >
 
 <!ELEMENT cvsmodule (dependencies?) >
 <!ATTLIST cvsmodule
