@@ -127,7 +127,10 @@ class TerminalBuildScript(buildscript.BuildScript):
             elif val == '3':
                 return 'poison'
             elif val == '4':
-                os.chdir(module.get_builddir(self))
+                try:
+                    os.chdir(module.get_builddir(self))
+                except OSError:
+                    os.chdir(self.config.checkoutroot)
                 print 'exit shell to continue with build'
                 os.system(user_shell)
             else:
