@@ -30,7 +30,7 @@ class Bootstrap:
             out = os.popen(self.versioncheck, 'r').read()
             if out == '':
                 print 'package not found'
-            elif string.find(out, self.version) >= 0:
+            elif string.find(out, string.replace(self.version, 'x', '')) >= 0:
                 print 'package found'
                 return 0
             else:
@@ -74,8 +74,13 @@ class Bootstrap:
             return
 
         # change to package directory
-        assert localfile[-7:] == '.tar.gz', 'package name should end in .tar.gz'
-        os.chdir(localfile[:-7])
+        if localfile[-7:] == '.tar.gz':
+            os.chdir(localfile[:-7])
+        elif localfile[-4:] == '.tgz':
+            os.chdir(localfile[:-4])
+        else:
+            print 'unknown package extension: ', self.package
+            return
 
         # is there a patch to apply?
         if self.patch:
@@ -133,7 +138,12 @@ bootstraps = [
               'http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.8.0.tar.gz',
               585852,
               None,
-              'pkg-config --version')
+              'pkg-config --version'),
+    Bootstrap('python', '2.x',
+              'http://www.python.org/ftp/python/2.2/Python-2.2.tgz',
+              6542443,
+              None,
+              'echo "import sys, string; print string.split(sys.version)[0];" | python -')
 ]
 
 def build_bootstraps(config):

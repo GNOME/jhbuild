@@ -1,3 +1,11 @@
+2002-01-14  Alex Graveley  <alex@ximian.com>
+
+	* bootstrap.py (bootstraps): Add python bootstrap for 2.x.
+	(Bootstrap.build): Allow tarballs to end in tgz, 
+	(Bootstrap.wants_package): Remove 'x' in the version string to let
+	us display "checking for python 2.x" but really just look for '2.'
+	This should probably use regexps.
+
 2002-01-12   Xavier Ordoquy  <MCArkan@gael.sourceforge.net>
 
 	* moduleinfo.py: added gnome-common to gnome-mime-data
@@ -25,8 +33,8 @@ Mon Jan  7 20:00:42 2002  Jonathan Blandford  <jrb@redhat.com>
 
 2002-01-04  Alex Graveley  <alex@ximian.com>
 
-       * jhbuild.py (addpath): Fix LD_PRELOAD munging so entire path to
-       libgdkxft is removed, not just the library name.
+	* jhbuild.py (addpath): Fix LD_PRELOAD munging so entire path to
+	libgdkxft is removed, not just the library name.
 
 2002-01-04  James Henstridge  <james@daa.com.au>
 
