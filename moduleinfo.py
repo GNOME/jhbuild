@@ -37,7 +37,7 @@ gnome20.add(Tarball('scrollkeeper', '0.3.11',
                     'http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.11.tar.gz',
                     437816, [],
                     'scrollkeeper-config --version',
-                    dependencies=['libxml2', 'libxslt']))
+                    dependencies=['libxml2', 'libxslt', 'intltool']))
 
 gnome20.addmod('intltool')
 gnome20.addmod('gnome-common', revision='gnome-2-0',)
