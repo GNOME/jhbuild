@@ -6,6 +6,12 @@
   <cvsroot name="gnome.org" default="yes"
      root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
      password="" />
+  <cvsroot name="xlibs.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xlibs"
+     password="" />
+  <cvsroot name="fontconfig.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
+     password="" />
   <cvsroot name="keithp.com"
      root=":pserver:anoncvs@keithp.com:/local/src/CVS"
      password="" />
@@ -50,14 +56,14 @@
     <source href="http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.5.tar.gz" size="211978" />
   </tarball>
 
-  <cvsmodule id="fontconfig" revision="fc-2_2_branch" cvsroot="keithp.com" />
-  <cvsmodule id="Render" cvsroot="keithp.com" />
-  <cvsmodule id="Xrender" cvsroot="keithp.com">
+  <cvsmodule id="fontconfig" revision="fc-2_2_branch" cvsroot="fontconfig.freedesktop.org" />
+  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org">
     <dependencies>
       <dep package="Render" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="Xft" cvsroot="keithp.com">
+  <cvsmodule id="Xft" cvsroot="fontconfig.freedesktop.org">
     <dependencies>
       <dep package="fontconfig" />
       <dep package="Xrender" />
