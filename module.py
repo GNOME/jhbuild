@@ -120,8 +120,9 @@ class CVSModule(Package):
         os.chdir(checkoutdir)
         buildscript.setAction('Configuring', self)
         cmd = './autogen.sh --prefix %s %s %s' % \
-              (buildscript.config.prefix, buildscript.config.autogenargs,
-               self.autogenargs)
+              (buildscript.config.prefix, 
+               self.autogenargs,
+               buildscript.config.autogenargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
