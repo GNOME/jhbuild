@@ -28,18 +28,18 @@ class Module:
         '''arguments to checkout the module'''
         ret = 'checkout '
         if self.checkoutdir:
-            ret = ret + '-d ' + self.checkoutdir + ' '
+            ret = ret + '-d %s ' % self.checkoutdir
         if self.revision:
-            ret = ret + '-r ' + self.revision + ' '
+            ret = ret + '-r %s ' % self.revision
         else:
             ret = ret + '-A '
         return ret + self.name
 
     def cvs_update_args(self):
         '''arguments to update the module (to be run from checkout dir)'''
-        ret = 'update '
+        ret = 'update -P -d '
         if self.revision:
-            ret = ret + '-r ' + self.revision + ' '
+            ret = ret + '-r %s ' % self.revision
         else:
             ret = ret + '-A '
         return ret + '.'
