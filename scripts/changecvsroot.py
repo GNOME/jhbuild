@@ -20,17 +20,20 @@
 
 import os
 
-def changecvsroot(newroot, *dirs):
-    def handle(newroot, dirname, fnames):
+def changecvsroot(oldroot, newroot, *dirs):
+    def handle((oldroot, newroot), dirname, fnames):
         if os.path.basename(dirname) == 'CVS' and 'Root' in fnames:
-            fp = open(os.path.join(dirname, 'Root'), 'w')
-            fp.write('%s\n' % newroot)
+            r = open(os.path.join(dirname, 'Root'), 'r').read().strip()
+            if r == oldroot:
+                fp = open(os.path.join(dirname, 'Root'), 'w')
+                fp.write('%s\n' % newroot)
+                fp.close()
     for dir in dirs:
-        os.path.walk(dir, handle, newroot)
+        os.path.walk(dir, handle, (oldroot, newroot))
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) < 3:
-        sys.stderr.write('usage: changecvsroot.py newroot dirs ...\n')
+    if len(sys.argv) < 4:
+        sys.stderr.write('usage: changecvsroot.py oldroot newroot dirs ...\n')
         sys.exit(1)
-    changecvsroot(sys.argv[1], *sys.argv[2:])
+    changecvsroot(sys.argv[1], sys.argv[2], *sys.argv[2:])

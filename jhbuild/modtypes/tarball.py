@@ -77,10 +77,10 @@ class Tarball(base.Package):
             import md5
             sum = md5.new()
             fp = open(localfile, 'rb')
-            data = fp.read(4192)
+            data = fp.read(4096)
             while data:
                 sum.update(data)
-                data = fp.read(4192)
+                data = fp.read(4096)
             fp.close()
             if sum.hexdigest() != self.source_md5:
                 return 'file MD5 sum incorrect (expected %s, got %s)' % \
