@@ -130,6 +130,18 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         info.append(('Build Host', socket.gethostname()))
         info.append(('Architecture', '%s %s (%s)' % (un[0], un[2], un[4])))
+
+        release_files = ['/etc/redhat-release', '/etc/debian_version' ]
+        release_files += [ os.path.join('/etc', fname)
+                           for fname in os.listdir('/etc')
+                           if fname.endswith('release') \
+                              and fname != 'lsb-release' ]
+        for filename in release_files:
+            if os.path.exists(filename):
+                info.append(('Distribution',
+                             open(filename, 'r').readline().strip()))
+                break
+
         info.append(('Module Set', self.config.moduleset))
         info.append(('Time', self.timestamp()))
 
