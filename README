@@ -1,0 +1,47 @@
+Yet Another Gnome 2 Build Script
+================================
+
+This is another set of scripts for building GNOME 2.  They are still a
+little rough around the edges, but may still be useful to you.
+
+They don't enforce any particular checkout, build or install
+directories for your gnome2 setup.  Currently, it doesn't handle
+external modules that must be installed (such as gettext, libtool,
+etc) -- those will need to be installed manually.
+
+Once the dependency information is added, the script should be usable
+for a stable gnome setup as well.
+
+To install the scripts run "make install", and then copy
+sample.jhbuildrc to ~/.jhbuildrc and edit to match your setup.  My rc
+file is provided for reference as jamesh.jhbuildrc.
+
+
+Using jhbuild
+-------------
+
+To build everything, just type 'jhbuild'.  Some useful options are:
+  --no-cvs	Don't pull the sources from CVS.  Useful for building
+		when not connected to the network.
+  --no-build	Just update the source, don't build.
+  --clean       Always rerun autogen and make clean before building a
+		module.
+
+When an error is encountered, you will be given a chance to fix the
+problem.  You can choose to rerun that part of the build, start a
+shell to give you a chance to fix things, give up on the module all
+together, or ignore the error (useful for certain cvs errors).
+
+If you give up on building a module, all modules that depend on it
+will be skipped.  If you would prefer the build not to ask questions
+on errors, you can pass the --no-interact switch, which is equivalent
+to always choosing give up.
+
+
+Module info
+-----------
+
+Information about how to build the modules is contained in the
+moduleinfo.py file.  This file needs to be modified when dependencies
+between modules change (usually, no change to the ~/.jhbuildrc will be
+needed).

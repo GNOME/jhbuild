@@ -1,0 +1,30 @@
+# -*- mode: python -*-
+
+# edit this file to match your settings and copy it to ~/.jhbuildrc
+
+import os
+
+# what cvs root should be used to checkout the files?
+cvsroot = ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome'
+
+# what module set should be used? (only head supported at the moment)
+moduleset = 'head'
+
+# either a list of modules to build, or 'all' to build all
+# modules in the set.
+modules = 'all'
+
+# what directory should the source be checked out to?
+checkoutroot = os.environ['HOME'] +  '/cvs/gnome2'
+
+# the prefix to configure/install modules to (must have write access)
+prefix = '/opt/gnome2'
+
+# extra arguments to pass to all autogen.sh scripts
+# to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
+#   autogenargs=''
+
+# a alternative install program to use.
+# The included install-check program won't update timestamps if the
+# header hasn't changed
+#   installprog = '/home/james/bin/install-check'

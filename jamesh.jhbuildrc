@@ -1,0 +1,20 @@
+# -*- mode: python -*-
+import os
+
+# information about cvs server
+cvsroot = ':pserver:jamesh@cvs.gnome.org:/cvs/gnome'
+
+# modules to build (deps are also built)
+moduleset = 'head'
+modules = ['gtk+', 'libglade', 'bonobo-config']
+
+# where the sources are checked out to
+checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+
+# the prefix to install things to (user must have write access)
+prefix = '/opt/gtk2'
+
+# arguments to pass to autogen script
+autogenargs='--disable-static --disable-gtk-doc'
+
+installprog = '/home/james/bin/install-check'
