@@ -33,7 +33,10 @@ def register_command(name, function):
 def run(command, config, args):
     # if the command hasn't been registered, load a module by the same name
     if not _commands.has_key(command):
-        __import__('jhbuild.commands.%s' % command)
+        try:
+            __import__('jhbuild.commands.%s' % command)
+        except ImportError:
+            pass
     if not _commands.has_key(command):
         raise FatalError('command not found')
 
