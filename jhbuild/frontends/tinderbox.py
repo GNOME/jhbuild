@@ -163,8 +163,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
                            '</tr>\n' % self.timestamp())
         if failures:
             info = '<p>The following modules failed to build</p>\n'
-            info += '<blockquote>\n%s\n</blockquote>\n' \
-                    ', '.join(failures)
+            info += '<blockquote>\n'
+            info += ', '.join(failures)
+            info += '</blockquote>\n'
         else:
             info = ''
         self.indexfp.write(index_footer % { 'failures': info })

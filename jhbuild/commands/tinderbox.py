@@ -18,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import getopt
+from jhbuild.errors import UsageError
 from jhbuild.commands.base import register_command
 import jhbuild.frontends
 
@@ -44,6 +45,9 @@ def do_tinderbox(config, args):
             config.tinderbox_outputdir = arg
         elif opt == '-D':
             config.sticky_date = arg
+
+    if not config.tinderbox_outputdir:
+        raise UsageError('output directory for tinderbox build not specified')
 
     module_set = jhbuild.moduleset.load(config)
     module_list = module_set.get_module_list(args or config.modules,
