@@ -1088,7 +1088,13 @@
       <dep package="gnome-panel" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gnome-doc-utils" autogenargs="--disable-build-utils">
+  <cvsmodule id="xml2po" module="gnome-doc-utils/xml2po" checkoutdir="xml2po">
+  </cvsmodule>
+  <cvsmodule id="gnome-doc-utils">
+    <dependencies>
+      <dep package="xml2po" />
+      <dep package="libxslt" />
+    </dependencies>
   </cvsmodule>
   <cvsmodule id="totem" autogenargs="--enable-gstreamer">
     <dependencies>
