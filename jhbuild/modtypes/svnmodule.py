@@ -67,7 +67,7 @@ class SVNModule(Package):
         # branch under trunk/, branches under branches/foo/ and tags
         # under tags/bar/.
         # Use this to give a meaningful revision number.
-        path_parts = self.module.split('/')
+        path_parts = self.svnmodule.split('/')
         for i in range(len(path_parts) - 1):
             if path_parts[i] in ('branches', 'tags'):
                 return path_parts[i+1]
