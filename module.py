@@ -164,9 +164,10 @@ class MetaModule(Package):
         return (self.STATE_DONE, None, None)
 
 class MozillaModule(CVSModule):
-    def __init__(self, name, autogenargs='', dependencies=[], cvsroot = None):
+    def __init__(self, name, branch, autogenargs='', dependencies=[], cvsroot = None):
         CVSModule.__init__(self, name, autogenargs = autogenargs,
 			   dependencies = dependencies, cvsroot = cvsroot)
+	self.branch = branch
         
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
@@ -181,13 +182,12 @@ class MozillaModule(CVSModule):
     def checkout(self, buildscript):
         buildscript.message('checking out %s' % self.name)
         os.chdir(buildscript.config.checkoutroot)
-        if not os.path.exists(os.path.join('mozilla', 'client.mk')):
-            res = buildscript.execute(
-                'cvs -z3 -q -d %s checkout -A mozilla/client.mk' %
-                self.cvsroot)
-            if res != 0:
-                raise SystemExit, \
-                      "something went wrong while checking out mozilla, please try again later"
+        res = buildscript.execute(
+            'cvs -z3 -q -d %s checkout' % self.cvsroot + \
+	    ' -r %s mozilla/client.mk' % self.branch)
+        if res != 0:
+            raise SystemExit, \
+                "something went wrong while checking out mozilla, please try again later"
 
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
@@ -532,9 +532,12 @@ def read_module_set(configdict):
                                     dependencies=dependencies))
         elif node.nodeName == 'mozillamodule':
             name = node.getAttribute('id')
+	    branch = 'HEAD'
             autogenargs = ''
             cvsroot = cvsroots[default_cvsroot]
             dependencies = []
+            if node.hasAttribute('branch'):
+                branch = node.getAttribute('branch')
             if node.hasAttribute('checkoutdir'):
                 checkoutdir = node.getAttribute('checkoutdir')
             if node.hasAttribute('autogenargs'):
@@ -550,7 +553,7 @@ def read_module_set(configdict):
                             assert dep.nodeName == 'dep'
                             dependencies.append(dep.getAttribute('package'))
                     break
-            moduleset.add(MozillaModule(name, autogenargs, dependencies,
+            moduleset.add(MozillaModule(name, branch, autogenargs, dependencies,
                                         cvsroot))
         elif node.nodeName == 'tarball':
             name = node.getAttribute('id')
