@@ -26,6 +26,8 @@ if not hasattr(__builtins__, 'True'):
 
 import module
 
+BuildScript = None
+
 usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).
 
@@ -34,6 +36,7 @@ Global options:
       --no-interact            do not prompt for input
 
 Commands:
+  gui                          build targets from a gui app
   update                       update from cvs
   updateone modules            update a fixed set of modules.
   build [ opts... ] [modules]  update and compile (the default)
@@ -109,7 +112,8 @@ def do_update(config, args, interact=1):
     config['nobuild'] = True
     config['nonetwork'] = False
 
-    build = module.BuildScript(config, module_list=module_list)
+    global BuildScript
+    build = BuildScript(config, module_list=module_list)
     build.build(interact)
 
 def do_update_one(config, args, interact=1):
@@ -125,7 +129,8 @@ def do_update_one(config, args, interact=1):
     config['nobuild'] = True
     config['nonetwork'] = False
 
-    build = module.BuildScript(config, module_list=module_list)
+    global BuildScript
+    build = BuildScript(config, module_list=module_list)
     build.build(interact)
 
 
@@ -161,8 +166,29 @@ def do_build(config, args, interact=1, cvsupdate=1):
         while module_list and module_list[0].name != startat:
             del module_list[0]
 
-    build = module.BuildScript(config, module_list=module_list)
+    global BuildScript
+    build = BuildScript(config, module_list=module_list)
     build.build(interact)
+
+def do_gui(config, args, interact=1):
+    import gtk_buildscript
+    
+    configuration = gtk_buildscript.Configuration(config, args, interact)
+    (module_list, start_at, run_autogen, cvs_update) = configuration.run()
+    
+    if start_at:
+        while module_list and module_list[0].name != start_at:
+            del module_list[0]
+ 
+    if (run_autogen):
+        config['alwaysautogen'] = True
+    elif (not cvs_update):
+        config['nonetwork'] = True
+        
+    if (module_list != None):
+        global BuildScript
+        build = BuildScript(config, module_list=module_list)
+        build.build()
 
 def do_build_one(config, args, interact=1):
     opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-network'])
@@ -182,7 +208,8 @@ def do_build_one(config, args, interact=1):
     except KeyError:
         raise SystemExit, "A module called '%s' could not be found." % modname
 	
-    build = module.BuildScript(config, module_list=module_list)
+    global BuildScript
+    build = BuildScript(config, module_list=module_list)
     build.build(interact)
 
 def do_run(config, args, interact=1):
@@ -227,6 +254,7 @@ def do_dot(config, args, interact=1):
     module_set.write_dot(modules)
 
 commands = {
+    'gui':       do_gui,
     'update':    do_update,
     'updateone': do_update_one,
     'build':     do_build,
@@ -326,6 +354,15 @@ def main(args):
     else:
         command = args[0]
         args = args[1:]
+
+    global BuildScript
+
+    if (command == 'gui'):
+        import gtk_buildscript
+        BuildScript = gtk_buildscript.GtkBuildScript
+    else:
+        import terminal_buildscript
+        BuildScript = terminal_buildscript.TerminalBuildScript
 
     try:
         cmd = commands[command]

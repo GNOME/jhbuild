@@ -1,3 +1,29 @@
+2003-09-22  Seth Nickell  <seth@gnome.org>
+
+        Add a GTK interface mode for jhbuild: "jhbuild gui"
+	
+	* module.py:
+	* buildscript.py:
+	* terminal_buildscript.py:
+
+	Split BuildScript class into a separate module, containing
+	the basic logic for doing builds. Specific output commands
+	are refactored into terminal_buildscript.py. Also change
+	message method to the closely related setAction, which is
+	needed for doing good GUI output.
+
+	* gtk_buildscript.py:
+	* jhbuild.glade:
+
+	A buildscript flavour that displays using GTK instead.
+	
+	* jhbuild.py:
+
+	Add the new gui mode, and add instantiation of different
+	buildscripts depending on whether you're in gui mode or
+	not. The idea is that eventually gui could be a flag not
+	a mode and the different commands would still work on it.
+	
 2003-09-21  Anders Carlsson  <andersca@gnome.org>
 
 	* modulesets/gnome26.modules: Update cvs roots.

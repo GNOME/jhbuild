@@ -28,16 +28,6 @@ except ImportError:
 
 import cvs
 
-term = os.environ.get('TERM', '')
-_isxterm = term.find('xterm') >= 0 or term == 'rxvt'
-del term
-_boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput sgr0', 'r').read()
-user_shell = os.environ.get('SHELL', '/bin/sh')
-
-class _Struct:
-    pass
-
 class Package:
     STATE_START = 'start'
     STATE_DONE  = 'done'
@@ -94,7 +84,7 @@ class CVSModule(Package):
         cvsroot = cvs.CVSRoot(self.cvsroot,
                               buildscript.config.checkoutroot)
         checkoutdir = self.get_builddir(buildscript)
-        buildscript.message('checking out %s' % self.name)
+        buildscript.setAction('Checking out', self)
         res = cvsroot.update(buildscript, self.cvsmodule,
                              self.revision, self.checkoutdir)
 
@@ -116,7 +106,7 @@ class CVSModule(Package):
         cvsroot = cvs.CVSRoot(self.cvsroot,
                               buildscript.config.checkoutroot)
         checkoutdir = self.get_builddir(buildscript)
-        buildscript.message('checking out %s' % self.name)
+        buildscript.setAction('Checking out', self)
         res = cvsroot.checkout(buildscript, self.cvsmodule,
                                self.revision, self.checkoutdir)
         if res == 0 and os.path.exists(checkoutdir):
@@ -128,7 +118,7 @@ class CVSModule(Package):
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
-        buildscript.message('configuring %s' % self.name)
+        buildscript.setAction('Configuring', self)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (buildscript.config.prefix, buildscript.config.autogenargs,
                self.autogenargs)
@@ -140,7 +130,7 @@ class CVSModule(Package):
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('building %s' % self.name)
+        buildscript.setAction('Building', self)
         cmd = 'make %s' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
@@ -150,7 +140,7 @@ class CVSModule(Package):
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('installing %s' % self.name)
+        buildscript.setAction('Installing', self)
         cmd = 'make %s install' % buildscript.config.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
@@ -182,7 +172,7 @@ class MozillaModule(CVSModule):
             raise AssertionError
 
     def checkout(self, buildscript):
-        buildscript.message('checking out %s' % self.name)
+        buildscript.setAction('Checking out', self)
         os.chdir(buildscript.config.checkoutroot)
         res = buildscript.execute(
             'cvs -z3 -q -d %s checkout' % self.cvsroot + \
@@ -201,7 +191,7 @@ class MozillaModule(CVSModule):
             res = self.checkout(buildscript)
         else:
             os.chdir(checkoutdir)
-            buildscript.message('updating %s' % self.name)
+            buildscript.setAction('Updating', self)
             res = buildscript.execute('make -f client.mk fast-update')
 
         if buildscript.config.nobuild:
@@ -227,7 +217,7 @@ class MozillaModule(CVSModule):
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
-        buildscript.message('configuring %s' % self.name)
+        buildscript.setAction('Configuring', self)
 	mozilla_path = buildscript.config.prefix + '/lib/mozilla-' + \
                        self.get_mozilla_ver(buildscript)
         
@@ -289,7 +279,7 @@ class Tarball(Package):
         if not buildscript.config.nonetwork:
             if (not os.path.exists(localfile) or
                 os.stat(localfile)[6] != self.source_size):
-                buildscript.message('downloading %s' % self.source_url)
+                buildscript.setAction('Downloading', self, action_target=self.source_url)
                 res = buildscript.execute('wget "%s" -O "%s"' %
                                           (self.source_url, localfile))
                 if res:
@@ -306,7 +296,7 @@ class Tarball(Package):
         localfile = os.path.basename(self.source_url)
         checkoutdir = self.get_builddir(buildscript)
 
-        buildscript.message('unpacking %s' % self.name)
+        buildscript.setAction('Unpacking', self)
         if localfile.endswith('.bz2'):
             res = buildscript.execute('bunzip2 -dc %s | tar xf -' % localfile)
         elif localfile.endswith('.gz'):
@@ -324,7 +314,7 @@ class Tarball(Package):
         
         for patch in self.patches:
             patchfile = os.path.join(os.path.dirname(__file__), patch[0])
-            buildscript.message('applying patch %s' % patch[0])
+            buildscript.setAction('Applying Patch', self, action_target=patch[0])
             res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
             if res:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
@@ -336,7 +326,7 @@ class Tarball(Package):
 
     def do_configure(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('configuring %s' % self.name)
+        buildscript.setAction('Configuring', self)
         res = buildscript.execute('./configure --prefix=%s' %
                                   buildscript.config.prefix)
         error = None
@@ -346,7 +336,7 @@ class Tarball(Package):
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('building %s' % self.name)
+        buildscript.setAction('Building', self)
         cmd = 'make %s' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
@@ -355,7 +345,7 @@ class Tarball(Package):
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('installing %s' % self.name)
+        buildscript.setAction('Installing', self)
         cmd = 'make %s install' % buildscript.config.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
@@ -608,120 +598,4 @@ def read_module_set(configdict):
                     break
             moduleset.add(MetaModule(id, dependencies=dependencies))
     return moduleset
-
-class BuildScript:
-    def __init__(self, configdict, module_list):
-        self.modulelist = module_list
-        self.module_num = 0
-
-        self.config = _Struct
-        self.config.autogenargs = configdict.get('autogenargs',
-                                                 '--disable-static ' +
-                                                 '--disable-gtk-doc')
-        self.config.makeargs = configdict.get('makeargs', '')
-        self.config.prefix = configdict.get('prefix', '/opt/gtk2')
-        self.config.nobuild = configdict.get('nobuild', False)
-        self.config.nonetwork = configdict.get('nonetwork', False)
-        self.config.alwaysautogen = configdict.get('alwaysautogen', False)
-        self.config.makeclean = configdict.get('makeclean', True)
-
-        self.config.checkoutroot = configdict.get('checkoutroot')
-        if not self.config.checkoutroot:
-            self.config.checkoutroot = os.path.join(os.environ['HOME'],
-                                                    'cvs','gnome')
-        assert os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK), \
-               'checkout root must be writable'
-        assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \
-               'install prefix must be writable'
-
-    def message(self, msg):
-        '''shows a message to the screen'''
-        if self.module_num > 0:
-            percent = ' [%d/%d]' % (self.module_num, len(self.modulelist))
-        else:
-            percent = ''
-        print '%s*** %s ***%s%s' % (_boldcode, msg, percent, _normal)
-        if _isxterm:
-            print '\033]0;jhbuild: %s%s\007' % (msg, percent)
-
-    def execute(self, command):
-        '''executes a command, and returns the error code'''
-        print command
-        ret = os.system(command)
-        print
-        return ret
-
-    def build(self, interact=1):
-        poison = [] # list of modules that couldn't be built
-
-        self.module_num = 0
-        for module in self.modulelist:
-            self.module_num = self.module_num + 1
-            poisoned = 0
-            for dep in module.dependencies:
-                if dep in poison:
-                    self.message('module %s not built due to non buildable %s'
-                                 % (module.name, dep))
-                    poisoned = True
-            if poisoned:
-                poison.append(module.name)
-                continue
-
-            state = module.STATE_START
-            while state != module.STATE_DONE:
-                nextstate, error, altstates = module.run_state(self, state)
-
-                if error:
-                    newstate = self.handle_error(module, state,
-                                                 nextstate, error,
-						 altstates, interact)
-                    if newstate == 'poison':
-                        poison.append(module.name)
-                        state = module.STATE_DONE
-                    else:
-                        state = newstate
-                else:
-                    state = nextstate
-        if len(poison) == 0:
-            self.message('success')
-        else:
-            self.message('the following modules were not built')
-            for module in poison:
-                print module,
-            print
-
-    def handle_error(self, module, state, nextstate, error, altstates, interact=1):
-        '''handle error during build'''
-        self.message('error during stage %s of %s: %s' % (state, module.name,
-                                                          error))
-	if interact == 0:
-	   return 'poison'
-        while True:
-            print
-            print '  [1] rerun stage %s' % state
-            print '  [2] ignore error and continue to %s' % nextstate
-            print '  [3] give up on module'
-            print '  [4] start shell'
-            i = 5
-            for altstate in altstates:
-                print '  [%d] go to stage %s' % (i, altstate)
-                i = i + 1
-            val = raw_input('choice: ')
-            val = val.strip()
-            if val == '1':
-                return state
-            elif val == '2':
-                return nextstate
-            elif val == '3':
-                return 'poison'
-            elif val == '4':
-                os.chdir(module.get_builddir(self))
-                print 'exit shell to continue with build'
-                os.system(user_shell)
-            else:
-                try:
-                    val = int(val)
-                    return altstates[val - 5]
-                except:
-                    print 'invalid choice'
 
