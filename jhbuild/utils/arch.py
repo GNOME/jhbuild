@@ -36,7 +36,7 @@ def register(archive, uri):
 
 def get_version(directory):
     '''Gets the tree version for a particular directory.'''
-    data = jhbuild.utils.cmds.get_output('baz tree-version %s' % directory)
+    data = jhbuild.utils.cmds.get_output('baz tree-version -d %s' % directory)
     archive, version = data.strip().split('/')
     return archive, version
 
