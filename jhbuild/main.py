@@ -53,7 +53,7 @@ Commands:
   info modules...              prints information about modules
 
 Options valid for the build, buildone, tinderbox and update commands:
-  -s, --skip=MODULES           treat the given modules (and deps) as up to date
+  -s, --skip=MODULES           treat the given modules as up to date
   -t, --start-at=MODULE        start building at the given module
   -D date_spec                 set a sticky date when checking out modules
 
