@@ -354,7 +354,7 @@ gnome22.addmod('at-spi', dependencies=['libbonobo', 'gail'])
 gnome22.addmod('libgail-gnome', dependencies=['at-spi', 'libgnomeui'])
 gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 
-gnome22.addmod('gnome-themes')
+gnome22.addmod('gnome-themes', dependencies=['gtk-engines'])
 gnome22.addmod('acme', dependencies=['gob'])
 
 gnome22.addmod('gedit',
