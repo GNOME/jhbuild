@@ -11,6 +11,12 @@
   <cvsroot name="fontconfig.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
      password="" />
+  <cvsroot name="hal.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/hal"
+     password=""/>
+   <cvsroot name="icon-theme.freedesktop.org"
+      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/icon-theme"
+      password="" />
   <cvsroot name="mime.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/mime"
      password="" />
@@ -41,8 +47,16 @@
 
   <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" />
 
+  <cvsmodule id="hal" cvsroot="hal.freedesktop.org">
+    <dependencies>
+      <dep package="dbus" />
+    </dependencies>
+  </cvsmodule>
+
   <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" />
   
+  <cvsmodule id="icon-slicer" cvsroot="icon-theme.freedesktop.org" />
+
   <cvsmodule id="shared-mime-info" cvsroot="mime.freedesktop.org" />
 
   <cvsmodule id="startup-notification"
