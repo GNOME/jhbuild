@@ -296,6 +296,8 @@ def setup_env(config):
     addpath('PATH', bindir)
     pkgconfigdir = os.path.join(libdir, 'pkgconfig')
     addpath('PKG_CONFIG_PATH', pkgconfigdir)
+    xdgdatadir = os.path.join(prefix, 'share')
+    addpath('XDG_DATA_DIRS', xdgdatadir)
     aclocaldir = os.path.join(prefix, 'share', 'aclocal')
     if not os.path.exists(aclocaldir):
 	os.mkdir(os.path.split(aclocaldir)[0])
