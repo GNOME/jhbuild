@@ -20,7 +20,8 @@ gnome2.addmod('gtk-doc', dependencies=['libxslt'])
 gnome2.addmod('glib', revision='glib-2-0', dependencies=['gtk-doc'])
 gnome2.addmod('pango', revision='pango-1-0', dependencies=['glib'])
 gnome2.addmod('atk', dependencies=['glib'])
-gnome2.addmod('gtk+', revision='gtk-2-0', dependencies=['pango', 'atk'])
+gnome2.addmod('gtk+', revision='gtk-2-0', dependencies=['pango', 'atk'],
+              autogenargs='-- --with-qt=no')
 gnome2.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome2.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
 gnome2.addmod('gnome-xml', checkoutdir='libxml2')
@@ -94,7 +95,8 @@ gnome2.addmod('libole2', dependencies=['glib','gnome-xml'])
 gnome2.addmod('libgsf', dependencies=['glib'])
 gnome2.addmod('gnumeric', dependencies=['libole2', 'libgsf', 'gal'])
 
-gnome2.addmod('gimp',dependencies=['gtk+', 'libart_lgpl'])
+gnome2.addmod('gimp',dependencies=['gtk+', 'libart_lgpl'],
+              autogenargs='-- --disable-print')
 
 gnome2.addmod('glade', revision='glade-gnome2-branch',
               dependencies=['gtk+', 'gnome-xml', 'libgnomeui',
@@ -154,6 +156,9 @@ gnome2.addmod('gnomemm/gconfmm', dependencies=['gconf', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libgnomeuimm',
               dependencies=['gtkmm-1.3', 'libgnomeui', 'gnomemm/libgnomemm',
                             'gnomemm/gconfmm'])
+
+gnome2.addmod('gnet',dependencies=['glib'],autogenargs='--enable-glib2')
+gnome2.addmod('gnomeicu',dependencies=['libgnomeui','gnet'])
 
 # some simple tasks to make using jhbuild a bit easier
 gnome2.add(MetaModule('meta-gnome-devel-platform',

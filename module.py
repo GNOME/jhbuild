@@ -81,14 +81,18 @@ class ModuleSet:
 
 class BuildScript:
     def __init__(self, cvsroot, modulelist, autogenargs=None,
-                 prefix=None, checkoutroot=None):
+                 prefix=None, checkoutroot=None, makeargs=None):
         self.modulelist = modulelist
         self.autogenargs = autogenargs
+        self.makeargs = makeargs
+        self.makeargs = ''
         self.prefix = prefix
         self.module_num = 0
         
         if not self.autogenargs:
             self.autogenargs = '--disable-static --disable-gtk-doc'
+        if not self.makeargs:
+            self.makeargs = ''
         if not self.prefix:
             self.prefix = '/opt/gtk2'
 
@@ -116,7 +120,7 @@ class BuildScript:
         return ret
 
     def _cvscheckout(self, module, force_checkout=0):
-        self._message('checking out module %s' % module.name)
+        self._message('checking out %s' % module.name)
 
         if module.cvsroot:
             cvsroot = cvs.CVSRoot(module.cvsroot, self.checkoutroot)
@@ -134,7 +138,7 @@ class BuildScript:
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running autogen.sh script for %s' % module.name)
+        self._message('running configure for %s' % module.name)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (self.prefix, self.autogenargs, module.autogen_args())
         return self._execute(cmd)
@@ -143,22 +147,22 @@ class BuildScript:
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running make clean for %s' % module.name)
-        return self._execute('make clean')
+        self._message('running clean for %s' % module.name)
+        return self._execute('make %s clean' % self.makeargs)
 
     def _make(self, module):
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
         self._message('running make for %s' % module.name)
-        return self._execute('make')
+        return self._execute('make %s' % self.makeargs)
 
     def _makeinstall(self, module):
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running make install for %s' % module.name)
-        return self._execute('make install')
+        self._message('running install for %s' % module.name)
+        return self._execute('make %s install' % self.makeargs)
 
     ERR_RERUN = 0
     ERR_CONT = 1
@@ -196,7 +200,7 @@ class BuildScript:
                 print 'invalid option'
 
     def build(self, cvsupdate=1, alwaysautogen=0, makeclean=0, nobuild=0,
-              skip=(), interact=1):
+              skip=(), interact=1, startat=None):
         poison = []  # list of modules that couldn't be built
 
         # build steps for each module ...
@@ -217,6 +221,11 @@ class BuildScript:
             if module.name in skip: continue
             force_configure = 0
 
+            if startat:
+                if module.name == startat:
+                    startat = None
+                else:
+                    continue
             # check if any dependencies have been poisoned
             poisoned = 0
             for dep in module.dependencies:

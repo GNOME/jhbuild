@@ -23,6 +23,7 @@ Options for the build/buildone commands:
   -c, --clean                  run make clean before make
   -n, --no-cvs                 skip cvs update
   -s, --skip=MODULES           treat the given modules (and deps) as up to date
+  -t, --start-at=MODULE        start building at the given module
 ''' # for xemacs/jed "
 
 default_config = {
@@ -33,6 +34,7 @@ default_config = {
     'prefix': '/opt/gtk2',
     'autogenargs': '',
     'cflags': None,
+    'makeargs': None,
     'installprog': None,
     'skip': [],
 }
@@ -59,16 +61,19 @@ def do_update(config, args, interact=1):
                                modulelist=module_list,
                                autogenargs=config['autogenargs'],
                                prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'])
+                               checkoutroot=config['checkoutroot'],
+                               makeargs=config['makeargs'])
     build.build(cvsupdate=1, nobuild=1, interact=interact)
 
 def do_build(config, args, interact=1, cvsupdate=1):
-    opts, args = getopt.getopt(args, 'acns:',
-                               ['autogen', 'clean', 'no-cvs', 'skip='])
+    opts, args = getopt.getopt(args, 'acns:t:',
+                               ['autogen', 'clean', 'no-cvs', 'skip=',
+                                'start-at='])
 
     autogen = 0
     clean = 0
     skip = config['skip']
+    startat = None
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
             autogen = 1
@@ -78,7 +83,8 @@ def do_build(config, args, interact=1, cvsupdate=1):
             cvsupdate = 0
         elif opt in ('-s', '--skip'):
             skip = skip + string.split(arg, ',')
-
+        elif opt in ('-t', '--start-at'):
+            startat = arg
     module_set = getattr(moduleinfo, config['moduleset'])
     if args:
         module_list = module_set.get_module_list(args)
@@ -94,9 +100,10 @@ def do_build(config, args, interact=1, cvsupdate=1):
                                modulelist=module_list,
                                autogenargs=config['autogenargs'],
                                prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'])
+                               checkoutroot=config['checkoutroot'],
+                               makeargs=config['makeargs'])
     build.build(cvsupdate=cvsupdate, alwaysautogen=autogen, makeclean=clean,
-                skip=skip, interact=interact)
+                skip=skip, interact=interact, startat=startat)
 
 def do_build_one(config, args, interact=1):
     opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-cvs'])
@@ -123,7 +130,8 @@ def do_build_one(config, args, interact=1):
                                modulelist=module_list,
                                autogenargs=config['autogenargs'],
                                prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'])
+                               checkoutroot=config['checkoutroot'],
+                               makeargs=config['makeargs'])
     build.build(cvsupdate=cvsupdate, alwaysautogen=autogen, makeclean=clean,
                 interact=interact)
 
