@@ -294,7 +294,7 @@ def parse_cvsmodule(node, config, dependencies, suggests, root,
     revision = config.branches.get(module, revision)
     autogenargs += ' ' + config.module_autogenargs.get(module,
                                                        config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(module, makeargs)
+    makeargs += ' ' + config.module_makeargs.get(module, config.makeargs)
 
     return CVSModule(module, checkoutdir, revision,
                      autogenargs, makeargs,
