@@ -32,6 +32,21 @@
   <cvsroot name="poppler.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/poppler"
      password="" />
+  <cvsroot name="gnome.org" default="yes"
+     root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+     password="" />
+
+  <cvsmodule id="luminocity" cvsroot="gnome.org">
+    <dependencies>
+      <dep package="Xcomposite" />
+      <dep package="Xdamage" />
+      <dep package="Xrender" />
+      <dep package="Xext" />
+      <dep package="Xcursor" />
+      <dep package="X11" />
+      <dep package="Xtst" />
+    </dependencies>
+  </cvsmodule>
 
   <cvsmodule id="libpixman" cvsroot="cairo.freedesktop.org" supports-non-srcdir-builds="no"/>
   <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org" supports-non-srcdir-builds="no">
