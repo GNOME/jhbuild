@@ -366,6 +366,7 @@ gnome22.addmod('gob')
 gnome22.addmod('libgtcpsocket', dependencies=['glib', 'gconf'])
 gnome22.addmod('libgircclient', dependencies=['libgtcpsocket'])
 gnome22.addmod('gnomechat', dependencies=['libgtcpsocket', 'libgircclient', 'libgnomeui'])
+gnome22.addmod('metacity', revision='gnome-2-2', dependencies=['gtk+','gconf','intltool','libglade'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
