@@ -33,12 +33,13 @@ class Tarball(base.Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size,
-                 patches=[], dependencies=[], suggests=[]):
+                 patches=[], autogenargs='', dependencies=[], suggests=[]):
         base.Package.__init__(self, name, dependencies, suggests)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
         self.patches      = patches
+        self.autogenargs  = autogenargs
 
     def get_builddir(self, buildscript):
         localfile = os.path.basename(self.source_url)
@@ -120,6 +121,7 @@ class Tarball(base.Package):
         cmd = './configure --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
+        cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)
         res = buildscript.execute(cmd)
         error = None
         if res != 0:
@@ -152,6 +154,9 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     source_url = None
     source_size = None
     patches = []
+    autogenargs = ''
+    if node.hasAttribute('autogenargs'):
+        autogenargs = node.getAttribute('autogenargs')
     dependencies = []
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
@@ -170,6 +175,6 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                 patches.append((patchfile, patchstrip))
 
     return Tarball(name, version, source_url, source_size,
-                   patches, dependencies, suggests)
+                   patches, autogenargs, dependencies, suggests)
 
 base.register_module_type('tarball', parse_tarball)
