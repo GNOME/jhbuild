@@ -285,7 +285,7 @@ gnome22.addmod('libbonoboui',
 gnome22.addmod('gnome-vfs',
                dependencies=['libbonobo', 'gconf', 'gnome-mime-data'])
 gnome22.addmod('vte', dependencies=['gtk+'])
-gnome22.addmod('gnome-terminal',
+gnome22.addmod('gnome-terminal', revision='gnome-2-2',
                dependencies=['libglade', 'libgnomeui', 'vte',
                              'startup-notification'],
                autogenargs='--with-widget=vte')
@@ -306,7 +306,7 @@ gnome22.addmod('file-roller',
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'libxml2', 'gail'])
 gnome22.addmod('libglade', dependencies=['gtk+', 'libxml2'])
-gnome22.addmod('libwnck', dependencies=['gtk+'])
+gnome22.addmod('libwnck', revision='gnome-2-2', dependencies=['gtk+'])
 gnome22.addmod('libgnome',
                dependencies=['libxml2', 'libxslt', 'libbonobo', 'gnome-vfs',
                              'gconf'])
