@@ -106,6 +106,7 @@ class BuildScript:
         return ret
 
     def _cvscheckout(self, module, force_checkout=0):
+        self._message('checking out module %s' % module.name)
         if force_checkout:
             return self.cvsroot.checkout(module.name, module.revision,
                                          module.checkoutdir)
