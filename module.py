@@ -20,6 +20,7 @@
 import os
 import sys
 import string
+import urlparse
 
 try:
     import xml.dom.minidom
@@ -27,6 +28,7 @@ except ImportError:
     raise SystemExit, 'Python xml packages are required but could not be found'
 
 import cvs
+import httpcache
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
@@ -454,11 +456,17 @@ class ModuleSet:
                 inlist[dep] = None
         fp.write('}\n')
 
-def read_module_set(configdict, filename=None):
-    if not filename:
-        filename = os.path.join(os.path.dirname(__file__), 'modulesets',
-                                configdict['moduleset'] + '.modules')
+def read_module_set(configdict):
+    uri = configdict['moduleset']
+    if '/' not in uri:
+        uri = os.path.join(os.path.dirname(__file__), 'modulesets',
+                           uri + '.modules')
+    return parse_module_set(configdict, uri)
+
+def parse_module_set(configdict, uri):
+    filename = httpcache.load(uri)
     document = xml.dom.minidom.parse(filename)
+
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
     branches = configdict.get('branches', {})
@@ -493,8 +501,8 @@ def read_module_set(configdict, filename=None):
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'include':
             href = node.getAttribute('href')
-            inc_filename = os.path.join(os.path.dirname(filename), href)
-            inc_moduleset = read_module_set(configdict, inc_filename)
+            inc_uri = urlparse.urljoin(uri, href)
+            inc_moduleset = parse_module_set(configdict, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
         elif node.nodeName == 'cvsmodule':
             id = node.getAttribute('id')

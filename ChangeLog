@@ -1,3 +1,13 @@
+2004-01-28  James Henstridge  <james@daa.com.au>
+
+	* module.py (parse_module_set): use httpcache so we can load
+	module sets via HTTP.
+	(read_module_set): if the moduleset config item contains a slash,
+	assume that it is a URI.  Otherwise, look for it in the old
+	location.
+
+	* httpcache.py: new file that implements a simple web cache.
+
 2004-01-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* modulesets/gnome26.modules: Remove a lot of cruft that
