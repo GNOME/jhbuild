@@ -1,5 +1,4 @@
 # -*- mode: python -*-
-import os
 
 # information about cvs server
 cvsroots['gnome.org'] = ':pserver:jamesh@cvs.gnome.org:/cvs/gnome'
@@ -20,7 +19,8 @@ prefix = '/opt/gtk2'
 # arguments to pass to autogen script
 autogenargs='--enable-maintainer-mode --disable-static --disable-gtk-doc'
 
-installprog = os.path.join(os.environ['HOME'], 'bin', 'install-check')
+os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
+                                     'bin', 'install-check')
 
 #branches['libglade'] = 'libglade-gobject-support-branch'
 module_autogenargs['gimp'] = '--disable-print --enable-python'

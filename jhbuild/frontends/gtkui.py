@@ -448,3 +448,4 @@ class GtkBuildScript(buildscript.BuildScript):
         self.iter = self.build_text.get_end_iter()
 	self.ins_mark = self.build_text.create_mark ("jhbuild-mark", self.iter, True);
         
+BUILD_SCRIPT = GtkBuildScript
