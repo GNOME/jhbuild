@@ -1,3 +1,16 @@
+2004-06-11  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/gnome26.modules (gnome-desktop): require
+	scrollkeeper (fixes bug #143515).
+
+	* modulesets/gnome28.modules (gnome-desktop): require
+	scrollkeeper (fixes bug #143515).
+
+	* modulesets/freedesktop.modules (xkbfile): add module.  Fixes bug
+	#144024.
+	(xtrans): grab the XTRANS-0_1-RELEASE tag, as suggested in bug
+	#143670.
+
 2004-06-11  Daniel Elstner  <daniel.elstner@gmx.net>
 
 	* modulesets/gnome2[68].modules (gnomemm/gtkmm_hello): New module.
@@ -12,6 +25,8 @@
 
 	* modulesets/moduleset.rnc: update RELAX-NG schema.
 
+	Based on a patch from Thomas Fitzsimmons:
+	
 	* jhbuild/modtypes/tarball.py (Tarball.__init__): add makeargs
 	argument.
 	(Tarball.do_build): use makeargs if set.
