@@ -121,7 +121,8 @@ head.add(MetaModule(name='meta-nautilus',
                     modules=['nautilus', 'nautilus-gtkhtml']))
 head.add(MetaModule(name='meta-gnome-desktop',
                     modules=['meta-gnome-core', 'gnome-control-center',
-                             'meta-nautilus', 'yelp', 'bug-buddy']))
+                             'meta-nautilus', 'yelp', 'bug-buddy',
+                             'gtk-engines']))
 head.add(MetaModule(name='meta-gnome-devel-tools',
                     modules=['glade', 'memprof']))
 head.add(MetaModule(name='meta-gnome-python',
