@@ -139,7 +139,10 @@ def do_build_one(config, args, interact=1):
             config['nonetwork'] = True
 
     module_set = getattr(moduleinfo, config['moduleset'])
-    module_list = [ module_set.modules[modname] for modname in args ]
+    try:
+        module_list = [ module_set.modules[modname] for modname in args ]
+    except KeyError:
+        raise SystemExit, "A module called '%s' could not be found." % modname
 	
     build = module.BuildScript(config, module_list=module_list)
     build.build()
