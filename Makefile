@@ -7,7 +7,7 @@ all: install-check
 update:
 	cvs -z3 -q update -Pd .
 
-bindir=/usr/local/bin
+bindir=$(HOME)/bin
 
 install:
 	@echo "Creating $(bindir)/jhbuild"
