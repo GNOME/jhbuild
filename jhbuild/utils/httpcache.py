@@ -199,7 +199,6 @@ class Cache:
             else:
                 raise
 
-        print expires
         # set expiry date
         entry.expires = _parse_date(expires)
         if entry.expires <= now: # ignore expiry times that have already passed

@@ -76,6 +76,14 @@ def inpath(filename, path):
     return False
 
 def do_sanitycheck(config, args):
+    # check whether the checkout root and install prefix are writable
+    if not (os.path.isdir(config.checkoutroot) and
+            os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):
+        print 'checkout root is not writable'
+    if not (os.path.isdir(config.prefix) and
+            os.access(config.prefix, os.R_OK|os.W_OK|os.X_OK)):
+        print 'install prefix is not writable'
+
     # check whether various tools are installed
     if not check_version('libtoolize --version',
                          r'libtoolize \([^)]*\) ([\d.]+)', '1.5'):
