@@ -69,16 +69,25 @@ class ModuleSet:
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list''' #"
 
-        if seed == 'all':
-            return self.get_full_module_list(skip)
-        
-        ret = [ self.modules[modname]
-                for modname in seed if modname not in skip ]
+        if seed == 'all': seed = self.modules.keys()
+        # we don't just use a simple list comprehension here, since we
+        # want to control the exception message.
+        ret = []
+        for modname in seed:
+            if modname not in skip:
+                if self.modules.has_key(modname):
+                    ret.append(self.modules[modname])
+                else:
+                    raise ValueError('module "%s" not found' % modname)
         i = 0
         while i < len(ret):
             depadd = []
-            for depmod in [ self.modules[modname]
-                            for modname in ret[i].dependencies ]:
+            for modname in ret[i].dependencies:
+                if self.modules.has_key(modname):
+                    depmod = self.modules[modname]
+                else:
+                    raise ValueError('dependant module "%s" not found'
+                                     % modname)
                 if depmod not in ret[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
             if depadd:
