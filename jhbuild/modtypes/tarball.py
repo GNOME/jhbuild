@@ -33,17 +33,23 @@ class Tarball(base.Package):
     STATE_CONFIGURE = 'configure'
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
-    def __init__(self, name, version, source_url, source_size,
+    def __init__(self, name, version, source_url, source_size, source_md5=None,
                  patches=[], autogenargs='', dependencies=[], suggests=[]):
         base.Package.__init__(self, name, dependencies, suggests)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
+        self.source_md5   = source_md5
         self.patches      = patches
         self.autogenargs  = autogenargs
 
+    def get_localfile(self, buildscript):
+        localfile = os.path.join(buildscript.config.tarballdir,
+                                 os.path.basename(self.source_url))
+        return localfile
+
     def get_builddir(self, buildscript):
-        localfile = os.path.basename(self.source_url)
+        localfile = self.get_localfile(buildscript)
         # strip off packaging extension ...
         if localfile.endswith('.tar.gz'):
             localfile = localfile[:-7]
@@ -51,7 +57,7 @@ class Tarball(base.Package):
             localfile = localfile[:-8]
         elif localfile.endswith('.tgz'):
             localfile = localfile[:-4]
-        return os.path.join(buildscript.config.checkoutroot, localfile)
+        return localfile
 
     def get_revision(self):
         return self.version
@@ -65,8 +71,7 @@ class Tarball(base.Package):
         return (self.STATE_DOWNLOAD, None, None)
 
     def do_download(self, buildscript):
-        localfile = os.path.join(buildscript.config.checkoutroot,
-                                 os.path.basename(self.source_url))
+        localfile = self.get_localfile(buildscript)
         if not buildscript.config.nonetwork:
             if (not os.path.exists(localfile) or
                 os.stat(localfile)[6] != self.source_size):
@@ -76,15 +81,26 @@ class Tarball(base.Package):
                 if res:
                     return (self.STATE_UNPACK, 'error downloading file', [])
 
-        if not os.path.exists(localfile) or \
-               os.stat(localfile)[6] != self.source_size:
-            return (self.STATE_UNPACK,
-                    'file not downloaded, or of incorrect size', [])
+        if not os.path.exists(localfile):
+            return (self.STATE_UNPACK, 'file not downloaded', [])
+        if os.stat(localfile)[6] != self.source_size:
+            return (self.STATE_UNPACK, 'downloaded file of incorrect size', [])
+        if self.source_md5:
+            import md5
+            sum = md5.new()
+            fp = open(localfile, 'rb')
+            data = fp.read(4192)
+            while data:
+                sum.update(data)
+                data = fp.read(4192)
+            fp.close()
+            if sum.hexdigest() != self.source_md5:
+                return (self.STATE_UNPACK, 'file MD5 sum incorrect', [])
         return (self.STATE_UNPACK, None, None)
 
     def do_unpack(self, buildscript):
         os.chdir(buildscript.config.checkoutroot)
-        localfile = os.path.basename(self.source_url)
+        localfile = self.get_localfile(buildscript)
         checkoutdir = self.get_builddir(buildscript)
 
         buildscript.set_action('Unpacking', self)
@@ -154,6 +170,7 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     version = node.getAttribute('version')
     source_url = None
     source_size = None
+    source_md5 = None
     patches = []
     autogenargs = ''
     if node.hasAttribute('autogenargs'):
@@ -163,6 +180,8 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
         if childnode.nodeName == 'source':
             source_url = childnode.getAttribute('href')
             source_size = int(childnode.getAttribute('size'))
+            if childnode.hasAttribute('md5sum'):
+                source_md5 = childnode.getAttribute('md5sum')
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
                 if patch.nodeType != patch.ELEMENT_NODE: continue
@@ -174,7 +193,7 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                     patchstrip = 0
                 patches.append((patchfile, patchstrip))
 
-    return Tarball(name, version, source_url, source_size,
+    return Tarball(name, version, source_url, source_size, source_md5,
                    patches, autogenargs, dependencies, suggests)
 
 base.register_module_type('tarball', parse_tarball)

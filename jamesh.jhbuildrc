@@ -10,11 +10,14 @@ modules = ['gtk+', 'meta-gnome-desktop', 'meta-gnome-devel-tools' ]
 
 skip = [ 'mozilla' ]
 
+# the prefix to install things to (user must have write access)
+prefix = '/opt/gtk2'
+
 # where the sources are checked out to
 checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
 
-# the prefix to install things to (user must have write access)
-prefix = '/opt/gtk2'
+# where to put downloaded tarballs.
+tarballdir = os.path.join(checkoutroot, 'pkgs')
 
 # arguments to pass to autogen script
 autogenargs='--enable-maintainer-mode --disable-static --disable-gtk-doc'

@@ -32,7 +32,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'branches', 'module_autogenargs', 'interact',
                 'buildscript', 'nonetwork', 'alwaysautogen',
                 'nobuild', 'makeclean', 'makecheck', 'use_lib64',
-                'tinderbox_outputdir', 'sticky_date' ]
+                'tinderbox_outputdir', 'sticky_date', 'tarballdir' ]
 
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
@@ -80,6 +80,9 @@ class Config:
         # copy known config keys to attributes on the instance
         for name in _known_keys:
             setattr(self, name, config[name])
+
+        # default tarballdir to checkoutroot
+        if not self.tarballdir: self.tarballdir = self.checkoutroot
 
         self.setup_env()
 

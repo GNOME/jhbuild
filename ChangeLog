@@ -1,3 +1,26 @@
+2004-04-29  James Henstridge  <james@daa.com.au>
+
+	* modulesets/moduleset.dtd: update DTD for md5sum attribute on
+	<source> elements.
+
+	* modulesets/bootstrap.modules: add MD5 sums to all bootstrap
+	modules.
+
+	* jhbuild/modtypes/tarball.py (Tarball.get_localfile): new method
+	to get the location of the local filename for the tarball.  Use
+	config.tarballdir instead of checkoutroot.
+
+	* jhbuild/config.py: add tarballdir config key that defaults to
+	checkoutroot.
+
+2004-04-28  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): add md5
+	attribute.
+	(Tarball.check_localfile): move download verification stuff here.
+	(Tarball.do_download): use check_localfile() to check result of
+	download.
+
 2004-04-26  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* modulesets/gnome26.modules (eog): use gnome-2-6 branch.
