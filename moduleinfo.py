@@ -111,7 +111,7 @@ gnome20.addmod('nautilus', revision='gnome-2-0',
                              'libgnomeui', 'gnome-desktop'])
 gnome20.addmod('nautilus-gtkhtml', dependencies=['nautilus', 'gtkhtml2'])
 gnome20.addmod('metacity', dependencies=['gtk+','gconf','intltool','libglade'])
-gnome20.addmod('metatheme', dependencies=['libgnomeui'])
+# Doesn't seem to be useful anymore: gnome20.addmod('metatheme', dependencies=['libgnomeui'])
 gnome20.addmod('libgtop', revision='libgtop-GNOME-2-0-port',
                dependencies=['glib'])
 gnome20.addmod('procman', dependencies=['libgnomeui','libwnck','libgtop'])
