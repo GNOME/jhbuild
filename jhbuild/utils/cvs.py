@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, string, sys
+import os, sys
 
 # table used to scramble passwords in ~/.cvspass files
 _shifts = [
@@ -61,7 +61,7 @@ def login(cvsroot, password=None):
     try:
         fp = open(cvspass, 'r')
         for line in fp.readlines():
-            parts = string.split(line)
+            parts = line.split()
             if not parts:
                 continue
             if parts[0] == '/1':

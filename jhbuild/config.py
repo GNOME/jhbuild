@@ -103,8 +103,8 @@ class Config:
 
         # get rid of gdkxft from the env -- it will cause problems.
         if os.environ.has_key('LD_PRELOAD'):
-            valarr = string.split(os.environ['LD_PRELOAD'], ' ')
+            valarr = os.environ['LD_PRELOAD'].split(' ')
             for x in valarr[:]:
-                if string.find(x, 'libgdkxft.so') >= 0:
+                if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
-            os.environ['LD_PRELOAD'] = string.join(valarr, ' ')
+            os.environ['LD_PRELOAD'] = ' '.join(valarr)

@@ -45,7 +45,7 @@ def do_update(config, args):
     startat = None
     for opt, arg in opts:
         if opt in ('-s', '--skip'):
-            config.skip = config.skip + string.split(arg, ',')
+            config.skip = config.skip + arg.split(',')
         elif opt in ('-t', '--start-at'):
             startat = arg
 
@@ -104,7 +104,7 @@ def do_build(config, args):
         elif opt in ('-n', '--no-network'):
             config.nonetwork = True
         elif opt in ('-s', '--skip'):
-            config.skip = config.skip + string.split(arg, ',')
+            config.skip = config.skip + arg.split(',')
         elif opt in ('-t', '--start-at'):
             startat = arg
     module_set = jhbuild.moduleset.load(config)
@@ -164,7 +164,7 @@ def do_list(config, args):
         if opt in ('-r', '--show-revision'):
             show_rev = True
         if opt in ('-s', '--skip'):
-            config.skip = config.skip + string.split(arg, ',')
+            config.skip = config.skip + arg.split(',')
     module_set = jhbuild.moduleset.load(config)
     if args:
         module_list = module_set.get_module_list(args, config.skip)
