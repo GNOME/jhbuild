@@ -101,6 +101,10 @@ def check_sticky_tag(filename):
         line = fp.readline()
     raise RuntimeError('%s is not managed by CVS' % filename)
 
+def check_root(dirname):
+    root_file = os.path.join(dirname, 'CVS', 'Root')
+    return open(root_file, 'r').read().strip()
+
 class CVSRoot:
     '''A class to wrap up various CVS operations.'''
     
@@ -141,7 +145,16 @@ class CVSRoot:
         if not os.path.exists(dir):
             return self.checkout(buildscript, module,
                                  revision, date, checkoutdir)
-        
+
+        wc_root = check_root(dir)
+        if wc_root != self.cvsroot:
+            sys.stderr.write('working copy points at the wrong repository\n')
+            sys.stderr.write(' Expected %s\n' % self.cvsroot)
+            sys.stderr.write(' Got %s\n' % wc_root)
+            sys.stderr.write('Consider using the changecvsroot.py script to'
+                             'fix this.\n')
+            return -1
+
         os.chdir(dir)
         cmd = 'cvs -z3 -q -d %s update -dP ' % self.cvsroot
 

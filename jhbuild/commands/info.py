@@ -28,6 +28,7 @@ from jhbuild.commands.base import register_command
 from jhbuild.modtypes.base import MetaModule, CVSModule
 from jhbuild.modtypes.tarball import Tarball
 from jhbuild.modtypes.svnmodule import SVNModule
+from jhbuild.modtypes.archmodule import ArchModule
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -68,6 +69,9 @@ def do_info(config, args):
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version
+        elif isinstance(module, ArchModule):
+            print 'Arch-Archive:', module.archive
+            print 'Arch-Tree-Version:', module.version
 
         # dependencies
         if module.dependencies:
