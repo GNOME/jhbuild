@@ -104,7 +104,7 @@ head.add(Module(name='libole2',
 head.add(Module(name='gnumeric',
                 dependencies=['libole2', 'gal']))
 head.add(Module(name='glade', revision='glade-gnome2-branch',
-		dependencies=['gtk+', 'gnome-xml', 'libgnomeui'])
+		dependencies=['gtk+', 'gnome-xml', 'libgnomeui']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
