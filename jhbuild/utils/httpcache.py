@@ -151,7 +151,7 @@ class Cache:
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
-        parts = urlparse.urlsplit(uri)
+        parts = urlparse.urlparse(uri)
         if parts[0] in ('', 'file'):
             return parts[2]
 
