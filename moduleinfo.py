@@ -152,8 +152,10 @@ gnome20.addmod('rhythmbox', dependencies=['monkey-media', 'gnome-panel',
 
 gnome20.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
 gnome20.addmod('gstreamer', cvsroot=gstreamer_cvsroot,
-               dependencies=['glib', 'gnome-xml'], 
-               autogenargs='--disable-plugin-builddir --disable-tests')
+               dependencies=['glib', 'gnome-xml'],
+               # gstreamer requires a '-- ' for configure args to be passed in.  This means that
+               # args like --enable-maintainer-mode aren't passed through.
+               autogenargs='-- --disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'gnome-vfs', 'gtk+'],
                autogenargs='--disable-plugin-builddir --disable-tests')
