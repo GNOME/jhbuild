@@ -41,7 +41,7 @@ def get_uri(filename):
                                     % filename)
 
 class SVNRoot:
-    '''A class to wrap up various Subversion opperations.'''
+    '''A class to wrap up various Subversion operations.'''
 
     def __init__(self, svnroot, checkoutroot):
         self.svnroot = svnroot

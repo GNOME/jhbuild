@@ -39,7 +39,7 @@ def get_revision(directory):
     return archive, revision
 
 class ArchArchive:
-    '''A class to wrap up various Subversion opperations.'''
+    '''A class to wrap up various Arch operations.'''
 
     def __init__(self, archive, checkoutroot):
         self.archive = archive

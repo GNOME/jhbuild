@@ -102,7 +102,7 @@ def check_sticky_tag(filename):
     raise RuntimeError('%s is not managed by CVS' % filename)
 
 class CVSRoot:
-    '''A class to wrap up various CVS opperations.'''
+    '''A class to wrap up various CVS operations.'''
     
     def __init__(self, cvsroot, checkoutroot):
         self.cvsroot = cvsroot
