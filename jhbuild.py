@@ -19,12 +19,12 @@
 
 import sys, os, string, getopt
 
-import module
-import moduleinfo
-
 if not hasattr(__builtins__, 'True'):
     __builtins__.True = (1 == 1)
     __builtins__.False = (1 != 1)
+
+import module
+import moduleinfo
 
 usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).
