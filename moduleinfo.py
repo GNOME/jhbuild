@@ -170,7 +170,7 @@ gnome1.add(Module(name='bonobo',
                   dependencies=['gnome-libs', 'oaf', 'gnome-print']))
 gnome1.add(Module(name='control-center', revision='control-center-1-0',
                   dependencies=['gnome-libs', 'gnome-vfs']))
-gnome1.add(Module(name='gnome-core', revision='gnome-core-1-0',
+gnome1.add(Module(name='gnome-core', revision='gnome-core-1-4',
                   dependencies=['gnome-libs', 'gdk-pixbuf', 'control-center',
                                 'libglade']))
 gnome1.add(Module(name='libgtop', revision='LIBGTOP_STABLE_1_0',
