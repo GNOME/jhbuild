@@ -17,6 +17,9 @@
    <cvsroot name="icon-theme.freedesktop.org"
       root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/icon-theme"
       password="" />
+  <cvsroot name="menu.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/menus"
+     password="" />
   <cvsroot name="mime.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/mime"
      password="" />
@@ -65,6 +68,15 @@
     <suggests>
       <dep package="intltool" />
     </suggests>
+  </cvsmodule>
+
+  <cvsmodule id="desktop-file-utils" cvsroot="menu.freedesktop.org">
+    <suggests>
+      <dep package="intltool"/>
+    </suggests>
+    <dependencies>
+       <dep package="glib"/>
+    </dependencies>
   </cvsmodule>
 
   <cvsmodule id="startup-notification"
