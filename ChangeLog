@@ -1,3 +1,22 @@
+2004-07-20  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/bootstrap.modules (python): update to Python 2.3.4.
+
+	* modulesets/gnome28.modules (meta-storage): add storage modules
+	(from bug #144254).
+
+	* modulesets/gnome26.modules (audiofile): update to 0.2.6.
+
+	* modulesets/gnome28.modules (libgnomeprintui): add dependency on
+	gnome-icon-theme (fixes bug #144945).
+	(audiofile): update to 0.2.6.
+
+	* jhbuild/modtypes/tarball.py (Tarball.get_srcdir): don't use
+	get_localfile() in implementation, since config.tarballdir might
+	not be the same as checkoutroot (fixes bug #144994).
+	(Tarball.do_download): make sure tarballdir exists before
+	downloading (fixes bug #145460).
+
 2004-07-12  Mark McLoughlin  <mark@skynet.ie>
 
 	* modulesets/gnome28.modules: add vino.

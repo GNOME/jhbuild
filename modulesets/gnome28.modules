@@ -372,9 +372,9 @@
       <dep package="gconf" />
     </dependencies>
   </cvsmodule>
-  <tarball id="audiofile" version="0.2.5">
-    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz"
-            size="362370" md5sum="fd07c62a17ceafa317929e55e51e26c5" />
+  <tarball id="audiofile" version="0.2.6">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.6.tar.gz"
+            size="374688" md5sum="9c1049876cd51c0f1b12c2886cce4d42" />
   </tarball>
   <cvsmodule id="esound">
     <dependencies>
@@ -428,6 +428,7 @@
       <dep package="libgnomeprint" />
       <dep package="gtk+" />
       <dep package="libgnomecanvas" />
+      <dep package="gnome-icon-theme" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gedit">
@@ -1217,6 +1218,59 @@
       <dep package="libgnomeui" />
       <dep package="libglade" />
       <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
+  <metamodule id="meta-storage">
+    <dependencies>
+      <dep package="storage/storage-store"/>
+      <dep package="storage/vfs"/>
+      <dep package="storage/applet"/>
+    </dependencies>
+  </metamodule>
+  <cvsmodule id="storage/storage-store">
+    <dependencies>
+      <dep package="dbus"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/libstorage">
+    <dependencies>
+      <dep package="gnome-vfs"/>
+      <dep package="gnome-python/pygtk"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/libstorage-translators">
+    <dependencies>
+      <dep package="storage/libstorage"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/vfs">
+    <dependencies>
+      <dep package="storage/libstorage"/>
+      <dep package="storage/libstorage-translators"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/pet" />
+  <cvsmodule id="storage/libmrs">
+    <dependencies>
+      <dep package="storage/pet"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/libmrs-converter">
+    <dependencies>
+      <dep package="storage/libmrs"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/libstorage-nl">
+    <dependencies>
+      <dep package="storage/libstorage"/>
+      <dep package="storage/libmrs"/>
+      <dep package="storage/libmrs-converter"/>
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="storage/applet">
+    <dependencies>
+      <dep package="gnome-python/gnome-python"/>
+      <dep package="storage/libstorage-nl"/>
     </dependencies>
   </cvsmodule>
 </moduleset>

@@ -53,15 +53,16 @@ class Tarball(base.Package):
         return localfile
 
     def get_srcdir(self, buildscript):
-        localfile = self.get_localfile(buildscript)
+        localdir = os.path.join(buildscript.config.checkoutroot,
+                                os.path.basename(self.source_url))
         # strip off packaging extension ...
-        if localfile.endswith('.tar.gz'):
-            localfile = localfile[:-7]
-        elif localfile.endswith('.tar.bz2'):
-            localfile = localfile[:-8]
-        elif localfile.endswith('.tgz'):
-            localfile = localfile[:-4]
-        return localfile
+        if localdir.endswith('.tar.gz'):
+            localdir = localdir[:-7]
+        elif localdir.endswith('.tar.bz2'):
+            localdir = localdir[:-8]
+        elif localdir.endswith('.tgz'):
+            localdir = localdir[:-4]
+        return localdir
     def get_builddir(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
         if buildscript.config.buildroot and \
@@ -108,6 +109,8 @@ class Tarball(base.Package):
 
     def do_download(self, buildscript):
         localfile = self.get_localfile(buildscript)
+        if not os.path.exists(buildscript.config.tarballdir):
+            os.makedirs(buildscript.config.tarballdir)
         if not buildscript.config.nonetwork:
             if self.check_localfile(buildscript) is not None:
                 # don't have a local copy
