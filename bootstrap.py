@@ -68,7 +68,7 @@ class Bootstrap:
         os.chdir(buildroot)
         localfile = os.path.basename(self.sourceurl)
         self._bold('untaring %s' % localfile)
-        ret = self._execute('zcat %s | tar xf -' % localfile)
+        ret = self._execute('gunzip -dc %s | tar xf -' % localfile)
         if ret != 0:
             print 'failed to untar', self.package
             return
