@@ -46,14 +46,16 @@ head.add(Module(name='orbit-python',
                 dependencies=['libIDL', 'ORBit2']))
 head.add(Module(name='gnome-python/gnome-python',
          dependencies=['gnome-python/pygtk', 'libgnomecanvas', 'libgnomeui']))
+head.add(Module(name='bug-buddy',
+         dependencies=['libgnomeui']))
 head.add(Module(name='libwnck',
          dependencies=['gtk+']))
-head.add(Module(name='libcapplet',
-         dependencies=['libgnomeui']))
 head.add(Module(name='gnome-core',
          dependencies=['libwnck','libzvt','libgnomeui']))
 head.add(Module(name='gnome-applets',
          dependencies=['gnome-core','libgtop']))
+head.add(Module(name='gnome-games',
+         dependencies=['libgnomeui']))
 head.add(Module(name='eel',
          dependencies=['librsvg','libgnomeui']))
 head.add(Module(name='librsvg',
@@ -77,6 +79,8 @@ head.add(Module(name='gnome-utils',
 head.add(Module(name='gconf-editor',
                 dependencies=['gconf']))
 head.add(Module(name='esound'))
+head.add(Module(name='gnome-media',
+         dependencies=['libgnomeui', 'esound']))
 head.add(Module(name='gdm2',
                 dependencies=['librsvg']))
 head.add(Module(name='profterm',
@@ -93,12 +97,12 @@ head.add(Module(name='memprof',
                 dependencies=['libgnomeui']))
 head.add(Module(name='eog',
                 dependencies=['libgnomeui']))
-head.add(Module(name='gal2', revision='gal-2',
+head.add(Module(name='gal', revision='gal-2',
                 dependencies=['libgnomeui']))
 head.add(Module(name='libole2',
                 dependencies=['glib']))
 head.add(Module(name='gnumeric',
-                dependencies=['libole2', 'gal2']))
+                dependencies=['libole2', 'gal']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
