@@ -91,7 +91,7 @@ class Config:
                 os.makedirs(self.prefix)
             except:
                 raise FatalError("Can't create %s directory" % prefix)
-	        
+
         #includedir = os.path.join(prefix, 'include')
         #addpath('C_INCLUDE_PATH', includedir)
         if self.use_lib64:
@@ -109,7 +109,11 @@ class Config:
         addpath('XDG_DATA_DIRS', xdgdatadir)
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
-            os.makedirs(aclocaldir)
+            try:
+                os.makedirs(aclocaldir)
+            except:
+                raise FatalError("Can't create %s directory" % aclocaldir)
+
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         os.environ['CERTIFIED_GNOMIE'] = 'yes'

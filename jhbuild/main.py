@@ -92,7 +92,8 @@ def main(args):
 
     try:
         config = jhbuild.config.Config(configfile)
-    except:
+    except FatalError, exc:
+        sys.stderr.write('jhbuild: %s\n' % (str(exc)))
         sys.exit(1)
 
     if nointeract: config.interact = False
