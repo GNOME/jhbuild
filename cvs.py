@@ -75,7 +75,7 @@ class CVSRoot:
         '''Perform a "cvs update" (or possibly a checkout)'''
         dir = self.getcheckoutdir(module, checkoutdir)
         if not os.path.exists(dir):
-            return self.checkout(module, revision, checkoutdir)
+            return self.checkout(buildscript, module, revision, checkoutdir)
         
         os.chdir(dir)
         cmd = 'cvs -z3 -q -d %s update -dP ' % self.cvsroot
