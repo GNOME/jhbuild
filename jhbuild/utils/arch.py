@@ -29,14 +29,14 @@ def is_registered(archive):
 def register(archive, uri):
     if not is_registered(archive):
         assert uri is not None, 'can not register archive without uri'
-        res = os.system('tla register-archive %s' % uri)
+        res = os.system('baz register-archive %s' % uri)
         if res != 0:
             raise jhbuild.errors.FatalError('could not register archive %s'
                                             % archive)
 
 def get_version(directory):
     '''Gets the tree version for a particular directory.'''
-    data = jhbuild.utils.cmds.get_output('tla tree-version %s' % directory)
+    data = jhbuild.utils.cmds.get_output('baz tree-version %s' % directory)
     archive, version = data.strip().split('/')
     return archive, version
 
@@ -66,7 +66,7 @@ class ArchArchive:
 
     def checkout(self, buildscript, version, date=None, checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'tla get -A %s %s ' % (self.archive, version)
+        cmd = 'baz get %s/%s ' % (self.archive, version)
 
         if checkoutdir:
             cmd += '%s ' % checkoutdir
@@ -78,26 +78,22 @@ class ArchArchive:
         return buildscript.execute(cmd, 'arch')
 
     def update(self, buildscript, version, date=None, checkoutdir=None):
-        '''Perform a "svn update" (or possibly a checkout)'''
+        '''Perform a "baz update" (or possibly a checkout)'''
         dir = self.getcheckoutdir(version, checkoutdir)
         if not os.path.exists(dir):
             return self.checkout(buildscript, version, date, checkoutdir)
 
         os.chdir(dir)
 
-        # how do you move a working copy to another branch?
-        wc_archive, wc_version = get_version('.')
-        if (wc_archive, wc_version) != (self.archive, version):
-            sys.stderr.write('working copy does not point at right branch\n')
-            sys.stderr.write('%s/%s != %s/%s\n' % (wc_archive, wc_version,
-                                                   self.archive, version))
-            sys.stderr.write('XXXX - need code to switch the working copy\n')
-            return -1
-
         if date:
             sys.stderr.write('date based checkout not yet supported\n')
             return -1
 
-        cmd = 'tla update'
+        # how do you move a working copy to another branch?
+        wc_archive, wc_version = get_version('.')
+        if (wc_archive, wc_version) != (self.archive, version):
+            cmd = 'baz switch %s/%s' % (self.archive, version)
+        else:
+            cmd = 'baz update'
 
         return buildscript.execute(cmd, 'arch')
