@@ -34,7 +34,7 @@ class Tarball(base.Package):
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
-        self.patches      = []
+        self.patches      = patches
         self.versioncheck = versioncheck
 
     def get_builddir(self, buildscript):
@@ -165,7 +165,7 @@ def parse_tarball(node, config, dependencies, cvsroot):
             source_size = int(childnode.getAttribute('size'))
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
-                if patch.nodeType == dep.ELEMENT_NODE:
+                if patch.nodeType == patch.ELEMENT_NODE:
                     assert patch.nodeName == 'patch'
                     text = ''.join([node.data
                                     for node in patch.childNodes

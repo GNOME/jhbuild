@@ -20,6 +20,7 @@
 from commands import getoutput
 import os
 import urllib
+import getopt
 
 from jhbuild.commands.base import register_command
 

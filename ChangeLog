@@ -1,3 +1,35 @@
+2004-02-08  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/commands/bootstrap.py: import getopt.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	add hint argument (currently unused).
+	(TinderboxBuildScript.handle_error): remove interract argument.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): add
+	currently unused "hint" argument.
+	(TerminalBuildScript.handle_error): remove unused interact argument.
+	(TerminalBuildScript.handle_error): put in a dummy assert to
+	indicate that control shouldn't reach the end of this function.
+
+	* jhbuild/frontends/buildscript.py (BuildScript.message): last
+	argument should be optional (it is in all the concrete subclasses).
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.do_checkout): remove
+	unused force_checkout argument.
+	(MozillaModule.do_force_checkout): fix up return of next state
+	when an error occurs.
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): correctly set
+	patches attribute.
+	(parse_tarball): fix up parsing of patch XML nodes.
+
+	* jhbuild/modtypes/base.py (CVSModule.do_checkout): remove unused
+	force_checkout argument.
+
+	* jhbuild/moduleset.py (ModuleSet.add): remove unused addmod()
+	method.
+
 Sun Feb  8 01:19:57 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* jhbuild/modtypes/mozilla.py: Import os, for os.path.join.

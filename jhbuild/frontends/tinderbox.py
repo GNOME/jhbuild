@@ -100,7 +100,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)
 
-    def execute(self, command):
+    def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         assert self.modulefp, 'not currently building a module'
 
@@ -184,7 +184,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
         else:
             self.indexfp.write('<span class="success">%s</span>\n' % state)
 
-    def handle_error(self, module, state, nextstate, error, altstates, interact=1):
+    def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))

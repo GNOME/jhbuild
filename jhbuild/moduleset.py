@@ -38,9 +38,6 @@ class ModuleSet:
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
-    def addmod(self, *args, **kwargs):
-        mod = apply(CVSModule, args, kwargs)
-        self.add(mod)
 
     # functions for handling dep expansion
     def __expand_mod_list(self, modlist, skip):

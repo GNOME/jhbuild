@@ -300,7 +300,7 @@ class GtkBuildScript(buildscript.BuildScript):
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
         
 
-    def execute(self, command):
+    def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         return_code = -1
         process = popen2.Popen3(command, True)

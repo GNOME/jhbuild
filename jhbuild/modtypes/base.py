@@ -91,7 +91,7 @@ class CVSModule(Package):
         else:
             return (self.STATE_CONFIGURE, None, None)
 
-    def do_checkout(self, buildscript, force_checkout=False):
+    def do_checkout(self, buildscript):
         cvsroot = cvs.CVSRoot(self.cvsroot,
                               buildscript.config.checkoutroot)
         checkoutdir = self.get_builddir(buildscript)

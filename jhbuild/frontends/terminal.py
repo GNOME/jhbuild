@@ -49,7 +49,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)        
 
-    def execute(self, command):
+    def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         print command
         ret = os.system(command)
@@ -64,7 +64,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 print module,
             print
 
-    def handle_error(self, module, state, nextstate, error, altstates, interact=1):
+    def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
@@ -102,5 +102,6 @@ class TerminalBuildScript(buildscript.BuildScript):
                     return altstates[val - 5]
                 except:
                     print 'invalid choice'
+        assert False, 'not reached'
 
 BUILD_SCRIPT = TerminalBuildScript

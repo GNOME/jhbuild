@@ -105,7 +105,7 @@ class BuildScript:
         went wrong.'''
         pass
 
-    def message(self, msg, module_num):
+    def message(self, msg, module_num=-1):
         '''Display a message to the user'''
         raise NotImplementedError
 

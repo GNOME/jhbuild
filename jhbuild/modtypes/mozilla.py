@@ -18,12 +18,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import base
 import os
+
+import base
 from jhbuild.utils import cvs
 
 class MozillaModule(base.CVSModule):
-    def __init__(self, name, revision, autogenargs='', dependencies=[], cvsroot = None):
+    def __init__(self, name, revision, autogenargs='',
+                 dependencies=[], cvsroot = None):
         base.CVSModule.__init__(self, name, revision=revision,
                                 autogenargs=autogenargs,
                                 dependencies=dependencies,
@@ -50,7 +52,7 @@ class MozillaModule(base.CVSModule):
         os.chdir(checkoutdir)
         return buildscript.execute('make -f client.mk checkout')
 
-    def do_checkout(self, buildscript, force_checkout=False):
+    def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         client_mk = os.path.join(checkoutdir, 'client.mk')
         if not os.path.exists(client_mk) or \
@@ -78,7 +80,7 @@ class MozillaModule(base.CVSModule):
         if res == 0:
             return (self.STATE_CONFIGURE, None, None)
         else:
-            return (nextstate, 'could not checkout module',
+            return (self.STATE_CONFIGURE, 'could not checkout module',
                     [self.STATE_FORCE_CHECKOUT])
         
     def do_configure(self, buildscript):
@@ -108,13 +110,11 @@ class MozillaModule(base.CVSModule):
 
 def parse_mozillamodule(node, config, dependencies, cvsroot):
     name = node.getAttribute('id')
-    branch = 'HEAD'
+    revision = None
     autogenargs = ''
     dependencies = []
     if node.hasAttribute('revision'):
         revision = node.getAttribute('revision')
-    if node.hasAttribute('checkoutdir'):
-        checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
 
