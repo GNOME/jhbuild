@@ -126,9 +126,13 @@ class BuildScript:
             home = os.environ['HOME']
             fp = open(os.path.join(home, '.cvspass'), 'r')
             for line in fp.readlines():
-		line = line.split (' ')[1]
-                if line.replace (':2401', ':') == \
-		   self.cvsroot.replace (':2401', ':'):
+                parts = string.split(line)
+                if parts[0] == '/1':
+                    cvsroot = parts[1]
+                else:
+                    cvsroot = parts[0]
+                if string.replace(cvsroot, ':2401', ':') == \
+		   string.replace(self.cvsroot, ':2401', ':'):
                     loggedin = 1
                     break
         except IOError:
