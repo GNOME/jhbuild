@@ -274,7 +274,7 @@ class Tarball(Package):
             if not os.path.exists(localfile) or \
                    os.stat(localfile)[6] != self.source_size:
                 buildscript.message('downloading %s' % self.source_url)
-                res = buildscript.execute('runsocks wget "%s" -O "%s"' %
+                res = buildscript.execute('wget "%s" -O "%s"' %
                                           (self.source_url, localfile))
                 if res != 0:
                     return (self.STATE_UNPACK, 'error downloading file', [])
