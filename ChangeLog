@@ -1,3 +1,26 @@
+2005-03-08  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/gnome-2.12.modules: get rid of the "mono" modules
+	include.
+
+	* modulesets/freedesktop.modules: fix validity error (a stray ">").
+
+	* modulesets/gnome-2.12.modules (clearlooks): add clearlooks here
+	too.
+
+	* modulesets/moduleset.rnc (suggests): allow empty <dependencies>
+	or <suggests> elements, like the DTD does.
+
+2005-03-04  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): for
+	some reason, I'm getting a zero exit status when conflicts are
+	found.  Make sure that we stop on CVS conflicts.
+
+	* modulesets/gnome-2.10.modules (clearlooks): since this seems to
+	be the leading contender for a new theme, may as well let people
+	build it with jhbuild.
+
 2005-03-07  Christian Persch  <chpe@cvs.gnome.org>
 
 	* modulesets/gnome-2.12.modules:

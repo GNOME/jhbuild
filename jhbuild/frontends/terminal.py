@@ -106,6 +106,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 for line in conflicts:
                     sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
+                if ret == 0: ret = 1 # make sure conflicts fail
         else:
             ret = os.system(command)
         return ret

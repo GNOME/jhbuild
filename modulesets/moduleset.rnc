@@ -42,8 +42,8 @@ package = cvsmodule |
 dep = element dep {
   attribute package { text }
 }
-dependencies = element dependencies { dep+ }
-suggests = element suggests { dep+ }
+dependencies = element dependencies { dep* }
+suggests = element suggests { dep* }
 
 common = attribute id { text } & dependencies* & suggests*
 
