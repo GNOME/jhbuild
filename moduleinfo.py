@@ -120,7 +120,7 @@ gnome20.addmod('yelp', revision='gnome-2-0',
                dependencies=['scrollkeeper', 'libgnomeui', 'gtkhtml2',
                              'gnome-vfs'])
 gnome20.addmod('devhelp',
-               dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
+               dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs', 'libgsf'])
 gnome20.addmod('gnome-utils', revision='gnome-2-0',
                dependencies=['libgnomeui', 'gnome-panel'])
 gnome20.addmod('gconf-editor', dependencies=['gconf'])
