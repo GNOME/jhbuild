@@ -44,6 +44,15 @@ try:
 except ImportError:
     raise SystemExit, 'Python xml packages are required but could not be found'
 
+def _parse_isotime(string):
+    if string[-1] != 'Z':
+        return time.mktime(time.strptime(string, '%Y-%m-%dT%H:%M:%S'))
+    tm = time.strptime(string, '%Y-%m-%dT%H:%M:%SZ')
+    return time.mktime(tm[:8] + (0,)) - time.timezone    
+
+def _format_isotime(tm):
+    return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
+
 def _parse_date(date):
     tm = rfc822.parsedate_tz(date)
     if tm:
@@ -94,9 +103,7 @@ class Cache:
                 etag = node.getAttribute('etag')
             else:
                 etag = None
-            expires = time.mktime(
-                time.strptime(node.getAttribute('expires'),
-                              '%Y-%m-%dT%H:%M:%S'))
+            expires = _parse_isotime(node.getAttribute('expires'))
             self.entries[uri] = CacheEntry(uri, local, modified, etag, expires)
         document.unlink()
 
@@ -117,9 +124,7 @@ class Cache:
                 node.setAttribute('modified', entry.modified)
             if entry.etag:
                 node.setAttribute('etag', entry.etag)
-            node.setAttribute('expires',
-                              time.strftime('%Y-%m-%dT%H:%M:%S',
-                                            time.localtime(entry.expires)))
+            node.setAttribute('expires', _format_isotime(entry.expires))
             document.documentElement.appendChild(node)
 
             node = document.createTextNode('\n')

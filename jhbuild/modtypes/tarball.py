@@ -33,14 +33,12 @@ class Tarball(base.Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size,
-                 patches=[], versioncheck=None, dependencies=[],
-                 suggests=[]):
+                 patches=[], dependencies=[], suggests=[]):
         base.Package.__init__(self, name, dependencies, suggests)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
         self.patches      = patches
-        self.versioncheck = versioncheck
 
     def get_builddir(self, buildscript):
         localfile = os.path.basename(self.source_url)
@@ -61,12 +59,6 @@ class Tarball(base.Package):
         checkoutdir = self.get_builddir(buildscript)
         if buildscript.packagedb.check(self.name, self.version):
             return (self.STATE_DONE, None, None)
-
-        # check if we already have it ...
-        if self.versioncheck:
-            out = os.popen(self.versioncheck, 'r').read()
-            if out and out.find(self.version) >= 0:
-                return (self.STATE_DONE, None, None)
 
         return (self.STATE_DOWNLOAD, None, None)
 
@@ -157,13 +149,10 @@ class Tarball(base.Package):
 def parse_tarball(node, config, dependencies, suggests, cvsroot):
     name = node.getAttribute('id')
     version = node.getAttribute('version')
-    versioncheck = None
     source_url = None
     source_size = None
     patches = []
     dependencies = []
-    if node.hasAttribute('versioncheck'):
-        versioncheck = node.getAttribute('versioncheck')
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'source':
@@ -181,6 +170,6 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                 patches.append((patchfile, patchstrip))
 
     return Tarball(name, version, source_url, source_size,
-                   patches, versioncheck, dependencies, suggests)
+                   patches, dependencies, suggests)
 
 base.register_module_type('tarball', parse_tarball)

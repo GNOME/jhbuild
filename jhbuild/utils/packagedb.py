@@ -23,6 +23,15 @@ try:
 except ImportError:
     raise SystemExit, 'Python xml packages are required but could not be found'
 
+def _parse_isotime(string):
+    if string[-1] != 'Z':
+        return time.mktime(time.strptime(string, '%Y-%m-%dT%H:%M:%S'))
+    tm = time.strptime(string, '%Y-%m-%dT%H:%M:%SZ')
+    return time.mktime(tm[:8] + (0,)) - time.timezone    
+
+def _format_isotime(tm):
+    return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
+
 class PackageDB:
     def __init__(self, dbfile):
         self.dbfile = dbfile
@@ -42,9 +51,7 @@ class PackageDB:
             if node.nodeName != 'entry': continue
             package = node.getAttribute('package')
             version = node.getAttribute('version')
-            installed = time.mktime(
-                time.strptime(node.getAttribute('installed'),
-                              '%Y-%m-%dT%H:%M:%S'))
+            installed = _parse_isotime(node.getAttribute('installed'))
             self.entries[package] = (version, installed)
         document.unlink()
 
@@ -58,9 +65,7 @@ class PackageDB:
             node = document.createElement('entry')
             node.setAttribute('package', package)
             node.setAttribute('version', version)
-            node.setAttribute('installed',
-                              time.strftime('%Y-%m-%dT%H:%M:%S',
-                                            time.localtime(installed)))
+            node.setAttribute('installed', _format_isotime(installed))
             document.documentElement.appendChild(node)
 
             node = document.createTextNode('\n')
