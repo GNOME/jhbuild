@@ -45,12 +45,32 @@ def addpath(envvar, path):
     # special case ACLOCAL_FLAGS
     if envvar in [ 'ACLOCAL_FLAGS' ]:
         envval = os.environ.get(envvar, '-I %s' % path)
-        if envval.find(path) < 0:
-            envval = envval + ' -I ' + path
+        parts = ['-I', path] + envval.split()
+        i = 2
+        while i < len(parts)-1:
+            if parts[i] == '-I':
+                # check if "-I parts[i]" comes earlier
+                for j in range(0, i-1):
+                    if parts[j] == '-I' and parts[j+1] == parts[i+1]:
+                        del parts[i:i+2]
+                        break
+                else:
+                    i += 2
+            else:
+                i += 1
+        envval = ' '.join(parts)
     else:
         envval = os.environ.get(envvar, path)
-        if not envval.startswith(path):
-            envval = path + ':' + envval
+        parts = envval.split(':')
+        parts.insert(0, path)
+        # remove duplicate entries:
+        i = 1
+        while i < len(parts):
+            if parts[i] in parts[:i]:
+                del parts[i]
+            else:
+                i += 1
+        envval = ':'.join(parts)
 
     os.environ[envvar] = envval
 
