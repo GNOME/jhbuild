@@ -11,9 +11,9 @@ head.add(Module(name='pango', dependencies=['glib']))
 head.add(Module(name='atk', dependencies=['glib']))
 head.add(Module(name='gtk+',
                 dependencies=['pango', 'atk']))
-head.add(Module(name='gtkhtml2', dependencies=['gtk+', 'gnome-xml']))
 head.add(Module(name='gail',
-                dependencies=['gtk+', 'atk', 'gtkhtml2', 'libgnomecanvas']))
+                dependencies=['gtk+', 'atk', 'libgnomecanvas']))
+head.add(Module(name='gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail']))
 head.add(Module(name='gnome-xml', checkoutdir='libxml2'))
 head.add(Module(name='libxslt', dependencies=['gnome-xml']))
 head.add(Module(name='linc', dependencies=['glib']))
