@@ -57,7 +57,7 @@ head.add(Module(name='eel',
 head.add(Module(name='librsvg',
          dependencies=['gnome-xml','gtk+', 'libart_lgpl', 'gnome-common']))
 head.add(Module(name='nautilus',
-         dependencies=['eel','librsvg','libgnomeui']))
+         dependencies=['esound','eel','librsvg','libgnomeui']))
 head.add(Module(name='metacity',
          dependencies=['gtk+']))
 head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
@@ -65,7 +65,7 @@ head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
 head.add(Module(name='procman',
          dependencies=['libgnomeui','libwnck','libgtop']))
 head.add(Module(name='gnome-control-center',
-         dependencies=['libcapplet', 'gnome-core', 'bonobo-config']))
+         dependencies=['gnome-core']))
 head.add(Module(name='control-center-plus',
          dependencies=['gnome-control-center']))
 head.add(Module(name='yelp',
