@@ -99,7 +99,7 @@ head.add(Module(name='libgnomeprint',
 head.add(Module(name='memprof',
                 dependencies=['libgnomeui']))
 head.add(Module(name='eog',
-                dependencies=['libgnomeui']))
+                dependencies=['libgnomeui', 'libgnomeprint']))
 head.add(Module(name='gal', revision='gal-2',
                 dependencies=['libgnomeui']))
 head.add(Module(name='libole2',
