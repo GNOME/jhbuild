@@ -238,6 +238,9 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                                                        config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
+    # for tarballs, don't ever pass --enable-maintainer-mode
+    autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
+
     return Tarball(name, version, source_url, source_size, source_md5,
                    patches, autogenargs, makeargs, dependencies, suggests,
                    supports_non_srcdir_builds=supports_non_srcdir_builds)
