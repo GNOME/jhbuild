@@ -139,9 +139,9 @@ def parse_svnmodule(node, config, dependencies, suggests, root,
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
     # override revision tag if requested.
-    autogenargs += ' ' + config.module_autogenargs.get(revision,
+    autogenargs += ' ' + config.module_autogenargs.get(module,
                                                        config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(revision, makeargs)
+    makeargs += ' ' + config.module_makeargs.get(module, makeargs)
 
     return SVNModule(module, checkoutdir,
                      autogenargs, makeargs,
