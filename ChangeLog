@@ -1,3 +1,10 @@
+2002-11-28  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	module.py (_normal): Use 'tput sgr0' instead of 'tput rmso'.
+	According to the tput/terminfo manpages 'rmso' is meant to
+	complement 'smso', which isn't necessarily the same as 'bold'.
+ 	'sgr0' turns off all attribute modes and works fine for me.
+	
 2002-12-05  Glynn Foster   <glynn.foster@sun.com>
 	
 	* moduleinfo.py: Fix up the bonobo stuff for proper branches. 

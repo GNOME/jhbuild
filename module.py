@@ -22,7 +22,7 @@ import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput rmso', 'r').read()
+_normal = os.popen('tput sgr0', 'r').read()
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
