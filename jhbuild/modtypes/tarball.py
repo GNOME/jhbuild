@@ -22,6 +22,9 @@ import os
 import base
 from jhbuild.errors import FatalError
 
+jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 '..', '..'))
+
 class Tarball(base.Package):
     STATE_DOWNLOAD  = 'download'
     STATE_UNPACK    = 'unpack'
@@ -106,10 +109,11 @@ class Tarball(base.Package):
     def do_patch(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         
-        for patch in self.patches:
-            patchfile = os.path.join(os.path.dirname(__file__), patch[0])
-            buildscript.set_action('Applying Patch', self, action_target=patch[0])
-            res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
+        for (patch, patchstrip) in self.patches:
+            patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+            buildscript.set_action('Applying Patch', self, action_target=patch)
+            res = buildscript.execute('patch -p%d < %s' % (patchstrip,
+                                                           patchfile))
             if res:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
             
@@ -169,10 +173,12 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
             for patch in childnode.childNodes:
                 if patch.nodeType == patch.ELEMENT_NODE:
                     assert patch.nodeName == 'patch'
-                    text = ''.join([node.data
-                                    for node in patch.childNodes
-                                    if node.nodeType==node.TEXT_NODE])
-                    patch.append(text)
+                    patchfile = node.getAttribute('file')
+                    if node.hasAttribute('strip'):
+                        patchstrip = int(node.getAttribute('strip'))
+                    else:
+                        patchstrip = 0
+                    patches.append((patchfile, patchstrip))
 
     return Tarball(name, version, source_url, source_size,
                    patches, versioncheck, dependencies, suggests)

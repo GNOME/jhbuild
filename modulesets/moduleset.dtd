@@ -46,7 +46,10 @@
   href CDATA #REQUIRED
   size CDATA #IMPLIED >
 <!ELEMENT patches (patch)* >
-<!ELEMENT patch (#PCDATA) >
+<!ELEMENT patch EMPTY >
+<!ATTLIST patch
+  file CDATA #REQUIRED
+  strip CDATA '0' >
 
 <!-- common sub-elements -->
 <!ELEMENT dependencies (dep*) >

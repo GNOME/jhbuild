@@ -1,5 +1,12 @@
 2004-03-23  James Henstridge  <james@daa.com.au>
 
+	* modulesets/moduleset.dtd: update DTD.
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_patch): look for patches
+	in $(topdir)/patches, like we currently do for bootstrap.
+	(parse_tarball): fix parsing of patch elements, and add support
+	for a strip attribute for the patch.
+
 	* jhbuild/modtypes/base.py (CVSModule.do_install): add module to
 	packagedb on successful install.
 

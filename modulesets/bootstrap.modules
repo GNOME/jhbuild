@@ -1,0 +1,72 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <tarball id="gettext" version="0.14.1">
+    <source href="http://ftp.gnu.org/gnu/gettext/gettext-0.14.1.tar.gz"
+            size="6550874" />
+  </tarball>
+
+  <tarball id="autoconf" version="2.59">
+    <source href="http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.bz2"
+            size="925073" />
+  </tarball>
+
+  <tarball id="libtool" version="1.5.2">
+    <source href="http://ftp.gnu.org/gnu/libtool/libtool-1.5.2.tar.gz"
+            size="2653072" />
+    <patches>
+      <patch file="libtool-1.4.3-ltmain-SED.patch" strip="1" />
+      <patch file="libtool-1.4.2-multilib.patch" strip="1" />
+      <patch file="libtool-1.5-libtool.m4-x86_64.patch" strip="1" />
+    </patches>
+  </tarball>
+
+  <tarball id="automake-1.4" version="1.4-p6">
+    <source href="http://ftp.gnu.org/gnu/automake/automake-1.4-p6.tar.gz"
+            size="375060" />
+  </tarball>
+  <tarball id="automake-1.6" version="1.6.3">
+    <source href="http://ftp.gnu.org/gnu/automake/automake-1.6.3.tar.gz"
+            size="609618" />
+  </tarball>
+  <tarball id="automake-1.7" version="1.7.9">
+    <source href="http://ftp.gnu.org/gnu/automake/automake-1.7.9.tar.bz2"
+            size="577705" />
+  </tarball>
+  <tarball id="automake-1.8" version="1.8.2">
+    <source href="http://ftp.gnu.org/gnu/automake/automake-1.8.2.tar.bz2"
+            size="638894" />
+  </tarball>
+
+  <tarball id="pkg-config" version="0.15.0">
+    <source href="http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.15.0.tar.gz"
+            size="610697" />
+  </tarball>
+
+  <tarball id="python" version="2.3.2">
+    <source  href="http://www.python.org/ftp/python/2.3.2/Python-2.3.2.tar.bz2"
+             size="7161770" />
+  </tarball>
+
+  <tarball id="audiofile" version="0.2.5">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz"
+            size="362370" />
+  </tarball>
+
+  <metamodule id="meta-bootstrap">
+    <dependencies>
+      <dep package="gettext" />
+      <dep package="autoconf" />
+      <dep package="libtool" />
+      <dep package="automake-1.4" />
+      <dep package="automake-1.6" />
+      <dep package="automake-1.7" />
+      <dep package="automake-1.8" />
+      <dep package="pkg-config" />
+      <dep package="python" />
+      <dep package="audiofile" />
+    </dependencies>
+  </metamodule>
+
+</moduleset>
