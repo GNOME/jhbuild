@@ -9,7 +9,15 @@
 
   <cvsmodule id="intltool" />
   <cvsmodule id="gnome-common" revision="gnome-2-0" />
-  <cvsmodule id="esound" />
+  <tarball id="audiofile" version="0.2.5">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz"
+            size="362370" />
+  </tarball>
+  <cvsmodule id="esound">
+    <dependencies>
+      <dep package="audiofile" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="gtk-doc" />
   <cvsmodule id="glib" revision="glib-1-2">
     <dependencies>

@@ -29,7 +29,7 @@
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/bakery"
      password="" />
 
-  <tarball id="scrollkeeper" version="0.3.14" versioncheck="scrollkeeper-config --version">
+  <tarball id="scrollkeeper" version="0.3.14">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz" size="679513" />
     <dependencies>
       <dep package="libxml2" />
@@ -372,7 +372,15 @@
       <dep package="gconf" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="esound" />
+  <tarball id="audiofile" version="0.2.5">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz"
+            size="362370" />
+  </tarball>
+  <cvsmodule id="esound">
+    <dependencies>
+      <dep package="audiofile" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="gnome-media">
     <dependencies>
       <dep package="scrollkeeper" />
