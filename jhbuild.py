@@ -175,6 +175,13 @@ def setup_env(config):
     if cflags:
         os.environ['CFLAGS'] = cflags
 
+    # get rid of gdkxft from the env -- it can cause problems.
+    if os.environ.has_key('LD_PRELOAD'):
+        val = os.environ['LD_PRELOAD']
+        pos = string.find(val, 'libgdkxft.so')
+        if pos >= 0:
+            os.environ['LD_PRELOAD'] = val[:pos] + val[pos+12:]
+
 def main(args):
     try:
         opts, args = getopt.getopt(args, 'f:',
