@@ -25,12 +25,10 @@ import gobject
 import gtk
 import gtk.glade
 
-have_gconf = False
-try:
-    import gconf
-    have_gconf = True
-except:
-    pass
+#FIXME: would be nice if we ran w/o GConf, do a try...except block around
+#       the import and then set have_gconf to false
+import gconf
+have_gconf = True
 
 import module
 
