@@ -32,10 +32,13 @@ Global options:
 Commands:
   update                       update from cvs
   build [ opts... ] [modules]  update and compile (the default)
-  buildone [ opts... ] module  build a single module
+  buildone [ opts... ] modules build a single module
   run program [ args... ]      run a command in the build environment
   shell                        start a shell in the build environment
   bootstrap                    build required support tools.
+  list [ opts ... ] [modules]  list what modules would be built
+  dot [modules]                output a dot file of dependencies suitable
+                               for processing with graphviz.
 
 Options for the build/buildone commands:
   -a, --autogen                Always run autogen.sh
@@ -151,6 +154,23 @@ def do_bootstrap(config, args, interact=1):
     import bootstrap
     bootstrap.build_bootstraps(config)
 
+def do_list(config, args, interact=1):
+    opts, args = getopt.getopt(args, 's:', ['skip='])
+    for opt, arg in opts:
+        if opt in ('-s', '--skip'):
+            config['skip'] = config.get('skip', []) + string.split(arg, ',')
+    module_set = getattr(moduleinfo, config['moduleset'])
+    if args:
+        module_list = module_set.get_module_list(args, config['skip'])
+    elif config['modules'] == 'all':
+        module_list = module_set.get_full_module_list(config['skip'])
+    else:
+        module_list = module_set.get_module_list(config['modules'],
+                                                 config['skip'])
+
+    for module in module_list:
+        print module.name
+
 def do_dot(config, args, interact=1):
     module_set = getattr(moduleinfo, config['moduleset'])
     if args:
@@ -168,6 +188,7 @@ commands = {
     'run':       do_run,
     'shell':     do_shell,
     'bootstrap': do_bootstrap,
+    'list':      do_list,
     'dot':       do_dot,
 }
 
