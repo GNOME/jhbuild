@@ -35,6 +35,7 @@ head.add(Module(name='libgnome',
 head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade']))
 head.add(Module(name='libbonoboui',
                 dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade']))
+head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+']))
 head.add(Module(name='libgnomeui', dependencies=['libbonoboui', 'libglade']))
 
 head.add(Module(name='libglade',
@@ -54,7 +55,7 @@ head.add(Module(name='gnome-applets',
 head.add(Module(name='eel',
          dependencies=['librsvg','libgnomeui']))
 head.add(Module(name='librsvg',
-         dependencies=['gnome-xml','gtk+', 'libart_lgpl']))
+         dependencies=['gnome-xml','gtk+', 'libart_lgpl', 'gnome-common']))
 head.add(Module(name='nautilus',
          dependencies=['eel','librsvg','libgnomeui']))
 head.add(Module(name='metacity',
@@ -64,9 +65,13 @@ head.add(Module(name='libgtop', revision='libgtop-GNOME-2-0-port',
 head.add(Module(name='procman',
          dependencies=['libgnomeui','libwnck','libgtop']))
 head.add(Module(name='gnome-control-center',
-         dependencies=['libcapplet', 'gnome-core']))
+         dependencies=['libcapplet', 'gnome-core', 'bonobo-config']))
 head.add(Module(name='control-center-plus',
          dependencies=['gnome-control-center']))
+head.add(Module(name='yelp',
+         dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs']))
+head.add(Module(name='gnome-utils',
+         dependencies=['libgnomeui']))
 
 
 # gnome 1.x support
@@ -105,7 +110,7 @@ gnome1.add(Module(name='control-center', revision='control-center-1-0',
                   dependencies=['gnome-libs', 'gnome-vfs']))
 gnome1.add(Module(name='gnome-core', revision='gnome-core-1-0',
                   dependencies=['gnome-libs', 'gdk-pixbuf', 'control-center',
-                                'libglade']))
+                                'libglade', 'libzvt']))
 gnome1.add(Module(name='libgtop', revision='LIBGTOP_STABLE_1_0',
                   dependencies=['glib']))
 gnome1.add(Module(name='gnome-http', checkoutdir='libghttp'))
