@@ -33,8 +33,12 @@ class BuildScript:
 
         self.config = config
 
+        if not os.path.exists(self.config.checkoutroot):
+            os.mkdir(self.config.checkoutroot)
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError('checkout root must be writable')
+        if not os.path.exists(self.config.prefix):
+            os.mkdir(self.config.prefix)
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError('install prefix must be writable')
 
