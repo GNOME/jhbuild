@@ -144,8 +144,8 @@ gnome20.addmod('gtkglarea', dependencies=['gtk+'])
 gnome20.addmod('sawfish', revision='gnome-2', dependencies=['rep-gtk'])
 gnome20.addmod('rep-gtk', dependencies=['librep', 'gtk+'])
 gnome20.addmod('librep')
-gnome20.addmod('monkey-sound', dependencies=['libgnomeui', 'gstreamer'])
-gnome20.addmod('rhythmbox', dependencies=['monkey-sound', 'gnome-panel',
+gnome20.addmod('monkey-media', dependencies=['libgnomeui', 'gstreamer'])
+gnome20.addmod('rhythmbox', dependencies=['monkey-media', 'gnome-panel',
                                           'gst-plugins'])
 
 gnome20.addmod('thinice2', cvsroot=thinice_cvsroot, dependencies=['gtk+'])
