@@ -1,3 +1,17 @@
+2002-02-13  James Henstridge  <james@daa.com.au>
+
+	* moduleinfo.py (head): add tasks gnome-libs, gnome-core and
+	desktop (if anyone else has good ideas for tasks, please suggest
+	them).
+
+	* module.py (Task): simple class for mapping a single name to a
+	list of modules to build.
+	(ModuleSet.__expand_mod_list): function for expanding a list of
+	strings to a list of Module instances.  Takes task objects into
+	account.
+	(ModuleSet.get_module_list): use __expand_mod_list() to expand
+	module lists, so we get task support.
+
 2002-02-13  Xavier Ordoquy <MCArkan@gael.sourceforge.net>
 
 	* moduleinfo.py: changed gnome-core to

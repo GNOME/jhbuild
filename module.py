@@ -49,23 +49,40 @@ class Module:
         '''return extra arguments to pass to autogen'''
         return self.autogenargs
 
+class Task:
+    def __init__(self, name, modules):
+        self.name = name
+        self.modules = modules
+
 class ModuleSet:
     def __init__(self):
         self.modules = {}
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
+
+    # functions for handling dep expansion
+    def __expand_mod_list(self, modlist):
+        '''expands a list of names to a list of Module objects.  Expands
+        Task objects as expected.  Does not handle loops in task deps'''
+        ret = []
+        for modname in modlist:
+            mod = self.modules[modname]
+            if isinstance(mod, Task):
+                ret = ret + self.__expand_mod_list(mod.modules)
+            else:
+                ret.append(mod)
+        return ret
+        
     def get_module_list(self, seed):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
-        module_list = map(lambda name, modules=self.modules:
-                          modules[name], seed)
+        module_list = self.__expand_mod_list(seed)
         i = 0
         while i < len(module_list):
             # make sure dependencies are built first
             depadd = []
-            for dep in module_list[i].dependencies:
-                depmod = self.modules[dep]
+            for depmod in self.__expand_mod_list(module_list[i].dependencies):
                 if depmod not in module_list[:i+1]:
                     depadd.append(depmod)
             module_list[i:i] = depadd

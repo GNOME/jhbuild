@@ -1,4 +1,4 @@
-from module import Module, ModuleSet
+from module import Module, Task, ModuleSet
 
 # gnome 2.0 support
 head = ModuleSet()
@@ -27,17 +27,15 @@ head.add(Module(name='gnome-mime-data', dependencies=['gnome-common']))
 head.add(Module(name='gnome-vfs',
                 dependencies=['libbonobo','gconf', 'gnome-mime-data']))
 head.add(Module(name='libart_lgpl'))
-head.add(Module(name='bonobo-config',
-                dependencies=['libbonobo', 'intltool']))
 head.add(Module(name='libgnome',
                 dependencies=['gnome-xml', 'libxslt', 'libbonobo',
                               'gnome-vfs', 'gconf']))
 head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade']))
 head.add(Module(name='libbonoboui',
                 dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade']))
-head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+', 'gnome-common']))
 head.add(Module(name='libgnomeui', dependencies=['libbonoboui', 'libglade']))
 
+head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+', 'gnome-common']))
 head.add(Module(name='libglade',
          dependencies=['gtk+', 'gnome-xml']))
 head.add(Module(name='gnome-python/pygtk',
@@ -51,13 +49,11 @@ head.add(Module(name='bug-buddy',
 head.add(Module(name='libwnck',
          dependencies=['gtk+']))
 
-
 head.add(Module(name='gnome-panel',
          dependencies=['gtk+','libgnomeui','libbonoboui','gnome-desktop']))
 head.add(Module(name='gnome-desktop',
          dependencies=['gtk+','libgnomeui']))
 head.add(Module(name='gnome-session'))
-
 
 head.add(Module(name='gnome-applets',
          dependencies=['gnome-panel','libgtop']))
@@ -112,6 +108,13 @@ head.add(Module(name='gnumeric',
                 dependencies=['libole2', 'gal']))
 head.add(Module(name='glade', revision='glade-gnome2-branch',
 		dependencies=['gtk+', 'gnome-xml', 'libgnomeui', 'libgnomeprintui']))
+
+# some simple tasks to make using jhbuild a bit easier
+head.add(Task(name='gnome-libs', modules=['libgnome', 'libbonobo',
+                                          'libbonoboui', 'libgnomeui']))
+head.add(Task(name='gnome-core', modules=['gnome-desktop', 'gnome-panel',
+                                          'gnome-session', 'profterm']))
+head.add(Task(name='desktop', modules=['gnome-core', 'nautilus', 'yelp']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
