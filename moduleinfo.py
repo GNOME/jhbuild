@@ -98,7 +98,7 @@ gnome20.addmod('metatheme', dependencies=['libgnomeui'])
 gnome20.addmod('libgtop', revision='libgtop-GNOME-2-0-port',
                dependencies=['glib'])
 gnome20.addmod('procman', dependencies=['libgnomeui','libwnck','libgtop'])
-gnome20.addmod('gnome-control-center',
+gnome20.addmod('gnome-control-center', revision='gnome-2-0',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 gnome20.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 gnome20.addmod('gnome-utils', revision='gnome-2-0',
@@ -167,7 +167,7 @@ gnome20.addmod('gtksourceview', dependencies=['gtk+'])
 gnome20.addmod('glimmer', dependencies=['gtksourceview'])
 gnome20.addmod('gdl', dependencies=['libgnomeui'])
 gnome20.addmod('gnome-build', dependencies=['gdl'])
-gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build'])
+gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build', 'libzvt'])
 
 gnome20.addmod('sigc-1.1')
 gnome20.addmod('gtkmm-1.3', dependencies=['gtk+', 'sigc-1.1'])
@@ -214,6 +214,8 @@ gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='-- --with-qt=no')
 gnome22.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
+gnome22.addmod('gnome-control-center',
+               dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
