@@ -5,11 +5,11 @@ head = ModuleSet()
 head.add(Module(name='intltool'))
 head.add(Module(name='gnome-common'))
 head.add(Module(name='gtk-doc'))
-head.add(Module(name='glib',
+head.add(Module(name='glib', revision='glib-2-0',
                 dependencies=['gtk-doc']))
 head.add(Module(name='pango', revision='pango-1-0', dependencies=['glib']))
 head.add(Module(name='atk', dependencies=['glib']))
-head.add(Module(name='gtk+',
+head.add(Module(name='gtk+', revision='gtk-2-0',
                 dependencies=['pango', 'atk']))
 head.add(Module(name='gail',
                 dependencies=['gtk+', 'atk', 'libgnomecanvas']))
