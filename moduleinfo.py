@@ -241,7 +241,7 @@ gnome20.add(MetaModule('meta-nautilus',
 gnome20.add(MetaModule('meta-gnome-desktop',
                        dependencies=['meta-gnome-core', 'gnome-control-center',
                                 'meta-nautilus', 'yelp', 'bug-buddy', 'gedit',
-                                'gtk-engines']))
+                                'gtk-engines', 'gnome-media']))
 gnome20.add(MetaModule('meta-gnome-devel-tools',
                        dependencies=['glade', 'memprof', 'gconf-editor',
                                 'devhelp']))
