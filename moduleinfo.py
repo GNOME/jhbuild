@@ -315,6 +315,9 @@ gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 gnome22.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint-2.0'])
 gnome22.addmod('nautilus-media', dependencies=['nautilus', 'gstreamer', 'gst-plugins'])
 
+gnome22.addmod('fontilus', dependencies=['gnome-vfs', 'gtk+'])
+gnome22.addmod('sodipodi', dependencies=['gtk+', 'libgnomeprintui-2.0', 'libart_lgpl', 'libxml2'])
+
 # gnome 1.x support
 gnome1 = ModuleSet()
 gnome1.addmod('intltool')
