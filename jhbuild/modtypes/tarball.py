@@ -220,7 +220,8 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'source':
             source_url = childnode.getAttribute('href')
-            source_size = int(childnode.getAttribute('size'))
+            if childnode.hasAttribute('size'):
+                source_size = int(childnode.getAttribute('size'))
             if childnode.hasAttribute('md5sum'):
                 source_md5 = childnode.getAttribute('md5sum')
         elif childnode.nodeName == 'patches':
