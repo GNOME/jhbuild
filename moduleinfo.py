@@ -189,7 +189,7 @@ gnome20.addmod('file-roller', revision='gnome-2-0',
 gnome20.addmod('balsa', revision='BALSA_2',
                dependencies=['libgnomeui'])
 gnome20.addmod('pan',
-               dependencies=['libgnomeui'])
+               dependencies=['libgnomeui','gnet'])
 gnome20.addmod('ggv', dependencies=['scrollkeeper', 'libgnomeui'])
 gnome20.addmod('gucharmap', dependencies=['libgnomeui'])
 
