@@ -126,7 +126,7 @@ gnome2.add(MetaModule('meta-gnome-devel-platform',
                                'libgnomeui']))
 gnome2.add(MetaModule('meta-gnome-core',
                       modules=['gnome-desktop', 'gnome-panel', 'gnome-session',
-                               'profterm']))
+                               'profterm', 'gnome-applets']))
 gnome2.add(MetaModule('meta-nautilus',
                       modules=['nautilus', 'nautilus-gtkhtml']))
 gnome2.add(MetaModule('meta-gnome-desktop',
