@@ -118,7 +118,7 @@ class CVSRoot:
     def checkout(self, buildscript, module, revision=None, date=None,
                  checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'cvs -z3 -q -d %s checkout ' % self.cvsroot
+        cmd = 'cvs -z3 -q -d %s checkout -P ' % self.cvsroot
 
         if checkoutdir:
             cmd += '-d %s ' % checkoutdir
