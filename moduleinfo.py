@@ -23,9 +23,9 @@ head.add(Module(name='bonobo-activation',
          dependencies=['intltool', 'gnome-common','ORBit2','gnome-xml']))
 head.add(Module(name='gconf', dependencies=['ORBit2','gnome-xml','gtk+']))
 head.add(Module(name='libbonobo', dependencies=['ORBit2','bonobo-activation']))
-head.add(Module(name='gnome-mime-data'))
+head.add(Module(name='gnome-mime-data', dependencies=['gnome-common']))
 head.add(Module(name='gnome-vfs',
-         dependencies=['libbonobo', 'gconf', 'gnome-mime-data']))
+                dependencies=['libbonobo','gconf', 'gnome-mime-data']))
 head.add(Module(name='libart_lgpl'))
 head.add(Module(name='bonobo-config',
                 dependencies=['libbonobo', 'intltool']))
@@ -51,7 +51,7 @@ head.add(Module(name='libcapplet',
 head.add(Module(name='gnome-core',
          dependencies=['libwnck','libzvt','libgnomeui']))
 head.add(Module(name='gnome-applets',
-         dependencies=['gnome-core']))
+         dependencies=['gnome-core','libgtop']))
 head.add(Module(name='eel',
          dependencies=['librsvg','libgnomeui']))
 head.add(Module(name='librsvg',
