@@ -149,7 +149,7 @@ bootstraps = [
 	      '((which autoconf2.50 &> /dev/null && autoconf2.50 --version) || autoconf --version) | head -1'),
     Bootstrap('libtool', '1.4.3',
               'http://ftp.gnu.org/gnu/libtool/libtool-1.4.3.tar.gz',
-              1164463
+              1164463,
               [('libtool-1.3.5-mktemp.patch' , 1),
                ('libtool-1.4.2-relink-58664.patch', 1)],
               'libtoolize --version'),
