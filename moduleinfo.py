@@ -229,6 +229,7 @@ gnome20.add(MetaModule('meta-gnome-c++',
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
 gnome22.addmod('gnome-common');
+gnome22.addmod('gnome-icon-theme');
 gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
@@ -252,7 +253,7 @@ gnome22.addmod('libgnome',
                              'gconf'])
 gnome22.addmod('libgnomecanvas',
                dependencies=['gtk+', 'libart_lgpl', 'libglade','gnome-common'])
-gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade'])
+gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
 gnome22.addmod('librsvg',
                dependencies=['gnome-xml','gtk+', 'libart_lgpl',
                              'gnome-common'])
