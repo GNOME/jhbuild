@@ -60,26 +60,29 @@ def execute_pprint(cmd, format_line, split_stderr=False):
         err_eof = True
         read_fds = [out_fd]
     out_data = err_data = ''
-    while True:
-        rfds, wfds, xdfs = select.select(read_fds, [], [])
-        if out_fd in rfds:
-            out_chunk = out_fp.read()
-            if out_chunk == '': out_eof = True
-            out_data += out_chunk
-            while '\n' in out_data:
-                pos = out_data.find('\n')
-                format_line(out_data[:pos+1], False)
-                out_data = out_data[pos+1:]
-        if err_fd in rfds:
-            err_chunk = err_fp.read()
-            if err_chunk == '': err_eof = True
-            err_data += err_chunk
-            while '\n' in err_data:
-                pos = err_data.find('\n')
-                format_line(err_data[:pos+1], True)
-                err_data = err_data[pos+1:]
-        if out_eof and err_eof: break
-        select.select([],[],[],.1) # small delay
+    try:
+        while True:
+            rfds, wfds, xdfs = select.select(read_fds, [], [])
+            if out_fd in rfds:
+                out_chunk = out_fp.read()
+                if out_chunk == '': out_eof = True
+                out_data += out_chunk
+                while '\n' in out_data:
+                    pos = out_data.find('\n')
+                    format_line(out_data[:pos+1], False)
+                    out_data = out_data[pos+1:]
+            if err_fd in rfds:
+                err_chunk = err_fp.read()
+                if err_chunk == '': err_eof = True
+                err_data += err_chunk
+                while '\n' in err_data:
+                    pos = err_data.find('\n')
+                    format_line(err_data[:pos+1], True)
+                    err_data = err_data[pos+1:]
+            if out_eof and err_eof: break
+    except KeyboardInterrupt:
+        pass
     status = child.wait()
     return status
+
 

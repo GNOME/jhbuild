@@ -118,6 +118,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         if not os.path.exists(self.outputdir):
             os.makedirs(self.outputdir)
 
+        os.environ['TERM'] = 'dumb'
+
     def timestamp(self):
         tm = time.time()
         s = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(tm))
@@ -232,13 +234,14 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.indexfp = None
 
     def start_module(self, module):
-        filename='%s.html' % module.replace('/','_')
+        self.modulefilename='%s.html' % module.replace('/','_')
         self.indexfp.write('<tr>'
                            '<td>%s</td>'
                            '<td><a href="%s">%s</a></td>'
-                           '<td>\n' % (self.timestamp(), filename, module))
+                           '<td>\n' % (self.timestamp(), self.modulefilename,
+                                       module))
         self.modulefp = open(os.path.join(self.outputdir,
-                                          filename), 'w')
+                                          self.modulefilename), 'w')
         self.modulefp.write(buildlog_header % { 'module': module })
     def end_module(self, module, failed):
         if failed:
@@ -260,10 +263,11 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp.write('<a name="%s"></a>\n' % state)
     def end_phase(self, module, state, error):
         if error:
-            self.indexfp.write('<span class="failure" title="%s">%s</span>\n'
-                               % (error, state))
+            self.indexfp.write('<a class="failure" title="%s" href="%s#%s">%s</a>\n'
+                               % (error, self.modulefilename, state, state))
         else:
-            self.indexfp.write('<span class="success">%s</span>\n' % state)
+            self.indexfp.write('<a class="success" href="%s#%s">%s</a>\n'
+                               % (self.modulefilename, state, state))
         self.indexfp.flush()
 
     def handle_error(self, module, state, nextstate, error, altstates):

@@ -43,15 +43,17 @@ user_shell = os.environ.get('SHELL', '/bin/sh')
 
 # tray icon stuff ...
 icondir = os.path.join(os.path.dirname(__file__), 'icons')
-action_map = {
-    'Checking out':   'checkout.png',
-    'Updating':       'checkout.png',
-    'Downloading':    'checkout.png',
-    'Applying Patch': 'checkout.png',
-    'Configuring':    'configure.png',
-    'Building':       'build.png',
-    #'Checking':       'check.png',
-    'Installing':     'install.png',
+phase_map = {
+    'checkout':       'checkout.png',
+    'force_checkout': 'checkout.png',
+    'download':       'checkout.png',
+    'unpack':         'checkout.png',
+    'patch':          'checkout.png',
+    'configure':      'configure.png',
+    #'clean':          'clean.png',
+    'build':          'build.png',
+    #'check':          'check.png',
+    'install':        'install.png',
     }
 
 class TerminalBuildScript(buildscript.BuildScript):
@@ -79,8 +81,6 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not action_target:
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)
-        self.trayicon.set_icon(os.path.join(icondir,
-                               action_map.get(action, 'build.png')))
 
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
@@ -109,6 +109,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             ret = os.system(command)
         return ret
+
+    def start_phase(self, module, state):
+        self.trayicon.set_icon(os.path.join(icondir,
+                               phase_map.get(state, 'build.png')))
 
     def end_build(self, failures):
         if len(failures) == 0:

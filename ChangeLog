@@ -1,3 +1,28 @@
+2004-10-01  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.__init__):
+	set $TERM to dumb, to suppress vt100 escape sequences from things
+	like autogen.sh.
+
+	* jhbuild/utils/cmds.py (execute_pprint): suppress
+	KeyboardInterrupt when reading from the child process.
+
+	* jhbuild/utils/trayicon.py (TrayIcon._run_zenity): do a manual
+	fork+exec rather than using os.popen(), so we can disassociate the
+	zenity process from the controlling terminal (so it doesn't get
+	killed by a ctrl+C.
+
+	* jhbuild/frontends/terminal.py (phase_map): base the icon choices
+	on the phase name rather than the action text.  These are a bit
+	more regular and won't have translation issues, should jhbuild
+	ever be internationalised.
+	(TerminalBuildScript.start_phase): set the icon on the start of a
+	phase.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.end_phase):
+	in the index page, make the build phase status messages into links
+	to the appropriate parts of the build log.
+
 2004-09-30  Jon K Hellan  <hellan@acm.org>
 
 	* modulesets/gnome-2.10.modules, modulesets/gnome28.modules:
