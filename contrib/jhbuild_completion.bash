@@ -27,18 +27,19 @@
 
 _jhbuild()
 {
-	local cur prev command_list i
+	local cur prev command_list i v
 
 	cur=${COMP_WORDS[COMP_CWORD]}
 	prev=${COMP_WORDS[COMP_CWORD-1]}
 
 	case "$prev" in
 	gui|tinderbox|shell|sanitycheck|bootstrap)
-		command_list=()
+		command_list=""
 		;;
-	update|updateone|build|buildone|list|dot|info|-t|-s|-a|-n)
+	update|updateone|build|buildone|list|dot|info|-t|-s|-a|-n|-c)
+		# FIXME: some of these options can take multiple module names
 		# give them a list of modules
-		command_list=(`jhbuild list`)
+		command_list="`jhbuild list`"
 		;;
 	run)
 		# give them a list of commands
@@ -55,25 +56,25 @@ _jhbuild()
 		_filedir -d
 		;;
 	*)
-		command_list=(gui update updateone build buildone tinderbox run shell sanitycheck bootstrap list dot info)
+		command_list="gui update updateone build buildone tinderbox run shell sanitycheck bootstrap list dot info"
 
-		i=false
+		v=false
 		if [ $COMP_CWORD -gt 2 ]; then
-			for i in ${command_list[@]}; do
+			for i in $command_list; do
 				if [ "${COMP_WORDS[COMP_CWORD-2]}" == "$i" ]; then
-					i=true
+					v=true
 					break
 				fi
 			done
 		fi
 		
-		if $i; then
-		   	command_list=()
+		if $v; then
+		   	command_list=""
 		fi
 		;;
 	esac
 	
-	for i in ${command_list[@]}; do
+	for i in $command_list; do
 		if [ -z "${i/$cur*}" ]; then
 			COMPREPLY=( ${COMPREPLY[@]} $i )
 		fi
