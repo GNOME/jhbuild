@@ -131,7 +131,7 @@ gnome20.addmod('libgnomeprintui', revision='gnome-2-0',
                dependencies=['libgnomeprint'])
 gnome20.addmod('memprof', dependencies=['libgnomeui'])
 gnome20.addmod('eog', dependencies=['libgnomeui', 'libgnomeprint'])
-gnome20.addmod('gal', revision='gal-2', dependencies=['libgnomeui'])
+gnome20.addmod('gal', revision='gal-2', dependencies=['libgnomeui','libgnomeprintui'])
 gnome20.addmod('libole2', dependencies=['glib','gnome-xml'])
 gnome20.addmod('libgsf', dependencies=['glib'])
 gnome20.addmod('gnumeric', dependencies=['libole2', 'libgsf', 'gal'])
