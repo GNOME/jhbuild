@@ -66,8 +66,8 @@ class Tarball(base.Package):
         srcdir = self.get_srcdir(buildscript)
         if buildscript.config.buildroot and \
                self.supports_non_srcdir_builds:
-            return os.path.join(buildscript.config.buildroot,
-                                os.path.basename(srcdir))
+            d = buildscript.config.builddir_pattern % os.path.basename(srcdir)
+            return os.path.join(buildscript.config.buildroot, d)
         else:
             return srcdir
 

@@ -100,8 +100,9 @@ class CVSModule(Package):
     def get_builddir(self, buildscript):
         if buildscript.config.buildroot and \
                self.supports_non_srcdir_builds:
-            return os.path.join(buildscript.config.buildroot,
-                                self.checkoutdir or self.cvsmodule)
+            d = buildscript.config.builddir_pattern % (self.checkoutdir or
+                                                       self.cvsmodule)
+            return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
 

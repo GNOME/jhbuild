@@ -23,6 +23,12 @@ checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
 tarballdir = None    # will default to checkoutroot
 buildroot = None     # if set, packages will be build with srcdir!=builddir
 
+# When using srcdir!=builddir builds, this key allows you to use a
+# different builddir name.  Some people like this because it reduces
+# the chance of mixing the two up.  In the pattern, '%s' will be
+# substituted with the srcdir base component.
+builddir_pattern = '%s'
+
 # override environment variables, command line arguments, etc
 autogenargs = '--disable-static --disable-gtk-doc'
 makeargs = ''
