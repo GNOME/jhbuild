@@ -19,6 +19,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import base
+import os
 from jhbuild.utils import cvs
 
 class MozillaModule(base.CVSModule):
