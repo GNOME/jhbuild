@@ -314,8 +314,8 @@ gnome22.addmod('libgnome',
 gnome22.addmod('libgnomecanvas',
                dependencies=['gtk+', 'libart_lgpl', 'libglade','gnome-common'])
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
-gnome22.addmod('libgnomeprint', dependencies=['intltool', 'libart_lgpl', 'glib', 'gnome-common', 'pango'])
-gnome22.addmod('libgnomeprintui', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
+gnome22.addmod('libgnomeprint', revision='gnome-2-2', dependencies=['intltool', 'libart_lgpl', 'glib', 'gnome-common', 'pango'])
+gnome22.addmod('libgnomeprintui', revision='gnome-2-2', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
 gnome22.addmod('gnome-games',
                dependencies=['scrollkeeper', 'libgnomeui'])
 
