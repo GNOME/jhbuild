@@ -76,17 +76,15 @@ class SVNRoot:
 
         os.chdir(dir)
 
-        # make sure we are on the right branch
+        opt = ''
+        if date:
+            opt += '-r "{%s}" ' % date
+
+        # if the URI doesn't match, use "svn switch" instead of "svn update"
         uri = _make_uri(self.svnroot, module)
         if get_uri('.') != uri:
-            res = buildscript.execute('svn switch %s' % uri)
-            if res != 0: return res
-
-        cmd = 'svn update '
-
-        if date:
-            cmd += '-r "{%s}" ' % date
-
-        cmd += '.'
+            cmd = 'svn switch %s%s' % (opt, uri)
+        else:
+            cmd = 'svn update %s.' % opt
 
         return buildscript.execute(cmd, 'svn')
