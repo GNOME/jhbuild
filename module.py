@@ -430,6 +430,7 @@ def read_module_set(configdict):
     document = xml.dom.minidom.parse(filename)
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
+    branches = configdict.get('branches', {})
 
     # load up list of cvsroots
     cvsroots = {}
@@ -485,6 +486,11 @@ def read_module_set(configdict):
                             assert dep.nodeName == 'dep'
                             dependencies.append(dep.getAttribute('package'))
                     break
+
+            # override revision tag if requested.
+            if branches.has_key(module):
+                revision = branches[module]
+
             moduleset.add(CVSModule(module, checkoutdir, revision,
                                     autogenargs, cvsroot=cvsroot,
                                     dependencies=dependencies))

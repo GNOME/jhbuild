@@ -1,5 +1,14 @@
 2003-04-23  James Henstridge  <james@daa.com.au>
 
+	* jamesh.jhbuildrc (branches): set a custom branch to test things.
+
+	* module.py (read_module_set): if a branch is listed in the
+	branches dict, use it instead of the branch tag in the module set.
+
+	* jhbuild.py (read_config_file): backward compat for 'cvsroot'
+	setting was broken (key for gnome cvs is 'gnome.org'; not 'gnome').
+	(default_config): add a branches dictionary.
+
 	* jhbuild.py (do_update_one): add "jhbuild updateone" command
 	(suggested by bug #109617).
 

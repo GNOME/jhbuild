@@ -55,7 +55,8 @@ Options valid for the build and buildone commands:
 ''' # for xemacs/jed "
 
 default_config = {
-    'cvsroots': { 'gnome.org': ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome' },
+    'cvsroots': {},
+    'branches': {},
     'moduleset': 'head',
     'modules': 'all',
     'checkoutroot': os.path.join(os.environ['HOME'], 'cvs', 'gnome2'),
@@ -74,7 +75,7 @@ def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
     except IOError:
 	raise SystemExit, 'Please create ' + file
     if config.has_key('cvsroot'):
-        config['cvsroots']['gnome'] = config['cvsroot']
+        config['cvsroots']['gnome.org'] = config['cvsroot']
         del config['cvsroot']
     return config
 
