@@ -259,6 +259,9 @@ gnome22.addmod('libgnome',
 gnome22.addmod('libgnomecanvas',
                dependencies=['gtk+', 'libart_lgpl', 'libglade','gnome-common'])
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
+gnome20.addmod('libgnomeprint', dependencies=['libbonobo', 'libart_lgpl'])
+gnome20.addmod('libgnomeprintui', dependencies=['libgnomeprint'])
+
 gnome22.addmod('librsvg',
                dependencies=['gnome-xml','gtk+', 'libart_lgpl',
                              'gnome-common'])
