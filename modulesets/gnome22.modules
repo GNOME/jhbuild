@@ -28,6 +28,15 @@
   <cvsroot name="gaim.sf.net"
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/gaim"
      password="" />
+  <cvsroot name="libxmlplusplus.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/libxmlplusplus"
+     password="" />
+  <cvsroot name="bakery.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/bakery"
+     password="" />
+  <cvsroot name="go-mono.com"
+     root=":pserver:anonymous@anoncvs.go-mono.com:/mono"
+     password="" />
 
   <tarball id="scrollkeeper" version="0.3.12" versioncheck="scrollkeeper-config --version">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.12.tar.gz" size="541937" />
@@ -468,10 +477,10 @@
       <dep package="libbonobo" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gnumeric">
+  <cvsmodule id="gnumeric" autogenargs="--with-bonobo --with-gda">
     <dependencies>
       <dep package="libgsf" />
-      <dep package="gal" />
+      <dep package="libgda" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gimp" autogenargs="--disable-print">
@@ -527,7 +536,6 @@
   <cvsmodule id="librep" />
   <cvsmodule id="rhythmbox">
     <dependencies>
-      <dep package="monkey-media" />
       <dep package="gnome-panel" />
       <dep package="gst-plugins" />
     </dependencies>
@@ -717,6 +725,12 @@
       <dep package="gnomemm/libbonobouimm" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="gnomemm/gnome-vfsmm">
+    <dependencies>
+      <dep package="gtkmm2" />
+      <dep package="gnome-vfs" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="regexxer" cvsroot="regexxer.sf.net">
     <dependencies>
       <dep package="gtkmm2" />
@@ -839,6 +853,8 @@
     <dependencies>
       <dep package="gtkmm2" />
       <dep package="gnomemm/libgnomeuimm" />
+      <dep package="gnomemm/gnome-vfsmm" />
+      <dep package="bakery_gnomeui />
     </dependencies>
   </metamodule>
   <metamodule id="meta-gnome-accessibility">
@@ -926,7 +942,7 @@
     </dependencies>
   </cvsmodule>
   <tarball id="xchat" version="2.0.2">
-    <source href="http://www.xchat.org/files/source/2.0/xchat-2.0.2.tar.bz2" size="749398" />
+    <source href="http://www.xchat.org/files/source/2.0/xchat-2.0.4.tar.bz2" size="879080" />
     <dependencies>
       <dep package="gtk+" />
       <dep package="libxml2" />
@@ -945,6 +961,71 @@
   <cvsmodule id="gcalctool">
     <dependencies>
       <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-themes-extras">
+    <dependencies>
+      <dep package="gnome-themes" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgda" revision="release-1-0-branch">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="ORBit2" />
+      <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomedb" revision="release-1-0-branch" autogenargs="--enable-gnome=yes">
+    <dependencies>
+      <dep package="libgda" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="mergeant">
+    <dependencies>
+      <dep package="libgnomedb" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtranslator">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-spell">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libgnomecups">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-cups-manager">
+    <dependencies>
+      <dep package="libgnomecups" />
+      <dep package="libgnomeui" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libxml++" cvsroot="libxmlplusplus.sf.net">
+    <dependencies>
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="bakery" cvsroot="bakery.sf.net">
+    <dependencies>
+      <dep package="libxml++" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="bakery_gnomeui" cvsroot="bakery.sf.net">
+    <dependencies>
+      <dep package="bakery" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gtk-sharp" cvsroot="go-mono.com">
+    <dependencies>
+      <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
 </moduleset>
