@@ -125,9 +125,9 @@ gnome20.addmod('gnome-terminal', revision='gnome-2-0',
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
 gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
-               dependencies=['libart_lgpl'])
+               dependencies=['libart_lgpl', 'glib'])
 gnome20.addmod('libgnomeprintui', revision='gnome-2-0',
-               dependencies=['libgnomeprint', 'gtk+'])
+               dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
 gnome20.addmod('memprof', dependencies=['libgnomeui'])
 gnome20.addmod('eog', dependencies=['libgnomeui', 'libgnomeprint'])
 gnome20.addmod('gal', revision='gal-2', dependencies=['libgnomeui','libgnomeprintui'])
@@ -265,8 +265,8 @@ gnome22.addmod('libgnome',
 gnome22.addmod('libgnomecanvas',
                dependencies=['gtk+', 'libart_lgpl', 'libglade','gnome-common'])
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
-gnome22.addmod('libgnomeprint', dependencies=['libart_lgpl'])
-gnome22.addmod('libgnomeprintui', dependencies=['libgnomeprint', 'gtk+'])
+gnome22.addmod('libgnomeprint', dependencies=['libart_lgpl', 'glib'])
+gnome22.addmod('libgnomeprintui', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
 
 gnome22.addmod('librsvg',
                dependencies=['gnome-xml','gtk+', 'libart_lgpl',
