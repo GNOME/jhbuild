@@ -27,6 +27,7 @@ from jhbuild.errors import FatalError
 from jhbuild.commands.base import register_command
 from jhbuild.modtypes.base import MetaModule, CVSModule
 from jhbuild.modtypes.tarball import Tarball
+from jhbuild.modtypes.svnmodule import SVNModule
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -61,6 +62,9 @@ def do_info(config, args):
             print 'CVS-Module:', module.cvsmodule
             if module.revision:
                 print 'CVS-Revision:', module.revision
+        elif isinstance(module, SVNModule):
+            print 'Subversion-Repository:', module.svnroot
+            print 'Subversion-Module:', module.svnmodule
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version

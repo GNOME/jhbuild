@@ -40,8 +40,8 @@ class SVNModule(Package):
     def __init__(self, svnmodule, checkoutdir=None,
                  autogenargs='', makeargs='', dependencies=[], suggests=[],
                  svnroot=None, supports_non_srcdir_builds=True):
-        Package.__init__(self, checkoutdir or svnmodule, dependencies,
-                         suggests)
+        Package.__init__(self, checkoutdir or os.path.basename(svnmodule),
+                         dependencies, suggests)
         self.svnmodule   = svnmodule
         self.checkoutdir = checkoutdir
         self.autogenargs = autogenargs
@@ -226,7 +226,6 @@ def parse_svnmodule(node, config, dependencies, suggests, svnroot,
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
     # override revision tag if requested.
-    revision = config.branches.get(module, revision)
     autogenargs = config.module_autogenargs.get(module, autogenargs)
     makeargs = config.module_makeargs.get(module, makeargs)
 
