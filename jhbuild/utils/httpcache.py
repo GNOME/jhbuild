@@ -104,7 +104,10 @@ class Cache:
             else:
                 etag = None
             expires = _parse_isotime(node.getAttribute('expires'))
-            self.entries[uri] = CacheEntry(uri, local, modified, etag, expires)
+            # only add to cache list if file actually exists.
+            if os.path.exists(os.path.join(self.cachedir, local)):
+                self.entries[uri] = CacheEntry(uri, local, modified,
+                                               etag, expires)
         document.unlink()
 
     def write_cache(self):
@@ -166,7 +169,7 @@ class Cache:
         self.read_cache()
         entry = self.entries.get(uri)
         if entry:
-            if nonetwork or now <= entry.expires:
+            if (nonetwork or now <= entry.expires):
                 return os.path.join(self.cachedir, entry.local)
 
         if nonetwork:
