@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from module import MetaModule, Tarball, ModuleSet
+from module import MetaModule, Tarball, FcPackage, ModuleSet
 
 def sfcvsroot(project):
     return ':pserver:anonymous@cvs.%s.sourceforge.net:/cvsroot/%s' % \
@@ -252,14 +252,19 @@ gnome20.add(MetaModule('meta-gnome-accessibility',
 
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
+
 gnome22.add(Tarball('startup-notification', '0.4',
                     'http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.4.tar.gz',
                     199548, [],
                     'pkg-config --modversion libstartup-notification-1.0'))
+gnome22.add(FcPackage('2.1',
+                      'http://www.fontconfig.org/release/fcpackage.2_1.tar.gz',
+                      544661))
+
 gnome22.addmod('gnome-common')
 gnome22.addmod('gnome-icon-theme')
 gnome22.addmod('glib', dependencies=['gtk-doc'])
-gnome22.addmod('pango', dependencies=['glib'])
+gnome22.addmod('pango', dependencies=['glib', 'fcpackage'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
 gnome22.addmod('gconf', dependencies=['ORBit2', 'libxml2', 'gtk+'])

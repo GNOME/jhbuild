@@ -128,7 +128,7 @@ class CVSModule(Package):
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
-        buildscript.message('running configure for %s' % self.name)
+        buildscript.message('configuring %s' % self.name)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (buildscript.config.prefix, buildscript.config.autogenargs,
                self.autogenargs)
@@ -140,7 +140,7 @@ class CVSModule(Package):
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('running build for %s' % self.name)
+        buildscript.message('building %s' % self.name)
         cmd = 'make %s' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
@@ -150,7 +150,7 @@ class CVSModule(Package):
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('running install for %s' % self.name)
+        buildscript.message('installing %s' % self.name)
         cmd = 'make %s install' % buildscript.config.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
@@ -261,7 +261,7 @@ class Tarball(Package):
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('running build for %s' % self.name)
+        buildscript.message('building %s' % self.name)
         cmd = 'make %s' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
@@ -270,12 +270,129 @@ class Tarball(Package):
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
-        buildscript.message('running install for %s' % self.name)
+        buildscript.message('installing %s' % self.name)
         cmd = 'make %s install' % buildscript.config.makeargs
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
         else:
+            open('jhbuild-build-stamp', 'w').write('stamp')
+        return (self.STATE_DONE, error, [])
+
+class FcPackage(Tarball):
+    STATE_CONFIGURE_FONTCONFIG = 'configure_fontconfig'
+    STATE_BUILD_FONTCONFIG     = 'build_fontconfig'
+    STATE_INSTALL_FONTCONFIG   = 'install_fontconfig'
+    STATE_CONFIGURE_XRENDER    = 'configure_xrender'
+    STATE_BUILD_XRENDER        = 'build_xrender'
+    STATE_INSTALL_XRENDER      = 'install_xrender'
+    STATE_CONFIGURE_XFT2       = 'configure_xft2'
+    STATE_BUILD_XFT2           = 'build_xft2'
+    STATE_INSTALL_XFT2         = 'install_xft2'
+
+    STATE_CONFIGURE = STATE_CONFIGURE_FONTCONFIG # glue into Tarball's states
+
+    def __init__(self, version, source_url, source_size):
+        Tarball.__init__(self, 'fcpackage', version, source_url, source_size,
+                         [], versioncheck='pkg-config --modversion xft',
+                         dependencies=[])
+
+    def do_configure_fontconfig(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
+        buildscript.message('configuring fcpackage/fontconfig')
+        res = buildscript.execute('./configure --prefix=%s' %
+                                  buildscript.config.prefix)
+        error = None
+        if res != 0:
+            error = 'could not configure fontconfig'
+        return (self.STATE_BUILD_FONTCONFIG, error, [])
+
+    def do_build_fontconfig(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
+        buildscript.message('building fcpackage/fontconfig')
+        cmd = 'make %s' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not build fontconfig'
+        return (self.STATE_INSTALL_FONTCONFIG, error, [])
+
+    def do_install_fontconfig(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'fontconfig'))
+        buildscript.message('installing fcpackage/fontconfig')
+        cmd = 'make %s install' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not install fontconfig'
+        return (self.STATE_CONFIGURE_XRENDER, error, [])
+
+    def do_configure_xrender(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
+        buildscript.message('configuring fcpackage/Xrender')
+        res = buildscript.execute('mkdir -p exports/include/X11/extensions')
+        if res != 0:
+            return (self.STATE_BUILD_XRENDER,
+                    'could not configure Xrender', [])
+
+        res = buildscript.execute('ln -s ../../../../render.h exports/include/X11/extensions')
+        if res != 0:
+            return (self.STATE_BUILD_XRENDER,
+                    'could not configure Xrender', [])
+
+        res = buildscript.execute('xmkmf -DProjectRoot=%s' %
+                                  buildscript.config.prefix)
+        if res != 0:
+            return (self.STATE_BUILD_XRENDER,
+                    'could not configure Xrender', [])
+
+        return (self.STATE_BUILD_XRENDER, None, [])
+
+    def do_build_xrender(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
+        buildscript.message('building fcpackage/Xrender')
+        cmd = 'make INCROOT=/usr/X11R6/include USRLIBDIR=/usr/X11R6/lib ' \
+              '%s depend all' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not build Xrender'
+        return (self.STATE_INSTALL_XRENDER, error, [])
+
+    def do_install_xrender(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xrender'))
+        buildscript.message('installing fcpackage/Xrender')
+        cmd = 'make %s install' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not install Xrender'
+        return (self.STATE_CONFIGURE_XFT2, error, [])
+
+    def do_configure_xft2(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
+        buildscript.message('configuring fcpackage/Xft')
+        res = buildscript.execute('./configure --prefix=%s' %
+                                  buildscript.config.prefix)
+        error = None
+        if res != 0:
+            error = 'could not configure xft2'
+        return (self.STATE_BUILD_XFT2, error, [])
+
+    def do_build_xft2(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
+        buildscript.message('building fcpackage/Xft')
+        cmd = 'make %s' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not build xft2'
+        return (self.STATE_INSTALL_XFT2, error, [])
+
+    def do_install_xft2(self, buildscript):
+        os.chdir(os.path.join(self.get_builddir(buildscript), 'Xft'))
+        buildscript.message('installing fcpackage/Xft')
+        cmd = 'make %s install' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not install xft2'
+        else:
+            os.chdir(self.get_builddir(buildscript))
             open('jhbuild-build-stamp', 'w').write('stamp')
         return (self.STATE_DONE, error, [])
 
