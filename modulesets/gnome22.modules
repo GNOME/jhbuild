@@ -18,7 +18,7 @@
   </fcpackage>
 
   <cvsmodule id="intltool" />
-  <cvsmodule id="gnome-common" />
+  <cvsmodule id="gnome-common" revision="gnome-2-2"/>
   <cvsmodule id="libxml2" module="gnome-xml" checkoutdir="libxml2" />
   <cvsmodule id="libxslt">
     <dependencies>
@@ -66,6 +66,19 @@
       <dep package="gail" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="gtkhtml">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="gail" />
+      <dep package="bonobo" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libzvt">
+    <dependencies>
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="linc" revision="gnome-2-2">
     <dependencies>
       <dep package="glib" />
@@ -97,7 +110,7 @@
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="libbonobo">
+  <cvsmodule id="libbonobo" revision="gnome-2-2">
     <dependencies>
       <dep package="ORBit2" />
       <dep package="bonobo-activation" />
@@ -184,7 +197,7 @@
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gnome-desktop">
+  <cvsmodule id="gnome-desktop" revision="gnome-2-2">
     <dependencies>
       <dep package="libgnomeui" />
       <dep package="libwnck" />
@@ -318,7 +331,7 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="esound" />
-  <cvsmodule id="gnome-media">
+  <cvsmodule id="gnome-media" revision="gnome-2-2">
     <dependencies>
       <dep package="scrollkeeper" />
       <dep package="libgnomeui" />
@@ -431,6 +444,14 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="glade" revision="glade-gnome2-branch">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="libxml2" />
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="glade3">
     <dependencies>
       <dep package="gtk+" />
       <dep package="libxml2" />
@@ -580,9 +601,22 @@
       <dep package="gtkhtml2" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="anjuta">
+    <dependencies>
+      <dep package="ORBit2" />
+      <dep package="libgnomeui" />
+      <dep package="libgnomeprint" />
+      <dep package="gnome-vfs" />
+      <dep package="glade" />
+      <dep package="libglade" />
+      <dep package="libzvt" />
+      <dep package="vte" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="anjuta2">
     <dependencies>
       <dep package="libgnomeui" />
+      <dep package="glimmer" />
       <dep package="gnome-build" />
       <dep package="vte" />
     </dependencies>
@@ -835,10 +869,29 @@
       <dep package="gtk+" />
     </dependencies>
   </mozillamodule>
+  <cvsmodule id="galeon">
+    <dependencies>
+      <dep package="mozilla" />
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="epiphany">
     <dependencies>
       <dep package="mozilla" />
       <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="libsoup">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="evolution">
+    <dependencies>
+      <dep package="gtkhtml" />
+      <dep package="libgnomeui" />
+      <dep package="bonoboui" />
+      <dep package="libsoup" />
     </dependencies>
   </cvsmodule>
   <tarball id="xchat" version="2.0.0">
@@ -854,6 +907,11 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gaim" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/gaim">
+    <dependencies>
+      <dep package="libgnomeui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gcalctool">
     <dependencies>
       <dep package="libgnomeui" />
     </dependencies>
