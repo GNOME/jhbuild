@@ -72,7 +72,8 @@ gnome20.addmod('libgnomeui', revision='gnome-2-0',
                dependencies=['libbonoboui', 'libglade'])
 
 gnome20.addmod('libzvt', dependencies=['libart_lgpl', 'gtk+', 'gnome-common'])
-gnome20.addmod('libglade', dependencies=['gtk+', 'gnome-xml'])
+gnome20.addmod('libglade', revision='gnome-2-0',
+               dependencies=['gtk+', 'gnome-xml'])
 gnome20.addmod('gnome-python/pygtk', dependencies=['gtk+', 'libglade'])
 gnome20.addmod('orbit-python', dependencies=['libIDL', 'ORBit2'])
 gnome20.addmod('gnome-python/gnome-python',
@@ -117,7 +118,8 @@ gnome20.addmod('gconf-editor', dependencies=['gconf'])
 gnome20.addmod('esound')
 gnome20.addmod('gnome-media', dependencies=['libgnomeui', 'esound', 'gail'])
 gnome20.addmod('gdm2', dependencies=['librsvg'])
-gnome20.addmod('profterm', revision='gnome-2-0', dependencies=['libglade', 'libgnomeui', 'libzvt'])
+gnome20.addmod('gnome-terminal', revision='gnome-2-0',
+               dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
 gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
@@ -202,7 +204,8 @@ gnome20.add(MetaModule('meta-gnome-devel-platform',
                                 'libgnomeui']))
 gnome20.add(MetaModule('meta-gnome-core',
                        modules=['gnome-desktop', 'gnome-panel',
-                                'gnome-session', 'profterm', 'gnome-applets']))
+                                'gnome-session', 'gnome-terminal',
+                                'gnome-applets']))
 gnome20.add(MetaModule('meta-nautilus',
                        modules=['nautilus', 'nautilus-gtkhtml']))
 gnome20.add(MetaModule('meta-gnome-desktop',
@@ -224,7 +227,8 @@ gnome22.addmod('glib', dependencies=['gtk-doc'])
 gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
-gnome22.addmod('profterm', dependencies=['libglade', 'libgnomeui', 'libzvt'])
+gnome22.addmod('gnome-terminal',
+               dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
@@ -234,6 +238,7 @@ gnome22.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
 gnome22.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
+gnome22.addmod('libglade', dependencies=['gtk+', 'gnome-xml'])
 gnome22.addmod('libgnome',
                dependencies=['gnome-xml', 'libxslt', 'libbonobo', 'gnome-vfs',
                              'gconf'])
