@@ -338,7 +338,7 @@ gnome22.addmod('nautilus',
                dependencies=['scrollkeeper', 'esound', 'eel', 'librsvg',
                              'libgnomeui', 'gnome-desktop'])
 gnome22.addmod('bug-buddy', dependencies=['libgnomeui'])
-gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
+gnome22.addmod('gnome-utils', revision='gnome-2-2', dependencies=['libgnomeui', 'gnome-panel'])
 
 gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 
