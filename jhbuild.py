@@ -15,6 +15,7 @@ Commands:
   build [ options ... ]        update and compile (the default)
   buildone module              build a single module
   run program [ args ... ]     run a command in the build environment
+  shell                        start a shell in the build environment
   bootstrap                    build required support tools.
 
 Options for the build/buildone commands:
@@ -130,6 +131,9 @@ def do_run(config, args, interact=1):
     # os.execlp(args[0], *args) # not python 1.5 compatible :(
     apply(os.execlp, [args[0]] + args)
 
+def do_shell(config, args, interact=1):
+    os.system(module.user_shell)
+
 def do_bootstrap(config, args, interact=1):
     if args:
         raise getopt.error, 'no extra arguments expected'
@@ -142,6 +146,7 @@ commands = {
     'build':     do_build,
     'buildone':  do_build_one,
     'run':       do_run,
+    'shell':     do_shell,
     'bootstrap': do_bootstrap,
 }
 
