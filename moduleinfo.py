@@ -77,6 +77,10 @@ head.add(Module(name='gnome-utils',
 head.add(Module(name='gconf-editor',
                 dependencies=['gconf']))
 head.add(Module(name='esound'))
+head.add(Module(name='gdm2',
+                dependencies=['librsvg']))
+head.add(Module(name='profterm',
+                dependencies=['libglade', 'libgnomeui', 'libzvt']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
