@@ -335,6 +335,8 @@ gnome22.addmod('at-spi', dependencies=['libbonobo', 'gail'])
 gnome22.addmod('libgail-gnome', dependencies=['at-spi', 'libgnomeui'])
 gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 
+gnome22.addmod('gnome-themes')
+
 # gnome 1.x support
 gnome1 = ModuleSet()
 gnome1.addmod('intltool')
