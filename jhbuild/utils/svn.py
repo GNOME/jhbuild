@@ -18,12 +18,27 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os, sys
+import jhbuild.errors
+import jhbuild.utils.cmds
 
 def _make_uri(repo, path):
     if repo[-1] != '/':
         return '%s/%s' % (repo, path)
     else:
         return repo + path
+
+def get_uri(filename):
+    try:
+        output = jhbuild.utils.cmds.get_output('svn info %s' % filename)
+    except RuntimeError:
+        raise jhbuild.errors.FatalError('could not get Subversion URI for %s'
+                                        % filename)
+    output = output.split('\n')
+    for line in output:
+        if line.startswith('URL:'):
+            return line[4:].strip()
+    raise jhbuild.errors.FatalError('could not get Subversion URI for %s'
+                                    % filename)
 
 class SVNRoot:
     '''A class to wrap up various Subversion opperations.'''
@@ -60,9 +75,18 @@ class SVNRoot:
             return self.checkout(buildscript, module, date, checkoutdir)
 
         os.chdir(dir)
+
+        # make sure we are on the right branch
+        uri = _make_uri(self.svnroot, module)
+        if get_uri('.') != uri:
+            res = buildscript.execute('svn switch %s' % uri)
+            if res != 0: return res
+
         cmd = 'svn update '
 
         if date:
             cmd += '-r "{%s}" ' % date
+
+        cmd += '.'
 
         return buildscript.execute(cmd, 'svn')
