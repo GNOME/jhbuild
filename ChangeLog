@@ -1,7 +1,17 @@
 2002-03-06  James Henstridge  <james@daa.com.au>
 
+	* moduleinfo.py (head): add a meta-gnome-devel-tools meta module.
+
 	* module.py (BuildScript._*): force a chdir before configure,
 	make, etc.
+	(BuildScript.__init__): create a CVSRoot object to handle
+	checkouts.
+	(BuildScript._cvscheckout): simplify to use the CVSRoot object.
+	(BuildScript._configure): use the CVSRoot to find the checkoutdir
+	(BuildScript._makeclean): same here.
+	(BuildScript._make): same here.
+	(BuildScript._makeinstall): same here.
+	(Module): remove the cvs args stuff.
 
 2002-03-05  James Henstridge  <james@daa.com.au>
 

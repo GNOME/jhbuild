@@ -14,5 +14,6 @@ install:
 	@echo 'python '`pwd`'/jhbuild.py "$$@"' >> $(bindir)/jhbuild
 	@chmod a+x $(bindir)/jhbuild
 	@[ -f $(HOME)/.jhbuildrc ]||echo "Don't forget to create ~/.jhbuildrc"
+	install -m755 install-check $(bindir)/install-check
 
 .PHONY: all update install

@@ -1,4 +1,5 @@
 import os, string
+import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
@@ -17,33 +18,6 @@ class Module:
 
     def __repr__(self):
         return '<cvs module %s>' % self.name
-
-    def get_checkout_dir(self, checkoutroot):
-        '''get the directory we will checkout to'''
-        if self.checkoutdir:
-            return os.path.join(checkoutroot, self.checkoutdir)
-        else:
-            return os.path.join(checkoutroot, self.name)
-
-    def cvs_checkout_args(self):
-        '''arguments to checkout the module'''
-        ret = 'checkout '
-        if self.checkoutdir:
-            ret = ret + '-d %s ' % self.checkoutdir
-        if self.revision:
-            ret = ret + '-r %s ' % self.revision
-        else:
-            ret = ret + '-A '
-        return ret + self.name
-
-    def cvs_update_args(self):
-        '''arguments to update the module (to be run from checkout dir)'''
-        ret = 'update -P -d '
-        if self.revision:
-            ret = ret + '-r %s ' % self.revision
-        else:
-            ret = ret + '-A '
-        return ret + '.'
 
     def autogen_args(self):
         '''return extra arguments to pass to autogen'''
@@ -104,44 +78,21 @@ class ModuleSet:
 class BuildScript:
     def __init__(self, cvsroot, modulelist, autogenargs=None,
                  prefix=None, checkoutroot=None):
-        self.cvsroot = cvsroot
         self.modulelist = modulelist
         self.autogenargs = autogenargs
         self.prefix = prefix
-        self.checkoutroot = checkoutroot
         
         if not self.autogenargs:
             self.autogenargs = '--disable-static --disable-gtk-doc'
         if not self.prefix:
             self.prefix = '/opt/gtk2'
-        if not self.checkoutroot:
-            self.checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
+
+        if not checkoutroot:
+            checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
+        self.cvsroot = cvs.CVSRoot(cvsroot, checkoutroot)
 
         assert os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK), \
                'install prefix must be writable'
-
-        self.login()
-
-    def login(self):
-        '''make sure we are logged into the cvs server first'''
-        loggedin = 0
-        try:
-            home = os.environ['HOME']
-            fp = open(os.path.join(home, '.cvspass'), 'r')
-            for line in fp.readlines():
-                parts = string.split(line)
-                if parts[0] == '/1':
-                    cvsroot = parts[1]
-                else:
-                    cvsroot = parts[0]
-                if string.replace(cvsroot, ':2401', ':') == \
-		   string.replace(self.cvsroot, ':2401', ':'):
-                    loggedin = 1
-                    break
-        except IOError:
-            pass
-        if not loggedin:
-            os.system('cvs -d %s login' % self.cvsroot)
 
     def _message(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)
@@ -155,22 +106,16 @@ class BuildScript:
         return ret
 
     def _cvscheckout(self, module, force_checkout=0):
-        checkoutdir = module.get_checkout_dir(self.checkoutroot)
-        if os.path.exists(checkoutdir) and not force_checkout:
-            os.chdir(checkoutdir)
-            self._message('updating module %s in %s' %
-                          (module.name, checkoutdir))
-            cmd = 'cvs -z3 -q %s' % module.cvs_update_args()
+        if force_checkout:
+            return self.cvsroot.checkout(module.name, module.revision,
+                                         module.checkoutdir)
         else:
-            os.chdir(self.checkoutroot)
-            self._message('checking out module %s into %s' %
-                          (module.name, checkoutdir))
-            cmd = 'cvs -z3 -q -d %s %s' % \
-                  (self.cvsroot, module.cvs_checkout_args())
-        return self._execute(cmd)
+            return self.cvsroot.update(module.name, module.revision,
+                                       module.checkoutdir)
 
     def _configure(self, module):
-        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                  module.checkoutdir)
         os.chdir(checkoutdir)
         self._message('running autogen.sh script for %s' % module.name)
         cmd = './autogen.sh --prefix %s %s %s' % \
@@ -178,19 +123,22 @@ class BuildScript:
         return self._execute(cmd)
 
     def _makeclean(self, module):
-        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                  module.checkoutdir)
         os.chdir(checkoutdir)
         self._message('running make clean for %s' % module.name)
         return self._execute('make clean')
 
     def _make(self, module):
-        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                  module.checkoutdir)
         os.chdir(checkoutdir)
         self._message('running make for %s' % module.name)
         return self._execute('make')
 
     def _makeinstall(self, module):
-        checkoutdir = module.get_checkout_dir(self.checkoutroot)
+        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                  module.checkoutdir)
         os.chdir(checkoutdir)
         self._message('running make install for %s' % module.name)
         return self._execute('make install')
@@ -218,6 +166,9 @@ class BuildScript:
             elif val == '2':
                 return self.ERR_CONFIGURE
             elif val == '3':
+                checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                          module.checkoutdir)
+                os.chdir(checkoutdir)
                 print 'exit shell to continue with build'
                 os.system(user_shell)
             elif val == '4':
@@ -263,7 +214,6 @@ class BuildScript:
                 ret = 0
                 next_state = STATE_DONE
                 if state == STATE_CHECKOUT:
-                    checkoutdir = module.get_checkout_dir(self.checkoutroot)
                     if cvsupdate:
                         ret = self._cvscheckout(module, force_checkout=force_configure)
 
@@ -271,13 +221,13 @@ class BuildScript:
                         next_state = STATE_DONE
                     else:
                         next_state = STATE_CONFIGURE
+                    checkoutdir = self.cvsroot.getcheckoutdir(module.name,
+                                                            module.checkoutdir)
                     if ret == 0:
                         if not os.path.exists(checkoutdir):
                             self._message("checkout doesn't exist :(")
                             poison.append(module.name)
                             next_state = STATE_DONE
-                        else:          # else, go on to configure check
-                            os.chdir(checkoutdir)
 
                 elif state == STATE_CONFIGURE:
                     if not os.path.exists('Makefile') or force_configure or alwaysautogen:
