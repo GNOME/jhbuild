@@ -1,4 +1,28 @@
+2003-04-22  James Henstridge  <james@daa.com.au>
+
+	* modulesets/gnome1.modules: same here.
+
+	* modulesets/gnome24.modules: same here.
+
+	* modulesets/gnome22.modules: same here.
+
+	* modulesets/gnome20.modules: add cvs roots.
+
+	* jhbuild.py (*): fix up arguments to read_module_set.
+
+	* module.py (read_module_set): read a set of cvsroots from the XML
+	file that can be overriden from the jhbuildrc file.
+
+	* cvs.py (login): new function to perform a cvs checkout
+
+	* jhbuild.py (read_config_file): we now have a "cvsroots"
+	dictionary, mapping keys to cvs roots.
+
 2003-04-21  James Henstridge  <james@daa.com.au>
+
+	* cvs.py (_scramble, _descramble): add functions to scramble and
+	descramble CVS passwords.  Will be used to work around "cvs login"
+	needing user input.
 
 	* libtool-1.3.5-mktemp.patch: update to latest version from RH
 	packages, fixing a bug pointed out by Jeff.

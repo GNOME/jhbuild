@@ -19,36 +19,77 @@
 
 import os, string
 
+# table used to scramble passwords in ~/.cvspass files
+_shifts = [
+    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+   16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  114,120, 53, 79, 96,109, 72,108, 70, 64, 76, 67,116, 74, 68, 87,
+  111, 52, 75,119, 49, 34, 82, 81, 95, 65,112, 86,118,110,122,105,
+   41, 57, 83, 43, 46,102, 40, 89, 38,103, 45, 50, 42,123, 91, 35,
+  125, 55, 54, 66,124,126, 59, 47, 92, 71,115, 78, 88,107,106, 56,
+   36,121,117,104,101,100, 69, 73, 99, 63, 94, 93, 39, 37, 61, 48,
+   58,113, 32, 90, 44, 98, 60, 51, 33, 97, 62, 77, 84, 80, 85,223,
+  225,216,187,166,229,189,222,188,141,249,148,200,184,136,248,190,
+  199,170,181,204,138,232,218,183,255,234,220,247,213,203,226,193,
+  174,172,228,252,217,201,131,230,197,211,145,238,161,179,160,212,
+  207,221,254,173,202,146,224,151,140,196,205,130,135,133,143,246,
+  192,159,244,239,185,168,215,144,139,165,180,157,147,186,214,176,
+  227,231,219,169,175,156,206,198,129,164,150,210,154,177,134,127,
+  182,128,158,208,162,132,167,209,149,241,153,251,237,236,171,195,
+  243,233,253,240,194,250,191,155,142,137,245,235,163,242,178,152
+]
+
+def scramble(password):
+    return 'A' + ''.join([chr(_shifts[ord(ch)]) for ch in password])
+def descramble(password):
+    assert password[0] == 'A', 'unknown password format'
+    return ''.join([chr(_shifts[ord(ch)]) for ch in password[1:]])
+
+def _canonicalise_cvsroot(cvsroot):
+    if not cvsroot.startswith(':pserver:'): return cvsroot
+    parts = cvsroot.split(':')
+    if parts[3].startswith('/'):
+        parts[3] = '2401' + parts[3]
+    return ':'.join(parts)
+
+def login(cvsroot, password=None):
+    if not cvsroot.startswith(':pserver:'): return
+    cvsroot = _canonicalise_cvsroot(cvsroot)
+    cvspass = os.path.join(os.environ['HOME'], '.cvspass')
+
+    # check if the password has already been entered:
+    try:
+        fp = open(cvspass, 'r')
+        for line in fp.readlines():
+            parts = string.split(line)
+            if parts[0] == '/1':
+                root = parts[1]
+            else:
+                root = _canonicalise_cvsroot(parts[0])
+            if root == cvsroot:
+                return
+                break
+    except IOError:
+        pass
+     # if we have a password, just write it directly to the .cvspass file
+    if password is not None:
+        fp = open(cvspass, 'a')
+        fp.write('/1 %s %s\n' % (cvsroot, scramble(password)))
+        fp.close()
+    else:
+        # call cvs login ..
+        if os.system('cvs -d %s login' % cvsroot) != 0:
+            sys.stderr('could not log into %s\n' % cvsroot)
+            sys.exit(1)
+
 class CVSRoot:
     '''A class to wrap up various CVS opperations.'''
     
-    def __init__(self, buildscript, cvsroot, checkoutroot):
+    def __init__(self, cvsroot, checkoutroot):
         self.cvsroot = cvsroot
         self.localroot = checkoutroot
-
-        self._login(buildscript)
+        login(cvsroot)
         
-    def _login(self, buildscript):
-        '''Maybe log in (if there are no entries in ~/.cvspass)'''
-        loggedin = 0
-        try:
-            home = os.environ['HOME']
-            fp = open(os.path.join(home, '.cvspass'), 'r')
-            for line in fp.readlines():
-                parts = string.split(line)
-                if parts[0] == '/1':
-                    root = parts[1]
-                else:
-                    root = parts[0]
-                if string.replace(self.cvsroot, ':2401', ':') == \
-                       string.replace(root, ':2401', ':'):
-                    loggedin = 1
-                    break
-        except IOError:
-            pass
-        if not loggedin:
-            return buildscript.execute('cvs -d %s login' % self.cvsroot)
-
     def getcheckoutdir(self, module, checkoutdir=None):
         if checkoutdir:
             return os.path.join(self.localroot, checkoutdir)

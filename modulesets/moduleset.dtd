@@ -1,4 +1,11 @@
-<!ELEMENT moduleset (cvsmodule|metamodule|tarball|fcpackage)* >
+<!ELEMENT moduleset (cvsroot*,(cvsmodule|metamodule|tarball|fcpackage|mozillamodule)*) >
+
+<!ELEMENT cvsroot EMPTY >
+<!ATTLIST cvsroot
+  name CDATA #REQUIRED
+  root CDATA #REQUIRED
+  password CDATA #IMPLIED
+  default (yes|no) 'no' >
 
 <!ELEMENT cvsmodule (dependencies?) >
 <!ATTLIST cvsmodule
@@ -24,6 +31,15 @@
 <!ATTLIST fcpackage
   id CDATA #REQUIRED
   version CDATA #REQUIRED >
+
+<!ELEMENT mozillamodule (dependencies?) >
+<!ATTLIST mozillamodule
+  id CDATA #REQUIRED
+  module CDATA #IMPLIED
+  revision CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  autogenargs CDATA #IMPLIED
+  cvsroot CDATA #IMPLIED >
 
 <!-- Tarball sub-elements -->
 <!ELEMENT source EMPTY >

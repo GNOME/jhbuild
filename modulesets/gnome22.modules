@@ -2,6 +2,30 @@
 <!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
+
+  <cvsroot name="gnome.org" default="yes"
+     root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+     password="" />
+  <cvsroot name="mozilla.org"
+     root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
+     password="anonymous" />
+  <cvsroot name="gstreamer.net"
+     root=":pserver:anonymous@cvs.gstreamer.sourceforge.net:/cvsroot/gstreamer"
+     password="" />
+
+  <cvsroot name="thinice.sf.net"
+     root=":pserver:anonymous@cvs.thinice.sourceforge.net:/cvsroot/thinice"
+     password="" />
+  <cvsroot name="regexxer.sf.net"
+     root=":pserver:anonymous@cvs.regexxer.sourceforge.net:/cvsroot/regexxer"
+     password="" />
+  <cvsroot name="elysium-project.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/elysium-project"
+     password="" />
+  <cvsroot name="gaim.sf.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/gaim"
+     password="" />
+
   <tarball id="scrollkeeper" version="0.3.12" versioncheck="scrollkeeper-config --version">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.12.tar.gz" size="541937" />
     <dependencies>
@@ -499,25 +523,25 @@
       <dep package="gst-plugins" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="thinice2" cvsroot=":pserver:anonymous@cvs.thinice.sourceforge.net:/cvsroot/thinice">
+  <cvsmodule id="thinice2" cvsroot="thinice.sf.net">
     <dependencies>
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gstreamer" revision="BRANCH-GSTREAMER-0_6" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot=":pserver:anonymous@cvs.gstreamer.sourceforge.net:/cvsroot/gstreamer">
+  <cvsmodule id="gstreamer" revision="BRANCH-GSTREAMER-0_6" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.net">
     <dependencies>
       <dep package="glib" />
       <dep package="libxml2" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gst-plugins" revision="BRANCH-GSTREAMER-0_6" autogenargs="--disable-plugin-builddir --disable-tests" cvsroot=":pserver:anonymous@cvs.gstreamer.sourceforge.net:/cvsroot/gstreamer">
+  <cvsmodule id="gst-plugins" revision="BRANCH-GSTREAMER-0_6" autogenargs="--disable-plugin-builddir --disable-tests" cvsroot="gstreamer.net">
     <dependencies>
       <dep package="gstreamer" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gst-player" cvsroot=":pserver:anonymous@cvs.gstreamer.sourceforge.net:/cvsroot/gstreamer">
+  <cvsmodule id="gst-player" cvsroot="gstreamer.net">
     <dependencies>
       <dep package="gstreamer" />
       <dep package="gst-plugins" />
@@ -684,7 +708,7 @@
       <dep package="gnomemm/libbonobouimm" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="regexxer" cvsroot=":pserver:anonymous@cvs.regexxer.sourceforge.net:/cvsroot/regexxer">
+  <cvsmodule id="regexxer" cvsroot="regexxer.sf.net">
     <dependencies>
       <dep package="gtkmm2" />
     </dependencies>
@@ -862,7 +886,7 @@
       <dep package="libgnomeui" />
     </dependencies>
   </cvsmodule>
-  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib" cvsroot=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot">
+  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib" cvsroot="mozilla.org">
     <dependencies>
       <dep package="gtk+" />
     </dependencies>
@@ -899,12 +923,12 @@
       <dep package="libxml2" />
     </dependencies>
   </tarball>
-  <cvsmodule id="gtk-engines-cleanice" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/elysium-project">
+  <cvsmodule id="gtk-engines-cleanice" cvsroot="elysium-project.sf.net">
     <dependencies>
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gaim" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/gaim">
+  <cvsmodule id="gaim" cvsroot="gaim.sf.net">
     <dependencies>
       <dep package="libgnomeui" />
     </dependencies>

@@ -54,7 +54,7 @@ Options valid for the build and buildone commands:
 ''' # for xemacs/jed "
 
 default_config = {
-    'cvsroot': ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome',
+    'cvsroots': { 'gnome.org': ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome' },
     'moduleset': 'head',
     'modules': 'all',
     'checkoutroot': os.path.join(os.environ['HOME'], 'cvs', 'gnome2'),
@@ -72,6 +72,9 @@ def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
 	execfile(file, config)
     except IOError:
 	raise SystemExit, 'Please create ' + file
+    if config.has_key('cvsroot'):
+        config['cvsroots']['gnome'] = config['cvsroot']
+        del config['cvsroot']
     return config
 
 def do_update(config, args, interact=1):
@@ -84,7 +87,7 @@ def do_update(config, args, interact=1):
         elif opt in ('-t', '--start-at'):
             startat = arg
 
-    module_set = module.read_module_set(config['moduleset'])
+    module_set = module.read_module_set(config)
     if args:
         module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
@@ -123,7 +126,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
             config['skip'] = config.get('skip', []) + string.split(arg, ',')
         elif opt in ('-t', '--start-at'):
             startat = arg
-    module_set = module.read_module_set(config['moduleset'])
+    module_set = module.read_module_set(config)
     if args:
         module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
@@ -152,7 +155,7 @@ def do_build_one(config, args, interact=1):
         elif opt in ('-n', '--no-network'):
             config['nonetwork'] = True
 
-    module_set = module.read_module_set(config['moduleset'])
+    module_set = module.read_module_set(config)
     try:
         module_list = [ module_set.modules[modname] for modname in args ]
     except KeyError:
@@ -180,7 +183,7 @@ def do_list(config, args, interact=1):
     for opt, arg in opts:
         if opt in ('-s', '--skip'):
             config['skip'] = config.get('skip', []) + string.split(arg, ',')
-    module_set = module.read_module_set(config['moduleset'])
+    module_set = module.read_module_set(config)
     if args:
         module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
@@ -193,7 +196,7 @@ def do_list(config, args, interact=1):
         print mod.name
 
 def do_dot(config, args, interact=1):
-    module_set = module.read_module_set(config['moduleset'])
+    module_set = module.read_module_set(config)
     if args:
         modules = args
     elif config['modules'] == 'all':

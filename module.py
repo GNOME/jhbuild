@@ -83,12 +83,8 @@ class CVSModule(Package):
             return (self.STATE_CONFIGURE, None, None)
 
     def do_checkout(self, buildscript, force_checkout=False):
-        if self.cvsroot:
-            cvsroot = cvs.CVSRoot(buildscript,
-                                  self.cvsroot,
-                                  buildscript.config.checkoutroot)
-        else:
-            cvsroot = buildscript.cvsroot
+        cvsroot = cvs.CVSRoot(self.cvsroot,
+                              buildscript.config.checkoutroot)
         checkoutdir = self.get_builddir(buildscript)
         buildscript.message('checking out %s' % self.name)
         res = cvsroot.update(buildscript, self.cvsmodule,
@@ -109,13 +105,8 @@ class CVSModule(Package):
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_force_checkout(self, buildscript):
-        if self.cvsroot:
-            cvsroot = cvs.CVSRoot(buildscript,
-                                  self.cvsroot,
-                                  buildscript.config.checkoutroot)
-        else:
-            cvsroot = buildscript.cvsroot
-
+        cvsroot = cvs.CVSRoot(self.cvsroot,
+                              buildscript.config.checkoutroot)
         checkoutdir = self.get_builddir(buildscript)
         buildscript.message('checking out %s' % self.name)
         res = cvsroot.checkout(buildscript, self.cvsmodule,
@@ -550,12 +541,42 @@ class ModuleSet:
                 inlist[dep] = None
         fp.write('}\n')
 
-def read_module_set(name):
+def read_module_set(configdict):
     filename = os.path.join(os.path.dirname(__file__), 'modulesets',
-                            name + '.modules')
+                            configdict['moduleset'] + '.modules')
     document = xml.dom.minidom.parse(filename)
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
+
+    # load up list of cvsroots
+    cvsroots = {}
+    default_cvsroot = None
+    for key in configdict['cvsroots'].keys():
+        value = configdict['cvsroots'][key]
+        cvs.login(value)
+        cvsroots[key] = value
+    for node in document.documentElement.childNodes:
+        if node.nodeType != node.ELEMENT_NODE: continue
+        if node.nodeName == 'cvsroot':
+            name = ''
+            cvsroot = ''
+            password = None
+            is_default = False
+            if node.hasAttribute('name'):
+                name = node.getAttribute('name')
+            if node.hasAttribute('root'):
+                cvsroot = node.getAttribute('root')
+            if node.hasAttribute('password'):
+                password = node.getAttribute('password')
+            if node.hasAttribute('default'):
+                is_default = node.getAttribute('default') == 'yes'
+            if not cvsroots.has_key(name):
+                cvs.login(cvsroot, password)
+                cvsroots[name] = cvsroot
+            if is_default:
+                default_cvsroot = name
+
+    # and now module definitions
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
         if node.nodeName == 'cvsmodule':
@@ -564,7 +585,7 @@ def read_module_set(name):
             revision = None
             checkoutdir = None
             autogenargs = ''
-            cvsroot = None
+            cvsroot = cvsroots[default_cvsroot]
             dependencies = []
             if node.hasAttribute('module'):
                 module = node.getAttribute('module')
@@ -575,7 +596,7 @@ def read_module_set(name):
             if node.hasAttribute('autogenargs'):
                 autogenargs = node.getAttribute('autogenargs')
             if node.hasAttribute('cvsroot'):
-                cvsroot = node.getAttribute('cvsroot')
+                cvsroot = cvsroots[node.getAttribute('cvsroot')]
             # deps
             for childnode in node.childNodes:
                 if childnode.nodeType == childnode.ELEMENT_NODE and \
@@ -591,13 +612,14 @@ def read_module_set(name):
         elif node.nodeName == 'mozillamodule':
             name = node.getAttribute('id')
             autogenargs = ''
+            cvsroot = cvsroots[default_cvsroot]
             dependencies = []
             if node.hasAttribute('checkoutdir'):
                 checkoutdir = node.getAttribute('checkoutdir')
             if node.hasAttribute('autogenargs'):
                 autogenargs = node.getAttribute('autogenargs')
             if node.hasAttribute('cvsroot'):
-                cvsroot = node.getAttribute('cvsroot')
+                cvsroot = cvsroots[node.getAttribute('cvsroot')]
             # deps
             for childnode in node.childNodes:
                 if childnode.nodeType == childnode.ELEMENT_NODE and \
@@ -607,7 +629,8 @@ def read_module_set(name):
                             assert dep.nodeName == 'dep'
                             dependencies.append(dep.getAttribute('package'))
                     break
-            moduleset.add(MozillaModule(name, autogenargs, dependencies, cvsroot))
+            moduleset.add(MozillaModule(name, autogenargs, dependencies,
+                                        cvsroot))
         elif node.nodeName == 'tarball':
             name = node.getAttribute('id')
             version = node.getAttribute('version')
@@ -680,10 +703,6 @@ class BuildScript:
         self.config.checkoutroot = configdict.get('checkoutroot')
         if not self.config.checkoutroot:
             self.config.checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
-        self.cvsroot = cvs.CVSRoot(self,
-                                   configdict['cvsroot'],
-                                   self.config.checkoutroot)
-
         assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \
                'install prefix must be writable'
 
