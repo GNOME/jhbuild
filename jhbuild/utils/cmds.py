@@ -78,6 +78,7 @@ def execute_pprint(cmd, format_line, split_stderr=False):
                     format_line(err_data[:pos+1], True)
                     err_data = err_data[pos+1:]
             if out_eof and err_eof: break
+            select.select([],[],[],.1) # give a little time for buffers to fill
     except KeyboardInterrupt:
         pass
     status = child.wait()
