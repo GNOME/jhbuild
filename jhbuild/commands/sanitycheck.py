@@ -109,8 +109,11 @@ def do_sanitycheck(config, args):
     if not check_version('automake-1.8 --version',
                          r'automake \([^)]*\) ([\d.]+)', '1.8'):
         print 'automake-1.8 not found'
+    if not check_version('automake-1.9 --version',
+                         r'automake \([^)]*\) ([\d.]+)', '1.9'):
+        print 'automake-1.9 not found'
 
-    for amver in ('1.4', '1.6', '1.7', '1.8'):
+    for amver in ('1.4', '1.6', '1.7', '1.8', '1.9'):
         try:
             path = get_aclocal_path(amver)
         except:
