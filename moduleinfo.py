@@ -172,7 +172,7 @@ gnome20.addmod('ggv', dependencies=['libgnomeui'])
 gnome20.addmod('gtksourceview', dependencies=['gtk+'])
 gnome20.addmod('glimmer', dependencies=['gtksourceview'])
 gnome20.addmod('gdl', dependencies=['libgnomeui'])
-gnome20.addmod('gnome-build', dependencies=['gdl'])
+gnome20.addmod('gnome-build', dependencies=['gdl', 'gtkhtml2'])
 gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build', 'libzvt'])
 
 gnome20.addmod('sigc-1.1')
