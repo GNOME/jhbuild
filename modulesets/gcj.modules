@@ -1,0 +1,70 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <cvsroot name="gcc.gnu.org"
+     root=":pserver:anoncvs@gcc.gnu.org:/cvs/gcc"
+     password="" />
+  <cvsroot name="mauve.sources.redhat.com"
+     root=":pserver:anoncvs@sources.redhat.com:/cvs/mauve"
+     password="anoncvs" />
+  <cvsroot name="oss.software.ibm.com"
+     root=":pserver:anoncvs@oss.software.ibm.com:/usr/cvs/jikes"
+     password="anoncvs" />
+  <cvsroot name="gdb.sources.redhat.com"
+     root=":pserver:anoncvs@sources.redhat.com:/cvs/src"
+     password="anoncvs" />
+  <cvsroot name="java-gnome.sourceforge.net"
+     root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/java-gnome"
+     password="" />
+
+  <include href="gnome26.modules" />
+
+  <gdbmodule id="gdb" cvsroot="gdb.sources.redhat.com" />
+
+  <gcjmodule id="gcj" revision="java-gui-branch" cvsroot="gcc.gnu.org">
+    <dependencies>
+      <dep package="cairo" />
+      <dep package="gtk+" />
+      <dep package="gdb" />
+    </dependencies>
+  </gcjmodule>
+
+  <!-- The mauve, verify and jacks test suites cannot be built using
+  jhbuild build.  They can be checked out using jhbuild updateone,
+  then built by running make check in libgcj's build directory. -->
+
+  <cvsmodule id="mauve" cvsroot="mauve.sources.redhat.com" >
+    <dependencies>
+      <dep package="gcj" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="verify" cvsroot="mauve.sources.redhat.com" >
+    <dependencies>
+      <dep package="gcj" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="jacks" cvsroot="oss.software.ibm.com" >
+    <dependencies>
+      <dep package="gcj" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="wonka" cvsroot="mauve.sources.redhat.com" supports-non-srcdir-builds="no">
+    <dependencies>
+      <dep package="gcj" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="java-gnome" cvsroot="java-gnome.sourceforge.net">
+    <dependencies>
+      <dep package="gcj" />
+      <dep package="libgnomeui" />
+      <dep package="gtkhtml2" />
+    </dependencies>
+  </cvsmodule>
+
+</moduleset>

@@ -35,7 +35,9 @@ package = cvsmodule |
           archmodule |
           metamodule |
           tarball |
-          mozillamodule
+          mozillamodule |
+	  gcjmodule |
+	  gdbmodule
 
 dep = element dep {
   attribute package { text }
@@ -104,3 +106,22 @@ mozillamodule = element mozillamodule {
   attribute cvsroot { text }?,
   common
 }
+
+gcjmodule = element gcjmodule {
+  attribute module { text }?,
+  attribute revision { text }?,
+  attribute checkoutdir { text }?,
+  attribute cvsroot { text }?,
+
+  autogen_common
+}
+
+gdbmodule = element gdbmodule {
+  attribute module { text }?,
+  attribute revision { text }?,
+  attribute checkoutdir { text }?,
+  attribute cvsroot { text }?,
+
+  autogen_common
+}
+
