@@ -90,7 +90,7 @@ class ModuleSet:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
-                    raise UsageError('dependant module "%s" not found'
+                    raise UsageError('dependent module "%s" not found'
                                      % modname)
                 if depmod not in ret[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
