@@ -253,6 +253,15 @@ gnome20.add(MetaModule('meta-gnome-accessibility',
 # gnome 2.2 branch
 gnome22 = ModuleSet(gnome20)
 
+#Add this again to gnome22, replacing the gnome20 version:
+gnome22.add(MetaModule('meta-gnome-desktop',
+                       dependencies=['meta-gnome-core', 'gnome-control-center',
+                                'meta-nautilus', 'yelp', 'bug-buddy',
+                                'gtk-engines',
+                                'acme', 'ggv', 'file-roller', 'metacity', 
+                                'gstreamer', 'nautilus-media']))
+
+
 gnome22.add(Tarball('startup-notification', '0.4',
                     'http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.4.tar.gz',
                     199548, [],
@@ -341,6 +350,10 @@ gnome22.addmod('libgail-gnome', dependencies=['at-spi', 'libgnomeui'])
 gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 
 gnome22.addmod('gnome-themes')
+gnome22.addmod('acme', dependencies=['gob'])
+
+# So far gob is only used by acme, and only when building from cvs.
+gnome22.addmod('gob')
 
 # gnome 1.x support
 gnome1 = ModuleSet()
