@@ -25,7 +25,6 @@ def sfcvsroot(project):
 
 thinice_cvsroot     = sfcvsroot('thinice')
 gstreamer_cvsroot   = sfcvsroot('gstreamer')
-fileroller_cvsroot   = sfcvsroot('fileroller')
 gael_cvsroot        = sfcvsroot('gael')
 codefactory_cvsroot = ':pserver:anoncvs@cvs.codefactory.se:/cvs'
 
@@ -51,12 +50,12 @@ gnome20.addmod('libxslt', dependencies=['gnome-xml'])
 gnome20.addmod('linc', dependencies=['glib'])
 gnome20.addmod('libIDL', dependencies=['glib'])
 gnome20.addmod('ORBit2', dependencies=['linc', 'libIDL'])
-gnome20.addmod('bonobo-activation',
+gnome20.addmod('bonobo-activation', revision='gnome-2-0',
                dependencies=['intltool', 'gnome-common', 'ORBit2',
                              'gnome-xml'])
 gnome20.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'],
                revision='gconf-1-2')
-gnome20.addmod('libbonobo', dependencies=['ORBit2', 'bonobo-activation'])
+gnome20.addmod('libbonobo', revision='gnome-2-0', dependencies=['ORBit2', 'bonobo-activation'])
 gnome20.addmod('gnome-mime-data', dependencies=['gnome-common'])
 gnome20.addmod('gnome-vfs', revision='gnome-2-0',
                dependencies=['libbonobo','gconf', 'gnome-mime-data'])
@@ -66,7 +65,7 @@ gnome20.addmod('libgnome', revision='gnome-2-0',
                              'gconf'])
 gnome20.addmod('libgnomecanvas', revision='gnome-2-0',
                dependencies=['gtk+', 'libart_lgpl', 'libglade', 'gnome-common'])
-gnome20.addmod('libbonoboui',
+gnome20.addmod('libbonoboui', revision='gnome-2-0',
                dependencies=['libgnome', 'libbonobo', 'libgnomecanvas',
                              'libglade'])
 gnome20.addmod('libgnomeui', revision='gnome-2-0',
@@ -81,7 +80,7 @@ gnome20.addmod('gnome-python/pyorbit', dependencies=['ORBit2'])
 gnome20.addmod('gnome-python/gnome-python', 
                dependencies=['gnome-python/pygtk', 'gnome-python/pyorbit',
                              'libgnomecanvas', 'libgnomeui'])
-gnome20.addmod('bug-buddy', dependencies=['libgnomeui'])
+gnome20.addmod('bug-buddy', revision='gnome-2-0', dependencies=['libgnomeui'])
 gnome20.addmod('libwnck', dependencies=['gtk+'], revision='gnome-2-0')
 
 gnome20.addmod('gnome-panel', revision='gnome-2-0',
@@ -172,13 +171,12 @@ gnome20.addmod('mrproject',
 gnome20.addmod('dia-newcanvas',
                dependencies=['gtk+', 'libglade', 'gnome-python/pygtk'])
 gnome20.addmod('gael', dependencies=['dia-newcanvas', 'libglade', 'libgnomeui','gnome-xml'])
+gnome20.addmod('file-roller', revision='gnome-2-0', dependencies=['nautilus'])
 
 gnome20.addmod('balsa', revision='BALSA_2',
                dependencies=['libgnomeui'])
 gnome20.addmod('pan',
                dependencies=['libgnomeui'])
-gnome20.addmod('fileroller', cvsroot=fileroller_cvsroot,
-               dependencies=['nautilus'])
 gnome20.addmod('ggv', dependencies=['libgnomeui'])
 
 gnome20.addmod('gtksourceview', dependencies=['gtk+'])
@@ -238,6 +236,11 @@ gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
 gnome22.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
+gnome22.addmod('bonobo-activation',
+               dependencies=['intltool', 'gnome-common', 'ORBit2', 'gnome-xml'])
+gnome22.addmod('libbonobo', dependencies=['ORBit2', 'bonobo-activation'])
+gnome22.addmod('libbonoboui', 
+	       dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade'])
 gnome22.addmod('gnome-vfs',
                dependencies=['libbonobo', 'gconf', 'gnome-mime-data'])
 gnome22.addmod('vte', dependencies=['gtk+'])
@@ -251,6 +254,7 @@ gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
 gnome22.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
+gnome22.addmod('file-roller', dependencies=['nautilus'])
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
 gnome22.addmod('libglade', dependencies=['gtk+', 'gnome-xml'])
@@ -271,6 +275,7 @@ gnome22.addmod('eel', dependencies=['librsvg','libgnomeui','gail'])
 gnome22.addmod('nautilus',
                dependencies=['esound', 'eel', 'librsvg', 'libgnomeui',
                              'gnome-desktop'])
+gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
 
 gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 
