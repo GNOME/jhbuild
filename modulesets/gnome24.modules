@@ -52,7 +52,13 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="libpixregion" cvsroot="keithp.com" />
+  <cvsmodule id="slim" cvsroot="keithp.com"/>
+
+  <cvsmodule id="libpixregion" cvsroot="keithp.com">
+    <dependencies>
+      <dep package="slim" />
+    </dependencies>
+  </cvsmodule>
 
   <cvsmodule id="libic" cvsroot="keithp.com">
     <dependencies>
@@ -60,16 +66,9 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="Xc" cvsroot="keithp.com">
-    <dependencies>
-      <dep package="libic" />
-      <dep package="Xrender" />
-    </dependencies>
-  </cvsmodule>
-
   <cvsmodule id="cairo" cvsroot="keithp.com">
     <dependencies>
-      <dep package="Xc" />
+      <dep package="libic" />
       <dep package="Xft" />
     </dependencies>
   </cvsmodule>
