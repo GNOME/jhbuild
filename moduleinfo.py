@@ -305,6 +305,7 @@ gnome22.addmod('bug-buddy', dependencies=['libgnomeui'])
 gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
 
 gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
+gnome22.addmod('nautilus-media', dependencies=['nautilus', 'gstreamer', 'gst-plugins'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
