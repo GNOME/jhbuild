@@ -32,7 +32,8 @@ usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).
 
 Global options:
-  -f, --file=CONFIG            specify an alternative configuration file
+  -f, --file=CONFIG            use a non default configuration file
+  -m, --moduleset=URI          use a non default module set
       --no-interact            do not prompt for input
 
 Commands:
@@ -70,8 +71,9 @@ Options valid for the list command:
 
 def main(args):
     try:
-        opts, args = getopt.getopt(args, 'f:',
-                                   ['file=', 'no-interact', 'help'])
+        opts, args = getopt.getopt(args, 'f:m:',
+                                   ['file=', 'moduleset=', 'no-interact',
+                                    'help'])
     except getopt.error, exc:
         sys.stderr.write('jhbuild: %s\n' % str(exc))
         sys.stderr.write(usage + '\n')
@@ -80,6 +82,7 @@ def main(args):
 
     nointeract = False
     configfile = os.path.join(os.environ['HOME'], '.jhbuildrc')
+    moduleset = None
 
     for opt, arg in opts:
         if opt == '--help':
@@ -88,6 +91,8 @@ def main(args):
             sys.exit(0)
         elif opt in ('-f', '--file'):
             configfile = arg
+        elif opt in ('-m', '--moduleset'):
+            moduleset = None
         elif opt == '--no-interact':
             nointeract = True
 
@@ -97,6 +102,7 @@ def main(args):
         sys.stderr.write('jhbuild: %s\n' % (str(exc)))
         sys.exit(1)
 
+    if moduleset: config.moduleset = moduleset
     if nointeract: config.interact = False
 
     if not args or args[0][0] == '-':
