@@ -1,5 +1,19 @@
 2004-02-05  James Henstridge  <james@daa.com.au>
 
+	Modified version of Paolo Borelli's patch from bug #123304:
+	* jhbuild/main.py (help): add to help output.
+
+	* jhbuild/commands/base.py (do_list): add -r flag.
+
+	* jhbuild/modtypes/tarball.py (Tarball.get_revision): return
+	package version.
+
+	* jhbuild/modtypes/base.py (Package.get_revision): function to get
+	version/revision of package.
+	(CVSModule.get_revision): return CVS revision/branch tag.
+
+2004-02-05  James Henstridge  <james@daa.com.au>
+
 	* modulesets/freedesktop.modules (hal): applied patch from Thom
 	May to build freedesktop.org HAL (bug #133314).
 	(icon-slicer): another patch from Thom (bug #133430).

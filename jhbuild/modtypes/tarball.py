@@ -1,3 +1,22 @@
+# jhbuild - a build script for GNOME 1.x and 2.x
+# Copyright (C) 2001-2004  James Henstridge
+#
+#   tarball.py: rules for building tarballs
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 import base
 
 class Tarball(base.Package):
@@ -26,6 +45,9 @@ class Tarball(base.Package):
         elif localfile.endswith('.tgz'):
             localfile = localfile[:-4]
         return os.path.join(buildscript.config.checkoutroot, localfile)
+
+    def get_revision(self):
+        return self.version
 
     def do_start(self, buildscript):
         # check if jhbuild previously built it ...

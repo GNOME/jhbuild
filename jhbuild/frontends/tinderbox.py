@@ -1,8 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2003  James Henstridge
-# Copyright (C) 2003  Seth Nickell
+# Copyright (C) 2001-2004  James Henstridge
 #
-#   terminal_buildscript.py: build logic for a terminal interface
+#   tinderbox.py: build logic for a non-interactive reporting build
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

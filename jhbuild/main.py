@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2003  James Henstridge
+# Copyright (C) 2001-2004  James Henstridge
 #
-#   jhbuild.py: parses command line arguments and starts the build
+#   main.py: parses command line arguments and starts the build
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ Options valid for the build and buildone commands:
   -a, --autogen                Always run autogen.sh
   -c, --clean                  run make clean before make
   -n, --no-network             skip cvs update
+
+Options valid for the list command:
+  -r, --show-branch            show which revision will be built
 ''' # for xemacs/jed "
 
 def main(args):

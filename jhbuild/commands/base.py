@@ -1,3 +1,21 @@
+# jhbuild - a build script for GNOME 1.x and 2.x
+# Copyright (C) 2001-2004  James Henstridge
+#
+#   base.py: the most common jhbuild commands
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
 import getopt
@@ -139,8 +157,11 @@ def do_shell(config, args):
 register_command('shell', do_shell)
 
 def do_list(config, args):
-    opts, args = getopt.getopt(args, 's:', ['skip='])
+    opts, args = getopt.getopt(args, 'rs:', ['show-revision', 'skip='])
+    show_rev = False
     for opt, arg in opts:
+        if opt in ('-r', '--show-revision'):
+            show_rev = True
         if opt in ('-s', '--skip'):
             config.skip = config.skip + string.split(arg, ',')
     module_set = jhbuild.moduleset.load(config)
@@ -153,7 +174,14 @@ def do_list(config, args):
                                                  config.skip)
 
     for mod in module_list:
-        print mod.name
+        if show_rev:
+            rev = mod.get_revision()
+            if rev:
+                print '%s (%s)' % (mod.name, rev)
+            else:
+                print mod.name
+        else:
+            print mod.name
 register_command('list', do_list)
 
 def do_dot(config, args):

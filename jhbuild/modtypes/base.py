@@ -1,3 +1,21 @@
+# jhbuild - a build script for GNOME 1.x and 2.x
+# Copyright (C) 2001-2004  James Henstridge
+#
+#   base.py: common module type definitions.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
 
@@ -27,6 +45,9 @@ class Package:
     def get_builddir(self, buildscript):
         pass
 
+    def get_revision(self):
+        return None
+
     def run_state(self, buildscript, state):
         '''run a particular part of the build for this package.
 
@@ -54,6 +75,9 @@ class CVSModule(Package):
     def get_builddir(self, buildscript):
         return os.path.join(buildscript.config.checkoutroot,
                             self.checkoutdir or self.cvsmodule)
+
+    def get_revision(self):
+        return self.revision
 
     def do_start(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)

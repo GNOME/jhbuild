@@ -1,7 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2003  James Henstridge
+# Copyright (C) 2001-2004  James Henstridge
 #
-#   module.py: logic for running the build.
+#   moduleset.py: logic for running the build.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
