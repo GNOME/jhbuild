@@ -26,6 +26,7 @@ def sfcvsroot(project):
 thinice_cvsroot     = sfcvsroot('thinice')
 gstreamer_cvsroot   = sfcvsroot('gstreamer')
 gael_cvsroot        = sfcvsroot('gael')
+regexxer_cvsroot    = sfcvsroot('regexxer')
 codefactory_cvsroot = ':pserver:anoncvs@cvs.codefactory.se:/cvs'
 
 # gnome 2.0 support
@@ -210,6 +211,7 @@ gnome20.addmod('gnomemm/libgnomeuimm',
                dependencies=['gtkmm2', 'libgnomeui', 'gnomemm/libgnomemm',
                              'gnomemm/gconfmm', 'gnomemm/libgnomecanvasmm',
                              'gnomemm/libglademm', 'gnomemm/libbonobouimm'])
+gnome20.addmod('regexxer', cvsroot=regexxer_cvsroot, dependencies=['gtkmm2'])
 
 gnome20.addmod('gnet',dependencies=['glib'],autogenargs='--enable-glib2')
 gnome20.addmod('gnomeicu',dependencies=['libgnomeui','gnet'])
