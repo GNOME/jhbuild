@@ -62,14 +62,15 @@ required versions (they will be installed under the prefix given in
 your .jhbuildrc file).  Currently it checks for and builds the
 following:
   gettext 0.11.5 (applies the patch to fix the po/ChangeLog problem)
-  autoconf 2.57
-  libtool 1.5
-  automake 1.4
-  automake 1.6
-  automake 1.7
+  autoconf 2.59
+  libtool 1.5.2
+  automake 1.4-p6
+  automake 1.6.3
+  automake 1.7.9
+  automake 1.8.2
   pkg-config 0.15.0
   python 2.x
-  audiofile 0.2.3 
+  audiofile 0.2.5
 
 Bootstrapping should only need to be done once (unless the
 requirements of some package change).
@@ -81,11 +82,11 @@ Using jhbuild
 To build everything, just type 'jhbuild build', or just 'jhbuild'.
 Some useful options that this command takes include:
 
-  --autogen       always run autogen.sh
-  --clean         run "make clean" before make when building
-  --no-network        don't update source from cvs
-  --skip=MODULES  skip building the given modules
-  --start-at=MODULE   start building at the given module
+  --autogen          always run autogen.sh
+  --clean            run "make clean" before make when building
+  --no-network       don't update source from cvs
+  --skip=MODULES     skip building the given modules
+  --start-at=MODULE  start building at the given module
 
 If you just want to checkout the latest versions of everything, run:
   jhbuild update
@@ -110,8 +111,15 @@ command:
 
 (this command takes the same extra options as 'jhbuild build').
 
+To run an unattended build and create a status page showing the
+results of building each package:
+  jhbuild tinderbox --output=/dir/to/store/build/logs
+
+(this command takes the same extra options as 'jhbuild build').
+
 For details of all jbhuild's command line options:
   jhbuild --help
+
 
 Error handling
 --------------

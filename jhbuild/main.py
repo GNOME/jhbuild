@@ -38,25 +38,30 @@ Global options:
 Commands:
   gui                          build targets from a gui app
   update                       update from cvs
-  updateone modules            update a fixed set of modules.
+  updateone modules            update a fixed set of modules
   build [ opts... ] [modules]  update and compile (the default)
   buildone [ opts... ] modules build a single module
+  tinderbox [ opts... ]        build non-interactively with logging
   run program [ args... ]      run a command in the build environment
   shell                        start a shell in the build environment
-  bootstrap                    build required support tools.
+  sanitycheck                  check that required support tools exists
+  bootstrap                    build required support tools
   list [ opts ... ] [modules]  list what modules would be built
   dot [modules]                output a dot file of dependencies suitable
-                               for processing with graphviz.
+                               for processing with graphviz
 
-Options valid for the update, build and buildone commands:
+Options valid for the build, buildone, tinderbox and update commands:
   -s, --skip=MODULES           treat the given modules (and deps) as up to date
   -t, --start-at=MODULE        start building at the given module
   -D date_spec                 set a sticky date when checking out modules
 
-Options valid for the build and buildone commands:
-  -a, --autogen                Always run autogen.sh
+Options valid for the build, buildone and tinderbox commands:
+  -a, --autogen                always run autogen.sh
   -c, --clean                  run make clean before make
   -n, --no-network             skip cvs update
+
+Options valid for the tinderbox command:
+  -o, --output=DIR             directory to save build logs in
 
 Options valid for the list command:
   -r, --show-revision          show which revision will be built

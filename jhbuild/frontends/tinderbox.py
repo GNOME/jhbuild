@@ -143,7 +143,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 break
 
         info.append(('Module Set', self.config.moduleset))
-        info.append(('Time', self.timestamp()))
+        info.append(('Start Time', self.timestamp()))
 
         buildplatform = '<table>\n'
         for (key, val) in info:
