@@ -130,9 +130,9 @@ bootstraps = [
               None,
               'libtoolize --version'),
     # some would argue that 1.4-p5 is a better choice, but ...
-    Bootstrap('automake', '1.6',
-              'ftp://ftp.gnu.org/pub/gnu/automake/automake-1.6.tar.gz',
-              588712,
+    Bootstrap('automake', '1.6.1',
+              'ftp://ftp.gnu.org/pub/gnu/automake/automake-1.6.1.tar.gz',
+              595788,
               None,
               'automake --version | head -1'),
     Bootstrap('pkg-config', '0.12.0',
@@ -149,7 +149,7 @@ bootstraps = [
               'ftp://oss.sgi.com/projects/audiofile/download/audiofile-0.2.3.tar.gz',
               332223,
               None,
-              'audiofile-config --version')
+              'audiofile-config --version'),
 ]
 
 def build_bootstraps(config):

@@ -1,3 +1,24 @@
+2002-05-05  James Henstridge  <james@daa.com.au>
+
+	* moduleinfo.py (gnome-applets): add gail dependency for
+	gnome-applets (from Sam th).
+	(gnome2): rename the 'head' moduleset to 'gnome2'.  A
+	compatibility set name has been added.
+
+	Merge in Johan Dahlin's updates:
+
+	* moduleinfo.py: add some module defs for stuff outside of the
+	gnome CVS repo.
+
+	* module.py (Module.__init__): optionally save a cvsroot string
+	with the module def.
+	(BuildScript.__init__): save checkoutroot on the BuildScript
+	object.
+	(BuildScript._cvscheckout): if module.cvsroot is not None, then
+	use it as the cvsroot.
+	(ModuleSet.addmod): new function as shorthand in the moduleinfo.py
+	file.
+
 2002-05-02  Benjamin Kahn  <xkahn@ximian.com>
 
 	* bootstrap.py (bootstraps): Add audiofile to the bootstrap

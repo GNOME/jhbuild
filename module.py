@@ -9,12 +9,13 @@ user_shell = os.environ.get('SHELL', '/bin/sh')
 
 class Module:
     def __init__(self, name, checkoutdir=None, revision=None,
-                 autogenargs='', dependencies=[]):
+                 autogenargs='', dependencies=[], cvsroot=None):
         self.name = name
         self.checkoutdir = checkoutdir
         self.revision = revision
         self.autogenargs = autogenargs
         self.dependencies = dependencies
+        self.cvsroot = cvsroot
 
     def __repr__(self):
         return '<cvs module %s>' % self.name
@@ -36,6 +37,9 @@ class ModuleSet:
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
+    def addmod(self, *args, **kwargs):
+        mod = apply(Module, args, kwargs)
+        self.add(mod)
 
     # functions for handling dep expansion
     def __expand_mod_list(self, modlist):
@@ -89,6 +93,7 @@ class BuildScript:
 
         if not checkoutroot:
             checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
+        self.checkoutroot = checkoutroot
         self.cvsroot = cvs.CVSRoot(cvsroot, checkoutroot)
 
         assert os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK), \
@@ -107,12 +112,18 @@ class BuildScript:
 
     def _cvscheckout(self, module, force_checkout=0):
         self._message('checking out module %s' % module.name)
-        if force_checkout:
-            return self.cvsroot.checkout(module.name, module.revision,
-                                         module.checkoutdir)
+
+        if module.cvsroot:
+            cvsroot = cvs.CVSRoot(module.cvsroot, self.checkoutroot)
         else:
-            return self.cvsroot.update(module.name, module.revision,
-                                       module.checkoutdir)
+            cvsroot = self.cvsroot
+
+        if force_checkout:
+            return cvsroot.checkout(module.name, module.revision,
+                                    module.checkoutdir)
+        else:
+            return cvsroot.update(module.name, module.revision,
+                                  module.checkoutdir)
 
     def _configure(self, module):
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
