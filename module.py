@@ -41,7 +41,7 @@ class Package:
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
-    def getbuilddir(self, buildscript):
+    def get_builddir(self, buildscript):
         pass
 
     def run_state(self, buildscript, state):
@@ -57,8 +57,8 @@ class CVSModule(Package):
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_CONFIGURE      = 'configure'
-    STATE_MAKE           = 'make'
-    STATE_MAKE_INSTALL   = 'make_install'
+    STATE_BUILD          = 'build'
+    STATE_INSTALL        = 'install'
 
     def __init__(self, cvsmodule, checkoutdir=None, revision=None,
                  autogenargs='', dependencies=[], cvsroot=None):
@@ -69,16 +69,19 @@ class CVSModule(Package):
         self.autogenargs = autogenargs
         self.cvsroot     = cvsroot
 
+    def get_builddir(self, buildscript):
+        return os.path.join(buildscript.config.checkoutroot,
+                            self.checkoutdir or self.cvsmodule)
+
     def do_start(self, buildscript):
-        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
-                                                         self.checkoutdir)
+        checkoutdir = self.get_builddir(buildscript)
         if not buildscript.config.nonetwork: # normal start state
             return (self.STATE_CHECKOUT, None, None)
         elif buildscript.config.nobuild:
             return (self.STATE_DONE, None, None)
         elif not buildscript.config.alwaysautogen and \
                  os.path.exists(os.path.join(checkoutdir, 'Makefile')):
-            return (self.STATE_MAKE, None, None)
+            return (self.STATE_BUILD, None, None)
         else:
             return (self.STATE_CONFIGURE, None, None)
 
@@ -87,7 +90,7 @@ class CVSModule(Package):
             cvsroot = cvs.CVSRoot(self.cvsroot,buildscript.config.checkoutroot)
         else:
             cvsroot = buildscript.cvsroot
-        checkoutdir = cvsroot.getcheckoutdir(self.cvsmodule, self.checkoutdir)
+        checkoutdir = self.get_builddir(buildscript)
         buildscript.message('checking out %s' % self.name)
         res = cvsroot.update(buildscript, self.cvsmodule,
                              self.revision, self.checkoutdir)
@@ -96,7 +99,7 @@ class CVSModule(Package):
             nextstate = self.STATE_DONE
         elif not buildscript.config.alwaysautogen and \
                  os.path.exists(os.path.join(checkoutdir, 'Makefile')):
-            nextstate = self.STATE_MAKE
+            nextstate = self.STATE_BUILD
         else:
             nextstate = self.STATE_CONFIGURE
         # did the checkout succeed?
@@ -112,7 +115,7 @@ class CVSModule(Package):
         else:
             cvsroot = buildscript.cvsroot
 
-        checkoutdir = cvsroot.getcheckoutdir(self.cvsmodule, self.checkoutdir)
+        checkoutdir = self.get_builddir(buildscript)
         buildscript.message('checking out %s' % self.name)
         res = cvsroot.checkout(buildscript, self.cvsmodule,
                                self.revision, self.checkoutdir)
@@ -123,35 +126,30 @@ class CVSModule(Package):
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_configure(self, buildscript):
-        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
-                                                         self.checkoutdir)
+        checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
         buildscript.message('running configure for %s' % self.name)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (buildscript.config.prefix, buildscript.config.autogenargs,
                self.autogenargs)
         if buildscript.execute(cmd) == 0:
-            return (self.STATE_MAKE, None, None)
+            return (self.STATE_BUILD, None, None)
         else:
             return (self.STATE_MAKE, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
 
-    def do_make(self, buildscript):
-        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
-                                                         self.checkoutdir)
-        os.chdir(checkoutdir)
-        buildscript.message('running make for %s' % self.name)
+    def do_build(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.message('running build for %s' % self.name)
         cmd = 'make %s' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
-            return (self.STATE_MAKE_INSTALL, None, None)
+            return (self.STATE_INSTALL, None, None)
         else:
-            return (self.STATE_MAKE_INSTALL, 'could not build module',
+            return (self.STATE_INSTALL, 'could not build module',
                     [self.STATE_FORCE_CHECKOUT])
 
-    def do_make_install(self, buildscript):
-        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
-                                                         self.checkoutdir)
-        os.chdir(checkoutdir)
+    def do_install(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
         buildscript.message('running install for %s' % self.name)
         cmd = 'make %s install' % buildscript.config.makeargs
         error = None
@@ -160,9 +158,106 @@ class CVSModule(Package):
         return (self.STATE_DONE, error, [])
 
 class MetaModule(Package):
+    def get_builddir(self, buildscript):
+        return buildscript.config.checkoutroot
     # nothing to actually build in a metamodule ...
     def do_start(self, buildscript):
         return (self.STATE_DONE, None, None)
+
+class Tarball(Package):
+    STATE_DOWNLOAD = 'download'
+    STATE_UNPACK   = 'unpack'
+    STATE_PATCH    = 'patch'
+    STATE_BUILD    = 'build'
+    STATE_INSTALL  = 'install'
+    def __init__(self, name, version, source_url, source_size,
+                 patches=[], versioncheck=None, dependencies=[]):
+        Package.__init__(self, package, dependencies)
+        self.version      = version
+        self.source_url   = source_url
+        self.source_size  = source_size
+        self.patches      = []
+        self.versioncheck = versioncheck
+
+    def get_builddir(self, buildscript):
+        localfile = os.path.basename(self.source_url)
+        # strip off packaging extension ...
+        if localfile[-7:] == '.tar.gz':
+            localfile = localfile[:-7]
+        elif localfile[-8:] == '.tar.bz2':
+            localfile = localfile[:-8]
+        elif localfile[-4:] == '.tgz':
+            localfile = localfile[:-4]
+        return os.path.join(buildscript.config.checkoutroot, localfile)
+
+    def do_start(self, buildscript):
+        # check to see if tarball is already installed ...
+        # ...
+        # return (self.STATE_DONE, None, None)
+        # else download and build it
+        return (self.STATE_DOWNLOAD, None, None)
+
+    def do_download(self, buildscript):
+        localfile = os.path.join(buildscript.config.checkoutroot,
+                                 os.path.basename(self.source_url))
+        if not buildscript.config.nonetwork:
+            if not os.path.exists(localfile) or \
+                   os.stat(localfile)[6] != self.source_size:
+                buildscript.message('downloading %s' % self.source_url)
+                res = buildscript.execute('wget "%s" -O "%s"' %
+                                          (self.source_url, localfile))
+                if res != 0:
+                    return (self.STATE_UNPACK, 'error downloading file', [])
+
+        if not os.path.exists(localfile) or \
+               os.stat(localfile)[6] != self.source_size:
+            return (self.STATE_UNPACK,
+                    'file not downloaded, or of incorrect size', [])
+        return (self.STATE_UNPACK, None, None)
+
+    def do_unpack(self, buildscript):
+        os.chdir(buildscript.config.checkoutroot)
+        localfile = os.path.basename(self.sourceurl)
+        checkoutdir = self.get_builddir(buildscript)
+
+        buildscript.message('unpacking %s', self.name)
+        if localfile[-4:] == '.bz2':
+            res = buildscript.execute('bunzip2 -dc %s | tar xf -' % localfile)
+        else:
+            res = buildscript.execute('gunzip -dc %s | tar xf -' % localfile)
+
+        if res != 0 or not os.path.exists(checkoutdir):
+            return (self.STATE_PATCH, 'could not unpack tarball', [])
+
+        return (self.STATE_PATCH, None, None)
+
+    def do_patch(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        for patch in self.patches:
+            patchfile = os.path.join(os.path.dirname(__file__), patch[0])
+            buildscript.message('applying patch %s' % patch[0])
+            res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
+            if res != 0:
+                return (self.STATE_BUILD, 'could not apply patch', [])
+        return (self.STATE_BUILD, None, None)
+
+    def do_build(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.message('running build for %s' % self.name)
+        cmd = 'make %s' % buildscript.config.makeargs
+        if buildscript.execute(cmd) == 0:
+            return (self.STATE_INSTALL, None, None)
+        else:
+            return (self.STATE_INSTALL, 'could not build module', [])
+
+    def do_install(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.message('running install for %s' % self.name)
+        cmd = 'make %s install' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not make module'
+        return (self.STATE_DONE, error, [])
 
 class ModuleSet:
     def __init__(self, baseset=None):
