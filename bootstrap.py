@@ -7,13 +7,13 @@ _boldcode = os.popen('tput bold', 'r').read()
 _normal = os.popen('tput rmso', 'r').read()
 
 class Bootstrap:
-    def __init__(self, package, version, sourceurl, sourcesize, patch=None,
+    def __init__(self, package, version, sourceurl, sourcesize, patches=[],
                  versioncheck=None):
         self.package = package
         self.version = version
         self.sourceurl = sourceurl
         self.sourcesize = sourcesize
-        self.patch = patch
+        self.patches = patches
         self.versioncheck = versioncheck
     def _bold(self, msg):
         print '%s*** %s ***%s' % (_boldcode, msg, _normal)
@@ -32,7 +32,12 @@ class Bootstrap:
                 print 'package not found'
             elif string.find(out, string.replace(self.version, 'x', '')) >= 0:
                 print 'package found'
-                return 0
+                val = raw_input('do you want to install %s %s [y/N]? '
+                                % (self.package, self.version))
+                if val and string.lower(val)[0] == 'y':
+                    return 1
+                else:
+                    return 0
             else:
                 if out[-1] == '\n': out = out[:-1]
                 print 'might be okay:'
@@ -84,9 +89,9 @@ class Bootstrap:
             return
 
         # is there a patch to apply?
-        if self.patch:
-            patchfile = os.path.join(os.path.dirname(__file__), self.patch)
-            self._bold('applying patch %s' % self.patch)
+        for patch in self.patches:
+            patchfile = os.path.join(os.path.dirname(__file__), patch)
+            self._bold('applying patch %s' % patch)
             ret = self._execute('patch -p1 < %s' % patchfile)
             if ret != 0:
                 print 'failed to patch', self.package
@@ -117,43 +122,45 @@ bootstraps = [
     Bootstrap('gettext', '0.11.2',
               'ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.11.2.tar.gz',
               3170203,
-              'gettext-changelog.patch',  # patch to unbreak gettext ...
+              ['gettext-changelog.patch'],  # patch to unbreak gettext ...
               'gettextize --version | head -1'),
     Bootstrap('autoconf', '2.53',
               'ftp://ftp.gnu.org/pub/gnu/autoconf/autoconf-2.53.tar.gz',
               990527,
-              None,
+              [],
 	      '((which autoconf2.50 &> /dev/null && autoconf2.50 --version) || autoconf --version) | head -1'),
     Bootstrap('libtool', '1.4.2',
               'ftp://ftp.gnu.org/pub/gnu/libtool/libtool-1.4.2.tar.gz',
               1184578,
-              None,
+              ['libtool-1.3.5-mktemp.patch',
+               'libtool-1.4.2-test-quote.patch',
+               'libtool-1.4.2-relink-58664.patch',
+               'libtool-1.4.2-dup-deps.patch'],
               'libtoolize --version'),
-    # some would argue that 1.4-p5 is a better choice, but ...
     Bootstrap('automake', '1.6.1',
               'ftp://ftp.gnu.org/pub/gnu/automake/automake-1.6.1.tar.gz',
               595788,
-              None,
+              [],
               'automake --version | head -1'),
     Bootstrap('pkg-config', '0.12.0',
               'http://www.freedesktop.org/software/pkgconfig/releases/pkgconfig-0.12.0.tar.gz',
               603456,
-              None,
+              [],
               'pkg-config --version'),
     Bootstrap('python', '2.x',
               'http://www.python.org/ftp/python/2.2/Python-2.2.tgz',
               6542443,
-              None,
+              [],
               'echo "import sys, string; print string.split(sys.version)[0]" | python -'),
     Bootstrap('audiofile', '0.2.3',
               'ftp://oss.sgi.com/projects/audiofile/download/audiofile-0.2.3.tar.gz',
               332223,
-              None,
+              [],
               'audiofile-config --version'),
     Bootstrap('scrollkeeper', '0.3.9',
               'http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.9.tar.gz',
               418815,
-              None,
+              [],
               'scrollkeeper-config --version'),
 ]
 
