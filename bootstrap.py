@@ -185,11 +185,6 @@ bootstraps = [
               332223,
               [],
               'audiofile-config --version'),
-    Bootstrap('scrollkeeper', '0.3.9',
-              'http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.9.tar.gz',
-              418815,
-              [],
-              'scrollkeeper-config --version'),
 ]
 
 def build_bootstraps(config):

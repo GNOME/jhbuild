@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from module import MetaModule, ModuleSet
+from module import MetaModule, Tarball, ModuleSet
 
 def sfcvsroot(project):
     return ':pserver:anonymous@cvs.%s.sourceforge.net:/cvsroot/%s' % \
@@ -32,6 +32,12 @@ codefactory_cvsroot = ':pserver:anoncvs@cvs.codefactory.se:/cvs'
 gnome20 = ModuleSet()
 
 gnome2 = gnome20
+
+gnome20.add(Tarball('scrollkeeper', '0.3.11',
+                    'http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.11.tar.gz',
+                    437816, [],
+                    'scrollkeeper-config --version',
+                    dependencies=['libxml2', 'libxslt']))
 
 gnome20.addmod('intltool')
 gnome20.addmod('gnome-common', revision='gnome-2-0',)
@@ -91,17 +97,17 @@ gnome20.addmod('gnome-session', revision='gnome-2-0',
                dependencies=['libgnomeui', 'libwnck'])
 
 gnome20.addmod('gnome-applets', revision='gnome-2-0',
-               dependencies=['gnome-panel','libgtop', 'gail'])
+               dependencies=['scrollkeeper', 'gnome-panel','libgtop', 'gail'])
 gnome20.addmod('gnome-games', revision='gnome-2-0',
-               dependencies=['libgnomeui'])
+               dependencies=['scrollkeeper', 'libgnomeui'])
 gnome20.addmod('eel', revision='gnome-2-0',
                dependencies=['librsvg','libgnomeui','gail'])
 gnome20.addmod('librsvg', revision='gnome-2-0',
                dependencies=['libxml2','gtk+', 'libart_lgpl',
                              'gnome-common'])
 gnome20.addmod('nautilus', revision='gnome-2-0',
-               dependencies=['esound', 'eel', 'librsvg', 'libgnomeui',
-                             'gnome-desktop'])
+               dependencies=['scrollkeeper', 'esound', 'eel', 'librsvg',
+                             'libgnomeui', 'gnome-desktop'])
 gnome20.addmod('nautilus-gtkhtml', dependencies=['nautilus', 'gtkhtml2'])
 gnome20.addmod('metacity', dependencies=['gtk+','gconf','intltool','libglade'])
 gnome20.addmod('metatheme', dependencies=['libgnomeui'])
@@ -111,19 +117,22 @@ gnome20.addmod('procman', dependencies=['libgnomeui','libwnck','libgtop'])
 gnome20.addmod('gnome-control-center', revision='gnome-2-0',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 gnome20.addmod('yelp', revision='gnome-2-0',
-               dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
+               dependencies=['scrollkeeper', 'libgnomeui', 'gtkhtml2',
+                             'gnome-vfs'])
 gnome20.addmod('devhelp',
                dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 gnome20.addmod('gnome-utils', revision='gnome-2-0',
                dependencies=['libgnomeui', 'gnome-panel'])
 gnome20.addmod('gconf-editor', dependencies=['gconf'])
 gnome20.addmod('esound')
-gnome20.addmod('gnome-media', dependencies=['libgnomeui', 'esound', 'gail'])
+gnome20.addmod('gnome-media',
+               dependencies=['scrollkeeper', 'libgnomeui', 'esound', 'gail'])
 gnome20.addmod('gdm2', dependencies=['librsvg'])
 gnome20.addmod('gnome-terminal', revision='gnome-2-0',
                dependencies=['libglade', 'libgnomeui', 'libzvt'])
 gnome20.addmod('gtk-engines', dependencies=['gtk+'])
-gnome20.addmod('gedit', dependencies=['libgnomeui', 'libgnomeprintui'])
+gnome20.addmod('gedit',
+               dependencies=['scrollkeeper', 'libgnomeui', 'libgnomeprintui'])
 gnome20.addmod('libgnomeprint', revision='gnome-2-0',
                dependencies=['libart_lgpl', 'glib', 'gnome-common', 'pango'])
 gnome20.addmod('libgnomeprintui', revision='gnome-2-0',
@@ -171,13 +180,14 @@ gnome20.addmod('mrproject',
 gnome20.addmod('dia-newcanvas',
                dependencies=['gtk+', 'libglade', 'gnome-python/pygtk'])
 gnome20.addmod('gael', dependencies=['dia-newcanvas', 'libglade', 'libgnomeui','libxml2'])
-gnome20.addmod('file-roller', revision='gnome-2-0', dependencies=['nautilus'])
+gnome20.addmod('file-roller', revision='gnome-2-0',
+               dependencies=['scrollkeeper', 'nautilus'])
 
 gnome20.addmod('balsa', revision='BALSA_2',
                dependencies=['libgnomeui'])
 gnome20.addmod('pan',
                dependencies=['libgnomeui'])
-gnome20.addmod('ggv', dependencies=['libgnomeui'])
+gnome20.addmod('ggv', dependencies=['scrollkeeper', 'libgnomeui'])
 
 gnome20.addmod('gtksourceview', dependencies=['gtk+'])
 gnome20.addmod('glimmer', dependencies=['gtksourceview'])
@@ -252,9 +262,13 @@ gnome22.addmod('gnome-control-center',
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
 gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
-gnome22.addmod('gnome-applets', dependencies=['gnome-panel','libgtop', 'gail'])
-gnome22.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
-gnome22.addmod('file-roller', dependencies=['nautilus'])
+gnome22.addmod('gnome-applets',
+               dependencies=['scrollkeeper', 'gnome-panel','libgtop', 'gail'])
+gnome22.addmod('yelp',
+               dependencies=['scrollkeeper', 'libgnomeui', 'gtkhtml2',
+                             'gnome-vfs'])
+gnome22.addmod('file-roller',
+               dependencies=['scrollkeeper', 'nautilus'])
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'libxml2', 'gail'])
 gnome22.addmod('libglade', dependencies=['gtk+', 'libxml2'])
@@ -267,6 +281,8 @@ gnome22.addmod('libgnomecanvas',
 gnome22.addmod('libgnomeui', dependencies=['libbonoboui', 'libglade','gnome-icon-theme'])
 gnome22.addmod('libgnomeprint', dependencies=['libart_lgpl', 'glib', 'gnome-common', 'pango'])
 gnome22.addmod('libgnomeprintui', dependencies=['libgnomeprint', 'gtk+', 'libgnomecanvas'])
+gnome20.addmod('gnome-games',
+               dependencies=['scrollkeeper', 'libgnomeui'])
 
 # libgnomeprint-2.0 and libgnomeprintui-2.0 are the gnome 2.0 versions
 gnome22.addmod('libgnomeprint',
@@ -281,8 +297,8 @@ gnome22.addmod('librsvg',
                              'gnome-common'])
 gnome22.addmod('eel', dependencies=['librsvg','libgnomeui','gail'])
 gnome22.addmod('nautilus',
-               dependencies=['esound', 'eel', 'librsvg', 'libgnomeui',
-                             'gnome-desktop'])
+               dependencies=['scrollkeeper', 'esound', 'eel', 'librsvg',
+                             'libgnomeui', 'gnome-desktop'])
 gnome22.addmod('bug-buddy', dependencies=['libgnomeui'])
 gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
 

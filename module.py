@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os
+import os, string
 import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
@@ -165,14 +165,15 @@ class MetaModule(Package):
         return (self.STATE_DONE, None, None)
 
 class Tarball(Package):
-    STATE_DOWNLOAD = 'download'
-    STATE_UNPACK   = 'unpack'
-    STATE_PATCH    = 'patch'
-    STATE_BUILD    = 'build'
-    STATE_INSTALL  = 'install'
+    STATE_DOWNLOAD  = 'download'
+    STATE_UNPACK    = 'unpack'
+    STATE_PATCH     = 'patch'
+    STATE_CONFIGURE = 'configure'
+    STATE_BUILD     = 'build'
+    STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size,
                  patches=[], versioncheck=None, dependencies=[]):
-        Package.__init__(self, package, dependencies)
+        Package.__init__(self, name, dependencies)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
@@ -191,10 +192,17 @@ class Tarball(Package):
         return os.path.join(buildscript.config.checkoutroot, localfile)
 
     def do_start(self, buildscript):
-        # check to see if tarball is already installed ...
-        # ...
-        # return (self.STATE_DONE, None, None)
-        # else download and build it
+        # check if jhbuild previously built it ...
+        checkoutdir = self.get_builddir(buildscript)
+        if os.path.exists(os.path.join(checkoutdir, 'jhbuild-build-stamp')):
+            return (self.STATE_DONE, None, None)
+
+        # check if we already have it ...
+        if self.versioncheck:
+            out = os.popen(self.versioncheck, 'r').read()
+            if out and string.find(out, self.version) >= 0:
+                return (self.STATE_DONE, None, None)
+
         return (self.STATE_DOWNLOAD, None, None)
 
     def do_download(self, buildscript):
@@ -217,10 +225,10 @@ class Tarball(Package):
 
     def do_unpack(self, buildscript):
         os.chdir(buildscript.config.checkoutroot)
-        localfile = os.path.basename(self.sourceurl)
+        localfile = os.path.basename(self.source_url)
         checkoutdir = self.get_builddir(buildscript)
 
-        buildscript.message('unpacking %s', self.name)
+        buildscript.message('unpacking %s' % self.name)
         if localfile[-4:] == '.bz2':
             res = buildscript.execute('bunzip2 -dc %s | tar xf -' % localfile)
         else:
@@ -238,8 +246,18 @@ class Tarball(Package):
             buildscript.message('applying patch %s' % patch[0])
             res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
             if res != 0:
-                return (self.STATE_BUILD, 'could not apply patch', [])
-        return (self.STATE_BUILD, None, None)
+                return (self.STATE_CONFIGURE, 'could not apply patch', [])
+        return (self.STATE_CONFIGURE, None, None)
+
+    def do_configure(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.message('configuring %s' % self.name)
+        res = buildscript.execute('./configure --prefix=%s' %
+                                  buildscript.config.prefix)
+        error = None
+        if res != 0:
+            error = 'could not configure package'
+        return (self.STATE_BUILD, error, [])
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
@@ -257,6 +275,8 @@ class Tarball(Package):
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
+        else:
+            open('jhbuild-build-stamp', 'w').write('stamp')
         return (self.STATE_DONE, error, [])
 
 class ModuleSet:
@@ -424,9 +444,7 @@ class BuildScript:
             elif val == '3':
                 return 'poison'
             elif val == '4':
-                checkoutdir = self.cvsroot.getcheckoutdir(module.cvsmodule,
-                                                          module.checkoutdir)
-                os.chdir(checkoutdir)
+                os.chdir(module.get_builddir(self))
                 print 'exit shell to continue with build'
                 os.system(user_shell)
             else:

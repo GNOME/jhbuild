@@ -1,8 +1,20 @@
 2002-12-12  James Henstridge  <james@daa.com.au>
 
+	* moduleinfo.py (gnome2): add scrollkeeper as a dep of various
+	modules.
+
+	* bootstrap.py (bootstraps): remove scrollkeeper from list of
+	bootstraps.
+
+	* moduleinfo.py (gnome20.scrollkeeper): add scrollkeeper as a
+	Tarball type package, with libxml2 and libxslt as dependencies.
+
 	* module.py (Tarball): another Package type, pulling most of the
 	logic from bootstrap.py.  Can fit into dependency chains with CVS
 	modules.  Not being used yet.
+	(Tarball.do_install): add a little build stamp when install has
+	completed.
+	(Tarball.do_start): if jhbuild-build-stamp exists, skip build.
 
 2002-12-11  James Henstridge  <james@daa.com.au>
 
