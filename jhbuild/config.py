@@ -127,6 +127,10 @@ class Config:
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
 
+        # XDG_CONFIG_DIRS
+        xdgconfigdir = os.path.join(self.prefix, 'etc', 'xdg')
+        addpath('XDG_CONFIG_DIRS', xdgconfigdir)
+
         # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
