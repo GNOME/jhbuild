@@ -34,7 +34,7 @@ class MozillaModule(base.CVSModule):
                                 cvsroot=cvsroot)
 
     def get_builddir(self, buildscript):
-        return self.get_srcdir(self, buildscript)
+        return self.get_srcdir(buildscript)
 
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
