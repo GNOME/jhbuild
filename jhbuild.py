@@ -197,7 +197,7 @@ def setup_env(config):
 	    raise "Can't create %s directory" % prefix
 	        
     includedir = os.path.join(prefix, 'include')
-    addpath('C_INCLUDE_PATH', includedir)
+    #addpath('C_INCLUDE_PATH', includedir)
     libdir = os.path.join(prefix, 'lib')
     addpath('LD_LIBRARY_PATH', libdir)
     bindir = os.path.join(prefix, 'bin')
