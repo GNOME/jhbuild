@@ -22,7 +22,9 @@ import os
 import string
 import urllib
 
-_isxterm = os.environ.get('TERM', '') == 'xterm'
+term = os.environ.get('TERM', '')
+_isxterm = term.find('xterm') >= 0 or term == 'rxvt'
+del term
 _boldcode = getoutput('tput bold')
 _normal = getoutput('tput sgr0')
 

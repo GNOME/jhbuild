@@ -28,7 +28,9 @@ except ImportError:
 
 import cvs
 
-_isxterm = os.environ.get('TERM','').find('xterm') >= 0
+term = os.environ.get('TERM', '')
+_isxterm = term.find('xterm') >= 0 or term == 'rxvt'
+del term
 _boldcode = os.popen('tput bold', 'r').read()
 _normal = os.popen('tput sgr0', 'r').read()
 user_shell = os.environ.get('SHELL', '/bin/sh')
