@@ -62,6 +62,8 @@ def login(cvsroot, password=None):
         fp = open(cvspass, 'r')
         for line in fp.readlines():
             parts = string.split(line)
+            if not parts:
+                continue
             if parts[0] == '/1':
                 root = parts[1]
             else:
