@@ -111,6 +111,11 @@ head.add(Module(name='glade', revision='glade-gnome2-branch',
 head.add(Module(name='glade2c', dependencies=['gtk+', 'gnome-xml', 'libgnomeui']))
 head.add(Module(name='gtkglarea', dependencies=['gtk+']))
 
+head.add(Module(name='sawfish', revision='gnome-2', 
+	 dependencies=['rep-gtk']))
+head.add(Module(name='rep-gtk', dependencies=['librep', 'gtk+']))
+head.add(Module(name='librep'))
+
 # some simple tasks to make using jhbuild a bit easier
 head.add(MetaModule(name='meta-gnome-devel-platform',
                     modules=['libgnome', 'libbonobo', 'libbonoboui',
