@@ -72,7 +72,9 @@ head.add(Module(name='yelp',
          dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs']))
 head.add(Module(name='gnome-utils',
          dependencies=['libgnomeui']))
-
+head.add(Module(name='gconf-editor',
+                dependencies=['gconf']))
+head.add(Module(name='esound'))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
