@@ -21,6 +21,14 @@
 import pygtk
 pygtk.require('2.0')
 
+import sys
+import time
+import os
+import signal
+import fcntl
+import select
+import popen2
+
 import gobject
 import gtk
 import gtk.glade
@@ -30,30 +38,17 @@ import gtk.glade
 import gconf
 have_gconf = True
 
-import module
-
-import os
-import sys
-import string
 import buildscript
-
-import popen2
-import select
-import os
-import signal
-import time
-import fcntl
+import jhbuild.moduleset
+from jhbuild.modtypes.base import MetaModule
 
 def get_glade_filename():
-    path_elements = __file__.split('/')
-    base_dir = '/'.join(path_elements[:len(path_elements)-1])
-    return base_dir + "/jhbuild.glade"
+    return os.path.join(os.path.dirname(__file__), 'jhbuild.glade')
 
 class Configuration:
-    def __init__(self, config, args, interact):
+    def __init__(self, config, args):
         self.config = config
         self.args = args
-        self.interact = interact
 
         glade_filename = get_glade_filename()
 
@@ -80,13 +75,13 @@ class Configuration:
         #self.start_module_menu.connect('clicked', self._start_module_menu_clicked)
         
         # Get the list of meta modules
-        self.module_set = module.read_module_set(config)
+        self.module_set = jhbuild.moduleset.load(config)
         full_module_list = self.module_set.get_full_module_list()
         self.meta_modules = []
         self.name_to_meta_module = {}
         for possible_meta_module in full_module_list:
-            if (isinstance(possible_meta_module, module.MetaModule)):
-                print ("Found meta module %s" % possible_meta_module.name)
+            if isinstance(possible_meta_module, MetaModule):
+                print "Found meta module %s" % possible_meta_module.name
                 self.meta_modules.append(possible_meta_module)
                 self.name_to_meta_module[possible_meta_module.name] = possible_meta_module
 
@@ -103,7 +98,7 @@ class Configuration:
                 self.no_build)
 
     def _get_default_settings(self):
-        if (have_gconf):
+        if have_gconf:
             client = gconf.client_get_default()
             self.run_autogen      = client.get_bool("/apps/jhbuild/always_run_autogen")
             self.cvs_update       = client.get_bool("/apps/jhbuild/update_from_cvs")
@@ -120,13 +115,13 @@ class Configuration:
         self.no_build_checkbox.set_active(self.no_build)
 
     def _set_default_settings(self):
-        if (have_gconf):
+        if have_gconf:
             client = gconf.client_get_default()
             client.set_bool("/apps/jhbuild/always_run_autogen", self.run_autogen)
             client.set_bool("/apps/jhbuild/update_from_cvs", self.cvs_update)
             client.set_bool("/apps/jhbuild/no_build", self.no_build)
             client.set_list("/apps/jhbuild/modules_to_build", gconf.VALUE_STRING, self.selected_modules)
-            if (self.start_at_module != None):
+            if self.start_at_module:
                 client.set_string("/apps/jhbuild/start_at_module", self.start_at_module)
             else:
                 client.set_string("/apps/jhbuild/start_at_module", "")
@@ -148,7 +143,7 @@ class Configuration:
         
         for module in meta_modules:
             iter = self.model.append()
-            if (self.selected_modules != None):
+            if self.selected_modules:
                 selected = (module.name in self.selected_modules)
             else:
                 selected = False
@@ -167,12 +162,12 @@ class Configuration:
         modules = []
         iter = self.model.get_iter_first()
 
-        while (iter != None):
+        while iter:
             build = self.model.get_value(iter, 0)
-            if (build):
+            if build:
                 name = self.model.get_value(iter, 1)
                 module = self.name_to_meta_module[name]
-                if (module != None):
+                if module:
                     modules.append(module.name)
             iter = self.model.iter_next(iter)
 
@@ -180,10 +175,10 @@ class Configuration:
 
     
     def _build_start_module_menu(self):
-        if (self.selected_modules == None):
+        if not self.selected_modules:
             return
         
-        self.module_list = self.module_set.get_module_list(self.selected_modules, self.config['skip'])
+        self.module_list = self.module_set.get_module_list(self.selected_modules, self.config.skip)
 
         menu = gtk.Menu()
         menu.connect('selection-done', self._start_module_menu_clicked)
@@ -193,16 +188,16 @@ class Configuration:
         for module in self.module_list:
             menu_item = gtk.MenuItem(module.name)
             menu.append(menu_item)
-            if (module.name == self.start_at_module):
+            if module.name == self.start_at_module:
                 selected_item_number = i
             i = i + 1
             
         self.start_module_menu.set_menu (menu)
 
-        if (selected_item_number != None):
+        if selected_item_number:
             self.start_module_menu.set_history(selected_item_number)
         else:
-            if ((self.module_list != None) & (len(self.module_list) > 0)):
+            if self.module_list:
                 self.start_at_module = self.module_list[0].name
             else:
                 self.start_at_module = None
@@ -211,7 +206,7 @@ class Configuration:
 
     def _start_module_menu_clicked(self, option_menu):
         number = self.start_module_menu.get_history()
-        if ((self.module_list != None) & (len(self.module_list) > 0)):
+        if self.module_list:
             item = self.module_list[number]
             self.start_at_module = item.name
         else:
@@ -238,12 +233,11 @@ def optionmenu_get_history(self):
     return i
 
 class GtkBuildScript(buildscript.BuildScript):
-
-    def __init__(self, configdict, module_list):
-        buildscript.BuildScript.__init__(self, configdict, module_list, derived_class=1)
+    def __init__(self, config, module_list):
+        buildscript.BuildScript.__init__(self, config, module_list)
         self.current_module = None
         self._createWindow()
-        if (have_gconf):
+        if have_gconf:
             self.terminal_command = self._getTerminalCommand()
         else:
             self.terminal_command = "gnome-terminal"
@@ -257,19 +251,19 @@ class GtkBuildScript(buildscript.BuildScript):
     def message(self, msg, module_num = -1):
         '''shows a message to the screen'''
         
-        if (module_num == -1):
+        if module_num == -1:
             module_num = self.module_num
         dialog = gtk.MessageDialog(buttons=gtk.BUTTONS_OK, message_format=msg)
         dialog.run()
         dialog.hide()        
         return
 
-    def setAction(self, action, module, module_num=-1, action_target=None):
-        if (module_num == -1):
+    def set_action(self, action, module, module_num=-1, action_target=None):
+        if module_num == -1:
             module_num = self.module_num
-        if (action_target == None):
+        if not action_target:
             action_target = module.name
-        if ((self.current_module != module) and (self.current_module != None)):
+        if self.current_module != module and self.current_module != None:
             self.current_module._build_text_buffer = self.build_text
             self.build_text = gtk.TextBuffer(self.tag_table)
             self.build_text_view.set_buffer(self.build_text)
@@ -279,15 +273,14 @@ class GtkBuildScript(buildscript.BuildScript):
         num_modules = len(self.modulelist)
         if module_num > 0:
             self.build_progress.set_fraction(module_num / float(num_modules))
-            self.build_progress.set_text('%d of %d modules' % (module_num, num_modules))
-        else:
-            percent = ''
+            self.build_progress.set_text('%d of %d modules'
+                                         % (module_num, num_modules))
 
         self.window.set_title('[%d/%d] %s %s' % (module_num, num_modules, action, module.name))
         self.current_status_label.set_text('%s %s' % (action, module.name))
 
     def _runEventLoop(self):
-        while (gtk.events_pending()):
+        while gtk.events_pending():
             gtk.main_iteration()
 
     def _printToBuildOutput(self, output):
@@ -317,103 +310,69 @@ class GtkBuildScript(buildscript.BuildScript):
 
         build_paused = False
 
-        while (return_code == -1):
+        while return_code == -1:
             # Allow the frontend to get a little time
             self._runEventLoop()
 
             #If there's data on the command's stdout, read it
             selection = select.select([process.fromchild], [], [], 0)
-            if (selection[0] != []):
+            if selection[0] != []:
                 self._printToBuildOutput(process.fromchild.read())
 
             selection = select.select([process.childerr], [], [], 0)
-            if (selection[0] != []):
+            if selection[0] != []:
                 self._printToWarningOutput(process.childerr.read())
 
 
             # See if we should pause the current command
-            if ((build_paused == False) and (self._pauseBuild() == True)):
+            if not build_paused and self._pauseBuild():
                 print ("Pausing this guy, sending os.kill to %d", process.pid)
                 os.kill(process.pid, signal.SIGSTOP)
                 build_paused = True
-            elif ((build_paused == True) and (self._pauseBuild() == False)):
+            elif build_paused and not self._pauseBuild():
                 print ("Continuing him")
                 os.kill(process.pid, signal.SIGCONT)
                 build_paused = False
-            elif (build_paused == False):
+            elif not build_paused:
                 return_code = process.poll()
 
             time.sleep(0.05)
 
         # Read any remaining output lines    
         value = process.fromchild.read()
-        while (value != ""):
+        while value:
             self._printToBuildOutput(value)
             value = process.fromchild.read()
 
         # Read any remaining stderr lines
         value = process.childerr.read()
-        while (value != ""):
+        while value:
             self._printToWarningOutput(value)
             value = process.childerr.read()
 
         return return_code
 
-
-    def build(self, interact=True):
+    def start_build(self):
         self.window.show_all()
-        
-        poison = [] # list of modules that couldn't be built
-
-        self.module_num = 0
-        for module in self.modulelist:
-            self.module_num = self.module_num + 1
-
-            # Remember where we are in case something fails
-            if (have_gconf):
-                client = gconf.client_get_default()
-                client.set_string("/apps/jhbuild/start_at_module", module.name)
-                
-            poisoned = 0
-            for dep in module.dependencies:
-                if dep in poison:
-                    self.message('module %s not built due to non buildable %s'
-                                 % (module.name, dep))
-                    poisoned = True
-            if poisoned:
-                poison.append(module.name)
-                continue
-
-            state = module.STATE_START
-            while state != module.STATE_DONE:
-                nextstate, error, altstates = module.run_state(self, state)
-
-                if error:
-                    newstate = self.handle_error(module, state,
-                                                 nextstate, error,
-                                                 altstates, interact)
-                    if newstate == 'poison':
-                        poison.append(module.name)
-                        state = module.STATE_DONE
-                    else:
-                        state = newstate
-                else:
-                    state = nextstate
+    def end_build(self, failures):
         if len(poison) == 0:
             self.message('success')
         else:
-            self.message('the following modules were not built')
-            for module in poison:
-                print module,
-            print
-    
-    def handle_error(self, module, state, nextstate, error, altstates, interact=1):
+            self.message('the following modules were not built:\n%s'
+                         % ', '.join(modules))
+    def start_module(self, module):
+        # Remember where we are in case something fails
+        if have_gconf:
+            client = gconf.client_get_default()
+            client.set_string("/apps/jhbuild/start_at_module", module)
+
+    def handle_error(self, module, state, nextstate, error, altstates):
         '''Ask the user what to do about an error.
 
         Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.''' #"
 
-        if interact == 0:
-            return 'poison'
+        if not self.config.interact:
+            return 'fail'
         while True:
 
             #self.message('error during %s for module %s' % (state, module.name))
@@ -454,7 +413,7 @@ class GtkBuildScript(buildscript.BuildScript):
             elif val == 2:
                 return nextstate
             elif val == 3:
-                return 'poison'
+                return 'fail'
             elif val == 4:
                 #post_terminal_action = '\'cd \"%s\\'"' % module.get_builddir(self)
                 command = '%s %s' % (self.terminal_command, post_terminal_action)

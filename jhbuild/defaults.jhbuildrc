@@ -1,0 +1,57 @@
+# -*- mode: python -*-
+# This file holds the default values for the ~/.jhbuildrc file.
+# Do not copy this to ~/.jhbuildrc
+
+import os
+
+try:
+    True
+except NameError:
+    True = 1 == 1
+    False = 1 != 1
+
+# what modules to build?
+moduleset = 'gnome26'
+modules = [ 'meta-gnome-desktop' ]
+
+# modules to skip during dependency expansion
+skip = []
+
+# directories
+prefix = '/opt/gtk2'
+checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+
+# override environment variables, command line arguments, etc
+autogenargs = '--disable-static --disable-gtk-doc'
+makeargs = ''
+cflags = ''
+installprog = None
+
+# override cvs roots, branch tags, etc
+cvsroots = {}
+branches = {}
+module_autogenargs = {}
+
+# control parts of the build process
+nonetwork     = False  # never touch the network
+alwaysautogen = False  # call autogen.sh even if a makefile is found
+nobuild       = False  # don't actually build the packages
+makeclean     = False  # run make clean before building
+
+interact      = True   # whether to interact with the user.
+
+# whether to install to lib64 directories?  Currently this will default to
+# True on Linux AMD64, PPC64 or S390x systems, and False everywhere else.
+# Patches accepted to fix the default for other architectures.
+uname = os.uname()
+use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
+                                      ('Linux', 'ppc64'),
+                                      ('Linux', 's390x') ]
+del uname
+
+# default buildscript.  You should probably leave this as the default.
+# In particular, don't set it to 'gtk'.
+buildscript = 'terminal'
+
+# where to put tinderbox output
+tinderbox_outputdir = None

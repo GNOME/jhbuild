@@ -1,3 +1,167 @@
+2004-02-05  James Henstridge  <james@daa.com.au>
+
+	* *: merge the jhbuild-ng branch back to head.  Things appear to
+	be functioning correctly now.
+
+2004-02-05  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/commands/sanitycheck.py (do_sanitycheck): new "jhbuild
+	sanitycheck" that can be used to check whether the build
+	environment is sane.  At the moment, it just checks whether
+	various tools are available.  Will be expanded later on.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	change how we wrap the command being executed, so that it is more
+	like what the commands stdlib module does.
+
+2004-02-04  James Henstridge  <james@daa.com.au>
+
+	* Makefile (install): use template to create ~/bin/jhbuild.
+
+	* jhbuild.in: template for the script installed in ~/bin.
+
+2004-02-03  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/frontends/tinderbox.py
+	(TinderboxBuildScript.end_module): flush the index.html file
+	descriptor after writing each module's status.
+	(TinderboxBuildScript.end_build): add a final line to the
+	index.html table, giving the finish time.
+	(TinderboxBuildScript.start_build): add some information about the
+	build platform before the build results.
+	(TinderboxBuildScript.end_build): list failed modules at end of page.
+
+	* jhbuild/config.py, jhbuild/defaults.jhbuildrc: add
+	tinderbox_outputdir config key.
+
+	* jhbuild/commands/tinderbox.py (do_tinderbox): add a tinderbox
+	command.
+
+	* jhbuild/frontends/tinderbox.py: new, non-interactive buildscript
+	that writes all the results to files.
+
+	* jhbuild/commands/base.py: add missing include of "os".
+
+	* jhbuild/config.py (Config.__init__): make sure we aren't trying
+	to set environment variables to None.
+
+	* jhbuild/frontends/gtkui.py: lots more cleanups to get it to work
+	correctly, and changes to make it look less like C.  The "jhbuild
+	gui" command now starts again.
+
+	* jhbuild/frontends/gtkui.py: rename from gtk.py -- was causing
+	problems with imports of the toplevel gtk module ...
+	(get_glade_filename): fix to work with reorganisation.
+	(GtkBuildScript.build): don't override this function, instead use
+	the hooks now provided by the base BuildScript class.
+
+	* jhbuild/commands/gui.py (do_gui): some small fixes.
+
+	* Makefile (install): modify rule used to create jhbuild wrapper
+	script.
+
+	* jhbuild/commands/bootstrap.py (Bootstrap.build): find patches in
+	the patches/ subdirectory now.
+
+	* *.patch: move to a patches/ subdirectory, to keep things neat.
+
+	* jhbuild.py: replace jhbuild.py with a simple script that tells
+	people to rerun "make install".
+
+	* *.py: remove old jhbuild files.
+
+	* *: branch the rest of the module (except for moduleset
+	definitions).
+
+2004-02-03  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/config.py (_known_keys): same here.
+
+	* jhbuild/defaults.jhbuildrc (makeargs): add makeargs.
+
+	* jhbuild/modtypes/tarball.py: s/setAction/set_action/
+
+	* jhbuild/modtypes/mozilla.py: s/setAction/set_action/
+
+	* jhbuild/modtypes/base.py: s/setAction/set_action/
+
+	* jhbuild/main.py (main): remove BuildScript selection code from
+	main function.
+
+	* jhbuild/commands/gui.py (do_gui): same here.
+
+	* jhbuild/commands/base.py: use
+	jhbuild.frontends.get_buildscript() to create the buildscript.
+
+	* jhbuild/frontends/__init__.py (get_buildscript): function to
+	load up the appropriate buildscript.
+
+	* jhbuild/config.py (_known_keys): add a "buildscript" config
+	value to specify which buildscript is to be used.
+
+	* jhbuild/frontends/buildscript.py: abstract base class for
+	buildscripts.
+
+	* jhbuild/moduleset.py: remove unnused import of string module.
+
+	* jhbuild/commands/bootstrap.py (do_bootstrap): same here.
+	(bootstraps): remove uses of the string module.
+
+	* jhbuild/commands/base.py: remove interact function argument from
+	all commands.
+
+	* jhbuild/main.py (main): if --no-interact is passed, just set the
+	config value, rather than passing it to the subcommand.  The
+	subcommand is already being passed the config object, so there
+	should be no problem.
+
+	* jhbuild/config.py (_known_keys): make "interact" a config value,
+	rather than passing it around separately everywhere.
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_configure): honour
+	use_lib64 setting.
+
+	* jhbuild/main.py: add the remainder of jhbuild.py to this file.
+
+	* jhbuild/commands/bootstrap.py (do_bootstrap): move bootstrap
+	code into commands subpackage.
+	(Bootstrap.build): if use_lib64 is true, pass --libdir when
+	configuring bootstrap packages.
+
+	* jhbuild/commands/__init__.py: 
+	* jhbuild/commands/base.py: move implementations of commands here.
+
+	* jhbuild/config.py (Config.setup_env): add environment setup code
+	to the config module.
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.do_configure): ditto.
+
+	* jhbuild/modtypes/base.py (CVSModule.do_configure): if use_lib64
+	is set, then pass --libdir when configuring the package.
+
+	* jhbuild/config.py, jhbuild/defaults.jhbuildrc: config file
+	parsing.
+
+2004-02-02  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/utils/__init__.py:
+	* jhbuild/utils/cvs.py:
+	* jhbuild/utils/httpcache.py: various utility modules, which could
+	be useful elsewhere.
+
+	* jhbuild/moduleset.py: the remainder of module.py -- only
+	contains the ModuleSet class, and the skeleton XML module file
+	reader.
+
+	* jhbuild/modtypes/__init__.py:
+	* jhbuild/modtypes/base.py:
+	* jhbuild/modtypes/tarball.py:
+	* jhbuild/modtypes/mozilla.py: refactor module type code so that
+	it is easy to add new types of modules to jhbuild (rather than
+	having to edit a monolithic module.py file.
+
+	* jhbuild/__init__.py: start refactoring jhbuild.
+
 2004-02-01  Sri Ramkrishna,,,  <sri@aracnet.com>
 
   	* modulesets/gnome26.modules:added epiphany-extensions and

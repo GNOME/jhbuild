@@ -19,8 +19,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import sys
-import string
 import buildscript
 
 term = os.environ.get('TERM', '')
@@ -31,28 +29,23 @@ _normal = os.popen('tput sgr0', 'r').read()
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
 class TerminalBuildScript(buildscript.BuildScript):
-
-    def __init__(self, configdict, module_list):
-        buildscript.BuildScript.__init__(self, configdict, module_list, derived_class=1)
-
-    def message(self, msg, module_num = -1):
-        '''shows a message to the screen'''
+    def message(self, msg, module_num=-1):
+        '''Display a message to the user'''
         
-        if (module_num == -1):
+        if module_num == -1:
             module_num = self.module_num
-            
         if module_num > 0:
-            percent = ' [%d/%d]' % (module_num, len(self.modulelist))
+            progress = ' [%d/%d]' % (module_num, len(self.modulelist))
         else:
-            percent = ''
-        print '%s*** %s ***%s%s' % (_boldcode, msg, percent, _normal)
+            progress = ''
+        print '%s*** %s ***%s%s' % (_boldcode, msg, progress, _normal)
         if _isxterm:
-            print '\033]0;jhbuild: %s%s\007' % (msg, percent)
+            print '\033]0;jhbuild: %s%s\007' % (msg, progress)
 
-    def setAction(self, action, module, module_num=-1, action_target=None):
-        if (module_num == -1):
+    def set_action(self, action, module, module_num=-1, action_target=None):
+        if module_num == -1:
             module_num = self.module_num
-        if (action_target == None):
+        if not action_target:
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)        
 
@@ -62,42 +55,12 @@ class TerminalBuildScript(buildscript.BuildScript):
         ret = os.system(command)
         return ret
 
-    def build(self, interact=True):
-        poison = [] # list of modules that couldn't be built
-
-        self.module_num = 0
-        for module in self.modulelist:
-            self.module_num = self.module_num + 1
-            poisoned = 0
-            for dep in module.dependencies:
-                if dep in poison:
-                    self.message('module %s not built due to non buildable %s'
-                                 % (module.name, dep))
-                    poisoned = True
-            if poisoned:
-                poison.append(module.name)
-                continue
-
-            state = module.STATE_START
-            while state != module.STATE_DONE:
-                nextstate, error, altstates = module.run_state(self, state)
-
-                if error:
-                    newstate = self.handle_error(module, state,
-                                                 nextstate, error,
-                                                 altstates, interact)
-                    if newstate == 'poison':
-                        poison.append(module.name)
-                        state = module.STATE_DONE
-                    else:
-                        state = newstate
-                else:
-                    state = nextstate
-        if len(poison) == 0:
+    def end_build(self, failures):
+        if len(failures) == 0:
             self.message('success')
         else:
             self.message('the following modules were not built')
-            for module in poison:
+            for module in failures:
                 print module,
             print
 
@@ -106,8 +69,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
 
-        if interact == 0:
-            return 'poison'
+        if not self.config.interact:
+            return 'fail'
         while True:
             print
             print '  [1] rerun stage %s' % state
@@ -125,7 +88,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             elif val == '2':
                 return nextstate
             elif val == '3':
-                return 'poison'
+                return 'fail'
             elif val == '4':
                 try:
                     os.chdir(module.get_builddir(self))
@@ -140,4 +103,4 @@ class TerminalBuildScript(buildscript.BuildScript):
                 except:
                     print 'invalid choice'
 
-
+BUILD_SCRIPT = TerminalBuildScript

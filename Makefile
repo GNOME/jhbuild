@@ -16,8 +16,7 @@ update:
 install: install-check
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
-	@echo '#!/bin/sh' > $(bindir)/jhbuild
-	@echo 'exec python '`pwd`'/jhbuild.py "$$@"' >> $(bindir)/jhbuild
+	@sed "s,@jhbuilddir@,`pwd`,g" < jhbuild.in > $(bindir)/jhbuild
 	@chmod a+x $(bindir)/jhbuild
 
 	@echo "Creating $(desktopdir)/jhbuild.desktop"

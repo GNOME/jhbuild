@@ -19,8 +19,9 @@
 
 from commands import getoutput
 import os
-import string
 import urllib
+
+from jhbuild.commands.base import register_command
 
 term = os.environ.get('TERM', '')
 _isxterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -28,7 +29,8 @@ del term
 _boldcode = getoutput('tput bold')
 _normal = getoutput('tput sgr0')
 
-jhbuild_directory = os.path.split(os.path.abspath(__file__))[0]
+jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 '..', '..'))
 
 class Bootstrap:
     def __init__(self, package, version, sourceurl, sourcesize, patches=[],
@@ -57,11 +59,11 @@ class Bootstrap:
             out = os.popen(self.versioncheck, 'r').read()
             if out == '':
                 print 'package not found'
-            elif string.find(out, string.replace(self.version, 'x', '')) >= 0:
+            elif out.find(self.version.replace('x', '')) >= 0:
                 print 'package found'
                 val = raw_input('do you want to install %s %s [y/N]? '
                                 % (self.package, self.version))
-                if val and string.lower(val)[0] == 'y':
+                if val and val.lower()[0] == 'y':
                     return 1
                 else:
                     return 0
@@ -72,7 +74,7 @@ class Bootstrap:
                 print out
         val = raw_input('do you want to install %s %s [Y/n]? '
                         % (self.package, self.version))
-        if val and string.lower(val)[0] == 'n':
+        if val and val.lower()[0] == 'n':
             return 0
         return 1
 
@@ -81,7 +83,7 @@ class Bootstrap:
             return
 
         # get the source package
-        buildroot = config['checkoutroot']
+        buildroot = config.checkoutroot
         localfile = os.path.join(buildroot, os.path.basename(self.sourceurl))
         if not os.path.exists(localfile) or \
            os.stat(localfile)[6] != self.sourcesize:
@@ -96,7 +98,7 @@ class Bootstrap:
                     print 'Could not download file. Exception was: '
                     print e
                 val = raw_input('try downloading again? ')
-                if val and string.lower(val)[0] == 'n':
+                if val and val.lower()[0] == 'n':
                     return
         
         # untar the source package
@@ -124,7 +126,8 @@ class Bootstrap:
 
         # is there a patch to apply?
         for patch_filename, patch_options in self.patches:
-            patchfile = os.path.join(jhbuild_directory, patch_filename)
+            patchfile = os.path.join(jhbuild_directory,
+                                     'patches', patch_filename)
             self._bold('applying patch %s' % patch_filename)
             ret = self._execute('patch -p%d < %s' % (patch_options, patchfile))
             if ret != 0:
@@ -133,7 +136,10 @@ class Bootstrap:
 
         # configure ...
         self._bold('configuring %s' % self.package)
-        ret = self._execute('./configure --prefix %s' % config['prefix'])
+        cmd = './configure --prefix %s' % config.prefix
+        if config.use_lib64:
+            cmd += " --libdir '${exec_prefix}/lib64'"
+        ret = self._execute(cmd)
         if ret != 0:
             print 'failed to configure', self.package
             return
@@ -199,7 +205,7 @@ bootstraps = [
               'http://www.python.org/ftp/python/2.3.2/Python-2.3.2.tar.bz2',
               7161770,
               [],
-              'echo "import sys, string; print string.split(sys.version)[0]" | python -'),
+              'echo "import sys; print sys.version.split()[0]" | python -'),
     Bootstrap('audiofile', '0.2.5',
               'http://www.68k.org/~michael/audiofile/audiofile-0.2.5.tar.gz',
               362370, 
@@ -207,6 +213,11 @@ bootstraps = [
               'audiofile-config --version'),
 ]
 
-def build_bootstraps(config):
+def do_bootstrap(config, args):
+    if args:
+        raise getopt.error, 'no extra arguments expected'
+
     for bootstrap in bootstraps:
         bootstrap.build(config)
+
+register_command('bootstrap', do_bootstrap)
