@@ -69,6 +69,8 @@ class Package:
         return method(buildscript)
 
 class CVSModule(Package):
+    CVSRoot = cvs.CVSRoot
+    
     type = 'cvs'
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
@@ -121,8 +123,8 @@ class CVSModule(Package):
             return (self.STATE_BUILD, None, None)
 
     def do_checkout(self, buildscript):
-        cvsroot = cvs.CVSRoot(self.cvsroot,
-                              buildscript.config.checkoutroot)
+        cvsroot = self.CVSRoot(self.cvsroot,
+                               buildscript.config.checkoutroot)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
@@ -147,7 +149,7 @@ class CVSModule(Package):
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_force_checkout(self, buildscript):
-        cvsroot = cvs.CVSRoot(self.cvsroot,
+        cvsroot = self.CVSRoot(self.cvsroot,
                               buildscript.config.checkoutroot)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
@@ -236,7 +238,8 @@ class CVSModule(Package):
             buildscript.packagedb.add(self.name, self.revision or '')
         return (self.STATE_DONE, error, [])
 
-def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):
+def parse_cvsmodule(node, config, dependencies, suggests, cvsroot,
+                    CVSModule=CVSModule):
     id = node.getAttribute('id')
     module = id
     revision = None

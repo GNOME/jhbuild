@@ -1,5 +1,15 @@
 2004-06-11  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.checkout): use
+	self.CVSRoot.
+
+	* jhbuild/modtypes/base.py (parse_cvsmodule): pass CVSModule as a
+	keyword argument, so that other similar module types can make use
+	of this function.
+	(CVSModule): add global attribute CVSRoot, set to cvs.CVSRoot.
+	(CVSModule.do_checkout): use self.CVSRoot instead of cvs.CVSRoot.
+	(CVSModule.do_force_checkout): same here.
+
 	* modulesets/gnome26.modules (gnome-desktop): require
 	scrollkeeper (fixes bug #143515).
 

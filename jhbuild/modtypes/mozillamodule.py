@@ -47,7 +47,7 @@ class MozillaModule(base.CVSModule):
 
     def checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
-        cvsroot = cvs.CVSRoot(self.cvsroot, buildscript.config.checkoutroot)
+        cvsroot = self.CVSRoot(self.cvsroot, buildscript.config.checkoutroot)
         res = cvsroot.checkout(buildscript, 'mozilla/client.mk',
                                self.revision, buildscript.config.sticky_date)
         if res != 0:
