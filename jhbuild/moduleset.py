@@ -167,7 +167,10 @@ def load(config):
     return _parse_module_set(config, uri)
 
 def _parse_module_set(config, uri):
-    filename = httpcache.load(uri)
+    try:
+        filename = httpcache.load(uri, nonetwork=config.nonetwork)
+    except Exception, e:
+        raise FatalError('could not download %s: %s' % (uri, str(e)))
     document = xml.dom.minidom.parse(filename)
 
     assert document.documentElement.nodeName == 'moduleset'

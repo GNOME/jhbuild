@@ -100,7 +100,7 @@ def main(args):
 
     try:
         jhbuild.commands.run(command, config, args)
-    except UsageError, exc:
+    except (UsageError, getopt.error), exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
         sys.stderr.write(usage + '\n')
         sys.exit(1)

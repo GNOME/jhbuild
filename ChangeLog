@@ -1,5 +1,16 @@
 2004-03-03  James Henstridge  <james@daa.com.au>
 
+	* jhbuild/main.py (main): treat getopt.error like UsageError
+
+	* jhbuild/moduleset.py (_parse_module_set): don't download module
+	files from network if nonetwork is true.
+
+	* jhbuild/utils/httpcache.py (Cache.load): add a nonetwork
+	optional argument.  If nonetwork is True, files will be returned
+	from cache even if it is expired.  If the file is not in the
+	cache, raise an error.
+	(load): pass through the nonetwork argument.
+
 	* jhbuild/main.py (main): remove the catch-all except clause,
 	instead replacing it with clauses for UsageError (print error and
 	a usage message) and FatalError (print error).  This way real

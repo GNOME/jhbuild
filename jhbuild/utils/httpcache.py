@@ -147,7 +147,7 @@ class Cache:
                 base = base + '-'
         return base
 
-    def load(self, uri):
+    def load(self, uri, nonetwork=False):
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
@@ -161,8 +161,12 @@ class Cache:
         self.read_cache()
         entry = self.entries.get(uri)
         if entry:
-            if now <= entry.expires:
+            if nonetwork or now <= entry.expires:
                 return os.path.join(self.cachedir, entry.local)
+
+        if nonetwork:
+            raise RuntimeError('file not in cache, but not allowed '
+                               'to check network')
 
         request = urllib2.Request(uri)
         if gzip:
@@ -210,9 +214,9 @@ class Cache:
         return filename
 
 _cache = None
-def load(uri):
+def load(uri, nonetwork=False):
     '''Downloads the file associated with the URI, and returns a local
     file name for contents.'''
     global _cache
     if not _cache: _cache = Cache()
-    return _cache.load(uri)
+    return _cache.load(uri, nonetwork=nonetwork)
