@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, string
+import os, sys, string
 import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
@@ -341,7 +341,34 @@ class ModuleSet:
         return ret
     def get_full_module_list(self, skip=[]):
         return self.get_module_list(self.modules.keys(), skip=skip)
+    def write_dot(self, modules=None, fp=sys.stdout):
+        if modules is None: modules = self.modules.keys()
+        inlist = {}
+        for module in modules: inlist[module] = None
 
+        fp.write('digraph "G" {\n'
+                 '  fontsize = 8;\n'
+                 '  ratio = auto;\n')
+        while len(modules) > 0:
+            modname = modules[0]
+            mod = self.modules[modname]
+            if isinstance(mod, CVSModule):
+                label = mod.cvsmodule
+                if mod.revision: label = label + '\\nrv: ' + mod.revision
+                attrs = '[color="lightskyblue",style="filled",label="%s"]' % label
+            elif isinstance(mod, MetaModule):
+                attrs = '[color="lightcoral",style="filled",' \
+                        'label="%s"]' % mod.name
+            elif isinstance(mod, Tarball):
+                attrs = '[color="lightgoldenrod",style="filled",' \
+                        'label="%s\\n%s"]' % (mod.name, mod.version)
+            fp.write('  "%s" %s;\n' % (modname, attrs))
+            del modules[0]
+            for dep in self.modules[modname].dependencies:
+                fp.write('  "%s" -> "%s";\n' % (modname, dep))
+                if not inlist.has_key(dep): modules.append(dep)
+                inlist[dep] = None
+        fp.write('}\n')
 
 class BuildScript:
     def __init__(self, configdict, module_list):

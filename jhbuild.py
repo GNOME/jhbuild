@@ -151,6 +151,16 @@ def do_bootstrap(config, args, interact=1):
     import bootstrap
     bootstrap.build_bootstraps(config)
 
+def do_dot(config, args, interact=1):
+    module_set = getattr(moduleinfo, config['moduleset'])
+    if args:
+        modules = args
+    elif config['modules'] == 'all':
+        modules = None
+    else:
+        modules = config['modules']
+    module_set.write_dot(modules)
+
 commands = {
     'update':    do_update,
     'build':     do_build,
@@ -158,6 +168,7 @@ commands = {
     'run':       do_run,
     'shell':     do_shell,
     'bootstrap': do_bootstrap,
+    'dot':       do_dot,
 }
 
 def setup_env(config):
