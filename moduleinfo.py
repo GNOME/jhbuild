@@ -124,7 +124,7 @@ gnome2.addmod('gtkmm-1.3',dependencies=['gtk+'])
 gnome2.addmod('gnomemm/libgnomemm',dependencies=['libgnome', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libbonobomm',dependencies=['libbonobo'])
 gnome2.addmod('gnomemm/libbonobouimm',dependencies=['libbonoboui',
-                                                    'libbonobomm'])
+                                                    'gnomemm/libbonobomm'])
 gnome2.addmod('gnomemm/libgnomecanvasmm',dependencies=['libgnomecanvas'])
 gnome2.addmod('gnomemm/gconfmm',dependencies=['gconf', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libgnomeuimm',dependencies=['gtkmm-1.3', 'libgnomeui',
