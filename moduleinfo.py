@@ -264,7 +264,7 @@ gnome22.add(MetaModule('meta-gnome-desktop',
 
 gnome22.add(Tarball('startup-notification', '0.5',
                     'http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.5.tar.gz',
-                    199548, [],
+                    211978, [],
                     'pkg-config --modversion libstartup-notification-1.0'))
 gnome22.add(FcPackage('2.1',
                       'http://nexp.cs.pdx.edu/fontconfig/release/fcpackage.2_1.tar.gz',
