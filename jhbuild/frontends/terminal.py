@@ -99,7 +99,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 elif line.startswith('? '):
                     print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
-                    return line
+                    print line
             ret = cmds.execute_pprint(command, format_line)
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
