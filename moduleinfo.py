@@ -50,10 +50,17 @@ head.add(Module(name='bug-buddy',
          dependencies=['libgnomeui']))
 head.add(Module(name='libwnck',
          dependencies=['gtk+']))
-head.add(Module(name='gnome-core',
-         dependencies=['libwnck','libzvt','libgnomeui']))
+
+
+head.add(Module(name='gnome-panel',
+         dependencies=['gtk+','libgnomeui','libbonoboui','gnome-desktop']))
+head.add(Module(name='gnome-desktop',
+         dependencies=['gtk+','libgnomeui']))
+head.add(Module(name='gnome-session'))
+
+
 head.add(Module(name='gnome-applets',
-         dependencies=['gnome-core','libgtop']))
+         dependencies=['gnome-panel','libgtop']))
 head.add(Module(name='gnome-games',
          dependencies=['libgnomeui']))
 head.add(Module(name='eel',
