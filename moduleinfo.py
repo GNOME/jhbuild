@@ -80,7 +80,7 @@ gnome20.addmod('gnome-python/gnome-python',
                dependencies=['gnome-python/pygtk', 'libgnomecanvas',
                              'libgnomeui'])
 gnome20.addmod('bug-buddy', dependencies=['libgnomeui'])
-gnome20.addmod('libwnck', dependencies=['gtk+'])
+gnome20.addmod('libwnck', dependencies=['gtk+'], revision='gnome-2-0')
 
 gnome20.addmod('gnome-panel', revision='gnome-2-0',
                dependencies=['libgnomeui','gnome-desktop'])
@@ -241,6 +241,7 @@ gnome22.addmod('yelp', dependencies=['libgnomeui', 'gtkhtml2', 'gnome-vfs'])
 gnome22.addmod('gail', dependencies=['gtk+', 'atk', 'libgnomecanvas'])
 gnome22.addmod('gtkhtml2', dependencies=['gtk+', 'gnome-xml', 'gail'])
 gnome22.addmod('libglade', dependencies=['gtk+', 'gnome-xml'])
+gnome22.addmod('libwnck', dependencies=['gtk+'])
 gnome22.addmod('libgnome',
                dependencies=['gnome-xml', 'libxslt', 'libbonobo', 'gnome-vfs',
                              'gconf'])
