@@ -367,7 +367,392 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
   <section id="command-reference">
     <title>Command Reference</title>
 
-    <para></para>
+    <para>JHBuild uses a command line syntax similar to tools like CVS:</para>
+
+    <cmdsynopsis>
+      <command>jhbuild</command>
+      <arg><replaceable>global-options</replaceable></arg>
+      <arg choice="plain">command</arg>
+      <arg><replaceable>command-arguments</replaceable></arg>
+    </cmdsynopsis>
+
+    <para>The global jhbuild options are:</para>
+
+    <variablelist>
+      <varlistentry>
+	<term><option>-f</option>, <option>--file</option>
+	<replaceable>config</replaceable></term>
+	<listitem>
+	  <simpara>Use an alternative configuration file, instead of
+	  the default <filename>~/.jhbuildrc</filename>.</simpara>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term><option>-m</option>, <option>--moduleset</option>
+	<replaceable>moduleset</replaceable></term>
+	<listitem>
+	  <simpara>Use a module set other than the one listed in the
+	  configuration file.</simpara>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Command specific options are listed below.</para>
+
+    <section id="command-reference-bootstrap">
+      <title>bootstrap</title>
+
+      <para>The <command>bootstrap</command> command is used to
+      install a set of build utilities required to build most modules
+      (eg. autoconf, automake, etc).</para>
+
+      <cmdsynopsis>
+	<command>jhbuild bootstrap</command>
+      </cmdsynopsis>
+
+      <para>Internally <command>bootstrap</command> is implemented
+      using the same code as <command>build</command>, using the
+      <filename>bootstrap.modules</filename> moduleset.</para>
+
+    </section>
+
+    <section id="command-reference-build">
+      <title>build</title>
+
+      <para>The <command>build</command> command is used to build one
+      or more packages, including their dependencies.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild build</command>
+	<arg>--autogen</arg>
+	<arg>--clean</arg>
+	<arg>--no-network</arg>
+	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>-D <replaceable>date</replaceable></arg>
+	<arg rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the
+      module list found in the configuration file will be used.</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term><option>-a</option>, <option>--autogen</option></term>
+	  <listitem>
+	    <simpara>Always run <command>autogen.sh</command>
+	    before building modules.  By default,
+	    <command>autogen.sh</command> will only be called if the
+	    toplevel makefile is missing.  Otherwise, it relies on the
+	    package's makefiles to detect if configure needs to be
+	    rebuilt or rerun.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-c</option>, <option>--clean</option></term>
+	  <listitem>
+	    <simpara>Run <command>make clean</command> before building
+	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-n</option>, <option>--no-network</option></term>
+	  <listitem>
+	    <simpara>Do not access the network when building modules.
+	    This will skip download or update stages in a build.  If a
+	    module can't be built without network access, it will
+	    fail.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-s</option>,
+	  <option>--skip</option>=<replaceable>module,...</replaceable></term>
+	  <listitem>
+	    <simpara>Ignore the named modules when following
+	    dependencies to expand the list of modules to be
+	    built.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-t</option>,
+	  <option>--start-at</option>=<replaceable>module</replaceable></term>
+	  <listitem>
+	    <simpara>After expanding the list of modules to build,
+	    start at the named module rather than at the beginning of
+	    the list.  This is useful if the build was interrupted for
+	    some reason.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-D</option>
+	  <replaceable>date</replaceable></term>
+	  <listitem>
+	    <simpara>If the underlying version control system supports
+	    it, try to update the source tree to its state at the
+	    given date before building.  The date string should be in
+	    ISO format.</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+    </section>
+
+    <section id="command-reference-buildone">
+      <title>buildone</title>
+
+      <para>The <command>buildone</command> command is similar to
+      <command>build</command>, but it does not use dependency
+      information to expand the module list.  It is useful for quickly
+      rebuilding one or more modules.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild buildone</command>
+	<arg>--autogen</arg>
+	<arg>--clean</arg>
+	<arg>--no-network</arg>
+	<arg>-D <replaceable>date</replaceable></arg>
+	<arg choice="plain" rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>The <option>--autogen</option>, <option>--clean</option>,
+      <option>--no-network</option> and <option>-D</option> options
+      are processed the same as for <command>build</command>.</para>
+
+      <para>Unlike <command>build</command>, at least one module must
+      be listed on the command line.</para>
+
+    </section>
+
+    <section id="command-reference-dot">
+      <title>dot</title>
+
+      <para>The <command>dot</command> command generates a file
+      describing the directed graph formed by the dependencies between
+      a set of modules.  This file can then be processed using the
+      <ulink url="http://www.graphviz.org/">GraphViz</ulink> software
+      to produce a nice diagram.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild dot</command>
+	<arg rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the
+      module list found in the configuration file will be used.</para>
+
+      <para>The output of this command can easily be piped to the
+      <command>dot</command> utility to generate a postscript
+      file:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tps > dependencies.ps</userinput></screen>
+
+    </section>
+
+    <section id="command-reference-info">
+      <title>info</title>
+
+      <para>The <command>info</command> command is used to display
+      information about one or more modules.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild info</command>
+	<arg choice="plain" rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>The command prints the module name, type, dependencies,
+      dependent packages, and the time it was last installed with
+      JHBuild.  It may also print some information specific to the
+      module type, such as the CVS repository or download URL.</para>
+
+    </section>
+
+    <section id="command-reference-list">
+      <title>list</title>
+
+      <para>The <command>list</command> command is used to show the
+      expanded list of modules the <command>build</command> command
+      would build.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild list</command>
+	<arg>--show-revision</arg>
+	<arg rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the
+      module list found in the configuration file will be used.</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term><option>-r</option>,
+	  <option>--show-revision</option></term>
+	  <listitem>
+	    <simpara>If a particular module is being checked out on a
+	    branch, show the branch tag name with the module
+	    name.</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+    </section>
+
+    <section id="command-reference-run">
+      <title>run</title>
+
+      <para>The <command>run</command> command is used to run an
+      arbitrary command using the same environment as JHBuild uses
+      when building modules.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild run</command>
+	<arg choice="plain"><replaceable>program</replaceable></arg>
+	<arg rep="repeat"><replaceable>argument</replaceable></arg>
+      </cmdsynopsis>
+
+      <para>If using JHBuild to build Gnome, this command can be
+      useful in X startup scripts.</para>
+    </section>
+
+    <section id="command-reference-sanitycheck">
+      <title>sanitycheck</title>
+
+      <para>The <command>sanitycheck</command> command performs a
+      number of checks to see whether the build environment is
+      okay.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild sanitycheck</command>
+      </cmdsynopsis>
+
+      <para>Some of the checks include:</para>
+
+      <itemizedlist>
+	<listitem>
+	  <simpara>That the checkout and install prefixes are
+	  writable.</simpara>
+	</listitem>
+	<listitem>
+	  <simpara>That some of the required build tools are
+	  installed.</simpara>
+	</listitem>
+	<listitem>
+	  <simpara>That some commonly used macros are available in the
+	  search paths of the <command>aclocal</command> commands
+	  associated with the various versions of
+	  <command>automake</command>.</simpara>
+	</listitem>
+	<listitem>
+	  <simpara>That the XML catalog contains the DocBook DTD and
+	  stylesheets.</simpara>
+	</listitem>
+      </itemizedlist>
+
+    </section>
+
+    <section id="command-reference-shell">
+      <title>shell</title>
+
+      <para>The <command>shell</command> command starts the user's
+      shell with the same environment as JHBuild uses when building
+      modules.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild shell</command>
+      </cmdsynopsis>
+
+      <para>This command is roughly equivalent to the
+      following:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild run $SHELL</userinput></screen>
+    </section>
+
+    <section id="command-reference-tinderbox">
+      <title>tinderbox</title>
+
+      <para>The <command>tinderbox</command> command is similar to
+      <command>build</command>, but writes all terminal output to HTML
+      files suitable for publishing on a website.  It can be used to
+      set up systems similar to Mozilla's Tinderbox, or Debian's
+      Buildd.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild tinderbox</command>
+	<arg>--autogen</arg>
+	<arg>--clean</arg>
+	<arg>--no-network</arg>
+	<arg>--output=<replaceable>directory</replaceable></arg>
+	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>-D <replaceable>date</replaceable></arg>
+	<arg rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>The <option>--autogen</option>, <option>--clean</option>,
+      <option>--no-network</option>, <option>--skip</option>,
+      <option>--start-at</option> and <option>-D</option> options are
+      processed the same as for <command>build</command>.</para>
+
+      <variablelist>
+	<varlistentry>
+	  <term><option>-o</option>,
+	  <option>--output</option>=<replaceable>directory</replaceable></term>
+	  <listitem>
+	    <simpara>The directory to write the HTML build
+	    logs.</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+    </section>
+
+    <section id="command-reference-update">
+      <title>update</title>
+
+      <para>The <command>update</command> command is similar to
+      <command>build</command>, but only performs the download or
+      update stage for modules without building them.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild update</command>
+	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>-D <replaceable>date</replaceable></arg>
+	<arg rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>The <option>--skip</option>, <option>--start-at</option>
+      and <option>-D</option> options are processed the same as for
+      <command>build</command>.</para>
+
+    </section>
+
+    <section id="command-reference-updateone">
+      <title>updateone</title>
+
+      <para>The <command>updateone</command> command is similar to
+      <command>update</command>, but it does not use dependency
+      information to expand the module list.  It is useful for quickly
+      updating one or more modules.</para>
+
+      <cmdsynopsis>
+	<command>jhbuild updateone</command>
+	<arg>-D <replaceable>date</replaceable></arg>
+	<arg choice="plain" rep="repeat">module</arg>
+      </cmdsynopsis>
+
+      <para>The <option>-D</option> option is processed the same as
+      for <command>update</command>.</para>
+
+      <para>Unlike <command>update</command>, at least one module must
+      be listed on the command line.</para>
+    </section>
+
   </section>
 
   <section id="moduleset-syntax">

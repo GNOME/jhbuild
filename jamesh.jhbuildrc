@@ -1,7 +1,7 @@
 # -*- mode: python -*-
 
 # information about cvs server
-cvsroots['gnome.org'] = ':pserver:jamesh@cvs.gnome.org:/cvs/gnome'
+cvsroots['gnome.org'] = ':ext:jamesh@cvs.gnome.org:/cvs/gnome'
 cvsroots['cairo.freedesktop.org'] = ':ext:james@cvs.freedesktop.org:/cvs/cairo'
 
 # modules to build (deps are also built)
@@ -11,10 +11,10 @@ modules = ['gtk+', 'meta-gnome-desktop', 'meta-gnome-devel-tools' ]
 skip = [ 'mozilla' ]
 
 # the prefix to install things to (user must have write access)
-prefix = '/opt/gtk2'
+prefix = os.path.expanduser('~/prefix')
 
 # where the sources are checked out to
-checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+checkoutroot = os.path.expanduser('~/cvs/gnome2')
 
 # where to put downloaded tarballs.
 tarballdir = os.path.join(checkoutroot, 'pkgs')
@@ -22,8 +22,7 @@ tarballdir = os.path.join(checkoutroot, 'pkgs')
 # arguments to pass to autogen script
 autogenargs='--enable-maintainer-mode --disable-static --disable-gtk-doc'
 
-os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
-                                     'bin', 'install-check')
+os.environ['INSTALL'] = os.path.expanduser('~/bin/install-check')
 
 #branches['libglade'] = 'libglade-gobject-support-branch'
 module_autogenargs['gimp'] = autogenargs + ' --disable-print --enable-python'
