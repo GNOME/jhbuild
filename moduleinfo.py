@@ -191,6 +191,7 @@ gnome20.addmod('balsa', revision='BALSA_2',
 gnome20.addmod('pan',
                dependencies=['libgnomeui'])
 gnome20.addmod('ggv', dependencies=['scrollkeeper', 'libgnomeui'])
+gnome20.addmod('gucharmap', dependencies=['libgnomeui'])
 
 gnome20.addmod('gtksourceview', dependencies=['gtk+'])
 gnome20.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint'])
