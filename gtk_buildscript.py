@@ -46,13 +46,18 @@ import signal
 import time
 import fcntl
 
+def get_glade_filename():
+    path_elements = __file__.split('/')
+    base_dir = '/'.join(path_elements[:len(path_elements)-1])
+    return base_dir + "/jhbuild.glade"
+
 class Configuration:
     def __init__(self, config, args, interact):
         self.config = config
         self.args = args
         self.interact = interact
 
-        glade_filename = self._get_glade_filename()
+        glade_filename = get_glade_filename()
 
         # Fetch widgets out of the Glade
         self.glade = gtk.glade.XML(glade_filename)        
@@ -88,12 +93,6 @@ class Configuration:
         self._create_meta_modules_list_view(self.meta_modules)
         
         self._build_start_module_menu()
-
-    def _get_glade_filename(self):
-        path_elements = __file__.split('/')
-        base_dir = '/'.join(path_elements[:len(path_elements)-1])
-        return base_dir + "/jhbuild.glade"
-
 
     def run(self):
         self.window.show_all()
@@ -457,7 +456,8 @@ class GtkBuildScript(buildscript.BuildScript):
                 return altstates[val - 5]
 
     def _createWindow(self):
-        self.glade = gtk.glade.XML("jhbuild.glade")
+	glade_filename = get_glade_filename()
+        self.glade = gtk.glade.XML(glade_filename)
         
         self.window               = self.glade.get_widget("BuildWindow")
         self.build_progress       = self.glade.get_widget("BuildProgressBar")
