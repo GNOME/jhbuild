@@ -243,7 +243,7 @@ gnome22.addmod('gnome-terminal',
                dependencies=['libglade', 'libgnomeui', 'libzvt','vte'],
 							 autogenargs='--with-widget=vte')
 gnome22.addmod('gnome-control-center',
-               dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
+               dependencies=['libgnomeui', 'esound', 'gnome-desktop', 'metacity'])
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
 gnome22.addmod('gnome-desktop', dependencies=['libgnomeui', 'libwnck'])
 gnome22.addmod('gnome-session', dependencies=['libgnomeui', 'libwnck'])
