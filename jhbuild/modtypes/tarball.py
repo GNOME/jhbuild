@@ -56,7 +56,7 @@ class Tarball(base.Package):
     def do_start(self, buildscript):
         # check if jhbuild previously built it ...
         checkoutdir = self.get_builddir(buildscript)
-        if os.path.exists(os.path.join(checkoutdir, 'jhbuild-build-stamp')):
+        if buildscript.packagedb.check(self.name, self.version):
             return (self.STATE_DONE, None, None)
 
         # check if we already have it ...
@@ -147,7 +147,7 @@ class Tarball(base.Package):
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
         else:
-            open('jhbuild-build-stamp', 'w').write('stamp')
+            buildscript.packagedb.add(self.name, self.version or '')
         return (self.STATE_DONE, error, [])
 
 def parse_tarball(node, config, dependencies, suggests, cvsroot):

@@ -167,6 +167,8 @@ class CVSModule(Package):
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
+        else:
+            buildscript.packagedb.add(self.name, self.revision or '')
         return (self.STATE_DONE, error, [])
 
 def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):

@@ -1,3 +1,23 @@
+2004-03-23  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/modtypes/base.py (CVSModule.do_install): add module to
+	packagedb on successful install.
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_start): instead of
+	writing a file in the build directory as a tag that we have
+	already build/installed this tarball, use the PackageDB.  Since
+	this is installed in the install prefix, we will rebuild the
+	tarball if the install prefix is wiped.
+	(Tarball.do_install): on successful install, add to packagedb.
+
+	* jhbuild/frontends/buildscript.py (BuildScript.__init__): create
+	a PackageDB for the buildscript.
+	(BuildScript.build): if a module successfully builds, add it to
+	the package database.
+
+	* jhbuild/utils/packagedb.py (PackageDB): new file to keep track
+	of installed versions of various packages.
+
 2004-03-21  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* modulesets/gnome26.modules: Fix branch for gnome-games,

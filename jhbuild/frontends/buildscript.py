@@ -20,6 +20,7 @@
 
 import os
 
+from jhbuild.utils import packagedb
 from jhbuild.errors import FatalError
 
 class BuildScript:
@@ -36,6 +37,15 @@ class BuildScript:
             raise FatalError('checkout root must be writable')
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError('install prefix must be writable')
+
+        packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
+        try:
+            if not os.path.isdir(packagedbdir):
+                os.makedirs(packagedbdir)
+        except OSError:
+            raise FatalError('could not create directory %s' % packagedbdir)
+        self.packagedb = packagedb.PackageDB(os.path.join(packagedbdir,
+                                                          'packagedb.xml'))
 
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code.
