@@ -235,8 +235,10 @@ gnome22.addmod('pango', dependencies=['glib'])
 gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
 gnome22.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
+gnome22.addmod('vte', dependencies=['gtk+'])
 gnome22.addmod('gnome-terminal',
-               dependencies=['libglade', 'libgnomeui', 'libzvt'])
+               dependencies=['libglade', 'libgnomeui', 'libzvt','vte'],
+							 autogenargs='--with-widget=vte')
 gnome22.addmod('gnome-control-center',
                dependencies=['libgnomeui', 'esound', 'gnome-desktop'])
 gnome22.addmod('gnome-panel', dependencies=['libgnomeui','gnome-desktop'])
