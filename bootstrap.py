@@ -76,7 +76,7 @@ class Bootstrap:
 
         # is there a patch to apply?
         if self.patch:
-            patchfile = os.path.join(os.path.basename(__file__), self.patch)
+            patchfile = os.path.join(os.path.dirname(__file__), self.patch)
             self._bold('applying patch %s' % self.patch)
             ret = self._execute('patch -p1 < %s' % patchfile)
             if ret != 0:
