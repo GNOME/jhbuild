@@ -34,6 +34,7 @@ Global options:
 
 Commands:
   update                       update from cvs
+  updateone modules            update a fixed set of modules.
   build [ opts... ] [modules]  update and compile (the default)
   buildone [ opts... ] modules build a single module
   run program [ args... ]      run a command in the build environment
@@ -107,6 +108,23 @@ def do_update(config, args, interact=1):
 
     build = module.BuildScript(config, module_list=module_list)
     build.build()
+
+def do_update_one(config, args, interact=1):
+    opts, args = getopt.getopt(args, '', [])
+
+    module_set = module.read_module_set(config)
+    try:
+        module_list = [ module_set.modules[modname] for modname in args ]
+    except KeyError:
+        raise SystemExit, "A module called '%s' could not be found." % modname
+	
+    # don't actually perform build ...
+    config['nobuild'] = True
+    config['nonetwork'] = False
+
+    build = module.BuildScript(config, module_list=module_list)
+    build.build()
+
 
 def do_build(config, args, interact=1, cvsupdate=1):
     opts, args = getopt.getopt(args, 'acns:t:',
@@ -207,6 +225,7 @@ def do_dot(config, args, interact=1):
 
 commands = {
     'update':    do_update,
+    'updateone': do_update_one,
     'build':     do_build,
     'buildone':  do_build_one,
     'run':       do_run,
