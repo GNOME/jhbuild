@@ -357,7 +357,7 @@ gnome22.addmod('gnome-mag', dependencies=['at-spi'])
 gnome22.addmod('gnome-themes', dependencies=['gtk-engines'])
 gnome22.addmod('acme', dependencies=['gob'])
 
-gnome22.addmod('gedit',
+gnome22.addmod('gedit', revision='gnome-2-2',
                dependencies=['scrollkeeper', 'libgnomeui', 'eel', 'libgnomeprintui'])
 
 # So far gob is only used by acme, and only when building from cvs.
