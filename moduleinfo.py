@@ -188,7 +188,7 @@ gnome20.addmod('gnome-build', dependencies=['gdl', 'gnome-vfs', 'gtkhtml2'])
 gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build', 'libzvt'])
 
 gnome20.addmod('libsigc++-1.2')
-gnome20.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
+gnome20.addmod('gtkmm2', revision='gtkmm-2-0', dependencies=['gtk+', 'libsigc++-1.2'])
 gnome20.addmod('orbitcpp', dependencies=['ORBit2'])
 gnome20.addmod('gnomemm/libgnomemm', dependencies=['libgnome', 'gtkmm2'])
 gnome20.addmod('gnomemm/libglademm', dependencies=['libglade', 'gtkmm2'])
@@ -270,6 +270,7 @@ gnome22.addmod('nautilus',
                dependencies=['esound', 'eel', 'librsvg', 'libgnomeui',
                              'gnome-desktop'])
 
+gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 
 # gnome 1.x support
 gnome1 = ModuleSet()
