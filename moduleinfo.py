@@ -338,7 +338,7 @@ gnome22.addmod('gnome-utils', dependencies=['libgnomeui', 'gnome-panel'])
 
 gnome22.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
 
-gnome22.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint-2.0'])
+gnome22.addmod('glimmer', dependencies=['gtksourceview', 'libgnomeprint'])
 gnome22.addmod('nautilus-media', dependencies=['nautilus', 'gstreamer', 'gst-plugins'])
 gnome22.addmod('gnome-media', dependencies=['scrollkeeper', 'libgnomeui',
                                             'esound', 'gail', 'gstreamer'])
