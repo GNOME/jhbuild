@@ -81,6 +81,8 @@ head.add(Module(name='gdm2',
                 dependencies=['librsvg']))
 head.add(Module(name='profterm',
                 dependencies=['libglade', 'libgnomeui', 'libzvt']))
+head.add(Module(name='gtk-engines',
+                dependencies=['gtk+']))
 
 # gnome 1.x support
 gnome1 = ModuleSet()
