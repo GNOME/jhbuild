@@ -176,14 +176,24 @@ Running Gnome
 Once you have built Gnome with jhbuild you need a way to start it:
 
 If you use GDM to log into Gnome you need to create a session file in
-/etc/X11/gdm/Sessions/(directory may be different on non-redhat systems). 
-Call it whatever you like and make it executable. Then add the lines:
+/usr/share/xsessions/ (directory may be different on non-redhat systems). 
+Call it 'jhbuild.desktop' and make it executable. Then add the lines:
 
-#!/bin/sh
-exec jhbuild run gnome-session
+[Desktop Entry]
+Encoding=UTF-8
+Name=Gnome-cvs
+Comment=This session logs you into Gnome-cvs
+Exec=jhbuild run gnome-session
+Type=Application
+
+In order to have the name & comment show up in your native language, you will
+have to add lines similar to the following:
+
+Name[es]=Gnome-cvs
+Comment[es]=Con esta sesiÃ³n accede a gnome-cvs
 
 If you use startx to run gnome just add 'exec jhbuild run gnome-session'
-to you ~/.xinitrc
+to your ~/.xinitrc
 
 
 Reporting Bugs
