@@ -78,7 +78,10 @@ def read_config_file(file=os.path.join(os.environ['HOME'], '.jhbuildrc')):
     try:
 	execfile(file, config)
     except IOError:
-	raise SystemExit, 'Please create ' + file
+	raise SystemExit, 'Please create ' + file + '\n' + \
+              'You can copy sample.jhbuildrc from jhbuilds directory ' + \
+              'and use it as a template.'
+    
     if config.has_key('cvsroot'):
         config['cvsroots']['gnome.org'] = config['cvsroot']
         del config['cvsroot']
