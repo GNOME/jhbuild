@@ -58,6 +58,7 @@ Options valid for the build and buildone commands:
 default_config = {
     'cvsroots': {},
     'branches': {},
+    'module_autogenargs': {},
     'moduleset': 'head',
     'modules': 'all',
     'checkoutroot': os.path.join(os.environ['HOME'], 'cvs', 'gnome2'),

@@ -467,6 +467,7 @@ def read_module_set(configdict):
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
     branches = configdict.get('branches', {})
+    module_autogenargs = configdict.get('module_autogenargs', {})
 
     # load up list of cvsroots
     cvsroots = {}
@@ -526,6 +527,8 @@ def read_module_set(configdict):
             # override revision tag if requested.
             if branches.has_key(module):
                 revision = branches[module]
+            if module_autogenargs.has_key(module):
+                autogenargs = module_autogenargs[module]
 
             moduleset.add(CVSModule(module, checkoutdir, revision,
                                     autogenargs, cvsroot=cvsroot,
