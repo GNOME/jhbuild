@@ -918,6 +918,7 @@
   <cvsmodule id="acme">
     <dependencies>
       <dep package="libwnck" />
+			<dep package="gst-plugins" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gob" />
@@ -1099,9 +1100,19 @@
       <dep package="gnomemm/libgnomeuimm" />
     </dependencies>
   </cvsmodule>
+
+	<cvsmodule id="mono" cvsroot="go-mono.com" />
+
+	<cvsmodule id="mcs" cvsroot="go-mono.com">
+	  <dependencies>
+		  <dep package="mono" />
+		</dependencies>
+	</cvsmodule>
+
   <cvsmodule id="gtk-sharp" cvsroot="go-mono.com">
     <dependencies>
       <dep package="gtk+" />
+			<dep package="mono" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gnome-hello">
