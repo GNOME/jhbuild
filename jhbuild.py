@@ -177,10 +177,11 @@ def setup_env(config):
 
     # get rid of gdkxft from the env -- it can cause problems.
     if os.environ.has_key('LD_PRELOAD'):
-        val = os.environ['LD_PRELOAD']
-        pos = string.find(val, 'libgdkxft.so')
-        if pos >= 0:
-            os.environ['LD_PRELOAD'] = val[:pos] + val[pos+12:]
+        valarr = string.split(os.environ['LD_PRELOAD'], ' ')
+        for x in valarr[:]:
+            if string.find(x, 'libgdkxft.so') >= 0:
+                valarr.remove(x)
+        os.environ['LD_PRELOAD'] = string.join(valarr, ' ')
 
 def main(args):
     try:
