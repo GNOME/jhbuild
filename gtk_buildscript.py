@@ -64,6 +64,7 @@ class Configuration:
         self.start_module_menu    = self.glade.get_widget("ConfigStartModule")
         self.run_autogen_checkbox = self.glade.get_widget("ConfigRunAutogen")
         self.cvs_update_checkbox  = self.glade.get_widget("ConfigCVSUpdate")
+        self.no_build_checkbox    = self.glade.get_widget("ConfigNoBuild")
         self.start_build_button   = self.glade.get_widget("ConfigBuildButton")
         self.cancel_button        = self.glade.get_widget("ConfigCancelButton")
 
@@ -75,6 +76,7 @@ class Configuration:
         self.cancel_button.connect('clicked', lambda button: sys.exit(-1))
         self.run_autogen_checkbox.connect('toggled', self._autogen_checkbox_toggled)
         self.cvs_update_checkbox.connect('toggled', self._cvs_update_checkbox_toggled)
+        self.no_build_checkbox.connect('toggled', self._no_build_checkbox_toggled)
         #self.start_module_menu.connect('clicked', self._start_module_menu_clicked)
         
         # Get the list of meta modules
@@ -97,27 +99,32 @@ class Configuration:
         gtk.main()
         self.window.hide()
         self._set_default_settings()
-        return (self.module_list, self.start_at_module, self.run_autogen, self.cvs_update)
+        return (self.module_list, self.start_at_module, self.run_autogen, self.cvs_update,
+                self.no_build)
 
     def _get_default_settings(self):
         if (have_gconf):
             client = gconf.client_get_default()
             self.run_autogen      = client.get_bool("/apps/jhbuild/always_run_autogen")
             self.cvs_update       = client.get_bool("/apps/jhbuild/update_from_cvs")
+            self.no_build         = client.get_bool("/apps/jhbuild/no_build")
             self.selected_modules = client.get_list("/apps/jhbuild/modules_to_build", gconf.VALUE_STRING)
             self.start_at_module  = client.get_string("/apps/jhbuild/start_at_module")
         else:
             self.run_autogen = False
             self.cvs_update  = True
+            self.no_build    = False
 
         self.run_autogen_checkbox.set_active(self.run_autogen)
         self.cvs_update_checkbox.set_active(self.cvs_update)
+        self.no_build_checkbox.set_active(self.no_build)
 
     def _set_default_settings(self):
         if (have_gconf):
             client = gconf.client_get_default()
             client.set_bool("/apps/jhbuild/always_run_autogen", self.run_autogen)
             client.set_bool("/apps/jhbuild/update_from_cvs", self.cvs_update)
+            client.set_bool("/apps/jhbuild/no_build", self.no_build)
             client.set_list("/apps/jhbuild/modules_to_build", gconf.VALUE_STRING, self.selected_modules)
             if (self.start_at_module != None):
                 client.set_string("/apps/jhbuild/start_at_module", self.start_at_module)
@@ -215,6 +222,9 @@ class Configuration:
 
     def _cvs_update_checkbox_toggled(self, checkbox):
         self.cvs_update = not self.cvs_update
+
+    def _no_build_checkbox_toggled(self, checkbox):
+        self.no_build = not self.no_build
 
 def optionmenu_get_history(self):
     menu = self.get_menu()

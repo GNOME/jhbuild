@@ -174,7 +174,7 @@ def do_gui(config, args, interact=1):
     import gtk_buildscript
     
     configuration = gtk_buildscript.Configuration(config, args, interact)
-    (module_list, start_at, run_autogen, cvs_update) = configuration.run()
+    (module_list, start_at, run_autogen, cvs_update, no_build) = configuration.run()
     
     if start_at:
         while module_list and module_list[0].name != start_at:
@@ -184,6 +184,9 @@ def do_gui(config, args, interact=1):
         config['alwaysautogen'] = True
     elif (not cvs_update):
         config['nonetwork'] = True
+
+    if (no_build):
+        config['nobuild'] = True
         
     if (module_list != None):
         global BuildScript
