@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, string
+import os, string, sys
 
 # table used to scramble passwords in ~/.cvspass files
 _shifts = [
@@ -79,7 +79,7 @@ def login(cvsroot, password=None):
     else:
         # call cvs login ..
         if os.system('cvs -d %s login' % cvsroot) != 0:
-            sys.stderr('could not log into %s\n' % cvsroot)
+            sys.stderr.write('could not log into %s\n' % cvsroot)
             sys.exit(1)
 
 class CVSRoot:
