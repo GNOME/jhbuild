@@ -272,9 +272,10 @@ gnome22.add(FcPackage('2.1',
 
 gnome22.addmod('gnome-common')
 gnome22.addmod('gnome-icon-theme')
-gnome22.addmod('glib', dependencies=['gtk-doc'])
-gnome22.addmod('pango', dependencies=['glib', 'fcpackage'])
-gnome22.addmod('gtk+', dependencies=['pango', 'atk'],
+gnome22.addmod('glib', revision='glib-2-2', dependencies=['gtk-doc'])
+gnome22.addmod('pango', revision='pango-1-2', dependencies=['glib', 'fcpackage'])
+gnome22.addmod('atk', revision='gnome-2-2', dependencies=['glib'])
+gnome22.addmod('gtk+', revision='gtk-2-2', dependencies=['pango', 'atk'],
                autogenargs='--with-qt=no')
 gnome22.addmod('gconf', dependencies=['ORBit2', 'libxml2', 'gtk+'])
 gnome22.addmod('bonobo-activation',
