@@ -1,0 +1,378 @@
+<?xml version="1.0" standalone="no"?><!--*- mode: nxml -*-->
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article id="index">
+  <articleinfo>
+    <title>JHBuild Manual</title>
+    <authorgroup>
+      <author>
+	<firstname>James</firstname>
+	<surname>Henstridge</surname>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>2004</year>
+      <holder>James Henstridge</holder>
+    </copyright>
+  </articleinfo>
+
+  <section id="introduction">
+    <title>Introduction</title>
+
+    <para>JHBuild is a tool designed to make building collections of
+    source packages (also known as modules).  It uses <quote>module
+    set</quote> files to describe the modules available to build.
+    These files include dependency information that allows JHBuild to
+    work out what modules need to be built and in what order to build
+    what the user requested.</para>
+
+    <para>JHBuild was originally written for building <ulink
+    url="http://www.gnome.org">Gnome</ulink>, but has since been
+    extended to make it usable with other projects.  A <quote>module
+    set</quote> file can be hosted on a web server, allowing people to
+    provide build rules independent of the JHBuild.</para>
+
+    <para>JHBuild can build modules from a variety of sources,
+    including:</para>
+
+    <itemizedlist>
+      <listitem>
+	<simpara><ulink url="http://www.cvshome.org/">CVS</ulink>
+	repositories</simpara>
+      </listitem>
+      <listitem>
+	<simpara><ulink
+	url="http://subversion.tigris.org/">Subversion</ulink>
+	repositories</simpara>
+      </listitem>
+      <listitem>
+	<simpara><ulink url="http://wiki.gnuarch.org/">Arch</ulink>
+	archives</simpara>
+      </listitem>
+      <listitem>
+	<simpara>Tar archives hosted on web or ftp sites.</simpara>
+      </listitem>
+    </itemizedlist>
+
+    <para>JHBuild is not intended as a replacement for the
+    distribution's package management system.  Instead, it makes it
+    easy to build everything into a separate install prefix so that it
+    doesn't interfere with the rest of the system.</para>
+
+  </section>
+
+  <section id="getting-started">
+    <title>Getting Started</title>
+
+    <para>JHBuild takes a bit of work to set up on a system.  As well
+    as installing JHBuild's prerequisites, it is necessary to install
+    the prerequisite tools needed to build the software in CVS (or
+    where ever else it is stored).</para>
+
+    <section id="getting-started-install">
+      <title>Installing JHBuild</title>
+
+      <para>Before downloading JHBuild, you should make sure you have
+      a copy of Python &gt;= 2.0 installed on your system.  It is also
+      essential that the Expat XML parser extension is installed.
+      This will be the case if you are using Python &gt;= 2.3, or had
+      expat installed when building Python.  You can check whether
+      this is the case by running the following simple command from
+      the Python interpreter:</para>
+
+      <screen><prompt>&gt;&gt;&gt;</prompt> <userinput>import xml.parsers.expat</userinput>
+<prompt>&gt;&gt;&gt;</prompt></screen>
+
+      <para>If this completes without an exceptiopn, then it is
+      installed correctly.</para>
+
+      <para>At the moment, the only way to download JHBuild is via
+      CVS.  This can be achieved with the following commands.  They
+      should be run in the directory where jhbuild will be installed
+      (for example, <filename>~/cvs/gnome2</filename>).</para>
+
+      <screen><prompt>$</prompt> <userinput>cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome login</userinput>
+<computeroutput>Logging in to :pserver:anonymous@anoncvs.gnome.org:2401/cvs/gnome
+CVS password: </computeroutput><userinput><replaceable>press enter</replaceable></userinput>
+<prompt>$</prompt> <userinput>cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome checkout jhbuild</userinput>
+<prompt>$</prompt></screen>
+
+      <para>This will download JHBuild into a
+      <filename>jhbuild</filename> folder under the current
+      directory.  Now to build and install it:</para>
+
+      <screen><prompt>$</prompt> <userinput>cd jhbuild</userinput>
+<prompt>$</prompt> <userinput>make</userinput>
+<computeroutput>...</computeroutput>
+<prompt>$</prompt> <userinput>make install</userinput>
+<computeroutput>...</computeroutput>
+<prompt>$</prompt></screen>
+
+      <para>If these steps complete successfully, a small shell script
+      should be installed in <filename>~/bin</filename> to start
+      JHBuild.  If this directory is not in the <envar>PATH</envar>,
+      it will need to be added (possibly by editing
+      <filename>~/.profile</filename> or
+      <filename>~/.bashrc</filename>).</para>
+
+      <para>Before JHBuild can be run, it will be necessary to set up
+      a <filename>~/.jhbuildrc</filename> file that configures how
+      JHBuild will behave.</para>
+    </section>
+
+    <section id="getting-started-configure">
+      <title>Configuring JHBuild</title>
+
+      <para>The <filename>~/.jhbuildrc</filename> file uses Python
+      syntax to set a number of configuration variables for JHBuild.
+      A minimal configuration file might look something like
+      this:</para>
+
+      <programlisting>
+moduleset = 'gnome-2.10'
+modules = [ 'meta-gnome-desktop' ]
+checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+prefix = os.path.join(os.environ['HOME'], 'prefix')
+os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
+                                     'bin', 'install-check')
+</programlisting>
+
+      <para>This will get JHBuild to build the
+      <application>meta-gnome-desktop</application> module (and its
+      dependencies) from the <systemitem>gnome-2.10</systemitem> module
+      set.  It will unpack source trees to
+      <filename>~/cvs/gnome2</filename> and install modules to
+      <filename>~/prefix</filename>.  It also sets the
+      <envar>INSTALL</envar> environment variable to a program that
+      handles installation of headers specially in order to decrease
+      the work during a rebuild.</para>
+
+      <para>Some of configuration variables available include:</para>
+
+      <variablelist>
+	<?dbhtml list-presentation="table"?>
+	<varlistentry>
+	  <term><varname>moduleset</varname></term>
+	  <listitem>
+	    <simpara>A string giving the name of the module set to
+	    build.  If it is a fully qualified URL, then the module
+	    set will be cached locally and regularly
+	    updated.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>modules</varname></term>
+	  <listitem>
+	    <simpara>A list of strings giving the modules you want to
+	    build.  The list of modules actually built will be
+	    recursively expanded to include all the
+	    dependencies.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>checkoutroot</varname></term>
+	  <listitem>
+	    <simpara>The base directory where all source modules
+	    should be unpacked.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>prefix</varname></term>
+	  <listitem>
+	    <simpara>The directory prefix to install modules
+	    to.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>os.environ</varname></term>
+	  <listitem>
+	    <simpara>A dictionary representing the environment.  This
+	    can be used to set or get environment variable values as
+	    seen in the example above.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>skip</varname></term>
+	  <listitem>
+	    <simpara>A list of module names that should not be
+	    included when deciding what to build.  One use of this
+	    variable is to use the version of a package included with
+	    the distribution instead of building it</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>autogenargs</varname></term>
+	  <listitem>
+	    <simpara>A string listing arguments that should be passed
+	    to the <command>autogen.sh</command> or
+	    <command>configure</command> scripts for
+	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>makeargs</varname></term>
+	  <listitem>
+	    <simpara>A string listing arguments that should be passed
+	    to <command>make</command>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>cvsroots</varname></term>
+	  <listitem>
+	    <simpara>By default, JHBuild will check out code from CVS
+	    using an anonymous CVS root.  This dictionary is used to
+	    tell JHBuild to use an alternative CVS root for a
+	    particular repository (a developer would probably want to
+	    do this).  This variable is a dictionary where the keys
+	    are short repository names (for example, <systemitem
+	    class="systemname">gnome.org</systemitem> is used for the
+	    Gnome CVS repository), and the values are the alternative
+	    CVS root strings.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>svnroots</varname></term>
+	  <listitem>
+	    <simpara>Similar to <varname>cvsroots</varname> but for
+	    Subversion repositories.</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </section>
+
+    <section id="getting-started-bootstrap">
+      <title>Build Prerequisites</title>
+
+      <para>Before any modules can be built, it is necessary to have
+      certain build tools installed.  These include the GNU auto tools
+      (<application>autoconf</application>,
+      <application>automake</application>,
+      <application>libtool</application> and
+      <application>gettext</application>), pkg-config nad
+      Python.</para>
+
+      <para>JHBuild can check if your distro has installed these tools
+      using the <command>sanitycheck</command> command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild sanitycheck</userinput></screen>
+
+      <para>If this command prints any messages, these can be fixed in
+      one of two ways:</para>
+
+      <orderedlist>
+	<listitem>
+	  <simpara>Install the required package from the
+	  distribution.  The <command>sanitycheck</command> command
+	  should be run again afterwards to make sure everything is
+	  okay.</simpara>
+	</listitem>
+	<listitem>
+	  <simpara>Run the <command>bootstrap</command> command to
+	  install the build prerequsites.</simpara>
+	</listitem>
+      </orderedlist>
+
+      <para>The <command>bootstrap</command> command can be invoked
+      like so:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild bootstrap</userinput></screen>
+
+      <para>This will download and install all the build
+      prerequisites.  Once it is finished, the
+      <command>sanitycheck</command> command should be rerun to verify
+      that everything is in place.</para>
+
+      <note>
+	<para>The <command>bootstrap</command> command does not build
+	all the packages required by these tools.  If the OS does not
+	provide those packages, then they will need to be built
+	separately.</para>
+
+	<para>Some packages to check for include
+	<application>m4</application>, <application>perl</application>
+	and a C compiler.</para>
+      </note>
+    </section>
+
+    <section id="getting-started-use">
+      <title>Using JHBuild</title>
+
+      <para>Now that everything is set up, JHBuild can be used to
+      build some software.  To build all the modules selected in the
+      <filename>~/.jhbuildrc</filename> file, run the following command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild build</userinput></screen>
+
+      <para>This will download, configure, compile and install each of
+      the modules.  If an error occurs at any stage, JHBuild will
+      present a menu asking the user what to do.  These choices
+      include dropping to a shell to fix the error, rerunning the
+      build stage, giving up on the module (which will also cause any
+      modules depending on it to fail), or ignore the error and
+      continue.</para>
+
+      <para>It is also possible to build a different set of modules
+      (and their dependencies) by passing their names as arguments to
+      the <command>build</command> command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild build gtk+</userinput></screen>
+
+      <para>If you exit JHBuild part way through a build for some
+      reason, it is possible to pick up a build at a particular
+      package using the <option>--start-at</option> option:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild build --start-at=pango</userinput></screen>
+
+      <para>To build one or more modules, without their dependencies,
+      the <command>buildone</command> command can be used:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild buildone gtk+</userinput></screen>
+
+      <para>To get a list of the modules jhbuild will build, and the
+      order they will be built in, use the <command>list</command>
+      command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild list</userinput></screen>
+
+      <para>To get information about a particular module, the
+      <command>info</command> command can be used:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild info gtk+</userinput></screen>
+
+      <para>If your internet bandwidth varies, you can get JHBuild to
+      download or update all the software it will build in one go
+      without actually building it:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild update</userinput></screen>
+
+      <para>Later on, you can tell JHBuild to build everything without
+      downloading or updating:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild build --no-network</userinput></screen>
+
+      <para>If you want to run a particular command with the same
+      environment variables set that JHBuild uses, use the
+      <command>run</command> command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild run <replaceable>program</replaceable></userinput></screen>
+
+      <para>To start a shell with that environment, use the
+      <command>shell</command> command:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild shell</userinput></screen>
+
+    </section>
+  </section>
+
+  <section id="command-reference">
+    <title>Command Reference</title>
+
+    <para></para>
+  </section>
+
+  <section id="moduleset-syntax">
+    <title>Module Set File Syntax</title>
+
+    <para></para>
+  </section>
+</article>
