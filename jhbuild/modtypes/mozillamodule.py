@@ -25,15 +25,18 @@ from jhbuild.utils import cvs
 from jhbuild.errors import FatalError
 
 class MozillaModule(base.CVSModule):
-    def __init__(self, name, revision, autogenargs='', makeargs='',
-                 dependencies=[], suggests=[], cvsroot=None):
-        base.CVSModule.__init__(self, name, revision=revision,
+    def __init__(self, name, projects, revision, autogenargs='',
+		 makeargs='', dependencies=[], suggests=[], cvsroot=None):
+        base.CVSModule.__init__(self, name,
+				revision=revision,
                                 autogenargs=autogenargs,
                                 makeargs=makeargs,
                                 dependencies=dependencies,
                                 suggests=suggests,
                                 cvsroot=cvsroot,
                                 supports_non_srcdir_builds=False)
+	self.projects = projects
+	os.environ['MOZ_CO_PROJECT'] = projects
 
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
@@ -106,6 +109,9 @@ class MozillaModule(base.CVSModule):
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' --with-default-mozilla-five-home=%s' % mozilla_path
         cmd += ' %s' % self.autogenargs
+
+        if self.projects:
+            cmd += ' --enable-application=%s' % self.projects
         
         if not buildscript.execute(cmd):
             return (self.STATE_BUILD, None, None)
@@ -118,6 +124,7 @@ def parse_mozillamodule(node, config, dependencies, suggests, root):
         raise FatalError('%s is not a CVS root' % root[1])
     cvsroot = root[1]
     name = node.getAttribute('id')
+    projects = node.getAttribute('projects')
     revision = None
     autogenargs = ''
     makeargs = ''
@@ -135,7 +142,7 @@ def parse_mozillamodule(node, config, dependencies, suggests, root):
                                                        config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
-    return MozillaModule(name, revision, autogenargs, makeargs,
+    return MozillaModule(name, projects, revision, autogenargs, makeargs,
                          dependencies, suggests, cvsroot)
 
 base.register_module_type('mozillamodule', parse_mozillamodule)
