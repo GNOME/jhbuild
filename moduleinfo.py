@@ -77,9 +77,10 @@ gnome20.addmod('libglade', revision='gnome-2-0',
                dependencies=['gtk+', 'gnome-xml'])
 gnome20.addmod('gnome-python/pygtk', dependencies=['gtk+', 'libglade'])
 gnome20.addmod('orbit-python', dependencies=['libIDL', 'ORBit2'])
-gnome20.addmod('gnome-python/gnome-python',
-               dependencies=['gnome-python/pygtk', 'libgnomecanvas',
-                             'libgnomeui'])
+gnome20.addmod('gnome-python/pyorbit', dependencies=['ORBit2'])
+gnome20.addmod('gnome-python/gnome-python', 
+               dependencies=['gnome-python/pygtk', 'gnome-python/pyorbit',
+                             'libgnomecanvas', 'libgnomeui'])
 gnome20.addmod('bug-buddy', dependencies=['libgnomeui'])
 gnome20.addmod('libwnck', dependencies=['gtk+'], revision='gnome-2-0')
 
@@ -223,8 +224,7 @@ gnome20.add(MetaModule('meta-gnome-devel-tools',
                        modules=['glade', 'memprof', 'gconf-editor',
                                 'devhelp']))
 gnome20.add(MetaModule('meta-gnome-python',
-                       modules=['gnome-python/pygtk', 'orbit-python',
-                                'gnome-python/gnome-python']))
+                       modules=['gnome-python/pygtk', 'gnome-python/gnome-python']))
 gnome20.add(MetaModule('meta-gnome-c++',
                        modules=['gtkmm2', 'gnomemm/libgnomeuimm']))
 
