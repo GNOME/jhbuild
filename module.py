@@ -1,54 +1,149 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2002  James Henstridge
-#
-#   module.py: logic for running the build.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-import os, string
+import os
 import cvs
 
 _isxterm = os.environ.get('TERM','') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
 _normal = os.popen('tput sgr0', 'r').read()
-
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
-class Module:
-    def __init__(self, name, checkoutdir=None, revision=None,
-                 autogenargs='', dependencies=[], cvsroot=None):
+class _Struct:
+    pass
+
+if not hasattr(__builtins__, 'True'):
+    True = 1
+    False = 0
+
+class Package:
+    STATE_START = 'start'
+    STATE_DONE  = 'done'
+    def __init__(self, name, dependencies=[]):
         self.name = name
-        self.checkoutdir = checkoutdir
-        self.revision = revision
-        self.autogenargs = autogenargs
         self.dependencies = dependencies
-        self.cvsroot = cvsroot
-
     def __repr__(self):
-        return '<cvs module %s>' % self.name
+        return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
-    def autogen_args(self):
-        '''return extra arguments to pass to autogen'''
-        return self.autogenargs
+    def getbuilddir(self, buildscript):
+        pass
 
-class MetaModule:
-    '''MetaModules are like Modules, except that nothing needs to be
-    done to build them (they only have dependencies).'''
-    def __init__(self, name, modules):
-        self.name = name
-        self.modules = modules
+    def run_state(self, buildscript, state):
+        '''run a particular part of the build for this package.
+
+        Returns a tuple of the following form:
+          (next-state, error-flag, [other-states])'''
+        method = getattr(self, 'do_' + state)
+        return method(buildscript)
+
+
+class CVSModule(Package):
+    STATE_CHECKOUT       = 'checkout'
+    STATE_FORCE_CHECKOUT = 'force_checkout'
+    STATE_CONFIGURE      = 'configure'
+    STATE_MAKE           = 'make'
+    STATE_MAKE_INSTALL   = 'make_install'
+
+    def __init__(self, cvsmodule, checkoutdir=None, revision=None,
+                 autogenargs='', dependencies=[], cvsroot=None):
+        Package.__init__(self, checkoutdir or cvsmodule, dependencies)
+        self.cvsmodule   = cvsmodule
+        self.checkoutdir = checkoutdir
+        self.revision    = revision
+        self.autogenargs = autogenargs
+        self.cvsroot     = cvsroot
+
+    def do_start(self, buildscript):
+        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
+                                                         self.checkoutdir)
+        if not buildscript.config.nonetwork: # normal start state
+            return (self.STATE_CHECKOUT, None, None)
+        elif buildscript.config.nobuild:
+            return (self.STATE_DONE, None, None)
+        elif not buildscript.config.alwaysautogen and \
+                 os.path.exists(os.path.join(checkoutdir, 'Makefile')):
+            return (self.STATE_MAKE, None, None)
+        else:
+            return (self.STATE_CONFIGURE, None, None)
+
+    def do_checkout(self, buildscript, force_checkout=False):
+        if self.cvsroot:
+            cvsroot = cvs.CVSRoot(self.cvsroot,buildscript.config.checkoutroot)
+        else:
+            cvsroot = buildscript.cvsroot
+        checkoutdir = cvsroot.getcheckoutdir(self.cvsmodule, self.checkoutdir)
+        buildscript.message('checking out %s' % self.name)
+        res = cvsroot.update(buildscript, self.cvsmodule,
+                             self.revision, self.checkoutdir)
+
+        if buildscript.config.nobuild:
+            nextstate = self.STATE_DONE
+        elif not buildscript.config.alwaysautogen and \
+                 os.path.exists(os.path.join(checkoutdir, 'Makefile')):
+            nextstate = self.STATE_MAKE
+        else:
+            nextstate = self.STATE_CONFIGURE
+        # did the checkout succeed?
+        if res == 0 and os.path.exists(checkoutdir):
+            return (nextstate, None, None)
+        else:
+            return (nextstate, 'could not update module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_force_checkout(self, buildscript):
+        if self.cvsroot:
+            cvsroot = cvs.CVSRoot(self.cvsroot,buildscript.config.checkoutroot)
+        else:
+            cvsroot = buildscript.cvsroot
+
+        checkoutdir = cvsroot.getcheckoutdir(self.cvsmodule, self.checkoutdir)
+        buildscript.message('checking out %s' % self.name)
+        res = cvsroot.checkout(buildscript, self.cvsmodule,
+                               self.revision, self.checkoutdir)
+        if res == 0 and os.path.exists(checkoutdir):
+            return (self.STATE_CONFIGURE, None, None)
+        else:
+            return (self.STATE_CONFIGURE, 'could not checkout module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_configure(self, buildscript):
+        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
+                                                         self.checkoutdir)
+        os.chdir(checkoutdir)
+        buildscript.message('running configure for %s' % self.name)
+        cmd = './autogen.sh --prefix %s %s %s' % \
+              (buildscript.config.prefix, buildscript.config.autogenargs,
+               self.autogenargs)
+        if buildscript.execute(cmd) == 0:
+            return (self.STATE_MAKE, None, None)
+        else:
+            return (self.STATE_MAKE, 'could not configure module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_make(self, buildscript):
+        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
+                                                         self.checkoutdir)
+        os.chdir(checkoutdir)
+        buildscript.message('running make for %s' % self.name)
+        cmd = 'make %s' % buildscript.config.makeargs
+        if buildscript.execute(cmd) == 0:
+            return (self.STATE_MAKE_INSTALL, None, None)
+        else:
+            return (self.STATE_MAKE_INSTALL, 'could not build module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_make_install(self, buildscript):
+        checkoutdir = buildscript.cvsroot.getcheckoutdir(self.cvsmodule,
+                                                         self.checkoutdir)
+        os.chdir(checkoutdir)
+        buildscript.message('running install for %s' % self.name)
+        cmd = 'make %s install' % buildscript.config.makeargs
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not make module'
+        return (self.STATE_DONE, error, [])
+
+class MetaModule(Package):
+    # nothing to actually build in a metamodule ...
+    def do_start(self, buildscript):
+        return (self.STATE_DONE, None, None)
 
 class ModuleSet:
     def __init__(self, baseset=None):
@@ -59,73 +154,87 @@ class ModuleSet:
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
     def addmod(self, *args, **kwargs):
-        mod = apply(Module, args, kwargs)
+        mod = apply(CVSModule, args, kwargs)
         self.add(mod)
 
     # functions for handling dep expansion
-    def __expand_mod_list(self, modlist):
+    def __expand_mod_list(self, modlist, skip):
         '''expands a list of names to a list of Module objects.  Expands
-        MetaModule objects as expected.  Does not handle loops in task
-        deps''' #"
-        ret = []
-        for modname in modlist:
-            mod = self.modules[modname]
-            if isinstance(mod, MetaModule):
-                ret = ret + self.__expand_mod_list(mod.modules)
+        dependencies.  Does not handle loops in deps''' #"
+        ret = [ self.modules[modname]
+                for modname in modlist if modname not in skip ]
+        i = 0
+        while i < len(ret):
+            depadd = []
+            for depmod in [ self.modules[modname]
+                            for modname in ret[i].dependencies ]:
+                if depmod not in ret[:i+1] and depmod.name not in skip:
+                    depadd.append(depmod)
+            if depadd:
+                ret[i:i] = depadd
             else:
-                ret.append(mod)
+                i = i + 1
+        i = 0
+        while i < len(ret):
+            if ret[i] in ret[:i]:
+                del ret[i]
+            else:
+                i = i + 1
         return ret
-        
-    def get_module_list(self, seed):
+
+    def get_module_list(self, seed, skip=[]):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list''' #"
-        module_list = self.__expand_mod_list(seed)
+        ret = [ self.modules[modname]
+                for modname in seed if modname not in skip ]
         i = 0
-        while i < len(module_list):
-            # make sure dependencies are built first
+        while i < len(ret):
             depadd = []
-            for depmod in self.__expand_mod_list(module_list[i].dependencies):
-                if depmod not in module_list[:i+1]:
+            for depmod in [ self.modules[modname]
+                            for modname in ret[i].dependencies ]:
+                if depmod not in ret[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
-            module_list[i:i] = depadd
-            if not depadd:
-                i = i + 1
-        i = 0
-        while i < len(module_list):
-            if module_list[i] in module_list[:i]:
-                del module_list[i]
+            if depadd:
+                ret[i:i] = depadd
             else:
                 i = i + 1
-        return module_list
-    def get_full_module_list(self):
-        return self.get_module_list(self.modules.keys())
+        i = 0
+        while i < len(ret):
+            if ret[i] in ret[:i]:
+                del ret[i]
+            else:
+                i = i + 1
+        return ret
+    def get_full_module_list(self, skip=[]):
+        return self.get_module_list(self.modules.keys(), skip=skip)
+
 
 class BuildScript:
-    def __init__(self, cvsroot, modulelist, autogenargs=None,
-                 prefix=None, checkoutroot=None, makeargs=None):
-        self.modulelist = modulelist
-        self.autogenargs = autogenargs
-        self.makeargs = makeargs
-        self.makeargs = ''
-        self.prefix = prefix
+    def __init__(self, configdict, module_list):
+        self.modulelist = module_list
         self.module_num = 0
-        
-        if not self.autogenargs:
-            self.autogenargs = '--disable-static --disable-gtk-doc'
-        if not self.makeargs:
-            self.makeargs = ''
-        if not self.prefix:
-            self.prefix = '/opt/gtk2'
 
-        if not checkoutroot:
-            checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
-        self.checkoutroot = checkoutroot
-        self.cvsroot = cvs.CVSRoot(cvsroot, checkoutroot)
+        self.config = _Struct
+        self.config.autogenargs = configdict.get('autogenargs',
+                                                 '--disable-static --disable-gtk-doc')
+        self.config.makeargs = configdict.get('makeargs', '')
+        self.config.prefix = configdict.get('prefix', '/opt/gtk2')
+        self.config.nobuild = configdict.get('nobuild', False)
+        self.config.nonetwork = configdict.get('nonetwork', False)
+        self.config.alwaysautogen = configdict.get('alwaysautogen', False)
+        self.config.makeclean = configdict.get('makeclean', True)
 
-        assert os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK), \
+        self.config.checkoutroot = configdict.get('checkoutroot')
+        if not self.config.checkoutroot:
+            self.config.checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
+        self.cvsroot = cvs.CVSRoot(configdict['cvsroot'],
+                                   self.config.checkoutroot)
+
+        assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \
                'install prefix must be writable'
 
-    def _message(self, msg):
+    def message(self, msg):
+        '''shows a message to the screen'''
         if self.module_num > 0:
             percent = ' [%d/%d]' % (self.module_num, len(self.modulelist))
         else:
@@ -134,192 +243,82 @@ class BuildScript:
         if _isxterm:
             print '\033]0;jhbuild: %s%s\007' % (msg, percent)
 
-    def _execute(self, command):
+    def execute(self, command):
+        '''executes a command, and returns the error code'''
         print command
         ret = os.system(command)
         print
         return ret
 
-    def _cvscheckout(self, module, force_checkout=0):
-        self._message('checking out %s' % module.name)
-
-        if module.cvsroot:
-            cvsroot = cvs.CVSRoot(module.cvsroot, self.checkoutroot)
-        else:
-            cvsroot = self.cvsroot
-
-        if force_checkout:
-            return cvsroot.checkout(module.name, module.revision,
-                                    module.checkoutdir)
-        else:
-            return cvsroot.update(module.name, module.revision,
-                                  module.checkoutdir)
-
-    def _configure(self, module):
-        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                  module.checkoutdir)
-        os.chdir(checkoutdir)
-        self._message('running configure for %s' % module.name)
-        cmd = './autogen.sh --prefix %s %s %s' % \
-              (self.prefix, self.autogenargs, module.autogen_args())
-        return self._execute(cmd)
-
-    def _makeclean(self, module):
-        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                  module.checkoutdir)
-        os.chdir(checkoutdir)
-        self._message('running clean for %s' % module.name)
-        return self._execute('make %s clean' % self.makeargs)
-
-    def _make(self, module):
-        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                  module.checkoutdir)
-        os.chdir(checkoutdir)
-        self._message('running make for %s' % module.name)
-        return self._execute('make %s' % self.makeargs)
-
-    def _makeinstall(self, module):
-        checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                  module.checkoutdir)
-        os.chdir(checkoutdir)
-        self._message('running install for %s' % module.name)
-        return self._execute('make %s install' % self.makeargs)
-
-    ERR_RERUN = 0
-    ERR_CONT = 1
-    ERR_GIVEUP = 2
-    ERR_CONFIGURE = 3
-    def _handle_error(self, module, stage):
-        '''Ask the user what to do about an error.
-
-        Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.''' #"
-
-        self._message('error during %s for module %s' % (stage, module.name))
-        while 1:
-            print
-            print '  [1] rerun %s' % stage
-            print '  [2] force checkout/autogen'
-            print '  [3] start shell'
-            print '  [4] give up on module'
-            print '  [5] continue (ignore error)'
-            val = raw_input('choice: ')
-            if val == '1':
-                return self.ERR_RERUN
-            elif val == '2':
-                return self.ERR_CONFIGURE
-            elif val == '3':
-                checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                          module.checkoutdir)
-                os.chdir(checkoutdir)
-                print 'exit shell to continue with build'
-                os.system(user_shell)
-            elif val == '4':
-                return self.ERR_GIVEUP
-            elif val == '5':
-                return self.ERR_CONT
-            else:
-                print 'invalid option'
-
-    def build(self, cvsupdate=1, alwaysautogen=0, makeclean=0, nobuild=0,
-              skip=(), interact=1, startat=None):
-        poison = []  # list of modules that couldn't be built
-
-        # build steps for each module ...
-        STATE_CHECKOUT = 0
-        STATE_CONFIGURE = 1
-        STATE_CLEAN = 2
-        STATE_BUILD = 3
-        STATE_INSTALL = 4
-        STATE_DONE = 5
-
-        state_names = [
-            'checkout', 'configure', 'clean', 'build', 'install', 'done'
-        ]
+    def build(self):
+        poison = [] # list of modules that couldn't be built
 
         self.module_num = 0
         for module in self.modulelist:
             self.module_num = self.module_num + 1
-            if module.name in skip: continue
-            force_configure = 0
-
-            if startat:
-                if module.name == startat:
-                    startat = None
-                else:
-                    continue
-            # check if any dependencies have been poisoned
             poisoned = 0
             for dep in module.dependencies:
                 if dep in poison:
-                    self._message('module %s not built due to non buildable %s'
-                                  % (module.name, dep))
-                    poisoned = 1
+                    self.message('module %s not built due to non buildable %s'
+                                 % (module.name, dep))
+                    poisoned = True
             if poisoned:
                 poison.append(module.name)
                 continue
 
-            state = STATE_CHECKOUT
-            while state != STATE_DONE:
-                ret = 0
-                next_state = STATE_DONE
-                if state == STATE_CHECKOUT:
-                    if cvsupdate:
-                        ret = self._cvscheckout(module, force_checkout=force_configure)
+            state = module.STATE_START
+            while state != module.STATE_DONE:
+                nextstate, error, altstates = module.run_state(self, state)
 
-                    if nobuild:
-                        next_state = STATE_DONE
-                    else:
-                        next_state = STATE_CONFIGURE
-                    checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                            module.checkoutdir)
-                    if ret == 0:
-                        if not os.path.exists(checkoutdir):
-                            self._message("checkout doesn't exist :(")
-                            poison.append(module.name)
-                            next_state = STATE_DONE
-
-                elif state == STATE_CONFIGURE:
-                    if not os.path.exists('Makefile') or force_configure or alwaysautogen:
-                        ret = self._configure(module)
-                    next_state = STATE_CLEAN
-
-                elif state == STATE_CLEAN:
-                    if makeclean:
-                        ret = self._makeclean(module)
-                    next_state = STATE_BUILD
-
-                elif state == STATE_BUILD:
-                    ret = self._make(module)
-                    next_state = STATE_INSTALL
-
-                elif state == STATE_INSTALL:
-                    ret = self._makeinstall(module)
-                    next_state = STATE_DONE
-
-                if ret == 0:
-                    state = next_state
-                else:
-                    if interact:
-                        err = self._handle_error(module, state_names[state])
-                    else:
-                        self._message('giving up on %s' % module.name)
-                        err = self.ERR_GIVEUP # non interactive
-                    if err == self.ERR_CONT:
-                        state = next_state
-                    elif err == self.ERR_CONFIGURE:
-                        state = STATE_CHECKOUT
-                        force_configure = 1
-                        pass
-                    elif err == self.ERR_RERUN:
-                        pass # redo stage
-                    elif err == self.ERR_GIVEUP:
+                if error:
+                    newstate = self.handle_error(module, state,
+                                                 nextstate, error, altstates)
+                    if newstate == 'poison':
                         poison.append(module.name)
-                        state = STATE_DONE
-
+                        state = module.STATE_DONE
+                    else:
+                        state = newstate
+                else:
+                    state = nextstate
         if len(poison) == 0:
-            self._message('success')
+            self.message('success')
         else:
-            self._message('the following modules were not built')
+            self.message('the following modules were not built')
             for module in poison:
                 print module,
             print
+
+    def handle_error(self, module, state, nextstate, error, altstates):
+        '''handle error during build'''
+        self.message('error during stage %s of %s: %s' % (state, module.name,
+                                                          error))
+        while True:
+            print
+            print '  [1] rerun stage %s' % state
+            print '  [2] ignore error and continue to %s' % nextstate
+            print '  [3] give up on module'
+            print '  [4] start shell'
+            i = 5
+            for altstate in altstates:
+                print '  [%d] go to stage %s' % (i, altstate)
+                i = i + 1
+            val = raw_input('choice: ')
+            if val == '1':
+                return state
+            elif val == '2':
+                return nextstate
+            elif val == '3':
+                return 'poison'
+            elif val == '4':
+                checkoutdir = self.cvsroot.getcheckoutdir(module.cvsmodule,
+                                                          module.checkoutdir)
+                os.chdir(checkoutdir)
+                print 'exit shell to continue with build'
+                os.system(user_shell)
+            else:
+                try:
+                    val = int(val)
+                    return altstates[val - 5]
+                except:
+                    print 'invalid choice'
+

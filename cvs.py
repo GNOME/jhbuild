@@ -19,12 +19,6 @@
 
 import os, string
 
-def _execute(cmd):
-    print cmd
-    ret = os.system(cmd)
-    print
-    return ret
-
 class CVSRoot:
     '''A class to wrap up various CVS opperations.'''
     
@@ -61,7 +55,7 @@ class CVSRoot:
         else:
             return os.path.join(self.localroot, module)
 
-    def checkout(self, module, revision=None, checkoutdir=None):
+    def checkout(self, buildscript, module, revision=None, checkoutdir=None):
         os.chdir(self.localroot)
         cmd = 'cvs -z3 -q -d %s checkout ' % self.cvsroot
 
@@ -75,9 +69,9 @@ class CVSRoot:
 
         cmd = cmd + module
 
-        return _execute(cmd)
+        return buildscript.execute(cmd)
 
-    def update(self, module, revision=None, checkoutdir=None):
+    def update(self, buildscript, module, revision=None, checkoutdir=None):
         '''Perform a "cvs update" (or possibly a checkout)'''
         dir = self.getcheckoutdir(module, checkoutdir)
         if not os.path.exists(dir):
@@ -93,4 +87,4 @@ class CVSRoot:
 
         cmd = cmd + '.'
 
-        return _execute(cmd)
+        return buildscript.execute(cmd)

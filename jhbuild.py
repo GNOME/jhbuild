@@ -40,7 +40,7 @@ Commands:
 Options for the build/buildone commands:
   -a, --autogen                Always run autogen.sh
   -c, --clean                  run make clean before make
-  -n, --no-cvs                 skip cvs update
+  -n, --no-network             skip cvs update
   -s, --skip=MODULES           treat the given modules (and deps) as up to date
   -t, --start-at=MODULE        start building at the given module
 ''' # for xemacs/jed "
@@ -53,7 +53,7 @@ default_config = {
     'prefix': '/opt/gtk2',
     'autogenargs': '',
     'cflags': None,
-    'makeargs': None,
+    'makeargs': '',
     'installprog': None,
     'skip': [],
 }
@@ -72,87 +72,70 @@ def do_update(config, args, interact=1):
 
     module_set = getattr(moduleinfo, config['moduleset'])
     if config['modules'] == 'all':
-        module_list = module_set.get_full_module_list()
+        module_list = module_set.get_full_module_list(config['skip'])
     else:
-        module_list = module_set.get_module_list(config['modules'])
-	
-    build = module.BuildScript(cvsroot=config['cvsroot'],
-                               modulelist=module_list,
-                               autogenargs=config['autogenargs'],
-                               prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'],
-                               makeargs=config['makeargs'])
-    build.build(cvsupdate=1, nobuild=1, interact=interact)
+        module_list = module_set.get_module_list(config['modules'],
+                                                 config['skip'])
+
+    # don't actually perform build ...
+    config['nobuild'] = True
+    config['nonetwork'] = False
+
+    build = module.BuildScript(config, module_list=module_list)
+    build.build()
 
 def do_build(config, args, interact=1, cvsupdate=1):
     opts, args = getopt.getopt(args, 'acns:t:',
-                               ['autogen', 'clean', 'no-cvs', 'skip=',
+                               ['autogen', 'clean', 'no-network', 'skip=',
                                 'start-at='])
 
-    autogen = 0
-    clean = 0
-    skip = config['skip']
+    clean = False
     startat = None
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
-            autogen = 1
+            config['alwaysautogen'] = True
         elif opt in ('-c', '--clean'):
-            clean = 1
-        elif opt in ('-n', '--no-cvs'):
-            cvsupdate = 0
+            clean = True
+        elif opt in ('-n', '--no-network'):
+            config['nonetwork'] = True
         elif opt in ('-s', '--skip'):
-            skip = skip + string.split(arg, ',')
+            config['skip'] = config.get('skip', []) + string.split(arg, ',')
         elif opt in ('-t', '--start-at'):
             startat = arg
     module_set = getattr(moduleinfo, config['moduleset'])
     if args:
-        module_list = module_set.get_module_list(args)
+        module_list = module_set.get_module_list(args, config['skip'])
     elif config['modules'] == 'all':
-        module_list = module_set.get_full_module_list()
+        module_list = module_set.get_full_module_list(config['skip'])
     else:
-        module_list = module_set.get_module_list(config['modules'])
+        module_list = module_set.get_module_list(config['modules'],
+                                                 config['skip'])
 
-    # expand the skip list to include the dependencies
-    skip = map(lambda mod: mod.name, module_set.get_module_list(skip))
+    # remove modules up to startat
+    if startat:
+        while module_list[0].name != startat:
+            del module_list[0]
 
-    build = module.BuildScript(cvsroot=config['cvsroot'],
-                               modulelist=module_list,
-                               autogenargs=config['autogenargs'],
-                               prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'],
-                               makeargs=config['makeargs'])
-    build.build(cvsupdate=cvsupdate, alwaysautogen=autogen, makeclean=clean,
-                skip=skip, interact=interact, startat=startat)
+    build = module.BuildScript(config, module_list=module_list)
+    build.build()
 
 def do_build_one(config, args, interact=1):
-    opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-cvs'])
+    opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-network'])
 
-    autogen = 0
     clean = 0
-    cvsupdate = 1
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
-            autogen = 1
+            config['alwaysautogen'] = True
         elif opt in ('-c', '--clean'):
             clean = 1
-        elif opt in ('-n', '--no-cvs'):
-            cvsupdate = 0
-    if len(args) != 1:
-        raise getopt.error, 'only expecting one non option arg'
-
-    mod = args[0]
+        elif opt in ('-n', '--no-network'):
+            config['nonetwork'] = True
 
     module_set = getattr(moduleinfo, config['moduleset'])
-    module_list = [module_set.modules[mod]]
+    module_list = [ module_set.modules[modname] for modname in args ]
 	
-    build = module.BuildScript(cvsroot=config['cvsroot'],
-                               modulelist=module_list,
-                               autogenargs=config['autogenargs'],
-                               prefix=config['prefix'],
-                               checkoutroot=config['checkoutroot'],
-                               makeargs=config['makeargs'])
-    build.build(cvsupdate=cvsupdate, alwaysautogen=autogen, makeclean=clean,
-                interact=interact)
+    build = module.BuildScript(config, module_list=module_list)
+    build.build()
 
 def do_run(config, args, interact=1):
     # os.execlp(args[0], *args) # not python 1.5 compatible :(
@@ -196,7 +179,7 @@ def setup_env(config):
 	except:
 	    raise "Can't create %s directory" % prefix
 	        
-    includedir = os.path.join(prefix, 'include')
+    #includedir = os.path.join(prefix, 'include')
     #addpath('C_INCLUDE_PATH', includedir)
     libdir = os.path.join(prefix, 'lib')
     addpath('LD_LIBRARY_PATH', libdir)
