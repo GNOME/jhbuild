@@ -30,7 +30,7 @@ head.add(Module(name='libart_lgpl'))
 head.add(Module(name='libgnome',
                 dependencies=['gnome-xml', 'libxslt', 'libbonobo',
                               'gnome-vfs', 'gconf']))
-head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade']))
+head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade', 'gnome-common']))
 head.add(Module(name='libbonoboui',
                 dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade']))
 head.add(Module(name='libgnomeui', dependencies=['libbonoboui', 'libglade']))
