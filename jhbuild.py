@@ -21,7 +21,7 @@ Options for the build/buildone commands:
   -a, --autogen                Always run autogen.sh
   -c, --clean                  run make clean before make
   -n, --no-cvs                 skip cvs update
-  -s, --skip=MODULES           treat the given modules as up to date
+  -s, --skip=MODULES           treat the given modules (and deps) as up to date
 '''
 
 default_config = {
@@ -63,7 +63,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
 
     autogen = 0
     clean = 0
-    skip = ()
+    skip = []
     for opt, arg in opts:
         if opt in ('-a', '--autogen'):
             autogen = 1
@@ -72,7 +72,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
         elif opt in ('-n', '--no-cvs'):
             cvsupdate = 0
         elif opt in ('-s', '--skip'):
-            skip = string.split(arg, ',')
+            skip = skip + string.split(arg, ',')
     if args:
         raise getopt.error, 'no non option arguments expected'
 
@@ -81,6 +81,9 @@ def do_build(config, args, interact=1, cvsupdate=1):
         module_list = module_set.get_full_module_list()
     else:
         module_list = module_set.get_module_list(config['modules'])
+
+    # expand the skip list to include the dependencies
+    skip = map(lambda mod: mod.name, module_set.get_module_list(skip))
 
     build = module.BuildScript(cvsroot=config['cvsroot'],
                                modulelist=module_list,
