@@ -36,7 +36,7 @@ _jhbuild()
 	gui|tinderbox|shell|sanitycheck|bootstrap)
 		command_list=()
 		;;
-	update|updateone|build|buildone|list|dot|info|-t|-s)
+	update|updateone|build|buildone|list|dot|info|-t|-s|-a|-n)
 		# give them a list of modules
 		command_list=(`jhbuild list`)
 		;;
