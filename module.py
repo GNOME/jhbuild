@@ -159,10 +159,10 @@ class MetaModule(Package):
         return (self.STATE_DONE, None, None)
 
 class MozillaModule(CVSModule):
-    def __init__(self, name, branch, autogenargs='', dependencies=[], cvsroot = None):
-        CVSModule.__init__(self, name, autogenargs = autogenargs,
-			   dependencies = dependencies, cvsroot = cvsroot)
-	self.branch = branch
+    def __init__(self, name, revision, autogenargs='', dependencies=[], cvsroot = None):
+        CVSModule.__init__(self, name, revision=revision,
+                           autogenargs=autogenargs,
+			   dependencies=dependencies, cvsroot=cvsroot)
         
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
@@ -179,7 +179,7 @@ class MozillaModule(CVSModule):
         os.chdir(buildscript.config.checkoutroot)
         res = buildscript.execute(
             'cvs -z3 -q -d %s checkout' % self.cvsroot + \
-	    ' -r %s mozilla/client.mk' % self.branch)
+	    ' -r %s mozilla/client.mk' % self.revision)
         if res != 0:
             raise SystemExit, \
                 "something went wrong while checking out mozilla, please try again later"
@@ -534,8 +534,8 @@ def read_module_set(configdict):
             autogenargs = ''
             cvsroot = cvsroots[default_cvsroot]
             dependencies = []
-            if node.hasAttribute('branch'):
-                branch = node.getAttribute('branch')
+            if node.hasAttribute('revision'):
+                revision = node.getAttribute('revision')
             if node.hasAttribute('checkoutdir'):
                 checkoutdir = node.getAttribute('checkoutdir')
             if node.hasAttribute('autogenargs'):
@@ -557,8 +557,8 @@ def read_module_set(configdict):
                 revision = branches[module]
             if module_autogenargs.has_key(module):
                 autogenargs = module_autogenargs[module]
-            moduleset.add(MozillaModule(name, branch, autogenargs, dependencies,
-                                        cvsroot))
+            moduleset.add(MozillaModule(name, revision, autogenargs,
+                                        dependencies, cvsroot))
         elif node.nodeName == 'tarball':
             name = node.getAttribute('id')
             version = node.getAttribute('version')
