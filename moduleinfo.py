@@ -187,16 +187,16 @@ gnome20.addmod('gnome-build', dependencies=['gdl', 'gnome-vfs', 'gtkhtml2'])
 gnome20.addmod('anjuta2', dependencies=['libgnomeui', 'gnome-build', 'libzvt'])
 
 gnome20.addmod('libsigc++-1.2')
-gnome20.addmod('gtkmm-1.3', dependencies=['gtk+', 'libsigc++-1.2'])
-gnome20.addmod('gnomemm/libgnomemm', dependencies=['libgnome', 'gtkmm-1.3'])
-gnome20.addmod('gnomemm/libbonobomm', dependencies=['libbonobo', 'gtkmm-1.3'])
+gnome20.addmod('gtkmm2', dependencies=['gtk+', 'libsigc++-1.2'])
+gnome20.addmod('gnomemm/libgnomemm', dependencies=['libgnome', 'gtkmm2'])
+gnome20.addmod('gnomemm/libbonobomm', dependencies=['libbonobo', 'gtkmm2'])
 gnome20.addmod('gnomemm/libbonobouimm',
                dependencies=['libbonoboui', 'gnomemm/libbonobomm'])
 gnome20.addmod('gnomemm/libgnomecanvasmm',
-               dependencies=['libgnomecanvas', 'gtkmm-1.3'])
-gnome20.addmod('gnomemm/gconfmm', dependencies=['gconf', 'gtkmm-1.3'])
+               dependencies=['libgnomecanvas', 'gtkmm2'])
+gnome20.addmod('gnomemm/gconfmm', dependencies=['gconf', 'gtkmm2'])
 gnome20.addmod('gnomemm/libgnomeuimm',
-               dependencies=['gtkmm-1.3', 'libgnomeui', 'gnomemm/libgnomemm',
+               dependencies=['gtkmm2', 'libgnomeui', 'gnomemm/libgnomemm',
                              'gnomemm/gconfmm'])
 
 gnome20.addmod('gnet',dependencies=['glib'],autogenargs='--enable-glib2')
@@ -223,7 +223,7 @@ gnome20.add(MetaModule('meta-gnome-python',
                        modules=['gnome-python/pygtk', 'orbit-python',
                                 'gnome-python/gnome-python']))
 gnome20.add(MetaModule('meta-gnome-c++',
-                       modules=['gtkmm-1.3', 'gnomemm/libgnomeuimm']))
+                       modules=['gtkmm2', 'gnomemm/libgnomeuimm']))
 
 
 # gnome 2.2 branch
