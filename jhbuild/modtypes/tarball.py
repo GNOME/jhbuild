@@ -123,7 +123,7 @@ class Tarball(base.Package):
         cmd = './configure --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
-        ret = buildscript.execute(cmd)
+        res = buildscript.execute(cmd)
         error = None
         if res != 0:
             error = 'could not configure package'
