@@ -78,10 +78,10 @@ class TerminalBuildScript(buildscript.BuildScript):
                     return line
             ret = cmds.execute_pprint(command, format_line)
             if conflicts:
-                sys.stdout.write('%sConflicts during checkout:%s\n'
-                                 % (t_bold, t_reset))
+                sys.stdout.write('\nConflicts during checkout:\n')
                 for line in conflicts:
-                    sys.stdout.write('%s%s%s' % (t_colour[12], line, t_reset))
+                    sys.stdout.write('%s  %s%s'
+                                     % (t_colour[12], line, t_reset))
         else:
             ret = os.system(command)
         return ret

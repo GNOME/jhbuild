@@ -102,8 +102,8 @@ def main(args):
     except SystemExit:
         raise
     except Exception, exc:
-        import traceback
-        traceback.print_exc()
+        #import traceback
+        #traceback.print_exc()
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
         sys.stderr.write(usage + '\n')
         sys.exit(1)
