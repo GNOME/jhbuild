@@ -154,9 +154,9 @@ class BuildScript:
         print
         return ret
 
-    def _cvscheckout(self, module):
+    def _cvscheckout(self, module, force_checkout=0):
         checkoutdir = module.get_checkout_dir(self.checkoutroot)
-        if os.path.exists(checkoutdir):
+        if os.path.exists(checkoutdir) and not force_checkout:
             os.chdir(checkoutdir)
             self._message('updating module %s in %s' %
                           (module.name, checkoutdir))
@@ -200,7 +200,7 @@ class BuildScript:
         while 1:
             print
             print '  [1] rerun %s' % stage
-            print '  [2] rerun configure'
+            print '  [2] force checkout/autogen'
             print '  [3] start shell'
             print '  [4] give up on module'
             print '  [5] continue (ignore error)'
@@ -257,7 +257,7 @@ class BuildScript:
                 if state == STATE_CHECKOUT:
                     checkoutdir = module.get_checkout_dir(self.checkoutroot)
                     if cvsupdate:
-                        ret = self._cvscheckout(module)
+                        ret = self._cvscheckout(module, force_checkout=force_configure)
 
                     if nobuild:
                         next_state = STATE_DONE
