@@ -19,12 +19,7 @@
 
 import os, string
 import cvs
-
-_isxterm = os.environ.get('TERM','') == 'xterm'
-_boldcode = os.popen('tput bold', 'r').read()
-_normal = os.popen('tput rmso', 'r').read()
-
-user_shell = os.environ.get('SHELL', '/bin/sh')
+import interface
 
 class Module:
     def __init__(self, name, checkoutdir=None, revision=None,
@@ -109,6 +104,8 @@ class BuildScript:
         self.makeargs = ''
         self.prefix = prefix
         self.module_num = 0
+
+        interface.frontend.setModuleList(modulelist)
         
         if not self.autogenargs:
             self.autogenargs = '--disable-static --disable-gtk-doc'
@@ -125,23 +122,18 @@ class BuildScript:
         assert os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK), \
                'install prefix must be writable'
 
-    def _message(self, msg):
-        if self.module_num > 0:
-            percent = ' [%d/%d]' % (self.module_num, len(self.modulelist))
-        else:
-            percent = ''
-        print '%s*** %s ***%s%s' % (_boldcode, msg, percent, _normal)
-        if _isxterm:
-            print '\033]0;jhbuild: %s%s\007' % (msg, percent)
+    def _setAction(self, action, module):
+        interface.frontend.setAction(action, module, self.module_num)
+
+    def _message(self, msg, module):
+        interface.frontend.message(msg, module)
 
     def _execute(self, command):
-        print command
-        ret = os.system(command)
-        print
-        return ret
+        interface.frontend.printToBuildOutput(command)
+        return interface.execute(command)
 
     def _cvscheckout(self, module, force_checkout=0):
-        self._message('checking out %s' % module.name)
+        self._setAction('Checking out', module)
 
         if module.cvsroot:
             cvsroot = cvs.CVSRoot(module.cvsroot, self.checkoutroot)
@@ -159,7 +151,7 @@ class BuildScript:
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running configure for %s' % module.name)
+        self._setAction('Configuring', module)
         cmd = './autogen.sh --prefix %s %s %s' % \
               (self.prefix, self.autogenargs, module.autogen_args())
         return self._execute(cmd)
@@ -168,21 +160,21 @@ class BuildScript:
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running clean for %s' % module.name)
+        self._setAction('Cleaning', module)
         return self._execute('make %s clean' % self.makeargs)
 
     def _make(self, module):
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running make for %s' % module.name)
+        self._setAction('Making', module)
         return self._execute('make %s' % self.makeargs)
 
     def _makeinstall(self, module):
         checkoutdir = self.cvsroot.getcheckoutdir(module.name,
                                                   module.checkoutdir)
         os.chdir(checkoutdir)
-        self._message('running install for %s' % module.name)
+        self._setAction('Installing', module)
         return self._execute('make %s install' % self.makeargs)
 
     ERR_RERUN = 0
@@ -190,35 +182,8 @@ class BuildScript:
     ERR_GIVEUP = 2
     ERR_CONFIGURE = 3
     def _handle_error(self, module, stage):
-        '''Ask the user what to do about an error.
-
-        Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.''' #"
-
-        self._message('error during %s for module %s' % (stage, module.name))
-        while 1:
-            print
-            print '  [1] rerun %s' % stage
-            print '  [2] force checkout/autogen'
-            print '  [3] start shell'
-            print '  [4] give up on module'
-            print '  [5] continue (ignore error)'
-            val = raw_input('choice: ')
-            if val == '1':
-                return self.ERR_RERUN
-            elif val == '2':
-                return self.ERR_CONFIGURE
-            elif val == '3':
-                checkoutdir = self.cvsroot.getcheckoutdir(module.name,
-                                                          module.checkoutdir)
-                os.chdir(checkoutdir)
-                print 'exit shell to continue with build'
-                os.system(user_shell)
-            elif val == '4':
-                return self.ERR_GIVEUP
-            elif val == '5':
-                return self.ERR_CONT
-            else:
-                print 'invalid option'
+        checkoutdir = self.cvsroot.getcheckoutdir(module.name, module.checkoutdir);
+        return interface.frontend.handle_error(module,stage,checkoutdir,self.module_num,len(self.modulelist))
 
     def build(self, cvsupdate=1, alwaysautogen=0, makeclean=0, nobuild=0,
               skip=(), interact=1, startat=None):
@@ -252,7 +217,7 @@ class BuildScript:
             for dep in module.dependencies:
                 if dep in poison:
                     self._message('module %s not built due to non buildable %s'
-                                  % (module.name, dep))
+                                  % (module.name, dep), module)
                     poisoned = 1
             if poisoned:
                 poison.append(module.name)
@@ -274,7 +239,7 @@ class BuildScript:
                                                             module.checkoutdir)
                     if ret == 0:
                         if not os.path.exists(checkoutdir):
-                            self._message("checkout doesn't exist :(")
+                            self._message("checkout doesn't exist :(", module)
                             poison.append(module.name)
                             next_state = STATE_DONE
 
@@ -302,7 +267,7 @@ class BuildScript:
                     if interact:
                         err = self._handle_error(module, state_names[state])
                     else:
-                        self._message('giving up on %s' % module.name)
+                        self._message('giving up on %s' % module.name, module)
                         err = self.ERR_GIVEUP # non interactive
                     if err == self.ERR_CONT:
                         state = next_state
@@ -317,9 +282,7 @@ class BuildScript:
                         state = STATE_DONE
 
         if len(poison) == 0:
-            self._message('success')
+            self._message('success', module)
         else:
-            self._message('the following modules were not built')
-            for module in poison:
-                print module,
-            print
+            self._message('the following modules were not built', module)
+            interface.frontend.print_unbuilt_modules(poison)

@@ -19,6 +19,7 @@
 
 import os, string
 import urllib
+import interface
 
 _isxterm = os.environ.get('TERM', '') == 'xterm'
 _boldcode = os.popen('tput bold', 'r').read()
@@ -39,7 +40,7 @@ class Bootstrap:
             print '\033]0;jhbuild: %s\007' % msg
     def _execute(self, command):
         print command
-        ret = os.system(command)
+        ret = interface.execute(command)
         print
         return ret
     def wants_package(self):
