@@ -637,7 +637,7 @@ class BuildScript:
         print
         return ret
 
-    def build(self):
+    def build(self, interact=1):
         poison = [] # list of modules that couldn't be built
 
         self.module_num = 0
@@ -659,7 +659,8 @@ class BuildScript:
 
                 if error:
                     newstate = self.handle_error(module, state,
-                                                 nextstate, error, altstates)
+                                                 nextstate, error,
+						 altstates, interact)
                     if newstate == 'poison':
                         poison.append(module.name)
                         state = module.STATE_DONE
@@ -675,10 +676,12 @@ class BuildScript:
                 print module,
             print
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, state, nextstate, error, altstates, interact=1):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
+	if interact == 0:
+	   return 'poison'
         while True:
             print
             print '  [1] rerun stage %s' % state

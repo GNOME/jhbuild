@@ -109,7 +109,7 @@ def do_update(config, args, interact=1):
     config['nonetwork'] = False
 
     build = module.BuildScript(config, module_list=module_list)
-    build.build()
+    build.build(interact)
 
 def do_update_one(config, args, interact=1):
     opts, args = getopt.getopt(args, '', [])
@@ -125,7 +125,7 @@ def do_update_one(config, args, interact=1):
     config['nonetwork'] = False
 
     build = module.BuildScript(config, module_list=module_list)
-    build.build()
+    build.build(interact)
 
 
 def do_build(config, args, interact=1, cvsupdate=1):
@@ -161,7 +161,7 @@ def do_build(config, args, interact=1, cvsupdate=1):
             del module_list[0]
 
     build = module.BuildScript(config, module_list=module_list)
-    build.build()
+    build.build(interact)
 
 def do_build_one(config, args, interact=1):
     opts, args = getopt.getopt(args, 'acn', ['autogen', 'clean', 'no-network'])
@@ -182,7 +182,7 @@ def do_build_one(config, args, interact=1):
         raise SystemExit, "A module called '%s' could not be found." % modname
 	
     build = module.BuildScript(config, module_list=module_list)
-    build.build()
+    build.build(interact)
 
 def do_run(config, args, interact=1):
     # os.execlp(args[0], *args) # not python 1.5 compatible :(
