@@ -144,7 +144,12 @@ bootstraps = [
               'http://www.python.org/ftp/python/2.2/Python-2.2.tgz',
               6542443,
               None,
-              'echo "import sys, string; print string.split(sys.version)[0]" | python -')
+              'echo "import sys, string; print string.split(sys.version)[0]" | python -'),
+    Bootstrap('audiofile', '0.2.3',
+              'ftp://oss.sgi.com/projects/audiofile/download/audiofile-0.2.3.tar.gz',
+              332223,
+              None,
+              'audiofile-config --version')
 ]
 
 def build_bootstraps(config):
