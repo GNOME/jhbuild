@@ -32,8 +32,10 @@ class MetaModule:
         self.modules = modules
 
 class ModuleSet:
-    def __init__(self):
+    def __init__(self, baseset=None):
         self.modules = {}
+        if baseset:
+            self.modules.update(baseset.modules)
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
