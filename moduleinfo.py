@@ -157,9 +157,9 @@ gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
                autogenargs='--disable-plugin-builddir --disable-tests')
 gnome20.addmod('gst-player', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'libgnomeui'])
-gnome20.addmod('libmrproject', cvsroot=codefactory_cvsroot,
+gnome20.addmod('libmrproject',
                dependencies=['glib', 'gnome-xml'])
-gnome20.addmod('mrproject', cvsroot=codefactory_cvsroot,
+gnome20.addmod('mrproject',
                dependencies=['libmrproject', 'libgnomeui'])
 gnome20.addmod('dia-newcanvas',
                dependencies=['gtk+', 'libglade'])
