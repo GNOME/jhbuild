@@ -29,7 +29,9 @@ cvsmodule = element cvsmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute autogenargs { text }?,
+  attribute makeargs { text }?,
   attribute cvsroot { text }?,
+  attribute supports-non-srcdir-builds { "yes" | "no" }?,
 
   common
 }
@@ -39,6 +41,8 @@ metamodule = element metamodule { common }
 tarball = element tarball {
   attribute version { text },
   attribute autogenargs { text }?,
+  attribute makeargs { text }?,
+  attribute supports-non-srcdir-builds { "yes" | "no" }?,
 
   (element source {
      attribute href { text },
@@ -57,6 +61,7 @@ mozillamodule = element mozillamodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute autogenargs { text }?,
+  attribute makeargs { text }?,
   attribute cvsroot { text }?,
   common
 }

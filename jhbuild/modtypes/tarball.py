@@ -34,7 +34,9 @@ class Tarball(base.Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size, source_md5=None,
-                 patches=[], autogenargs='', dependencies=[], suggests=[]):
+                 patches=[], autogenargs='', makeargs='',
+                 dependencies=[], suggests=[],
+                 supports_non_srcdir_builds=True):
         base.Package.__init__(self, name, dependencies, suggests)
         self.version      = version
         self.source_url   = source_url
@@ -42,6 +44,8 @@ class Tarball(base.Package):
         self.source_md5   = source_md5
         self.patches      = patches
         self.autogenargs  = autogenargs
+        self.makeargs     = makeargs
+        self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_localfile(self, buildscript):
         localfile = os.path.join(buildscript.config.tarballdir,
@@ -60,7 +64,8 @@ class Tarball(base.Package):
         return localfile
     def get_builddir(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
-        if buildscript.config.buildroot:
+        if buildscript.config.buildroot and \
+               self.supports_non_srcdir_builds:
             return os.path.join(buildscript.config.buildroot,
                                 os.path.basename(srcdir))
         else:
@@ -157,7 +162,7 @@ class Tarball(base.Package):
             os.makedirs(builddir)
         os.chdir(builddir)
         buildscript.set_action('Configuring', self)
-        if buildscript.config.buildroot:
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             cmd = self.get_srcdir(buildscript) + '/configure'
         else:
             cmd = './configure'
@@ -174,7 +179,7 @@ class Tarball(base.Package):
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
-        cmd = 'make %s' % buildscript.config.makeargs
+        cmd = 'make %s %s' % (buildscript.config.makeargs, self.makeargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
@@ -183,7 +188,8 @@ class Tarball(base.Package):
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s install' % buildscript.config.makeargs
+        cmd = 'make %s %s install' % (buildscript.config.makeargs,
+                                      self.makeargs)
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
@@ -199,8 +205,15 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     source_md5 = None
     patches = []
     autogenargs = ''
+    makeargs = ''
+    supports_non_srcdir_builds = True
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'source':
@@ -219,7 +232,10 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
                     patchstrip = 0
                 patches.append((patchfile, patchstrip))
 
+    makeargs = config.module_makeargs.get(name, makeargs)
+
     return Tarball(name, version, source_url, source_size, source_md5,
-                   patches, autogenargs, dependencies, suggests)
+                   patches, autogenargs, makeargs, dependencies, suggests,
+                   supports_non_srcdir_builds=supports_non_srcdir_builds)
 
 base.register_module_type('tarball', parse_tarball)

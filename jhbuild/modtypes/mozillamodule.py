@@ -25,16 +25,15 @@ from jhbuild.utils import cvs
 from jhbuild.errors import FatalError
 
 class MozillaModule(base.CVSModule):
-    def __init__(self, name, revision, autogenargs='',
+    def __init__(self, name, revision, autogenargs='', makeargs='',
                  dependencies=[], suggests=[], cvsroot=None):
         base.CVSModule.__init__(self, name, revision=revision,
                                 autogenargs=autogenargs,
+                                makeargs=makeargs,
                                 dependencies=dependencies,
                                 suggests=suggests,
-                                cvsroot=cvsroot)
-
-    def get_builddir(self, buildscript):
-        return self.get_srcdir(buildscript)
+                                cvsroot=cvsroot,
+                                supports_non_srcdir_builds=False)
 
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
@@ -118,17 +117,21 @@ def parse_mozillamodule(node, config, dependencies, suggests, cvsroot):
     name = node.getAttribute('id')
     revision = None
     autogenargs = ''
+    makeargs = ''
     dependencies = []
     if node.hasAttribute('revision'):
         revision = node.getAttribute('revision')
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
 
     # override revision tag if requested.
     revision = config.branches.get(name, revision)
     autogenargs = config.module_autogenargs.get(name, autogenargs)
+    makeargs = config.module_makeargs.get(name, makeargs)
 
-    return MozillaModule(name, revision, autogenargs,
+    return MozillaModule(name, revision, autogenargs, makeargs,
                          dependencies, suggests, cvsroot)
 
 base.register_module_type('mozillamodule', parse_mozillamodule)

@@ -29,7 +29,8 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
-                'cvsroots', 'branches', 'module_autogenargs',
+                'cvsroots', 'branches',
+                'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',

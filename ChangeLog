@@ -1,3 +1,58 @@
+2004-06-10  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/moduleset.dtd: update DTD.
+
+	* modulesets/moduleset.rnc: update RELAX-NG schema.
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): add makeargs
+	argument.
+	(Tarball.do_build): use makeargs if set.
+	(Tarball.do_install): same.
+	(parse_tarball): parse makeargs attribute.
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.__init__): add
+	makeargs argument.
+	(parse_mozillamodule): parse makeargs attribute.
+
+	* jhbuild/modtypes/base.py (CVSModule.__init__): add makeargs
+	argument.
+	(CVSModule.do_clean): use module local makeargs if set.
+	(CVSModule.do_build): same.
+	(CVSModule.do_check): same.
+	(CVSModule.do_install): same.
+	(parse_cvsmodule): allow module local makeargs.
+
+	* jhbuild/defaults.jhbuildrc (module_autogenargs): default key to
+	an empty dictionary.
+
+	* jhbuild/config.py (_known_keys): add 'module_makeargs' key.
+
+2004-06-04  James Henstridge  <james@daa.com.au>
+
+	* modulesets/moduleset.rnc: same changes here.
+
+	* modulesets/moduleset.dtd: update DTD for
+	supports-non-srcdir-builds attribute on cvsmodule and tarball
+	elements.
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): add
+	supports_non_srcdir_builds property.
+	(Tarball.get_builddir): check supports_non_srcdir_builds property.
+	(Tarball.do_configure): check supports_non_srcdir_builds property.
+	(parse_tarball): parse supports-non-srcdir-builds attribute in
+	XML.
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.__init__): set
+	supports_non_srcdir_builds to False.
+
+	* jhbuild/modtypes/base.py (CVSModule.__init__): add
+	supports_non_srcdir_builds property.
+	(CVSModule.get_builddir): if not supports_non_srcdir_builds, then
+	don't return a separate builddir.
+	(CVSModule.do_configure): check supports_non_srcdir_builds property.
+	(parse_cvsmodule): parse supports-non-srcdir-builds attribute in
+	XML.
+
 2004-06-10  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* modulesets/gnome26.modules: A lot of modules
@@ -1122,7 +1177,6 @@ Sun Feb  8 01:19:57 2004  Matthias Clasen  <maclas@gmx.de>
 
 	* jhbuild/__init__.py: start refactoring jhbuild.
 
->>>>>>> 1.402
 2004-02-01  Sri Ramkrishna,,,  <sri@aracnet.com>
 
   	* modulesets/gnome26.modules:added epiphany-extensions and

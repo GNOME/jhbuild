@@ -79,22 +79,25 @@ class CVSModule(Package):
     STATE_INSTALL        = 'install'
 
     def __init__(self, cvsmodule, checkoutdir=None, revision=None,
-                 autogenargs='', dependencies=[], suggests=[],
-                 cvsroot=None):
+                 autogenargs='', makeargs='', dependencies=[], suggests=[],
+                 cvsroot=None, supports_non_srcdir_builds=True):
         Package.__init__(self, checkoutdir or cvsmodule, dependencies,
                          suggests)
         self.cvsmodule   = cvsmodule
         self.checkoutdir = checkoutdir
         self.revision    = revision
         self.autogenargs = autogenargs
+        self.makeargs    = makeargs
         self.cvsroot     = cvsroot
+        self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_srcdir(self, buildscript):
         return os.path.join(buildscript.config.checkoutroot,
                             self.checkoutdir or self.cvsmodule)
         
     def get_builddir(self, buildscript):
-        if buildscript.config.buildroot:
+        if buildscript.config.buildroot and \
+               self.supports_non_srcdir_builds:
             return os.path.join(buildscript.config.buildroot,
                                 self.checkoutdir or self.cvsmodule)
         else:
@@ -169,7 +172,7 @@ class CVSModule(Package):
             os.makedirs(builddir)
         os.chdir(builddir)
         buildscript.set_action('Configuring', self)
-        if buildscript.config.buildroot:
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             cmd = self.get_srcdir(buildscript) + '/autogen.sh'
         else:
             cmd = './autogen.sh'
@@ -190,7 +193,7 @@ class CVSModule(Package):
     def do_clean(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Cleaning', self)
-        cmd = 'make %s clean' % buildscript.config.makeargs
+        cmd = 'make %s %s clean' % (buildscript.config.makeargs, self.makeargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
@@ -200,7 +203,7 @@ class CVSModule(Package):
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
-        cmd = 'make %s' % buildscript.config.makeargs
+        cmd = 'make %s %s' % (buildscript.config.makeargs, self.makeargs)
         if buildscript.config.makecheck:
             nextstate = self.STATE_CHECK
         else:
@@ -214,7 +217,7 @@ class CVSModule(Package):
     def do_check(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Checking', self)
-        cmd = 'make %s check' % buildscript.config.makeargs
+        cmd = 'make %s %s check' % (buildscript.config.makeargs, self.makeargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
@@ -224,7 +227,8 @@ class CVSModule(Package):
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s install' % buildscript.config.makeargs
+        cmd = 'make %s %s install' % (buildscript.config.makeargs,
+                                      self.makeargs)
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
@@ -238,6 +242,8 @@ def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):
     revision = None
     checkoutdir = None
     autogenargs = ''
+    makeargs = ''
+    supports_non_srcdir_builds = True
     if node.hasAttribute('module'):
         module = node.getAttribute('module')
     if node.hasAttribute('revision'):
@@ -246,15 +252,23 @@ def parse_cvsmodule(node, config, dependencies, suggests, cvsroot):
         checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
     # override revision tag if requested.
     revision = config.branches.get(module, revision)
     autogenargs = config.module_autogenargs.get(module, autogenargs)
+    makeargs = config.module_makeargs.get(module, makeargs)
 
     return CVSModule(module, checkoutdir, revision,
-                     autogenargs, cvsroot=cvsroot,
+                     autogenargs, makeargs,
+                     cvsroot=cvsroot,
                      dependencies=dependencies,
-                     suggests=suggests)
+                     suggests=suggests,
+                     supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('cvsmodule', parse_cvsmodule)
 
 class MetaModule(Package):

@@ -18,7 +18,9 @@
   revision CDATA #IMPLIED
   checkoutdir CDATA #IMPLIED
   autogenargs CDATA #IMPLIED
-  cvsroot CDATA #IMPLIED >
+  makeargs CDATA #IMPLIED
+  cvsroot CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
 
 <!ELEMENT metamodule (dependencies) >
 <!ATTLIST metamodule
@@ -29,7 +31,9 @@
 <!ATTLIST tarball
   id CDATA #REQUIRED
   version CDATA #REQUIRED
-  autogenargs CDATA #IMPLIED >
+  autogenargs CDATA #IMPLIED
+  makeargs CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
 
 <!ELEMENT mozillamodule (dependencies?,suggests?) >
 <!ATTLIST mozillamodule
@@ -38,6 +42,7 @@
   revision CDATA #IMPLIED
   checkoutdir CDATA #IMPLIED
   autogenargs CDATA #IMPLIED
+  makeargs CDATA #IMPLIED
   cvsroot CDATA #IMPLIED >
 
 <!-- Tarball sub-elements -->
