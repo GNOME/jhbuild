@@ -33,7 +33,7 @@ gnome2.addmod('bonobo-activation',
 gnome2.addmod('gconf', dependencies=['ORBit2', 'gnome-xml', 'gtk+'])
 gnome2.addmod('libbonobo', dependencies=['ORBit2', 'bonobo-activation'])
 gnome2.addmod('gnome-mime-data', dependencies=['gnome-common'])
-gnome2.addmod('gnome-vfs',
+gnome2.addmod('gnome-vfs', revision='gnome-2-0',
               dependencies=['libbonobo','gconf', 'gnome-mime-data'])
 gnome2.addmod('libart_lgpl')
 gnome2.addmod('libgnome',
@@ -142,7 +142,8 @@ gnome2.addmod('gnome-build',
 gnome2.addmod('anjuta2',
               dependencies=['libgnomeui', 'gnome-build'])
 
-gnome2.addmod('gtkmm-1.3', dependencies=['gtk+'])
+gnome2.addmod('sigc-1.1')
+gnome2.addmod('gtkmm-1.3', dependencies=['gtk+', 'sigc-1.1'])
 gnome2.addmod('gnomemm/libgnomemm', dependencies=['libgnome', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libbonobomm', dependencies=['libbonobo', 'gtkmm-1.3'])
 gnome2.addmod('gnomemm/libbonobouimm',
