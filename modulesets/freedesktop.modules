@@ -1,0 +1,61 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <cvsroot name="xlibs.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xlibs"
+     password="" />
+  <cvsroot name="fontconfig.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
+     password="" />
+  <cvsroot name="cairo.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
+     password="" />
+  <cvsroot name="startup-notification.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/startup-notification"
+     password="" />
+  <cvsroot name="dbus.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/dbus"
+     password="" />
+
+  <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" />
+  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" />
+  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="Render" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="Xft" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="fontconfig" />
+      <dep package="Xrender" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
+
+  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="slim" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="libpixregion" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="libic" />
+      <dep package="Xft" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="startup-notification"
+             cvsroot="startup-notification.freedesktop.org" />
+    
+  <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" />
+
+</moduleset>

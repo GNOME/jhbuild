@@ -502,7 +502,6 @@ def read_module_set(configdict, filename=None):
             revision = None
             checkoutdir = None
             autogenargs = ''
-            cvsroot = cvsroots[default_cvsroot]
             dependencies = []
             if node.hasAttribute('module'):
                 module = node.getAttribute('module')
@@ -514,6 +513,8 @@ def read_module_set(configdict, filename=None):
                 autogenargs = node.getAttribute('autogenargs')
             if node.hasAttribute('cvsroot'):
                 cvsroot = cvsroots[node.getAttribute('cvsroot')]
+            else:
+                cvsroot = cvsroots[default_cvsroot]
             # deps
             for childnode in node.childNodes:
                 if childnode.nodeType == childnode.ELEMENT_NODE and \

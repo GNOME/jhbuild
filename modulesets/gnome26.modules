@@ -6,15 +6,6 @@
   <cvsroot name="gnome.org" default="yes"
      root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
      password="" />
-  <cvsroot name="xlibs.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xlibs"
-     password="" />
-  <cvsroot name="fontconfig.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
-     password="" />
-  <cvsroot name="dbus.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/dbus"
-     password="" />
   <cvsroot name="cairo.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
      password="" />
@@ -52,44 +43,8 @@
       <dep package="intltool" />
     </dependencies>
   </tarball>
-  <tarball id="startup-notification" version="0.5" versioncheck="pkg-config --modversion libstartup-notification-1.0">
-    <source href="http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.5.tar.gz" size="211978" />
-  </tarball>
 
-  <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" />
-  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org">
-    <dependencies>
-      <dep package="Render" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xft" cvsroot="xlibs.freedesktop.org">
-    <dependencies>
-      <dep package="fontconfig" />
-      <dep package="Xrender" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
-
-  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
-    <dependencies>
-      <dep package="slim" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
-    <dependencies>
-      <dep package="libpixregion" />
-    </dependencies>
-  </cvsmodule>
-
-  <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
-    <dependencies>
-      <dep package="libic" />
-      <dep package="Xft" />
-    </dependencies>
-  </cvsmodule>
+  <include href="freedesktop.modules" />
 
   <cvsmodule id="cairo-gtk-engine" cvsroot="cairo.freedesktop.org">
     <dependencies>
@@ -97,8 +52,6 @@
       <dep package="cairo" />
     </dependencies>
   </cvsmodule>
-
-  <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" />
 
   <cvsmodule id="intltool" />
   <cvsmodule id="gnome-common" />
