@@ -84,7 +84,7 @@ class CVSRoot:
             return self.checkout(module, revision, checkoutdir)
         
         os.chdir(dir)
-        cmd = 'cvs -z3 -q -d %s update ' % self.cvsroot
+        cmd = 'cvs -z3 -q -d %s update -dP ' % self.cvsroot
 
         if revision:
             cmd = cmd + '-r %s ' % revision
