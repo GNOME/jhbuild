@@ -1,3 +1,17 @@
+2004-10-01  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/frontends/tinderbox.py: lots of changes to format the
+	build log as HTML.  This gives nicer output, and will allow
+	linking to a particular phase of a build through named anchors.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.format_line):
+	fix up for new execute_pprint().
+
+	* jhbuild/utils/cmds.py (execute_pprint): change over to a simpler
+	implementation using popen2.  This doesn't look like a terminal to
+	the process being run, but it should be less error prone on weird
+	platforms.
+
 2004-09-30  James Henstridge  <james@jamesh.id.au>
 
 	Implements the feature mentioned in bug #151004.  Davyd Madeley's

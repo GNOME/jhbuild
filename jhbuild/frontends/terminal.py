@@ -89,21 +89,22 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not self.config.pretty_print: hint = None
         if hint == 'cvs':
             conflicts = []
-            def format_line(line, conflicts=conflicts):
+            def format_line(line, error_output, conflicts=conflicts):
+                if line[-1] == '\n': line = line[:-1]
                 if line.startswith('C '):
                     conflicts.append(line)
-                    return '%s%s%s' % (t_colour[12], line, t_reset)
+                    print '%s%s%s' % (t_colour[12], line, t_reset)
                 elif line.startswith('M '):
-                    return '%s%s%s' % (t_colour[10], line, t_reset)
+                    print '%s%s%s' % (t_colour[10], line, t_reset)
                 elif line.startswith('? '):
-                    return '%s%s%s' % (t_colour[8], line, t_reset)
+                    print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
                     return line
             ret = cmds.execute_pprint(command, format_line)
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
                 for line in conflicts:
-                    sys.stdout.write('%s  %s%s'
+                    sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
         else:
             ret = os.system(command)

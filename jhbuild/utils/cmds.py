@@ -22,11 +22,6 @@ import fcntl
 import select
 import popen2
 
-try:
-    import pty
-except ImportError:
-    pty = None
-
 def get_output(cmd):
     '''Return the output (stdout and stderr) from the command.
     Raises an exception if the command has a non-zero return value.'''
@@ -37,52 +32,54 @@ def get_output(cmd):
         raise RuntimeError('program exited abnormally')
     return data
 
-if pty:
-    # modified version of pty.spawn, that returns the child's status
-    def _spawn(argv, master_read=pty._read, stdin_read=pty._read):
-        """Create a spawned process."""
-        if type(argv) == type(''):
-            argv = (argv,)
-        status = -1
-        pid, master_fd = pty.fork()
-        if pid == pty.CHILD:
-            os.execlp(argv[0], *argv)
-        try:
-            mode = pty.tty.tcgetattr(pty.STDIN_FILENO)
-            pty.tty.setraw(pty.STDIN_FILENO)
-            restore = True
-        except pty.tty.error:    # This is the same as termios.error
-            restore = False
-        fcntl.fcntl(master_fd, fcntl.F_SETFL, os.O_NDELAY |
-                    fcntl.fcntl(master_fd, fcntl.F_GETFL))
-        try:
-            pty._copy(master_fd, master_read, stdin_read)
-        except (IOError, OSError):
-            if restore:
-                pty.tty.tcsetattr(pty.STDIN_FILENO, pty.tty.TCSAFLUSH, mode)
-        pid, status = os.waitpid(pid, 0)
-        os.close(master_fd)
-        return status
-
-def execute_pprint(cmd, format_line):
-    '''Run the given program in a pty, and pass all its output to the
-    format_line function before printing to the screen.  This allows for
-    simple pretty-printed output of programs.
-    This uses the pty.spawn() standard library function.  If it is not
-    not available, then we fall back to os.system().'''
-    if pty:
-        argv = [ '/bin/sh', '-c', cmd ]
-        def master_read(fd, format_line=format_line):
-            data = os.read(fd, 1024)
-            ret = []
-            for line in data.splitlines(True):
-                ret.append(format_line(line))
-            return ''.join(ret)
-        status = _spawn(argv, master_read)
+def execute_pprint(cmd, format_line, split_stderr=False):
+    '''Run the given program and pass lines to the format_line function
+    for formatting.  If split_stderr is True, then the second argument
+    to the format_line function will be true for error output.'''
+    if split_stderr:
+        child = popen2.Popen3(cmd, capturestderr=True)
     else:
-        status = os.system(cmd)
-
-    if not os.WIFEXITED(status):
-        return -1
+        child = popen2.Popen4(cmd)
+    # don't talk to child
+    child.tochild.close()
+    out_fp = child.fromchild
+    out_fd = out_fp.fileno()
+    out_eof = False
+    fcntl.fcntl(out_fd, fcntl.F_SETFL,
+                fcntl.fcntl(out_fd, fcntl.F_GETFL) | os.O_NDELAY)
+    if split_stderr:
+        err_fp = child.childerr
+        err_fd = err_fp.fileno()
+        err_eof = False
+        fcntl.fcntl(err_fd, fcntl.F_SETFL,
+                    fcntl.fcntl(err_fd, fcntl.F_GETFL) | os.O_NDELAY)
+        read_fds = [out_fd, err_fd]
     else:
-        return os.WEXITSTATUS(status)
+        err_fp = None
+        err_fd = -1
+        err_eof = True
+        read_fds = [out_fd]
+    out_data = err_data = ''
+    while True:
+        rfds, wfds, xdfs = select.select(read_fds, [], [])
+        if out_fd in rfds:
+            out_chunk = out_fp.read()
+            if out_chunk == '': out_eof = True
+            out_data += out_chunk
+            while '\n' in out_data:
+                pos = out_data.find('\n')
+                format_line(out_data[:pos+1], False)
+                out_data = out_data[pos+1:]
+        if err_fd in rfds:
+            err_chunk = err_fp.read()
+            if err_chunk == '': err_eof = True
+            err_data += err_chunk
+            while '\n' in err_data:
+                pos = err_data.find('\n')
+                format_line(err_data[:pos+1], True)
+                err_data = err_data[pos+1:]
+        if out_eof and err_eof: break
+        select.select([],[],[],.1) # small delay
+    status = child.wait()
+    return status
+

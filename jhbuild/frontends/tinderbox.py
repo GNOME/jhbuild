@@ -20,6 +20,7 @@
 import os
 import time
 
+from jhbuild.utils import cmds
 import buildscript
 
 index_header = '''<html>
@@ -66,6 +67,47 @@ index_footer = '''
 </html>
 '''
 
+buildlog_header = '''<html>
+  <head>
+    <title>%(module)s Build Log</title>
+    <style type="text/css">
+      pre {
+        /* unfortunately, white-space: pre-wrap is not widely supported ... */
+        white-space: -moz-pre-wrap; /* Mozilla based browsers */
+        white-space: -pre-wrap;     /* Opera 4 - 6 */
+        white-space: -o-pre-wrap;   /* Opera >= 7 */
+        white-space: pre-wrap;      /* CSS3 */
+        word-wrap: break-word;      /* IE 5.5+ */
+      }
+      .message {
+        font-size: larger;
+      }
+      .timestamp{
+        font-size: smaller;
+        font-style: italic;
+      }
+      .command {
+        color: blue;
+      }
+      .conflict {
+        color: red;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>%(module)s Build Log</h1>
+'''
+buildlog_footer = '''
+  </body>
+</html>
+'''
+
+def escape(string):
+    return string.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+
 class TinderboxBuildScript(buildscript.BuildScript):
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
@@ -85,10 +127,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
     def message(self, msg, module_num=-1):
         '''Display a message to the user'''
         if self.modulefp:
-            self.modulefp.write('\n\n')
-            self.modulefp.write(('*' * 60) + '\n')
-            self.modulefp.write('%s | %s\n' % (self.timestamp(), msg))
-            self.modulefp.write(('*' * 60) + '\n')
+            self.modulefp.write('<div><b class="message">%s</b> '
+                                '<span class="timestamp">%s</span></div>\n'
+                                % (escape(msg), self.timestamp()))
         else:
             # do something with messages outside of builds of module builds
             pass
@@ -104,13 +145,31 @@ class TinderboxBuildScript(buildscript.BuildScript):
         '''executes a command, and returns the error code'''
         assert self.modulefp, 'not currently building a module'
 
-        self.modulefp.write('%s\n' % command)
-        fp = os.popen('{ %s; } 2>&1' % command, 'r')
-        data = fp.read(4096)
-        while data:
-            self.modulefp.write(data)
-            data = fp.read(4096)
-        status = fp.close()
+        
+        self.modulefp.write('<pre>')
+        self.modulefp.write('<span class="command">%s</span>\n'
+                            % escape(command))
+        if hint == 'cvs':
+            def format_line(line, error_output, fp=self.modulefp):
+                if line[-1] == '\n': line = line[:-1]
+                if line.startswith('C '):
+                    fp.write('<span class="conflict">%s</span>\n'
+                                        % escape(line))
+                else:
+                    fp.write('%s\n' % escape(line))
+            status = cmds.execute_pprint(command, format_line)
+        else:
+            def format_line(line, error_output, fp=self.modulefp):
+                if line[-1] == '\n': line = line[:-1]
+                if error_output:
+                    fp.write('<span class="error">%s</span>\n'
+                                        % escape(line))
+                else:
+                    fp.write('%s\n' % escape(line))
+            status = cmds.execute_pprint(command, format_line,
+                                         split_stderr=True)
+        self.modulefp.write('</pre>\n')
+        self.modulefp.flush()
         if not status:
             return 0
         elif not os.WIFEXITED(status):
@@ -173,14 +232,20 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.indexfp = None
 
     def start_module(self, module):
-        filename='%s.txt' % module.replace('/','_')
+        filename='%s.html' % module.replace('/','_')
         self.indexfp.write('<tr>'
                            '<td>%s</td>'
                            '<td><a href="%s">%s</a></td>'
                            '<td>\n' % (self.timestamp(), filename, module))
         self.modulefp = open(os.path.join(self.outputdir,
                                           filename), 'w')
+        self.modulefp.write(buildlog_header % { 'module': module })
     def end_module(self, module, failed):
+        if failed:
+            self.message('Failed')
+        else:
+            self.message('Succeeded')
+        self.modulefp.write(buildlog_footer)
         self.modulefp.close()
         self.modulefp = None
         self.indexfp.write('</td>\n')
@@ -191,6 +256,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.indexfp.write('</tr>\n\n')
         self.indexfp.flush()
 
+    def start_phase(self, module, state):
+        self.modulefp.write('<a name="%s"></a>\n' % state)
     def end_phase(self, module, state, error):
         if error:
             self.indexfp.write('<span class="failure" title="%s">%s</span>\n'
