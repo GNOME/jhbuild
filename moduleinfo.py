@@ -35,7 +35,7 @@ head.add(Module(name='libgnome',
 head.add(Module(name='libgnomecanvas', dependencies=['gtk+', 'libart_lgpl', 'libglade']))
 head.add(Module(name='libbonoboui',
                 dependencies=['libgnome', 'libbonobo', 'libgnomecanvas', 'libglade']))
-head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+']))
+head.add(Module(name='libzvt', dependencies=['libart_lgpl', 'gtk+', 'gnome-common']))
 head.add(Module(name='libgnomeui', dependencies=['libbonoboui', 'libglade']))
 
 head.add(Module(name='libglade',
