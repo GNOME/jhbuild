@@ -20,17 +20,38 @@ file is provided for reference as jamesh.jhbuildrc.
 Using jhbuild
 -------------
 
-To build everything, just type 'jhbuild'.  Some useful options are:
-  --no-cvs	Don't pull the sources from CVS.  Useful for building
-		when not connected to the network.
-  --no-build	Just update the source, don't build.
-  --clean       Always rerun autogen and make clean before building a
-		module.
+To build everything, just type 'jhbuild build', or just 'jhbuild'.
+Some useful options that this command takes include:
+  --autogen       always run autogen.sh
+  --clean         run "make clean" before make when building
+  --skip=MODULES  skip building the given modules
 
-When an error is encountered, you will be given a chance to fix the
-problem.  You can choose to rerun that part of the build, start a
-shell to give you a chance to fix things, give up on the module all
-together, or ignore the error (useful for certain cvs errors).
+If you just want to checkout the latest versions of everything, run:
+  jhbuild update
+
+If you want to build everything without updating from CVS (for
+instance, when disconnected from the internet), use the following
+command:
+  jhbuild compile
+
+(this command takes the same options as 'jhbuild build').
+
+If you want to run a command in the build environment (PATH,
+LD_LIBRARY_PATH, etc all configured), use the following command:
+  jhbuild run program
+
+For example, to start a shell in the build environment:
+  jhbuild run bash
+
+
+Error handling
+--------------
+
+When an error is encountered while building, you will be given a
+chance to fix the problem.  You can choose to rerun that part of the
+build, start a shell to give you a chance to fix things, give up on
+the module all together, or ignore the error (useful for certain cvs
+errors).
 
 If you give up on building a module, all modules that depend on it
 will be skipped.  If you would prefer the build not to ask questions
