@@ -26,6 +26,7 @@ def sfcvsroot(project):
 thinice_cvsroot     = sfcvsroot('thinice')
 gstreamer_cvsroot   = sfcvsroot('gstreamer')
 fileroller_cvsroot   = sfcvsroot('fileroller')
+gael_cvsroot        = sfcvsroot('gael')
 codefactory_cvsroot = ':pserver:anoncvs@cvs.codefactory.se:/cvs'
 
 # gnome 2.0 support
@@ -149,6 +150,10 @@ gnome20.addmod('libmrproject', cvsroot=codefactory_cvsroot,
                dependencies=['glib', 'gnome-xml'])
 gnome20.addmod('mrproject', cvsroot=codefactory_cvsroot,
                dependencies=['libmrproject', 'libgnomeui'])
+gnome20.addmod('dia-newcanvas',
+               dependencies=['gtk+', 'libglade'])
+gnome20.addmod('gael2', cvsroot=gael_cvsroot,
+               dependencies=['dia-newcanvas', 'libglade', 'libgnomeui','gnome-xml'])
 
 gnome20.addmod('balsa', revision='BALSA_2',
                dependencies=['libgnomeui'])
