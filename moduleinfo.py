@@ -1,5 +1,6 @@
 from module import Module, ModuleSet
 
+# gnome 2.0 support
 head = ModuleSet()
 head.add(Module(name='intltool'))
 head.add(Module(name='gnome-common'))
@@ -36,3 +37,54 @@ head.add(Module(name='gnome-python/pygtk',
 head.add(Module(name='gnome-python/gnome-python',
          dependencies=['gnome-python/pygtk', 'libgnomecanvas']))
 
+
+# gnome 1.x support
+gnome1 = ModuleSet()
+gnome1.add(Module(name='intltool'))
+gnome1.add(Module(name='audiofile'))
+gnome1.add(Module(name='esound', dependencies=['audiofile']))
+gnome1.add(Module(name='gtk-doc'))
+gnome1.add(Module(name='glib', revision='glib-1-2',
+                  dependencies=['gtk-doc']))
+gnome1.add(Module(name='gtk+', revision='gtk-1-2',
+                  dependencies=['gtk-doc', 'glib']))
+gnome1.add(Module(name='ORBit', revision='orbit-stable-0-5',
+                  dependencies=['glib']))
+gnome1.add(Module(name='gnome-xml', checkoutdir='libxml',
+                  revision='LIB_XML_1_BRANCH'))
+gnome1.add(Module(name='imlib',
+                  dependencies=['gtk+']))
+gnome1.add(Module(name='gnome-libs', revision='gnome-libs-1-0',
+                  dependencies=['ORBit', 'gtk+', 'esound']))
+gnome1.add(Module(name='libglade', revision='libglade-1-0',
+                  dependencies=['gtk+', 'gnome-libs', 'gnome-xml']))
+gnome1.add(Module(name='gdk-pixbuf',
+                  dependencies=['gtk+', 'gnome-libs']))
+gnome1.add(Module(name='oaf',
+                  dependencies=['ORBit', 'gnome-xml']))
+gnome1.add(Module(name='gconf', revision='gconf-1-0',
+                  dependencies=['ORBit', 'gnome-xml', 'gtk+']))
+gnome1.add(Module(name='gnome-print',
+                  dependencies=['gnome-libs', 'gnome-xml', 'gdk-pixbuf']))
+gnome1.add(Module(name='gnome-vfs', revision='gnome-vfs-1-0',
+                  dependencies=['oaf', 'ORBit', 'gconf', 'gnome-xml']))
+gnome1.add(Module(name='bonobo',
+                  dependencies=['gnome-libs', 'oaf', 'gnome-print']))
+gnome1.add(Module(name='control-center', revision='control-center-1-0',
+                  dependencies=['gnome-libs', 'gnome-vfs']))
+gnome1.add(Module(name='gnome-core', revision='gnome-core-1-0',
+                  dependencies=['gnome-libs', 'gdk-pixbuf', 'control-center',
+                                'libglade']))
+gnome1.add(Module(name='libgtop', revision='LIBGTOP_STABLE_1_0',
+                  dependencies=['glib']))
+gnome1.add(Module(name='gnome-http', checkoutdir='libghttp'))
+gnome1.add(Module(name='gnome-applets', revision='gnome-applets-1-0',
+                  dependencies=['gnome-core', 'libgtop', 'libghttp']))
+gnome1.add(Module(name='medusa',
+                  dependencies=['gnome-vfs', 'gtk+']))
+gnome1.add(Module(name='librsvg',
+                  dependencies=['gtk+', 'gnome-xml', 'gdk-pixbuf']))
+gnome1.add(Module(name='eel',
+                  dependencies=['gnome-libs', 'librsvg', 'gnome-vfs']))
+gnome1.add(Module(name='nautilus',
+                  dependencies=['gnome-libs', 'eel', 'bonobo', 'control-center']))
