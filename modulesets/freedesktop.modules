@@ -23,6 +23,9 @@
   <cvsroot name="xklavier.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/xklavier"
      password="" />
+  <cvsroot name="xapps.freedesktop.org"
+     root=":pserver:anoncvs@pdx.freedesktop.org:/cvs/xapps"
+     password="" />
 
   <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
   <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
@@ -213,4 +216,19 @@
 
   <cvsmodule id="libxklavier" cvsroot="xklavier.freedesktop.org">
   </cvsmodule>
+
+ <cvsmodule id="Xcomposite" cvsroot="xlibs.freedesktop.org">
+    <dependencies>
+      <dep package="CompositeExt" />
+      <dep package="Xfixes" />
+    </dependencies>
+  </cvsmodule>
+
+ <cvsmodule id="xcompmgr" cvsroot="xapps.freedesktop.org">
+    <dependencies>
+      <dep package="Xcomposite" />
+      <dep package="Xdamage" />
+    </dependencies>
+  </cvsmodule>
+
 </moduleset>
