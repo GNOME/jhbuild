@@ -17,8 +17,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, sys, string
-import xml.dom.minidom
+import os
+import sys
+import string
+
+try:
+    import xml.dom.minidom
+except ImportError:
+    raise SystemExit, 'Python xml packages are required but could not be found'
+
 import cvs
 
 _isxterm = os.environ.get('TERM','').find('xterm') >= 0
@@ -48,7 +55,6 @@ class Package:
           (next-state, error-flag, [other-states])'''
         method = getattr(self, 'do_' + state)
         return method(buildscript)
-
 
 class CVSModule(Package):
     STATE_CHECKOUT       = 'checkout'
@@ -152,30 +158,34 @@ class CVSModule(Package):
 class MetaModule(Package):
     def get_builddir(self, buildscript):
         return buildscript.config.checkoutroot
+    
     # nothing to actually build in a metamodule ...
     def do_start(self, buildscript):
         return (self.STATE_DONE, None, None)
 
 class MozillaModule(CVSModule):
-    def get_mozilla_ver (self, buildscript):
-	mozilla_version=''
-	checkoutdir = self.get_builddir(buildscript)
-	fp = open(os.path.join(checkoutdir, 'config/milestone.txt'), 'r')
-	for line in fp.readlines():
-	    if line[0] != '#' and line[0] != '\0':
-	        mozilla_version = line
-	mozilla_version = mozilla_version.replace ('\n', '')
-	return mozilla_version
     def __init__(self, name, autogenargs='', dependencies=[], cvsroot = None):
         CVSModule.__init__(self, name, autogenargs = autogenargs,
 			   dependencies = dependencies, cvsroot = cvsroot)
+        
+    def get_mozilla_ver(self, buildscript):
+	checkoutdir = self.get_builddir(buildscript)
+	fp = open(os.path.join(checkoutdir, 'config/milestone.txt'), 'r')
+	for line in fp.readlines():
+	    if line[0] not in ('#', '\0', '\n'):
+                return line[:-1]
+        else:
+            raise AssertionError
+        
     def do_checkout(self, buildscript, force_checkout=False):
         checkoutdir = self.get_builddir(buildscript)
         buildscript.message('checking out %s' % self.name)
 	os.chdir(buildscript.config.checkoutroot)
-	res = buildscript.execute ('cvs -z3 -q -d ' + self.cvsroot + ' checkout -A mozilla/client.mk')
+	res = buildscript.execute(
+            'cvs -z3 -q -d %s checkout -A mozilla/client.mk' %
+            self.cvsroot)
 
-	if res == 0:
+        if res == 0:
 	    os.chdir(checkoutdir)
             res = buildscript.execute('make -f client.mk checkout')
 
@@ -183,6 +193,7 @@ class MozillaModule(CVSModule):
             nextstate = self.STATE_DONE
         else:
             nextstate = self.STATE_CONFIGURE
+            
         # did the checkout succeed?
         if res == 0 and os.path.exists(checkoutdir):
             return (nextstate, None, None)
@@ -195,27 +206,17 @@ class MozillaModule(CVSModule):
         os.chdir(checkoutdir)
         buildscript.message('configuring %s' % self.name)
 	mozilla_path = buildscript.config.prefix + '/lib/mozilla-' + \
-	    self.get_mozilla_ver (buildscript)
-        cmd = './configure --prefix %s %s %s --with-default-mozilla-five-home=%s' % \
+                       self.get_mozilla_ver(buildscript)
+        
+        cmd = './configure --prefix %s %s %s ' + \
+              '--with-default-mozilla-five-home=%s' % \
               (buildscript.config.prefix, buildscript.config.autogenargs,
                self.autogenargs, mozilla_path)
-        if buildscript.execute(cmd) == 0:
+        if not buildscript.execute(cmd):
             return (self.STATE_BUILD, None, None)
         else:
             return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
-
-    def do_install(self, buildscript):
-	res = CVSModule.do_install (self, buildscript)
-	mozilla_path = buildscript.config.prefix + '/lib/mozilla-' \
-	    + self.get_mozilla_ver (buildscript)
-	os.chdir(mozilla_path)
-	buildscript.execute ('mv libnspr4.so libplc4.so libplds4.so ' +
-			     'libnss3.so libsmime3.so libsoftokn3.so libssl3.so ' +
-			     'libgkgfx.so libjsj.so libmozjs.so libxpcom.so ' +
-			     'libgtkembedmoz.so libgtkxtbin.so ..')
-	return res;
-        
 
 class Tarball(Package):
     STATE_DOWNLOAD  = 'download'
@@ -236,11 +237,11 @@ class Tarball(Package):
     def get_builddir(self, buildscript):
         localfile = os.path.basename(self.source_url)
         # strip off packaging extension ...
-        if localfile[-7:] == '.tar.gz':
+        if localfile.endswith('.tar.gz'):
             localfile = localfile[:-7]
-        elif localfile[-8:] == '.tar.bz2':
+        elif localfile.endswith('.tar.bz2'):
             localfile = localfile[:-8]
-        elif localfile[-4:] == '.tgz':
+        elif localfile.endswith('.tgz'):
             localfile = localfile[:-4]
         return os.path.join(buildscript.config.checkoutroot, localfile)
 
@@ -262,12 +263,12 @@ class Tarball(Package):
         localfile = os.path.join(buildscript.config.checkoutroot,
                                  os.path.basename(self.source_url))
         if not buildscript.config.nonetwork:
-            if not os.path.exists(localfile) or \
-                   os.stat(localfile)[6] != self.source_size:
+            if (not os.path.exists(localfile) or
+                os.stat(localfile)[6] != self.source_size):
                 buildscript.message('downloading %s' % self.source_url)
                 res = buildscript.execute('wget "%s" -O "%s"' %
                                           (self.source_url, localfile))
-                if res != 0:
+                if res:
                     return (self.STATE_UNPACK, 'error downloading file', [])
 
         if not os.path.exists(localfile) or \
@@ -282,24 +283,28 @@ class Tarball(Package):
         checkoutdir = self.get_builddir(buildscript)
 
         buildscript.message('unpacking %s' % self.name)
-        if localfile[-4:] == '.bz2':
+        if localfile.endswith('.bz2'):
             res = buildscript.execute('bunzip2 -dc %s | tar xf -' % localfile)
-        else:
+        elif localfile.endswith('.gz'):
             res = buildscript.execute('gunzip -dc %s | tar xf -' % localfile)
-
-        if res != 0 or not os.path.exists(checkoutdir):
+        else:
+            raise TypeError, "don't know how to handle: %s" % localfile
+        
+        if res or not os.path.exists(checkoutdir):
             return (self.STATE_PATCH, 'could not unpack tarball', [])
 
         return (self.STATE_PATCH, None, None)
 
     def do_patch(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
+        
         for patch in self.patches:
             patchfile = os.path.join(os.path.dirname(__file__), patch[0])
             buildscript.message('applying patch %s' % patch[0])
             res = buildscript.execute('patch -p%d < %s' % (patch[1],patchfile))
-            if res != 0:
+            if res:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
+            
         if buildscript.config.nobuild:
             return (self.STATE_DONE, None, None)
         else:
@@ -349,13 +354,14 @@ class ModuleSet:
     def __expand_mod_list(self, modlist, skip):
         '''expands a list of names to a list of Module objects.  Expands
         dependencies.  Does not handle loops in deps''' #"
-        ret = [ self.modules[modname]
-                for modname in modlist if modname not in skip ]
+        ret = [self.modules[modname]
+                   for modname in modlist
+                       if modname not in skip]
         i = 0
         while i < len(ret):
             depadd = []
-            for depmod in [ self.modules[modname]
-                            for modname in ret[i].dependencies ]:
+            for depmod in [self.modules[modname]
+                               for modname in ret[i].dependencies]:
                 if depmod not in ret[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
             if depadd:
@@ -393,23 +399,29 @@ class ModuleSet:
             else:
                 i = i + 1
         return ret
+    
     def get_full_module_list(self, skip=[]):
         return self.get_module_list(self.modules.keys(), skip=skip)
+    
     def write_dot(self, modules=None, fp=sys.stdout):
-        if modules is None: modules = self.modules.keys()
+        if modules is None:
+            modules = self.modules.keys()
         inlist = {}
-        for module in modules: inlist[module] = None
+        for module in modules:
+            inlist[module] = None
 
         fp.write('digraph "G" {\n'
                  '  fontsize = 8;\n'
                  '  ratio = auto;\n')
-        while len(modules) > 0:
+        while modules:
             modname = modules[0]
             mod = self.modules[modname]
             if isinstance(mod, CVSModule):
                 label = mod.cvsmodule
-                if mod.revision: label = label + '\\nrv: ' + mod.revision
-                attrs = '[color="lightskyblue",style="filled",label="%s"]' % label
+                if mod.revision:
+                    label = label + '\\nrv: ' + mod.revision
+                attrs = '[color="lightskyblue",style="filled",label="%s"]' % \
+                        label
             elif isinstance(mod, MetaModule):
                 attrs = '[color="lightcoral",style="filled",' \
                         'label="%s"]' % mod.name
@@ -418,9 +430,11 @@ class ModuleSet:
                         'label="%s\\n%s"]' % (mod.name, mod.version)
             fp.write('  "%s" %s;\n' % (modname, attrs))
             del modules[0]
+            
             for dep in self.modules[modname].dependencies:
                 fp.write('  "%s" -> "%s";\n' % (modname, dep))
-                if not inlist.has_key(dep): modules.append(dep)
+                if not inlist.has_key(dep):
+                    modules.append(dep)
                 inlist[dep] = None
         fp.write('}\n')
 
@@ -566,7 +580,8 @@ class BuildScript:
 
         self.config = _Struct
         self.config.autogenargs = configdict.get('autogenargs',
-                                                 '--disable-static --disable-gtk-doc')
+                                                 '--disable-static ' +
+                                                 '--disable-gtk-doc')
         self.config.makeargs = configdict.get('makeargs', '')
         self.config.prefix = configdict.get('prefix', '/opt/gtk2')
         self.config.nobuild = configdict.get('nobuild', False)
@@ -576,7 +591,10 @@ class BuildScript:
 
         self.config.checkoutroot = configdict.get('checkoutroot')
         if not self.config.checkoutroot:
-            self.config.checkoutroot = os.path.join(os.environ['HOME'], 'cvs','gnome')
+            self.config.checkoutroot = os.path.join(os.environ['HOME'],
+                                                    'cvs','gnome')
+        assert os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK), \
+               'checkout root must be writable'
         assert os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK), \
                'install prefix must be writable'
 
@@ -650,6 +668,7 @@ class BuildScript:
                 print '  [%d] go to stage %s' % (i, altstate)
                 i = i + 1
             val = raw_input('choice: ')
+            val = val.strip()
             if val == '1':
                 return state
             elif val == '2':
