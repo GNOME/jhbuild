@@ -27,21 +27,11 @@
      root=":pserver:anoncvs@pdx.freedesktop.org:/cvs/xapps"
      password="" />
 
-  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
-  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
-    <dependencies>
-      <dep package="slim" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
-    <dependencies>
-      <dep package="libpixregion" />
-    </dependencies>
-  </cvsmodule>
+  <cvsmodule id="libpixman" cvsroot="cairo.freedesktop.org" />
   <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="fontconfig" />
-      <dep package="libic" />
+      <dep package="libpixman" />
       <dep package="Xrender" />
     </dependencies>
   </cvsmodule>
