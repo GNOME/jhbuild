@@ -12,8 +12,8 @@
   <cvsroot name="fontconfig.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/fontconfig"
      password="" />
-  <cvsroot name="keithp.com"
-     root=":pserver:anoncvs@keithp.com:/local/src/CVS"
+  <cvsroot name="cairo.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
      password="" />
   <cvsroot name="mozilla.org"
      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
@@ -67,28 +67,28 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="slim" cvsroot="keithp.com"/>
+  <cvsmodule id="slim" cvsroot="cairo.freedesktop.org"/>
 
-  <cvsmodule id="libpixregion" cvsroot="keithp.com">
+  <cvsmodule id="libpixregion" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="slim" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="libic" cvsroot="keithp.com">
+  <cvsmodule id="libic" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="libpixregion" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="cairo" cvsroot="keithp.com">
+  <cvsmodule id="cairo" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="libic" />
       <dep package="Xft" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="cairo-gtk-engine" cvsroot="keithp.com">
+  <cvsmodule id="cairo-gtk-engine" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="gtk+" />
       <dep package="cairo" />
