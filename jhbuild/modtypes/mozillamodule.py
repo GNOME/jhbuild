@@ -2,7 +2,7 @@
 # Copyright (C) 2001-2004  James Henstridge
 # Copyright (C) 2003-2004  Marco Pesenti Gritti
 #
-#   mozilla.py: rules for building Mozilla
+#   mozillamodule.py: rules for building Mozilla
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,10 @@ class MozillaModule(base.CVSModule):
                                 dependencies=dependencies,
                                 suggests=suggests,
                                 cvsroot=cvsroot)
-        
+
+    def get_builddir(self, buildscript):
+        return self.get_srcdir(self, buildscript)
+
     def get_mozilla_ver(self, buildscript):
         filename = os.path.join(self.get_builddir(buildscript),
                                 'config', 'milestone.txt')

@@ -48,7 +48,7 @@ class Tarball(base.Package):
                                  os.path.basename(self.source_url))
         return localfile
 
-    def get_builddir(self, buildscript):
+    def get_srcdir(self, buildscript):
         localfile = self.get_localfile(buildscript)
         # strip off packaging extension ...
         if localfile.endswith('.tar.gz'):
@@ -58,6 +58,13 @@ class Tarball(base.Package):
         elif localfile.endswith('.tgz'):
             localfile = localfile[:-4]
         return localfile
+    def get_builddir(self, buildscript):
+        srcdir = self.get_srcdir(buildscript)
+        if buildscript.config.buildroot:
+            return os.path.join(buildscript.config.buildroot,
+                                os.path.basename(srcdir))
+        else:
+            return srcdir
 
     def get_revision(self):
         return self.version
@@ -113,7 +120,7 @@ class Tarball(base.Package):
     def do_unpack(self, buildscript):
         os.chdir(buildscript.config.checkoutroot)
         localfile = self.get_localfile(buildscript)
-        checkoutdir = self.get_builddir(buildscript)
+        srcdir = self.get_srcdir(buildscript)
 
         buildscript.set_action('Unpacking', self)
         if localfile.endswith('.bz2'):
@@ -123,13 +130,13 @@ class Tarball(base.Package):
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
         
-        if res or not os.path.exists(checkoutdir):
+        if res or not os.path.exists(srcdir):
             return (self.STATE_PATCH, 'could not unpack tarball', [])
 
         return (self.STATE_PATCH, None, None)
 
     def do_patch(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
+        os.chdir(self.get_srcdir(buildscript))
         
         for (patch, patchstrip) in self.patches:
             patchfile = os.path.join(jhbuild_directory, 'patches', patch)
@@ -145,9 +152,16 @@ class Tarball(base.Package):
             return (self.STATE_CONFIGURE, None, None)
 
     def do_configure(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
+        builddir = self.get_builddir(buildscript)
+        if buildscript.config.builddir and not os.path.exists(builddir):
+            os.makedirs(builddir)
+        os.chdir(builddir)
         buildscript.set_action('Configuring', self)
-        cmd = './configure --prefix %s' % buildscript.config.prefix
+        if buildscript.config.buildroot:
+            cmd = self.get_srcdir(buildscript) + '/configure'
+        else:
+            cmd = './configure'
+        cmd += ' --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)

@@ -1,3 +1,40 @@
+2004-05-18  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/modtypes/__init__.py: don't import tarball and mozilla
+	modules -- instead let them be discovered as needed.
+
+	* jhbuild/modtypes/mozillamodule.py: rename from mozilla.py
+
+	* jhbuild/modtypes/base.py (parse_xml_node): if the module type is
+	unknown, try to import a module in the jhbuild.modtypes package by
+	the same name first.
+
+	Based on Thomas Fitzsimmons' GCJ patch (this isn't a complete
+	merge).
+
+	* jhbuild/modtypes/mozilla.py (MozillaModule.get_builddir): don't
+	bother supporting srcdir != builddir here.
+
+	* jhbuild/modtypes/tarball.py (Tarball.get_builddir): fix up for
+	srcdir != builddir installs.
+	(Tarball.do_unpack): check if srcdir exists after unpacking,
+	rather than builddir.
+	(Tarball.do_patch): apply patches in srcdir
+	(Tarball.do_configure): handle srcdir!=builddir case
+
+	* jhbuild/modtypes/base.py (Package.get_srcdir): add function.
+	(CVSModule.get_srcdir): implement for CVSModule.
+	(CVSModule.get_builddir): respect config.builddir, if set.
+	(CVSModule.do_checkout): use the srcdir for checkout.
+	(CVSModule.do_force_checkout): same here.
+	(CVSModule.do_configure): if srcdir != builddir, create the
+	builddir, and don't assume autogen.sh is in the local directory.
+
+	* jhbuild/defaults.jhbuildrc (builddir): default builddir to None.
+
+	* jhbuild/config.py (_known_keys): add builddir to list of
+	recognised keys.
+
 2004-05-18  Davyd Madeley  <davyd@ucc.asn.au>
 
 	* contrib/jhbuild_completion.bash: Make the completion still work if

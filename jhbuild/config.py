@@ -28,12 +28,12 @@ _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.jhbuildrc')
 _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
-                'checkoutroot', 'autogenargs', 'makeargs', 'cvsroots',
-                'branches', 'module_autogenargs', 'interact',
-                'buildscript', 'nonetwork', 'alwaysautogen',
-                'nobuild', 'makeclean', 'makecheck', 'use_lib64',
-                'tinderbox_outputdir', 'sticky_date', 'tarballdir',
-                'pretty_print' ]
+                'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
+                'cvsroots', 'branches', 'module_autogenargs',
+                'interact', 'buildscript', 'nonetwork',
+                'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',
+                'use_lib64', 'tinderbox_outputdir', 'sticky_date',
+                'tarballdir', 'pretty_print' ]
 
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
