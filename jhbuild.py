@@ -43,12 +43,14 @@ Commands:
   dot [modules]                output a dot file of dependencies suitable
                                for processing with graphviz.
 
-Options for the build/buildone commands:
+Options valid for the update, build and buildone commands:
+  -s, --skip=MODULES           treat the given modules (and deps) as up to date
+  -t, --start-at=MODULE        start building at the given module
+
+Options valid for the build and buildone commands:
   -a, --autogen                Always run autogen.sh
   -c, --clean                  run make clean before make
   -n, --no-network             skip cvs update
-  -s, --skip=MODULES           treat the given modules (and deps) as up to date
-  -t, --start-at=MODULE        start building at the given module
 ''' # for xemacs/jed "
 
 default_config = {
