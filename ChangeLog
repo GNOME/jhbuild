@@ -1,3 +1,16 @@
+2004-04-12  James Henstridge  <james@daa.com.au>
+
+	* jhbuild/modtypes/base.py (CVSModule.do_check): add check phase
+	for running test suites on modules.
+
+	* jhbuild/config.py (_known_keys): add a makecheck config key.
+
+	* jhbuild/modtypes/base.py (CVSModule.do_start): if makeclean,
+	then go to stage clean (if we aren't running checkout or
+	configure).
+	(CVSModule.do_checkout): check if makeclean is set.
+	(CVSModule.do_clean): add clean state.
+
 2004-04-10  James Henstridge  <james@daa.com.au>
 
 	* jhbuild/main.py (help): add some help text.

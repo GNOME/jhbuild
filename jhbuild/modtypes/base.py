@@ -62,8 +62,10 @@ class CVSModule(Package):
     type = 'cvs'
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
+    STATE_CLEAN          = 'clean'
     STATE_CONFIGURE      = 'configure'
     STATE_BUILD          = 'build'
+    STATE_CHECK          = 'check'
     STATE_INSTALL        = 'install'
 
     def __init__(self, cvsmodule, checkoutdir=None, revision=None,
@@ -90,11 +92,13 @@ class CVSModule(Package):
             return (self.STATE_CHECKOUT, None, None)
         elif buildscript.config.nobuild:
             return (self.STATE_DONE, None, None)
-        elif not buildscript.config.alwaysautogen and \
-                 os.path.exists(os.path.join(checkoutdir, 'Makefile')):
-            return (self.STATE_BUILD, None, None)
-        else:
+        elif buildscript.config.alwaysautogen or \
+                 not os.path.exists(os.path.join(checkoutdir, 'Makefile')):
             return (self.STATE_CONFIGURE, None, None)
+        elif buildscript.config.makeclean:
+            return (self.STATE_CLEAN, None, None)
+        else:
+            return (self.STATE_BUILD, None, None)
 
     def do_checkout(self, buildscript):
         cvsroot = cvs.CVSRoot(self.cvsroot,
@@ -107,11 +111,13 @@ class CVSModule(Package):
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
-        elif not buildscript.config.alwaysautogen and \
-                 os.path.exists(os.path.join(checkoutdir, 'Makefile')):
-            nextstate = self.STATE_BUILD
-        else:
+        elif buildscript.config.alwaysautogen or \
+                 not os.path.exists(os.path.join(checkoutdir, 'Makefile')):
             nextstate = self.STATE_CONFIGURE
+        elif buildscript.config.makeclean:
+            nextstate = self.STATE_CLEAN
+        else:
+            nextstate = self.STATE_BUILD
         # did the checkout succeed?
         if res == 0 and os.path.exists(checkoutdir):
             return (nextstate, None, None)
@@ -146,20 +152,48 @@ class CVSModule(Package):
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s %s' % (self.autogenargs, buildscript.config.autogenargs)
+        if buildscript.config.makeclean:
+            nextstate = self.STATE_CLEAN
+        else:
+            nextstate = self.STATE_BUILD
+        if buildscript.execute(cmd) == 0:
+            return (nextstate, None, None)
+        else:
+            return (nextstate, 'could not configure module',
+                    [self.STATE_FORCE_CHECKOUT])
+
+    def do_clean(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.set_action('Cleaning', self)
+        cmd = 'make %s clean' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
-            return (self.STATE_BUILD, 'could not configure module',
-                    [self.STATE_FORCE_CHECKOUT])
+            return (self.STATE_BUILD, 'could not clean module',
+                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
         cmd = 'make %s' % buildscript.config.makeargs
+        if buildscript.config.makecheck:
+            nextstate = self.STATE_CHECK
+        else:
+            nextstate = self.STATE_INSTALL
+        if buildscript.execute(cmd) == 0:
+            return (nextstate, None, None)
+        else:
+            return (nextstate, 'could not build module',
+                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
+
+    def do_check(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.set_action('Checking', self)
+        cmd = 'make %s check' % buildscript.config.makeargs
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
-            return (self.STATE_INSTALL, 'could not build module',
+            return (self.STATE_INSTALL, 'test suite failed',
                     [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
 
     def do_install(self, buildscript):
