@@ -158,7 +158,7 @@ gnome20.addmod('gst-plugins', cvsroot=gstreamer_cvsroot,
 gnome20.addmod('gst-player', cvsroot=gstreamer_cvsroot,
                dependencies=['gstreamer', 'libgnomeui'])
 gnome20.addmod('libmrproject',
-               dependencies=['glib', 'gnome-xml'])
+               dependencies=['glib', 'gnome-xml', 'libgsf'])
 gnome20.addmod('mrproject',
                dependencies=['libmrproject', 'libgnomeui'])
 gnome20.addmod('dia-newcanvas',
