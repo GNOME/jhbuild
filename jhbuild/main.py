@@ -92,7 +92,7 @@ def main(args):
         elif opt in ('-f', '--file'):
             configfile = arg
         elif opt in ('-m', '--moduleset'):
-            moduleset = None
+            moduleset = arg
         elif opt == '--no-interact':
             nointeract = True
 
