@@ -55,7 +55,7 @@ Options valid for the build and buildone commands:
   -n, --no-network             skip cvs update
 
 Options valid for the list command:
-  -r, --show-branch            show which revision will be built
+  -r, --show-revision          show which revision will be built
 ''' # for xemacs/jed "
 
 def main(args):
