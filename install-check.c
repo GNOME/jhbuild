@@ -79,7 +79,7 @@ main (int    argc,
       if (strcmp (start, "orbit-idl-2") != 0)
 	goto install;
     }
-  else if (dot[1] != 'h' && strcmp (dot + 1, "idl") != 0)
+  else if (dot[1] != 'h' && dot[1] != 'c' && strcmp (dot + 1, "idl") != 0)
     goto install;
 
   if ((argc == 4) &&
