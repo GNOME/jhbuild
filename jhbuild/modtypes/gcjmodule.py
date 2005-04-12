@@ -70,7 +70,7 @@ class GCCCVSRoot(cvs.CVSRoot):
         # the top-level gcc directory, it is difficult to make the
         # update process robust against checkout interruptions.
         os.chdir(dir)
-        cmd = 'contrib/gcc_update --nostdflags -P '
+        cmd = 'contrib/gcc_update --nostdflags -d -P '
 
         if revision:
             cmd += '-r %s ' % revision
