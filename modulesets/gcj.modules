@@ -53,7 +53,7 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="java-gnome" cvsroot="gnome.org">
+  <cvsmodule id="jg-common" cvsroot="gnome.org">
     <suggests>
       <dep package="gcj" />
     </suggests>
@@ -109,5 +109,24 @@
       <dep package="libgnome-java" />
     </dependencies>
   </cvsmodule>
+
+  <cvsmodule id="libgconf-java" cvsroot="gnome.org">
+    <suggests>
+      <dep package="gcj" />
+    </suggests>
+    <dependencies>
+      <dep package="libgtk-java" />
+      <dep package="libgnome-java" />
+    </dependencies>
+  </cvsmodule>
+
+  <metamodule id="java-gnome">
+    <dependencies>
+      <dep package="libgtk-java" />
+      <dep package="libgnome-java" />
+      <dep package="libglade-java" />
+      <dep package="libgconf-java" />
+    </dependencies>
+  </metamodule>
 
 </moduleset>
