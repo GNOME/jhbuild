@@ -161,11 +161,19 @@ class ModuleSet:
         fp.write('}\n')
 
 def load(config, uri=None):
-    if uri is None: uri = config.moduleset
-    if '/' not in uri:
-        uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
-                           uri + '.modules')
-    return _parse_module_set(config, uri)
+    if uri is not None:
+        modulesets = [ uri ]
+    elif type(config.moduleset) == type([]):
+        modulesets = config.moduleset
+    else:
+        modulesets = [ config.moduleset ]
+    ms = ModuleSet()
+    for uri in modulesets:
+        if '/' not in uri:
+            uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
+                               uri + '.modules')
+        ms.modules.update(_parse_module_set(config, uri).modules)
+    return ms
 
 def _parse_module_set(config, uri):
     try:
