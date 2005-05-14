@@ -144,7 +144,7 @@ class AutogenModule(Package):
     def do_clean(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Cleaning', self)
-        cmd = 'make %s clean' % self.makeargs
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_BUILD, None, None)
         else:
@@ -154,7 +154,7 @@ class AutogenModule(Package):
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
-        cmd = 'make %s' % self.makeargs
+        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         if buildscript.config.makecheck:
             nextstate = self.STATE_CHECK
         else:
@@ -168,7 +168,7 @@ class AutogenModule(Package):
     def do_check(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Checking', self)
-        cmd = 'make %s check' % self.makeargs
+        cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
         if buildscript.execute(cmd) == 0:
             return (self.STATE_INSTALL, None, None)
         else:
@@ -178,7 +178,7 @@ class AutogenModule(Package):
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s install' % self.makeargs
+        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'

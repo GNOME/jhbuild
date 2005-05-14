@@ -150,7 +150,7 @@ class GCJModule(base.CVSModule):
         system compilers.'''
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s install' % self.makeargs
+        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
         error = None
         if buildscript.execute(cmd) != 0:
             error = 'could not make module'
