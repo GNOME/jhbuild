@@ -61,7 +61,7 @@ class GCCCVSRoot(cvs.CVSRoot):
         "cvs update".'''
         dir = self.getcheckoutdir(module, checkoutdir)
         if not os.path.exists(dir):
-            return self.checkout(buildscript, 'gcc-core gcc-java gcc-g++ gcc/gcc/fixinc',
+            return self.checkout(buildscript, 'gcc',
                                  revision, date, checkoutdir)
 
         # gcc_update will not update the tree properly if a previous
