@@ -1,5 +1,9 @@
 2005-06-09  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/modtypes/tarball.py (Tarball.get_localfile): check if
+	basename is None.  If so, raise FatalError.  This is to catch some
+	errors in moduleset files.  Fixes bug #173018.
+
 	* modulesets/gnome-2.12.modules (gthumb): add gthumb.  Patch from
 	Jaap A. Haitsma <jaap@haitsma.org> (fixes bug #305860).
 	(fast-user-switch-applet): add module.  Patch from Jaap A. Haitsma

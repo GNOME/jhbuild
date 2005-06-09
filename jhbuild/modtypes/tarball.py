@@ -48,8 +48,11 @@ class Tarball(base.Package):
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_localfile(self, buildscript):
-        localfile = os.path.join(buildscript.config.tarballdir,
-                                 os.path.basename(self.source_url))
+        basename = os.path.basename(self.source_url)
+        if not basename:
+            raise FatalError('URL has no filename component: %s'
+                             % self.source_url)
+        localfile = os.path.join(buildscript.config.tarballdir, basename)
         return localfile
 
     def get_srcdir(self, buildscript):
