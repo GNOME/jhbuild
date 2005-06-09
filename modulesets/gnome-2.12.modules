@@ -36,9 +36,9 @@
   <cvsroot name="inkscape.sf.net"
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/inkscape"
      password="" />
-
-  <arch-archive name="rhythmbox-devel@gnome.org--2004"
-		href="http://web.rhythmbox.org/arch/2004" />
+  <cvsroot name="gnome-power.sf.net"
+     root=":pserver:anonymous@cvs.sf.net:/cvsroot/gnome-power"
+     password="" />
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -375,6 +375,11 @@
       <dep package="nautilus" />
     </dependencies>
   </cvsmodule>      
+  <cvsmodule id="nautilus-open-terminal">
+    <dependencies>
+      <dep package="nautilus" />
+    </dependencies>
+  </cvsmodule>      
   <cvsmodule id="nautilus-media" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="nautilus" />
@@ -604,13 +609,14 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="librep" />
-  <archmodule id="rhythmbox" root="rhythmbox-devel@gnome.org--2004"
-	      version="rhythmbox--main--0.9" checkoutdir="rhythmbox">
+  <cvsmodule id="rhythmbox">
     <dependencies>
       <dep package="libgnomeui" />
-      <dep package="gst-plugins"/>
+      <dep package="gst-plugins" />
+      <dep package="nautilus-cd-burner" />
+      <dep package="totem" />
     </dependencies>
-  </archmodule>
+  </cvsmodule>
   <cvsmodule id="gstreamer" revision="BRANCH-GSTREAMER-0_8" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="glib" />
@@ -889,6 +895,34 @@
       <dep package="gconf" />
       <dep package="gtk+" />
       <dep package="dbus" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-power" cvsroot="gnome-power.sf.net">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="hal" />
+      <dep package="libwnck" />
+      <dep package="gtk+" />
+      <dep package="gconf" />
+      <dep package="intltool" />
+      <dep package="libglade" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gthumb">
+    <dependencies>
+      <dep package="libgnomeui" />
+      <dep package="gnome-vfs" />
+      <dep package="libglade" />
+      <dep package="libbonoboui" />
+      <dep package="libgnomeprintui" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="fast-user-switch-applet">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="gconf" />
+      <dep package="libglade" />
+      <dep package="gnome-panel" />
     </dependencies>
   </cvsmodule>
 

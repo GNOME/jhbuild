@@ -132,9 +132,9 @@ class Tarball(base.Package):
 
         buildscript.set_action('Unpacking', self)
         if localfile.endswith('.bz2'):
-            res = buildscript.execute('bunzip2 -dc %s | tar xf -' % localfile)
+            res = buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile)
         elif localfile.endswith('.gz'):
-            res = buildscript.execute('gunzip -dc %s | tar xf -' % localfile)
+            res = buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
         
@@ -149,8 +149,8 @@ class Tarball(base.Package):
         for (patch, patchstrip) in self.patches:
             patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.set_action('Applying Patch', self, action_target=patch)
-            res = buildscript.execute('patch -p%d < %s' % (patchstrip,
-                                                           patchfile))
+            res = buildscript.execute('patch -p%d < "%s"' % (patchstrip,
+                                                             patchfile))
             if res:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
             
