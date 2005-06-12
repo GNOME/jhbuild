@@ -38,9 +38,19 @@ class MozillaModule(base.CVSModule):
 	self.projects = projects
 	os.environ['MOZ_CO_PROJECT'] = projects
 
+    def get_mozilla_app(self):
+        if self.projects == 'browser':
+            return 'firefox'
+        else:
+            return 'mozilla'
+
     def get_mozilla_ver(self, buildscript):
-        filename = os.path.join(self.get_builddir(buildscript),
-                                'config', 'milestone.txt')
+	if self.projects == 'browser':
+            filename = os.path.join(self.get_builddir(buildscript),
+                                    'browser', 'config', 'version.txt') 
+        else:
+            filename = os.path.join(self.get_builddir(buildscript),
+                                    'config', 'milestone.txt')
 	fp = open(filename, 'r')
 	for line in fp.readlines():
 	    if line[0] not in ('#', '\0', '\n'):
@@ -96,12 +106,14 @@ class MozillaModule(base.CVSModule):
         os.chdir(checkoutdir)
         buildscript.set_action('Configuring', self)
         if buildscript.config.use_lib64:
-            mozilla_path = '%s/lib64/mozilla-%s' \
+            mozilla_path = '%s/lib64/%s-%s' \
                            % (buildscript.config.prefix,
+                              self.get_mozilla_app(),
                               self.get_mozilla_ver(buildscript))
         else:
-            mozilla_path = '%s/lib/mozilla-%s' \
+            mozilla_path = '%s/lib/%s-%s' \
                            % (buildscript.config.prefix,
+                              self.get_mozilla_app(),
                               self.get_mozilla_ver(buildscript))
         
         cmd = './configure --prefix %s ' % buildscript.config.prefix
