@@ -54,7 +54,7 @@ class MozillaModule(base.CVSModule):
 	fp = open(filename, 'r')
 	for line in fp.readlines():
 	    if line[0] not in ('#', '\0', '\n'):
-                return line[:-1]
+                return line.strip()
         else:
             raise FatalError('could not determine mozilla version')
 
@@ -130,6 +130,29 @@ class MozillaModule(base.CVSModule):
         else:
             return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
+
+    def do_install(self, buildscript):
+        os.chdir(self.get_builddir(buildscript))
+        buildscript.set_action('Installing', self)
+        cmd = 'make %s %s install' % (buildscript.config.makeargs,
+                                      self.makeargs)
+        error = None
+        if buildscript.execute(cmd) != 0:
+            error = 'could not make module'
+        else:
+            cmd = 'mkdir %s/include/%s-%s/nss' \
+                              % (buildscript.config.prefix,
+				self.get_mozilla_app(),
+				self.get_mozilla_ver(buildscript))
+            buildscript.execute(cmd)
+            cmd = 'find %s/security/nss/lib/ -name \'*.h\' -type f -exec /bin/cp {} %s/include/%s-%s/nss/ \;' \
+                              % (self.get_builddir(buildscript),
+                                 buildscript.config.prefix,
+				 self.get_mozilla_app(),
+                                 self.get_mozilla_ver(buildscript))
+            buildscript.execute(cmd)
+            buildscript.packagedb.add(self.name, self.get_revision() or '')
+        return (self.STATE_DONE, error, [])
 
 def parse_mozillamodule(node, config, dependencies, suggests, root):
     if root[0] != 'cvs':
