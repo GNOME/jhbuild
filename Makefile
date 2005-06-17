@@ -4,7 +4,7 @@ VERSION = 0.1
 CC = gcc
 CFLAGS = -Wall -O2
 
-bindir=$(HOME)/bin
+bindir=/opt/extra/bin
 desktopdir=$(HOME)/.gnome2/vfolders/applications
 
 all: install-check
