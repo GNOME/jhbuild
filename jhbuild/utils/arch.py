@@ -66,10 +66,10 @@ class ArchArchive:
 
     def checkout(self, buildscript, version, date=None, checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'baz get %s/%s ' % (self.archive, version)
+        cmd = ['baz', 'get', '%s/%s' % (self.archive, version)]
 
         if checkoutdir:
-            cmd += '%s ' % checkoutdir
+            cmd.append(checkoutdir)
 
         if date:
             sys.stderr.write('date based checkout not yet supported\n')
@@ -92,8 +92,8 @@ class ArchArchive:
         # how do you move a working copy to another branch?
         wc_archive, wc_version = get_version('.')
         if (wc_archive, wc_version) != (self.archive, version):
-            cmd = 'baz switch %s/%s' % (self.archive, version)
+            cmd = ['baz', 'switch', '%s/%s' % (self.archive, version)]
         else:
-            cmd = 'baz update'
+            cmd = ['baz', 'update']
 
         return buildscript.execute(cmd, 'arch')

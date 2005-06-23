@@ -122,19 +122,19 @@ class CVSRoot:
     def checkout(self, buildscript, module, revision=None, date=None,
                  checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'cvs -z3 -q -d %s checkout -P ' % self.cvsroot
+        cmd = ['cvs', '-z3', '-q', '-d', self.cvsroot, 'checkout', '-P']
 
         if checkoutdir:
-            cmd += '-d %s ' % checkoutdir
+            cmd.extend(['-d', checkoutdir])
 
         if revision:
-            cmd += '-r %s ' % revision
+            cmd.extend(['-r', revision])
         if date:
-            cmd += '-D "%s" ' % date
+            cmd.extend(['-D', date])
         if not (revision or date):
-            cmd = cmd + '-A '
+            cmd.append('-A')
 
-        cmd += module
+        cmd.append(module)
 
         return buildscript.execute(cmd, 'cvs')
 
@@ -156,15 +156,15 @@ class CVSRoot:
             return -1
 
         os.chdir(dir)
-        cmd = 'cvs -z3 -q -d %s update -dP ' % self.cvsroot
+        cmd = ['cvs', '-z3', '-q', '-d', self.cvsroot, 'update', '-dP']
 
         if revision:
-            cmd += '-r %s ' % revision
+            cmd.extend(['-r', revision])
         if date:
-            cmd += '-D "%s" ' % date
+            cmd.extend(['-D', date])
         if not (revision or date):
-            cmd = cmd + '-A '
+            cmd.append('-A')
 
-        cmd += '.'
+        cmd.append('.')
 
         return buildscript.execute(cmd, 'cvs')

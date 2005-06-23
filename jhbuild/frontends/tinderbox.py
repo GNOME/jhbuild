@@ -149,8 +149,12 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         
         self.modulefp.write('<pre>')
-        self.modulefp.write('<span class="command">%s</span>\n'
-                            % escape(command))
+        if isinstance(command, str):
+            self.modulefp.write('<span class="command">%s</span>\n'
+                                % escape(command))
+        else:
+            self.modulefp.write('<span class="command">%s</span>\n'
+                                % escape(' '.join(command)))
         if hint == 'cvs':
             def format_line(line, error_output, fp=self.modulefp):
                 if line[-1] == '\n': line = line[:-1]

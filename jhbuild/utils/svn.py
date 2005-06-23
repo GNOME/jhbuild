@@ -55,13 +55,13 @@ class SVNRoot:
 
     def checkout(self, buildscript, module, date=None, checkoutdir=None):
         os.chdir(self.localroot)
-        cmd = 'svn checkout %s ' % _make_uri(self.svnroot, module)
+        cmd = ['svn', 'checkout', _make_uri(self.svnroot, module)]
 
         if checkoutdir:
-            cmd += '%s ' % checkoutdir
+            cmd.append(checkoutdir)
 
         if date:
-            cmd += '-r "{%s}" ' % date
+            cmd.extend(['-r', '{%s}' % date])
 
         return buildscript.execute(cmd, 'svn')
 
@@ -73,15 +73,15 @@ class SVNRoot:
 
         os.chdir(dir)
 
-        opt = ''
+        opt = []
         if date:
-            opt += '-r "{%s}" ' % date
+            opt.extend(['-r', '{%s}' % date])
 
         # if the URI doesn't match, use "svn switch" instead of "svn update"
         uri = _make_uri(self.svnroot, module)
         if get_uri('.') != uri:
-            cmd = 'svn switch %s%s' % (opt, uri)
+            cmd = ['svn', 'switch'] + opt + [uri]
         else:
-            cmd = 'svn update %s.' % opt
+            cmd = ['svn', 'update'] + opt + ['.']
 
         return buildscript.execute(cmd, 'svn')

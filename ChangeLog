@@ -1,5 +1,21 @@
 2005-06-23  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/utils/arch.py (ArchArchive.checkout):
+	(ArchArchive.update): use argument lists
+
+	* jhbuild/utils/svn.py (SVNRoot.checkout, SVNRoot.update): use
+	argument lists.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	same here.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): if
+	an argument list is given, join the arguments before printing it
+	to the screen.
+
+	* jhbuild/utils/cvs.py (CVSRoot.checkout, CVSRoot.update): use an
+	argument list rather than an argument string.
+
 	* jhbuild/commands/sanitycheck.py: pass argument lists instead of
 	strings, to avoid shell calls.
 
