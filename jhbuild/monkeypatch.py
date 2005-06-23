@@ -19,6 +19,8 @@
 
 from __future__ import generators
 
+import sys
+
 # add True and False constants, for the benefit of Python < 2.2.1
 import __builtin__
 if not hasattr(__builtin__, 'True'):
@@ -161,3 +163,9 @@ if not hasattr(string, 'Template'):
             return self.pattern.sub(convert, self.template)
 
     string.Template = Template
+
+try:
+    import subprocess
+except ImportError:
+    from jhbuild.cut_n_paste import subprocess
+    sys.modules['subprocess'] = subprocess
