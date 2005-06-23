@@ -20,6 +20,7 @@
 
 import sys
 import os
+import signal
 import subprocess
 
 from jhbuild.frontends import buildscript
@@ -120,7 +121,11 @@ class TerminalBuildScript(buildscript.BuildScript):
                 useshell=False
             p = subprocess.Popen(command, shell=useshell,
                                  stdin=subprocess.PIPE)
-            p.communicate()
+            try:
+                p.communicate()
+            except KeyboardInterrupt:
+                os.kill(p.pid, signal.SIGINT)
+                p.wait()
             ret = p.returncode
         return ret
 

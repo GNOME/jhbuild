@@ -118,8 +118,8 @@ class Tarball(base.Package):
             if self.check_localfile(buildscript) is not None:
                 # don't have a local copy
                 buildscript.set_action('Downloading', self, action_target=self.source_url)
-                res = buildscript.execute('wget "%s" -O "%s"' %
-                                          (self.source_url, localfile))
+                res = buildscript.execute(['wget', self.source_url,
+                                           '-O', localfile])
                 if res:
                     return (self.STATE_UNPACK, 'error downloading file', [])
 
