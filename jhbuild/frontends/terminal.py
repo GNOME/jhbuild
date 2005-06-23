@@ -20,7 +20,9 @@
 
 import sys
 import os
-import buildscript
+import subprocess
+
+from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
 
@@ -28,14 +30,14 @@ term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
 
-try: t_bold = cmds.get_output('tput bold')
+try: t_bold = cmds.get_output(['tput', 'bold'])
 except: t_bold = ''
-try: t_reset = cmds.get_output('tput sgr0')
+try: t_reset = cmds.get_output(['tput', 'sgr0'])
 except: t_reset = ''
 t_colour = [''] * 16
 try:
     for i in range(8):
-        t_colour[i] = cmds.get_output('tput setf %d' % i)
+        t_colour[i] = cmds.get_output(['tput', 'setf', '%d' % i])
         t_colour[i+8] = t_bold + t_colour[i]
 except: pass
 
@@ -85,11 +87,25 @@ class TerminalBuildScript(buildscript.BuildScript):
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         print command
+
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print: hint = None
         if hint == 'cvs':
+            if isinstance(command, str):
+                p = subprocess.Popen(command, shell=True,
+                                     stdin=subprocess.PIPE,
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT)
+            else:
+                p = subprocess.Popen(command,
+                                     stdin=subprocess.PIPE,
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT)
+            p.stdin.close()
+
             conflicts = []
-            def format_line(line, error_output, conflicts=conflicts):
+            line = p.stdout.readline()
+            while line:
                 if line[-1] == '\n': line = line[:-1]
                 if line.startswith('C '):
                     conflicts.append(line)
@@ -100,7 +116,9 @@ class TerminalBuildScript(buildscript.BuildScript):
                     print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
                     print line
-            ret = cmds.execute_pprint(command, format_line)
+                line = p.stdout.readline()
+            p.wait()
+            ret = p.returncode
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
                 for line in conflicts:
@@ -108,7 +126,14 @@ class TerminalBuildScript(buildscript.BuildScript):
                                      % (t_colour[12], line, t_reset))
                 if ret == 0: ret = 1 # make sure conflicts fail
         else:
-            ret = os.system(command)
+            if isinstance(command, str):
+                p = subprocess.Popen(command, shell=True,
+                                     stdin=subprocess.PIPE)
+            else:
+                p = subprocess.Popen(command,
+                                     stdin=subprocess.PIPE)
+            p.communicate()
+            ret = p.returncode
         return ret
 
     def start_phase(self, module, state):

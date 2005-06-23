@@ -1,5 +1,11 @@
 2005-06-23  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): use
+	the subprocess module to implement execute().
+
+	* jhbuild/utils/cmds.py (get_output): use subprocess module.
+	(execute_pprint): remove function.
+
 	* jhbuild/monkeypatch.py: add enumerate() and string.Template (not
 	used yet).
 	(subprocess): provide the subprocess module if it isn't available.
