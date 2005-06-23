@@ -35,15 +35,15 @@ def check_version(cmd, regexp, minver):
     version = match.group(1)
 
     version = version.split('.')
-    for i in range(len(version)):
-        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', version[i])
+    for i, ver in enumerate(version):
+        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
         if not part:
             version[i] = None
         else:
             version[i] = int(part)
     minver = minver.split('.')
-    for i in range(len(minver)):
-        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', minver[i])
+    for i, ver in enumerate(minver):
+        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
         if not part:
             minver[i] = None
         else:
