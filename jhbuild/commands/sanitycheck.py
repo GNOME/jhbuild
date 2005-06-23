@@ -51,7 +51,7 @@ def check_version(cmd, regexp, minver):
     return version >= minver
 
 def get_aclocal_path(version):
-    data = get_output('aclocal-%s --print-ac-dir' % version)
+    data = get_output(['aclocal-%s' % version, '--print-ac-dir'])
     path = [data[:-1]]
     env = os.environ.get('ACLOCAL_FLAGS', '').split()
     i = 0
@@ -82,31 +82,31 @@ def do_sanitycheck(config, args):
         print 'install prefix is not writable'
 
     # check whether various tools are installed
-    if not check_version('libtoolize --version',
+    if not check_version(['libtoolize', '--version'],
                          r'libtoolize \([^)]*\) ([\d.]+)', '1.5'):
         print 'libtool >= 1.5 not found'
-    if not check_version('gettext --version',
+    if not check_version(['gettext', '--version'],
                          r'gettext \([^)]*\) ([\d.]+)', '0.10.40'):
         print 'gettext >= 0.10.40 not found'
-    if not check_version('pkg-config --version',
+    if not check_version(['pkg-config', '--version'],
                          r'^([\d.]+)', '0.14.0'):
         print 'pkg-config >= 0.14.0 not found'
-    if not check_version('db2html --version',
+    if not check_version(['db2html', '--version'],
                          r'.* ([\d.]+)', '0.0'):
         print 'db2html not found'
-    if not check_version('autoconf --version',
+    if not check_version(['autoconf', '--version'],
                          r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
         print 'autoconf >= 2.53 not found'
-    if not check_version('automake-1.4 --version',
+    if not check_version(['automake-1.4', '--version'],
                          r'automake \([^)]*\) ([\d.]+)', '1.4'):
         print 'automake-1.4 not found'
-    if not check_version('automake-1.7 --version',
+    if not check_version(['automake-1.7', '--version'],
                          r'automake \([^)]*\) ([\d.]+)', '1.7'):
         print 'automake-1.7 not found'
-    if not check_version('automake-1.8 --version',
+    if not check_version(['automake-1.8', '--version'],
                          r'automake \([^)]*\) ([\d.]+)', '1.8'):
         print 'automake-1.8 not found'
-    if not check_version('automake-1.9 --version',
+    if not check_version(['automake-1.9', '--version'],
                          r'automake \([^)]*\) ([\d.]+)', '1.9'):
         print 'automake-1.9 not found'
 
@@ -132,14 +132,14 @@ def do_sanitycheck(config, args):
                              ('http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl',
                               'DocBook XSL Stylesheets')]:
             try:
-                data = get_output('xmlcatalog /etc/xml/catalog "%s"' % item)
+                data = get_output(['xmlcatalog', '/etc/xml/catalog', item])
             except:
                 print 'Could not find %s in XML catalog' % name            
 
     # Perl modules used by tools such as intltool:
     for perlmod in [ 'XML::Parser' ]:
         try:
-            get_output('perl -M%s -e exit' % perlmod)
+            get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
         except:
             print 'Could not find the perl module %s' % perlmod
 
