@@ -91,21 +91,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print: hint = None
         if hint == 'cvs':
-            if isinstance(command, str):
-                p = subprocess.Popen(command, shell=True,
-                                     stdin=subprocess.PIPE,
-                                     stdout=subprocess.PIPE,
-                                     stderr=subprocess.STDOUT)
-            else:
-                p = subprocess.Popen(command,
-                                     stdin=subprocess.PIPE,
-                                     stdout=subprocess.PIPE,
-                                     stderr=subprocess.STDOUT)
-            p.stdin.close()
-
             conflicts = []
-            line = p.stdout.readline()
-            while line:
+            def format_line(line, error_output, conflicts=conflicts):
                 if line[-1] == '\n': line = line[:-1]
                 if line.startswith('C '):
                     conflicts.append(line)
@@ -116,9 +103,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
                     print line
-                line = p.stdout.readline()
-            p.wait()
-            ret = p.returncode
+            ret = cmds.execute_pprint(command, format_line)
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
                 for line in conflicts:
@@ -127,11 +112,11 @@ class TerminalBuildScript(buildscript.BuildScript):
                 if ret == 0: ret = 1 # make sure conflicts fail
         else:
             if isinstance(command, str):
-                p = subprocess.Popen(command, shell=True,
-                                     stdin=subprocess.PIPE)
+                useshell=True
             else:
-                p = subprocess.Popen(command,
-                                     stdin=subprocess.PIPE)
+                useshell=False
+            p = subprocess.Popen(command, shell=useshell,
+                                 stdin=subprocess.PIPE)
             p.communicate()
             ret = p.returncode
         return ret

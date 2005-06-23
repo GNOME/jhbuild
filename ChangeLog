@@ -1,6 +1,12 @@
 2005-06-23  James Henstridge  <james@jamesh.id.au>
 
 	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): use
+	execute_pprint() again for "CVS" colourisation.
+
+	* jhbuild/utils/cmds.py (execute_pprint): add back because it is
+	used by tinderbox too, but port to subprocess.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): use
 	the subprocess module to implement execute().
 
 	* jhbuild/utils/cmds.py (get_output): use subprocess module.
