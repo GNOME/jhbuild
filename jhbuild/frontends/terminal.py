@@ -87,7 +87,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
-        if isinstance(command, str):
+        if isinstance(command, (str, unicode)):
             print command
         else:
             print ' '.join(command)
@@ -115,7 +115,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                                      % (t_colour[12], line, t_reset))
                 if ret == 0: ret = 1 # make sure conflicts fail
         else:
-            if isinstance(command, str):
+            if isinstance(command, (str, unicode)):
                 useshell=True
             else:
                 useshell=False

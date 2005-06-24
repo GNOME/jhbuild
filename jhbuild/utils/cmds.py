@@ -25,7 +25,7 @@ import subprocess
 def get_output(cmd):
     '''Return the output (stdout and stderr) from the command.
     Raises an exception if the command has a non-zero return value.'''
-    if isinstance(cmd, str):
+    if isinstance(cmd, (str, unicode)):
         useshell = True
     else:
         useshell = False
@@ -43,7 +43,7 @@ def execute_pprint(cmd, format_line, split_stderr=False):
     '''Run the given program and pass lines to the format_line function
     for formatting.  If split_stderr is True, then the second argument
     to the format_line function will be true for error output.'''
-    if isinstance(cmd, str):
+    if isinstance(cmd, (str, unicode)):
         useshell = True
     else:
         useshell = False

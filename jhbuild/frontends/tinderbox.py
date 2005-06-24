@@ -149,7 +149,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         
         self.modulefp.write('<pre>')
-        if isinstance(command, str):
+        if isinstance(command, (str, unicode)):
             self.modulefp.write('<span class="command">%s</span>\n'
                                 % escape(command))
         else:
