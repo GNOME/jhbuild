@@ -19,6 +19,7 @@
 
 import os
 import time
+import subprocess
 
 from jhbuild.utils import cmds
 import buildscript
@@ -163,7 +164,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            status = cmds.execute_pprint(command, format_line)
+            stderr = subprocess.STDOUT
         else:
             def format_line(line, error_output, fp=self.modulefp):
                 if line[-1] == '\n': line = line[:-1]
@@ -172,16 +173,15 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            status = cmds.execute_pprint(command, format_line,
-                                         split_stderr=True)
+            stderr = subprocess.PIPE
+        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
+                             close_fds=True,
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                             stderr=stderr)
+        cmds.pprint_output(p, format_line)
         self.modulefp.write('</pre>\n')
         self.modulefp.flush()
-        if not status:
-            return 0
-        elif not os.WIFEXITED(status):
-            return -1
-        else:
-            return os.WEXITSTATUS(status)
+        return p.returncode
 
     def start_build(self):
         assert self.outputdir

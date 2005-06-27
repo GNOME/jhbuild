@@ -1,3 +1,26 @@
+2005-06-27  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/frontends/gtkui.py (GtkBuildScript.execute): minimal
+	changes to use subprocess module for build loop.  Should probably
+	be switched to use IO watches instead.
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.do_install):
+	use argument lists instead of argument strings in a few places.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	use newer API.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): use
+	newer API.
+
+	* jhbuild/utils/cmds.py (get_output): use close_fds=True when
+	spawning child.
+	(Pipeline): a class similar to subprocess.Popen that chains
+	together a number of subprocesses, making the stdin, stdout and
+	stderr available.
+	(pprint_output): change from execute_pprint() to take a
+	subprocess.Pipe-like object, and read data from it.
+
 2005-06-24  James Henstridge  <james@jamesh.id.au>
 
 	* jhbuild/utils/cmds.py (get_output): same here.

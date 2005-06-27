@@ -30,6 +30,7 @@ def get_output(cmd):
     else:
         useshell = False
     p = subprocess.Popen(cmd, shell=useshell,
+                         close_fds=True,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
@@ -39,53 +40,141 @@ def get_output(cmd):
         raise RuntimeError('program exited abnormally')
     return stdout
 
-def execute_pprint(cmd, format_line, split_stderr=False):
-    '''Run the given program and pass lines to the format_line function
-    for formatting.  If split_stderr is True, then the second argument
-    to the format_line function will be true for error output.'''
-    if isinstance(cmd, (str, unicode)):
-        useshell = True
-    else:
-        useshell = False
-    if split_stderr:
-        stderr = subprocess.PIPE
-    else:
-        stderr = subprocess.STDOUT
-    p = subprocess.Popen(cmd, shell=useshell,
-                         stdin=subprocess.PIPE,
-                         stdout=subprocess.PIPE,
-                         stderr=stderr)
-    p.stdin.close()
-    read_set = [p.stdout]
-    fcntl.fcntl(p.stdout.fileno(), fcntl.F_SETFL,
-                fcntl.fcntl(p.stdout.fileno(), fcntl.F_GETFL)|os.O_NDELAY)
+class Pipeline(subprocess.Popen):
+    '''A class that wraps a sequence of subprocess.Popen() objects
+    connected together in a pipeline.
 
-    if split_stderr:
-        read_set.append(p.stderr)
-        fcntl.fcntl(p.stderr.fileno(), fcntl.F_SETFL,
-                    fcntl.fcntl(p.stderr.fileno(), fcntl.F_GETFL)|os.O_NDELAY)
+    Note that if stderr=subprocess.STDOUT, the stderr of intermediate
+    children is not passed to the stdin of the next child.  Instead,
+    it is mixed in with the stdout of the final child.
+    '''
+    def __init__(self, commands, bufsize=0,
+                 stdin=None, stdout=None, stderr=None,
+                 cwd=None, env=None, universal_newlines=False):
+        '''Commands is a list of argument lists to invoke'''
+        self.universal_newlines = universal_newlines
+        if universal_newlines:
+            readmode = 'rU'
+        else:
+            readmode = 'rb'
+        c2pwrite = None
+        errwrite = None
+        self.stdin = None
+        self.stdout = None
+        self.stderr = None
+        if stdout == subprocess.PIPE:
+            c2pread, c2pwrite = os.pipe()
+            stdout = c2pwrite
+            self.stdout = os.fdopen(c2pread, readmode, bufsize)
+        if stderr == subprocess.PIPE:
+            errread, errwrite = os.pipe()
+            stderr = errwrite
+            self.stderr = os.fdopen(errread, readmode, bufsize)
+        elif stderr == subprocess.STDOUT:
+            stderr = stdout
+        
+        self.children = []
+        close_stdin = False
+        for index, cmd in enumerate(commands):
+            first_command = (index == 0)
+            more_commands = index + 1 < len(commands)
+
+            if more_commands:
+                c2cread, c2cwrite = os.pipe()
+            else:
+                c2cwrite = stdout
+
+            self.children.append(
+                subprocess.Popen(cmd, shell=isinstance(cmd, (str, unicode)),
+                                 bufsize=bufsize, close_fds=True,
+                                 cwd=cwd, env=env,
+                                 stdin=stdin,
+                                 stdout=c2cwrite,
+                                 stderr=stderr,
+                                 universal_newlines=universal_newlines)
+                )
+            if close_stdin:
+                os.close(stdin)
+                close_stdin = False
+            if more_commands:
+                os.close(c2cwrite)
+                stdin = c2cread
+                close_stdin = True
+        if close_stdin:
+            os.close(stdin)
+        if c2pwrite:
+            os.close(c2pwrite)
+        if errwrite:
+            os.close(errwrite)
+
+        self.stdin = self.children[0].stdin
+        self.returncode = None
+
+    def poll(self):
+        for child in self.children:
+            returncode = child.poll()
+            if returncode is None:
+                break
+        else:
+            self.returncode = returncode
+        return self.returncode
+
+    def wait(self):
+        for child in self.children:
+            returncode = child.wait()
+        self.returncode = returncode
+        return self.returncode
+
+def spawn_child(command, use_pipe=False,
+                cwd=None, env=None,
+                stdin=None, stdout=None, stderr=None):
+    if use_pipe:
+        p = Pipeline(command, cwd=cwd, env=env,
+                     stdin=stdin, stdout=stdout, stderr=stderr)
+    else:
+        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
+                             close_fds=True, cwd=cwd, env=env,
+                             stdin=stdin, stdout=stdout, stderr=stderr)
+    return p
+
+def pprint_output(pipe, format_line):
+    '''Process the output of the subprocess and pass lines to the
+    format_line function for formatting.  The first argument passed to
+    the format_line function is the line of text.  The second argument
+    is True if the line was read from the stderr stream.'''
+    read_set = []
+    if pipe.stdout:
+        read_set.append(pipe.stdout)
+        fileno = pipe.stdout.fileno()
+        fcntl.fcntl(fileno, fcntl.F_SETFL,
+                    fcntl.fcntl(fileno, fcntl.F_GETFL) | os.O_NDELAY)
+    if pipe.stderr:
+        read_set.append(pipe.stderr)
+        fileno = pipe.stderr.fileno()
+        fcntl.fcntl(fileno, fcntl.F_SETFL,
+                    fcntl.fcntl(fileno, fcntl.F_GETFL) | os.O_NDELAY)
 
     out_data = err_data = ''
     try:
         while read_set:
             rlist, wlist, xlist = select.select(read_set, [], [])
 
-            if p.stdout in rlist:
-                out_chunk = p.stdout.read()
+            if pipe.stdout in rlist:
+                out_chunk = pipe.stdout.read()
                 if out_chunk == '':
-                    p.stdout.close()
-                    read_set.remove(p.stdout)
+                    pipe.stdout.close()
+                    read_set.remove(pipe.stdout)
                 out_data += out_chunk
                 while '\n' in out_data:
                     pos = out_data.find('\n')
                     format_line(out_data[:pos+1], False)
                     out_data = out_data[pos+1:]
         
-            if p.stderr in rlist:
-                err_chunk = p.stderr.read()
+            if pipe.stderr in rlist:
+                err_chunk = pipe.stderr.read()
                 if err_chunk == '':
-                    p.stderr.close()
-                    read_set.remove(p.stderr)
+                    pipe.stderr.close()
+                    read_set.remove(pipe.stderr)
                 err_data += err_chunk
                 while '\n' in err_data:
                     pos = err_data.find('\n')
@@ -96,5 +185,4 @@ def execute_pprint(cmd, format_line, split_stderr=False):
     except KeyboardInterrupt:
         pass
             
-    p.wait()
-    return p.returncode
+    return pipe.wait()

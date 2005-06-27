@@ -35,6 +35,13 @@ if not hasattr(__builtin__, 'enumerate'):
             index += 1
     __builtin__.enumerate = enumerate
 
+if not hasattr(__builtin__, 'reversed'):
+    def reversed(l):
+        l = list(l)
+        l.reverse()
+        return iter(l)
+    __builtin__.reversed = reversed
+
 import string
 if not hasattr(string, 'Template'):
     import re as _re

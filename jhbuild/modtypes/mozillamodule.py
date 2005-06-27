@@ -68,7 +68,7 @@ class MozillaModule(base.CVSModule):
 
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
-        return buildscript.execute('make -f client.mk checkout')
+        return buildscript.execute(['make', '-f', 'client.mk', 'checkout'])
 
     def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
@@ -79,7 +79,8 @@ class MozillaModule(base.CVSModule):
         else:
             os.chdir(checkoutdir)
             buildscript.set_action('Updating', self)
-            res = buildscript.execute('make -f client.mk fast-update')
+            res = buildscript.execute(['make', '-f', 'client.mk',
+                                       'fast-update'])
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE

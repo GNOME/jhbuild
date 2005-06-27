@@ -27,7 +27,7 @@ import os
 import signal
 import fcntl
 import select
-import popen2
+import subprocess
 
 import gobject
 import gtk
@@ -302,63 +302,62 @@ class GtkBuildScript(buildscript.BuildScript):
     def execute(self, command, hint=None):
         '''executes a command, and returns the error code'''
         return_code = -1
-        process = popen2.Popen3(command, True)
 
-        self._makeNonBlocking(process.fromchild)
-        self._makeNonBlocking(process.childerr)
+        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
+                             close_fds=True,
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+
+        p.stdin.close()
+        self._makeNonBlocking(p.stdout)
+        self._makeNonBlocking(p.stderr)
 
         build_paused = False
+        read_set = [p.stdout, p.stderr]
 
-        while return_code == -1:
+        while read_set:
             # Allow the frontend to get a little time
             self._runEventLoop()
 
-            #If there's data on the command's stdout, read it
-            selection = select.select([process.fromchild], [], [], 0)
-            if selection[0] != []:
-                self._printToBuildOutput(process.fromchild.read())
+            rlist, wlist, xlist = select.select(read_set, [], [], 0)
 
-            selection = select.select([process.childerr], [], [], 0)
-            if selection[0] != []:
-                self._printToWarningOutput(process.childerr.read())
+            if p.stdout in rlist:
+                chunk = p.stdout.read()
+                if chunk == '':
+                    p.stdout.close()
+                    read_set.remove(p.stdout)
+                self._printToBuildOutput(chunk)
 
+            if p.stderr in rlist:
+                chunk = p.stderr.read()
+                if chunk == '':
+                    p.stderr.close()
+                    read_set.remove(p.stderr)
+                self._printToWarningOutput(chunk)
 
             # See if we should pause the current command
             if not build_paused and self._pauseBuild():
-                print ("Pausing this guy, sending os.kill to %d", process.pid)
-                os.kill(process.pid, signal.SIGSTOP)
+                print ("Pausing this guy, sending os.kill to %d", p.pid)
+                os.kill(p.pid, signal.SIGSTOP)
                 build_paused = True
             elif build_paused and not self._pauseBuild():
                 print ("Continuing him")
-                os.kill(process.pid, signal.SIGCONT)
+                os.kill(p.pid, signal.SIGCONT)
                 build_paused = False
-            elif not build_paused:
-                return_code = process.poll()
 
             time.sleep(0.05)
 
-        # Read any remaining output lines    
-        value = process.fromchild.read()
-        while value:
-            self._printToBuildOutput(value)
-            value = process.fromchild.read()
-
-        # Read any remaining stderr lines
-        value = process.childerr.read()
-        while value:
-            self._printToWarningOutput(value)
-            value = process.childerr.read()
-
-        return return_code
+        return p.wait()
 
     def start_build(self):
         self.window.show_all()
     def end_build(self, failures):
-        if len(poison) == 0:
+        if len(failures) == 0:
             self.message('success')
         else:
             self.message('the following modules were not built:\n%s'
-                         % ', '.join(modules))
+                         % ', '.join(failures))
     def start_module(self, module):
         # Remember where we are in case something fails
         if have_gconf:

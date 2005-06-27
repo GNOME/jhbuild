@@ -95,6 +95,17 @@ class TerminalBuildScript(buildscript.BuildScript):
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print: hint = None
         if hint == 'cvs':
+            stdout = subprocess.PIPE
+            stderr = subprocess.STDOUT
+        else:
+            stdout = stderr = None
+
+        p = subprocess.Popen(
+            command, shell=isinstance(command, (str,unicode)),
+            close_fds=True,
+            stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+
+        if hint == 'cvs':
             conflicts = []
             def format_line(line, error_output, conflicts=conflicts):
                 if line[-1] == '\n': line = line[:-1]
@@ -107,27 +118,20 @@ class TerminalBuildScript(buildscript.BuildScript):
                     print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
                     print line
-            ret = cmds.execute_pprint(command, format_line)
+            cmds.pprint_output(p, format_line)
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
                 for line in conflicts:
                     sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
-                if ret == 0: ret = 1 # make sure conflicts fail
+                # make sure conflicts fail
+                if p.returncode == 0: p.returncode = 1
         else:
-            if isinstance(command, (str, unicode)):
-                useshell=True
-            else:
-                useshell=False
-            p = subprocess.Popen(command, shell=useshell,
-                                 stdin=subprocess.PIPE)
             try:
                 p.communicate()
             except KeyboardInterrupt:
                 os.kill(p.pid, signal.SIGINT)
-                p.wait()
-            ret = p.returncode
-        return ret
+        return p.wait()
 
     def start_phase(self, module, state):
         self.trayicon.set_icon(os.path.join(icondir,
