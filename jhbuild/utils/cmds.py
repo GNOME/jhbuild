@@ -145,14 +145,8 @@ def pprint_output(pipe, format_line):
     read_set = []
     if pipe.stdout:
         read_set.append(pipe.stdout)
-        fileno = pipe.stdout.fileno()
-        fcntl.fcntl(fileno, fcntl.F_SETFL,
-                    fcntl.fcntl(fileno, fcntl.F_GETFL) | os.O_NDELAY)
     if pipe.stderr:
         read_set.append(pipe.stderr)
-        fileno = pipe.stderr.fileno()
-        fcntl.fcntl(fileno, fcntl.F_SETFL,
-                    fcntl.fcntl(fileno, fcntl.F_GETFL) | os.O_NDELAY)
 
     out_data = err_data = ''
     try:
@@ -160,7 +154,7 @@ def pprint_output(pipe, format_line):
             rlist, wlist, xlist = select.select(read_set, [], [])
 
             if pipe.stdout in rlist:
-                out_chunk = pipe.stdout.read()
+                out_chunk = os.read(pipe.stdout.fileno(), 1024)
                 if out_chunk == '':
                     pipe.stdout.close()
                     read_set.remove(pipe.stdout)
@@ -171,7 +165,7 @@ def pprint_output(pipe, format_line):
                     out_data = out_data[pos+1:]
         
             if pipe.stderr in rlist:
-                err_chunk = pipe.stderr.read()
+                err_chunk = os.read(pipe.stderr.fileno(), 1024)
                 if err_chunk == '':
                     pipe.stderr.close()
                     read_set.remove(pipe.stderr)

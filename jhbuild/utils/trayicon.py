@@ -17,55 +17,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys
-import os
-import fcntl
+import subprocess
 
 class TrayIcon:
     def __init__(self):
         self._run_zenity()
     def _run_zenity(self):
-        pipe_r, pipe_w = os.pipe()
-        self.pid = os.fork()
-        if self.pid == 0:
-            # close stdout/stderr
-            null = open('/dev/null', 'w')
-            try:
-                os.dup2(null.fileno(), sys.stdout.fileno())
-                os.dup2(null.fileno(), sys.stderr.fileno())
-            finally:
-                null.close()
-            # hook pipe to stdin
-            os.close(pipe_w)
-            os.dup2(pipe_r, sys.stdin.fileno())
-            # disassociate from controlling terminal
-            os.setsid()
-            # run program
-            os.execvp('zenity', ['zenity', '--notification', '--listen'])
-        elif self.pid > 0:
-            os.close(pipe_r)
-            # don't pass file descriptor on to children
-            fcntl.fcntl(pipe_w, fcntl.F_SETFD,
-                        fcntl.fcntl(pipe_w, fcntl.F_GETFD) | fcntl.FD_CLOEXEC)
-            self.fp = os.fdopen(pipe_w, 'w')
-        else:
-            # ignore error.  This just means that we have no tray icon.
-            self.fp = None
+        # run zenity with stdout and stderr directed to /dev/null
+        try:
+            fp = open('/dev/null', 'w')
+            self.proc = subprocess.Popen(['zenity', '--notification',
+                                          '--listen'],
+                                         close_fds=True,
+                                         stdin=subprocess.PIPE,
+                                         stdout=fp,
+                                         stderr=fp)
+            fp.close()
+        except (OSError, IOError):
+            self.proc = None
+
     def close(self):
         status = None
-        if self.fp:
-            self.fp.close()
-            self.fp = None
-        if self.pid > 0:
-            (pid, status) = os.waitpid(self.pid, 0)
-            self.pid = 0
+        if self.proc:
+            self.proc.stdin.close()
+            status = self.proc.wait()
+            self.proc = None
         return status
 
     def _send_cmd(self, cmd):
-        if not self.fp: return
+        if not self.proc: return
         try:
-            self.fp.write(cmd)
-            self.fp.flush()
+            self.proc.stdin.write(cmd)
+            self.proc.stdin.flush()
         except (IOError, OSError), err:
             self.close()
     def set_icon(self, icon):

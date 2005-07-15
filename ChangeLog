@@ -1,3 +1,11 @@
+2005-07-15  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/utils/trayicon.py: switch over to using subprocess
+	module for communication with zenity.
+
+	* jhbuild/utils/cmds.py (pprint_output): use os.read() rather than
+	file.read(), so we don't need to set the pipes as non-blocking.
+
 2005-07-13  Igor Foox <ifoox@redhat.com>
 
 	* modulesets/gcj.modules: Resolved circular dependencies for
