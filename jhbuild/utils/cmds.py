@@ -18,7 +18,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import fcntl
 import select
 import subprocess
 
@@ -35,8 +34,7 @@ def get_output(cmd):
                          stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     stdout, stderr = p.communicate()
-    if p.returncode and (not os.WIFEXITED(p.returncode) or
-                         os.WEXITSTATUS(p.returncode) != 0):
+    if p.returncode != 0:
         raise RuntimeError('program exited abnormally')
     return stdout
 

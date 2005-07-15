@@ -1,5 +1,9 @@
 2005-07-15  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/utils/cmds.py (get_output): don't use os.WIFEXITED() on
+	the subprocess returncode attribute -- the subprocess module
+	already takes care of that.
+
 	* jhbuild/utils/trayicon.py: switch over to using subprocess
 	module for communication with zenity.
 
