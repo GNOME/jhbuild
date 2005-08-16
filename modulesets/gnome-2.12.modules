@@ -79,6 +79,34 @@
 
   <cvsmodule id="libxklavier" cvsroot="xklavier.freedesktop.org" supports-non-srcdir-builds="no">
   </cvsmodule>
+  <cvsmodule id="libbtctl">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-bluetooth">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="glib" />
+      <dep package="libbtctl" />
+      <dep package="libglade" />
+      <dep package="libgnomeui" />
+      <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="phonemgr">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="glib" />
+      <dep package="libbtctl" />
+      <dep package="gnome-bluetooth" />
+      <dep package="libglade" />
+      <dep package="libgnomeui" />
+      <dep package="libgnome" />
+      <dep package="gconf" />
+    </dependencies>
+  </cvsmodule>
 
   <cvsmodule id="intltool">
     <dependencies>
