@@ -109,6 +109,32 @@ buildlog_footer = '''
 </html>
 '''
 
+def get_distro():
+    # try using the lsb_release tool to get the distro info
+    try:
+        distro = cmds.get_output(['lsb_release', '--short', '--id']).strip()
+        release = cmds.get_output(['lsb_release', '--short', '--release']).strip()
+        codename = cmds.get_output(['lsb_release', '--short', '--codename']).strip()
+        if codename:
+            return '%s %s (%s)' % (distro, release, codename)
+        else:
+            return '%s %s' % (distro, release)
+    except (OSError, IOError):
+        pass
+
+    # otherwise, look for a /etc/*-release file
+    release_files = ['/etc/redhat-release', '/etc/debian_version' ]
+    release_files.extend([ os.path.join('/etc', fname)
+                           for fname in os.listdir('/etc')
+                             if fname.endswith('release') \
+                                 and fname != 'lsb-release' ])
+    for filename in release_files:
+        if os.path.exists(filename):
+            return open(filename, 'r').readline().strip()
+
+    # else:
+    return None
+
 def escape(string):
     return string.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
 
@@ -205,16 +231,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
         info.append(('Build Host', socket.gethostname()))
         info.append(('Architecture', '%s %s (%s)' % (un[0], un[2], un[4])))
 
-        release_files = ['/etc/redhat-release', '/etc/debian_version' ]
-        release_files += [ os.path.join('/etc', fname)
-                           for fname in os.listdir('/etc')
-                           if fname.endswith('release') \
-                              and fname != 'lsb-release' ]
-        for filename in release_files:
-            if os.path.exists(filename):
-                info.append(('Distribution',
-                             open(filename, 'r').readline().strip()))
-                break
+        distro = get_distro()
+        if distro:
+            info.append(('Distribution', distro))
 
         info.append(('Module Set', self.config.moduleset))
         info.append(('Start Time', self.timestamp()))
