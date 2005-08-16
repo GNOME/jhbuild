@@ -176,3 +176,28 @@ try:
 except ImportError:
     from jhbuild.cut_n_paste import subprocess
     sys.modules['subprocess'] = subprocess
+
+
+import locale
+if not hasattr(locale, 'getpreferredencoding'):
+    try:
+        locale.CODESET
+    except NameError:
+        # Fall back to parsing environment variables :-(
+        def getpreferredencoding(do_setlocale = True):
+            """Return the charset that the user is likely using,
+            by looking at environment variables."""
+            return locale.getdefaultlocale()[1]
+    else:
+        def getpreferredencoding(do_setlocale = True):
+            """Return the charset that the user is likely using,
+            according to the system configuration."""
+            if do_setlocale:
+                oldloc = locale.setlocale(locale.LC_CTYPE)
+                locale.setlocale(locale.LC_CTYPE, "")
+                result = locale.nl_langinfo(locale.CODESET)
+                locale.setlocale(locale.LC_CTYPE, oldloc)
+                return result
+            else:
+                return locale.nl_langinfo(locale.CODESET)
+        

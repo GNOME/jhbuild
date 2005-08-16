@@ -20,12 +20,14 @@
 import os
 import time
 import subprocess
+import locale
 
 from jhbuild.utils import cmds
 import buildscript
 
 index_header = '''<html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html%(charset)s">
     <title>JHBuild Results</title>
     <style type="text/css">
       .section {
@@ -70,6 +72,7 @@ index_footer = '''
 
 buildlog_header = '''<html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html%(charset)s">
     <title>%(module)s Build Log</title>
     <style type="text/css">
       pre {
@@ -120,6 +123,12 @@ class TinderboxBuildScript(buildscript.BuildScript):
             os.makedirs(self.outputdir)
 
         os.environ['TERM'] = 'dumb'
+
+        charset = locale.getpreferredencoding()
+        if charset:
+            self.charset = ';charset=%s' % charset
+        else:
+            self.charset = ''
 
     def timestamp(self):
         tm = time.time()
@@ -218,7 +227,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         
         self.indexfp = open(os.path.join(self.outputdir, 'index.html'), 'w')
 
-        self.indexfp.write(index_header % { 'buildplatform': buildplatform })
+        self.indexfp.write(index_header % { 'buildplatform': buildplatform,
+                                            'charset': self.charset })
         self.indexfp.flush()
 
     def end_build(self, failures):
@@ -246,7 +256,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                        module))
         self.modulefp = open(os.path.join(self.outputdir,
                                           self.modulefilename), 'w')
-        self.modulefp.write(buildlog_header % { 'module': module })
+        self.modulefp.write(buildlog_header % { 'module': module,
+                                                'charset': self.charset })
     def end_module(self, module, failed):
         if failed:
             self.message('Failed')
