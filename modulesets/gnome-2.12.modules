@@ -36,6 +36,8 @@
   <cvsroot name="inkscape.sf.net"
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/inkscape"
      password="" />
+  <svnroot name="svn.galago.info"
+     href="http://svn.galago.info/" />
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://unc.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -898,6 +900,7 @@
       <dep package="gconf" />
       <dep package="intltool" />
       <dep package="libglade" />
+      <dep package="libnotify" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gthumb">
@@ -917,6 +920,12 @@
       <dep package="gnome-panel" />
     </dependencies>
   </cvsmodule>
+  <svnmodule id="libnotify" module="trunk/libnotify" root="svn.galago.info">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="dbus" />
+    </dependencies>
+  </svnmodule>
 
   <metamodule id="meta-gnome-devel-platform">
     <dependencies>
