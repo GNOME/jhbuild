@@ -55,6 +55,7 @@
   </tarball>
 
   <include href="freedesktop.modules" />
+  <include href="gnutls.modules" />
 
   <cvsmodule id="cairo-gtk-engine" cvsroot="cairo.freedesktop.org">
     <dependencies>
@@ -1105,36 +1106,6 @@
       <dep package="libgnomeui" />
     </dependencies>
   </cvsmodule>
-  <tarball id="libgpg-error" version="1.1">
-    <source href="ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.1.tar.gz"
-            size="311871" md5sum="ee23cdd5fbbb1483676647a8e091ff8e" />
-  </tarball>
-  <tarball id="libgcrypt" version="1.2.1">
-    <source href="ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.2.1.tar.gz"
-            size="960872" md5sum="215b242586cbe85716a9198b28209f8c" />
-    <dependencies>
-      <dep package="libgpg-error" />
-    </dependencies>
-  </tarball>
-  <tarball id="libtasn1" version="0.2.13" supports-non-srcdir-builds="no">
-    <source href="ftp://ftp.gnutls.org/pub/gnutls/libtasn1/libtasn1-0.2.13.tar.gz"
-            size="876331" md5sum="d124b11908cfb88883fe71472c25d53a" />
-  </tarball>
-  <tarball id="opencdk" version="0.5.7" supports-non-srcdir-builds="no">
-    <source href="ftp://ftp.gnutls.org/pub/gnutls/opencdk/opencdk-0.5.7.tar.gz"            size="479925" md5sum="766560f9ed6c6a64a2820364b1e6065c" />
-    <dependencies>
-      <dep package="libgcrypt" />
-    </dependencies>
-  </tarball>
-  <tarball id="gnutls" version="1.2.6">
-    <source href="ftp://ftp.gnutls.org/pub/gnutls/gnutls-1.2.6.tar.bz2"
-            size="2469124" md5sum="a9aeaf687e40b6b27df51fac9d3315ff" />
-    <dependencies>
-      <dep package="libgcrypt" />
-      <dep package="libtasn1" />
-      <dep package="opencdk" />
-    </dependencies>
-  </tarball>
   <cvsmodule id="libsoup">
     <dependencies>
       <dep package="glib" />
