@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import sys
+import os
 import subprocess
 
 class TrayIcon:
@@ -24,15 +26,20 @@ class TrayIcon:
         self._run_zenity()
     def _run_zenity(self):
         # run zenity with stdout and stderr directed to /dev/null
+        def preexec():
+            null = open('/dev/null', 'w')
+            try:
+                os.dup2(null.fileno(), sys.stdout.fileno())
+                os.dup2(null.fileno(), sys.stderr.fileno())
+            finally:
+                null.close()
+            os.setsid()
         try:
-            fp = open('/dev/null', 'w')
             self.proc = subprocess.Popen(['zenity', '--notification',
                                           '--listen'],
                                          close_fds=True,
-                                         stdin=subprocess.PIPE,
-                                         stdout=fp,
-                                         stderr=fp)
-            fp.close()
+                                         preexec_fn=preexec,
+                                         stdin=subprocess.PIPE)
         except (OSError, IOError):
             self.proc = None
 
