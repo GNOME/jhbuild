@@ -138,9 +138,9 @@ class Config:
         addpath('PATH', bindir)
 
         # PKG_CONFIG_PATH
+        pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
-        if not os.environ.has_key('PKG_CONFIG_PATH'):
-            pkgconfigdir = pkgconfigdir + ':/usr/lib/pkgconfig'
+        addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
         addpath('PKG_CONFIG_PATH', pkgconfigdir)
 
         # XDG_DATA_DIRS

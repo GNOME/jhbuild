@@ -1,5 +1,12 @@
 2005-09-13  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/config.py (Config.setup_env): remove hack that was
+	unconditionally adding /usr/lib/pkgconfig to the path if
+	$PKG_CONFIG_PATH was empty.  If you want the directory in
+	$PKG_CONFIG_PATH, add it manually.
+	(Config.setup_env): add $prefix/share/pkgconfig to
+	$PKG_CONFIG_PATH.
+
 	* modulesets/gnome-2.12.modules (iso-codes): use version 0.47
 	(fixes bug #316116).
 
