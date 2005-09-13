@@ -34,7 +34,7 @@ class Tarball(base.Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size, source_md5=None,
-                 patches=[], autogenargs='', makeargs='',
+                 patches=[], checkoutdir=None, autogenargs='', makeargs='',
                  dependencies=[], suggests=[],
                  supports_non_srcdir_builds=True):
         base.Package.__init__(self, name, dependencies, suggests)
@@ -43,6 +43,7 @@ class Tarball(base.Package):
         self.source_size  = source_size
         self.source_md5   = source_md5
         self.patches      = patches
+        self.checkoutdir  = checkoutdir
         self.autogenargs  = autogenargs
         self.makeargs     = makeargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
@@ -56,6 +57,10 @@ class Tarball(base.Package):
         return localfile
 
     def get_srcdir(self, buildscript):
+        if self.checkoutdir:
+            return os.path.join(buildscript.config.checkoutroot,
+                                self.checkoutdir)
+
         localdir = os.path.join(buildscript.config.checkoutroot,
                                 os.path.basename(self.source_url))
         # strip off packaging extension ...
@@ -66,6 +71,7 @@ class Tarball(base.Package):
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
         return localdir
+
     def get_builddir(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
         if buildscript.config.buildroot and \
@@ -209,9 +215,12 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     source_size = None
     source_md5 = None
     patches = []
+    checkoutdir = None
     autogenargs = ''
     makeargs = ''
     supports_non_srcdir_builds = True
+    if node.hasAttribute('checkoutdir'):
+        checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
@@ -246,7 +255,8 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
 
     return Tarball(name, version, source_url, source_size, source_md5,
-                   patches, autogenargs, makeargs, dependencies, suggests,
+                   patches, checkoutdir, autogenargs, makeargs,
+                   dependencies, suggests,
                    supports_non_srcdir_builds=supports_non_srcdir_builds)
 
 base.register_module_type('tarball', parse_tarball)
