@@ -61,9 +61,25 @@
     </suggests>
   </cvsmodule>
 
+  <cvsmodule id="cairo-1-0" module="cairo" revision="BRANCH_1_0" checkoutdir="cairo-1-0" cvsroot="cairo.freedesktop.org" supports-non-srcdir-builds="no" >
+    <dependencies>
+      <dep package="fontconfig" />
+      <dep package="Xrender" />
+    </dependencies>
+    <suggests>
+      <dep package="glitz" />
+    </suggests>
+  </cvsmodule>
+
   <cvsmodule id="pycairo" cvsroot="cairo.freedesktop.org">
     <dependencies>
       <dep package="cairo"/>
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="pycairo-1-0" module="pycairo" cvsroot="cairo.freedesktop.org">
+    <dependencies>
+      <dep package="cairo-1-0"/>
     </dependencies>
   </cvsmodule>
 
@@ -415,7 +431,7 @@
  <cvsmodule id="poppler-0-4" module="poppler" checkoutdir="poppler-0-4"
             cvsroot="poppler.freedesktop.org" revision="POPPLER_0_4_X">
     <dependencies>
-      <dep package="cairo" />
+      <dep package="cairo-1-0" />
     </dependencies>
   </cvsmodule>
 
