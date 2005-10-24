@@ -146,7 +146,12 @@ class CVSRoot:
             return self.checkout(buildscript, module,
                                  revision, date, checkoutdir)
 
-        wc_root = check_root(dir)
+        try:
+            wc_root = check_root(dir)
+        except IOError:
+            sys.stderr.write('"%s" does not appear to be a CVS working copy\n'
+                             % os.path.abspath(dir))
+            return -1
         if wc_root != self.cvsroot:
             sys.stderr.write('working copy points at the wrong repository\n')
             sys.stderr.write(' Expected %s\n' % self.cvsroot)
