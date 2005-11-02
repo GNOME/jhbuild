@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -O2
 
 bindir=$(HOME)/bin
-desktopdir=$(HOME)/.gnome2/vfolders/applications
+desktopdir=$(HOME)/.local/share/applications
 
 all: install-check
 	@echo 'Run "make install" to install.'
