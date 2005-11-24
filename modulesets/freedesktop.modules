@@ -35,9 +35,14 @@
   <cvsroot name="system-tools-backends.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/system-tools-backends"
      password="" />
-  <cvsroot name="gnome.org" default="yes"
+  <cvsroot name="gnome.org"
      root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
      password="" />
+
+  <svnroot name="avahi.0pointer.de"
+     href="svn://svn.0pointer.de/avahi" />
+  <svnroot name="libdaemon.0pointer.de"
+     href="svn://svn.0pointer.de/libdaemon" />
 
   <cvsmodule id="luminocity" cvsroot="gnome.org">
     <dependencies>
@@ -438,5 +443,24 @@
   <cvsmodule id="system-tools-backends" cvsroot="system-tools-backends.freedesktop.org" />
 
   <cvsmodule id="glitz" cvsroot="cairo.freedesktop.org"/>
+
+  <svnmodule id="libdaemon" module="trunk" checkoutdir="libdaemon"
+	     root="libdaemon.0pointer.de">
+  </svnmodule>
+
+  <!-- explicit disabling of qt3 and qt4 can be removed once avahi correctly detects what is available. -->
+  <svnmodule id="avahi" module="trunk" checkoutdir="avahi"
+	     root="avahi.0pointer.de"
+	     autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages">
+    <dependencies>
+      <dep package="libdaemon"/>
+      <dep package="dbus"/>
+    </dependencies>
+    <suggests>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gnome-python/pygtk"/>
+    </suggests>
+  </svnmodule>
 
 </moduleset>
