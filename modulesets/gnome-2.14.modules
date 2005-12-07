@@ -689,6 +689,23 @@
       <dep package="gnet" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="pyspi">
+    <dependencies>
+      <dep package="at-spi" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="dogtail">
+    <dependencies>
+      <dep package="pyspi" />
+      <!-- 
+      	Dogtail has an optional dependency on the libwnck bindings, which are in
+      	the gnome-python-extras package.  However, adding this dependency pulls in
+      	great swathes of other deps, such as nautilus, e-d-s, etc.  Hence this is
+      	commented out for now.
+      -->
+      <!-- <dep package="gnome-python/gnome-python-extras" /> -->
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="gcalctool" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="scrollkeeper" />
