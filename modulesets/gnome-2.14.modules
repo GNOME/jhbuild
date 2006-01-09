@@ -294,7 +294,6 @@
       <dep package="libgnomeprintui" />
       <dep package="gtksourceview" />
       <dep package="libwnck" />
-      <!-- Needs libgda 1.2, not HEAD <dep package="libgda" /> -->
       <dep package="nautilus-cd-burner"/>
       <dep package="libgtop"/>
       <dep package="totem"/>
@@ -609,7 +608,6 @@
     <dependencies>
       <dep package="goffice" />
       <dep package="libgsf" />
-      <!-- Needs libgda 1.2, not HEAD <dep package="libgda" /> -->
       <dep package="gnome-python/pygtk"/>
       <dep package="libgnomeprintui" />
     </dependencies>
@@ -863,7 +861,7 @@
   <cvsmodule id="gnomemm/libgdamm" revision="libgda-1-2">
     <dependencies>
       <dep package="gtkmm" />
-      <!-- needs libgda 1.2, not HEAD <dep package="libgda" /> -->
+      <dep package="libgda-1-2" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gnomemm/gtkmm_hello">
@@ -1295,11 +1293,18 @@
       <dep package="gnome-themes" />
     </dependencies>
   </cvsmodule>
+
   <cvsmodule id="libgda" module="libgda">
     <dependencies>
       <dep package="glib" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="libgda-1-2" module="libgda" revision="release-1-2-branch" checkoutdir="libgda-1-2">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
+
   <cvsmodule id="libgnomedb" autogenargs="--enable-gnome=yes">
     <dependencies>
       <dep package="libgda" />
