@@ -357,8 +357,8 @@
       <dep package="libgtop" />
       <dep package="gail" />
       <dep package="libxklavier" />
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
       <dep package="gucharmap" />
       <dep package="system-tools-backends" />
     </dependencies>
@@ -425,8 +425,8 @@
   <cvsmodule id="nautilus-media" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="nautilus" />
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="nautilus-vcs">
@@ -510,8 +510,8 @@
       <dep package="libgnomeui" />
       <dep package="esound" />
       <dep package="gail" />
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
       <dep package="nautilus-cd-burner" />
     </dependencies>
   </cvsmodule>
@@ -648,24 +648,94 @@
   <cvsmodule id="rhythmbox">
     <dependencies>
       <dep package="libgnomeui" />
-      <dep package="gst-plugins" />
+      <dep package="gst-plugins-0.8" />
       <dep package="nautilus-cd-burner" />
       <dep package="totem" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gstreamer" revision="BRANCH-GSTREAMER-0_8" autogenargs="-- --disable-plugin-builddir --disable-tests" cvsroot="gstreamer.freedesktop.org" supports-non-srcdir-builds="no">
+
+  <cvsmodule id="gstreamer-0.8"
+             module="gstreamer" checkoutdir="gstreamer-0.8"
+             revision="BRANCH-GSTREAMER-0_8"
+             autogenargs="-- --disable-plugin-builddir --disable-tests"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
     <dependencies>
       <dep package="glib" />
       <dep package="libxml2" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gst-plugins" revision="BRANCH-GSTREAMER-0_8" autogenargs="-- --disable-tests" cvsroot="gstreamer.freedesktop.org" supports-non-srcdir-builds="no">
+
+  <cvsmodule id="gst-plugins-0.8"
+             module="gst-plugins" checkoutdir="gst-plugins-0.8"
+             revision="BRANCH-GSTREAMER-0_8"
+             autogenargs="-- --disable-tests"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer" />
+      <dep package="gstreamer-0.8" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
+
+  <cvsmodule id="gst-python-0.8"
+             module="gst-python" checkoutdir="gst-python-0.8"
+             revision="BRANCH-GSTREAMER-0_8"
+             autogenargs="--"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="gstreamer-0.10"
+             module="gstreamer" checkoutdir="gstreamer-0.10"
+             autogenargs="-- --disable-tests"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="glib" />
+      <dep package="libxml2" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="gst-plugins-base-0.10"
+             module="gst-plugins-base" checkoutdir="gst-plugins-base-0.10"
+             autogenargs="-- --disable-tests"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer-0.10" />
+      <dep package="gnome-vfs" />
+      <dep package="gtk+" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="gst-plugins-good-0.10"
+             module="gst-plugins-good" checkoutdir="gst-plugins-good-0.10"
+             autogenargs="-- --disable-tests"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer-0.10" />
+      <dep package="gst-plugins-base-0.10" />
+    </dependencies>
+  </cvsmodule>
+
+  <cvsmodule id="gst-python-0.10"
+             module="gst-python" checkoutdir="gst-python-0.10"
+             autogenargs="--"
+             supports-non-srcdir-builds="no"
+             cvsroot="gstreamer.freedesktop.org">
+    <dependencies>
+      <dep package="gstreamer-0.10" />
+      <dep package="gst-plugins-base-0.10" />
+    </dependencies>
+  </cvsmodule>
+
   <cvsmodule id="planner">
     <dependencies>
       <dep package="glib" />
@@ -1021,7 +1091,7 @@
       <dep package="gconf-editor" />
       <dep package="gnome-utils" />
       <dep package="procman" />
-      <dep package="gstreamer" />
+      <dep package="gstreamer-0.8" />
       <dep package="gnome-media" />
       <dep package="gnome-netstatus" />
       <dep package="gcalctool" />
@@ -1282,8 +1352,8 @@
     <dependencies>
       <dep package="gnome-desktop" />
       <dep package="nautilus-cd-burner" />
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
       <dep package="libmusicbrainz" />
       <dep package="iso-codes" />
     </dependencies>
@@ -1402,8 +1472,8 @@
       <dep package="gnome-doc-utils" />
       <dep package="libgnomeui" />
       <dep package="gnome-media" />
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
       <dep package="nautilus-cd-burner" />
     </dependencies>
   </cvsmodule>
@@ -1535,8 +1605,8 @@
   </cvsmodule>
   <cvsmodule id="monkey-bubble">
     <dependencies>
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
+      <dep package="gstreamer-0.8" />
+      <dep package="gst-plugins-0.8" />
       <dep package="libxml2" />
       <dep package="gconf" />
       <dep package="librsvg" />
@@ -1563,12 +1633,6 @@
       <dep package="nautilus" />
       <dep package="gnome-python/pygtk" />
       <dep package="gnome-python/gnome-python" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="gst-python" revision="BRANCH-GSTREAMER-0_8" autogenargs="--" cvsroot="gstreamer.freedesktop.org" supports-non-srcdir-builds="no">
-    <dependencies>
-      <dep package="gstreamer" />
-      <dep package="gst-plugins" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="inkscape" cvsroot="inkscape.sf.net">
