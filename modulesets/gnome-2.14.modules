@@ -11,6 +11,9 @@
   <cvsroot name="mozilla.org"
      root=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
      password="anonymous" />
+  <cvsroot name="liboil.freedesktop.org"
+     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/liboil"
+     password="" />
   <cvsroot name="gstreamer.freedesktop.org"
      root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/gstreamer"
      password="" />
@@ -655,7 +658,6 @@
       <dep package="totem" />
     </dependencies>
   </cvsmodule>
-
   <cvsmodule id="gstreamer-0.8"
              module="gstreamer" checkoutdir="gstreamer-0.8"
              revision="BRANCH-GSTREAMER-0_8"
@@ -704,6 +706,8 @@
     </dependencies>
   </cvsmodule>
 
+  <cvsmodule id="liboil" revision="liboil_0_3_6" cvsroot="liboil.freedesktop.org" />
+
   <cvsmodule id="gst-plugins-base-0.10"
              module="gst-plugins-base" checkoutdir="gst-plugins-base-0.10"
              autogenargs="-- --disable-tests"
@@ -713,6 +717,7 @@
       <dep package="gstreamer-0.10" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
+      <dep package="liboil" />
     </dependencies>
   </cvsmodule>
 
@@ -1642,6 +1647,11 @@
     <dependencies>
       <dep package="gtkmm" />
       <dep package="libxslt" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="NetworkManager" cvsroot="gnome.org">
+    <dependencies>
+      <dep package="dbus" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="atomix">
