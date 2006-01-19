@@ -199,6 +199,7 @@
   <cvsmodule id="gnome-icon-theme">
     <dependencies>
       <dep package="hicolor-icon-theme" />
+      <dep package="icon-naming-utils" />
     </dependencies>
   </cvsmodule>
   <tarball id="howl" version="1.0.0">
@@ -360,8 +361,8 @@
       <dep package="libgtop" />
       <dep package="gail" />
       <dep package="libxklavier" />
-      <dep package="gstreamer-0.8" />
-      <dep package="gst-plugins-0.8" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins" />
       <dep package="gucharmap" />
       <dep package="system-tools-backends" />
     </dependencies>
@@ -428,8 +429,8 @@
   <cvsmodule id="nautilus-media" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="nautilus" />
-      <dep package="gstreamer-0.8" />
-      <dep package="gst-plugins-0.8" />
+      <dep package="gstreamer-0-8" />
+      <dep package="gst-plugins-0-8" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="nautilus-vcs">
@@ -467,7 +468,7 @@
       <dep package="libxklavier" />
       <dep package="gnome-menus" />
       <dep package="gnome-doc-utils" />
-      <dep package="gstreamer-0.10" />
+      <dep package="gstreamer" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="yelp">
@@ -515,9 +516,9 @@
       <dep package="libgnomeui" />
       <dep package="esound" />
       <dep package="gail" />
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
-      <dep package="gst-plugins-good-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
+      <dep package="gst-plugins-good" />
       <dep package="nautilus-cd-burner" />
     </dependencies>
   </cvsmodule>
@@ -653,13 +654,13 @@
   <cvsmodule id="rhythmbox">
     <dependencies>
       <dep package="libgnomeui" />
-      <dep package="gst-plugins-0.8" />
+      <dep package="gst-plugins-0-8" />
       <dep package="nautilus-cd-burner" />
       <dep package="totem" />
     </dependencies>
   </cvsmodule>
-  <cvsmodule id="gstreamer-0.8"
-             module="gstreamer" checkoutdir="gstreamer-0.8"
+  <cvsmodule id="gstreamer-0-8"
+             module="gstreamer" checkoutdir="gstreamer-0-8"
              revision="BRANCH-GSTREAMER-0_8"
              autogenargs="-- --disable-plugin-builddir --disable-tests"
              supports-non-srcdir-builds="no"
@@ -670,33 +671,33 @@
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-plugins-0.8"
-             module="gst-plugins" checkoutdir="gst-plugins-0.8"
+  <cvsmodule id="gst-plugins-0-8"
+             module="gst-plugins" checkoutdir="gst-plugins-0-8"
              revision="BRANCH-GSTREAMER-0_8"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.8" />
+      <dep package="gstreamer-0-8" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-python-0.8"
-             module="gst-python" checkoutdir="gst-python-0.8"
+  <cvsmodule id="gst-python-0-8"
+             module="gst-python" checkoutdir="gst-python-0-8"
              revision="BRANCH-GSTREAMER-0_8"
              autogenargs="--"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.8" />
-      <dep package="gst-plugins-0.8" />
+      <dep package="gstreamer-0-8" />
+      <dep package="gst-plugins-0-8" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gstreamer-0.10"
-             module="gstreamer" checkoutdir="gstreamer-0.10"
+  <cvsmodule id="gstreamer"
+             module="gstreamer"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
@@ -708,71 +709,71 @@
 
   <cvsmodule id="liboil" revision="liboil_0_3_6" cvsroot="liboil.freedesktop.org" />
 
-  <cvsmodule id="gst-plugins-base-0.10"
-             module="gst-plugins-base" checkoutdir="gst-plugins-base-0.10"
+  <cvsmodule id="gst-plugins-base"
+             module="gst-plugins-base"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
+      <dep package="gstreamer" />
       <dep package="gnome-vfs" />
       <dep package="gtk+" />
       <dep package="liboil" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-plugins-good-0.10"
-             module="gst-plugins-good" checkoutdir="gst-plugins-good-0.10"
+  <cvsmodule id="gst-plugins-good"
+             module="gst-plugins-good"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-plugins-ugly-0.10"
-             module="gst-plugins-ugly" checkoutdir="gst-plugins-ugly-0.10"
+  <cvsmodule id="gst-plugins-ugly"
+             module="gst-plugins-ugly"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-plugins-bad-0.10"
-             module="gst-plugins-bad" checkoutdir="gst-plugins-bad-0.10"
+  <cvsmodule id="gst-plugins-bad"
+             module="gst-plugins-bad"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-ffmpeg-0.10"
-             module="gst-ffmpeg" checkoutdir="gst-ffmpeg-0.10"
+  <cvsmodule id="gst-ffmpeg"
+             module="gst-ffmpeg"
              autogenargs="-- --disable-tests"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
     </dependencies>
   </cvsmodule>
 
-  <cvsmodule id="gst-python-0.10"
-             module="gst-python" checkoutdir="gst-python-0.10"
+  <cvsmodule id="gst-python"
+             module="gst-python"
              autogenargs="--"
              supports-non-srcdir-builds="no"
              cvsroot="gstreamer.freedesktop.org">
     <dependencies>
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
     </dependencies>
   </cvsmodule>
 
@@ -1131,7 +1132,7 @@
       <dep package="gconf-editor" />
       <dep package="gnome-utils" />
       <dep package="procman" />
-      <dep package="gstreamer-0.8" />
+      <dep package="gstreamer" />
       <dep package="gnome-media" />
       <dep package="gnome-netstatus" />
       <dep package="gcalctool" />
@@ -1393,9 +1394,9 @@
     <dependencies>
       <dep package="gnome-desktop" />
       <dep package="nautilus-cd-burner" />
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
-      <dep package="gst-plugins-good-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
+      <dep package="gst-plugins-good" />
       <dep package="libmusicbrainz" />
       <dep package="iso-codes" />
     </dependencies>
@@ -1514,9 +1515,9 @@
       <dep package="gnome-doc-utils" />
       <dep package="libgnomeui" />
       <dep package="gnome-media" />
-      <dep package="gstreamer-0.10" />
-      <dep package="gst-plugins-base-0.10" />
-      <dep package="gst-plugins-good-0.10" />
+      <dep package="gstreamer" />
+      <dep package="gst-plugins-base" />
+      <dep package="gst-plugins-good" />
       <dep package="nautilus-cd-burner" />
     </dependencies>
   </cvsmodule>
@@ -1648,8 +1649,8 @@
   </cvsmodule>
   <cvsmodule id="monkey-bubble">
     <dependencies>
-      <dep package="gstreamer-0.8" />
-      <dep package="gst-plugins-0.8" />
+      <dep package="gstreamer-0-8" />
+      <dep package="gst-plugins-0-8" />
       <dep package="libxml2" />
       <dep package="gconf" />
       <dep package="librsvg" />
