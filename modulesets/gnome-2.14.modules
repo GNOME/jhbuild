@@ -38,6 +38,8 @@
      password="" />
   <svnroot name="svn.galago-project.org"
      href="http://svn.galago-project.org/" />
+  <svnroot name="osiris.chipx86.com"
+     href="http://osiris.chipx86.com/svn/osiris-misc" />
   <cvsroot name="cvs.alioth.debian.org/pkg-isocodes"
      root=":pserver:anonymous@cvs.alioth.debian.org:/cvsroot/pkg-isocodes"
      password="" />
@@ -822,14 +824,10 @@
   <cvsmodule id="dogtail">
     <dependencies>
       <dep package="pyspi" />
-      <!-- 
-      	Dogtail has an optional dependency on the libwnck bindings, which are in
-      	the gnome-python-extras package.  However, adding this dependency pulls in
-      	great swathes of other deps, such as nautilus, e-d-s, etc.  Hence this is
-      	commented out for now.
-      -->
-      <!-- <dep package="gnome-python/gnome-python-extras" /> -->
     </dependencies>
+    <suggest>
+      <dep package="gnome-python/gnome-python-desktop" />
+    </suggest>
   </cvsmodule>
   <cvsmodule id="gcalctool" supports-non-srcdir-builds="no">
     <dependencies>
@@ -1105,6 +1103,15 @@
       <dep package="dbus" />
     </dependencies>
   </svnmodule>
+  <svnmodule id="libsexy" module="trunk/libsexy" root="osiris.chipx86.com">
+  </svnmodule>
+  <svnmodule id="notification-daemon" module="trunk/notification-daemon" root="svn.galago-project.org">
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="dbus" />
+      <dep package="libsexy" />
+    </dependencies>
+  </svnmodule>
 
   <metamodule id="meta-gnome-devel-platform">
     <dependencies>
@@ -1171,6 +1178,16 @@
       <dep package="evince" />
       <dep package="dasher" />
       <dep package="gnome-keyring-manager" />
+      <dep package="deskbar-applet" />
+      <dep package="fast-user-switch-applet" />
+      <dep package="gnome-screensaver" />
+      <dep package="meta-gnome-admin" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-admin">
+    <dependencies>
+      <dep package="pessulus" />
+      <dep package="sabayon" />
     </dependencies>
   </metamodule>
   <metamodule id="meta-gnome-devel-tools">
@@ -1186,6 +1203,7 @@
     <dependencies>
       <dep package="gnome-python/pygtk" />
       <dep package="gnome-python/gnome-python" />
+      <dep package="gnome-python/gnome-python-desktop" />
     </dependencies>
     <suggest>
       <dep package="gnome-python/gnome-python-extras" />
@@ -1217,13 +1235,9 @@
   </metamodule>
   <metamodule id="meta-gnome-proposed">
     <dependencies>
-      <dep package="atomix" />
-      <dep package="deskbar-applet" />
-      <dep package="fast-user-switch-applet" />
+      <dep package="libnotify" />
+      <dep package="notification-daemon" />
       <dep package="gnome-power-manager" />
-      <dep package="gnome-screensaver" />
-      <dep package="pessulus" />
-      <dep package="sabayon" />
     </dependencies>
   </metamodule>
   <cvsmodule id="sodipodi">
