@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if test -z "$1"; then
+	echo Usage: find-branch-moduleset branch-name
+	exit 1
+fi
+
+branch=$1
+
+echo "$branch" |
+grep -q '\.' &&
+branch="gnome-${branch//./-}"
+
+echo "$branch" |
+grep -q '[0-9][0-9]' &&
+branch="${branch//-/.}" &&
+branch="${branch/./-}" || 
+branch="${branch//-/}"
+
+url='http://cvs.gnome.org/viewcvs/*checkout*/jhbuild/modulesets/'"$branch"'.modules'
+
+wget --output-document - "$url" 2>/dev/null

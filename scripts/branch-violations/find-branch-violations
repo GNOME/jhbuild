@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if test -z "$1"; then
+	echo Usage: find-branch-violations branch
+	exit 1
+fi
+
+branch=$1
+
+echo "$branch" |
+grep -q '\.' &&
+branch="gnome-${branch//./-}"
+
+join \
+     <( # list of modules defined in jhbuild without branch tag
+	"`dirname "$0"`/find-branch-moduleset" "$branch" |
+	grep "<cvsmodule" |
+	grep -v "$branch" |
+	cut -d'"' -f2 |
+	sort
+      ) \
+     <( # list of modules in CVS with branch tag
+	"`dirname "$0"`/find-branch-modules" "$branch"
+      )

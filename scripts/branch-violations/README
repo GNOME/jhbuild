@@ -1,0 +1,37 @@
+These are a bunch of scripts that can be used to find modules
+in a module set that lack the proper revision tag.  To use, run:
+
+	./find-branch-violations X.Y
+
+where X.Y is the major.minor version of the GNOME release you want to check.
+What it does is:
+
+	* It fetches the jhbuild moduleset for that version of GNOME from
+	CVS HEAD, using viewcvs.  Note that it does not use your checked-out
+	version.
+
+	* It fetches a list of all modules in GNOME CVS that have a branch
+	named gnome-X-Y.  It's actually more than just top-level CVS modules.
+	They way it works is, it gets a list of all files named ChangeLog,
+	with a branch tag of gnome-X-Y, using Bonsai.
+
+	* It outputs those modules from the first list above, that don't have
+	a revision gnome-X-Y tag, but are listed in the second list above.
+
+
+That's basically it.  Bonsai takes a while to run the query, so take your
+time...
+
+Known problems:
+
+	Bonsai is known to be broken and not report certain directories, like
+	dasher for example.
+
+	That there are some false positives, when the revision attribute in
+	the moduleset XML file is not on the same line that the cvsmodule tag
+	starts.
+
+
+Enjoy,
+Behdad Esfahbod
+Feb 04, 2006
