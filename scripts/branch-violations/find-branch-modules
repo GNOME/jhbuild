@@ -11,9 +11,14 @@ echo "$branch" |
 grep -q '\.' &&
 branch="gnome-${branch//./-}"
 
-url='http://cvs.gnome.org/bonsai/cvsquery.cgi?treeid=default&module=all&branch='"$branch"'&branchtype=match&dir=&file=ChangeLog&filetype=match&who=&whotype=match&sortby=Date&hours=2&date=all&mindate=&maxdate=&cvsroot=%2Fcvs%2Fgnome'
+url1='http://cvs.gnome.org/bonsai/cvsquery.cgi?treeid=default&module=all&branch='"$branch"'&branchtype=match&dir=&file=ChangeLog&filetype=match&who=&whotype=match&sortby=Date&hours=2&date=all&mindate=&maxdate=&cvsroot=%2Fcvs%2Fgnome'
+branch=$branch-branch
+url2='http://cvs.gnome.org/bonsai/cvsquery.cgi?treeid=default&module=all&branch='"$branch"'&branchtype=match&dir=&file=ChangeLog&filetype=match&who=&whotype=match&sortby=Date&hours=2&date=all&mindate=&maxdate=&cvsroot=%2Fcvs%2Fgnome'
 
-wget --output-document - "$url" 2>/dev/null |
+{
+wget --output-document - "$url1" 2>/dev/null
+wget --output-document - "$url2" 2>/dev/null
+} |
 grep "^[^< /]\+/" |
 sed 's,/ ,/,g' |
 sed 's,/ChangeLog.*,,' |
