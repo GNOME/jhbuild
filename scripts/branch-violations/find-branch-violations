@@ -16,7 +16,7 @@ join \
 	"`dirname "$0"`/find-branch-moduleset" "$branch" |
 	grep "<cvsmodule" |
 	grep -v "$branch" |
-	cut -d'"' -f2 |
+	sed 's/.*cvsmodule.*id="\([^"]*\)".*/\1/' |
 	sort
       ) \
      <( # list of modules in CVS with branch tag
