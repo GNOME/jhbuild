@@ -3,46 +3,49 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <cvsroot name="cairo.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
+    password="" />
   <cvsroot name="dbus.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
+    password="" />
   <cvsroot name="fontconfig.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/fontconfig"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/fontconfig"
+    password="" />
   <cvsroot name="hal.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
-     password=""/>
-   <cvsroot name="icon-theme.freedesktop.org"
-      root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/icon-theme"
-      password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
+    password=""/>
+  <cvsroot name="icon-theme.freedesktop.org"
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/icon-theme"
+    password="" />
   <cvsroot name="startup-notification.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification"
+    password="" />
+  <cvsroot name="tango.freedesktop.org"
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
+    password="" />
   <cvsroot name="xlibs.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xlibs"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xlibs"
+    password="" />
   <cvsroot name="xserver.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xserver"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xserver"
+    password="" />
   <cvsroot name="xapps.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xapps"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xapps"
+    password="" />
   <cvsroot name="poppler.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
+    password="" />
   <cvsroot name="system-tools-backends.freedesktop.org"
-     root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
-     password="" />
+    root=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
+    password="" />
   <cvsroot name="gnome.org"
-     root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
-     password="" />
+    root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+    password="" />
 
   <svnroot name="avahi.0pointer.de"
-     href="svn://svn.0pointer.de/avahi" />
+    href="svn://svn.0pointer.de/avahi" />
   <svnroot name="libdaemon.0pointer.de"
-     href="svn://svn.0pointer.de/libdaemon" />
+    href="svn://svn.0pointer.de/libdaemon" />
 
   <cvsmodule id="luminocity" cvsroot="gnome.org">
     <dependencies>
@@ -67,9 +70,9 @@
   </cvsmodule>
 
   <tarball id="cairo-1-0" version="1.0.4"
-	   supports-non-srcdir-builds="no">
+    supports-non-srcdir-builds="no">
     <source href="http://cairographics.org/releases/cairo-1.0.4.tar.gz"
-            size="1475777" md5sum="9002b0e69b3f94831a22d3f2a7735ce2" />
+      size="1475777" md5sum="9002b0e69b3f94831a22d3f2a7735ce2" />
   </tarball>
 
   <cvsmodule id="pycairo-1-0" module="pycairo" checkoutdir="pycairo-1-0"
@@ -94,8 +97,8 @@
   <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" supports-non-srcdir-builds="no"/>
 
   <cvsmodule id="dbus-0.23" module="dbus" checkoutdir="dbus-0.23"
-	     cvsroot="dbus.freedesktop.org" revision="dbus-0-23"
-	     supports-non-srcdir-builds="no"/>
+    cvsroot="dbus.freedesktop.org" revision="dbus-0-23"
+    supports-non-srcdir-builds="no"/>
 
   <!-- Not maintained - try dbusmm instead -->
   <cvsmodule id="dbus-cpp" cvsroot="dbus.freedesktop.org">
@@ -119,25 +122,36 @@
   </cvsmodule>
 
   <cvsmodule id="hal-0-4" module="hal" checkoutdir="hal-0.4"
-	     cvsroot="hal.freedesktop.org" revision="hal-0_4-stable-branch">
+    cvsroot="hal.freedesktop.org" revision="hal-0_4-stable-branch">
     <dependencies>
       <dep package="dbus-0.23" />
     </dependencies>
   </cvsmodule>
 
   <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" />
-  
+
   <cvsmodule id="icon-slicer" cvsroot="icon-theme.freedesktop.org" />
   <cvsmodule id="icon-naming-utils" cvsroot="icon-theme.freedesktop.org" />
   <tarball id="hicolor-icon-theme" version="0.8"
-	   supports-non-srcdir-builds="no">
+    supports-non-srcdir-builds="no">
     <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.8.tar.gz"
-            size="31738" md5sum="b854ed36d523d5d72902b04c18f4b499" />
+      size="31738" md5sum="b854ed36d523d5d72902b04c18f4b499" />
   </tarball>
 
+  <cvsmodule id="tango-icon-theme" cvsroot="tango.freedesktop.org">
+    <dependencies>
+      <dep package="icon-naming-utils" />
+    </dependencies>
+	</cvsmodule>
+  <cvsmodule id="tango-icon-theme-extras" cvsroot="tango.freedesktop.org">
+    <dependencies>
+      <dep package="tango-icon-theme" />
+    </dependencies>
+  </cvsmodule>
+
   <cvsmodule id="startup-notification"
-             cvsroot="startup-notification.freedesktop.org" />
-    
+    cvsroot="startup-notification.freedesktop.org" />
+
   <cvsmodule id="CompositeExt" cvsroot="xlibs.freedesktop.org"> 
     <dependencies>
       <dep package="XExtensions" />
@@ -303,9 +317,9 @@
   <cvsmodule id="xtrans" cvsroot="xlibs.freedesktop.org" />
   <cvsmodule id="xkbfile" cvsroot="xlibs.freedesktop.org" />
   <cvsmodule id="xkbfile" cvsroot="xlibs.freedesktop.org">
-     <dependencies>
-       <dep package="X11" />
-     </dependencies>
+    <dependencies>
+      <dep package="X11" />
+    </dependencies>
   </cvsmodule>
   <metamodule id="meta-xlibs">
     <dependencies>
@@ -344,7 +358,7 @@
     </dependencies>
   </metamodule>
 
-<!-- These use Arch now ...
+  <!-- These use Arch now ...
   <metamodule id="meta-debrix">
     <dependencies>
       <dep package="debrix" />
@@ -386,8 +400,8 @@
       <dep package="Xdmcp" />
     </dependencies>
   </cvsmodule>
--->
-  
+  -->
+
   <cvsmodule id="xserver" cvsroot="xserver.freedesktop.org">
     <dependencies>
       <dep package="CompositeExt" />
@@ -407,14 +421,14 @@
     </dependencies>
   </cvsmodule>
 
- <cvsmodule id="Xcomposite" cvsroot="xlibs.freedesktop.org">
+  <cvsmodule id="Xcomposite" cvsroot="xlibs.freedesktop.org">
     <dependencies>
       <dep package="CompositeExt" />
       <dep package="Xfixes" />
     </dependencies>
   </cvsmodule>
 
- <cvsmodule id="xcompmgr" cvsroot="xapps.freedesktop.org">
+  <cvsmodule id="xcompmgr" cvsroot="xapps.freedesktop.org">
     <dependencies>
       <dep package="Xcomposite" />
       <dep package="Xdamage" />
@@ -422,7 +436,7 @@
     </dependencies>
   </cvsmodule>
 
- <cvsmodule id="lightpipe" cvsroot="xapps.freedesktop.org">
+  <cvsmodule id="lightpipe" cvsroot="xapps.freedesktop.org">
     <dependencies>
       <dep package="Xcomposite" />
       <dep package="Xdamage" />
@@ -433,14 +447,14 @@
     </dependencies>
   </cvsmodule>
 
- <cvsmodule id="poppler" cvsroot="poppler.freedesktop.org">
+  <cvsmodule id="poppler" cvsroot="poppler.freedesktop.org">
     <dependencies>
       <dep package="cairo-1-0" />
     </dependencies>
   </cvsmodule>
-  
- <cvsmodule id="poppler-0-4" module="poppler" checkoutdir="poppler-0-4"
-            cvsroot="poppler.freedesktop.org" revision="POPPLER_0_4_X">
+
+  <cvsmodule id="poppler-0-4" module="poppler" checkoutdir="poppler-0-4"
+    cvsroot="poppler.freedesktop.org" revision="POPPLER_0_4_X">
     <dependencies>
       <dep package="cairo-1-0" />
     </dependencies>
@@ -451,13 +465,13 @@
   <cvsmodule id="glitz" cvsroot="cairo.freedesktop.org"/>
 
   <svnmodule id="libdaemon" module="trunk" checkoutdir="libdaemon"
-	     root="libdaemon.0pointer.de">
+    root="libdaemon.0pointer.de">
   </svnmodule>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi correctly detects what is available. -->
   <svnmodule id="avahi" module="trunk" checkoutdir="avahi"
-	     root="avahi.0pointer.de"
-	     autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages">
+    root="avahi.0pointer.de"
+    autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages">
     <dependencies>
       <dep package="libdaemon"/>
       <dep package="dbus"/>
