@@ -58,6 +58,20 @@
     </dependencies>
   </svnmodule>
 
+  <svnmodule id="hildon-fmmm" module="trunk/hildon-fmmm" root="maemo.org">
+    <dependencies>
+      <dep package="hildon-fm" />
+      <dep package="hildon-widgetsmm" />
+    </dependencies>
+  </svnmodule>
+
+  <svnmodule id="hildon-widgetsmm" module="trunk/hildon-widgetsmm" root="maemo.org">
+    <dependencies>
+      <dep package="hildon-libs" />
+      <dep package="gtkmm" />
+    </dependencies>
+  </svnmodule>
+
 
   <arch-archive name="rhythmbox-devel@gnome.org--2004"
 		href="http://web.rhythmbox.org/arch/2004" />
@@ -723,7 +737,7 @@
     </dependencies>
   </cvsmodule>
   <cvsmodule id="libsigc++2" />
-  <cvsmodule id="glibmm" revision="glibmm-2-6">
+  <cvsmodule id="glibmm" revision="glibmm-2-8">
     <dependencies>
       <dep package="glib" />
       <dep package="libsigc++2" />
@@ -1007,6 +1021,11 @@
   <metamodule id="meta-maemo">
     <dependencies>
       <dep package="hildon-fm" />
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-maemo-c++">
+    <dependencies>
+      <dep package="hildon-fmmm" />
     </dependencies>
   </metamodule>
 
