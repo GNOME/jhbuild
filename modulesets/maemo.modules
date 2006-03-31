@@ -34,41 +34,49 @@
   <cvsroot name="clearlooks.sf.net"
      root=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/clearlooks"
      password="" />
-  <svnroot name="maemo.org"
+  <svnroot name="maemo.org-haf"
      href="https://stage.maemo.org/svn/maemo/projects/haf" />
+  <svnroot name="maemo.org-contrib"
+     href="https://stage.maemo.org/svn/maemo/contrib" />
 
 
-  <svnmodule id="hildon-libs" module="trunk/hildon-libs" root="maemo.org">
+  <svnmodule id="libosso" module="trunk/libosso" root="maemo.org-haf">
+    <dependencies>
+    </dependencies>
+  </svnmodule>
+
+  <svnmodule id="hildon-libs" module="trunk/hildon-libs" root="maemo.org-haf">
     <dependencies>
       <dep package="gtk+" />
       <dep package="dbus" />
     </dependencies>
   </svnmodule>
 
-  <svnmodule id="hildon-fm" module="trunk/hildon-fm" root="maemo.org">
+  <svnmodule id="hildon-fm" module="trunk/hildon-fm" root="maemo.org-haf">
     <dependencies>
       <dep package="hildon-libs" />
+      <dep package="libosso" />
       <dep package="mce-dummy" />
     </dependencies>
   </svnmodule>
 
-  <svnmodule id="mce-dummy" module="trunk/mce-dummy" root="maemo.org">
+  <svnmodule id="mce-dummy" module="trunk/mce-dummy" root="maemo.org-haf">
     <dependencies>
       <dep package="gtk+" />
     </dependencies>
   </svnmodule>
 
-  <svnmodule id="hildon-fmmm" module="trunk/hildon-fmmm" root="maemo.org">
+  <svnmodule id="hildon-fmmm" module="trunk/hildon-fmmm" root="maemo.org-contrib">
     <dependencies>
       <dep package="hildon-fm" />
-      <dep package="hildon-widgetsmm" />
     </dependencies>
   </svnmodule>
 
-  <svnmodule id="hildon-widgetsmm" module="trunk/hildon-widgetsmm" root="maemo.org">
+  <svnmodule id="hildon-widgetsmm" module="trunk/hildon-widgetsmm" root="maemo.org-contrib">
     <dependencies>
       <dep package="hildon-libs" />
       <dep package="gtkmm" />
+      <dep package="hildon-fmmm" />
     </dependencies>
   </svnmodule>
 
@@ -96,7 +104,7 @@
     </dependencies>
   </cvsmodule>
 
-  <svnmodule id="shared-mime-info" module="trunk/shared-mime-info" cvsroot="maemo.org" supports-non-srcdir-builds="no">
+  <svnmodule id="shared-mime-info" module="trunk/shared-mime-info" cvsroot="maemo.org-haf" supports-non-srcdir-builds="no">
     <dependencies>
       <dep package="intltool" />
     </dependencies>
@@ -129,7 +137,7 @@
       <dep package="libxslt" />
     </dependencies>
   </cvsmodule>
-  <svnmodule id="glib" revision="glib-2-6" module="trunk/glib" root="maemo.org">
+  <svnmodule id="glib" revision="glib-2-6" module="trunk/glib" root="maemo.org-haf">
     <dependencies>
       <dep package="gtk-doc" />
     </dependencies>
@@ -145,7 +153,7 @@
       <dep package="glib" />
     </dependencies>
   </cvsmodule>
-  <svnmodule id="gtk+" revision="gtk-2-6" module="trunk/gtk+" root="maemo.org">
+  <svnmodule id="gtk+" revision="gtk-2-6" module="trunk/gtk+" root="maemo.org-haf">
     <dependencies>
       <dep package="pango" />
       <dep package="atk" />
@@ -177,7 +185,7 @@
       <dep package="gnome-common" />
     </dependencies>
   </cvsmodule>
-  <svnmodule id="gconf" module="trunk/gconf" root="maemo.org" revision="gnome-2-10">
+  <svnmodule id="gconf" module="trunk/gconf" root="maemo.org-haf" revision="gnome-2-10">
     <dependencies>
       <dep package="ORBit2" />
       <dep package="libxml2" />
@@ -1025,7 +1033,7 @@
   </metamodule>
   <metamodule id="meta-maemo-c++">
     <dependencies>
-      <dep package="hildon-fmmm" />
+      <dep package="hildon-widgetsmm" />
     </dependencies>
   </metamodule>
 
