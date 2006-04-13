@@ -23,6 +23,7 @@ import subprocess
 import locale
 
 from jhbuild.utils import cmds
+from jhbuild.errors import CommandError
 import buildscript
 
 index_header = '''<html>
@@ -216,7 +217,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         cmds.pprint_output(p, format_line)
         self.modulefp.write('</pre>\n')
         self.modulefp.flush()
-        return p.returncode
+        if p.returncode != 0:
+            raise CommandError('Error running %s' % command, p.returncode)
 
     def start_build(self):
         assert self.outputdir

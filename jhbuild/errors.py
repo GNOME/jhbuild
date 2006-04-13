@@ -21,8 +21,18 @@ class UsageError(Exception):
     '''An exception that should result in a usage message rather than
     a full traceback.'''
 
+
 class ConfigError(Exception):
     '''A problem in a configuration file.'''
 
+
 class FatalError(Exception):
     '''An error not related to the user input.'''
+
+
+class CommandError(Exception):
+    '''An error occurred in an external command.'''
+
+    def __init__(self, message, returncode=None):
+        Exception.__init__(self, message)
+        self.returncode = returncode

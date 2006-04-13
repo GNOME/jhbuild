@@ -20,22 +20,33 @@
 import os
 import select
 import subprocess
+from signal import SIGINT
+from jhbuild.errors import CommandError
 
-def get_output(cmd):
+def get_output(cmd, extra_env=None):
     '''Return the output (stdout and stderr) from the command.
-    Raises an exception if the command has a non-zero return value.'''
+
+    If the extra_env dictionary is not empty, then it is used to
+    update the environment in the child process.
+    
+    Raises CommandError if the command exited abnormally or had a non-zero
+    error code.
+    '''
+    kws = {}
     if isinstance(cmd, (str, unicode)):
-        useshell = True
-    else:
-        useshell = False
-    p = subprocess.Popen(cmd, shell=useshell,
+        kws['shell'] = True
+    if extra_env is not None:
+        kws['env'] = os.environ.copy()
+        kws['env'].update(extra_env)
+    p = subprocess.Popen(cmd,
                          close_fds=True,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT)
+                         stderr=subprocess.STDOUT,
+                         **kws)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
-        raise RuntimeError('program exited abnormally')
+        raise CommandError('Error running %s' % cmd, p.returncode)
     return stdout
 
 class Pipeline(subprocess.Popen):
@@ -175,6 +186,7 @@ def pprint_output(pipe, format_line):
         
             select.select([],[],[],.1) # give a little time for buffers to fill
     except KeyboardInterrupt:
-        pass
-            
+        # interrupt received.  Send SIGINT to child process.
+        os.kill(pipe.pid, SIGINT)
+
     return pipe.wait()

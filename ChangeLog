@@ -2,10 +2,51 @@
 
 	* modulesets/bootstrap.modules: undo indentation changes.
 
+2006-04-13  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/mozillamodule.py: same here.
+
 2006-04-12  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* modulesets/gnome-2.14.modules: Use gnome-2-14 branch for
 	gnome-control-center.
+
+2006-04-12  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/svnmodule.py: same here.
+
+	* jhbuild/modtypes/tarball.py: same here.
+
+	* jhbuild/modtypes/base.py: catch CommandError at the appropriate
+	places.
+
+2006-04-11  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/utils/svn.py (get_uri): catch CommandError rather than
+	RuntimeError.  Run "svn info" in C locale to fix bug #334678.
+	(SVNRoot): don't try to return exit codes in checkout() and
+	update() -- it is passed as an exception now.
+
+	* jhbuild/utils/cvs.py (CVSRoot): don't need to pass on return
+	code from checkout() and update(), since that info is passed on as
+	an exception now.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	raise CommandError on failure.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute):
+	raise CommandError on failure.
+
+	* jhbuild/frontends/buildscript.py (BuildScript.execute): change
+	docstring to state that CommandError is raised if the command
+	fails.
+
+	* jhbuild/utils/cmds.py (get_output): change to raise CommandError
+	instead of RuntimeError.  Also modify to allow passing in a custom
+	environment.
+
+	* jhbuild/errors.py (CommandError): send a SIGINT to the child on
+	KeyboardInterrupt.
 
 2006-04-11  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 

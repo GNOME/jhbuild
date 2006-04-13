@@ -20,7 +20,7 @@
 import os
 
 from jhbuild.utils import cvs
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 
 __all__ = [ 'Package', 'CVSModule',
             'register_module_type', 'parse_xml_node' ]
@@ -135,21 +135,25 @@ class AutogenModule(Package):
             nextstate = self.STATE_CLEAN
         else:
             nextstate = self.STATE_BUILD
-        if buildscript.execute(cmd) == 0:
-            return (nextstate, None, None)
-        else:
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (nextstate, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
+        else:
+            return (nextstate, None, None)
 
     def do_clean(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Cleaning', self)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        if buildscript.execute(cmd) == 0:
-            return (self.STATE_BUILD, None, None)
-        else:
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (self.STATE_BUILD, 'could not clean module',
                     [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
+        else:
+            return (self.STATE_BUILD, None, None)
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
@@ -159,32 +163,37 @@ class AutogenModule(Package):
             nextstate = self.STATE_CHECK
         else:
             nextstate = self.STATE_INSTALL
-        if buildscript.execute(cmd) == 0:
-            return (nextstate, None, None)
-        else:
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (nextstate, 'could not build module',
                     [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
+        else:
+            return (nextstate, None, None)
 
     def do_check(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Checking', self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        if buildscript.execute(cmd) == 0:
-            return (self.STATE_INSTALL, None, None)
-        else:
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (self.STATE_INSTALL, 'test suite failed',
                     [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
+        else:
+            return (self.STATE_INSTALL, None, None)
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
         cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not make module'
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
+            return (self.STATE_DONE, 'could not make module', [])
         else:
             buildscript.packagedb.add(self.name, self.get_revision() or '')
-        return (self.STATE_DONE, error, [])
+            return (self.STATE_DONE, None, None)
 
 class CVSModule(AutogenModule):
     CVSRoot = cvs.CVSRoot
@@ -224,9 +233,14 @@ class CVSModule(AutogenModule):
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
-        res = cvsroot.update(buildscript, self.cvsmodule,
-                             self.revision, buildscript.config.sticky_date,
-                             checkoutdir=self.checkoutdir)
+        try:
+            cvsroot.update(buildscript, self.cvsmodule,
+                           self.revision, buildscript.config.sticky_date,
+                           checkoutdir=self.checkoutdir)
+        except CommandError:
+            succeeded = False
+        else:
+            succeeded = True
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -238,7 +252,7 @@ class CVSModule(AutogenModule):
         else:
             nextstate = self.STATE_BUILD
         # did the checkout succeed?
-        if res == 0 and os.path.exists(srcdir):
+        if succeeded and os.path.exists(srcdir):
             return (nextstate, None, None)
         else:
             return (nextstate, 'could not update module',
@@ -255,14 +269,15 @@ class CVSModule(AutogenModule):
             nextstate = self.STATE_CONFIGURE
 
         buildscript.set_action('Checking out', self)
-        res = cvsroot.checkout(buildscript, self.cvsmodule,
-                               self.revision, buildscript.config.sticky_date,
-                               checkoutdir=self.checkoutdir)
-        if res == 0 and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
+        try:
+            cvsroot.checkout(buildscript, self.cvsmodule,
+                             self.revision, buildscript.config.sticky_date,
+                             checkoutdir=self.checkoutdir)
+        except CommandError:
             return (nextstate, 'could not checkout module',
                     [self.STATE_FORCE_CHECKOUT])
+        else:
+            return (nextstate, None, None)
 
 def parse_cvsmodule(node, config, dependencies, suggests, root,
                     CVSModule=CVSModule):

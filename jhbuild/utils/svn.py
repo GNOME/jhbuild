@@ -29,16 +29,23 @@ def _make_uri(repo, path):
 
 def get_uri(filename):
     try:
-        output = jhbuild.utils.cmds.get_output('svn info %s' % filename)
-    except RuntimeError:
+        # we run Subversion in the C locale, because Subversion localises
+        # the key names in the output.  See bug #334678 for more info.
+        output = jhbuild.utils.cmds.get_output(
+            'svn info %s' % filename,
+            extra_env={
+                'LANGUAGE': 'C',
+                'LC_ALL': 'C',
+                'LANG': 'C'})
+    except jhbuild.errors.CommandError:
         raise jhbuild.errors.FatalError('could not get Subversion URI for %s'
                                         % filename)
-    output = output.split('\n')
-    for line in output:
+    for line in output.splitlines():
         if line.startswith('URL:'):
             return line[4:].strip()
-    raise jhbuild.errors.FatalError('could not get Subversion URI for %s'
+    raise jhbuild.errors.FatalError('could not parse "svn info" output for %s'
                                     % filename)
+
 
 class SVNRoot:
     '''A class to wrap up various Subversion operations.'''
@@ -63,7 +70,7 @@ class SVNRoot:
         if date:
             cmd.extend(['-r', '{%s}' % date])
 
-        return buildscript.execute(cmd, 'svn')
+        buildscript.execute(cmd, 'svn')
 
     def update(self, buildscript, module, date=None, checkoutdir=None):
         '''Perform a "svn update" (or possibly a checkout)'''
@@ -84,4 +91,4 @@ class SVNRoot:
         else:
             cmd = ['svn', 'update'] + opt + ['.']
 
-        return buildscript.execute(cmd, 'svn')
+        buildscript.execute(cmd, 'svn')

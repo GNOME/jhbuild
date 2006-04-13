@@ -20,7 +20,7 @@
 import os
 
 import base
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -124,9 +124,10 @@ class Tarball(base.Package):
             if self.check_localfile(buildscript) is not None:
                 # don't have a local copy
                 buildscript.set_action('Downloading', self, action_target=self.source_url)
-                res = buildscript.execute(['wget', self.source_url,
-                                           '-O', localfile])
-                if res:
+                try:
+                    res = buildscript.execute(['wget', self.source_url,
+                                               '-O', localfile])
+                except CommandError:
                     return (self.STATE_UNPACK, 'error downloading file', [])
 
         status = self.check_localfile(buildscript)
@@ -140,14 +141,17 @@ class Tarball(base.Package):
         srcdir = self.get_srcdir(buildscript)
 
         buildscript.set_action('Unpacking', self)
-        if localfile.endswith('.bz2'):
-            res = buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile)
-        elif localfile.endswith('.gz'):
-            res = buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile)
-        else:
-            raise FatalError("don't know how to handle: %s" % localfile)
+        try:
+            if localfile.endswith('.bz2'):
+                buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile)
+            elif localfile.endswith('.gz'):
+                buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile)
+            else:
+                raise FatalError("don't know how to handle: %s" % localfile)
+        except CommandError:
+            return (self.STATE_PATCH, 'could not unpack tarball', [])
         
-        if res or not os.path.exists(srcdir):
+        if os.path.exists(srcdir):
             return (self.STATE_PATCH, 'could not unpack tarball', [])
 
         return (self.STATE_PATCH, None, None)
@@ -158,9 +162,10 @@ class Tarball(base.Package):
         for (patch, patchstrip) in self.patches:
             patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.set_action('Applying Patch', self, action_target=patch)
-            res = buildscript.execute('patch -p%d < "%s"' % (patchstrip,
-                                                             patchfile))
-            if res:
+            try:
+                buildscript.execute('patch -p%d < "%s"' % (patchstrip,
+                                                           patchfile))
+            except CommandError:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
             
         if buildscript.config.nobuild:
@@ -182,31 +187,36 @@ class Tarball(base.Package):
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
-        res = buildscript.execute(cmd)
-        error = None
-        if res != 0:
-            error = 'could not configure package'
-        return (self.STATE_BUILD, error, [])
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
+            return (self.STATE_BUILD, 'could not configure package', [])
+        else:
+            return (self.STATE_BUILD, None, None)
 
     def do_build(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        if buildscript.execute(cmd) == 0:
-            return (self.STATE_INSTALL, None, None)
-        else:
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (self.STATE_INSTALL, 'could not build module', [])
+        else:
+            return (self.STATE_INSTALL, None, None)
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
         cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
         error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not make module'
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
+            return (self.STATE_DONE, 'could not make module', [])
         else:
             buildscript.packagedb.add(self.name, self.version or '')
-        return (self.STATE_DONE, error, [])
+            return (self.STATE_DONE, None, None)
 
 def parse_tarball(node, config, dependencies, suggests, cvsroot):
     name = node.getAttribute('id')

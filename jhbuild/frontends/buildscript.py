@@ -52,9 +52,11 @@ class BuildScript:
                                                           'packagedb.xml'))
 
     def execute(self, command, hint=None):
-        '''executes a command, and returns the error code.
-        The optional argument is to give a hint about the type of output
-        that will be produced.'''
+        '''Executes the given command.
+
+        If an error occurs, CommandError is raised.  The hint argument
+        gives a hint about the type of output to expect.
+        '''
         raise NotImplementedError
 
     def build(self):

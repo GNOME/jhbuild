@@ -23,7 +23,7 @@ import base
 from base import AutogenModule
 from base import register_module_type
 from jhbuild.utils import svn
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 
 class SVNModule(AutogenModule):
     SVNRoot = svn.SVNRoot
@@ -72,9 +72,14 @@ class SVNModule(AutogenModule):
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
-        res = svnroot.update(buildscript, self.svnmodule,
-                             buildscript.config.sticky_date,
-                             checkoutdir=self.checkoutdir)
+        try:
+            svnroot.update(buildscript, self.svnmodule,
+                           buildscript.config.sticky_date,
+                           checkoutdir=self.checkoutdir)
+        except CommandError:
+            succeeded = False
+        else:
+            succeeded = True
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -86,7 +91,7 @@ class SVNModule(AutogenModule):
         else:
             nextstate = self.STATE_BUILD
         # did the checkout succeed?
-        if res == 0 and os.path.exists(srcdir):
+        if succeeded and os.path.exists(srcdir):
             return (nextstate, None, None)
         else:
             return (nextstate, 'could not update module',
@@ -103,10 +108,16 @@ class SVNModule(AutogenModule):
             nextstate = self.STATE_CONFIGURE
 
         buildscript.set_action('Checking out', self)
-        res = svnroot.checkout(buildscript, self.svnmodule,
-                               buildscript.config.sticky_date,
-                               checkoutdir=self.checkoutdir)
-        if res == 0 and os.path.exists(srcdir):
+        try:
+            svnroot.checkout(buildscript, self.svnmodule,
+                             buildscript.config.sticky_date,
+                             checkoutdir=self.checkoutdir)
+        except CommandError:
+            succeeded = False
+        else:
+            succeeded = True
+
+        if succeeded and os.path.exists(srcdir):
             return (nextstate, None, None)
         else:
             return (nextstate, 'could not checkout module',

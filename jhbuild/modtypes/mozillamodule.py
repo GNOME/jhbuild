@@ -61,26 +61,29 @@ class MozillaModule(base.CVSModule):
     def checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
         cvsroot = self.CVSRoot(self.cvsroot, buildscript.config.checkoutroot)
-        res = cvsroot.checkout(buildscript, 'mozilla/client.mk',
-                               self.revision, buildscript.config.sticky_date)
-        if res != 0:
-            return res
+        cvsroot.checkout(buildscript, 'mozilla/client.mk',
+                         self.revision, buildscript.config.sticky_date)
 
         checkoutdir = self.get_builddir(buildscript)
         os.chdir(checkoutdir)
-        return buildscript.execute(['make', '-f', 'client.mk', 'checkout'])
+        buildscript.execute(['make', '-f', 'client.mk', 'checkout'])
 
     def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         client_mk = os.path.join(checkoutdir, 'client.mk')
-        if not os.path.exists(client_mk) or \
-               cvs.check_sticky_tag(client_mk) != self.revision:
-            res = self.checkout(buildscript)
+        try:
+            if not os.path.exists(client_mk) or \
+                   cvs.check_sticky_tag(client_mk) != self.revision:
+                self.checkout(buildscript)
+            else:
+                os.chdir(checkoutdir)
+                buildscript.set_action('Updating', self)
+                buildscript.execute(['make', '-f', 'client.mk',
+                                     'fast-update'])
+        except CommmandError:
+            succeeded = True
         else:
-            os.chdir(checkoutdir)
-            buildscript.set_action('Updating', self)
-            res = buildscript.execute(['make', '-f', 'client.mk',
-                                       'fast-update'])
+            succeeded = False
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -88,19 +91,20 @@ class MozillaModule(base.CVSModule):
             nextstate = self.STATE_CONFIGURE
             
         # did the checkout succeed?
-        if res == 0 and os.path.exists(checkoutdir):
+        if succeeded and os.path.exists(checkoutdir):
             return (nextstate, None, None)
         else:
             return (nextstate, 'could not update module',
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_force_checkout(self, buildscript):
-        res = self.checkout(buildscript)
-        if res == 0:
-            return (self.STATE_CONFIGURE, None, None)
-        else:
+        try:
+            self.checkout(buildscript)
+        except CommandError:
             return (self.STATE_CONFIGURE, 'could not checkout module',
                     [self.STATE_FORCE_CHECKOUT])
+        else:
+            return (self.STATE_CONFIGURE, None, None)
         
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
@@ -125,35 +129,40 @@ class MozillaModule(base.CVSModule):
 
         if self.projects:
             cmd += ' --enable-application=%s' % self.projects
-        
-        if not buildscript.execute(cmd):
-            return (self.STATE_BUILD, None, None)
-        else:
+
+        try:
+            buildscript.execute(cmd)
+        except CommandError:
             return (self.STATE_BUILD, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
+        else:
+            return (self.STATE_BUILD, None, None)
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        cmd = 'make %s %s install' % (buildscript.config.makeargs,
-                                      self.makeargs)
-        error = None
-        if buildscript.execute(cmd) != 0:
-            error = 'could not make module'
-        else:
+        try:
+            cmd = 'make %s %s install' % (buildscript.config.makeargs,
+                                          self.makeargs)
+            buildscript.execute(cmd)
             cmd = 'mkdir %s/include/%s-%s/nss' \
                               % (buildscript.config.prefix,
 				self.get_mozilla_app(),
 				self.get_mozilla_ver(buildscript))
             buildscript.execute(cmd)
+
             cmd = 'find %s/security/nss/lib/ -name \'*.h\' -type f -exec /bin/cp {} %s/include/%s-%s/nss/ \;' \
                               % (self.get_builddir(buildscript),
                                  buildscript.config.prefix,
 				 self.get_mozilla_app(),
                                  self.get_mozilla_ver(buildscript))
             buildscript.execute(cmd)
+        except CommandError:
+            error = 'could not make module'
+            return (self.STATE_DONE, 'could not make module', [])
+        else:
             buildscript.packagedb.add(self.name, self.get_revision() or '')
-        return (self.STATE_DONE, error, [])
+            return (self.STATE_DONE, None, None)
 
 def parse_mozillamodule(node, config, dependencies, suggests, root):
     if root[0] != 'cvs':

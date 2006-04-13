@@ -26,6 +26,7 @@ import subprocess
 from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
+from jhbuild.errors import CommandError
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -93,7 +94,8 @@ class TerminalBuildScript(buildscript.BuildScript):
             print ' '.join(command)
 
         # get rid of hint if pretty printing is disabled.
-        if not self.config.pretty_print: hint = None
+        if not self.config.pretty_print:
+            hint = None
         if hint == 'cvs':
             stdout = subprocess.PIPE
             stderr = subprocess.STDOUT
@@ -131,7 +133,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                 p.communicate()
             except KeyboardInterrupt:
                 os.kill(p.pid, signal.SIGINT)
-        return p.wait()
+        if p.wait() != 0:
+            raise CommandError('Error running %s' % command, p.returncode)
 
     def start_phase(self, module, state):
         self.trayicon.set_icon(os.path.join(icondir,
