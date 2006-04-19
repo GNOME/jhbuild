@@ -5,6 +5,16 @@
 	icon-naming-utils from dependencies list of gnome-icon-theme (not
 	needed in gnome-2-14 branch). Fix bug 338886.
 
+2006-04-18  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_unpack): fix test for
+	tarball build dir.  Patch from Martin Ericsson
+	<martin.s.ericsson@gmail.com> to fix bug #338631.
+
+	* jhbuild/modtypes/mozillamodule.py: add missed CommandError import.
+	(MozillaModule.do_checkout): succeeded should be True if no
+	CommandError was raised.  Fixes bug #338553.
+
 2006-04-18  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/gnome-2.14.modules: add missing dependecies for cairo-1-0

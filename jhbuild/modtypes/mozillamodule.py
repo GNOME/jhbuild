@@ -22,7 +22,7 @@ import os
 
 import base
 from jhbuild.utils import cvs
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 
 class MozillaModule(base.CVSModule):
     def __init__(self, name, projects, revision, autogenargs='',
@@ -80,10 +80,10 @@ class MozillaModule(base.CVSModule):
                 buildscript.set_action('Updating', self)
                 buildscript.execute(['make', '-f', 'client.mk',
                                      'fast-update'])
-        except CommmandError:
-            succeeded = True
-        else:
+        except CommandError:
             succeeded = False
+        else:
+            succeeded = True
 
         if buildscript.config.nobuild:
             nextstate = self.STATE_DONE
@@ -158,7 +158,6 @@ class MozillaModule(base.CVSModule):
                                  self.get_mozilla_ver(buildscript))
             buildscript.execute(cmd)
         except CommandError:
-            error = 'could not make module'
             return (self.STATE_DONE, 'could not make module', [])
         else:
             buildscript.packagedb.add(self.name, self.get_revision() or '')

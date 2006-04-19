@@ -151,7 +151,7 @@ class Tarball(base.Package):
         except CommandError:
             return (self.STATE_PATCH, 'could not unpack tarball', [])
         
-        if os.path.exists(srcdir):
+        if not os.path.exists(srcdir):
             return (self.STATE_PATCH, 'could not unpack tarball', [])
 
         return (self.STATE_PATCH, None, None)
