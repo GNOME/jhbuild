@@ -29,6 +29,7 @@ from jhbuild.modtypes.base import MetaModule, CVSModule
 from jhbuild.modtypes.tarball import Tarball
 from jhbuild.modtypes.svnmodule import SVNModule
 from jhbuild.modtypes.archmodule import ArchModule
+from jhbuild.modtypes.darcsmodule import DarcsModule
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -72,6 +73,8 @@ def do_info(config, args):
         elif isinstance(module, ArchModule):
             print 'Arch-Archive:', module.archive
             print 'Arch-Tree-Version:', module.version
+        elif isinstance(module, DarcsModule):
+            print 'Darcs-Archive:', module.archive
 
         # dependencies
         if module.dependencies:

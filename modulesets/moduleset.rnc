@@ -5,7 +5,7 @@ start = moduleset
 moduleset = element moduleset { roots,
                                 (\include|package)* }
 
-roots = (cvsroot|svnroot|arch-archive)*
+roots = (cvsroot|svnroot|arch-archive|darcs-archive)*
 
 cvsroot = element cvsroot {
   attribute name { text },
@@ -26,6 +26,12 @@ arch-archive = element arch-archive {
   attribute default { "yes" | "no" }?
 }
 
+darcs-archive = element darcs-archive {
+  attribute name { text },
+  attribute href { xsd:anyURI },
+  attribute default { "yes" | "no" }?
+}
+
 \include = element include {
   attribute href { xsd:anyURI }
 }
@@ -33,6 +39,7 @@ arch-archive = element arch-archive {
 package = cvsmodule |
           svnmodule |
           archmodule |
+          darcsmodule |
           metamodule |
           tarball |
           mozillamodule |
@@ -71,6 +78,13 @@ svnmodule = element svnmodule {
 
 archmodule = element archmodule {
   attribute version { text }?,
+  attribute checkoutdir { text }?,
+  attribute root { text }?,
+
+  autogen_common
+}
+
+darcsmodule = element darcsmodule {
   attribute checkoutdir { text }?,
   attribute root { text }?,
 

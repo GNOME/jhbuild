@@ -1,5 +1,5 @@
-<!ELEMENT moduleset ((cvsroot|svnroot|arch-archive)*,
-                     (include|cvsmodule|svnmodule|archmodule|
+<!ELEMENT moduleset ((cvsroot|svnroot|arch-archive|darcs-archive)*,
+                     (include|cvsmodule|svnmodule|archmodule|darcsmodule|
                       metamodule|tarball|mozillamodule)*) >
 
 <!ELEMENT cvsroot EMPTY >
@@ -21,6 +21,12 @@
   href CDATA #REQUIRED
   default (yes|no) 'no' >
 
+<!ELEMENT darcs-archive EMPTY >
+<!ATTLIST darcs-archive
+  name CDATA #REQUIRED
+  href CDATA #REQUIRED
+  default (yes|no) 'no' >
+  
 <!ELEMENT include EMPTY >
 <!ATTLIST include
   href CDATA #REQUIRED >
@@ -56,6 +62,15 @@
   root CDATA #IMPLIED
   supports-non-srcdir-builds (yes|no) 'yes' >
 
+<!ELEMENT darcsmodule (dependencies?,suggests?) >
+<!ATTLIST darcsmodule
+  id CDATA #REQUIRED
+  checkoutdir CDATA #IMPLIED
+  autogenargs CDATA #IMPLIED
+  makeargs CDATA #IMPLIED
+  root CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
+  
 <!ELEMENT metamodule (dependencies) >
 <!ATTLIST metamodule
   id CDATA #REQUIRED >

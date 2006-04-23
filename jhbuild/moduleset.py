@@ -31,6 +31,7 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.utils import cvs
 from jhbuild.utils import arch
+from jhbuild.utils import darcs
 from jhbuild.utils import httpcache
 
 __all__ = [ 'load' ]
@@ -228,6 +229,15 @@ def _parse_module_set(config, uri):
             roots[name] = ('arch', name, arch_uri)
             if is_default:
                 default_root = name
+        elif node.nodeName == 'darcs-archive':
+            name = node.getAttribute('name')
+            darcs_uri = node.getAttribute('href')
+            is_default = False
+            if node.hasAttribute('default'):
+                is_default = node.getAttribute('default') == 'yes'
+            roots[name] = ('darcs', name, darcs_uri)
+            if is_default:
+                default_root = name
 
     # and now module definitions
     for node in document.documentElement.childNodes:
@@ -237,7 +247,7 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             inc_moduleset = _parse_module_set(config, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
-        elif node.nodeName in ['cvsroot', 'svnroot', 'arch-archive']:
+        elif node.nodeName in ['cvsroot', 'svnroot', 'arch-archive', 'darcs-archive']:
             pass
         else:
             # only one default root in the file.  Is this a good thing?
