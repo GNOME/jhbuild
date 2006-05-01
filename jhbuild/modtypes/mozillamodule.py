@@ -20,23 +20,29 @@
 
 import os
 
+from jhbuild.modtypes.base import AutogenModule
 import base
-from jhbuild.utils import cvs
+from jhbuild.versioncontrol import cvs
 from jhbuild.errors import FatalError, CommandError
 
-class MozillaModule(base.CVSModule):
+class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
-		 makeargs='', dependencies=[], suggests=[], cvsroot=None):
-        base.CVSModule.__init__(self, name,
-				revision=revision,
-                                autogenargs=autogenargs,
-                                makeargs=makeargs,
-                                dependencies=dependencies,
-                                suggests=suggests,
-                                cvsroot=cvsroot,
-                                supports_non_srcdir_builds=False)
+		 makeargs='', dependencies=[], suggests=[], repository=None):
+        AutogenModule.__init__(self, name, branch=None,
+                               autogenargs=autogenargs,
+                               makeargs=makeargs,
+                               dependencies=dependencies,
+                               suggests=suggests,
+                               supports_non_srcdir_builds=False)
+        self.repository = repository
+        self.revision = revision
 	self.projects = projects
 	os.environ['MOZ_CO_PROJECT'] = projects
+
+    def get_srcdir(self, buildscript):
+        return os.path.join(buildscript.config.checkoutdir, 'mozilla')
+    def get_revision(self):
+        return self.revision
 
     def get_mozilla_app(self):
         if self.projects == 'browser':
@@ -60,12 +66,18 @@ class MozillaModule(base.CVSModule):
 
     def checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
-        cvsroot = self.CVSRoot(self.cvsroot, buildscript.config.checkoutroot)
-        cvsroot.checkout(buildscript, 'mozilla/client.mk',
-                         self.revision, buildscript.config.sticky_date)
-
-        checkoutdir = self.get_builddir(buildscript)
-        os.chdir(checkoutdir)
+        cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot, 'checkout']
+        if self.revision:
+            cmd.extend(['-r', self.revision])
+        else:
+            cmd.append('-A')
+        if buildscript.config.sticky_date:
+            cmd.extend(['-D', buildscript.config.sticky_date])
+        cmd.append('mozilla/client.mk')
+        os.chdir(buildscript.config.checkoutroot)
+        buildscript.execute(cmd)
+        
+        os.chdir(self.get_builddir(buildscript))
         buildscript.execute(['make', '-f', 'client.mk', 'checkout'])
 
     def do_checkout(self, buildscript):
@@ -98,13 +110,9 @@ class MozillaModule(base.CVSModule):
                     [self.STATE_FORCE_CHECKOUT])
 
     def do_force_checkout(self, buildscript):
-        try:
-            self.checkout(buildscript)
-        except CommandError:
-            return (self.STATE_CONFIGURE, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
-        else:
-            return (self.STATE_CONFIGURE, None, None)
+        self.checkout(buildscript)
+    do_force_checkout.next_state = AutogenModule.STATE_CONFIGURE
+    do_force_checkout.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
         
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
@@ -129,44 +137,34 @@ class MozillaModule(base.CVSModule):
 
         if self.projects:
             cmd += ' --enable-application=%s' % self.projects
-
-        try:
-            buildscript.execute(cmd)
-        except CommandError:
-            return (self.STATE_BUILD, 'could not configure module',
-                    [self.STATE_FORCE_CHECKOUT])
-        else:
-            return (self.STATE_BUILD, None, None)
+        buildscript.execute(cmd)
+    do_configure.next_state = AutogenModule.STATE_BUILD
+    do_configure.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
         os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
-        try:
-            cmd = 'make %s %s install' % (buildscript.config.makeargs,
-                                          self.makeargs)
-            buildscript.execute(cmd)
-            cmd = 'mkdir %s/include/%s-%s/nss' \
-                              % (buildscript.config.prefix,
-				self.get_mozilla_app(),
-				self.get_mozilla_ver(buildscript))
-            buildscript.execute(cmd)
+        cmd = 'make %s %s install' % (buildscript.config.makeargs,
+                                      self.makeargs)
+        buildscript.execute(cmd)
+        cmd = 'mkdir %s/include/%s-%s/nss' % (
+            buildscript.config.prefix,
+            self.get_mozilla_app(),
+            self.get_mozilla_ver(buildscript))
+        buildscript.execute(cmd)
 
-            cmd = 'find %s/security/nss/lib/ -name \'*.h\' -type f -exec /bin/cp {} %s/include/%s-%s/nss/ \;' \
-                              % (self.get_builddir(buildscript),
-                                 buildscript.config.prefix,
-				 self.get_mozilla_app(),
-                                 self.get_mozilla_ver(buildscript))
-            buildscript.execute(cmd)
-        except CommandError:
-            return (self.STATE_DONE, 'could not make module', [])
-        else:
-            buildscript.packagedb.add(self.name, self.get_revision() or '')
-            return (self.STATE_DONE, None, None)
+        cmd = ('find %s/security/nss/lib/ -name \'*.h\' -type f '
+               '-exec /bin/cp {} %s/include/%s-%s/nss/ \;') % (
+            self.get_builddir(buildscript),
+            buildscript.config.prefix,
+            self.get_mozilla_app(),
+            self.get_mozilla_ver(buildscript))
+        buildscript.execute(cmd)
+        buildscript.packagedb.add(self.name, self.get_revision() or '')
+    do_install.next_state = AutogenModule.STATE_DONE
+    do_install.error_states = []
 
-def parse_mozillamodule(node, config, dependencies, suggests, root):
-    if root[0] != 'cvs':
-        raise FatalError('%s is not a CVS root' % root[1])
-    cvsroot = root[1]
+def parse_mozillamodule(node, config, dependencies, suggests, repository):
     name = node.getAttribute('id')
     projects = node.getAttribute('projects')
     revision = None
@@ -187,6 +185,6 @@ def parse_mozillamodule(node, config, dependencies, suggests, root):
     makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
     return MozillaModule(name, projects, revision, autogenargs, makeargs,
-                         dependencies, suggests, cvsroot)
+                         dependencies, suggests, repository)
 
 base.register_module_type('mozillamodule', parse_mozillamodule)

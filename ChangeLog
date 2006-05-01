@@ -1,3 +1,48 @@
+2006-04-30  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/mozillamodule.py: make some changes that will
+	hopefully get it all working with the new versioncontrol
+	infrastructure.
+
+	* jhbuild/modtypes/archmodule.py (parse_archmodule): return a
+	straight AutogenModule instance.
+
+	* jhbuild/versioncontrol/arch.py: convert to new API.
+
+	* jhbuild/modtypes/darcsmodule.py (parse_darcsmodule): instantiate
+	a straight AutogenModule using a DarcsBranch.
+
+	* jhbuild/modtypes/svnmodule.py (parse_svnmodule): instantiate a
+	straight AutogenModule using a SubversionBranch.
+
+	* jhbuild/modtypes/base.py (AutogenModule): update to implement
+	do_checkout and do_force_checkout in terms of a Branch object.
+	(parse_cvsmodule): instantiate a straight AutogenModule using a
+	CVSBranch.
+
+	* jhbuild/config.py (_known_keys): adjust to handle a repos config
+	key.
+	(Config.__init__): merge stuff from cvsroots/svnroots into repos.
+
+	* jhbuild/moduleset.py (_parse_module_set): add support for a
+	<repository> element, and use the new jhbuild.versioncontrol
+	infrastructure to represent the repositories.
+
+2006-04-29  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/versioncontrol/darcs.py: convert Darcs utils to new
+	interface.
+
+	* jhbuild/versioncontrol/svn.py: convert Subversion utils to the
+	new interface.
+
+	* jhbuild/versioncontrol/cvs.py: convert CVS module to use new
+	interface.
+
+	* jhbuild/versioncontrol/__init__.py: start refactoring
+	version control interface to reduce code duplication inherent with
+	adding support for new VCS's.
+
 2006-04-29  Fernando Herrera  <fherrera@onirica.com>
 
 	* modulesets/gnome-2.16.modules (gaim): Use sourceforge
@@ -18,6 +63,22 @@
 
 	* modulesets/gnome-2.14.modules: Use gnome-2-14 branch
 	for totem.
+
+2006-04-27  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/errors.py (BuildStateError): new error for general build
+	state errors.
+
+	* jhbuild/modtypes/tarball.py (Tarball): convert all build states
+	but do_start and do_patch to new system.
+
+	* jhbuild/modtypes/base.py (Package.run_state): start implementing
+	a new system for handling next state and error states using
+	function attributes.
+	(AutogenModule.do_clean): set next_state and error_states function
+	attributes.
+	(AutogenModule.do_check): same here.
+	(AutogenModule.do_install): same here.
 
 2006-04-26  Murray Cumming  <murrayc@murrayc.com>
 

@@ -22,117 +22,10 @@ import os
 import base
 from base import AutogenModule
 from base import register_module_type
-from jhbuild.utils import svn
-from jhbuild.errors import FatalError, CommandError
 
-class SVNModule(AutogenModule):
-    SVNRoot = svn.SVNRoot
-    type = 'svn'
-
-    def __init__(self, svnmodule, checkoutdir=None,
-                 autogenargs='', makeargs='', dependencies=[], suggests=[],
-                 svnroot=None, supports_non_srcdir_builds=True):
-        AutogenModule.__init__(self, checkoutdir or os.path.basename(svnmodule),
-                               autogenargs, makeargs,
-                               dependencies, suggests,
-                               supports_non_srcdir_builds)
-        self.svnmodule   = svnmodule
-        self.checkoutdir = checkoutdir
-        self.svnroot     = svnroot
-
-    def get_srcdir(self, buildscript):
-        return os.path.join(buildscript.config.checkoutroot,
-                        self.checkoutdir or os.path.basename(self.svnmodule))
-
-    def get_builddir(self, buildscript):
-        if buildscript.config.buildroot and \
-               self.supports_non_srcdir_builds:
-            d = buildscript.config.builddir_pattern \
-                % (self.checkoutdir or os.path.basename(self.svnmodule))
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return self.get_srcdir(buildscript)
-
-    def get_revision(self):
-        # The convention for Subversion repositories is to put the head
-        # branch under trunk/, branches under branches/foo/ and tags
-        # under tags/bar/.
-        # Use this to give a meaningful revision number.
-        path_parts = self.svnmodule.split('/')
-        for i in range(len(path_parts) - 1):
-            if path_parts[i] in ['branches', 'tags', 'releases']:
-                return path_parts[i+1]
-            elif path_parts[i] == 'trunk':
-                break
-        return None
-
-    def do_checkout(self, buildscript):
-        svnroot = self.SVNRoot(self.svnroot,
-                               buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        buildscript.set_action('Checking out', self)
-        try:
-            svnroot.update(buildscript, self.svnmodule,
-                           buildscript.config.sticky_date,
-                           checkoutdir=self.checkoutdir)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            nextstate = self.STATE_CONFIGURE
-        elif buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
-        # did the checkout succeed?
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
-
-    def do_force_checkout(self, buildscript):
-        svnroot = self.SVNRoot(self.svnroot,
-                              buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        else:
-            nextstate = self.STATE_CONFIGURE
-
-        buildscript.set_action('Checking out', self)
-        try:
-            svnroot.checkout(buildscript, self.svnmodule,
-                             buildscript.config.sticky_date,
-                             checkoutdir=self.checkoutdir)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
-
-def parse_svnmodule(node, config, dependencies, suggests, root,
-                    SVNModule=SVNModule):
-    if root[0] != 'svn':
-        raise FatalError('%s is not a Subversion repository' % root[1])
-    if not root[1]:
-        raise FatalError('missing svnroot')
-        
-    svnroot = root[1]
+def parse_svnmodule(node, config, dependencies, suggests, repository):
     id = node.getAttribute('id')
-    module = id
+    module = None
     checkoutdir = None
     autogenargs = ''
     makeargs = ''
@@ -154,10 +47,10 @@ def parse_svnmodule(node, config, dependencies, suggests, root,
                                                        config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(module, makeargs)
 
-    return SVNModule(module, checkoutdir,
-                     autogenargs, makeargs,
-                     svnroot=svnroot,
-                     dependencies=dependencies,
-                     suggests=suggests,
-                     supports_non_srcdir_builds=supports_non_srcdir_builds)
+    branch = repository.branch(id, module=module, checkoutdir=checkoutdir)
+
+    return AutogenModule(id, branch, autogenargs, makeargs,
+                         dependencies=dependencies,
+                         suggests=suggests,
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('svnmodule', parse_svnmodule)

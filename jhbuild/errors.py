@@ -36,3 +36,6 @@ class CommandError(Exception):
     def __init__(self, message, returncode=None):
         Exception.__init__(self, message)
         self.returncode = returncode
+
+class BuildStateError(Exception):
+    '''An error occurred while processing a build state.'''

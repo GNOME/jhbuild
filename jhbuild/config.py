@@ -29,7 +29,7 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
-                'cvsroots', 'svnroots', 'branches',
+                'repos', 'branches',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',
@@ -98,6 +98,10 @@ class Config:
         # supported Gnome.org CVS.
         if config.has_key('cvsroot'):
             config['cvsroots']['gnome.org'] = config['cvsroot']
+        if config.has_key('cvsroots'):
+            config['repos'].update(config['cvsroots'])
+        if config.has_key('svnroots'):
+            config['repos'].update(config['svnroots'])
 
         # environment variables
         if config.has_key('cflags') and config['cflags']:

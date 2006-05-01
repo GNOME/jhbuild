@@ -29,9 +29,7 @@ except ImportError:
     raise FatalError('Python xml packages are required but could not be found')
 
 from jhbuild import modtypes
-from jhbuild.utils import cvs
-from jhbuild.utils import arch
-from jhbuild.utils import darcs
+from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
 
 __all__ = [ 'load' ]
@@ -186,58 +184,49 @@ def _parse_module_set(config, uri):
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
 
-    # load up list of cvsroots
-    roots = {}
-    default_root = None
-    for (key, value) in config.cvsroots.items():
-        cvs.login(value)
-        roots[key] = ('cvs', value)
-    for (key, value) in config.svnroots.items():
-        roots[key] = ('svn', value)
+    # load up list of repositories
+    repositories = {}
+    default_repo = None
     for node in document.documentElement.childNodes:
         if node.nodeType != node.ELEMENT_NODE: continue
+        if node.nodeName == 'repository':
+            repo_type = node.getAttribute('type')
+            name = node.getAttribute('name')
+            if node.getAttribute('default') == 'yes':
+                default_repo = name
+            repo = get_repo_type(repo_type)
+            kws = {}
+            for attr in repo.init_xml_attrs:
+                if node.hasAttribute(attr):
+                    kws[attr] = node.getAttribute(attr)
+            repositories[name] = repo_class(config, name, **kws)
         if node.nodeName == 'cvsroot':
             name = node.getAttribute('name')
+            if node.getAttribute('default') == 'yes':
+                default_repo = name
             cvsroot = node.getAttribute('root')
-            password = None
-            is_default = False
             if node.hasAttribute('password'):
                 password = node.getAttribute('password')
-            if node.hasAttribute('default'):
-                is_default = node.getAttribute('default') == 'yes'
-            if not roots.has_key(name):
-                cvs.login(cvsroot, password)
-                roots[name] = ('cvs', cvsroot)
-            if is_default:
-                default_root = name
+            else:
+                password = None
+            repo_type = get_repo_type('cvs')
+            repositories[name] = repo_type(config, name,
+                                           cvsroot=cvsroot, password=password)
         elif node.nodeName == 'svnroot':
             name = node.getAttribute('name')
+            if node.getAttribute('default') == 'yes':
+                default_repo = name
             svnroot = node.getAttribute('href')
-            is_default = False
-            if node.hasAttribute('default'):
-                is_default = node.getAttribute('default') == 'yes'
-            if not roots.has_key(name):
-                roots[name] = ('svn', svnroot)
-            if is_default:
-                default_root = name
+            repo_type = get_repo_type('svn')
+            repositories[name] = repo_type(config, name, href=svnroot)
         elif node.nodeName == 'arch-archive':
             name = node.getAttribute('name')
-            arch_uri = node.getAttribute('href')
-            is_default = False
-            if node.hasAttribute('default'):
-                is_default = node.getAttribute('default') == 'yes'
-            roots[name] = ('arch', name, arch_uri)
-            if is_default:
-                default_root = name
-        elif node.nodeName == 'darcs-archive':
-            name = node.getAttribute('name')
-            darcs_uri = node.getAttribute('href')
-            is_default = False
-            if node.hasAttribute('default'):
-                is_default = node.getAttribute('default') == 'yes'
-            roots[name] = ('darcs', name, darcs_uri)
-            if is_default:
-                default_root = name
+            if node.getAttribute('default') == 'yes':
+                default_repo = name
+            archive = name
+            archive_uri = node.getAttribute('href')
+            repo_type = get_repo_type('arch')
+            repositories[name] = repo_type(config, name, archive, archive_uri)
 
     # and now module definitions
     for node in document.documentElement.childNodes:
@@ -247,16 +236,16 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             inc_moduleset = _parse_module_set(config, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
-        elif node.nodeName in ['cvsroot', 'svnroot', 'arch-archive', 'darcs-archive']:
+        elif node.nodeName in ['repository', 'cvsroot', 'svnroot', 'arch-archive']:
             pass
         else:
             # only one default root in the file.  Is this a good thing?
             if node.hasAttribute('cvsroot'):
-                root = roots[node.getAttribute('cvsroot')]
+                repo = repositories[node.getAttribute('cvsroot')]
             elif node.hasAttribute('root'):
-                root = roots[node.getAttribute('root')]
+                repo = repositories[node.getAttribute('root')]
             else:
-                root = roots.get(default_root, (None, None))
+                repo = repositories.get(default_repo, None)
 
             # deps
             dependencies = []
@@ -276,7 +265,7 @@ def _parse_module_set(config, uri):
 
             moduleset.add(modtypes.parse_xml_node(node, config,
                                                   dependencies, suggests,
-                                                  root))
+                                                  repo))
 
 
     return moduleset

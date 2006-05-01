@@ -17,7 +17,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+__all__ = [
+    'CVSRepository',
+    'login',
+    'get_sticky_tag',
+    ]
+__metaclass__ = type
+
 import os, sys
+
+from jhbuild.errors import BuildStateError
+from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+
 
 # table used to scramble passwords in ~/.cvspass files
 _shifts = [
@@ -105,71 +116,100 @@ def check_root(dirname):
     root_file = os.path.join(dirname, 'CVS', 'Root')
     return open(root_file, 'r').read().strip()
 
-class CVSRoot:
-    '''A class to wrap up various CVS operations.'''
-    
-    def __init__(self, cvsroot, checkoutroot):
-        self.cvsroot = cvsroot
-        self.localroot = checkoutroot
-        login(cvsroot)
-        
-    def getcheckoutdir(self, module, checkoutdir=None):
-        if checkoutdir:
-            return os.path.join(self.localroot, checkoutdir)
+
+class CVSRepository(Repository):
+    """A class used to work with a CVS repository"""
+
+    init_xml_attrs = ['cvsroot', 'password']
+
+    def __init__(self, config, name, cvsroot, password=None):
+        Repository.__init__(self, config, name)
+        # has the repository path been overridden?
+        if self.name in config.repos:
+            self.cvsroot = config.repos[name]
         else:
-            return os.path.join(self.localroot, module)
+            self.cvsroot = cvsroot
+            login(cvsroot, password)
 
-    def checkout(self, buildscript, module, revision=None, date=None,
-                 checkoutdir=None):
-        os.chdir(self.localroot)
-        cmd = ['cvs', '-z3', '-q', '-d', self.cvsroot, 'checkout', '-P']
+    def branch(self, name, module=None, checkoutdir=None, revision=None):
+        if module is None:
+            module = name
+        # allow remapping of branch for module:
+        revision = self.config.branches.get(name, revision)
+        return CVSBranch(self, module, checkoutdir, revision)
 
-        if checkoutdir:
-            cmd.extend(['-d', checkoutdir])
 
-        if revision:
-            cmd.extend(['-r', revision])
-        if date:
-            cmd.extend(['-D', date])
-        if not (revision or date):
+class CVSBranch(Branch):
+    """A class representing a CVS branch inside a CVS repository"""
+
+    def __init__(self, repository, module, checkoutdir, revision):
+        self.repository = repository
+        self.config = repository.config
+        self.module = module
+        self.checkoutdir = checkoutdir
+        self.revision = revision
+
+    def srcdir(self):
+        if self.checkoutdir:
+            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+        else:
+            return os.path.join(self.config.checkoutroot, self.module)
+    srcdir = property(srcdir)
+
+    def branchname(self):
+        return self.revision
+    branchname = property(branchname)
+
+    def _checkout(self, buildscript):
+        os.chdir(self.config.checkoutroot)
+        cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
+               'checkout', '-P']
+        if self.revision:
+            cmd.extend(['-r', self.revision])
+        if self.config.sticky_date:
+            cmd.extend(['-D', self.config.sticky_date])
+        if not (self.revision or self.config.sticky_date):
             cmd.append('-A')
-
-        cmd.append(module)
-
+        if self.checkoutdir:
+            cmd.extend(['-d', self.checkoutdir])
+        cmd.append(self.module)
         buildscript.execute(cmd, 'cvs')
 
-    def update(self, buildscript, module, revision=None, date=None,
-               checkoutdir=None):
-        '''Perform a "cvs update" (or possibly a checkout)'''
-        dir = self.getcheckoutdir(module, checkoutdir)
-        if not os.path.exists(dir):
-            return self.checkout(buildscript, module,
-                                 revision, date, checkoutdir)
-
+    def _update(self, buildscript):
+        # sanity check the existing working tree:
         try:
-            wc_root = check_root(dir)
+            wc_root = check_root(self.srcdir)
         except IOError:
-            sys.stderr.write('"%s" does not appear to be a CVS working copy\n'
-                             % os.path.abspath(dir))
-            return -1
-        if wc_root != self.cvsroot:
-            sys.stderr.write('working copy points at the wrong repository\n')
-            sys.stderr.write(' Expected %s\n' % self.cvsroot)
-            sys.stderr.write(' Got %s\n' % wc_root)
-            sys.stderr.write('Consider using the changecvsroot.py script to'
-                             'fix this.\n')
-            return -1
+            raise BuildStateError('"%s" does not appear to be a CVS working '
+                                  'copy' % os.path.abspath(self.srcdir))
+        if wc_root != self.repository.cvsroot:
+            raise BuildStateError('working copy points at the wrong '
+                                  'repository (expected %s but got %s). '
+                                  'Consider using the changecvsroot.py '
+                                  'script to fix this.'
+                                  % (self.repository.cvsroot, wc_root))
 
-        os.chdir(dir)
-        cmd = ['cvs', '-z3', '-q', '-d', self.cvsroot, 'update', '-dP']
-
-        if revision:
-            cmd.extend(['-r', revision])
-        if date:
-            cmd.extend(['-D', date])
-        if not (revision or date):
+        # update the working tree
+        os.chdir(self.srcdir)
+        cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
+               'update', '-dP']
+        if self.revision:
+            cmd.extend(['-r', self.revision])
+        if self.config.sticky_date:
+            cmd.extend(['-D', self.config.sticky_date])
+        if not (self.revision or self.config.sticky_date):
             cmd.append('-A')
-
         cmd.append('.')
-
         buildscript.execute(cmd, 'cvs')
+
+    def checkout(self, buildscript):
+        if os.path.exists(self.srcdir):
+            self._update(buildscript)
+        else:
+            self._checkout(buildscript)
+
+    def force_checkout(self, buildscript):
+        self._checkout(buildscript)
+
+
+register_repo_type('cvs', CVSRepository)

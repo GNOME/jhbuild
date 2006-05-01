@@ -22,106 +22,16 @@ import os
 import base
 from base import AutogenModule
 from base import register_module_type
-from jhbuild.utils import darcs
-from jhbuild.errors import FatalError, CommandError
 
-class DarcsModule(AutogenModule):
-    DarcsArchive = darcs.DarcsArchive
-    type = 'darcs'
-
-    def __init__(self, checkoutdir=None,
-                 autogenargs='', makeargs='', dependencies=[], suggests=[],
-                 archive=None, archive_uri=None,
-                 supports_non_srcdir_builds=True):
-        
-        self.archive     = archive
-        self.archive_uri = archive_uri
-        self.checkoutdir = checkoutdir or self.archive
-        AutogenModule.__init__(self, self.checkoutdir,
-                               autogenargs, makeargs,
-                               dependencies, suggests,
-                               supports_non_srcdir_builds)
-
-    def get_srcdir(self, buildscript):
-        return os.path.join(buildscript.config.checkoutroot, self.checkoutdir)
-        
-    def get_revision(self):
-        return None
-        
-    def get_builddir(self, buildscript):
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            d = buildscript.config.builddir_pattern % (self.checkoutdir)
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return self.get_srcdir(buildscript)
-
-    def do_checkout(self, buildscript):
-        archive = self.DarcsArchive(self.archive_uri,
-                                   buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        buildscript.set_action('Checking out', self)
-        try:
-            res = archive.update(buildscript,
-                             buildscript.config.sticky_date,
-                             checkoutdir=self.checkoutdir)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            nextstate = self.STATE_CONFIGURE
-        elif buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
-        # did the checkout succeed?
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
-
-    def do_force_checkout(self, buildscript):
-        archive = self.DarcsArchive(self.archive_uri, buildscript.config.checkoutroot)
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        else:
-            nextstate = self.STATE_CONFIGURE
-
-        buildscript.set_action('Checking out', self)
-        try:
-            res = archive.checkout(buildscript,
-                               buildscript.config.sticky_date,
-                               checkoutdir=self.checkoutdir)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-            
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
-
-def parse_darcsmodule(node, config, dependencies, suggests, root,
-                     DarcsModule=DarcsModule):
-    if root[0] != 'darcs':
-        raise FatalError('%s is not a DarcsArchive' % root[1])
-    archive = root[1]
-    archive_uri = root[2]
+def parse_darcsmodule(node, config, dependencies, suggests, repository):
     id = node.getAttribute('id')
+    module = None
     checkoutdir = None
     autogenargs = ''
     makeargs = ''
     supports_non_srcdir_builds = True
+    if node.hasAttribute('module'):
+        module = node.getAttribute('module')
     if node.hasAttribute('checkoutdir'):
         checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
@@ -135,11 +45,10 @@ def parse_darcsmodule(node, config, dependencies, suggests, root,
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, makeargs)
 
-    return DarcsModule(checkoutdir,
-                      autogenargs, makeargs,
-                      archive=archive,
-                      archive_uri=archive_uri,
-                      dependencies=dependencies,
-                      suggests=suggests,
-                      supports_non_srcdir_builds=supports_non_srcdir_builds)
+    branch = repository.branch(id, module=module, checkoutdir=checkoutdir)
+
+    return AutogenModule(id, branch, autogenargs, makeargs,
+                         dependencies=dependencies,
+                         suggests=suggests,
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('darcsmodule', parse_darcsmodule)
