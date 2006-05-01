@@ -25,11 +25,12 @@ import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import FatalError
 from jhbuild.commands.base import register_command
-from jhbuild.modtypes.base import MetaModule, CVSModule
+from jhbuild.modtypes.base import AutogenModule, MetaModule
 from jhbuild.modtypes.tarball import Tarball
-from jhbuild.modtypes.svnmodule import SVNModule
-from jhbuild.modtypes.archmodule import ArchModule
-from jhbuild.modtypes.darcsmodule import DarcsModule
+from jhbuild.versioncontrol.cvs import CVSBranch
+from jhbuild.versioncontrol.svn import SubversionBranch
+from jhbuild.versioncontrol.arch import ArchBranch
+from jhbuild.versioncontrol.darcs import DarcsBranch
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -41,9 +42,9 @@ def do_info(config, args):
             module = module_set.modules[modname]
         except KeyError:
             raise FatalError('unknown module %s' % modname)
-        if isinstance(module, CVSModule):
+        if isinstance(module, AutogenModule):
             installdate = packagedb.installdate(module.name,
-                                                module.revision or '')
+                                                module.branch.branchname or '')
         elif isinstance(module, Tarball):
             installdate = packagedb.installdate(module.name,
                                                 module.version or '')
@@ -59,22 +60,21 @@ def do_info(config, args):
         else:
             print 'Install-date:', 'not installed'
 
-        if isinstance(module, CVSModule):
-            print 'CVS-Root:', module.cvsroot
-            print 'CVS-Module:', module.cvsmodule
-            if module.revision:
-                print 'CVS-Revision:', module.revision
-        elif isinstance(module, SVNModule):
-            print 'Subversion-Repository:', module.svnroot
-            print 'Subversion-Module:', module.svnmodule
+        if isinstance(module, AutogenModule):
+            if isinstance(module.branch, CVSBranch):
+                print 'CVS-Root:', module.branch.repository.cvsroot
+                print 'CVS-Module:', module.branch.module
+                if module.branch.revision:
+                    print 'CVS-Revision:', module.branch.revision
+            elif isinstance(module.branch, SubversionBranch):
+                print 'Subversion-Module:', module.branch.module
+            elif isinstance(module.branch, ArchBranch):
+                print 'Arch-Version:', module.branch.module
+            elif isinstance(module.branch, DarcsBranch):
+                print 'Darcs-Archive:', module.branch.module
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version
-        elif isinstance(module, ArchModule):
-            print 'Arch-Archive:', module.archive
-            print 'Arch-Tree-Version:', module.version
-        elif isinstance(module, DarcsModule):
-            print 'Darcs-Archive:', module.archive
 
         # dependencies
         if module.dependencies:

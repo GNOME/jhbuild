@@ -1,3 +1,26 @@
+2006-05-01  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/freedesktop.modules: same here.
+
+	* modulesets/gnome-2.16.modules: same here.
+
+	* modulesets/gnome-2.14.modules: convert <cvsroot> and <svnroot>
+	elements to <repository> elements.
+
+	* modulesets/moduleset.rnc: add schema info for <repository>
+	element.
+
+	* jhbuild/modtypes/base.py: remove bad import.
+
+	* jhbuild/utils/cmds.py (pprint_output): same here.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute):
+	ignore OSError in the os.kill() call, since the subprocess might
+	already be dead.
+
+	* jhbuild/commands/info.py (do_info): adjust to work with
+	restructured versioncontrol support.
+
 2006-04-30  James Henstridge  <james@jamesh.id.au>
 
 	* jhbuild/modtypes/mozillamodule.py: make some changes that will

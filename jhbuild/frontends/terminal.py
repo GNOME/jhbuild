@@ -132,7 +132,11 @@ class TerminalBuildScript(buildscript.BuildScript):
             try:
                 p.communicate()
             except KeyboardInterrupt:
-                os.kill(p.pid, signal.SIGINT)
+                try:
+                    os.kill(p.pid, signal.SIGINT)
+                except OSError:
+                    # process might already be dead.
+                    pass
         if p.wait() != 0:
             raise CommandError('Error running %s' % command, p.returncode)
 

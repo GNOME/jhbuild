@@ -199,6 +199,7 @@ def _parse_module_set(config, uri):
             for attr in repo.init_xml_attrs:
                 if node.hasAttribute(attr):
                     kws[attr] = node.getAttribute(attr)
+            repo_class = get_repo_type(repo_type)
             repositories[name] = repo_class(config, name, **kws)
         if node.nodeName == 'cvsroot':
             name = node.getAttribute('name')

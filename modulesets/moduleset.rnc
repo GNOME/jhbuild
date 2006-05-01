@@ -5,7 +5,24 @@ start = moduleset
 moduleset = element moduleset { roots,
                                 (\include|package)* }
 
-roots = (cvsroot|svnroot|arch-archive|darcs-archive)*
+roots = (repository|cvsroot|svnroot|arch-archive)*
+
+repository_cvs   = attribute type { "cvs" },
+                   attribute cvsroot { text },
+                   attribute password { text }?
+repository_svn   = attribute type { "svn" },
+                   attribute href { xsd:anyURI }
+repository_arch  = attribute type { "arch" },
+                   attribute archive { text },
+                   attribute href { xsd:anyURI }?
+repository_darcs = attribute type { "darcs" },
+                   attribute href { xsd:anyURI }
+
+repository = element repository {
+  attribute name { text },
+  attribute default { "yes" | "no" }?,
+  (repository_cvs|repository_svn|repository_arch|repository_darcs)
+}
 
 cvsroot = element cvsroot {
   attribute name { text },
@@ -21,12 +38,6 @@ svnroot = element svnroot {
 }
 
 arch-archive = element arch-archive {
-  attribute name { text },
-  attribute href { xsd:anyURI },
-  attribute default { "yes" | "no" }?
-}
-
-darcs-archive = element darcs-archive {
   attribute name { text },
   attribute href { xsd:anyURI },
   attribute default { "yes" | "no" }?

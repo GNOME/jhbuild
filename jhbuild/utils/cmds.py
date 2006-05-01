@@ -187,6 +187,10 @@ def pprint_output(pipe, format_line):
             select.select([],[],[],.1) # give a little time for buffers to fill
     except KeyboardInterrupt:
         # interrupt received.  Send SIGINT to child process.
-        os.kill(pipe.pid, SIGINT)
+        try:
+            os.kill(pipe.pid, SIGINT)
+        except OSError:
+            # process might already be dead.
+            pass
 
     return pipe.wait()

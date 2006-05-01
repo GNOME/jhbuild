@@ -19,7 +19,6 @@
 
 import os
 
-from jhbuild.utils import cvs
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 
 __all__ = [ 'Package', 'CVSModule',
