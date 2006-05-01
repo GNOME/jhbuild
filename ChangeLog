@@ -1,5 +1,18 @@
 2006-05-01  James Henstridge  <james@jamesh.id.au>
 
+	* jhbuild/versioncontrol/git.py: make sure git: and git+ssh: URIs
+	are treated as netloc ones.
+
+	* modulesets/gnome-2.16.modules (pango, gtk+): depend on just
+	"cairo" rather than "cairo-1-1".
+
+	* modulesets/freedesktop.modules (cairo): switch to git tree.
+	This is using an <svnmodule> element but it does use the GIT
+	version control interface.
+
+	* modulesets/moduleset.rnc (repository): add validation rules for
+	git type repositories.
+
 	* jhbuild/versioncontrol/git.py: first stab at git support using
 	the new versioncontrol framework, using Frederic Peters' patch as
 	a guide.

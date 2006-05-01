@@ -85,7 +85,7 @@ class DarcsBranch(Branch):
 
     def _update(self, buildscript):
         os.chdir(self.srcdir)
-        if date:
+        if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
         buildscript.execute(['darcs', 'pull', '-a'], 'darcs')
 

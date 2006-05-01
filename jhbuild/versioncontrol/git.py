@@ -26,6 +26,16 @@ import urlparse
 from jhbuild.errors import FatalError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
+# Make sure that the urlparse module considers git:// and git+ssh://
+# schemes to be netloc aware and set to allow relative URIs.
+if 'git' not in urlparse.uses_netloc:
+    urlparse.uses_netloc.append('git')
+    urlparse.uses_relative.append('git')
+if 'git+ssh' not in urlparse.uses_netloc:
+    urlparse.uses_netloc.append('git+ssh')
+    urlparse.uses_relative.append('git+ssh')
+
+
 class GitRepository(Repository):
     """A class representing a GIT repository.
 
@@ -84,7 +94,7 @@ class GitBranch(Branch):
 
     def _update(self, buildscript):
         os.chdir(self.srcdir)
-        if date:
+        if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
         buildscript.execute(['git', 'pull'], 'git')
 

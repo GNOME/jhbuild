@@ -245,6 +245,8 @@ def _parse_module_set(config, uri):
                 repo = repositories[node.getAttribute('cvsroot')]
             elif node.hasAttribute('root'):
                 repo = repositories[node.getAttribute('root')]
+            elif node.hasAttribute('repo'):
+                repo = repositories[node.getAttribute('repo')]
             else:
                 repo = repositories.get(default_repo, None)
 

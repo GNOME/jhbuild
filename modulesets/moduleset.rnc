@@ -17,11 +17,14 @@ repository_arch  = attribute type { "arch" },
                    attribute href { xsd:anyURI }?
 repository_darcs = attribute type { "darcs" },
                    attribute href { xsd:anyURI }
+repository_git   = attribute type { "git" },
+                   attribute href { xsd:anyURI }
 
 repository = element repository {
   attribute name { text },
   attribute default { "yes" | "no" }?,
-  (repository_cvs|repository_svn|repository_arch|repository_darcs)
+  (repository_cvs|repository_svn|repository_arch|
+   repository_darcs|repository_git)
 }
 
 cvsroot = element cvsroot {
@@ -75,6 +78,7 @@ cvsmodule = element cvsmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
@@ -83,6 +87,7 @@ svnmodule = element svnmodule {
   attribute module { text }?,
   attribute checkoutdir { text }?,
   attribute root { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
@@ -91,6 +96,7 @@ archmodule = element archmodule {
   attribute version { text }?,
   attribute checkoutdir { text }?,
   attribute root { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
@@ -98,6 +104,7 @@ archmodule = element archmodule {
 darcsmodule = element darcsmodule {
   attribute checkoutdir { text }?,
   attribute root { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
@@ -130,6 +137,7 @@ mozillamodule = element mozillamodule {
   attribute autogenargs { text }?,
   attribute makeargs { text }?,
   attribute cvsroot { text }?,
+  attribute repo { text }?,
   common
 }
 
@@ -138,6 +146,7 @@ gcjmodule = element gcjmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
@@ -147,6 +156,7 @@ gdbmodule = element gdbmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
+  attribute repo { text }?,
 
   autogen_common
 }
