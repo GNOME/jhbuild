@@ -1,7 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2004  James Henstridge
 #
-#   darcs.py: some code to handle various darcs operations
+#   git.py: some code to handle various GIT operations
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,14 +21,13 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import errno
 import urlparse
 
 from jhbuild.errors import FatalError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
-class DarcsRepository(Repository):
-    """A class representing a Darcs repository.
+class GitRepository(Repository):
+    """A class representing a GIT repository.
 
     Note that this is just the parent directory for a bunch of darcs
     branches, making it easy to switch to a mirror URI.
@@ -48,11 +47,11 @@ class DarcsRepository(Repository):
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
-        return DarcsBranch(self, module, checkoutdir)
+        return GitBranch(self, module, checkoutdir)
 
 
-class DarcsBranch(Branch):
-    """A class representing a Darcs branch."""
+class GitBranch(Branch):
+    """A class representing a GIT branch."""
 
     def __init__(self, repository, module, checkoutdir):
         self.repository = repository
@@ -74,38 +73,25 @@ class DarcsBranch(Branch):
 
     def _checkout(self, buildscript):
         os.chdir(self.config.checkoutroot)
-        cmd = ['darcs', 'get', self.module]
+        cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'darcs')
+        buildscript.execute(cmd, 'git')
 
     def _update(self, buildscript):
         os.chdir(self.srcdir)
         if date:
             raise FatalError('date based checkout not yet supported\n')
-        buildscript.execute(['darcs', 'pull', '-a'], 'darcs')
-
-    def _fix_permissions(self):
-        # This is a hack to make the autogen.sh and/or configure
-        # scripts executable.  This is needed because Darcs does not
-        # version the executable bit.
-        for filename in ['autogen.sh', 'configure']:
-            path = os.path.join(self.srcdir, filename)
-            try:
-                stat = os.stat(path)
-            except OSError, e:
-                continue
-            os.chmod(path, stat.st_mode | 0111)
+        buildscript.execute(['git', 'pull'], 'git')
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):
             self._update(buildscript)
         else:
             self._checkout(buildscript)
-        self._fix_permissions()
 
-register_repo_type('darcs', DarcsRepository)
+register_repo_type('git', GitRepository)

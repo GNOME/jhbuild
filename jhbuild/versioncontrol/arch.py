@@ -58,6 +58,7 @@ def split_name(version):
 
 
 class ArchRepository(Repository):
+    """A class representing an Arch archive."""
 
     init_xml_attrs = ['archive', 'href']
 
