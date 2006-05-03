@@ -371,42 +371,42 @@ class GtkBuildScript(buildscript.BuildScript):
 
         if not self.config.interact:
             return 'fail'
+
+        dialog = gtk.Dialog('Error during %s for module %s' % (state, module.name))
+        dialog.add_button('_Try %s Again' % state, 1)
+        dialog.add_button('_Ignore Error', 2)
+        dialog.add_button('_Skip Module', 3)
+        dialog.add_button('_Terminal', 4)
+
+        for i, altstate in enumerate(altstates):
+            dialog.add_button('Go to %s' % altstate, i + 5)
+
+        text_view = gtk.TextView()
+        text_view.set_buffer(self.build_text)
+        text_view.set_wrap_mode(gtk.WRAP_WORD)
+
+        scroller = gtk.ScrolledWindow()
+        scroller.add(text_view)
+        dialog.vbox.pack_start(scroller)
+
+        scroller.set_size_request(-1, 250)
+        scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+        scroller.set_shadow_type(gtk.SHADOW_IN)
+        scroller.set_border_width(12)
+        
         while True:
 
             #self.message('error during %s for module %s' % (state, module.name))
 
-            dialog = gtk.Dialog('Error during %s for module %s' % (state, module.name))
-            dialog.add_button('_Try %s Again' % state, 1)
-            dialog.add_button('_Ignore Error', 2)
-            dialog.add_button('_Skip Module', 3)
-            dialog.add_button('_Terminal', 4)
-
-            i = 5
-            for altstate in altstates:
-                dialog.add_button('Go to %s' % altstate, i)
-                i = i + 1
-
-            text_view = gtk.TextView()
-            text_view.set_buffer(self.build_text)
-            text_view.set_wrap_mode(gtk.WRAP_WORD)
-
-            scroller = gtk.ScrolledWindow()
-            scroller.add(text_view)
-            dialog.vbox.pack_start(scroller)
-
-            scroller.set_size_request(-1, 250)
-            scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
-            scroller.set_shadow_type(gtk.SHADOW_IN)
-            scroller.set_border_width(12)
-
+            text_view.scroll_to_iter(self.build_text.get_end_iter(), 0.0, True, 0.5, 0.5)
             dialog.show_all()
 
-            text_view.scroll_to_iter(self.build_text.get_end_iter(), 0.0, True, 0.5, 0.5)
-
             val = dialog.run()
-            dialog.hide()
 
-            if val == 1:
+            if val != 4:
+                dialog.hide()
+            # If the dialog was destroyed, interpret that as try again.
+            if val in (1, gtk.RESPONSE_NONE, gtk.RESPONSE_DELETE_EVENT):
                 return state
             elif val == 2:
                 return nextstate
@@ -417,7 +417,6 @@ class GtkBuildScript(buildscript.BuildScript):
                                          self.terminal_command)
                 os.system(command)
             else:
-                val = int(val)
                 return altstates[val - 5]
 
     def _createWindow(self):

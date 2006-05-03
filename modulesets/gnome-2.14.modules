@@ -128,6 +128,11 @@
       <dep package="scrollkeeper" />
     </dependencies>
   </cvsmodule>
+  <cvsmodule id="gamin">
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </cvsmodule>
   <cvsmodule id="glib" revision="glib-2-10">
     <dependencies>
       <dep package="gtk-doc" />
@@ -219,6 +224,7 @@
       <dep package="gnome-mime-data" />
       <dep package="howl" />
       <dep package="hal" />
+      <dep package="gamin" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gnome-keyring" revision="gnome-2-14">
@@ -837,6 +843,7 @@
   <cvsmodule id="ekiga">
     <dependencies>
       <dep package="libgnomeui" />
+      <dep package="evolution-data-server" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gucharmap" revision="gnome-2-14" supports-non-srcdir-builds="no">
@@ -1028,6 +1035,7 @@
       <dep package="libwnck" />
       <dep package="esound" />
       <dep package="scrollkeeper" />
+      <dep package="gnome-speech" />
     </dependencies>
   </cvsmodule>
   <cvsmodule id="gnome-speech" revision="gnome-2-14">
@@ -1087,6 +1095,19 @@
       <dep package="gconf" />
       <dep package="libglade" />
       <dep package="gnome-panel" />
+    </dependencies>
+  </cvsmodule>
+  <cvsmodule id="gnome-mount" autogenargs="--enable-nautilus-extension">
+    <dependencies>
+      <dep package="gnome-keyring" />
+      <dep package="libgnomeui" />
+      <dep package="dbus" />
+      <dep package="hal" />
+      <dep package="gtk+" />
+      <dep package="intltool" />
+      <dep package="libglade" />
+      <dep package="eel" />
+      <dep package="nautilus" />
     </dependencies>
   </cvsmodule>
   <svnmodule id="libnotify" module="trunk/libnotify" root="svn.galago-project.org">
@@ -1410,9 +1431,9 @@
       <dep package="glib" />
     </dependencies>
   </cvsmodule>
-  <tarball id="libmusicbrainz" version="2.1.1">
-    <source href="ftp://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.1.tar.gz" 
-            size="528162" md5sum="4f753d93a85cf413e00f1394b8cbd269" />
+  <tarball id="libmusicbrainz" version="2.1.2">
+    <source href="ftp://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.2.tar.gz"
+            size="504432" md5sum="88d35af903665fecbdee77eb6d5e6cdd" />
   </tarball>
   <cvsmodule id="totem" autogenargs="--enable-gstreamer=0.10" revision="gnome-2-14">
     <dependencies>

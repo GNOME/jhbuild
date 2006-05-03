@@ -1,3 +1,39 @@
+2006-05-02  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/gnome-2.16.modules: same here.
+
+	* modulesets/gnome-2.14.modules (gamin, gnome-mount): add to
+	build.  Patch from Sylvain Bertrand, fixing bug #333614.
+
+	* jhbuild/versioncontrol/git.py: similar fixes.
+
+	* jhbuild/versioncontrol/svn.py: make sure 'svn' and 'svn+ssh' are
+	in urlparse.uses_relative.
+
+	* modulesets/gnome-2.16.modules: same here.
+
+	* modulesets/gnome-2.14.modules (ekiga): depend on
+	evolution-data-server, to fix bug #340281.
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.do_install):
+	don't create the nss include dir if it already exists.  Based on
+	patch from Frederic Peters fixing bug #340151.
+	Split the find command into a string list, so that the shell isn't
+	used to execute it.
+
+	* modulesets/gnome-2.16.modules (gok): depend on gnome-speech.
+	Patch from David Bolter, fixing bug #339957.
+	(gnome-nettool): depend on gnome-doc-utils.  Fixes bug #340126.
+
+	* jhbuild/frontends/gtkui.py: patch from Björn Lindqvist to fix
+	some bugs with the error dialog.  Patch from bug #334828.
+
+	* jhbuild/moduleset.py (ModuleSet.get_module_list): simplify
+	dependency expansion based on patch from Björn Lindqvist in bug
+	334711.
+	(_parse_module_set): more simplifications, partly based on Björn's
+	patch.
+
 2006-05-01  James Henstridge  <james@jamesh.id.au>
 
 	* jhbuild/versioncontrol/git.py: make sure git: and git+ssh: URIs
@@ -761,7 +797,7 @@
 	and avahi to freedesktop.modules.  Still some kinks due to crap
 	configure script.
 
-2005-11-23  Karsten Br�ckelmann  <guenther@rudersport.de>
+2005-11-23  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* README: Updated the GARNOME project link.
 
@@ -827,7 +863,7 @@
 	finding the CVS root of a working copy.  Based on patch from Scott
 	Tsai.  Fixes bug #315083.
 
-2005-10-14  Karsten Br�ckelmann  <guenther@rudersport.de>
+2005-10-14  Karsten Bräckelmann  <guenther@rudersport.de>
 
 	* README: Updated the GARNOME project link.
 
@@ -6419,3 +6455,6 @@ Mon Dec  3 23:31:43 2001  Owen Taylor  <otaylor@redhat.com>
 	* moduleinfo.py (gnome1): add initial (untested) support for
 	building the gnome 1.x platform.
 
+# Local Variables:
+# coding:utf-8
+# End:

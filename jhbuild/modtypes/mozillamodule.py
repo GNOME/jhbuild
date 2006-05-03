@@ -147,18 +147,16 @@ class MozillaModule(AutogenModule):
         cmd = 'make %s %s install' % (buildscript.config.makeargs,
                                       self.makeargs)
         buildscript.execute(cmd)
-        cmd = 'mkdir %s/include/%s-%s/nss' % (
+        nssdir = '%s/include/%s-%s/nss' % (
             buildscript.config.prefix,
             self.get_mozilla_app(),
             self.get_mozilla_ver(buildscript))
-        buildscript.execute(cmd)
+        if not os.path.exists(nssdir):
+            buildscript.execute(['mkdir', nssdir])
 
-        cmd = ('find %s/security/nss/lib/ -name \'*.h\' -type f '
-               '-exec /bin/cp {} %s/include/%s-%s/nss/ \;') % (
-            self.get_builddir(buildscript),
-            buildscript.config.prefix,
-            self.get_mozilla_app(),
-            self.get_mozilla_ver(buildscript))
+        cmd = ['find', '%s/security/nss/lib/' % self.get_builddir(buildscript),
+               '-name', '*.h', '-type', 'f', '-exec', '/bin/cp', '{}',
+               '%s/' % nssdir,  ';']
         buildscript.execute(cmd)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = AutogenModule.STATE_DONE

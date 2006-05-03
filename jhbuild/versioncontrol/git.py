@@ -30,9 +30,11 @@ from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 # schemes to be netloc aware and set to allow relative URIs.
 if 'git' not in urlparse.uses_netloc:
     urlparse.uses_netloc.append('git')
+if 'git' not in urlparse.uses_relative:
     urlparse.uses_relative.append('git')
 if 'git+ssh' not in urlparse.uses_netloc:
     urlparse.uses_netloc.append('git+ssh')
+if 'git+ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('git+ssh')
 
 

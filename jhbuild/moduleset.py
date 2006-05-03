@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import generators
+
 import os
 import sys
 import urlparse
@@ -72,53 +74,46 @@ class ModuleSet:
         needed to build the modules in the seed list''' #"
 
         if seed == 'all': seed = self.modules.keys()
-        # we don't just use a simple list comprehension here, since we
-        # want to control the exception message.
-        ret = []
-        for modname in seed:
-            if modname not in skip:
-                if self.modules.has_key(modname):
-                    ret.append(self.modules[modname])
-                else:
-                    raise UsageError('module "%s" not found' % modname)
+        try:
+            modules = [self.modules[mod] for mod in seed if mod not in skip]
+        except KeyError, e:
+            raise UsageError('module "%s" not found' % str(e))
         # expand dependencies
         i = 0
-        while i < len(ret):
+        while i < len(modules):
             depadd = []
-            for modname in ret[i].dependencies:
+            for modname in modules[i].dependencies:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
                     raise UsageError('dependent module "%s" not found'
                                      % modname)
-                if depmod not in ret[:i+1] and depmod.name not in skip:
+                if depmod not in modules[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
             if depadd:
-                ret[i:i] = depadd
+                modules[i:i] = depadd
             else:
                 i = i + 1
         # and now suggestions.
         i = 0
-        while i < len(ret):
+        while i < len(modules):
             depadd = []
-            for modname in ret[i].dependencies + ret[i].suggests:
+            for modname in modules[i].dependencies + modules[i].suggests:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
                     continue # don't care about unknown suggestions
-                if depmod in ret and depmod not in ret[:i+1]:
+                if depmod in modules and depmod not in modules[:i+1]:
                     depadd.append(depmod)
             if depadd:
-                ret[i:i] = depadd
+                modules[i:i] = depadd
             else:
                 i = i + 1
         # remove duplicates
-        i = 0
-        while i < len(ret):
-            if ret[i] in ret[:i]:
-                del ret[i]
-            else:
-                i = i + 1
+        ret = []
+        for module in modules:
+            if module not in ret:
+                ret.append(module)
         return ret
     
     def get_full_module_list(self, skip=[]):
@@ -174,6 +169,16 @@ def load(config, uri=None):
         ms.modules.update(_parse_module_set(config, uri).modules)
     return ms
 
+def _child_elements(parent):
+    for node in parent.childNodes:
+        if node.nodeType == node.ELEMENT_NODE:
+            yield node
+
+def _child_elements_matching(parent, names):
+    for node in parent.childNodes:
+        if node.nodeType == node.ELEMENT_NODE and node.nodeName in names:
+            yield node
+
 def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork)
@@ -187,13 +192,14 @@ def _parse_module_set(config, uri):
     # load up list of repositories
     repositories = {}
     default_repo = None
-    for node in document.documentElement.childNodes:
-        if node.nodeType != node.ELEMENT_NODE: continue
+    for node in _child_elements_matching(
+            document.documentElement, ['repository', 'cvsroot', 'svnroot',
+                                       'arch-archive']):
+        name = node.getAttribute('name')
+        if node.getAttribute('default') == 'yes':
+            default_repo = name
         if node.nodeName == 'repository':
             repo_type = node.getAttribute('type')
-            name = node.getAttribute('name')
-            if node.getAttribute('default') == 'yes':
-                default_repo = name
             repo = get_repo_type(repo_type)
             kws = {}
             for attr in repo.init_xml_attrs:
@@ -202,9 +208,6 @@ def _parse_module_set(config, uri):
             repo_class = get_repo_type(repo_type)
             repositories[name] = repo_class(config, name, **kws)
         if node.nodeName == 'cvsroot':
-            name = node.getAttribute('name')
-            if node.getAttribute('default') == 'yes':
-                default_repo = name
             cvsroot = node.getAttribute('root')
             if node.hasAttribute('password'):
                 password = node.getAttribute('password')
@@ -214,39 +217,30 @@ def _parse_module_set(config, uri):
             repositories[name] = repo_type(config, name,
                                            cvsroot=cvsroot, password=password)
         elif node.nodeName == 'svnroot':
-            name = node.getAttribute('name')
-            if node.getAttribute('default') == 'yes':
-                default_repo = name
             svnroot = node.getAttribute('href')
             repo_type = get_repo_type('svn')
             repositories[name] = repo_type(config, name, href=svnroot)
         elif node.nodeName == 'arch-archive':
-            name = node.getAttribute('name')
-            if node.getAttribute('default') == 'yes':
-                default_repo = name
-            archive = name
             archive_uri = node.getAttribute('href')
             repo_type = get_repo_type('arch')
-            repositories[name] = repo_type(config, name, archive, archive_uri)
+            repositories[name] = repo_type(config, name,
+                                           archive=name, href=archive_uri)
 
     # and now module definitions
-    for node in document.documentElement.childNodes:
-        if node.nodeType != node.ELEMENT_NODE: continue
+    for node in _child_elements(document.documentElement):
         if node.nodeName == 'include':
             href = node.getAttribute('href')
             inc_uri = urlparse.urljoin(uri, href)
             inc_moduleset = _parse_module_set(config, inc_uri)
             moduleset.modules.update(inc_moduleset.modules)
-        elif node.nodeName in ['repository', 'cvsroot', 'svnroot', 'arch-archive']:
+        elif node.nodeName in ['repository', 'cvsroot', 'svnroot',
+                               'arch-archive']:
             pass
         else:
-            # only one default root in the file.  Is this a good thing?
-            if node.hasAttribute('cvsroot'):
-                repo = repositories[node.getAttribute('cvsroot')]
-            elif node.hasAttribute('root'):
-                repo = repositories[node.getAttribute('root')]
-            elif node.hasAttribute('repo'):
-                repo = repositories[node.getAttribute('repo')]
+            for attrname in ['cvsroot', 'root', 'repo']:
+                if node.hasAttribute(attrname):
+                    repo = repositories[node.getAttribute(attrname)]
+                    break
             else:
                 repo = repositories.get(default_repo, None)
 
@@ -269,6 +263,5 @@ def _parse_module_set(config, uri):
             moduleset.add(modtypes.parse_xml_node(node, config,
                                                   dependencies, suggests,
                                                   repo))
-
 
     return moduleset
