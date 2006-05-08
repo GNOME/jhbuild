@@ -43,9 +43,8 @@ def parse_svnmodule(node, config, dependencies, suggests, repository):
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
     # override revision tag if requested.
-    autogenargs += ' ' + config.module_autogenargs.get(module,
-                                                       config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(module, makeargs)
+    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
     branch = repository.branch(id, module=module, checkoutdir=checkoutdir)
 

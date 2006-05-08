@@ -40,7 +40,7 @@ class MozillaModule(AutogenModule):
 	os.environ['MOZ_CO_PROJECT'] = projects
 
     def get_srcdir(self, buildscript):
-        return os.path.join(buildscript.config.checkoutdir, 'mozilla')
+        return os.path.join(buildscript.config.checkoutroot, 'mozilla')
     def get_revision(self):
         return self.revision
 
