@@ -40,7 +40,7 @@ have_gconf = True
 
 import buildscript
 import jhbuild.moduleset
-from jhbuild.modtypes.base import MetaModule
+from jhbuild.modtypes import MetaModule
 
 def get_glade_filename():
     return os.path.join(os.path.dirname(__file__), 'jhbuild.glade')

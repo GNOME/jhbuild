@@ -17,15 +17,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+__metaclass__ = type
+
 import os
 
-import base
 from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.modtypes import Package, register_module_type, get_dependencies
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
 
-class Tarball(base.Package):
+class Tarball(Package):
     type = 'tarball'
     STATE_DOWNLOAD  = 'download'
     STATE_UNPACK    = 'unpack'
@@ -35,9 +37,9 @@ class Tarball(base.Package):
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size, source_md5=None,
                  patches=[], checkoutdir=None, autogenargs='', makeargs='',
-                 dependencies=[], suggests=[],
+                 dependencies=[], after=[],
                  supports_non_srcdir_builds=True):
-        base.Package.__init__(self, name, dependencies, suggests)
+        Package.__init__(self, name, dependencies, after)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
@@ -201,10 +203,10 @@ class Tarball(base.Package):
         error = None
         buildscript.execute(cmd)
         buildscript.packagedb.add(self.name, self.version or '')
-    do_install.next_state = base.Package.STATE_DONE
+    do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
-def parse_tarball(node, config, dependencies, suggests, cvsroot):
+def parse_tarball(node, config, repositories, default_repo):
     name = node.getAttribute('id')
     version = node.getAttribute('version')
     source_url = None
@@ -250,9 +252,11 @@ def parse_tarball(node, config, dependencies, suggests, cvsroot):
     # for tarballs, don't ever pass --enable-maintainer-mode
     autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
 
+    dependencies, after = get_dependencies(node)
+
     return Tarball(name, version, source_url, source_size, source_md5,
                    patches, checkoutdir, autogenargs, makeargs,
-                   dependencies, suggests,
+                   dependencies, after,
                    supports_non_srcdir_builds=supports_non_srcdir_builds)
 
-base.register_module_type('tarball', parse_tarball)
+register_module_type('tarball', parse_tarball)

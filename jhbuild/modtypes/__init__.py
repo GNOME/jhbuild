@@ -17,4 +17,138 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from base import parse_xml_node
+__metaclass__ = type
+
+__all__ = [
+    'register_module_type',
+    'parse_xml_node',
+    'Package',
+    'get_dependencies'
+    'get_branch'
+    ]
+
+from jhbuild.errors import FatalError
+
+_module_types = {}
+def register_module_type(name, parse_func):
+    _module_types[name] = parse_func
+
+def register_lazy_module_type(name, module):
+    def parse_func(node, config, repositories, default_repo):
+        old_func = _module_types[name]
+        mod = __import__(module)
+        assert _module_types[name] != old_func, (
+            'module did not register new parser_func for %s' % name)
+        return _module_types[name](node, config, repositories, default_repo)
+    _module_types[name] = parse_func
+
+def parse_xml_node(node, config, repositories, default_repo):
+    if not _module_types.has_key(node.nodeName):
+        try:
+            __import__('jhbuild.modtypes.%s' % node.nodeName)
+        except ImportError:
+            pass
+    if not _module_types.has_key(node.nodeName):
+        raise FatalError('unknown module type %s' % node.nodeName)
+
+    parser = _module_types[node.nodeName]
+    return parser(node, config, repositories, default_repo)
+
+def get_dependencies(node):
+    """Scan for dependencies in <dependencies> and <after> elements."""
+    dependencies = []
+    after = []
+    for childnode in node.childNodes:
+        if childnode.nodeType != childnode.ELEMENT_NODE: continue
+        if childnode.nodeName == 'dependencies':
+            for dep in childnode.childNodes:
+                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+                    dependencies.append(dep.getAttribute('package'))
+        elif childnode.nodeName in ['after', 'suggests']:
+            for dep in childnode.childNodes:
+                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+                    after.append(dep.getAttribute('package'))
+    return dependencies, after
+
+def get_branch(node, repositories, default_repo):
+    """Scan for a <branch> element and create a corresponding Branch object."""
+    name = node.getAttribute('id')
+    for childnode in node.childNodes:
+        if (childnode.nodeType == childnode.ELEMENT_NODE and
+            childnode.nodeName == 'branch'):
+            break
+    else:
+        raise FatalError('no <branch> element found for %s' % name)
+
+    # look up the repository for this branch ...
+    if childnode.hasAttribute('repo'):
+        repo = repositories[childnode.getAttribute('repo')]
+    else:
+        repo = repositories[default_repo]
+
+    return repo.branch_from_xml(name, childnode)
+
+
+class Package:
+    type = 'base'
+    STATE_START = 'start'
+    STATE_DONE  = 'done'
+    def __init__(self, name, dependencies=[], after=[]):
+        self.name = name
+        self.dependencies = dependencies
+        self.after = after
+    def __repr__(self):
+        return "<%s '%s'>" % (self.__class__.__name__, self.name)
+
+    def get_srcdir(self, buildscript):
+        raise NotImplementedError
+    def get_builddir(self, buildscript):
+        raise NotImplementedError
+
+    def get_revision(self):
+        return None
+
+    def run_state(self, buildscript, state):
+        '''run a particular part of the build for this package.
+
+        Returns a tuple of the following form:
+          (next-state, error-flag, [other-states])'''
+        method = getattr(self, 'do_' + state)
+        # has the state been updated to the new system?
+        if hasattr(method, 'next_state'):
+            try:
+                method(buildscript)
+            except (CommandError, BuildStateError), e:
+                return (method.next_state, str(e), method.error_states)
+            else:
+                return (method.next_state, None, None)
+        else:
+            return method(buildscript)
+
+
+class MetaModule(Package):
+    """A simple module type that consists only of dependencies."""
+    type = 'meta'
+    def get_srcdir(self, buildscript):
+        return buildscript.config.checkoutroot
+    def get_builddir(self, buildscript):
+        return buildscript.config.buildroot or \
+               self.get_srcdir(buildscript)
+
+    # nothing to actually build in a metamodule ...
+    def do_start(self, buildscript):
+        pass
+    do_start.next_state = Package.STATE_DONE
+    do_start.error_states = []
+
+def parse_metamodule(node, config, repos, default_repo):
+    id = node.getAttribute('id')
+    dependencies, after = get_dependencies(node)
+    return MetaModule(id, dependencies=dependencies, after=after)
+register_module_type('metamodule', parse_metamodule)
+
+
+register_lazy_module_type('autotools', 'jhbuild.modtypes.autotools')
+register_lazy_module_type('cvsmodule', 'jhbuild.modtypes.autotools')
+register_lazy_module_type('svnmodule', 'jhbuild.modtypes.autotools')
+register_lazy_module_type('archmodule', 'jhbuild.modtypes.autotools')

@@ -131,6 +131,8 @@ class CVSRepository(Repository):
             self.cvsroot = cvsroot
             login(cvsroot, password)
 
+    branch_xml_attrs = ['module', 'checkoutdir', 'revision']
+
     def branch(self, name, module=None, checkoutdir=None, revision=None):
         if module is None:
             module = name

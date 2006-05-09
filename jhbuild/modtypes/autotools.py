@@ -1,7 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2004  James Henstridge
 #
-#   base.py: common module type definitions.
+#   autotools.py: autotools module type definitions.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,64 +17,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+__metaclass__ = type
+
 import os
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.modtypes import \
+     Package, get_dependencies, get_branch, register_module_type
 
-__all__ = [ 'Package', 'CVSModule',
-            'register_module_type', 'parse_xml_node' ]
-
-_module_types = {}
-def register_module_type(name, parse_func):
-    _module_types[name] = parse_func
-
-def parse_xml_node(node, config, dependencies, suggests, cvsroot):
-    if not _module_types.has_key(node.nodeName):
-        try:
-            __import__('jhbuild.modtypes.%s' % node.nodeName)
-        except ImportError:
-            pass
-    if not _module_types.has_key(node.nodeName):
-        raise FatalError('unknown module type %s' % node.nodeName)
-
-    parser = _module_types[node.nodeName]
-    return parser(node, config, dependencies, suggests, cvsroot)
-
-class Package:
-    type = 'base'
-    STATE_START = 'start'
-    STATE_DONE  = 'done'
-    def __init__(self, name, dependencies=[], suggests=[]):
-        self.name = name
-        self.dependencies = dependencies
-        self.suggests = suggests
-    def __repr__(self):
-        return "<%s '%s'>" % (self.__class__.__name__, self.name)
-
-    def get_srcdir(self, buildscript):
-        raise NotImplementedError
-    def get_builddir(self, buildscript):
-        raise NotImplementedError
-
-    def get_revision(self):
-        return None
-
-    def run_state(self, buildscript, state):
-        '''run a particular part of the build for this package.
-
-        Returns a tuple of the following form:
-          (next-state, error-flag, [other-states])'''
-        method = getattr(self, 'do_' + state)
-        # has the state been updated to the new system?
-        if hasattr(method, 'next_state'):
-            try:
-                method(buildscript)
-            except (CommandError, BuildStateError), e:
-                return (method.next_state, str(e), method.error_states)
-            else:
-                return (method.next_state, None, None)
-        else:
-            return method(buildscript)
+__all__ = [ 'AutogenModule' ]
 
 class AutogenModule(Package):
     '''Base type for modules that are distributed with a Gnome style
@@ -91,9 +42,9 @@ class AutogenModule(Package):
     STATE_INSTALL        = 'install'
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
-                 dependencies=[], suggests=[],
+                 dependencies=[], after=[],
                  supports_non_srcdir_builds=True):
-        Package.__init__(self, name, dependencies, suggests)
+        Package.__init__(self, name, dependencies, after)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -237,7 +188,35 @@ class AutogenModule(Package):
     do_install.error_states = []
 
 
-def parse_cvsmodule(node, config, dependencies, suggests, repository):
+def parse_autotools(node, config, repositories, default_repo):
+    id = node.getAttribute('id')
+    autogenargs = ''
+    makeargs = ''
+    supports_non_srcdir_builds = True
+    if node.hasAttribute('autogenargs'):
+        autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
+
+    # override revision tag if requested.
+    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
+
+    dependencies, after = get_dependencies(node)
+    branch = get_branch(node, repositories, default_repo)
+
+    return AutogenModule(id, branch, autogenargs, makeargs,
+                         dependencies=dependencies,
+                         after=after,
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+register_module_type('autotools', parse_autotools)
+
+
+# deprecated module types below:
+def parse_cvsmodule(node, config, repositories, default_repo):
     id = node.getAttribute('id')
     module = None
     revision = None
@@ -263,30 +242,92 @@ def parse_cvsmodule(node, config, dependencies, suggests, repository):
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    branch = repository.branch(id, module=module, checkoutdir=checkoutdir,
-                               revision=revision)
+    dependencies, after = get_dependencies(node)
+
+    for attrname in ['cvsroot', 'root']:
+        if node.hasAttribute(attrname):
+            repo = repositories[node.getAttribute(attrname)]
+            break
+    else:
+        repo = repositories.get(default_repo, None)
+    branch = repo.branch(id, module=module, checkoutdir=checkoutdir,
+                         revision=revision)
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
-                         suggests=suggests,
+                         after=after,
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('cvsmodule', parse_cvsmodule)
 
-class MetaModule(Package):
-    type = 'meta'
-    def get_srcdir(self, buildscript):
-        return buildscript.config.checkoutroot
-    def get_builddir(self, buildscript):
-        return buildscript.config.buildroot or \
-               self.get_srcdir(buildscript)
-
-    # nothing to actually build in a metamodule ...
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = Package.STATE_DONE
-    do_start.error_states = []
-
-def parse_metamodule(node, config, dependencies, suggests, cvsroot):
+def parse_svnmodule(node, config, repositories, default_repo):
     id = node.getAttribute('id')
-    return MetaModule(id, dependencies=dependencies, suggests=suggests)
-register_module_type('metamodule', parse_metamodule)
+    module = None
+    checkoutdir = None
+    autogenargs = ''
+    makeargs = ''
+    supports_non_srcdir_builds = True
+    if node.hasAttribute('module'):
+        module = node.getAttribute('module')
+    if node.hasAttribute('checkoutdir'):
+        checkoutdir = node.getAttribute('checkoutdir')
+    if node.hasAttribute('autogenargs'):
+        autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
+
+    # override revision tag if requested.
+    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
+
+    dependencies, after = get_dependencies(node)
+
+    if node.hasAttribute('root'):
+        repo = repositories[node.getAttribute('root')]
+    else:
+        repo = repositories.get(default_repo, None)
+    branch = repo.branch(id, module=module, checkoutdir=checkoutdir)
+
+    return AutogenModule(id, branch, autogenargs, makeargs,
+                         dependencies=dependencies,
+                         after=after,
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+register_module_type('svnmodule', parse_svnmodule)
+
+def parse_archmodule(node, config, repositories, default_repo):
+    id = node.getAttribute('id')
+    version = None
+    checkoutdir = None
+    autogenargs = ''
+    makeargs = ''
+    supports_non_srcdir_builds = True
+    if node.hasAttribute('version'):
+        version = node.getAttribute('version')
+    if node.hasAttribute('checkoutdir'):
+        checkoutdir = node.getAttribute('checkoutdir')
+    if node.hasAttribute('autogenargs'):
+        autogenargs = node.getAttribute('autogenargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
+
+    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
+    makeargs += ' ' + config.module_makeargs.get(id, makeargs)
+
+    dependencies, after = get_dependencies(node)
+
+    if node.hasAttribute('root'):
+        repo = repositories[node.getAttribute('root')]
+    else:
+        repo = repositories.get(default_repo, None)
+    branch = repo.branch(id, module=version, checkoutdir=checkoutdir)
+
+    return AutogenModule(branch, autogenargs, makeargs,
+                         dependencies=dependencies,
+                         after=after,
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+register_module_type('archmodule', parse_archmodule)

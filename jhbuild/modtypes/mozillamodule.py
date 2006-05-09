@@ -18,21 +18,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+__metaclass__ = type
+
 import os
 
-from jhbuild.modtypes.base import AutogenModule
-import base
+from jhbuild.modtypes import register_module_type, get_dependencies
+from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.versioncontrol import cvs
 from jhbuild.errors import FatalError, CommandError
 
 class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
-		 makeargs='', dependencies=[], suggests=[], repository=None):
+		 makeargs='', dependencies=[], after=[], repository=None):
         AutogenModule.__init__(self, name, branch=None,
                                autogenargs=autogenargs,
                                makeargs=makeargs,
                                dependencies=dependencies,
-                               suggests=suggests,
+                               after=after,
                                supports_non_srcdir_builds=False)
         self.repository = repository
         self.revision = revision
@@ -162,7 +164,7 @@ class MozillaModule(AutogenModule):
     do_install.next_state = AutogenModule.STATE_DONE
     do_install.error_states = []
 
-def parse_mozillamodule(node, config, dependencies, suggests, repository):
+def parse_mozillamodule(node, config, repositories, default_repo):
     name = node.getAttribute('id')
     projects = node.getAttribute('projects')
     revision = None
@@ -182,7 +184,16 @@ def parse_mozillamodule(node, config, dependencies, suggests, repository):
                                                        config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(name, makeargs)
 
-    return MozillaModule(name, projects, revision, autogenargs, makeargs,
-                         dependencies, suggests, repository)
+    dependencies, after = get_dependencies(node)
 
-base.register_module_type('mozillamodule', parse_mozillamodule)
+    for attrname in ['cvsroot', 'root']:
+        if node.hasAttribute(attrname):
+            repo = repositories[node.getAttribute(attrname)]
+            break
+    else:
+        repo = repositories.get(default_repo, None)
+
+    return MozillaModule(name, projects, revision, autogenargs, makeargs,
+                         dependencies, after, repo)
+
+register_module_type('mozillamodule', parse_mozillamodule)

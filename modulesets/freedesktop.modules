@@ -62,15 +62,16 @@
     </dependencies>
   </cvsmodule>
 
-  <svnmodule id="cairo" repo="git.freedesktop.org">
+  <autotools id="cairo">
+    <branch repo="git.freedesktop.org" module="cairo" />
     <dependencies>
       <dep package="fontconfig" />
       <dep package="Xrender" />
     </dependencies>
-    <suggests>
+    <after>
       <dep package="glitz" />
-    </suggests>
-  </svnmodule>
+    </after>
+  </autotools>
 
   <tarball id="cairo-1-0" version="1.0.4" >
     <source href="http://cairographics.org/releases/cairo-1.0.4.tar.gz"
@@ -155,7 +156,7 @@
     <dependencies>
       <dep package="icon-naming-utils" />
     </dependencies>
-	</cvsmodule>
+  </cvsmodule>
   <cvsmodule id="tango-icon-theme-extras" cvsroot="tango.freedesktop.org">
     <dependencies>
       <dep package="tango-icon-theme" />

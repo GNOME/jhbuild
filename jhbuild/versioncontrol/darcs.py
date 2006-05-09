@@ -41,6 +41,8 @@ class DarcsRepository(Repository):
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
 
+    branch_xml_attrs = ['module', 'checkoutdir']
+
     def branch(self, name, module=None, checkoutdir=None):
         if name in self.config.branches:
             module = self.config.branches[module]

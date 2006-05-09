@@ -1,3 +1,65 @@
+2006-05-09  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/moduleset.py (ModuleSet.write_dot): fix traceback,
+	resolving bug #340922.
+
+	* jhbuild/modtypes/autotools.py: rename from base.py.
+
+	* jhbuild/commands/info.py (do_info): print git module names.
+
+	* jhbuild/versioncontrol/git.py (GitRepository.branch): same here.
+
+	* jhbuild/versioncontrol/darcs.py (DarcsRepository.branch): same here.
+
+	* jhbuild/versioncontrol/svn.py
+	(SubversionRepository.branch_xml_attrs): same here.
+
+	* jhbuild/versioncontrol/cvs.py (CVSRepository.branch): define the
+	expected branch attributes.
+
+	* jhbuild/modtypes/base.py: get rid of <darcsmodule> type -- I
+	don't think it was used between the time it was added and
+	deprecated.
+
+	* modulesets/moduleset.rnc: update schema to handle new
+	<autotools> type.
+
+	* modulesets/freedesktop.modules (cairo): use <autotools> element
+	instead of <svnmodule>.
+
+	* jhbuild/modtypes/base.py (parse_autotools): parser for an
+	arbitrary autotools module.  Uses get_branch() to create the
+	version control source.
+
+	* jhbuild/modtypes/__init__.py (get_branch): a helper function to
+	create a branch.
+
+	* jhbuild/modtypes/base.py: move parser functions for svnmodule,
+	archmodule and darcsmodule here and remove the separate files --
+	there isn't much reason to keep them separate now.
+
+	* jhbuild/commands/info.py (do_info): fix to work with changes.
+
+	* jhbuild/modtypes/tarball.py (Tarball.__init__): same.
+
+	* jhbuild/modtypes/mozillamodule.py (parse_mozillamodule): same.
+
+	* jhbuild/modtypes/archmodule.py (parse_archmodule): same.
+
+	* jhbuild/modtypes/darcsmodule.py (parse_darcsmodule): same.
+
+	* jhbuild/modtypes/svnmodule.py (parse_svnmodule): same.
+
+	* jhbuild/modtypes/base.py: update to match.
+
+	* jhbuild/modtypes/__init__.py: move module type registration
+	here.  Add a convenience function for parsing
+	<dependencies>/<after>.
+
+	* jhbuild/moduleset.py (_parse_module_set): change call to
+	parse_xml_node() to pass the list of scanned repositories instead
+	of deducing the here.
+
 2006-05-08  James Henstridge  <james@jamesh.id.au>
 
 	* jhbuild/modtypes/svnmodule.py (parse_svnmodule): same here.

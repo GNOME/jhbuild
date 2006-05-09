@@ -25,12 +25,14 @@ import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import FatalError
 from jhbuild.commands.base import register_command
-from jhbuild.modtypes.base import AutogenModule, MetaModule
+from jhbuild.modtypes import MetaModule
+from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.tarball import Tarball
 from jhbuild.versioncontrol.cvs import CVSBranch
 from jhbuild.versioncontrol.svn import SubversionBranch
 from jhbuild.versioncontrol.arch import ArchBranch
 from jhbuild.versioncontrol.darcs import DarcsBranch
+from jhbuild.versioncontrol.git import GitBranch
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -72,6 +74,8 @@ def do_info(config, args):
                 print 'Arch-Version:', module.branch.module
             elif isinstance(module.branch, DarcsBranch):
                 print 'Darcs-Archive:', module.branch.module
+            elif isinstance(module.branch, GitBranch):
+                print 'Git-Module:', module.branch.module
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version
@@ -79,16 +83,16 @@ def do_info(config, args):
         # dependencies
         if module.dependencies:
             print 'Requires:', ', '.join(module.dependencies)
-        if module.suggests:
-            print 'Suggests:', ', '.join(module.suggests)
         requiredby = [ mod.name for mod in module_set.modules.values()
                        if modname in mod.dependencies ]
         if requiredby:
             print 'Required-by:', ', '.join(requiredby)
-        suggestedby = [ mod.name for mod in module_set.modules.values()
-                       if modname in mod.suggests ]
-        if suggestedby:
-            print 'Suggested-by:', ', '.join(suggestedby)
+        if module.after:
+            print 'After:', ', '.join(module.after)
+        before = [ mod.name for mod in module_set.modules.values()
+                   if modname in mod.after ]
+        if before:
+            print 'Before:', ', '.join(before)
 
         print
 

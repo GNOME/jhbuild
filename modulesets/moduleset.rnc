@@ -50,10 +50,10 @@ arch-archive = element arch-archive {
   attribute href { xsd:anyURI }
 }
 
-package = cvsmodule |
+package = autotools |
+          cvsmodule |
           svnmodule |
           archmodule |
-          darcsmodule |
           metamodule |
           tarball |
           mozillamodule |
@@ -64,21 +64,43 @@ dep = element dep {
   attribute package { text }
 }
 dependencies = element dependencies { dep* }
-suggests = element suggests { dep* }
+after = element after { dep* } | element suggests { dep* }
 
-common = attribute id { text } & dependencies* & suggests*
+common = attribute id { text } & dependencies* & after*
 
 autogen_common = attribute autogenargs { text }? &
                  attribute makeargs { text }? &
                  attribute supports-non-srcdir-builds { "yes" | "no" }? &
                  common
 
+branch_cvs   = attribute module { text }?,
+               attribute checkoutdir { text }?,
+               attribute revision { text}?
+branch_svn   = attribute module { xsd:anyURI }?,
+               attribute checkoutdir { text }?
+branch_arch  = attribute module { xsd:anyURI }?,
+               attribute checkoutdir { text }?
+branch_darcs = attribute module { xsd:anyURI }?,
+               attribute checkoutdir { text }?
+branch_git   = attribute module { xsd:anyURI }?,
+               attribute checkoutdir { text }?
+
+branch = element branch {
+  attribute repo { text }?,
+  (branch_cvs|branch_svn|branch_arch|branch_darcs|branch_git)
+}
+
+autotools = element autotools {
+  branch &
+  autogen_common
+}
+
 cvsmodule = element cvsmodule {
   attribute module { text }?,
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
-  attribute repo { text }?,
+  attribute root { text }?,
 
   autogen_common
 }
@@ -87,7 +109,6 @@ svnmodule = element svnmodule {
   attribute module { text }?,
   attribute checkoutdir { text }?,
   attribute root { text }?,
-  attribute repo { text }?,
 
   autogen_common
 }
@@ -96,15 +117,6 @@ archmodule = element archmodule {
   attribute version { text }?,
   attribute checkoutdir { text }?,
   attribute root { text }?,
-  attribute repo { text }?,
-
-  autogen_common
-}
-
-darcsmodule = element darcsmodule {
-  attribute checkoutdir { text }?,
-  attribute root { text }?,
-  attribute repo { text }?,
 
   autogen_common
 }
@@ -137,7 +149,7 @@ mozillamodule = element mozillamodule {
   attribute autogenargs { text }?,
   attribute makeargs { text }?,
   attribute cvsroot { text }?,
-  attribute repo { text }?,
+  attribute root { text }?,
   common
 }
 
@@ -146,7 +158,6 @@ gcjmodule = element gcjmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
-  attribute repo { text }?,
 
   autogen_common
 }
@@ -156,7 +167,6 @@ gdbmodule = element gdbmodule {
   attribute revision { text }?,
   attribute checkoutdir { text }?,
   attribute cvsroot { text }?,
-  attribute repo { text }?,
 
   autogen_common
 }

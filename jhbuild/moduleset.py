@@ -94,15 +94,15 @@ class ModuleSet:
                 modules[i:i] = depadd
             else:
                 i = i + 1
-        # and now suggestions.
+        # and now 'after' modules.
         i = 0
         while i < len(modules):
             depadd = []
-            for modname in modules[i].dependencies + modules[i].suggests:
+            for modname in modules[i].dependencies + modules[i].after:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
-                    continue # don't care about unknown suggestions
+                    continue # don't care about unknown after modules
                 if depmod in modules and depmod not in modules[:i+1]:
                     depadd.append(depmod)
             if depadd:
@@ -120,6 +120,10 @@ class ModuleSet:
         return self.get_module_list(self.modules.keys(), skip=skip)
     
     def write_dot(self, modules=None, fp=sys.stdout):
+        from jhbuild.modtypes import MetaModule
+        from jhbuild.modtypes.autotools import AutogenModule
+        from jhbuild.modtypes.tarball import Tarball
+        
         if modules is None:
             modules = self.modules.keys()
         inlist = {}
@@ -132,16 +136,16 @@ class ModuleSet:
         while modules:
             modname = modules[0]
             mod = self.modules[modname]
-            if isinstance(mod, modtypes.base.CVSModule):
-                label = mod.cvsmodule
-                if mod.revision:
-                    label = label + '\\nrv: ' + mod.revision
+            if isinstance(mod, AutogenModule):
+                label = mod.name
+                if mod.get_revision():
+                    label += '\\n(%s)' % mod.get_revision()
                 attrs = '[color="lightskyblue",style="filled",label="%s"]' % \
                         label
-            elif isinstance(mod, modtypes.base.MetaModule):
+            elif isinstance(mod, MetaModule):
                 attrs = '[color="lightcoral",style="filled",' \
                         'label="%s"]' % mod.name
-            elif isinstance(mod, modtypes.tarball.Tarball):
+            elif isinstance(mod, Tarball):
                 attrs = '[color="lightgoldenrod",style="filled",' \
                         'label="%s\\n%s"]' % (mod.name, mod.version)
             fp.write('  "%s" %s;\n' % (modname, attrs))
@@ -237,31 +241,7 @@ def _parse_module_set(config, uri):
                                'arch-archive']:
             pass
         else:
-            for attrname in ['cvsroot', 'root', 'repo']:
-                if node.hasAttribute(attrname):
-                    repo = repositories[node.getAttribute(attrname)]
-                    break
-            else:
-                repo = repositories.get(default_repo, None)
-
-            # deps
-            dependencies = []
-            suggests = []
-            for childnode in node.childNodes:
-                if childnode.nodeType != childnode.ELEMENT_NODE: continue
-                if childnode.nodeName == 'dependencies':
-                    for dep in childnode.childNodes:
-                        if dep.nodeType == dep.ELEMENT_NODE:
-                            assert dep.nodeName == 'dep'
-                            dependencies.append(dep.getAttribute('package'))
-                elif childnode.nodeName == 'suggests':
-                    for dep in childnode.childNodes:
-                        if dep.nodeType == dep.ELEMENT_NODE:
-                            assert dep.nodeName == 'dep'
-                            suggests.append(dep.getAttribute('package'))
-
             moduleset.add(modtypes.parse_xml_node(node, config,
-                                                  dependencies, suggests,
-                                                  repo))
+                                                  repositories, default_repo))
 
     return moduleset
