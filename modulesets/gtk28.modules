@@ -1,64 +1,72 @@
-<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
-<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml version="1.0"?><!--*- mode: nxml -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <cvsroot name="gnome.org" default="yes"
-     root=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
-     password="" />
-  <cvsroot name="cairo.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/cairo"
-     password="" />
-  <cvsroot name="mime.freedesktop.org"
-     root=":pserver:anoncvs@cvs.freedesktop.org:/cvs/mime"
-     password="" />
+  <repository type="cvs" name="gnome.org" default="yes"
+      cvsroot=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+      password=""/>
+  <repository type="cvs" name="mime.freedesktop.org"
+      cvsroot=":pserver:anoncvs@cvs.freedesktop.org:/cvs/mime"
+      password=""/>
 
-  <include href="freedesktop.modules" />
+  <include href="freedesktop.modules"/>
 
-  <cvsmodule id="gnome-common" />
-  <cvsmodule id="intltool">
+  <autotools id="gnome-common">
+    <branch/>
+  </autotools>
+  <autotools id="intltool">
+    <branch/>
     <dependencies>
-      <dep package="gnome-common" />
+      <dep package="gnome-common"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="shared-mime-info" cvsroot="mime.freedesktop.org" supports-non-srcdir-builds="no">
+  </autotools>
+  <autotools id="shared-mime-info" supports-non-srcdir-builds="no">
+    <branch repo="mime.freedesktop.org"/>
     <dependencies>
-      <dep package="intltool" />
+      <dep package="intltool"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="libxml2" module="gnome-xml" checkoutdir="libxml2" />
-  <cvsmodule id="libxslt">
+  </autotools>
+  <autotools id="libxml2">
+    <branch module="gnome-xml" checkoutdir="libxml2"/>
+  </autotools>
+  <autotools id="libxslt">
+    <branch/>
     <dependencies>
-      <dep package="libxml2" />
+      <dep package="libxml2"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="gtk-doc">
+  </autotools>
+  <autotools id="gtk-doc">
+    <branch/>
     <dependencies>
-      <dep package="libxslt" />
+      <dep package="libxslt"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="glib" revision="glib-2-8">
+  </autotools>
+  <autotools id="glib">
+    <branch revision="glib-2-8"/>
     <dependencies>
-      <dep package="gtk-doc" />
+      <dep package="gtk-doc"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="pango" revision="pango-1-10">
+  </autotools>
+  <autotools id="pango">
+    <branch revision="pango-1-10"/>
     <dependencies>
-      <dep package="glib" />
-      <dep package="cairo" />
-      <dep package="Xft" />
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="Xft"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="atk">
+  </autotools>
+  <autotools id="atk">
+    <branch/>
     <dependencies>
-      <dep package="glib" />
+      <dep package="glib"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="gtk+" revision="gtk-2-8">
+  </autotools>
+  <autotools id="gtk+">
+    <branch revision="gtk-2-8"/>
     <dependencies>
-      <dep package="cairo" />
-      <dep package="atk" />
-      <dep package="pango" />
-      <dep package="shared-mime-info" />
+      <dep package="cairo"/>
+      <dep package="atk"/>
+      <dep package="pango"/>
+      <dep package="shared-mime-info"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 </moduleset>
