@@ -246,8 +246,11 @@ def parse_cvsmodule(node, config, repositories, default_repo):
 
     for attrname in ['cvsroot', 'root']:
         if node.hasAttribute(attrname):
-            repo = repositories[node.getAttribute(attrname)]
-            break
+            try:
+                repo = repositories[node.getAttribute(attrname)]
+                break
+            except KeyError:
+                raise FatalError('Repository=%s not found for module id=%s. Possible repositories are %s' % (node.getAttribute(attrname), node.getAttribute('id'), repositories))
     else:
         repo = repositories.get(default_repo, None)
     branch = repo.branch(id, module=module, checkoutdir=checkoutdir,

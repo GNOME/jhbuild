@@ -82,9 +82,15 @@ def get_branch(node, repositories, default_repo):
 
     # look up the repository for this branch ...
     if childnode.hasAttribute('repo'):
-        repo = repositories[childnode.getAttribute('repo')]
+        try:
+            repo = repositories[childnode.getAttribute('repo')]
+        except KeyError:
+            raise FatalError('Repository=%s not found for module id=%s. Possible repositories are %s' % (childnode.getAttribute('repo'), name, repositories))
     else:
-        repo = repositories[default_repo]
+        try:
+            repo = repositories[default_repo]
+        except KeyError:
+            raise FatalError('Default Repository=%s not found for module id=%s. Possible repositories are %s' % (default_repo, name, repositories))
 
     return repo.branch_from_xml(name, childnode)
 
