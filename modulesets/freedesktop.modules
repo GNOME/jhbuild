@@ -1,374 +1,437 @@
-<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
-<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml version="1.0"?><!--*- mode: nxml -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="cvs" name="cairo.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
+      password=""/>
   <repository type="cvs" name="dbus.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
+      password=""/>
   <repository type="cvs" name="fontconfig.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/fontconfig"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/fontconfig"
+      password=""/>
   <repository type="cvs" name="hal.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
-    password=""/>
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
+      password=""/>
   <repository type="cvs" name="icon-theme.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/icon-theme"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/icon-theme"
+      password=""/>
   <repository type="cvs" name="startup-notification.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification"
+      password=""/>
   <repository type="cvs" name="tango.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
+      password=""/>
   <repository type="cvs" name="xlibs.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xlibs"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xlibs"
+      password=""/>
   <repository type="cvs" name="xserver.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xserver"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xserver"
+      password=""/>
   <repository type="cvs" name="xapps.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xapps"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xapps"
+      password=""/>
   <repository type="cvs" name="poppler.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
+      password=""/>
   <repository type="cvs" name="system-tools-backends.freedesktop.org"
-    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
-    password="" />
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
+      password=""/>
   <repository type="cvs" name="gnome.org"
-    cvsroot=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
-    password="" />
+      cvsroot=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
+      password=""/>
 
   <repository type="svn" name="avahi.0pointer.de"
-    href="svn://svn.0pointer.de/avahi/" />
+      href="svn://svn.0pointer.de/avahi/"/>
   <repository type="svn" name="libdaemon.0pointer.de"
-    href="svn://svn.0pointer.de/libdaemon/" />
+      href="svn://svn.0pointer.de/libdaemon/"/>
 
   <repository type="git" name="git.freedesktop.org"
-    href="git://git.freedesktop.org/git/" />
+      href="git://git.freedesktop.org/git/"/>
 
-  <cvsmodule id="luminocity" cvsroot="gnome.org">
+  <autotools id="luminocity">
+    <branch repo="gnome.org"/>
     <dependencies>
-      <dep package="Xcomposite" />
-      <dep package="Xdamage" />
-      <dep package="Xrender" />
-      <dep package="Xext" />
-      <dep package="Xcursor" />
-      <dep package="X11" />
-      <dep package="Xtst" />
+      <dep package="Xcomposite"/>
+      <dep package="Xdamage"/>
+      <dep package="Xrender"/>
+      <dep package="Xext"/>
+      <dep package="Xcursor"/>
+      <dep package="X11"/>
+      <dep package="Xtst"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
   <autotools id="cairo">
-    <branch repo="git.freedesktop.org" module="cairo" />
+    <branch repo="git.freedesktop.org" module="cairo"/>
     <dependencies>
-      <dep package="fontconfig" />
-      <dep package="Xrender" />
+      <dep package="fontconfig"/>
+      <dep package="Xrender"/>
     </dependencies>
     <after>
-      <dep package="glitz" />
+      <dep package="glitz"/>
     </after>
   </autotools>
 
-  <tarball id="cairo-1-0" version="1.0.4" >
+  <tarball id="cairo-1-0" version="1.0.4">
     <source href="http://cairographics.org/releases/cairo-1.0.4.tar.gz"
-      size="1475777" md5sum="9002b0e69b3f94831a22d3f2a7735ce2" />
+            size="1475777" md5sum="9002b0e69b3f94831a22d3f2a7735ce2"/>
     <dependencies>
-      <dep package="fontconfig" />
-      <dep package="Xrender" />
+      <dep package="fontconfig"/>
+      <dep package="Xrender"/>
     </dependencies>
-    <suggests>
-      <dep package="glitz" />
-    </suggests>
+    <after>
+      <dep package="glitz"/>
+    </after>
   </tarball>
 
-  <cvsmodule id="pycairo-1-0" module="pycairo" checkoutdir="pycairo-1-0"
-             revision="RELEASE_1_0_2" cvsroot="cairo.freedesktop.org">
+  <autotools id="pycairo-1-0">
+    <branch repo="cairo.freedesktop.org" module="pycairo"
+            revision="RELEASE_1_0_2" checkoutdir="pycairo-1-0"/>
     <dependencies>
       <dep package="cairo-1-0"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="pycairo" cvsroot="cairo.freedesktop.org">
+  <autotools id="pycairo">
+    <branch repo="cairo.freedesktop.org"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="cairomm" cvsroot="cairo.freedesktop.org">
+  <autotools id="cairomm">
+    <branch repo="cairo.freedesktop.org"/>
     <dependencies>
       <dep package="cairo-1-0"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="dbus" cvsroot="dbus.freedesktop.org" supports-non-srcdir-builds="no"/>
+  <autotools id="dbus" supports-non-srcdir-builds="no">
+    <branch repo="dbus.freedesktop.org"/></autotools>
 
-  <cvsmodule id="dbus-0.23" module="dbus" checkoutdir="dbus-0.23"
-    cvsroot="dbus.freedesktop.org" revision="dbus-0-23"
-    supports-non-srcdir-builds="no"/>
+  <autotools id="dbus-0.23" supports-non-srcdir-builds="no">
+    <branch repo="dbus.freedesktop.org" module="dbus"
+            revision="dbus-0-23" checkoutdir="dbus-0.23"/>
+  </autotools>
 
   <!-- Not maintained - try dbusmm instead -->
-  <cvsmodule id="dbus-cpp" cvsroot="dbus.freedesktop.org">
+  <autotools id="dbus-cpp">
+    <branch repo="dbus.freedesktop.org"/>
     <dependencies>
-      <dep package="dbus" />
+      <dep package="dbus"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="dbusmm" cvsroot="dbus.freedesktop.org">
+  <autotools id="dbusmm">
+    <branch repo="dbus.freedesktop.org"/>
     <dependencies>
-      <dep package="dbus" />
+      <dep package="dbus"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="PolicyKit" cvsroot="hal.freedesktop.org">
+  <autotools id="PolicyKit">
+    <branch repo="hal.freedesktop.org"/>
     <dependencies>
-      <dep package="dbus" />
+      <dep package="dbus"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="hal" cvsroot="hal.freedesktop.org" >
+  </autotools>
+  <autotools id="hal">
+    <branch repo="hal.freedesktop.org"/>
     <dependencies>
-      <dep package="dbus" />
-      <dep package="PolicyKit" />
+      <dep package="dbus"/>
+      <dep package="PolicyKit"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="hal-0-4" module="hal" checkoutdir="hal-0.4"
-    cvsroot="hal.freedesktop.org" revision="hal-0_4-stable-branch">
+  <autotools id="hal-0-4">
+    <branch repo="hal.freedesktop.org" module="hal"
+            revision="hal-0_4-stable-branch" checkoutdir="hal-0.4"/>
     <dependencies>
-      <dep package="dbus-0.23" />
+      <dep package="dbus-0.23"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="fontconfig" cvsroot="fontconfig.freedesktop.org" revision="fc-2_4_branch" />
+  <autotools id="fontconfig">
+    <branch repo="fontconfig.freedesktop.org" revision="fc-2_4_branch"/>
+  </autotools>
 
-  <cvsmodule id="icon-slicer" cvsroot="icon-theme.freedesktop.org" />
-  <cvsmodule id="icon-naming-utils" cvsroot="icon-theme.freedesktop.org" />
+  <autotools id="icon-slicer">
+    <branch repo="icon-theme.freedesktop.org"/>
+  </autotools>
+  <autotools id="icon-naming-utils">
+    <branch repo="icon-theme.freedesktop.org"/>
+  </autotools>
   <tarball id="hicolor-icon-theme" version="0.9"
-	   supports-non-srcdir-builds="no">
+           supports-non-srcdir-builds="no">
     <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.9.tar.gz"
-            size="32574" md5sum="1d0821cb80d394eac30bd8cec5b0b60c" />
+            size="32574" md5sum="1d0821cb80d394eac30bd8cec5b0b60c"/>
   </tarball>
 
-  <cvsmodule id="tango-icon-theme" cvsroot="tango.freedesktop.org">
+  <autotools id="tango-icon-theme">
+    <branch repo="tango.freedesktop.org"/>
     <dependencies>
-      <dep package="icon-naming-utils" />
+      <dep package="icon-naming-utils"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="tango-icon-theme-extras" cvsroot="tango.freedesktop.org">
+  </autotools>
+  <autotools id="tango-icon-theme-extras">
+    <branch repo="tango.freedesktop.org"/>
     <dependencies>
-      <dep package="tango-icon-theme" />
+      <dep package="tango-icon-theme"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="startup-notification"
-    cvsroot="startup-notification.freedesktop.org" />
+  <autotools id="startup-notification">
+    <branch repo="startup-notification.freedesktop.org"/>
+  </autotools>
 
-  <cvsmodule id="CompositeExt" cvsroot="xlibs.freedesktop.org"> 
+  <autotools id="CompositeExt">
+    <branch repo="xlibs.freedesktop.org"/> 
     <dependencies>
-      <dep package="XExtensions" />
-      <dep package="FixesExt" />
+      <dep package="XExtensions"/>
+      <dep package="FixesExt"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="DamageExt" cvsroot="xlibs.freedesktop.org"> 
+  </autotools>
+  <autotools id="DamageExt">
+    <branch repo="xlibs.freedesktop.org"/> 
     <dependencies>
-      <dep package="FixesExt" />
+      <dep package="FixesExt"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="FixesExt" cvsroot="xlibs.freedesktop.org"> 
+  </autotools>
+  <autotools id="FixesExt">
+    <branch repo="xlibs.freedesktop.org"/> 
     <dependencies>
-      <dep package="XExtensions" />
+      <dep package="XExtensions"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="ICE" cvsroot="xlibs.freedesktop.org"> 
+  </autotools>
+  <autotools id="ICE">
+    <branch repo="xlibs.freedesktop.org"/> 
     <dependencies>
-      <dep package="xtrans" />
-      <dep package="X11" />
-      <dep package="Xproto" />
+      <dep package="xtrans"/>
+      <dep package="X11"/>
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="PanoramiXExt" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="Randr" cvsroot="xlibs.freedesktop.org" /> 
-  <cvsmodule id="Render" cvsroot="xlibs.freedesktop.org" supports-non-srcdir-builds="no"/>
-  <cvsmodule id="RecordExt" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="ResourceExt" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="SM" cvsroot="xlibs.freedesktop.org"> 
+  </autotools>
+  <autotools id="PanoramiXExt">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="Randr">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools> 
+  <autotools id="Render" supports-non-srcdir-builds="no">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="RecordExt">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="ResourceExt">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="SM">
+    <branch repo="xlibs.freedesktop.org"/> 
     <dependencies>
-      <dep package="ICE" />
-      <dep package="X11" />
-      <dep package="Xproto" />
+      <dep package="ICE"/>
+      <dep package="X11"/>
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="X11" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="X11">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="xtrans" />
-      <dep package="Xau" />
-      <dep package="Xdmcp" />
-      <dep package="XExtensions" />
-      <dep package="Xproto" />
+      <dep package="xtrans"/>
+      <dep package="Xau"/>
+      <dep package="Xdmcp"/>
+      <dep package="XExtensions"/>
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="XExtensions" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="XRes" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="XExtensions">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="XRes">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="ResourceExt" />
-      <dep package="X11" />
-      <dep package="Xext" />
+      <dep package="ResourceExt"/>
+      <dep package="X11"/>
+      <dep package="Xext"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xau" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xau">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xaw" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xaw">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
-      <dep package="X11" />
-      <dep package="Xt" />
-      <dep package="Xmu" />
-      <dep package="Xpm" />
+      <dep package="Xproto"/>
+      <dep package="X11"/>
+      <dep package="Xt"/>
+      <dep package="Xmu"/>
+      <dep package="Xpm"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xcursor" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xcursor">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xrender" />
-      <dep package="Xfixes" />
+      <dep package="Xrender"/>
+      <dep package="Xfixes"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xdamage" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xdamage">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="X11" />
-      <dep package="DamageExt" />
-      <dep package="Xfixes" />
+      <dep package="X11"/>
+      <dep package="DamageExt"/>
+      <dep package="Xfixes"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xdmcp" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xdmcp">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xext" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xext">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="X11" />
-      <dep package="XExtensions" />
-      <dep package="Xproto" />
+      <dep package="X11"/>
+      <dep package="XExtensions"/>
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xfixes" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xfixes">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="FixesExt" />
+      <dep package="FixesExt"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xfont" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xfont">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
+      <dep package="Xproto"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xft" cvsroot="xlibs.freedesktop.org" supports-non-srcdir-builds="no">
+  </autotools>
+  <autotools id="Xft" supports-non-srcdir-builds="no">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="fontconfig" />
-      <dep package="Xrender" />
+      <dep package="fontconfig"/>
+      <dep package="Xrender"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xi" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xi">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
-      <dep package="X11" />
+      <dep package="Xproto"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xinerama" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xinerama">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
-      <dep package="X11" />
+      <dep package="Xproto"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xmu" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xmu">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
-      <dep package="X11" />
+      <dep package="Xproto"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xpm" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xpm">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xproto" />
-      <dep package="X11" />
+      <dep package="Xproto"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xproto" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="Xrandr" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xproto">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="Xrandr">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Randr" />
-      <dep package="Xext" />
-      <dep package="Xrender" />
+      <dep package="Randr"/>
+      <dep package="Xext"/>
+      <dep package="Xrender"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xrender" cvsroot="xlibs.freedesktop.org" supports-non-srcdir-builds="no">
+  </autotools>
+  <autotools id="Xrender" supports-non-srcdir-builds="no">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Render" />
+      <dep package="Render"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xt" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xt">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="SM" />
-      <dep package="X11" />
+      <dep package="SM"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xtst" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xtst">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="Xext" />
-      <dep package="RecordExt" />
-      <dep package="X11" />
+      <dep package="Xext"/>
+      <dep package="RecordExt"/>
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="Xv" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="Xv">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="X11" />
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
-  <cvsmodule id="xtrans" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="xkbfile" cvsroot="xlibs.freedesktop.org" />
-  <cvsmodule id="xkbfile" cvsroot="xlibs.freedesktop.org">
+  </autotools>
+  <autotools id="xtrans">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="xkbfile">
+    <branch repo="xlibs.freedesktop.org"/>
+  </autotools>
+  <autotools id="xkbfile">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="X11" />
+      <dep package="X11"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
   <metamodule id="meta-xlibs">
     <dependencies>
-      <dep package="CompositeExt" />
-      <dep package="DamageExt" />
-      <dep package="FixesExt" />
-      <dep package="ICE" />
-      <dep package="PanoramiXExt" />
-      <dep package="Randr" />
-      <dep package="Render" />
-      <dep package="ResourceExt" />
-      <dep package="SM" />
-      <dep package="X11" />
-      <dep package="XExtensions" />
-      <dep package="XRes" />
-      <dep package="Xau" />
-      <dep package="Xaw" />
-      <dep package="Xcursor" />
-      <dep package="Xdamage" />
-      <dep package="Xdmcp" />
-      <dep package="Xext" />
-      <dep package="Xfixes" />
-      <dep package="Xfont" />
-      <dep package="Xft" />
-      <dep package="Xi" />
-      <dep package="Xmu" />
-      <dep package="Xpm" />
-      <dep package="Xproto" />
-      <dep package="Xrandr" />
-      <dep package="Xrender" />
-      <dep package="Xt" />
-      <dep package="Xtst" />
-      <dep package="Xv" />
-      <dep package="xtrans" />
-      <dep package="xkbfile" />
+      <dep package="CompositeExt"/>
+      <dep package="DamageExt"/>
+      <dep package="FixesExt"/>
+      <dep package="ICE"/>
+      <dep package="PanoramiXExt"/>
+      <dep package="Randr"/>
+      <dep package="Render"/>
+      <dep package="ResourceExt"/>
+      <dep package="SM"/>
+      <dep package="X11"/>
+      <dep package="XExtensions"/>
+      <dep package="XRes"/>
+      <dep package="Xau"/>
+      <dep package="Xaw"/>
+      <dep package="Xcursor"/>
+      <dep package="Xdamage"/>
+      <dep package="Xdmcp"/>
+      <dep package="Xext"/>
+      <dep package="Xfixes"/>
+      <dep package="Xfont"/>
+      <dep package="Xft"/>
+      <dep package="Xi"/>
+      <dep package="Xmu"/>
+      <dep package="Xpm"/>
+      <dep package="Xproto"/>
+      <dep package="Xrandr"/>
+      <dep package="Xrender"/>
+      <dep package="Xt"/>
+      <dep package="Xtst"/>
+      <dep package="Xv"/>
+      <dep package="xtrans"/>
+      <dep package="xkbfile"/>
     </dependencies>
   </metamodule>
 
@@ -416,85 +479,94 @@
   </cvsmodule>
   -->
 
-  <cvsmodule id="xserver" cvsroot="xserver.freedesktop.org">
+  <autotools id="xserver">
+    <branch repo="xserver.freedesktop.org"/>
     <dependencies>
-      <dep package="CompositeExt" />
-      <dep package="xtrans" />
-      <dep package="FixesExt" />
-      <dep package="DamageExt" />
-      <dep package="Randr" />
-      <dep package="RecordExt" />
-      <dep package="Render" />
-      <dep package="ResourceExt" />
-      <dep package="Xau" />
-      <dep package="Xext" />
-      <dep package="XExtensions" />
-      <dep package="Xfont" />
-      <dep package="Xproto" />
-      <dep package="xkbfile" />
+      <dep package="CompositeExt"/>
+      <dep package="xtrans"/>
+      <dep package="FixesExt"/>
+      <dep package="DamageExt"/>
+      <dep package="Randr"/>
+      <dep package="RecordExt"/>
+      <dep package="Render"/>
+      <dep package="ResourceExt"/>
+      <dep package="Xau"/>
+      <dep package="Xext"/>
+      <dep package="XExtensions"/>
+      <dep package="Xfont"/>
+      <dep package="Xproto"/>
+      <dep package="xkbfile"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="Xcomposite" cvsroot="xlibs.freedesktop.org">
+  <autotools id="Xcomposite">
+    <branch repo="xlibs.freedesktop.org"/>
     <dependencies>
-      <dep package="CompositeExt" />
-      <dep package="Xfixes" />
+      <dep package="CompositeExt"/>
+      <dep package="Xfixes"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="xcompmgr" cvsroot="xapps.freedesktop.org">
+  <autotools id="xcompmgr">
+    <branch repo="xapps.freedesktop.org"/>
     <dependencies>
-      <dep package="Xcomposite" />
-      <dep package="Xdamage" />
-      <dep package="Xrender" />
+      <dep package="Xcomposite"/>
+      <dep package="Xdamage"/>
+      <dep package="Xrender"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="lightpipe" cvsroot="xapps.freedesktop.org">
+  <autotools id="lightpipe">
+    <branch repo="xapps.freedesktop.org"/>
     <dependencies>
-      <dep package="Xcomposite" />
-      <dep package="Xdamage" />
-      <dep package="Xrender" />
-      <dep package="Xext" />
-      <dep package="X11" />
-      <dep package="Xtst" />
+      <dep package="Xcomposite"/>
+      <dep package="Xdamage"/>
+      <dep package="Xrender"/>
+      <dep package="Xext"/>
+      <dep package="X11"/>
+      <dep package="Xtst"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="poppler" cvsroot="poppler.freedesktop.org">
+  <autotools id="poppler">
+    <branch repo="poppler.freedesktop.org"/>
     <dependencies>
-      <dep package="cairo-1-0" />
+      <dep package="cairo-1-0"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="poppler-0-4" module="poppler" checkoutdir="poppler-0-4"
-    cvsroot="poppler.freedesktop.org" revision="POPPLER_0_4_X">
+  <autotools id="poppler-0-4">
+    <branch repo="poppler.freedesktop.org" module="poppler"
+            revision="POPPLER_0_4_X" checkoutdir="poppler-0-4"/>
     <dependencies>
-      <dep package="cairo-1-0" />
+      <dep package="cairo-1-0"/>
     </dependencies>
-  </cvsmodule>
+  </autotools>
 
-  <cvsmodule id="system-tools-backends" cvsroot="system-tools-backends.freedesktop.org" />
+  <autotools id="system-tools-backends">
+    <branch repo="system-tools-backends.freedesktop.org"/>
+  </autotools>
 
-  <cvsmodule id="glitz" cvsroot="cairo.freedesktop.org"/>
+  <autotools id="glitz">
+    <branch repo="cairo.freedesktop.org"/>
+  </autotools>
 
-  <svnmodule id="libdaemon" module="trunk" checkoutdir="libdaemon"
-    root="libdaemon.0pointer.de">
-  </svnmodule>
+  <autotools id="libdaemon">
+    <branch repo="libdaemon.0pointer.de" module="trunk" checkoutdir="libdaemon"/>
+  </autotools>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi correctly detects what is available. -->
-  <svnmodule id="avahi" module="trunk" checkoutdir="avahi"
-    root="avahi.0pointer.de"
-    autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages">
+  <autotools id="avahi" autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages">
+    <branch repo="avahi.0pointer.de" module="trunk" checkoutdir="avahi"/>
     <dependencies>
       <dep package="libdaemon"/>
       <dep package="dbus"/>
     </dependencies>
-    <suggests>
+    <after>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gnome-python/pygtk"/>
-    </suggests>
-  </svnmodule>
+    </after>
+  </autotools>
 
 </moduleset>
