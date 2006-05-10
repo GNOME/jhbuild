@@ -27,7 +27,7 @@ __all__ = [
     'get_branch'
     ]
 
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError, BuildStateError
 
 _module_types = {}
 def register_module_type(name, parse_func):
