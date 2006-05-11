@@ -2,48 +2,29 @@ default namespace = ""
 
 start = moduleset
 
-moduleset = element moduleset { roots,
+moduleset = element moduleset { repository*,
                                 (\include|package)* }
 
-roots = (repository|cvsroot|svnroot|arch-archive)*
-
-repository_cvs   = attribute type { "cvs" },
-                   attribute cvsroot { text },
-                   attribute password { text }?
-repository_svn   = attribute type { "svn" },
-                   attribute href { xsd:anyURI }
-repository_arch  = attribute type { "arch" },
-                   attribute archive { text },
-                   attribute href { xsd:anyURI }?
-repository_darcs = attribute type { "darcs" },
-                   attribute href { xsd:anyURI }
-repository_git   = attribute type { "git" },
-                   attribute href { xsd:anyURI }
+repository_cvs     = attribute type { "cvs" },
+                     attribute cvsroot { text },
+                     attribute password { text }?
+repository_svn     = attribute type { "svn" },
+                     attribute href { xsd:anyURI }
+repository_arch    = attribute type { "arch" },
+                     attribute archive { text },
+                     attribute href { xsd:anyURI }?
+repository_darcs   = attribute type { "darcs" },
+                     attribute href { xsd:anyURI }
+repository_git     = attribute type { "git" },
+                     attribute href { xsd:anyURI }
+repository_tarball = attribute type { "tarball" },
+                     attribute href { xsd:anyURI }
 
 repository = element repository {
   attribute name { text },
   attribute default { "yes" | "no" }?,
   (repository_cvs|repository_svn|repository_arch|
-   repository_darcs|repository_git)
-}
-
-cvsroot = element cvsroot {
-  attribute name { text },
-  attribute root { text },
-  attribute password { text }?,
-  attribute default { "yes" | "no" }?
-}
-
-svnroot = element svnroot {
-  attribute name { text },
-  attribute href { xsd:anyURI },
-  attribute default { "yes" | "no" }?
-}
-
-arch-archive = element arch-archive {
-  attribute name { text },
-  attribute href { xsd:anyURI },
-  attribute default { "yes" | "no" }?
+   repository_darcs|repository_git|repository_tarball)
 }
 
 \include = element include {
@@ -51,14 +32,9 @@ arch-archive = element arch-archive {
 }
 
 package = autotools |
-          cvsmodule |
-          svnmodule |
-          archmodule |
           metamodule |
           tarball |
-          mozillamodule |
-	  gcjmodule |
-	  gdbmodule
+          mozillamodule
 
 dep = element dep {
   attribute package { text }
@@ -84,40 +60,24 @@ branch_darcs = attribute module { xsd:anyURI }?,
                attribute checkoutdir { text }?
 branch_git   = attribute module { xsd:anyURI }?,
                attribute checkoutdir { text }?
+branch_tarball = attribute module { xsd:anyURI },
+                 attribute version { text },
+                 attribute size { text }?,
+                 attribute md5sum { text }?,
+                 element patch {
+                   attribute file { text },
+                   attribute strip { text }?
+                 }*
+
 
 branch = element branch {
   attribute repo { text }?,
-  (branch_cvs|branch_svn|branch_arch|branch_darcs|branch_git)
+  (branch_cvs|branch_svn|branch_arch|branch_darcs|branch_git|branch_tarball)
 }
 
 autotools = element autotools {
   branch &
-  autogen_common
-}
-
-cvsmodule = element cvsmodule {
-  attribute module { text }?,
-  attribute revision { text }?,
-  attribute checkoutdir { text }?,
-  attribute cvsroot { text }?,
-  attribute root { text }?,
-
-  autogen_common
-}
-
-svnmodule = element svnmodule {
-  attribute module { text }?,
-  attribute checkoutdir { text }?,
-  attribute root { text }?,
-
-  autogen_common
-}
-
-archmodule = element archmodule {
-  attribute version { text }?,
-  attribute checkoutdir { text }?,
-  attribute root { text }?,
-
+  attribute autogen-sh { text }? &
   autogen_common
 }
 
@@ -151,23 +111,5 @@ mozillamodule = element mozillamodule {
   attribute cvsroot { text }?,
   attribute root { text }?,
   common
-}
-
-gcjmodule = element gcjmodule {
-  attribute module { text }?,
-  attribute revision { text }?,
-  attribute checkoutdir { text }?,
-  attribute cvsroot { text }?,
-
-  autogen_common
-}
-
-gdbmodule = element gdbmodule {
-  attribute module { text }?,
-  attribute revision { text }?,
-  attribute checkoutdir { text }?,
-  attribute cvsroot { text }?,
-
-  autogen_common
 }
 

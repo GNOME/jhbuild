@@ -1,3 +1,16 @@
+2006-05-11  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/gnome-2.16.modules (totem): just use
+	--enable-gstreamer rather than --enable-gstreamer=0.10.  Fixes bug
+	#341279.
+
+	* modulesets/bootstrap.modules: add autogen-sh attribute to
+	appropriate elements.
+
+	* jhbuild/modtypes/autotools.py (parse_autotools): rather than
+	guessing the autogen.sh filename, require that it be specified
+	explicitly if it isn't called "autogen.sh".
+
 2006-05-10  Ross Burton  <ross@burtonini.com>
 
 	* jhbuild/modtypes/__init__.py:
@@ -8,7 +21,26 @@
 	* modulesets/gnome-2.14.modules (gconf-editor):
 	Use gnome-2-14 branch.
 
+2006-05-10  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/bootstrap.modules: update to use <autotools> module
+	type.
+
+	* modulesets/moduleset.rnc (branch_tarball): add schema support
+	for tarball branches.
+
+	* jhbuild/commands/info.py (do_info): print info about
+	TarballBranch autogen modules.
+
+	* jhbuild/modtypes/autotools.py (AutogenModule.do_configure): if
+	no autogen.sh file exists, look for a configure script.  If we
+	find one, use it instead and make sure we don't pass
+	--enable-maintainer-mode, since it breaks many tarball builds.
+
 2006-05-09  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/versioncontrol/tarball.py: new version control backend
+	to represent tarball downloads.
 
 	* modulesets/gtk28.modules: convert to new syntax.
 

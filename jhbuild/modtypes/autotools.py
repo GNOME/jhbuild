@@ -43,12 +43,14 @@ class AutogenModule(Package):
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  dependencies=[], after=[],
-                 supports_non_srcdir_builds=True):
+                 supports_non_srcdir_builds=True,
+                 autogen_sh='autogen.sh'):
         Package.__init__(self, name, dependencies, after)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
+        self.autogen_sh = autogen_sh
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -126,14 +128,22 @@ class AutogenModule(Package):
             os.makedirs(builddir)
         os.chdir(builddir)
         buildscript.set_action('Configuring', self)
+
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            cmd = self.get_srcdir(buildscript) + '/autogen.sh'
+            cmd = self.get_srcdir(buildscript) + '/' + self.autogen_sh
         else:
-            cmd = './autogen.sh'
+            cmd = './' + self.autogen_sh
         cmd += ' --prefix %s' % buildscript.config.prefix
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
+
+        # if we are using configure as the autogen command, make sure
+        # we don't pass --enable-maintainer-mode, since it breaks many
+        # tarball builds.
+        if self.autogen_sh == 'configure':
+            cmd = cmd.replace('--enable-maintainer-mode', '')
+            
         if buildscript.config.makeclean:
             nextstate = self.STATE_CLEAN
         else:
@@ -193,6 +203,7 @@ def parse_autotools(node, config, repositories, default_repo):
     autogenargs = ''
     makeargs = ''
     supports_non_srcdir_builds = True
+    autogen_sh = 'autogen.sh'
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
@@ -200,6 +211,8 @@ def parse_autotools(node, config, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('autogen-sh'):
+        autogen_sh = node.getAttribute('autogen-sh')
 
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
@@ -211,7 +224,8 @@ def parse_autotools(node, config, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds,
+                         autogen_sh=autogen_sh)
 register_module_type('autotools', parse_autotools)
 
 

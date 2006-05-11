@@ -33,6 +33,7 @@ from jhbuild.versioncontrol.svn import SubversionBranch
 from jhbuild.versioncontrol.arch import ArchBranch
 from jhbuild.versioncontrol.darcs import DarcsBranch
 from jhbuild.versioncontrol.git import GitBranch
+from jhbuild.versioncontrol.tarball import TarballBranch
 
 def do_info(config, args):
     opts, args = getopt.getopt(args, '', []) # no special args
@@ -76,6 +77,9 @@ def do_info(config, args):
                 print 'Darcs-Archive:', module.branch.module
             elif isinstance(module.branch, GitBranch):
                 print 'Git-Module:', module.branch.module
+            elif isinstance(module.branch, TarballBranch):
+                print 'URL:', module.branch.module
+                print 'Version:', module.branch.version
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version
