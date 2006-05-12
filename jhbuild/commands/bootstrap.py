@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   bootstrap.py: code to check whether prerequisite modules are installed
 #
@@ -22,14 +22,19 @@ import urllib
 
 import jhbuild.moduleset
 import jhbuild.frontends
-from jhbuild.commands.base import register_command
+from jhbuild.commands import Command, register_command
 
-def do_bootstrap(config, args):
-    # load the bootstrap module set
-    module_set = jhbuild.moduleset.load(config, 'bootstrap')
-    module_list = module_set.get_module_list(['meta-bootstrap'])
+class cmd_bootstrap(Command):
+    """Build required support tools."""
 
-    build = jhbuild.frontends.get_buildscript(config, module_list)
-    build.build()
+    name = 'bootstrap'
 
-register_command('bootstrap', do_bootstrap)
+    def run(self, config, options, args):
+        # load the bootstrap module set
+        module_set = jhbuild.moduleset.load(config, 'bootstrap')
+        module_list = module_set.get_module_list(['meta-bootstrap'])
+
+        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build.build()
+
+register_command(cmd_bootstrap)

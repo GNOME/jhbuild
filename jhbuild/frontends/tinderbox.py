@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   tinderbox.py: build logic for a non-interactive reporting build
 #
@@ -210,10 +210,16 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 else:
                     fp.write('%s\n' % escape(line))
             stderr = subprocess.PIPE
-        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
-                             close_fds=True,
-                             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                             stderr=stderr)
+        try:
+            p = subprocess.Popen(command,
+                                 shell=isinstance(command, (str,unicode)),
+                                 close_fds=True,
+                                 stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE,
+                                 stderr=stderr)
+        except OSError, e:
+            fp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
+            raise CommandError(str(e))
         cmds.pprint_output(p, format_line)
         self.modulefp.write('</pre>\n')
         self.modulefp.flush()

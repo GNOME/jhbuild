@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   tarball.py: some code to handle tarball repositories
 #

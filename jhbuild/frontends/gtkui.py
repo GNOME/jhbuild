@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2003-2004  Seth Nickell
 #
 #   gtkui.py: build logic for a GTK interface
@@ -41,6 +41,7 @@ have_gconf = True
 import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
+from jhbuild.errors import CommandError
 
 def get_glade_filename():
     return os.path.join(os.path.dirname(__file__), 'jhbuild.glade')
@@ -303,11 +304,15 @@ class GtkBuildScript(buildscript.BuildScript):
         '''executes a command, and returns the error code'''
         return_code = -1
 
-        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
-                             close_fds=True,
-                             stdin=subprocess.PIPE,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
+        try:
+            p = subprocess.Popen(command,
+                                 shell=isinstance(command, (str,unicode)),
+                                 close_fds=True,
+                                 stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+        except OSError, e:
+            raise CommandError(str(e))
 
         p.stdin.close()
         self._makeNonBlocking(p.stdout)

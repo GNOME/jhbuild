@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2003-2004  Seth Nickell
 #
 #   terminal.py: build logic for a terminal interface
@@ -102,10 +102,14 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             stdout = stderr = None
 
-        p = subprocess.Popen(
-            command, shell=isinstance(command, (str,unicode)),
-            close_fds=True,
-            stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+        try:
+            p = subprocess.Popen(
+                command, shell=isinstance(command, (str,unicode)),
+                close_fds=True,
+                stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+        except OSError, e:
+            sys.stderr.write('Error: %s\n' % str(e))
+            raise CommandError(str(e))
 
         if hint == 'cvs':
             conflicts = []

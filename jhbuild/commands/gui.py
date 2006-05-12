@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2003-2004  Seth Nickell
 #
 #   gui.py: the GTK interface for jhbuild
@@ -18,33 +18,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import getopt
-from jhbuild.commands.base import register_command
+from jhbuild.commands import Command, register_command
 import jhbuild.frontends
 from jhbuild.frontends.gtkui import Configuration
 
-def do_gui(config, args):
-    # request GTK build script.
-    config.buildscript = 'gtkui'
-    
-    configuration = Configuration(config, args)
-    (module_list, start_at,
-     run_autogen, cvs_update, no_build) = configuration.run()
 
-    if start_at:
-        while module_list and module_list[0].name != start_at:
-            del module_list[0]
- 
-    if run_autogen:
-        config.alwaysautogen = True
-    elif not cvs_update:
-        config.nonetwork = True
+class cmd_gui(Command):
+    """GTK frontend for jhbuild"""
 
-    if no_build:
-        config.nobuild = True
-        
-    if module_list != None:
-        build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+    name = 'gui'
 
-register_command('gui', do_gui)
+    def run(self, config, options, args):
+        # request GTK build script.
+        config.buildscript = 'gtkui'
+
+        configuration = Configuration(config, args)
+        (module_list, start_at,
+         run_autogen, cvs_update, no_build) = configuration.run()
+
+        if start_at:
+            while module_list and module_list[0].name != start_at:
+                del module_list[0]
+
+        if run_autogen:
+            config.alwaysautogen = True
+        elif not cvs_update:
+            config.nonetwork = True
+
+        if no_build:
+            config.nobuild = True
+
+        if module_list != None:
+            build = jhbuild.frontends.get_buildscript(config, module_list)
+            build.build()
+
+register_command(cmd_gui)

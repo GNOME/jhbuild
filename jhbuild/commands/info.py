@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   info.py: show information about a module
 #
@@ -19,12 +19,11 @@
 
 import sys
 import time
-import getopt
 
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import FatalError
-from jhbuild.commands.base import register_command
+from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.tarball import Tarball
@@ -35,16 +34,24 @@ from jhbuild.versioncontrol.darcs import DarcsBranch
 from jhbuild.versioncontrol.git import GitBranch
 from jhbuild.versioncontrol.tarball import TarballBranch
 
-def do_info(config, args):
-    opts, args = getopt.getopt(args, '', []) # no special args
-    packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
-    module_set = jhbuild.moduleset.load(config)
 
-    for modname in args:
-        try:
-            module = module_set.modules[modname]
-        except KeyError:
-            raise FatalError('unknown module %s' % modname)
+class cmd_info(Command):
+    """Display information about one or more modules"""
+
+    name = 'info'
+
+    def run(self, config, options, args):
+        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
+        module_set = jhbuild.moduleset.load(config)
+
+        for modname in args:
+            try:
+                module = module_set.modules[modname]
+            except KeyError:
+                raise FatalError('unknown module %s' % modname)
+            self.show_info(module, packagedb, module_set)
+
+    def show_info(self, module, packagedb, module_set):
         if isinstance(module, AutogenModule):
             installdate = packagedb.installdate(module.name,
                                                 module.branch.branchname or '')
@@ -54,7 +61,7 @@ def do_info(config, args):
         else:
             installdate = packagedb.installdate(module.name)
 
-        print 'Name:', modname
+        print 'Name:', module.name
         print 'Type:', module.type
 
         if installdate is not None:
@@ -88,16 +95,16 @@ def do_info(config, args):
         if module.dependencies:
             print 'Requires:', ', '.join(module.dependencies)
         requiredby = [ mod.name for mod in module_set.modules.values()
-                       if modname in mod.dependencies ]
+                       if module.name in mod.dependencies ]
         if requiredby:
             print 'Required-by:', ', '.join(requiredby)
         if module.after:
             print 'After:', ', '.join(module.after)
         before = [ mod.name for mod in module_set.modules.values()
-                   if modname in mod.after ]
+                   if module.name in mod.after ]
         if before:
             print 'Before:', ', '.join(before)
 
         print
 
-register_command('info', do_info)
+register_command(cmd_info)

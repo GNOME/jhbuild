@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   main.py: parses command line arguments and starts the build
 #
@@ -19,7 +19,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys, os
-import getopt
+import optparse
 import traceback
 
 import jhbuild.config
@@ -28,7 +28,6 @@ from jhbuild.errors import UsageError, FatalError
 
 BuildScript = None
 
-usage = 'usage: jhbuild [ -f config ] command [ options ... ]'
 help = '''Build a set of CVS modules (such as GNOME).
 
 Global options:
@@ -70,40 +69,31 @@ Options valid for the list command:
 ''' # for xemacs/jed "
 
 def main(args):
-    try:
-        opts, args = getopt.getopt(args, 'f:m:',
-                                   ['file=', 'moduleset=', 'no-interact',
-                                    'help'])
-    except getopt.error, exc:
-        sys.stderr.write('jhbuild: %s\n' % str(exc))
-        sys.stderr.write(usage + '\n')
-        sys.exit(1)
+    parser = optparse.OptionParser(
+        usage='%prog [ -f config ] command [ options ... ]',
+        description='Build a set of CVS modules (such as GNOME).')
+    parser.disable_interspersed_args()
+    parser.add_option('-f', '--file', action='store', metavar='CONFIG',
+                      type='string', dest='configfile',
+                      default=os.path.join(os.environ['HOME'], '.jhbuildrc'),
+                      help='use a non default configuration file')
+    parser.add_option('-m', '--moduleset', action='store', metavar='URI',
+                      type='string', dest='moduleset', default=None,
+                      help='use a non default module set')
+    parser.add_option('--no-interact', action='store_true',
+                      dest='nointeract', default=False,
+                      help='do not prompt for input')
 
-
-    nointeract = False
-    configfile = os.path.join(os.environ['HOME'], '.jhbuildrc')
-    moduleset = None
-
-    for opt, arg in opts:
-        if opt == '--help':
-            print usage
-            print help
-            sys.exit(0)
-        elif opt in ('-f', '--file'):
-            configfile = arg
-        elif opt in ('-m', '--moduleset'):
-            moduleset = arg
-        elif opt == '--no-interact':
-            nointeract = True
+    options, args = parser.parse_args(args)
 
     try:
-        config = jhbuild.config.Config(configfile)
+        config = jhbuild.config.Config(options.configfile)
     except FatalError, exc:
         sys.stderr.write('jhbuild: %s\n' % (str(exc)))
         sys.exit(1)
 
-    if moduleset: config.moduleset = moduleset
-    if nointeract: config.interact = False
+    if options.moduleset: config.moduleset = options.moduleset
+    if options.nointeract: config.interact = False
 
     if not args or args[0][0] == '-':
         command = 'build' # default to cvs update + compile
@@ -113,9 +103,9 @@ def main(args):
 
     try:
         jhbuild.commands.run(command, config, args)
-    except (UsageError, getopt.error), exc:
+    except UsageError, exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
-        sys.stderr.write(usage + '\n')
+        parser.print_usage()
         sys.exit(1)
     except FatalError, exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))

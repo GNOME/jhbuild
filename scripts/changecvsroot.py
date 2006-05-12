@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   changecvsroot.py: script to alter the CVS root of a working copy
 #

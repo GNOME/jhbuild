@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   __init__.py: a package holding the various jhbuild subcommands
 #
@@ -17,7 +17,60 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import base
-from base import run
+__metaclass__ = type
+__all__ = [
+    'Command',
+    'register_command',
+    'run'
+    ]
 
-__all__ = [ 'run' ]
+import optparse
+
+from jhbuild.errors import UsageError, FatalError
+
+
+class Command:
+    """Base class for Command objects"""
+
+    name = None
+
+    def __init__(self, options=[]):
+        self.options = options
+
+    def execute(self, config, args):
+        options, args = self.parse_args(args)
+        self.run(config, options, args)
+
+    def parse_args(self, args):
+        parser = optparse.OptionParser(
+            usage='%%prog %s [ options ...]' % self.name,
+            description=self.__doc__)
+        parser.add_options(self.options)
+        return parser.parse_args(args)
+
+    def run(self, config, options, args):
+        """The body of the command"""
+        raise NotImplementedError
+
+
+# handle registration of new commands
+_commands = {}
+def register_command(command_class):
+    _commands[command_class.name] = command_class
+
+def run(command, config, args):
+    # if the command hasn't been registered, load a module by the same name
+    if command not in _commands:
+        try:
+            __import__('jhbuild.commands.%s' % command)
+        except ImportError:
+            pass
+    if command not in _commands:
+        raise FatalError('command not found')
+
+    command_class = _commands[command]
+    cmd = command_class()
+    cmd.execute(config, args)
+
+
+from jhbuild.commands import base

@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2005  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@ from __future__ import generators
 
 import sys
 
-# add True and False constants, for the benefit of Python < 2.2.1
+# Python < 2.2.1 lacks  True and False constants
 import __builtin__
 if not hasattr(__builtin__, 'True'):
     __builtin__.True = (1 == 1)
     __builtin__.False = (1 != 1)
 
+# Python < 2.3 lacks enumerate() builtin
 if not hasattr(__builtin__, 'enumerate'):
     def enumerate(iterable):
         index = 0
@@ -35,6 +36,38 @@ if not hasattr(__builtin__, 'enumerate'):
             index += 1
     __builtin__.enumerate = enumerate
 
+# Python < 2.3 lacks optparse module
+try:
+    import optparse
+except ImportError:
+    from jhbuild.cut_n_paste import optparse
+    sys.modules['optparse'] = optparse
+
+# Python < 2.3 lacks locale.getpreferredencoding() function
+import locale
+if not hasattr(locale, 'getpreferredencoding'):
+    try:
+        locale.CODESET
+    except NameError:
+        # Fall back to parsing environment variables :-(
+        def getpreferredencoding(do_setlocale = True):
+            """Return the charset that the user is likely using,
+            by looking at environment variables."""
+            return locale.getdefaultlocale()[1]
+    else:
+        def getpreferredencoding(do_setlocale = True):
+            """Return the charset that the user is likely using,
+            according to the system configuration."""
+            if do_setlocale:
+                oldloc = locale.setlocale(locale.LC_CTYPE)
+                locale.setlocale(locale.LC_CTYPE, "")
+                result = locale.nl_langinfo(locale.CODESET)
+                locale.setlocale(locale.LC_CTYPE, oldloc)
+                return result
+            else:
+                return locale.nl_langinfo(locale.CODESET)
+
+# Python < 2.4 lacks reversed() builtin
 if not hasattr(__builtin__, 'reversed'):
     def reversed(l):
         l = list(l)
@@ -42,6 +75,7 @@ if not hasattr(__builtin__, 'reversed'):
         return iter(l)
     __builtin__.reversed = reversed
 
+# Python < 2.4 lacks string.Template class
 import string
 if not hasattr(string, 'Template'):
     import re as _re
@@ -171,33 +205,10 @@ if not hasattr(string, 'Template'):
 
     string.Template = Template
 
+# Python < 2.4 lacks subprocess module
 try:
     import subprocess
 except ImportError:
     from jhbuild.cut_n_paste import subprocess
     sys.modules['subprocess'] = subprocess
-
-
-import locale
-if not hasattr(locale, 'getpreferredencoding'):
-    try:
-        locale.CODESET
-    except NameError:
-        # Fall back to parsing environment variables :-(
-        def getpreferredencoding(do_setlocale = True):
-            """Return the charset that the user is likely using,
-            by looking at environment variables."""
-            return locale.getdefaultlocale()[1]
-    else:
-        def getpreferredencoding(do_setlocale = True):
-            """Return the charset that the user is likely using,
-            according to the system configuration."""
-            if do_setlocale:
-                oldloc = locale.setlocale(locale.LC_CTYPE)
-                locale.setlocale(locale.LC_CTYPE, "")
-                result = locale.nl_langinfo(locale.CODESET)
-                locale.setlocale(locale.LC_CTYPE, oldloc)
-                return result
-            else:
-                return locale.nl_langinfo(locale.CODESET)
         

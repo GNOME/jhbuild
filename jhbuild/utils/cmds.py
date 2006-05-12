@@ -1,5 +1,5 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2001-2004  James Henstridge
+# Copyright (C) 2001-2006  James Henstridge
 #
 #   cmds.py: utilities for running commands and examining their output
 #
@@ -38,12 +38,15 @@ def get_output(cmd, extra_env=None):
     if extra_env is not None:
         kws['env'] = os.environ.copy()
         kws['env'].update(extra_env)
-    p = subprocess.Popen(cmd,
-                         close_fds=True,
-                         stdin=subprocess.PIPE,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT,
-                         **kws)
+    try:
+        p = subprocess.Popen(cmd,
+                             close_fds=True,
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             **kws)
+    except OSError, e:
+        raise CommandError(str(e))
     stdout, stderr = p.communicate()
     if p.returncode != 0:
         raise CommandError('Error running %s' % cmd, p.returncode)
