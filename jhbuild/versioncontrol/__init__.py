@@ -52,7 +52,7 @@ class Repository:
         kws = {}
         for attr in self.branch_xml_attrs:
             if branchnode.hasAttribute(attr):
-                kws[attr] = branchnode.getAttribute(attr)
+                kws[attr.replace('-', '_')] = branchnode.getAttribute(attr)
         return self.branch(name, **kws)
 
 

@@ -2,6 +2,8 @@ default namespace = ""
 
 start = moduleset
 
+boolean = "yes" | "no"
+
 moduleset = element moduleset { repository*,
                                 (\include|package)* }
 
@@ -22,7 +24,7 @@ repository_tarball = attribute type { "tarball" },
 
 repository = element repository {
   attribute name { text },
-  attribute default { "yes" | "no" }?,
+  attribute default { boolean }?,
   (repository_cvs|repository_svn|repository_arch|
    repository_darcs|repository_git|repository_tarball)
 }
@@ -44,14 +46,11 @@ after = element after { dep* } | element suggests { dep* }
 
 common = attribute id { text } & dependencies* & after*
 
-autogen_common = attribute autogenargs { text }? &
-                 attribute makeargs { text }? &
-                 attribute supports-non-srcdir-builds { "yes" | "no" }? &
-                 common
-
 branch_cvs   = attribute module { text }?,
                attribute checkoutdir { text }?,
-               attribute revision { text}?
+               attribute revision { text}?,
+               attribute override-checkoutdir { boolean }?,
+               attribute update-new-dirs { boolean }?
 branch_svn   = attribute module { xsd:anyURI }?,
                attribute checkoutdir { text }?
 branch_arch  = attribute module { xsd:anyURI }?,
@@ -78,7 +77,10 @@ branch = element branch {
 autotools = element autotools {
   branch &
   attribute autogen-sh { text }? &
-  autogen_common
+  attribute autogenargs { text }? &
+  attribute makeargs { text }? &
+  attribute supports-non-srcdir-builds { boolean }? &
+  common
 }
 
 metamodule = element metamodule { common }
@@ -88,7 +90,7 @@ tarball = element tarball {
   attribute checkoutdir { text }?,
   attribute autogenargs { text }?,
   attribute makeargs { text }?,
-  attribute supports-non-srcdir-builds { "yes" | "no" }?,
+  attribute supports-non-srcdir-builds { boolean }?,
 
   (element source {
      attribute href { text },

@@ -120,7 +120,7 @@ def get_distro():
             return '%s %s (%s)' % (distro, release, codename)
         else:
             return '%s %s' % (distro, release)
-    except (OSError, IOError):
+    except (CommandError, IOError):
         pass
 
     # otherwise, look for a /etc/*-release file

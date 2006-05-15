@@ -131,25 +131,35 @@ class CVSRepository(Repository):
             self.cvsroot = cvsroot
             login(cvsroot, password)
 
-    branch_xml_attrs = ['module', 'checkoutdir', 'revision']
+    branch_xml_attrs = ['module', 'checkoutdir', 'revision',
+                        'update-new-dirs', 'override-checkoutdir']
 
-    def branch(self, name, module=None, checkoutdir=None, revision=None):
+    def branch(self, name, module=None, checkoutdir=None, revision=None,
+               update_new_dirs='yes', override_checkoutdir='yes'):
         if module is None:
             module = name
         # allow remapping of branch for module:
         revision = self.config.branches.get(name, revision)
-        return CVSBranch(self, module, checkoutdir, revision)
+        return CVSBranch(repository=self,
+                         module=module,
+                         checkoutdir=checkoutdir,
+                         revision=revision,
+                         update_new_dirs=update_new_dirs != 'no',
+                         override_checkoutdir=override_checkoutdir != 'no')
 
 
 class CVSBranch(Branch):
     """A class representing a CVS branch inside a CVS repository"""
 
-    def __init__(self, repository, module, checkoutdir, revision):
+    def __init__(self, repository, module, checkoutdir, revision,
+                 update_new_dirs, override_checkoutdir):
         self.repository = repository
         self.config = repository.config
         self.module = module
         self.checkoutdir = checkoutdir
         self.revision = revision
+        self.update_new_dirs = update_new_dirs
+        self.override_checkoutdir = override_checkoutdir
 
     def srcdir(self):
         if self.checkoutdir:
@@ -172,7 +182,7 @@ class CVSBranch(Branch):
             cmd.extend(['-D', self.config.sticky_date])
         if not (self.revision or self.config.sticky_date):
             cmd.append('-A')
-        if self.checkoutdir:
+        if self.checkoutdir and self.override_checkoutdir:
             cmd.extend(['-d', self.checkoutdir])
         cmd.append(self.module)
         buildscript.execute(cmd, 'cvs')
@@ -194,7 +204,9 @@ class CVSBranch(Branch):
         # update the working tree
         os.chdir(self.srcdir)
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
-               'update', '-dP']
+               'update', '-P']
+        if self.update_new_dirs:
+            cmd.append('-d')
         if self.revision:
             cmd.extend(['-r', self.revision])
         if self.config.sticky_date:

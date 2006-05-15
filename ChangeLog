@@ -1,3 +1,23 @@
+2006-05-15  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/moduleset.rnc (autotools): add new cvs branch
+	attributes.
+
+	* jhbuild/moduleset.py (_parse_module_set): same for <repository>
+	parsing.
+
+	* jhbuild/versioncontrol/__init__.py (Repository.branch_from_xml):
+	if an XML attr contains a dash, change it to an underscore.
+
+	* jhbuild/versioncontrol/cvs.py (CVSRepository.branch): add two
+	parameters: update-new-dirs and override-checkoutdir to work with
+	weird CVS setups (e.g. pwlib).
+
+2006-05-13  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/frontends/tinderbox.py (get_distro): catch CommandError
+	rather than OSError.  Fixing bug #341604.
+
 2006-05-13  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* modulesets/freedesktop.modules:
