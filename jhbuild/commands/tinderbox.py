@@ -28,6 +28,7 @@ class cmd_tinderbox(Command):
     """Build modules non-interactively and store build logs"""
 
     name = 'tinderbox'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [

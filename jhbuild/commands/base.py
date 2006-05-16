@@ -31,6 +31,7 @@ class cmd_update(Command):
     plus its dependencies."""
 
     name = 'update'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [
@@ -75,6 +76,7 @@ class cmd_updateone(Command):
     """Pull updates from the version control system for one or more modules."""
 
     name = 'updateone'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [
@@ -109,6 +111,7 @@ class cmd_build(Command):
     plus its dependencies."""
 
     name = 'build'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [
@@ -164,6 +167,7 @@ class cmd_buildone(Command):
     """Pull updates from the version control system for one or more modules."""
 
     name = 'buildone'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [
@@ -208,6 +212,7 @@ class cmd_run(Command):
     """Run a command under the jhbuild environment"""
 
     name = 'run'
+    usage_args = 'program [ arguments ... ]'
 
     def execute(self, config, args):
         os.execlp(args[0], *args)
@@ -219,6 +224,7 @@ class cmd_shell(Command):
     """Run a command under the jhbuild environment"""
 
     name = 'shell'
+    usage_args = ''
 
     def execute(self, config, args):
         user_shell = os.environ.get('SHELL', '/bin/sh')
@@ -231,6 +237,7 @@ class cmd_list(Command):
     """List the modules that would be built."""
 
     name = 'list'
+    usage_args = '[ options ... ] [ modules ... ]'
 
     def __init__(self):
         Command.__init__(self, [
@@ -266,6 +273,7 @@ class cmd_dot(Command):
     """Output a Graphviz input file for the given modules"""
 
     name = 'dot'
+    usage_args = '[ modules ... ]'
 
     def run(self, options, args):
         module_set = jhbuild.moduleset.load(config)

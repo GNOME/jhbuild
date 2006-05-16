@@ -39,6 +39,7 @@ class cmd_info(Command):
     """Display information about one or more modules"""
 
     name = 'info'
+    usage_args = '[ modules ... ]'
 
     def run(self, config, options, args):
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb

@@ -28,6 +28,7 @@ class cmd_bootstrap(Command):
     """Build required support tools."""
 
     name = 'bootstrap'
+    usage_args = ''
 
     def run(self, config, options, args):
         # load the bootstrap module set

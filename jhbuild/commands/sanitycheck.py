@@ -74,6 +74,7 @@ class cmd_sanitycheck(Command):
     """Check that required support tools are available"""
 
     name = 'sanitycheck'
+    usage_args = ''
 
     def run(self, config, options, args):
         if args:

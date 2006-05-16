@@ -33,6 +33,7 @@ class Command:
     """Base class for Command objects"""
 
     name = None
+    usage_args = '[ options ... ]'
 
     def __init__(self, options=[]):
         self.options = options
@@ -43,7 +44,7 @@ class Command:
 
     def parse_args(self, args):
         parser = optparse.OptionParser(
-            usage='%%prog %s [ options ...]' % self.name,
+            usage='%%prog %s %s' % (self.name, self.usage_args),
             description=self.__doc__)
         parser.add_options(self.options)
         return parser.parse_args(args)

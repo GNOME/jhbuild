@@ -27,6 +27,7 @@ class cmd_gui(Command):
     """GTK frontend for jhbuild"""
 
     name = 'gui'
+    usage_args = ''
 
     def run(self, config, options, args):
         # request GTK build script.

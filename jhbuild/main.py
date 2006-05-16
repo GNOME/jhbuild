@@ -26,53 +26,37 @@ import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 
-BuildScript = None
-
-help = '''Build a set of CVS modules (such as GNOME).
-
-Global options:
-  -f, --file=CONFIG            use a non default configuration file
-  -m, --moduleset=URI          use a non default module set
-      --no-interact            do not prompt for input
-
-Commands:
-  gui                          build targets from a gui app
-  update                       update from cvs
-  updateone modules            update a fixed set of modules
-  build [ opts... ] [modules]  update and compile (the default)
-  buildone [ opts... ] modules build a single module
-  tinderbox [ opts... ]        build non-interactively with logging
-  run program [ args... ]      run a command in the build environment
-  shell                        start a shell in the build environment
-  sanitycheck                  check that required support tools exists
-  bootstrap                    build required support tools
-  list [ opts ... ] [modules]  list what modules would be built
-  dot [ modules ]              output a dot file of dependencies suitable
-                               for processing with graphviz
-  info modules...              prints information about modules
-
-Options valid for the build, buildone, tinderbox and update commands:
-  -s, --skip=MODULES           treat the given modules as up to date
-  -t, --start-at=MODULE        start building at the given module
-  -D date_spec                 set a sticky date when checking out modules
-
-Options valid for the build, buildone and tinderbox commands:
-  -a, --autogen                always run autogen.sh
-  -c, --clean                  run make clean before make
-  -n, --no-network             skip cvs update
-
-Options valid for the tinderbox command:
-  -o, --output=DIR             directory to save build logs in
-
-Options valid for the list command:
-  -r, --show-revision          show which revision will be built
-''' # for xemacs/jed "
+def help_commands(option, opt_str, value, parser):
+    commands = [
+        ('build', 'update and compile (the default)'),
+        ('buildone', 'modules build a single module'),
+        ('update', 'update from version control'),
+        ('updateone', 'update a fixed set of modules'),
+        ('list', 'list what modules would be built'),
+        ('info', 'prints information about modules'),
+        ('tinderbox', 'build non-interactively with logging'),
+        ('gui', 'build targets from a gui app'),
+        ('run', 'run a command in the build environment'),
+        ('shell', 'start a shell in the build environment'),
+        ('sanitycheck', 'check that required support tools exists'),
+        ('bootstrap', 'build required support tools'),
+        ('dot', 'output a dependency graph for processing with graphviz'),
+        ]
+    print 'JHBuild commands are:'
+    for (cmd, description) in commands:
+        print '  %-15s %s' % (cmd, description)
+    print
+    print 'For more information run "jhbuild <command> --help"'
+    parser.exit()
 
 def main(args):
     parser = optparse.OptionParser(
         usage='%prog [ -f config ] command [ options ... ]',
         description='Build a set of CVS modules (such as GNOME).')
     parser.disable_interspersed_args()
+    parser.add_option('--help-commands', action='callback',
+                      callback=help_commands,
+                      help='Information about available jhbuild commands')
     parser.add_option('-f', '--file', action='store', metavar='CONFIG',
                       type='string', dest='configfile',
                       default=os.path.join(os.environ['HOME'], '.jhbuildrc'),
