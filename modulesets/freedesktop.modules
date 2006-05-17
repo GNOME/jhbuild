@@ -110,11 +110,23 @@
 
   <autotools id="dbus" supports-non-srcdir-builds="no">
     <branch repo="dbus.freedesktop.org"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+    </after>
   </autotools>
 
   <autotools id="dbus-0.23" supports-non-srcdir-builds="no">
     <branch repo="dbus.freedesktop.org" module="dbus"
             revision="dbus-0-23" checkoutdir="dbus-0.23"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+    </after>
   </autotools>
 
   <!-- Not maintained - try dbusmm instead -->

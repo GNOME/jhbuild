@@ -1,3 +1,28 @@
+2006-05-17  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/freedesktop.modules (dbus, dbus-0.23): depend on glib
+	and build after gtk+.
+
+	* modulesets/gnome-2.14.modules: same changes.
+
+	* modulesets/gnome-2.16.modules (shared-mime-info): depend on
+	libxml2 and glib.
+	(gnome-mime-data): depend on glib (for AM_GLIB_GNU_GETTEXT).
+	(gob): depend on glib.
+	(gnome-backgrounds): depend on glib (for AM_GLIB_GNU_GETTEXT).
+	(libxklavier): depend on libxml2, gtk-doc and glib.
+
+	* jhbuild/defaults.jhbuildrc: update to 2.16 module set.
+
+	* sample.jhbuildrc: same here.
+
+	* jamesh.jhbuildrc: update to 2.16 module set.
+
+	* jhbuild/frontends/autobuild.py:
+	* jhbuild/commands/autobuild.py: add jhautobuild command and
+	frontend.  Patch from Frederic Peters <fpeters@entrouvert.com>
+	fixing bug #336968.
+
 2006-05-17  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* modulesets/gnome-2.16.modules: Added back
