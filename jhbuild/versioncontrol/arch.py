@@ -122,7 +122,6 @@ class ArchBranch(Branch):
         if archive == self.repository.archive:
             self.repository._ensure_registered()
         
-        os.chdir(self.config.checkoutroot)
         cmd = ['baz', 'get', self.module]
 
         if checkoutdir:
@@ -131,7 +130,7 @@ class ArchBranch(Branch):
         if date:
             raise BuildStageError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'arch')
+        buildscript.execute(cmd, 'arch', cwd=self.config.checkoutroot)
 
     def _update(self, buildscript):
         '''Perform a "baz update" (or possibly a checkout)'''
@@ -141,19 +140,18 @@ class ArchBranch(Branch):
         if archive == self.repository.archive:
             self.repository._ensure_registered()
 
-        os.chdir(self.srcdir)
         if date:
             raise BuildStageError('date based checkout not yet supported\n')
 
         archive, version = split_name(self.module)
         # how do you move a working copy to another branch?
-        wc_archive, wc_version = get_version('.')
+        wc_archive, wc_version = get_version(self.srcdir)
         if (wc_archive, wc_version) != (archive, version):
             cmd = ['baz', 'switch', self.module]
         else:
             cmd = ['baz', 'update']
 
-        buildscript.execute(cmd, 'arch')
+        buildscript.execute(cmd, 'arch', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):

@@ -126,7 +126,6 @@ class AutogenModule(Package):
         builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
-        os.chdir(builddir)
         buildscript.set_action('Configuring', self)
 
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
@@ -149,7 +148,7 @@ class AutogenModule(Package):
         else:
             nextstate = self.STATE_BUILD
         try:
-            buildscript.execute(cmd)
+            buildscript.execute(cmd, cwd=builddir)
         except CommandError:
             return (nextstate, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
@@ -157,15 +156,13 @@ class AutogenModule(Package):
             return (nextstate, None, None)
 
     def do_clean(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Cleaning', self)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_clean.next_state = STATE_BUILD
     do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def do_build(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         if buildscript.config.makecheck:
@@ -173,7 +170,7 @@ class AutogenModule(Package):
         else:
             nextstate = self.STATE_INSTALL
         try:
-            buildscript.execute(cmd)
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         except CommandError:
             return (nextstate, 'could not build module',
                     [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
@@ -181,18 +178,16 @@ class AutogenModule(Package):
             return (nextstate, None, None)
 
     def do_check(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Checking', self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_check.next_state = STATE_INSTALL
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def do_install(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
         cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []

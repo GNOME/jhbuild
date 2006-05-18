@@ -76,11 +76,10 @@ class MozillaModule(AutogenModule):
         if buildscript.config.sticky_date:
             cmd.extend(['-D', buildscript.config.sticky_date])
         cmd.append('mozilla/client.mk')
-        os.chdir(buildscript.config.checkoutroot)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=buildscript.config.checkoutroot)
         
-        os.chdir(self.get_builddir(buildscript))
-        buildscript.execute(['make', '-f', 'client.mk', 'checkout'])
+        buildscript.execute(['make', '-f', 'client.mk', 'checkout'],
+                            cwd=self.get_builddir(buildscript))
 
     def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
@@ -90,10 +89,9 @@ class MozillaModule(AutogenModule):
                    cvs.check_sticky_tag(client_mk) != self.revision:
                 self.checkout(buildscript)
             else:
-                os.chdir(checkoutdir)
                 buildscript.set_action('Updating', self)
-                buildscript.execute(['make', '-f', 'client.mk',
-                                     'fast-update'])
+                buildscript.execute(['make', '-f', 'client.mk', 'fast-update'],
+                                    cwd=checkoutdir)
         except CommandError:
             succeeded = False
         else:
@@ -118,7 +116,6 @@ class MozillaModule(AutogenModule):
         
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
-        os.chdir(checkoutdir)
         buildscript.set_action('Configuring', self)
         if buildscript.config.use_lib64:
             mozilla_path = '%s/lib64/%s-%s' \
@@ -139,16 +136,15 @@ class MozillaModule(AutogenModule):
 
         if self.projects:
             cmd += ' --enable-application=%s' % self.projects
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=checkoutdir)
     do_configure.next_state = AutogenModule.STATE_BUILD
     do_configure.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
         cmd = 'make %s %s install' % (buildscript.config.makeargs,
                                       self.makeargs)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         nssdir = '%s/include/%s-%s/nss' % (
             buildscript.config.prefix,
             self.get_mozilla_app(),
@@ -159,7 +155,7 @@ class MozillaModule(AutogenModule):
         cmd = ['find', '%s/security/nss/lib/' % self.get_builddir(buildscript),
                '-name', '*.h', '-type', 'f', '-exec', '/bin/cp', '{}',
                '%s/' % nssdir,  ';']
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = AutogenModule.STATE_DONE
     do_install.error_states = []

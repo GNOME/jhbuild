@@ -156,11 +156,12 @@ class TarballBranch(Branch):
             self._check_tarball()
 
         # now to unpack it
-        os.chdir(self.config.checkoutroot)
         if localfile.endswith('.bz2'):
-            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile)
+            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
+                                cwd=self.config.checkoutroot)
         elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
-            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile)
+            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+                                cwd=self.config.checkoutroot)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
 
@@ -168,11 +169,11 @@ class TarballBranch(Branch):
             raise BuildStateError('could not unpack tarball')
 
         # now patch the working tree
-        os.chdir(self.srcdir)
         for (patch, patchstrip) in self.patches:
             patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.execute('patch -p%d < "%s"'
-                                % (patchstrip, patchfile))
+                                % (patchstrip, patchfile),
+                                cwd=self.srcdir)
                 
 
     def checkout(self, buildscript):

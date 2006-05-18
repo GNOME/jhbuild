@@ -51,7 +51,7 @@ class BuildScript:
         self.packagedb = packagedb.PackageDB(os.path.join(packagedbdir,
                                                           'packagedb.xml'))
 
-    def execute(self, command, hint=None):
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''Executes the given command.
 
         If an error occurs, CommandError is raised.  The hint argument

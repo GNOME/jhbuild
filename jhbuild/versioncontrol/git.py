@@ -86,7 +86,6 @@ class GitBranch(Branch):
     branchname = property(branchname)
 
     def _checkout(self, buildscript):
-        os.chdir(self.config.checkoutroot)
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
@@ -94,13 +93,12 @@ class GitBranch(Branch):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'git')
+        buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
     def _update(self, buildscript):
-        os.chdir(self.srcdir)
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
-        buildscript.execute(['git', 'pull'], 'git')
+        buildscript.execute(['git', 'pull'], 'git', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):

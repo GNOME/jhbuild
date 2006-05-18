@@ -173,7 +173,6 @@ class CVSBranch(Branch):
     branchname = property(branchname)
 
     def _checkout(self, buildscript):
-        os.chdir(self.config.checkoutroot)
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
                'checkout', '-P']
         if self.revision:
@@ -185,7 +184,7 @@ class CVSBranch(Branch):
         if self.checkoutdir and self.override_checkoutdir:
             cmd.extend(['-d', self.checkoutdir])
         cmd.append(self.module)
-        buildscript.execute(cmd, 'cvs')
+        buildscript.execute(cmd, 'cvs', cwd=self.config.checkoutroot)
 
     def _update(self, buildscript):
         # sanity check the existing working tree:
@@ -202,7 +201,6 @@ class CVSBranch(Branch):
                                   % (self.repository.cvsroot, wc_root))
 
         # update the working tree
-        os.chdir(self.srcdir)
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
                'update', '-P']
         if self.update_new_dirs:
@@ -214,7 +212,7 @@ class CVSBranch(Branch):
         if not (self.revision or self.config.sticky_date):
             cmd.append('-A')
         cmd.append('.')
-        buildscript.execute(cmd, 'cvs')
+        buildscript.execute(cmd, 'cvs', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):

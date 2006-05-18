@@ -113,11 +113,14 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num, skipfp = True)
 
-    def execute(self, command, hint=None):
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''executes a command, and returns the error code'''
-
+        kws = {
+            'close_fds': True
+            }
         if isinstance(command, (str, unicode)):
             displayed_command = command
+            kws['shell'] = True
         else:
             displayed_command = ' '.join(command)
 
@@ -125,6 +128,9 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         if self.verbose:
             print ' $', displayed_command
 
+        kws['stdin'] = subprocess.PIPE
+        kws['stdout'] = subprocess.PIPE
+        kws['stderr'] = subprocess.PIPE
         if hint == 'cvs':
             def format_line(line, error_output, fp=self.phasefp):
                 if line[-1] == '\n': line = line[:-1]
@@ -135,7 +141,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            stderr = subprocess.STDOUT
+            kws['stderr'] = subprocess.STDOUT
         else:
             def format_line(line, error_output, fp=self.phasefp):
                 if line[-1] == '\n': line = line[:-1]
@@ -149,12 +155,20 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            stderr = subprocess.PIPE
 
-        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
-                             close_fds=True,
-                             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                             stderr=stderr)
+        if cwd is not None:
+            kws['cwd'] = cwd
+
+        if extra_env is not None:
+            kws['env'] = os.environ.copy()
+            kws['env'].update(extra_env)
+
+        try:
+            p = subprocess.Popen(command, **kws)
+        except OSError, e:
+            fp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
+            raise CommandError(str(e))
+
         cmds.pprint_output(p, format_line)
         if p.returncode != 0:
             raise CommandError('Error running %s' % command, p.returncode)

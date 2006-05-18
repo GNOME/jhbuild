@@ -300,17 +300,27 @@ class GtkBuildScript(buildscript.BuildScript):
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
         
 
-    def execute(self, command, hint=None):
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''executes a command, and returns the error code'''
         return_code = -1
 
+        kws = {
+            'close_fds': True,
+            'shell': isinstance(command, (str,unicode)),
+            'stdin': subprocess.PIPE,
+            'stdout': subprocess.PIPE,
+            'stderr': subprocess.PIPE,
+            }
+
+        if cwd is not None:
+            kws['cwd'] = cwd
+
+        if extra_env is not None:
+            kws['env'] = os.environ.copy()
+            kws['env'].update(extra_env)
+
         try:
-            p = subprocess.Popen(command,
-                                 shell=isinstance(command, (str,unicode)),
-                                 close_fds=True,
-                                 stdin=subprocess.PIPE,
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
+            p = subprocess.Popen(command, **kws)
         except OSError, e:
             raise CommandError(str(e))
 

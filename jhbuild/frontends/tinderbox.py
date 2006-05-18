@@ -180,18 +180,24 @@ class TinderboxBuildScript(buildscript.BuildScript):
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)
 
-    def execute(self, command, hint=None):
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''executes a command, and returns the error code'''
         assert self.modulefp, 'not currently building a module'
 
-        
+        kws = {
+            'close_fds': True
+            }
         self.modulefp.write('<pre>')
         if isinstance(command, (str, unicode)):
             self.modulefp.write('<span class="command">%s</span>\n'
                                 % escape(command))
+            kws['shell'] = True
         else:
             self.modulefp.write('<span class="command">%s</span>\n'
                                 % escape(' '.join(command)))
+        kws['stdin'] = subprocess.PIPE
+        kws['stdout'] = subprocess.PIPE
+        kws['stderr'] = subprocess.PIPE
         if hint == 'cvs':
             def format_line(line, error_output, fp=self.modulefp):
                 if line[-1] == '\n': line = line[:-1]
@@ -200,7 +206,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            stderr = subprocess.STDOUT
+            kws['stderr'] = subprocess.STDOUT
         else:
             def format_line(line, error_output, fp=self.modulefp):
                 if line[-1] == '\n': line = line[:-1]
@@ -209,14 +215,16 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                         % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
-            stderr = subprocess.PIPE
+
+        if cwd is not None:
+            kws['cwd'] = cwd
+
+        if extra_env is not None:
+            kws['env'] = os.environ.copy()
+            kws['env'].update(extra_env)
+
         try:
-            p = subprocess.Popen(command,
-                                 shell=isinstance(command, (str,unicode)),
-                                 close_fds=True,
-                                 stdin=subprocess.PIPE,
-                                 stdout=subprocess.PIPE,
-                                 stderr=stderr)
+            p = subprocess.Popen(command, **kws)
         except OSError, e:
             fp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
             raise CommandError(str(e))

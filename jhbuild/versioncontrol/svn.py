@@ -118,7 +118,6 @@ class SubversionBranch(Branch):
     branchname = property(branchname)
 
     def _checkout(self, buildscript):
-        os.chdir(self.config.checkoutroot)
         cmd = ['svn', 'checkout', self.module]
 
         if self.checkoutdir:
@@ -127,22 +126,20 @@ class SubversionBranch(Branch):
         if self.config.sticky_date:
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
-        buildscript.execute(cmd, 'svn')
+        buildscript.execute(cmd, 'svn', cwd=self.config.checkoutroot)
     
     def _update(self, buildscript):
-        os.chdir(self.srcdir)
-
         opt = []
         if self.config.sticky_date:
             opt.extend(['-r', '{%s}' % self.config.sticky_date])
 
         # if the URI doesn't match, use "svn switch" instead of "svn update"
-        if get_uri('.') != self.module:
+        if get_uri(self.srcdir) != self.module:
             cmd = ['svn', 'switch'] + opt + [self.module]
         else:
             cmd = ['svn', 'update'] + opt + ['.']
 
-        buildscript.execute(cmd, 'svn')
+        buildscript.execute(cmd, 'svn', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):

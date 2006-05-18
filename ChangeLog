@@ -1,9 +1,68 @@
+2006-05-18  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/tarball.py (Tarball.do_unpack): don't use
+	os.chdir().
+	(Tarball.do_patch): same here.
+	(Tarball.do_configure): same here.
+	(Tarball.do_build): same here.
+	(Tarball.do_install): same here.
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.checkout): use
+	cwd arg to buildscript.execute() rather than os.chdir().
+	(MozillaModule.do_checkout): same here.
+	(MozillaModule.do_configure): same here.
+	(MozillaModule.do_install): same here.
+
+	* modulesets/gnome-2.14.modules (gok): use gnome-2-14 branch,
+	fixing bug #342175.
+
 2006-05-18  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* modulesets/gnome-2.14.modules: Use gnome-2-14 branch
 	for ekiga and gnome-system-tools.
 
 2006-05-17  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/autotools.py (AutogenModule.do_configure): get
+	rid of os.chdir call
+	(AutogenModule.do_clean): same here.
+	(AutogenModule.do_build): same here.
+	(AutogenModule.do_check): same here.
+	(AutogenModule.do_install): same here.
+
+	* jhbuild/versioncontrol/tarball.py
+	(TarballBranch._download_and_unpack): same here.
+
+	* jhbuild/versioncontrol/svn.py (SubversionBranch._checkout) 
+	(SubversionBranch._update): same here.
+
+	* jhbuild/versioncontrol/git.py (GitBranch._checkout)
+	(GitBranch._update): same here.
+
+	* jhbuild/versioncontrol/darcs.py (DarcsBranch._checkout):
+	(DarcsBranch._update): same here.
+
+	* jhbuild/versioncontrol/arch.py (ArchBranch._checkout)
+	(ArchBranch._update): use cwd argument to buildscript.execute
+	rather than os.chdir().
+
+	* jhbuild/versioncontrol/cvs.py (CVSBranch._commit):
+	(CVSBranch._update): rather than using os.chdir, use the cwd
+	argument to buildscript.execute().
+
+	* jhbuild/frontends/gtkui.py (GtkBuildScript.execute): same here.
+
+	* jhbuild/frontends/autobuild.py (AutobuildBuildScript.execute):
+	same here.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	add support for cwd and extra_env arguments.
+
+	* jhbuild/frontends/terminal.py (TerminalBuildScript.execute): add
+	support for cwd and extra_env arguments.
+
+	* jhbuild/frontends/buildscript.py (BuildScript.execute): add cwd
+	and extra_env arguments.
 
 	* modulesets/gnome-2.16.modules (howl): remove.
 	(gnome-vfs): depend on avahi instead.

@@ -136,15 +136,16 @@ class Tarball(Package):
     do_download.error_states = []
 
     def do_unpack(self, buildscript):
-        os.chdir(buildscript.config.checkoutroot)
         localfile = self.get_localfile(buildscript)
         srcdir = self.get_srcdir(buildscript)
 
         buildscript.set_action('Unpacking', self)
         if localfile.endswith('.bz2'):
-            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile)
+            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
+                                cwd=buildscript.config.checkoutroot)
         elif localfile.endswith('.gz'):
-            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile)
+            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+                                cwd=buildscript.config.checkoutroot)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
         
@@ -154,14 +155,13 @@ class Tarball(Package):
     do_unpack.error_states = []
 
     def do_patch(self, buildscript):
-        os.chdir(self.get_srcdir(buildscript))
-        
         for (patch, patchstrip) in self.patches:
             patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.set_action('Applying Patch', self, action_target=patch)
             try:
                 buildscript.execute('patch -p%d < "%s"' % (patchstrip,
-                                                           patchfile))
+                                                           patchfile),
+                                    cwd=self.get_srcdir(buildscript))
             except CommandError:
                 return (self.STATE_CONFIGURE, 'could not apply patch', [])
             
@@ -174,7 +174,6 @@ class Tarball(Package):
         builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
-        os.chdir(builddir)
         buildscript.set_action('Configuring', self)
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             cmd = self.get_srcdir(buildscript) + '/configure'
@@ -184,24 +183,22 @@ class Tarball(Package):
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_BUILD
     do_configure.error_states = []
 
     def do_build(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Building', self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_build.next_state = STATE_INSTALL
     do_build.error_states = []
 
     def do_install(self, buildscript):
-        os.chdir(self.get_builddir(buildscript))
         buildscript.set_action('Installing', self)
         cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
         error = None
-        buildscript.execute(cmd)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.version or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []

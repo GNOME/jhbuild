@@ -86,9 +86,13 @@ class TerminalBuildScript(buildscript.BuildScript):
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)
 
-    def execute(self, command, hint=None):
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''executes a command, and returns the error code'''
+        kws = {
+            'close_fds': True
+            }
         if isinstance(command, (str, unicode)):
+            kws['shell'] = True
             print command
         else:
             print ' '.join(command)
@@ -96,17 +100,24 @@ class TerminalBuildScript(buildscript.BuildScript):
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print:
             hint = None
+
+        kws['stdin'] = subprocess.PIPE
         if hint == 'cvs':
-            stdout = subprocess.PIPE
-            stderr = subprocess.STDOUT
+            kws['stdout'] = subprocess.PIPE
+            kws['stderr'] = subprocess.STDOUT
         else:
-            stdout = stderr = None
+            kws['stdout'] = None
+            kws['stderr'] = None
+
+        if cwd is not None:
+            kws['cwd'] = cwd
+
+        if extra_env is not None:
+            kws['env'] = os.environ.copy()
+            kws['env'].update(extra_env)
 
         try:
-            p = subprocess.Popen(
-                command, shell=isinstance(command, (str,unicode)),
-                close_fds=True,
-                stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+            p = subprocess.Popen(command, **kws)
         except OSError, e:
             sys.stderr.write('Error: %s\n' % str(e))
             raise CommandError(str(e))
