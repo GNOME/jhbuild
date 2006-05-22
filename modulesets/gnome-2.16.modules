@@ -41,6 +41,8 @@
   <repository type="cvs" name="cvs.alioth.debian.org/pkg-isocodes"
       cvsroot=":pserver:anonymous@cvs.alioth.debian.org:/cvsroot/pkg-isocodes"
       password=""/>
+  <repository type="cvs" name="openh323.sf.net"
+	       cvsroot=":pserver:anonymous@openh323.cvs.sourceforge.net:/cvsroot/openh323"     password="" />
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://easynews.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -919,11 +921,22 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <autotools id="ekiga">
+  <autotools id="ekiga" autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`">
     <branch/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="evolution-data-server"/>
+      <dep package="opal" />
+    </dependencies>
+  </autotools>
+  <autotools id="pwlib" autogen-sh="configure">
+    <branch repo="openh323.sf.net" module="ptlib_unix" checkoutdir="pwlib"
+            override-checkoutdir="no" update-new-dirs="no" />
+  </autotools>
+  <autotools id="opal" autogen-sh="configure">
+    <branch repo="openh323.sf.net"/>
+    <dependencies>
+      <dep package="pwlib"/>
     </dependencies>
   </autotools>
   <autotools id="gucharmap">
