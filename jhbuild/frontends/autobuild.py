@@ -166,7 +166,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         try:
             p = subprocess.Popen(command, **kws)
         except OSError, e:
-            fp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
+            self.phasefp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
             raise CommandError(str(e))
 
         cmds.pprint_output(p, format_line)
