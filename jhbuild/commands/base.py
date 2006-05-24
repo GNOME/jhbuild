@@ -275,7 +275,7 @@ class cmd_dot(Command):
     name = 'dot'
     usage_args = '[ modules ... ]'
 
-    def run(self, options, args):
+    def run(self, config, options, args):
         module_set = jhbuild.moduleset.load(config)
         if args:
             modules = args
