@@ -28,6 +28,7 @@ from jhbuild.errors import CommandError
 import buildscript
 
 import xmlrpclib
+import zlib
 from cStringIO import StringIO
 
 from tinderbox import get_distro
@@ -46,6 +47,10 @@ def fix_encoding(string):
             continue
         break
     return s.encode('us-ascii', 'xmlcharrefreplace')
+
+def encode_log(log):
+    data = zlib.compress(log)
+    return xmlrpclib.Binary(data)
 
 class ServerProxy(xmlrpclib.ServerProxy):
     verbose_timeout = False
@@ -227,7 +232,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
     def end_module(self, module, failed):
         log = fix_encoding(self.modulefp.getvalue())
         self.modulefp = None
-        self.server.end_module(self.build_id, module, log, failed)
+        self.server.end_module(self.build_id, module, encode_log(log), failed)
 
     def start_phase(self, module, state):
         self.server.start_phase(self.build_id, module, state)
@@ -239,7 +244,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
     def end_phase(self, module, state, error):
         log = fix_encoding(self.phasefp.getvalue())
         self.phasefp = None
-        self.server.end_phase(self.build_id, module, state, log, error)
+        self.server.end_phase(self.build_id, module, state, encode_log(log), error)
 
     def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
