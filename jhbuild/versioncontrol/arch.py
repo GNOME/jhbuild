@@ -41,7 +41,7 @@ def register(archive, uri):
 
 def get_version(directory):
     '''Gets the tree version for a particular directory.'''
-    data = get_output('baz tree-version -d %s' % directory)
+    data = get_output(['baz', 'tree-version', '-d', directory])
     archive, version = data.strip().split('/')
     return archive, version
 
@@ -161,6 +161,11 @@ class ArchBranch(Branch):
 
     def force_checkout(self, buildscript):
         self._checkout(buildscript)
+
+    def tree_id(self):
+        data = get_output(['baz', 'tree-id', '-d', self.srcdir])
+        return data.strip()
+
 
 
 register_repo_type('arch', ArchRepository)

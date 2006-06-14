@@ -1,5 +1,18 @@
 2006-06-14  James Henstridge  <james@jamesh.id.au>
 
+	* modulesets/gnutls.modules: update to latest version of libtasn1
+	and gnutls.  Switch to ftp.gnupg.org mirror since ftp.gnutls.org
+	seems to have vanished from the face of the earth.
+
+	* jhbuild/frontends/tinderbox.py (TinderboxBuildScript.execute):
+	fix use of undefined variable.  Fixes bug #344372.
+
+	* jhbuild/versioncontrol/tarball.py (TarballBranch.tree_id): add
+	tree_id implementation, returning the tarball version number.
+
+	* jhbuild/versioncontrol/arch.py (ArchBranch.tree_id): tree_id
+	implementation, returning the output of "baz tree-id".
+
 	* jhbuild/versioncontrol/git.py (GitBranch.tree_id): add tree_id
 	implementation, returning the commit SHA1 sum.
 

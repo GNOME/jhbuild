@@ -183,5 +183,7 @@ class TarballBranch(Branch):
     def force_checkout(self, buildscript):
         self._download_and_unpack(buildscript)
 
+    def tree_id(self):
+        return self.version
 
 register_repo_type('tarball', TarballRepository)
