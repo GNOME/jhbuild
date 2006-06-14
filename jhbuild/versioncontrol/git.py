@@ -24,6 +24,7 @@ import os
 import urlparse
 
 from jhbuild.errors import FatalError
+from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
 # Make sure that the urlparse module considers git:// and git+ssh://
@@ -105,5 +106,12 @@ class GitBranch(Branch):
             self._update(buildscript)
         else:
             self._checkout(buildscript)
+
+    def tree_id(self):
+        if not os.path.exists(self.srcdir):
+            return None
+        output = get_output(['git-rev-parse', 'master'],
+                            cwd=self.srcdir)
+        return output.strip()
 
 register_repo_type('git', GitRepository)

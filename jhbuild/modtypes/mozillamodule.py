@@ -25,7 +25,7 @@ import os
 from jhbuild.modtypes import register_module_type, get_dependencies
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.versioncontrol import cvs
-from jhbuild.errors import FatalError, CommandError
+from jhbuild.errors import FatalError, BuildStateError
 
 class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
@@ -84,30 +84,20 @@ class MozillaModule(AutogenModule):
     def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
         client_mk = os.path.join(checkoutdir, 'client.mk')
-        try:
-            if not os.path.exists(client_mk) or \
-                   cvs.check_sticky_tag(client_mk) != self.revision:
-                self.checkout(buildscript)
-            else:
-                buildscript.set_action('Updating', self)
-                buildscript.execute(['make', '-f', 'client.mk', 'fast-update'],
-                                    cwd=checkoutdir)
-        except CommandError:
-            succeeded = False
+        if not os.path.exists(client_mk) or \
+               cvs.check_sticky_tag(client_mk) != self.revision:
+            self.checkout(buildscript)
         else:
-            succeeded = True
+            buildscript.set_action('Updating', self)
+            buildscript.execute(['make', '-f', 'client.mk', 'fast-update'],
+                                cwd=checkoutdir)
 
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        else:
-            nextstate = self.STATE_CONFIGURE
-            
         # did the checkout succeed?
-        if succeeded and os.path.exists(checkoutdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
+        if not os.path.exists(checkoutdir):
+            raise BuildStateError('source directory %s was not created'
+                                  % checkoutdir)
+    do_checkout.next_state = AutogenModule.STATE_CONFIGURE
+    do_checkout.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         self.checkout(buildscript)

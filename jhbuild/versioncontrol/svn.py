@@ -44,24 +44,32 @@ def _make_uri(repo, path):
     else:
         return repo + path
 
+def get_info(filename):
+    # we run Subversion in the C locale, because Subversion localises
+    # the key names in the output.  See bug #334678 for more info.
+    output = get_output(
+        ['svn', 'info', filename],
+        extra_env={
+            'LANGUAGE': 'C',
+            'LC_ALL': 'C',
+            'LANG': 'C'})
+    ret = {}
+    for line in output.splitlines():
+        if ':' not in line: continue
+        key, value = line.split(':', 1)
+        ret[key.lower().strip()] = value.strip()
+    return ret
+
 def get_uri(filename):
     try:
-        # we run Subversion in the C locale, because Subversion localises
-        # the key names in the output.  See bug #334678 for more info.
-        output = get_output(
-            'svn info %s' % filename,
-            extra_env={
-                'LANGUAGE': 'C',
-                'LC_ALL': 'C',
-                'LANG': 'C'})
+        info = get_info(filename)
     except CommandError:
         raise BuildStateError('could not get Subversion URI for %s'
                               % filename)
-    for line in output.splitlines():
-        if line.startswith('URL:'):
-            return line[4:].strip()
-    raise BuildStateError('could not parse "svn info" output for %s'
-                          % filename)
+    if 'url' not in info:
+        raise BuildStateError('could not parse "svn info" output for %s'
+                              % filename)
+    return info['url']
 
 
 class SubversionRepository(Repository):
@@ -149,6 +157,23 @@ class SubversionBranch(Branch):
 
     def force_checkout(self, buildscript):
         self._checkout(buildscript)
+
+    def tree_id(self):
+        if not os.path.exists(self.srcdir):
+            return None
+        info = get_info(self.srcdir)
+        url = info['url']
+        root = info['repository root']
+        uuid = info['repository uuid']
+        rev = info['last changed rev']
+
+        # get the path within the repository
+        assert url.startswith(root)
+        path = url[len(root):]
+        while path.startswith('/'):
+            path = path[1:]
+
+        return '%s,%s,%s' % (uuid.lower(), rev, path)
 
 
 register_repo_type('svn', SubversionRepository)

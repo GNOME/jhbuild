@@ -23,7 +23,7 @@ import subprocess
 from signal import SIGINT
 from jhbuild.errors import CommandError
 
-def get_output(cmd, extra_env=None):
+def get_output(cmd, cwd=None, extra_env=None):
     '''Return the output (stdout and stderr) from the command.
 
     If the extra_env dictionary is not empty, then it is used to
@@ -35,6 +35,8 @@ def get_output(cmd, extra_env=None):
     kws = {}
     if isinstance(cmd, (str, unicode)):
         kws['shell'] = True
+    if cwd is not None:
+        kws['cwd'] = cwd
     if extra_env is not None:
         kws['env'] = os.environ.copy()
         kws['env'].update(extra_env)

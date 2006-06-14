@@ -26,6 +26,7 @@ from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule
 from jhbuild.modtypes.autotools import AutogenModule
+from jhbuild.modtypes.mozillamodule import MozillaModule
 from jhbuild.modtypes.tarball import Tarball
 from jhbuild.versioncontrol.cvs import CVSBranch
 from jhbuild.versioncontrol.svn import SubversionBranch
@@ -53,7 +54,10 @@ class cmd_info(Command):
             self.show_info(module, packagedb, module_set)
 
     def show_info(self, module, packagedb, module_set):
-        if isinstance(module, AutogenModule):
+        if isinstance(module, MozillaModule):
+            installdate = packagedb.installdate(module.name,
+                                                module.get_revision() or '')
+        elif isinstance(module, AutogenModule):
             installdate = packagedb.installdate(module.name,
                                                 module.branch.branchname or '')
         elif isinstance(module, Tarball):
@@ -71,7 +75,13 @@ class cmd_info(Command):
         else:
             print 'Install-date:', 'not installed'
 
-        if isinstance(module, AutogenModule):
+        if isinstance(module, MozillaModule):
+            print 'CVS-Root:', module.repository.cvsroot
+            if module.revision is not None:
+                print 'CVS-Revision:', module.revision
+            if module.projects:
+                print 'Moz-Projects:', ', '.join(module.projects)
+        elif isinstance(module, AutogenModule):
             if isinstance(module.branch, CVSBranch):
                 print 'CVS-Root:', module.branch.repository.cvsroot
                 print 'CVS-Module:', module.branch.module
@@ -88,6 +98,11 @@ class cmd_info(Command):
             elif isinstance(module.branch, TarballBranch):
                 print 'URL:', module.branch.module
                 print 'Version:', module.branch.version
+            try:
+                tree_id = module.branch.tree_id()
+                print 'Tree-ID:', tree_id
+            except NotImplementedError:
+                pass
         elif isinstance(module, Tarball):
             print 'URL:', module.source_url
             print 'Version:', module.version

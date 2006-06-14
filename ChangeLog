@@ -1,3 +1,22 @@
+2006-06-14  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/versioncontrol/git.py (GitBranch.tree_id): add tree_id
+	implementation, returning the commit SHA1 sum.
+
+	* jhbuild/commands/info.py (cmd_info.show_info): show the tree ID
+	in the info display.  Also fix up "jhbuild info mozilla" to not crash.
+
+2006-06-13  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/versioncontrol/svn.py (SubversionBranch.tree_id): tree
+	ID implementation for Subversion branches.
+
+	* jhbuild/versioncontrol/cvs.py (CVSBranch.tree_id): an
+	implementation for CVS trees.
+
+	* jhbuild/versioncontrol/__init__.py (Branch.tree_id): new method
+	to get an identifier for the tree state.
+
 2006-06-13  Olav Vitters  <olav@bkor.dhs.org>
 
 	* modulesets/gnome-2.16.modules: Bug-Buddy now also depends on
@@ -7,6 +26,20 @@
 
 	* modulesets/gnome-2.16.modules: Bug-Buddy depends on
 	evolution-data-server.
+
+2006-06-08  James Henstridge  <james@jamesh.id.au>
+
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule.do_checkout):
+	convert to new style build state.
+
+	* jhbuild/modtypes/autotools.py (AutogenModule): convert all
+	build state methods to the new style, adding skip_$state() methods
+	as appropriate.
+
+	* jhbuild/modtypes/__init__.py (Package._next_state): use
+	skip_$state() methods to put logic for whether to skip a state
+	with the state itself, rather than in the logic of the previous
+	state.
 
 2006-06-08  Elijah Newren  <newren gmail com>
 

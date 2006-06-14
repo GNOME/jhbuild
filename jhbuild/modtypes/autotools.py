@@ -21,7 +21,7 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 
@@ -67,60 +67,49 @@ class AutogenModule(Package):
         return self.branch.branchname
 
     def do_start(self, buildscript):
-        builddir = self.get_builddir(buildscript)
-        if not buildscript.config.nonetwork: # normal start state
-            return (self.STATE_CHECKOUT, None, None)
-        elif buildscript.config.nobuild:
-            return (self.STATE_DONE, None, None)
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            return (self.STATE_CONFIGURE, None, None)
-        elif buildscript.config.makeclean:
-            return (self.STATE_CLEAN, None, None)
-        else:
-            return (self.STATE_BUILD, None, None)
+        pass
+    do_start.next_state = STATE_CHECKOUT
+    do_start.error_states = []
+
+    def skip_checkout(self, buildscript, last_state):
+        # skip the checkout stage if the nonetwork flag is set
+        return buildscript.config.nonetwork
 
     def do_checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         buildscript.set_action('Checking out', self)
-        try:
-            self.branch.checkout(buildscript)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        elif buildscript.config.alwaysautogen or \
-                 not os.path.exists(os.path.join(builddir, 'Makefile')):
-            nextstate = self.STATE_CONFIGURE
-        elif buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
+        self.branch.checkout(buildscript)
         # did the checkout succeed?
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
+        if not os.path.exists(srcdir):
+            raise BuildStateError('source directory %s was not created'
+                                  % srcdir)
+    do_checkout.next_state = STATE_CONFIGURE
+    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
+
+    def skip_force_checkout(self, buildscript, last_state):
+        return False
 
     def do_force_checkout(self, buildscript):
-        if buildscript.config.nobuild:
-            nextstate = self.STATE_DONE
-        else:
-            nextstate = self.STATE_CONFIGURE
-
         buildscript.set_action('Checking out', self)
-        try:
-            self.branch.force_checkout(buildscript)
-        except CommandError:
-            return (nextstate, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
-        else:
-            return (nextstate, None, None)
+        self.branch.force_checkout(buildscript)
+    do_force_checkout.next_state = STATE_CONFIGURE
+    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
+
+    def skip_configure(self, buildscript, last_state):
+        # don't skip this stage if we got here from one of the
+        # following states:
+        if last_state in [self.STATE_FORCE_CHECKOUT,
+                          self.STATE_CLEAN,
+                          self.STATE_BUILD,
+                          self.STATE_INSTALL]:
+            return False
+
+        # skip if the makefile exists and we don't have the
+        # alwaysautogen flag turned on:
+        builddir = self.get_builddir(buildscript)
+        return (os.path.exists(os.path.join(builddir, 'Makefile')) and
+                not buildscript.config.alwaysautogen)
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -143,17 +132,13 @@ class AutogenModule(Package):
         if self.autogen_sh == 'configure':
             cmd = cmd.replace('--enable-maintainer-mode', '')
             
-        if buildscript.config.makeclean:
-            nextstate = self.STATE_CLEAN
-        else:
-            nextstate = self.STATE_BUILD
-        try:
-            buildscript.execute(cmd, cwd=builddir)
-        except CommandError:
-            return (nextstate, 'could not configure module',
-                    [self.STATE_FORCE_CHECKOUT])
-        else:
-            return (nextstate, None, None)
+        buildscript.execute(cmd, cwd=builddir)
+    do_configure.next_state = STATE_CLEAN
+    do_configure.error_states = [STATE_FORCE_CHECKOUT]
+
+    def skip_clean(self, buildscript, last_state):
+        return (not buildscript.config.makeclean or
+                buildscript.config.nobuild)
 
     def do_clean(self, buildscript):
         buildscript.set_action('Cleaning', self)
@@ -162,20 +147,19 @@ class AutogenModule(Package):
     do_clean.next_state = STATE_BUILD
     do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
+    def skip_build(self, buildscript, last_state):
+        return buildscript.config.nobuild
+
     def do_build(self, buildscript):
         buildscript.set_action('Building', self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        if buildscript.config.makecheck:
-            nextstate = self.STATE_CHECK
-        else:
-            nextstate = self.STATE_INSTALL
-        try:
-            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        except CommandError:
-            return (nextstate, 'could not build module',
-                    [self.STATE_FORCE_CHECKOUT, self.STATE_CONFIGURE])
-        else:
-            return (nextstate, None, None)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+    do_build.next_state = STATE_CHECK
+    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+
+    def skip_check(self, buildscript, last_state):
+        return (not buildscript.config.makecheck or
+                buildscript.config.nobuild)
 
     def do_check(self, buildscript):
         buildscript.set_action('Checking', self)
@@ -183,6 +167,9 @@ class AutogenModule(Package):
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_check.next_state = STATE_INSTALL
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+
+    def skip_install(self, buildscript, last_state):
+        return buildscript.config.nobuild
 
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)

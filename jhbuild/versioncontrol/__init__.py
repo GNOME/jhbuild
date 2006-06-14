@@ -83,6 +83,10 @@ class Branch:
         """A more agressive version of checkout()."""
         raise BuildStateError('force_checkout not implemented')
 
+    def tree_id(self):
+        """A string identifier for the state of the working tree."""
+        raise NotImplementedError
+
 
 _repo_types = {}
 def register_repo_type(name, repo_class):

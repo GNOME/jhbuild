@@ -24,7 +24,10 @@ __all__ = [
     ]
 __metaclass__ = type
 
-import os, sys
+import sys
+import os
+import md5
+
 
 from jhbuild.errors import BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -115,6 +118,49 @@ def check_sticky_tag(filename):
 def check_root(dirname):
     root_file = os.path.join(dirname, 'CVS', 'Root')
     return open(root_file, 'r').read().strip()
+
+def _process_directory(directory, prefix, write):
+    if not (os.path.isdir(directory) and
+            os.path.isdir(os.path.join(directory, 'CVS'))):
+        return
+    
+    fp = open(os.path.join(directory, 'CVS', 'Root'), 'rb')
+    root = fp.read().strip()
+    fp.close()
+    fp = open(os.path.join(directory, 'CVS', 'Repository'), 'rb')
+    repository = fp.read().strip()
+    fp.close()
+
+    write('===\n')
+    write('Directory: %s\n' % prefix)
+    write('Root: %s\n' % root)
+    write('Repository: %s\n' % repository)
+    write('\n')
+
+    fp = open(os.path.join(directory, 'CVS', 'Entries'), 'rb')
+    subdirs = []
+    filenames = []
+    for line in fp:
+        parts = line.strip().split('/')
+        if parts[0] == 'D' and len(parts) >= 2:
+            subdirs.append(parts[1])
+        if parts[0] == '' and len(parts) >= 3:
+            filenames.append((parts[1], parts[2]))
+    fp.close()
+    filenames.sort()
+    for name, rev in filenames:
+        if prefix:
+            name = '%s/%s' % (prefix, name)
+        write('%s %s\n' % (name, rev))
+    write('\n')
+    subdirs.sort()
+    for name in subdirs:
+        if prefix:
+            name_prefix = '%s/%s' % (prefix, name)
+        else:
+            name_prefix = name
+        _process_directory(os.path.join(directory, name), name_prefix, write)
+
 
 
 class CVSRepository(Repository):
@@ -223,5 +269,11 @@ class CVSBranch(Branch):
     def force_checkout(self, buildscript):
         self._checkout(buildscript)
 
+    def tree_id(self):
+        if not os.path.exists(self.srcdir):
+            return None
+        md5sum = md5.new()
+        _process_directory(self.srcdir, '', md5sum.update)
+        return 'jhbuild-cvs-treeid:%s' % md5sum.hexdigest()
 
 register_repo_type('cvs', CVSRepository)

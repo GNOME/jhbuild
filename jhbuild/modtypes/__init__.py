@@ -114,20 +114,50 @@ class Package:
     def get_revision(self):
         return None
 
+    def _next_state(self, buildscript, last_state):
+        """Work out what state to go to next, possibly skipping some states.
+
+        This function executes skip_$state() to decide whether to run that
+        state or not.  If it returns True, go to do_$state.next_state and
+        repeat.  If it returns False, return that state.
+        """
+        seen_states = []
+        state = getattr(self, 'do_' + last_state).next_state
+        while True:
+            seen_states.append(state)
+            if state == self.STATE_DONE:
+                return state
+            do_method = getattr(self, 'do_' + state)
+            if hasattr(self, 'skip_' + state):
+                skip_method = getattr(self, 'skip_' + state)
+                if skip_method(buildscript, last_state):
+                    state = do_method.next_state
+                    assert state not in seen_states, (
+                        'state %s should not appear in list of '
+                        'skipped states: %r' % (state, seen_states))
+                else:
+                    return state
+            else:
+                # no skip rule
+                return state
+
     def run_state(self, buildscript, state):
-        '''run a particular part of the build for this package.
+        """run a particular part of the build for this package.
 
         Returns a tuple of the following form:
-          (next-state, error-flag, [other-states])'''
+          (next-state, error-flag, [other-states])
+        """
         method = getattr(self, 'do_' + state)
         # has the state been updated to the new system?
         if hasattr(method, 'next_state'):
             try:
                 method(buildscript)
             except (CommandError, BuildStateError), e:
-                return (method.next_state, str(e), method.error_states)
+                return (self._next_state(buildscript, state),
+                        str(e), method.error_states)
             else:
-                return (method.next_state, None, None)
+                return (self._next_state(buildscript, state),
+                        None, None)
         else:
             return method(buildscript)
 
