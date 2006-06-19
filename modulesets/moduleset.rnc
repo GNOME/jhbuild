@@ -35,6 +35,7 @@ repository = element repository {
 
 package = autotools |
           metamodule |
+          perl |
           tarball |
           mozillamodule
 
@@ -84,6 +85,12 @@ autotools = element autotools {
 }
 
 metamodule = element metamodule { common }
+
+perl = element perl {
+  branch &
+  attribute makeargs { text }? &
+  common
+}
 
 tarball = element tarball {
   attribute version { text },

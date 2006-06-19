@@ -49,6 +49,8 @@
   <repository type="git" name="git.freedesktop.org"
       href="git://git.freedesktop.org/git/"/>
 
+  <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
+
   <autotools id="luminocity">
     <branch repo="gnome.org"/>
     <dependencies>
@@ -557,9 +559,21 @@
     </dependencies>
   </autotools>
 
+  <perl id="perl-net-dbus">
+    <branch repo="cpan"
+        module="authors/id/D/DA/DANBERR/Net-DBus-0.33.1.tar.gz" version="0.33.1"
+        size="78309" md5sum="0d778004934e3597c8e841d7197c21cb"/>
+    <dependencies>
+      <dep package="dbus"/>
+    </dependencies>
+  </perl>
+
   <autotools id="system-tools-backends">
     <branch repo="system-tools-backends.freedesktop.org" 
             revision="BEFORE_DBUS_MERGE"/>
+    <dependencies>
+      <dep package="perl-net-dbus"/>
+    </dependencies>
   </autotools>
 
   <autotools id="system-tools-backends-1.4">

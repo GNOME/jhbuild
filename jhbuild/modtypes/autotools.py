@@ -97,6 +97,10 @@ class AutogenModule(Package):
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
 
     def skip_configure(self, buildscript, last_state):
+        # skip if nobuild is set.
+        if buildscript.config.nobuild:
+            return True
+
         # don't skip this stage if we got here from one of the
         # following states:
         if last_state in [self.STATE_FORCE_CHECKOUT,
