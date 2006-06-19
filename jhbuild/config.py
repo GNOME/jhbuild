@@ -164,6 +164,10 @@ class Config:
                 raise FatalError("Can't create %s directory" % aclocaldir)
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
+        # PERL5LIB
+        perl5lib = os.path.join(self.prefix, 'lib', 'perl5')
+        addpath('PERL5LIB', perl5lib)
+
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
         # handle environment prepends ...
