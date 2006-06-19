@@ -1,4 +1,4 @@
-<?xml version="1.0"?><!--*- mode: nxml -*-->
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="cvs" name="gnome.org" default="yes"
@@ -25,7 +25,6 @@
   <repository type="cvs" name="xklavier.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
       password=""/>
-
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
@@ -42,7 +41,11 @@
       cvsroot=":pserver:anonymous@cvs.alioth.debian.org:/cvsroot/pkg-isocodes"
       password=""/>
   <repository type="cvs" name="openh323.sf.net"
-	       cvsroot=":pserver:anonymous@openh323.cvs.sourceforge.net:/cvsroot/openh323"     password="" />
+      cvsroot=":pserver:anonymous@openh323.cvs.sourceforge.net:/cvsroot/openh323"
+      password="" />
+  <repository type="svn" name="svn.navi.cx"
+      href="http://svn.navi.cx/" />
+
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://easynews.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -1718,7 +1721,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
-	 <dep package="dbus"/>
+      <dep package="dbus"/>
       <dep package="gtk-doc"/>
       <dep package="system-tools-backends"/>
     </dependencies>
@@ -2037,6 +2040,17 @@
       <dep package="gstreamer"/>
       <dep package="gst-python"/>
       <dep package="gnonlin"/>
+    </dependencies>
+  </autotools>
+  <autotools id="xchat-gnome">
+    <branch repo="svn.navi.cx" module="misc/trunk/xchat-gnome"/>
+    <dependencies>
+      <dep package="gtk+" />
+      <dep package="gconf" />
+      <dep package="libgnomeui" />
+      <dep package="libglade" />
+      <dep package="gnome-vfs" />
+      <dep package="libsexy" />
     </dependencies>
   </autotools>
 </moduleset>

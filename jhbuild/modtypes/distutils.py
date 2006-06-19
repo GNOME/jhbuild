@@ -1,7 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2006  James Henstridge
 #
-#   perl.py: perl module type definitions.
+#   distutils.py: Python distutils module type definitions.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,30 +25,35 @@ from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 
-__all__ = [ 'PerlModule' ]
+__all__ = [ 'DistutilsModule' ]
 
-class PerlModule(Package):
-    """Base type for modules that are distributed with a Perl style
-    "Makefile.PL" Makefile."""
-    type = 'perl'
+class DistutilsModule(Package):
+    """Base type for modules that are distributed with a Python
+    Distutils style setup.py."""
+    type = 'distutils'
 
     STATE_CHECKOUT = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_BUILD = 'build'
     STATE_INSTALL = 'install'
 
-    def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[]):
+    def __init__(self, name, branch,
+                 dependencies=[], after=[],
+                 supports_non_srcdir_builds=True):
         Package.__init__(self, name, dependencies, after)
         self.branch = branch
-        self.makeargs = makeargs
+        self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
-        # does not support non-srcdir builds
-        return self.get_srcdir(buildscript)
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
+            d = buildscript.config.builddir_pattern % (
+                os.path.basename(self.get_srcdir(buildscript)))
+            return os.path.join(buildscript.config.buildroot, d)
+        else:
+            return self.get_srcdir(buildscript)
 
     def get_revision(self):
         return self.branch.branchname
@@ -87,12 +92,13 @@ class PerlModule(Package):
 
     def do_build(self, buildscript):
         buildscript.set_action('Building', self)
+        srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        perl = os.environ.get('PERL', 'perl')
-        make = os.environ.get('MAKE', 'make')
-        buildscript.execute([perl, 'Makefile.PL', 'INSTALLDIRS=vendor'],
-                            cwd=builddir)
-        buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir)
+        python = os.environ.get('PYTHON', 'python')
+        cmd = [python, 'setup.py', 'build']
+        if srcdir != builddir:
+            cmd.extend(['--build-base', builddir])
+        buildscript.execute(cmd, cwd=srcdir)
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -101,29 +107,31 @@ class PerlModule(Package):
 
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
+        srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        make = os.environ.get('MAKE', 'make')
-        buildscript.execute([make, 'install',
-                             'PREFIX=%s' % buildscript.config.prefix],
-                            cwd=builddir)
+        python = os.environ.get('PYTHON', 'python')
+        cmd = [python, 'setup.py']
+        if srcdir != builddir:
+            cmd.extend(['build', '--build-base', builddir])
+        cmd.extend(['install', '--prefix', buildscript.config.prefix])
+        buildscript.execute(cmd, cwd=srcdir)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
 
-def parse_perl(node, config, repositories, default_repo):
+def parse_distutils(node, config, repositories, default_repo):
     id = node.getAttribute('id')
-    makeargs = ''
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
+    supports_non_srcdir_builds = True
 
-    # override revision tag if requested.
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = \
+            (node.getAttribute('supports-non-srcdir-builds') != 'no')
     dependencies, after = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
 
-    return PerlModule(id, branch, makeargs,
-                         dependencies=dependencies, after=after)
-register_module_type('perl', parse_perl)
+    return DistutilsModule(id, branch,
+                           dependencies=dependencies, after=after,
+                           supports_non_srcdir_builds=supports_non_srcdir_builds)
+register_module_type('distutils', parse_distutils)
 

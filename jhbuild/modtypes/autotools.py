@@ -250,7 +250,10 @@ def parse_cvsmodule(node, config, repositories, default_repo):
                 repo = repositories[node.getAttribute(attrname)]
                 break
             except KeyError:
-                raise FatalError('Repository=%s not found for module id=%s. Possible repositories are %s' % (node.getAttribute(attrname), node.getAttribute('id'), repositories))
+                raise FatalError('Repository=%s not found for module id=%s. '
+                                 'Possible repositories are %s'
+                                 % (node.getAttribute(attrname),
+                                    node.getAttribute('id'), repositories))
     else:
         repo = repositories.get(default_repo, None)
     branch = repo.branch(id, module=module, checkoutdir=checkoutdir,
@@ -329,7 +332,7 @@ def parse_archmodule(node, config, repositories, default_repo):
         repo = repositories.get(default_repo, None)
     branch = repo.branch(id, module=version, checkoutdir=checkoutdir)
 
-    return AutogenModule(branch, autogenargs, makeargs,
+    return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after,
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
