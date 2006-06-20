@@ -45,6 +45,9 @@
       password="" />
   <repository type="svn" name="svn.navi.cx"
       href="http://svn.navi.cx/" />
+  <repository type="cvs" name="anoncvs.abisource.com"
+      cvsroot=":pserver:anoncvs@anoncvs.abisource.com:/cvsroot"
+      password="anoncvs" />
 
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
@@ -1469,6 +1472,12 @@
       <dep package="gtk+"/>
     </dependencies>
   </mozillamodule>
+  <autotools id="enchant">
+    <branch repo="anoncvs.abisource.com"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
   <autotools id="epiphany">
     <branch/>
     <dependencies>
@@ -1477,6 +1486,7 @@
       <dep package="gnome-python/pygtk"/>
       <dep package="gnome-python/gnome-python"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="enchant"/>
     </dependencies>
   </autotools>
   <autotools id="epiphany-extensions">
