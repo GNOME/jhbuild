@@ -22,14 +22,8 @@
   <repository type="cvs" name="tango.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
       password=""/>
-  <repository type="cvs" name="xlibs.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xlibs"
-      password=""/>
-  <repository type="cvs" name="xserver.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xserver"
-      password=""/>
-  <repository type="cvs" name="xapps.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xapps"
+  <repository type="cvs" name="xorg.freedesktop.org"
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xorg"
       password=""/>
   <repository type="cvs" name="poppler.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
@@ -51,24 +45,12 @@
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
 
-  <autotools id="luminocity">
-    <branch repo="gnome.org"/>
-    <dependencies>
-      <dep package="Xcomposite"/>
-      <dep package="Xdamage"/>
-      <dep package="Xrender"/>
-      <dep package="Xext"/>
-      <dep package="Xcursor"/>
-      <dep package="X11"/>
-      <dep package="Xtst"/>
-    </dependencies>
-  </autotools>
 
   <autotools id="cairo">
     <branch repo="git.freedesktop.org" module="cairo"/>
     <dependencies>
       <dep package="fontconfig"/>
-      <dep package="Xrender"/>
+      <dep package="libXrender"/>
       <dep package="gtk-doc"/>
     </dependencies>
     <after>
@@ -87,6 +69,10 @@
       <dep package="glitz"/>
     </after>
   </tarball>
+
+  <autotools id="glitz">
+    <branch repo="cairo.freedesktop.org"/>
+  </autotools>
 
   <autotools id="pycairo-1-0">
     <branch repo="cairo.freedesktop.org" module="pycairo"
@@ -201,346 +187,23 @@
     <branch repo="startup-notification.freedesktop.org"/>
   </autotools>
 
-  <autotools id="CompositeExt">
-    <branch repo="xlibs.freedesktop.org"/> 
+  <autotools id="RenderProto">
+    <branch repo="xorg.freedesktop.org"
+	    module="proto/Render" checkoutdir="RenderProto" />
+  </autotools>
+  <autotools id="libXrender" supports-non-srcdir-builds="no">
+    <branch repo="xorg.freedesktop.org"
+	    module="lib/Xrender" checkoutdir="libXrender" />
     <dependencies>
-      <dep package="XExtensions"/>
-      <dep package="FixesExt"/>
+      <dep package="RenderProto"/>
     </dependencies>
   </autotools>
-  <autotools id="DamageExt">
-    <branch repo="xlibs.freedesktop.org"/> 
-    <dependencies>
-      <dep package="FixesExt"/>
-    </dependencies>
-  </autotools>
-  <autotools id="FixesExt">
-    <branch repo="xlibs.freedesktop.org"/> 
-    <dependencies>
-      <dep package="XExtensions"/>
-    </dependencies>
-  </autotools>
-  <autotools id="ICE">
-    <branch repo="xlibs.freedesktop.org"/> 
-    <dependencies>
-      <dep package="xtrans"/>
-      <dep package="X11"/>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="PanoramiXExt">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="Randr">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools> 
-  <autotools id="Render" supports-non-srcdir-builds="no">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="RecordExt">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="ResourceExt">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="SM">
-    <branch repo="xlibs.freedesktop.org"/> 
-    <dependencies>
-      <dep package="ICE"/>
-      <dep package="X11"/>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="X11">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="xtrans"/>
-      <dep package="Xau"/>
-      <dep package="Xdmcp"/>
-      <dep package="XExtensions"/>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="XExtensions">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="XRes">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="ResourceExt"/>
-      <dep package="X11"/>
-      <dep package="Xext"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xau">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xaw">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-      <dep package="X11"/>
-      <dep package="Xt"/>
-      <dep package="Xmu"/>
-      <dep package="Xpm"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xcursor">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xrender"/>
-      <dep package="Xfixes"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xdamage">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="X11"/>
-      <dep package="DamageExt"/>
-      <dep package="Xfixes"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xdmcp">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xext">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="X11"/>
-      <dep package="XExtensions"/>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xfixes">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="FixesExt"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xfont">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xft" supports-non-srcdir-builds="no">
-    <branch repo="xlibs.freedesktop.org"/>
+  <autotools id="libXft" supports-non-srcdir-builds="no">
+    <branch repo="xorg.freedesktop.org"
+	    module="lib/Xft" checkoutdir="libXft" />
     <dependencies>
       <dep package="fontconfig"/>
-      <dep package="Xrender"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xi">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xinerama">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xmu">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xpm">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xproto"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xproto">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="Xrandr">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Randr"/>
-      <dep package="Xext"/>
-      <dep package="Xrender"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xrender" supports-non-srcdir-builds="no">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Render"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xt">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="SM"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xtst">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xext"/>
-      <dep package="RecordExt"/>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="Xv">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <autotools id="xtrans">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="xkbfile">
-    <branch repo="xlibs.freedesktop.org"/>
-  </autotools>
-  <autotools id="xkbfile">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="X11"/>
-    </dependencies>
-  </autotools>
-  <metamodule id="meta-xlibs">
-    <dependencies>
-      <dep package="CompositeExt"/>
-      <dep package="DamageExt"/>
-      <dep package="FixesExt"/>
-      <dep package="ICE"/>
-      <dep package="PanoramiXExt"/>
-      <dep package="Randr"/>
-      <dep package="Render"/>
-      <dep package="ResourceExt"/>
-      <dep package="SM"/>
-      <dep package="X11"/>
-      <dep package="XExtensions"/>
-      <dep package="XRes"/>
-      <dep package="Xau"/>
-      <dep package="Xaw"/>
-      <dep package="Xcursor"/>
-      <dep package="Xdamage"/>
-      <dep package="Xdmcp"/>
-      <dep package="Xext"/>
-      <dep package="Xfixes"/>
-      <dep package="Xfont"/>
-      <dep package="Xft"/>
-      <dep package="Xi"/>
-      <dep package="Xmu"/>
-      <dep package="Xpm"/>
-      <dep package="Xproto"/>
-      <dep package="Xrandr"/>
-      <dep package="Xrender"/>
-      <dep package="Xt"/>
-      <dep package="Xtst"/>
-      <dep package="Xv"/>
-      <dep package="xtrans"/>
-      <dep package="xkbfile"/>
-    </dependencies>
-  </metamodule>
-
-  <!-- These use Arch now ...
-  <metamodule id="meta-debrix">
-    <dependencies>
-      <dep package="debrix" />
-      <dep package="debrix-driver-ati" />
-      <dep package="debrix-input-keyboard" />
-      <dep package="debrix-input-mouse" />
-    </dependencies>
-  </metamodule>
-  <cvsmodule id="debrix-driver-ati" cvsroot="xserver.freedesktop.org">
-    <dependencies>
-      <dep package="debrix" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="debrix-input-keyboard" cvsroot="xserver.freedesktop.org">
-    <dependencies>
-      <dep package="debrix" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="debrix-input-mouse" cvsroot="xserver.freedesktop.org">
-    <dependencies>
-      <dep package="debrix" />
-    </dependencies>
-  </cvsmodule>
-  <cvsmodule id="debrix" cvsroot="xserver.freedesktop.org">
-    <dependencies>
-      <dep package="PanoramiXExt" />
-      <dep package="xtrans" />
-      <dep package="FixesExt" />
-      <dep package="DamageExt" />
-      <dep package="Randr" />
-      <dep package="Render" />
-      <dep package="ResourceExt" />
-      <dep package="Xau" />
-      <dep package="Xext" />
-      <dep package="XExtensions" />
-      <dep package="Xfont" />
-      <dep package="Xproto" />
-      <dep package="xkbfile" />
-      <dep package="Xdmcp" />
-    </dependencies>
-  </cvsmodule>
-  -->
-
-  <autotools id="xserver">
-    <branch repo="xserver.freedesktop.org"/>
-    <dependencies>
-      <dep package="CompositeExt"/>
-      <dep package="xtrans"/>
-      <dep package="FixesExt"/>
-      <dep package="DamageExt"/>
-      <dep package="Randr"/>
-      <dep package="RecordExt"/>
-      <dep package="Render"/>
-      <dep package="ResourceExt"/>
-      <dep package="Xau"/>
-      <dep package="Xext"/>
-      <dep package="XExtensions"/>
-      <dep package="Xfont"/>
-      <dep package="Xproto"/>
-      <dep package="xkbfile"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="Xcomposite">
-    <branch repo="xlibs.freedesktop.org"/>
-    <dependencies>
-      <dep package="CompositeExt"/>
-      <dep package="Xfixes"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="xcompmgr">
-    <branch repo="xapps.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xcomposite"/>
-      <dep package="Xdamage"/>
-      <dep package="Xrender"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="lightpipe">
-    <branch repo="xapps.freedesktop.org"/>
-    <dependencies>
-      <dep package="Xcomposite"/>
-      <dep package="Xdamage"/>
-      <dep package="Xrender"/>
-      <dep package="Xext"/>
-      <dep package="X11"/>
-      <dep package="Xtst"/>
+      <dep package="libXrender"/>
     </dependencies>
   </autotools>
 
@@ -577,19 +240,17 @@
   </autotools>
 
   <autotools id="system-tools-backends-1.4">
-    <branch repo="system-tools-backends.freedesktop.org" module="system-tools-backends"
-		  revision="stb-1-4" checkoutdir="system-tools-backends-1.4"/>
-  </autotools>
-
-  <autotools id="glitz">
-    <branch repo="cairo.freedesktop.org"/>
+    <branch repo="system-tools-backends.freedesktop.org"
+	    module="system-tools-backends" revision="stb-1-4"
+	    checkoutdir="system-tools-backends-1.4"/>
   </autotools>
 
   <autotools id="libdaemon">
     <branch repo="libdaemon.0pointer.de" module="trunk" checkoutdir="libdaemon"/>
   </autotools>
 
-  <!-- explicit disabling of qt3 and qt4 can be removed once avahi correctly detects what is available. -->
+  <!-- explicit disabling of qt3 and qt4 can be removed once avahi
+       correctly detects what is available. -->
   <autotools id="avahi" autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --enable-compat-howl --enable-compat-libdns_sd">
     <branch repo="avahi.0pointer.de" module="trunk" checkoutdir="avahi"/>
     <dependencies>

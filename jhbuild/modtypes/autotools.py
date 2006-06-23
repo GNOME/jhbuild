@@ -238,6 +238,9 @@ def parse_cvsmodule(node, config, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
+    if not id:
+        id = checkoutdir or module
+
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
@@ -284,6 +287,9 @@ def parse_svnmodule(node, config, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
 
+    if not id:
+        id = checkoutdir or os.path.basename(module)
+
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
@@ -320,6 +326,9 @@ def parse_archmodule(node, config, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
+
+    if not id:
+        id = checkoutdir or version
 
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, makeargs)

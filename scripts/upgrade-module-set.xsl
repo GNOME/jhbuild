@@ -21,7 +21,20 @@
   </xsl:template>
 
   <xsl:template match="cvsmodule">
-    <autotools id="{@id}">
+    <autotools>
+      <xsl:attribute name="id">
+        <xsl:choose>
+          <xsl:when test="@id">
+            <xsl:value-of select="@id"/>
+          </xsl:when>
+          <xsl:when test="@checkoutdir">
+            <xsl:value-of select="@id"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="@module"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
       <xsl:if test="@autogenargs">
 	<xsl:copy-of select="@autogenargs" />
       </xsl:if>

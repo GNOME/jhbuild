@@ -1,3 +1,26 @@
+2006-06-23  James Henstridge  <james@jamesh.id.au>
+
+	* modulesets/gnome-2.10.modules (pango):
+	* modulesets/gnome-2.12.modules (pango):
+	* modulesets/gnome-2.14.modules (pango):
+	* modulesets/gtk.modules (pango):
+	* modulesets/gtk28.modules (pango): same here.
+
+	* modulesets/gnome-2.16.modules (pango): depend on libXft rather
+	than Xft.
+
+	* modulesets/freedesktop.modules (RenderProto, libXrender, libXft):
+	use the versions from the xorg repository.  Remove the obsolete
+	old xlibs/xserver/xapps module definitions.  Addresses bug #345281.
+
+	* scripts/upgrade-module-set.xsl (cvsmodule): fallback to
+	checkoutdir and module values for "id" if it isn't given.
+
+	* jhbuild/modtypes/autotools.py (parse_cvsmodule):
+	(parse_svnmodule):
+	(parse_archmodule): generate module name in the same way as the
+	old code did for backward compatibility.
+
 2006-06-21  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
 
 	* modulesets/gnome-2.14.modules: File-roller has a
