@@ -49,6 +49,8 @@ class MozillaModule(AutogenModule):
     def get_mozilla_app(self):
         if self.projects == 'browser':
             return 'firefox'
+	elif self.projects == 'xulrunner':
+            return 'xulrunner'
         else:
             return 'mozilla'
 
