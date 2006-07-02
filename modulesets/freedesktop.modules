@@ -41,7 +41,7 @@
       href="svn://svn.0pointer.de/libdaemon/"/>
 
   <repository type="git" name="git.freedesktop.org"
-      href="git://git.freedesktop.org/git/"/>
+      href="git://anongit.freedesktop.org/git/"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
 
@@ -188,19 +188,19 @@
   </autotools>
 
   <autotools id="RenderProto">
-    <branch repo="xorg.freedesktop.org"
-	    module="proto/Render" checkoutdir="RenderProto" />
+    <branch repo="git.freedesktop.org"
+	    module="xorg/proto/renderproto" checkoutdir="RenderProto" />
   </autotools>
   <autotools id="libXrender" supports-non-srcdir-builds="no">
-    <branch repo="xorg.freedesktop.org"
-	    module="lib/Xrender" checkoutdir="libXrender" />
+    <branch repo="git.freedesktop.org"
+	    module="xorg/lib/libXrender" checkoutdir="libXrender" />
     <dependencies>
       <dep package="RenderProto"/>
     </dependencies>
   </autotools>
   <autotools id="libXft" supports-non-srcdir-builds="no">
-    <branch repo="xorg.freedesktop.org"
-	    module="lib/Xft" checkoutdir="libXft" />
+    <branch repo="git.freedesktop.org"
+	    module="xorg/lib/libXft" checkoutdir="libXft" />
     <dependencies>
       <dep package="fontconfig"/>
       <dep package="libXrender"/>
