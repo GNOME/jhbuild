@@ -321,40 +321,40 @@
       <dep package="libxml2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/pygobject">
+  <autotools id="pygobject">
     <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/pygtk">
+  <autotools id="pygtk">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygobject"/>
+      <dep package="pygobject"/>
       <dep package="gtk+"/>
       <dep package="pycairo"/>
       <dep package="libglade"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/pyorbit">
+  <autotools id="pyorbit">
     <branch/>
     <dependencies>
       <dep package="ORBit2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/gnome-python">
+  <autotools id="gnome-python">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/pyorbit"/>
+      <dep package="pygtk"/>
+      <dep package="pyorbit"/>
       <dep package="libgnomecanvas"/>
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/gnome-python-desktop">
+  <autotools id="gnome-python-desktop">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="gnome-python"/>
       <dep package="gnome-panel"/>
       <dep package="libgnomeprint"/>
       <dep package="libgnomeprintui"/>
@@ -367,11 +367,11 @@
       <dep package="metacity"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/gnome-python-extras">
+  <autotools id="gnome-python-extras">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
       <dep package="gtkhtml2"/>
       <dep package="gdl"/>
     </dependencies>
@@ -412,7 +412,7 @@
       <dep package="intltool"/>
       <dep package="gnome-common"/>
       <dep package="glib"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
   <autotools id="gnome-panel">
@@ -682,7 +682,7 @@
       <dep package="gnome-doc-utils"/>
       <dep package="libgnomeprintui"/>
       <dep package="gtksourceview"/>
-      <dep package="gnome-python/gnome-python-desktop"/>
+      <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
   <autotools id="gedit-plugins">
@@ -730,7 +730,7 @@
     <dependencies>
       <dep package="goffice"/>
       <dep package="libgsf"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
       <dep package="libgnomeprintui"/>
     </dependencies>
   </autotools>
@@ -917,7 +917,7 @@
       <dep package="pyspi"/>
     </dependencies>
     <after>
-      <dep package="gnome-python/gnome-python-desktop"/>
+      <dep package="gnome-python-desktop"/>
     </after>
   </autotools>
   <autotools id="gcalctool" supports-non-srcdir-builds="no">
@@ -1196,7 +1196,7 @@
   <autotools id="orca">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="gnome-python"/>
       <dep package="libgail-gnome"/>
       <dep package="gnome-mag"/>
       <dep package="gnome-speech"/>
@@ -1299,7 +1299,7 @@
     <branch/>
     <dependencies>
       <dep package="gnome-menus"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
 
@@ -1391,12 +1391,12 @@
   </metamodule>
   <metamodule id="meta-gnome-python">
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
-      <dep package="gnome-python/gnome-python-desktop"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-python-desktop"/>
     </dependencies>
     <after>
-      <dep package="gnome-python/gnome-python-extras"/>
+      <dep package="gnome-python-extras"/>
     </after>
   </metamodule>
   <metamodule id="meta-gnome-c++">
@@ -1489,8 +1489,8 @@
     <dependencies>
       <dep package="iso-codes"/>
       <dep package="libgnomeui"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
       <dep package="gnome-doc-utils"/>
     </dependencies>
     <suggests>
@@ -1845,8 +1845,8 @@
       <dep package="gnomemm/libgnomecanvasmm"/>
       <dep package="libgnome"/>
       <dep package="iso-codes"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python-extras"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python-extras"/>
     </dependencies>
   </autotools>    
   <autotools id="vino">
@@ -1891,7 +1891,7 @@
     <branch/>
     <dependencies>
       <dep package="gnome-vfs"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
   <autotools id="storage/libstorage-translators">
@@ -1933,7 +1933,7 @@
   <autotools id="storage/applet">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="gnome-python"/>
       <dep package="storage/libstorage-nl"/>
     </dependencies>
   </autotools>
@@ -1960,7 +1960,7 @@
   <autotools id="gnome-schedule">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
       <dep package="yelp"/>
     </dependencies>
   </autotools>
@@ -1983,8 +1983,8 @@
     <branch/>
     <dependencies>
       <dep package="nautilus"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
     </dependencies>
   </autotools>
   <autotools id="inkscape">
@@ -2016,23 +2016,23 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gnome-desktop"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
-      <dep package="gnome-python/gnome-python-desktop"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
   <autotools id="pessulus">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
     </dependencies>
   </autotools>
   <autotools id="sabayon">
     <branch/>
     <dependencies>
       <dep package="gtk+"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
   <autotools id="muine">
@@ -2052,8 +2052,8 @@
   <autotools id="pitivi">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
       <dep package="gstreamer"/>
       <dep package="gst-python"/>
       <dep package="gnonlin"/>

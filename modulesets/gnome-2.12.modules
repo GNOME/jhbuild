@@ -298,7 +298,7 @@
       <dep package="libxml2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/pygtk">
+  <autotools id="pygtk">
     <branch revision="pygtk-2-8"/>
     <dependencies>
       <dep package="gtk+"/>
@@ -308,26 +308,26 @@
       <dep package="pycairo-1-0"/>
     </after>
   </autotools>
-  <autotools id="gnome-python/pyorbit">
+  <autotools id="pyorbit">
     <branch/>
     <dependencies>
       <dep package="ORBit2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/gnome-python">
+  <autotools id="gnome-python">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/pyorbit"/>
+      <dep package="pygtk"/>
+      <dep package="pyorbit"/>
       <dep package="libgnomecanvas"/>
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <autotools id="gnome-python/gnome-python-extras">
+  <autotools id="gnome-python-extras">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
       <dep package="gnome-panel"/>
       <dep package="gtkhtml2"/>
       <dep package="libgnomeprint"/>
@@ -373,7 +373,7 @@
       <dep package="intltool"/>
       <dep package="gnome-common"/>
       <dep package="glib"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
   <autotools id="gnome-panel">
@@ -684,7 +684,7 @@
       <dep package="goffice"/>
       <dep package="libgsf"/>
       <!-- Needs libgda 1.2, not HEAD <dep package="libgda" /> -->
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
       <dep package="libgnomeprintui"/>
     </dependencies>
   </autotools>
@@ -1176,11 +1176,11 @@
   </metamodule>
   <metamodule id="meta-gnome-python">
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
     </dependencies>
     <after>
-      <dep package="gnome-python/gnome-python-extras"/>
+      <dep package="gnome-python-extras"/>
     </after>
   </metamodule>
   <metamodule id="meta-gnome-c++">
@@ -1261,8 +1261,8 @@
     <dependencies>
       <dep package="iso-codes"/>
       <dep package="libgnomeui"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
       <dep package="gnome-doc-utils"/>
       <dep package="libgnomeprintui"/>
       <dep package="mozilla"/>
@@ -1590,8 +1590,8 @@
       <dep package="gnomemm/libgnomecanvasmm"/>
       <dep package="libgnome"/>
       <dep package="iso-codes"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python-extras"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python-extras"/>
     </dependencies>
   </autotools>    
   <autotools id="vino">
@@ -1636,7 +1636,7 @@
     <branch/>
     <dependencies>
       <dep package="gnome-vfs"/>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
     </dependencies>
   </autotools>
   <autotools id="storage/libstorage-translators">
@@ -1678,7 +1678,7 @@
   <autotools id="storage/applet">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="gnome-python"/>
       <dep package="storage/libstorage-nl"/>
     </dependencies>
   </autotools>
@@ -1702,7 +1702,7 @@
   <autotools id="gnome-schedule">
     <branch/>
     <dependencies>
-      <dep package="gnome-python/pygtk"/>
+      <dep package="pygtk"/>
       <dep package="yelp"/>
     </dependencies>
   </autotools>
@@ -1722,8 +1722,8 @@
     <branch/>
     <dependencies>
       <dep package="nautilus"/>
-      <dep package="gnome-python/pygtk"/>
-      <dep package="gnome-python/gnome-python"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
     </dependencies>
   </autotools>
   <autotools id="gst-python" autogenargs="--" supports-non-srcdir-builds="no">
