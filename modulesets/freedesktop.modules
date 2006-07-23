@@ -132,12 +132,34 @@
     </dependencies>
   </autotools>
 
+<!-- on git are available dbus-mono, dbus-qt and dbus-qt3 bindings too -->
+  <autotools id="dbus-glib">
+    <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+<!-- No autotools for dbus python :-( only setup.py -->
+<!--
+  <autotools id="dbus-python">
+    <branch repo="git.freedesktop.org" module="dbus/dbus-python"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+-->
+
   <autotools id="PolicyKit">
     <branch repo="hal.freedesktop.org"/>
     <dependencies>
-      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
+
   <autotools id="hal">
     <branch repo="hal.freedesktop.org"/>
     <dependencies>
