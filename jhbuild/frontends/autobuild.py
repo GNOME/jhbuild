@@ -22,6 +22,7 @@ import time
 import subprocess
 import sys
 import locale
+import socket
 
 from jhbuild.utils import cmds
 from jhbuild.errors import CommandError
@@ -63,14 +64,16 @@ class ServerProxy(xmlrpclib.ServerProxy):
             except xmlrpclib.ProtocolError, e:
                 if e.errcode != 500:
                     raise
-                if i < ITERS-1:
-                    if self.verbose_timeout:
-                        print >> sys.stderr, 'Server Error, retrying in %d seconds' % ((i+1)**2)
-                    time.sleep((i+1)**2)
-                else:
-                    if self.verbose_timeout:
-                        print >> sys.stderr, 'Server Error, aborting'
-                    raise
+            except socket.error, e:
+                pass
+            if i < ITERS-1:
+                if self.verbose_timeout:
+                    print >> sys.stderr, 'Server Error, retrying in %d seconds' % ((i+1)**2)
+                time.sleep((i+1)**2)
+            else:
+                if self.verbose_timeout:
+                    print >> sys.stderr, 'Server Error, aborting'
+                raise e
             
 
 class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
