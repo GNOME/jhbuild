@@ -35,7 +35,7 @@ dist:
 	-rm -rf $(distdir)
 	mkdir $(distdir)
 	cp -p README COPYING ChangeLog Makefile jhbuild.in jhbuild.desktop $(distdir)/
-	cp -p *.c *.jhbuildrc changecvsroot.py $(distdir)/
+	cp -p *.c *.jhbuildrc $(distdir)/
 	mkdir $(distdir)/modulesets
 	cp -p modulesets/*.modules $(distdir)/modulesets/
 	cp -p modulesets/moduleset.dtd modulesets/moduleset.xsl $(distdir)/modulesets/
@@ -52,6 +52,11 @@ dist:
 	cp -p jhbuild/modtypes/*.py $(distdir)/jhbuild/modtypes/
 	mkdir $(distdir)/jhbuild/utils
 	cp -p jhbuild/utils/*.py $(distdir)/jhbuild/utils/
+	mkdir $(distdir)/scripts
+	cp -p scripts/*.py scripts/*.xsl scripts/*.deps scripts/*.exceptions $(distdir)/scripts/
+	mkdir $(distdir)/scripts/branch-violations
+	cp -p scripts/branch-violations/README scripts/branch-violations/find-branch-* \
+		$(distdir)/scripts/branch-violations/
 	chmod -R a+r $(distdir)
 	tar czf $(distdir).tar.gz $(distdir)
 	rm -rf $(distdir)
