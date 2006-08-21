@@ -44,8 +44,7 @@
       href="git://anongit.freedesktop.org/git/"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
-
-
+ 
   <autotools id="cairo">
     <branch repo="git.freedesktop.org" module="cairo"/>
     <dependencies>
@@ -155,6 +154,18 @@
       <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
+  
+  <tarball id="hal-0-5-7" version="0.5.7.1">
+    <source href="http://people.freedesktop.org/~david/dist/hal-0.5.7.1.tar.gz"
+            size="1503156" md5sum="d7a7741808ba130f8aff3f5d3b5689e4"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="PolicyKit"/>
+    </dependencies>
+    <patches>
+      <patch file="hal-dbus_connection_close.patch" strip="0"/>
+    </patches>
+  </tarball>
 
   <autotools id="hal">
     <branch repo="hal.freedesktop.org"/>
