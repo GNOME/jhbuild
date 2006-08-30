@@ -27,6 +27,14 @@ import urlparse
 from jhbuild.errors import FatalError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
+# Make sure that the urlparse module considers sftp://
+# scheme to be netloc aware and set to allow relative URIs.
+if 'sftp' not in urlparse.uses_netloc:
+    urlparse.uses_netloc.append('sftp')
+if 'sftp' not in urlparse.uses_relative:
+    urlparse.uses_relative.append('sftp')
+
+
 class BzrRepository(Repository):
     """A class representing a Bzr repository.
 
