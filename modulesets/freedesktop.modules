@@ -7,9 +7,6 @@
   <repository type="cvs" name="dbus.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
       password=""/>
-  <repository type="cvs" name="fontconfig.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/fontconfig"
-      password=""/>
   <repository type="cvs" name="hal.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
       password=""/>
@@ -30,6 +27,9 @@
       password=""/>
   <repository type="cvs" name="system-tools-backends.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
+      password=""/>
+  <repository type="cvs" name="portland.freedesktop.org"
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/portland"
       password=""/>
   <repository type="cvs" name="gnome.org"
       cvsroot=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
@@ -131,6 +131,14 @@
     </dependencies>
   </autotools>
 
+  <autotools id="dbus-qt3">
+	  <branch repo="git.freedesktop.org"
+		  module="dbus/dbus-qt3" checkoutdir="dbus-qt3"  />
+    <dependencies>
+      <dep package="dbus"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="dbus-glib">
     <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
     <dependencies>
@@ -184,7 +192,7 @@
   </autotools>
 
   <autotools id="fontconfig">
-    <branch repo="fontconfig.freedesktop.org" revision="fc-2_4_branch"/>
+	  <branch repo="git.freedesktop.org" module="fontconfig" /> 
   </autotools>
 
   <autotools id="icon-slicer">
@@ -241,6 +249,10 @@
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="portland">
+    <branch repo="portland.freedesktop.org" />
   </autotools>
 
   <autotools id="poppler-0-4">
