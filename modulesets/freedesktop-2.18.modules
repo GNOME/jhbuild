@@ -1,32 +1,24 @@
 <?xml version="1.0"?><!--*- mode: nxml -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
+  <repository type="tarball" name="cairo"
+      href="http://cairographics.org/releases/"/>
+  <repository type="tarball" name="dbus"
+      href="http://dbus.freedesktop.org/releases/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
   <repository type="cvs" name="dbus.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/dbus"
       password=""/>
-  <repository type="cvs" name="hal.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/hal"
-      password=""/>
   <repository type="cvs" name="icon-theme.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/icon-theme"
-      password=""/>
-  <repository type="cvs" name="startup-notification.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification"
       password=""/>
   <repository type="cvs" name="tango.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
       password=""/>
   <repository type="cvs" name="xorg.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xorg"
-      password=""/>
-  <repository type="cvs" name="poppler.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/poppler"
-      password=""/>
-  <repository type="cvs" name="system-tools-backends.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/system-tools-backends"
       password=""/>
   <repository type="cvs" name="portland.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/portland"
@@ -35,34 +27,17 @@
       cvsroot=":pserver:anonymous@anoncvs.gnome.org:/cvs/gnome"
       password=""/>
 
-  <repository type="svn" name="avahi.0pointer.de"
-      href="svn://svn.0pointer.de/avahi/"/>
-  <repository type="svn" name="libdaemon.0pointer.de"
-      href="svn://svn.0pointer.de/libdaemon/"/>
-
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
-  <autotools id="cairo">
-    <branch repo="git.freedesktop.org" module="cairo"/>
+  <tarball id="cairo" version="1.2.4">
+    <source href="http://cairographics.org/releases/cairo-1.2.4.tar.gz"
+            md5sum="1222b2bfdf113e2c92f66b3389659f2d" size="2882781"/>
     <dependencies>
       <dep package="fontconfig"/>
       <dep package="gtk-doc"/>
-    </dependencies>
-    <after>
-      <dep package="glitz"/>
-      <dep package="libXrender"/>
-    </after>
-  </autotools>
-
-  <tarball id="cairo-1-0" version="1.0.4">
-    <source href="http://cairographics.org/releases/cairo-1.0.4.tar.gz"
-            size="1475777" md5sum="9002b0e69b3f94831a22d3f2a7735ce2"/>
-    <dependencies>
-      <dep package="fontconfig"/>
-      <dep package="libXrender"/>
     </dependencies>
     <after>
       <dep package="glitz"/>
@@ -73,56 +48,33 @@
     <branch repo="cairo.freedesktop.org"/>
   </autotools>
 
-  <autotools id="pycairo-1-0">
-    <branch repo="cairo.freedesktop.org" module="pycairo"
-            revision="RELEASE_1_0_2" checkoutdir="pycairo-1-0"/>
-    <dependencies>
-      <dep package="cairo-1-0"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="pycairo">
-    <branch repo="cairo.freedesktop.org"/>
+  <tarball id="pycairo" version="1.2.2">
+    <source href="http://cairographics.org/releases/pycairo-1.2.2.tar.gz"
+            md5sum="83a2e06d9fc3530753701d580a18087e" size="482417"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
   <autotools id="cairomm">
-    <branch repo="cairo.freedesktop.org"/>
+    <branch repo="cairo"
+	    module="cairomm-1.2.2.tar.gz" version="1.2.2"
+	    md5sum="fabb040a5ff2cf0529af55ff46d22d2d" size="582629"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
   </autotools>
 
-  <autotools id="dbus" supports-non-srcdir-builds="no" autogenargs="--disable-selinux">
-    <branch repo="dbus.freedesktop.org"/>
+  <tarball autogenargs="--disable-selinux" id="dbus" supports-non-srcdir-builds="no" version="0.92">
+    <source href="http://dbus.freedesktop.org/releases/dbus-0.92.tar.gz"
+            md5sum="ea2be58c80a80631ba5b3c92cffd335c" size="1388345"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
     <after>
       <dep package="gtk+"/>
     </after>
-  </autotools>
-
-  <autotools id="dbus-0.23" supports-non-srcdir-builds="no">
-    <branch repo="dbus.freedesktop.org" module="dbus"
-            revision="dbus-0-23" checkoutdir="dbus-0.23"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-    <after>
-      <dep package="gtk+"/>
-    </after>
-  </autotools>
-
-  <!-- Not maintained - try dbusmm instead -->
-  <autotools id="dbus-cpp">
-    <branch repo="dbus.freedesktop.org"/>
-    <dependencies>
-      <dep package="dbus"/>
-    </dependencies>
-  </autotools>
+  </tarball>
 
   <autotools id="dbusmm">
     <branch repo="dbus.freedesktop.org"/>
@@ -139,74 +91,73 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus-glib">
-    <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
+  <tarball id="dbus-glib" version="0.70">
+    <source href="http://dbus.freedesktop.org/releases/dbus-glib-0.70.tar.gz"
+            md5sum="13b17f978ee6008e5616fe8701bed039" size="568776"/>
+    <patches>
+      <patch file="dbus-glib-build.patch" strip="1" />
+    </patches>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="dbus"/>
       <dep package="glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
   <distutils id="dbus-python">
-    <branch repo="git.freedesktop.org" module="dbus/dbus-python"/>
+    <branch repo="dbus"
+	    module="dbus-python-0.70.tar.gz" version="0.70"
+	    md5sum="26a680134801aa9d8dc77ccde7928927" size="77127"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
     </dependencies>
   </distutils>
 
+  <!-- PolicyKit has been removed because I can't find a tarball
+       download site and because we're using hal 0.5.7.1 for now anyway
   <autotools id="PolicyKit">
     <branch repo="hal.freedesktop.org"/>
     <dependencies>
       <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
-  
-  <tarball id="hal-0-5-7" version="0.5.7.1">
+  -->  
+
+  <tarball id="hal" version="0.5.7.1">
     <source href="http://people.freedesktop.org/~david/dist/hal-0.5.7.1.tar.gz"
-            size="1503156" md5sum="d7a7741808ba130f8aff3f5d3b5689e4"/>
+            md5sum="d7a7741808ba130f8aff3f5d3b5689e4" size="1503156"/>
     <dependencies>
       <dep package="dbus"/>
-      <dep package="PolicyKit"/>
     </dependencies>
     <patches>
       <patch file="hal-dbus_connection_close.patch" strip="0"/>
     </patches>
   </tarball>
 
-  <autotools id="hal">
-    <branch repo="hal.freedesktop.org"/>
+  <tarball id="fontconfig" version="2.4.1">
+    <source href="http://www.fontconfig.org/release/fontconfig-2.4.1.tar.gz"
+            md5sum="108f9a03fa9ed9dd779cc7ca236da557" size="1270946"/>
+  </tarball>
+  <tarball id="xchat" version="2.6.2">
     <dependencies>
-      <dep package="dbus"/>
-      <dep package="PolicyKit"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="hal-0-4">
-    <branch repo="hal.freedesktop.org" module="hal"
-            revision="hal-0_4-stable-branch" checkoutdir="hal-0.4"/>
-    <dependencies>
-      <dep package="dbus-0.23"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="fontconfig">
-	  <branch repo="git.freedesktop.org" module="fontconfig" /> 
-  </autotools>
+  </tarball>
 
   <autotools id="icon-slicer">
     <branch repo="icon-theme.freedesktop.org"/>
   </autotools>
-  <autotools id="icon-naming-utils">
+  <tarball id="icon-naming-utils" version="0.8.1">
+    <source href="http://tango-project.org/releases/icon-naming-utils-0.8.1.tar.gz"
+            md5sum="7a7d340f59c7a6c26391e906b7afa08c" size="63132"/>
     <branch repo="icon-theme.freedesktop.org"/>
-  </autotools>
-  <tarball id="hicolor-icon-theme" version="0.9"
-           supports-non-srcdir-builds="no">
-    <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.9.tar.gz"
-            size="32574" md5sum="1d0821cb80d394eac30bd8cec5b0b60c"/>
   </tarball>
-
+  <tarball id="hicolor-icon-theme" version="0.9" supports-non-srcdir-builds="no" >
+    <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.9.tar.gz"
+            md5sum="1d0821cb80d394eac30bd8cec5b0b60c" size="32574"/>
+  </tarball>
   <autotools id="tango-icon-theme">
     <branch repo="tango.freedesktop.org"/>
     <dependencies>
@@ -220,9 +171,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="startup-notification">
+  <tarball id="startup-notification" version="0.8">
+    <source href="http://download.gnome.org/sources/startup-notification/0.8/startup-notification-0.8.tar.bz2"
+            md5sum="d9b2e9fba18843314ae42334ceb4336d" size="236255"/>
     <branch repo="startup-notification.freedesktop.org"/>
-  </autotools>
+  </tarball>
 
   <autotools id="RenderProto">
     <branch repo="git.freedesktop.org"
@@ -241,28 +194,18 @@
     <dependencies>
       <dep package="fontconfig"/>
     </dependencies>
-    <after>
-      <dep package="libXrender"/>
-    </after>
   </autotools>
 
-  <autotools id="poppler">
-    <branch repo="poppler.freedesktop.org"/>
+  <tarball id="poppler" version="0.5.4">
+    <source href="http://poppler.freedesktop.org/poppler-0.5.4.tar.gz"
+            md5sum="053fdfd70533ecce1a06353fa945f061" size="1062401"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
   <autotools id="portland">
     <branch repo="portland.freedesktop.org" />
-  </autotools>
-
-  <autotools id="poppler-0-4">
-    <branch repo="poppler.freedesktop.org" module="poppler"
-            revision="POPPLER_0_4_X" checkoutdir="poppler-0-4"/>
-    <dependencies>
-      <dep package="cairo-1-0"/>
-    </dependencies>
   </autotools>
 
   <perl id="perl-net-dbus">
@@ -274,33 +217,29 @@
     </dependencies>
   </perl>
 
-  <autotools id="system-tools-backends">
-    <branch repo="system-tools-backends.freedesktop.org" 
-            revision="BEFORE_DBUS_MERGE"/>
+  <tarball id="system-tools-backends" version="1.9.5">
+    <source href="http://download.gnome.org/sources/system-tools-backends/1.9/system-tools-backends-1.9.5.tar.bz2"
+            md5sum="ac55869d6e04ccd345d0236a34d33d4d" size="390236"/>
     <suggests>
       <dep package="perl-net-dbus"/>
     </suggests>
-  </autotools>
+  </tarball>
 
-  <autotools id="system-tools-backends-1.4">
-    <branch repo="system-tools-backends.freedesktop.org"
-	    module="system-tools-backends" revision="stb-1-4"
-	    checkoutdir="system-tools-backends-1.4"/>
-  </autotools>
-
-  <autotools id="libdaemon">
-    <branch repo="libdaemon.0pointer.de" module="trunk" checkoutdir="libdaemon"/>
-  </autotools>
+  <tarball id="libdaemon" version="0.10">
+    <source href="http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.10.tar.gz"
+            md5sum="6812a5e4063b5016f25e9a0cebbd3dd9" size="345084"/>
+  </tarball>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <autotools id="avahi" autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --enable-compat-howl --enable-compat-libdns_sd">
-    <branch repo="avahi.0pointer.de" module="trunk" checkoutdir="avahi"/>
+  <tarball autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.13">
+    <source href="http://avahi.org/download/avahi-0.6.13.tar.gz"
+            md5sum="d1000689979105cc95b9ca102284aae4" size="895380"/>
     <dependencies>
       <dep package="libdaemon"/>
       <dep package="dbus-python"/>
       <dep package="pygtk"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
 </moduleset>

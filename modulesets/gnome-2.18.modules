@@ -11,20 +11,8 @@
   <repository type="cvs" name="mozilla.org"
       cvsroot=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
       password="anonymous"/>
-  <repository type="cvs" name="liboil.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/liboil"
-      password=""/>
   <repository type="cvs" name="gstreamer.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
-      password=""/>
-  <repository type="cvs" name="menu.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/menus"
-      password=""/>
-  <repository type="cvs" name="mime.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/mime"
-      password=""/>
-  <repository type="cvs" name="xklavier.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
       password=""/>
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
@@ -39,9 +27,6 @@
       href="http://osiris.chipx86.com/svn/osiris-misc/"/>
   <repository type="svn" name="svn.debian.org"
       href="svn://svn.debian.org/"/>
-  <repository type="cvs" name="openh323.sf.net"
-      cvsroot=":pserver:anonymous@openh323.cvs.sourceforge.net:/cvsroot/openh323"
-      password="" />
   <repository type="svn" name="svn.navi.cx"
       href="http://svn.navi.cx/" />
   <repository type="cvs" name="anoncvs.abisource.com"
@@ -65,13 +50,12 @@
     </patches>
   </tarball>
 
-  <tarball id="iso-codes" version="0.53" >
+  <tarball id="iso-codes" version="0.53">
     <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-0.53.tar.bz2"
-            size="4412381" md5sum="fd748ddf2a5e0fc724d90337db9bf0c0"/>
-
+            md5sum="fd748ddf2a5e0fc724d90337db9bf0c0" size="4412381"/>
   </tarball>
 
-  <include href="freedesktop.modules"/>
+  <include href="freedesktop-2.18.modules"/>
   <include href="gnutls.modules"/>
 
   <autotools id="cairo-gtk-engine">
@@ -82,31 +66,34 @@
     </dependencies>
   </autotools>
 
-  <autotools id="shared-mime-info" supports-non-srcdir-builds="no">
-    <branch repo="mime.freedesktop.org"/>
+  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.19">
+    <source href="http://freedesktop.org/~hadess/shared-mime-info-0.19.tar.gz"
+            md5sum="056a86a8245aecfd9c80740380c5265a" size="595168"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="libxml2"/>
       <dep package="glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
-  <autotools id="desktop-file-utils">
-    <branch repo="menu.freedesktop.org"/>
+  <tarball id="desktop-file-utils" version="0.10">
+    <source href="http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.10.tar.gz"
+            md5sum="8b930e9ad08ac6b8205dd00a1d694b0c" size="341508"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="intltool"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
-  <autotools id="libxklavier" supports-non-srcdir-builds="no">
-    <branch repo="xklavier.freedesktop.org"/>
+  <tarball id="libxklavier" supports-non-srcdir-builds="no" version="3.0">
+    <source href="http://xlibs.freedesktop.org/xkbdesc/libxklavier-3.0.tar.gz"
+            md5sum="7457dc72cfcb57498882ea652cb79eeb" size="460992"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="gtk-doc"/>
       <dep package="glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="libbtctl">
     <branch/>
     <dependencies>
@@ -165,12 +152,13 @@
       <dep package="scrollkeeper"/>
     </dependencies>
   </autotools>
-  <autotools id="gamin">
-    <branch/>
+  <tarball id="gamin" version="0.1.7">
+    <source href="http://www.gnome.org/~veillard/gamin/sources/gamin-0.1.7.tar.gz"
+            md5sum="1a1991ffa749b7dc2cc0573d6a2867b8" size="542061"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="glib">
     <branch/>
     <dependencies>
@@ -183,8 +171,10 @@
       <dep package="gnome-common"/>
       <dep package="glib"/>
       <dep package="cairo"/>
-      <dep package="libXft"/>
     </dependencies>
+    <after>
+      <dep package="libXft"/>
+    </after>
   </autotools>
   <autotools id="atk">
     <branch/>
@@ -269,7 +259,7 @@
       <dep package="shared-mime-info"/>
       <dep package="gnome-mime-data"/>
       <dep package="avahi"/>
-      <dep package="hal-0-5-7"/>
+      <dep package="hal"/>
       <dep package="gamin"/>
       <dep package="dbus-glib"/>
     </dependencies>
@@ -465,7 +455,7 @@
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gucharmap"/>
-      <dep package="system-tools-backends-1.4"/>
+      <dep package="system-tools-backends"/>
       <dep package="pygtk"/>
     </dependencies>
   </autotools>
@@ -478,13 +468,14 @@
       <dep package="gob"/>
     </dependencies>
   </autotools>
-  <autotools id="libcroco" supports-non-srcdir-builds="no">
-    <branch/>
+  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
+    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
+            md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="pango"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="librsvg" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
@@ -732,14 +723,15 @@
       <dep package="libgnomeprint"/>
     </dependencies>
   </autotools>
-  <autotools id="libgsf">
-    <branch/>
+  <tarball id="libgsf" version="1.14.1">
+    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.1.tar.bz2"
+            md5sum="00de00b99382d0b7e034e0fffd8951d4" size="530415"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gnome-vfs"/>
       <dep package="libbonobo"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="goffice">
     <branch/>
     <dependencies>
@@ -857,9 +849,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="liboil">
-    <branch repo="liboil.freedesktop.org" revision="liboil_0_3_6"/>
-  </autotools>
+  <tarball id="liboil" version="0.3.8">
+    <source href="http://liboil.freedesktop.org/download/liboil-0.3.8.tar.gz"
+            md5sum="a402c4af2603c8fb69b365af0b8ec775" size="834167"/>
+  </tarball>
 
   <autotools id="gst-plugins-base" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
@@ -973,23 +966,24 @@
     </dependencies>
   </autotools>
   <autotools id="ekiga" autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`">
-    <branch/>
+    <branch revision="v2_0_3"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="evolution-data-server"/>
       <dep package="opal" />
     </dependencies>
   </autotools>
-  <autotools id="pwlib" autogen-sh="configure">
-    <branch repo="openh323.sf.net" module="ptlib_unix" checkoutdir="pwlib"
-            override-checkoutdir="no" update-new-dirs="no" revision="v1_10_2"/>
-  </autotools>
-  <autotools id="opal" autogen-sh="configure">
-    <branch repo="openh323.sf.net" revision="v2_2_3"/>
+  <tarball autogen-sh="configure" id="pwlib" version="1.10.2">
+    <source href="http://seconix.com/misc/ekiga-2.0.3/pwlib-1.10.2.tar.gz"
+            md5sum="05ad5b279ed2053eb7ef0befff9166d0" size="1485529"/>
+  </tarball>
+  <tarball autogen-sh="configure" id="opal" version="2.2.3">
+    <source href="http://seconix.com/misc/ekiga-2.0.3/opal-2.2.3.tar.gz"
+            md5sum="fc1fedd3406e2e74472cc4312cbbfd6a" size="4114610"/>
     <dependencies>
       <dep package="pwlib"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="gucharmap">
     <branch/>
     <dependencies>
@@ -1264,7 +1258,7 @@
     <branch/>
     <dependencies>
       <dep package="libgnomeui"/>
-      <dep package="hal-0-5-7"/>
+      <dep package="hal"/>
       <dep package="libwnck"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
@@ -1301,7 +1295,7 @@
       <dep package="gnome-keyring"/>
       <dep package="libgnomeui"/>
       <dep package="dbus"/>
-      <dep package="hal-0-5-7"/>
+      <dep package="hal"/>
       <dep package="gtk+"/>
       <dep package="intltool"/>
       <dep package="libglade"/>
@@ -1916,7 +1910,7 @@
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="libglade"/>
-      <dep package="hal-0-5-7"/>
+      <dep package="hal"/>
     </dependencies>
   </autotools>
   <metamodule id="meta-storage">
