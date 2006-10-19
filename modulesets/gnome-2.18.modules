@@ -32,6 +32,8 @@
   <repository type="cvs" name="anoncvs.abisource.com"
       cvsroot=":pserver:anoncvs@anoncvs.abisource.com:/cvsroot"
       password="anoncvs" />
+  <repository type="svn" name="svn.gtksourceviewmm"
+      href="svn://svn.gna.org/svn/gtksourceviewmm/"/>
 
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
@@ -1073,6 +1075,8 @@
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
+
+  <!-- Unmaintained now:
   <autotools id="gnomemm/libbonobomm">
     <branch/>
     <dependencies>
@@ -1088,6 +1092,8 @@
       <dep package="gnomemm/libbonobomm"/>
     </dependencies>
   </autotools>
+  -->
+
   <autotools id="gnomemm/libgnomecanvasmm">
     <branch/>
     <dependencies>
@@ -1152,6 +1158,13 @@
   <autotools id="gnomemm/gtkmm_hello">
     <branch/>
     <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+ <autotools id="gtksourceviewmm">
+    <branch repo="svn.gtksourceviewmm" module="trunk" checkoutdir="gtksourceviewmm"/>
+    <dependencies>
+      <dep package="gtksourceview"/>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
@@ -1882,6 +1895,7 @@
       <dep package="iso-codes"/>
       <dep package="pygtk"/>
       <dep package="gnome-python-extras"/>
+      <dep package="gtksourceviewmm"/>
     </dependencies>
   </autotools>    
   <autotools id="vino">
