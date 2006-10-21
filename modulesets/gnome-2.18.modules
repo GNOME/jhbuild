@@ -327,6 +327,18 @@
       <dep package="libxml2"/>
     </dependencies>
   </autotools>
+  <autotools id="libgnomekbd">
+    <branch/>
+    <dependencies>
+      <dep package="dbus-glib" />
+      <dep package="gtk+" />
+      <dep package="libglade" />
+      <dep package="libgnome" />
+      <dep package="libgnomeui" />
+      <dep package="libxklavier" />
+    </dependencies>
+  </autotools>
+
   <autotools id="pygobject">
     <branch/>
     <dependencies>
@@ -453,7 +465,7 @@
       <dep package="gnome-panel"/>
       <dep package="libgtop"/>
       <dep package="gail"/>
-      <dep package="libxklavier"/>
+      <dep package="libgnomekbd"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gucharmap"/>
@@ -581,14 +593,14 @@
   </autotools>
   <autotools id="gnome-control-center" autogenargs="--enable-gstreamer=0.10"
              supports-non-srcdir-builds="no">
-    <branch revision="GNOME_CONTROL_CENTER_2_17_1"/>
+    <branch/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="esound"/>
       <dep package="gnome-desktop"/>
       <dep package="metacity"/>
       <dep package="nautilus"/>
-      <dep package="libxklavier"/>
+      <dep package="libgnomekbd"/>
       <dep package="gnome-menus"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gst-plugins-base"/>
