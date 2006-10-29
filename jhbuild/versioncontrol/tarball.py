@@ -57,9 +57,11 @@ class TarballRepository(Repository):
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
+        if size is not None:
+            size = int(size)
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
-                             source_size=int(size), source_md5=md5sum)
+                             source_size=size, source_md5=md5sum)
 
     def branch_from_xml(self, name, branchnode):
         branch = Repository.branch_from_xml(self, name, branchnode)
