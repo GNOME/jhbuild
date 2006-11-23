@@ -34,7 +34,8 @@
       password="anoncvs" />
   <repository type="svn" name="svn.gtksourceviewmm"
       href="svn://svn.gna.org/svn/gtksourceviewmm/"/>
-
+  <repository type="svn" name="svn.nemiver"
+      href="svn://svn.gna.org/svn/nemiver/"/>
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://easynews.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -2163,6 +2164,19 @@
       <dep package="libgsf"/>
       <dep package="gstreamer"/>
     </dependecies>
+  </autotools>
+
+ <autotools id="nemiver">
+    <branch repo="svn.nemiver" module="trunk" checkoutdir="nemiver"/>
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="gnomemm/libglademm"/>
+      <dep package="gtksourceviewmm"/>
+      <dep package="libgtop"/>
+      <dep package="vte"/>
+      <dep package="gconf"/>
+      <dep package="gnome-vfs" />
+    </dependencies>
   </autotools>
        
   <autotools id="brasero">
