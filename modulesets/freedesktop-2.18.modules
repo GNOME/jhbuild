@@ -32,8 +32,9 @@
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
-  <autotools id="cairo">
-    <branch repo="git.freedesktop.org" module="cairo" checkoutdir="cairo" />
+  <tarball id="cairo" version="1.2.4">
+    <source href="http://cairographics.org/releases/cairo-1.2.4.tar.gz"
+            md5sum="1222b2bfdf113e2c92f66b3389659f2d" size="2882781"/>
     <dependencies>
       <dep package="fontconfig"/>
       <dep package="gtk-doc"/>
@@ -41,7 +42,7 @@
     <after>
       <dep package="glitz"/>
     </after>
-  </autotools>
+  </tarball>
 
   <autotools id="glitz">
     <branch repo="cairo.freedesktop.org"/>
