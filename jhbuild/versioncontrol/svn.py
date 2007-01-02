@@ -100,7 +100,8 @@ class SubversionRepository(Repository):
                 break
         if not trunk is None:
             module = trunk
-            checkoutdir = name
+            if checkoutdir is None:
+                checkoutdir = name
         
         return SubversionBranch(self, module, checkoutdir)
 
