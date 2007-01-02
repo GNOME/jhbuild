@@ -85,11 +85,11 @@ class SubversionRepository(Repository):
     branch_xml_attrs = ['module', 'checkoutdir']
 
     def branch(self, name, module=None, checkoutdir=None):
-        if name in self.config.branches:
+        if module is None:
+            module = name
+        if module in self.config.branches:
             module = self.config.branches[module]
         else:
-            if module is None:
-                module = name
             module = urlparse.urljoin(self.href, module)
         return SubversionBranch(self, module, checkoutdir)
 
