@@ -87,10 +87,21 @@ class SubversionRepository(Repository):
     def branch(self, name, module=None, checkoutdir=None):
         if module is None:
             module = name
-        if module in self.config.branches:
+            
+        if module in self.config.branches and self.config.branches[module]:
             module = self.config.branches[module]
         else:
             module = urlparse.urljoin(self.href, module)
+
+        trunk = module + "/trunk"
+        for part in module.split('/'):
+            if part in ['trunk', 'branches', 'tags', 'releases']:
+                trunk = None
+                break
+        if not trunk is None:
+            module = trunk
+            checkoutdir = name
+        
         return SubversionBranch(self, module, checkoutdir)
 
 
