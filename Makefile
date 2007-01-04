@@ -14,7 +14,7 @@ install-check: install-check.c
 	$(CC) $(CFLAGS) -o install-check install-check.c
 
 update:
-	cvs -z3 -q update -Pd .
+	svn update --quiet
 
 install: install-check
 	@echo "Creating $(bindir)/jhbuild"
