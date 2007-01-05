@@ -75,45 +75,57 @@ def get_uri(filename):
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
 
-    init_xml_attrs = ['href']
+    init_xml_attrs = ['href', 'trunk-path', 'branches-path']
 
-    def __init__(self, config, name, href):
+    def __init__(self, config, name, href, trunk_path='trunk', branches_path='branches'):
         Repository.__init__(self, config, name)
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
+        self.trunk_path = trunk_path
+        self.branches_path = branches_path
 
-    branch_xml_attrs = ['module', 'checkoutdir']
+    branch_xml_attrs = ['module', 'checkoutdir', 'revision']
 
-    def branch(self, name, module=None, checkoutdir=None):
+    def branch(self, name, module=None, checkoutdir=None, revision=None):
+        module_href = None
+        if name in self.config.branches:
+            if self.config.branches[name]:
+                module_href = self.config.branches[name]
+            else:
+                module = None
+                revision = None
+
         if module is None:
             module = name
+            if not revision:
+                if self.trunk_path:
+                    module += '/' + self.trunk_path
+                    if checkoutdir is None:
+                        checkoutdir = name
+            else:
+                if self.branches_path:
+                    module += '/' + self.branches_path + '/' + revision
+                else:
+                    module += '/' + revision
             
-        if module in self.config.branches and self.config.branches[module]:
-            module = self.config.branches[module]
-        else:
-            module = urlparse.urljoin(self.href, module)
-
-        trunk = module + "/trunk"
-        for part in module.split('/'):
-            if part in ['trunk', 'branches', 'tags', 'releases']:
-                trunk = None
-                break
-        if not trunk is None:
-            module = trunk
-            if checkoutdir is None:
-                checkoutdir = name
+        if module_href is None:
+            module_href = urlparse.urljoin(self.href, module)
         
-        return SubversionBranch(self, module, checkoutdir)
+        if checkoutdir is None:
+            checkoutdir = name
+        
+        return SubversionBranch(self, module_href, checkoutdir, revision)
 
 
 class SubversionBranch(Branch):
     """A class representing a Subversion branch"""
 
-    def __init__(self, repository, module, checkoutdir):
+    def __init__(self, repository, module, checkoutdir, revision):
         self.repository = repository
         self.config = repository.config
         self.module = module
         self.checkoutdir = checkoutdir
+        self.revision = revision
 
     def srcdir(self):
         if self.checkoutdir:
@@ -124,17 +136,7 @@ class SubversionBranch(Branch):
     srcdir = property(srcdir)
 
     def branchname(self):
-        # The convention for Subversion repositories is to put the head
-        # branch under trunk/, branches under branches/foo/ and tags
-        # under tags/bar/.
-        # Use this to give a meaningful revision number.
-        path_parts = self.module.split('/')
-        for i, part in enumerate(path_parts):
-            if part in ['branches', 'tags', 'releases']:
-                return path_parts[i+1]
-            elif part == 'trunk':
-                break
-        return None
+        return self.revision
     branchname = property(branchname)
 
     def _checkout(self, buildscript):

@@ -1,3 +1,19 @@
+2007-01-05  Mark McLoughlin  <mark@skynet.ie>
+
+	Combination of patches from myself and
+	Frederic Peters <fpeters@0d.be>
+
+	See bug #393147 and #347597
+
+	* jhbuild/versioncontrol/svn.py: back out the trunk
+	fiddling behaviour from before and add:
+	  + A "trunk_path" attribute to <repository type="svn">
+	    which defaults to "trunk". Set to "" if the trunks
+	    are in the toplevel directory
+	  + A "branches_path" attribute to <repository type="svn">
+	    which defaults to "branches".
+	  + Support for the "revision" attribute on <branch>
+
 2007-01-05  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-2.18.modules: added dependency on gnome-desktop for
