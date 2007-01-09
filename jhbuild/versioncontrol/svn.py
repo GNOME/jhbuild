@@ -95,8 +95,9 @@ class SubversionRepository(Repository):
                 module = None
                 revision = None
 
-        if module is None:
-            module = name
+        if module is None or revision is not None:
+            if module is None:
+                module = name
             if not revision:
                 if self.trunk_path:
                     module += '/' + self.trunk_path
