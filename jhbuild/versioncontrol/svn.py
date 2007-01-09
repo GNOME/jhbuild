@@ -22,6 +22,7 @@ __metaclass__ = type
 
 import os
 import urlparse
+import subprocess
 
 from jhbuild.errors import CommandError, BuildStateError, FatalError
 from jhbuild.utils.cmds import get_output
@@ -163,6 +164,25 @@ class SubversionBranch(Branch):
             cmd = ['svn', 'update'] + opt + ['.']
 
         buildscript.execute(cmd, 'svn', cwd=self.srcdir)
+
+        self._check_for_conflicts()
+
+    def _check_for_conflicts(self):
+        kws = {}
+        kws['cwd'] = self.srcdir
+        kws['env'] = os.environ.copy()
+        extra_env={
+            'LANGUAGE': 'C',
+            'LC_ALL': 'C',
+            'LANG': 'C'}
+        kws['env'].update(extra_env)
+        try:
+            output = subprocess.Popen(['svn', 'info', '-R'],
+                    stdout = subprocess.PIPE, **kws).communicate()[0]
+        except OSError, e:
+            raise CommandError(str(e))
+        if 'Conflict' in output:
+            raise CommandError('Error checking for conflicts')
 
     def checkout(self, buildscript):
         if os.path.exists(self.srcdir):
