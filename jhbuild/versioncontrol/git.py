@@ -53,34 +53,42 @@ class GitRepository(Repository):
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
 
-    branch_xml_attrs = ['module', 'checkoutdir']
+    branch_xml_attrs = ['module', 'subdir', 'checkoutdir']
 
-    def branch(self, name, module=None, checkoutdir=None):
+    def branch(self, name, module=None, subdir="", checkoutdir=None):
         if name in self.config.branches:
             module = self.config.branches[module]
         else:
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
-        return GitBranch(self, module, checkoutdir)
+        return GitBranch(self, module, subdir, checkoutdir)
 
 
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
-    def __init__(self, repository, module, checkoutdir):
+    def __init__(self, repository, module, subdir, checkoutdir):
         self.repository = repository
         self.config = repository.config
         self.module = module
+        self.subdir = subdir
         self.checkoutdir = checkoutdir
 
     def srcdir(self):
+        if self.checkoutdir:
+            return os.path.join(self.config.checkoutroot, self.checkoutdir, self.subdir)
+        else:
+            return os.path.join(self.config.checkoutroot,
+                                os.path.basename(self.module), self.subdir)
+    srcdir = property(srcdir)
+
+    def get_checkoutdir(self):
         if self.checkoutdir:
             return os.path.join(self.config.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.config.checkoutroot,
                                 os.path.basename(self.module))
-    srcdir = property(srcdir)
 
     def branchname(self):
         return None
@@ -99,19 +107,19 @@ class GitBranch(Branch):
     def _update(self, buildscript):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
-        buildscript.execute(['git', 'pull'], 'git', cwd=self.srcdir)
+        buildscript.execute(['git', 'pull'], 'git', cwd=self.get_checkoutdir())
 
     def checkout(self, buildscript):
-        if os.path.exists(self.srcdir):
+        if os.path.exists(self.get_checkoutdir()):
             self._update(buildscript)
         else:
             self._checkout(buildscript)
 
     def tree_id(self):
-        if not os.path.exists(self.srcdir):
+        if not os.path.exists(self.get_checkoutdir()):
             return None
         output = get_output(['git-rev-parse', 'master'],
-                            cwd=self.srcdir)
+                            cwd=self.get_checkoutdir())
         return output.strip()
 
 register_repo_type('git', GitRepository)
