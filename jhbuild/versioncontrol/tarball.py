@@ -154,7 +154,19 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            buildscript.execute(['wget', self.module, '-O', localfile])
+            has_wget = not os.system('which wget > /dev/null')
+            if not has_wget:
+                has_curl = not os.system('which curl > /dev/null')
+
+            if has_wget:
+                res = buildscript.execute(
+                        ['wget', self.module, '-O', localfile])
+            elif has_curl:
+                res = buildscript.execute(
+                        ['curl', self.module, '-o', localfile])
+            else:
+                raise FatalError("unable to find wget or curl")
+
             self._check_tarball()
 
         # now to unpack it
