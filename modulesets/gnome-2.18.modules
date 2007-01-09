@@ -4,6 +4,8 @@
 <moduleset>
   <repository type="svn" name="svn.gnome.org" default="yes"
       href="http://svn.gnome.org/svn/"/>
+  <repository type="svn" name="svn.gnomemm"
+      href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
@@ -1072,15 +1074,15 @@
       <dep package="ORBit2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libgnomemm">
-    <branch/>
+  <autotools id="libgnomemm">
+    <branch repo="svn.gnomemm"/>
     <dependencies>
       <dep package="libgnome"/>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libglademm">
-    <branch/>
+  <autotools id="libglademm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="libglade"/>
       <dep package="gtkmm"/>
@@ -1089,7 +1091,7 @@
 
   <!-- Unmaintained now:
   <autotools id="gnomemm/libbonobomm">
-    <branch/>
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="libbonobo"/>
       <dep package="gtkmm"/>
@@ -1097,77 +1099,77 @@
     </dependencies>
   </autotools>
   <autotools id="gnomemm/libbonobouimm">
-    <branch/>
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="libbonoboui"/>
-      <dep package="gnomemm/libbonobomm"/>
+      <dep package="libbonobomm"/>
     </dependencies>
   </autotools>
   -->
 
-  <autotools id="gnomemm/libgnomecanvasmm">
-    <branch/>
+  <autotools id="libgnomecanvasmm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="libgnomecanvas"/>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/gconfmm">
-    <branch/>
+  <autotools id="gconfmm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gconf"/>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libgnomeuimm">
-    <branch/>
+  <autotools id="libgnomeuimm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgnomeui"/>
-      <dep package="gnomemm/libgnomemm"/>
-      <dep package="gnomemm/gconfmm"/>
-      <dep package="gnomemm/libgnomecanvasmm"/>
-      <dep package="gnomemm/libglademm"/>
-      <dep package="gnomemm/gnome-vfsmm"/>
+      <dep package="libgnomemm"/>
+      <dep package="gconfmm"/>
+      <dep package="libgnomecanvasmm"/>
+      <dep package="libglademm"/>
+      <dep package="gnome-vfsmm"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/gnome-vfsmm">
-    <branch/>
+  <autotools id="gnome-vfsmm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="glibmm"/>
       <dep package="gnome-vfs"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libpanelappletmm">
-    <branch/>
+  <autotools id="libpanelappletmm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libgnomeprintmm">
-    <branch/>
+  <autotools id="libgnomeprintmm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgnomeprint"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libgnomeprintuimm">
-    <branch/>
+  <autotools id="libgnomeprintuimm">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
-      <dep package="gnomemm/libgnomeprintmm"/>
+      <dep package="libgnomeprintmm"/>
       <dep package="libgnomeprintui"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/libgdamm">
-    <branch revision="libgda-1-2"/>
+  <autotools id="libgdamm">
+    <branch repo="svn.gnomemm" revision="libgda-1-2"/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgda-1-2"/>
     </dependencies>
   </autotools>
-  <autotools id="gnomemm/gtkmm_hello">
-    <branch/>
+  <autotools id="gtkmm_hello">
+    <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
     </dependencies>
@@ -1184,8 +1186,8 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtkmm"/>
-      <dep package="gnomemm/gconfmm"/>
-      <dep package="gnomemm/libglademm"/>
+      <dep package="gconfmm"/>
+      <dep package="libglademm"/>
     </dependencies>
   </autotools>
   <autotools id="gnet" autogenargs="--enable-glib2">
@@ -1465,12 +1467,12 @@
   <metamodule id="meta-gnome-c++">
     <dependencies>
       <dep package="gtkmm"/>
-      <dep package="gnomemm/libgnomeuimm"/>
-      <dep package="gnomemm/gnome-vfsmm"/>
-      <dep package="gnomemm/libpanelappletmm"/>
-      <dep package="gnomemm/libgnomeprintuimm"/>
+      <dep package="libgnomeuimm"/>
+      <dep package="gnome-vfsmm"/>
+      <dep package="libpanelappletmm"/>
+      <dep package="libgnomeprintuimm"/>
       <dep package="libxml++"/>
-      <dep package="gnomemm/libgdamm"/>
+      <dep package="libgdamm"/>
       <dep package="bakery"/>
     </dependencies>
   </metamodule>
@@ -1789,9 +1791,9 @@
     <dependencies>
       <dep package="libxml++"/>
       <dep package="gtkmm"/>
-      <dep package="gnomemm/libglademm"/>
-      <dep package="gnomemm/gconfmm"/>
-      <dep package="gnomemm/gnome-vfsmm"/>
+      <dep package="libglademm"/>
+      <dep package="gconfmm"/>
+      <dep package="gnome-vfsmm"/>
     </dependencies>
   </autotools>
   <autotools id="gnome-hello">
@@ -1908,9 +1910,9 @@
   <autotools id="glom">
     <branch/>
     <dependencies>
-      <dep package="gnomemm/libgdamm"/>
+      <dep package="libgdamm"/>
       <dep package="bakery"/>
-      <dep package="gnomemm/libgnomecanvasmm"/>
+      <dep package="libgnomecanvasmm"/>
       <dep package="libgnome"/>
       <dep package="iso-codes"/>
       <dep package="pygtk"/>
@@ -2179,7 +2181,7 @@
     <branch repo="svn.nemiver" module="trunk" checkoutdir="nemiver"/>
     <dependencies>
       <dep package="gtkmm"/>
-      <dep package="gnomemm/libglademm"/>
+      <dep package="libglademm"/>
       <dep package="gtksourceviewmm"/>
       <dep package="libgtop"/>
       <dep package="vte"/>
