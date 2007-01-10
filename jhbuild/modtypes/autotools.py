@@ -44,13 +44,15 @@ class AutogenModule(Package):
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  dependencies=[], after=[],
                  supports_non_srcdir_builds=True,
-                 autogen_sh='autogen.sh'):
+                 autogen_sh='autogen.sh',
+                 makefile='Makefile'):
         Package.__init__(self, name, dependencies, after)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.autogen_sh = autogen_sh
+        self.makefile = makefile
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -112,7 +114,7 @@ class AutogenModule(Package):
         # skip if the makefile exists and we don't have the
         # alwaysautogen flag turned on:
         builddir = self.get_builddir(buildscript)
-        return (os.path.exists(os.path.join(builddir, 'Makefile')) and
+        return (os.path.exists(os.path.join(builddir, self.makefile)) and
                 not buildscript.config.alwaysautogen)
 
     def do_configure(self, buildscript):
@@ -190,6 +192,7 @@ def parse_autotools(node, config, repositories, default_repo):
     makeargs = ''
     supports_non_srcdir_builds = True
     autogen_sh = 'autogen.sh'
+    makefile = 'Makefile'
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
@@ -199,6 +202,8 @@ def parse_autotools(node, config, repositories, default_repo):
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('autogen-sh'):
         autogen_sh = node.getAttribute('autogen-sh')
+    if node.hasAttribute('makefile'):
+        makefile = node.getAttribute('makefile')
 
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
@@ -211,7 +216,8 @@ def parse_autotools(node, config, repositories, default_repo):
                          dependencies=dependencies,
                          after=after,
                          supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         autogen_sh=autogen_sh)
+                         autogen_sh=autogen_sh,
+                         makefile=makefile)
 register_module_type('autotools', parse_autotools)
 
 
