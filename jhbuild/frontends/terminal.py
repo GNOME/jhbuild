@@ -93,9 +93,10 @@ class TerminalBuildScript(buildscript.BuildScript):
             }
         if isinstance(command, (str, unicode)):
             kws['shell'] = True
-            print command
+            pretty_command = command
         else:
-            print ' '.join(command)
+            pretty_command = ' '.join(command)
+        print pretty_command
 
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print:
@@ -153,7 +154,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     # process might already be dead.
                     pass
         if p.wait() != 0:
-            raise CommandError('Error running %s' % command, p.returncode)
+            raise CommandError('########## Error running %s' % pretty_command, p.returncode)
 
     def start_phase(self, module, state):
         self.trayicon.set_icon(os.path.join(icondir,
