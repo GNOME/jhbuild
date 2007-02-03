@@ -135,7 +135,7 @@ class Tarball(Package):
                             ['wget', self.source_url, '-O', localfile])
                 elif has_curl:
                     res = buildscript.execute(
-                            ['curl', self.source_url, '-o', localfile])
+                            ['curl', '-L', self.source_url, '-o', localfile])
                 else:
                     raise FatalError("unable to find wget or curl")
 
