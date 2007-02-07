@@ -139,7 +139,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         kws['stdin'] = subprocess.PIPE
         kws['stdout'] = subprocess.PIPE
         kws['stderr'] = subprocess.PIPE
-        if hint == 'cvs':
+        if hint in ('cvs', 'svn'):
             def format_line(line, error_output, fp=self.phasefp):
                 if line[-1] == '\n': line = line[:-1]
                 if self.verbose:

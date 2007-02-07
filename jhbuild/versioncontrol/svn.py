@@ -165,7 +165,12 @@ class SubversionBranch(Branch):
 
         buildscript.execute(cmd, 'svn', cwd=self.srcdir)
 
-        self._check_for_conflicts()
+        try:
+            self._check_for_conflicts()
+        except CommandError:
+            # execute svn status so conflicts are displayed
+            buildscript.execute(['svn', 'status'], 'svn', cwd=self.srcdir)
+            raise
 
     def _check_for_conflicts(self):
         kws = {}
