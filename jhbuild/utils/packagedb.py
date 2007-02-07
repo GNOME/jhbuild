@@ -93,5 +93,5 @@ class PackageDB:
         if not self.entries.has_key(package): return None
         p_version, p_installed = self.entries[package]
         if version:
-            if version != p_version: return none
+            if version != p_version: return None
         return p_installed
