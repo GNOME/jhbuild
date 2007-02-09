@@ -149,5 +149,28 @@ class cmd_sanitycheck(Command):
                 get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
             except:
                 print 'Could not find the perl module %s' % perlmod
+                
+        # check for cvs:
+        if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
+            print 'cvs not found'
+
+        # check for svn:
+        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
+            print 'svn not found'
+
+        # check for git:
+        if not inpath('git', os.environ['PATH'].split(os.pathsep)):
+            print 'git not found'
+        else:
+            try:
+                git_help = os.popen('git --help', 'r').read()
+                if not 'clone' in git_help:
+                    print 'Installed git program is not the right git'
+            except:
+                print 'Could not check git program'
+
+        # check for svn:
+        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
+            print 'svn not found'
 
 register_command(cmd_sanitycheck)
