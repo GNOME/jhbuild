@@ -33,10 +33,8 @@
   <repository type="cvs" name="anoncvs.abisource.com"
       cvsroot=":pserver:anoncvs@anoncvs.abisource.com:/cvsroot"
       password="anoncvs" />
-  <repository type="svn" name="svn.gtksourceviewmm"
-      href="svn://svn.gna.org/svn/gtksourceviewmm/"/>
-  <repository type="svn" name="svn.nemiver"
-    href="svn://svn.gna.org/svn/nemiver/"/>
+  <repository type="svn" name="svn.gna.org"
+      href="svn://svn.gna.org/svn/"/>
   <repository type="git" name="git.imendio.com"
     href="git://git.imendio.com/projects/"/>
 
@@ -116,6 +114,7 @@
       <dep package="libglade"/>
       <dep package="libgnomeui"/>
       <dep package="gconf"/>
+      <dep package="gob2"/>
     </dependencies>
   </autotools>
   <autotools id="phonemgr">
@@ -1122,24 +1121,6 @@
     </dependencies>
   </autotools>
 
-  <!-- Unmaintained now:
-  <autotools id="gnomemm/libbonobomm">
-    <branch repo="svn.gnomemm" />
-    <dependencies>
-      <dep package="libbonobo"/>
-      <dep package="gtkmm"/>
-      <dep package="orbitcpp"/>
-    </dependencies>
-  </autotools>
-  <autotools id="gnomemm/libbonobouimm">
-    <branch repo="svn.gnomemm" />
-    <dependencies>
-      <dep package="libbonoboui"/>
-      <dep package="libbonobomm"/>
-    </dependencies>
-  </autotools>
-  -->
-
   <autotools id="libgnomecanvasmm">
     <branch repo="svn.gnomemm" />
     <dependencies>
@@ -1208,7 +1189,7 @@
     </dependencies>
   </autotools>
  <autotools id="gtksourceviewmm">
-    <branch repo="svn.gtksourceviewmm" module="trunk" checkoutdir="gtksourceviewmm"/>
+    <branch repo="svn.gna.org" module="gtksourceviewmm/trunk" checkoutdir="gtksourceviewmm"/>
     <dependencies>
       <dep package="gtksourceview"/>
       <dep package="gtkmm"/>
@@ -1548,12 +1529,13 @@
       <dep package="icon-naming-utils"/>
     </dependencies>
   </autotools>
-  <autotools id="gob">
-    <branch/>
+  <tarball id="gob2" version="2.0.14">
+    <source href="http://ftp.5z.com/pub/gob/gob2-2.0.14.tar.gz"
+            md5sum="f8721af6f4e90ff48bd7cb4c96a5a94c" size="249857"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
   <autotools id="libgnetwork">
     <branch/>
     <dependencies>
@@ -2140,6 +2122,17 @@
       <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
+  <autotools id="istanbul">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-python-extras"/>
+      <dep package="pygtk"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-python"/>
+    </dependencies>
+  </autotools>
   <autotools id="pessulus">
     <branch/>
     <dependencies>
@@ -2228,7 +2221,7 @@
   </autotools>
 
  <autotools id="nemiver">
-    <branch repo="svn.nemiver" module="trunk" checkoutdir="nemiver"/>
+    <branch repo="svn.gna.org" module="nemiver/trunk" checkoutdir="nemiver"/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libglademm"/>
@@ -2240,6 +2233,16 @@
     </dependencies>
   </autotools>
        
+  <autotools id="gnomescan">
+    <branch repo="svn.gna.org" module="gnomescan/trunk" checkoutdir="gnomescan"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libgnome"/>
+      <dep package="libgnomeui"/>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="brasero">
     <branch/>
     <dependencies>
