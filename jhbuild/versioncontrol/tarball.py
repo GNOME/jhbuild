@@ -113,6 +113,8 @@ class TarballBranch(Branch):
             localdir = localdir[:-8]
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
+        elif localdir.endswith('.zip'):
+            localdir = localdir[:-4]
         return localdir
     srcdir = property(srcdir)
 
@@ -175,6 +177,9 @@ class TarballBranch(Branch):
                                 cwd=self.config.checkoutroot)
         elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
             buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+                                cwd=self.config.checkoutroot)
+        elif localfile.endswith('.zip'):
+            buildscript.execute('unzip "%s"' % localfile,
                                 cwd=self.config.checkoutroot)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)

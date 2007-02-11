@@ -72,6 +72,8 @@ class Tarball(Package):
             localdir = localdir[:-8]
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
+        elif localdir.endswith('.zip'):
+            localdir = localdir[:-4]
         return localdir
 
     def get_builddir(self, buildscript):
@@ -155,6 +157,9 @@ class Tarball(Package):
                                 cwd=buildscript.config.checkoutroot)
         elif localfile.endswith('.gz'):
             buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+                                cwd=buildscript.config.checkoutroot)
+        elif localfile.endswith('.zip'):
+            buildscript.execute('unzip "%s"' % localfile,
                                 cwd=buildscript.config.checkoutroot)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
