@@ -28,6 +28,8 @@ from jhbuild.errors import CommandError, BuildStateError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
+import bzr
+
 # Make sure that the urlparse module considers svn:// and svn+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
 if 'svn' not in urlparse.uses_netloc:
@@ -84,6 +86,7 @@ class SubversionRepository(Repository):
         self.href = config.repos.get(name, href)
         self.trunk_path = trunk_path
         self.branches_path = branches_path
+        self.svn_program = config.svn_program
 
     branch_xml_attrs = ['module', 'checkoutdir', 'revision']
 
@@ -116,7 +119,10 @@ class SubversionRepository(Repository):
         if checkoutdir is None:
             checkoutdir = name
         
-        return SubversionBranch(self, module_href, checkoutdir, revision)
+        if self.svn_program == 'bzr' and not revision:
+            return bzr.BzrBranch(self, module_href, checkoutdir)
+        else:
+            return SubversionBranch(self, module_href, checkoutdir, revision)
 
 
 class SubversionBranch(Branch):
