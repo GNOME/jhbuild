@@ -99,6 +99,9 @@ class BuildScript:
                     state = nextstate
             self.end_module(module.name, failed)
         self.end_build(failures)
+        if failures:
+            return 1
+        return 0
 
     def start_build(self):
         '''Hook to perform actions at start of build.'''

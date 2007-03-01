@@ -40,7 +40,7 @@ class Command:
 
     def execute(self, config, args):
         options, args = self.parse_args(args)
-        self.run(config, options, args)
+        return self.run(config, options, args)
 
     def parse_args(self, args):
         parser = optparse.OptionParser(
@@ -71,7 +71,7 @@ def run(command, config, args):
 
     command_class = _commands[command]
     cmd = command_class()
-    cmd.execute(config, args)
+    return cmd.execute(config, args)
 
 
 from jhbuild.commands import base

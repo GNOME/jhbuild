@@ -86,7 +86,7 @@ def main(args):
         args = args[1:]
 
     try:
-        jhbuild.commands.run(command, config, args)
+        rc = jhbuild.commands.run(command, config, args)
     except UsageError, exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
         parser.print_usage()
@@ -100,3 +100,6 @@ def main(args):
     except EOFError:
         print "EOF"
         sys.exit(1)
+    if rc:
+        sys.exit(rc)
+

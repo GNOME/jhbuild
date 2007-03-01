@@ -67,7 +67,7 @@ class cmd_update(Command):
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_update)
 
@@ -101,7 +101,7 @@ class cmd_updateone(Command):
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_updateone)
 
@@ -158,7 +158,7 @@ class cmd_build(Command):
                 raise FatalError('%s not in module list' % options.startat)
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_build)
 
@@ -203,7 +203,7 @@ class cmd_buildone(Command):
                              % str(e))
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_buildone)
 
