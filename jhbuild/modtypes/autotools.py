@@ -39,6 +39,7 @@ class AutogenModule(Package):
     STATE_CONFIGURE      = 'configure'
     STATE_BUILD          = 'build'
     STATE_CHECK          = 'check'
+    STATE_DIST           = 'dist'
     STATE_INSTALL        = 'install'
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
@@ -171,8 +172,18 @@ class AutogenModule(Package):
         buildscript.set_action('Checking', self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_check.next_state = STATE_INSTALL
+    do_check.next_state = STATE_DIST
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+
+    def skip_dist(self, buildscript, last_state):
+        return not buildscript.config.makedist
+
+    def do_dist(self, buildscript):
+        buildscript.set_action('Creating tarball for', self)
+        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+    do_dist.next_state = STATE_INSTALL
+    do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
