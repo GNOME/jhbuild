@@ -121,6 +121,12 @@ class cmd_build(Command):
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help='run make clean before make'),
+            make_option('-d', '--dist',
+                        action='store_true', dest='dist', default=False,
+                        help='run make dist after building'),
+            make_option('--distcheck',
+                        action='store_true', dest='distcheck', default=False,
+                        help='run make distcheck after building'),
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
                         help='skip version control update'),
@@ -140,6 +146,10 @@ class cmd_build(Command):
             config.alwaysautogen = True
         if options.clean:
             config.makeclean = True
+        if options.dist:
+            config.makedist = True
+        if options.distcheck:
+            config.makedistcheck = True
         if options.nonetwork:
             config.nonetwork = True
         for item in options.skip:
@@ -177,6 +187,12 @@ class cmd_buildone(Command):
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help='run make clean before make'),
+            make_option('-d', '--dist',
+                        action='store_true', dest='dist', default=False,
+                        help='run make dist after building'),
+            make_option('--distcheck',
+                        action='store_true', dest='distcheck', default=False,
+                        help='run make distcheck after building'),
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
                         help='skip version control update'),
@@ -190,6 +206,10 @@ class cmd_buildone(Command):
             config.alwaysautogen = True
         if options.clean:
             config.makeclean = True
+        if options.dist:
+            config.makedist = True
+        if options.distcheck:
+            config.makedistcheck = True
         if options.nonetwork:
             config.nonetwork = True
         if options.sticky_date is not None:

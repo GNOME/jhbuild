@@ -176,11 +176,14 @@ class AutogenModule(Package):
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def skip_dist(self, buildscript, last_state):
-        return not buildscript.config.makedist
+        return not (buildscript.config.makedist or buildscript.config.makedistcheck)
 
     def do_dist(self, buildscript):
         buildscript.set_action('Creating tarball for', self)
-        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        if buildscript.config.makedistcheck:
+            cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        else:
+            cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_dist.next_state = STATE_INSTALL
     do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
