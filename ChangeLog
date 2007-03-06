@@ -1,9 +1,16 @@
+2007-03-06  Elijah Newren  <newren gmail com>
+
+	* modulesets/freedesktop-2.18.modules: updated cairo to 1.4.0.
+
 2007-03-04  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/freedesktop-2.18.modules: avahi: Added the --disable-python 
 	option, because it would then need python-gdbm, which is not installed in the 
 	jhbuild (boostrapped) python. Alternatively, someone might want to add that 
-	to jhbuild instead.
+	to jhbuild instead.  (Later edit by Elijah: actually, it is installed
+	by jhbuild bootstrapped python, _if_ you have gdbm-devel installed at
+	the time you build python.  But yeah, this bug snags lots of people so
+	the change seems sane to me.)
 	* modulesets/gnome-2.18.modules: Glom: Depend on gnome-doc-utils.
 
 2007-03-04  Frederic Peters  <fpeters@0d.be>
