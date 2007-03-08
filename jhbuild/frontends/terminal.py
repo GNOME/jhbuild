@@ -26,6 +26,7 @@ import subprocess
 from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
+from jhbuild.utils import notify
 from jhbuild.errors import CommandError
 
 term = os.environ.get('TERM', '')
@@ -64,6 +65,7 @@ class TerminalBuildScript(buildscript.BuildScript):
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
         self.trayicon = trayicon.TrayIcon()
+        self.notify = notify.Notify(config)
 
     def message(self, msg, module_num=-1):
         '''Display a message to the user'''
@@ -171,9 +173,10 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
-        self.message('error during stage %s of %s: %s' % (state, module.name,
-                                                          error))
+        summary = 'error during stage %s of %s' % (state, module.name)
+        self.message('%s: %s' % (summary, error))
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
+        self.notify.notify(summary = summary, body = error, icon = 'dialog-error', expire = 20)
 
         if not self.config.interact:
             return 'fail'
