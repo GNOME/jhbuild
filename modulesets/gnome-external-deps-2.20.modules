@@ -1,0 +1,278 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <repository type="cvs" name="mozilla.org"
+      cvsroot=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
+      password="anonymous"/>
+
+  <!-- explicit disabling of qt3 and qt4 can be removed once avahi
+       correctly detects what is available. -->
+  <tarball autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.16">
+    <source href="http://avahi.org/download/avahi-0.6.16.tar.gz"
+            md5sum="3cbc460bbd55bae35f7b57443c063640" size="891970"/>
+    <dependencies>
+      <dep package="libdaemon"/>
+      <dep package="dbus-python"/>
+      <dep package="pygtk"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="cairo" version="1.4.0">
+    <source href="http://cairographics.org/releases/cairo-1.4.0.tar.gz"
+            md5sum="b0882df4621bcf5b69f024b9475f8d4e" size="3067230"/>
+    <dependencies>
+      <dep package="fontconfig"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+    <after>
+      <dep package="glitz"/>
+    </after>
+  </tarball>
+
+  <tarball id="cairomm" version="1.2.2">
+    <source href="http://cairographics.org/releases/cairomm-1.2.2.tar.gz"
+	    md5sum="fabb040a5ff2cf0529af55ff46d22d2d" size="582629"/>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </tarball>
+
+
+  <tarball autogenargs="--disable-selinux" id="dbus" supports-non-srcdir-builds="no" version="1.0.2">
+    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.0.2.tar.gz"
+            md5sum="0552a9b54beb4a044951b7cdbc8fc855" size="1400278"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+    </after>
+  </tarball>
+
+  <tarball id="dbus-glib" version="0.71">
+    <source href="http://dbus.freedesktop.org/releases/dbus-glib-0.71.tar.gz"
+            md5sum="4e1e7348b26ee8b6485452113f4221cc" size="566889"/>
+    <patches>
+      <patch file="dbus-glib-build.patch" strip="1" />
+    </patches>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <repository type="tarball" name="dbus/dbus-python"
+              href="http://dbus.freedesktop.org/releases/"/>
+  <distutils id="dbus-python">
+    <branch module="dbus-python-0.71.tar.gz" version="0.71"
+            repo="dbus/dbus-python"
+	    md5sum="ee893bc87b784a8c2285f5041b5e7033" size="137613"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </distutils>
+
+  <tarball id="desktop-file-utils" version="0.10">
+    <source href="http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.10.tar.gz"
+            md5sum="8b930e9ad08ac6b8205dd00a1d694b0c" size="341508"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="enchant" version="1.2.5">
+    <source href="http://www.abisource.com/downloads/enchant/1.2.5/enchant-1.2.5.tar.gz"
+	    md5sum="e64ec808ed2cb687c242ebb835faeb61" size="532332"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="fontconfig" version="2.4.1">
+    <source href="http://www.fontconfig.org/release/fontconfig-2.4.1.tar.gz"
+            md5sum="108f9a03fa9ed9dd779cc7ca236da557" size="1270946"/>
+  </tarball>
+
+  <tarball id="gamin" version="0.1.8">
+    <source href="http://www.gnome.org/~veillard/gamin/sources/gamin-0.1.8.tar.gz"
+            md5sum="985022c8b1b993e471d528fd0e14ffbe" size="564530"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gnutls" version="1.4.0">
+    <source href="http://ftp.gnupg.org/gcrypt/gnutls/gnutls-1.4.0.tar.bz2"
+            size="3281324" md5sum="9e1e1b07e971c604923ec394f6922301" />
+    <dependencies>
+      <dep package="libgcrypt" />
+      <dep package="libtasn1" />
+      <dep package="opencdk" />
+    </dependencies>
+  </tarball>
+
+  <tarball id="hal" version="0.5.7.1">
+    <source href="http://people.freedesktop.org/~david/dist/hal-0.5.7.1.tar.gz"
+            md5sum="d7a7741808ba130f8aff3f5d3b5689e4" size="1503156"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+    </dependencies>
+    <patches>
+      <patch file="hal-dbus_connection_close.patch" strip="0"/>
+    </patches>
+  </tarball>
+
+  <tarball id="hicolor-icon-theme" version="0.10" supports-non-srcdir-builds="no" >
+    <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.10.tar.gz"
+            md5sum="3534f7b8e59785c7d5bfa923e85510a7" size="33616"/>
+  </tarball>
+
+  <tarball id="icon-naming-utils" version="0.8.1">
+    <source href="http://tango-project.org/releases/icon-naming-utils-0.8.1.tar.gz"
+            md5sum="7a7d340f59c7a6c26391e906b7afa08c" size="63132"/>
+    <branch repo="icon-theme.freedesktop.org"/>
+  </tarball>
+
+  <tarball id="iso-codes" version="0.53">
+    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-0.53.tar.bz2"
+            md5sum="652887a62d8024e4ab6933061a92c233" size="4411143"/>
+  </tarball>
+
+  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
+    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
+            md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="pango"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libdaemon" version="0.10">
+    <source href="http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.10.tar.gz"
+            md5sum="6812a5e4063b5016f25e9a0cebbd3dd9" size="345084"/>
+  </tarball>
+
+  <tarball id="libgpg-error" version="1.3">
+    <source href="http://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.3.tar.bz2"
+            size="452266" md5sum="d978065d62cde48e79497b63f80ba8fc" />
+  </tarball>
+
+  <tarball id="libgcrypt" version="1.2.2">
+    <source href="http://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.2.2.tar.bz2"
+            size="780315" md5sum="4a8a9a7572892ae3803a5aa558e52e02" />
+    <dependencies>
+      <dep package="libgpg-error" />
+    </dependencies>
+  </tarball>
+
+  <tarball id="libgsf" version="1.14.2">
+    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.2.tar.bz2"
+            md5sum="aea16a8408b65f95c308b0db3e3d3d47" size="543516"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnome-vfs"/>
+      <dep package="libbonobo"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libmusicbrainz" version="2.1.2">
+    <source href="http://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.2.tar.gz"
+            size="504432" md5sum="88d35af903665fecbdee77eb6d5e6cdd"/>
+  </tarball>
+
+  <tarball id="liboil" version="0.3.8">
+    <source href="http://liboil.freedesktop.org/download/liboil-0.3.8.tar.gz"
+            md5sum="a402c4af2603c8fb69b365af0b8ec775" size="834167"/>
+  </tarball>
+
+  <tarball id="libtasn1" version="0.3.4" supports-non-srcdir-builds="no">
+    <source href="http://ftp.gnupg.org/gcrypt/alpha/gnutls/libtasn1/libtasn1-0.3.4.tar.gz"
+            size="1246545" md5sum="1dbfce0e1fbd6aebc1a4506814c23d35" />
+  </tarball>
+
+  <tarball id="libxklavier" supports-non-srcdir-builds="no" version="3.0">
+    <source href="http://xlibs.freedesktop.org/xkbdesc/libxklavier-3.0.tar.gz"
+            md5sum="7457dc72cfcb57498882ea652cb79eeb" size="460992"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball autogen-sh="configure" id="opal" version="2.2.5"
+      autogenargs="PWLIBDIR=../pwlib-1.10.4">
+    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/opal-2.2.5.tar.gz"
+            md5sum="d85407085c391fecc89451fd5c132645" size="4158355"/>
+    <dependencies>
+      <dep package="pwlib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="opencdk" version="0.5.8" supports-non-srcdir-builds="no">
+    <source href="http://ftp.gnupg.org/gcrypt/alpha/gnutls/opencdk/opencdk-0.5.8.tar.gz"
+            size="497122" md5sum="900c4dee7712845c19d7b2d2a93ea546" />
+    <dependencies>
+      <dep package="libgcrypt" />
+    </dependencies>
+  </tarball>
+
+  <tarball id="poppler" version="0.5.4">
+    <source href="http://poppler.freedesktop.org/poppler-0.5.4.tar.gz"
+            md5sum="053fdfd70533ecce1a06353fa945f061" size="1062401"/>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+    </after>
+  </tarball>
+
+  <tarball id="pycairo" version="1.2.2">
+    <source href="http://cairographics.org/releases/pycairo-1.2.2.tar.gz"
+            md5sum="83a2e06d9fc3530753701d580a18087e" size="482417"/>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </tarball>
+
+  <tarball autogen-sh="configure" id="pwlib" version="1.10.4">
+    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/pwlib-1.10.4.tar.gz"
+             md5sum="a9b71fec93079ff15374b26db71defab" size="2047300"/>
+  </tarball>
+
+  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.19">
+    <source href="http://freedesktop.org/~hadess/shared-mime-info-0.19.tar.gz"
+            md5sum="056a86a8245aecfd9c80740380c5265a" size="595168"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="startup-notification" version="0.8">
+    <source href="http://download.gnome.org/sources/startup-notification/0.8/startup-notification-0.8.tar.bz2"
+            md5sum="d9b2e9fba18843314ae42334ceb4336d" size="236255"/>
+    <branch repo="startup-notification.freedesktop.org"/>
+  </tarball>
+
+  <tarball id="system-tools-backends" version="2.1.2">
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/system-tools-backends/2.1/system-tools-backends-2.1.2.tar.bz2" md5sum="da42ed197a85668bf8475ca8e3a35651" size="407313"/>
+    <suggests>
+      <dep package="perl-net-dbus"/>
+    </suggests>
+  </tarball>
+
+  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck" cvsroot="mozilla.org" revision="MOZILLA_1_8_BRANCH" projects="xulrunner">
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </mozillamodule>
+
+</moduleset>
