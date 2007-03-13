@@ -1065,7 +1065,7 @@
     </dependencies>
   </autotools>
   <autotools id="ekiga" autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`">
-    <branch module="ekiga/tags/EKIGA_2_0_5" checkoutdir="ekiga"/>
+    <branch module="ekiga/tags/EKIGA_2_0_7" checkoutdir="ekiga"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="evolution-data-server"/>
@@ -1073,6 +1073,18 @@
       <dep package="avahi"/>
     </dependencies>
   </autotools>
+  <tarball autogen-sh="configure" id="pwlib" version="1.10.5">
+    <source href="http://www.ekiga.org/admin/downloads/latest/sources/sources/pwlib-1.10.5.tar.gz"
+             md5sum="1d5f444aedc56f7936bb87ccf21549e7" size="2050733"/>
+  </tarball>
+  <tarball autogen-sh="configure" id="opal" version="2.2.6"
+      autogenargs="PWLIBDIR=../pwlib-1.10.5">
+    <source href="http://www.ekiga.org/admin/downloads/latest/sources/sources/opal-2.2.6.tar.gz"
+            md5sum="7c83abfe93fbe6a868f5230d5bbec7aa" size="4161763"/>
+    <dependencies>
+      <dep package="pwlib"/>
+    </dependencies>
+  </tarball>
   <autotools id="gucharmap">
     <branch/>
     <dependencies>
