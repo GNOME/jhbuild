@@ -1,4 +1,5 @@
 <?xml version="1.0"?><!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="cairo"
@@ -90,14 +91,14 @@
   <tarball id="dbus-glib" version="0.71">
     <source href="http://dbus.freedesktop.org/releases/dbus-glib-0.71.tar.gz"
             md5sum="4e1e7348b26ee8b6485452113f4221cc" size="566889"/>
-    <patches>
-      <patch file="dbus-glib-build.patch" strip="1" />
-    </patches>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="dbus"/>
       <dep package="glib"/>
     </dependencies>
+    <patches>
+      <patch file="dbus-glib-build.patch" strip="1" />
+    </patches>
   </tarball>
 
   <repository type="tarball" name="dbus/dbus-python"
@@ -136,12 +137,6 @@
   <tarball id="fontconfig" version="2.4.1">
     <source href="http://www.fontconfig.org/release/fontconfig-2.4.1.tar.gz"
             md5sum="108f9a03fa9ed9dd779cc7ca236da557" size="1270946"/>
-  </tarball>
-  <tarball id="xchat" version="2.6.2">
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-    </dependencies>
   </tarball>
 
   <autotools id="icon-slicer">

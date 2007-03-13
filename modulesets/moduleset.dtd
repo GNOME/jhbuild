@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (repository|include|tarball|autotools|mozillamodule|distutils|metamodule)+>
+<!ELEMENT moduleset (repository|include|tarball|autotools|mozillamodule|distutils|perl|metamodule)+>
 
 <!ELEMENT include EMPTY >
 <!ATTLIST include
@@ -14,7 +14,7 @@
   id CDATA #REQUIRED >
 
 <!ELEMENT tarball
-  (source,dependencies?,patches?,suggests?,after?) >
+  (source,branch?,dependencies?,patches?,suggests?,after?) >
 <!ATTLIST tarball
   id CDATA #REQUIRED
   version CDATA #REQUIRED
@@ -43,6 +43,16 @@
   checkoutdir CDATA #IMPLIED
   supports-non-srcdir-builds (yes|no) 'yes' >
 
+<!ELEMENT perl
+  (branch?,patches?,dependencies?,suggests?,after?) >
+<!ATTLIST perl
+  id CDATA #REQUIRED
+  version CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
+
+
+
 <!-- Tarball sub-elements -->
 <!ELEMENT source EMPTY >
 <!ATTLIST source
@@ -67,7 +77,10 @@
   revision CDATA #IMPLIED
   module CDATA #IMPLIED
   checkoutdir CDATA #IMPLIED
-  repo CDATA #IMPLIED>
+  repo CDATA #IMPLIED
+  size CDATA #IMPLIED
+  md5sum CDATA #IMPLIED
+  version CDATA #IMPLIED>
 
 <!ELEMENT after (dep*) >
 
