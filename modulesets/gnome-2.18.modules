@@ -36,6 +36,9 @@
   <repository type="git" name="git.imendio.com"
     href="git://git.imendio.com/projects/"/>
 
+  <include href="freedesktop-2.18.modules"/>
+  <include href="gnutls.modules"/>
+
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://easynews.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
             size="679513" md5sum="161eb3f29e30e7b24f84eb93ac696155"/>
@@ -56,17 +59,6 @@
     <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-0.53.tar.bz2"
             md5sum="652887a62d8024e4ab6933061a92c233" size="4411143"/>
   </tarball>
-
-  <include href="freedesktop-2.18.modules"/>
-  <include href="gnutls.modules"/>
-
-  <autotools id="cairo-gtk-engine">
-    <branch repo="cairo.freedesktop.org"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="cairo-1-0"/>
-    </dependencies>
-  </autotools>
 
   <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.19">
     <source href="http://freedesktop.org/~hadess/shared-mime-info-0.19.tar.gz"
@@ -96,6 +88,109 @@
       <dep package="glib"/>
     </dependencies>
   </tarball>
+
+  <tarball id="guile" version="1.8.0">
+    <source href="ftp://ftp.gnu.org/gnu/guile/guile-1.8.0.tar.gz"
+            size="3691677" md5sum="3f47443602f93e94bf43218d9b86099d"/>
+  </tarball>
+  <tarball id="autogen" version="5.8.4">
+    <source href="http://internap.dl.sourceforge.net/sourceforge/autogen/autogen-5.8.4.tar.bz2"
+            size="931015" md5sum="b65d4b9e3ddbcfd5418b708858c05b66"/>
+    <dependencies>
+      <dep package="guile"/>
+    </dependencies>
+  </tarball>
+  <tarball id="gamin" version="0.1.8">
+    <source href="http://www.gnome.org/~veillard/gamin/sources/gamin-0.1.8.tar.gz"
+            md5sum="985022c8b1b993e471d528fd0e14ffbe" size="564530"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
+    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
+            md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="pango"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="audiofile" version="0.2.6" supports-non-srcdir-builds="no">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.6.tar.gz"
+            size="374688" md5sum="9c1049876cd51c0f1b12c2886cce4d42"/>
+  </tarball>
+
+  <tarball id="libgsf" version="1.14.2">
+    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.2.tar.bz2"
+            md5sum="aea16a8408b65f95c308b0db3e3d3d47" size="543516"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnome-vfs"/>
+      <dep package="libbonobo"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="liboil" version="0.3.8">
+    <source href="http://liboil.freedesktop.org/download/liboil-0.3.8.tar.gz"
+            md5sum="a402c4af2603c8fb69b365af0b8ec775" size="834167"/>
+  </tarball>
+  <tarball autogen-sh="configure" id="pwlib" version="1.10.4">
+    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/pwlib-1.10.4.tar.gz"
+             md5sum="a9b71fec93079ff15374b26db71defab" size="2047300"/>
+  </tarball>
+  <tarball autogen-sh="configure" id="opal" version="2.2.5"
+      autogenargs="PWLIBDIR=../pwlib-1.10.4">
+    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/opal-2.2.5.tar.gz"
+            md5sum="d85407085c391fecc89451fd5c132645" size="4158355"/>
+    <dependencies>
+      <dep package="pwlib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gob2" version="2.0.14">
+    <source href="http://ftp.5z.com/pub/gob/gob2-2.0.14.tar.gz"
+            md5sum="f8721af6f4e90ff48bd7cb4c96a5a94c" size="249857"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="enchant" version="1.2.5">
+    <source href="http://www.abisource.com/downloads/enchant/1.2.5/enchant-1.2.5.tar.gz"
+	    md5sum="e64ec808ed2cb687c242ebb835faeb61" size="532332"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+  <tarball id="xchat" version="2.6.2">
+    <source href="http://xchat.org/files/source/2.6/xchat-2.6.2.tar.bz2"
+            size="1046910" md5sum="6b534baf9a4df6bf23d7d16f7e4eb379"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+  <tarball id="camorama" version="0.17">
+    <source href="http://camorama.fixedgear.org/downloads/camorama-0.17.tar.bz2"
+            size="312233" md5sum="2b2784af53a1ba8fa4419aa806967b35"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libmusicbrainz" version="2.1.2">
+    <source href="http://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.2.tar.gz"
+            size="504432" md5sum="88d35af903665fecbdee77eb6d5e6cdd"/>
+  </tarball>
+
+  <autotools id="cairo-gtk-engine">
+    <branch repo="cairo.freedesktop.org"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="cairo-1-0"/>
+    </dependencies>
+  </autotools>
   <autotools id="libbtctl">
     <branch/>
     <dependencies>
@@ -155,13 +250,6 @@
       <dep package="scrollkeeper"/>
     </dependencies>
   </autotools>
-  <tarball id="gamin" version="0.1.8">
-    <source href="http://www.gnome.org/~veillard/gamin/sources/gamin-0.1.8.tar.gz"
-            md5sum="985022c8b1b993e471d528fd0e14ffbe" size="564530"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
   <autotools id="glib">
     <branch revision="glib-2-12"/>
     <dependencies>
@@ -489,14 +577,6 @@
       <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
-  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
-    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
-            md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="pango"/>
-    </dependencies>
-  </tarball>
   <autotools id="librsvg" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
@@ -646,10 +726,6 @@
       <dep package="gnome-doc-utils"/>
     </dependencies>
   </autotools>
-  <tarball id="audiofile" version="0.2.6" supports-non-srcdir-builds="no">
-    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.6.tar.gz"
-            size="374688" md5sum="9c1049876cd51c0f1b12c2886cce4d42"/>
-  </tarball>
   <autotools id="esound">
     <branch/>
     <dependencies>
@@ -774,15 +850,6 @@
       <dep package="libnotify"/>
     </suggests>
   </autotools>
-  <tarball id="libgsf" version="1.14.2">
-    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.2.tar.bz2"
-            md5sum="aea16a8408b65f95c308b0db3e3d3d47" size="543516"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gnome-vfs"/>
-      <dep package="libbonobo"/>
-    </dependencies>
-  </tarball>
   <autotools id="goffice">
     <branch/>
     <dependencies>
@@ -900,11 +967,6 @@
     </dependencies>
   </autotools>
 
-  <tarball id="liboil" version="0.3.8">
-    <source href="http://liboil.freedesktop.org/download/liboil-0.3.8.tar.gz"
-            md5sum="a402c4af2603c8fb69b365af0b8ec775" size="834167"/>
-  </tarball>
-
   <autotools id="gst-plugins-base" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
     <dependencies>
@@ -986,21 +1048,6 @@
       <dep package="gnet"/>
     </dependencies>
   </autotools>
-  <distutils id="pyspi">
-    <branch/>
-    <dependencies>
-      <dep package="at-spi"/>
-    </dependencies>
-  </distutils>
-  <distutils id="dogtail">
-    <branch/>
-    <dependencies>
-      <dep package="pyspi"/>
-    </dependencies>
-    <after>
-      <dep package="gnome-python-desktop"/>
-    </after>
-  </distutils>
   <autotools id="gcalctool" supports-non-srcdir-builds="no">
     <branch revision="gnome-2-18"/>
     <dependencies>
@@ -1025,18 +1072,6 @@
       <dep package="avahi"/>
     </dependencies>
   </autotools>
-  <tarball autogen-sh="configure" id="pwlib" version="1.10.4">
-    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/pwlib-1.10.4.tar.gz"
-             md5sum="a9b71fec93079ff15374b26db71defab" size="2047300"/>
-  </tarball>
-  <tarball autogen-sh="configure" id="opal" version="2.2.5"
-      autogenargs="PWLIBDIR=../pwlib-1.10.4">
-    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/opal-2.2.5.tar.gz"
-            md5sum="d85407085c391fecc89451fd5c132645" size="4158355"/>
-    <dependencies>
-      <dep package="pwlib"/>
-    </dependencies>
-  </tarball>
   <autotools id="gucharmap">
     <branch/>
     <dependencies>
@@ -1380,143 +1415,6 @@
       <dep package="pygtk"/>
     </dependencies>
   </autotools>
-
-  <metamodule id="meta-gnome-devel-platform">
-    <dependencies>
-      <dep package="libgnome"/>
-      <dep package="libbonobo"/>
-      <dep package="libbonoboui"/>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-vfs-monikers"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-core">
-    <dependencies>
-      <dep package="gnome-desktop"/>
-      <dep package="gnome-panel"/>
-      <dep package="gnome-session"/>
-      <dep package="gnome-terminal"/>
-      <dep package="gnome-applets"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-nautilus">
-    <dependencies>
-      <dep package="nautilus"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-desktop">
-    <dependencies>
-      <dep package="meta-gnome-core"/>
-      <dep package="gnome-control-center"/>
-      <dep package="meta-nautilus"/>
-      <dep package="yelp"/>
-      <dep package="bug-buddy"/>
-      <dep package="gedit"/>
-      <dep package="gtk-engines"/>
-      <dep package="eog"/>
-      <dep package="metacity"/>
-      <dep package="gconf-editor"/>
-      <dep package="gnome-utils"/>
-      <dep package="gnome-system-monitor"/>
-      <dep package="gstreamer"/>
-      <dep package="gnome-media"/>
-      <dep package="gnome-netstatus"/>
-      <dep package="gcalctool"/>
-      <dep package="gucharmap"/>
-      <dep package="nautilus-cd-burner"/>
-      <dep package="zenity"/>
-      <dep package="libgail-gnome"/>
-      <dep package="gok"/>
-      <dep package="epiphany"/>
-      <dep package="gnome-games"/>
-      <dep package="gnome-user-docs"/>
-      <dep package="file-roller"/>
-      <dep package="gnome-system-tools"/>
-      <dep package="gnome-nettool"/>
-      <dep package="vino"/>
-      <dep package="gnome-volume-manager"/>
-      <dep package="totem"/>
-      <dep package="gnome-menus"/>
-      <dep package="gnome-backgrounds"/>
-      <dep package="sound-juicer"/>
-      <dep package="evolution"/>
-      <dep package="evolution-webcal"/>
-      <dep package="evolution-exchange"/>
-      <dep package="ekiga"/>
-      <dep package="evince"/>
-      <dep package="dasher"/>
-      <dep package="gnome-keyring-manager"/>
-      <dep package="deskbar-applet"/>
-      <dep package="fast-user-switch-applet"/>
-      <dep package="gnome-screensaver"/>
-      <dep package="alacarte"/>
-      <dep package="gnome-power-manager"/>
-      <dep package="orca"/>
-      <dep package="meta-gnome-admin"/>
-      <dep package="seahorse"/>
-      <dep package="network-manager-applet"/>
-      <dep package="meta-gnome-devtools-suite"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-admin">
-    <dependencies>
-      <dep package="pessulus"/>
-      <dep package="sabayon"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-devtools-suite">
-    <dependencies>
-      <dep package="glade3"/>
-      <dep package="devhelp"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-devel-tools">
-    <dependencies>
-      <dep package="glade"/>
-      <dep package="memprof"/>
-      <dep package="gconf-editor"/>
-      <dep package="devhelp"/>
-      <dep package="nautilus-vcs"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-python">
-    <dependencies>
-      <dep package="pygtk"/>
-      <dep package="gnome-python"/>
-      <dep package="gnome-python-desktop"/>
-    </dependencies>
-    <after>
-      <dep package="gnome-python-extras"/>
-    </after>
-  </metamodule>
-  <metamodule id="meta-gnome-c++">
-    <dependencies>
-      <dep package="gtkmm"/>
-      <dep package="libgnomeuimm"/>
-      <dep package="gnome-vfsmm"/>
-      <dep package="libpanelappletmm"/>
-      <dep package="libgnomeprintuimm"/>
-      <dep package="libxml++"/>
-      <dep package="libgdamm"/>
-      <dep package="bakery"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-accessibility">
-    <dependencies>
-      <dep package="libgail-gnome"/>
-      <dep package="at-poke"/>
-      <dep package="dasher"/>
-      <dep package="gnome-mag"/>
-      <dep package="gok"/>
-      <dep package="gnome-speech"/>
-      <dep package="gnopernicus"/>
-      <dep package="orca"/>
-    </dependencies>
-  </metamodule>
-  <metamodule id="meta-gnome-proposed">
-    <dependencies>
-    </dependencies>
-  </metamodule>
   <autotools id="sodipodi">
     <branch/>
     <dependencies>
@@ -1533,13 +1431,6 @@
       <dep package="icon-naming-utils"/>
     </dependencies>
   </autotools>
-  <tarball id="gob2" version="2.0.14">
-    <source href="http://ftp.5z.com/pub/gob/gob2-2.0.14.tar.gz"
-            md5sum="f8721af6f4e90ff48bd7cb4c96a5a94c" size="249857"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
   <autotools id="libgnetwork">
     <branch/>
     <dependencies>
@@ -1562,18 +1453,6 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck" cvsroot="mozilla.org" revision="MOZILLA_1_8_BRANCH" projects="xulrunner">
-    <dependencies>
-      <dep package="gtk+"/>
-    </dependencies>
-  </mozillamodule>
-  <tarball id="enchant" version="1.2.5">
-    <source href="http://www.abisource.com/downloads/enchant/1.2.5/enchant-1.2.5.tar.gz"
-	    md5sum="e64ec808ed2cb687c242ebb835faeb61" size="532332"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
   <autotools id="gnome-gecko-embed">
     <branch/>
     <dependencies>
@@ -1670,21 +1549,6 @@
        <dep package="libsoup"/>
     </dependencies>
   </autotools>
-  <tarball id="xchat" version="2.6.2">
-    <source href="http://xchat.org/files/source/2.6/xchat-2.6.2.tar.bz2"
-            size="1046910" md5sum="6b534baf9a4df6bf23d7d16f7e4eb379"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </tarball>
-  <tarball id="camorama" version="0.17">
-    <source href="http://camorama.fixedgear.org/downloads/camorama-0.17.tar.bz2"
-            size="312233" md5sum="2b2784af53a1ba8fa4419aa806967b35"/>
-    <dependencies>
-      <dep package="gtk+"/>
-    </dependencies>
-  </tarball>
   <autotools id="gtk-engines-cleanice">
     <branch repo="elysium-project.sf.net"/>
     <dependencies>
@@ -1730,10 +1594,6 @@
       <dep package="glib"/>
     </dependencies>
   </autotools>
-  <tarball id="libmusicbrainz" version="2.1.2">
-    <source href="http://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.2.tar.gz"
-            size="504432" md5sum="88d35af903665fecbdee77eb6d5e6cdd"/>
-  </tarball>
   <autotools id="totem" autogenargs="--enable-gstreamer">
     <branch/>
     <dependencies>
@@ -1902,17 +1762,7 @@
       <dep package="glib"/>
     </dependencies>
   </autotools>
-  <tarball id="guile" version="1.8.0">
-    <source href="ftp://ftp.gnu.org/gnu/guile/guile-1.8.0.tar.gz"
-            size="3691677" md5sum="3f47443602f93e94bf43218d9b86099d"/>
-  </tarball>
-  <tarball id="autogen" version="5.8.4">
-    <source href="http://internap.dl.sourceforge.net/sourceforge/autogen/autogen-5.8.4.tar.bz2"
-            size="931015" md5sum="b65d4b9e3ddbcfd5418b708858c05b66"/>
-    <dependencies>
-      <dep package="guile"/>
-    </dependencies>
-  </tarball>
+
   <autotools id="anjuta">
     <branch/>
     <dependencies>
@@ -1977,13 +1827,8 @@
       <dep package="hal"/>
     </dependencies>
   </autotools>
-  <metamodule id="meta-storage">
-    <dependencies>
-      <dep package="storage/storage-store"/>
-      <dep package="storage/vfs"/>
-      <dep package="storage/applet"/>
-    </dependencies>
-  </metamodule>
+
+
   <autotools id="storage/storage-store">
     <branch/>
     <dependencies>
@@ -2323,5 +2168,172 @@
       <dep package="gnome-python"/>
     </dependencies>
   </autotools>
+
+  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck" cvsroot="mozilla.org" revision="MOZILLA_1_8_BRANCH" projects="xulrunner">
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </mozillamodule>
+
+  <distutils id="pyspi">
+    <branch/>
+    <dependencies>
+      <dep package="at-spi"/>
+    </dependencies>
+  </distutils>
+  <distutils id="dogtail">
+    <branch/>
+    <dependencies>
+      <dep package="pyspi"/>
+    </dependencies>
+    <after>
+      <dep package="gnome-python-desktop"/>
+    </after>
+  </distutils>
+
+  <metamodule id="meta-storage">
+    <dependencies>
+      <dep package="storage/storage-store"/>
+      <dep package="storage/vfs"/>
+      <dep package="storage/applet"/>
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-devel-platform">
+    <dependencies>
+      <dep package="libgnome"/>
+      <dep package="libbonobo"/>
+      <dep package="libbonoboui"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-vfs-monikers"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-core">
+    <dependencies>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-panel"/>
+      <dep package="gnome-session"/>
+      <dep package="gnome-terminal"/>
+      <dep package="gnome-applets"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-nautilus">
+    <dependencies>
+      <dep package="nautilus"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-desktop">
+    <dependencies>
+      <dep package="meta-gnome-core"/>
+      <dep package="gnome-control-center"/>
+      <dep package="meta-nautilus"/>
+      <dep package="yelp"/>
+      <dep package="bug-buddy"/>
+      <dep package="gedit"/>
+      <dep package="gtk-engines"/>
+      <dep package="eog"/>
+      <dep package="metacity"/>
+      <dep package="gconf-editor"/>
+      <dep package="gnome-utils"/>
+      <dep package="gnome-system-monitor"/>
+      <dep package="gstreamer"/>
+      <dep package="gnome-media"/>
+      <dep package="gnome-netstatus"/>
+      <dep package="gcalctool"/>
+      <dep package="gucharmap"/>
+      <dep package="nautilus-cd-burner"/>
+      <dep package="zenity"/>
+      <dep package="libgail-gnome"/>
+      <dep package="gok"/>
+      <dep package="epiphany"/>
+      <dep package="gnome-games"/>
+      <dep package="gnome-user-docs"/>
+      <dep package="file-roller"/>
+      <dep package="gnome-system-tools"/>
+      <dep package="gnome-nettool"/>
+      <dep package="vino"/>
+      <dep package="gnome-volume-manager"/>
+      <dep package="totem"/>
+      <dep package="gnome-menus"/>
+      <dep package="gnome-backgrounds"/>
+      <dep package="sound-juicer"/>
+      <dep package="evolution"/>
+      <dep package="evolution-webcal"/>
+      <dep package="evolution-exchange"/>
+      <dep package="ekiga"/>
+      <dep package="evince"/>
+      <dep package="dasher"/>
+      <dep package="gnome-keyring-manager"/>
+      <dep package="deskbar-applet"/>
+      <dep package="fast-user-switch-applet"/>
+      <dep package="gnome-screensaver"/>
+      <dep package="alacarte"/>
+      <dep package="gnome-power-manager"/>
+      <dep package="orca"/>
+      <dep package="meta-gnome-admin"/>
+      <dep package="seahorse"/>
+      <dep package="network-manager-applet"/>
+      <dep package="meta-gnome-devtools-suite"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-admin">
+    <dependencies>
+      <dep package="pessulus"/>
+      <dep package="sabayon"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-devtools-suite">
+    <dependencies>
+      <dep package="glade3"/>
+      <dep package="devhelp"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-devel-tools">
+    <dependencies>
+      <dep package="glade"/>
+      <dep package="memprof"/>
+      <dep package="gconf-editor"/>
+      <dep package="devhelp"/>
+      <dep package="nautilus-vcs"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-python">
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-python-desktop"/>
+    </dependencies>
+    <after>
+      <dep package="gnome-python-extras"/>
+    </after>
+  </metamodule>
+  <metamodule id="meta-gnome-c++">
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libgnomeuimm"/>
+      <dep package="gnome-vfsmm"/>
+      <dep package="libpanelappletmm"/>
+      <dep package="libgnomeprintuimm"/>
+      <dep package="libxml++"/>
+      <dep package="libgdamm"/>
+      <dep package="bakery"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-accessibility">
+    <dependencies>
+      <dep package="libgail-gnome"/>
+      <dep package="at-poke"/>
+      <dep package="dasher"/>
+      <dep package="gnome-mag"/>
+      <dep package="gok"/>
+      <dep package="gnome-speech"/>
+      <dep package="gnopernicus"/>
+      <dep package="orca"/>
+    </dependencies>
+  </metamodule>
+  <metamodule id="meta-gnome-proposed">
+    <dependencies>
+    </dependencies>
+  </metamodule>
 
 </moduleset>

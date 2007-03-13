@@ -1,86 +1,25 @@
-<!ELEMENT moduleset ((cvsroot|svnroot|arch-archive|darcs-archive)*,
-                     (include|cvsmodule|svnmodule|archmodule|darcsmodule|
-                      metamodule|tarball|mozillamodule)*) >
+<!ELEMENT moduleset (repository*|include*|tarball*|autotools*|mozillamodule*|distutils*|metamodule*)>
 
-<!ELEMENT cvsroot EMPTY >
-<!ATTLIST cvsroot
-  name CDATA #REQUIRED
-  root CDATA #REQUIRED
-  password CDATA #IMPLIED
-  default (yes|no) 'no' >
-
-<!ELEMENT svnroot EMPTY >
-<!ATTLIST svnroot
-  name CDATA #REQUIRED
-  href CDATA #REQUIRED
-  default (yes|no) 'no' >
-
-<!ELEMENT arch-archive EMPTY >
-<!ATTLIST arch-archive
-  name CDATA #REQUIRED
-  href CDATA #REQUIRED
-  default (yes|no) 'no' >
-
-<!ELEMENT darcs-archive EMPTY >
-<!ATTLIST darcs-archive
-  name CDATA #REQUIRED
-  href CDATA #REQUIRED
-  default (yes|no) 'no' >
-  
 <!ELEMENT include EMPTY >
 <!ATTLIST include
-  href CDATA #REQUIRED >
+  href CDATA #REQUIRED>
 
-<!ELEMENT cvsmodule (dependencies?,suggests?) >
-<!ATTLIST cvsmodule
+<!ELEMENT autotools (branch,dependencies?,suggests?,after?) >
+<!ATTLIST autotools
   id CDATA #REQUIRED
-  module CDATA #IMPLIED
-  revision CDATA #IMPLIED
-  checkoutdir CDATA #IMPLIED
   autogenargs CDATA #IMPLIED
-  makeargs CDATA #IMPLIED
-  cvsroot CDATA #IMPLIED
-  supports-non-srcdir-builds (yes|no) 'yes' >
-
-<!ELEMENT svnmodule (dependencies?,suggests?) >
-<!ATTLIST svnmodule
-  id CDATA #REQUIRED
-  module CDATA #IMPLIED
-  checkoutdir CDATA #IMPLIED
-  autogenargs CDATA #IMPLIED
-  makeargs CDATA #IMPLIED
-  root CDATA #IMPLIED
-  supports-non-srcdir-builds (yes|no) 'yes' >
-
-<!ELEMENT archmodule (dependencies?,suggests?) >
-<!ATTLIST archmodule
-  id CDATA #REQUIRED
-  version CDATA #IMPLIED
-  checkoutdir CDATA #IMPLIED
-  autogenargs CDATA #IMPLIED
-  makeargs CDATA #IMPLIED
-  root CDATA #IMPLIED
-  supports-non-srcdir-builds (yes|no) 'yes' >
-
-<!ELEMENT darcsmodule (dependencies?,suggests?) >
-<!ATTLIST darcsmodule
-  id CDATA #REQUIRED
-  checkoutdir CDATA #IMPLIED
-  autogenargs CDATA #IMPLIED
-  makeargs CDATA #IMPLIED
-  root CDATA #IMPLIED
-  supports-non-srcdir-builds (yes|no) 'yes' >
-  
-<!ELEMENT metamodule (dependencies) >
+  supports-non-srcdir-builds CDATA #IMPLIED>
+<!ELEMENT metamodule (dependencies,after?) >
 <!ATTLIST metamodule
   id CDATA #REQUIRED >
 
 <!ELEMENT tarball
-  (source,patches?,dependencies?,suggests?) >
+  (source,dependencies?,patches?,suggests?,after?) >
 <!ATTLIST tarball
   id CDATA #REQUIRED
   version CDATA #REQUIRED
   checkoutdir CDATA #IMPLIED
+  autogen-sh CDATA #IMPLIED
   autogenargs CDATA #IMPLIED
   makeargs CDATA #IMPLIED
   supports-non-srcdir-builds (yes|no) 'yes' >
@@ -93,7 +32,16 @@
   checkoutdir CDATA #IMPLIED
   autogenargs CDATA #IMPLIED
   makeargs CDATA #IMPLIED
+  projects CDATA #IMPLIED
   cvsroot CDATA #IMPLIED >
+
+<!ELEMENT distutils
+  (branch?,patches?,dependencies?,suggests?,after?) >
+<!ATTLIST distutils
+  id CDATA #REQUIRED
+  version CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  supports-non-srcdir-builds (yes|no) 'yes' >
 
 <!-- Tarball sub-elements -->
 <!ELEMENT source EMPTY >
@@ -113,3 +61,22 @@
 <!ELEMENT dep EMPTY >
 <!ATTLIST dep
   package CDATA #REQUIRED >
+
+<!ELEMENT branch EMPTY >
+<!ATTLIST branch
+  revision CDATA #IMPLIED
+  module CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  repo CDATA #IMPLIED>
+
+<!ELEMENT after (dep*) >
+
+<!ELEMENT repository EMPTY >
+<!ATTLIST repository
+  type CDATA #REQUIRED
+  name CDATA #REQUIRED
+  default CDATA #IMPLIED
+  href CDATA #IMPLIED
+  password CDATA #IMPLIED
+  cvsroot CDATA #IMPLIED>
+
