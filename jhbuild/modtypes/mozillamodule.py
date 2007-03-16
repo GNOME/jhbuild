@@ -170,7 +170,7 @@ def parse_mozillamodule(node, config, repositories, default_repo):
     revision = config.branches.get(name, revision)
     autogenargs += ' ' + config.module_autogenargs.get(name,
                                                        config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(name, makeargs)
+    makeargs += ' ' + config.module_makeargs.get(name, config.makeargs)
 
     dependencies, after = get_dependencies(node)
 

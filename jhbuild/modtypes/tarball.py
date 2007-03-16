@@ -259,7 +259,7 @@ def parse_tarball(node, config, repositories, default_repo):
 
     autogenargs += ' ' + config.module_autogenargs.get(name,
                                                        config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(name, makeargs)
+    makeargs += ' ' + config.module_makeargs.get(name, config.makeargs)
 
     # for tarballs, don't ever pass --enable-maintainer-mode
     autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
