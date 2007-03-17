@@ -1052,4 +1052,38 @@
     <branch/>
   </autotools>
 
+  <autotools id="NetworkManager">
+    <branch module="NetworkManager/branches/NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus-glib"/>
+      <dep package="hal"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="libgnome"/>
+      <dep package="gnome-keyring"/>
+      <dep package="libgnomeui"/>
+      <dep package="libgcrypt"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="network-manager-applet">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus-glib"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="libgnome"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-keyring"/>
+      <dep package="NetworkManager"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
 </moduleset>

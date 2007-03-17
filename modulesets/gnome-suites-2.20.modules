@@ -12,32 +12,21 @@
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
       password=""/>
 
-<!-- Unofficial modules; should be proposed as official or moved to another
-     module set -->
-
+<!-- This is a special module: it's needed to build from svn, but not
+     needed to build from tarballs, so it doesn't need to be in our suites
+     and it doesn't need to be an external dependency -->
   <autotools id="gnome-common">
     <branch/>
   </autotools>
+
+<!-- Unofficial modules; should be proposed as official or moved to another
+     module set -->
+
   <autotools id="libgnomecups">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gnome-common"/>
-    </dependencies>
-  </autotools>
-  <autotools id="NetworkManager">
-    <branch module="NetworkManager/branches/NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus-glib"/>
-      <dep package="hal"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libgnomeui"/>
-      <dep package="libgcrypt"/>
     </dependencies>
   </autotools>
 
@@ -932,24 +921,6 @@
     </dependencies>
   </autotools>      
 
- <autotools id="network-manager-applet">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus-glib"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-keyring"/>
-      <dep package="NetworkManager"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
-
   <autotools id="orca">
     <branch/>
     <dependencies>
@@ -1361,7 +1332,6 @@
       <dep package="metacity"/>
       <dep package="nautilus"/>
       <dep package="nautilus-cd-burner"/>
-      <dep package="network-manager-applet"/>
       <dep package="orca"/>
       <dep package="scrollkeeper"/>
       <dep package="seahorse"/>
