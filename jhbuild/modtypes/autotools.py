@@ -20,6 +20,7 @@
 __metaclass__ = type
 
 import os
+import re
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
@@ -133,12 +134,24 @@ class AutogenModule(Package):
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
 
-        # if we are using configure as the autogen command, make sure
-        # we don't pass --enable-maintainer-mode, since it breaks many
-        # tarball builds.
+        # Fix up the arguments for special cases:
+        #   tarballs: remove --enable-maintainer-mode to avoid breaking build
+        #   tarballs: remove '-- ' to avoid breaking build (GStreamer weirdness)
+        #   non-tarballs: place --prefix and --libdir after '-- ', if present
         if self.autogen_sh == 'configure':
             cmd = cmd.replace('--enable-maintainer-mode', '')
             
+            # Also, don't pass '--', which gstreamer attempts to do, since
+            # it is royally broken.
+            cmd = cmd.replace('-- ', '')
+        else:
+            # place --prefix and --libdir arguments after '-- '
+            # (GStreamer weirdness)
+            if self.autogenargs.find('-- ') != -1:
+                p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
+                       (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
+                cmd = p.sub(r'\1\4-- \2\3', cmd)
+
         buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_CLEAN
     do_configure.error_states = [STATE_FORCE_CHECKOUT]
