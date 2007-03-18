@@ -21,6 +21,11 @@ checkoutroot = os.path.expanduser('~/checkout/gnome2')
 # the prefix to configure/install modules to (must have write access)
 prefix = '/opt/gnome2'
 
+# if you do not want to use system-installed libraries for your builds, comment
+# out the lines below
+addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'lib', 'pkgconfig'))
+addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'share', 'pkgconfig'))
+
 # extra arguments to pass to all autogen.sh scripts
 # to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
 #autogenargs=''
