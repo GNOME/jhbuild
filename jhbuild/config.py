@@ -19,6 +19,7 @@
 
 import os
 import traceback
+import sys
 
 from jhbuild.errors import UsageError, FatalError
 
@@ -170,6 +171,14 @@ class Config:
         addpath('PERL5LIB', perl5lib)
 
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
+
+	# PYTHONPATH
+	pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+	if self.use_lib64:
+            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
+        else:
+            pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
+	addpath('PYTHONPATH', pythonpath)
 
         # handle environment prepends ...
         for envvar in env_prepends.keys():
