@@ -36,6 +36,10 @@
       href="svn://svn.gna.org/svn/"/>
   <repository type="git" name="git.imendio.com"
     href="git://git.imendio.com/projects/"/>
+  <repository type="svn" name="svn.tinymail.org"
+    href="https://svn.tinymail.org/svn/tinymail/" />
+  <repository type="svn" name="svn.modest"
+    href="https://garage.maemo.org/svn/modest/" />
 
   <include href="freedesktop-2.18.modules"/>
   <include href="gnutls.modules"/>
@@ -2203,6 +2207,16 @@
     </after>
   </distutils>
 
+  <autotools id="tinymail" autogenargs="--with-platform=gnome-desktop">
+    <branch repo="svn.tinymail.org" module="trunk"  checkoutdir="tinymail" />
+  </autotools>
+  <autotools id="modest" autogenargs="--with-platform=gnome">
+    <branch repo="svn.modest" module="trunk"  checkoutdir="modest" />
+    <dependencies>
+      <dep package="tinymail"/>
+    </dependencies>
+  </autotools>
+
   <metamodule id="meta-storage">
     <dependencies>
       <dep package="storage/storage-store"/>
@@ -2346,5 +2360,7 @@
     <dependencies>
     </dependencies>
   </metamodule>
+
+
 
 </moduleset>
