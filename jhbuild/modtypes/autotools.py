@@ -44,15 +44,19 @@ class AutogenModule(Package):
     STATE_INSTALL        = 'install'
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
+                 makeinstallargs='',
                  dependencies=[], after=[],
                  supports_non_srcdir_builds=True,
+                 skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile'):
         Package.__init__(self, name, dependencies, after)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
+        self.makeinstallargs = makeinstallargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
+        self.skip_autogen = skip_autogen
         self.autogen_sh = autogen_sh
         self.makefile = makefile
 
@@ -103,6 +107,10 @@ class AutogenModule(Package):
     def skip_configure(self, buildscript, last_state):
         # skip if nobuild is set.
         if buildscript.config.nobuild:
+            return True
+
+        # skip if manually instructed to do so
+        if self.skip_autogen:
             return True
 
         # don't skip this stage if we got here from one of the
@@ -206,7 +214,11 @@ class AutogenModule(Package):
 
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
-        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        if self.makeinstallargs:
+            cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeinstallargs)
+        else:
+            cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
+
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
@@ -217,20 +229,31 @@ def parse_autotools(node, config, repositories, default_repo):
     id = node.getAttribute('id')
     autogenargs = ''
     makeargs = ''
+    makeinstallargs = ''
     supports_non_srcdir_builds = True
     autogen_sh = 'autogen.sh'
+    skip_autogen = False
     makefile = 'Makefile'
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('makeinstallargs'):
+        makeinstallargs = node.getAttribute('makeinstallargs')
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('skip-autogen'):
+        skip_autogen = (node.getAttribute('skip-autogen') == 'true')
     if node.hasAttribute('autogen-sh'):
         autogen_sh = node.getAttribute('autogen-sh')
     if node.hasAttribute('makefile'):
         makefile = node.getAttribute('makefile')
+
+    # Make some substitutions; do special handling of '${prefix}'
+    p = re.compile('(.*)(\${prefix})')
+    makeargs        = p.sub(r'\1%s' % config.prefix, makeargs)
+    makeinstallargs = p.sub(r'\1%s' % config.prefix, makeinstallargs)
 
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
@@ -240,9 +263,11 @@ def parse_autotools(node, config, repositories, default_repo):
     branch = get_branch(node, repositories, default_repo)
 
     return AutogenModule(id, branch, autogenargs, makeargs,
+                         makeinstallargs=makeinstallargs,
                          dependencies=dependencies,
                          after=after,
                          supports_non_srcdir_builds=supports_non_srcdir_builds,
+                         skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
                          makefile=makefile)
 register_module_type('autotools', parse_autotools)
