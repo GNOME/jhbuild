@@ -3,10 +3,6 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
 
-  <repository type="cvs" name="mozilla.org"
-      cvsroot=":pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot"
-      password="anonymous"/>
-
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
   <tarball autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.16">
@@ -269,11 +265,21 @@
     </suggests>
   </tarball>
 
-  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck" cvsroot="mozilla.org" revision="MOZILLA_1_8_BRANCH" projects="xulrunner">
+  <repository type="tarball" name="mozilla.org"
+      href="http://releases.mozilla.org/pub/mozilla.org/"/>
+  <autotools id="mozilla"
+             autogen-sh="configure"
+             autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=browser --disable-javaxpcom --enable-application=browser --enable-extensions=default,cookie,permissions --with-default-mozilla-five-home=${libdir}/firefox-2.0"
+             makeinstallargs="install; mkdir ${libdir}/firefox-2.0/nss/; find security/nss/lib/ -name '*.h' -type f -exec /bin/cp {} ${libdir}/firefox-2.0/nss/ \;">
+    <branch repo="mozilla.org"
+            module="firefox/releases/2.0/source/firefox-2.0-source.tar.bz2"
+            version="2.0"
+            size="36922776" md5sum="03709c15cba0e0375ff5336d538f77e7"
+            checkoutdir="mozilla" />
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
-  </mozillamodule>
+  </autotools>
 
   <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org/pub/linux/"/>

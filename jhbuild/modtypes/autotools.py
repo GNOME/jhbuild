@@ -250,10 +250,19 @@ def parse_autotools(node, config, repositories, default_repo):
     if node.hasAttribute('makefile'):
         makefile = node.getAttribute('makefile')
 
-    # Make some substitutions; do special handling of '${prefix}'
-    p = re.compile('(.*)(\${prefix})')
-    makeargs        = p.sub(r'\1%s' % config.prefix, makeargs)
-    makeinstallargs = p.sub(r'\1%s' % config.prefix, makeinstallargs)
+    # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
+    p = re.compile('(\${prefix})')
+    autogenargs     = p.sub(config.prefix, autogenargs)
+    makeargs        = p.sub(config.prefix, makeargs)
+    makeinstallargs = p.sub(config.prefix, makeinstallargs)
+    # I'm not sure the replacement of ${libdir} is necessary for firefox...
+    p = re.compile('(\${libdir})')
+    libsubdir = '/lib'
+    if config.use_lib64:
+        libsubdir = '/lib64'
+    autogenargs     = p.sub(config.prefix + libsubdir, autogenargs)
+    makeargs        = p.sub(config.prefix + libsubdir, makeargs)
+    makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
 
     # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
