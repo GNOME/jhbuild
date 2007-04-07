@@ -89,7 +89,6 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.message('%s %s' % (action, action_target), module_num)
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
-        '''executes a command, and returns the error code'''
         kws = {
             'close_fds': True
             }

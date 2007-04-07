@@ -301,7 +301,6 @@ class GtkBuildScript(buildscript.BuildScript):
         
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
-        '''executes a command, and returns the error code'''
         return_code = -1
 
         kws = {
