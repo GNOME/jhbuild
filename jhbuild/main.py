@@ -52,7 +52,8 @@ def help_commands(option, opt_str, value, parser):
 def main(args):
     parser = optparse.OptionParser(
         usage='%prog [ -f config ] command [ options ... ]',
-        description='Build a set of CVS modules (such as GNOME).')
+        description='Build a set of modules from diverse repositories '\
+                    'in correct dependency order (such as GNOME).')
     parser.disable_interspersed_args()
     parser.add_option('--help-commands', action='callback',
                       callback=help_commands,
