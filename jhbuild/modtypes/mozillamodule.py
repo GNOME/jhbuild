@@ -80,7 +80,8 @@ class MozillaModule(AutogenModule):
         cmd.append('mozilla/client.mk')
         buildscript.execute(cmd, cwd=buildscript.config.checkoutroot)
         
-        buildscript.execute(['make', '-f', 'client.mk', 'checkout'],
+        make = os.environ.get('MAKE', 'make')
+        buildscript.execute([make, '-f', 'client.mk', 'checkout'],
                             cwd=self.get_builddir(buildscript))
 
     def do_checkout(self, buildscript):
@@ -91,7 +92,8 @@ class MozillaModule(AutogenModule):
             self.checkout(buildscript)
         else:
             buildscript.set_action('Updating', self)
-            buildscript.execute(['make', '-f', 'client.mk', 'fast-update'],
+            make = os.environ.get('MAKE', 'make')
+            buildscript.execute([make, '-f', 'client.mk', 'fast-update'],
                                 cwd=checkoutdir)
 
         # did the checkout succeed?
@@ -134,7 +136,8 @@ class MozillaModule(AutogenModule):
 
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
-        cmd = 'make %s %s install' % (buildscript.config.makeargs,
+        make = os.environ.get('MAKE', 'make')
+        cmd = '%s %s %s install' % (make, buildscript.config.makeargs,
                                       self.makeargs)
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         nssdir = '%s/include/%s-%s/nss' % (
