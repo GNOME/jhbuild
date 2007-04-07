@@ -108,7 +108,11 @@ main (int    argc,
 install:
   args = malloc (sizeof (char *) * (argc + 1));
 
+#ifndef WITH_INSTALL
   args[0] = "/usr/bin/install";
+#else
+  args[0] = WITH_INSTALL;
+#endif
 
   for (i = 1; i < argc; i++)
     args[i] = argv[i];
