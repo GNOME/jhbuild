@@ -22,8 +22,9 @@ __metaclass__ = type
 
 import os
 import urlparse
+import subprocess
 
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
@@ -94,20 +95,46 @@ class GitBranch(Branch):
         return None
     branchname = property(branchname)
 
+    def _get_commit_from_date(self):
+        cmd = ['git', 'log', '--max-count=1',
+               '--until=%s' % self.config.sticky_date]
+        cmd_desc = ' '.join(cmd)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                cwd=self.get_checkoutdir())
+        stdout = proc.communicate()[0]
+        if not stdout.strip():
+            raise CommandError('Command %s returned no output' % cmd_desc)
+        for line in stdout.splitlines():
+            if line.startswith('commit '):
+                commit = line.split(None, 1)[1].strip()
+                return commit
+        raise CommandError('Command %s did not include commit line: %r'
+                           % (cmd_desc, stdout))
+
     def _checkout(self, buildscript):
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
-
-        if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
-
         buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
-    def _update(self, buildscript):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
-        buildscript.execute(['git', 'pull'], 'git', cwd=self.get_checkoutdir())
+            self._update(buildscript)
+
+    def _update(self, buildscript):
+        cwd = self.get_checkoutdir()
+        if self.config.sticky_date:
+            commit = self._get_commit_from_date()
+            branch = 'jhbuild-date-branch'
+            branch_cmd = ['git', 'checkout', branch]
+            try:
+                buildscript.execute(branch_cmd, 'git', cwd=cwd)
+            except CommandError:
+                branch_cmd = ['git', 'checkout', '-b', branch]
+                buildscript.execute(branch_cmd, 'git', cwd=cwd)
+            buildscript.execute(['git', 'reset', '--hard', commit],
+                                'git', cwd=cwd)
+                
+        buildscript.execute(['git', 'pull'], 'git', cwd=cwd)
 
     def checkout(self, buildscript):
         if os.path.exists(self.get_checkoutdir()):
