@@ -120,7 +120,7 @@ class DistutilsModule(Package):
     do_install.error_states = []
 
 
-def parse_distutils(node, config, repositories, default_repo):
+def parse_distutils(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     supports_non_srcdir_builds = True
 

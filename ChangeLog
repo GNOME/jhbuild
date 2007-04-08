@@ -1,3 +1,24 @@
+2007-04-08  Elijah Newren  <newren gmail com>
+
+	Allow remote modulesets to use remote patches.  Fixes #345196.
+
+	* jhbuild/modtypes/autotools.py (parse_autotools, parse_cvsmodule,
+	  parse_svnmodule, parse_archmodule):
+	* jhbuild/modtypes/gcjmodule.py (parse_gcjmodule):
+	* jhbuild/modtypes/mozillamodule.py (parse_mozillamodule):
+	* jhbuild/modtypes/__init__.py (parse_func, parse_xml_node,
+	  parse_metamodule):
+	* jhbuild/modtypes/tarball.py (parse_tarball):
+	* jhbuild/modtypes/gdbmodule.py (parse_gdbmodule):
+	* jhbuild/modtypes/perl.py (parse_perl):
+	* jhbuild/modtypes/distutils.py (parse_distutils):
+	* jhbuild/modtypes/mesa.py (parse_mesa):
+	* jhbuild/moduleset.py (_parse_module_set):
+	Add a uri parameter to parse_* functions and make sure it gets passed
+
+	* jhbuild/modtypes/tarball.py (__init__): add a uri paramemter and
+	cache it, (do_patch): check for the patch existing remotely first
+	
 2007-04-07  Frederic Peters  <fpeters@0d.be>
 
 	* install-check.c: allows for WITH_INSTALL symbol to use another

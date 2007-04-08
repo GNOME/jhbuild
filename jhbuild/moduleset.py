@@ -241,7 +241,7 @@ def _parse_module_set(config, uri):
                                'arch-archive']:
             pass
         else:
-            moduleset.add(modtypes.parse_xml_node(node, config,
+            moduleset.add(modtypes.parse_xml_node(node, config, uri,
                                                   repositories, default_repo))
 
     return moduleset

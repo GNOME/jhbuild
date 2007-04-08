@@ -20,9 +20,11 @@
 __metaclass__ = type
 
 import os
+import urlparse
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import Package, register_module_type, get_dependencies
+from jhbuild.utils import httpcache
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -36,14 +38,15 @@ class Tarball(Package):
     STATE_BUILD     = 'build'
     STATE_INSTALL   = 'install'
     def __init__(self, name, version, source_url, source_size, source_md5=None,
-                 patches=[], checkoutdir=None, autogenargs='', makeargs='',
-                 dependencies=[], after=[],
+                 uri=[], patches=[], checkoutdir=None,
+                 autogenargs='', makeargs='', dependencies=[], after=[],
                  supports_non_srcdir_builds=True):
         Package.__init__(self, name, dependencies, after)
         self.version      = version
         self.source_url   = source_url
         self.source_size  = source_size
         self.source_md5   = source_md5
+        self.uri          = uri
         self.patches      = patches
         self.checkoutdir  = checkoutdir
         self.autogenargs  = autogenargs
@@ -171,7 +174,15 @@ class Tarball(Package):
 
     def do_patch(self, buildscript):
         for (patch, patchstrip) in self.patches:
-            patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+            patchfile = ''
+            if self.uri:
+                uri = urlparse.urljoin(self.uri, patch)
+                try:
+                   patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
+                except Exception, e:
+                    patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+            if patchfile == '' or not os.path.isfile(patchfile):
+                patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.set_action('Applying Patch', self, action_target=patch)
             try:
                 buildscript.execute('patch -p%d < "%s"' % (patchstrip,
@@ -218,7 +229,7 @@ class Tarball(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
-def parse_tarball(node, config, repositories, default_repo):
+def parse_tarball(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
     version = node.getAttribute('version')
     source_url = None
@@ -267,7 +278,7 @@ def parse_tarball(node, config, repositories, default_repo):
     dependencies, after = get_dependencies(node)
 
     return Tarball(name, version, source_url, source_size, source_md5,
-                   patches, checkoutdir, autogenargs, makeargs,
+                   uri, patches, checkoutdir, autogenargs, makeargs,
                    dependencies, after,
                    supports_non_srcdir_builds=supports_non_srcdir_builds)
 

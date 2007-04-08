@@ -167,7 +167,7 @@ class GCJModule(base.CVSModule):
                            os.path.join(buildscript.config.prefix, 'bin', 'gcj-dbtool'))
         return (self.STATE_DONE, error, [])
 
-def parse_gcjmodule(node, config, dependencies, suggests, cvsroot):
+def parse_gcjmodule(node, config, uri, dependencies, suggests, cvsroot):
     return base.parse_cvsmodule(node, config, dependencies,
                                 suggests, cvsroot, CVSModule=GCJModule)
 

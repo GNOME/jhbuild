@@ -225,7 +225,7 @@ class AutogenModule(Package):
     do_install.error_states = []
 
 
-def parse_autotools(node, config, repositories, default_repo):
+def parse_autotools(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     autogenargs = ''
     makeargs = ''
@@ -283,7 +283,7 @@ register_module_type('autotools', parse_autotools)
 
 
 # deprecated module types below:
-def parse_cvsmodule(node, config, repositories, default_repo):
+def parse_cvsmodule(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     module = None
     revision = None
@@ -335,7 +335,7 @@ def parse_cvsmodule(node, config, repositories, default_repo):
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('cvsmodule', parse_cvsmodule)
 
-def parse_svnmodule(node, config, repositories, default_repo):
+def parse_svnmodule(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     module = None
     checkoutdir = None
@@ -375,7 +375,7 @@ def parse_svnmodule(node, config, repositories, default_repo):
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('svnmodule', parse_svnmodule)
 
-def parse_archmodule(node, config, repositories, default_repo):
+def parse_archmodule(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     version = None
     checkoutdir = None

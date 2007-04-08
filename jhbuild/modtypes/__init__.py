@@ -34,15 +34,15 @@ def register_module_type(name, parse_func):
     _module_types[name] = parse_func
 
 def register_lazy_module_type(name, module):
-    def parse_func(node, config, repositories, default_repo):
+    def parse_func(node, config, uri, repositories, default_repo):
         old_func = _module_types[name]
         mod = __import__(module)
         assert _module_types[name] != old_func, (
             'module did not register new parser_func for %s' % name)
-        return _module_types[name](node, config, repositories, default_repo)
+        return _module_types[name](node, config, uri, repositories, default_repo)
     _module_types[name] = parse_func
 
-def parse_xml_node(node, config, repositories, default_repo):
+def parse_xml_node(node, config, uri, repositories, default_repo):
     if not _module_types.has_key(node.nodeName):
         try:
             __import__('jhbuild.modtypes.%s' % node.nodeName)
@@ -52,7 +52,7 @@ def parse_xml_node(node, config, repositories, default_repo):
         raise FatalError('unknown module type %s' % node.nodeName)
 
     parser = _module_types[node.nodeName]
-    return parser(node, config, repositories, default_repo)
+    return parser(node, config, uri, repositories, default_repo)
 
 def get_dependencies(node):
     """Scan for dependencies in <dependencies> and <after> elements."""
@@ -177,7 +177,7 @@ class MetaModule(Package):
     do_start.next_state = Package.STATE_DONE
     do_start.error_states = []
 
-def parse_metamodule(node, config, repos, default_repo):
+def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
     dependencies, after = get_dependencies(node)
     return MetaModule(id, dependencies=dependencies, after=after)

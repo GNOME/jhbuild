@@ -155,7 +155,7 @@ class MozillaModule(AutogenModule):
     do_install.next_state = AutogenModule.STATE_DONE
     do_install.error_states = []
 
-def parse_mozillamodule(node, config, repositories, default_repo):
+def parse_mozillamodule(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
     projects = node.getAttribute('projects')
     revision = None

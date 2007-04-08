@@ -117,7 +117,7 @@ class GDBModule(base.CVSModule):
             return (nextstate, 'could not configure module',
                     [self.STATE_FORCE_CHECKOUT])
 
-def parse_gdbmodule(node, config, dependencies, suggests, cvsroot):
+def parse_gdbmodule(node, config, uri, dependencies, suggests, cvsroot):
     return base.parse_cvsmodule(node, config, dependencies,
                                 suggests, cvsroot, CVSModule=GDBModule)
 

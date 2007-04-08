@@ -111,7 +111,7 @@ class PerlModule(Package):
     do_install.error_states = []
 
 
-def parse_perl(node, config, repositories, default_repo):
+def parse_perl(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     makeargs = ''
     if node.hasAttribute('makeargs'):

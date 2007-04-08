@@ -146,7 +146,7 @@ class MesaModule(Package):
     do_install.error_states = []
 
 
-def parse_mesa(node, config, repositories, default_repo):
+def parse_mesa(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     makeargs = ''
     if node.hasAttribute('makeargs'):
