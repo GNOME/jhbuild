@@ -209,6 +209,11 @@ class Tarball(Package):
         if buildscript.config.use_lib64:
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
+
+        # Fix up the arguments for special cases:
+        #   remove '-- ' to avoid breaking build (GStreamer weirdness)
+        cmd = cmd.replace('-- ', '')
+
         buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_BUILD
     do_configure.error_states = []
