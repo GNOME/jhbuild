@@ -33,7 +33,6 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
-from jhbuild.modtypes import testmodule
 
 __all__ = ['load', 'load_tests']
 
