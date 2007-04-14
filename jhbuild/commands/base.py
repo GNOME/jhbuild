@@ -139,6 +139,9 @@ class cmd_build(Command):
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
+            make_option('-x', '--no-xvfb',
+                        action='store_true', dest='noxvfb', default=False,
+                        help='Run tests in real X and not in Xvfb')
             ])
 
     def run(self, config, options, args):
@@ -156,6 +159,8 @@ class cmd_build(Command):
             config.skip += item.split(',')
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
+        if options.noxvfb is not None:
+            config.noxvfb = options.noxvfb
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -199,6 +204,9 @@ class cmd_buildone(Command):
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
+            make_option('-x', '--no-xvfb',
+                        action='store_true', dest='noxvfb', default=False,
+                        help='Run tests in real X and not in Xvfb')
             ])
 
     def run(self, config, options, args):
@@ -214,6 +222,8 @@ class cmd_buildone(Command):
             config.nonetwork = True
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
+        if options.noxvfb is not None:
+            config.noxvfb = options.noxvfb
 
         module_set = jhbuild.moduleset.load(config)
         try:

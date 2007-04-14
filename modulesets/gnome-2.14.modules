@@ -44,6 +44,8 @@
   <repository type="cvs" name="openh323.sf.net"
      cvsroot=":pserver:anonymous@openh323.cvs.sourceforge.net:/cvsroot/openh323"
      password="" />
+  <repository type="cvs" name="ldtp.freedesktop.org"
+     cvsroot=":pserver:anoncvs@cvs.freedesktop.org:/cvs/ldtp" password="" />
 
   <tarball id="scrollkeeper" version="0.3.14" supports-non-srcdir-builds="no">
     <source href="http://easynews.dl.sourceforge.net/sourceforge/scrollkeeper/scrollkeeper-0.3.14.tar.gz"
@@ -2011,4 +2013,12 @@
       <dep package="gnonlin"/>
     </dependencies>
   </autotools>
+  <autotools id="ldtp">
+    <branch repo="ldtp.freedesktop.org" module="ldtp"/>
+    <dependencies>
+      <dep package="at-spi"/>
+      <dep package="libgnomeui"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>	
 </moduleset>

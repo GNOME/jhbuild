@@ -30,7 +30,7 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
-                'repos', 'branches',
+                'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',
@@ -193,3 +193,10 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
+
+        # For getting rid of verbose output for LDTP tests
+        if os.environ.has_key('LDTP_DEBUG'):
+            del os.environ['LDTP_DEBUG']
+        if not os.environ.has_key('GNOME_ACCESSIBILITY') or os.environ['GNOME_ACCESSIBILITY'] != 1:
+            os.environ['GNOME_ACCESSIBILITY'] = '1'

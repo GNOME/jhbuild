@@ -137,7 +137,9 @@ def get_distro():
     return None
 
 def escape(string):
-    return string.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+    return string.replace('&','&amp;').replace('<','&lt;').replace(
+            '>','&gt;').replace('\n','<br/>').replace(
+            '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
 
 class TinderboxBuildScript(buildscript.BuildScript):
     def __init__(self, config, module_list):

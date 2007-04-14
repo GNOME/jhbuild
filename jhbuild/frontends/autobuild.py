@@ -34,6 +34,7 @@ from cStringIO import StringIO
 
 from tinderbox import get_distro
 from terminal import TerminalBuildScript, trayicon, t_bold, t_reset
+import jhbuild.moduleset
 
 def escape(string):
     return string.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
@@ -87,6 +88,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         self.server = None
         self.modulefp = None
         self.phasefp = None
+        self.modules = {}
 
         # cleanup environment
         os.environ['TERM'] = 'dumb'
@@ -246,6 +248,14 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
     def end_phase(self, module, state, error):
         log = fix_encoding(self.phasefp.getvalue())
         self.phasefp = None
+
+        if state == 'test':
+            if self.modules == {}:
+                self.modules = jhbuild.moduleset.load_tests(self.config)
+
+            if module in self.modules.modules.keys() \
+                   and self.modules.modules[module].test_type == 'ldtp':
+                self._upload_logfile(module)
         self.server.end_phase(self.build_id, module, state, compress_data(log), error)
 
     def handle_error(self, module, state, nextstate, error, altstates):
@@ -253,5 +263,21 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         print 'handle error!'
         return 'fail'
 
+    def _upload_ldtp_logfile (self, module):
+        test_module = self.modules.modules[module]
+        src_dir =  test_module.get_srcdir()
+        if not os.path.exists (os.path.join(src_dir,'run.xml')):
+            return
+        logfile = test_module.get_ldtp_log_file (os.path.join(src_dir,'run.xml'))
+        if not os.path.exists (logfile):
+            return
+        self._upload_logfile (module, logfile, 'application/x-ldtp+xml')
+
+    def _upload_logfile (self, module, logfile, mimetype):
+        log = open (logfile, 'r')
+        basename = os.path.basename (logfile)
+        self.server.attach_file (self.build_id, module, 'test', basename,
+                                 compress_data(log.read()), mimetype)
+        log.close()
 
 BUILD_SCRIPT = AutobuildBuildScript

@@ -34,6 +34,7 @@ def help_commands(option, opt_str, value, parser):
         ('updateone', 'update a fixed set of modules'),
         ('list', 'list what modules would be built'),
         ('info', 'prints information about modules'),
+        ('test', 'Runs LDTP/Dogtail tests on the respective modules'),
         ('tinderbox', 'build non-interactively with logging'),
         ('gui', 'build targets from a gui app'),
         ('run', 'run a command in the build environment'),

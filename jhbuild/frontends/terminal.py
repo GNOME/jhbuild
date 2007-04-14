@@ -57,7 +57,7 @@ phase_map = {
     'configure':      'configure.png',
     #'clean':          'clean.png',
     'build':          'build.png',
-    #'check':          'check.png',
+    'check':          'check.png',
     'install':        'install.png',
     }
 

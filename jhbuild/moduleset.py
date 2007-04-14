@@ -33,8 +33,9 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
+from jhbuild.modtypes import testmodule
 
-__all__ = [ 'load' ]
+__all__ = ['load', 'load_tests']
 
 class ModuleSet:
     def __init__(self):
@@ -118,6 +119,16 @@ class ModuleSet:
     
     def get_full_module_list(self, skip=[]):
         return self.get_module_list(self.modules.keys(), skip=skip)
+
+    def get_test_module_list (self, seed, skip=[]):
+        test_modules = []
+        if seed == []:
+            return
+        for mod in self.modules.values():
+            for test_app in seed:
+                if test_app in mod.tested_pkgs:
+                    test_modules.append(mod)
+        return test_modules
     
     def write_dot(self, modules=None, fp=sys.stdout):
         from jhbuild.modtypes import MetaModule
@@ -172,6 +183,14 @@ def load(config, uri=None):
                                uri + '.modules')
         ms.modules.update(_parse_module_set(config, uri).modules)
     return ms
+
+def load_tests (config, uri=None):
+    ms = load (config, uri)
+    ms_tests = ModuleSet()
+    for app, module in ms.modules.iteritems():
+        if module.__class__ == testmodule.TestModule:
+            ms_tests.modules[app] = module
+    return ms_tests
 
 def _child_elements(parent):
     for node in parent.childNodes:
