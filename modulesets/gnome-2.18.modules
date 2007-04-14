@@ -137,18 +137,6 @@
     <source href="http://liboil.freedesktop.org/download/liboil-0.3.8.tar.gz"
             md5sum="a402c4af2603c8fb69b365af0b8ec775" size="834167"/>
   </tarball>
-  <tarball autogen-sh="configure" id="pwlib" version="1.10.4">
-    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/pwlib-1.10.4.tar.gz"
-             md5sum="a9b71fec93079ff15374b26db71defab" size="2047300"/>
-  </tarball>
-  <tarball autogen-sh="configure" id="opal" version="2.2.5"
-      autogenargs="PWLIBDIR=../pwlib-1.10.4">
-    <source href="http://www.ekiga.org/admin/downloads/2.0.5/sources/sources/opal-2.2.5.tar.gz"
-            md5sum="d85407085c391fecc89451fd5c132645" size="4158355"/>
-    <dependencies>
-      <dep package="pwlib"/>
-    </dependencies>
-  </tarball>
 
   <tarball id="gob2" version="2.0.14">
     <source href="http://ftp.5z.com/pub/gob/gob2-2.0.14.tar.gz"
@@ -1065,23 +1053,24 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <autotools id="ekiga" autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`">
-    <branch module="ekiga/tags/EKIGA_2_0_7" checkoutdir="ekiga"/>
+  <tarball autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`" id="ekiga" version="2.0.9">
+    <source href="http://download.gnome.org/sources/ekiga/2.0/ekiga-2.0.9.tar.bz2" md5sum="6c7a01faef8203d6f0ba0dfe6188bb1a" size="5530540"/>
+    <branch checkoutdir="ekiga" module="ekiga/tags/EKIGA_2_0_9"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="evolution-data-server"/>
       <dep package="opal" />
       <dep package="avahi"/>
     </dependencies>
-  </autotools>
-  <tarball autogen-sh="configure" id="pwlib" version="1.10.5">
-    <source href="http://www.ekiga.org/admin/downloads/latest/sources/sources/pwlib-1.10.5.tar.gz"
-             md5sum="1d5f444aedc56f7936bb87ccf21549e7" size="2050733"/>
   </tarball>
-  <tarball autogen-sh="configure" id="opal" version="2.2.6"
-      autogenargs="PWLIBDIR=../pwlib-1.10.5">
-    <source href="http://www.ekiga.org/admin/downloads/latest/sources/sources/opal-2.2.6.tar.gz"
-            md5sum="7c83abfe93fbe6a868f5230d5bbec7aa" size="4161763"/>
+  <tarball autogen-sh="configure" id="pwlib" version="1.10.7">
+    <source href="http://download.gnome.org/sources/pwlib/1.10/pwlib-1.10.7.tar.bz2"
+             md5sum="ac63195688211579e1ada30bb7b07ff1" size="1580900"/>
+  </tarball>
+  <tarball autogen-sh="configure" id="opal" version="2.2.8"
+      autogenargs="PWLIBDIR=../pwlib-1.10.7">
+    <source href="http://download.gnome.org/sources/opal/2.2/opal-2.2.8.tar.bz2"
+            md5sum="79ffdca7687f3dae506089be67904c90" size="2665659"/>
     <dependencies>
       <dep package="pwlib"/>
     </dependencies>
