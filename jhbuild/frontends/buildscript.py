@@ -34,11 +34,17 @@ class BuildScript:
         self.config = config
 
         if not os.path.exists(self.config.checkoutroot):
-            os.mkdir(self.config.checkoutroot)
+            try:
+                os.makedirs(self.config.checkoutroot)
+            except OSError:
+                raise FatalError('checkout root can not be created')
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError('checkout root must be writable')
         if not os.path.exists(self.config.prefix):
-            os.mkdir(self.config.prefix)
+            try:
+                os.makedirs(self.config.prefix)
+            except OSError:
+                raise FatalError('install prefix can not be created')
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError('install prefix must be writable')
 
