@@ -389,11 +389,25 @@
       <dep package="libgnomeprintui"/>
     </dependencies>
   </autotools>
-  <autotools id="libgdamm">
+  <autotools id="libgdamm-1-2">
     <branch repo="svn.gnomemm" revision="libgda-1-2" />
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgda-1-2"/>
+    </dependencies>
+  </autotools>
+ <autotools id="libgdamm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libgda"/>
+    </dependencies>
+  </autotools>
+  <autotools id="libgnomedbmm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libgdamm"/>
     </dependencies>
   </autotools>
   <autotools id="gtkmm_hello">
@@ -657,7 +671,7 @@
   </autotools>
 
   <autotools id="libgda">
-    <branch module="libgda"/>
+    <branch />
     <dependencies>
       <dep package="glib"/>
     </dependencies>
