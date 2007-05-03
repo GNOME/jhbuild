@@ -176,12 +176,18 @@ class Tarball(Package):
         for (patch, patchstrip) in self.patches:
             patchfile = ''
             if self.uri:
-                uri = urlparse.urljoin(self.uri, patch)
-                try:
-                   patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
-                except Exception, e:
+                for patch_prefix in ('.', 'patches'):
+                    uri = urlparse.urljoin(self.uri, os.path.join(patch_prefix, patch))
+                    try:
+                        patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
+                    except Exception, e:
+                        continue
+                    if not os.path.isfile(patchfile):
+                        continue
+                    break
+                else:
                     patchfile = os.path.join(jhbuild_directory, 'patches', patch)
-            if patchfile == '' or not os.path.isfile(patchfile):
+            else:
                 patchfile = os.path.join(jhbuild_directory, 'patches', patch)
             buildscript.set_action('Applying Patch', self, action_target=patch)
             try:
