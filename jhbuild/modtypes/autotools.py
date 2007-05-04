@@ -142,6 +142,11 @@ class AutogenModule(Package):
             cmd += " --libdir '${exec_prefix}/lib64'"
         cmd += ' %s' % self.autogenargs
 
+        if self.autogen_sh == 'autoreconf':
+            buildscript.execute(['autoreconf', '-i'], cwd=builddir)
+            cmd = cmd.replace('autoreconf', 'configure')
+            cmd = cmd.replace('--enable-maintainer-mode', '')
+
         # Fix up the arguments for special cases:
         #   tarballs: remove --enable-maintainer-mode to avoid breaking build
         #   tarballs: remove '-- ' to avoid breaking build (GStreamer weirdness)
