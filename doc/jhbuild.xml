@@ -1357,13 +1357,24 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	class="attribute">md5sum</sgmltag> attributes are optional.
 	If the last two attributes are present, they are used to check
 	that the source package was downloaded correctly.</para>
+
 	<para>The <sgmltag class="element">patches</sgmltag> element
 	is used to specify one or more patches to apply to the source
-	tree after unpacking.  The patch files are looked up in the
-	<filename>jhbuild/patches/</filename> directory, and the
-	<sgmltag class="attribute">strip</sgmltag> attribute says how
+	tree after unpacking, the <sgmltag class="attribute">file</sgmltag>
+	attribute gives the patch filename, and the <sgmltag
+	class="attribute">strip</sgmltag> attribute says how
 	many levels of directories to prune when applying the
 	patch.</para>
+
+	<para>For module sets shipped with JHbuild, the patch files are
+	looked up in the <filename>jhbuild/patches/</filename> directory;
+	for module sets referred by URI, the patch files are looked for
+	in the same directory as the moduleset file, or in its
+	<filename>patches/</filename> subdirectory.  It is also possible
+	for the <sgmltag class="attribute">file</sgmltag> attribute to
+	specify a URI, in which case it will be downloaded from that location.
+	</para>
+	
 	<para>The other attributes and the <sgmltag
 	class="element">dependencies</sgmltag> and <sgmltag
 	class="element">suggests</sgmltag> sub-elements are processed
