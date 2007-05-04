@@ -21,6 +21,7 @@ __metaclass__ = type
 
 import os
 import urlparse
+import urllib2
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import Package, register_module_type, get_dependencies
@@ -175,7 +176,15 @@ class Tarball(Package):
     def do_patch(self, buildscript):
         for (patch, patchstrip) in self.patches:
             patchfile = ''
-            if self.uri:
+            if urlparse.urlparse(patch)[0]: # patch name has scheme
+                try:
+                    patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
+                except urllib2.URLError, e:
+                    return (self.STATE_CONFIGURE, 'could not download patch', [])
+                except urllib2.HTTPError, e:
+                    return (self.STATE_CONFIGURE,
+                            'could not download patch (error: %s)' % e.code, [])
+            elif self.uri:
                 for patch_prefix in ('.', 'patches'):
                     uri = urlparse.urljoin(self.uri, os.path.join(patch_prefix, patch))
                     try:
