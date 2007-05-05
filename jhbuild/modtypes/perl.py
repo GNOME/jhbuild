@@ -20,6 +20,7 @@
 __metaclass__ = type
 
 import os
+import re
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
@@ -90,8 +91,8 @@ class PerlModule(Package):
         builddir = self.get_builddir(buildscript)
         perl = os.environ.get('PERL', 'perl')
         make = os.environ.get('MAKE', 'make')
-        buildscript.execute([perl, 'Makefile.PL', 'INSTALLDIRS=vendor'],
-                            cwd=builddir)
+        cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, self.makeargs)
+        buildscript.execute(cmd, cwd=builddir)
         buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir)
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT]
@@ -120,6 +121,10 @@ def parse_perl(node, config, uri, repositories, default_repo):
     # override revision tag if requested.
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
+    # Make some substitutions; do special handling of '${prefix}'
+    p = re.compile('(\${prefix})')
+    makeargs = p.sub(config.prefix, makeargs)
+    
     dependencies, after = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
 
