@@ -132,9 +132,9 @@ class Tarball(Package):
             if self.check_localfile(buildscript) is not None:
                 # don't have a local copy
                 buildscript.set_action('Downloading', self, action_target=self.source_url)
-                has_wget = not os.system('which wget > /dev/null')
+                has_wget = not os.system('command -v wget > /dev/null')
                 if not has_wget:
-                    has_curl = not os.system('which curl > /dev/null')
+                    has_curl = not os.system('command -v curl > /dev/null')
 
                 if has_wget:
                     res = buildscript.execute(

@@ -156,9 +156,9 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            has_wget = not os.system('which wget > /dev/null')
+            has_wget = not os.system('command -v wget > /dev/null')
             if not has_wget:
-                has_curl = not os.system('which curl > /dev/null')
+                has_curl = not os.system('command -v curl > /dev/null')
 
             if has_wget:
                 res = buildscript.execute(
