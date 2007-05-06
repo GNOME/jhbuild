@@ -26,6 +26,7 @@ import urllib2
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import Package, register_module_type, get_dependencies
 from jhbuild.utils import httpcache
+from jhbuild.utils.cmds import has_command
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -132,14 +133,10 @@ class Tarball(Package):
             if self.check_localfile(buildscript) is not None:
                 # don't have a local copy
                 buildscript.set_action('Downloading', self, action_target=self.source_url)
-                has_wget = not os.system('command -v wget > /dev/null')
-                if not has_wget:
-                    has_curl = not os.system('command -v curl > /dev/null')
-
-                if has_wget:
+                if has_command('wget'):
                     res = buildscript.execute(
                             ['wget', self.source_url, '-O', localfile])
-                elif has_curl:
+                elif has_command('curl'):
                     res = buildscript.execute(
                             ['curl', '-L', self.source_url, '-o', localfile])
                 else:

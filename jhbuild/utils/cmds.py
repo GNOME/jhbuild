@@ -199,3 +199,10 @@ def pprint_output(pipe, format_line):
             pass
 
     return pipe.wait()
+
+def has_command(cmd):
+    for path in os.environ['PATH'].split(':'): 
+        if os.path.exists(os.path.join(path, cmd)):
+            return True
+    return False
+

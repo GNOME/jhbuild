@@ -25,6 +25,7 @@ import urlparse
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.utils.cmds import has_command
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -156,14 +157,10 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            has_wget = not os.system('command -v wget > /dev/null')
-            if not has_wget:
-                has_curl = not os.system('command -v curl > /dev/null')
-
-            if has_wget:
+            if has_command('wget'):
                 res = buildscript.execute(
                         ['wget', self.module, '-O', localfile])
-            elif has_curl:
+            elif has_command('curl'):
                 res = buildscript.execute(
                         ['curl', '-L', self.module, '-o', localfile])
             else:
