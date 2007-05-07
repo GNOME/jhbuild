@@ -33,7 +33,7 @@ class cmd_bootstrap(Command):
     def run(self, config, options, args):
         # load the bootstrap module set
         module_set = jhbuild.moduleset.load(config, 'bootstrap')
-        module_list = module_set.get_module_list(['meta-bootstrap'])
+        module_list = module_set.get_module_list(['meta-bootstrap'], config.skip)
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         build.build()
