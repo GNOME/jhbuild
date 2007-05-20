@@ -172,19 +172,19 @@ class Config:
 
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
-	# PYTHONPATH
-	pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
-	if self.use_lib64:
+        # PYTHONPATH
+        pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+        if self.use_lib64:
             pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
         else:
             pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
-	addpath('PYTHONPATH', pythonpath)
+        addpath('PYTHONPATH', pythonpath)
 
         # handle environment prepends ...
         for envvar in env_prepends.keys():
             for path in env_prepends[envvar]:
                 addpath(envvar, path)
-        
+
 
         # get rid of gdkxft from the env -- it will cause problems.
         if os.environ.has_key('LD_PRELOAD'):
