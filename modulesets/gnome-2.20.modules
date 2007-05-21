@@ -35,6 +35,10 @@
       href="svn://svn.gna.org/svn/"/>
   <repository type="git" name="git.imendio.com"
     href="git://git.imendio.com/projects/"/>
+  <repository type="svn" name="svn.tinymail.org"
+    href="https://svn.tinymail.org/svn/tinymail/" />
+  <repository type="svn" name="svn.modest"
+    href="https://garage.maemo.org/svn/modest/" />
 
   <include href="freedesktop-2.20.modules"/>
   <include href="gnome-suites-2.20.modules"/>
@@ -322,6 +326,17 @@
       <dep package="gnome-python-desktop"/>
     </after>
   </distutils>
+
+  <autotools id="tinymail" autogenargs="--with-platform=gnome-desktop">
+    <branch repo="svn.tinymail.org" module="trunk"  checkoutdir="tinymail" />
+  </autotools>
+  <autotools id="modest" autogenargs="--with-platform=gnome">
+    <branch repo="svn.modest" module="trunk"  checkoutdir="modest" />
+    <dependencies>
+      <dep package="tinymail"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="ggv" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
