@@ -100,6 +100,9 @@ buildlog_header = '''<html>
       .error {
         color: red;
       }
+      .note {
+        background-color: #FFFF66
+      }
     </style>
   </head>
   <body>
@@ -142,6 +145,8 @@ def escape(string):
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
 
 class TinderboxBuildScript(buildscript.BuildScript):
+    help_url = 'http://live.gnome.org/JhbuildIssues/'
+
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
         self.indexfp = None
@@ -305,7 +310,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp = None
         self.indexfp.write('</td>\n')
         if failed:
-            self.indexfp.write('<td class="failure">failed</td>\n')
+            self.indexfp.write('<td class="failure">failed '
+                               '<a href="%s%s">'
+                               '(help)</a></td>\n' % (self.help_url, module))
         else:
             self.indexfp.write('<td class="success">ok</td>\n')
         self.indexfp.write('</tr>\n\n')
@@ -326,6 +333,14 @@ class TinderboxBuildScript(buildscript.BuildScript):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
+        if self.modulefp:
+            self.modulefp.write('<div class="note">The Gnome Live! website may'
+                                ' have suggestions on how to resolve some'
+                                ' build errors. Visit'
+                                ' <a href="%s%s">%s%s</a>'
+                                ' for more information.</div>'
+                                % (self.help_url, module.name,
+                                   self.help_url, module.name))
         return 'fail'
 
 BUILD_SCRIPT = TinderboxBuildScript
