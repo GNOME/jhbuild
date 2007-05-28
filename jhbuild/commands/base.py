@@ -242,10 +242,34 @@ class cmd_run(Command):
     """Run a command under the jhbuild environment"""
 
     name = 'run'
-    usage_args = 'program [ arguments ... ]'
+    usage_args = '[ options ... ] program [ arguments ... ]'
+
+    def __init__(self):
+        Command.__init__(self, [
+            make_option('--in-builddir', metavar='MODULE',
+                        action='store', dest='in_builddir', default = None,
+                        help='run command in build dir of the given module'),
+            ])
 
     def execute(self, config, args):
-        os.execlp(args[0], *args)
+        if '--in-builddir' in args:
+            options, args = self.parse_args(args)
+            return self.run(config, options, args)
+        return os.execlp(args[0], *args)
+
+    def run(self, config, options, args):
+        if options.in_builddir:
+            module_set = jhbuild.moduleset.load(config)
+            try:
+                module_list = [module_set.modules[options.in_builddir]]
+            except KeyError, e:
+                raise FatalError("A module called '%s' could not be found." % e)
+
+            build = jhbuild.frontends.get_buildscript(config, module_list)
+            builddir = module_list[0].get_builddir(build)
+            build.execute(args, cwd=builddir)
+        else:
+            os.execlp(args[0], *args)
 
 register_command(cmd_run)
 
