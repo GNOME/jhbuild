@@ -104,7 +104,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             hint = None
 
         kws['stdin'] = subprocess.PIPE
-        if hint in ('cvs', 'svn'):
+        if hint in ('cvs', 'svn', 'hg-update.py'):
             kws['stdout'] = subprocess.PIPE
             kws['stderr'] = subprocess.STDOUT
         else:
@@ -124,7 +124,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             sys.stderr.write('Error: %s\n' % str(e))
             raise CommandError(str(e))
 
-        if hint in ('cvs', 'svn'):
+        if hint in ('cvs', 'svn', 'hg-update.py'):
             conflicts = []
             def format_line(line, error_output, conflicts=conflicts):
                 if line[-1] == '\n': line = line[:-1]
