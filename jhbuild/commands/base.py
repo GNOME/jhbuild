@@ -252,7 +252,7 @@ class cmd_run(Command):
             ])
 
     def execute(self, config, args):
-        if '--in-builddir' in args:
+        if args[0] in ('--', '--in-builddir'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
         return os.execlp(args[0], *args)
