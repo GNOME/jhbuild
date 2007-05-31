@@ -31,6 +31,9 @@
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
 
+  <repository type="darcs" name="telepathy.freedesktop.org"
+      href="http://projects.collabora.co.uk/darcs/telepathy/"/>
+
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
   <autotools id="glitz">
@@ -130,4 +133,43 @@
     <source href="http://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.8.tar.gz"
             md5sum="88adb66483d4f76f03431259e2247e09" size="225124"/>
   </tarball>
+
+  <autotools id="libtelepathy">
+    <branch repo="telepathy.freedesktop.org"
+	    module="libtelepathy" checkoutdir="libtelepathy" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <!-- requires at leaset dbus-glib 0.72    -->
+  <!-- but GNOME 2.20 external dep is 0.71  --> 
+  <autotools id="telepathy-glib">
+    <branch repo="telepathy.freedesktop.org"
+	    module="telepathy-glib" checkoutdir="telepathy-glib" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Gabble is a Jabber/XMPP connection manager that handles -->
+  <!-- single-user and multi-user chats and voice/video calls  -->
+  <autotools id="telepathy-gabble">
+    <branch repo="telepathy.freedesktop.org"
+	    module="telepathy-gabble" checkoutdir="telepathy-gabble" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+      <dep package="telepathy-glib"/>
+      <dep package="loudmouth"/>
+    </dependencies>
+  </autotools>
+
 </moduleset>
