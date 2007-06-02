@@ -1,3 +1,19 @@
+2007-06-02  Elijah Newren  <newren gmail com>
+
+	* modulesets/gnutls.modules: Update libgpg-error to 1.4.
+	Workaround for seahorse not building due to jhbuild building
+	libgpg-error, jhbuild expecting users to install gpgme-devel from
+	their distros, and gpgme-devel bringing in a different version of
+	libgpg-error from the distro which is not API/ABI identical.
+	Correct fix is either to get libgpg-error from the distros or else
+	build gpgme with jhbuild.  Kjartan updated the wiki to do this a
+	long time ago, just need to sync jhbuild.
+
+	* modulesets/gnome-external-deps-2.20.modules:
+	Fix install of libvolume_id on 64bit architectures (override
+	udev's stupid hardcoding of libdir=$prefix/lib to use
+	$prefix/lib64 when appropriate)
+
 2007-06-01  Jonathon Jongsma  <jjongsma@gnome.org>
 
 	* modulesets/freedesktop.modules: cairomm now uses git for version control
