@@ -459,7 +459,7 @@
       <dep package="libgnomeui"/>
       <dep package="gnome-doc-utils"/>
       <dep package="libgnomeprintui"/>
-      <dep package="gtksourceview"/>
+      <dep package="gtksourceview-1.0"/>
       <dep package="gnome-python-desktop"/>
       <dep package="iso-codes"/>
       <dep package="enchant"/>
@@ -641,7 +641,7 @@
       <dep package="gnome-panel"/>
       <dep package="libgnomeprint"/>
       <dep package="libgnomeprintui"/>
-      <dep package="gtksourceview"/>
+      <dep package="gtksourceview-1.0"/>
       <dep package="libwnck"/>
       <dep package="totem"/>
       <dep package="libgtop"/>
@@ -813,6 +813,16 @@
 
   <autotools id="gtksourceview" autogenargs="--enable-compile-warnings=maximum">
     <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="libgnomeprint"/>
+      <dep package="gnome-vfs"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtksourceview-1.0" autogenargs="--enable-compile-warnings=maximum">
+    <branch module="gtksourceview" revision="gnome-2-18"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
