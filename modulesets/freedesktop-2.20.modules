@@ -33,6 +33,8 @@
 
   <repository type="darcs" name="telepathy.freedesktop.org"
       href="http://projects.collabora.co.uk/darcs/telepathy/"/>
+  <repository type="svn" name="mission-control.sf.net"
+      href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
@@ -144,8 +146,6 @@
     </dependencies>
   </autotools>
 
-  <!-- requires at leaset dbus-glib 0.72    -->
-  <!-- but GNOME 2.20 external dep is 0.71  --> 
   <autotools id="telepathy-glib">
     <branch repo="telepathy.freedesktop.org"
 	    module="telepathy-glib" checkoutdir="telepathy-glib" />
@@ -169,6 +169,19 @@
       <dep package="libxslt"/>
       <dep package="telepathy-glib"/>
       <dep package="loudmouth"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-mission-control">
+    <branch repo="mission-control.sf.net"
+            module="trunk" checkoutdir="telepathy-mission-control" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libtelepathy"/>
+      <dep package="gconf"/>
+      <dep package="libxslt"/>
     </dependencies>
   </autotools>
 
