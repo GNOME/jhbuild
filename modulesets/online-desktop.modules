@@ -1,0 +1,58 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+  <repository type="svn" name="svn.mugshot.org"
+      href="http://svn.mugshot.org/"/>
+
+  <include href="gnome-2.20.modules"/>
+
+  <tarball id="dbus-1.1" version="1.1.1">
+    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.1.tar.gz"
+            md5sum="545ce6d92cb1ed63a54b39d15aed36a6" size="1345375"/>
+  </tarball>
+
+  <autotools id="hippo-canvas">
+    <branch repo="svn.mugshot.org"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="local-export-daemon">
+    <branch repo="svn.mugshot.org"/>
+    <dependencies>
+      <dep package="dbus-1.1"/>
+      <dep package="avahi"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mugshot">
+    <branch repo="svn.mugshot.org" module="dumbhippo/trunk/client"
+            checkoutdir="mugshot" />
+    <dependencies>
+      <dep package="hippo-canvas"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="bigboard">
+    <branch repo="svn.mugshot.org" />
+    <dependencies>
+      <dep package="hippo-canvas"/>
+      <dep package="pygtk"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-keyring"/>
+      <dep package="local-export-daemon"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="online-desktop">
+    <branch repo="svn.mugshot.org" />
+    <dependencies>
+      <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
+</moduleset>
