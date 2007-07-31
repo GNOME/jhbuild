@@ -194,9 +194,3 @@ class Config:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
-
-        # For getting rid of verbose output for LDTP tests
-        if os.environ.has_key('LDTP_DEBUG'):
-            del os.environ['LDTP_DEBUG']
-        if not os.environ.has_key('GNOME_ACCESSIBILITY') or os.environ['GNOME_ACCESSIBILITY'] != 1:
-            os.environ['GNOME_ACCESSIBILITY'] = '1'
