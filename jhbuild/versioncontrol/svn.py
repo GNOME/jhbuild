@@ -28,7 +28,13 @@ from jhbuild.errors import CommandError, BuildStateError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
-import bzr
+import bzr, git
+
+def _make_uri(repo, path):
+    if repo[-1] != '/':
+        return '%s/%s' % (repo, path)
+    else:
+        return repo + path
 
 # Make sure that the urlparse module considers svn:// and svn+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
@@ -40,12 +46,6 @@ if 'svn+ssh' not in urlparse.uses_netloc:
     urlparse.uses_netloc.append('svn+ssh')
 if 'svn+ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('svn+ssh')
-
-def _make_uri(repo, path):
-    if repo[-1] != '/':
-        return '%s/%s' % (repo, path)
-    else:
-        return repo + path
 
 def get_info(filename):
     # we run Subversion in the C locale, because Subversion localises
@@ -63,6 +63,34 @@ def get_info(filename):
         ret[key.lower().strip()] = value.strip()
     return ret
 
+def get_subdirs(url):
+    print "Getting SVN subdirs: this operation might be long..."
+    output = get_output(
+        ['svn', 'ls', '-R', url],
+        extra_env={
+            'LANGUAGE': 'C',
+            'LC_ALL': 'C',
+            'LANG': 'C'})
+    ret = []
+    for line in output.splitlines():
+        if not line[-1] == '/': continue
+        ret.append (line)
+    return ret
+
+def get_externals(url):
+    output = get_output(
+        ['svn', 'propget', 'svn:externals', url],
+        extra_env={
+            'LANGUAGE': 'C',
+            'LC_ALL': 'C',
+            'LANG': 'C'})
+    ret = {}
+    for line in output.splitlines():
+        if ' ' not in line: continue
+        key, value = line.split(' ')
+        ret[key.strip()] = value
+    return ret
+
 def get_uri(filename):
     try:
         info = get_info(filename)
@@ -73,7 +101,6 @@ def get_uri(filename):
         raise BuildStateError('could not parse "svn info" output for %s'
                               % filename)
     return info['url']
-
 
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
@@ -121,6 +148,8 @@ class SubversionRepository(Repository):
         
         if self.svn_program == 'bzr' and not revision:
             return bzr.BzrBranch(self, module_href, checkoutdir)
+        elif self.svn_program == 'git-svn':
+            return git.GitSvnBranch(self, module_href, checkoutdir, revision)
         else:
             return SubversionBranch(self, module_href, checkoutdir, revision)
 

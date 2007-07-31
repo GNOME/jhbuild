@@ -28,6 +28,7 @@ import sys
 import os
 import md5
 
+import git
 
 from jhbuild.errors import BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -176,6 +177,7 @@ class CVSRepository(Repository):
         else:
             self.cvsroot = cvsroot
             login(cvsroot, password)
+        self.cvs_program = config.cvs_program
 
     branch_xml_attrs = ['module', 'checkoutdir', 'revision',
                         'update-new-dirs', 'override-checkoutdir']
@@ -186,7 +188,13 @@ class CVSRepository(Repository):
             module = name
         # allow remapping of branch for module:
         revision = self.config.branches.get(name, revision)
-        return CVSBranch(repository=self,
+        if self.cvs_program == 'git-cvsimport':
+            return git.GitCvsBranch(repository=self,
+                                    module=module,
+                                    checkoutdir=checkoutdir,
+                                    revision=revision)
+        else:
+            return CVSBranch(repository=self,
                          module=module,
                          checkoutdir=checkoutdir,
                          revision=revision,

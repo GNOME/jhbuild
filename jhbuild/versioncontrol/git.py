@@ -21,12 +21,14 @@ __all__ = []
 __metaclass__ = type
 
 import os
+from stat import *
 import urlparse
 import subprocess
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+import jhbuild.versioncontrol.svn
 
 # Make sure that the urlparse module considers git:// and git+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
@@ -149,4 +151,115 @@ class GitBranch(Branch):
                             cwd=self.get_checkoutdir())
         return output.strip()
 
+class GitSvnBranch(GitBranch):
+    def __init__(self, repository, module, checkoutdir, revision=None):
+        GitBranch.__init__(self, repository, module, "", checkoutdir)
+        self.revision = revision
+
+    def _get_externals(self, buildscript):
+        subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
+        for subdir in subdirs:
+            externals = jhbuild.versioncontrol.svn.get_externals (self.module + '/' + subdir)
+            for external in externals:
+                extdir = os.path.join (self.get_checkoutdir(), subdir, external)
+                extbranch = GitSvnBranch(self.repository, externals[external], extdir)
+                try:
+                    os.stat(extdir)[ST_MODE]
+                    extbranch._update(buildscript)
+                except OSError:
+                    extbranch._checkout(buildscript)
+
+    def _checkout(self, buildscript):
+        cmd = ['git-svn', 'init', self.module]
+        if self.checkoutdir:
+            cmd.append(self.checkoutdir)
+
+        if self.config.sticky_date:
+            raise FatalError('date based checkout not yet supported\n')
+
+        buildscript.execute(cmd, 'git-svn', cwd=self.config.checkoutroot)
+
+        last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
+
+        cmd = ['git-svn', 'fetch']
+        #fixme (add self.revision support)
+        if not self.revision:
+            cmd.extend(['-r', last_revision])
+            
+        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+        
+        cmd = ['git', 'checkout', '.']
+        buildscript.execute(cmd, 'git checkout', cwd=self.get_checkoutdir())
+
+        cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
+        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+
+        #fixme, git-svn should support externals
+        # self._get_externals(buildscript)
+        
+    def _update(self, buildscript):
+        if self.config.sticky_date:
+            raise FatalError('date based checkout not yet supported\n')
+
+        cmd = ['git-svn', 'fetch']
+        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+
+        cmd = ['git', 'merge', 'remotes/git-svn']
+        buildscript.execute(cmd, 'git merge', cwd=self.get_checkoutdir())
+
+        #fixme, git rebase does 'fetch'+'merge' only in recents releases
+        # cmd = ['git', 'rebase', 'remotes/git-svn']
+        # buildscript.execute(cmd, 'git rebase', cwd=self.get_checkoutdir())
+
+        cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
+        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+
+        #fixme, git-svn should support externals
+        # self._get_externals(buildscript)
+
+class GitCvsBranch(GitBranch):
+    def __init__(self, repository, module, checkoutdir, revision=None):
+        GitBranch.__init__(self, repository, module, "", checkoutdir)
+        self.revision = revision
+
+    def _checkout(self, buildscript):
+        cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
+            
+        if self.checkoutdir:
+            cmd.append(self.checkoutdir)
+        else:
+            cmd.append(self.module)
+
+        if self.revision:
+            cmd.append('-p b,' + self.revision)
+        else:
+            cmd.append('-p b,HEAD')
+            
+        cmd.append(self.module)
+            
+        buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
+
+        cmd = ['git', 'checkout', 'origin']
+        buildscript.execute(cmd, 'git checkout', cwd=self.get_checkoutdir())
+
+    def _update(self, buildscript):
+        if self.config.sticky_date:
+            raise FatalError('date based checkout not yet supported\n')
+
+        cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
+            
+        if self.checkoutdir:
+            cmd.append(self.checkoutdir)
+        else:
+            cmd.append(self.module)
+
+        if self.revision:
+            cmd.append('-p b,' + self.revision)
+        else:
+            cmd.append('-p b,HEAD')
+            
+        cmd.append(self.module)
+            
+        buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
+        
 register_repo_type('git', GitRepository)
