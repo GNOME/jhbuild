@@ -51,7 +51,10 @@ class HgRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlparse.urljoin(self.href, module)
+            if not self.href.startswith("ssh://"):
+                module = urlparse.urljoin(self.href, module)
+            else:
+                module = self.href + module
         return HgBranch(self, module, checkoutdir)
 
 
