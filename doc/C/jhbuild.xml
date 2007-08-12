@@ -121,14 +121,12 @@
       installed correctly.</para>
 
       <para>At the moment, the only way to download JHBuild is via
-      CVS.  This can be achieved with the following commands.  They
+      Subversion.  This can be achieved with the following commands.  They
       should be run in the directory where jhbuild will be installed
-      (for example, <filename>~/cvs/gnome2</filename>).</para>
+      (for example, <filename>~/checkout/gnome2</filename>).</para>
 
-      <screen><prompt>$</prompt> <userinput>cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome login</userinput>
-<computeroutput>Logging in to :pserver:anonymous@anoncvs.gnome.org:2401/cvs/gnome
-CVS password: </computeroutput><userinput><replaceable>press enter</replaceable></userinput>
-<prompt>$</prompt> <userinput>cvs -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome checkout jhbuild</userinput>
+      <screen><prompt>$</prompt> <userinput>svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild</userinput>
+<computeroutput>...</computeroutput>
 <prompt>$</prompt></screen>
 
       <para>This will download JHBuild into a
@@ -136,9 +134,9 @@ CVS password: </computeroutput><userinput><replaceable>press enter</replaceable>
       directory.  Now to build and install it:</para>
 
       <screen><prompt>$</prompt> <userinput>cd jhbuild</userinput>
-<prompt>$</prompt> <userinput>make</userinput>
+<prompt>$</prompt> <userinput>make -f Makefile.plain</userinput>
 <computeroutput>...</computeroutput>
-<prompt>$</prompt> <userinput>make install</userinput>
+<prompt>$</prompt> <userinput>make -f Makefile.plain install</userinput>
 <computeroutput>...</computeroutput>
 <prompt>$</prompt></screen>
 
@@ -165,7 +163,7 @@ CVS password: </computeroutput><userinput><replaceable>press enter</replaceable>
       <programlisting>
 moduleset = 'gnome-2.10'
 modules = [ 'meta-gnome-desktop' ]
-checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+checkoutroot = os.path.join(os.environ['HOME'], 'checkout', 'gnome2')
 prefix = os.path.join(os.environ['HOME'], 'prefix')
 os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
                                      'bin', 'install-check')
@@ -175,7 +173,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       <application>meta-gnome-desktop</application> module (and its
       dependencies) from the <systemitem>gnome-2.10</systemitem> module
       set.  It will unpack source trees to
-      <filename>~/cvs/gnome2</filename> and install modules to
+      <filename>~/checkout/gnome2</filename> and install modules to
       <filename>~/prefix</filename>.  It also sets the
       <envar>INSTALL</envar> environment variable to a program that
       handles installation of headers specially in order to decrease
