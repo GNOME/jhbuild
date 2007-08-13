@@ -16,3 +16,11 @@ Makefile
 doc/Makefile
 ])
 
+cat << _EOF_
+
+Note that autotools are only used to build documentation
+Type make -f Makefile.plain to build or install JHBuild
+
+_EOF_
+
+
