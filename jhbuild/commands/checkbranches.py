@@ -62,7 +62,7 @@ class cmd_checkbranches(Command):
             except urllib2.HTTPError:
                 pass
             else:
-                print mod.name, 'is missing branch definition'
+                print mod.name, 'is missing branch definition for', branch
 
 
 register_command(cmd_checkbranches)
