@@ -206,7 +206,11 @@ def _parse_module_set(config, uri):
         filename = httpcache.load(uri, nonetwork=config.nonetwork)
     except Exception, e:
         raise FatalError('could not download %s: %s' % (uri, str(e)))
-    document = xml.dom.minidom.parse(filename)
+    filename = os.path.normpath(filename)
+    try:
+        document = xml.dom.minidom.parse(filename)
+    except xml.parsers.expat.ExpatError, e:
+        raise FatalError('failed to parse %s: %s' % (filename, str(e)))
 
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
