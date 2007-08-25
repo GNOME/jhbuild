@@ -14,7 +14,6 @@ AC_ARG_ENABLE(doc_installation,
 		[enable_doc_installation=$enableval],
 		[enable_doc_installation=no])
 
-echo "x$enable_doc_installation"
 AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$enable_doc_installation" = "xyes"])
 
 # gnome-doc-utils
