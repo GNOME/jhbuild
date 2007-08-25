@@ -23,14 +23,5 @@ REQUIRED_AUTOCONF_VERSION=2.57
 REQUIRED_AUTOMAKE_VERSION=1.8
 REQUIRED_INTLTOOL_VERSION=0.35.0
 REQUIRED_PKG_CONFIG_VERSION=0.16.0
-USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes gnome-autogen.sh
-if test "$?" != "0"
-then
-	cat << _EOF_
-
-Note that autotools are only used to build documentation
-Type make -f Makefile.plain to build or install JHBuild
-
-_EOF_
-fi
+USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . gnome-autogen.sh
 
