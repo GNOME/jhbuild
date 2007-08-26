@@ -67,7 +67,7 @@ class MesaModule(Package):
             if uname[4] == 'i386':
                 config = 'linux-dri-x86'
             elif uname[4] == 'x86_64':
-                config = 'linux-dri-x86_64'
+                config = 'linux-dri-x86-64'
             else:
                 config = 'linux-dri'
         return config
