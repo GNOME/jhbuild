@@ -39,6 +39,8 @@
     href="https://svn.tinymail.org/svn/tinymail/" />
   <repository type="svn" name="svn.modest"
     href="https://garage.maemo.org/svn/modest/" />
+  <repository type="hg" name="hg.gtk-vnc"
+    href="http://gtk-vnc.codemonkey.ws/hg/" />
 
   <include href="freedesktop-2.20.modules"/>
   <include href="gnome-suites-2.20.modules"/>
@@ -1121,6 +1123,13 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gtk-vnc">
+    <branch repo="hg.gtk-vnc" module="outgoing.hg" checkoutdir="gtk-vnc"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="vinagre">
     <branch/>
     <dependencies>
@@ -1128,6 +1137,7 @@
       <dep package="gtk+"/>
       <dep package="libglade"/>
       <dep package="gconf"/>
+      <dep package="gtk-vnc"/>
     </dependencies>
   </autotools>
 
