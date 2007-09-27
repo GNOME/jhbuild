@@ -18,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import sys
 from optparse import make_option
 
 import jhbuild.moduleset
@@ -255,7 +256,12 @@ class cmd_run(Command):
         if args[0] in ('--', '--in-builddir'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
-        return os.execlp(args[0], *args)
+        try:
+            return os.execlp(args[0], *args)
+        except OSError, exc:
+            print >> sys.stderr, "Unable to execute the command '%s': %s" % (
+                    args[0], exc.strerror)
+            sys.exit(1)
 
     def run(self, config, options, args):
         if options.in_builddir:
