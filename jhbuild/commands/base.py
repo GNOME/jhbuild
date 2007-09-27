@@ -253,7 +253,7 @@ class cmd_run(Command):
             ])
 
     def execute(self, config, args):
-        if args[0] in ('--', '--in-builddir'):
+        if args[0] in ('--', '--in-builddir', '--help'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
         try:
@@ -287,6 +287,8 @@ class cmd_shell(Command):
     usage_args = ''
 
     def execute(self, config, args):
+        if "--help" in args:
+            self.parse_args(args) # This doesn't return
         user_shell = os.environ.get('SHELL', '/bin/sh')
         os.execlp(user_shell, user_shell)
 
