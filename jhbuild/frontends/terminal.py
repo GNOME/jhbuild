@@ -89,6 +89,9 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.message('%s %s' % (action, action_target), module_num)
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
+        if not command:
+            raise CommandError('No command given')
+
         kws = {
             'close_fds': True
             }

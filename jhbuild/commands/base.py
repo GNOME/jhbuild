@@ -23,7 +23,7 @@ from optparse import make_option
 
 import jhbuild.moduleset
 import jhbuild.frontends
-from jhbuild.errors import UsageError, FatalError
+from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, register_command
 
 
@@ -253,15 +253,14 @@ class cmd_run(Command):
             ])
 
     def execute(self, config, args):
-        if args[0] in ('--', '--in-builddir', '--help'):
+        if not args or args[0] in ('--', '--in-builddir', '--help'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
         try:
             return os.execlp(args[0], *args)
         except OSError, exc:
-            print >> sys.stderr, "Unable to execute the command '%s': %s" % (
-                    args[0], exc.strerror)
-            sys.exit(1)
+            raise FatalError("Unable to execute the command '%s': %s" % (
+                    args[0], str(exc)))
 
     def run(self, config, options, args):
         if options.in_builddir:
@@ -273,9 +272,21 @@ class cmd_run(Command):
 
             build = jhbuild.frontends.get_buildscript(config, module_list)
             builddir = module_list[0].get_builddir(build)
-            build.execute(args, cwd=builddir)
+            try:
+                build.execute(args, cwd=builddir)
+            except CommandError, exc:
+                if args:
+                    raise FatalError("Unable to execute the command '%s'" % args[0])
+                else:
+                    raise FatalError(str(exc))
         else:
-            os.execlp(args[0], *args)
+            try:
+                os.execlp(args[0], *args)
+            except IndexError:
+                raise FatalError('No command given')
+            except OSError, exc:
+                raise FatalError("Unable to execute the command '%s': %s" % (
+                        args[0], str(exc)))
 
 register_command(cmd_run)
 
