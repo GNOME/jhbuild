@@ -77,17 +77,17 @@ class GitBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir, self.subdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir, self.subdir)
         else:
-            return os.path.join(self.config.checkoutroot,
+            return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module), self.subdir)
     srcdir = property(srcdir)
 
     def get_checkoutdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.config.checkoutroot,
+            return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
 
     def branchname(self):
@@ -114,7 +114,7 @@ class GitBranch(Branch):
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
-        buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'git', cwd=self.checkoutroot)
 
         if self.config.sticky_date:
             self._update(buildscript)
@@ -174,7 +174,7 @@ class GitSvnBranch(GitBranch):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'git-svn', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'git-svn', cwd=self.checkoutroot)
 
         last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
 
@@ -234,7 +234,7 @@ class GitCvsBranch(GitBranch):
             
         cmd.append(self.module)
             
-        buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'git-cvsimport', cwd=self.checkoutroot)
 
         cmd = ['git', 'checkout', 'origin']
         buildscript.execute(cmd, 'git checkout', cwd=self.get_checkoutdir())
@@ -257,6 +257,6 @@ class GitCvsBranch(GitBranch):
             
         cmd.append(self.module)
             
-        buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'git-cvsimport', cwd=self.checkoutroot)
         
 register_repo_type('git', GitRepository)

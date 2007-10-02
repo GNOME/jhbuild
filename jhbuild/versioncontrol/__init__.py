@@ -64,6 +64,7 @@ class Branch:
         self.config = repository.config
         self.module = module
         self.checkoutdir = checkoutdir
+        self.checkoutroot = self.config.checkoutroot
 
     def srcdir(self):
         """Return the directory where this branch is checked out."""

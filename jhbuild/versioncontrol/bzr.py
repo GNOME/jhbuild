@@ -68,9 +68,9 @@ class BzrBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.config.checkoutroot,
+            return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
     srcdir = property(srcdir)
 
@@ -86,7 +86,7 @@ class BzrBranch(Branch):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'bzr', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'bzr', cwd=self.checkoutroot)
 
     def _update(self, buildscript, overwrite=False):
         if self.config.sticky_date:

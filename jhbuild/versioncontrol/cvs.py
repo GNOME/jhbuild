@@ -214,9 +214,9 @@ class CVSBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.config.checkoutroot, self.module)
+            return os.path.join(self.checkoutroot, self.module)
     srcdir = property(srcdir)
 
     def branchname(self):
@@ -235,7 +235,7 @@ class CVSBranch(Branch):
         if self.checkoutdir and self.override_checkoutdir:
             cmd.extend(['-d', self.checkoutdir])
         cmd.append(self.module)
-        buildscript.execute(cmd, 'cvs', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'cvs', cwd=self.checkoutroot)
 
     def _update(self, buildscript):
         # sanity check the existing working tree:

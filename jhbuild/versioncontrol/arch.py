@@ -99,9 +99,9 @@ class ArchBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.config.checkoutroot,
+            return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
     srcdir = property(srcdir)
 
@@ -124,7 +124,7 @@ class ArchBranch(Branch):
         if date:
             raise BuildStageError('date based checkout not yet supported\n')
 
-        buildscript.execute(cmd, 'arch', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'arch', cwd=self.checkoutroot)
 
     def _update(self, buildscript):
         '''Perform a "baz update" (or possibly a checkout)'''

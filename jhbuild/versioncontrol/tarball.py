@@ -104,9 +104,9 @@ class TarballBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
 
-        localdir = os.path.join(self.config.checkoutroot,
+        localdir = os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
         # strip off packaging extension ...
         if localdir.endswith('.tar.gz'):
@@ -172,13 +172,13 @@ class TarballBranch(Branch):
         # now to unpack it
         if localfile.endswith('.bz2'):
             buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
-                                cwd=self.config.checkoutroot)
+                                cwd=self.checkoutroot)
         elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
             buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
-                                cwd=self.config.checkoutroot)
+                                cwd=self.checkoutroot)
         elif localfile.endswith('.zip'):
             buildscript.execute('unzip "%s"' % localfile,
-                                cwd=self.config.checkoutroot)
+                                cwd=self.checkoutroot)
         else:
             raise FatalError("don't know how to handle: %s" % localfile)
 

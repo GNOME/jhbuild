@@ -163,9 +163,9 @@ class SubversionBranch(Branch):
 
     def srcdir(self):
         if self.checkoutdir:
-            return os.path.join(self.config.checkoutroot, self.checkoutdir)
+            return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.config.checkoutroot,
+            return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
     srcdir = property(srcdir)
 
@@ -182,7 +182,7 @@ class SubversionBranch(Branch):
         if self.config.sticky_date:
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
-        buildscript.execute(cmd, 'svn', cwd=self.config.checkoutroot)
+        buildscript.execute(cmd, 'svn', cwd=self.checkoutroot)
     
     def _update(self, buildscript):
         opt = []
