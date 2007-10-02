@@ -2,6 +2,25 @@
 
 	reviewed by: Frederic Peters <fpeters@0d.be>
 
+	* jhbuild/versioncontrol/__init__.py: assign repository,
+	config, module and checkoutdir Branch members here
+	
+	* jhbuild/versioncontrol/cvs.py,
+	  jhbuild/versioncontrol/git.py,
+	  jhbuild/versioncontrol/svn.py,
+	  jhbuild/versioncontrol/tarball.py: chain up to Branch
+	constructor from sub-classes
+
+	* jhbuild/versioncontrol/arch.py,
+	  jhbuild/versioncontrol/bzr.py,
+	  jhbuild/versioncontrol/darcs.py,
+	  jhbuild/versioncontrol/hg.py: don't need Branch
+	sub-class constructors here
+	
+2007-10-02  Mark McLoughlin  <markmc@redhat.com>
+
+	reviewed by: Frederic Peters <fpeters@0d.be>
+
 	* jhbuild/moduleset.py: don't call get_repo_type() twice
 
 2007-10-02  Mark McLoughlin  <markmc@redhat.com>

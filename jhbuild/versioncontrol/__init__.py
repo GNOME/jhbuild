@@ -59,8 +59,11 @@ class Repository:
 class Branch:
     """An abstract class representing a branch in a repository."""
 
-    def __init__(self):
-        raise NotImplementedError
+    def __init__(self, repository, module, checkoutdir):
+        self.repository = repository
+        self.config = repository.config
+        self.module = module
+        self.checkoutdir = checkoutdir
 
     def srcdir(self):
         """Return the directory where this branch is checked out."""

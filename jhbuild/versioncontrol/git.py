@@ -72,11 +72,8 @@ class GitBranch(Branch):
     """A class representing a GIT branch."""
 
     def __init__(self, repository, module, subdir, checkoutdir):
-        self.repository = repository
-        self.config = repository.config
-        self.module = module
+        Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
-        self.checkoutdir = checkoutdir
 
     def srcdir(self):
         if self.checkoutdir:

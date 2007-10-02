@@ -207,10 +207,7 @@ class CVSBranch(Branch):
 
     def __init__(self, repository, module, checkoutdir, revision,
                  update_new_dirs, override_checkoutdir):
-        self.repository = repository
-        self.config = repository.config
-        self.module = module
-        self.checkoutdir = checkoutdir
+        Branch.__init__(self, repository, module, checkoutdir)
         self.revision = revision
         self.update_new_dirs = update_new_dirs
         self.override_checkoutdir = override_checkoutdir

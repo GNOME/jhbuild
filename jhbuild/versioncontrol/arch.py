@@ -97,12 +97,6 @@ class ArchRepository(Repository):
 class ArchBranch(Branch):
     """A class representing an Arch branch"""
 
-    def __init__(self, repository, module, checkoutdir):
-        self.repository = repository
-        self.config = repository.config
-        self.module = module
-        self.checkoutdir = checkoutdir
-
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.config.checkoutroot, self.checkoutdir)

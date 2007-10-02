@@ -158,10 +158,7 @@ class SubversionBranch(Branch):
     """A class representing a Subversion branch"""
 
     def __init__(self, repository, module, checkoutdir, revision):
-        self.repository = repository
-        self.config = repository.config
-        self.module = module
-        self.checkoutdir = checkoutdir
+        Branch.__init__(self, repository, module, checkoutdir)
         self.revision = revision
 
     def srcdir(self):

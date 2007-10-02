@@ -87,11 +87,8 @@ class TarballBranch(Branch):
 
     def __init__(self, repository, module, version, checkoutdir,
                  source_size, source_md5):
-        self.repository = repository
-        self.config = repository.config
-        self.module = module
+        Branch.__init__(self, repository, module, checkoutdir)
         self.version = version
-        self.checkoutdir = checkoutdir
         self.source_size = source_size
         self.source_md5 = source_md5
         self.patches = []
