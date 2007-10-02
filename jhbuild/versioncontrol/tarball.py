@@ -26,6 +26,7 @@ import urlparse
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils.cmds import has_command
+from jhbuild.modtypes import get_branch
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -64,18 +65,20 @@ class TarballRepository(Repository):
                              checkoutdir=checkoutdir,
                              source_size=size, source_md5=md5sum)
 
-    def branch_from_xml(self, name, branchnode):
-        branch = Repository.branch_from_xml(self, name, branchnode)
+    def branch_from_xml(self, name, branchnode, repositories, default_repo):
+        branch = Repository.branch_from_xml(self, name, branchnode, repositories, default_repo)
         # patches represented as children of the branch node
         for childnode in branchnode.childNodes:
-            if (childnode.nodeType == childnode.ELEMENT_NODE and
-                childnode.nodeName == 'patch'):
+            if childnode.nodeType != childnode.ELEMENT_NODE: continue
+            if childnode.nodeName == 'patch':
                 patchfile = childnode.getAttribute('file')
                 if childnode.hasAttribute('strip'):
                     patchstrip = int(childnode.getAttribute('strip'))
                 else:
                     patchstrip = 0
                 branch.patches.append((patchfile, patchstrip))
+            elif childnode.nodeName == 'quilt':
+                branch.quilt = get_branch(childnode, repositories, default_repo)
         return branch
 
 
@@ -92,6 +95,7 @@ class TarballBranch(Branch):
         self.source_size = source_size
         self.source_md5 = source_md5
         self.patches = []
+        self.quilt = None
 
     def _local_tarball(self):
         basename = os.path.basename(self.module)
@@ -190,11 +194,32 @@ class TarballBranch(Branch):
             buildscript.execute('patch -p%d < "%s"'
                                 % (patchstrip, patchfile),
                                 cwd=self.srcdir)
-                
+
+    def _quilt_checkout(self, buildscript):
+        if not has_command('quilt'):
+            raise FatalError("unable to find quilt")
+
+        if os.path.exists(self.quilt.srcdir) and \
+           os.path.exists(os.path.join(self.srcdir, '.pc/applied-patches')):
+            buildscript.execute('quilt pop -a',
+                                cwd=self.srcdir,
+                                extra_env={'QUILT_PATCHES' : self.quilt.srcdir})
+
+        self.quilt.checkout(buildscript)
+
+        if not os.path.exists(self.quilt.srcdir):
+            raise FatalError('could not checkout quilt patch set')
+
+        buildscript.execute('quilt push -a',
+                            cwd=self.srcdir,
+                            extra_env={'QUILT_PATCHES' : self.quilt.srcdir})
 
     def checkout(self, buildscript):
         if not os.path.exists(self.srcdir):
             self._download_and_unpack(buildscript)
+
+        if not self.quilt is None:
+            self._quilt_checkout(buildscript)
 
     def force_checkout(self, buildscript):
         self._download_and_unpack(buildscript)

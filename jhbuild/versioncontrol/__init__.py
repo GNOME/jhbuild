@@ -48,7 +48,7 @@ class Repository:
         """Returns a Branch object based on the given arguments."""
         raise NotImplementedError
     
-    def branch_from_xml(self, name, branchnode):
+    def branch_from_xml(self, name, branchnode, repositories, default_repo):
         kws = {}
         for attr in self.branch_xml_attrs:
             if branchnode.hasAttribute(attr):

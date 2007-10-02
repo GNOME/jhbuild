@@ -92,7 +92,7 @@ def get_branch(node, repositories, default_repo):
         except KeyError:
             raise FatalError('Default Repository=%s not found for module id=%s. Possible repositories are %s' % (default_repo, name, repositories))
 
-    return repo.branch_from_xml(name, childnode)
+    return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
 
 class Package:

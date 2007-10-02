@@ -69,7 +69,13 @@ branch_tarball = attribute module { xsd:anyURI },
                    attribute file { text },
                    attribute strip { text }?
                  }*
-
+                 element quilt {
+                   attribute id { text },
+                   element branch {
+                     attribute repo { text }?,
+                     (branch_cvs|branch_svn|branch_arch|branch_darcs|branch_git|branch_tarball)
+                   }
+                 }
 
 branch = element branch {
   attribute repo { text }?,

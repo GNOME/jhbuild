@@ -1,3 +1,27 @@
+2007-10-02  Mark McLoughlin  <markmc@redhat.com>
+
+	Add quilt support to the tarball repository type. See
+	bug #482538 for some examples.
+
+	reviewed by: Frederic Peters <fpeters@0d.be>
+
+	* jhbuild/modtypes/__init__.py: pass the repository list
+	and default repository to branch_from_xml() so the tarball
+	type can call get_branch()
+	
+	* jhbuild/versioncontrol/__init__.py: update argument list
+	of branch_from_xml()
+	
+	* jhbuild/versioncontrol/tarball.py: add support for a
+	<quilt> element in tarball branches; checkout the quilt
+	branch and apply the patches after downloading and
+	unpacking the tarball; always try and update the quilt
+	branch during the checkout phase; pop all patches before
+	updating the quilt branch.
+
+	* modulesets/moduleset.dtd, modulesets/moduleset.rnc: update
+	for added quilt element.
+
 2007-10-02  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-suites-2.20.modules: branched libgnome, libgnomeui
