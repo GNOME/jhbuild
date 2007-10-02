@@ -13,20 +13,12 @@ password=""/>
  <autotools id="libosso">
     <branch repo="maemo.org-haf" module="trunk/libosso"/>
     <dependencies>
-      <dep package="outo" />
     </dependencies>
   </autotools>
 
-  <autotools id="osso-thumbnail">
-    <branch repo="maemo.org-haf" module="trunk/osso-thumbnail"/>
+  <autotools id="hildon-thumbnail">
+    <branch repo="maemo.org-haf" module="trunk/hildon-thumbnail"/>
     <dependencies>
-    </dependencies>
-  </autotools>
-
-  <autotools id="osso-gnomevfs-extra">
-    <branch repo="maemo.org-haf" module="trunk/osso-gnomevfs-extra"/>
-    <dependencies>
-      <dep package="osso-gwobex" />
     </dependencies>
   </autotools>
 
@@ -86,10 +78,12 @@ password=""/>
   </autotools>
   -->
 
+  <!-- This doesn't build either, and doesn't seem to be necessary now: 
   <tarball id="outo" version="0.1.2">
     <source href="http://surfnet.dl.sourceforge.net/sourceforge/outo/outo-0.1.2.tar.gz" size="301671" 
 md5sum="75a53d333dca94925f05bee8293a0294" />
   </tarball>
+  -->
 
 
   <autotools id="hildon">
@@ -105,11 +99,9 @@ md5sum="75a53d333dca94925f05bee8293a0294" />
     <dependencies>
       <dep package="hildon"/>
       <dep package="libosso"/>
-      <dep package="osso-thumbnail" />
-      <dep package="osso-gnomevfs-extra" />
+      <dep package="hildon-thumbnail" />
       <dep package="osso-gwconnect" />
       <dep package="dbus" />
-      <dep package="outo" />
       <!-- <dep package="mce-dummy"/> -->
     </dependencies>
   </autotools>
