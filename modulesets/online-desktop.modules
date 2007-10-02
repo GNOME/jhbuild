@@ -8,9 +8,15 @@
 
   <include href="gnome-2.20.modules"/>
 
-  <tarball id="dbus-1.1" version="1.1.1">
-    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.1.tar.gz"
-            md5sum="545ce6d92cb1ed63a54b39d15aed36a6" size="1345375"/>
+  <tarball autogenargs="--disable-selinux" id="dbus" supports-non-srcdir-builds="no" version="1.1.2">
+    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.2.tar.gz"
+            md5sum="e33d96a4c4605536127835a70b14d5b9" size="1380562"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+    </after>
   </tarball>
 
   <autotools id="hippo-canvas">
@@ -25,7 +31,7 @@
   <autotools id="local-export-daemon">
     <branch repo="svn.mugshot.org"/>
     <dependencies>
-      <dep package="dbus-1.1"/>
+      <dep package="dbus"/>
       <dep package="avahi"/>
     </dependencies>
   </autotools>
@@ -34,6 +40,7 @@
     <branch repo="svn.mugshot.org" module="dumbhippo/trunk/client"
             checkoutdir="mugshot" />
     <dependencies>
+      <dep package="dbus"/>
       <dep package="hippo-canvas"/>
       <dep package="gconf"/>
     </dependencies>
