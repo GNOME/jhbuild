@@ -51,7 +51,20 @@
   checkoutdir CDATA #IMPLIED
   supports-non-srcdir-builds (yes|no) 'yes' >
 
-
+<!ELEMENT linux (branch?,dependencies?,suggests?,after?,kconfig+) >
+<!ATTLIST linux
+  id CDATA #REQUIRED
+  makeargs CDATA #IMPLIED>
+<!ELEMENT kconfig EMPTY >
+<!ATTLIST kconfig
+  version CDATA #REQUIRED
+  config CDATA #IMPLIED
+  revision CDATA #IMPLIED
+  module CDATA #IMPLIED
+  checkoutdir CDATA #IMPLIED
+  repo CDATA #IMPLIED
+  size CDATA #IMPLIED
+  md5sum CDATA #IMPLIED>
 
 <!-- Tarball sub-elements -->
 <!ELEMENT source EMPTY >

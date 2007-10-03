@@ -38,7 +38,8 @@ package = autotools |
           distutils |
           perl |
           tarball |
-          mozillamodule
+          mozillamodule |
+          linux
 
 dep = element dep {
   attribute package { text }
@@ -135,3 +136,16 @@ mozillamodule = element mozillamodule {
   common
 }
 
+kconfig = element kconfig {
+  attribute repo { text }?,
+  attribute version { text },
+  attribute config { text }?,
+  (branch_cvs|branch_svn|branch_arch|branch_darcs|branch_git|branch_tarball)
+}
+
+linux = element linux {
+  branch &
+  kconfig+ &
+  attribute makeargs { text }? &
+  common
+}
