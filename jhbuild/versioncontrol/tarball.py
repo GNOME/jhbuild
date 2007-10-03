@@ -179,8 +179,6 @@ class TarballBranch(Branch):
         elif localfile.endswith('.zip'):
             buildscript.execute('unzip "%s"' % localfile,
                                 cwd=self.checkoutroot)
-        else:
-            raise FatalError("don't know how to handle: %s" % localfile)
 
         if not os.path.exists(self.srcdir):
             raise BuildStateError('could not unpack tarball')
