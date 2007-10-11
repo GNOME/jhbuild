@@ -129,6 +129,8 @@ def parse_distutils(node, config, uri, repositories, default_repo):
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     dependencies, after = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
+    if config.module_checkout_mode.get(id):
+        branch.checkout_mode = config.module_checkout_mode[id]
 
     return DistutilsModule(id, branch,
                            dependencies=dependencies, after=after,

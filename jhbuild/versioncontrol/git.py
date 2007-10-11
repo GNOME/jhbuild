@@ -110,17 +110,28 @@ class GitBranch(Branch):
         raise CommandError('Command %s did not include commit line: %r'
                            % (cmd_desc, stdout))
 
-    def _checkout(self, buildscript):
+    def _export(self, buildscript):
+        # FIXME: should implement this properly
+        self._checkout(buildscript)
+
+    def _checkout(self, buildscript, copydir = None):
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
-        buildscript.execute(cmd, 'git', cwd=self.checkoutroot)
+
+        if copydir:
+            buildscript.execute(cmd, 'git', cwd=copydir)
+        else:
+            buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
         if self.config.sticky_date:
             self._update(buildscript)
 
-    def _update(self, buildscript):
-        cwd = self.get_checkoutdir()
+    def _update(self, buildscript, copydir=None):
+        if copydir:
+            cwd = os.path.join(copydir, os.path.basename(self.module))
+        else:
+            cwd = self.get_checkoutdir()
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
@@ -136,10 +147,27 @@ class GitBranch(Branch):
         buildscript.execute(['git', 'pull'], 'git', cwd=cwd)
 
     def checkout(self, buildscript):
-        if os.path.exists(self.get_checkoutdir()):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+         if self.checkout_mode in ('clobber', 'export'):
+             self._wipedir(buildscript)
+             if self.checkout_mode == 'clobber':
+                 self._checkout(buildscript)
+             else:
+                 self._checkout(buildscript)
+         elif self.checkout_mode in ('update', 'copy'):
+             copydir = None
+             if self.checkout_mode == 'copy' and self.config.copy_dir:
+                 copydir = self.config.copy_dir
+             else:
+                 copydir = self.config.checkoutroot
+
+             if os.path.exists(os.path.join(copydir, 
+                               os.path.basename(self.get_checkoutdir()), '.git')):
+                 self._update(buildscript, copydir)
+             else:
+                 self._wipedir(buildscript)
+                 self._checkout(buildscript, copydir)
+             if self.checkout_mode == 'copy' and self.config.copy_dir:
+                 self._copy(buildscript, copydir)
 
     def tree_id(self):
         if not os.path.exists(self.get_checkoutdir()):

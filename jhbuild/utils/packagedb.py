@@ -95,3 +95,9 @@ class PackageDB:
         if version:
             if version != p_version: return None
         return p_installed
+
+    def remove(self, package):
+        '''Remove a module from the install cache.'''
+        if self.entries.has_key(package):
+            del self.entries[package]
+            self._write_cache()

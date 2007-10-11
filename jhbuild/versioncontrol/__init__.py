@@ -27,7 +27,7 @@ __all__ = [
 __metaclass__ = type
 
 from jhbuild.errors import FatalError, BuildStateError
-
+import os
 
 class Repository:
     """An abstract class representing a collection of modules."""
@@ -53,6 +53,8 @@ class Repository:
         for attr in self.branch_xml_attrs:
             if branchnode.hasAttribute(attr):
                 kws[attr.replace('-', '_')] = branchnode.getAttribute(attr)
+        if branchnode.hasAttribute('id'):
+            kws['branch_id'] = branchnode.getAttribute('id')
         return self.branch(name, **kws)
 
 
@@ -65,6 +67,7 @@ class Branch:
         self.module = module
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
+        self.checkout_mode = self.config.checkout_mode
 
     def srcdir(self):
         """Return the directory where this branch is checked out."""
@@ -91,6 +94,17 @@ class Branch:
         """A string identifier for the state of the working tree."""
         raise NotImplementedError
 
+    def _wipedir(self, buildscript):
+        if os.path.exists(self.srcdir):
+            buildscript.execute(['rm', '-rf', self.srcdir])
+
+    def _copy(self, buildscript, copydir):
+         module = self.module
+         if self.checkoutdir:
+             module = self.checkoutdir
+         fromdir = os.path.join(copydir, os.path.basename(module))
+         todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
+         buildscript.execute(['cp', '-R', fromdir, todir])
 
 _repo_types = {}
 def register_repo_type(name, repo_class):

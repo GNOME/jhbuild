@@ -275,6 +275,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
 
     dependencies, after = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
+    if config.module_checkout_mode.get(id):
+        branch.checkout_mode = config.module_checkout_mode[id]
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          makeinstallargs=makeinstallargs,

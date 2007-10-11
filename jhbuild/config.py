@@ -36,7 +36,8 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
-                'makedistcheck', 'nonotify', 'cvs_program' ]
+                'makedistcheck', 'nonotify', 'cvs_program',
+                'checkout_mode', 'copy_dir', 'module_checkout_mode']
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -117,6 +118,14 @@ class Config:
 
         # default tarballdir to checkoutroot
         if not self.tarballdir: self.tarballdir = self.checkoutroot
+
+        # check possible checkout_mode values
+        possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
+        if self.checkout_mode not in possible_checkout_modes:
+            raise FatalError('invalid checkout mode')
+        for module, checkout_mode in self.module_checkout_mode.items():
+            if checkout_mode not in possible_checkout_modes:
+                raise FatalError('invalid checkout mode (module: %s)' % module)
 
         self.setup_env()
 

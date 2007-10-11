@@ -151,14 +151,15 @@ class SubversionRepository(Repository):
         elif self.svn_program == 'git-svn':
             return git.GitSvnBranch(self, module_href, checkoutdir, revision)
         else:
-            return SubversionBranch(self, module_href, checkoutdir, revision)
+            return SubversionBranch(self, module_href, name, checkoutdir, revision)
 
 
 class SubversionBranch(Branch):
     """A class representing a Subversion branch"""
 
-    def __init__(self, repository, module, checkoutdir, revision):
+    def __init__(self, repository, module, module_name, checkoutdir, revision):
         Branch.__init__(self, repository, module, checkoutdir)
+        self.module_name = module_name
         self.revision = revision
 
     def srcdir(self):
@@ -173,8 +174,8 @@ class SubversionBranch(Branch):
         return self.revision
     branchname = property(branchname)
 
-    def _checkout(self, buildscript):
-        cmd = ['svn', 'checkout', self.module]
+    def _export(self, buildscript):
+        cmd = ['svn', 'export', self.module]
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
@@ -184,18 +185,38 @@ class SubversionBranch(Branch):
 
         buildscript.execute(cmd, 'svn', cwd=self.checkoutroot)
     
-    def _update(self, buildscript):
+    def _checkout(self, buildscript, copydir=None):
+        cmd = ['svn', 'checkout', self.module]
+
+        if self.checkoutdir:
+            cmd.append(self.checkoutdir)
+
+        if self.config.sticky_date:
+            cmd.extend(['-r', '{%s}' % self.config.sticky_date])
+
+        if copydir:
+            buildscript.execute(cmd, 'svn', cwd=copydir)
+        else:
+            buildscript.execute(cmd, 'svn', cwd=self.config.checkoutroot)
+
+    def _update(self, buildscript, copydir=None):
+        opt = []
+        if not copydir:
+            outputdir = os.path.join(copydir, os.path.basename(self.srcdir))
+        else:
+            outputdir = self.srcdir
+
         opt = []
         if self.config.sticky_date:
             opt.extend(['-r', '{%s}' % self.config.sticky_date])
 
         # if the URI doesn't match, use "svn switch" instead of "svn update"
-        if get_uri(self.srcdir) != self.module:
+        if get_uri(outputdir) != self.module:
             cmd = ['svn', 'switch'] + opt + [self.module]
         else:
             cmd = ['svn', 'update'] + opt + ['.']
 
-        buildscript.execute(cmd, 'svn', cwd=self.srcdir)
+        buildscript.execute(cmd, 'svn', cwd=outputdir)
 
         try:
             self._check_for_conflicts()
@@ -222,10 +243,27 @@ class SubversionBranch(Branch):
             raise CommandError('Error checking for conflicts')
 
     def checkout(self, buildscript):
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+        if self.checkout_mode in ('clobber', 'export'):
+            self._wipedir(buildscript)
+            if self.checkout_mode == 'clobber':
+                self._checkout(buildscript)
+            else:
+                self._export(buildscript)
+        elif self.checkout_mode in ('update', 'copy'):
+            copydir = None
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                copydir = self.config.copy_dir
+            else:
+                copydir = self.config.checkoutroot
+
+            if os.path.exists(os.path.join(copydir,
+                              os.path.basename(self.srcdir), '.svn')):
+                self._update(buildscript, copydir)
+            else:
+                self._wipedir(buildscript)
+                self._checkout(buildscript, copydir)
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                self._copy(buildscript, copydir)
 
     def force_checkout(self, buildscript):
         self._checkout(buildscript)

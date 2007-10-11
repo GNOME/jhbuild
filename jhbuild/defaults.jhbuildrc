@@ -48,6 +48,15 @@ makedistcheck = False  # run make distcheck after building
 
 interact      = True   # whether to interact with the user.
 
+# checkout modes. For VCS directories, it specifies how the checkout
+# is done. We can also specify checkout modes for specific modules
+checkout_mode = 'update'
+module_checkout_mode = {}
+
+# in case we use the copy checkout mode, we can set up a copy dir. Defaults to
+# checkout dir
+copy_dir = None
+
 # whether to install to lib64 directories?  Currently this will default to
 # True on Linux AMD64, PPC64 or S390x systems, and False everywhere else.
 # Patches accepted to fix the default for other architectures.

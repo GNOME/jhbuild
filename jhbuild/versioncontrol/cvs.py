@@ -223,7 +223,21 @@ class CVSBranch(Branch):
         return self.revision
     branchname = property(branchname)
 
-    def _checkout(self, buildscript):
+    def _export(self, buildscript):
+        cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
+               'export']
+        if self.revision:
+            cmd.extend(['-r', self.revision])
+        else:
+            cmd.extend(['-r', 'HEAD'])
+        if self.config.sticky_date:
+            cmd.extend(['-D', self.config.sticky_date])
+        if self.checkoutdir and self.override_checkoutdir:
+            cmd.extend(['-d', self.checkoutdir])
+        cmd.append(self.module)
+        buildscript.execute(cmd, 'cvs', cwd=self.config.checkoutroot)
+
+    def _checkout(self, buildscript, copydir=None):
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
                'checkout', '-P']
         if self.revision:
@@ -235,15 +249,22 @@ class CVSBranch(Branch):
         if self.checkoutdir and self.override_checkoutdir:
             cmd.extend(['-d', self.checkoutdir])
         cmd.append(self.module)
-        buildscript.execute(cmd, 'cvs', cwd=self.checkoutroot)
+        if copydir:
+            buildscript.execute(cmd, 'cvs', cwd=copydir)
+        else:
+            buildscript.execute(cmd, 'cvs', cwd=self.config.checkoutroot)
 
-    def _update(self, buildscript):
+    def _update(self, buildscript, copydir=None):
         # sanity check the existing working tree:
+        if copydir:
+            outputdir = os.path.join(copydir, os.path.basename(self.srcdir))
+        else:
+            outputdir = self.srcdir
         try:
-            wc_root = check_root(self.srcdir)
+            wc_root = check_root(outputdir)
         except IOError:
             raise BuildStateError('"%s" does not appear to be a CVS working '
-                                  'copy' % os.path.abspath(self.srcdir))
+                                  'copy' % os.path.abspath(outputdir))
         if wc_root != self.repository.cvsroot:
             raise BuildStateError('working copy points at the wrong '
                                   'repository (expected %s but got %s). '
@@ -263,13 +284,29 @@ class CVSBranch(Branch):
         if not (self.revision or self.config.sticky_date):
             cmd.append('-A')
         cmd.append('.')
-        buildscript.execute(cmd, 'cvs', cwd=self.srcdir)
+        buildscript.execute(cmd, 'cvs', cwd=outputdir)
 
     def checkout(self, buildscript):
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+        if self.checkout_mode in ('clobber', 'export'):
+            self._wipedir(buildscript)
+            if self.checkout_mode == 'clobber':
+                self._checkout(buildscript)
+            else:
+                self._export(buildscript)
+        elif self.checkout_mode in ('update', 'copy'):
+            copydir = None
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                copydir = self.config.copy_dir
+            else:
+                copydir = self.config.checkoutroot
+            if os.path.exists(os.path.join(copydir, 
+                              os.path.basename(self.srcdir), 'CVS')):
+                self._update(buildscript, copydir)
+            else:
+                self._wipedir(buildscript)
+                self._checkout(buildscript, copydir)
+            if self.checkout_mode == 'copy' and self.config.copy_dir is not None:
+                self._copy(buildscript, copydir)
 
     def force_checkout(self, buildscript):
         self._checkout(buildscript)

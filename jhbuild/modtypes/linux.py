@@ -233,6 +233,8 @@ def parse_linux(node, config, uri, repositories, default_repo):
 
     dependencies, after = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
+    if config.module_checkout_mode.get(id):
+        branch.checkout_mode = config.module_checkout_mode[id]
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
     return LinuxModule(id, branch, kconfigs,

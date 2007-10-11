@@ -52,7 +52,7 @@ class TarballRepository(Repository):
                         'size', 'md5sum']
 
     def branch(self, name, version, module=None, checkoutdir=None,
-               size=None, md5sum=None):
+               size=None, md5sum=None, branch_id=None):
         if name in self.config.branches:
             module = self.config.branches[module]
         else:
@@ -63,7 +63,8 @@ class TarballRepository(Repository):
             size = int(size)
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
-                             source_size=size, source_md5=md5sum)
+                             source_size=size, source_md5=md5sum,
+                             branch_id=branch_id)
 
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
         branch = Repository.branch_from_xml(self, name, branchnode, repositories, default_repo)
@@ -86,13 +87,14 @@ class TarballBranch(Branch):
     """A class representing a Tarball."""
 
     def __init__(self, repository, module, version, checkoutdir,
-                 source_size, source_md5):
+                 source_size, source_md5, branch_id):
         Branch.__init__(self, repository, module, checkoutdir)
         self.version = version
         self.source_size = source_size
         self.source_md5 = source_md5
         self.patches = []
         self.quilt = None
+        self.branch_id = branch_id
 
     def _local_tarball(self):
         basename = os.path.basename(self.module)
@@ -210,6 +212,8 @@ class TarballBranch(Branch):
                             extra_env={'QUILT_PATCHES' : self.quilt.srcdir})
 
     def checkout(self, buildscript):
+        if self.checkout_mode == 'clobber':
+            self._wipedir(buildscript)
         if not os.path.exists(self.srcdir):
             self._download_and_unpack(buildscript)
 

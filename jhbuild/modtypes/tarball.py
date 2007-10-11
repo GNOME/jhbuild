@@ -120,6 +120,16 @@ class Tarball(Package):
     def do_start(self, buildscript):
         # check if jhbuild previously built it ...
         checkoutdir = self.get_builddir(buildscript)
+
+        # Check clobber mode
+        if buildscript.config.module_checkout_mode.get(self.name):
+            checkout_mode = buildscript.config.module_checkout_mode.get(self.name)
+        else:
+            checkout_mode = buildscript.config.checkout_mode
+        if checkout_mode == 'clobber':
+            buildscript.execute(['rm', '-rf', self.get_srcdir(buildscript)])
+            buildscript.packagedb.remove(self.name)
+
         if buildscript.packagedb.check(self.name, self.version):
             return (self.STATE_DONE, None, None)
 
