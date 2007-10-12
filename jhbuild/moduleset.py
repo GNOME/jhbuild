@@ -256,7 +256,16 @@ def _parse_module_set(config, uri):
         if node.nodeName == 'include':
             href = node.getAttribute('href')
             inc_uri = urlparse.urljoin(uri, href)
-            inc_moduleset = _parse_module_set(config, inc_uri)
+            try:
+                inc_moduleset = _parse_module_set(config, inc_uri)
+            except FatalError, e:
+                if inc_uri[0] == '/':
+                    raise e
+                # look up in local modulesets
+                inc_uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
+                                   href)
+                inc_moduleset = _parse_module_set(config, inc_uri)
+
             moduleset.modules.update(inc_moduleset.modules)
         elif node.nodeName in ['repository', 'cvsroot', 'svnroot',
                                'arch-archive']:
