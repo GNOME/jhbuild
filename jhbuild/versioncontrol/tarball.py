@@ -54,7 +54,7 @@ class TarballRepository(Repository):
     def branch(self, name, version, module=None, checkoutdir=None,
                size=None, md5sum=None, branch_id=None):
         if name in self.config.branches:
-            module = self.config.branches[module]
+            module = self.config.branches[name]
         else:
             if module is None:
                 module = name

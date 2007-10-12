@@ -60,7 +60,7 @@ class GitRepository(Repository):
 
     def branch(self, name, module=None, subdir="", checkoutdir=None):
         if name in self.config.branches:
-            module = self.config.branches[module]
+            module = self.config.branches[name]
         else:
             if module is None:
                 module = name
