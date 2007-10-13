@@ -148,6 +148,10 @@ class Config:
             libdir = os.path.join(self.prefix, 'lib')
         addpath('LD_LIBRARY_PATH', libdir)
 
+        # On MacOS X, DYLD_LIBRARY_PATH has to be set to the same value as
+        # LD_LIBRARY_PATH
+        addpath('DYLD_LIBRARY_PATH', libdir)
+
         # PATH
         bindir = os.path.join(self.prefix, 'bin')
         addpath('PATH', bindir)
