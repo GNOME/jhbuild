@@ -5,19 +5,29 @@
 <moduleset>
   <repository type="svn" name="svn.mugshot.org"
       href="http://svn.mugshot.org/"/>
+  <repository type="git" name="git.freedesktop.org"
+      href="git://anongit.freedesktop.org/git/"/>
 
   <include href="gnome-2.20.modules"/>
 
-  <tarball autogenargs="--disable-selinux" id="dbus" supports-non-srcdir-builds="no" version="1.1.2">
-    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.2.tar.gz"
-            md5sum="e33d96a4c4605536127835a70b14d5b9" size="1380562"/>
+  <autotools autogenargs="--disable-selinux" id="dbus" supports-non-srcdir-builds="no">
+	  <branch repo="git.freedesktop.org"
+		  module="dbus/dbus" checkoutdir="dbus"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
     <after>
       <dep package="gtk+"/>
     </after>
-  </tarball>
+  </autotools>
+
+  <autotools id="dbus-python">
+	  <branch repo="git.freedesktop.org"
+		  module="dbus/dbus-python" checkoutdir="dbus-python"  />
+    <dependencies>
+      <dep package="dbus"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="hippo-canvas">
     <branch repo="svn.mugshot.org"/>
@@ -49,6 +59,7 @@
   <autotools id="bigboard">
     <branch repo="svn.mugshot.org" />
     <dependencies>
+      <dep package="dbus-python"/>
       <dep package="hippo-canvas"/>
       <dep package="mugshot"/>
       <dep package="pygtk"/>
