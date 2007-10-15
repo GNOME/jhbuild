@@ -166,7 +166,7 @@ class Tarball(Package):
         if localfile.endswith('.bz2'):
             buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
                                 cwd=buildscript.config.checkoutroot)
-        elif localfile.endswith('.gz'):
+        elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
             buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
                                 cwd=buildscript.config.checkoutroot)
         elif localfile.endswith('.zip'):
