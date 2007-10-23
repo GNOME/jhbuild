@@ -85,7 +85,8 @@ class Configuration:
                 print "Found meta module %s" % possible_meta_module.name
                 self.meta_modules.append(possible_meta_module)
                 self.name_to_meta_module[possible_meta_module.name] = possible_meta_module
-
+                
+        self.meta_modules.sort(lambda a, b: cmp(a.name.lower(), b.name.lower()))
         self._create_meta_modules_list_view(self.meta_modules)
         
         self._build_start_module_menu()
@@ -397,14 +398,14 @@ class GtkBuildScript(buildscript.BuildScript):
 
         text_view = gtk.TextView()
         text_view.set_buffer(self.build_text)
-        text_view.set_wrap_mode(gtk.WRAP_WORD)
+        text_view.set_wrap_mode(gtk.WRAP_WORD_CHAR)
 
         scroller = gtk.ScrolledWindow()
         scroller.add(text_view)
         dialog.vbox.pack_start(scroller)
 
         scroller.set_size_request(-1, 250)
-        scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+        scroller.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         scroller.set_shadow_type(gtk.SHADOW_IN)
         scroller.set_border_width(12)
         
