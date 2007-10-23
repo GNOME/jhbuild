@@ -22,8 +22,13 @@ import os
 import subprocess
 
 class TrayIcon:
+    proc = None
+
     def __init__(self):
+        if not os.environ.get('DISPLAY'):
+            return
         self._run_zenity()
+
     def _run_zenity(self):
         # run zenity with stdout and stderr directed to /dev/null
         def preexec():
