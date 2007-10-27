@@ -30,6 +30,8 @@
 
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
+  <repository type="git" name="libcc-git.freedesktop.org"
+      href="git://people.freedesktop.org/~herzi/"/>
 
   <repository type="darcs" name="telepathy.freedesktop.org"
       href="http://projects.collabora.co.uk/darcs/telepathy/"/>
@@ -182,6 +184,14 @@
       <dep package="libtelepathy"/>
       <dep package="gconf"/>
       <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libccc">
+	  <branch repo="libcc-git.freedesktop.org"
+		  module="ccc" checkoutdir="libccc"  />
+    <dependencies>
+      <dep package="dbus"/>
     </dependencies>
   </autotools>
 
