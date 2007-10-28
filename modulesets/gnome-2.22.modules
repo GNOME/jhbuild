@@ -43,6 +43,8 @@
     href="http://gtk-vnc.codemonkey.ws/hg/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/clutter/"/>
+  <repository type="git" name="git.freedesktop.org"
+      href="git://anongit.freedesktop.org/git/"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1266,6 +1268,35 @@
       <dep package="clutter-gst"/>
       <dep package="clutter-cairo"/>
       <dep package="clutter-gtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="swfdec">
+    <branch repo="git.freedesktop.org" module="swfdec/swfdec"
+      	checkoutdir="swfdec"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="pango"/>
+      <dep package="gtk+"/>
+      <dep package="cairo"/>
+      <dep package="liboil"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="swfdec-mozilla">
+    <branch repo="git.freedesktop.org" module="swfdec/swfdec-mozilla"
+      	checkoutdir="swfdec-mozilla"/>
+    <dependencies>
+      <dep package="swfdec"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="swfdec-gnome">
+    <branch repo="git.freedesktop.org" module="swfdec/swfdec-gnome"
+      	checkoutdir="swfdec-gnome"/>
+    <dependencies>
+      <dep package="swfdec"/>
     </dependencies>
   </autotools>
 
