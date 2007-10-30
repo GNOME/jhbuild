@@ -83,8 +83,10 @@ class GitBranch(Branch):
                                 os.path.basename(self.module), self.subdir)
     srcdir = property(srcdir)
 
-    def get_checkoutdir(self):
-        if self.checkoutdir:
+    def get_checkoutdir(self, copydir=None):
+        if copydir:
+            return os.path.join(copydir, os.path.basename(self.module))
+        elif self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.checkoutroot,
@@ -114,7 +116,7 @@ class GitBranch(Branch):
         # FIXME: should implement this properly
         self._checkout(buildscript)
 
-    def _checkout(self, buildscript, copydir = None):
+    def _checkout(self, buildscript, copydir=None):
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
@@ -128,10 +130,7 @@ class GitBranch(Branch):
             self._update(buildscript)
 
     def _update(self, buildscript, copydir=None):
-        if copydir:
-            cwd = os.path.join(copydir, os.path.basename(self.module))
-        else:
-            cwd = self.get_checkoutdir()
+        cwd = self.get_checkoutdir(copydir)
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
@@ -143,31 +142,31 @@ class GitBranch(Branch):
                 buildscript.execute(branch_cmd, 'git', cwd=cwd)
             buildscript.execute(['git', 'reset', '--hard', commit],
                                 'git', cwd=cwd)
-                
+
         buildscript.execute(['git', 'pull'], 'git', cwd=cwd)
 
     def checkout(self, buildscript):
-         if self.checkout_mode in ('clobber', 'export'):
-             self._wipedir(buildscript)
-             if self.checkout_mode == 'clobber':
-                 self._checkout(buildscript)
-             else:
-                 self._checkout(buildscript)
-         elif self.checkout_mode in ('update', 'copy'):
-             copydir = None
-             if self.checkout_mode == 'copy' and self.config.copy_dir:
-                 copydir = self.config.copy_dir
-             else:
-                 copydir = self.config.checkoutroot
+        if self.checkout_mode in ('clobber', 'export'):
+            self._wipedir(buildscript)
+            self._checkout(buildscript)
+        elif self.checkout_mode in ('update', 'copy'):
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                copydir = self.config.copy_dir
+                if os.path.exists(os.path.join(copydir,
+                        os.path.basename(self.get_checkoutdir()), '.git')):
+                    self._update(buildscript, copydir)
+                else:
+                    self._wipedir(buildscript)
+                    self._checkout(buildscript, copydir)
+                self._copy(buildscript, copydir)
+            else:
+                if os.path.exists(self.get_checkoutdir()):
+                    self._update(buildscript)
+                else:
+                    self._checkout(buildscript)
 
-             if os.path.exists(os.path.join(copydir, 
-                               os.path.basename(self.get_checkoutdir()), '.git')):
-                 self._update(buildscript, copydir)
-             else:
-                 self._wipedir(buildscript)
-                 self._checkout(buildscript, copydir)
-             if self.checkout_mode == 'copy' and self.config.copy_dir:
-                 self._copy(buildscript, copydir)
+    def force_checkout(self, buildscript):
+        self.checkout(buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.get_checkoutdir()):
@@ -194,50 +193,56 @@ class GitSvnBranch(GitBranch):
                 except OSError:
                     extbranch._checkout(buildscript)
 
-    def _checkout(self, buildscript):
-        cmd = ['git-svn', 'init', self.module]
+    def _checkout(self, buildscript, copydir=None):
+        if self.config.sticky_date:
+            raise FatalError('date based checkout not yet supported\n')
+
+        cmd = ['git-svn', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
-        if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
-
-        buildscript.execute(cmd, 'git-svn', cwd=self.checkoutroot)
-
-        last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
-
-        cmd = ['git-svn', 'fetch']
         #fixme (add self.revision support)
+        last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
         if not self.revision:
             cmd.extend(['-r', last_revision])
-            
-        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
-        
-        cmd = ['git', 'checkout', '.']
-        buildscript.execute(cmd, 'git checkout', cwd=self.get_checkoutdir())
 
-        cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
-        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+        if copydir:
+            buildscript.execute(cmd, 'git-svn', cwd=copydir)
+        else:
+            buildscript.execute(cmd, 'git-svn', cwd=self.config.checkoutroot)
+
+        try:
+            #is known to fail on some versions
+            cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
+            buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir(copydir))
+        except:
+            pass
 
         #fixme, git-svn should support externals
-        # self._get_externals(buildscript)
-        
-    def _update(self, buildscript):
+        # self._get_externals(buildscript, cwd)
+
+    def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        cmd = ['git-svn', 'fetch']
-        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+        cwd = self.get_checkoutdir()
 
-        cmd = ['git', 'merge', 'remotes/git-svn']
-        buildscript.execute(cmd, 'git merge', cwd=self.get_checkoutdir())
+        # stash uncommitted changes on the current branch
+        cmd = ['git', 'stash', 'jhbuild-build']
+        buildscript.execute(cmd, 'git stash', cwd=cwd)
 
-        #fixme, git rebase does 'fetch'+'merge' only in recents releases
-        # cmd = ['git', 'rebase', 'remotes/git-svn']
-        # buildscript.execute(cmd, 'git rebase', cwd=self.get_checkoutdir())
+        cmd = ['git', 'checkout', 'master']
+        buildscript.execute(cmd, 'git checkout master', cwd=cwd)
 
-        cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
-        buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir())
+        cmd = ['git-svn', 'rebase']
+        buildscript.execute(cmd, 'git-svn rebase', cwd=cwd)
+
+        try:
+            #is known to fail on some versions
+            cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
+            buildscript.execute(cmd, 'git-svn', cwd=cwd)
+        except:
+            pass
 
         #fixme, git-svn should support externals
         # self._get_externals(buildscript)
@@ -247,9 +252,9 @@ class GitCvsBranch(GitBranch):
         GitBranch.__init__(self, repository, module, "", checkoutdir)
         self.revision = revision
 
-    def _checkout(self, buildscript):
+    def _checkout(self, buildscript, copydir=None):
         cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
-            
+
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
         else:
@@ -259,20 +264,29 @@ class GitCvsBranch(GitBranch):
             cmd.append('-p b,' + self.revision)
         else:
             cmd.append('-p b,HEAD')
-            
+
         cmd.append(self.module)
-            
-        buildscript.execute(cmd, 'git-cvsimport', cwd=self.checkoutroot)
 
-        cmd = ['git', 'checkout', 'origin']
-        buildscript.execute(cmd, 'git checkout', cwd=self.get_checkoutdir())
+        if copydir:
+            buildscript.execute(cmd, 'git-cvsimport', cwd=copydir)
+        else:
+            buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
 
-    def _update(self, buildscript):
+    def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
+        cwd = self.get_checkoutdir()
+
+        # stash uncommitted changes on the current branch
+        cmd = ['git', 'stash', 'jhbuild-build']
+        buildscript.execute(cmd, 'git stash', cwd=cwd)
+
+        cmd = ['git', 'checkout', 'master']
+        buildscript.execute(cmd, 'git checkout master', cwd=cwd)
+
         cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
-            
+
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
         else:
@@ -282,9 +296,9 @@ class GitCvsBranch(GitBranch):
             cmd.append('-p b,' + self.revision)
         else:
             cmd.append('-p b,HEAD')
-            
+
         cmd.append(self.module)
-            
+
         buildscript.execute(cmd, 'git-cvsimport', cwd=self.checkoutroot)
-        
+
 register_repo_type('git', GitRepository)

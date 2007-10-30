@@ -1,3 +1,8 @@
+2007-10-30  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* jhbuild/versioncontrol/git.py: fix git-svn and git-cvsimport
+	after #347114.
+
 2007-10-29  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-suites-2.20.modules: branched seahorse for 2.20.
@@ -29,8 +34,8 @@
 
 2007-10-27  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/bootstrap.modules: Restored the more recent 
-	versions of gettext, automake, and pgk-config that were 
+	* modulesets/bootstrap.modules: Restored the more recent
+	versions of gettext, automake, and pgk-config that were
 	mistakenly (apparently) downgrade by Mark McLoughlin on
 	2007-10-02 while adding quilt support.
 
@@ -48,7 +53,7 @@
 	* modulesets/gnome-2.16.modules:
 	* modulesets/gnome-2.18.modules:
 	* modulesets/gnome-2.20.modules:
-	* modulesets/gnome-2.22.modules: Corrected the Inkscape 
+	* modulesets/gnome-2.22.modules: Corrected the Inkscape
 	svn address.
 
 2007-10-24  Murray Cumming  <murrayc@murrayc.com>
@@ -59,7 +64,7 @@
 
 2007-10-23  Owen Taylor  <otaylor@redhat.com>
 
-	* jhbuild/frontends/gtkui.py: 
+	* jhbuild/frontends/gtkui.py:
 	- Sort module list alphabetically
 	- Change scrollbar policies and text view wrap mode so that the
 	  window doesn't get forced wider and wider and wider as the
@@ -72,7 +77,7 @@
 
 2007-10-22  Owen Taylor  <otaylor@redhat.com>
 
-	* modulesets/gnome-2.20.modules: Remove stray reference to 
+	* modulesets/gnome-2.20.modules: Remove stray reference to
 	gstreamer-plugins-base, convert to gst-plugins-base.
 
 2007-10-19  Owen Taylor  <otaylor@redhat.com>
@@ -93,7 +98,7 @@
 2007-10-17  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/gnome-2.20.modules:
-	* modulesets/gnome-2.22.modules: goocanvasmm moved from 
+	* modulesets/gnome-2.22.modules: goocanvasmm moved from
 	sourceforge to GNOME svn.
 
 2007-10-15  William Jon McCann  <mccann@jhu.edu>
@@ -201,8 +206,8 @@
 
 2007-10-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.20.modules: 
-	* modulesets/gnome-2.22.modules: Glom now depends on 
+	* modulesets/gnome-2.20.modules:
+	* modulesets/gnome-2.22.modules: Glom now depends on
 	goocanvasmm.
 
 2007-10-03  Mark McLoughlin  <markmc@redhat.com>
@@ -214,7 +219,7 @@
 	reviewed by: Frederic Peters <fpeters@0d.be>
 
 	* jhbuild/modtypes/linux.py: add the 'linux' module type
-	
+
 	* modulesets/moduleset.dtd,
 	  modulesets/moduleset.rnc: update schemas for new module
 	type
@@ -242,7 +247,7 @@
 
 	* jhbuild/versioncontrol/__init__.py: add checkoutroot
 	member to Branch for convenience
-	
+
 	* jhbuild/versioncontrol/arch.py,
 	  jhbuild/versioncontrol/bzr.py,
 	  jhbuild/versioncontrol/cvs.py,
@@ -258,7 +263,7 @@
 
 	* jhbuild/versioncontrol/__init__.py: assign repository,
 	config, module and checkoutdir Branch members here
-	
+
 	* jhbuild/versioncontrol/cvs.py,
 	  jhbuild/versioncontrol/git.py,
 	  jhbuild/versioncontrol/svn.py,
@@ -270,7 +275,7 @@
 	  jhbuild/versioncontrol/darcs.py,
 	  jhbuild/versioncontrol/hg.py: don't need Branch
 	sub-class constructors here
-	
+
 2007-10-02  Mark McLoughlin  <markmc@redhat.com>
 
 	reviewed by: Frederic Peters <fpeters@0d.be>
@@ -287,10 +292,10 @@
 	* jhbuild/modtypes/__init__.py: pass the repository list
 	and default repository to branch_from_xml() so the tarball
 	type can call get_branch()
-	
+
 	* jhbuild/versioncontrol/__init__.py: update argument list
 	of branch_from_xml()
-	
+
 	* jhbuild/versioncontrol/tarball.py: add support for a
 	<quilt> element in tarball branches; checkout the quilt
 	branch and apply the patches after downloading and
@@ -308,22 +313,22 @@
 
 2007-10-02  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/hildon.modules: osso-thumbnail is now hildon-thumbnail. Made 
-	some more changes that might be useful. hildon-fm does not build without 
+	* modulesets/hildon.modules: osso-thumbnail is now hildon-thumbnail. Made
+	some more changes that might be useful. hildon-fm does not build without
 	the maemo-patched GTK+, so it is hard to know.
 
 2007-10-02  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/hildon.modules: Added this, to build hildon-1 and hildon-fm. 
-	It is based on the stuff at 
+	* modulesets/hildon.modules: Added this, to build hildon-1 and hildon-fm.
+	It is based on the stuff at
 	https://maemo.org/community/wiki/maemowithjhbuild/
-	(which no longer works because the GNOME viewsvn does not offer a plain 
+	(which no longer works because the GNOME viewsvn does not offer a plain
 	checkout file via http for jhbuild.)
 	* modulesets/gnome-2.22.modules: Include hildon.modules.
 
 2007-10-01  Owen Taylor  <otaylor@redhat.com>
 
-	* Clean up references to non-existent modules so that 'jhbuild gui' can be 
+	* Clean up references to non-existent modules so that 'jhbuild gui' can be
 	started (#381536, based on patch from Elijah Newren)
 
 2007-10-01  Owen Taylor  <otaylor@redhat.com>
@@ -378,7 +383,7 @@
 
 	* modulesets/gnome-2.20.modules: Use stable branch for NetworkManager and
 	network-manager-applet.
-	* modulesets/gnome-2.22.modules: Use trunk for NetworkManager and 
+	* modulesets/gnome-2.22.modules: Use trunk for NetworkManager and
 	network-manager-applet.
 
 2007-09-21  Frederic Peters  <fpeters@0d.be>
@@ -434,7 +439,7 @@
 
 2007-09-18  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/gnome-suites-2.20.modules: libgcryp is a 
+	* modulesets/gnome-suites-2.20.modules: libgcryp is a
 	required depedency of gnome-keyring (see gnome-keyring
 	2.20 announcement)
 
@@ -451,7 +456,7 @@
 2007-09-17  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/gnome-suites-2.20.modules: eog, fast-user-switch-applet,
-	gdm2, gnome-power-manager, zenity branched for gnome-2-20.	
+	gdm2, gnome-power-manager, zenity branched for gnome-2-20.
 
 2007-09-17  Wouter Bolsterlee  <wbolster@svn.gnome.org>
 
@@ -466,7 +471,7 @@
 
 2007-09-16  Jaap Haitsma  <jaap@haitsma.org>
 
-	* modulesets/gnome-2.20.modules: Adding gtk-vnc module to get vinagre 
+	* modulesets/gnome-2.20.modules: Adding gtk-vnc module to get vinagre
 	to build again
 
 2007-09-14  Dan Winship  <danw@gnome.org>
@@ -475,12 +480,12 @@
 
 2007-09-14  Don Scorgie  <dscorgie@svn.gnome.org>
 
-	* modulesets/gnome-external-deps-2.20.modules: 
+	* modulesets/gnome-external-deps-2.20.modules:
 	Bump rarian version to 0.6.0
 
 2007-09-14  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-suites-2.20.modules: Use trunk for gtkmm. 
+	* modulesets/gnome-suites-2.20.modules: Use trunk for gtkmm.
 	The gtkmm-2-12 branch should not have been created yet.
 
 2007-09-13  Carlos Garnacho  <carlosg@gnome.org>
@@ -682,13 +687,13 @@
 
 	* jhbuild/versioncontrol/hg.py: change previous patch
 	to use single quotes like the rest of the code
-	
+
 2007-08-08  Mark McLoughlin  <markmc@redhat.com>
 
 	* jhbuild/versioncontrol/hg.py: explicitly support
 	ssh:// URIs since urlparse.urljoin() doesn't. See
 	bug #464641
-	
+
 2007-08-03  Vincent Untz  <vuntz@gnome.org>
 
 	* modulesets/gnome-external-deps-2.20.modules:
@@ -723,9 +728,9 @@
 	  GitCvsBranch._checkout, GitCvsBranch._update):
 	* jhbuild/versioncontrol/svn.py (_make_uri, get_subdirs, get_externals,
 	  SubversionRepository.branch):
-	  Add git-svn and git-cvsimport support - need some manual work though 
+	  Add git-svn and git-cvsimport support - need some manual work though
 	  (closes: #399402)
-	
+
 2007-07-31  Frederic Peters  <fpeters@0d.be>
 
 	* jhbuild/config.py, jhbuild/modtypes/testmodule.py: added forgotten
@@ -734,13 +739,13 @@
 
 2007-07-29  Don Scorgie  <dscorgie@svn.gnome.org>
 
-	* modulesets/gnome-suites-2.20.modules: 
-	* modulesets/gnome-2.20.modules: 
+	* modulesets/gnome-suites-2.20.modules:
+	* modulesets/gnome-2.20.modules:
 	Switch from scrollkeeper to Rarian for
 	2.20
-	
+
 2007-07-25  Colin Walters  <walters@redhat.com>
- 
+
         * modulesets/online-desktop.modules:
         Strengthen deps online-desktop->bigboard->mugshot so online-desktop
         builds the whole chain.
@@ -762,9 +767,9 @@
 
 2007-07-09  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
 
-	* modulesets/gnome-external-deps-2.20.modules: libgsf 1.14.4 
+	* modulesets/gnome-external-deps-2.20.modules: libgsf 1.14.4
 	(Yay! first commit in GNOME!) Fixes: #454910
-	
+
 2007-07-08  Christian Kirbach  <Christian.Kirbach@googlemail.com>
 
 	* modulesets/gnome-2.18.module: gnome-system-tools and liboobs
@@ -780,7 +785,7 @@
 
 2007-07-06  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.18.modules: Updated the gtkmm and libglademm 
+	* modulesets/gnome-2.18.modules: Updated the gtkmm and libglademm
 	branch names. Patch by Wouter Bolsterlee.
 
 2007-07-05  Havoc Pennington  <hp@redhat.com>
@@ -795,7 +800,7 @@
 
 2007-06-29  Paolo Borelli  <pborelli@katamail.com>
 
-	* modulesets/gnome-2.18.modules: gedit was branched for 
+	* modulesets/gnome-2.18.modules: gedit was branched for
 	gnome 2.18. Patch by Wouter Bolsterlee.
 
 2007-06-25  Luca Ferretti  <elle.uca@libero.it>
@@ -834,7 +839,7 @@
 
 	* modulesets/freedesktop-2.20.modules: added module
 	"telepathy-mission-control" and its repository
-	
+
 	* modulesets/gnome-2.20.modules: added missing dependencies to
 	"empathy" (now it should be buildable); added "gnutls" as
 	dependece of "loudmouth"
@@ -920,7 +925,7 @@
 	* modulesets/freedesktop-2.20.modules:
 
 	Added repository for telepathy (darcs!!) and modules for
-	libtelepathy, telepathy-glib and telepathy-gabble. By now only 
+	libtelepathy, telepathy-glib and telepathy-gabble. By now only
 	libtelepathy is buildable due to dbus-glib version required
 	by telepathy-glib :-(
 
@@ -936,7 +941,7 @@
 
 2007-05-29  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/freedesktop-2.20.modules: added xdg-user-dirs 
+	* modulesets/freedesktop-2.20.modules: added xdg-user-dirs
 	* modulesets/gnome-2.20.modules: added xdg-user-dirs-gtk
 
 	Note: using tarball for xdg-user-dirs by now, see
@@ -976,7 +981,7 @@
 
 2007-05-21  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.20.modules: Added tinymail and modest, 
+	* modulesets/gnome-2.20.modules: Added tinymail and modest,
 	as they are already in gnome-2.18.modules.
 
 2007-05-20  Wouter Bolsterlee  <wbolster@svn.gnome.org>
@@ -1024,7 +1029,7 @@
 
 2007-05-07  Richard Hult  <richard@imendio.com>
 
-	* jhbuild/commands/bootstrap.py: Make the skip list apply to 
+	* jhbuild/commands/bootstrap.py: Make the skip list apply to
 	bootstrapping as well, bug #436633.
 
 2007-05-06  Jonathon Jongsma  <jjongsma@gnome.org>
@@ -1168,7 +1173,7 @@
 
 2007-04-16  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.18.modules: Use the gnome-2-18 branch that I 
+	* modulesets/gnome-2.18.modules: Use the gnome-2-18 branch that I
 	just created.
 
 2007-04-15  Elijah Newren  <newren gmail com>
@@ -1237,12 +1242,12 @@
 2007-04-09  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-2.18.modules: Use 2.18 branch for vino.
-	
+
 2007-04-09  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-2.18.modules: Use 2.18 branch for
 	gnome-system-monitor.
-	
+
 2007-04-09  Calum Benson  <calum.benson@sun.com>
 
 	* modulesets/gnome-2.18.modules: Use 2.18 branch for gnome-themes.
@@ -1271,7 +1276,7 @@
 
 	* jhbuild/modtypes/tarball.py (__init__): add a uri paramemter and
 	cache it, (do_patch): check for the patch existing remotely first
-	
+
 2007-04-07  Frederic Peters  <fpeters@0d.be>
 
 	* install-check.c: allows for WITH_INSTALL symbol to use another
@@ -1443,7 +1448,7 @@
 	* modulesets/gnome-2.20.modules:
 	* modulesets/gnome-suites-2.20.modules: move NetworkManager and
 	network-manager-applet from gnome-suites-2.20.modules to
-	gnome-2.20.modules, also mark gnome-common as a special module in 
+	gnome-2.20.modules, also mark gnome-common as a special module in
 	gnome-suites-2.20.modules since it doesn't need to be in a suite
 
 2007-03-16  Frederic Peters  <fpeters@0d.be>
@@ -1459,7 +1464,7 @@
 
 2007-03-15  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/gnome-2.18.modules: removed network-manager-applet 
+	* modulesets/gnome-2.18.modules: removed network-manager-applet
 	from meta-gnome-desktop, n-m-a was dropped from GNOME Desktop 2.18
 	(see announce-devel mailing list); used network-manager-applet-0-6
 	branch, it should be the one matching stable NetworkManager branch.
@@ -1512,7 +1517,7 @@
 	to match usage; not yet validating.
 
 2007-03-13  Frederic Peters  <fpeters@0d.be>
-	
+
 	* modulesets/gnome-2.16.modules, modulses/gnome-2.18.modules,
 	modulesets/gnome-2.18.modules: fixed typo: dependecies -> dependencies.
 
@@ -1589,7 +1594,7 @@
 
 2007-03-07  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/gnome-2.18.modules: tomboy and glade3 have branched 
+	* modulesets/gnome-2.18.modules: tomboy and glade3 have branched
 	to gnome-2-18.
 
 2007-03-06  Elijah Newren  <newren gmail com>
@@ -1598,9 +1603,9 @@
 
 2007-03-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/freedesktop-2.18.modules: avahi: Added the --disable-python 
-	option, because it would then need python-gdbm, which is not installed in the 
-	jhbuild (boostrapped) python. Alternatively, someone might want to add that 
+	* modulesets/freedesktop-2.18.modules: avahi: Added the --disable-python
+	option, because it would then need python-gdbm, which is not installed in the
+	jhbuild (boostrapped) python. Alternatively, someone might want to add that
 	to jhbuild instead.  (Later edit by Elijah: actually, it is installed
 	by jhbuild bootstrapped python, _if_ you have gdbm-devel installed at
 	the time you build python.  But yeah, this bug snags lots of people so
@@ -1635,7 +1640,7 @@
 
 	* jhbuild/config.py: added makedistcheck variable, which was
 	forgotten (closes: #414377)
-	 
+
 2007-03-03  Frederic Peters  <fpeters@0d.be>
 
 	* jhbuild/modulesets/gnome-2.18.modules: added hacky autogenargs to
@@ -1736,17 +1741,17 @@
 2007-02-12  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/gnome-2.18.modules: use 0.6 branch for
-	NetworkManager as suggested in trunk/ChangeLog; moreove NM 
+	NetworkManager as suggested in trunk/ChangeLog; moreove NM
 	and n-m-a depends on dbus-glib, not dbus.
 
 2007-02-12  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/gnome-2.18.modules: add network-manager-applet and
 	fix dependences for NetworkManager. Unfortunately latest NM depends
-	on dbus-glib 0.72 while the version for gnome 2.18 if 0.71. So 
+	on dbus-glib 0.72 while the version for gnome 2.18 if 0.71. So
 	are currently un-buildable.
 
-	Moreover NM also depends on wireless-tools, libnl, dhcdbd, 
+	Moreover NM also depends on wireless-tools, libnl, dhcdbd,
 	wpa-supplicant and iproute2.
 
 2007-02-11  Christian Kirbach  <Christian.Kirbach@googlemail.com>
@@ -1819,9 +1824,9 @@
 
 2007-02-05  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.18.modules: gnome-vfsmm (C++): Use the gnome-2-18 branch, 
-	because trunk must now be for gnome 2.19/2.20 because I forgot to do tarball 
-	releases with the API additions before the API freeze. 
+	* modulesets/gnome-2.18.modules: gnome-vfsmm (C++): Use the gnome-2-18 branch,
+	because trunk must now be for gnome 2.19/2.20 because I forgot to do tarball
+	releases with the API additions before the API freeze.
 
 2007-02-05  Frederic Peters  <fpeters@0d.be>
 
@@ -1862,13 +1867,13 @@
 	Notes: GnuPG and gpgme are required external dependence, not
 	managed by jhbuild; libLDAP is optional for keyserver support.
 
-	Also there are some GNOME modules added as suggest, not as 
+	Also there are some GNOME modules added as suggest, not as
 	depenced for seahorse, providing extra feature. Those modules
 	are: libsoup, nautilus, gnome-keyring, avahi, dbus-glib,
 	epiphany, gedit, gnome-panel and libnotify.
 
 	Of course this could change, moving suggests to depencences,
-	before 2.18 release.	
+	before 2.18 release.
 
 2007-01-24  Luca Ferretti  <elle.uca@libero.it>
 
@@ -1881,7 +1886,7 @@
 	* modulesets/gnome-2.18.modules:
 	Create a new meta-gnome-devtools-suite metamodule with glade3 and
 	devhelp and add it to meta-gnome-proposed (by now)
-	
+
 2007-01-23  Elijah Newren  <newren gmail com>
 
 	* modulesets/gnome-2.18.modules:
@@ -1903,7 +1908,7 @@
 
 2007-01-22  Mariano Suárez-Alvarez  <mariano@gnome.org>
 
-	* jhbuild/frontends/terminal.py: Do not write string arrays as 
+	* jhbuild/frontends/terminal.py: Do not write string arrays as
 	commands upon error. Fixes bug #354010.
 
 2007-01-14  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
@@ -1961,8 +1966,8 @@
 
 2007-01-09  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.18.modules: Specify a virtual gnomemm repository, 
-	and specify the gnomemm modules as using the repository. Unlike before, 
+	* modulesets/gnome-2.18.modules: Specify a virtual gnomemm repository,
+	and specify the gnomemm modules as using the repository. Unlike before,
 	with cvs, they will then be checked out to top-level directories.
 
 2007-01-08  Luca Ferretti  <elle.uca@libero.it>
@@ -2017,7 +2022,7 @@
 
 	* modulesets/gnome-2.18.modules: added dependency on gnome-desktop for
 	epiphany (bug #393079)
-	
+
 2007-01-05  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-2.18.modules: fixed libxml2 module name
@@ -2047,10 +2052,10 @@
 	* jhbuild/versioncontrol/svn.py: add a little hack so
 	that if no branch or tag is mentioned in the module name,
 	we checkout the trunk to an appropriate directory
-	
+
 	* modulesets/gnome-2.18.modules: add the svn.gnome.org
 	repo and fix a couple of branch defs.
-	
+
 	* modulesets/freedesktop-2.18.modules: remove the unused
 	gnome.org cvsroot from here.
 
@@ -2142,13 +2147,13 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 2006-11-23  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/gnome-2.16.modules:
-	* modulesets/gnome-2.18.modules: Use the glibmm-2.12 branch of 
+	* modulesets/gnome-2.18.modules: Use the glibmm-2.12 branch of
 	glibmm, because GNOME 2.18 uses the glib-2.12 branch of glib.
 
 2006-11-17  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/bootstrap.modules: Use latest gettext (0.16) instead 
-	of 0.14.5, because I need the latest libgettext-po error-handling 
+	* modulesets/bootstrap.modules: Use latest gettext (0.16) instead
+	of 0.14.5, because I need the latest libgettext-po error-handling
 	API in Glom. But if this disturbs something, just revert it.
 
 2006-11-16  Thomas Wood  <thos@gnome.org>
@@ -2165,10 +2170,10 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 	* modulesets/gnome-2.18.modules: Add libipoddevice.
 	* modulesets/gnome-2.16.modules: same.
-	
+
 2006-11-15  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
 
-	* modulesets/gnome-2.18.modules: Remove libgnomeprint from EOG 
+	* modulesets/gnome-2.18.modules: Remove libgnomeprint from EOG
 	dependencies.
 
 2006-11-14  Luca Ferretti  <elle.uca@libero.it>
@@ -2292,8 +2297,8 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-10-19  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.18.modules: Added gtksourceviewmm and made 
-	Glom depend on it. Commented-out libbonobo*mm, because they are 
+	* modulesets/gnome-2.18.modules: Added gtksourceviewmm and made
+	Glom depend on it. Commented-out libbonobo*mm, because they are
 	old unused crap.
 
 2006-10-18  Elijah Newren  <newren gmail com>
@@ -2379,7 +2384,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 	* modulesets/gnome-2.16.modules: Use gnome-2-16 branch
 	for file-roller.
-	
+
 2006-10-12  Elijah Newren  <newren gmail com>
 
 	* patches/dbus-glib-build.patch: Add this to fix #361674, reported
@@ -2675,10 +2680,10 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-07-24  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/freedesktop.modules: enable dbus-python using 
+	* modulesets/freedesktop.modules: enable dbus-python using
 	<distutils> element and rework avahi deps. Note: I'm not sure
 	dbus-python is able to build as is. See bug 348453.
-	
+
 2006-07-24  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/freedesktop.modules: Add dbus-glib module and make
@@ -2697,7 +2702,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-07-18  Gustavo Carneiro  <gjc@gnome.org>
 
-	* modulesets/freedesktop.modules, 
+	* modulesets/freedesktop.modules,
 	* modulesets/gnome-2.10.modules,
 	* modulesets/gnome-2.12.modules,
 	* modulesets/gnome-2.14.modules,
@@ -3006,7 +3011,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 	stb-1.4 branch, s-t-b HEAD interface has changed.
 	* modulesets/gnome-2.14.modules: use system-tools-backends-1.4.
 	* modulesets/gnome-2.16.modules: same here where necessary
-	(gnome-applets). Also add liboobs to the build and make 
+	(gnome-applets). Also add liboobs to the build and make
 	gnome-system-tools depend on it.
 
 2006-05-18  James Henstridge  <james@jamesh.id.au>
@@ -3044,7 +3049,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 	* jhbuild/versioncontrol/tarball.py
 	(TarballBranch._download_and_unpack): same here.
 
-	* jhbuild/versioncontrol/svn.py (SubversionBranch._checkout) 
+	* jhbuild/versioncontrol/svn.py (SubversionBranch._checkout)
 	(SubversionBranch._update): same here.
 
 	* jhbuild/versioncontrol/git.py (GitBranch._checkout)
@@ -3343,7 +3348,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-05-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.14.modules: Glom: Added dependency on 
+	* modulesets/gnome-2.14.modules: Glom: Added dependency on
 	gnome-doc-utils.
 
 2006-05-02  James Henstridge  <james@jamesh.id.au>
@@ -3509,7 +3514,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 2006-04-26  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/maemo.modules:
-	* modulesets/maemo_freedesktop.modules: Removed these files. 
+	* modulesets/maemo_freedesktop.modules: Removed these files.
 	They have moved to jhbuild_modules in the maemo svn.
 
 2006-04-26  Wouter Bolsterlee  <uws+gnome@xs4all.nl>
@@ -3692,30 +3697,30 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-04-04  Murray Cumming,,,  <set EMAIL_ADDRESS environment variable>
 
-	* modulesets/freedesktop.modules: cairomm depends on cairo-1-0 instead of cairo, 
-	though I see no need to have two versions of this module. They do not install in 
+	* modulesets/freedesktop.modules: cairomm depends on cairo-1-0 instead of cairo,
+	though I see no need to have two versions of this module. They do not install in
 	parallel.
 	* modulesets/gnome-2.16.modules: gtkmm depends on cairomm.
 
 2006-03-31  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/maemo.modules: Now there are two svnroots, one for maemo HAF, and 
+	* modulesets/maemo.modules: Now there are two svnroots, one for maemo HAF, and
 	one for maemo contrib. Also add libosso, whatever that is.
 
 2006-03-31  Murray Cumming   <murrayc@murrayc.com>
 
-	* modulesets/maemo.modules: Added hildon C++ bindings, with a meta-maemo-c++ 
+	* modulesets/maemo.modules: Added hildon C++ bindings, with a meta-maemo-c++
 	meta module. Use glibmm 2.8 because maemo is now using glib 2.8 (with GTK+ 2.8).
 
 2006-03-31  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/maemo.modules: Added moduleset that builds the 
-	Maemo hildon-* stuff, with the Maemo versions of some dependencies, 
-	such as dbus and GTK+. Copied from gnome-2.10.modules, so it contains 
+	* modulesets/maemo.modules: Added moduleset that builds the
+	Maemo hildon-* stuff, with the Maemo versions of some dependencies,
+	such as dbus and GTK+. Copied from gnome-2.10.modules, so it contains
 	unnecessary stuff, but it does no harm.
-	I wonder if we can just include gnome-2.10.modules and override some 
+	I wonder if we can just include gnome-2.10.modules and override some
 	modules?
-	* modulesets/maemo_freedesktop.modules: Maemo versions of some of these 
+	* modulesets/maemo_freedesktop.modules: Maemo versions of some of these
 	modules, included by maemo.modules.
 
 2006-03-30  Behdad Esfahbod  <behdad@gnome.org>
@@ -3758,13 +3763,13 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 	Use hicolor-icon-theme-0.9 and the fc-2_4_branch of fontconfig.
 	* modulesets/gnome-2.16.modules:
 	Use the v_2_x branch of libxklavier. Update xchat to 2.6.1,
-	libmusicbrainz to 2.1.2 and guile to 1.8.0. 
+	libmusicbrainz to 2.1.2 and guile to 1.8.0.
 	* modulesets/gnutls.modules: gnutls-1.2.10, libgpg-error-1.3,
 	libgrypt-1.2.2, libtasn1-0.2.18, opencdk-0.5.8
-	
+
 
 2006-03-24  Matthias Clasen  <mclasen@redhat.com>
-	
+
 	*  modulesets/gnome-2.14.modules: Use the glib-2-10 branch
 	for glib.
 
@@ -3823,7 +3828,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-03-17  Behdad Esfahbod  <behdad@gnome.org>
 
-	* modulesets/freedesktop.modules: use cairo-1.0.4 tarball for 
+	* modulesets/freedesktop.modules: use cairo-1.0.4 tarball for
 	cairo-1-0, instead of dead CVS.
 
 2006-03-16  Elijah Newren  <newren gmail com>
@@ -3986,8 +3991,8 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-01-30  Luca Ferretti  <elle.uca@libero.it>
 
-	* modulesets/gnome-2.14.modules: 
-	add autogenargs="--enable-gstreamer=0.10" to gnome-applets and remove 
+	* modulesets/gnome-2.14.modules:
+	add autogenargs="--enable-gstreamer=0.10" to gnome-applets and remove
 	revision="BRANCH-GSTREAMER-0-10" from gnome-media.
 
 2006-01-26  Guilherme de S. Pastore  <gpastore@gnome.org>
@@ -4070,7 +4075,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2006-01-09  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.14.modules: Add a libgda-1-2 checkout as 
+	* modulesets/gnome-2.14.modules: Add a libgda-1-2 checkout as
 	well as the unstable libgda HEAD. Make libgdamm use libga-1-2.
 
 2006-01-09  Johan Dahlin  <jdahlin@async.com.br>
@@ -4103,7 +4108,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-12-22  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.14.modules: Change the scrollkeeper download 
+	* modulesets/gnome-2.14.modules: Change the scrollkeeper download
 	URL to one that works.
 
 2005-12-14  Murray Cumming  <murrayc@murrayc.com>
@@ -4113,7 +4118,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-12-12  Matthias Clasen  <mclasen@redhat.com>
 
-	* modulesets/gnome-2.14.modules: Add gnome-menus and libgnomeui 
+	* modulesets/gnome-2.14.modules: Add gnome-menus and libgnomeui
 	as dependencies to gnome-screensaver.
 
 2005-12-12  Paolo Borelli  <pborelli@katamail.com>
@@ -4131,7 +4136,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-12-02  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.14.modules: Use HEAD branches of 
+	* modulesets/gnome-2.14.modules: Use HEAD branches of
 	glib and pango for GNOME 2.14.
 
 2005-11-24  Frederic Crozat  <fcrozat@mandriva.com>
@@ -4151,8 +4156,8 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-11-23  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.14.modules: glibmm and gtkmm: Use the 
-	glibmm-2-8 and gtkmm-2-8 branches, because we are using the 
+	* modulesets/gnome-2.14.modules: glibmm and gtkmm: Use the
+	glibmm-2-8 and gtkmm-2-8 branches, because we are using the
 	glib-2.8 and gtk-2.8 branches (so far, at least) for GNOME 2.14.
 
 2005-11-22  Thomas Wood  <thos@gnome.org>
@@ -4183,8 +4188,8 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 	libsoup. (And add missing libxml2 dependency, for the soap/xmlrpc
 	stuff.)
 
-	* modulesets/gnome28.modules: 
-	* modulesets/gnome-2.10.modules: 
+	* modulesets/gnome28.modules:
+	* modulesets/gnome-2.10.modules:
 	* modulesets/gnome-2.14.modules: Add missing libxml2 dependency to
 	libsoup.
 
@@ -4247,12 +4252,12 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-10-18  Frederic Crozat  <fcrozat@mandriva.com>
 
-	* modulesets/gnome-2.12.modules: Yelp 
+	* modulesets/gnome-2.12.modules: Yelp
 	has branched for GNOME 2.12.
 
 2005-10-17  Lucas Rocha  <lucasr@cvs.gnome.org>
 
-	* modulesets/gnome-2.12.modules: EOG has 
+	* modulesets/gnome-2.12.modules: EOG has
 	branched for GNOME 2.12.
 
 2005-10-17  Frederic Crozat  <fcrozat@mandriva.com>
@@ -4293,7 +4298,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 	Add cairo-1-0 module for use by GTK+ and pango in GNOME 2.12 modules,
 	to be sure to use cairo BRANCH_1_0.
 	* modulesets/gnome-2.12.modules:
-	Use cairo-1-0 module instead of cairo. 
+	Use cairo-1-0 module instead of cairo.
 
 2005-09-26  Christian Persch  <chpe@cvs.gnome.org>
 
@@ -4342,12 +4347,12 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-09-08  Harish Krishnaswamy  <kharish@novell.com>
 
-	* modulesets/gnome-2.12.modules: Use gnome-2-12 branch for 
+	* modulesets/gnome-2.12.modules: Use gnome-2-12 branch for
 	evolution, evolution-data-server and evolution-exchange.
 
 2005-09-08  Kaushal Kumar  <kakumar@novell.com>
 
-	* modulesets/gnome-2.12.modules: Use gnome-2-12 branch for 
+	* modulesets/gnome-2.12.modules: Use gnome-2-12 branch for
 	gtkhtml.
 
 2005-09-07  Vincent Untz  <vuntz@gnome.org>
@@ -4371,7 +4376,7 @@ Thu, 23 Nov 2006 14:14:02 +0100 Dodji Seketeli
 
 2005-08-31  Lucas Rocha  <lucasr@cvs.gnome.org>
 
-	* modulesets/gnome-2.12.modules: Zenity has 
+	* modulesets/gnome-2.12.modules: Zenity has
 	branched for GNOME 2.12.
 
 Tue Aug 30 13:56:32 2005  Jonathan Blandford  <jrb@redhat.com>
@@ -4411,14 +4416,14 @@ Tue Aug 30 13:56:32 2005  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome-2.10.modules:
 	* modulesets/gnome-2.12.modules:
-	
+
 	Use branch 0.8 for gst-python module to keep in sync with
 	branch 0.8 of gstreamer and gst-plugins modules in moduleset
 	2.10 and 2.12.
 
 	Add gnome-media as dependency of gnome-python-extras since it
 	has a new mediaprofiles module requiring it.
-	
+
 2005-08-22  Vincent Untz  <vuntz@gnome.org>
 
 	* modulesets/gnome-2.12.modules (gnome-volume-manager): use gnome-2-12
@@ -4546,16 +4551,16 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-07-27  Sebastien Bacher  <seb128@debian.org>
 
-	* modulesets/gnome-2.12.modules: gnome-control-center uses g-d-u. 
+	* modulesets/gnome-2.12.modules: gnome-control-center uses g-d-u.
 
 2005-07-25  Ross Burton  <ross@burtonini.com>
 
-	* modulesets/gnome-2.12.modules (sound-juicer): 
+	* modulesets/gnome-2.12.modules (sound-juicer):
 	add g-d-u dependency
 
 2005-07-24  Lucas Rocha  <lucasr@cvs.gnome.org>
 
-	* modulesets/gnome-2.12.modules (zenity): 
+	* modulesets/gnome-2.12.modules (zenity):
 	add g-d-u dependency
 
 2005-07-24  Christian Persch  <chpe@cvs.gnome.org>
@@ -4567,7 +4572,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome-2.12.modules (dasher): turns out dasher has a
 	2.12 branch. Who knew? :)
-	
+
 2005-07-21  James Henstridge  <james@jamesh.id.au>
 
 	* modulesets/bootstrap.modules (pkg-config): update to 0.19 release.
@@ -4590,13 +4595,13 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-07-17  Luis Villa <luis.villa@gmail.com>
 	* modulesets/gnome-2.12.modules (gnome-panel): add g-d-u dep
-	
+
 2005-07-15  Luis Villa <luis.villa@gmail.com>
 
 	* modulesets/gnome-2.12.modules (dasher): put dasher in
 	meta-gnome-desktop, since it has been in the Desktop release since
 	2.6.
-	
+
 2005-07-15  James Henstridge  <james@jamesh.id.au>
 
 	* modulesets/gnome-2.12.modules (gnome-power-manager): now in
@@ -4639,14 +4644,14 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-07-08  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: glom now depends on 
+	* modulesets/gnome-2.12.modules: glom now depends on
 	libgnomecanvasmm.
 
 2005-07-07  Luis Villa <luis.villa@gmail.com>
 
 	* modulesets/gnome-2.12.modules (system-tools):
 	add nautilus dependency.
-	
+
 2005-07-07  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* modulesets/gnome-2.10.modules:
@@ -4816,8 +4821,8 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-06-18  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: Comment-out the libgda 
-	dependencies for gnumeric, glom, and gnome-python-extras, 
+	* modulesets/gnome-2.12.modules: Comment-out the libgda
+	dependencies for gnumeric, glom, and gnome-python-extras,
 	because they need libgda-1.2, not HEAD.
 
 2005-06-17  Rodrigo Moya <rodrigo@gnome-db.org>
@@ -4827,8 +4832,8 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-06-17  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: Changed libgda back to the 
-	release-1-2-branch branch, because I can't find anything that 
+	* modulesets/gnome-2.12.modules: Changed libgda back to the
+	release-1-2-branch branch, because I can't find anything that
 	is using HEAD.
 
 2005-06-16  James Henstridge  <james@jamesh.id.au>
@@ -4843,10 +4848,10 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-06-15  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: glom, gnomemm/libgdamm: Remove 
-	the dependency on libgda, because it depends on libgda-1.2 (which 
-	people will have to get from packages) instead of the libgda 2.0 
-        (HEAD) that jhbuild now has, because I see no way to do parallel 
+	* modulesets/gnome-2.12.modules: glom, gnomemm/libgdamm: Remove
+	the dependency on libgda, because it depends on libgda-1.2 (which
+	people will have to get from packages) instead of the libgda 2.0
+        (HEAD) that jhbuild now has, because I see no way to do parallel
 	install in jhbuild.
 
 2005-06-15  Mikael Hallendal  <micke@imendio.com>
@@ -4863,7 +4868,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 	Fix version truncation in Marco's last fix, and install nss
 	headers correctly-ish (fixing bug #154213).
-	
+
 2005-06-12  Marco Pesenti Gritti  <mpg@redhat.com>
 
 	* jhbuild/modtypes/mozillamodule.py:
@@ -4904,7 +4909,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 	* modulesets/gnome-2.12.modules (ggv, gpdf, evince): changing this
 	to reflect current consensus about 2.12. Also, removed a duplicate
 	entry for totem, because I can.
-	
+
 2005-06-09  James Henstridge  <james@jamesh.id.au>
 
 	* modulesets/gnome-2.10.modules (libgtop): use gnome-2-10 branch.
@@ -4960,7 +4965,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 	to get this to build with gcc4.
 
 2005-05-27  Johan Dahlin  <jdahlin@async.com.br>
-	
+
 	* modulesets/freedesktop.modules:
 	* modulesets/gnome-2.10.modules:
 	* modulesets/gnome28.modules:
@@ -4972,12 +4977,12 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 2005-05-26  Murray Cumming <murrayc@murrayc.com>
 
 	* modulesets/gnome-2.12.modules: gtksourceview:
-	Use --enable-compile-warnings=maximum, instead of 
+	Use --enable-compile-warnings=maximum, instead of
 	the default =error, so we can actually build this.
 
 2005-05-25  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: gnome-keyring: 
+	* modulesets/gnome-2.12.modules: gnome-keyring:
 	Use --disable-more-warnings so this actually builds.
 
 2005-05-24  Frederic Crozat  <fcrozat@mandriva.com>
@@ -4999,7 +5004,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 	* jhbuild/modtypes/base.py (AutogenModule.do_clean,
 	AutogenModule.do_build, AutogenModule.do_check,
-	AutogenModule.do_install): 
+	AutogenModule.do_install):
 	* jhbuild/modtypes/gcjmodule.py (GCJModule.do_install):
 	* jhbuild/modtypes/tarball.py (Tarball.do_build,
 	Tarball.do_install): Use $MAKE if it's set. #160535
@@ -5033,7 +5038,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-05-08  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: glom: Depend on 
+	* modulesets/gnome-2.12.modules: glom: Depend on
 	iso-codes.
 
 2005-05-06  Matthias Clasen <mclasen@redhat.com>
@@ -5041,12 +5046,12 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 	* modulesets/gnome-2.12.modules: Add libmusicbrainz
 	tarball module, and make totem depend on it.
 
-	* modulesets/gnome-2.12.modules: Add iso-codes as 
+	* modulesets/gnome-2.12.modules: Add iso-codes as
 	tarball module, and make epiphany depend on it.
 
 2005-05-05  Murray Cumming <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.12.modules: glom: Depend on 
+	* modulesets/gnome-2.12.modules: glom: Depend on
 	gnome-python-extras, though it only needs pygda from there.
 
 2005-04-26  Murray Cumming <murrayc@murrayc.com>
@@ -5244,7 +5249,7 @@ Sat Jul 30 17:01:33 2005  Jonathan Blandford  <jrb@redhat.com>
 	* modulesets/gnome-2.10.modules:
 	(gnome-menus), (gnome-panel): use the gnome-2-10 branch.
 	(bug-buddy): require gnome-menus.
-	
+
 	* modulesets/gnome-2.12.modules:
 	(bug-buddy): require gnome-menus.
 
@@ -5402,9 +5407,9 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 	* jamesh.jhbuildrc: some module_autogenargs additions to my
 	personal config.
 
-	* modulesets/gnome24.modules: 
-	* modulesets/gnome26.modules: 
-	* modulesets/gnome28.modules: 
+	* modulesets/gnome24.modules:
+	* modulesets/gnome26.modules:
+	* modulesets/gnome28.modules:
 	* modulesets/gnome-2.10.modules: pass --with-gnome-distributor
 	autogen arg, so that jhbuild builds of Gnome can be identified in
 	the "about gnome" dialog.
@@ -5413,7 +5418,7 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-02-13  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/freedesktop.modules: Use the dbus-0-23 branch instead of 
+	* modulesets/freedesktop.modules: Use the dbus-0-23 branch instead of
 	the DBUS_0_23 tag.
 
 2005-02-08  Carlos Garnacho Parro  <carlosg@gnome.org>
@@ -5425,9 +5430,9 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-02-06  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/freedesktop.modules: Use the DBUS_0_23 tag of dbus and 
-	the hal-0_4-stable-branch of hal so that they build, so that we can 
-	build gnome-vfs, to fix the GNOME build. We can change these back to 
+	* modulesets/freedesktop.modules: Use the DBUS_0_23 tag of dbus and
+	the hal-0_4-stable-branch of hal so that they build, so that we can
+	build gnome-vfs, to fix the GNOME build. We can change these back to
 	the HEAD branch soon when hal has been ported to the new dbus API.
 
 2005-02-04  Matthias Clasen <mclasen@redhat.com>
@@ -5437,16 +5442,16 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-02-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.10.modules: meta-gnome-desktop: Added totem, 
-	sound-juicer, gnome-menus, and gnome-backgrounds - the new modules in 
+	* modulesets/gnome-2.10.modules: meta-gnome-desktop: Added totem,
+	sound-juicer, gnome-menus, and gnome-backgrounds - the new modules in
 	2.10.
 	gnome-vfs: Added dependency on hal, because configure checks for it.
 
 2005-02-01  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.10.modules, gnome28.modules: Use the 
-	release-1-2-branch of libgda. I would like to add an extra module 
-	for libgda2 in the HEAD branch, which installs in parallel, but I 
+	* modulesets/gnome-2.10.modules, gnome28.modules: Use the
+	release-1-2-branch of libgda. I would like to add an extra module
+	for libgda2 in the HEAD branch, which installs in parallel, but I
 	can not figure out how. Also use the libgda-1-2 branch of libgdamm.
 
 2005-01-28  JP Rosevear  <jpr@novell.com>
@@ -5506,7 +5511,7 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 
 2005-01-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome-2.10.modules, gnome28.modules: bakery is now in the 
+	* modulesets/gnome-2.10.modules, gnome28.modules: bakery is now in the
 	GNOME cvs. Removed bakery_gnomeui because it is mostly abandoned.
 
 2005-01-03  Thomas Fitzsimmons  <fitzsim@redhat.com>
@@ -5518,7 +5523,7 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome28.modules:
 	Use pygtk-2-4 branch
-	
+
 2004-12-27  Mikael Hallendal  <micke@imendio.com>
 
 	* modulesets/gnome-2.10.modules:
@@ -5578,7 +5583,7 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 	Patch from Anthony Green.
 
 2004-12-12  Luis Villa	<luis.villa@gmail.com>
-	
+
 	* modulesets/gnome-2.10.modules (gtksourceview): add gnome-vfs
 	dependency
 
@@ -5609,7 +5614,7 @@ Fri Mar  4 21:12:13 2005  Jonathan Blandford  <jrb@redhat.com>
 	(totem): added nautilus-cd-burner dep
 	(gnome-schedule): created
 	(gnome-backgrounds): created
-	
+
 2004-12-07  James Henstridge  <james@jamesh.id.au>
 
 	* modulesets/gnome28.modules (nautilus-cd-burner): use gnome-2-8
@@ -5721,7 +5726,7 @@ Thu Nov 11 17:30:56 2004  Jonathan Blandford  <jrb@redhat.com>
 2004-11-09  Mark McLoughlin  <mark@skynet.ie>
 
 	* jhbuild/config.py: define $XDG_CONFIG_DIR
-	
+
 	* modulesets/gnome-2.10.modules: add gnome-menus and make
 	gnome-panel depend on it.
 
@@ -5729,7 +5734,7 @@ Thu Nov 11 17:30:56 2004  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome28.modules:
 	Use gnome-2-8 branch for gnome-libs.
-	
+
 2004-11-08  Federico Mena Quintero  <federico@ximian.com>
 
 	* jhbuild/commands/sanitycheck.py (do_sanitycheck): Remove the
@@ -5759,12 +5764,12 @@ Thu Nov 11 17:30:56 2004  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome-2.10.modules (gnome-applets): add dependency on
 	gucharmap
-	
+
 2004-10-29  Luis Villa <louie@novell.com>
 
 	* modulesets/gnome-2.10.modules (gnome-media): add dependency on
 	nautilus-cd-burner
-	
+
 2004-10-28  James Henstridge  <james@jamesh.id.au>
 
 	* modulesets/freedesktop.modules (hicolor-icon-theme): does not
@@ -6047,7 +6052,7 @@ Mon Sep 27 01:36:07 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2004-09-23  Fernando Herrera  <fherrera@onirica.com>
 
-	* modulesets/gnome210.modules: make gnome-applets to depend 
+	* modulesets/gnome210.modules: make gnome-applets to depend
 	on gstreamer (for the new volume applet).
 
 2004-09-18  Elijah Newren  <newren@math.utah.edu>
@@ -6098,7 +6103,7 @@ Mon Sep 27 01:36:07 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2004-09-06  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome28.modules, gnome210.modules: Add evolution-webcal 
+	* modulesets/gnome28.modules, gnome210.modules: Add evolution-webcal
 	to meta-gnome-desktop.
 
 2004-09-06  James Henstridge  <james@jamesh.id.au>
@@ -6113,7 +6118,7 @@ Mon Sep 27 01:36:07 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2004-09-03  Murray Cumming  <murrayc@murrayc.com>
 
-	* modules: Added gnome210.modules, so I can build a GNOME that uses 
+	* modules: Added gnome210.modules, so I can build a GNOME that uses
 	GTK+ 2.6.
 
 2004-09-03  Johan Dahlin  <johan@gnome.org>
@@ -6138,13 +6143,13 @@ Mon Sep 27 01:36:07 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2004-09-01  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome28.modules: Added gnome-volume-manager to 
+	* modulesets/gnome28.modules: Added gnome-volume-manager to
 	meta-gnome-desktop.
 
 da2004-09-01  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome28.modules: Added evolution, gnome-system-tools, 
-	gnome-nettools, and vino to meta-gnome-desktop. These are new modules 
+	* modulesets/gnome28.modules: Added evolution, gnome-system-tools,
+	gnome-nettools, and vino to meta-gnome-desktop. These are new modules
 	in GNOME 2.8.
 
 2004-08-31  James Henstridge  <james@jamesh.id.au>
@@ -6197,7 +6202,7 @@ da2004-09-01  Murray Cumming  <murrayc@murrayc.com>
 
 2004-08-19  Tuomas Kuosmanen  <tigert@novell.com>
 
-	* README (command): Added mention about gnu-arch requirement to  
+	* README (command): Added mention about gnu-arch requirement to
 	help users like me! :) with the wtf?-syndrome when jhbuild wouldnt
 	work at all unless "tla" (gnu-arch) is installed.. Feel free to
 	edit better, sorry to commit without your knowledge, but I couldnt
@@ -6364,7 +6369,7 @@ Wed Jul 21 22:24:38 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2004-07-20  James Henstridge  <james@jamesh.id.au>
 
-	* modulesets/gnome26.modules: 
+	* modulesets/gnome26.modules:
 	* modulesets/gnome28.modules (gnome-system-tools): fix
 	dependencies.  Patch from  Jaap A. Haitsma <jaap@haitsma.org> in
 	bug #147816.
@@ -6418,12 +6423,12 @@ Wed Jul 21 22:24:38 2004  Jonathan Blandford  <jrb@gnome.org>
 2004-07-12  Mark McLoughlin  <mark@skynet.ie>
 
 	* modulesets/gnome28.modules: add vino.
-	
+
 	* modulesets/freedesktop.modules: xserver requires xkbfile.
 
 2004-07-04  Murray Cumming  <murrayc@murrayc.com>
 
-	* Patch in #145397 from Thomas Fitzsimmons to add 
+	* Patch in #145397 from Thomas Fitzsimmons to add
 	supports-non-srcdir-builds to some modules.
 
 2004-06-24  Murray Cumming  <murrayc@murrayc.com>
@@ -6488,7 +6493,7 @@ Wed Jul 21 22:24:38 2004  Jonathan Blandford  <jrb@gnome.org>
 	* modulesets/moduleset.rnc: update RELAX-NG schema.
 
 	Based on a patch from Thomas Fitzsimmons:
-	
+
 	* jhbuild/modtypes/tarball.py (Tarball.__init__): add makeargs
 	argument.
 	(Tarball.do_build): use makeargs if set.
@@ -6557,10 +6562,10 @@ Wed Jul 21 22:24:38 2004  Jonathan Blandford  <jrb@gnome.org>
 	- Added -c option.
 	- Prevented tab completion from inadvertantly executing the GNU info
 	system.
-	
+
 2004-06-05  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulesets/gnome28.modules: Added gnome-doc-utils and added it as 
+	* modulesets/gnome28.modules: Added gnome-doc-utils and added it as
 	a dependency for yelp.
 
 2004-06-03  Marco Pesenti Gritti  <marco@gnome.org>
@@ -6734,7 +6739,7 @@ Wed May 19 14:30:03 2004  Jonathan Blandford  <jrb@redhat.com>
 
 2004-05-04  Matthias Clasen  <mclasen@redhat.com>
 
-	* modulesets/gnome28.modules: 
+	* modulesets/gnome28.modules:
 	* modulesets/gnome26.modules: Use the 2.4 branches of GLib
 	and GTK+ for Gnome 2.6 and 2.8.
 
@@ -6941,9 +6946,9 @@ Wed May 19 14:30:03 2004  Jonathan Blandford  <jrb@redhat.com>
 2004-04-04  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/gnome28.modules: Fix bakery dependencies so they match
-	those in gnome26.modules. Corrected the gnome-vfsmm dependencies in 
+	those in gnome26.modules. Corrected the gnome-vfsmm dependencies in
 	both.
-	* modulessets/gnome26.modules: Use gnome-2-6 branches for 
+	* modulessets/gnome26.modules: Use gnome-2-6 branches for
 	nautilus-cd-burner, yelp, dasher, at-spi, gcalctool.
 
 2004-04-02  James Henstridge  <james@daa.com.au>
@@ -6979,7 +6984,7 @@ Wed May 19 14:30:03 2004  Jonathan Blandford  <jrb@redhat.com>
 
 2004-03-30  Murray Cumming  <murrayc@murrayc.com>
 
-	* modulessets/gnome26.modules, gnome28.modules: Use HEAD branch of 
+	* modulessets/gnome26.modules, gnome28.modules: Use HEAD branch of
 	mergeant, because the other one is unmaintained and does not build.
 
 2004-03-29  Callum McKenzie  <callum@physics.otago.ac.nz>
@@ -7006,21 +7011,21 @@ Wed May 19 14:30:03 2004  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome26.modules:
 	Use gnome-2-6 branch of at-spi.
-	
+
 2004-03-25  Murray Cumming  <murrayc@murrayc.com>
 
 	* Added modulessets/gnome28.modules, using HEAD.
 
 2004-03-25  James Henstridge  <james@daa.com.au>
 
-	* modulesets/bootstrap.modules: 
-	* modulesets/gnome1.modules: 
+	* modulesets/bootstrap.modules:
+	* modulesets/gnome1.modules:
 	* modulesets/gnome20.modules:
-	* modulesets/gnome22.modules: 
-	* modulesets/gnome24.modules: 
+	* modulesets/gnome22.modules:
+	* modulesets/gnome24.modules:
 	* modulesets/gnome26.modules: move audiofile from bootstraps to
 	the main module set.
-	
+
 	* modulesets/gnome20.modules (scrollkeeper): same here.
 	* modulesets/gnome22.modules (scrollkeeper): same here.
 	* modulesets/gnome24.modules (scrollkeeper): same here.
@@ -7315,7 +7320,7 @@ Wed May 19 14:30:03 2004  Jonathan Blandford  <jrb@redhat.com>
 
 2004-02-14  Alex Duggan  <aldug@astrolinux.com>
 
-	* modulesets/gnome26.modules: remove gnome-vfs-extras since the smb 
+	* modulesets/gnome26.modules: remove gnome-vfs-extras since the smb
 	method is now im gnome-vfs
 
 2004-02-12  James Henstridge  <james@daa.com.au>
@@ -7628,7 +7633,7 @@ Sun Feb  8 01:19:57 2004  Matthias Clasen  <maclas@gmx.de>
 	(Bootstrap.build): if use_lib64 is true, pass --libdir when
 	configuring bootstrap packages.
 
-	* jhbuild/commands/__init__.py: 
+	* jhbuild/commands/__init__.py:
 	* jhbuild/commands/base.py: move implementations of commands here.
 
 	* jhbuild/config.py (Config.setup_env): add environment setup code
@@ -7792,7 +7797,7 @@ Wed Jan  7 13:45:34 2004  Jonathan Blandford  <jrb@gnome.org>
 2004-01-08  Luis Villa <louie@ximian.com>
 
 	* modulsets/gnome26.modules: update to xchat 2.0.7
-	
+
 Wed Jan  7 03:18:27 2004  Jonathan Blandford  <jrb@gnome.org>
 
 	* modulesets/gnome26.modules: move to the MIME_REWRITE branch
@@ -7862,7 +7867,7 @@ Wed Jan  7 03:18:27 2004  Jonathan Blandford  <jrb@gnome.org>
 
 2003-12-04  Jon K Hellan  <hellan@acm.org>
 
-	* modulesets/gnome26.modules: gnumeric depends on libgnomeprintui 
+	* modulesets/gnome26.modules: gnumeric depends on libgnomeprintui
 
 	* modulesets/gnome24.modules: ditto
 
@@ -7921,7 +7926,7 @@ Wed Jan  7 03:18:27 2004  Jonathan Blandford  <jrb@gnome.org>
 2003-11-05  Johan Dahlin  <johan@gnome.org>
 
 	* jhbuild.py (read_config_file): Nicer error message when there is
-	no jhbuildrc.	
+	no jhbuildrc.
 
 2003-11-05  James Henstridge  <james@daa.com.au>
 
@@ -8020,7 +8025,7 @@ Fri Oct 31 13:22:24 2003  Jonathan Blandford  <jrb@gnome.org>
 
 2003-10-17  Will LaShell  <will@lashell.net>
 	* modulesets/gnome24.modules: add camorama tarball package
-	* modulesets/gnome26.modules: add camorama tarball package	
+	* modulesets/gnome26.modules: add camorama tarball package
 
 2003-10-14  Will LaShell  <will@lashell.net>
 	* modulesets/gnome24.modules: update xchat version to 2.0.5
@@ -8162,7 +8167,7 @@ Tue Sep 30 14:31:06 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-09-29  Murray Cumming  <murrayc@usa.net>
 
-	* modulesets/gnome24.modules: Use gnome-2-4 branches of 
+	* modulesets/gnome24.modules: Use gnome-2-4 branches of
 	libgnomeprint*.
 
 2003-09-29  Anders Carlsson  <andersca@gnome.org>
@@ -8175,7 +8180,7 @@ Tue Sep 30 14:31:06 2003  Jonathan Blandford  <jrb@redhat.com>
 	* jhbuild.desktop:
 
 	Install a .desktop file for the GUI mode.
-	
+
 	* gtk_buildscript.py:
 
 	Require GConf.
@@ -8219,7 +8224,7 @@ Tue Sep 30 14:31:06 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-09-22  Seth Nickell  <seth@gnome.org>
 
         Add a GTK interface mode for jhbuild: "jhbuild gui"
-	
+
 	* module.py:
 	* buildscript.py:
 	* terminal_buildscript.py:
@@ -8234,14 +8239,14 @@ Tue Sep 30 14:31:06 2003  Jonathan Blandford  <jrb@redhat.com>
 	* jhbuild.glade:
 
 	A buildscript flavour that displays using GTK instead.
-	
+
 	* jhbuild.py:
 
 	Add the new gui mode, and add instantiation of different
 	buildscripts depending on whether you're in gui mode or
 	not. The idea is that eventually gui could be a flag not
 	a mode and the different commands would still work on it.
-	
+
 2003-09-21  Anders Carlsson  <andersca@gnome.org>
 
 	* modulesets/gnome26.modules: Update cvs roots.
@@ -8396,9 +8401,9 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-08-23 Mark Finlay <sisob@tuxfamily.org>
 
 	* modulesets/gnome24.modules:
-	gnome-media, gnome-games, gnome2-user-docs, 
-	gnome-system-monitor(procman) added to meta-gnome-desktop; 
-	gconf-editor and gnome-utils higher up the deps list; 
+	gnome-media, gnome-games, gnome2-user-docs,
+	gnome-system-monitor(procman) added to meta-gnome-desktop;
+	gconf-editor and gnome-utils higher up the deps list;
 	Removed monkey-media rhythmbox dependency.
 
 	* README: /r/--no-cvs/--no-network : bug #113652;
@@ -8482,8 +8487,8 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-07-04  Murray Cumming  <murrayc@usa.net>
 
-	*  modulesets/gnome24.modules (meta-gnome-desktop): Replaced 
-	meta-gnome-accessibilty dependency with gnopernicus+gok because 
+	*  modulesets/gnome24.modules (meta-gnome-desktop): Replaced
+	meta-gnome-accessibilty dependency with gnopernicus+gok because
 	meta-gnome-accssibility contains extra stuff that is not part of
 	GNOME 2.4.
 
@@ -8525,7 +8530,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 	* jhbuild.py: add libdir to LD_LIBRARY_PATH when
 	it contains libdir already, but not as the first
 	in the list.
-	
+
 	* modulesets/gnome24.modules:
 	libwnck depends on startup-notification.
 	gnome-desktop doesn't depend on libwnck, but gnome-panel
@@ -8540,7 +8545,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome24.modules:
 	Remove thinice, it's now in gnome-themes.
-	
+
 2003-06-21  Anders Carlsson  <andersca@codefactory.se>
 
 	* modulesets/gnome24.modules: ORBit2 now depends
@@ -8548,7 +8553,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-06-16  Murray Cumming  <murray@usa.net>
 
-	* modulesets/gnome24.modules: meta-gnome-desktop: 
+	* modulesets/gnome24.modules: meta-gnome-desktop:
 	Removed gedit-plugins. It was never part of GNOME Desktop.
 
 2003-06-15  Anders Carlsson  <andersca@codefactory.se>
@@ -8562,7 +8567,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-06-11  Anders Carlsson  <andersca@codefactory.se>
 
 	* modulesets/gnome24.modules: Add Xr and friends.
-	
+
 2003-05-29  Glynn Foster   <glynn.foster@sun.com>
 
 	* modulesets/gnome24.modules: Give jhbuild some zen power!
@@ -8571,7 +8576,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome22.modules: Fix rhythmbox and glimmer
 	so they build.
-	
+
 2003-05-18  Andrew Sobala  <aes@gnome.org>
 
 	* modulesets/gnome24.modules: Add nautilus dep from control-center
@@ -8582,13 +8587,13 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 	add net-rhythmbox HEAD. Also remove gael. It doesn't build for
 	all people and it's been effectively dead for a long time now.
 	Also correct branches for libgnome, libgnomecanvas and libgnomeui.
-		
+
 2003-05-08  Johan Dahlin  <jdahlin@async.com.br>
 
 	* module.py (MozillaModule): More fixes, most important, don't do
 	checkout mozilla/client.mk every time and don't run a full
-	checkout, if we already have checkout the tree, use fast-update 
-	instead.	
+	checkout, if we already have checkout the tree, use fast-update
+	instead.
 
 2003-05-07  Anders Carlsson  <andersca@codefactory.se>
 
@@ -8596,7 +8601,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-05-05  Johan Dahlin  <jdahlin@async.com.br>
 
-	* bootstrap.py: python seems to be confused about __file__ when 
+	* bootstrap.py: python seems to be confused about __file__ when
 	doing os.chdir(), save the absolute path before calling os.chdir().
 	(Bootstrap.build): Use jhbuild_directory here.
 	(Bootstrap.build): Use .endswith instead of slicing.
@@ -8692,15 +8697,15 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-04-21  Jon Svendsen  <jon-sven@frisurf.no>
 
-	* modulesets/gnome20.modules: 
-	* modulesets/gnome22.modules: 
+	* modulesets/gnome20.modules:
+	* modulesets/gnome22.modules:
 	* modulesets/gnome24.modules: Added eog to meta-gnome-desktop in
 	2.0, 2.2 and 2.4 modulesets (bug #108017).
- 
+
 2003-04-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* modulesets/gnome22.modules: Make gtkhtml depend on gal.
-	
+
 2003-04-14  Jeroen Zwartepoorte  <jeroen@xs4all.nl>
 
 	* module.py: Remove some more runsocks mumbo jumbo.
@@ -8709,7 +8714,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-04-12  Mikael Hallendal  <micke@codefactory.se>
 
-	* modulesets/gnome24.modules: Don't build bonobo-activation, moved 
+	* modulesets/gnome24.modules: Don't build bonobo-activation, moved
 	  the deps from bonobo-activation to libbonobo to be safe.
 
 2003-04-11  Mikael Hallendal <micke@codefactory.se>
@@ -8718,7 +8723,7 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-04-03  Bill Haneman <bill.haneman@sun.com>
 
-	* modulesets/gnome24.modules: 
+	* modulesets/gnome24.modules:
 	* modulesets/gnome22.modules:
 	remove redundant at-spi entries.
 
@@ -8738,14 +8743,14 @@ Mon Aug 25 10:57:13 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-04-01  Bill Haneman <bill.haneman@sun.com>
 
 	* modulesets/gnome24.modules: remove gnome-2-2 tag
-	for atk, gail, and at-spi; 
+	for atk, gail, and at-spi;
 	(HEAD of these modules is currently gtk+-2.2-compatible).
-	* modulesets/gnome22.modules: change gnome-2-0 tag 
+	* modulesets/gnome22.modules: change gnome-2-0 tag
 	on at-spi to gnome-2-2 tag.
 
 2003-03-31  Alex Duggan  <aldug@astrolinux.com>
 
-	* modulesets/gnome22.modules: use gnome-2-2 branch for 
+	* modulesets/gnome22.modules: use gnome-2-2 branch for
 	for gnome-icon-theme, gnome-vfs, eel, nautilus
 
 2003-03-31  Mikael Hallendal  <micke@codefactory.se>
@@ -8764,12 +8769,12 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 	* modulesets/gnome22.modules: This is the janitor. Please
 	clean up after yourself. Your mother does not work here.
-	
+
 2003-03-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* modulesets/gnome22.modules: Added libgsf dep for eog.
 	Updated xchat tarball version.
-	
+
 2003-03-07  Biswapesh Chattopadhyay  <biswapesh_chatterjee@tcscal.co.in>
 
 	* modulesets/gnome22.modules: Added libzvt, anjuta, gtkhtml,
@@ -8814,7 +8819,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-02-25  Alex Duggan  <aldug@astrolinux.com>
 
-	* modulesets/gnome22.modules: update libbonoboui to use 
+	* modulesets/gnome22.modules: update libbonoboui to use
 	gnome-2-2 branch
 
 2003-02-22  Alex Duggan  <aldug@astrolinux.com>
@@ -8850,7 +8855,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-02-12  Marco Pesenti Gritti  <marco@it.gnome.org>
 
-	* module.py: Add a MozillaModule class 
+	* module.py: Add a MozillaModule class
 	* modulesets/gnome22.modules: Add epiphany and mozilla
 
 2003-02-12  James Henstridge  <james@daa.com.au>
@@ -8950,7 +8955,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-01-23  Murray Cumming  <murrayc@usa.net>
 
 	* moduleinfo.py (gnome22): Added gnome-media to meta-gnome-desktop..
-	
+
 2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
 
 	* moduleinfo.py (gnome20): Add gucharmap module.
@@ -8971,7 +8976,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2003-01-22  Alex Duggan  <aldug@astrolinux.com>
 
-	* moduleinfo.py (gnome22): Use 2.2 branches for libgnomeprint 
+	* moduleinfo.py (gnome22): Use 2.2 branches for libgnomeprint
 	and libgnomeprintui
 
 2003-01-21  Christian Meyer  <chrisime@gnome.org>
@@ -9015,17 +9020,17 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 2003-01-10  Alex Duggan  <aldug@gnome.org>
 
 	* moduleinfo.py (gnome22.gnome-panel): get gnome-2-2 branch
-	
+
 2003-01-03  Paolo Maggi  <maggi@athena.polito.it>
 
-	* moduleinfo.py (gnome20.gedit): get gnome-2-0 branch. Added 
+	* moduleinfo.py (gnome20.gedit): get gnome-2-0 branch. Added
 	gedit to meta-gnome-desktop
 	(gnome22): added gedit module. Added gedit to meta-gnome-desktop
 
 2002-12-24  Murray Cumming  <murrayc@usa.net>
 
 	* moduleinfo.py (gnome22): Replaced the gnome22 gnome-meta-desktop
-	metamodule with one that includes the new modules such as acme, 
+	metamodule with one that includes the new modules such as acme,
 	file-roller, gstreamer, and nautilus-media.
 
 2002-12-24  James Henstridge  <james@daa.com.au>
@@ -9052,13 +9057,13 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2002-12-22  Murray Cumming  <murrayc@usa.net>
 
-	* moduleinfo.py (gnome22): Made gnome-desktop dependent on 
+	* moduleinfo.py (gnome22): Made gnome-desktop dependent on
 	gnome-themes because it is part of the Desktop release.
 
 2002-12-22  Murray CUmming  <murrayc@usa.net>
 
 	* moduleinfo.py (gnome22): Added gnome-themes module, because
-	the Theme control panel complains at runtime about it not being 
+	the Theme control panel complains at runtime about it not being
 	installed.
 
 2002-12-20  Daniel Elstner  <daniel.elstner@gmx.net>
@@ -9077,7 +9082,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 	* moduleinfo.py: Commented out the metatheme module because the
 	release team think it probably isn't useful anymore, and because its
-	Desktop Theme capplet is confusingly similar to the new 2.2 Theme 
+	Desktop Theme capplet is confusingly similar to the new 2.2 Theme
 	capplet.
 
 2002-12-17  James Henstridge  <james@daa.com.au>
@@ -9187,9 +9192,9 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
  	'sgr0' turns off all attribute modes and works fine for me.
 
 2002-12-05  Glynn Foster   <glynn.foster@sun.com>
-	
-	* moduleinfo.py: Fix up the bonobo stuff for proper branches. 
-	Change file-roller to get from cvs.gnome.org. Add gnome-utils 
+
+	* moduleinfo.py: Fix up the bonobo stuff for proper branches.
+	Change file-roller to get from cvs.gnome.org. Add gnome-utils
 	to the 2.2 list.
 
 2002-12-03  Chema Celorio  <chema@celorio.com>
@@ -9203,7 +9208,7 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 	overriding gnome-vfs in the gnome20 module set.
 	This means that gnome22 now uses gnome-vfs HEAD. It was using
 	the gnome-vfs gnome-2-0 branch before.
-	
+
 2002-11-29  Murray Cumming  <murrayc@usa.net>
 
 	* jhbuild.py: Commented-out the addpath() call that sets
@@ -9222,12 +9227,12 @@ Wed Mar 26 18:06:43 2003  Jonathan Blandford  <jrb@redhat.com>
 
 2002-11-20  Murray Cumming  <murrayc@usa.net>
 
-	* Applied patch in bug #97786, which makes gal depend on 
+	* Applied patch in bug #97786, which makes gal depend on
 	libgnomeprintui.
 
 2002-11-20  Murray Cumming  <murrayc@usa.net>
 
-	* moduleinfo.py: gst-player requires gst-plugins, because it does a 
+	* moduleinfo.py: gst-player requires gst-plugins, because it does a
 	pkg-config check for gstreamer-libs.
 
 2002-11-19  Murray Cumming  <murrayc@usa.net>
@@ -9256,7 +9261,7 @@ Thu Nov  7 16:01:40 2002  Jonathan Blandford  <jrb@redhat.com>
 
 2002-10-26  Sri Ramkrishna	<sri@aracnet.com>
 
-	* moduleinfo.py: gnome-terminal HEAD(gnome22) uses vte widget 
+	* moduleinfo.py: gnome-terminal HEAD(gnome22) uses vte widget
   instead of zvt.
 
 2002-10-26  Anders Carlsson  <andersca@gnu.org>
@@ -9302,14 +9307,14 @@ Thu Nov  7 16:01:40 2002  Jonathan Blandford  <jrb@redhat.com>
 	* bootstrap.py:
 	* pkgconfig-0.13-include.patch:
 	Use pkg-config 0.13 and add an include fix.
-	
+
 2002-09-18  Will LaShell <will@lashell.net>
 
-	* cvs.py: adding the -dP arguement to cvs update 
+	* cvs.py: adding the -dP arguement to cvs update
 
 2002-09-18  Havoc Pennington  <hp@pobox.com>
 
-	* moduleinfo.py (gnome2): use gconf-1-2 branch for gnome20, 
+	* moduleinfo.py (gnome2): use gconf-1-2 branch for gnome20,
 	add gconf HEAD to gnome22
 
 2002-09-17  Havoc Pennington  <hp@redhat.com>
@@ -9435,7 +9440,7 @@ Wed Jun 19 14:02:05 2002  Jonathan Blandford  <jrb@redhat.com>
 	gettext, and also add scrollkeeper to list of imports.
 
 	Apply modified version of Dom's patch:
-	
+
 	* module.py (BuildScript.build): keep a counter of which module we
 	are building.
 	(BuildScript._message): show the module number in the messages.
@@ -9528,7 +9533,7 @@ Sat Apr 13 11:04:46 2002  Owen Taylor  <otaylor@redhat.com>
 	* moduleinfo.py: Add gail as a dependency to gnome-media module.
 
 	* moduleinfo.py: Add gnome-panel as a dependency to gnome-utils module.
-	
+
 	* moduleinfo.py: Add gnome-desktop as a dependency to
 	gnome-control-center module.
 
@@ -9662,7 +9667,7 @@ Sat Apr 13 11:04:46 2002  Owen Taylor  <otaylor@redhat.com>
 	* Makefile (bindir): use a "bindir" variable so "make install
 	bindir=/foo" works
 
-	* jhbuild.py (do_build): if passing extra args to build mode, 
+	* jhbuild.py (do_build): if passing extra args to build mode,
 	take them as a list of modules to build
 
 	* moduleinfo.py (head): make metacity depend on gconf
@@ -9690,7 +9695,7 @@ Thu Jan 17 15:07:15 2002  Jonathan Blandford  <jrb@redhat.com>
 2002-01-14  Alex Graveley  <alex@ximian.com>
 
 	* bootstrap.py (bootstraps): Add python bootstrap for 2.x.
-	(Bootstrap.build): Allow tarballs to end in tgz, 
+	(Bootstrap.build): Allow tarballs to end in tgz,
 	(Bootstrap.wants_package): Remove 'x' in the version string to let
 	us display "checking for python 2.x" but really just look for '2.'
 	This should probably use regexps.
