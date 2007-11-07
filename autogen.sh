@@ -15,6 +15,9 @@ PKG_NAME=jhbuild
 which gnome-autogen.sh || {
     echo "If you want to build documentation, you need to install gnome-common"
     echo "from the GNOME Subversion."
+    echo "If you don't, try:"
+    echo "  make -f Makefile.plain install"
+
     exit 1
 }
 
