@@ -188,8 +188,9 @@ class Config:
         pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
         if self.use_lib64:
             pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
-        else:
-            pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
+            addpath('PYTHONPATH', pythonpath)
+
+        pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
         addpath('PYTHONPATH', pythonpath)
 
         # handle environment prepends ...

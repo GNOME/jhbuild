@@ -56,6 +56,13 @@
     </dependencies>
   </autotools>
 
+  <autotools id="online-desktop">
+    <branch repo="svn.mugshot.org" />
+    <dependencies>
+      <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="bigboard">
     <branch repo="svn.mugshot.org" />
     <dependencies>
@@ -68,15 +75,15 @@
       <dep package="gnome-keyring"/>
       <dep package="local-export-daemon"/>
       <dep package="gnome-control-center"/>
+      <dep package="online-desktop"/>
     </dependencies>
   </autotools>
 
-  <autotools id="online-desktop">
-    <branch repo="svn.mugshot.org" />
+  <metamodule id="meta-online-desktop">
     <dependencies>
+      <dep package="online-desktop"/>
       <dep package="bigboard"/>
-      <dep package="pygtk"/>
+      <dep package="gnome-session"/>
     </dependencies>
-  </autotools>
-
+  </metamodule>
 </moduleset>
