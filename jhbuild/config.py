@@ -71,6 +71,8 @@ def addpath(envvar, path):
         while i < len(parts):
             if parts[i] in parts[:i]:
                 del parts[i]
+            elif envvar == 'PYTHONPATH' and parts[i] == "":
+                del parts[i]
             else:
                 i += 1
         envval = ':'.join(parts)
