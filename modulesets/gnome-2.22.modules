@@ -1289,7 +1289,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="swfdec">
+  <autotools id="swfdec" autogen-sh="autoreconf">
     <branch repo="git.freedesktop.org" module="swfdec/swfdec"
       	checkoutdir="swfdec"/>
     <dependencies>
@@ -1302,7 +1302,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="swfdec-mozilla">
+  <autotools id="swfdec-mozilla" autogen-sh="autoreconf">
     <branch repo="git.freedesktop.org" module="swfdec/swfdec-mozilla"
       	checkoutdir="swfdec-mozilla"/>
     <dependencies>
@@ -1315,6 +1315,7 @@
       	checkoutdir="swfdec-gnome"/>
     <dependencies>
       <dep package="swfdec"/>
+      <dep package="gconf"/>
     </dependencies>
   </autotools>
 
