@@ -81,7 +81,8 @@ class DarcsBranch(Branch):
     def _update(self, buildscript):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
-        buildscript.execute(['darcs', 'pull', '-a'], 'darcs', cwd=self.srcdir)
+        buildscript.execute(['darcs', 'pull', '-a', '--no-set-default', self.module],
+                            'darcs', cwd=self.srcdir)
 
     def _fix_permissions(self):
         # This is a hack to make the autogen.sh and/or configure
