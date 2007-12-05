@@ -1,3 +1,12 @@
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* jhbuild/gnome-2.22.modules: Added avahi-newer and libdaemon-newer 
+	and made libepc dependent on them, because it needs avahi-ui, only 
+	available sice avahi 2.18, and the main GNOME external dependency 
+	version has not been increased yet. Actually, libepc only needs it 
+	for the examples, but Glom really needs it.
+	Do remove this hack if it disturbs an official GNOME module.
+
 2007-12-04  Marco Barisione  <marco@barisione.org>
 
 	* jhbuild/versioncontrol/darcs.py: explicitly pull from the original
