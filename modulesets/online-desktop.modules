@@ -21,11 +21,22 @@
     </after>
   </autotools>
 
+  <autotools id="dbus-glib" supports-non-srcdir-builds="no">
+	  <branch repo="git.freedesktop.org"
+		  module="dbus/dbus-glib" checkoutdir="dbus-glib"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+  
   <autotools id="dbus-python">
 	  <branch repo="git.freedesktop.org"
 		  module="dbus/dbus-python" checkoutdir="dbus-python"  />
     <dependencies>
       <dep package="dbus"/>
+      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
