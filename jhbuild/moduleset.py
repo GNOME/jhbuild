@@ -232,6 +232,7 @@ def _parse_module_set(config, uri):
                 if node.hasAttribute(attr):
                     kws[attr.replace('-', '_')] = node.getAttribute(attr)
             repositories[name] = repo_class(config, name, **kws)
+            repositories[name].moduleset_uri = uri
         if node.nodeName == 'cvsroot':
             cvsroot = node.getAttribute('root')
             if node.hasAttribute('password'):

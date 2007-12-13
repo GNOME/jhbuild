@@ -27,6 +27,7 @@ from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils.cmds import has_command
 from jhbuild.modtypes import get_branch
+from jhbuild.utils import httpcache
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -185,9 +186,40 @@ class TarballBranch(Branch):
         if not os.path.exists(self.srcdir):
             raise BuildStateError('could not unpack tarball')
 
+    def _do_patches(self, buildscript):
         # now patch the working tree
         for (patch, patchstrip) in self.patches:
-            patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+            patchfile = ''
+            if urlparse.urlparse(patch)[0]:
+                # patch name has scheme, get patch from network
+                try:
+                    patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
+                except urllib2.URLError, e:
+                    return (self.STATE_CONFIGURE, 'could not download patch', [])
+                except urllib2.HTTPError, e:
+                    return (self.STATE_CONFIGURE,
+                            'could not download patch (error: %s)' % e.code, [])
+            elif self.repository.moduleset_uri:
+                # get it relative to the moduleset uri, either in the same
+                # directory or a patches/ subdirectory
+                for patch_prefix in ('.', 'patches'):
+                    uri = urlparse.urljoin(self.repository.moduleset_uri,
+                            os.path.join(patch_prefix, patch))
+                    try:
+                        patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
+                    except Exception, e:
+                        continue
+                    if not os.path.isfile(patchfile):
+                        continue
+                    break
+                else:
+                    # not found, fallback to jhbuild provided patches
+                    patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+            else:
+                # nothing else, use jbuild provided patches
+                patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+
+            buildscript.set_action('Applying patch', self, action_target=patch)
             buildscript.execute('patch -p%d < "%s"'
                                 % (patchstrip, patchfile),
                                 cwd=self.srcdir)
@@ -216,12 +248,18 @@ class TarballBranch(Branch):
             self._wipedir(buildscript)
         if not os.path.exists(self.srcdir):
             self._download_and_unpack(buildscript)
-
-        if not self.quilt is None:
+        if self.patches:
+            self._do_patches(buildscript)
+        if self.quilt:
             self._quilt_checkout(buildscript)
 
     def force_checkout(self, buildscript):
+        self._wipedir(buildscript)
         self._download_and_unpack(buildscript)
+        if self.patches:
+            self._do_patches(buildscript)
+        if self.quilt:
+            self._quilt_checkout(buildscript)
 
     def tree_id(self):
         return self.version

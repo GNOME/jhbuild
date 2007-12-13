@@ -36,6 +36,9 @@ class Repository:
     # String values are passed as keyword arguments to the constructor.
     init_xml_attrs = []
 
+    # URI of the moduleset where this repository is defined
+    moduleset_uri = None
+
     def __init__(self, config, name):
         self.config = config
         self.name = name
