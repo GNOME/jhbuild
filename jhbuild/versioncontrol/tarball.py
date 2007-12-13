@@ -186,6 +186,9 @@ class TarballBranch(Branch):
         if not os.path.exists(self.srcdir):
             raise BuildStateError('could not unpack tarball')
 
+        if self.patches:
+            self._do_patches(buildscript)
+
     def _do_patches(self, buildscript):
         # now patch the working tree
         for (patch, patchstrip) in self.patches:
@@ -248,16 +251,12 @@ class TarballBranch(Branch):
             self._wipedir(buildscript)
         if not os.path.exists(self.srcdir):
             self._download_and_unpack(buildscript)
-        if self.patches:
-            self._do_patches(buildscript)
         if self.quilt:
             self._quilt_checkout(buildscript)
 
     def force_checkout(self, buildscript):
         self._wipedir(buildscript)
         self._download_and_unpack(buildscript)
-        if self.patches:
-            self._do_patches(buildscript)
         if self.quilt:
             self._quilt_checkout(buildscript)
 
