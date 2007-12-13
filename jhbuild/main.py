@@ -27,25 +27,23 @@ import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 
 def help_commands(option, opt_str, value, parser):
-    commands = [
-        ('build', 'update and compile (the default)'),
-        ('buildone', 'modules build a single module'),
-        ('update', 'update from version control'),
-        ('updateone', 'update a fixed set of modules'),
-        ('list', 'list what modules would be built'),
-        ('info', 'prints information about modules'),
-        ('test', 'Runs LDTP/Dogtail tests on the respective modules'),
-        ('tinderbox', 'build non-interactively with logging'),
-        ('gui', 'build targets from a gui app'),
-        ('run', 'run a command in the build environment'),
-        ('shell', 'start a shell in the build environment'),
-        ('sanitycheck', 'check that required support tools exists'),
-        ('bootstrap', 'build required support tools'),
-        ('dot', 'output a dependency graph for processing with graphviz'),
-        ]
+    thisdir = os.path.abspath(os.path.dirname(__file__))
+    
+    # import all available commands
+    for fname in os.listdir(os.path.join(thisdir, 'commands')):
+        name, ext = os.path.splitext(fname)
+        if not ext == '.py':
+            continue
+        try:
+            __import__('jhbuild.commands.%s' % name)
+        except ImportError:
+            pass
+    
     print 'JHBuild commands are:'
-    for (cmd, description) in commands:
-        print '  %-15s %s' % (cmd, description)
+    commands = [(x.name, x.__doc__) for x in jhbuild.commands.get_commands().values()]
+    commands.sort()
+    for name, description in commands:
+        print '  %-15s %s' % (name, description)
     print
     print 'For more information run "jhbuild <command> --help"'
     parser.exit()

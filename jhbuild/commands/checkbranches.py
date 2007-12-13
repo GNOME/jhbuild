@@ -26,6 +26,7 @@ import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 
 class cmd_checkbranches(Command):
+    """Check modules in GNOME svn have the correct branch definition"""
     name = 'checkbranches'
     
     def __init__(self):

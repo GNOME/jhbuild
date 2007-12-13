@@ -59,6 +59,9 @@ _commands = {}
 def register_command(command_class):
     _commands[command_class.name] = command_class
 
+def get_commands():
+    return _commands
+
 def run(command, config, args):
     # if the command hasn't been registered, load a module by the same name
     if command not in _commands:

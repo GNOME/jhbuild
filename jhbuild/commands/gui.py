@@ -24,7 +24,7 @@ from jhbuild.frontends.gtkui import Configuration
 
 
 class cmd_gui(Command):
-    """GTK frontend for jhbuild"""
+    """Build targets from a GUI app"""
 
     name = 'gui'
     usage_args = ''

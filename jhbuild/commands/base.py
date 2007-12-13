@@ -28,8 +28,7 @@ from jhbuild.commands import Command, register_command
 
 
 class cmd_update(Command):
-    """Pull updates from the version control system for one or more modules,
-    plus its dependencies."""
+    """Update all modules from version control"""
 
     name = 'update'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -74,7 +73,7 @@ register_command(cmd_update)
 
 
 class cmd_updateone(Command):
-    """Pull updates from the version control system for one or more modules."""
+    """Update one or more modules from version control"""
 
     name = 'updateone'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -108,8 +107,7 @@ register_command(cmd_updateone)
 
 
 class cmd_build(Command):
-    """Pull updates from the version control system for one or more modules,
-    plus its dependencies."""
+    """Update and compile all modules (the default)"""
 
     name = 'build'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -180,7 +178,7 @@ register_command(cmd_build)
 
 
 class cmd_buildone(Command):
-    """Pull updates from the version control system for one or more modules."""
+    """Update and compile one or more modules"""
 
     name = 'buildone'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -240,7 +238,7 @@ register_command(cmd_buildone)
 
 
 class cmd_run(Command):
-    """Run a command under the jhbuild environment"""
+    """Run a command under the JHBuild environment"""
 
     name = 'run'
     usage_args = '[ options ... ] program [ arguments ... ]'
@@ -292,7 +290,7 @@ register_command(cmd_run)
 
 
 class cmd_shell(Command):
-    """Run a command under the jhbuild environment"""
+    """Start a shell under the JHBuild environment"""
 
     name = 'shell'
     usage_args = ''
@@ -307,7 +305,7 @@ register_command(cmd_shell)
 
 
 class cmd_list(Command):
-    """List the modules that would be built."""
+    """List the modules that would be built"""
 
     name = 'list'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -343,7 +341,7 @@ register_command(cmd_list)
 
 
 class cmd_dot(Command):
-    """Output a Graphviz input file for the given modules"""
+    """Output a Graphviz dependency graph for one or more modules"""
 
     name = 'dot'
     usage_args = '[ modules ... ]'

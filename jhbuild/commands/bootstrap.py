@@ -25,7 +25,7 @@ import jhbuild.frontends
 from jhbuild.commands import Command, register_command
 
 class cmd_bootstrap(Command):
-    """Build required support tools."""
+    """Build required support tools"""
 
     name = 'bootstrap'
     usage_args = ''
