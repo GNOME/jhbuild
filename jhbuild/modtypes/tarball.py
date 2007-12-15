@@ -27,6 +27,7 @@ from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import Package, register_module_type, get_dependencies
 from jhbuild.utils import httpcache
 from jhbuild.utils.cmds import has_command
+from jhbuild.utils.unpack import unpack_archive
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -173,17 +174,10 @@ class Tarball(Package):
                 return (self.STATE_CONFIGURE, None, None)
         else:
             buildscript.set_action('Unpacking', self)
-            if localfile.endswith('.bz2'):
-                buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
-                                    cwd=buildscript.config.checkoutroot)
-            elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
-                buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
-                                    cwd=buildscript.config.checkoutroot)
-            elif localfile.endswith('.zip'):
-                buildscript.execute('unzip "%s"' % localfile,
-                                    cwd=buildscript.config.checkoutroot)
-            else:
-                raise FatalError("don't know how to handle: %s" % localfile)
+            try:
+                unpack_archive(buildscript, localfile, buildscript.config.checkoutroot)
+            except CommandError:
+                raise FatalError('failed to unpack %s' % localfile)
             
             if not os.path.exists(srcdir):
                 raise BuildStateError('could not unpack tarball')

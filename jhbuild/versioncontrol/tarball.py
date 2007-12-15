@@ -23,10 +23,11 @@ __metaclass__ = type
 import os
 import urlparse
 
-from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils.cmds import has_command
 from jhbuild.modtypes import get_branch
+from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -173,15 +174,10 @@ class TarballBranch(Branch):
             self._check_tarball()
 
         # now to unpack it
-        if localfile.endswith('.bz2'):
-            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
-                                cwd=self.checkoutroot)
-        elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
-            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
-                                cwd=self.checkoutroot)
-        elif localfile.endswith('.zip'):
-            buildscript.execute('unzip "%s"' % localfile,
-                                cwd=self.checkoutroot)
+        try:
+            unpack_archive(buildscript, localfile, self.checkoutroot)
+        except CommandError:
+            raise FatalError('failed to unpack %s' % localfile)
 
         if not os.path.exists(self.srcdir):
             raise BuildStateError('could not unpack tarball')
