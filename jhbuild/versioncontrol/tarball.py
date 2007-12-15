@@ -197,11 +197,11 @@ class TarballBranch(Branch):
                 # patch name has scheme, get patch from network
                 try:
                     patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urllib2.URLError, e:
-                    return (self.STATE_CONFIGURE, 'could not download patch', [])
                 except urllib2.HTTPError, e:
                     return (self.STATE_CONFIGURE,
                             'could not download patch (error: %s)' % e.code, [])
+                except urllib2.URLError, e:
+                    return (self.STATE_CONFIGURE, 'could not download patch', [])
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory

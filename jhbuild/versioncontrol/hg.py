@@ -26,7 +26,7 @@ import sys
 import urlparse
 from subprocess import Popen, PIPE
 
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
 class HgRepository(Repository):

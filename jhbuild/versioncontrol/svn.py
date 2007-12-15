@@ -24,7 +24,7 @@ import os
 import urlparse
 import subprocess
 
-from jhbuild.errors import CommandError, BuildStateError, FatalError
+from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 

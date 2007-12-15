@@ -21,7 +21,6 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import errno
 import urlparse
 
 from jhbuild.errors import FatalError

@@ -21,7 +21,7 @@ __all__ = []
 __metaclass__ = type
 
 import os
-from stat import *
+import stat
 import urlparse
 import subprocess
 
@@ -188,7 +188,7 @@ class GitSvnBranch(GitBranch):
                 extdir = os.path.join (self.get_checkoutdir(), subdir, external)
                 extbranch = GitSvnBranch(self.repository, externals[external], extdir)
                 try:
-                    os.stat(extdir)[ST_MODE]
+                    os.stat(extdir)[stat.ST_MODE]
                     extbranch._update(buildscript)
                 except OSError:
                     extbranch._checkout(buildscript)

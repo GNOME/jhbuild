@@ -106,21 +106,18 @@ class Tarball(Package):
                        '(expected %d, got %d)' % (self.source_size, local_size)
         if self.source_md5:
             import md5
-            sum = md5.new()
+            md5sum = md5.new()
             fp = open(localfile, 'rb')
             data = fp.read(4096)
             while data:
-                sum.update(data)
+                md5sum.update(data)
                 data = fp.read(4096)
             fp.close()
-            if sum.hexdigest() != self.source_md5:
+            if md5sum.hexdigest() != self.source_md5:
                 return 'file MD5 sum incorrect (expected %s, got %s)' % \
-                       (self.source_md5, sum.hexdigest())
+                       (self.source_md5, md5sum.hexdigest())
 
     def do_start(self, buildscript):
-        # check if jhbuild previously built it ...
-        checkoutdir = self.get_builddir(buildscript)
-
         # Check clobber mode
         if buildscript.config.module_checkout_mode.get(self.name):
             checkout_mode = buildscript.config.module_checkout_mode.get(self.name)
@@ -198,11 +195,11 @@ class Tarball(Package):
             if urlparse.urlparse(patch)[0]: # patch name has scheme
                 try:
                     patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urllib2.URLError, e:
-                    return (self.STATE_CONFIGURE, 'could not download patch', [])
                 except urllib2.HTTPError, e:
                     return (self.STATE_CONFIGURE,
                             'could not download patch (error: %s)' % e.code, [])
+                except urllib2.URLError, e:
+                    return (self.STATE_CONFIGURE, 'could not download patch', [])
             elif self.uri:
                 for patch_prefix in ('.', 'patches'):
                     uri = urlparse.urljoin(self.uri, os.path.join(patch_prefix, patch))
@@ -262,7 +259,6 @@ class Tarball(Package):
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
         cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        error = None
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.version or '')
     do_install.next_state = Package.STATE_DONE

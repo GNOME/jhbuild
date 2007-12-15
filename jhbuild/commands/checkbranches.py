@@ -60,7 +60,7 @@ class cmd_checkbranches(Command):
             url = 'http://svn.gnome.org/viewcvs/%s/branches/%s' % (mod.name, branch)
             try:
                 st = urllib2.urlopen(url).read()
-            except urllib2.HTTPError:
+            except urllib2.URLError:
                 pass
             else:
                 print mod.name, 'is missing branch definition for', branch
