@@ -167,23 +167,30 @@ class Tarball(Package):
         localfile = self.get_localfile(buildscript)
         srcdir = self.get_srcdir(buildscript)
 
-        buildscript.set_action('Unpacking', self)
-        if localfile.endswith('.bz2'):
-            buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
-                                cwd=buildscript.config.checkoutroot)
-        elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
-            buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
-                                cwd=buildscript.config.checkoutroot)
-        elif localfile.endswith('.zip'):
-            buildscript.execute('unzip "%s"' % localfile,
-                                cwd=buildscript.config.checkoutroot)
+        # if already unpacked, don't unpack again and go straight to
+        # configure.
+        if os.path.exists(srcdir):
+            if buildscript.config.nobuild:
+                return (self.STATE_DONE, None, None)
+            else:
+                return (self.STATE_CONFIGURE, None, None)
         else:
-            raise FatalError("don't know how to handle: %s" % localfile)
-        
-        if not os.path.exists(srcdir):
-            raise BuildStateError('could not unpack tarball')
-    do_unpack.next_state = STATE_PATCH
-    do_unpack.error_states = []
+            buildscript.set_action('Unpacking', self)
+            if localfile.endswith('.bz2'):
+                buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
+                                    cwd=buildscript.config.checkoutroot)
+            elif localfile.endswith('.gz') or localfile.endswith('.tgz'):
+                buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+                                    cwd=buildscript.config.checkoutroot)
+            elif localfile.endswith('.zip'):
+                buildscript.execute('unzip "%s"' % localfile,
+                                    cwd=buildscript.config.checkoutroot)
+            else:
+                raise FatalError("don't know how to handle: %s" % localfile)
+            
+            if not os.path.exists(srcdir):
+                raise BuildStateError('could not unpack tarball')
+            return (self.STATE_PATCH, None, None)
 
     def do_patch(self, buildscript):
         for (patch, patchstrip) in self.patches:
