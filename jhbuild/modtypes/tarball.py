@@ -126,8 +126,13 @@ class Tarball(Package):
             checkout_mode = buildscript.config.module_checkout_mode.get(self.name)
         else:
             checkout_mode = buildscript.config.checkout_mode
+
         if checkout_mode == 'clobber':
             buildscript.execute(['rm', '-rf', self.get_srcdir(buildscript)])
+            buildscript.packagedb.remove(self.name)
+        elif buildscript.config.alwaysautogen:
+            # if user wishes to autogen (i.e. with -a) remove from database so
+            # this package reconfigures.
             buildscript.packagedb.remove(self.name)
 
         if buildscript.packagedb.check(self.name, self.version):
