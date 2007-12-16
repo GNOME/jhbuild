@@ -261,7 +261,7 @@ class TarballBranch(Branch):
         md5sum = md5.new()
         if self.patches:
             for patch in self.patches:
-                md5sum.update(patch)
+                md5sum.update(patch[0])
         if self.quilt:
             md5sum.update(get_output('quilt files',
                         cwd=self.srcdir,
