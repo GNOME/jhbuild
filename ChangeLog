@@ -1,5 +1,14 @@
 2007-12-16  Frederic Peters  <fpeters@0d.be>
 
+	* jhbuild/commands/base.py, jhbuild/config.py, 
+	jhbuild/defaults.jhbuildrc, jhbuild/frontends/buildscript.py,
+	jhbuild/frontends/terminal.py: added no-poison and try-checkout
+	options, as discussed in bug 90172, no-poison will try to build
+	modules even when dependencies failed, try-checkout will force
+	a checkout and autogen on failures.  (closes: #90172)
+
+2007-12-16  Frederic Peters  <fpeters@0d.be>
+
 	* jhbuild/config.py, jhbuild/defaults.jhbuildrc, 
 	jhbuild/modtypes/__init__.py, jhbuild/modtypes/autotools.py,
 	jhbuild/modtypes/distutils.py, jhbuild/modtypes/mesa.py,

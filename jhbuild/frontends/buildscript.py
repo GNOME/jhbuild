@@ -77,9 +77,13 @@ class BuildScript:
             failed = False
             for dep in module.dependencies:
                 if dep in failures:
-                    self.message('module %s not built due to non buildable %s'
-                                 % (module.name, dep))
-                    failed = True
+                    if self.config.nopoison:
+                        self.message('module %s will be build even though %s failed' % (
+                                module.name, dep))
+                    else:
+                        self.message('module %s not built due to non buildable %s'
+                                     % (module.name, dep))
+                        failed = True
             if failed:
                 failures.append(module.name)
                 self.end_module(module.name, failed)

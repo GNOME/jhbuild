@@ -140,7 +140,13 @@ class cmd_build(Command):
                         help='set a sticky date when checking out modules'),
             make_option('-x', '--no-xvfb',
                         action='store_true', dest='noxvfb', default=False,
-                        help='Run tests in real X and not in Xvfb')
+                        help='run tests in real X and not in Xvfb'),
+            make_option('-C', '--try-checkout',
+                        action='store_true', dest='trycheckout', default=False,
+                        help='try to force checkout and autogen on failure'),
+            make_option('-N', '--no-poison',
+                        action='store_true', dest='nopoison', default=False,
+                        help="don't poison modules on failure"),
             ])
 
     def run(self, config, options, args):
@@ -160,6 +166,10 @@ class cmd_build(Command):
             config.sticky_date = options.sticky_date
         if options.noxvfb is not None:
             config.noxvfb = options.noxvfb
+        if options.trycheckout:
+            config.trycheckout = True
+        if options.nopoison:
+            config.nopoison = True
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,

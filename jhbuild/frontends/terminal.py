@@ -62,6 +62,8 @@ phase_map = {
     }
 
 class TerminalBuildScript(buildscript.BuildScript):
+    triedcheckout = False
+
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
         self.trayicon = trayicon.TrayIcon()
@@ -179,6 +181,11 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.message('%s: %s' % (summary, error))
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
         self.notify.notify(summary = summary, body = error, icon = 'dialog-error', expire = 20)
+
+        if self.config.trycheckout and (not self.triedcheckout) and altstates.count('force_checkout'):
+            self.triedcheckout = True
+            return 'force_checkout'
+        self.triedcheckout = False
 
         if not self.config.interact:
             return 'fail'
