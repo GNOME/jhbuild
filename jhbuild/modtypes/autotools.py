@@ -24,7 +24,8 @@ import re
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, register_module_type, \
+     checkout, check_build_policy
 
 __all__ = [ 'AutogenModule' ]
 
@@ -72,7 +73,7 @@ class AutogenModule(Package):
             return self.get_srcdir(buildscript)
 
     def get_revision(self):
-        return self.branch.branchname
+        return self.branch.tree_id()
 
     def do_start(self, buildscript):
         pass
@@ -84,14 +85,8 @@ class AutogenModule(Package):
         return buildscript.config.nonetwork
 
     def do_checkout(self, buildscript):
-        srcdir = self.get_srcdir(buildscript)
-        builddir = self.get_builddir(buildscript)
-        buildscript.set_action('Checking out', self)
-        self.branch.checkout(buildscript)
-        # did the checkout succeed?
-        if not os.path.exists(srcdir):
-            raise BuildStateError('source directory %s was not created'
-                                  % srcdir)
+        checkout(self, buildscript)
+        check_build_policy(self, buildscript)
     do_checkout.next_state = STATE_CONFIGURE
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 

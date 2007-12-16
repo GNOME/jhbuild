@@ -25,6 +25,7 @@ import errno
 import urlparse
 
 from jhbuild.errors import FatalError
+from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
 # Make sure that the urlparse module considers sftp://
@@ -108,6 +109,12 @@ class BzrBranch(Branch):
             self._update(buildscript, overwrite=True)
         else:
             self._checkout(buildscript)
+
+    def tree_id(self):
+        if not os.path.exists(self.srcdir):
+            return None
+        output = get_output(['bzr', 'revno'], cwd = self.srcdir)
+        return output.strip()
 
 
 register_repo_type('bzr', BzrRepository)

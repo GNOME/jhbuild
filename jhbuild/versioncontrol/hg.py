@@ -108,4 +108,9 @@ class HgBranch(Branch):
             raise CommandError(str(e))
         return hg.stdout.read().strip()
 
+    def tree_id(self):
+        if not os.path.exists(self.srcdir):
+            return None
+        return self.get_revision_id()
+
 register_repo_type('hg', HgRepository)

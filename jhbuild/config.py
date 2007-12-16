@@ -37,7 +37,8 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'prefix',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'cvs_program',
-                'checkout_mode', 'copy_dir', 'module_checkout_mode']
+                'checkout_mode', 'copy_dir', 'module_checkout_mode',
+                'build_policy']
 
 env_prepends = {}
 def prependpath(envvar, path):

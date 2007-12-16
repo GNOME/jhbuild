@@ -27,6 +27,8 @@ __all__ = [
     'get_branch'
     ]
 
+import os
+
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 
 _module_types = {}
@@ -94,6 +96,41 @@ def get_branch(node, repositories, default_repo):
 
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
+def checkout(package, buildscript):
+    srcdir = package.get_srcdir(buildscript)
+    builddir = package.get_builddir(buildscript)
+    buildscript.set_action('Checking out', package)
+    package.branch.checkout(buildscript)
+    # did the checkout succeed?
+    if not os.path.exists(srcdir):
+        raise BuildStateError('source directory %s was not created'
+                              % srcdir)
+
+def check_build_policy(package, buildscript):
+    if buildscript.config.build_policy in ('updated', 'updated-deps'):
+        # has this module been updated ?
+        if buildscript.packagedb.check(package.name, package.get_revision() or ''):
+            # module has not been updated
+            if buildscript.config.build_policy == 'updated':
+                buildscript.message('Skipping %s (not updated)' % package.name)
+                raise SkipToState(Package.STATE_DONE)
+            elif buildscript.config.build_policy == 'updated-deps':
+                install_date = buildscript.packagedb.installdate(package.name)
+                for dep in package.dependencies:
+                    install_date_dep = buildscript.packagedb.installdate(dep)
+                    if install_date_dep > install_date:
+                        break
+                else:
+                    buildscript.message(
+                            'Skipping %s (package and dependencies not updated)' % package.name)
+                    raise SkipToState(Package.STATE_DONE)
+
+
+class SkipToState(Exception):
+    def __init__(self, state):
+        Exception.__init__(self)
+        self.state = state
+
 
 class Package:
     type = 'base'
@@ -152,6 +189,8 @@ class Package:
         if hasattr(method, 'next_state'):
             try:
                 method(buildscript)
+            except SkipToState, e:
+                return (e.state, None, None)
             except (CommandError, BuildStateError), e:
                 return (self._next_state(buildscript, state),
                         str(e), method.error_states)

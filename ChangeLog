@@ -1,3 +1,18 @@
+2007-12-16  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/config.py, jhbuild/defaults.jhbuildrc, 
+	jhbuild/modtypes/__init__.py, jhbuild/modtypes/autotools.py,
+	jhbuild/modtypes/distutils.py, jhbuild/modtypes/mesa.py,
+	jhbuild/modtypes/mozillamodule.py, jhbuild/modtypes/perl.py,
+	jhbuild/versioncontrol/arch.py, jhbuild/versioncontrol/bzr.py,
+	jhbuild/versioncontrol/darcs.py, jhbuild/versioncontrol/git.py,
+	jhbuild/versioncontrol/hg.py: added possibility to skip modules that
+	have not been updated (with/without considering dependencies).  This
+	is driven by a new build_policy configuration option, possible values
+	are 'all' (default behaviour, build everything), 'updated' (build only
+	modules that have changed) and 'updated-deps' (build modules that have
+	changed, or their dependencies have changed).  (closes: #313997)
+
 2007-12-15  Frederic Peters  <fpeters@0d.be>
 
 	* jhbuild/modtypes/tarball.py, jhbuild/utils/unpack.py,

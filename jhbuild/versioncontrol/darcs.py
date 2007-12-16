@@ -20,6 +20,7 @@
 __all__ = []
 __metaclass__ = type
 
+import md5
 import os
 import urlparse
 
@@ -101,5 +102,12 @@ class DarcsBranch(Branch):
         else:
             self._checkout(buildscript)
         self._fix_permissions()
+
+    def tree_id(self):
+        # XXX: check with some darcs expert if there is not a command to get
+        # this
+        if not os.path.exists(self.srcdir):
+            return None
+        return md5.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory').read())).hexdigest()
 
 register_repo_type('darcs', DarcsRepository)

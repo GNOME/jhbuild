@@ -21,11 +21,12 @@ __all__ = []
 __metaclass__ = type
 
 import os
+import md5
 import urlparse
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils.cmds import has_command
+from jhbuild.utils.cmds import has_command, get_output
 from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache
@@ -257,6 +258,14 @@ class TarballBranch(Branch):
             self._quilt_checkout(buildscript)
 
     def tree_id(self):
-        return self.version
+        md5sum = md5.new()
+        if self.patches:
+            for patch in self.patches:
+                md5sum.update(patch)
+        if self.quilt:
+            md5sum.update(get_output('quilt files',
+                        cwd=self.srcdir,
+                        extra_env={'QUILT_PATCHES' : self.quilt.srcdir}))
+        return '%s-%s' % (self.version, md5sum.hexdigest())
 
 register_repo_type('tarball', TarballRepository)

@@ -169,10 +169,9 @@ class GitBranch(Branch):
         self.checkout(buildscript)
 
     def tree_id(self):
-        if not os.path.exists(self.get_checkoutdir()):
+        if not os.path.exists(self.srcdir):
             return None
-        output = get_output(['git-rev-parse', 'master'],
-                            cwd=self.get_checkoutdir())
+        output = get_output(['git-rev-parse', 'master'], cwd= self.srcdir)
         return output.strip()
 
 class GitSvnBranch(GitBranch):

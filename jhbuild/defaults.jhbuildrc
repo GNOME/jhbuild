@@ -8,6 +8,13 @@ import os
 moduleset = 'gnome-2.22'
 modules = [ 'meta-gnome-desktop' ]
 
+# policy for modules to build, options are:
+#  - all: build everything requested (default behaviour)
+#  - updated: build only modules that have changed
+#  - updated-deps: build modules that have changed, or their dependencies
+#    have changed.
+build_policy = 'all'
+
 # modules to skip during dependency expansion
 skip = []
 

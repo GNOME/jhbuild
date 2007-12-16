@@ -157,7 +157,9 @@ class ArchBranch(Branch):
         self._checkout(buildscript)
 
     def tree_id(self):
-        data = get_output(['baz', 'tree-id', '-d', self.srcdir])
+        if not os.path.exists(self.srcdir):
+            return None
+        data = get_output(['baz', 'tree-id', '-d', self.srcdir], cwd = self.srcdir)
         return data.strip()
 
 

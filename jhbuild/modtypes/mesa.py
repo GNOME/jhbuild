@@ -26,7 +26,8 @@ import platform
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, register_module_type, \
+     checkout, check_build_policy
 
 __all__ = [ 'MesaModule' ]
 
@@ -82,13 +83,8 @@ class MesaModule(Package):
         return buildscript.config.nonetwork
 
     def do_checkout(self, buildscript):
-        srcdir = self.get_srcdir(buildscript)
-        buildscript.set_action('Checking out', self)
-        self.branch.checkout(buildscript)
-        # did the checkout succeed?
-        if not os.path.exists(srcdir):
-            raise BuildStateError('source directory %s was not created'
-                                  % srcdir)
+        checkout(self, buildscript)
+        check_build_policy(self, buildscript)
     do_checkout.next_state = STATE_BUILD
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 

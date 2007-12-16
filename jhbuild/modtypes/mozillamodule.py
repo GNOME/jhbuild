@@ -22,7 +22,8 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.modtypes import register_module_type, get_dependencies
+from jhbuild.modtypes import register_module_type, get_dependencies, \
+     check_build_policy
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.versioncontrol import cvs
 from jhbuild.errors import FatalError, BuildStateError
@@ -100,6 +101,7 @@ class MozillaModule(AutogenModule):
         if not os.path.exists(checkoutdir):
             raise BuildStateError('source directory %s was not created'
                                   % checkoutdir)
+        check_build_policy(self, buildscript)
     do_checkout.next_state = AutogenModule.STATE_CONFIGURE
     do_checkout.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
