@@ -272,10 +272,13 @@ class SubversionBranch(Branch):
         if not os.path.exists(self.srcdir):
             return None
         info = get_info(self.srcdir)
-        url = info['url']
-        root = info['repository root']
-        uuid = info['repository uuid']
-        rev = info['last changed rev']
+        try:
+            url = info['url']
+            root = info['repository root']
+            uuid = info['repository uuid']
+            rev = info['last changed rev']
+        except KeyError:
+            return None
 
         # get the path within the repository
         assert url.startswith(root)
