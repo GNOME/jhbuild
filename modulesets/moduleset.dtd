@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|mozillamodule|distutils|perl|linux|testmodule|cvsroot|cvsmodule|gdbmodule|gcjmodule)+>
+<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|mozillamodule|distutils|perl|linux|testmodule|cvsroot|cvsmodule|gdbmodule|gcjmodule|waf)+>
 
 <!ELEMENT repository EMPTY>
 <!ATTLIST repository
@@ -26,6 +26,13 @@
 	makefile	CDATA	#IMPLIED
 	skip-autogen	(true|false) "false"
 	supports-non-srcdir-builds (yes|no) "yes">
+
+<!ELEMENT waf (branch,dependencies?,suggests?,after?)>
+<!-- Note: Here the ID type is not used as some existing IDs in modsets are not
+     valid XML ID types - instead CDATA is used -->
+<!ATTLIST waf
+	id		CDATA	#REQUIRED
+	waf-command	CDATA	#IMPLIED>
 
 <!ELEMENT metamodule (dependencies,after?)>
 <!ATTLIST metamodule

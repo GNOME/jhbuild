@@ -1,3 +1,20 @@
+2007-12-17  Gustavo J. A. M. Carneiro  <gjc@inescporto.pt>
+
+	reviewed by: Frederic Peters
+
+	* modulesets/moduleset.dtd,
+	* jhbuild/modtypes/waf.py: Add new waf module type, for building
+	projects that use waf.
+	
+	* modulesets/bootstrap.modules: Install waf during bootstrap.
+	Temporarily uses svn, but will switch to tarball when waf 1.3.1
+	gets released next month.
+	
+	* modulesets/gnome-suites-2.22.modules: Make gnome-python and
+	gnome-python-desktop build using waf instead of autotools.
+
+	Closes Bug #503907: Add WAF support.
+
 2007-12-17  Frederic Peters  <fpeters@0d.be>
 
 	* jhbuild/versioncontrol/svn.py: catch errors when trying to determine

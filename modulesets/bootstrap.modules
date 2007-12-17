@@ -7,6 +7,8 @@
       href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python"
       href="http://www.python.org/ftp/python/"/>
+  <repository type="svn" name="waf.googlecode.com"
+      href="http://waf.googlecode.com/svn/"/>
 
   <autotools id="gettext" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
@@ -67,6 +69,10 @@
 	    size="8005915" md5sum="141c683447d5e76be1d2bd4829574f02" />
   </autotools>
 
+  <autotools id="waf" autogen-sh="utils/autogen.sh">
+    <branch repo="waf.googlecode.com" module="trunk" checkoutdir="waf"/>
+  </autotools>
+
   <metamodule id="meta-bootstrap">
     <dependencies>
       <dep package="gettext" />
@@ -79,6 +85,7 @@
       <dep package="automake-1.10" />
       <dep package="pkg-config" />
       <dep package="python" />
+      <dep package="waf" />
     </dependencies>
   </metamodule>
 
