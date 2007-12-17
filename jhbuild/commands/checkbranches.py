@@ -53,7 +53,7 @@ class cmd_checkbranches(Command):
                 continue
             if not 'svn.gnome.org' in mod.branch.repository.href:
                 continue
-            rev = mod.get_revision()
+            rev = mod.branch.revision
             if rev:
                 continue
 
