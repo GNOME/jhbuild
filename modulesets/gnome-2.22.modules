@@ -47,6 +47,10 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
       href="http://bazaar.launchpad.net/"/>
+  <repository type="svn" name="elisa.code.fluendo.com"
+      href="https://code.fluendo.com/elisa/svn/"/>
+  <repository type="svn" name="pigment.code.fluendo.com"
+      href="https://code.fluendo.com/pigment/svn/"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1401,5 +1405,22 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
+
+  <autotools id="elisa">
+    <branch repo="elisa.code.fluendo.com" module="trunk" />
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="pigment"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pigment">
+    <branch repo="pigment.code.fluendo.com" module="trunk" />
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
 
 </moduleset>
