@@ -45,7 +45,7 @@ if 'git+ssh' not in urlparse.uses_relative:
 class GitRepository(Repository):
     """A class representing a GIT repository.
 
-    Note that this is just the parent directory for a bunch of darcs
+    Note that this is just the parent directory for a bunch of git
     branches, making it easy to switch to a mirror URI.
     """
 
@@ -56,24 +56,27 @@ class GitRepository(Repository):
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
 
-    branch_xml_attrs = ['module', 'subdir', 'checkoutdir']
+    branch_xml_attrs = ['module', 'subdir', 'checkoutdir', 'revision', 'tag']
 
-    def branch(self, name, module=None, subdir="", checkoutdir=None):
+    def branch(self, name, module = None, subdir="", checkoutdir = None,
+               revision = None, tag = None):
         if name in self.config.branches:
             module = self.config.branches[name]
         else:
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
-        return GitBranch(self, module, subdir, checkoutdir)
+        return GitBranch(self, module, subdir, checkoutdir, revision, tag)
 
 
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
-    def __init__(self, repository, module, subdir, checkoutdir):
+    def __init__(self, repository, module, subdir, checkoutdir, branch, tag):
         Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
+        self.branch = branch
+        self.tag = tag
 
     def srcdir(self):
         if self.checkoutdir:
@@ -93,7 +96,12 @@ class GitBranch(Branch):
                                 os.path.basename(self.module))
 
     def branchname(self):
-        return None
+        if self.tag:
+            return self.tag
+        elif self.branch:
+            return 'origin/' + self.branch
+        else:
+            return 'origin/master'
     branchname = property(branchname)
 
     def _get_commit_from_date(self):
@@ -126,8 +134,12 @@ class GitBranch(Branch):
         else:
             buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
+        buildscript.execute(['git', 'checkout', self.branchname], 'git',
+                    cwd = self.srcdir)
+
         if self.config.sticky_date:
             self._update(buildscript)
+
 
     def _update(self, buildscript, copydir=None):
         cwd = self.get_checkoutdir(copydir)
@@ -143,7 +155,12 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'reset', '--hard', commit],
                                 'git', cwd=cwd)
 
-        buildscript.execute(['git', 'pull'], 'git', cwd=cwd)
+        buildscript.execute(['git', 'checkout', self.branchname], 'git',
+                    cwd = self.srcdir)
+
+        if not self.tag:
+            buildscript.execute(['git', 'pull', 'origin', self.branch], 'git', cwd=cwd)
+
 
     def checkout(self, buildscript):
         if self.checkout_mode in ('clobber', 'export'):
@@ -171,8 +188,10 @@ class GitBranch(Branch):
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
-        output = get_output(['git-rev-parse', 'master'], cwd= self.srcdir)
+        output = get_output(['git-rev-parse', self.branchname],
+                cwd = self.srcdir)
         return output.strip()
+
 
 class GitSvnBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
