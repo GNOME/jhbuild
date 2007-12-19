@@ -81,6 +81,25 @@ class WafModule(Package):
     do_force_checkout.next_state = STATE_CONFIGURE
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
 
+    def skip_configure(self, buildscript, last_state):
+        # skip if nobuild is set.
+        if buildscript.config.nobuild:
+            return True
+
+        # don't skip this stage if we got here from one of the
+        # following states:
+        if last_state in [self.STATE_FORCE_CHECKOUT,
+                          self.STATE_CLEAN,
+                          self.STATE_BUILD,
+                          self.STATE_INSTALL]:
+            return False
+
+        # skip if the .lock-wscript file exists and we don't have the
+        # alwaysautogen flag turned on:
+        builddir = self.get_builddir(buildscript)
+        return (os.path.exists(os.path.join(builddir, '.lock-wscript')) and
+                not buildscript.config.alwaysautogen)
+
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
