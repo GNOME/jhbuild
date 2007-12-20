@@ -108,6 +108,6 @@ class DarcsBranch(Branch):
         # this
         if not os.path.exists(self.srcdir):
             return None
-        return md5.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory').read())).hexdigest()
+        return md5.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory')).read()).hexdigest()
 
 register_repo_type('darcs', DarcsRepository)
