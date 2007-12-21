@@ -159,7 +159,10 @@ class GitBranch(Branch):
                     cwd = self.srcdir)
 
         if not self.tag:
-            buildscript.execute(['git', 'pull', 'origin', self.branch], 'git', cwd=cwd)
+            if self.branch:
+                buildscript.execute(['git', 'pull', 'origin', self.branch], 'git', cwd=cwd)
+            else:
+                buildscript.execute(['git', 'pull', 'origin', 'master'], 'git', cwd=cwd)
 
 
     def checkout(self, buildscript):
