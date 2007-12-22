@@ -126,20 +126,24 @@ class SubversionRepository(Repository):
                 module = None
                 revision = None
 
-        if module is None or revision is not None:
-            if module is None:
-                module = name
-            if not revision:
-                if self.trunk_path:
-                    module += '/' + self.trunk_path
-                    if checkoutdir is None:
-                        checkoutdir = name
-            else:
-                if self.branches_path:
-                    module += '/' + self.branches_path + '/' + revision
+        if self.branches_path:
+            branches_path = '/' + self.branches_path
+        else:
+            branches_path = ""
+
+        if module:
+            if revision:
+                if not revision.isdigit():
+                    module += branches_path + '/' + revision
+        else:
+            if revision:
+                if revision.isdigit():
+                    module = name + '/' + self.trunk_path
                 else:
-                    module += '/' + revision
-            
+                    module = name + branches_path + '/' + revision  
+            else:
+                module = name + '/' + self.trunk_path
+        
         if module_href is None:
             module_href = urlparse.urljoin(self.href, module)
         
@@ -180,7 +184,9 @@ class SubversionBranch(Branch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
-        if self.config.sticky_date:
+        if self.revision and self.revision.isdigit():
+            cmd.extend(['-r', '%s' % self.revision])
+        elif self.config.sticky_date:
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
         buildscript.execute(cmd, 'svn', cwd=self.checkoutroot)
@@ -191,7 +197,9 @@ class SubversionBranch(Branch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
-        if self.config.sticky_date:
+        if self.revision and self.revision.isdigit():
+            cmd.extend(['-r', '%s' % self.revision])
+        elif self.config.sticky_date:
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
         if copydir:
@@ -207,7 +215,9 @@ class SubversionBranch(Branch):
             outputdir = self.srcdir
 
         opt = []
-        if self.config.sticky_date:
+        if self.revision and self.revision.isdigit():
+            opt.extend(['-r', '%s' % self.revision])
+        elif self.config.sticky_date:
             opt.extend(['-r', '{%s}' % self.config.sticky_date])
 
         # if the URI doesn't match, use "svn switch" instead of "svn update"
