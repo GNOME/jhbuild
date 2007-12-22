@@ -43,6 +43,9 @@
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
 
+  <repository type="git" name="david.freedesktop.org"
+      href="git://people.freedesktop.org/~david/"/>
+
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
 
   <autotools id="pixman">
@@ -160,6 +163,14 @@
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="PolicyKit-gnome">
+    <branch repo="david.freedesktop.org" />
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libsexy"/>
     </dependencies>
   </autotools>
 
