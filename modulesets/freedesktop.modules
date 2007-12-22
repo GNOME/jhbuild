@@ -45,10 +45,17 @@
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
 
+  <autotools id="pixman">
+    <branch repo="git.freedesktop.org" module="pixman"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
   <autotools id="cairo">
     <branch repo="git.freedesktop.org" module="cairo"/>
     <dependencies>
       <dep package="fontconfig"/>
+      <dep package="pixman"/>
       <dep package="gtk-doc"/>
     </dependencies>
     <after>
@@ -132,8 +139,8 @@
   </autotools>
 
   <autotools id="dbus-qt3">
-	  <branch repo="git.freedesktop.org"
-		  module="dbus/dbus-qt3" checkoutdir="dbus-qt3"  />
+    <branch repo="git.freedesktop.org"
+            module="dbus/dbus-qt3" checkoutdir="dbus-qt3"  />
     <dependencies>
       <dep package="dbus"/>
     </dependencies>
