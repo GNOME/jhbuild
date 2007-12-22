@@ -19,7 +19,7 @@
 
 from optparse import make_option
 
-from jhbuild.errors import UsageError
+from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands import Command, register_command
 import jhbuild.frontends
 
@@ -53,6 +53,12 @@ class cmd_tinderbox(Command):
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
+            make_option('-C', '--try-checkout',
+                        action='store_true', dest='trycheckout', default=False,
+                        help='try to force checkout and autogen on failure'),
+            make_option('-N', '--no-poison',
+                        action='store_true', dest='nopoison', default=False,
+                        help="don't poison modules on failure")
             ])
 
     def run(self, config, options, args):
@@ -70,6 +76,10 @@ class cmd_tinderbox(Command):
             config.skip += item.split(',')
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
+        if options.trycheckout:
+            config.trycheckout = True
+        if options.nopoison:
+            config.nopoison = True
 
         if not config.tinderbox_outputdir:
             raise UsageError('output directory for tinderbox build '

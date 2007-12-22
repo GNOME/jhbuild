@@ -146,6 +146,7 @@ def escape(string):
 
 class TinderboxBuildScript(buildscript.BuildScript):
     help_url = 'http://live.gnome.org/JhbuildIssues/'
+    triedcheckout = False
 
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
@@ -333,6 +334,11 @@ class TinderboxBuildScript(buildscript.BuildScript):
         '''handle error during build'''
         self.message('error during stage %s of %s: %s' % (state, module.name,
                                                           error))
+        if self.config.trycheckout and (not self.triedcheckout):
+            self.triedcheckout = True
+            return 'force_checkout'
+        self.triedcheckout = False
+
         if self.modulefp:
             self.modulefp.write('<div class="note">The Gnome Live! website may'
                                 ' have suggestions on how to resolve some'
