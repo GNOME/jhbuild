@@ -51,6 +51,9 @@
       href="https://code.fluendo.com/elisa/svn/"/>
   <repository type="svn" name="pigment.code.fluendo.com"
       href="https://code.fluendo.com/pigment/svn/"/>
+  <repository type="cvs" name="cvs.bluez.org"
+      cvsroot=":pserver:anonymous@cvs.bluez.org:/cvsroot/bluez"
+      password=""/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1419,6 +1422,17 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="bluez-gnome">
+    <branch repo="cvs.bluez.org" module="gnome" checkoutdir="bluez-gnome"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="dbus"/>
+      <dep package="hal"/>
     </dependencies>
   </autotools>
 
