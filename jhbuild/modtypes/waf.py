@@ -23,10 +23,11 @@ __metaclass__ = type
 import os
 import re
 
-from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type,\
      checkout, check_build_policy
+from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'WafModule' ]
 
@@ -101,6 +102,8 @@ class WafModule(Package):
                 not buildscript.config.alwaysautogen)
 
     def do_configure(self, buildscript):
+        if not inpath(self.waf_cmd, os.environ['PATH'].split(os.pathsep)):
+            raise CommandError('Missing waf, try jhbuild -m bootstrap buildone waf')
         builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
