@@ -3,12 +3,15 @@
 <!ELEMENT repository EMPTY>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
-	type	 (ch|bzr|cvs|darcs|git|hg|svn|tarball|arch)  #REQUIRED
+	type	 (ch|bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
 	default  (yes|no)  "no"
-	href	 CDATA  #IMPLIED
-	password CDATA  #IMPLIED
-	cvsroot	 CDATA  #IMPLIED
-	archive	 CDATA	#IMPLIED
+	password CDATA  #IMPLIED <!-- specific to CVS -->
+	cvsroot	 CDATA  #IMPLIED <!-- specific to CVS -->
+	archive	 CDATA	#IMPLIED <!-- specific to Arch -->
+	href	 CDATA  #IMPLIED <!-- specific to Arch -->
+	server   CDATA  #IMPLIED <!-- specific to Monotone -->
+	database CDATA  #IMPLIED <!-- specific to Monotone -->
+	defbranch CDATA #IMPLIED <!-- specific to Monotone -->
 	developer-href-example CDATA #IMPLIED>
 
 <!ELEMENT include EMPTY>

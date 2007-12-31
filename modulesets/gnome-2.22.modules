@@ -52,6 +52,9 @@
   <repository type="cvs" name="cvs.bluez.org"
       cvsroot=":pserver:anonymous@cvs.bluez.org:/cvsroot/bluez"
       password=""/>
+  <repository type="mtn" name="pidgin.im"
+      server="pidgin.im" database="pidgin.im.mtn"
+      defbranch="im.pidgin.pidgin"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1428,5 +1431,14 @@
     </dependencies>
   </autotools>
 
+  <autotools id="pidgin">
+    <branch repo="pidgin.im"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+  </autotools>
 
 </moduleset>
