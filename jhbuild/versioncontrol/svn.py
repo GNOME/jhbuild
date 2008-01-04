@@ -281,7 +281,10 @@ class SubversionBranch(Branch):
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
-        info = get_info(self.srcdir)
+        try:
+            info = get_info(self.srcdir)
+        except CommandError:
+            return None
         try:
             url = info['url']
             root = info['repository root']
