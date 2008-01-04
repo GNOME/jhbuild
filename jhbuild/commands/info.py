@@ -46,6 +46,9 @@ class cmd_info(Command):
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
         module_set = jhbuild.moduleset.load(config)
 
+        if not args:
+            self.parser.error('This command requires a module parameter.')
+
         for modname in args:
             try:
                 module = module_set.modules[modname]

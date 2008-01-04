@@ -43,11 +43,11 @@ class Command:
         return self.run(config, options, args)
 
     def parse_args(self, args):
-        parser = optparse.OptionParser(
+        self.parser = optparse.OptionParser(
             usage='%%prog %s %s' % (self.name, self.usage_args),
             description=self.__doc__)
-        parser.add_options(self.options)
-        return parser.parse_args(args)
+        self.parser.add_options(self.options)
+        return self.parser.parse_args(args)
 
     def run(self, config, options, args):
         """The body of the command"""

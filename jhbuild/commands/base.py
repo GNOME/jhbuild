@@ -96,6 +96,9 @@ class cmd_updateone(Command):
             raise FatalError("A module called '%s' could not be found."
                              % str(e))
 
+        if not module_list:
+            self.parser.error('This command requires a module parameter.')
+
         # don't actually perform build ...
         config.nobuild = True
         config.nonetwork = False
@@ -240,6 +243,9 @@ class cmd_buildone(Command):
         except KeyError, e:
             raise FatalError("A module called '%s' could not be found."
                              % str(e))
+
+        if not module_list:
+            self.parser.error('This command requires a module parameter.')
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
