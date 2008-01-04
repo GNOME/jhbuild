@@ -145,19 +145,24 @@ class ModuleSet:
                  '  ratio = auto;\n')
         while modules:
             modname = modules[0]
-            mod = self.modules[modname]
-            if isinstance(mod, AutogenModule):
-                label = mod.name
-                if mod.get_revision():
-                    label += '\\n(%s)' % mod.get_revision()
-                attrs = '[color="lightskyblue",style="filled",label="%s"]' % \
-                        label
-            elif isinstance(mod, MetaModule):
+            try:
+                mod = self.modules[modname]
+            except KeyError:
+                print >> sys.stderr, 'W: Unknown module:', modname
+                del modules[0]
+                continue
+            if isinstance(mod, MetaModule):
                 attrs = '[color="lightcoral",style="filled",' \
                         'label="%s"]' % mod.name
             elif isinstance(mod, Tarball):
                 attrs = '[color="lightgoldenrod",style="filled",' \
                         'label="%s\\n%s"]' % (mod.name, mod.version)
+            else:
+                label = mod.name
+                if mod.branch.branchname:
+                    label += '\\n(%s)' % mod.branch.branchname
+                attrs = '[color="lightskyblue",style="filled",label="%s"]' % \
+                        label
             fp.write('  "%s" %s;\n' % (modname, attrs))
             del modules[0]
             
