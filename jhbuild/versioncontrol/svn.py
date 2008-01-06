@@ -249,7 +249,7 @@ class SubversionBranch(Branch):
                     stdout = subprocess.PIPE, **kws).communicate()[0]
         except OSError, e:
             raise CommandError(str(e))
-        if 'Conflict' in output:
+        if '\nConflict' in output:
             raise CommandError('Error checking for conflicts')
 
     def checkout(self, buildscript):
