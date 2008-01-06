@@ -19,244 +19,7 @@
 
 __metaclass__ = type
 
-import os
-import urlparse
-import urllib2
-
-from jhbuild.errors import FatalError, CommandError, BuildStateError
-from jhbuild.modtypes import Package, register_module_type, get_dependencies
-from jhbuild.utils import httpcache
-from jhbuild.utils.cmds import has_command
-from jhbuild.utils.unpack import unpack_archive
-
-jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                 '..', '..'))
-
-class Tarball(Package):
-    type = 'tarball'
-    STATE_DOWNLOAD  = 'download'
-    STATE_UNPACK    = 'unpack'
-    STATE_PATCH     = 'patch'
-    STATE_CONFIGURE = 'configure'
-    STATE_BUILD     = 'build'
-    STATE_INSTALL   = 'install'
-    def __init__(self, name, version, source_url, source_size, source_md5=None,
-                 uri=[], patches=[], checkoutdir=None,
-                 autogenargs='', makeargs='', dependencies=[], after=[],
-                 supports_non_srcdir_builds=True):
-        Package.__init__(self, name, dependencies, after)
-        self.version      = version
-        self.source_url   = source_url
-        self.source_size  = source_size
-        self.source_md5   = source_md5
-        self.uri          = uri
-        self.patches      = patches
-        self.checkoutdir  = checkoutdir
-        self.autogenargs  = autogenargs
-        self.makeargs     = makeargs
-        self.supports_non_srcdir_builds = supports_non_srcdir_builds
-
-    def get_localfile(self, buildscript):
-        basename = os.path.basename(self.source_url)
-        if not basename:
-            raise FatalError('URL has no filename component: %s'
-                             % self.source_url)
-        localfile = os.path.join(buildscript.config.tarballdir, basename)
-        return localfile
-
-    def get_srcdir(self, buildscript):
-        if self.checkoutdir:
-            return os.path.join(buildscript.config.checkoutroot,
-                                self.checkoutdir)
-
-        localdir = os.path.join(buildscript.config.checkoutroot,
-                                os.path.basename(self.source_url))
-        # strip off packaging extension ...
-        if localdir.endswith('.tar.gz'):
-            localdir = localdir[:-7]
-        elif localdir.endswith('.tar.bz2'):
-            localdir = localdir[:-8]
-        elif localdir.endswith('.tgz'):
-            localdir = localdir[:-4]
-        elif localdir.endswith('.zip'):
-            localdir = localdir[:-4]
-        return localdir
-
-    def get_builddir(self, buildscript):
-        srcdir = self.get_srcdir(buildscript)
-        if buildscript.config.buildroot and \
-               self.supports_non_srcdir_builds:
-            d = buildscript.config.builddir_pattern % os.path.basename(srcdir)
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return srcdir
-
-    def get_revision(self):
-        return self.version
-
-    def check_localfile(self, buildscript):
-        '''returns None if local copy of tarball is okay.  Otherwise,
-        returns a string error message.'''
-        localfile = self.get_localfile(buildscript)
-        if not os.path.exists(localfile):
-            return 'file not downloaded'
-        if self.source_size:
-            local_size = os.stat(localfile)[6]
-            if local_size != self.source_size:
-                return 'downloaded file of incorrect size ' \
-                       '(expected %d, got %d)' % (self.source_size, local_size)
-        if self.source_md5:
-            import md5
-            md5sum = md5.new()
-            fp = open(localfile, 'rb')
-            data = fp.read(4096)
-            while data:
-                md5sum.update(data)
-                data = fp.read(4096)
-            fp.close()
-            if md5sum.hexdigest() != self.source_md5:
-                return 'file MD5 sum incorrect (expected %s, got %s)' % \
-                       (self.source_md5, md5sum.hexdigest())
-
-    def do_start(self, buildscript):
-        # Check clobber mode
-        if buildscript.config.module_checkout_mode.get(self.name):
-            checkout_mode = buildscript.config.module_checkout_mode.get(self.name)
-        else:
-            checkout_mode = buildscript.config.checkout_mode
-
-        if checkout_mode == 'clobber':
-            buildscript.execute(['rm', '-rf', self.get_srcdir(buildscript)])
-            buildscript.packagedb.remove(self.name)
-        elif buildscript.config.alwaysautogen:
-            # if user wishes to autogen (i.e. with -a) remove from database so
-            # this package reconfigures.
-            buildscript.packagedb.remove(self.name)
-
-        if buildscript.packagedb.check(self.name, self.version):
-            return (self.STATE_DONE, None, None)
-
-        return (self.STATE_DOWNLOAD, None, None)
-
-    def do_download(self, buildscript):
-        localfile = self.get_localfile(buildscript)
-        if not os.path.exists(buildscript.config.tarballdir):
-            os.makedirs(buildscript.config.tarballdir)
-        if not buildscript.config.nonetwork:
-            if self.check_localfile(buildscript) is not None:
-                # don't have a local copy
-                buildscript.set_action('Downloading', self, action_target=self.source_url)
-                if has_command('wget'):
-                    res = buildscript.execute(
-                            ['wget', self.source_url, '-O', localfile])
-                elif has_command('curl'):
-                    res = buildscript.execute(
-                            ['curl', '-L', self.source_url, '-o', localfile])
-                else:
-                    raise FatalError("unable to find wget or curl")
-
-        status = self.check_localfile(buildscript)
-        if status is not None:
-            raise BuildStateError(status)
-    do_download.next_state = STATE_UNPACK
-    do_download.error_states = []
-
-    def do_unpack(self, buildscript):
-        localfile = self.get_localfile(buildscript)
-        srcdir = self.get_srcdir(buildscript)
-
-        # if already unpacked, don't unpack again and go straight to
-        # configure.
-        if os.path.exists(srcdir):
-            if buildscript.config.nobuild:
-                return (self.STATE_DONE, None, None)
-            else:
-                return (self.STATE_CONFIGURE, None, None)
-        else:
-            buildscript.set_action('Unpacking', self)
-            try:
-                unpack_archive(buildscript, localfile, buildscript.config.checkoutroot)
-            except CommandError:
-                raise FatalError('failed to unpack %s' % localfile)
-            
-            if not os.path.exists(srcdir):
-                raise BuildStateError('could not unpack tarball')
-            return (self.STATE_PATCH, None, None)
-
-    def do_patch(self, buildscript):
-        for (patch, patchstrip) in self.patches:
-            patchfile = ''
-            if urlparse.urlparse(patch)[0]: # patch name has scheme
-                try:
-                    patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urllib2.HTTPError, e:
-                    return (self.STATE_CONFIGURE,
-                            'could not download patch (error: %s)' % e.code, [])
-                except urllib2.URLError, e:
-                    return (self.STATE_CONFIGURE, 'could not download patch', [])
-            elif self.uri:
-                for patch_prefix in ('.', 'patches'):
-                    uri = urlparse.urljoin(self.uri, os.path.join(patch_prefix, patch))
-                    try:
-                        patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
-                    except Exception, e:
-                        continue
-                    if not os.path.isfile(patchfile):
-                        continue
-                    break
-                else:
-                    patchfile = os.path.join(jhbuild_directory, 'patches', patch)
-            else:
-                patchfile = os.path.join(jhbuild_directory, 'patches', patch)
-            buildscript.set_action('Applying Patch', self, action_target=patch)
-            try:
-                buildscript.execute('patch -p%d < "%s"' % (patchstrip,
-                                                           patchfile),
-                                    cwd=self.get_srcdir(buildscript))
-            except CommandError:
-                return (self.STATE_CONFIGURE, 'could not apply patch', [])
-            
-        if buildscript.config.nobuild:
-            return (self.STATE_DONE, None, None)
-        else:
-            return (self.STATE_CONFIGURE, None, None)
-
-    def do_configure(self, buildscript):
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.buildroot and not os.path.exists(builddir):
-            os.makedirs(builddir)
-        buildscript.set_action('Configuring', self)
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            cmd = self.get_srcdir(buildscript) + '/configure'
-        else:
-            cmd = './configure'
-        cmd += ' --prefix %s' % buildscript.config.prefix
-        if buildscript.config.use_lib64:
-            cmd += " --libdir '${exec_prefix}/lib64'"
-        cmd += ' %s' % self.autogenargs
-
-        # Fix up the arguments for special cases:
-        #   remove '-- ' to avoid breaking build (GStreamer weirdness)
-        cmd = cmd.replace('-- ', '')
-
-        buildscript.execute(cmd, cwd=builddir)
-    do_configure.next_state = STATE_BUILD
-    do_configure.error_states = []
-
-    def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = []
-
-    def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
-        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        buildscript.packagedb.add(self.name, self.version or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+from jhbuild.modtypes import register_module_type, get_dependencies
 
 def parse_tarball(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
@@ -306,9 +69,19 @@ def parse_tarball(node, config, uri, repositories, default_repo):
 
     dependencies, after = get_dependencies(node)
 
-    return Tarball(name, version, source_url, source_size, source_md5,
-                   uri, patches, checkoutdir, autogenargs, makeargs,
-                   dependencies, after,
-                   supports_non_srcdir_builds=supports_non_srcdir_builds)
+    from autotools import AutogenModule
+    from jhbuild.versioncontrol.tarball import TarballBranch, TarballRepository
+
+    repo = TarballRepository(config, None, None)
+
+    branch = TarballBranch(repo, source_url, version, checkoutdir,
+            source_size, source_md5, None)
+    branch.patches = patches
+
+    return AutogenModule(name, branch,
+            autogenargs, makeargs, '',
+            dependencies, after,
+            supports_non_srcdir_builds = supports_non_srcdir_builds,
+            skip_autogen = False, autogen_sh = 'configure')
 
 register_module_type('tarball', parse_tarball)
