@@ -46,6 +46,9 @@ except: pass
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
+import curses
+curses.setupterm()
+
 # tray icon stuff ...
 icondir = os.path.join(os.path.dirname(__file__), 'icons')
 phase_map = {
@@ -63,6 +66,7 @@ phase_map = {
 
 class TerminalBuildScript(buildscript.BuildScript):
     triedcheckout = False
+    is_end_of_build = False
 
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
@@ -78,9 +82,16 @@ class TerminalBuildScript(buildscript.BuildScript):
             progress = ' [%d/%d]' % (module_num, len(self.modulelist))
         else:
             progress = ''
-        print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
+
+        if not (self.config.quiet_mode and self.config.progress_bar):
+            print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
+        else:
+            progress = 1.0 * (module_num-1) / len(self.modulelist)
+            self.display_status_line(progress, module_num, msg)
+
         if is_xterm:
-            print '\033]0;jhbuild: %s%s\007' % (msg, progress)
+            sys.stdout.write('\033]0;jhbuild: %s%s\007' % (msg, progress))
+            sys.stdout.flush()
         self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
     def set_action(self, action, module, module_num=-1, action_target=None):
@@ -89,6 +100,32 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not action_target:
             action_target = module.name
         self.message('%s %s' % (action, action_target), module_num)
+
+    def display_status_line(self, progress, module_num, message):
+        if self.is_end_of_build:
+            # hardcode progress to 100% at the end of the build
+            progress = 1
+
+        columns = curses.tigetnum('cols')
+        width = columns / 2
+        num_hashes = int(round(progress * width))
+        progress_bar = '[' + (num_hashes * '=') + ((width - num_hashes) * '-') + ']'
+
+        module_no_digits = len(str(len(self.modulelist)))
+        format_str = '%%%dd' % module_no_digits
+        module_pos = '[' + format_str % module_num + '/' + format_str % len(self.modulelist) + ']'
+
+        output = '%s %s %s%s%s' % (progress_bar, module_pos, t_bold, message, t_reset)
+        if len(output) > columns:
+            output = output[:columns]
+        else:
+            output += ' ' * (columns-len(output))
+
+        sys.stdout.write(output + '\r')
+        if self.is_end_of_build:
+            sys.stdout.write('\n')
+        sys.stdout.flush()
+
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         if not command:
@@ -188,6 +225,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                                phase_map.get(state, 'build.png')))
 
     def end_build(self, failures):
+        self.is_end_of_build = True
         if len(failures) == 0:
             self.message('success')
         else:
