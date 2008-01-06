@@ -86,8 +86,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not (self.config.quiet_mode and self.config.progress_bar):
             print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
         else:
-            progress = 1.0 * (module_num-1) / len(self.modulelist)
-            self.display_status_line(progress, module_num, msg)
+            progress_percent = 1.0 * (module_num-1) / len(self.modulelist)
+            self.display_status_line(progress_percent, module_num, msg)
 
         if is_xterm:
             sys.stdout.write('\033]0;jhbuild: %s%s\007' % (msg, progress))
