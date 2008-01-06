@@ -132,6 +132,9 @@ class cmd_build(Command):
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
                         help='skip version control update'),
+            make_option('-q', '--quiet',
+                        action='store_true', dest='quiet', default=False,
+                        help='quiet (no output)'),
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
                         help='treat the given modules as up to date'),
@@ -173,6 +176,8 @@ class cmd_build(Command):
             config.trycheckout = True
         if options.nopoison:
             config.nopoison = True
+        if options.quiet:
+            config.quiet_mode = True
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -213,6 +218,9 @@ class cmd_buildone(Command):
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
                         help='skip version control update'),
+            make_option('-q', '--quiet',
+                        action='store_true', dest='quiet', default=False,
+                        help='quiet (no output)'),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
@@ -236,6 +244,8 @@ class cmd_buildone(Command):
             config.sticky_date = options.sticky_date
         if options.noxvfb is not None:
             config.noxvfb = options.noxvfb
+        if options.quiet:
+            config.quiet_mode = True
 
         module_set = jhbuild.moduleset.load(config)
         try:

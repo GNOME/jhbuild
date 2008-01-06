@@ -102,11 +102,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             pretty_command = command
         else:
             pretty_command = ' '.join(command)
-        print pretty_command
 
-        # get rid of hint if pretty printing is disabled.
-        if not self.config.pretty_print:
-            hint = None
+        if not self.config.quiet_mode:
+            print pretty_command
 
         kws['stdin'] = subprocess.PIPE
         if hint in ('cvs', 'svn', 'hg-update.py'):
@@ -115,6 +113,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             kws['stdout'] = None
             kws['stderr'] = None
+
+        if self.config.quiet_mode:
+            kws['stdout'] = subprocess.PIPE
+            kws['stderr'] = subprocess.STDOUT
 
         if cwd is not None:
             kws['cwd'] = cwd
@@ -129,12 +131,24 @@ class TerminalBuildScript(buildscript.BuildScript):
             sys.stderr.write('Error: %s\n' % str(e))
             raise CommandError(str(e))
 
+        output = []
         if hint in ('cvs', 'svn', 'hg-update.py'):
             conflicts = []
-            def format_line(line, error_output, conflicts=conflicts):
-                if line[-1] == '\n': line = line[:-1]
+            def format_line(line, error_output, conflicts = conflicts, output = output):
                 if line.startswith('C '):
                     conflicts.append(line)
+
+                if self.config.quiet_mode:
+                    output.append(line)
+                    return
+
+                if line[-1] == '\n': line = line[:-1]
+                if not self.config.pretty_print:
+                    hint = None
+                    print line
+                    return
+
+                if line.startswith('C '):
                     print '%s%s%s' % (t_colour[12], line, t_reset)
                 elif line.startswith('M '):
                     print '%s%s%s' % (t_colour[10], line, t_reset)
@@ -142,6 +156,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     print '%s%s%s' % (t_colour[8], line, t_reset)
                 else:
                     print line
+
             cmds.pprint_output(p, format_line)
             if conflicts:
                 sys.stdout.write('\nConflicts during checkout:\n')
@@ -150,6 +165,10 @@ class TerminalBuildScript(buildscript.BuildScript):
                                      % (t_colour[12], line, t_reset))
                 # make sure conflicts fail
                 if p.returncode == 0 and hint == 'cvs': p.returncode = 1
+        elif self.config.quiet_mode:
+            def format_line(line, error_output, output = output):
+                output.append(line)
+            cmds.pprint_output(p, format_line)
         else:
             try:
                 p.communicate()
@@ -160,6 +179,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                     # process might already be dead.
                     pass
         if p.wait() != 0:
+            if self.config.quiet_mode:
+                print ''.join(output)
             raise CommandError('########## Error running %s' % pretty_command, p.returncode)
 
     def start_phase(self, module, state):
