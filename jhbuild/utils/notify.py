@@ -43,7 +43,7 @@ class Notify:
             cmd.append('--expire-time=%d' % (1000 * expire))
         cmd.extend([summary, body])
         try:
-            retcode = subprocess.call(cmd)
+            retcode = subprocess.call(cmd, stderr = open('/dev/null', 'a'))
             if retcode:
                 self.disabled = True
         except OSError, e:
