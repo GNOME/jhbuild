@@ -47,7 +47,10 @@ except: pass
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
 import curses
-curses.setupterm()
+try:
+    curses.setupterm()
+except:
+    pass
 
 # tray icon stuff ...
 icondir = os.path.join(os.path.dirname(__file__), 'icons')
