@@ -153,6 +153,9 @@ class cmd_build(Command):
             make_option('-N', '--no-poison',
                         action='store_true', dest='nopoison', default=False,
                         help="don't poison modules on failure"),
+            make_option('-f', '--force',
+                        action='store_true', dest='force_policy', default=False,
+                        help="build even if policy says not to"),
             ])
 
     def run(self, config, options, args):
@@ -178,6 +181,8 @@ class cmd_build(Command):
             config.nopoison = True
         if options.quiet:
             config.quiet_mode = True
+        if options.force_policy:
+            config.force_policy = True
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -226,7 +231,10 @@ class cmd_buildone(Command):
                         help='set a sticky date when checking out modules'),
             make_option('-x', '--no-xvfb',
                         action='store_true', dest='noxvfb', default=False,
-                        help='Run tests in real X and not in Xvfb')
+                        help='Run tests in real X and not in Xvfb'),
+            make_option('-f', '--force',
+                        action='store_true', dest='force_policy', default=False,
+                        help="build even if policy says not to"),
             ])
 
     def run(self, config, options, args):
@@ -246,6 +254,8 @@ class cmd_buildone(Command):
             config.noxvfb = options.noxvfb
         if options.quiet:
             config.quiet_mode = True
+        if options.force_policy:
+            config.force_policy = True
 
         module_set = jhbuild.moduleset.load(config)
         try:

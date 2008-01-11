@@ -107,6 +107,8 @@ def checkout(package, buildscript):
                               % srcdir)
 
 def check_build_policy(package, buildscript):
+    if buildscript.config.force_policy:
+        return
     if buildscript.config.build_policy in ('updated', 'updated-deps'):
         # has this module been updated ?
         if buildscript.packagedb.check(package.name, package.get_revision() or ''):
