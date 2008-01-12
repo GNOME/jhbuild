@@ -59,26 +59,15 @@
     </dependencies>
   </autotools>
 
-  <tarball id="PolicyKit" version="0.7">
-    <source href="http://hal.freedesktop.org/releases/PolicyKit-0.7.tar.gz"
-           md5sum="99e0cc588310656fa25f8f66a411c71f" size="1214032"/>
+  <autotools id="PolicyKit" autogenargs="--enable-tests=no">
+    <branch repo="git.freedesktop.org"
+	    module="PolicyKit" checkoutdir="PolicyKit"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
     </dependencies>
-  </tarball>
-
-  <tarball id="PolicyKit-gnome" version="0.7">
-    <source href="http://hal.freedesktop.org/releases/PolicyKit-gnome-0.7.tar.bz2"
-           md5sum="978ccbe3c9426f4d59c7903f566f954b" size="990594"/>
-    <dependencies>
-      <dep package="PolicyKit"/>
-      <dep package="gtk+"/>
-      <dep package="gnome-vfs"/>
-      <dep package="libsexy"/>
-    </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="icon-slicer">
     <branch repo="icon-theme.freedesktop.org"/>
