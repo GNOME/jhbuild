@@ -129,18 +129,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libxml2">
-    <branch/>
-  </autotools>
-
-  <autotools id="libxslt">
-    <branch/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="libgcrypt"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="pango">
     <branch/>
     <dependencies>
@@ -278,19 +266,6 @@
       <dep package="gst-plugins-good"/>
       <dep package="gnome-vfs"/>
       <dep package="libgnomeui"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-settings-daemon" supports-non-srcdir-builds="no">
-    <branch/>
-    <dependencies>
-      <dep package="libgnomeui"/>
-      <dep package="esound"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libgnomekbd"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
@@ -461,9 +436,6 @@
       <dep package="gnome-doc-utils"/>
       <dep package="nautilus"/>
     </dependencies>
-    <after>
-      <dep package="libsexy"/>
-    </after>
   </autotools>
 
   <autotools id="gcalctool" supports-non-srcdir-builds="no">
@@ -717,13 +689,16 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-settings-daemon">
+  <autotools id="gnome-settings-daemon" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
+      <dep package="libgnomeui"/>
+      <dep package="esound"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libgnomekbd"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
@@ -926,6 +901,15 @@ g  <autotools id="gnome-netstatus">
     <branch/>
     <dependencies>
       <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgweather">
+    <branch/>
+    <dependencies>
+      <dep package="gconf"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
@@ -1305,27 +1289,6 @@ g  <autotools id="gnome-netstatus">
 
 <!-- Developer Tools -->
 
-  <autotools id="devhelp">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libwnck"/>
-      <dep package="mozilla"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="glade3">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="libbonoboui"/>
-      <dep package="libgnomeui"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="accerciser">
     <branch/>
     <dependencies>
@@ -1348,6 +1311,43 @@ g  <autotools id="gnome-netstatus">
       <dep package="devhelp"/>
     </dependencies>
   </autotools>  
+
+  <autotools id="devhelp">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="mozilla"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gdl">
+    <branch/>
+    <dependencies>
+      <dep package="libgnomeui"/>
+      <dep package="librsvg"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glade3">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="libbonoboui"/>
+      <dep package="libgnomeui"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-build">
+    <branch/>
+    <dependencies>
+      <dep package="gdl"/>
+      <dep package="gnome-vfs"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="gnome-devel-docs">
     <branch/>
@@ -1525,10 +1525,12 @@ g  <autotools id="gnome-netstatus">
 
   <metamodule id="meta-gnome-devtools-suite">
     <dependencies>
-      <dep package="devhelp"/>
-      <dep package="glade3"/>
       <dep package="accerciser"/>
       <dep package="anjuta"/>
+      <dep package="devhelp"/>
+      <dep package="gdl"/>
+      <dep package="glade3"/>
+      <dep package="gnome-build"/>
       <dep package="gnome-devel-docs"/>
     </dependencies>
   </metamodule>
