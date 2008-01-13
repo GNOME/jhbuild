@@ -281,6 +281,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-settings-daemon" supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="libgnomeui"/>
+      <dep package="esound"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libgnomekbd"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-control-center" autogenargs="--enable-gstreamer=0.10"
              supports-non-srcdir-builds="no">
     <branch/>
@@ -295,6 +308,7 @@
       <dep package="gnome-doc-utils"/>
       <dep package="gst-plugins-base"/>
       <dep package="gnome-panel"/>
+      <dep package="gnome-settings-daemon"/>
     </dependencies>
   </autotools>
 
