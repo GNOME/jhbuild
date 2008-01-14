@@ -294,19 +294,20 @@ class CVSBranch(Branch):
             else:
                 self._export(buildscript)
         elif self.checkout_mode in ('update', 'copy'):
-            copydir = None
             if self.checkout_mode == 'copy' and self.config.copy_dir:
                 copydir = self.config.copy_dir
-            else:
-                copydir = self.config.checkoutroot
-            if os.path.exists(os.path.join(copydir, 
-                              os.path.basename(self.srcdir), 'CVS')):
-                self._update(buildscript, copydir)
-            else:
-                self._wipedir(buildscript)
-                self._checkout(buildscript, copydir)
-            if self.checkout_mode == 'copy' and self.config.copy_dir is not None:
+                if os.path.exists(os.path.join(copydir, 
+                                  os.path.basename(self.srcdir), 'CVS')):
+                    self._update(buildscript, copydir)
+                else:
+                    self._wipedir(buildscript)
+                    self._checkout(buildscript, copydir)
                 self._copy(buildscript, copydir)
+            else:
+                if os.path.exists(self.srcdir):
+                    self._update(buildscript, copydir = self.config.checkoutroot)
+                else:
+                    self._checkout(buildscript, copydir = self.config.checkoutroot)
 
     def force_checkout(self, buildscript):
         self._checkout(buildscript)
