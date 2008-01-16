@@ -1853,6 +1853,31 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
         using a separate source directory.</para>
 
       </section>
+
+      <section id="moduleset-syntax-defs-cmake">
+        <title>cmake</title>
+
+        <para>The <sgmltag class="element">cmake</sgmltag> element is used to
+        define a module which is built using the CMake build system.</para>
+
+        <programlisting>
+&lt;cmake id="<replaceable>modulename</replaceable>"&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+&lt;/cmake&gt;
+</programlisting>
+
+      </section>
   
       <section id="moduleset-syntax-defs-distutils">
         <title>distutils</title>
@@ -1923,8 +1948,12 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<para>The <sgmltag class="element">perl</sgmltag> element
 	is used to build perl modules.</para>
 
+	<para>The <sgmltag class="attribute">makeargs</sgmltag> attribute
+	is used to specify additional arguments to pass to
+	<command>make</command>.</para>
+
 	<programlisting>
-&lt;perl id="<replaceable>perl</replaceable>"
+&lt;perl id="<replaceable>modulename</replaceable>"
 	 [ makeargs="<replaceable>makeargs</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
@@ -1942,6 +1971,36 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
 &lt;/perl&gt;
 </programlisting>
+      </section>
+
+      <section id="moduleset-syntax-defs-waf">
+        <title>waf</title>
+
+        <para>The <sgmltag class="element">waf</sgmltag> element is used to
+        define a module which is built using the Waf build system.</para>
+
+	<para>The <sgmltag class="attribute">waf-command</sgmltag> attribute
+	is used to specify the waf command script to use; it defaults to
+        <command>waf</command>.</para>
+
+        <programlisting>
+&lt;waf id="<replaceable>modulename</replaceable>"&gt;
+	 [ waf-command="<replaceable>waf-command</replaceable>" ]&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+&lt;/waf&gt;
+</programlisting>
+
       </section>
 
       <section id="moduleset-syntax-defs-testmodule">
