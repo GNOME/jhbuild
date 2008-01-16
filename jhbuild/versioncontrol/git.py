@@ -79,11 +79,14 @@ class GitBranch(Branch):
         self.tag = tag
 
     def srcdir(self):
+        path_elements = [self.checkoutroot]
         if self.checkoutdir:
-            return os.path.join(self.checkoutroot, self.checkoutdir, self.subdir)
+            path_elements.append(self.checkoutdir)
         else:
-            return os.path.join(self.checkoutroot,
-                                os.path.basename(self.module), self.subdir)
+            path_elements.append(os.path.basename(self.module))
+        if self.subdir:
+            path_elements.append(self.subdir)
+        return os.path.join(*path_elements)
     srcdir = property(srcdir)
 
     def get_checkoutdir(self, copydir=None):
