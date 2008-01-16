@@ -1514,167 +1514,230 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       developers and users to use different repository access
       methods).</para>
 
-      <section id="moduleset-syntax-sources-repository">
-        <title>repository</title>
-
-	<para>The <sgmltag class="element">repository</sgmltag>
-	element is used to describe all types of repository.</para>
+      <para>The <sgmltag class="element">repository</sgmltag>
+      element is used to describe all types of repository.</para>
 
 <programlisting>
 &lt;repository name="<replaceable>name</replaceable>"
-type="<replaceable>type</replaceable>"
-[ default="<replaceable>default</replaceable>" ]
-[ password="<replaceable>password</replaceable>" ]
-[ cvsroot="<replaceable>cvsroot</replaceable>" ]
-[ archive="<replaceable>archive</replaceable>" ]
-[ href="<replaceable>href</replaceable>" ]
-[ server="<replaceable>server</replaceable>" ]
-[ database="<replaceable>database</replaceable>" ]
-[ defbranch="<replaceable>defbranch</replaceable>" ]
-[ developer-href-example="<replaceable>developer-href-example</replaceable>" ] /&gt;
+  type="<replaceable>type</replaceable>"
+  [ default="<replaceable>default</replaceable>" ]
+  [ password="<replaceable>password</replaceable>" ]
+  [ cvsroot="<replaceable>cvsroot</replaceable>" ]
+  [ archive="<replaceable>archive</replaceable>" ]
+  [ href="<replaceable>href</replaceable>" ]
+  [ server="<replaceable>server</replaceable>" ]
+  [ database="<replaceable>database</replaceable>" ]
+  [ defbranch="<replaceable>defbranch</replaceable>" ]
+  [ developer-href-example="<replaceable>developer-href-example</replaceable>" ] /&gt;
 </programlisting>
 
-	<para>The <sgmltag class="attribute">name</sgmltag> attribute
-	is a unique identifier for the repository.</para>
+      <para>The <sgmltag class="attribute">name</sgmltag> attribute
+      is a unique identifier for the repository.</para>
 
-	<para>The <sgmltag class="attribute">type</sgmltag> attribute
-	specifies the type of repository.  It can be one of:
-	<literal>ch</literal>, <literal>bzr</literal>,
-	<literal>cvs</literal>, <literal>darcs</literal>,
-	<literal>git</literal>, <literal>hg</literal>,
-	<literal>svn</literal>, <literal>tarball</literal>,
-	<literal>arch</literal>, <literal>mtn</literal>.</para>
+      <para>The <sgmltag class="attribute">default</sgmltag>
+      attribute specifies whether this repository is the default
+      source for this module set.</para>
 
-	<para>The <sgmltag class="attribute">default</sgmltag>
-	attribute specifies whether this repository is the default
-	source for this module set.</para>
+      <para>The <sgmltag class="attribute">type</sgmltag> attribute
+      specifies the type of repository.  It can be one of:
+      <literal>arch</literal>, <literal>bzr</literal>,
+      <literal>cvs</literal>, <literal>darcs</literal>,
+      <literal>git</literal>, <literal>hg</literal>,
+      <literal>mtr</literal>, <literal>svn</literal>,
+      <literal>tarball</literal>.  Other attributes depends on the
+      <sgmltag class="attribute">type</sgmltag>, as well as the <sgmltag
+      class="element">branch</sgmltag> used inside module definitions.
+      Those are described below.</para>
 
-	<para>The <sgmltag class="attribute">password</sgmltag>
-	attribute is used to specify the password to the repository.
-	This attribute is only used by CVS repositories.</para>
+      <para>The <sgmltag class="attribute">developer-href-example</sgmltag>
+      attribute is used to specify the format of the URL for
+      the repository used by developers.  This is informational only.</para>
 
-	<para>The <sgmltag class="attribute">cvsroot</sgmltag>
-	attribute is used to specify the root of the CVS repository.
-	This attribute is only ued by CVS repositories.</para>
+      <section id="moduleset-syntax-sources-arch">
+        <title>Arch</title>
 
-	<para>The <sgmltag class="attribute">archive</sgmltag>
-	attribute is used to specify the archive to use.  This
-	attribute is only used by Arch repositories.</para>
+        <para>This repository type is used to define a Arch repository.</para>
 
-	<para>The <sgmltag class="attribute">href</sgmltag>
-	attribute is used to specify the URL of the repository.
-	This attribute is only used by Arch repositories.</para>
+        <para>The <sgmltag class="attribute">archive</sgmltag>
+        attribute is used to specify the archive to use.</para>
 
-	<para>The <sgmltag class="attribute">server</sgmltag>
-	attribute is used to specify the repository server.
-	This attribute is only used by Monotone repositories.</para>
+        <para>The <sgmltag class="attribute">href</sgmltag>
+        attribute is used to specify the URL of the repository.</para>
 
-	<para>The <sgmltag class="attribute">database</sgmltag>
-	attribute is used to specify the database to use for
-	the repository.  This attribute is only used by
-	Monotone repositories.</para>
-
-	<para>The <sgmltag class="attribute">defbranch</sgmltag>
-	attribute is used specify the branch of the repository
-	to use.  This attribute is only used by Monotone
-	repositories.</para>
-
-	<para>The <sgmltag class="attribute">developer-href-example</sgmltag>
-	attribute is used to specify the format of the URL for
-	the repository used by developers.</para>
-      </section>
-
-      <section id="moduleset-syntax-sources-cvsroot">
-	<title>cvsroot</title>
-
-	<para>The <sgmltag class="element">cvsroot</sgmltag> element
-	is now deprecated - the
-	<sgmltag class="element">repository</sgmltag> element should
-	be used instead.</para>
-
-	<para>The <sgmltag class="element">cvsroot</sgmltag> element
-	is used to describe a CVS repository.</para>
-
-	<programlisting>
-&lt;cvsroot name="<replaceable>rootname</replaceable>"
-         [ default="<replaceable>yes|no</replaceable>" ]
-         root="<replaceable>anon-cvsroot</replaceable>"
-         password="<replaceable>anon-password</replaceable>"/&gt;
+        <programlisting>
+&lt;repository type="arch" name="rhythmbox"
+    archive="rhythmbox-devel@gnome.org--2004"
+    href="http://web.rhythmbox.org/arch/2004"/&gt;
 </programlisting>
 
-        <para>The <sgmltag class="attribute">name</sgmltag> attribute
-        should be a unique identifier for the CVS repository.</para>
-
-	<para>The <sgmltag class="attribute">default</sgmltag>
-	attribute says whether this is the default module source for
-	this module set file.</para>
-
-	<para>The <sgmltag class="attribute">root</sgmltag> attribute
-	lists the CVS root used for anonymous access to this
-	repository, and the <sgmltag
-	class="attribute">password</sgmltag> attribute gives the
-	password used for anonymous access.</para>
       </section>
 
-      <section id="moduleset-syntax-sources-svnroot">
-	<title>svnroot</title>
+      <section id="moduleset-syntax-sources-bzr">
+        <title>Bazaar</title>
+        <para>This repository type is used to define a Bazaar repository.</para>
 
-	<para>The <sgmltag class="element">svnroot</sgmltag> element
-	is now deprecated - the
-	<sgmltag class="element">repository</sgmltag> element should
-	be used instead.</para>
+        <programlisting>
+&lt;repository type="bzr" name="launchpad.net"
+      href="http://bazaar.launchpad.net/"/&gt;
+</programlisting>
+      </section>
 
-	<para>The <sgmltag class="element">svnroot</sgmltag> element
-	is used to describe a Subversion repository.</para>
+      <section id="moduleset-syntax-sources-cvs">
+        <title>CVS</title>
+        <para>This repository type is used to define a CVS repository.</para>
 
-	<programlisting>
-&lt;svnroot name="<replaceable>rootname</replaceable>"
-         [ default="<replaceable>yes|no</replaceable>" ]
-         href="<replaceable>anon-svnroot</replaceable>"/&gt;
+        <para>The <sgmltag class="attribute">password</sgmltag>
+        attribute is used to specify the password to the repository.
+        </para>
+  
+        <para>The <sgmltag class="attribute">cvsroot</sgmltag>
+        attribute is used to specify the root of the repository.
+        </para>
+
+        <programlisting>
+&lt;repository type="cvs" name="tango.freedesktop.org"
+    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
+    password=""/&gt;
 </programlisting>
 
-        <para>The <sgmltag class="attribute">name</sgmltag> attribute
-        should be a unique identifier for the Subversion
-        repository.</para>
-
-	<para>If <sgmltag class="attribute">default</sgmltag>
-	attribute says whether this is the default module source for
-	this module set file.</para>
-
-	<para>The <sgmltag class="attribute">href</sgmltag> attribute
-	lists the base URL for the repository.  This will probably be
-	either a <literal>http</literal>, <literal>https</literal> or
-	<literal>svn</literal> URL.</para>
       </section>
 
-      <section id="moduleset-syntax-sources-arch-archive">
-	<title>arch-archive</title>
+      <section id="moduleset-syntax-sources-darcs">
+        <title>Darcs</title>
+        <para>This repository type is used to define a Darcs repository.</para>
 
-	<para>The <sgmltag class="element">arch-archive</sgmltag> element
-	is now deprecated - the
-	<sgmltag class="element">repository</sgmltag> element should
-	be used instead.</para>
+        <programlisting>
+&lt;repository type="darcs" name="telepathy.freedesktop.org"
+      href="http://projects.collabora.co.uk/darcs/telepathy/"/&gt;
+</programlisting>
+      </section>
 
+      <section id="moduleset-syntax-sources-git">
+        <title>Git</title>
+        <para>This repository type is used to define a Git repository.</para>
 
-	<para>The <sgmltag class="element">arch-archive</sgmltag> element
-	is used to describe a GNU Arch archive.</para>
-
-	<programlisting>
-&lt;arch-archive name="<replaceable>archivename</replaceable>"
-              [ default="<replaceable>yes|no</replaceable>" ]
-              href="<replaceable>mirror-url</replaceable>"/&gt;
+        <programlisting>
+&lt;repository type="git" name="git.freedesktop.org"
+    href="git://anongit.freedesktop.org/git/"/&gt;
 </programlisting>
 
-        <para>The <sgmltag class="attribute">name</sgmltag> attribute
-        should be the Arch archive name.</para>
+        <programlisting>
+&lt;branch repo="git.freedesktop.org" module="swfdec/swfdec"
+    checkoutdir="swfdec"/&gt;
+</programlisting>
 
-	<para>If <sgmltag class="attribute">default</sgmltag>
-	attribute says whether this is the default module source for
-	this module set file.</para>
 
-	<para>The <sgmltag class="attribute">href</sgmltag> attribute
-	lists a public mirror URL for the archive.</para>
       </section>
+
+      <section id="moduleset-syntax-sources-hg">
+        <title>Mercurial</title>
+        <para>This repository type is used to define a Mercurial repository.</para>
+
+        <programlisting>
+&lt;repository type="hg" name="hg.gtk-vnc"
+    href="http://gtk-vnc.codemonkey.ws/hg/" /&gt;
+</programlisting>
+
+        <programlisting>
+&lt;branch repo="hg.gtk-vnc" module="outgoing.hg" checkoutdir="gtk-vnc"/&gt;
+</programlisting>
+
+      </section>
+
+      <section id="moduleset-syntax-sources-mtn">
+        <title>Monotone</title>
+        <para>This repository type is used to define a Monotone repository.</para>
+
+        <para>The <sgmltag class="attribute">server</sgmltag>
+        attribute is used to specify the repository server.</para>
+  
+        <para>The <sgmltag class="attribute">database</sgmltag>
+        attribute is used to specify the database to use for
+        the repository.</para>
+  
+        <para>The <sgmltag class="attribute">defbranch</sgmltag>
+        attribute is used specify the branch of the repository
+        to use.</para>
+
+        <programlisting>
+&lt;repository type="mtn" name="pidgin.im"
+    server="pidgin.im" database="pidgin.im.mtn"
+    defbranch="im.pidgin.pidgin"/&gt;
+</programlisting>
+
+      </section>
+
+      <section id="moduleset-syntax-sources-svn">
+        <title>Subversion</title>
+        <para>This repository type is used to define a Subversion repository.</para>
+
+        <programlisting>
+&lt;repository type="svn" name="svn.gnome.org" default="yes"
+    href="http://svn.gnome.org/svn/"/&gt;
+</programlisting>
+
+        <para>It allows a <sgmltag class="attribute">revision</sgmltag>
+        on the <sgmltag class="element">branch</sgmltag> element.  This
+        attribute defines the branch to checkout or, if it is a number,
+        a specific revision to checkout.</para>
+
+        <programlisting>
+&lt;branch revision="gnome-2-20"/&gt;
+</programlisting>
+
+      </section>
+
+      <section id="moduleset-syntax-sources-tarball">
+        <title>Tarballs</title>
+        <para>This repository type is used to define a tarball repository.</para>
+
+        <programlisting>
+&lt;repository type="tarball" name="dbus/dbus-python"
+    href="http://dbus.freedesktop.org/releases/dbus-python/"/&gt;
+</programlisting>
+
+        <para>It allows the following attributes on the <sgmltag
+	class="element">branch</sgmltag> element:</para>
+
+        <para>The <sgmltag class="attribute">module</sgmltag> attribute
+        specifies the file to download and compile, the <sgmltag
+	class="attribute">version</sgmltag> attribute specifies the
+	module version.</para>
+
+        <para>The <sgmltag class="attribute">size</sgmltag> and <sgmltag
+        class="attribute">md5sum</sgmltag> attributes are optional.
+        If these two attributes are present, they are used to check
+        that the source package was downloaded correctly.</para>
+
+        <para>The <sgmltag class="element">patches</sgmltag> element
+        is used to specify one or more patches to apply to the source
+        tree after unpacking, the <sgmltag class="attribute">file</sgmltag>
+        attribute gives the patch filename, and the <sgmltag
+        class="attribute">strip</sgmltag> attribute says how
+        many levels of directories to prune when applying the
+        patch.</para>
+
+        <para>For module sets shipped with JHbuild, the patch files are
+        looked up in the <filename>jhbuild/patches/</filename> directory;
+        for module sets referred by URI, the patch files are looked for
+        in the same directory as the moduleset file, or in its
+        <filename>patches/</filename> subdirectory.  It is also possible
+        for the <sgmltag class="attribute">file</sgmltag> attribute to
+        specify a URI, in which case it will be downloaded from that location.
+        </para>
+
+        <programlisting>
+&lt;branch module="dbus-python-0.80.2.tar.gz" version="0.80.2"
+    repo="dbus/dbus-python"
+    md5sum="2807bc85215c995bd595e01edd9d2077" size="453499"&gt;
+  &lt;patches&gt;
+    &lt;patch file="dbus-glib-build.patch" strip="1" /&gt;
+  &lt;/patches&gt;
+&lt;branch&gt;
+</programlisting>
+          
+      </section>
+
     </section>
 
     <section id="moduleset-syntax-includes">
@@ -1706,228 +1769,25 @@ type="<replaceable>type</replaceable>"
       used in a module set file, and the list can easily be extended.
       Only the most common ones will be mentioned here.</para>
 
-      <section id="moduleset-syntax-defs-cvsmodule">
-	<title>cvsmodule</title>
+      <para>They are all basically composed of a <sgmltag
+      class="element">branch</sgmltag> element describing how to get
+      the module and <sgmltag class="element">dependencies</sgmltag>,
+      <sgmltag class="element">suggests</sgmltag> and
+      <sgmltag class="element">after</sgmltag> elements
+      to declare the dependencies of the module.</para>
+      
+      <para>Any modules listed
+      in the <sgmltag class="element">dependencies</sgmltag> element
+      will be added to the module list for <command>jhbuild
+      build</command> if it isn't already included, and make sure
+      the dependent modules are built first.</para>
 
-	<para>The <sgmltag class="element">cvsmodule</sgmltag> element
-	is now deprecated.  The appropriate build system's module should
-	be used instead.</para>
-
-	<para>The <sgmltag class="element">cvsmodule</sgmltag> element
-	is used to define a module that is to be built from
-	CVS.</para>
-
-	<programlisting>
-&lt;cvsmodule module="<replaceable>modulename</replaceable>"
-           [ revision="<replaceable>branch-or-tag</replaceable>" ]
-           [ checkoutdir="<replaceable>directory</replaceable>" ]
-           [ root="<replaceable>rootname</replaceable>" ]
-           [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-           [ makeargs="<replaceable>makeargs</replaceable>" ]
-           [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-  &lt;dependencies&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/dependencies&gt;
-  &lt;suggests&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/suggests&gt;
-  &lt;after&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &gt;
-&lt;/cvsmodule&gt;
-</programlisting>
-
-        <para>The <sgmltag class="attribute">module</sgmltag>,
-        <sgmltag class="attribute">revision</sgmltag> and <sgmltag
-        class="attribute">root</sgmltag> attributes identify the
-        module to check out from CVS.  The <sgmltag
-        class="attribute">checkoutdir</sgmltag> attribute can be used
-        to specify an alternative directory to check out to (by
-        default, the value of <sgmltag
-        class="attribute">module</sgmltag> is used).</para>
-
-	<para>The <sgmltag class="attribute">autogenargs</sgmltag>,
-	<sgmltag class="attribute">makeargs</sgmltag> and <sgmltag
-	class="attribute">supports-non-srcdir-builds</sgmltag>
-	attributes are common to many different module types.  The
-	<sgmltag class="attribute">autogenargs</sgmltag> attribute
-	lists additional arguments to be passed to
-	<command>autogen.sh</command>, and <sgmltag
-	class="attribute">makeargs</sgmltag> lists additional
-	arguments to be passed to <command>make</command>.  The
-	<sgmltag
-	class="attribute">supports-non-srcdir-builds</sgmltag>
-	attribute is used to mark modules that can't be cleanly built
-	using a separate source directory.</para>
-
-	<para>The <sgmltag class="element">dependencies</sgmltag>,
-	<sgmltag class="element">suggests</sgmltag> and
-	<sgmltag class="element">after</sgmltag> elements are used
-	to declare the dependencies of the module.  Any modules listed
-	in the <sgmltag class="element">dependencies</sgmltag> element
-	will be added to the module list for <command>jhbuild
-	build</command> if it isn't already included, and make sure
-	the dependent modules are built first.</para>
-
-	<para>After generating the modules list, the modules listed in
-	the <sgmltag class="element">suggests</sgmltag> element will
-	be used to further sort the modules list (although it will not
-	pull any additional modules).  This is intended for cases
-	where a module has an optional dependency on another
-	module.</para>
-      </section>
-
-      <section id="moduleset-syntax-defs-svnmodule">
-	<title>svnmodule</title>
-
-	<para>The <sgmltag class="element">svnmodule</sgmltag> element
-	is now deprecated.  The appropriate build system's module should
-	be used instead.</para>
-
-	<para>The <sgmltag class="element">svnmodule</sgmltag> element
-	is used to define a module that is to be built from
-	Subversion.</para>
-
-	<programlisting>
-&lt;svnmodule module="<replaceable>modulename</replaceable>"
-           [ checkoutdir="<replaceable>directory</replaceable>" ]
-           [ root="<replaceable>rootname</replaceable>" ]
-           [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-           [ makeargs="<replaceable>makeargs</replaceable>" ]
-           [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-  &lt;dependencies&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/dependencies&gt;
-  &lt;suggests&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/suggests&gt;
-  &lt;after&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/after&gt;
-&lt;/svnmodule&gt;
-</programlisting>
-        <para>The <sgmltag class="attribute">module</sgmltag>
-        attribute gives the path of the module relative to the
-        repository URI.  All other options for this element are
-        processed as for <link
-        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-        class="element">cvsmodule</sgmltag></link>.</para>
-      </section>
-
-      <section id="moduleset-syntax-defs-archmodule">
-	<title>archmodule</title>
-
-	<para>The <sgmltag class="element">archmodule</sgmltag> element
-	is now deprecated.  The appropriate build system's module should
-	be used instead.</para>
-
-	<para>The <sgmltag class="element">archmodule</sgmltag> element
-	is used to define a module that is to be built from
-	a GNU Arch archive.</para>
-
-	<programlisting>
-&lt;archmodule version="<replaceable>modulename</replaceable>"
-            [ checkoutdir="<replaceable>directory</replaceable>" ]
-            [ root="<replaceable>rootname</replaceable>" ]
-            [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-            [ makeargs="<replaceable>makeargs</replaceable>" ]
-            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-  &lt;dependencies&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/dependencies&gt;
-  &lt;suggests&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/suggests&gt;
-  &lt;after&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/after&gt;
-&lt;/archmodule&gt;
-</programlisting>
-        <para>The <sgmltag class="attribute">version</sgmltag>
-        attribute gives the version to be checked out from the archive
-        specified by <sgmltag class="attribute">root</sgmltag>.  All
-        other options for this element are processed as for <link
-        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-        class="element">cvsmodule</sgmltag></link>.</para>
-      </section>
-
-      <section id="moduleset-syntax-defs-tarball">
-	<title>tarball</title>
-
-	<para>The <sgmltag class="element">tarball</sgmltag> element
-	is used to define a module that is to be built from
-	a tarball.</para>
-
-	<programlisting>
-&lt;tarball id="<replaceable>modulename</replaceable>"
-            [ version="<replaceable>version</replaceable>" ]
-	    [ checkourdir="<replaceable>checkoutdir</replaceable>" ]
-            [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-            [ makeargs="<replaceable>makeargs</replaceable>" ]
-	    [ autogen-sh="<replaceable>autogen-sh</replaceable>" ]
-            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-  &lt;source href="<replaceable>source-url</replaceable>"
-          [ size="<replaceable>source-size</replaceable>" ]
-          [ md5sum="<replaceable>source-md5sum</replaceable>" ]/&gt;
-  &lt;patches&gt;
-    &lt;patch file="<replaceable>filename</replaceable>" strip="<replaceable>level</replaceable>"/&gt;
-    ...
-  &lt;/patches&gt;
-  &lt;dependencies&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/dependencies&gt;
-  &lt;suggests&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/suggests&gt;
-&lt;/tarball&gt;
-</programlisting>
-        <para>The <sgmltag class="attribute">id</sgmltag> and <sgmltag
-        class="attribute">version</sgmltag> attributes are used to
-        identify the module.</para>
-
-	<para>The <sgmltag class="element">source</sgmltag> element
-	specifies the file to download and compile.  The <sgmltag
-	class="attribute">href</sgmltag> attribute is mandatory, while
-	the <sgmltag class="attribute">size</sgmltag> and <sgmltag
-	class="attribute">md5sum</sgmltag> attributes are optional.
-	If these last two attributes are present, they are used to check
-	that the source package was downloaded correctly.</para>
-
-	<para>The <sgmltag class="element">patches</sgmltag> element
-	is used to specify one or more patches to apply to the source
-	tree after unpacking, the <sgmltag class="attribute">file</sgmltag>
-	attribute gives the patch filename, and the <sgmltag
-	class="attribute">strip</sgmltag> attribute says how
-	many levels of directories to prune when applying the
-	patch.</para>
-
-	<para>For module sets shipped with JHbuild, the patch files are
-	looked up in the <filename>jhbuild/patches/</filename> directory;
-	for module sets referred by URI, the patch files are looked for
-	in the same directory as the moduleset file, or in its
-	<filename>patches/</filename> subdirectory.  It is also possible
-	for the <sgmltag class="attribute">file</sgmltag> attribute to
-	specify a URI, in which case it will be downloaded from that location.
-	</para>
-	
-	<para>The other attributes and the <sgmltag
-	class="element">dependencies</sgmltag> and <sgmltag
-	class="element">suggests</sgmltag> sub-elements are processed
-	as for <link
-	linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-	class="element">cvsmodule</sgmltag></link>.</para>
-      </section>
+      <para>After generating the modules list, the modules listed in
+      the <sgmltag class="element">suggests</sgmltag> element will
+      be used to further sort the modules list (although it will not
+      pull any additional modules).  This is intended for cases
+      where a module has an optional dependency on another
+      module.</para>
 
       <section id="moduleset-syntax-defs-autotools">
         <title>autotools</title>
@@ -1946,24 +1806,21 @@ type="<replaceable>type</replaceable>"
 	      [ skip-autogen="<replaceable>skip-autogen</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
 
-&lt;branch [ repo="<replaceable>repo</replaceable>" ]
-	   [ module="<replaceable>module</replaceable>" ]
-	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
-	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
-	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
-	   [ revision="<replaceable>revision</replaceable>" ]
-	   [ tag="<replaceable>tag</replaceable>" ]
-	   [ version="<replaceable>version</replaceable>" ]
-	   [ size="<replaceable>size</replaceable>" ]
-	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
 
-&lt;patch file="<replaceable>file</replaceable>"
-	  [ strip="<replaceable>0</replaceable>" ] /&gt;
-
-&lt;/branch&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
 
 &lt;/autotools&gt;
-	</programlisting>
+</programlisting>
 
 	<para>The <sgmltag class="attribute">autogenargs</sgmltag> and
 	<sgmltag class="attribute">makeargs</sgmltag> and
@@ -1979,15 +1836,12 @@ type="<replaceable>type</replaceable>"
 	<sgmltag class="attribute">makefile</sgmltag> specifies the
 	filename of the makefile to use.</para>
 
-	<para>The other attributes and the <sgmltag
-	class="element">dependencies</sgmltag> and <sgmltag
-	class="element">suggests</sgmltag> sub-elements are processed
-	as for <link
-	linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-	class="element">cvsmodule</sgmltag></link>.</para>
+        <para>The <sgmltag
+        class="attribute">supports-non-srcdir-builds</sgmltag>
+        attribute is used to mark modules that can't be cleanly built
+        using a separate source directory.</para>
+
       </section>
-
-
   
       <section id="moduleset-syntax-defs-distutils">
         <title>distutils</title>
@@ -1999,6 +1853,10 @@ type="<replaceable>type</replaceable>"
 	<programlisting>
 &lt;distutils id="<replaceable>modulename</replaceable>"
             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
   &lt;dependencies&gt;
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
@@ -2007,24 +1865,6 @@ type="<replaceable>type</replaceable>"
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
   &lt;/after&gt;
-
-  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
-	   [ module="<replaceable>module</replaceable>" ]
-	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
-	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
-	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
-	   [ revision="<replaceable>revision</replaceable>" ]
-	   [ tag="<replaceable>tag</replaceable>" ]
-	   [ version="<replaceable>version</replaceable>" ]
-	   [ size="<replaceable>size</replaceable>" ]
-	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
-
-    &lt;patch file="<replaceable>file</replaceable>"
-  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
-
-&lt;/branch&gt;
-
-
 &lt;/distutils&gt;
 </programlisting>
 
@@ -2043,6 +1883,10 @@ type="<replaceable>type</replaceable>"
 &lt;linux id="<replaceable>id</replaceable>"
 	  [ makeargs="<replaceable>makeargs</replaceable>" ]&gt;
 
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
   &lt;dependencies&gt;
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
@@ -2052,29 +1896,13 @@ type="<replaceable>type</replaceable>"
     ...
   &lt;/after&gt;
 
-  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
-	   [ module="<replaceable>module</replaceable>" ]
-	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
-	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
-	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
-	   [ revision="<replaceable>revision</replaceable>" ]
-	   [ tag="<replaceable>tag</replaceable>" ]
-	   [ version="<replaceable>version</replaceable>" ]
-	   [ size="<replaceable>size</replaceable>" ]
-	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
-
-    &lt;patch file="<replaceable>file</replaceable>"
-  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
-
-&lt;/branch&gt;
-
-&lt;kconfig [ repo="<replaceable>repo</replaceable>" ]
+  &lt;kconfig [ repo="<replaceable>repo</replaceable>" ]
 	    version="<replaceable>version</replaceable>"
 	    [ module="<replaceable>module</replaceable>" ]
 	    [ config="<replaceable>config</replaceable>" ] /&gt;
 
 &lt;/linux&gt;
-	</programlisting>
+</programlisting>
 
       </section>
 
@@ -2088,6 +1916,10 @@ type="<replaceable>type</replaceable>"
 &lt;perl id="<replaceable>perl</replaceable>"
 	 [ makeargs="<replaceable>makeargs</replaceable>" ]&gt;
 
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
   &lt;dependencies&gt;
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
@@ -2097,24 +1929,8 @@ type="<replaceable>type</replaceable>"
     ...
   &lt;/after&gt;
 
-  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
-	   [ module="<replaceable>module</replaceable>" ]
-	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
-	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
-	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
-	   [ revision="<replaceable>revision</replaceable>" ]
-	   [ tag="<replaceable>tag</replaceable>" ]
-	   [ version="<replaceable>version</replaceable>" ]
-	   [ size="<replaceable>size</replaceable>" ]
-	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
-
-    &lt;patch file="<replaceable>file</replaceable>"
-  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
-
-&lt;/branch&gt;
-
 &lt;/perl&gt;
-	</programlisting>
+</programlisting>
       </section>
 
       <section id="moduleset-syntax-defs-testmodule">
@@ -2128,6 +1944,10 @@ type="<replaceable>type</replaceable>"
 &lt;testmodule id="<replaceable>id</replaceable>"
 	       type="<replaceable>type</replaceable>"&gt;
 
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
   &lt;dependencies&gt;
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
@@ -2137,28 +1957,12 @@ type="<replaceable>type</replaceable>"
     ...
   &lt;/after&gt;
 
-  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
-	   [ module="<replaceable>module</replaceable>" ]
-	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
-	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
-	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
-	   [ revision="<replaceable>revision</replaceable>" ]
-	   [ tag="<replaceable>tag</replaceable>" ]
-	   [ version="<replaceable>version</replaceable>" ]
-	   [ size="<replaceable>size</replaceable>" ]
-	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
-
-    &lt;patch file="<replaceable>file</replaceable>"
-  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
-
-&lt;/branch&gt;
-
-&lt;testedmodules&gt;
-&lt;tested package="<replaceable>package</replaceable>" /&gt;
-&lt;/testedmodules&gt;
+  &lt;testedmodules&gt;
+    &lt;tested package="<replaceable>package</replaceable>" /&gt;
+  &lt;/testedmodules&gt;
 
 &lt;/testmodule&gt;
-	</programlisting>
+</programlisting>
 
       </section>
 
@@ -2193,6 +1997,340 @@ type="<replaceable>type</replaceable>"
         class="element">cvsmodule</sgmltag></link>.</para>
       </section>
     </section>
+
+    <section id="moduleset-deprecated-elements">
+      <title>Deprecated Elements</title>
+
+      <section id="moduleset-deprecated-elements-syntax-sources">
+        <title>Module Sources</title>
+
+        <section id="moduleset-syntax-sources-cvsroot">
+          <title>cvsroot</title>
+  
+          <para>The <sgmltag class="element">cvsroot</sgmltag> element
+          is now deprecated - the
+          <sgmltag class="element">repository</sgmltag> element should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">cvsroot</sgmltag> element
+          is used to describe a CVS repository.</para>
+  
+          <programlisting>
+  &lt;cvsroot name="<replaceable>rootname</replaceable>"
+           [ default="<replaceable>yes|no</replaceable>" ]
+           root="<replaceable>anon-cvsroot</replaceable>"
+           password="<replaceable>anon-password</replaceable>"/&gt;
+</programlisting>
+  
+          <para>The <sgmltag class="attribute">name</sgmltag> attribute
+          should be a unique identifier for the CVS repository.</para>
+  
+          <para>The <sgmltag class="attribute">default</sgmltag>
+          attribute says whether this is the default module source for
+          this module set file.</para>
+  
+          <para>The <sgmltag class="attribute">root</sgmltag> attribute
+          lists the CVS root used for anonymous access to this
+          repository, and the <sgmltag
+          class="attribute">password</sgmltag> attribute gives the
+          password used for anonymous access.</para>
+        </section>
+  
+        <section id="moduleset-syntax-sources-svnroot">
+          <title>svnroot</title>
+  
+          <para>The <sgmltag class="element">svnroot</sgmltag> element
+          is now deprecated - the
+          <sgmltag class="element">repository</sgmltag> element should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">svnroot</sgmltag> element
+          is used to describe a Subversion repository.</para>
+  
+          <programlisting>
+  &lt;svnroot name="<replaceable>rootname</replaceable>"
+           [ default="<replaceable>yes|no</replaceable>" ]
+           href="<replaceable>anon-svnroot</replaceable>"/&gt;
+</programlisting>
+  
+          <para>The <sgmltag class="attribute">name</sgmltag> attribute
+          should be a unique identifier for the Subversion
+          repository.</para>
+  
+          <para>If <sgmltag class="attribute">default</sgmltag>
+          attribute says whether this is the default module source for
+          this module set file.</para>
+  
+          <para>The <sgmltag class="attribute">href</sgmltag> attribute
+          lists the base URL for the repository.  This will probably be
+          either a <literal>http</literal>, <literal>https</literal> or
+          <literal>svn</literal> URL.</para>
+        </section>
+  
+        <section id="moduleset-syntax-sources-arch-archive">
+          <title>arch-archive</title>
+  
+          <para>The <sgmltag class="element">arch-archive</sgmltag> element
+          is now deprecated - the
+          <sgmltag class="element">repository</sgmltag> element should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">arch-archive</sgmltag> element
+          is used to describe a GNU Arch archive.</para>
+  
+          <programlisting>
+  &lt;arch-archive name="<replaceable>archivename</replaceable>"
+                [ default="<replaceable>yes|no</replaceable>" ]
+                href="<replaceable>mirror-url</replaceable>"/&gt;
+</programlisting>
+  
+          <para>The <sgmltag class="attribute">name</sgmltag> attribute
+          should be the Arch archive name.</para>
+  
+          <para>If <sgmltag class="attribute">default</sgmltag>
+          attribute says whether this is the default module source for
+          this module set file.</para>
+  
+          <para>The <sgmltag class="attribute">href</sgmltag> attribute
+          lists a public mirror URL for the archive.</para>
+        </section>
+      </section> <!-- end of deprecated module sources -->
+
+      <section>
+        <title>Deprecated Module Types</title>
+
+        <warning>
+        <para>This section describes deprecated elements, they may still be
+        used in existing module sets but it is advised not to use them anymore.
+        </para>
+        </warning>
+  
+        <section id="moduleset-syntax-defs-cvsmodule">
+          <title>cvsmodule</title>
+  
+          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
+          is now deprecated.  The appropriate build system's module should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
+          is used to define a module that is to be built from
+          CVS.</para>
+  
+          <programlisting>
+  &lt;cvsmodule module="<replaceable>modulename</replaceable>"
+             [ revision="<replaceable>branch-or-tag</replaceable>" ]
+             [ checkoutdir="<replaceable>directory</replaceable>" ]
+             [ root="<replaceable>rootname</replaceable>" ]
+             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+             [ makeargs="<replaceable>makeargs</replaceable>" ]
+             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+    &lt;dependencies&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/dependencies&gt;
+    &lt;suggests&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/suggests&gt;
+    &lt;after&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &gt;
+  &lt;/cvsmodule&gt;
+</programlisting>
+  
+          <para>The <sgmltag class="attribute">module</sgmltag>,
+          <sgmltag class="attribute">revision</sgmltag> and <sgmltag
+          class="attribute">root</sgmltag> attributes identify the
+          module to check out from CVS.  The <sgmltag
+          class="attribute">checkoutdir</sgmltag> attribute can be used
+          to specify an alternative directory to check out to (by
+          default, the value of <sgmltag
+          class="attribute">module</sgmltag> is used).</para>
+  
+          <para>The <sgmltag class="attribute">autogenargs</sgmltag>,
+          <sgmltag class="attribute">makeargs</sgmltag> and <sgmltag
+          class="attribute">supports-non-srcdir-builds</sgmltag>
+          attributes are common to many different module types.  The
+          <sgmltag class="attribute">autogenargs</sgmltag> attribute
+          lists additional arguments to be passed to
+          <command>autogen.sh</command>, and <sgmltag
+          class="attribute">makeargs</sgmltag> lists additional
+          arguments to be passed to <command>make</command>.  The
+          <sgmltag
+          class="attribute">supports-non-srcdir-builds</sgmltag>
+          attribute is used to mark modules that can't be cleanly built
+          using a separate source directory.</para>
+  
+          <para>The <sgmltag class="element">dependencies</sgmltag>,
+          <sgmltag class="element">suggests</sgmltag> and
+          <sgmltag class="element">after</sgmltag> elements are processed
+          as for <link
+          linkend="moduleset-syntax-defs-autotools">autotools</link>.
+          </para>
+
+        </section>
+  
+        <section id="moduleset-syntax-defs-svnmodule">
+          <title>svnmodule</title>
+  
+          <para>The <sgmltag class="element">svnmodule</sgmltag> element
+          is now deprecated.  The appropriate build system's module should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">svnmodule</sgmltag> element
+          is used to define a module that is to be built from
+          Subversion.</para>
+  
+          <programlisting>
+  &lt;svnmodule module="<replaceable>modulename</replaceable>"
+             [ checkoutdir="<replaceable>directory</replaceable>" ]
+             [ root="<replaceable>rootname</replaceable>" ]
+             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+             [ makeargs="<replaceable>makeargs</replaceable>" ]
+             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+    &lt;dependencies&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/dependencies&gt;
+    &lt;suggests&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/suggests&gt;
+    &lt;after&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/after&gt;
+  &lt;/svnmodule&gt;
+</programlisting>
+          <para>The <sgmltag class="attribute">module</sgmltag>
+          attribute gives the path of the module relative to the
+          repository URI.  All other options for this element are
+          processed as for <link
+          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+          class="element">cvsmodule</sgmltag></link>.</para>
+        </section>
+  
+        <section id="moduleset-syntax-defs-archmodule">
+          <title>archmodule</title>
+  
+          <para>The <sgmltag class="element">archmodule</sgmltag> element
+          is now deprecated.  The appropriate build system's module should
+          be used instead.</para>
+  
+          <para>The <sgmltag class="element">archmodule</sgmltag> element
+          is used to define a module that is to be built from
+          a GNU Arch archive.</para>
+  
+          <programlisting>
+  &lt;archmodule version="<replaceable>modulename</replaceable>"
+              [ checkoutdir="<replaceable>directory</replaceable>" ]
+              [ root="<replaceable>rootname</replaceable>" ]
+              [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+              [ makeargs="<replaceable>makeargs</replaceable>" ]
+              [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+    &lt;dependencies&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/dependencies&gt;
+    &lt;suggests&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/suggests&gt;
+    &lt;after&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/after&gt;
+  &lt;/archmodule&gt;
+</programlisting>
+          <para>The <sgmltag class="attribute">version</sgmltag>
+          attribute gives the version to be checked out from the archive
+          specified by <sgmltag class="attribute">root</sgmltag>.  All
+          other options for this element are processed as for <link
+          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+          class="element">cvsmodule</sgmltag></link>.</para>
+        </section>
+  
+        <section id="moduleset-syntax-defs-tarball">
+          <title>tarball</title>
+
+          <important>
+          <para>The <sgmltag class="element">tarball</sgmltag> element
+          is now deprecated.  The appropriate build type module should
+          be used instead.  As a transitive measure this element has
+          however been reimplemented as a thin wrapper around both <sgmltag
+          class="element">autotools</sgmltag> module type and <sgmltag
+          class="element">tarball</sgmltag> repository type.
+          </para>
+          </important>
+  
+          <para>The <sgmltag class="element">tarball</sgmltag> element
+          is used to define a module that is to be built from
+          a tarball.</para>
+  
+          <programlisting>
+  &lt;tarball id="<replaceable>modulename</replaceable>"
+              [ version="<replaceable>version</replaceable>" ]
+              [ checkourdir="<replaceable>checkoutdir</replaceable>" ]
+              [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+              [ makeargs="<replaceable>makeargs</replaceable>" ]
+              [ autogen-sh="<replaceable>autogen-sh</replaceable>" ]
+              [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+    &lt;source href="<replaceable>source-url</replaceable>"
+            [ size="<replaceable>source-size</replaceable>" ]
+            [ md5sum="<replaceable>source-md5sum</replaceable>" ]/&gt;
+    &lt;patches&gt;
+      &lt;patch file="<replaceable>filename</replaceable>" strip="<replaceable>level</replaceable>"/&gt;
+      ...
+    &lt;/patches&gt;
+    &lt;dependencies&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/dependencies&gt;
+    &lt;suggests&gt;
+      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+      ...
+    &lt;/suggests&gt;
+  &lt;/tarball&gt;
+</programlisting>
+          <para>The <sgmltag class="attribute">id</sgmltag> and <sgmltag
+          class="attribute">version</sgmltag> attributes are used to
+          identify the module.</para>
+  
+          <para>The <sgmltag class="element">source</sgmltag> element
+          specifies the file to download and compile.  The <sgmltag
+          class="attribute">href</sgmltag> attribute is mandatory, while
+          the <sgmltag class="attribute">size</sgmltag> and <sgmltag
+          class="attribute">md5sum</sgmltag> attributes are optional.
+          If these last two attributes are present, they are used to check
+          that the source package was downloaded correctly.</para>
+  
+          <para>The <sgmltag class="element">patches</sgmltag> element
+          is used to specify one or more patches to apply to the source
+          tree after unpacking, the <sgmltag class="attribute">file</sgmltag>
+          attribute gives the patch filename, and the <sgmltag
+          class="attribute">strip</sgmltag> attribute says how
+          many levels of directories to prune when applying the
+          patch.</para>
+  
+          <para>For module sets shipped with JHbuild, the patch files are
+          looked up in the <filename>jhbuild/patches/</filename> directory;
+          for module sets referred by URI, the patch files are looked for
+          in the same directory as the moduleset file, or in its
+          <filename>patches/</filename> subdirectory.  It is also possible
+          for the <sgmltag class="attribute">file</sgmltag> attribute to
+          specify a URI, in which case it will be downloaded from that location.
+          </para>
+          
+          <para>The other attributes and the <sgmltag
+          class="element">dependencies</sgmltag> and <sgmltag
+          class="element">suggests</sgmltag> sub-elements are processed
+          as for <link
+          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+          class="element">cvsmodule</sgmltag></link>.</para>
+        </section>
+      </section> <!-- end of deprecated module types -->
+    </section> <!-- end of deprecated elements -->
   </section>
 
   <section id="faq">
