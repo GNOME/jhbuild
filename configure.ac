@@ -1,4 +1,5 @@
-AC_INIT([jhbuild], [0.1], [james@jamesh.id.au])
+AC_INIT([jhbuild], [2.21.5],
+		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE
 GNOME_COMMON_INIT
