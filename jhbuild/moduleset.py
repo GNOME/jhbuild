@@ -132,7 +132,7 @@ class ModuleSet:
     def write_dot(self, modules=None, fp=sys.stdout):
         from jhbuild.modtypes import MetaModule
         from jhbuild.modtypes.autotools import AutogenModule
-        from jhbuild.modtypes.tarball import Tarball
+        from jhbuild.versioncontrol.tarball import TarballBranch
         
         if modules is None:
             modules = self.modules.keys()
@@ -154,15 +154,14 @@ class ModuleSet:
             if isinstance(mod, MetaModule):
                 attrs = '[color="lightcoral",style="filled",' \
                         'label="%s"]' % mod.name
-            elif isinstance(mod, Tarball):
-                attrs = '[color="lightgoldenrod",style="filled",' \
-                        'label="%s\\n%s"]' % (mod.name, mod.version)
             else:
                 label = mod.name
+                color = 'lightskyblue'
                 if mod.branch.branchname:
                     label += '\\n(%s)' % mod.branch.branchname
-                attrs = '[color="lightskyblue",style="filled",label="%s"]' % \
-                        label
+                if isinstance(mod.branch, TarballBranch):
+                    color = 'lightgoldenrod'
+                attrs = '[color="%s",style="filled",label="%s"]' % (color, label)
             fp.write('  "%s" %s;\n' % (modname, attrs))
             del modules[0]
             
