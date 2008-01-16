@@ -14,13 +14,25 @@
         <firstname>C.J.</firstname>
         <surname>Adams-Collier</surname>
       </author>
+      <author>
+        <firstname>Frederic</firstname>
+        <surname>Peters</surname>
+      </author>
+      <author>
+        <firstname>David</firstname>
+        <surname>Turner</surname>
+      </author>
     </authorgroup>
     <copyright>
-      <year>2004,2007</year>
+      <year>2004, 2008</year>
       <holder>James Henstridge</holder>
     </copyright>
 
     <revhistory>
+      <revision>
+        <revnumber>JHBuild Manual v0.5</revnumber>
+        <date>January 2008</date>
+      </revision>
       <revision>
         <revnumber>JHBuild Manual v0.1</revnumber>
         <date>August 2007</date>
@@ -29,8 +41,8 @@
 
     <abstract role="description">
       <para>JHBuild is a tool used to build the whole GNOME desktop from the
-        SVN source, however, it can be used to build other projects creating a
-        moduleset for it.</para>
+        SVN source, however, it can be used to build other projects by
+	creating a moduleset for it.</para>
     </abstract>
   </articleinfo>
 
@@ -48,7 +60,7 @@
     url="http://www.gnome.org">GNOME</ulink>, but has since been
     extended to make it usable with other projects.  A <quote>module
     set</quote> file can be hosted on a web server, allowing people to
-    provide build rules independent of the JHBuild.</para>
+    provide build rules independent of JHBuild.</para>
 
     <para>JHBuild can build modules from a variety of sources,
     including:</para>
@@ -100,8 +112,8 @@
 
     <para>JHBuild takes a bit of work to set up on a system.  As well
     as installing JHBuild's prerequisites, it is necessary to install
-    the prerequisite tools needed to build the software in CVS (or
-    where ever else it is stored).</para>
+    the prerequisite tools needed to obtain and build the software
+    sources.</para>
 
     <section id="getting-started-install">
       <title>Installing JHBuild</title>
@@ -129,9 +141,22 @@
 <computeroutput>...</computeroutput>
 <prompt>$</prompt></screen>
 
-      <para>This will download JHBuild into a
-      <filename>jhbuild</filename> folder under the current
+      <para>This will download JHBuild into a new folder named
+      <filename>jhbuild</filename> under the current
       directory.  Now to build and install it:</para>
+
+      <screen><prompt>$</prompt> <userinput>cd jhbuild</userinput>
+<prompt>$</prompt> <userinput>./autogen.sh</userinput>
+<computeroutput>...</computeroutput>
+<prompt>$</prompt> <userinput>make</userinput>
+<computeroutput>...</computeroutput>
+<prompt>$</prompt> <userinput>make install</userinput>
+<computeroutput>...</computeroutput>
+<prompt>$</prompt></screen>
+
+      <para>Alternatively, if your work environment doesn't have autotools or
+      gnome-doc-utils installed you can also build and install it that
+      way:</para>
 
       <screen><prompt>$</prompt> <userinput>cd jhbuild</userinput>
 <prompt>$</prompt> <userinput>make -f Makefile.plain</userinput>
@@ -143,13 +168,25 @@
       <para>If these steps complete successfully, a small shell script
       should be installed in <filename>~/bin</filename> to start
       JHBuild.  If this directory is not in the <envar>PATH</envar>,
-      it will need to be added (possibly by editing
-      <filename>~/.profile</filename> or
-      <filename>~/.bashrc</filename>).</para>
+      it will need to be added.  This can be done with the command:</para>
 
-      <para>Before JHBuild can be run, it will be necessary to set up
-      a <filename>~/.jhbuildrc</filename> file that configures how
-      JHBuild will behave.</para>
+<screen><prompt>$</prompt> <userinput>PATH=$PATH:~/bin</userinput>
+<prompt>$</prompt></screen>
+
+      <para>This command will need to be run every time you login and
+      want to use jhbuild.  In order to permanently add
+      <filename>~/bin</filename> to your <envar>PATH</envar> variable,
+      run the following command:</para>
+
+<screen>
+<prompt>$</prompt> <userinput>echo PATH=$PATH:~/bin >> ~/.bashrc
+</userinput>
+<prompt>$</prompt></screen>
+
+      <para>Before JHBuild can be run, it is necessary to set up a
+      configuration file, located at <filename>~/.jhbuildrc</filename>.
+      This file specifies JHBuild will behave.</para>
+
     </section>
 
     <section id="getting-started-configure">
@@ -161,7 +198,7 @@
       this:</para>
 
       <programlisting>
-moduleset = 'gnome-2.10'
+moduleset = 'gnome-2.22'
 modules = [ 'meta-gnome-desktop' ]
 checkoutroot = os.path.join(os.environ['HOME'], 'checkout', 'gnome2')
 prefix = os.path.join(os.environ['HOME'], 'prefix')
@@ -169,15 +206,15 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
                                      'bin', 'install-check')
 </programlisting>
 
-      <para>This will get JHBuild to build the
-      <application>meta-gnome-desktop</application> module (and its
-      dependencies) from the <systemitem>gnome-2.10</systemitem> module
+      <para>This will make JHBuild build the
+      <application>meta-gnome-desktop</application> module and its
+      dependencies from the <systemitem>gnome-2.22</systemitem> module
       set.  It will unpack source trees to
-      <filename>~/checkout/gnome2</filename> and install modules to
-      <filename>~/prefix</filename>.  It also sets the
-      <envar>INSTALL</envar> environment variable to a program that
-      handles installation of headers specially in order to decrease
-      the work during a rebuild.</para>
+      <filename>~/checkout/gnome2</filename> and install all files to
+      subdirectories of <filename>~/prefix</filename>.  It also sets the
+      <envar>INSTALL</envar> environment variable, so modules use a
+      different install program which handles installation of headers
+      differently, in order to reduce the time taken for rebuilds.</para>
 
       <para>Some of configuration variables available include:</para>
 
@@ -186,12 +223,12 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<varlistentry>
 	  <term><varname>moduleset</varname></term>
 	  <listitem>
-	    <simpara>A string or list of strings giving the name(s) of
+	    <simpara>A string or list of strings specifying the name(s) of
 	    the module set(s) to use.  If a module set name is a fully
 	    qualified URL, then the module set will be cached locally
-	    and regularly updated.  If two module sets contain a
-	    module with the same name, then the last module set listed
-	    wins.</simpara>
+	    and regularly updated.  If a module with the same name is
+	    present in more than one module set, the last set listed
+	    takes priority.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -199,22 +236,23 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <listitem>
 	    <simpara>A list of strings giving the modules you want to
 	    build.  The list of modules actually built will be
-	    recursively expanded to include all the
-	    dependencies.</simpara>
+	    recursively expanded to include all the dependencies
+	    unless the <command>buildone</command> is used.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>checkoutroot</varname></term>
 	  <listitem>
 	    <simpara>The base directory where all source modules
-	    should be unpacked.</simpara>
+	    are unpacked or checked out of revision control.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>prefix</varname></term>
 	  <listitem>
 	    <simpara>The directory prefix to install modules
-	    to.</simpara>
+	    to.  You must have write permissions to this directory, or
+	    JHBuild will be unable to install files.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -222,46 +260,45 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <listitem>
 	    <simpara>A dictionary representing the environment.  This
 	    can be used to set or get environment variable values as
-	    seen in the example above.</simpara>
+	    shown in the example configuration above.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>skip</varname></term>
 	  <listitem>
-	    <simpara>A list of module names that should not be
-	    included when deciding what to build.  One use of this
-	    variable is to use the version of a package included with
-	    the distribution instead of building it</simpara>
+	    <simpara>A list of module names that to not include when
+	    deciding what to build.  One use of this variable is to use
+	    the version of a package included with the distribution
+	    instead of building it</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>autogenargs</varname></term>
 	  <listitem>
-	    <simpara>A string listing arguments that should be passed
+	    <simpara>A string listing additional arguments to pass
 	    to the <command>autogen.sh</command> or
-	    <command>configure</command> scripts for
-	    modules.</simpara>
+	    <command>configure</command> scripts for modules.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>makeargs</varname></term>
 	  <listitem>
-	    <simpara>A string listing arguments that should be passed
-	    to <command>make</command>.</simpara>
+	    <simpara>A string listing arguments to be pass
+	    to the <command>make</command> command.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>repos</varname></term>
 	  <listitem>
-	    <simpara>By default, JHBuild will check out code from repositories
-	    using an anonymous repository location.  This dictionary is used to
-	    tell JHBuild to use an alternative repository location for a
-	    particular repository (a developer would probably want to
-	    do this).  This variable is a dictionary where the keys
-	    are short repository names (for example, <systemitem
-	    class="systemname">svn.gnome.org</systemitem> is used for the
-	    GNOME SVN repository), and the values are the alternative
-	    repository location strings.</simpara>
+	    <simpara>By default, JHBuild will check out code from
+	    repositories using an anonymous repository location.  This
+	    dictionary is used to tell JHBuild to use an alternative
+	    repository location for a particular repository (a developer
+	    would probably want to do this).  This variable is a
+	    dictionary where the keys are short repository names (for
+	    example,
+	    <systemitem class="systemname">svn.gnome.org</systemitem>
+	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
       </variablelist>
@@ -271,14 +308,17 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       <title>Build Prerequisites</title>
 
       <para>Before any modules can be built, it is necessary to have
-      certain build tools installed.  These include the GNU auto tools
+      certain build tools installed.  These can include the GNU Autotools
       (<application>autoconf</application>,
       <application>automake</application>,
       <application>libtool</application> and
-      <application>gettext</application>), pkg-config and
-      Python.</para>
+      <application>gettext</application>), The GNU Toolchain
+      (<application>binutils</application>,
+      <application>gcc</application>,
+      <application>g++</application>), pkg-config and
+      Python, depending on which modules will be built.</para>
 
-      <para>JHBuild can check if your distro has installed these tools
+      <para>JHBuild can check if your system has these tools installed
       using the <command>sanitycheck</command> command:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild sanitycheck</userinput></screen>
@@ -288,10 +328,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <orderedlist>
 	<listitem>
-	  <simpara>Install the required package from the
-	  distribution.  The <command>sanitycheck</command> command
-	  should be run again afterwards to make sure everything is
-	  okay.</simpara>
+	  <simpara>Install the required package from your distribution's
+	  repository.  The <command>sanitycheck</command> command
+	  should be run again afterwards to make sure required tools
+	  are present.</simpara>
 	</listitem>
 	<listitem>
 	  <simpara>Run the <command>bootstrap</command> command to
@@ -311,13 +351,13 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <note>
 	<para>The <command>bootstrap</command> command does not build
-	all the packages required by these tools.  If the OS does not
-	provide those packages, then they will need to be built
+	all the packages required by these tools.  If your distribution
+	does not provide those packages, then they will need to be built
 	separately.</para>
 
 	<para>Some packages to check for include
 	<application>m4</application>, <application>perl</application>
-	and a C compiler.</para>
+	and a C compiler (For example, <application>gcc</application>).</para>
       </note>
     </section>
 
@@ -332,31 +372,33 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <para>This will download, configure, compile and install each of
       the modules.  If an error occurs at any stage, JHBuild will
-      present a menu asking the user what to do.  These choices
-      include dropping to a shell to fix the error, rerunning the
-      build stage, giving up on the module (which will also cause any
-      modules depending on it to fail), or ignore the error and
+      present a menu asking what to do.  These choices
+      include dropping to a shell to fix the error, rerunning the build
+      from various stages, giving up on the module (which will also
+      cause any modules depending on it to fail), or ignore the error and
       continue.</para>
 
       <para>It is also possible to build a different set of modules
       (and their dependencies) by passing their names as arguments to
-      the <command>build</command> command:</para>
+      the <command>build</command> command, for example, to build gtk+:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild build gtk+</userinput></screen>
 
       <para>If you exit JHBuild part way through a build for some
       reason, it is possible to pick up a build at a particular
-      package using the <option>--start-at</option> option:</para>
+      module using the <option>--start-at</option> option:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild build --start-at=pango</userinput></screen>
 
-      <para>To build one or more modules, without their dependencies,
-      the <command>buildone</command> command can be used:</para>
+      <para>To build one or more modules, ignoring their dependencies,
+      the <command>buildone</command> command can be used.  This command
+      should only be used if you have manually installed all dependencies,
+      else the build will fail.</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild buildone gtk+</userinput></screen>
 
-      <para>To get a list of the modules jhbuild will build, and the
-      order in which they will be built, use the
+      <para>To get a list of the modules and dependencies jhbuild will
+      build, and the order in which they will be built, use the
       <command>list</command> command:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild list</userinput></screen>
@@ -366,14 +408,14 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <screen><prompt>$</prompt> <userinput>jhbuild info gtk+</userinput></screen>
 
-      <para>If your internet bandwidth varies, you can get JHBuild to
-      download or update all the software it will build in one go
-      without actually building it:</para>
+      <para>If your internet bandwidth varies, or you wish to modify the
+      sources before building them, you can download or update 	all the
+      software sources without actually building them:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild update</userinput></screen>
 
       <para>Later on, you can tell JHBuild to build everything without
-      downloading or updating:</para>
+      downloading or updating the sources:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild build --no-network</userinput></screen>
 
@@ -383,7 +425,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <screen><prompt>$</prompt> <userinput>jhbuild run <replaceable>program</replaceable></userinput></screen>
 
-      <para>To start a shell with that environment, use the
+      <para>To start a shell with the environment used by jhbuild, use the
       <command>shell</command> command:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild shell</userinput></screen>
@@ -399,7 +441,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
     <cmdsynopsis>
       <command>jhbuild</command>
       <arg><replaceable>global-options</replaceable></arg>
-      <arg choice="plain">command</arg>
+      <arg choice="plain"><replaceable>command</replaceable></arg>
       <arg><replaceable>command-arguments</replaceable></arg>
     </cmdsynopsis>
 
@@ -411,7 +453,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<replaceable>config</replaceable></term>
 	<listitem>
 	  <simpara>Use an alternative configuration file, instead of
-	  the default <filename>~/.jhbuildrc</filename>.</simpara>
+	  the default, <filename>~/.jhbuildrc</filename>.</simpara>
 	</listitem>
       </varlistentry>
 
@@ -420,12 +462,66 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<replaceable>moduleset</replaceable></term>
 	<listitem>
 	  <simpara>Use a module set other than the one listed in the
-	  configuration file.</simpara>
+	  configuration file.  This should be a relative path if the
+	  module set is located in the jhbuild moduleset folder, or an
+	  absolute path if it is located elsewhere.</simpara>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>--no-interact</option></term>
+	<listitem>
+	  <simpara>Do not prompt the user for any input.  This is useful
+	  when leaving a build unattended, in order to ensure it is not
+	  interrupted.</simpara>
 	</listitem>
       </varlistentry>
     </variablelist>
 
     <para>Command specific options are listed below.</para>
+
+    <section id="command-reference-autobuild">
+      <title>autobuild</title>
+
+      <para>The <command>autobuild</command> command is used to
+      automatically build the modules specified in the configuration
+      file, and then upload the results to JhAutobuild.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild autobuild</command>
+	<arg>--autogen</arg>
+	<arg>--clean</arg>
+	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>--report-url=<replaceable>reporturl</replaceable></arg>
+	<arg>--verbose</arg>
+      </cmdsynopsis>
+
+      <para>The <option>--autogen</option>, <option>--clean</option>,
+      <option>--skip</option> and <option>--start-at</option> options
+      are processed in the same way as for the <command>build</command>
+      command.</para>
+
+      <variablelist>
+        <varlistentry>
+	  <term><option>--report-url=<replaceable>reporturl</replaceable></option>,
+	  <option>-r <replaceable>reporturl</replaceable></option></term>
+	  <listitem>
+	    <simpara>This option specifies the JhAutobuild URL which
+	    JHBuild should report to</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--verbose</option>, <option>-v</option></term>
+	  <listitem>
+	    <simpara>This option causes JHBuild's output to be more
+	    verbose</simpara>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </section>
+
 
     <section id="command-reference-bootstrap">
       <title>bootstrap</title>
@@ -438,7 +534,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<command>jhbuild bootstrap</command>
       </cmdsynopsis>
 
-      <para>Internally <command>bootstrap</command> is implemented
+      <para>Internally, <command>bootstrap</command> is implemented
       using the same code as <command>build</command>, using the
       <filename>bootstrap.modules</filename> moduleset.</para>
 
@@ -454,10 +550,15 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<command>jhbuild build</command>
 	<arg>--autogen</arg>
 	<arg>--clean</arg>
+	<arg>--dist</arg>
+	<arg>--distcheck</arg>
 	<arg>--no-network</arg>
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
 	<arg>-D <replaceable>date</replaceable></arg>
+	<arg>--no-xvfb</arg>
+	<arg>--try-checkout</arg>
+	<arg>--no-poison</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -481,6 +582,22 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <term><option>-c</option>, <option>--clean</option></term>
 	  <listitem>
 	    <simpara>Run <command>make clean</command> before building
+	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-d</option>, <option>--dist</option></term>
+	  <listitem>
+	    <simpara>Run <command>make dist</command> after building
+	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--distcheck</option></term>
+	  <listitem>
+	    <simpara>Run <command>make distcheck</command> after building
 	    modules.</simpara>
 	  </listitem>
 	</varlistentry>
@@ -526,6 +643,35 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    ISO format.</simpara>
 	  </listitem>
 	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-x</option>, <option>--no-xvfb</option></term>
+	  <listitem>
+	    <simpara>Run graphical tests on the actual X server rather
+	    than in a simulated Xvfb</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-C</option>,
+	  <option>--try-checkout</option></term>
+	  <listitem>
+	    <simpara>If the build fails, and the version control system
+	    supports it, force a checkout and run
+	    <command>autogen.sh</command> before retrying the
+	    build.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-N</option>, <option>--no-poison</option></term>
+	  <listitem>
+	    <simpara>If one or more of a module's dependencies failed,
+	    this option forces jhbuild to try to build the module
+	    anyway.</simpara>
+	  </listitem>
+	</varlistentry>
+
       </variablelist>
 
     </section>
@@ -542,18 +688,45 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<command>jhbuild buildone</command>
 	<arg>--autogen</arg>
 	<arg>--clean</arg>
+	<arg>--distcheck</arg>
 	<arg>--no-network</arg>
 	<arg>-D <replaceable>date</replaceable></arg>
+	<arg>-x</arg>
 	<arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The <option>--autogen</option>, <option>--clean</option>,
-      <option>--no-network</option> and <option>-D</option> options
-      are processed the same as for <command>build</command>.</para>
+      <option>-d</option>, <option>--distcheck</option>, 
+      <option>--no-network</option>, <option>-D</option> and
+      <option>-x</option> options are processed in the same way as for the
+      <command>build</command> command.</para>
 
-      <para>Unlike <command>build</command>, at least one module must
-      be listed on the command line.</para>
+      <para>Unlike the <command>build</command> command, at least one
+      module must be listed on the command line.</para>
 
+    </section>
+
+    <section id="command-reference-checkbranches">
+      <title>checkbranches</title>
+
+      <para>The <command>checkbranches</command> checks the modules in
+      GNOME Subversion have the correct branch definition.  For example,
+      if modules are marked as not having branched, jhbuild checks
+      this is true.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild checkbranches</command>
+	<arg rep="repeat">--branch=<replaceable>branch</replaceable></arg>
+      </cmdsynopsis>
+
+      <variablelist>
+        <varlistentry>
+	<term><option>--branch</option>=<replaceable>branch</replaceable>, <option>-b</option> <replaceable>branch</replaceable></term>
+	<listitem>
+	  <simpara>Specify the branch to check</simpara>
+	</listitem>
+	</varlistentry>
+      </variablelist>
     </section>
 
     <section id="command-reference-dot">
@@ -579,6 +752,22 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <screen><prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tps > dependencies.ps</userinput></screen>
 
+    </section>
+
+    <section id="command-reference-gui">
+      <title>gui</title>
+
+      <para>The <command>gui</command> command starts a graphical
+      interface to jhbuild which can be used to select modules to
+      build and change some options.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild gui</command>
+      </cmdsynopsis>
+
+      <para>The <command>gui</command> graphical interface is
+      rendered using GTK, so some extra support libraries will be
+      required</para>
     </section>
 
     <section id="command-reference-info">
@@ -608,7 +797,8 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <cmdsynopsis>
 	<command>jhbuild list</command>
-	<arg>--show-revision</arg>
+	<arg>-r</arg>
+	<arg>-s</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -625,6 +815,16 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    name.</simpara>
 	  </listitem>
 	</varlistentry>
+
+	<varlistentry>
+	  <term><option>s</option>,
+          <option>--skip</option>=<replaceable>module,...</replaceable>
+	  </term>
+	  <listitem>
+	    <simpara>Ignore the named modules when following
+	    dependencies to expand the list of modules.</simpara>
+	  </listitem>
+	</varlistentry>
       </variablelist>
 
     </section>
@@ -633,17 +833,29 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       <title>run</title>
 
       <para>The <command>run</command> command is used to run an
-      arbitrary command using the same environment as JHBuild uses
+      arbitrary command using the same environment that JHBuild uses
       when building modules.</para>
 
       <cmdsynopsis>
 	<command>jhbuild run</command>
+	<arg>--in-builddir</arg>
 	<arg choice="plain"><replaceable>program</replaceable></arg>
 	<arg rep="repeat"><replaceable>argument</replaceable></arg>
       </cmdsynopsis>
 
       <para>If using JHBuild to build GNOME, this command can be
       useful in X startup scripts.</para>
+
+      <variablelist>
+        <varlistentry>
+	  <term><option>--in-builddir</option>=<replaceable>module</replaceable></term>
+  	  <listitem>
+	    <simpara>Run the command in the build directory of the
+	    specified module.</simpara>
+  	  </listitem>
+	</varlistentry>
+      </variablelist>
+
     </section>
 
     <section id="command-reference-sanitycheck">
@@ -717,12 +929,15 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
 	<arg>-D <replaceable>date</replaceable></arg>
+	<arg>-C</arg>
+	<arg>-N</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The <option>--autogen</option>, <option>--clean</option>,
       <option>--no-network</option>, <option>--skip</option>,
-      <option>--start-at</option> and <option>-D</option> options are
+      <option>--start-at</option>, <option>-D</option>,
+      <option>-C</option> and <option>-N</option> options are
       processed the same as for <command>build</command>.</para>
 
       <variablelist>
@@ -776,12 +991,12 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       <para>The <option>-D</option> option is processed the same as
       for <command>update</command>.</para>
 
-      <para>Unlike <command>update</command>, at least one module must
-      be listed on the command line.</para>
+      <para>Unlike the <command>update</command> command, at least one
+      module must be listed on the command line.</para>
     </section>
 
   </section>
-
+                                                                               
   <section id="config-reference">
     <title>Configuration File Reference</title>
 
@@ -801,7 +1016,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <listitem>
 	    <simpara>If set to <constant>True</constant>, then always
 	    run <command>autogen.sh</command> before
-	    <command>make</command> even if a makefile exists.  This
+	    <command>make</command>, even if a makefile exists.  This
 	    is equivalent to passing <option>--always-autogen</option>
 	    option to JHBuild.  Defaults to
 	    <constant>False</constant>.</simpara>
@@ -816,6 +1031,16 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    <varname>module_autogenargs</varname>
 	    dictionary.</simpara>
 	</listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>branches</varname></term>
+	  <listitem>
+	    <simpara>A dictionary that can be used to override the
+	    branch used for a particular module.  This is useful if
+	    you are making some changes on a branch of a module and
+	    want JHBuild to build that branch instead of the one
+	    listed in the module set.</simpara>
+	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>builddir_pattern</varname></term>
@@ -838,12 +1063,50 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
+	  <term><varname>buildscript</varname></term>
+	  <listitem>
+	    <simpara>A string specifying which buildscript to use.
+	    This should probably be left as the default,
+	    <literal>terminal</literal>.  In particular, do not
+	    set to <literal>gtk</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>build_policy</varname></term>
+	  <listitem>
+	    <simpara>A string specifying which modules to build.
+	    The three possible options are <literal>all</literal>, to
+	    build all modules requested, <literal>updated</literal> to
+	    build only modules which have changed, or
+	    <literal>updated-deps</literal> to build modules which have
+	    changed or which have dependencies which have changed.
+	    Defaults to <literal>all</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	  <term><varname>checkoutroot</varname></term>
 	  <listitem>
 	    <simpara>A string giving the directory to unpack source
 	    trees to.  Unless <varname>buildroot</varname> is set,
 	    builds will occur in this directory too.  Defaults to
 	    <filename>~/cvs/gnome2</filename>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>checkout_mode</varname></term>
+	  <listitem>
+	    <simpara>A string specifying how the checkout is done for
+	    directories in version control.  Defaults to
+	    <literal>update</literal>.  This can be set per module
+	    using <varname>module_checkout_mode</varname>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>copy_dir</varname></term>
+	  <listitem>
+	    <simpara>A string specifying the directory to copy to, if
+	    the copy checkout mode is in use.  Defaults to the
+	    checkout directory.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -859,13 +1122,20 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>branches</varname></term>
+	  <term><varname>cvs_program</varname></term>
 	  <listitem>
-	    <simpara>A dictionary that can be used to override the
-	    branch used for a particular module.  This is useful if
-	    you are doing some changes on a branch of a module and
-	    want JHBuild to build that branch instead of the one
-	    listed in the module set.</simpara>
+	    <simpara>A string specifying which program to use for
+	    CVS support.  Defaults to <literal>cvs</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>interact</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to interact
+	    with the user.  Setting this value to
+	    <constant>False</constant> is equivalent to passing the
+	    <option>--no-interact</option> option.  Defaults to
+	    <constant>True</constant></simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -896,14 +1166,44 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
+	  <term><varname>makedist</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to run
+	    <command>make dist</command> after <command>make</command>.
+	    Defaults to <constant>False</constant>.  This setting is
+	    equivalent to passing the <option>--dist</option>
+	    option.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>makedistcheck</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to run
+	    <command>make distcheck</command> after
+	    <command>make</command>.  Defaults to
+	    <constant>False</constant>.  This setting is equivalent to
+	    passing the <option>--distcheck</option> option.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	  <term><varname>module_autogenargs</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to
-	    <command>autogen.sh</command>.  If a particular module
-	    isn't listed in the dictionary, the global
-	    <varname>autogenargs</varname> will be used
+	    <command>autogen.sh</command>.  The setting in
+	    <varname>module_autogenargs</varname> is used instead of
+	    the global <varname>autogenargs</varname> setting.
+	    If a particular module isn't listed in the dictionary, the
+	    global <varname>autogenargs</varname> will be used
 	    instead.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>module_checkout_mode</varname></term>
+	  <listitem>
+	    <simpara>A dictionary specifying which checkout mode to
+	    use for modules.  This overrides the global
+	    <varname>checkout_mode</varname> setting.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -911,6 +1211,8 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to <command>make</command>.
+	    The setting in <varname>module_makeargs</varname> replaces
+	    the value of <varname>makeargs</varname>.
 	    If a particular module isn't listed in the dictionary, the
 	    global <varname>makeargs</varname> will be used
 	    instead.</simpara>
@@ -929,23 +1231,64 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <term><varname>moduleset</varname></term>
 	  <listitem>
 	    <simpara>A string giving the name of the module set to
-	    use.  This can either be a short string to refer to one of
-	    JHBuild's included module sets, or a full HTTP URL to
-	    refer to an externally managed module set.  Currently
-	    defaults to <literal>'gnome-2.10'</literal>, but is
-	    usually updated as GNOME development progresses.</simpara>
+	    use.  This can either be the filename of a moduleset
+	    included with JHBuild (excluding the path and extension),
+	    or a full HTTP URL to refer to an externally managed
+	    module set.  Currently defaults to
+	    <literal>'gnome-2.22'</literal>, but is usually updated
+	    as GNOME development progresses.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>nobuild</varname></term>
+	  <listitem>
+	    <simpara>A boolean value which, if set to
+	    <constant>True</constant> causes JHBuild to not actually
+	    modules, but just download and unpack the sources.  The
+	    default vale is <constant>False</constant>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term><varname>nonetwork</varname></term>
 	  <listitem>
-	    <simpara>A boolean value saying whether to access the
+	    <simpara>A boolean value specifying whether to access the
 	    network or not.  This affects checking out or updating CVS
 	    modules, downloading tarballs and updating module sets.
 	    Setting this to <constant>True</constant> is equivalent to
 	    passing the <option>--no-network</option> option to
 	    JHBuild.  Defaults to
 	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>nonotify</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to emit
+	    notifications using the notification daemon.  If set to
+	    <constant>True</constant>, notifications are not emitted.
+	    Defaults to <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>nopoison</varname></term>
+	  <listitem>
+	    <simpara>A boolean value which, if set to
+	    <constant>True</constant> causes JHBuild to try to build
+	    modules even if one or more of the module's dependancies
+	    failed to build.  This option is equivalent to the
+	    <option>--no-poison</option> argument.  The default value is
+	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>noxvfb</varname></term>
+	  <listitem>
+	    <simpara>A boolean value which, if set to
+	    <constant>True</constant> causes JHBuild to run any
+	    graphical tests on the real X server, rather than using
+	    <command>Xvfb</command>.  This option is equivalent to
+	    passing <option>--no-xvfb</option>.  The default value is
+	    <constant>False</constant></simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -959,10 +1302,40 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  <term><varname>pretty_print</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that can be used to disable
-	    pretty printing of subprocess output.  Currently there is
+	    pretty formatting of subprocess output.  Currently there is
 	    only support for pretty printing CVS output.  You probably
 	    only want to disable this if the pretty printing causes
 	    problems.  Defaults to <literal>True</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+        <varlistentry>
+          <term><varname>progress_bar</varname></term>
+          <listitem>
+            <simpara>A boolean value that can be used to display a progress bar
+            when running in quiet mode (see below).  Defaults to
+            <literal>True</literal>.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><varname>quiet_mode</varname></term>
+          <listitem>
+            <simpara>A boolean value that can be used to disable
+            output of running commands.  Defaults to
+            <literal>False</literal>.</simpara>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><varname>repos</varname></term>
+	  <listitem>
+	    <simpara>By default, JHBuild will check out code from
+	    repositories using an anonymous repository location.  This
+	    dictionary is used to tell JHBuild to use an alternative
+	    repository location for a particular repository (a developer
+	    would probably want to do this).  This variable is a
+	    dictionary where the keys are short repository names (for
+	    example,
+	    <systemitem class="systemname">svn.gnome.org</systemitem>
+	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -993,12 +1366,21 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
+	  <term><varname>svn_program</varname></term>
+	  <listitem>
+	    <simpara>A string specifying which program to use for
+	    subversion support.  This can be <literal>svn</literal>
+	    or <literal>bzr</literal>.  Defaults to
+	    <literal>svn</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	  <term><varname>tarballdir</varname></term>
 	  <listitem>
 	    <simpara>If set, tarballs will be downloaded to this
 	    directory instead of <varname>checkoutroot</varname>.
 	    This is useful if you have multiple JHBuild environments
-	    or regularly blow away your
+	    or regularly clear out your
 	    <varname>checkoutroot</varname> and want to reduce
 	    bandwidth usage.</simpara>
 	  </listitem>
@@ -1015,6 +1397,17 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
+	  <term><varname>trycheckout</varname></term>
+	  <listitem>
+	    <simpara>A boolean option which if set to
+	    <constant>True</constant>, causes JHBuild to try checking
+	    out a newer version of a module from version control and
+	    running <command>autogen.sh</command>, if the module fails
+	    to build.  This option is equivalent to passing
+	    <option>--try-checkout</option>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	  <term><varname>use_lib64</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that specifies whether to install
@@ -1026,6 +1419,14 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    <literal>x86_64</literal>, <literal>ppc64</literal> or
 	    <literal>s390x</literal> Linux, and
 	    <constant>False</constant> on other systems.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>xvfbargs</varname></term>
+	  <listitem>
+	    <simpara>A string listing arguments to pass to
+	    <command>Xvfb</command> if running graphical tests using
+	    it.</simpara>
 	  </listitem>
 	</varlistentry>
       </variablelist>
@@ -1089,10 +1490,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
   <section id="moduleset-syntax">
     <title>Module Set File Syntax</title>
 
-    <para>JHBuild uses simple XML files to describe the dependencies
+    <para>JHBuild uses XML files to describe the dependencies
     between modules.  A RELAX-NG schema and Document Type Definition
     are included with JHBuild in the <filename>modulesets/</filename>
-    directory.  The RELAX-NG schema makes it trivial to edit module
+    directory.  The RELAX-NG schema can be used to edit module
     set files using <literal>nxml-mode</literal> in Emacs.</para>
 
     <para>The toplevel element in a module set file is <sgmltag
@@ -1113,8 +1514,83 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       developers and users to use different repository access
       methods).</para>
 
+      <section id="moduleset-syntax-sources-repository">
+        <title>repository</title>
+
+	<para>The <sgmltag class="element">repository</sgmltag>
+	element is used to describe all types of repository.</para>
+
+<programlisting>
+&lt;repository name="<replaceable>name</replaceable>"
+type="<replaceable>type</replaceable>"
+[ default="<replaceable>default</replaceable>" ]
+[ password="<replaceable>password</replaceable>" ]
+[ cvsroot="<replaceable>cvsroot</replaceable>" ]
+[ archive="<replaceable>archive</replaceable>" ]
+[ href="<replaceable>href</replaceable>" ]
+[ server="<replaceable>server</replaceable>" ]
+[ database="<replaceable>database</replaceable>" ]
+[ defbranch="<replaceable>defbranch</replaceable>" ]
+[ developer-href-example="<replaceable>developer-href-example</replaceable>" ] /&gt;
+</programlisting>
+
+	<para>The <sgmltag class="attribute">name</sgmltag> attribute
+	is a unique identifier for the repository.</para>
+
+	<para>The <sgmltag class="attribute">type</sgmltag> attribute
+	specifies the type of repository.  It can be one of:
+	<literal>ch</literal>, <literal>bzr</literal>,
+	<literal>cvs</literal>, <literal>darcs</literal>,
+	<literal>git</literal>, <literal>hg</literal>,
+	<literal>svn</literal>, <literal>tarball</literal>,
+	<literal>arch</literal>, <literal>mtn</literal>.</para>
+
+	<para>The <sgmltag class="attribute">default</sgmltag>
+	attribute specifies whether this repository is the default
+	source for this module set.</para>
+
+	<para>The <sgmltag class="attribute">password</sgmltag>
+	attribute is used to specify the password to the repository.
+	This attribute is only used by CVS repositories.</para>
+
+	<para>The <sgmltag class="attribute">cvsroot</sgmltag>
+	attribute is used to specify the root of the CVS repository.
+	This attribute is only ued by CVS repositories.</para>
+
+	<para>The <sgmltag class="attribute">archive</sgmltag>
+	attribute is used to specify the archive to use.  This
+	attribute is only used by Arch repositories.</para>
+
+	<para>The <sgmltag class="attribute">href</sgmltag>
+	attribute is used to specify the URL of the repository.
+	This attribute is only used by Arch repositories.</para>
+
+	<para>The <sgmltag class="attribute">server</sgmltag>
+	attribute is used to specify the repository server.
+	This attribute is only used by Monotone repositories.</para>
+
+	<para>The <sgmltag class="attribute">database</sgmltag>
+	attribute is used to specify the database to use for
+	the repository.  This attribute is only used by
+	Monotone repositories.</para>
+
+	<para>The <sgmltag class="attribute">defbranch</sgmltag>
+	attribute is used specify the branch of the repository
+	to use.  This attribute is only used by Monotone
+	repositories.</para>
+
+	<para>The <sgmltag class="attribute">developer-href-example</sgmltag>
+	attribute is used to specify the format of the URL for
+	the repository used by developers.</para>
+      </section>
+
       <section id="moduleset-syntax-sources-cvsroot">
 	<title>cvsroot</title>
+
+	<para>The <sgmltag class="element">cvsroot</sgmltag> element
+	is now deprecated - the
+	<sgmltag class="element">repository</sgmltag> element should
+	be used instead.</para>
 
 	<para>The <sgmltag class="element">cvsroot</sgmltag> element
 	is used to describe a CVS repository.</para>
@@ -1129,7 +1605,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
         <para>The <sgmltag class="attribute">name</sgmltag> attribute
         should be a unique identifier for the CVS repository.</para>
 
-	<para>If <sgmltag class="attribute">default</sgmltag>
+	<para>The <sgmltag class="attribute">default</sgmltag>
 	attribute says whether this is the default module source for
 	this module set file.</para>
 
@@ -1142,6 +1618,11 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <section id="moduleset-syntax-sources-svnroot">
 	<title>svnroot</title>
+
+	<para>The <sgmltag class="element">svnroot</sgmltag> element
+	is now deprecated - the
+	<sgmltag class="element">repository</sgmltag> element should
+	be used instead.</para>
 
 	<para>The <sgmltag class="element">svnroot</sgmltag> element
 	is used to describe a Subversion repository.</para>
@@ -1168,6 +1649,12 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <section id="moduleset-syntax-sources-arch-archive">
 	<title>arch-archive</title>
+
+	<para>The <sgmltag class="element">arch-archive</sgmltag> element
+	is now deprecated - the
+	<sgmltag class="element">repository</sgmltag> element should
+	be used instead.</para>
+
 
 	<para>The <sgmltag class="element">arch-archive</sgmltag> element
 	is used to describe a GNU Arch archive.</para>
@@ -1223,6 +1710,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<title>cvsmodule</title>
 
 	<para>The <sgmltag class="element">cvsmodule</sgmltag> element
+	is now deprecated.  The appropriate build system's module should
+	be used instead.</para>
+
+	<para>The <sgmltag class="element">cvsmodule</sgmltag> element
 	is used to define a module that is to be built from
 	CVS.</para>
 
@@ -1242,6 +1733,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
   &lt;/suggests&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &gt;
 &lt;/cvsmodule&gt;
 </programlisting>
 
@@ -1268,8 +1763,9 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	attribute is used to mark modules that can't be cleanly built
 	using a separate source directory.</para>
 
-	<para>The <sgmltag class="element">dependencies</sgmltag> and
-	<sgmltag class="element">suggests</sgmltag> elements are used
+	<para>The <sgmltag class="element">dependencies</sgmltag>,
+	<sgmltag class="element">suggests</sgmltag> and
+	<sgmltag class="element">after</sgmltag> elements are used
 	to declare the dependencies of the module.  Any modules listed
 	in the <sgmltag class="element">dependencies</sgmltag> element
 	will be added to the module list for <command>jhbuild
@@ -1286,6 +1782,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <section id="moduleset-syntax-defs-svnmodule">
 	<title>svnmodule</title>
+
+	<para>The <sgmltag class="element">svnmodule</sgmltag> element
+	is now deprecated.  The appropriate build system's module should
+	be used instead.</para>
 
 	<para>The <sgmltag class="element">svnmodule</sgmltag> element
 	is used to define a module that is to be built from
@@ -1306,6 +1806,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
   &lt;/suggests&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
 &lt;/svnmodule&gt;
 </programlisting>
         <para>The <sgmltag class="attribute">module</sgmltag>
@@ -1318,6 +1822,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <section id="moduleset-syntax-defs-archmodule">
 	<title>archmodule</title>
+
+	<para>The <sgmltag class="element">archmodule</sgmltag> element
+	is now deprecated.  The appropriate build system's module should
+	be used instead.</para>
 
 	<para>The <sgmltag class="element">archmodule</sgmltag> element
 	is used to define a module that is to be built from
@@ -1338,6 +1846,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
     &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
     ...
   &lt;/suggests&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
 &lt;/archmodule&gt;
 </programlisting>
         <para>The <sgmltag class="attribute">version</sgmltag>
@@ -1358,8 +1870,10 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<programlisting>
 &lt;tarball id="<replaceable>modulename</replaceable>"
             [ version="<replaceable>version</replaceable>" ]
+	    [ checkourdir="<replaceable>checkoutdir</replaceable>" ]
             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
             [ makeargs="<replaceable>makeargs</replaceable>" ]
+	    [ autogen-sh="<replaceable>autogen-sh</replaceable>" ]
             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
   &lt;source href="<replaceable>source-url</replaceable>"
           [ size="<replaceable>source-size</replaceable>" ]
@@ -1381,12 +1895,13 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
         <para>The <sgmltag class="attribute">id</sgmltag> and <sgmltag
         class="attribute">version</sgmltag> attributes are used to
         identify the module.</para>
+
 	<para>The <sgmltag class="element">source</sgmltag> element
 	specifies the file to download and compile.  The <sgmltag
 	class="attribute">href</sgmltag> attribute is mandatory, while
 	the <sgmltag class="attribute">size</sgmltag> and <sgmltag
 	class="attribute">md5sum</sgmltag> attributes are optional.
-	If the last two attributes are present, they are used to check
+	If these last two attributes are present, they are used to check
 	that the source package was downloaded correctly.</para>
 
 	<para>The <sgmltag class="element">patches</sgmltag> element
@@ -1414,13 +1929,250 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	class="element">cvsmodule</sgmltag></link>.</para>
       </section>
 
+      <section id="moduleset-syntax-defs-autotools">
+        <title>autotools</title>
+
+	<para>The <sgmltag class="element">autotools</sgmltag>
+	element is used to define a module which is compiled using
+	the GNU Autotools build system.</para>
+
+	<programlisting>
+&lt;autotools id="<replaceable>id</replaceable>"
+	      [ autogenargs="<replaceable>autogenargs</replaceable>" ]
+	      [ makeargs="<replaceable>makeargs</replaceable>" ]
+	      [ makeinstallargs="<replaceable>makeinstallargs</replaceable>" ]
+	      [ autogen-sh="<replaceable>autogen-sh</replaceable>" ]
+	      [ makefile="<replaceable>makefile</replaceable>" ]
+	      [ skip-autogen="<replaceable>skip-autogen</replaceable>" ]
+	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
+
+&lt;branch [ repo="<replaceable>repo</replaceable>" ]
+	   [ module="<replaceable>module</replaceable>" ]
+	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
+	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
+	   [ revision="<replaceable>revision</replaceable>" ]
+	   [ tag="<replaceable>tag</replaceable>" ]
+	   [ version="<replaceable>version</replaceable>" ]
+	   [ size="<replaceable>size</replaceable>" ]
+	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+
+&lt;patch file="<replaceable>file</replaceable>"
+	  [ strip="<replaceable>0</replaceable>" ] /&gt;
+
+&lt;/branch&gt;
+
+&lt;/autotools&gt;
+	</programlisting>
+
+	<para>The <sgmltag class="attribute">autogenargs</sgmltag> and
+	<sgmltag class="attribute">makeargs</sgmltag> and
+	<sgmltag class="attribute">makeinstallargs</sgmltag>
+	attributes are used to specify additional arguments to pass to
+	<command>autogen.sh</command>, <command>make</command> and
+	<command>make install</command> respectively.</para>
+	
+	<para>The <sgmltag class="attribute">autogen-sh</sgmltag>
+	attribute specifies the name of the autogen.sh script to run.
+	<sgmltag class="attribute">skip-autogen</sgmltag> chooses whether
+	or not to run autogen.sh.
+	<sgmltag class="attribute">makefile</sgmltag> specifies the
+	filename of the makefile to use.</para>
+
+	<para>The other attributes and the <sgmltag
+	class="element">dependencies</sgmltag> and <sgmltag
+	class="element">suggests</sgmltag> sub-elements are processed
+	as for <link
+	linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
+	class="element">cvsmodule</sgmltag></link>.</para>
+      </section>
+
+
+  
+      <section id="moduleset-syntax-defs-distutils">
+        <title>distutils</title>
+
+	<para>The <sgmltag class="element">distutils</sgmltag> element
+	is used to define a module which is built using python's
+	distutils</para>
+
+	<programlisting>
+&lt;distutils id="<replaceable>modulename</replaceable>"
+            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+
+  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
+	   [ module="<replaceable>module</replaceable>" ]
+	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
+	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
+	   [ revision="<replaceable>revision</replaceable>" ]
+	   [ tag="<replaceable>tag</replaceable>" ]
+	   [ version="<replaceable>version</replaceable>" ]
+	   [ size="<replaceable>size</replaceable>" ]
+	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+
+    &lt;patch file="<replaceable>file</replaceable>"
+  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
+
+&lt;/branch&gt;
+
+
+&lt;/distutils&gt;
+</programlisting>
+
+      </section>
+
+      <section id="moduleset-syntax-defs-linux">
+        <title>linux</title>
+
+	<para>The <sgmltag class="element">linux</sgmltag>
+	element defines a module used to build a linux kernel.
+	In addition, a separate kernel configuration can be
+	chosen using the <sgmltag class="element">kconfig</sgmltag>
+	subelement.</para>
+
+	<programlisting>
+&lt;linux id="<replaceable>id</replaceable>"
+	  [ makeargs="<replaceable>makeargs</replaceable>" ]&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+
+  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
+	   [ module="<replaceable>module</replaceable>" ]
+	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
+	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
+	   [ revision="<replaceable>revision</replaceable>" ]
+	   [ tag="<replaceable>tag</replaceable>" ]
+	   [ version="<replaceable>version</replaceable>" ]
+	   [ size="<replaceable>size</replaceable>" ]
+	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+
+    &lt;patch file="<replaceable>file</replaceable>"
+  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
+
+&lt;/branch&gt;
+
+&lt;kconfig [ repo="<replaceable>repo</replaceable>" ]
+	    version="<replaceable>version</replaceable>"
+	    [ module="<replaceable>module</replaceable>" ]
+	    [ config="<replaceable>config</replaceable>" ] /&gt;
+
+&lt;/linux&gt;
+	</programlisting>
+
+      </section>
+
+      <section id="moduleset-syntax-defs-perl">
+        <title>perl</title>
+
+	<para>The <sgmltag class="element">perl</sgmltag> element
+	is used to build perl modules.</para>
+
+	<programlisting>
+&lt;perl id="<replaceable>perl</replaceable>"
+	 [ makeargs="<replaceable>makeargs</replaceable>" ]&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+
+  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
+	   [ module="<replaceable>module</replaceable>" ]
+	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
+	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
+	   [ revision="<replaceable>revision</replaceable>" ]
+	   [ tag="<replaceable>tag</replaceable>" ]
+	   [ version="<replaceable>version</replaceable>" ]
+	   [ size="<replaceable>size</replaceable>" ]
+	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+
+    &lt;patch file="<replaceable>file</replaceable>"
+  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
+
+&lt;/branch&gt;
+
+&lt;/perl&gt;
+	</programlisting>
+      </section>
+
+      <section id="moduleset-syntax-defs-testmodule">
+	<title>testmodule</title>
+
+	<para>The <sgmltag class="element">testmodule</sgmltag>
+	element is used to create a module which runs a suite of
+	tests using LDTP or Dogtail.</para>
+
+	<programlisting>
+&lt;testmodule id="<replaceable>id</replaceable>"
+	       type="<replaceable>type</replaceable>"&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+
+  &lt;branch [ repo="<replaceable>repo</replaceable>" ]
+	   [ module="<replaceable>module</replaceable>" ]
+	   [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+	   [ override-checkoutdir="<replaceable>yes</replaceable>" ]
+	   [ update-new-dirs="<replaceable>yes</replaceable>" ]
+	   [ revision="<replaceable>revision</replaceable>" ]
+	   [ tag="<replaceable>tag</replaceable>" ]
+	   [ version="<replaceable>version</replaceable>" ]
+	   [ size="<replaceable>size</replaceable>" ]
+	   [ md5sum="<replaceable>md5sum</replaceable>" ]&gt;
+
+    &lt;patch file="<replaceable>file</replaceable>"
+  	   [ strip="<replaceable>0</replaceable>" ] /&gt;
+
+&lt;/branch&gt;
+
+&lt;testedmodules&gt;
+&lt;tested package="<replaceable>package</replaceable>" /&gt;
+&lt;/testedmodules&gt;
+
+&lt;/testmodule&gt;
+	</programlisting>
+
+      </section>
+
       <section id="moduleset-syntax-defs-metamodule">
 	<title>metamodule</title>
 
 	<para>The <sgmltag class="element">metamodule</sgmltag>
-	element defines a module that doesn't actually do anythin.
+	element defines a module that doesn't actually do anything.
 	The only purpose of a module of this type is its
 	dependencies.</para>
+
+	<para>For example, meta-gnome-desktop depends on all the key
+	components of the GNOME desktop, therefore telling JHBuild to
+	install it actually installs the full desktop.</para>
 
 	<programlisting>
 &lt;metamodule id="<replaceable>modulename</replaceable>"&gt;
@@ -1505,8 +2257,7 @@ done</programlisting>
 	    JHBuild will display an icon in the system tray.  The icon
 	    will display the current build stage, and the tooltip will
 	    show the last message from JHBuild.</para>
-	    <para>In the future, the icon may get support for popping
-	    up a balloon on error.</para>
+	    <para>The icon will also pop up a balloon on error.</para>
 	  </answer>
 	</qandaentry>
       </qandadiv>
