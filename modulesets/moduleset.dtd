@@ -1,9 +1,9 @@
-<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|mozillamodule|distutils|perl|linux|testmodule|cvsroot|cvsmodule|gdbmodule|gcjmodule|waf)+>
+<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|mozillamodule|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf)+>
 
 <!ELEMENT repository EMPTY>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
-	type	 (ch|bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
+	type	 (bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
 	default  (yes|no)  "no"
 	password CDATA  #IMPLIED <!-- specific to CVS -->
 	cvsroot	 CDATA  #IMPLIED <!-- specific to CVS -->
@@ -102,16 +102,6 @@
 	id	CDATA	#REQUIRED
 	cvsroot	CDATA	#REQUIRED
 	supports-non-srcdir-builds (yes|no) "yes">
-
-<!ELEMENT gdbmodule EMPTY>
-<!ATTLIST gdbmodule
-	id	CDATA	#REQUIRED
-	cvsroot	CDATA	#REQUIRED>
-
-<!ELEMENT gcjmodule (dependencies?,suggests?)>
-<!ATTLIST gcjmodule
-	id	CDATA	#REQUIRED
-	cvsroot	CDATA	#REQUIRED>
 
 <!-- Tarball's children -->
 <!ELEMENT source EMPTY>
