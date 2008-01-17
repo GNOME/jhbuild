@@ -39,9 +39,9 @@ class DistutilsModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch,
-                 dependencies=[], after=[],
+                 dependencies=[], after=[], suggests=[],
                  supports_non_srcdir_builds=True):
-        Package.__init__(self, name, dependencies, after)
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
@@ -123,13 +123,14 @@ def parse_distutils(node, config, uri, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return DistutilsModule(id, branch,
                            dependencies=dependencies, after=after,
+                           suggests=suggests,
                            supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('distutils', parse_distutils)
 

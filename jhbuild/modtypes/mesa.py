@@ -41,8 +41,8 @@ class MesaModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[]):
-        Package.__init__(self, name, dependencies, after)
+                 dependencies=[], after=[], suggests=[]):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -151,11 +151,12 @@ def parse_mesa(node, config, uri, repositories, default_repo):
     # override revision tag if requested.
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return MesaModule(id, branch, makeargs,
-                         dependencies=dependencies, after=after)
+                         dependencies=dependencies, after=after,
+                         suggests=suggests)
 register_module_type('mesa', parse_mesa)

@@ -44,8 +44,8 @@ class LinuxModule(Package):
     STATE_INSTALL         = 'install'
     STATE_MODULES_INSTALL = 'modules_install'
 
-    def __init__(self, name, branch, kconfigs, makeargs, dependencies, after):
-        Package.__init__(self, name, dependencies, after)
+    def __init__(self, name, branch, kconfigs, makeargs, dependencies, after, suggests):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.kconfigs = kconfigs
         self.makeargs = makeargs
@@ -231,13 +231,13 @@ def parse_linux(node, config, uri, repositories, default_repo):
     makeargs = p.sub(config.prefix, makeargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
     return LinuxModule(id, branch, kconfigs,
-                       makeargs, dependencies, after)
+                       makeargs, dependencies, after, suggests)
 
 register_module_type('linux', parse_linux)

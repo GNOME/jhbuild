@@ -377,12 +377,12 @@ def parse_testmodule(node, config, uri, repositories, default_repo):
         # FIXME: create an error here
         pass
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
     tested_pkgs = get_tested_packages(node)
     return TestModule(id, branch, test_type, dependencies=dependencies,
-            after=after, tested_pkgs=tested_pkgs)
+            after=after, suggests=suggests, tested_pkgs=tested_pkgs)
                                    
 register_module_type('testmodule', parse_testmodule)

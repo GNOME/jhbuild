@@ -44,8 +44,9 @@ class WafModule(Package):
     STATE_DIST           = 'dist'
     STATE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], waf_cmd='waf'):
-        Package.__init__(self, name, dependencies, after)
+    def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
+                 waf_cmd='waf'):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.waf_cmd = waf_cmd
 
@@ -177,12 +178,12 @@ def parse_waf(node, config, uri, repositories, default_repo):
         waf_cmd = node.getAttribute('waf-command')
 
     # override revision tag if requested.
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(module_id):
         branch.checkout_mode = config.module_checkout_mode[module_id]
 
     return WafModule(module_id, branch, dependencies=dependencies, after=after,
-                     waf_cmd=waf_cmd)
+            suggests=suggests, waf_cmd=waf_cmd)
 
 register_module_type('waf', parse_waf)

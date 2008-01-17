@@ -71,7 +71,7 @@ class ModuleSet:
 
     def get_module_list(self, seed, skip=[]):
         '''gets a list of module objects (in correct dependency order)
-        needed to build the modules in the seed list''' #"
+        needed to build the modules in the seed list'''
 
         if seed == 'all': seed = self.modules.keys()
         try:
@@ -82,12 +82,22 @@ class ModuleSet:
         i = 0
         while i < len(modules):
             depadd = []
+            # dependencies
             for modname in modules[i].dependencies:
                 if self.modules.has_key(modname):
                     depmod = self.modules[modname]
                 else:
                     raise UsageError('dependent module "%s" not found'
                                      % modname)
+                if depmod not in modules[:i+1] and depmod.name not in skip:
+                    depadd.append(depmod)
+            # suggests
+            for modname in modules[i].suggests:
+                if self.modules.has_key(modname):
+                    depmod = self.modules[modname]
+                else:
+                    # silently ignore unknown modules
+                    continue 
                 if depmod not in modules[:i+1] and depmod.name not in skip:
                     depadd.append(depmod)
             if depadd:

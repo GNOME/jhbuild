@@ -46,12 +46,12 @@ class AutogenModule(Package):
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  makeinstallargs='',
-                 dependencies=[], after=[],
+                 dependencies=[], after=[], suggests=[],
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile'):
-        Package.__init__(self, name, dependencies, after)
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -268,7 +268,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
@@ -277,6 +277,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          makeinstallargs=makeinstallargs,
                          dependencies=dependencies,
                          after=after,
+                         suggests=suggests,
                          supports_non_srcdir_builds=supports_non_srcdir_builds,
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
@@ -314,7 +315,7 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
 
     for attrname in ['cvsroot', 'root']:
         if node.hasAttribute(attrname):
@@ -333,7 +334,7 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
-                         after=after,
+                         after=after, suggests=suggests,
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('cvsmodule', parse_cvsmodule)
 
@@ -363,7 +364,7 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
 
     if node.hasAttribute('root'):
         repo = repositories[node.getAttribute('root')]
@@ -373,7 +374,7 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
-                         after=after,
+                         after=after, suggests=suggests,
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('svnmodule', parse_svnmodule)
 
@@ -402,7 +403,7 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
 
     if node.hasAttribute('root'):
         repo = repositories[node.getAttribute('root')]
@@ -412,6 +413,6 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
-                         after=after,
+                         after=after, suggests=suggests,
                          supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('archmodule', parse_archmodule)

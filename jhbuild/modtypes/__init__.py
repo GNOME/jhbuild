@@ -57,20 +57,25 @@ def parse_xml_node(node, config, uri, repositories, default_repo):
     return parser(node, config, uri, repositories, default_repo)
 
 def get_dependencies(node):
-    """Scan for dependencies in <dependencies> and <after> elements."""
+    """Scan for dependencies in <dependencies>, <suggests> and <after> elements."""
     dependencies = []
     after = []
+    suggests = []
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'dependencies':
             for dep in childnode.childNodes:
                 if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
                     dependencies.append(dep.getAttribute('package'))
-        elif childnode.nodeName in ['after', 'suggests']:
+        elif childnode.nodeName == 'suggests':
+            for dep in childnode.childNodes:
+                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+                    suggests.append(dep.getAttribute('package'))
+        elif childnode.nodeName == 'after':
             for dep in childnode.childNodes:
                 if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
                     after.append(dep.getAttribute('package'))
-    return dependencies, after
+    return dependencies, after, suggests
 
 def get_branch(node, repositories, default_repo):
     """Scan for a <branch> element and create a corresponding Branch object."""
@@ -138,10 +143,12 @@ class Package:
     type = 'base'
     STATE_START = 'start'
     STATE_DONE  = 'done'
-    def __init__(self, name, dependencies=[], after=[]):
+    def __init__(self, name, dependencies=[], after=[], suggests=[]):
         self.name = name
         self.dependencies = dependencies
         self.after = after
+        self.suggests = suggests
+
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
@@ -220,8 +227,8 @@ class MetaModule(Package):
 
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
-    dependencies, after = get_dependencies(node)
-    return MetaModule(id, dependencies=dependencies, after=after)
+    dependencies, after, suggests = get_dependencies(node)
+    return MetaModule(id, dependencies=dependencies, after=after, suggests=suggests)
 register_module_type('metamodule', parse_metamodule)
 
 

@@ -30,12 +30,14 @@ from jhbuild.errors import FatalError, BuildStateError
 
 class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
-		 makeargs='', dependencies=[], after=[], repository=None):
+		 makeargs='', dependencies=[], after=[], suggests=[],
+                 repository=None):
         AutogenModule.__init__(self, name, branch=None,
                                autogenargs=autogenargs,
                                makeargs=makeargs,
                                dependencies=dependencies,
                                after=after,
+                               suggests=suggests,
                                supports_non_srcdir_builds=False)
         self.repository = repository
         self.revision = revision
@@ -177,7 +179,7 @@ def parse_mozillamodule(node, config, uri, repositories, default_repo):
                                                        config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(name, config.makeargs)
 
-    dependencies, after = get_dependencies(node)
+    dependencies, after, suggests = get_dependencies(node)
 
     for attrname in ['cvsroot', 'root']:
         if node.hasAttribute(attrname):
@@ -187,6 +189,6 @@ def parse_mozillamodule(node, config, uri, repositories, default_repo):
         repo = repositories.get(default_repo, None)
 
     return MozillaModule(name, projects, revision, autogenargs, makeargs,
-                         dependencies, after, repo)
+                         dependencies, after, suggests, repo)
 
 register_module_type('mozillamodule', parse_mozillamodule)
