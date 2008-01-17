@@ -23,7 +23,7 @@ import os
 import sys
 import urlparse
 
-from jhbuild.errors import UsageError, FatalError
+from jhbuild.errors import UsageError, FatalError, DependencyCycleError
 
 try:
     import xml.dom.minidom
@@ -75,56 +75,74 @@ class ModuleSet:
 
         if seed == 'all': seed = self.modules.keys()
         try:
-            modules = [self.modules[mod] for mod in seed if mod not in skip]
+            all_modules = [self.modules[mod] for mod in seed if mod not in skip]
         except KeyError, e:
             raise UsageError('module "%s" not found' % str(e))
-        # expand dependencies
+
+        asked_modules = all_modules[:]
+
+        # 1st: get all modules that will be needed
+        # note this is only needed to skip "after" modules that would not
+        # otherwise be built
         i = 0
-        while i < len(modules):
-            depadd = []
-            # dependencies
-            for modname in modules[i].dependencies:
-                if self.modules.has_key(modname):
-                    depmod = self.modules[modname]
+        while i < len(all_modules):
+            for modname in all_modules[i].dependencies:
+                depmod = self.modules.get(modname)
+                if not depmod:
+                    raise UsageError('dependent module "%s" not found' % modname)
+                if not depmod in all_modules:
+                    all_modules.append(depmod)
+
+            # suggests can be ignored if not in moduleset
+            for modname in all_modules[i].suggests:
+                depmod = self.modules.get(modname)
+                if not depmod:
+                    continue
+                if not depmod in all_modules:
+                    all_modules.append(depmod)
+            i += 1
+
+        # 2nd: order them, raise an exception on hard dependency cycle, ignore
+        # them for soft dependencies
+        ordered = []
+        state = {}
+        def order(modules, module, mode = 'dependencies'):
+            if state.get(module, 'clean') == 'processed':
+                # already seen
+                return
+            if state.get(module, 'clean') == 'in-progress':
+                # dependency circle, abort when processing hard dependencies
+                if mode == 'dependencies':
+                    raise DependencyCycleError()
                 else:
-                    raise UsageError('dependent module "%s" not found'
-                                     % modname)
-                if depmod not in modules[:i+1] and depmod.name not in skip:
-                    depadd.append(depmod)
-            # suggests
-            for modname in modules[i].suggests:
-                if self.modules.has_key(modname):
-                    depmod = self.modules[modname]
-                else:
-                    # silently ignore unknown modules
-                    continue 
-                if depmod not in modules[:i+1] and depmod.name not in skip:
-                    depadd.append(depmod)
-            if depadd:
-                modules[i:i] = depadd
-            else:
-                i = i + 1
-        # and now 'after' modules.
-        i = 0
-        while i < len(modules):
-            depadd = []
-            for modname in modules[i].dependencies + modules[i].after:
-                if self.modules.has_key(modname):
-                    depmod = self.modules[modname]
-                else:
-                    continue # don't care about unknown after modules
-                if depmod in modules and depmod not in modules[:i+1]:
-                    depadd.append(depmod)
-            if depadd:
-                modules[i:i] = depadd
-            else:
-                i = i + 1
-        # remove duplicates
-        ret = []
-        for module in modules:
-            if module not in ret:
-                ret.append(module)
-        return ret
+                    state[module] = 'in-progress'
+                    return
+            state[module] = 'in-progress'
+            for modname in module.dependencies:
+                depmod = self.modules[modname]
+                order([self.modules[x] for x in depmod.dependencies], depmod, mode)
+            for modname in module.suggests:
+                depmod = self.modules.get(modname)
+                if not depmod:
+                    continue
+                order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+            for modname in module.after:
+                depmod = self.modules.get(modname)
+                if not depmod in all_modules:
+                    # not built otherwise
+                    continue
+                if not depmod:
+                    continue
+                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+            state[module] = 'processed'
+            ordered.append(module)
+
+        for i, module in enumerate(all_modules):
+            order([], module)
+            if i+1 == len(asked_modules): 
+                break
+
+        return ordered
     
     def get_full_module_list(self, skip=[]):
         return self.get_module_list(self.modules.keys(), skip=skip)

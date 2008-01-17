@@ -39,3 +39,8 @@ class CommandError(Exception):
 
 class BuildStateError(Exception):
     '''An error occurred while processing a build state.'''
+
+
+class DependencyCycleError(Exception):
+    '''There is a dependency cycle in the module set'''
+
