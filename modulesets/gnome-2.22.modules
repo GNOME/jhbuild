@@ -1178,8 +1178,6 @@
     </dependencies>
   </autotools>
 
-
-
   <autotools id="gio-standalone">
     <branch/>
     <dependencies>
@@ -1187,31 +1185,11 @@
     </dependencies>
   </autotools>
 
-
-  <!-- This can be removed (and uses of it can be replaced with libdaemon), 
-   when avahi-newer can be removed. See below. murrayc. -->
-  <tarball id="libdaemon-newer" version="0.12">
-    <source href="http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.12.tar.gz"
-            md5sum="76596823cc1a6d1cdf7779b782ff0ee6" size="355167"/>
-  </tarball>
-
-  <!-- This can be removed (and uses of it can be replaced with avahi), 
-       when the avahi in gnome-external-deps-2.22.modules is >= 0.6.18 (meaning it contains avahi-ui). murrayc. -->
-  <tarball id="avahi-newer" autogenargs="-disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" version="0.6.20">
-    <source href="http://avahi.org/download/avahi-0.6.20.tar.gz"
-            md5sum="6acdff79afa2631f765f3bbbc3e25a74" size="974209"/>
-    <dependencies>
-      <dep package="libdaemon-newer"/>
-      <dep package="dbus-python"/>
-      <dep package="pygtk"/>
-    </dependencies>
-  </tarball>
-
   <autotools id="libepc">
     <branch/>
     <dependencies>
       <dep package="libsoup"/>
-      <dep package="avahi-newer"/>
+      <dep package="avahi"/>
       <dep package="gnutls"/>
     </dependencies>
   </autotools>
