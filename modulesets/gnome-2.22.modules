@@ -55,6 +55,8 @@
       defbranch="im.pidgin.pidgin"/>
   <repository type="svn" name="svn.webkit.org"
       href="http://svn.webkit.org/repository/"/>
+  <repository type="git" name="git.savannah.nongnu.org"
+      href="git://git.savannah.nongnu.org/"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1374,6 +1376,25 @@
       <dep package="gtk+"/>
       <dep package="gnome-vfs"/>
       <dep package="libsexy"/>
+    </dependencies>
+  </autotools>
+
+    <autotools id="gtkmm-utils">
+    <branch repo="git.savannah.nongnu.org" module="gtkmm-utils" checkoutdir="gtkmm-utils" />
+    <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="paperbox">
+    <branch/>
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libglademm"/>
+      <dep package="gtkmm-utils"/>
+      <dep package="goocanvas"/>
+      <dep package="dbus-glib"/>
+      <dep package="tracker"/>
     </dependencies>
   </autotools>
 
