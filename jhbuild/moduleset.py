@@ -69,7 +69,7 @@ class ModuleSet:
                 i = i + 1
         return ret
 
-    def get_module_list(self, seed, skip=[]):
+    def get_module_list(self, seed, skip=[], ignore_cycles = False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -117,7 +117,7 @@ class ModuleSet:
                 return
             if state.get(module, 'clean') == 'in-progress':
                 # dependency circle, abort when processing hard dependencies
-                if mode == 'dependencies':
+                if mode == 'dependencies' and not ignore_cycles:
                     raise DependencyCycleError()
                 else:
                     state[module] = 'in-progress'
@@ -149,8 +149,9 @@ class ModuleSet:
 
         return ordered
     
-    def get_full_module_list(self, skip=[]):
-        return self.get_module_list(self.modules.keys(), skip=skip)
+    def get_full_module_list(self, skip=[], ignore_cycles=False):
+        return self.get_module_list(self.modules.keys(), skip=skip,
+                ignore_cycles=ignore_cycles)
 
     def get_test_module_list (self, seed, skip=[]):
         test_modules = []

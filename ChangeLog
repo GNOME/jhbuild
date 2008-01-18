@@ -1,5 +1,12 @@
 2008-01-18  Frederic Peters  <fpeters@0d.be>
 
+	* jhbuild/commands/rdepends.py, jhbuild/moduleset.py,
+	modulesets/hildon.modules: removed obvious cycle dependency of openobex
+	on itself; also fixed rdepends to silently ignore cycle dependencies.
+	(closes: #510498)
+
+2008-01-18  Frederic Peters  <fpeters@0d.be>
+
 	* jhbuild/moduleset.py, tests/tests.py: fixed skip option, as skipped
 	modules dependencies were not ignored (and fixed test case that I got
 	wrong).
