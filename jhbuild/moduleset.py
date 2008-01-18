@@ -142,6 +142,10 @@ class ModuleSet:
             if i+1 == len(asked_modules): 
                 break
 
+        for skipped in skip:
+            if self.modules.get(skipped) in ordered:
+                ordered.remove(self.modules[skipped])
+
         return ordered
     
     def get_full_module_list(self, skip=[]):
