@@ -71,7 +71,15 @@
 
   <autotools id="waf" autogen-sh="utils/autogen.sh">
     <branch repo="waf.googlecode.com" module="trunk" checkoutdir="waf"/>
+    <dependencies>
+      <dep package="python"/>
+    </dependencies>
   </autotools>
+
+  <tarball id="guile" version="1.8.0">
+    <source href="ftp://ftp.gnu.org/gnu/guile/guile-1.8.0.tar.gz"
+            size="3691677" md5sum="3f47443602f93e94bf43218d9b86099d"/>
+  </tarball>
 
   <metamodule id="meta-bootstrap">
     <dependencies>
@@ -85,6 +93,7 @@
       <dep package="automake-1.10" />
       <dep package="pkg-config" />
       <dep package="python" />
+      <dep package="guile" />
       <dep package="waf" />
     </dependencies>
   </metamodule>
