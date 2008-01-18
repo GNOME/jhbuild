@@ -106,6 +106,11 @@ class ModuleSet:
         # them for soft dependencies
         ordered = []
         state = {}
+
+        for modname in skip:
+            # mark skipped modules as already processed
+            state[self.modules.get(modname)] = 'processed'
+
         def order(modules, module, mode = 'dependencies'):
             if state.get(module, 'clean') == 'processed':
                 # already seen
@@ -141,10 +146,6 @@ class ModuleSet:
             order([], module)
             if i+1 == len(asked_modules): 
                 break
-
-        for skipped in skip:
-            if self.modules.get(skipped) in ordered:
-                ordered.remove(self.modules[skipped])
 
         return ordered
     

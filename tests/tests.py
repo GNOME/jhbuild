@@ -43,7 +43,7 @@ class ModuleOrderingTestCase(unittest.TestCase):
         '''A straight chain of dependencies, with a module to skip'''
         self.moduleset.modules['foo'].dependencies = ['bar']
         self.moduleset.modules['bar'].dependencies = ['baz']
-        self.assertEqual(self.get_module_list(['foo'], ['bar']), ['baz', 'foo'])
+        self.assertEqual(self.get_module_list(['foo'], ['bar']), ['foo'])
 
     def test_dependency_chain_bi(self):
         '''A dividing chain of dependencies'''
