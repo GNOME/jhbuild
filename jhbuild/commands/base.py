@@ -382,6 +382,16 @@ class cmd_dot(Command):
     name = 'dot'
     usage_args = '[ modules ... ]'
 
+    def __init__(self):
+        Command.__init__(self, [
+            make_option('--soft-deps',
+                        action='store_true', dest='soft_deps', default=False,
+                        help='add dotted lines to soft dependencies'),
+            make_option('--clusters',
+                        action='store_true', dest='clusters', default=False,
+                        help='group modules from metamodule together'),
+            ])
+
     def run(self, config, options, args):
         module_set = jhbuild.moduleset.load(config)
         if args:
@@ -390,6 +400,11 @@ class cmd_dot(Command):
             modules = None
         else:
             modules = config.modules
-        module_set.write_dot(modules)
+        kwargs = {}
+        if options.soft_deps:
+            kwargs['suggests'] = True
+        if options.clusters:
+            kwargs['clusters'] = True
+        module_set.write_dot(modules, **kwargs)
 
 register_command(cmd_dot)

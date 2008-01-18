@@ -740,17 +740,29 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
       <cmdsynopsis>
 	<command>jhbuild dot</command>
+	<arg>--soft-deps</arg>
+	<arg>--clusters</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>If no module names are given on the command line, then the
       module list found in the configuration file will be used.</para>
 
+      <para>The <option>--soft-deps</option> option will add dotted lines from
+      the modules to their soft dependencies.  The <option>--clusters</option>
+      option will group modules from <link
+      linkend="moduleset-syntax-defs-metamodule">metamodules</link>
+      together.</para>
+
       <para>The output of this command can easily be piped to the
-      <command>dot</command> utility to generate a postscript
+      <command>dot</command> utility to generate a PostScript
       file:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tps > dependencies.ps</userinput></screen>
+
+      <para>Or a PNG image:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tpng > dependencies.png</userinput></screen>
 
       <figure id="sample-dot-output">
         <title>Sample jhbuild dot output</title>

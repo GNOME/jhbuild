@@ -161,7 +161,7 @@ class ModuleSet:
                     test_modules.append(mod)
         return test_modules
     
-    def write_dot(self, modules=None, fp=sys.stdout):
+    def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule
         from jhbuild.modtypes.autotools import AutogenModule
         from jhbuild.versioncontrol.tarball import TarballBranch
@@ -202,6 +202,28 @@ class ModuleSet:
                 if not inlist.has_key(dep):
                     modules.append(dep)
                 inlist[dep] = None
+
+            if suggests:
+                for dep in self.modules[modname].after + self.modules[modname].suggests:
+                    if self.modules.has_key(dep):
+                        fp.write('  "%s" -> "%s" [style=dotted];\n' % (modname, dep))
+                        if not inlist.has_key(dep):
+                            modules.append(dep)
+                        inlist[dep] = None
+
+        if clusters:
+            # create clusters for MetaModules
+            for modname in inlist.keys():
+                mod = self.modules.get(modname)
+                if isinstance(mod, MetaModule):
+                    fp.write('  subgraph "cluster_%s" {\n' % mod.name)
+                    fp.write('     label="%s";\n' % mod.name)
+                    fp.write('     style="filled";bgcolor="honeydew2";\n')
+
+                    for dep in mod.dependencies:
+                        fp.write('    "%s";\n' % dep)
+                    fp.write('  }\n')
+
         fp.write('}\n')
 
 def load(config, uri=None):
