@@ -101,37 +101,6 @@ def get_branch(node, repositories, default_repo):
 
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
-def checkout(package, buildscript):
-    srcdir = package.get_srcdir(buildscript)
-    builddir = package.get_builddir(buildscript)
-    buildscript.set_action('Checking out', package)
-    package.branch.checkout(buildscript)
-    # did the checkout succeed?
-    if not os.path.exists(srcdir):
-        raise BuildStateError('source directory %s was not created'
-                              % srcdir)
-
-def check_build_policy(package, buildscript):
-    if buildscript.config.force_policy:
-        return
-    if buildscript.config.build_policy in ('updated', 'updated-deps'):
-        # has this module been updated ?
-        if buildscript.packagedb.check(package.name, package.get_revision() or ''):
-            # module has not been updated
-            if buildscript.config.build_policy == 'updated':
-                buildscript.message('Skipping %s (not updated)' % package.name)
-                raise SkipToState(Package.STATE_DONE)
-            elif buildscript.config.build_policy == 'updated-deps':
-                install_date = buildscript.packagedb.installdate(package.name)
-                for dep in package.dependencies:
-                    install_date_dep = buildscript.packagedb.installdate(dep)
-                    if install_date_dep > install_date:
-                        break
-                else:
-                    buildscript.message(
-                            'Skipping %s (package and dependencies not updated)' % package.name)
-                    raise SkipToState(Package.STATE_DONE)
-
 
 class SkipToState(Exception):
     def __init__(self, state):
@@ -175,8 +144,9 @@ class Package:
             if state == self.STATE_DONE:
                 return state
             do_method = getattr(self, 'do_' + state)
-            if hasattr(self, 'skip_' + state):
-                skip_method = getattr(self, 'skip_' + state)
+
+            skip_method = getattr(self, 'skip_' + state)
+            try:
                 if skip_method(buildscript, last_state):
                     state = do_method.next_state
                     assert state not in seen_states, (
@@ -184,9 +154,8 @@ class Package:
                         'skipped states: %r' % (state, seen_states))
                 else:
                     return state
-            else:
-                # no skip rule
-                return state
+            except SkipToState, e:
+                return e.state
 
     def run_state(self, buildscript, state):
         """run a particular part of the build for this package.
@@ -195,20 +164,60 @@ class Package:
           (next-state, error-flag, [other-states])
         """
         method = getattr(self, 'do_' + state)
-        # has the state been updated to the new system?
-        if hasattr(method, 'next_state'):
-            try:
-                method(buildscript)
-            except SkipToState, e:
-                return (e.state, None, None)
-            except (CommandError, BuildStateError), e:
-                return (self._next_state(buildscript, state),
-                        str(e), method.error_states)
-            else:
-                return (self._next_state(buildscript, state),
-                        None, None)
+        try:
+            method(buildscript)
+        except SkipToState, e:
+            return (e.state, None, None)
+        except (CommandError, BuildStateError), e:
+            return (self._next_state(buildscript, state),
+                    str(e), method.error_states)
         else:
-            return method(buildscript)
+            return (self._next_state(buildscript, state), None, None)
+
+    def check_build_policy(self, buildscript):
+        if buildscript.config.force_policy:
+            return
+        if not buildscript.config.build_policy in ('updated', 'updated-deps'):
+            return
+        if not buildscript.packagedb.check(self.name, self.get_revision() or ''):
+            # package has not been updated
+            return
+
+        # module has not been updated
+        if buildscript.config.build_policy == 'updated':
+            buildscript.message('Skipping %s (not updated)' % self.name)
+            return self.STATE_DONE
+
+        if buildscript.config.build_policy == 'updated-deps':
+            install_date = buildscript.packagedb.installdate(self.name)
+            for dep in self.dependencies:
+                install_date_dep = buildscript.packagedb.installdate(dep)
+                if install_date_dep > install_date:
+                    # a dependency has been updated
+                    return None
+            else:
+                buildscript.message(
+                        'Skipping %s (package and dependencies not updated)' % self.name)
+                return self.STATE_DONE
+
+    def checkout(self, buildscript):
+        srcdir = self.get_srcdir(buildscript)
+        buildscript.set_action('Checking out', self)
+        self.branch.checkout(buildscript)
+        # did the checkout succeed?
+        if not os.path.exists(srcdir):
+            raise BuildStateError('source directory %s was not created' % srcdir)
+
+        if self.check_build_policy(buildscript) == self.STATE_DONE:
+            raise SkipToState(self.STATE_DONE)
+
+    def skip_checkout(self, buildscript, last_state):
+        # skip the checkout stage if the nonetwork flag is set
+        if buildscript.config.nonetwork:
+            if self.check_build_policy(buildscript) == self.STATE_DONE:
+                raise SkipToState(self.STATE_DONE)
+            return True
+        return False
 
 
 class MetaModule(Package):

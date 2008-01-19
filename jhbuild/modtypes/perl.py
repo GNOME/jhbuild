@@ -24,8 +24,7 @@ import re
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type, \
-     checkout, check_build_policy
+     Package, get_dependencies, get_branch, register_module_type
 
 __all__ = [ 'PerlModule' ]
 
@@ -60,13 +59,8 @@ class PerlModule(Package):
     do_start.next_state = STATE_CHECKOUT
     do_start.error_states = []
 
-    def skip_checkout(self, buildscript, last_state):
-        # skip the checkout stage if the nonetwork flag is set
-        return buildscript.config.nonetwork
-
     def do_checkout(self, buildscript):
-        checkout(self, buildscript)
-        check_build_policy(self, buildscript)
+        self.checkout(buildscript)
     do_checkout.next_state = STATE_BUILD
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 

@@ -26,9 +26,11 @@ import jhbuild.versioncontrol
 class Config:
     buildroot = '/tmp/'
     builddir_pattern = '%s'
+    use_lib64 = False
+    noxvfb = True
+
     force_policy = False
     build_policy = 'all'
-    use_lib64 = False
 
     nonetwork = False
     nobuild = False

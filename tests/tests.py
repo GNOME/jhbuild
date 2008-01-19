@@ -150,6 +150,8 @@ class ModTypeTestCase(unittest.TestCase):
 
 
 class AutotoolsModTypeTestCase(ModTypeTestCase):
+    '''Autotools steps'''
+
     def setUp(self):
         ModTypeTestCase.setUp(self)
         from jhbuild.modtypes.autotools import AutogenModule
@@ -181,6 +183,8 @@ class AutotoolsModTypeTestCase(ModTypeTestCase):
 
 
 class BuildPolicyTestCase(ModTypeTestCase):
+    '''Build Policy'''
+
     def setUp(self):
         ModTypeTestCase.setUp(self)
         from jhbuild.modtypes.autotools import AutogenModule
@@ -196,6 +200,39 @@ class BuildPolicyTestCase(ModTypeTestCase):
         '''Building an uptodate module with build policy set to "updated"'''
         self.config.build_policy = 'updated'
         self.assertEqual(self.build(packagedb_params = {'uptodate': True}), ['Checking out'])
+
+    def test_policy_all_with_no_network(self):
+        '''Building an uptodate module with "all" policy, without network'''
+        self.config.build_policy = 'all'
+        self.assertEqual(self.build(
+                    packagedb_params = {'uptodate': True},
+                    nonetwork = True),
+                ['Configuring', 'Building', 'Installing'])
+
+    def test_policy_updated_with_no_network(self):
+        '''Building an uptodate module with "updated" policy, without network'''
+        self.config.build_policy = 'updated'
+        self.assertEqual(self.build(
+                    packagedb_params = {'uptodate': True},
+                    nonetwork = True), [])
+
+
+class TestModTypeTestCase(ModTypeTestCase):
+    '''Tests Module Steps'''
+
+    def setUp(self):
+        ModTypeTestCase.setUp(self)
+        from jhbuild.modtypes.testmodule import TestModule
+        self.module = TestModule('foo', self.branch, 'dogtail')
+
+    def test_run(self):
+        '''Running a test module'''
+        self.assertEqual(self.build(), ['Checking out', 'Testing'])
+
+    def test_build_no_network(self):
+        '''Running a test module, without network'''
+        self.assertEqual(self.build(nonetwork = True), ['Testing'])
+
 
 
 if __name__ == '__main__':

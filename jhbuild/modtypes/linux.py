@@ -66,21 +66,17 @@ class LinuxModule(Package):
 
     def skip_checkout(self, buildscript, last_state):
         # skip the checkout stage if the nonetwork flag is set
+        # (can't just call Package.skip_checkout() as build policy won't work
+        # with kconfigs)
         return buildscript.config.nonetwork
 
     def do_checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
-
-        self.branch.checkout(buildscript)
-        # did the checkout succeed?
-        if not os.path.exists(self.branch.srcdir):
-            raise BuildStateError('source directory %s was not created' % self.branch.srcdir)
-
+        self.checkout(buildscript)
         for kconfig in self.kconfigs:
             kconfig.checkout(buildscript)
             if not os.path.exists(kconfig.path):
                 raise BuildStateError('kconfig file %s was not created' % kconfig.path)
-
     do_checkout.next_state = STATE_CONFIGURE
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 

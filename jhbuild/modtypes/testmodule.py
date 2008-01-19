@@ -59,40 +59,20 @@ class TestModule(Package):
         return self.branch.branchname
 
     def do_start(self, buildscript):
-        testdir = buildscript.config.buildroot
-        if not buildscript.config.nonetwork: # normal start state
-            return (self.STATE_CHECKOUT, None, None)
-        else:
-            return (self.STATE_TEST, None, None)
+        pass
+    do_start.next_state = STATE_CHECKOUT
+    do_start.error_states = []
 
     def do_checkout(self, buildscript):
-        srcdir = self.get_srcdir(buildscript)
-        buildscript.set_action('Checking out', self)
-        try:
-            self.branch.checkout(buildscript)
-        except CommandError:
-            succeeded = False
-        else:
-            succeeded = True
-
-        nextstate = self.STATE_TEST
-        # did the checkout succeed?
-        if succeeded and os.path.exists(srcdir):
-            return (nextstate, None, None)
-        else:
-            return (nextstate, 'could not update module',
-                    [self.STATE_FORCE_CHECKOUT])
+        self.checkout(buildscript)
+    do_checkout.next_state = STATE_TEST
+    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
         
     def do_force_checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
-        nextstate = self.STATE_TEST
-        try:
-            self.branch.force_checkout(buildscript)
-        except CommandError:
-            return (nextstate, 'could not checkout module',
-                    [self.STATE_FORCE_CHECKOUT])
-        else:
-            return (nextstate, None, None)
+        self.branch.force_checkout(buildscript)
+    do_force_checkout.next_state = STATE_TEST
+    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
 
     def _get_display(self):
         # get free display
@@ -126,10 +106,10 @@ class TestModule(Package):
             return ''
         return new_xauth
     
-    def do_test(self, buildscript):
-        method = getattr(self, 'do_' + self.test_type + '_test')
-        nextstate = self.STATE_DONE
+    def skip_test(self, buildscript, last_state):
+        return False
 
+    def do_test(self, buildscript):
         buildscript.set_action('Testing', self)
         if not buildscript.config.noxvfb:
             # start Xvfb
@@ -137,27 +117,27 @@ class TestModule(Package):
             old_xauth   = os.environ.get('XAUTHORITY')
             xvfb_pid = self._start_xvfb(buildscript.config.xvfbargs)
             if xvfb_pid == -1:
-                return (nextstate, 'Unable to start Xvfb', [])
+                raise BuildStateError('Unable to start Xvfb')
 
-        status, error = method(buildscript)
-        
-        if not buildscript.config.noxvfb:
-            # kill Xvfb if it has been started
-            self._stop_xvfb(xvfb_pid)
-            if old_display:
-                os.environ['DISPLAY'] = old_display
-            else:
-                os.unsetenv('DISPLAY')
-            if old_xauth:
-                os.environ['XAUTHORITY'] = old_xauth
-            else:
-                os.unsetenv('XAUTHORITY')
+        # either do_ldtp_test or do_dogtail_test
+        method = getattr(self, 'do_' + self.test_type + '_test')
+        try:
+            method(buildscript)
+        finally:
+            if not buildscript.config.noxvfb:
+                # kill Xvfb if it has been started
+                self._stop_xvfb(xvfb_pid)
+                if old_display:
+                    os.environ['DISPLAY'] = old_display
+                else:
+                    os.unsetenv('DISPLAY')
+                if old_xauth:
+                    os.environ['XAUTHORITY'] = old_xauth
+                else:
+                    os.unsetenv('XAUTHORITY')
+    do_test.next_state = Package.STATE_DONE
+    do_test.error_states = []
                 
-        if status !=0:
-            return (nextstate, error, [])
-        buildscript.message(error)
-        return (nextstate, None, None)
-
     def get_ldtp_log_file(self, filename):
         # <ldtp>
         # |
@@ -310,7 +290,7 @@ class TestModule(Package):
 
         ldtp_pid = self._start_ldtp()
         if ldtp_pid == -1:
-            return (ldtp_pid, 'Unable to start ldtp server')
+            raise BuildStateError('Unable to start ldtp server')
 
         try:
             if buildscript.config.noxvfb:
@@ -321,8 +301,8 @@ class TestModule(Package):
         except CommandError, e:
             os.kill(ldtp_pid, signal.SIGINT)
             if e.returncode == 32512:        # ldtprunner not installed
-                return (e.returncode, 'ldtprunner not available')
-            return (e.returncode, 'error during running of test')
+                raise BuildStateError('ldtprunner not available')
+            raise BuildStateError('error %s during test' % e.returncode)
         os.kill(ldtp_pid, signal.SIGINT)
         
         if old_debug != None:
@@ -330,15 +310,14 @@ class TestModule(Package):
         
         log_file = self.get_ldtp_log_file(os.path.join (src_dir,'run.xml'))
         if not log_file:
-            return (-1, 'missing log file')
+            raise BuildStateError('missing log file')
         try:
             groups = self._check_ldtp_log_file(log_file)
             flag, status = self.check_groups(groups)
             if flag:
-                return (-1, status)
+                raise BuildStateError(status)
         except:
-             return (-1, 'malformed log file')
-        return (0, status)
+            raise BuildStateError('malformed log file')
 
     def do_dogtail_test(self, buildscript):
         src_dir = self.get_srcdir(buildscript)
@@ -356,11 +335,7 @@ class TestModule(Package):
                         cwd=src_dir, extra_env={'DISPLAY': ':%s' % self.screennum})
             except CommandError, e:
                 if e.returncode != 0:
-                    status += '%s failed\n' % test_case
-                    failed = True
-        if failed:
-            return (-1, status)
-        return (0, status)
+                    raise BuildStateError('%s failed' % test_case)
 
 
 def get_tested_packages(node):
