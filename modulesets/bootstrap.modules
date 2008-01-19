@@ -79,9 +79,17 @@
     </dependencies>
   </autotools>
 
+  <tarball id="gmp" version="4.2.2">
+    <source href="ftp://ftp.gnu.org/gnu/gmp/gmp-4.2.2.tar.bz2"
+            size="1747068" md5sum="7ce52531644e6d12f16911b7e3151f3f"/>
+  </tarball>
+
   <tarball id="guile" version="1.8.3">
     <source href="ftp://ftp.gnu.org/gnu/guile/guile-1.8.3.tar.gz"
             size="3871450" md5sum="7fd016924e1bc3e273f4009a080942de"/>
+    <dependencies>
+      <dep package="gmp"/>
+    </dependencies>
   </tarball>
 
   <metamodule id="meta-bootstrap">
