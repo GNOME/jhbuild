@@ -41,6 +41,9 @@ class cmd_update(Command):
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
                         help='start building at the given module'),
+            make_option('--tags',
+                        action='append', dest='tags', default=[],
+                        help='build only modules with the given tags'),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
@@ -49,12 +52,14 @@ class cmd_update(Command):
     def run(self, config, options, args):
         for item in options.skip:
             config.skip += item.split(',')
+        for item in options.tags:
+            config.tags += item.split(',')
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                                                 config.skip)
+                config.skip, tags = config.tags)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -141,6 +146,9 @@ class cmd_build(Command):
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
                         help='start building at the given module'),
+            make_option('--tags',
+                        action='append', dest='tags', default=[],
+                        help='build only modules with the given tags'),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help='set a sticky date when checking out modules'),
@@ -171,6 +179,8 @@ class cmd_build(Command):
             config.nonetwork = True
         for item in options.skip:
             config.skip += item.split(',')
+        for item in options.tags:
+            config.tags += item.split(',')
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
         if options.noxvfb is not None:
@@ -186,7 +196,7 @@ class cmd_build(Command):
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                                                 config.skip)
+                config.skip, tags = config.tags)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -354,14 +364,19 @@ class cmd_list(Command):
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
                         help='treat the given modules as up to date'),
+            make_option('--tags',
+                        action='append', dest='tags', default=[],
+                        help='build only modules with the given tags'),
             ])
 
     def run(self, config, options, args):
         for item in options.skip:
             config.skip += item.split(',')
+        for item in options.tags:
+            config.tags += item.split(',')
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                                                 config.skip)
+                config.skip, tags = config.tags)
 
         for mod in module_list:
             if options.show_rev:

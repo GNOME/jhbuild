@@ -533,6 +533,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg>--no-network</arg>
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>--tags=<replaceable>tags</replaceable></arg>
 	<arg>-D <replaceable>date</replaceable></arg>
 	<arg>--no-xvfb</arg>
 	<arg>--try-checkout</arg>
@@ -597,6 +598,18 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	    <simpara>Ignore the named modules when following
 	    dependencies to expand the list of modules to be
 	    built.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>
+	  <option>--tags</option>=<replaceable>tag,...</replaceable></term>
+	  <listitem>
+	    <simpara>Ignore modules that do not match any of
+	    <replaceable>tag</replaceable> when following dependencies
+	    to expand the list of modules to be built.</simpara>
+	    <simpara>At the moment modules are automatically attributed a tag
+	    with the name of the module set they sit in.</simpara>
 	  </listitem>
 	</varlistentry>
 
@@ -805,6 +818,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<command>jhbuild list</command>
 	<arg>-r</arg>
 	<arg>-s</arg>
+	<arg>--tags=<replaceable>tags</replaceable></arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -831,6 +845,17 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    dependencies to expand the list of modules.</simpara>
 	  </listitem>
 	</varlistentry>
+
+	<varlistentry>
+	  <term>
+	  <option>--tags</option>=<replaceable>tag,...</replaceable></term>
+	  <listitem>
+	    <simpara>Ignore modules that do not match any of
+	    <replaceable>tag</replaceable> when following dependencies
+	    to expand the list of modules to be displayed.</simpara>
+	  </listitem>
+	</varlistentry>
+
       </variablelist>
 
     </section>
@@ -999,13 +1024,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<command>jhbuild update</command>
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
+	<arg>--tags=<replaceable>tags</replaceable></arg>
 	<arg>-D <replaceable>date</replaceable></arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--skip</option>, <option>--start-at</option>
-      and <option>-D</option> options are processed the same as for
-      <command>build</command>.</para>
+      <para>The <option>--skip</option>, <option>--start-at</option>,
+      <option>--tags</option> and <option>-D</option> options are processed the
+      same as for <command>build</command>.</para>
 
     </section>
 

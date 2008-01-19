@@ -43,33 +43,7 @@ class ModuleSet:
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
 
-    # functions for handling dep expansion
-    def __expand_mod_list(self, modlist, skip):
-        '''expands a list of names to a list of Module objects.  Expands
-        dependencies.  Does not handle loops in deps''' #"
-        ret = [self.modules[modname]
-                   for modname in modlist
-                       if modname not in skip]
-        i = 0
-        while i < len(ret):
-            depadd = []
-            for depmod in [self.modules[modname]
-                               for modname in ret[i].dependencies]:
-                if depmod not in ret[:i+1] and depmod.name not in skip:
-                    depadd.append(depmod)
-            if depadd:
-                ret[i:i] = depadd
-            else:
-                i = i + 1
-        i = 0
-        while i < len(ret):
-            if ret[i] in ret[:i]:
-                del ret[i]
-            else:
-                i = i + 1
-        return ret
-
-    def get_module_list(self, seed, skip=[], ignore_cycles = False):
+    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -110,6 +84,15 @@ class ModuleSet:
         for modname in skip:
             # mark skipped modules as already processed
             state[self.modules.get(modname)] = 'processed'
+
+        if tags:
+            for modname in self.modules:
+                for tag in tags:
+                    if tag in self.modules[modname].tags:
+                        break
+                else:
+                    # no tag matched, mark module as processed
+                    state[self.modules[modname]] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
             if state.get(module, 'clean') == 'processed':
@@ -274,6 +257,9 @@ def _parse_module_set(config, uri):
 
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()
+    moduleset_name = document.documentElement.getAttribute('name')
+    if not moduleset_name and uri.endswith('.modules'):
+        moduleset_name = os.path.basename(uri)[:-len('.modules')]    
 
     # load up list of repositories
     repositories = {}
@@ -332,7 +318,10 @@ def _parse_module_set(config, uri):
                                'arch-archive']:
             pass
         else:
-            moduleset.add(modtypes.parse_xml_node(node, config, uri,
-                                                  repositories, default_repo))
+            module = modtypes.parse_xml_node(node, config, uri,
+                    repositories, default_repo)
+            if moduleset_name:
+                module.tags.append(moduleset_name)
+            moduleset.add(module)
 
     return moduleset
