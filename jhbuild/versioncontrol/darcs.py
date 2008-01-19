@@ -24,8 +24,9 @@ import md5
 import os
 import urlparse
 
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 class DarcsRepository(Repository):
     """A class representing a Darcs repository.
@@ -97,6 +98,9 @@ class DarcsBranch(Branch):
             os.chmod(path, stat.st_mode | 0111)
 
     def checkout(self, buildscript):
+        if not inpath('darcs', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError('Missing darcs command')
+
         if os.path.exists(self.srcdir):
             self._update(buildscript)
         else:
