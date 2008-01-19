@@ -1,4 +1,6 @@
+if DOC_INSTALLATION_ENABLED
 SUBDIRS = doc
+endif
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
 SOURCES = $(shell find $(top_srcdir)/jhbuild/ -name *.py) jhbuild/defaults.jhbuildrc
