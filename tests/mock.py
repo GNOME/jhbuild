@@ -18,10 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+import time
 
 import jhbuild.frontends.buildscript
 import jhbuild.versioncontrol
+import jhbuild.errors
 
 class Config:
     buildroot = '/tmp/'
@@ -38,20 +39,36 @@ class Config:
     makecheck = False
     makedist = False
     makedistcheck = False
+    nopoison = False
+    makecheck_advisory = False
 
     prefix = '/tmp/'
 
 class PackageDB:
+    time_delta = 0
+
     def __init__(self, uptodate = False):
-        self.uptodate = uptodate
+        self.force_uptodate = uptodate
+        self.db = {}
 
     def check(self, package, version=None):
-        return self.uptodate
+        if self.force_uptodate:
+            return self.force_uptodate
+        return self.db.get(package, ('_none_'))[0] == version
 
     def add(self, package, version):
-        pass
+        self.db[package] = (version, time.time()+self.time_delta)
+
+    def remove(self, package):
+        del self.db[package]
+
+    def installdate(self, package):
+        return self.db.get(package, ('_none_'))[1]
+
 
 class BuildScript(jhbuild.frontends.buildscript.BuildScript):
+    execute_is_failure = False
+
     def __init__(self, config, module_list):
         self.config = config
         self.modulelist = module_list
@@ -59,13 +76,18 @@ class BuildScript(jhbuild.frontends.buildscript.BuildScript):
         self.actions = []
     
     def set_action(self, action, module, module_num=-1, action_target=None):
-        self.actions.append(action)
+        self.actions.append('%s:%s' % (module.name, action))
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
-        pass
+        if self.execute_is_failure:
+            raise jhbuild.errors.CommandError('Mock command asked to fail')
 
     def message(self, msg, module_num = -1):
         pass
+    
+    def handle_error(self, module, state, nextstate, error, altstates):
+        self.actions[-1] = self.actions[-1] + ' [error]'
+        return 'fail'
 
 class Branch(jhbuild.versioncontrol.Branch):
     def __init__(self):
@@ -80,3 +102,6 @@ class Branch(jhbuild.versioncontrol.Branch):
 
     def tree_id(self):
         return 'foo'
+
+def raise_command_error(*args):
+    raise jhbuild.errors.CommandError('Mock Command Error Exception')

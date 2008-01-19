@@ -28,7 +28,7 @@ import unittest
 
 import jhbuild.moduleset
 from jhbuild.modtypes import Package
-from jhbuild.errors import DependencyCycleError, UsageError
+from jhbuild.errors import DependencyCycleError, UsageError, CommandError
 
 import mock
 
@@ -134,72 +134,104 @@ class ModuleOrderingTestCase(unittest.TestCase):
         self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'quux', 'qux', 'foo'])
 
 
-class ModTypeTestCase(unittest.TestCase):
+class BuildTestCase(unittest.TestCase):
     def setUp(self):
         self.config = mock.Config()
         self.branch = mock.Branch()
         self.branch.config = self.config
+        self.buildscript = None
 
     def build(self, packagedb_params = {}, **kwargs):
         for k in kwargs:
             setattr(self.config, k, kwargs[k])
-        buildscript = mock.BuildScript(self.config, [self.module])
-        buildscript.packagedb = mock.PackageDB(**packagedb_params)
-        buildscript.build()
-        return buildscript.actions
+
+        if not self.buildscript or packagedb_params:
+            self.buildscript = mock.BuildScript(self.config, self.modules)
+            self.buildscript.packagedb = mock.PackageDB(**packagedb_params)
+        else:
+            packagedb = self.buildscript.packagedb
+            self.buildscript = mock.BuildScript(self.config, self.modules)
+            self.buildscript.packagedb = packagedb
+
+        self.buildscript.build()
+        return self.buildscript.actions
+
+    def tearDown(self):
+        self.buildscript = None
 
 
-class AutotoolsModTypeTestCase(ModTypeTestCase):
+class AutotoolsModTypeTestCase(BuildTestCase):
     '''Autotools steps'''
 
     def setUp(self):
-        ModTypeTestCase.setUp(self)
+        BuildTestCase.setUp(self)
         from jhbuild.modtypes.autotools import AutogenModule
-        self.module = AutogenModule('foo', self.branch)
+        self.modules = [AutogenModule('foo', self.branch)]
 
     def test_build(self):
         '''Building a autotools module'''
         self.assertEqual(self.build(),
-                ['Checking out', 'Configuring', 'Building', 'Installing'])
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Installing'])
 
     def test_build_no_network(self):
         '''Building a autotools module, without network'''
         self.assertEqual(self.build(nonetwork = True),
-                ['Configuring', 'Building', 'Installing'])
+                ['foo:Configuring', 'foo:Building', 'foo:Installing'])
 
     def test_update(self):
         '''Updating a autotools module'''
-        self.assertEqual(self.build(nobuild = True), ['Checking out'])
+        self.assertEqual(self.build(nobuild = True), ['foo:Checking out'])
 
     def test_build_check(self):
         '''Building a autotools module, with checks'''
         self.assertEqual(self.build(makecheck = True),
-                ['Checking out', 'Configuring', 'Building', 'Checking', 'Installing'])
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Checking', 'foo:Installing'])
 
     def test_build_clean_and_check(self):
         '''Building a autotools module, with cleaning and checks'''
         self.assertEqual(self.build(makecheck = True, makeclean = True),
-                ['Checking out', 'Configuring', 'Cleaning', 'Building', 'Checking', 'Installing'])
+                ['foo:Checking out', 'foo:Configuring', 'foo:Cleaning',
+                 'foo:Building', 'foo:Checking', 'foo:Installing'])
+
+    def test_build_check_error(self):
+        '''Building a autotools module, with an error in make check'''
+
+        def make_check_error(buildscript, *args):
+            self.modules[0].do_check_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        make_check_error.next_state = self.modules[0].do_check.next_state
+        make_check_error.error_states = self.modules[0].do_check.error_states
+        self.modules[0].do_check_orig = self.modules[0].do_check
+        self.modules[0].do_check = make_check_error
+
+        self.assertEqual(self.build(makecheck = True),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Checking [error]'])
 
 
-class BuildPolicyTestCase(ModTypeTestCase):
+
+class BuildPolicyTestCase(BuildTestCase):
     '''Build Policy'''
 
     def setUp(self):
-        ModTypeTestCase.setUp(self)
+        BuildTestCase.setUp(self)
         from jhbuild.modtypes.autotools import AutogenModule
-        self.module = AutogenModule('foo', self.branch)
+        self.modules = [AutogenModule('foo', self.branch)]
 
     def test_policy_all(self):
         '''Building an uptodate module with build policy set to "all"'''
         self.config.build_policy = 'all'
         self.assertEqual(self.build(packagedb_params = {'uptodate': True}),
-                ['Checking out', 'Configuring', 'Building', 'Installing'])
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Installing'])
 
     def test_policy_updated(self):
         '''Building an uptodate module with build policy set to "updated"'''
         self.config.build_policy = 'updated'
-        self.assertEqual(self.build(packagedb_params = {'uptodate': True}), ['Checking out'])
+        self.assertEqual(self.build(packagedb_params = {'uptodate': True}),
+                ['foo:Checking out'])
 
     def test_policy_all_with_no_network(self):
         '''Building an uptodate module with "all" policy, without network'''
@@ -207,7 +239,7 @@ class BuildPolicyTestCase(ModTypeTestCase):
         self.assertEqual(self.build(
                     packagedb_params = {'uptodate': True},
                     nonetwork = True),
-                ['Configuring', 'Building', 'Installing'])
+                ['foo:Configuring', 'foo:Building', 'foo:Installing'])
 
     def test_policy_updated_with_no_network(self):
         '''Building an uptodate module with "updated" policy, without network'''
@@ -217,22 +249,167 @@ class BuildPolicyTestCase(ModTypeTestCase):
                     nonetwork = True), [])
 
 
-class TestModTypeTestCase(ModTypeTestCase):
+class TestModTypeTestCase(BuildTestCase):
     '''Tests Module Steps'''
 
     def setUp(self):
-        ModTypeTestCase.setUp(self)
+        BuildTestCase.setUp(self)
         from jhbuild.modtypes.testmodule import TestModule
-        self.module = TestModule('foo', self.branch, 'dogtail')
+        self.modules = [TestModule('foo', self.branch, 'dogtail')]
 
     def test_run(self):
         '''Running a test module'''
-        self.assertEqual(self.build(), ['Checking out', 'Testing'])
+        self.assertEqual(self.build(), ['foo:Checking out', 'foo:Testing'])
 
     def test_build_no_network(self):
         '''Running a test module, without network'''
-        self.assertEqual(self.build(nonetwork = True), ['Testing'])
+        self.assertEqual(self.build(nonetwork = True), ['foo:Testing'])
 
+
+class TwoModulesTestCase(BuildTestCase):
+    '''Building two dependent modules'''
+
+    def setUp(self):
+        BuildTestCase.setUp(self)
+        from jhbuild.modtypes.autotools import AutogenModule
+        self.foo_branch = mock.Branch()
+        self.modules = [AutogenModule('foo', self.foo_branch),
+                        AutogenModule('bar', self.branch)]
+
+    def test_build(self):
+        '''Building two autotools module'''
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Installing',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Installing',
+                ])
+
+    def test_build_failure_independent_modules(self):
+        '''Building two independent autotools modules, with failure in first'''
+
+        def build_error(buildscript, *args):
+            self.modules[0].do_build_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        build_error.next_state = self.modules[0].do_build.next_state
+        build_error.error_states = self.modules[0].do_build.error_states
+        self.modules[0].do_build_orig = self.modules[0].do_build
+        self.modules[0].do_build = build_error
+
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building [error]',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Installing',
+                ])
+
+    def test_build_failure_dependent_modules(self):
+        '''Building two dependent autotools modules, with failure in first'''
+        self.modules[1].dependencies = ['foo']
+
+        def build_error(buildscript, *args):
+            self.modules[0].do_build_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        build_error.next_state = self.modules[0].do_build.next_state
+        build_error.error_states = self.modules[0].do_build.error_states
+        self.modules[0].do_build_orig = self.modules[0].do_build
+        self.modules[0].do_build = build_error
+
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building [error]'])
+
+    def test_build_failure_dependent_modules_nopoison(self):
+        '''Building two dependent autotools modules, with failure, but nopoison'''
+        self.modules[1].dependencies = ['foo']
+
+        def build_error(buildscript, *args):
+            self.modules[0].do_build_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        build_error.next_state = self.modules[0].do_build.next_state
+        build_error.error_states = self.modules[0].do_build.error_states
+        self.modules[0].do_build_orig = self.modules[0].do_build
+        self.modules[0].do_build = build_error
+
+        self.assertEqual(self.build(nopoison = True),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building [error]',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Installing',
+                ])
+
+    def test_build_no_update(self):
+        '''Building two uptodate, autotools module'''
+        self.build() # will feed PackageDB
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Installing',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Installing',
+                ])
+
+    def test_build_no_update_updated_policy(self):
+        '''Building two uptodate, autotools module, with 'updated' policy'''
+        self.build() # will feed PackageDB
+        self.assertEqual(self.build(build_policy = 'updated'),
+                ['foo:Checking out', 'bar:Checking out'])
+
+    def test_build_no_update_updated_deps_policy(self):
+        '''Building two autotools module, (changed and not), with 'updated-deps' policy'''
+        self.modules[1].dependencies = ['foo']
+        self.build() # will feed PackageDB
+        self.buildscript.packagedb.remove('foo')
+        self.buildscript.packagedb.time_delta = 5
+        self.assertEqual(self.build(build_policy = 'updated-deps'),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Installing',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Installing',
+                ])
+
+    def test_build_no_update_updated_deps_policy(self):
+        '''Building two independent autotools module, (changed and not), with 'updated-deps' policy'''
+        self.build() # will feed PackageDB
+        self.buildscript.packagedb.remove('foo')
+        self.buildscript.packagedb.time_delta = 5
+        self.assertEqual(self.build(build_policy = 'updated-deps'),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Installing',
+                 'bar:Checking out',])
+
+    def test_make_check_failure_dependent_modules(self):
+        '''Building two dependent autotools modules, with failure in make check'''
+        self.modules[1].dependencies = ['foo']
+
+        def check_error(buildscript, *args):
+            self.modules[0].do_check_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        check_error.next_state = self.modules[0].do_check.next_state
+        check_error.error_states = self.modules[0].do_check.error_states
+        self.modules[0].do_check_orig = self.modules[0].do_check
+        self.modules[0].do_check = check_error
+
+        self.assertEqual(self.build(makecheck = True),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Checking [error]'])
+
+    def test_make_check_failure_dependent_modules_makecheck_advisory(self):
+        '''Building two dependent autotools modules, with *advisory* failure in make check'''
+        self.modules[1].dependencies = ['foo']
+
+        def check_error(buildscript, *args):
+            buildscript.execute_is_failure = True
+            try:
+                self.modules[0].do_check_orig(buildscript, *args)
+            finally:
+                buildscript.execute_is_failure = False
+        check_error.next_state = self.modules[0].do_check.next_state
+        check_error.error_states = self.modules[0].do_check.error_states
+        self.modules[0].do_check_orig = self.modules[0].do_check
+        self.modules[0].do_check = check_error
+
+        self.assertEqual(self.build(makecheck = True, makecheck_advisory = True),
+                ['foo:Checking out', 'foo:Configuring',
+                 'foo:Building', 'foo:Checking', 'foo:Installing',
+                 'bar:Checking out', 'bar:Configuring',
+                 'bar:Building', 'bar:Checking', 'bar:Installing'])
 
 
 if __name__ == '__main__':

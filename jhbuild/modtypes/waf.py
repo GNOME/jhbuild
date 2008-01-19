@@ -1,6 +1,7 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
-# Copyright (C) 2007  Gustavo Carneiro
 # Copyright (C) 2001-2006  James Henstridge
+# Copyright (C) 2007  Gustavo Carneiro
+# Copyright (C) 2008  Frederic Peters
 #
 #   waf.py: waf module type definitions.
 #
@@ -136,7 +137,11 @@ class WafModule(Package):
     def do_check(self, buildscript):
         buildscript.set_action('Checking', self)
         cmd = [self.waf_cmd, 'check']
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        try:
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        except CommandError:
+            if not buildscript.config.makecheck_advisory:
+                raise
     do_check.next_state = STATE_DIST
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 

@@ -1,5 +1,6 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2006  James Henstridge
+# Copyright (C) 2007-2008  Frederic Peters
 #
 #   autotools.py: autotools module type definitions.
 #
@@ -22,7 +23,7 @@ __metaclass__ = type
 import os
 import re
 
-from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 
@@ -186,7 +187,11 @@ class AutogenModule(Package):
     def do_check(self, buildscript):
         buildscript.set_action('Checking', self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        try:
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        except CommandError:
+            if not buildscript.config.makecheck_advisory:
+                raise
     do_check.next_state = STATE_DIST
     do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
