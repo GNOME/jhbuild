@@ -11,25 +11,36 @@
         <title>Module Set</title>
         <style type="text/css">
           <xsl:text>
-            div.cvsmodule, div.mozillamodule {
-              padding: 0.5em;
-              margin: 0.5em;
-              background: #87CEFA;
+            dl {
+              -moz-column-width: 40em;
+              -moz-column-gap: 2em;
             }
-            div.svnmodule {
-              padding: 0.5em;
-              margin: 0.5em;
-              background: #67AEDA;
+            dt {
+              font-weight: bold;
+              background: #8f8;
+              display: inline;
+              padding: 0 1ex;
             }
-            div.metamodule {
-              padding: 0.5em;
-              margin: 0.5em;
+            dt.metamodule {
               background: #F08080;
             }
-            div.tarball {
-              padding: 0.5em;
-              margin: 0.5em;
+            dt.tarball {
               background: #EEDD82;
+            }
+            dd {
+              font-size: smaller;
+            }
+            dd {
+              margin-bottom: 0.5em;
+            }
+            th {
+              text-align: left;
+              vertical-align: top;
+            }
+            ul.patches {
+              list-style: none;
+              padding: 0;
+              margin: 0;
             }
           </xsl:text>
         </style>
@@ -41,11 +52,13 @@
   </xsl:template>
 
   <xsl:template match="moduleset">
-    <h1>Module Set</h1>
+    <h1>JHBuild Module Set</h1>
+    <dl>
     <xsl:apply-templates />
+    </dl>
   </xsl:template>
 
-  <xsl:template match="dependencies">
+  <xsl:template match="dependencies|suggests|after">
     <xsl:variable name="deps" select="dep/@package" />
     <xsl:for-each select="$deps">
       <a href="#{generate-id(key('module-id', .))}">
@@ -57,15 +70,28 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="cvsmodule">
-    <div class="{name(.)}">
-      <h2>
-        <xsl:value-of select="@id" />
-        <a name="{generate-id(.)}" />
-      </h2>
+  <xsl:template match="moduleset/*">
+    <xsl:param name="reponame">
+      <xsl:choose>
+        <xsl:when test="branch/@repo"><xsl:value-of select="branch/@repo"/></xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="//repository[@default = 'yes']/@name"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+
+    <dt id="{generate-id(.)}">
+      <xsl:attribute name="class">module
+        <xsl:if test="name(.) = 'tarball' or
+                      //repository[@name = $reponame]/@type = 'tarball'">tarball</xsl:if>
+      </xsl:attribute>
+      <xsl:value-of select="@id" />
+    </dt>
+
+    <dd>
       <table>
         <tr>
-          <th align="left">Module:</th>
+          <th>Module:</th>
           <td>
             <xsl:choose>
               <xsl:when test="@module">
@@ -75,209 +101,96 @@
                 <xsl:value-of select="@id" />
               </xsl:otherwise>
             </xsl:choose>
-            <xsl:if test="@revision">
-              <xsl:text> rv:</xsl:text>
-              <xsl:value-of select="@revision" />
+            <xsl:if test="branch/@revision">
+              <xsl:text> revision: </xsl:text>
+              <xsl:value-of select="branch/@revision" />
             </xsl:if>
           </td>
         </tr>
+        <xsl:if test="name(.) = 'tarball' or //repository[@name = $reponame]/@type = 'tarball'">
+          <tr>
+            <th>URL:</th>
+            <td>
+              <xsl:variable name="url">
+                <xsl:choose>
+                  <xsl:when test="name(.) = 'tarball'">
+                    <xsl:value-of select="source/@href"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="//repository[@name=$reponame]/@href"
+                     /><xsl:value-of select="branch/@module"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+              <a href="{$url}"><xsl:value-of select="$url"/></a>
+              <xsl:if test="branch/@size"> (<xsl:value-of select="branch/@size"/> bytes)</xsl:if>
+              <xsl:if test="source/@size"> (<xsl:value-of select="source/@size"/> bytes)</xsl:if>
+            </td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="branch/patch">
+          <tr>
+            <th>Patches:</th>
+            <td>
+              <ul class="patches">
+                <xsl:apply-templates select="branch/patch"/>
+              </ul>
+            </td>
+          </tr>
+        </xsl:if>
         <xsl:if test="@checkoutdir">
           <tr>
-            <th align="left">Checkout directory:</th>
+            <th>Checkout directory:</th>
             <td><xsl:value-of select="@checkoutdir" /></td>
           </tr>
         </xsl:if>
         <xsl:if test="@autogenargs">
           <tr>
-            <th align="left">Autogen args:</th>
+            <th>Autogen args:</th>
             <td><xsl:value-of select="@autogenargs" /></td>
           </tr>
         </xsl:if>
-        <xsl:if test="@cvsroot">
+        <xsl:if test="dependencies/dep">
           <tr>
-            <th align="left">CVS Root:</th>
-            <td><xsl:value-of select="@cvsroot" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="dependencies">
-          <tr>
-            <th align="left" valign="top">Dependencies:</th>
+            <th>Dependencies:</th>
             <td><xsl:apply-templates select="dependencies" /></td>
           </tr>
         </xsl:if>
+        <xsl:if test="suggests">
+          <tr>
+            <th>Suggests:</th>
+            <td><xsl:apply-templates select="suggests" /></td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="after">
+          <tr>
+            <th>After:</th>
+            <td><xsl:apply-templates select="after" /></td>
+          </tr>
+        </xsl:if>
       </table>
-    </div>
+    </dd>
   </xsl:template>
 
-  <xsl:template match="svnmodule">
-    <div class="{name(.)}">
-      <h2>
-        <xsl:value-of select="@id" />
-        <a name="{generate-id(.)}" />
-      </h2>
+  <xsl:template match="moduleset/repository|moduleset/include">
+  </xsl:template>
+
+  <xsl:template match="moduleset/metamodule">
+    <dt id="{generate-id(.)}" class="metamodule"><xsl:value-of select="@id" /></dt>
+    <dd>
       <table>
-        <tr>
-          <th align="left">Module:</th>
-          <td>
-            <xsl:choose>
-              <xsl:when test="@module">
-                <xsl:value-of select="@module" />
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="@id" />
-              </xsl:otherwise>
-            </xsl:choose>
-          </td>
-        </tr>
-        <xsl:if test="@checkoutdir">
+        <xsl:if test="dependencies/dep">
           <tr>
-            <th align="left">Checkout directory:</th>
-            <td><xsl:value-of select="@checkoutdir" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="@autogenargs">
-          <tr>
-            <th align="left">Autogen args:</th>
-            <td><xsl:value-of select="@autogenargs" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="@svnroot">
-          <tr>
-            <th align="left">SVN Repository:</th>
-            <td><xsl:value-of select="@svnroot" /><xsl:if test="@path"><xsl:value-of select="@path" /></xsl:if></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="dependencies">
-          <tr>
-            <th align="left" valign="top">Dependencies:</th>
+            <th>Dependencies:</th>
             <td><xsl:apply-templates select="dependencies" /></td>
           </tr>
         </xsl:if>
       </table>
-    </div>
+    </dd>
   </xsl:template>
 
-  <xsl:template match="metamodule">
-    <div class="{name(.)}">
-      <h2>
-        <xsl:value-of select="@id" />
-        <a name="{generate-id(.)}" />
-      </h2>
-      <table>
-        <xsl:if test="dependencies">
-          <tr>
-            <th align="left" valign="top">Dependencies:</th>
-            <td><xsl:apply-templates select="dependencies" /></td>
-          </tr>
-        </xsl:if>
-      </table>
-    </div>
-  </xsl:template>
-
-  <xsl:template match="patches">
-    <ul>
-      <xsl:for-each select="patch">
-        <li><xsl:value-of select="." /></li>
-      </xsl:for-each>
-    </ul>
-  </xsl:template>
-
-  <xsl:template match="tarball">
-    <div class="{name(.)}">
-      <h2>
-        <xsl:value-of select="@id" />
-        <a name="{generate-id(.)}" />
-      </h2>
-      <table>
-        <tr>
-          <th align="left">Version:</th>
-          <td><xsl:value-of select="@version" /></td>
-        </tr>
-        <xsl:if test="@versioncheck">
-          <tr>
-            <th align="left">Version check:</th>
-            <td><xsl:value-of select="@versioncheck" /></td>
-          </tr>
-        </xsl:if>
-        <tr>
-          <th align="left">Source:</th>
-          <td>
-            <a href="{source/@href}">
-              <xsl:value-of select="source/@href" />
-            </a>
-            <xsl:if test="source/@size">
-              <xsl:text> (</xsl:text>
-              <xsl:value-of select="source/@size" />
-              <xsl:text> bytes)</xsl:text>
-            </xsl:if>
-          </td>
-        </tr>
-        <xsl:if test="patches">
-          <tr>
-            <th align="left" valign="top">Patches:</th>
-            <td><xsl:apply-templates select="patches" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="dependencies">
-          <tr>
-            <th align="left" valign="top">Dependencies:</th>
-            <td><xsl:apply-templates select="dependencies" /></td>
-          </tr>
-        </xsl:if>
-      </table>
-    </div>
-  </xsl:template>
-
-  <xsl:template match="mozillamodule">
-    <div class="{name(.)}">
-      <h2>
-        <xsl:value-of select="@id" />
-        <a name="{generate-id(.)}" />
-      </h2>
-      <table>
-	<tr>
-          <th align="left">Module:</th>
-          <td>
-            <xsl:choose>
-              <xsl:when test="@module">
-                <xsl:value-of select="@module" />
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="@id" />
-              </xsl:otherwise>
-            </xsl:choose>
-            <xsl:if test="@revision">
-              <xsl:text> rv:</xsl:text>
-              <xsl:value-of select="@revision" />
-            </xsl:if>
-          </td>
-        </tr>
-        <xsl:if test="@checkoutdir">
-          <tr>
-            <th align="left">Checkout directory:</th>
-            <td><xsl:value-of select="@checkoutdir" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="@autogenargs">
-          <tr>
-            <th align="left">Autogen args:</th>
-            <td><xsl:value-of select="@autogenargs" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="@cvsroot">
-          <tr>
-            <th align="left">CVS Root:</th>
-            <td><xsl:value-of select="@cvsroot" /></td>
-          </tr>
-        </xsl:if>
-        <xsl:if test="dependencies">
-          <tr>
-            <th align="left" valign="top">Dependencies:</th>
-            <td><xsl:apply-templates select="dependencies" /></td>
-          </tr>
-        </xsl:if>
-      </table>
-    </div>
+  <xsl:template match="patch">
+    <li><xsl:value-of select="@file" /></li>
   </xsl:template>
 
 </xsl:stylesheet>
