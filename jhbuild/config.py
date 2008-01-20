@@ -39,7 +39,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
-                'build_policy', 'force_policy', 'trycheckout',
+                'build_policy', 'trycheckout',
                 'nopoison', 'makecheck_advisory',
                 'quiet_mode', 'progress_bar']
 

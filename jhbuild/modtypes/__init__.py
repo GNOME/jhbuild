@@ -175,8 +175,6 @@ class Package:
             return (self._next_state(buildscript, state), None, None)
 
     def check_build_policy(self, buildscript):
-        if buildscript.config.force_policy:
-            return
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
             return
         if not buildscript.packagedb.check(self.name, self.get_revision() or ''):

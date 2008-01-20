@@ -192,7 +192,7 @@ class cmd_build(Command):
         if options.quiet:
             config.quiet_mode = True
         if options.force_policy:
-            config.force_policy = True
+            config.build_policy = 'all'
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -265,7 +265,7 @@ class cmd_buildone(Command):
         if options.quiet:
             config.quiet_mode = True
         if options.force_policy:
-            config.force_policy = True
+            config.build_policy = 'all'
 
         module_set = jhbuild.moduleset.load(config)
         try:
