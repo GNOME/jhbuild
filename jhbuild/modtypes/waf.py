@@ -65,7 +65,7 @@ class WafModule(Package):
     do_start.error_states = []
 
     def do_checkout(self, buildscript):
-        self.checkout(self, buildscript)
+        self.checkout(buildscript)
     do_checkout.next_state = STATE_CONFIGURE
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 
