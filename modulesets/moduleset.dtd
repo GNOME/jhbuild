@@ -7,14 +7,18 @@
 	name	 CDATA  #REQUIRED
 	type	 (bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
 	default  (yes|no)  "no"
-	password CDATA  #IMPLIED <!-- specific to CVS -->
-	cvsroot	 CDATA  #IMPLIED <!-- specific to CVS -->
-	archive	 CDATA	#IMPLIED <!-- specific to Arch -->
-	href	 CDATA  #IMPLIED <!-- specific to Arch -->
-	server   CDATA  #IMPLIED <!-- specific to Monotone -->
-	database CDATA  #IMPLIED <!-- specific to Monotone -->
-	defbranch CDATA #IMPLIED <!-- specific to Monotone -->
+	password CDATA  #IMPLIED
+	cvsroot	 CDATA  #IMPLIED
+	archive	 CDATA	#IMPLIED
+	href	 CDATA  #IMPLIED
+	server   CDATA  #IMPLIED
+	database CDATA  #IMPLIED
+	defbranch CDATA #IMPLIED
 	developer-href-example CDATA #IMPLIED>
+<!-- note the following attributes are specific to some repository types:
+      - CVS: password & cvsroot
+      - Arch: archive & href
+      - Monotone: server, database, defbranch -->
 
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>
