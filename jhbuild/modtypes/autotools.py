@@ -38,6 +38,8 @@ class AutogenModule(Package):
     STATE_CHECKOUT       = 'checkout'
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_CLEAN          = 'clean'
+    STATE_FORCE_CLEAN    = 'force_clean'
+    STATE_FORCE_DISTCLEAN= 'force_distclean'
     STATE_CONFIGURE      = 'configure'
     STATE_BUILD          = 'build'
     STATE_CHECK          = 'check'
@@ -157,7 +159,8 @@ class AutogenModule(Package):
 
         buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_CLEAN
-    do_configure.error_states = [STATE_FORCE_CHECKOUT]
+    do_configure.error_states = [STATE_FORCE_CHECKOUT,
+            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
 
     def skip_clean(self, buildscript, last_state):
         return (not buildscript.config.makeclean or
@@ -178,7 +181,8 @@ class AutogenModule(Package):
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_build.next_state = STATE_CHECK
-    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE,
+            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
 
     def skip_check(self, buildscript, last_state):
         return (not buildscript.config.makecheck or
@@ -222,6 +226,24 @@ class AutogenModule(Package):
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
+
+    def skip_force_clean(self, buildscript, last_state):
+        return False
+
+    def do_force_clean(self, buildscript):
+        self.do_clean(buildscript)
+    do_force_clean.next_state = STATE_CONFIGURE
+    do_force_clean.error_states = []
+
+    def skip_force_distclean(self, buildscript, last_state):
+        return False
+
+    def do_force_distclean(self, buildscript):
+        buildscript.set_action('Distcleaning', self)
+        cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+    do_force_distclean.next_state = STATE_CONFIGURE
+    do_force_distclean.error_states = []
 
 
 def parse_autotools(node, config, uri, repositories, default_repo):
