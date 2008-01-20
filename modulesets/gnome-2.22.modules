@@ -57,6 +57,8 @@
       href="http://svn.webkit.org/repository/"/>
   <repository type="git" name="git.savannah.nongnu.org"
       href="git://git.savannah.nongnu.org/"/>
+  <repository type="svn" name="svn.mono-project.com"
+      href="http://anonsvn.mono-project.com/source/"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -1386,6 +1388,113 @@
       <dep package="goocanvas"/>
       <dep package="dbus-glib"/>
       <dep package="tracker"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mono-tools">
+    <branch repo="svn.mono-project.com" module="trunk/mono-tools"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
+      <dep package="gecko-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtksourceview-sharp">
+    <branch repo="svn.mono-project.com" module="trunk/gtksourceview2-sharp"/>
+    <dependencies>
+      <dep package="gtksourceview"/>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gnome-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="monodevelop">
+    <branch repo="svn.mono-project.com" module="trunk/monodevelop"/>
+    <dependencies>
+      <dep package="desktop-file-utils"/>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
+      <dep package="gtksourceview-sharp"/>
+      <!-- <dep package="gecko-sharp"/> -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-sharp">
+    <branch repo="svn.mono-project.com" module="trunk/gnome-sharp"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
+      <dep package="libart_lgpl"/>
+      <dep package="gnome-vfs"/>
+      <dep package="libgnomecanvas"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-panel"/>
+      <dep package="libgnomeprintui"/>
+      <dep package="librsvg"/>
+      <dep package="gtkhtml"/>
+      <dep package="vte"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gsf-sharp">
+    <branch repo="svn.mono-project.com" module="trunk/gsf-sharp"/>
+    <dependencies>
+      <dep package="libgsf"/>
+      <dep package="gtk-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="evolution-sharp">
+    <branch/>
+    <dependencies>
+      <dep package="evolution-data-server"/>
+      <dep package="gtk-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="f-spot">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="beagle">
+    <branch/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+      <dep package="mono"/>
+      <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
+      <dep package="gmime"/>
+      <dep package="pygtk"/>  
+    </dependencies>
+    <suggests>
+      <dep package="evolution-sharp"/>
+      <dep package="gsf-sharp"/>
+    </suggests>
+  </autotools>
+
+ <autotools id="banshee" autogenargs="--disable-daap">
+    <branch module="banshee/trunk/banshee" checkoutdir="banshee"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gconf"/>
+      <dep package="nautilus-cd-burner"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
     </dependencies>
   </autotools>
 

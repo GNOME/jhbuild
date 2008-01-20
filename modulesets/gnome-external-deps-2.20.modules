@@ -303,4 +303,43 @@
     </dependencies>
   </tarball>
 
+  <!-- Mono Binding -->
+
+  <tarball id="libgdiplus" version="1.2.3" >
+    <source href="http://go-mono.com/sources/libgdiplus/libgdiplus-1.2.3.tar.gz"
+            size="2991934" md5sum="a29d56304aca9236754e61bf8ee518ee"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="mono" version="1.2.3">
+    <source href="http://go-mono.com/sources/mono/mono-1.2.3.tar.gz"
+            size= "20692405" md5sum="d7af3ebcf37967e3548a02f5d61a0ebc"/>
+    <dependencies>
+      <dep package="libgdiplus"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="monodoc" version="1.2.3">
+    <source href="http://go-mono.com/sources/monodoc/monodoc-1.2.3.zip"
+            size= "13780947" md5sum="6387e57b69a2052150398fce7c29eaea"/>
+    <dependencies>
+      <dep package="mono"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gtk-sharp" version="2.10.0">
+    <source href="http://ftp.gnome.org/pub/GNOME/bindings/2.16/2.16.0/sources/mono/gtk-sharp-2.10.0.tar.bz2"
+            size= "1434673" md5sum="7786801c53537e8c208fb9f46c22f18b"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>	
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+    </dependencies>
+  </tarball>
+
 </moduleset>

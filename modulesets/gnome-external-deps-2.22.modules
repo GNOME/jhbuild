@@ -225,6 +225,9 @@
   <tarball id="ndesk-dbus" version="0.6.0">
     <source href="http://www.ndesk.org/archive/dbus-sharp/ndesk-dbus-0.6.0.tar.gz"
             md5sum="5157ba105c9ac491f6e900bc78d1791f" size="122303"/>
+    <dependencies>
+      <dep package="mono"/>
+    </dependencies>
   </tarball>
 
   <tarball id="ndesk-dbus-glib" version="0.4.1">
@@ -386,4 +389,43 @@
             size="931015" md5sum="b65d4b9e3ddbcfd5418b708858c05b66"/>
   </tarball>
 
+  <!-- Mono Binding -->
+
+  <tarball id="libgdiplus" version="1.2.6" >
+    <source href="http://go-mono.com/sources/libgdiplus/libgdiplus-1.2.6.tar.bz2"
+            size="2897855" md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="mono" version="1.2.6">
+    <source href="http://go-mono.com/sources/mono/mono-1.2.6.tar.bz2"
+            size= "18163130" md5sum="391f85b4f962269e044ceac2b5235310"/>
+    <dependencies>
+      <dep package="libgdiplus"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="monodoc" version="1.2.6">
+    <source href="http://go-mono.com/sources/monodoc/monodoc-1.2.6.zip"
+            size= "14976182" md5sum="bd4c9619ebf3b41803b7ca9097be7fc1"/>
+    <dependencies>
+      <dep package="mono"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gtk-sharp" version="2.10.0">
+    <source href="http://ftp.gnome.org/pub/GNOME/bindings/2.16/2.16.0/sources/mono/gtk-sharp-2.10.0.tar.bz2"
+            size= "1434673" md5sum="7786801c53537e8c208fb9f46c22f18b"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>	
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+    </dependencies>
+  </tarball>
+ 
 </moduleset>
