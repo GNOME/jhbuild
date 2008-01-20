@@ -61,20 +61,25 @@ def get_dependencies(node):
     dependencies = []
     after = []
     suggests = []
+
+    def add_to_list(list, childnode):
+        for dep in childnode.childNodes:
+            if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+                package = dep.getAttribute('package')
+                if not package:
+                    raise FatalError('dep node for module %s is missing package attribute' % \
+                            node.getAttribute('id'))
+                list.append(package)
+
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'dependencies':
-            for dep in childnode.childNodes:
-                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
-                    dependencies.append(dep.getAttribute('package'))
+            add_to_list(dependencies, childnode)
         elif childnode.nodeName == 'suggests':
-            for dep in childnode.childNodes:
-                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
-                    suggests.append(dep.getAttribute('package'))
+            add_to_list(suggests, childnode)
         elif childnode.nodeName == 'after':
-            for dep in childnode.childNodes:
-                if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
-                    after.append(dep.getAttribute('package'))
+            add_to_list(after, childnode)
+
     return dependencies, after, suggests
 
 def get_branch(node, repositories, default_repo):
