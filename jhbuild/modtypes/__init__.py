@@ -123,6 +123,7 @@ class Package:
         self.after = after
         self.suggests = suggests
         self.tags = []
+        self.moduleset_name = None
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)

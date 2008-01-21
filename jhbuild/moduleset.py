@@ -322,6 +322,7 @@ def _parse_module_set(config, uri):
                     repositories, default_repo)
             if moduleset_name:
                 module.tags.append(moduleset_name)
+            module.moduleset_name = moduleset_name
             moduleset.add(module)
 
     return moduleset

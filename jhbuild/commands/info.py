@@ -59,6 +59,7 @@ class cmd_info(Command):
         installdate = packagedb.installdate(module.name, module.get_revision() or '')
 
         print 'Name:', module.name
+        print 'Module Set:', module.moduleset_name
         print 'Type:', module.type
 
         if installdate is not None:
