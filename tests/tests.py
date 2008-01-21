@@ -211,6 +211,66 @@ class AutotoolsModTypeTestCase(BuildTestCase):
                  'foo:Checking [error]'])
 
 
+class WafModTypeTestCase(BuildTestCase):
+    '''Waf steps'''
+
+    def setUp(self):
+        BuildTestCase.setUp(self)
+        from jhbuild.modtypes.waf import WafModule
+        self.modules = [WafModule('foo', self.branch)]
+        self.modules[0].waf_cmd = 'true' # set a command for waf that always exist
+
+    def test_build(self):
+        '''Building a waf module'''
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Installing'])
+
+    def test_build_no_network(self):
+        '''Building a waf module, without network'''
+        self.assertEqual(self.build(nonetwork = True),
+                ['foo:Configuring', 'foo:Building', 'foo:Installing'])
+
+    def test_update(self):
+        '''Updating a waf module'''
+        self.assertEqual(self.build(nobuild = True), ['foo:Checking out'])
+
+    def test_build_check(self):
+        '''Building a waf module, with checks'''
+        self.assertEqual(self.build(makecheck = True),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Checking', 'foo:Installing'])
+
+    def test_build_clean_and_check(self):
+        '''Building a waf module, with cleaning and checks'''
+        self.assertEqual(self.build(makecheck = True, makeclean = True),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Cleaning',
+                 'foo:Building', 'foo:Checking', 'foo:Installing'])
+
+    def test_build_check_error(self):
+        '''Building a waf module, with an error in make check'''
+
+        def make_check_error(buildscript, *args):
+            self.modules[0].do_check_orig(buildscript, *args)
+            raise CommandError('Mock Command Error Exception')
+        make_check_error.next_state = self.modules[0].do_check.next_state
+        make_check_error.error_states = self.modules[0].do_check.error_states
+        self.modules[0].do_check_orig = self.modules[0].do_check
+        self.modules[0].do_check = make_check_error
+
+        self.assertEqual(self.build(makecheck = True),
+                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
+                 'foo:Checking [error]'])
+
+    def test_build_missing_waf_command(self):
+        '''Building a waf module, on a system missing the waf command'''
+        self.modules[0].waf_cmd = 'foo bar'
+        self.assertEqual(self.build(),
+                ['foo:Checking out', 'foo:Configuring [error]'])
+
+
+
+
 
 class BuildPolicyTestCase(BuildTestCase):
     '''Build Policy'''

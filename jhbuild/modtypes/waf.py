@@ -98,12 +98,12 @@ class WafModule(Package):
                 not buildscript.config.alwaysautogen)
 
     def do_configure(self, buildscript):
+        builddir = self.get_builddir(buildscript)
+        buildscript.set_action('Configuring', self)
         if not inpath(self.waf_cmd, os.environ['PATH'].split(os.pathsep)):
             raise CommandError('Missing waf, try jhbuild -m bootstrap buildone waf')
-        builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
-        buildscript.set_action('Configuring', self)
         cmd = [self.waf_cmd, 'configure', '--prefix', buildscript.config.prefix]
         buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_CLEAN
