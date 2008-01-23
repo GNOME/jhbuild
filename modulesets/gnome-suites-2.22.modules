@@ -13,6 +13,8 @@
       password=""/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
+  <repository type="svn" name="svn.mono-project.com"
+      href="http://anonsvn.mono-project.com/source/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -1081,6 +1083,7 @@ g  <autotools id="gnome-netstatus">
     <branch/>
     <dependencies>
       <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
       <dep package="libgnomeprintui"/>
@@ -1396,6 +1399,34 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
   </autotools>
 
+  <autotools id="gtk-sharp">
+    <branch repo="svn.mono-project.com" module="branches/gtk-sharp-2-10-branch"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>	
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-sharp">
+    <branch repo="svn.mono-project.com" module="trunk/gnome-sharp"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
+      <dep package="libart_lgpl"/>
+      <dep package="gnome-vfs"/>
+      <dep package="libgnomecanvas"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-panel"/>
+      <dep package="libgnomeprintui"/>
+      <dep package="librsvg"/>
+      <dep package="gtkhtml"/>
+      <dep package="vte"/>
+    </dependencies>
+  </autotools>
+
 <!-- Proposed Modules -->
 
 <!-- Meta Modules -->
@@ -1551,10 +1582,18 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
   </metamodule>
 
+  <metamodule id="meta-gnome-bindings-mono">
+    <dependencies>
+      <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
+    </dependencies>
+  </metamodule>
+
   <metamodule id="meta-gnome-bindings">
     <dependencies>
       <dep package="meta-gnome-bindings-c++"/>
       <dep package="meta-gnome-bindings-python"/>
+      <dep package="meta-gnome-bindings-mono"/>
     </dependencies>
   </metamodule>
 
