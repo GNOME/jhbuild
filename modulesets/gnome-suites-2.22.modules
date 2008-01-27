@@ -1395,8 +1395,8 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
   </autotools>
 
-  <autotools id="gtk-sharp">
-    <branch repo="svn.mono-project.com" module="branches/gtk-sharp-2-10-branch"/>
+  <autotools id="gtk-sharp" autogen-sh="bootstrap-2.12">
+    <branch repo="svn.mono-project.com" module="trunk/gtk-sharp"/>
     <dependencies>
       <dep package="mono"/>
       <dep package="monodoc"/>	
@@ -1405,7 +1405,7 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-sharp">
+  <autotools id="gnome-sharp" autogen-sh="bootstrap-2.20">
     <branch repo="svn.mono-project.com" module="trunk/gnome-sharp"/>
     <dependencies>
       <dep package="mono"/>
@@ -1417,7 +1417,17 @@ g  <autotools id="gnome-netstatus">
       <dep package="libgnomeui"/>
       <dep package="gnome-panel"/>
       <dep package="libgnomeprintui"/>
+    </dependencies>
+  </autotools>
+
+   <autotools id="gnome-desktop-sharp">
+    <branch repo="svn.mono-project.com" module="trunk/gnome-desktop-sharp"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
       <dep package="librsvg"/>
+      <dep package="libwnck"/>
       <dep package="gtkhtml"/>
       <dep package="vte"/>
     </dependencies>
@@ -1582,6 +1592,7 @@ g  <autotools id="gnome-netstatus">
     <dependencies>
       <dep package="gtk-sharp"/>
       <dep package="gnome-sharp"/>
+      <dep package="gnome-desktop-sharp"/>
     </dependencies>
   </metamodule>
 

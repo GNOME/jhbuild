@@ -1,3 +1,22 @@
+2008-01-27  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/freedesktop-2.22.modules:
+	Added PackageKit. Note: you need to spec --with-default-backend
+	and --with-security-framework in your .jhbuildrc
+	
+	* modulesets/gnome-2.22.modules:
+	Added gnome-user-share and gnome-packagekit; changed
+	PolicyKit-gnome repo name (PK vs PK).
+	
+	* modulesets/gnome-suites-2.22.modules:
+	gnome-sharp was splitted on svn to gnome-sharp (bindings
+	for libraries in Platform) and gnome-desktop-sharp (bindings
+	for libraries in Desktop). Added gnome-desktop-sharp, but this
+	means switch to gtk-sharp trunk too.
+	Added autogen-sh attribute to gtk-sharp and gnome-sharp, 'cause
+	are using custom bootstrap script instead autogen.sh.
+	Added gnome-desktop-sharp to mono bindings meta module.
+
 2008-01-27  Vincent Untz  <vuntz@gnome.org>
 
 	* modulesets/gnome-suites-2.22.modules: remove

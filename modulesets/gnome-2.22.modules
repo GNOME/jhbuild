@@ -1360,15 +1360,28 @@
     </dependencies>
   </autotools>
 
-  <repository type="git" name="pk-gnome.freedesktop.org"
+  <repository type="git" name="polkit-gnome.freedesktop.org"
       href="git://people.freedesktop.org/~david/"/>
   <autotools id="PolicyKit-gnome">
-    <branch repo="pk-gnome.freedesktop.org"/>
+    <branch repo="polkit-gnome.freedesktop.org"/>
     <dependencies>
       <dep package="PolicyKit"/>
       <dep package="gtk+"/>
       <dep package="gnome-vfs"/>
       <dep package="libsexy"/>
+    </dependencies>
+  </autotools>
+
+  <repository type="git" name="packit-gnome.freedesktop.org"
+      href="git://people.freedesktop.org/~hughsient/"/>
+  <autotools id="gnome-packagekit">
+    <branch repo="packit-gnome.freedesktop.org"/>
+    <dependencies>
+      <dep package="PackageKit"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="libglade"/>
+      <dep package="libnotify"/>
     </dependencies>
   </autotools>
 
@@ -1487,5 +1500,15 @@
       <dep package="gtk-sharp"/>
     </dependencies>
   </autotools>
+
+ <autotools id="gnome-user-share">
+   <branch/>
+   <dependencies>
+     <dep package="avahi"/>
+     <dep package="gtk+"/>
+     <dep package="libglade"/>
+     <dep package="gconf"/>
+   </dependencies>
+ </autotools>
 
 </moduleset>
