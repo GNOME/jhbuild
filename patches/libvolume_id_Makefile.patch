@@ -1,16 +1,5 @@
---- udev-100/extras/volume_id/Makefile-	2006-09-23 11:52:33.000000000 -0400
-+++ udev-100/extras/volume_id/Makefile	2006-09-23 11:53:04.000000000 -0400
-@@ -15,7 +15,7 @@
- usrbindir =	${prefix}/usr/bin
- usrsbindir =	${prefix}/usr/sbin
- libudevdir =	${prefix}/lib/udev
--mandir =	${prefix}/usr/share/man
-+mandir =	${prefix}/share/man
- configdir =	${etcdir}/udev/
- 
- INSTALL = /usr/bin/install -c
---- udev-100/extras/volume_id/lib/Makefile-	2006-09-23 11:58:47.000000000 -0400
-+++ udev-100/extras/volume_id/lib/Makefile	2006-09-23 11:59:23.000000000 -0400
+--- udev-111/extras/volume_id/lib/Makefile.orig	2007-05-10 12:42:56.000000000 +0200
++++ udev-111/extras/volume_id/lib/Makefile	2008-02-12 14:47:26.000000000 +0100
 @@ -4,7 +4,7 @@
  #
  # Released under the GNU General Public License, version 2.
@@ -20,17 +9,16 @@
  libdir =	${prefix}/lib
  usrlibdir =	${prefix}/usr/lib
  
-@@ -102,16 +102,16 @@
+@@ -103,16 +103,16 @@ libvolume_id.pc:
  
  install: all
  	$(INSTALL_DATA) -D libvolume_id.h $(DESTDIR)$(includedir)/libvolume_id.h
--	$(INSTALL_LIB) -D libvolume_id.a $(DESTDIR)$(usrlibdir)/libvolume_id.a
+-	$(INSTALL_LIB) -D $(SHLIB) $(DESTDIR)$(libdir)/$(SHLIB)
 +	$(INSTALL_LIB) -D libvolume_id.a $(DESTDIR)$(libdir)/libvolume_id.a
- 	$(INSTALL_LIB) -D $(SHLIB) $(DESTDIR)$(libdir)/$(SHLIB)
--	ln -sf $(SHLIB) $(DESTDIR)$(libdir)/libvolume_id.so.$(SHLIB_CUR)
+ 	mkdir -p $(DESTDIR)$(usrlibdir)/
+ 	ln -sf $(SHLIB) $(DESTDIR)$(libdir)/libvolume_id.so.$(SHLIB_CUR)
 -	ln -sf $(libdir)/$(SHLIB) $(DESTDIR)$(usrlibdir)/libvolume_id.so
 -	$(INSTALL_DATA) -D libvolume_id.pc $(DESTDIR)$(usrlibdir)/pkgconfig/libvolume_id.pc
-+	ln -sf $(libdir)/$(SHLIB) $(DESTDIR)$(libdir)/libvolume_id.so.$(SHLIB_CUR)
 +	ln -sf $(libdir)/$(SHLIB) $(DESTDIR)$(libdir)/libvolume_id.so
 +	$(INSTALL_DATA) -D libvolume_id.pc $(DESTDIR)$(libdir)/pkgconfig/libvolume_id.pc
  .PHONY: install
@@ -42,3 +30,14 @@
  	rm -f $(DESTDIR)$(libdir)/$(SHLIB)
  	rm -f $(DESTDIR)$(libdir)/libvolume_id.so.$(SHLIB_CUR)
  	rm -f $(DESTDIR)$(libdir)/libvolume_id.so
+--- udev-111/extras/volume_id/Makefile.orig	2007-05-10 12:42:56.000000000 +0200
++++ udev-111/extras/volume_id/Makefile	2008-02-12 14:41:53.000000000 +0100
+@@ -15,7 +15,7 @@ sbindir =	${prefix}/sbin
+ usrbindir =	${prefix}/usr/bin
+ usrsbindir =	${prefix}/usr/sbin
+ libudevdir =	${prefix}/lib/udev
+-mandir =	${prefix}/usr/share/man
++mandir =	${prefix}/share/man
+ configdir =	${etcdir}/udev/
+ 
+ INSTALL = install -c
