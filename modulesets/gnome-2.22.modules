@@ -59,6 +59,8 @@
       href="git://git.savannah.nongnu.org/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="http://anonsvn.mono-project.com/source/"/>
+  <repository type="svn" name="svn.fluendo.com"
+      href="https://core.fluendo.com/gstreamer/svn/trunk"/>
 
   <include href="freedesktop-2.22.modules"/>
   <include href="gnome-suites-2.22.modules"/>
@@ -241,16 +243,32 @@
   <autotools id="librep">
     <branch/>
   </autotools>
+
   <autotools id="rhythmbox">
     <branch/>
     <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libglade"/>
       <dep package="libgnomeui"/>
       <dep package="gst-plugins-base"/>
-      <dep package="nautilus-cd-burner"/>
+      <dep package="gnome-media"/>
       <dep package="totem-pl-parser"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="gst-python"/>
+      <dep package="pygtk"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+      <dep package="gnome-keyring"/>
+      <dep package="avahi"/>
+      <dep package="libnotify"/>
+      <dep package="libsoup"/>
+      <dep package="libmusicbrainz"/>
+      <dep package="nautilus-cd-burner"/>
+      <dep package="libsexy"/>
+    </suggests>
   </autotools>
+
   <autotools id="gstreamer-0-8" autogenargs="-- --disable-plugin-builddir --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"
             revision="BRANCH-GSTREAMER-0_8" checkoutdir="gstreamer-0-8"/>
@@ -289,6 +307,14 @@
 
   <autotools id="gst-plugins-bad" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-bad"/>
+    <dependencies>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-plugins-gl" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-gl"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
@@ -1174,13 +1200,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gio-standalone">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>      
-    </dependencies>
-  </autotools>
-
   <autotools id="libepc">
     <branch/>
     <dependencies>
@@ -1509,6 +1528,37 @@
      <dep package="gtk+"/>
      <dep package="libglade"/>
      <dep package="gconf"/>
+   </dependencies>
+ </autotools>
+
+ <autotools id="gst-fluendo-mp3"
+            autogenargs="--with-liboil=yes">
+   <branch repo="svn.fluendo.com"
+           module="trunk/gst-fluendo-mp3" 
+           checkoutdir="gst-fluendo-mp3"/>
+   <dependencies>
+     <dep package="liboil"/>
+     <dep package="gstreamer"/>
+     <dep package="gst-plugins-base"/>
+   </dependencies>
+ </autotools>
+
+ <autotools id="gst-fluendo-mpegdemux">
+   <branch repo="svn.fluendo.com"
+           module="trunk/gst-fluendo-mpegdemux" 
+           checkoutdir="gst-fluendo-mpegdemux"/>
+   <dependencies>
+     <dep package="gstreamer"/>
+     <dep package="gst-plugins-base"/>
+   </dependencies>
+ </autotools>
+
+ <autotools id="libsoup-2.2">
+   <branch revision="gnome-2-20" module="libsoup"/>
+   <dependencies>
+     <dep package="libxml2"/>
+     <dep package="glib"/>
+     <dep package="gnutls"/>
    </dependencies>
  </autotools>
 
