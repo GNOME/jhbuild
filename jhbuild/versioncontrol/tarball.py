@@ -23,6 +23,7 @@ __metaclass__ = type
 import os
 import md5
 import urlparse
+import urllib2
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
