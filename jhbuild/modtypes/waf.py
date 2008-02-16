@@ -105,6 +105,8 @@ class WafModule(Package):
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
         cmd = [self.waf_cmd, 'configure', '--prefix', buildscript.config.prefix]
+        if buildscript.config.use_lib64:
+            cmd += ["--libdir", os.path.join(buildscript.config.prefix, "lib64")]
         buildscript.execute(cmd, cwd=builddir)
     do_configure.next_state = STATE_CLEAN
     do_configure.error_states = [STATE_FORCE_CHECKOUT]
