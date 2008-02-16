@@ -40,6 +40,8 @@ if 'git+ssh' not in urlparse.uses_netloc:
     urlparse.uses_netloc.append('git+ssh')
 if 'git+ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('git+ssh')
+if 'ssh' not in urlparse.uses_relative:
+    urlparse.uses_relative.append('ssh')
 
 
 class GitRepository(Repository):
