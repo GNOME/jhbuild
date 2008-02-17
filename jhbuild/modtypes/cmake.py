@@ -35,6 +35,7 @@ class CMakeModule(Package):
     STATE_FORCE_CHECKOUT = 'force_checkout'
     STATE_CONFIGURE = 'configure'
     STATE_BUILD = 'build'
+    STATE_DIST = 'dist'
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch, dependencies=[], after=[], suggests=[]):
@@ -96,8 +97,18 @@ class CMakeModule(Package):
         buildscript.set_action('Building', self)
         builddir = self.get_builddir(buildscript)
         buildscript.execute(os.environ.get('MAKE', 'make'), cwd=builddir)
-    do_build.next_state = STATE_INSTALL
+    do_build.next_state = STATE_DIST
     do_build.error_states = [STATE_FORCE_CHECKOUT]
+
+    def skip_dist(self, buildscript, last_state):
+        return not buildscript.config.makedist
+
+    def do_dist(self, buildscript):
+        buildscript.set_action('Creating tarball for', self)
+        cmd = '%s package_source' % os.environ.get('MAKE', 'make')
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+    do_dist.next_state = STATE_INSTALL
+    do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
