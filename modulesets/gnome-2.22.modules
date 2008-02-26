@@ -1210,7 +1210,7 @@
   </autotools>
 
   <autotools id="clutter">
-    <branch repo="svn.o-hand.com" module="trunk/clutter"/>
+    <branch repo="svn.o-hand.com" module="branches/clutter-0-6"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
@@ -1256,6 +1256,16 @@
     </dependencies>
   </autotools>
 
+  <autotools id="clutter-vala">
+    <branch repo="svn.o-hand.com" module="trunk/bindings/clutter-vala/clutter"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="clutter-cairo"/>
+      <dep package="clutter-gtk"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
   <metamodule id="meta-clutter-core">
     <dependencies>
       <dep package="clutter"/>
@@ -1275,6 +1285,13 @@
     <dependencies>
       <dep package="meta-clutter-suite"/>
       <dep package="pyclutter"/>
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-clutter-vala">
+    <dependencies>
+      <dep package="meta-clutter-suite"/>
+      <dep package="clutter-vala"/>
     </dependencies>
   </metamodule>
 
