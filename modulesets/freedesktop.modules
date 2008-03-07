@@ -45,6 +45,8 @@
 
   <repository type="git" name="david.freedesktop.org"
       href="git://people.freedesktop.org/~david/"/>
+  <repository type="svn" name="gypsy.o-hand.com"
+      href="http://svn.o-hand.com/repos/gypsy"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
 
@@ -222,7 +224,24 @@
   </autotools>
 
   <autotools id="fontconfig">
-	  <branch repo="git.freedesktop.org" module="fontconfig" />
+    <branch repo="git.freedesktop.org" module="fontconfig" />
+  </autotools>
+
+  <autotools id="gypsy">
+    <branch repo="gypsy.o-hand.com" module="gypsy/trunk"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="geoclue">
+    <branch repo="git.freedesktop.org"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="gconf"/>
+      <dep package="NetworkManager"/>
+      <dep package="gypsy"/>
+    </dependencies>
   </autotools>
 
   <autotools id="icon-slicer">
