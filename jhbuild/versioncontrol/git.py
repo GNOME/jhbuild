@@ -140,8 +140,9 @@ class GitBranch(Branch):
         else:
             buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
-        buildscript.execute(['git', 'checkout', self.branchname], 'git',
-                    cwd = self.srcdir)
+        if self.branch:
+            buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], 'git',
+                                cwd = self.srcdir)
 
         if self.config.sticky_date:
             self._update(buildscript)
@@ -161,8 +162,10 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'reset', '--hard', commit],
                                 'git', cwd=cwd)
 
-        buildscript.execute(['git', 'checkout', self.branchname], 'git',
-                    cwd = self.srcdir)
+        if self.branch:
+            buildscript.execute(['git', 'checkout', self.branch], 'git', cwd = self.srcdir)
+        else:
+            buildscript.execute(['git', 'checkout'], 'git', cwd = self.srcdir)
 
         if not self.tag:
             if self.branch:
