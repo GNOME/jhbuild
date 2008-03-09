@@ -1,5 +1,6 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2006  James Henstridge
+# Copyright (C) 2007-2008  Marc-Andre Lureau
 #
 #   git.py: some code to handle various GIT operations
 #
@@ -74,7 +75,7 @@ class GitRepository(Repository):
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
-    def __init__(self, repository, module, subdir, checkoutdir, branch, tag):
+    def __init__(self, repository, module, subdir, checkoutdir=None, branch=None, tag=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
         self.branch = branch
@@ -203,8 +204,14 @@ class GitBranch(Branch):
 
 class GitSvnBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
-        GitBranch.__init__(self, repository, module, "", checkoutdir)
+        GitBranch.__init__(self, repository, module, "", checkoutdir, branch="git-svn")
         self.revision = revision
+
+    def branchname(self):
+        if (self.branch):
+                return self.branch
+        return 'git-svn'
+    branchname = property(branchname)
 
     def _get_externals(self, buildscript):
         subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
@@ -254,7 +261,7 @@ class GitSvnBranch(GitBranch):
         cwd = self.get_checkoutdir()
 
         # stash uncommitted changes on the current branch
-        cmd = ['git', 'stash', 'jhbuild-build']
+        cmd = ['git', 'stash', 'save', 'jhbuild-build']
         buildscript.execute(cmd, 'git stash', cwd=cwd)
 
         cmd = ['git', 'checkout', 'master']
@@ -278,8 +285,14 @@ class GitCvsBranch(GitBranch):
         GitBranch.__init__(self, repository, module, "", checkoutdir)
         self.revision = revision
 
+    def branchname(self):
+        if (self.branch):
+                return self.branch
+        return 'master'
+    branchname = property(branchname)
+
     def _checkout(self, buildscript, copydir=None):
-        cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
+        cmd = ['git-cvsimport', '-k', '-o' + self.branchname, '-v', '-d', self.repository.cvsroot, '-C']
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
@@ -305,13 +318,13 @@ class GitCvsBranch(GitBranch):
         cwd = self.get_checkoutdir()
 
         # stash uncommitted changes on the current branch
-        cmd = ['git', 'stash', 'jhbuild-build']
+        cmd = ['git', 'stash', 'save', 'jhbuild-build']
         buildscript.execute(cmd, 'git stash', cwd=cwd)
 
-        cmd = ['git', 'checkout', 'master']
-        buildscript.execute(cmd, 'git checkout master', cwd=cwd)
+        cmd = ['git', 'checkout', self.branchname]
+        buildscript.execute(cmd, 'git checkout ' + self.branchname, cwd=cwd)
 
-        cmd = ['git-cvsimport', '-k', '-omaster', '-v', '-d', self.repository.cvsroot, '-C']
+        cmd = ['git-cvsimport', '-k', '-o' + self.branchname, '-v', '-d', self.repository.cvsroot, '-C']
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
