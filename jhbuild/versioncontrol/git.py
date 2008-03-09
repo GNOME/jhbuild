@@ -218,10 +218,13 @@ class GitSvnBranch(GitBranch):
 
     def _get_externals(self, buildscript):
         subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
+        subdirs.append ('/')
         for subdir in subdirs:
+            print 'checking', subdir, '...'
             externals = jhbuild.versioncontrol.svn.get_externals (self.module + '/' + subdir)
             for external in externals:
-                extdir = os.path.join (self.get_checkoutdir(), subdir, external)
+                extdir = self.get_checkoutdir() + os.sep + subdir + os.sep + external
+                # fixme: the "right way" is to use submodules
                 extbranch = GitSvnBranch(self.repository, externals[external], extdir)
                 try:
                     os.stat(extdir)[stat.ST_MODE]
@@ -255,7 +258,7 @@ class GitSvnBranch(GitBranch):
             pass
 
         #fixme, git-svn should support externals
-        # self._get_externals(buildscript, cwd)
+        self._get_externals(buildscript)
 
     def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
@@ -281,7 +284,7 @@ class GitSvnBranch(GitBranch):
             pass
 
         #fixme, git-svn should support externals
-        # self._get_externals(buildscript)
+        self._get_externals(buildscript)
 
 class GitCvsBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
