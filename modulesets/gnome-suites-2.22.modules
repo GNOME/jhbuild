@@ -322,19 +322,18 @@
     </dependencies>
   </autotools>
 
-  <tarball autogenargs="--with-pwlib-dir=`ptlib-config --prefix` --with-opal-dir=`ptlib-config --prefix`" id="ekiga" version="2.0.11">
-    <source href="http://download.gnome.org/sources/ekiga/2.0/ekiga-2.0.11.tar.bz2" md5sum="c4b18fdd5f392545f4c8498fb8874882" size="5550887"/>
-    <branch checkoutdir="ekiga" module="ekiga/tags/EKIGA_2_0_11"/>
+  <autotools id="ekiga">
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="evolution-data-server"/>
       <dep package="opal" />
       <dep package="avahi"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="eog">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="gnome-desktop"/>
@@ -1151,7 +1150,7 @@ g  <autotools id="gnome-netstatus">
   </autotools>
 
   <autotools id="zenity">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gconf"/>
