@@ -4,6 +4,9 @@
 
 import os
 
+if 'GTK_PATH' in os.environ.keys():
+    del os.environ['GTK_PATH']
+
 # what modules to build?
 moduleset = 'gnome-2.22'
 modules = [ 'meta-gnome-desktop' ]
