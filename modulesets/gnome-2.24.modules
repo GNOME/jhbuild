@@ -154,14 +154,6 @@
       <dep package="gnome-bluetooth"/>
     </suggests>
   </autotools>      
-  <autotools id="nautilus-media" supports-non-srcdir-builds="no">
-    <branch/>
-    <dependencies>
-      <dep package="nautilus"/>
-      <dep package="gstreamer-0-8"/>
-      <dep package="gst-plugins-0-8"/>
-    </dependencies>
-  </autotools>
   <autotools id="nautilus-vcs">
     <branch/>
     <dependencies>
@@ -267,34 +259,6 @@
       <dep package="nautilus-cd-burner"/>
       <dep package="libsexy"/>
     </suggests>
-  </autotools>
-
-  <autotools id="gstreamer-0-8" autogenargs="-- --disable-plugin-builddir --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gstreamer"
-            revision="BRANCH-GSTREAMER-0_8" checkoutdir="gstreamer-0-8"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-plugins-0-8" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins"
-            revision="BRANCH-GSTREAMER-0_8" checkoutdir="gst-plugins-0-8"/>
-    <dependencies>
-      <dep package="gstreamer-0-8"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gtk+"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-python-0-8" autogenargs="--" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-python"
-            revision="BRANCH-GSTREAMER-0_8" checkoutdir="gst-python-0-8"/>
-    <dependencies>
-      <dep package="gstreamer-0-8"/>
-      <dep package="gst-plugins-0-8"/>
-    </dependencies>
   </autotools>
 
   <autotools id="gst-plugins-ugly" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
@@ -904,8 +868,8 @@
   <autotools id="monkey-bubble">
     <branch/>
     <dependencies>
-      <dep package="gstreamer-0-8"/>
-      <dep package="gst-plugins-0-8"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
       <dep package="libxml2"/>
       <dep package="gconf"/>
       <dep package="librsvg"/>
