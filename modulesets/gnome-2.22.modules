@@ -420,18 +420,25 @@
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
- <autotools id="libgdamm">
-    <branch repo="svn.gnomemm" />
+  <autotools id="libgdamm-3.0">
+    <branch repo="svn.gnomemm" module="libgdamm" revision="libgdamm-3-0"/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgda-3-0"/>
+    </dependencies>
+  </autotools>
+  <autotools id="libgdamm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libgda"/>
     </dependencies>
   </autotools>
   <autotools id="libgnomedbmm">
     <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="gtkmm"/>
-      <dep package="libgdamm"/>
+      <dep package="libgdamm-3.0"/>
     </dependencies>
   </autotools>
   <autotools id="gtkmm_hello">
@@ -826,7 +833,7 @@
   <autotools id="glom">
     <branch/>
     <dependencies>
-      <dep package="libgdamm"/>
+      <dep package="libgdamm-3.0"/>
       <dep package="bakery"/>
       <dep package="libgnome"/>
       <dep package="iso-codes"/>
