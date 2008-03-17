@@ -23,19 +23,18 @@ import urllib
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
+from jhbuild.commands.base import cmd_build
 
-class cmd_bootstrap(Command):
+class cmd_bootstrap(cmd_build):
     """Build required support tools"""
 
     name = 'bootstrap'
-    usage_args = ''
 
     def run(self, config, options, args):
+        config.moduleset = 'bootstrap'
         # load the bootstrap module set
-        module_set = jhbuild.moduleset.load(config, 'bootstrap')
-        module_list = module_set.get_module_list(['meta-bootstrap'], config.skip)
-
-        build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        if not args:
+            args = ['meta-bootstrap']
+        return cmd_build.run(self, config, options, args)
 
 register_command(cmd_bootstrap)
