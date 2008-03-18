@@ -21,7 +21,14 @@
 import os
 import sys
 import re
-from subprocess import Popen, call, PIPE, STDOUT
+
+try:
+    from subprocess import Popen, call, PIPE, STDOUT
+except ImportError: # Python < 2.4 lacks subprocess module
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+    from jhbuild.cut_n_paste import subprocess
+    print 'subprocess module:', subprocess
+    sys.modules['subprocess'] = subprocess
 
 def get_parent():
     hg = Popen(['hg', 'parents', '--template', '{rev}'], stdout=PIPE)
