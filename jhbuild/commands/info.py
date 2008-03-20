@@ -72,7 +72,9 @@ class cmd_info(Command):
             if module.projects:
                 print 'Moz-Projects:', ', '.join(module.projects)
 
-        if isinstance(module.branch, CVSBranch):
+        if isinstance(module, MetaModule):
+            pass
+        elif isinstance(module.branch, CVSBranch):
             print 'CVS-Root:', module.branch.repository.cvsroot
             print 'CVS-Module:', module.branch.module
             if module.branch.revision:
@@ -91,7 +93,7 @@ class cmd_info(Command):
         try:
             tree_id = module.branch.tree_id()
             print 'Tree-ID:', tree_id
-        except NotImplementedError:
+        except (NotImplementedError, AttributeError):
             pass
 
         # dependencies
