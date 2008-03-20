@@ -298,17 +298,13 @@ class GitCvsBranch(GitBranch):
     branchname = property(branchname)
 
     def _checkout(self, buildscript, copydir=None):
-        cmd = ['git-cvsimport', '-k', '-o' + self.branchname, '-v', '-d', self.repository.cvsroot, '-C']
+
+        cmd = ['git-cvsimport', '-r', 'cvs', '-p', 'b,HEAD', '-k', '-m', '-a', '-v', '-d', self.repository.cvsroot, '-C']
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
         else:
             cmd.append(self.module)
-
-        if self.revision:
-            cmd.append('-p b,' + self.revision)
-        else:
-            cmd.append('-p b,HEAD')
 
         cmd.append(self.module)
 
@@ -321,29 +317,10 @@ class GitCvsBranch(GitBranch):
         if self.config.sticky_date:
             raise FatalError('date based checkout not yet supported\n')
 
-        cwd = self.get_checkoutdir()
-
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
-        buildscript.execute(cmd, 'git stash', cwd=cwd)
+        buildscript.execute(cmd, 'git stash', cwd=self.get_checkoutdir())
 
-        cmd = ['git', 'checkout', self.branchname]
-        buildscript.execute(cmd, 'git checkout ' + self.branchname, cwd=cwd)
-
-        cmd = ['git-cvsimport', '-k', '-o' + self.branchname, '-v', '-d', self.repository.cvsroot, '-C']
-
-        if self.checkoutdir:
-            cmd.append(self.checkoutdir)
-        else:
-            cmd.append(self.module)
-
-        if self.revision:
-            cmd.append('-p b,' + self.revision)
-        else:
-            cmd.append('-p b,HEAD')
-
-        cmd.append(self.module)
-
-        buildscript.execute(cmd, 'git-cvsimport', cwd=self.checkoutroot)
+        self._checkout(buildscript, copydir)
 
 register_repo_type('git', GitRepository)
