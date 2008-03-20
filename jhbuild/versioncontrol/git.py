@@ -101,13 +101,21 @@ class GitBranch(Branch):
             return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
 
+    def branch_exist(self, branch):
+        if not branch:
+            return False
+        try:
+            get_output(['git-rev-parse', branch], cwd = self.srcdir)
+            return True
+        except:
+            return False
+
     def branchname(self):
-        if self.tag:
-            return self.tag
-        elif self.branch:
-            return 'origin/' + self.branch
-        else:
-            return 'origin/master'
+        for b in [self.tag, 'origin/' + str(self.branch), self.branch,
+                  'origin/master', 'origin/trunk', 'master', 'trunk']:
+            if self.branch_exist(b):
+                return b
+        raise
     branchname = property(branchname)
 
     def _get_commit_from_date(self):
@@ -210,12 +218,6 @@ class GitSvnBranch(GitBranch):
         GitBranch.__init__(self, repository, module, "", checkoutdir, branch="git-svn")
         self.revision = revision
 
-    def branchname(self):
-        if (self.branch):
-                return self.branch
-        return 'git-svn'
-    branchname = property(branchname)
-
     def _get_externals(self, buildscript):
         subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
         subdirs.append ('/')
@@ -292,9 +294,10 @@ class GitCvsBranch(GitBranch):
         self.revision = revision
 
     def branchname(self):
-        if (self.branch):
-                return self.branch
-        return 'master'
+        for b in ['remotes/' + str(self.branch), self.branch, 'trunk', 'master']:
+            if self.branch_exist(b):
+                return b
+        raise
     branchname = property(branchname)
 
     def _checkout(self, buildscript, copydir=None):
