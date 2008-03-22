@@ -63,6 +63,8 @@
       href="https://core.fluendo.com/gstreamer/svn/trunk"/>
   <repository type="svn" name="svn.thomas.apestaart.org"
       href="http://thomas.apestaart.org/moap/svn/"/>
+  <repository type="git" name="git.capuchin.gnome.org"
+    href="http://www.gnome.org/~sebp/git/"/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1670,6 +1672,20 @@
    <branch repo="svn.thomas.apestaart.org" 
            module="trunk" 
            checkoutdir="moap"/>
+ </autotools>
+
+ <autotools id="capuchin">
+   <branch/>
+   <dep package="dbus"/>
+   <dep package="ndesk-dbus"/>
+   <dep package="mono"/>
+   <dep package="gnome-sharp"/>
+ </autotools>
+
+ <autotools id="capuchin-glib">
+   <branch repo="git.capuchin.gnome.org"
+           module="capuchin-glib.git" checkoutdir="capuchin-glib"/>
+   <dep package="dbus-glib"/>
  </autotools>
 
 </moduleset>
