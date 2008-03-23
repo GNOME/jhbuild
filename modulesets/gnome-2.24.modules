@@ -65,6 +65,10 @@
       href="http://thomas.apestaart.org/moap/svn/"/>
   <repository type="git" name="git.capuchin.gnome.org"
     href="http://www.gnome.org/~sebp/git/"/>
+  <repository type="svn" name="hotwire.googlecode.com"
+      href="http://hotwire-shell.googlecode.com/svn/"/>
+  <repository type="svn" name="labyrinth.googlecode.com"
+      href="http://labyrinth.googlecode.com/svn/"/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1676,16 +1680,43 @@
 
  <autotools id="capuchin">
    <branch/>
-   <dep package="dbus"/>
-   <dep package="ndesk-dbus"/>
-   <dep package="mono"/>
-   <dep package="gnome-sharp"/>
+   <dependencies>
+     <dep package="dbus"/>
+     <dep package="ndesk-dbus"/>
+     <dep package="mono"/>
+     <dep package="gnome-sharp"/>
+   </dependencies>
  </autotools>
 
  <autotools id="capuchin-glib">
    <branch repo="git.capuchin.gnome.org"
            module="capuchin-glib.git" checkoutdir="capuchin-glib"/>
-   <dep package="dbus-glib"/>
+   <dependencies>
+     <dep package="dbus-glib"/>
+   </dependencies>
+ </autotools>
+
+ <distutils id="hotwire">
+   <branch repo="hotwire.googlecode.com"
+           module="trunk"
+           checkoutdir="hotwire"/>
+   <dependencies>
+     <dep package="pygtk"/>
+     <dep package="gnome-python-desktop"/>
+     <dep package="desktop-file-utils"/>
+   </dependencies>
+ </distutils>
+
+ <autotools id="labyrinth">
+   <branch repo="labyrinth.googlecode.com"
+           module="trunk"
+           checkoutdir="labyrinth"/>
+   <dependencies>
+     <dep package="pygtk"/>
+     <dep package="gnome-python-desktop"/>
+     <dep package="gnome-python"/>
+     <dep package="pycairo"/>
+   </dependencies>
  </autotools>
 
 </moduleset>
