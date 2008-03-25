@@ -69,6 +69,8 @@
       href="http://hotwire-shell.googlecode.com/svn/"/>
   <repository type="svn" name="labyrinth.googlecode.com"
       href="http://labyrinth.googlecode.com/svn/"/>
+  <repository type="git" name="git.fedoraproject.org"
+    href="git://git.fedoraproject.org/git/hosted/"/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1726,5 +1728,16 @@
      <dep package="pycairo"/>
    </dependencies>
  </autotools>
+
+ <distutils id="d-feet">
+   <branch repo="git.fedoraproject.org"
+           module="d-feet.git"
+           checkoutdir="d-feet"/>
+   <dependencies>
+     <dep package="pygtk"/>
+     <dep package="dbus-python"/>
+     <dep package="gnome-python-desktop"/>
+   </dependencies>
+ </distutils>
 
 </moduleset>
