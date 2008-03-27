@@ -1608,7 +1608,17 @@
     </suggests>
   </autotools>
 
- <autotools id="banshee" autogenargs="--disable-daap">
+  <tarball id="taglib-sharp" version="2.0.2.0">
+    <source href="http://www.taglib-sharp.com/Download/taglib-sharp-2.0.2.0.tar.gz"
+            md5sum="3db8f773a7fc85b9ba3c169affdc0c8a" size="312044"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gnome-sharp"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="banshee" autogenargs="--disable-daap">
     <branch module="banshee/trunk/banshee" checkoutdir="banshee"/>
     <dependencies>
       <dep package="intltool"/>
@@ -1620,6 +1630,7 @@
       <dep package="mono"/>
       <dep package="monodoc"/>
       <dep package="gtk-sharp"/>
+      <dep package="taglib-sharp"/>
       <dep package="mono-addins"/>
     </dependencies>
   </autotools>
