@@ -20,15 +20,22 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-
+import shutil
+import subprocess
+import sys
+import tempfile
 import unittest
 
-import jhbuild.moduleset
-from jhbuild.modtypes import Package
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 from jhbuild.errors import DependencyCycleError, UsageError, CommandError
+from jhbuild.modtypes import Package
+from jhbuild.modtypes.autotools import AutogenModule
+from jhbuild.modtypes.distutils import DistutilsModule
+import jhbuild.config
+import jhbuild.frontends.terminal
+import jhbuild.moduleset
 
 import mock
 
@@ -165,7 +172,6 @@ class AutotoolsModTypeTestCase(BuildTestCase):
 
     def setUp(self):
         BuildTestCase.setUp(self)
-        from jhbuild.modtypes.autotools import AutogenModule
         self.modules = [AutogenModule('foo', self.branch)]
 
     def test_build(self):
@@ -277,7 +283,6 @@ class BuildPolicyTestCase(BuildTestCase):
 
     def setUp(self):
         BuildTestCase.setUp(self)
-        from jhbuild.modtypes.autotools import AutogenModule
         self.modules = [AutogenModule('foo', self.branch)]
 
     def test_policy_all(self):
@@ -331,7 +336,6 @@ class TwoModulesTestCase(BuildTestCase):
 
     def setUp(self):
         BuildTestCase.setUp(self)
-        from jhbuild.modtypes.autotools import AutogenModule
         self.foo_branch = mock.Branch()
         self.modules = [AutogenModule('foo', self.foo_branch),
                         AutogenModule('bar', self.branch)]
@@ -470,6 +474,109 @@ class TwoModulesTestCase(BuildTestCase):
                  'foo:Building', 'foo:Checking', 'foo:Installing',
                  'bar:Checking out', 'bar:Configuring',
                  'bar:Building', 'bar:Checking', 'bar:Installing'])
+
+
+class TestConfig(jhbuild.config.Config):
+
+    # The Config base class calls setup_env() in the constructor, but
+    # we need to override some attributes before calling it.
+    def setup_env(self):
+        pass
+
+    def real_setup_env(self):
+        jhbuild.config.Config.setup_env(self)
+
+
+class SimpleBranch(object):
+
+    def __init__(self, name, dir_path):
+        self.branchname = name
+        self.srcdir = dir_path
+
+    def checkout(self, buildscript):
+        pass
+
+    def tree_id(self):
+        return 'made-up-tree-id'
+
+
+def restore_environ(env):
+    # os.environ.clear() doesn't appear to change underlying environment.
+    for key in os.environ.keys():
+        del os.environ[key]
+    for key, value in env.iteritems():
+        os.environ[key] = value
+
+
+STDOUT_FILENO = 1
+
+def with_stdout(func):
+    old_fd = os.dup(STDOUT_FILENO)
+    new_fd = os.open('/dev/null', os.O_WRONLY)
+    os.dup2(new_fd, STDOUT_FILENO)
+    os.close(new_fd)
+    try:
+        return func()
+    finally:
+        os.dup2(old_fd, STDOUT_FILENO)
+        os.close(old_fd)
+
+
+class EndToEndTest(unittest.TestCase):
+
+    def setUp(self):
+        self._old_env = os.environ.copy()
+        self._temp_dirs = []
+
+    def tearDown(self):
+        restore_environ(self._old_env)
+        for temp_dir in self._temp_dirs:
+            shutil.rmtree(temp_dir)
+
+    def make_temp_dir(self):
+        temp_dir = tempfile.mkdtemp(prefix='unittest-')
+        self._temp_dirs.append(temp_dir)
+        return temp_dir
+
+    def make_config(self):
+        temp_dir = self.make_temp_dir()
+        config = TestConfig()
+        config.checkoutroot = os.path.abspath(os.path.join(temp_dir, 'checkout'))
+        config.prefix = os.path.abspath(os.path.join(temp_dir, 'prefix'))
+        os.makedirs(config.checkoutroot)
+        os.makedirs(config.prefix)
+        config.interact = False
+        config.quiet_mode = True # Not enough to disable output entirely
+        config.progress_bar = False
+        config.real_setup_env()
+        return config
+
+    def test_distutils(self):
+        config = self.make_config()
+        branch_dir = os.path.join(config.checkoutroot, 'hello')
+        shutil.copytree(os.path.join(os.path.dirname(__file__), 'distutils'), branch_dir)
+        module_list = [DistutilsModule('hello', SimpleBranch('hello', branch_dir))]
+        build = jhbuild.frontends.terminal.TerminalBuildScript(
+            config, module_list)
+        with_stdout(build.build)
+        proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
+        self.assertEquals(stdout, 'Hello world (distutils)\n')
+        self.assertEquals(proc.wait(), 0)
+
+    def test_autotools(self):
+        config = self.make_config()
+        branch_dir = os.path.join(config.checkoutroot, 'hello')
+        shutil.copytree(os.path.join(os.path.dirname(__file__), 'autotools'),
+                        branch_dir)
+        module_list = [AutogenModule('hello', SimpleBranch('hello', branch_dir))]
+        build = jhbuild.frontends.terminal.TerminalBuildScript(
+            config, module_list)
+        with_stdout(build.build)
+        proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
+        self.assertEquals(stdout, 'Hello world (autotools)\n')
+        self.assertEquals(proc.wait(), 0)
 
 
 if __name__ == '__main__':
