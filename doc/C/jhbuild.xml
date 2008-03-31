@@ -2579,7 +2579,7 @@ done</programlisting>
 	    it?</simpara>
 	  </question>
 	  <answer>
-	    <para>You will want to create a
+	    <para>(a) You will want to create a
 	    <filename>~/.xsession</filename> file, which is run by the
 	    display manager when you log in.  This file should look
 	    something like this:</para>
@@ -2587,6 +2587,70 @@ done</programlisting>
 exec jhbuild run gnome-session</programlisting>
 	    <para>Finally, you should make sure that the
 	    <filename>~/.xsession</filename> file is executable.</para>
+            <para>(b) Use a more sophisticated session script that is run
+                       when you log in using a graphical login manager (gdm
+                       /kdm/xdm). The problem with D-Bus and HAL is that
+                       these daemons come with your distribution and are
+                       most likely already running, but may be unusable by the
+                       Gnome development version (i.e. they are too old or
+                       incompatible). The session script just starts hal and d-bus
+                       from the jhbuild installation in addition to the system-wide
+                       versions. Put the following script as e.g. 
+                       <filename>/usr/bin/gnomesvn-session</filename> and
+                       make sure you adjust <userinput>GNOME</userinput>
+                       to your local settings:
+           </para>
+            <programlisting>
+GNOME=/opt/gnome2
+ 
+GDK_USE_XFT=1
+#XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
+#XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg
+
+DBUS_LAUNCH="$GNOME/bin/dbus-launch --exit-with-session"
+ 
+sudo su -c "$GNOME/bin/dbus-daemon --system; \
+                   $GNOME/sbin/hald"
+ 
+jhbuild run $DBUS_LAUNCH gnome-session</programlisting>
+            <para>Uncomment the XDG_ lines if you want the system-wide
+                       program menus from your distribution in addition to the
+                       entries from the jhbuild GNOME. Make sure the file is
+                       executable:
+            </para>
+            <programlisting>chmod a+x /usr/bin/gnomesvn-session</programlisting>
+            <para>Because you need to start
+                       system daemons, you
+                       will need root privileges which are obtained by sudo. Note
+                       that you need to configure sudo so that it won’t ask for a
+                       password! Run <userinput>visudo</userinput> as root
+                       and enter (don’t forget to
+                       change your username and the paths): 
+           </para>
+            <programlisting>
+# Cmnd alias specification
+Cmnd_Alias  GNOME =  /opt/gnome2/bin/dbus-daemon, \
+                     /opt/gnome2/sbin/hald
+
+# User privilege specification
+gnometester  ALL = NOPASSWD: GNOME</programlisting>
+            <para>In order to get a new session entry in the login manager, create
+          <filename>/usr/share/xsessions/gnomesvn.desktop</filename> and put this or
+                    something similar:
+            </para>
+            <programlisting>
+[Desktop Entry]
+Encoding=UTF-8
+Name=Gnome svn (jhbuild)
+Comment=This session logs you into Gnome testing session
+Exec=/usr/bin/gnomesvn-session
+Icon=
+Type=Application</programlisting>
+            <para>Now you can restart gdm and log into your jhbuild GNOME.
+                  Make sure you select the jhbuild session before entering
+                  the login credentials. Advice: Use a seperate user account
+                  for testing!
+            </para>
 	  </answer>
 	</qandaentry>
 	<qandaentry>
