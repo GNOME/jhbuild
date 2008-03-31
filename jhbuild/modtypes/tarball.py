@@ -72,7 +72,9 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     from autotools import AutogenModule
     from jhbuild.versioncontrol.tarball import TarballBranch, TarballRepository
 
+    # create a fake TarballRepository, and give it the moduleset uri
     repo = TarballRepository(config, None, None)
+    repo.moduleset_uri = uri
 
     branch = TarballBranch(repo, source_url, version, checkoutdir,
             source_size, source_md5, None)
