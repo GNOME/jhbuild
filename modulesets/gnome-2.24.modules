@@ -73,6 +73,8 @@
       href="http://labyrinth.googlecode.com/svn/"/>
   <repository type="git" name="git.fedoraproject.org"
     href="git://git.fedoraproject.org/git/hosted/"/>
+  <repository type="hg" name="hg.circular-chaos.org"
+    href="http://hg.circular-chaos.org" />
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1752,5 +1754,29 @@
      <dep package="gnome-python-desktop"/>
    </dependencies>
  </distutils>
+
+  <autotools id="notify-sharp" autogen-sh="autoreconf">
+    <branch repo="hg.circular-chaos.org"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="monodoc"/>
+      <dep package="gtk-sharp"/>
+      <dep package="ndesk-dbus"/>
+      <dep package="ndesk-dbus-glib"/>
+   </dependencies>
+  </autotools>
+
+  <autotools id="tasque">
+    <branch/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
+      <dep package="ndesk-dbus"/>
+      <dep package="ndesk-dbus-glib"/>
+      <dep package="notify-sharp"/>
+      <dep package="evolution-sharp"/>
+    </dependencies>
+  </autotools>
 
 </moduleset>
