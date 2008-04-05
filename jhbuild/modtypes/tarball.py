@@ -32,6 +32,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     autogenargs = ''
     makeargs = ''
     supports_non_srcdir_builds = True
+    makefile = 'Makefile'
     if node.hasAttribute('checkoutdir'):
         checkoutdir = node.getAttribute('checkoutdir')
     if node.hasAttribute('autogenargs'):
@@ -41,6 +42,9 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('makefile'):
+        makefile = node.getAttribute('makefile')
+
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'source':
@@ -86,6 +90,6 @@ def parse_tarball(node, config, uri, repositories, default_repo):
             dependencies, after, suggests,
             supports_non_srcdir_builds = supports_non_srcdir_builds,
             skip_autogen = False, autogen_sh = 'configure',
-            extra_env = extra_env)
+            makefile = makefile, extra_env = extra_env)
 
 register_module_type('tarball', parse_tarball)
