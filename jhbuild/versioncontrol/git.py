@@ -149,8 +149,14 @@ class GitBranch(Branch):
             buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
 
         if self.branch:
-            buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], 'git',
-                                cwd = self.srcdir)
+            # don't try to create a new branch if we already got a local branch
+            # with that name during the initial git-clone
+            try:
+                buildscript.execute(['git', 'show-branch', self.branch],
+                                    'git', cwd = self.srcdir)
+            except CommandError:
+                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], 'git',
+                                    cwd = self.srcdir)
 
         if self.config.sticky_date:
             self._update(buildscript)
