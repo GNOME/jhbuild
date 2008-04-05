@@ -38,9 +38,9 @@ class DistutilsModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch,
-                 dependencies=[], after=[], suggests=[],
-                 supports_non_srcdir_builds=True):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 dependencies = [], after = [], suggests = [],
+                 supports_non_srcdir_builds = True, extra_env = None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
@@ -88,7 +88,7 @@ class DistutilsModule(Package):
         cmd = [python, 'setup.py', 'build']
         if srcdir != builddir:
             cmd.extend(['--build-base', builddir])
-        buildscript.execute(cmd, cwd=srcdir)
+        buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -104,7 +104,7 @@ class DistutilsModule(Package):
         if srcdir != builddir:
             cmd.extend(['build', '--build-base', builddir])
         cmd.extend(['install', '--prefix', buildscript.config.prefix])
-        buildscript.execute(cmd, cwd=srcdir)
+        buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
@@ -118,13 +118,15 @@ def parse_distutils(node, config, uri, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     dependencies, after, suggests = get_dependencies(node)
+    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return DistutilsModule(id, branch,
-                           dependencies=dependencies, after=after,
-                           suggests=suggests,
-                           supports_non_srcdir_builds=supports_non_srcdir_builds)
+            dependencies = dependencies, after = after,
+            suggests = suggests,
+            supports_non_srcdir_builds = supports_non_srcdir_builds,
+            extra_env = extra_env)
 register_module_type('distutils', parse_distutils)
 

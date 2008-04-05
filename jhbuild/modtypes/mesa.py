@@ -40,8 +40,8 @@ class MesaModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 dependencies=[], after=[], suggests=[], extra_env = None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -99,9 +99,11 @@ class MesaModule(Package):
         builddir = self.get_builddir(buildscript)
         make = os.environ.get('MAKE', 'make')
 	if (os.path.exists(builddir + '/configs/current')):
-	    buildscript.execute([make], cwd=builddir)
+	    buildscript.execute([make], cwd = builddir,
+                    extra_env = self.extra_env)
 	else:
-	    buildscript.execute([make, self.get_mesa_config()], cwd=builddir)
+	    buildscript.execute([make, self.get_mesa_config()], cwd = builddir,
+                    extra_env = self.extra_env)
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -113,24 +115,17 @@ class MesaModule(Package):
         builddir = self.get_builddir(buildscript)
         prefix = buildscript.config.prefix
 
-        buildscript.execute(['mkdir', '-p',
-			     prefix + '/lib/dri'],
-                             cwd=builddir)
+        buildscript.execute(
+                ['mkdir', '-p', prefix + '/lib/dri'], cwd = builddir)
         for x in glob.glob(builddir + '/lib/libGL*'):
-            buildscript.execute(['cp',
-                                 x,
-                                 prefix + '/lib'],
-                                cwd=builddir)
+            buildscript.execute(
+                    ['cp', x, prefix + '/lib'], cwd = builddir)
         for x in glob.glob(builddir + '/lib/*_dri.so'):
-            buildscript.execute(['cp',
-                                 x,
-                                 prefix + '/lib/dri'],
-                                cwd=builddir)
+            buildscript.execute(
+                    ['cp', x, prefix + '/lib/dri'], cwd = builddir)
         for x in glob.glob(builddir + '/include/GL/*.h'):
-            buildscript.execute(['cp',
-                                 x,
-                                 prefix + '/include/GL'],
-                                cwd=builddir)
+            buildscript.execute(
+                    ['cp', x, prefix + '/include/GL'], cwd = builddir)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
@@ -146,11 +141,12 @@ def parse_mesa(node, config, uri, repositories, default_repo):
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
     dependencies, after, suggests = get_dependencies(node)
+    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return MesaModule(id, branch, makeargs,
-                         dependencies=dependencies, after=after,
-                         suggests=suggests)
+                         dependencies = dependencies, after = after,
+                         suggests = suggests, extra_env = extra_env)
 register_module_type('mesa', parse_mesa)

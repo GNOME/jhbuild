@@ -44,8 +44,9 @@ class LinuxModule(Package):
     STATE_INSTALL         = 'install'
     STATE_MODULES_INSTALL = 'modules_install'
 
-    def __init__(self, name, branch, kconfigs, makeargs, dependencies, after, suggests):
-        Package.__init__(self, name, dependencies, after, suggests)
+    def __init__(self, name, branch, kconfigs, makeargs,
+            dependencies, after, suggests, extra_env = None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.kconfigs = kconfigs
         self.makeargs = makeargs
@@ -104,11 +105,13 @@ class LinuxModule(Package):
                 if e != errno.EEXIST:
                     raise
 
-            cmd = '%s oldconfig EXTRAVERSION=%s O=%s' % (os.environ.get('MAKE', 'make'),
-                                                         kconfig.version,
-                                                         'build-' + kconfig.version)
+            cmd = '%s oldconfig EXTRAVERSION=%s O=%s' % (
+                    os.environ.get('MAKE', 'make'),
+                    kconfig.version,
+                    'build-' + kconfig.version)
 
-            buildscript.execute(cmd, cwd=self.branch.srcdir)
+            buildscript.execute(cmd, cwd = self.branch.srcdir,
+                    extra_env = self.extra_env)
 
             os.remove(os.path.join(self.branch.srcdir, ".config"))
 
@@ -122,11 +125,13 @@ class LinuxModule(Package):
     def do_clean(self, buildscript):
         buildscript.set_action('Cleaning', self)
         for kconfig in self.kconfigs:
-            cmd = '%s %s clean EXTRAVERSION=%s O=%s' % (os.environ.get('MAKE', 'make'),
-                                                        self.makeargs,
-                                                        kconfig.version,
-                                                        'build-' + kconfig.version)
-            buildscript.execute(cmd, cwd=self.branch.srcdir)
+            cmd = '%s %s clean EXTRAVERSION=%s O=%s' % (
+                    os.environ.get('MAKE', 'make'),
+                    self.makeargs,
+                    kconfig.version,
+                    'build-' + kconfig.version)
+            buildscript.execute(cmd, cwd = self.branch.srcdir,
+                    extra_env = self.extra_env)
 
     do_clean.next_state = STATE_BUILD
     do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
@@ -141,7 +146,8 @@ class LinuxModule(Package):
                                                   self.makeargs,
                                                   kconfig.version,
                                                   'build-' + kconfig.version)
-            buildscript.execute(cmd, cwd=self.branch.srcdir)
+            buildscript.execute(cmd, cwd = self.branch.srcdir,
+                    extra_env = self.extra_env)
 
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
@@ -152,12 +158,14 @@ class LinuxModule(Package):
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
         for kconfig in self.kconfigs:
-            cmd = '%s %s install EXTRAVERSION=%s O=%s INSTALL_PATH=%s/boot' % (os.environ.get('MAKE', 'make'),
-                                                                               self.makeargs,
-                                                                               kconfig.version,
-                                                                               'build-' + kconfig.version,
-                                                                               buildscript.config.prefix)
-            buildscript.execute(cmd, cwd=self.branch.srcdir)
+            cmd = '%s %s install EXTRAVERSION=%s O=%s INSTALL_PATH=%s/boot' % (
+                    os.environ.get('MAKE', 'make'),
+                    self.makeargs,
+                    kconfig.version,
+                    'build-' + kconfig.version,
+                    buildscript.config.prefix)
+            buildscript.execute(cmd, cwd = self.branch.srcdir,
+                    extra_env = self.extra_env)
 
     do_install.next_state = STATE_MODULES_INSTALL
     do_install.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
@@ -168,12 +176,14 @@ class LinuxModule(Package):
     def do_modules_install(self, buildscript):
         buildscript.set_action('Installing modules', self)
         for kconfig in self.kconfigs:
-            cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (os.environ.get('MAKE', 'make'),
-                                                                                      self.makeargs,
-                                                                                      kconfig.version,
-                                                                                      'build-' + kconfig.version,
-                                                                                      buildscript.config.prefix)
-            buildscript.execute(cmd, cwd=self.branch.srcdir)
+            cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
+                    os.environ.get('MAKE', 'make'),
+                    self.makeargs,
+                    kconfig.version,
+                    'build-' + kconfig.version,
+                    buildscript.config.prefix)
+            buildscript.execute(cmd, cwd = self.branch.srcdir,
+                    extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
 
     do_install.next_state = Package.STATE_DONE
@@ -228,12 +238,14 @@ def parse_linux(node, config, uri, repositories, default_repo):
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
     dependencies, after, suggests = get_dependencies(node)
+    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
     return LinuxModule(id, branch, kconfigs,
-                       makeargs, dependencies, after, suggests)
+                       makeargs, dependencies, after, suggests,
+                       extra_env = extra_env)
 
 register_module_type('linux', parse_linux)

@@ -52,8 +52,9 @@ class AutogenModule(Package):
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
-                 makefile='Makefile'):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 makefile='Makefile',
+                 extra_env = None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -135,7 +136,8 @@ class AutogenModule(Package):
         cmd += ' %s' % self.autogenargs
 
         if self.autogen_sh == 'autoreconf':
-            buildscript.execute(['autoreconf', '-i'], cwd=builddir)
+            buildscript.execute(['autoreconf', '-i'], cwd = builddir,
+                    extra_env = self.extra_env)
             cmd = cmd.replace('autoreconf', 'configure')
             cmd = cmd.replace('--enable-maintainer-mode', '')
 
@@ -157,7 +159,7 @@ class AutogenModule(Package):
                        (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
                 cmd = p.sub(r'\1\4-- \2\3', cmd)
 
-        buildscript.execute(cmd, cwd=builddir)
+        buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.next_state = STATE_CLEAN
     do_configure.error_states = [STATE_FORCE_CHECKOUT,
             STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
@@ -169,7 +171,8 @@ class AutogenModule(Package):
     def do_clean(self, buildscript):
         buildscript.set_action('Cleaning', self)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
     do_clean.next_state = STATE_BUILD
     do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
@@ -179,7 +182,8 @@ class AutogenModule(Package):
     def do_build(self, buildscript):
         buildscript.set_action('Building', self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
     do_build.next_state = STATE_CHECK
     do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE,
             STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
@@ -192,7 +196,8 @@ class AutogenModule(Package):
         buildscript.set_action('Checking', self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
         try:
-            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+            buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
         except CommandError:
             if not buildscript.config.makecheck_advisory:
                 raise
@@ -208,7 +213,8 @@ class AutogenModule(Package):
             cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
         else:
             cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
     do_dist.next_state = STATE_INSTALL
     do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
@@ -222,7 +228,8 @@ class AutogenModule(Package):
         else:
             cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
 
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
@@ -241,7 +248,8 @@ class AutogenModule(Package):
     def do_force_distclean(self, buildscript):
         buildscript.set_action('Distcleaning', self)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
     do_force_distclean.next_state = STATE_CONFIGURE
     do_force_distclean.error_states = []
 
@@ -285,9 +293,9 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     makeargs        = p.sub(config.prefix + libsubdir, makeargs)
     makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
 
-    # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
+    extra_env = config.module_extra_env.get(id)
 
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
@@ -302,7 +310,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          supports_non_srcdir_builds=supports_non_srcdir_builds,
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
-                         makefile=makefile)
+                         makefile=makefile,
+                         extra_env=extra_env)
 register_module_type('autotools', parse_autotools)
 
 
@@ -332,9 +341,9 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
     if not id:
         id = checkoutdir or module
 
-    # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
+    extra_env = config.module_extra_env.get(id)
 
     dependencies, after, suggests = get_dependencies(node)
 
@@ -356,7 +365,8 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds,
+                         extra_env=extra_env)
 register_module_type('cvsmodule', parse_cvsmodule)
 
 def parse_svnmodule(node, config, uri, repositories, default_repo):
@@ -381,9 +391,9 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
     if not id:
         id = checkoutdir or os.path.basename(module)
 
-    # override revision tag if requested.
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
+    extra_env = config.module_extra_env.get(id)
 
     dependencies, after, suggests = get_dependencies(node)
 
@@ -396,7 +406,8 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds,
+                         extra_env=extra_env)
 register_module_type('svnmodule', parse_svnmodule)
 
 def parse_archmodule(node, config, uri, repositories, default_repo):
@@ -423,6 +434,7 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
 
     autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(id, makeargs)
+    extra_env = config.module_extra_env.get(id)
 
     dependencies, after, suggests = get_dependencies(node)
 
@@ -435,5 +447,6 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds,
+                         extra_env=extra_env)
 register_module_type('archmodule', parse_archmodule)

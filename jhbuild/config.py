@@ -41,7 +41,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout',
                 'nopoison', 'makecheck_advisory',
-                'quiet_mode', 'progress_bar']
+                'quiet_mode', 'progress_bar', 'module_extra_env']
 
 env_prepends = {}
 def prependpath(envvar, path):

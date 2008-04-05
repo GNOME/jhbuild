@@ -162,6 +162,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             kws['cwd'] = cwd
 
         if extra_env is not None:
+            print 'XXX: environment:', extra_env
             kws['env'] = os.environ.copy()
             kws['env'].update(extra_env)
 

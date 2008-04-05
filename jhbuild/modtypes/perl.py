@@ -39,8 +39,8 @@ class PerlModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 dependencies=[], after=[], suggests=[], extra_env = None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -82,8 +82,9 @@ class PerlModule(Package):
         perl = os.environ.get('PERL', 'perl')
         make = os.environ.get('MAKE', 'make')
         cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, self.makeargs)
-        buildscript.execute(cmd, cwd=builddir)
-        buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir)
+        buildscript.execute(cmd, cwd=builddir, extra_env = self.extra_env)
+        buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir,
+                extra_env = self.extra_env)
     do_build.next_state = STATE_INSTALL
     do_build.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -94,9 +95,9 @@ class PerlModule(Package):
         buildscript.set_action('Installing', self)
         builddir = self.get_builddir(buildscript)
         make = os.environ.get('MAKE', 'make')
-        buildscript.execute([make, 'install',
-                             'PREFIX=%s' % buildscript.config.prefix],
-                            cwd=builddir)
+        buildscript.execute(
+                [make, 'install', 'PREFIX=%s' % buildscript.config.prefix],
+                cwd = builddir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
@@ -116,12 +117,13 @@ def parse_perl(node, config, uri, repositories, default_repo):
     makeargs = p.sub(config.prefix, makeargs)
     
     dependencies, after, suggests = get_dependencies(node)
+    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return PerlModule(id, branch, makeargs,
             dependencies=dependencies, after=after,
-            suggests=suggests)
+            suggests=suggests, extra_env = extra_env)
 register_module_type('perl', parse_perl)
 

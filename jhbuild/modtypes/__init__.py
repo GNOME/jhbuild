@@ -117,13 +117,15 @@ class Package:
     type = 'base'
     STATE_START = 'start'
     STATE_DONE  = 'done'
-    def __init__(self, name, dependencies=[], after=[], suggests=[]):
+    def __init__(self, name, dependencies = [], after = [], suggests = [],
+            extra_env = None):
         self.name = name
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
         self.tags = []
         self.moduleset_name = None
+        self.extra_env = extra_env
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)

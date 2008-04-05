@@ -38,8 +38,9 @@ class CMakeModule(Package):
     STATE_DIST = 'dist'
     STATE_INSTALL = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+    def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
+                extra_env=None):
+        Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
 
     def get_srcdir(self, buildscript):
@@ -86,7 +87,7 @@ class CMakeModule(Package):
             os.mkdir(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
         cmd = ['cmake', '-DCMAKE_INSTALL_PREFIX=%s' % prefix, srcdir]
-        buildscript.execute(cmd, cwd=builddir)
+        buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.next_state = STATE_BUILD
     do_configure.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -96,7 +97,8 @@ class CMakeModule(Package):
     def do_build(self, buildscript):
         buildscript.set_action('Building', self)
         builddir = self.get_builddir(buildscript)
-        buildscript.execute(os.environ.get('MAKE', 'make'), cwd=builddir)
+        buildscript.execute(os.environ.get('MAKE', 'make'), cwd = builddir,
+                extra_env = self.extra_env)
     do_build.next_state = STATE_DIST
     do_build.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -106,7 +108,8 @@ class CMakeModule(Package):
     def do_dist(self, buildscript):
         buildscript.set_action('Creating tarball for', self)
         cmd = '%s package_source' % os.environ.get('MAKE', 'make')
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
     do_dist.next_state = STATE_INSTALL
     do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
@@ -116,7 +119,9 @@ class CMakeModule(Package):
     def do_install(self, buildscript):
         buildscript.set_action('Installing', self)
         builddir = self.get_builddir(buildscript)
-        buildscript.execute([os.environ.get('MAKE', 'make'), "install"], cwd=builddir)
+        buildscript.execute([os.environ.get('MAKE', 'make'), 'install'],
+                cwd = builddir,
+                extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
@@ -125,12 +130,14 @@ class CMakeModule(Package):
 def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     dependencies, after, suggests = get_dependencies(node)
+    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo)
 
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
-    return CMakeModule(id, branch, dependencies=dependencies, after=after, suggests=suggests)
+    return CMakeModule(id, branch, dependencies = dependencies, after = after,
+            suggests = suggests, extra_env = extra_env)
 
 register_module_type('cmake', parse_cmake)
 

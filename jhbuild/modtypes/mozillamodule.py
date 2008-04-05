@@ -30,14 +30,15 @@ from jhbuild.errors import FatalError, BuildStateError
 class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
 		 makeargs='', dependencies=[], after=[], suggests=[],
-                 repository=None):
+                 repository = None, extra_env = extra_env):
         AutogenModule.__init__(self, name, branch=None,
                                autogenargs=autogenargs,
                                makeargs=makeargs,
                                dependencies=dependencies,
                                after=after,
                                suggests=suggests,
-                               supports_non_srcdir_builds=False)
+                               supports_non_srcdir_builds=False,
+                               extra_env = extra_env)
         self.repository = repository
         self.revision = revision
 	self.projects = projects
@@ -80,11 +81,12 @@ class MozillaModule(AutogenModule):
         if buildscript.config.sticky_date:
             cmd.extend(['-D', buildscript.config.sticky_date])
         cmd.append('mozilla/client.mk')
-        buildscript.execute(cmd, cwd=buildscript.config.checkoutroot)
+        buildscript.execute(cmd, cwd = buildscript.config.checkoutroot)
         
         make = os.environ.get('MAKE', 'make')
         buildscript.execute([make, '-f', 'client.mk', 'checkout'],
-                            cwd=self.get_builddir(buildscript))
+                cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
 
     def do_checkout(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
@@ -96,7 +98,8 @@ class MozillaModule(AutogenModule):
             buildscript.set_action('Updating', self)
             make = os.environ.get('MAKE', 'make')
             buildscript.execute([make, '-f', 'client.mk', 'fast-update'],
-                                cwd=checkoutdir)
+                    cwd = checkoutdir,
+                    extra_env = self.extra_env)
 
         # did the checkout succeed?
         if not os.path.exists(checkoutdir):
@@ -135,7 +138,8 @@ class MozillaModule(AutogenModule):
 
         if self.projects:
             cmd += ' --enable-application=%s' % self.projects
-        buildscript.execute(cmd, cwd=checkoutdir)
+        buildscript.execute(cmd, cwd = checkoutdir,
+                extra_env = self.extra_env)
     do_configure.next_state = AutogenModule.STATE_BUILD
     do_configure.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
@@ -144,7 +148,8 @@ class MozillaModule(AutogenModule):
         make = os.environ.get('MAKE', 'make')
         cmd = '%s %s %s install' % (make, buildscript.config.makeargs,
                                       self.makeargs)
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
         nssdir = '%s/include/%s-%s/nss' % (
             buildscript.config.prefix,
             self.get_mozilla_app(),
@@ -176,10 +181,11 @@ def parse_mozillamodule(node, config, uri, repositories, default_repo):
 
     # override revision tag if requested.
     revision = config.branches.get(name, revision)
-    autogenargs += ' ' + config.module_autogenargs.get(name,
-                                                       config.autogenargs)
+
+    autogenargs += ' ' + config.module_autogenargs.get(name, config.autogenargs)
     makeargs += ' ' + config.module_makeargs.get(name, config.makeargs)
 
+    extra_env = config.module_extra_env.get(id)
     dependencies, after, suggests = get_dependencies(node)
 
     for attrname in ['cvsroot', 'root']:
@@ -190,6 +196,7 @@ def parse_mozillamodule(node, config, uri, repositories, default_repo):
         repo = repositories.get(default_repo, None)
 
     return MozillaModule(name, projects, revision, autogenargs, makeargs,
-                         dependencies, after, suggests, repo)
+                         dependencies, after, suggests, repo,
+                         extra_env = extra_env)
 
 register_module_type('mozillamodule', parse_mozillamodule)
