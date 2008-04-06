@@ -30,7 +30,7 @@ from jhbuild.errors import FatalError, BuildStateError
 class MozillaModule(AutogenModule):
     def __init__(self, name, projects, revision, autogenargs='',
 		 makeargs='', dependencies=[], after=[], suggests=[],
-                 repository = None, extra_env = extra_env):
+                 repository = None, extra_env = None):
         AutogenModule.__init__(self, name, branch=None,
                                autogenargs=autogenargs,
                                makeargs=makeargs,
