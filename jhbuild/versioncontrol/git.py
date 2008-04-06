@@ -228,7 +228,6 @@ class GitSvnBranch(GitBranch):
         subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
         subdirs.append ('/')
         for subdir in subdirs:
-            print 'checking', subdir, '...'
             externals = jhbuild.versioncontrol.svn.get_externals (self.module + '/' + subdir)
             for external in externals:
                 extdir = self.get_checkoutdir() + os.sep + subdir + os.sep + external
