@@ -3,6 +3,11 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
 
+<repository type="tarball" name="cairo.org"
+    href="http://cairographics.org/"/>
+<repository type="tarball" name="mono.net"
+    href="http://go-mono.com/sources/"/>
+
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
   <tarball autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.22">
@@ -15,9 +20,11 @@
     </dependencies>
   </tarball>
 
-  <tarball id="cairo" version="1.5.4">
-    <source href="http://cairographics.org/snapshots/cairo-1.5.4.tar.gz"
-            md5sum="2738af237fc125f7e7d3e7bf8c5728c4" size="3283307"/>
+  <autotools id="cairo" autogen-sh="configure">
+    <branch module="snapshots/cairo-1.5.20.tar.gz" version="1.5.20"
+            repo="cairo.org" 
+            md5sum="6ccc61ac7817118d6638de5613c24110" size="5044646">
+    </branch>
     <dependencies>
       <dep package="fontconfig"/>
       <dep package="gtk-doc"/>
@@ -26,15 +33,17 @@
     <after>
       <dep package="glitz"/>
     </after>
-  </tarball>
+  </autotools>
 
-  <tarball id="cairomm" version="1.2.2">
-    <source href="http://cairographics.org/releases/cairomm-1.2.2.tar.gz"
-	    md5sum="fabb040a5ff2cf0529af55ff46d22d2d" size="582629"/>
+  <autotools id="cairomm" autogen-sh="configure">
+    <branch module="releases/cairomm-1.5.0.tar.gz" version="1.5.0"
+            repo="cairo.org" 
+            md5sum="ad8a36fd13796595123b60c2e35b9e0a" size="795563">
+    </branch>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="dbus" supports-non-srcdir-builds="no" version="1.1.20">
     <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.20.tar.gz"
@@ -255,6 +264,13 @@
     </dependencies>
   </tarball>
 
+  <autotools id="pixman" autogen-sh="configure">
+    <branch module="releases/pixman-0.10.0.tar.gz" version="0.10.0"
+            repo="cairo.org" 
+            md5sum="41804ac38025102dcc9891dfd4a3d105" size="411817">
+    </branch>
+  </autotools>
+
   <tarball id="poppler" version="0.8.0">
     <source href="http://poppler.freedesktop.org/poppler-0.8.0.tar.gz"
             md5sum="1a3ea3000d3446a97366c37b876979f4" size="1447799"/>
@@ -269,13 +285,15 @@
     </after>
   </tarball>
 
-  <tarball id="pycairo" version="1.2.2">
-    <source href="http://cairographics.org/releases/pycairo-1.2.2.tar.gz"
-            md5sum="83a2e06d9fc3530753701d580a18087e" size="482417"/>
+  <autotools id="pycairo" autogen-sh="configure">
+    <branch module="releases/pycairo-1.4.12.tar.gz" version="1.4.12"
+            repo="cairo.org" 
+            md5sum="c63199d35b1e1d3c5133509f315f70d7" size="490053">
+    </branch>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball autogen-sh="configure" id="pwlib" version="1.10.10">
     <source href="http://download.gnome.org/sources/pwlib/1.10/pwlib-1.10.10.tar.bz2"
@@ -379,11 +397,6 @@
             md5sum="aff487543845a82fe262e6e2922b4c8e" size="318349"/>
   </tarball>
 
-  <tarball id="pixman" version="0.9.6">
-    <source href="http://cairographics.org/releases/pixman-0.9.6.tar.gz"
-            sh1sum="66f01a682c64403a3d7a855ba5aa609ed93bcb9e" size="401171"/>
-  </tarball>
-
   <tarball id="autogen" version="5.8.4">
     <source href="http://internap.dl.sourceforge.net/sourceforge/autogen/autogen-5.8.4.tar.bz2"
             size="931015" md5sum="b65d4b9e3ddbcfd5418b708858c05b66"/>
@@ -391,30 +404,36 @@
 
   <!-- Mono Binding -->
 
-  <tarball id="libgdiplus" version="1.2.6" >
-    <source href="http://go-mono.com/sources/libgdiplus/libgdiplus-1.2.6.tar.bz2"
-            size="2897855" md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675"/>
+  <autotools id="libgdiplus" autogen-sh="configure">
+    <branch module="libgdiplus/libgdiplus-1.2.6.tar.bz2" version="1.2.6"
+            repo="mono.net" 
+            md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675" size="2897855">
+    </branch>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="fontconfig"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="mono" version="1.2.6">
-    <source href="http://go-mono.com/sources/mono/mono-1.2.6.tar.bz2"
-            size= "18163130" md5sum="391f85b4f962269e044ceac2b5235310"/>
+  <autotools id="mono" autogen-sh="configure">
+    <branch module="mono/mono-1.2.6.tar.bz2" version="1.2.6"
+            repo="mono.net" 
+            md5sum="391f85b4f962269e044ceac2b5235310" size="18163130">
+    </branch>
     <dependencies>
       <dep package="libgdiplus"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="monodoc" version="1.2.6">
-    <source href="http://go-mono.com/sources/monodoc/monodoc-1.2.6.zip"
-            size= "14976182" md5sum="bd4c9619ebf3b41803b7ca9097be7fc1"/>
+  <autotools id="monodoc" autogen-sh="configure">
+    <branch module="monodoc/monodoc-1.2.6.zip" version="1.2.6"
+            repo="mono.net" 
+            md5sum="bd4c9619ebf3b41803b7ca9097be7fc1" size="14976182">
+    </branch>
     <dependencies>
       <dep package="mono"/>
     </dependencies>
-  </tarball>
+  </autotools>
  
 </moduleset>
