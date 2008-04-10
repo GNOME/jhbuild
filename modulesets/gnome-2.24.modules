@@ -42,7 +42,7 @@
   <repository type="svn" name="svn.modest"
     href="https://garage.maemo.org/svn/modest/" />
   <repository type="svn" name="svn.o-hand.com"
-      href="http://svn.o-hand.com/repos/clutter/"/>
+      href="http://svn.o-hand.com/repos/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
@@ -1292,7 +1292,7 @@
   </autotools>
 
   <autotools id="clutter">
-    <branch repo="svn.o-hand.com" module="branches/clutter-0-6"/>
+    <branch repo="svn.o-hand.com" module="clutter/branches/clutter-0-6"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
@@ -1301,7 +1301,7 @@
   </autotools>
 
   <autotools id="clutter-gst">
-    <branch repo="svn.o-hand.com" module="trunk/clutter-gst"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gst"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="gstreamer"/>
@@ -1310,7 +1310,7 @@
   </autotools>
 
   <autotools id="clutter-cairo">
-    <branch repo="svn.o-hand.com" module="trunk/clutter-cairo"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-cairo"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="cairo"/>
@@ -1318,7 +1318,7 @@
   </autotools>
 
   <autotools id="clutter-gtk">
-    <branch repo="svn.o-hand.com" module="trunk/clutter-gtk"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gtk"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="clutter"/>
@@ -1326,7 +1326,7 @@
   </autotools>
 
   <autotools id="pyclutter">
-    <branch repo="svn.o-hand.com" module="trunk/bindings/pyclutter"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/bindings/pyclutter"/>
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygtk"/>
@@ -1339,7 +1339,7 @@
   </autotools>
 
   <autotools id="clutter-vala">
-    <branch repo="svn.o-hand.com" module="trunk/bindings/clutter-vala/clutter"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/bindings/clutter-vala/clutter"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="clutter-cairo"/>
@@ -1374,6 +1374,73 @@
     <dependencies>
       <dep package="meta-clutter-suite"/>
       <dep package="clutter-vala"/>
+    </dependencies>
+  </metamodule>
+
+  <autotools id="gssdp">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gssdp"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp"/>
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="share-mime-info"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-av">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-av"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-tools">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-tools"/>
+    <dependencies>
+      <dep package="gupnp"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gnome-icon-theme"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-ui">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-ui"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="rhythmbox-gupnp" autogenargs="--with-rhythmbox=../rhythmbox">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/rhythmbox-gupnp"/>
+    <dependencies>
+      <dep package="rhythmbox"/>
+      <dep package="gupnp-av"/>
+      <dep package="gtk+"/>
+      <dep package="gnome-vfs"/>
+    </dependencies>
+  </autotools>
+
+  <metamodule id="meta-gupnp">
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gupnp-tools"/>
+      <dep package="gupnp-ui"/>
+      <dep package="rhythmbox-gupnp"/>
     </dependencies>
   </metamodule>
 
