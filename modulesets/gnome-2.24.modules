@@ -1442,7 +1442,6 @@
   <!-- after you've installed the missing dependency.      -->
   <!--                                                     -->
   <!--   libicu-dev                                        -->
-  <!--   libcurl-dev                                       -->
   <!--   libsqlite3-dev                                    -->
   <!--   libjpeg62-dev                                     -->
   <!--   libpng12-dev                                      -->
@@ -1453,10 +1452,10 @@
   <!-- To clean the build tree if you tried to compile     -->
   <!-- without those deps, run the following command:      -->
   <!--                                                     -->
-  <!--   make -C WebKitBuild/Release/WebCore clean         -->
+  <!--   make -f GNUMakefile maintainer-clean              -->
   <!--                                                     -->
   <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <autotools id="WebKit" autogenargs="--enable-video=yes --enable-svg=yes"
+  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup --with-font-backend=pango --enable-dom-storage=yes --enable-icon-database=yes --enable-svg=yes --enable-svg-experimental=yes"
       makefile="GNUmakefile">
     <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
       checkoutdir="WebKit" revision="filtered"/>
@@ -1464,6 +1463,7 @@
       <dep package="gtk+"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
+      <dep package="libsoup"/>
       <dep package="gnome-vfs"/>
       <dep package="gst-plugins-base"/>
     </dependencies>
