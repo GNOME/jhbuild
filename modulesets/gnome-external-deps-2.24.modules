@@ -7,6 +7,8 @@
     href="http://cairographics.org/"/>
 <repository type="tarball" name="mono.net"
     href="http://go-mono.com/sources/"/>
+<repository type="tarball" name="dbus"
+    href="http://dbus.freedesktop.org/releases/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -45,32 +47,34 @@
     </dependencies>
   </autotools>
 
-  <tarball id="dbus" supports-non-srcdir-builds="no" version="1.1.20">
-    <source href="http://dbus.freedesktop.org/releases/dbus/dbus-1.1.20.tar.gz"
-            md5sum="c552b9bc4b69e4c602644abc21b7661e" size="1401902"/>
+  <autotools id="dbus" autogen-sh="configure" supports-non-srcdir-builds="no">
+    <branch module="dbus/dbus-1.1.20.tar.gz" version="1.1.20"
+	    repo="dbus"
+	    md5sum="c552b9bc4b69e4c602644abc21b7661e" size="1401902">
+    </branch>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
     <after>
       <dep package="gtk+"/>
     </after>
-  </tarball>
+  </autotools>
 
-  <tarball id="dbus-glib" version="0.74">
-    <source href="http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.74.tar.gz"
-            md5sum="0923d825a0aff2e4eb23338b630286fb" size="654853"/>
+  <autotools id="dbus-glib" autogen-sh="configure">
+    <branch module="dbus-glib/dbus-glib-0.74.tar.gz" version="0.74"
+	    repo="dbus"
+	    md5sum="0923d825a0aff2e4eb23338b630286fb" size="654853">
+    </branch>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="dbus"/>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <repository type="tarball" name="dbus/dbus-python"
-              href="http://dbus.freedesktop.org/releases/dbus-python/"/>
   <autotools id="dbus-python" autogen-sh="configure">
-    <branch module="dbus-python-0.80.2.tar.gz" version="0.80.2"
-            repo="dbus/dbus-python"
+    <branch module="dbus-python/dbus-python-0.80.2.tar.gz" version="0.80.2"
+            repo="dbus"
 	    md5sum="2807bc85215c995bd595e01edd9d2077" size="453499"/>
     <dependencies>
       <dep package="dbus"/>
