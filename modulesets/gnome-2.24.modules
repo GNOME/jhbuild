@@ -77,6 +77,8 @@
     href="git://git.fedoraproject.org/git/hosted/"/>
   <repository type="hg" name="hg.circular-chaos.org"
     href="http://hg.circular-chaos.org" />
+  <repository type="svn" name="transmissionbt.com"
+    href="svn://svn.m0k.org/Transmission/" />
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1893,5 +1895,19 @@
       <dep package="gtk-doc"/>
     </depends>
   </tarball>
+
+  <autotools id="transmission">
+    <branch repo="transmissionbt.com"
+            module="trunk"
+            checkoutdir="transmission"/>
+    <dependencies>
+      <dep package="gtk"/>
+      <dep package="intltool"/>
+    </dependencies>
+    <suggests>
+      <dep package="dbus-glib"/>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools> 
 
 </moduleset>
