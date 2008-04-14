@@ -1884,6 +1884,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	      [ autogen-sh="<replaceable>autogen-sh</replaceable>" ]
 	      [ makefile="<replaceable>makefile</replaceable>" ]
 	      [ skip-autogen="<replaceable>skip-autogen</replaceable>" ]
+	      [ autogen-template="<replaceable>autogen-template</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
@@ -1926,6 +1927,19 @@ libgnomecanvas is missing branch definition for gnome-2-20
         class="attribute">supports-non-srcdir-builds</sgmltag>
         attribute is used to mark modules that can't be cleanly built
         using a separate source directory.</para>
+
+        <para>The <sgmltag class="attribute">autogen-template</sgmltag>
+        attribute can be used if you need finer control over the autogen
+        command line. It is a python format string, which will be
+        substituted with the following variables:
+        <varname>srcdir</varname>, <varname>autogen-sh</varname>,
+        <varname>prefix</varname>, <varname>libdir</varname>, and
+        <varname>autogenargs</varname>. For example, here is the default
+        autogen-template:</para>
+
+        <programlisting>
+%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s
+</programlisting>
 
       </section>
 

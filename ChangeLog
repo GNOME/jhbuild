@@ -1,3 +1,16 @@
+2008-04-14  Andy Wingo  <wingo@pobox.com>
+
+	* jhbuild/modtypes/autotools.py (AutogenModule.do_configure):
+	Construct the autogen command line from an overridable template.
+	See #486949.
+	(AutogenModule): Add autogen_template initarg and member variable,
+	to override the default template.
+	(parse_autotools): Parse out an 'autogen-template' attribute.
+
+	* doc/C/jhbuild.xml: Doc autogen-template.
+
+	* modulesets/moduleset.dtd: Add autogen-template attr.
+
 2008-04-13  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-suites-2.22.modules: branched libgnomekbd,

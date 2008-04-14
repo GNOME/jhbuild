@@ -53,7 +53,8 @@ class AutogenModule(Package):
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
-                 extra_env = None):
+                 extra_env = None,
+                 autogen_template=None):
         Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.autogenargs = autogenargs
@@ -63,6 +64,7 @@ class AutogenModule(Package):
         self.skip_autogen = skip_autogen
         self.autogen_sh = autogen_sh
         self.makefile = makefile
+        self.autogen_template = autogen_template
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -126,14 +128,27 @@ class AutogenModule(Package):
             os.makedirs(builddir)
         buildscript.set_action('Configuring', self)
 
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            cmd = self.get_srcdir(buildscript) + '/' + self.autogen_sh
+        if self.autogen_template:
+            template = self.autogen_template
         else:
-            cmd = './' + self.autogen_sh
-        cmd += ' --prefix %s' % buildscript.config.prefix
+            template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
+                        " --libdir %(libdir)s %(autogenargs)s ")
+
+        vars = {'prefix': buildscript.config.prefix,
+                'autogen-sh': self.autogen_sh,
+                'autogenargs': self.autogenargs}
+                
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
+            vars['srcdir'] = self.get_srcdir(buildscript)
+        else:
+            vars['srcdir'] = '.'
+
         if buildscript.config.use_lib64:
-            cmd += " --libdir '${exec_prefix}/lib64'"
-        cmd += ' %s' % self.autogenargs
+            vars['libdir'] = "'${exec_prefix}/lib64'"
+        else:
+            vars['libdir'] = "'${exec_prefix}/lib'"
+
+        cmd = template % vars
 
         if self.autogen_sh == 'autoreconf':
             buildscript.execute(['autoreconf', '-i'], cwd = builddir,
@@ -263,6 +278,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     autogen_sh = 'autogen.sh'
     skip_autogen = False
     makefile = 'Makefile'
+    autogen_template = None
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
@@ -278,6 +294,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
         autogen_sh = node.getAttribute('autogen-sh')
     if node.hasAttribute('makefile'):
         makefile = node.getAttribute('makefile')
+    if node.hasAttribute('autogen-template'):
+        autogen_template = node.getAttribute('autogen-template')
 
     # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
     p = re.compile('(\${prefix})')
@@ -311,7 +329,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
                          makefile=makefile,
-                         extra_env=extra_env)
+                         extra_env=extra_env,
+                         autogen_template=autogen_template)
 register_module_type('autotools', parse_autotools)
 
 
