@@ -20,6 +20,7 @@
 import sys
 import os
 import subprocess
+import signal
 
 class TrayIcon:
     proc = None
@@ -28,6 +29,10 @@ class TrayIcon:
         if not os.environ.get('DISPLAY'):
             return
         self._run_zenity()
+
+    def __del__(self):
+        if self.proc:
+            self.close()
 
     def _run_zenity(self):
         # run zenity with stdout and stderr directed to /dev/null
@@ -52,6 +57,7 @@ class TrayIcon:
         status = None
         if self.proc:
             self.proc.stdin.close()
+            os.kill(self.proc.pid, signal.SIGTERM)
             status = self.proc.wait()
             self.proc = None
         return status
