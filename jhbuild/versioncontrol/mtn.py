@@ -148,8 +148,11 @@ class MonotoneBranch(Branch):
             self._checkout(buildscript)
 
     def tree_id(self):
-        output = get_output(['mtn', 'automate', 'get_base_revision_id'],
-                            cwd=self.srcdir)
+        try:
+            output = get_output(['mtn', 'automate', 'get_base_revision_id'],
+                                cwd=self.srcdir)
+        except CommandError:
+            return None
         return output[0]
 
 

@@ -56,7 +56,7 @@ class DistutilsModule(Package):
             return self.get_srcdir(buildscript)
 
     def get_revision(self):
-        return self.branch.branchname
+        return self.branch.tree_id()
 
     def do_start(self, buildscript):
         pass

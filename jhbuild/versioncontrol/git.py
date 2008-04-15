@@ -45,6 +45,10 @@ if 'ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('ssh')
 
 
+class GitUnknownBranchNameError(Exception):
+    pass
+
+
 class GitRepository(Repository):
     """A class representing a GIT repository.
 
@@ -115,7 +119,7 @@ class GitBranch(Branch):
                   'origin/master', 'origin/trunk', 'master', 'trunk']:
             if self.branch_exist(b):
                 return b
-        raise
+        raise GitUnknownBranchNameError()
     branchname = property(branchname)
 
     def _get_commit_from_date(self):
@@ -214,8 +218,13 @@ class GitBranch(Branch):
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
-        output = get_output(['git-rev-parse', self.branchname],
-                cwd = self.srcdir)
+        try:
+            output = get_output(['git-rev-parse', self.branchname],
+                    cwd = self.srcdir)
+        except CommandError:
+            return None
+        except GitUnknownBranchNameError:
+            return None
         return output.strip()
 
 

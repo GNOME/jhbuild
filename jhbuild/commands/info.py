@@ -41,19 +41,21 @@ class cmd_info(Command):
     name = 'info'
     usage_args = '[ modules ... ]'
 
+
     def run(self, config, options, args):
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
         module_set = jhbuild.moduleset.load(config)
 
-        if not args:
-            self.parser.error('This command requires a module parameter.')
-
-        for modname in args:
-            try:
-                module = module_set.modules[modname]
-            except KeyError:
-                raise FatalError('unknown module %s' % modname)
-            self.show_info(module, packagedb, module_set)
+        if args:
+            for modname in args:
+                try:
+                    module = module_set.modules[modname]
+                except KeyError:
+                    raise FatalError('unknown module %s' % modname)
+                self.show_info(module, packagedb, module_set)
+        else:
+            for module in module_set.modules.values():
+                self.show_info(module, packagedb, module_set)
 
     def show_info(self, module, packagedb, module_set):
         installdate = packagedb.installdate(module.name, module.get_revision() or '')
