@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <repository type="svn" name="o-hand.com"
+    href="http://svn.o-hand.com/repos/"/>
+
+  <repository type="svn" name="imendio.com"
+    href="http://developer.imendio.com/svn/"/>
+
+  <include href="gnome-2.24.modules"/>
+  <include href="matchbox.modules"/>
+  <include href="pimlico.modules"/>
+
+  <!-- Override EDS to the DBus port -->
+  <autotools id="evolution-data-server" autogenargs="--with-libdb --with-dbus --enable-calendar --enable-nntp=no --without-libgnome --without-openldap --without-bug-buddy --without-soup --disable-groupwise --disable-nss --disable-smime --disable-nss">
+    <branch repo="o-hand.com" module="eds-dbus/trunk" checkoutdir="eds-dbus"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
+  <!-- Override GConf to the DBus port -->
+  <autotools id="gconf">
+    <branch repo="imendio.com" module="gconf-dbus/trunk" checkoutdir="gconf-dbus"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  
+  <metamodule id="meta-mobile-platform">
+    <dependencies>
+      <!-- Base layer -->
+      <!-- X is an external dependency -->
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <!-- GTK+ layer -->
+      <dep package="gtk+"/>
+      <!-- The rest -->
+      <dep package="gconf"/>
+      <dep package="gst-plugins-base"/>
+      <!-- gnome-vfs is deprecated, but you may want to enable it -->
+      <!-- <dep package="gnome-vfs"/> -->
+      <dep package="gvfs"/>
+      <dep package="evolution-data-server"/>
+      <dep package="telepathy-mission-control"/>
+      <dep package="avahi"/>
+      <!--<dep package="bluez"/> -->
+      <dep package="matchbox-window-manager"/>
+    </dependencies>
+  </metamodule>
+</moduleset>

@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <repository type="svn" name="o-hand.com" href="http://svn.o-hand.com/repos/"/>
+
+  <autotools id="contacts">
+    <branch repo="o-hand.com" module="contacts/trunk" checkoutdir="contacts"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="dates">
+    <branch repo="o-hand.com" module="dates/trunk" checkoutdir="dates"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="tasks">
+    <branch repo="o-hand.com" module="tasks/trunk" checkoutdir="tasks"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+  </autotools>
+
+  <metamodule id="meta-pimlico">
+    <dependencies>
+     <dep package="contacts"/>
+     <dep package="dates"/>
+     <dep package="tasks"/>
+    </dependencies>
+  </metamodule>
+
+</moduleset>
