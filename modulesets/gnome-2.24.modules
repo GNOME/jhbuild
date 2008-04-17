@@ -1924,4 +1924,41 @@
     </suggests>
   </autotools> 
 
+  <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
+  <tarball id="goocanvas" version="0.9">
+    <source href="http://surfnet.dl.sourceforge.net/sourceforge/goocanvas/goocanvas-0.9.tar.gz"
+            md5sum="600f28e51736b9d768108c32172b0726" size="749439"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </tarball>
+
+  <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
+  <tarball id="pygoocanvas" version="0.9">
+    <source href="http://download.berlios.de/pygoocanvas/pygoocanvas-0.9.0.tar.gz"
+            md5sum="1988b7572d553d954ffd159e7e61cb17" size="430723"/>
+    <dependencies>
+      <dep package="goocanvas"/>
+      <dep package="pygtk"/>
+    </dependencies>
+  </tarball>
+
+  <!-- Conduit needs this to integrate with data from Evolution out of the box. -->
+  <repository type="tarball" name="skyhouseconsulting.com"
+      href="http://vobject.skyhouseconsulting.com/"/>
+  <distutils id="python-vobject">
+    <branch repo="skyhouseconsulting.com" module="vobject-0.4.9.tar.gz"
+      version="0.4.9" size="51765" md5sum="55ab1fc3797b90eb556a6b0d2054cfd4" />
+    <dependencies/>
+  </distutils>
+
+  <autotools id="conduit">
+    <branch/>
+    <dependencies>
+      <dep package="pygoocanvas"/>
+      <dep package="python-vobject"/>
+      <dep package="gnome-python"/>
+    </dependencies>
+  </autotools>
+
 </moduleset>
