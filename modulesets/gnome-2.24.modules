@@ -79,6 +79,9 @@
     href="svn://svn.m0k.org/Transmission/" />
   <repository type="svn" name="projecthamster.googlecode.com"
       href="http://projecthamster.googlecode.com/svn/"/>
+  <repository type="cvs" name="ldtp.freedesktop.org"
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/ldtp"
+      password=""/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -1963,7 +1966,7 @@
     </dependencies>
   </autotools>
 
- <autotools id="projecthamster">
+  <autotools id="projecthamster">
    <branch repo="projecthamster.googlecode.com"
            module="trunk"
            checkoutdir="projecthamster"/>
@@ -1972,6 +1975,10 @@
      <dep package="pycairo"/>
      <dep package="gnome-python"/>
    </dependencies>
- </autotools>
+  </autotools>
+
+  <autotools id="ldtp">
+    <branch repo="ldtp.freedesktop.org" module="ldtp"/>
+  </autotools>
 
 </moduleset>
