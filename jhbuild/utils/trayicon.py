@@ -57,7 +57,10 @@ class TrayIcon:
         status = None
         if self.proc:
             self.proc.stdin.close()
-            os.kill(self.proc.pid, signal.SIGTERM)
+            try:
+                os.kill(self.proc.pid, signal.SIGTERM)
+            except OSError:
+                pass
             status = self.proc.wait()
             self.proc = None
         return status
