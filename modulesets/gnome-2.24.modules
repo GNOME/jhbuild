@@ -51,6 +51,8 @@
       href="https://code.fluendo.com/elisa/svn/"/>
   <repository type="svn" name="pigment.code.fluendo.com"
       href="https://code.fluendo.com/pigment/svn/"/>
+  <repository type="svn" name="rc.code.fluendo.com"
+      href="https://code.fluendo.com/remotecontrol/svn/"/>
   <repository type="cvs" name="cvs.bluez.org"
       cvsroot=":pserver:anonymous@cvs.bluez.org:/cvsroot/bluez"
       password=""/>
@@ -1461,6 +1463,18 @@
     <branch repo="pigment.code.fluendo.com" module="trunk" />
     <dependencies>
       <dep package="gtk+"/>
+      <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-lirc-properties">
+    <branch repo="rc.code.fluendo.com" module="trunk" />
+    <dependencies>
+      <dep package="scrollkeeper"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="lirc"/>
+      <dep package="PolicyKit"/>
+      <dep package="PolicyKit-gnome"/>
       <dep package="pygtk"/>
     </dependencies>
   </autotools>

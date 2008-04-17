@@ -40,6 +40,10 @@
   <repository type="svn" name="gypsy.o-hand.com"
       href="http://svn.o-hand.com/repos/gypsy"/>
 
+  <repository type="cvs" name="lirc.sf.net"
+      cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
+      password=""/>
+
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
   <autotools id="glitz">
@@ -276,6 +280,11 @@
     <dependencies>
       <dep package="swfdec"/>
     </dependencies>
+  </autotools>
+
+  <!-- cp -dpR remotes $prefix/share/lirc/remotes -->
+  <autotools id="lirc" autogen-sh="autoreconf" autogenargs="--with-syslog=LOG_DAEMON --with-driver=userspace --enable-sandboxed">
+    <branch repo="lirc.sf.net"/>
   </autotools>
 
 </moduleset>
