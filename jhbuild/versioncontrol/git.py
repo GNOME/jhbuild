@@ -257,9 +257,12 @@ class GitSvnBranch(GitBranch):
             cmd.append(self.checkoutdir)
 
         #fixme (add self.revision support)
-        last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
-        if not self.revision:
-            cmd.extend(['-r', last_revision])
+        try:
+            last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
+            if not self.revision:
+                cmd.extend(['-r', last_revision])
+        except KeyError:
+            raise FatalError('Cannot get last revision from ' + self.module + '. Check the module location.')
 
         if copydir:
             buildscript.execute(cmd, 'git-svn', cwd=copydir)
