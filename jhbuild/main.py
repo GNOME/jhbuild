@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys, os
+import sys, os, errno
 import optparse
 import traceback
 
@@ -100,6 +100,10 @@ def main(args):
     except EOFError:
         print "EOF"
         sys.exit(1)
+    except IOError, e:
+        if e.errno != errno.EPIPE:
+            raise
+        sys.exit(0)
     if rc:
         sys.exit(rc)
 
