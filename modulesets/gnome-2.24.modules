@@ -230,12 +230,25 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gimp" autogenargs="--disable-print">
+  <autotools id="gimp" autogenargs="--disable-print --without-gnomevfs">
     <branch/>
     <dependencies>
       <dep package="gtk+"/>
+      <dep package="intltool"/>
       <dep package="libart_lgpl"/>
+      <dep package="gegl"/>
     </dependencies>
+    <suggests>
+      <dep package="iso-codes"/>
+      <dep package="gtkhtml2"/>
+      <dep package="librsvg"/>
+      <dep package="poppler"/>
+      <dep package="gnome-keyring"/>
+      <dep package="libgnomeui"/>
+      <dep package="dbus-glib"/>
+      <dep package="hal"/>
+      <dep package="pygtk"/>
+    </suggests>    
   </autotools>
 
   <autotools id="glade">
@@ -1543,7 +1556,7 @@
   <!--   make -f GNUMakefile maintainer-clean              -->
   <!--                                                     -->
   <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup --with-font-backend=pango --enable-dom-storage=yes --enable-icon-database=yes --enable-svg=yes --enable-svg-experimental=yes"
+  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup --with-font-backend=pango --enable-dom-storage=yes --enable-icon-database=yes --enable-svg=yes --enable-svg-experimental=yes --enable-svg-filters=yes"
       makefile="GNUmakefile">
     <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
       checkoutdir="WebKit" revision="filtered"/>

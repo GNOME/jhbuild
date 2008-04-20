@@ -37,6 +37,9 @@
       href="http://projects.collabora.co.uk/darcs/telepathy/"/>
   <repository type="svn" name="mission-control.sf.net"
       href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
+  <repository type="bzr" name="telepathy-msn.freedesktop.org"
+      href="http://bzr.collabora.co.uk/bzr/telepathy/"/>
+
   <repository type="svn" name="gypsy.o-hand.com"
       href="http://svn.o-hand.com/repos/gypsy"/>
 
@@ -144,66 +147,6 @@
             md5sum="88adb66483d4f76f03431259e2247e09" size="225124"/>
   </tarball>
 
-  <autotools id="libtelepathy">
-    <branch repo="telepathy.freedesktop.org"
-	    module="libtelepathy" checkoutdir="libtelepathy" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="telepathy-glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-glib">
-    <branch repo="telepathy.freedesktop.org"
-	    module="telepathy-glib" checkoutdir="telepathy-glib" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
-
-  <!-- Gabble is a Jabber/XMPP connection manager that handles -->
-  <!-- single-user and multi-user chats and voice/video calls  -->
-  <autotools id="telepathy-gabble">
-    <branch repo="telepathy.freedesktop.org"
-	    module="telepathy-gabble" checkoutdir="telepathy-gabble" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
-      <dep package="telepathy-glib"/>
-      <dep package="loudmouth"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-mission-control">
-    <branch repo="mission-control.sf.net"
-            module="trunk" checkoutdir="telepathy-mission-control" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="libtelepathy"/>
-      <dep package="gconf"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-salut">
-    <branch repo="telepathy.freedesktop.org"
-            module="telepathy-salut" checkoutdir="telepathy-salut" />
-    <dependencies>
-      <dep package="telepathy-glib"/>
-      <dep package="dbus-glib"/>
-      <dep package="avahi"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libccc">
 	  <branch repo="libcc-git.freedesktop.org"
 		  module="ccc" checkoutdir="libccc"  />
@@ -286,5 +229,132 @@
   <autotools id="lirc" autogen-sh="autoreconf" autogenargs="--with-syslog=LOG_DAEMON --with-driver=userspace --enable-sandboxed">
     <branch repo="lirc.sf.net"/>
   </autotools>
+
+  <!-- ################################################ -->
+  <!-- ################ Telepathy Stuff ############### -->
+  <autotools id="telepathy-glib">
+    <branch repo="telepathy.freedesktop.org"
+	    module="telepathy-glib" checkoutdir="telepathy-glib" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <distutils id="telepathy-python">
+    <branch repo="telepathy.freedesktop.org"
+	    module="telepathy-python" checkoutdir="telepathy-python" />
+    <dependencies>
+      <dep package="dbus-python"/>
+    </dependencies>
+  </distutils>
+
+  <!-- Note: libtelepathy is deprecated in favour of Telepathy GLib -->
+  <autotools id="libtelepathy">
+    <branch repo="telepathy.freedesktop.org"
+	    module="libtelepathy" checkoutdir="libtelepathy" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-mission-control">
+    <branch repo="mission-control.sf.net"
+            module="trunk" checkoutdir="telepathy-mission-control" />
+    <dependencies>
+      <dep package="libtelepathy"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Gabble is a Jabber/XMPP connection manager that handles -->
+  <!-- single-user and multi-user chats and voice/video calls  -->
+  <autotools id="telepathy-gabble">
+    <branch repo="telepathy.freedesktop.org"
+	    module="telepathy-gabble" checkoutdir="telepathy-gabble" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="loudmouth"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Salut is a link-local XMPP connection manager                -->
+  <!-- See http://www.xmpp.org/extensions/xep-0174.html for details -->
+  <autotools id="telepathy-salut">
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-salut" checkoutdir="telepathy-salut" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="avahi"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Idle is a full-featured IRC connection manager -->
+  <autotools id="telepathy-idle">
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-idle" checkoutdir="telepathy-idle" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Haze is a connection manager based on Pidgin's libpurple -->
+  <autotools id="telepathy-haze">
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-haze" checkoutdir="telepathy-haze" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <!-- requires libpurple (pidgin)  -->
+    </dependencies>
+  </autotools>
+
+  <!-- pymsn is the library behind the msn connection manager -->
+  <!-- See http://live.gnome.org/JhbuildIssues/pymsn to build -->
+  <distutils id="pymsn">
+    <branch repo="telepathy-msn.freedesktop.org"
+	    module="pymsn" checkoutdir="pymsn" />
+    <dependencies>
+      <dep package="pygobject"/>
+    </dependencies>
+  </distutils>
+
+  <!-- Butterfly is a MSN connection manager based on pymsn -->
+  <waf id="telepathy-butterfly">
+    <branch repo="telepathy-msn.freedesktop.org"
+	    module="telepathy-butterfly" checkoutdir="telepathy-butterfly" />
+    <dependencies>
+       <dep package="pymsn"/>
+       <dep package="telepathy-python"/>
+    </dependencies>
+  </waf>
+
+  <metamodule id="meta-telepathy-library">
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="telepathy-python"/>
+    </dependencies>
+    <suggests>
+      <!-- suggested 'cause deprecated -->
+      <dep package="libtelepathy"/>
+    </suggests>
+  </metamodule>
+
+  <metamodule id="meta-telepathy-connection-managers">
+    <dependencies>
+      <dep package="telepathy-gabble"/>
+      <dep package="telepathy-salut"/>
+      <dep package="telepathy-idle"/>
+    </dependencies>
+    <suggests>
+      <!-- suggested 'cause under development -->
+      <dep package="telepathy-haze"/>
+      <dep package="telepathy-butterfly"/>
+    </suggests>
+  </metamodule>
+  <!-- ############ End of Telepathy Stuff ############ -->
+  <!-- ################################################ -->
+
 
 </moduleset>
