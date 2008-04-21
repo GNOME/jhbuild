@@ -7,6 +7,9 @@
       href="http://svn.gnome.org/svn/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
+  <repository type="cvs" name="cvs.cairographics.org"
+      cvsroot=":pserver:anonymous@cvs.cairographics.org:/cvs/cairo"
+      password=""/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
@@ -1957,13 +1960,12 @@
   </autotools> 
 
   <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
-  <tarball id="goocanvas" version="0.9">
-    <source href="http://surfnet.dl.sourceforge.net/sourceforge/goocanvas/goocanvas-0.9.tar.gz"
-            md5sum="600f28e51736b9d768108c32172b0726" size="749439"/>
+  <autotools id="goocanvas">
+    <branch repo="cvs.cairographics.org" module="goocanvas"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
   <tarball id="pygoocanvas" version="0.9">
