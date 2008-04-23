@@ -15,6 +15,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="http://anonsvn.mono-project.com/source/"/>
+  <repository type="svn" name="svn.seahorse-plugins"
+      href="http://svn.gnome.org/svn/seahorse/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -1030,9 +1032,28 @@ g  <autotools id="gnome-netstatus">
     </dependencies>
     <suggests>
       <dep package="libsoup"/>
-      <dep package="nautilus"/>
       <dep package="gnome-keyring"/>
       <dep package="avahi"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxml2"/>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="seahorse-plugins">
+    <branch repo="svn.seahorse-plugins" />
+    <dependencies>
+      <dep package="libgnome"/>
+      <dep package="libgnomeui"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="seahorse"/>
+    </dependencies>
+    <suggests>
+      <dep package="nautilus"/>
       <dep package="dbus-glib"/>
       <dep package="epiphany"/>
       <dep package="libxml2"/>
@@ -1041,7 +1062,7 @@ g  <autotools id="gnome-netstatus">
       <dep package="libnotify"/>
     </suggests>
   </autotools>
-
+  
   <autotools id="sound-juicer">
     <branch/>
     <dependencies>
@@ -1540,6 +1561,7 @@ g  <autotools id="gnome-netstatus">
       <dep package="orca"/>
       <dep package="pygtksourceview"/>
       <dep package="seahorse"/>
+      <dep package="seahorse-plugins"/>
       <dep package="sound-juicer"/>
       <dep package="swfdec-gnome"/>
       <dep package="tomboy"/>
