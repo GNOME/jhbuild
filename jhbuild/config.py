@@ -99,7 +99,7 @@ class Config:
         config['__file__'] = filename
         try:
             execfile(filename, config)
-        except:
+        except Exception:
             traceback.print_exc()
             raise FatalError('could not load config file')
 

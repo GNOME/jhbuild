@@ -1,3 +1,11 @@
+2008-04-25  Richard Hult  <richard@imendio.com>
+
+	* jhbuild/config.py: Only catch Exception when reading the config
+	file, not all (most notably not BaseException) exceptions. This
+	makes it possible to exit nicely from the config file for example,
+	which is useful in more advanced jhbuildrc setups like the one for
+	building GTK+ OS X. Thanks Johan!
+
 2008-04-25  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/gnome-2.24.modules: gnome-lirc-properties is now in GNOME 
