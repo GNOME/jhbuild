@@ -35,6 +35,9 @@
 
   <repository type="darcs" name="telepathy.freedesktop.org"
       href="http://projects.collabora.co.uk/darcs/telepathy/"/>
+  <repository type="darcs" name="farsight.freedesktop.org"
+      href="http://projects.collabora.co.uk/darcs/farsight/"/>
+
   <repository type="svn" name="mission-control.sf.net"
       href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
   <repository type="bzr" name="telepathy-msn.freedesktop.org"
@@ -268,6 +271,46 @@
       <dep package="telepathy-glib"/>
       <dep package="gnome-keyring"/>
       <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-plugins-farsight">
+    <branch repo="farsight.freedesktop.org"
+	    module="gst-plugins-farsight" checkoutdir="gst-plugins-farsight" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libfarsight">
+    <branch repo="farsight.freedesktop.org"
+	    module="farsight" checkoutdir="libfarsight" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="gst-plugins-farsight"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-stream-engine">
+    <branch repo="telepathy.freedesktop.org"
+	    module="stream-engine" checkoutdir="telepathy-stream-engine" />
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 
