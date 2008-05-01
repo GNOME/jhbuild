@@ -69,6 +69,8 @@ class GitRepository(Repository):
                revision = None, tag = None):
         if name in self.config.branches:
             module = self.config.branches[name]
+            if not module:
+                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
         else:
             if module is None:
                 module = name

@@ -47,6 +47,8 @@ class MonotoneRepository(Repository):
     def branch(self, name, branch=None, module=None, checkoutdir=None):
         if name in self.config.branches:
             module = self.config.branches[module]
+            if not module:
+                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
 
         if not branch:
             branch = self.defbranch
