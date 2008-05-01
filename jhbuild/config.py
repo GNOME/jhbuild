@@ -22,7 +22,8 @@ import os
 import traceback
 import sys
 
-from jhbuild.errors import UsageError, FatalError
+from jhbuild.errors import UsageError, FatalError, CommandError
+from jhbuild.utils.cmds import get_output
 
 __all__ = [ 'Config' ]
 
@@ -191,7 +192,16 @@ class Config:
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
         # PYTHONPATH
-        pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+        # Python inside jhbuild may be different than Python executing jhbuild,
+        # so it is executed to get its version number (fallback to local
+        # version number should never happen)
+        python_bin = os.environ.get('PYTHON', 'python')
+        try:
+            pythonversion = 'python' + get_output([python_bin, '-c',
+                'import sys; print ".".join([str(x) for x in sys.version_info[:2]])']).strip()
+        except CommandError:
+            pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+        
         if self.use_lib64:
             pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
             addpath('PYTHONPATH', pythonpath)
