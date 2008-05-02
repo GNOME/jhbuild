@@ -164,6 +164,9 @@ class cmd_build(Command):
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
                         help="build even if policy says not to"),
+            make_option('--build-optional-modules',
+                        action='store_true', dest='build_optional_modules', default=False,
+                        help="also build soft-dependencies that could be skipped"),
             ])
 
     def run(self, config, options, args):
@@ -196,7 +199,8 @@ class cmd_build(Command):
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                config.skip, tags = config.tags)
+                config.skip, tags = config.tags,
+                include_optional_modules = options.build_optional_modules)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -367,6 +371,9 @@ class cmd_list(Command):
             make_option('--tags',
                         action='append', dest='tags', default=[],
                         help='build only modules with the given tags'),
+            make_option('--list-optional-modules',
+                        action='store_true', dest='list_optional_modules', default=False,
+                        help="also list soft-dependencies that could be skipped"),
             ])
 
     def run(self, config, options, args):
@@ -376,7 +383,8 @@ class cmd_list(Command):
             config.tags += item.split(',')
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                config.skip, tags = config.tags)
+                config.skip, tags = config.tags,
+                include_optional_modules = options.list_optional_modules)
 
         for mod in module_list:
             if options.show_rev:

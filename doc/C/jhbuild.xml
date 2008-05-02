@@ -541,6 +541,8 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg>--no-xvfb</arg>
 	<arg>--try-checkout</arg>
 	<arg>--no-poison</arg>
+	<arg>--force</arg>
+	<arg>--build-optional-modules</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -666,6 +668,19 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	  </listitem>
 	</varlistentry>
 
+	<varlistentry>
+	  <term><option>-f</option>, <option>--force</option></term>
+	  <listitem>Build the modules even if policy tells it is
+	  not required.</listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--build-optional-modules</option></term>
+	  <listitem>Some modules, listed as optional dependencies, may not be
+	  required to build the target module, this option inncludes them
+	  nevertheless.</listitem>
+	</varlistentry>
+
       </variablelist>
 
     </section>
@@ -685,7 +700,8 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg>--distcheck</arg>
 	<arg>--no-network</arg>
 	<arg>-D <replaceable>date</replaceable></arg>
-	<arg>-x</arg>
+	<arg>--no-xvfb</arg>
+	<arg>--force</arg>
 	<arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -825,6 +841,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<arg>-r</arg>
 	<arg>-s</arg>
 	<arg>--tags=<replaceable>tags</replaceable></arg>
+	<arg>--list-optional-modules</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -860,6 +877,13 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <replaceable>tag</replaceable> when following dependencies
 	    to expand the list of modules to be displayed.</simpara>
 	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--list-optional-modules</option></term>
+	  <listitem>Some modules, listed as optional dependencies, may not be
+	  required to get to the target module, this option inncludes them
+	  nevertheless.</listitem>
 	</varlistentry>
 
       </variablelist>

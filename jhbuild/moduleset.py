@@ -43,7 +43,8 @@ class ModuleSet:
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
 
-    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False):
+    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False,
+                include_optional_modules = False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -116,8 +117,10 @@ class ModuleSet:
                 order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
             for modname in module.after:
                 depmod = self.modules.get(modname)
-                if not depmod in all_modules:
-                    # not built otherwise
+                if not depmod in all_modules and not include_optional_modules:
+                    # skipping modules that would not be built otherwise
+                    # (build_optional_modules being the argument to force them
+                    # to be included nevertheless)
                     continue
                 if not depmod:
                     continue
