@@ -19,6 +19,9 @@
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
+  <repository type="cvs" name="refdbg.sf.net"
+      cvsroot=":pserver:anonymous@refdbg.cvs.sourceforge.net:/cvsroot/refdbg"
+      password=""/>
   <repository type="svn" name="inkscape.sf.net"
       href="https://inkscape.svn.sourceforge.net/svnroot/inkscape/"/>
   <repository type="svn" name="svn.galago-project.org"
@@ -1152,6 +1155,13 @@
     </dependencies>
   </autotools>
        
+ <autotools id="refdbg" autogen-sh="autoreconf">
+    <branch repo="refdbg.sf.net"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnomescan">
     <branch repo="svn.gna.org" module="gnomescan/trunk" checkoutdir="gnomescan"/>
     <dependencies>
