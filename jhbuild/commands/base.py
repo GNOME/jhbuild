@@ -18,13 +18,24 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import re
 import sys
+import time
 from optparse import make_option
 
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, register_command
+
+
+def parse_relative_time(s):
+    m = re.match(r'(\d+) *([smhd])', s.lower())
+    if m:
+        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400}
+        return float(m.group(1)) * coeffs[m.group(2)]
+    else:
+        raise ValueError('unable to parse \'%s\' as relative time.' % s)
 
 
 class cmd_update(Command):
@@ -93,7 +104,7 @@ class cmd_updateone(Command):
     def run(self, config, options, args):
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
-
+        
         module_set = jhbuild.moduleset.load(config)
         try:
             module_list = [module_set.modules[modname] for modname in args]
@@ -167,6 +178,9 @@ class cmd_build(Command):
             make_option('--build-optional-modules',
                         action='store_true', dest='build_optional_modules', default=False,
                         help="also build soft-dependencies that could be skipped"),
+            make_option('--min-age', metavar='TIME-SPEC',
+                        action='store', dest='min_age', default=None,
+                        help='skip modules installed less than the given time ago'),
             ])
 
     def run(self, config, options, args):
@@ -196,6 +210,8 @@ class cmd_build(Command):
             config.quiet_mode = True
         if options.force_policy:
             config.build_policy = 'all'
+        if options.min_age:
+            config.min_time = time.time() - parse_relative_time(options.min_age)
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -249,6 +265,9 @@ class cmd_buildone(Command):
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
                         help="build even if policy says not to"),
+            make_option('--min-age', metavar='TIME-SPEC',
+                        action='store', dest='min_age', default=None,
+                        help='skip modules installed less than the given time ago'),
             ])
 
     def run(self, config, options, args):
@@ -270,6 +289,8 @@ class cmd_buildone(Command):
             config.quiet_mode = True
         if options.force_policy:
             config.build_policy = 'all'
+        if options.min_age:
+            config.min_time = time.time() - parse_relative_time(options.min_age)
 
         module_set = jhbuild.moduleset.load(config)
         try:

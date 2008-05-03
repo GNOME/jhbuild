@@ -73,6 +73,13 @@ class BuildScript:
         self.module_num = 0
         for module in self.modulelist:
             self.module_num = self.module_num + 1
+
+            if self.config.min_time is not None:
+                installdate = self.packagedb.installdate(module.name)
+                if installdate > self.config.min_time:
+                    self.message('Skipping %s (installed recently)' % module.name)
+                    continue
+
             self.start_module(module.name)
             failed = False
             for dep in module.dependencies:

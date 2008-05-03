@@ -543,6 +543,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg>--no-poison</arg>
 	<arg>--force</arg>
 	<arg>--build-optional-modules</arg>
+        <arg>--min-age=<replaceable>time</replaceable></arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -670,16 +671,33 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 
 	<varlistentry>
 	  <term><option>-f</option>, <option>--force</option></term>
-	  <listitem>Build the modules even if policy tells it is
-	  not required.</listitem>
+	  <listitem>
+            <simpara>Build the modules even if policy tells it is
+	    not required.</simpara>
+          </listitem>
 	</varlistentry>
 
 	<varlistentry>
 	  <term><option>--build-optional-modules</option></term>
-	  <listitem>Some modules, listed as optional dependencies, may not be
-	  required to build the target module, this option inncludes them
-	  nevertheless.</listitem>
+	  <listitem>
+            <simpara>Some modules, listed as optional dependencies, may not be
+            required to build the target module, this option inncludes them
+            nevertheless.</simpara>
+          </listitem>
 	</varlistentry>
+
+        <varlistentry>
+          <term><option>--min-time</option>=<replaceable>time</replaceable></term>
+          <listitem>
+            <simpara>Skip modules installed more recently than the given
+            relative time; the <replaceable>time</replaceable> string format
+            is a number followed by a unit, with the following units being
+            supported: seconds (s), minutes (m), hours (h) and days (d).
+            </simpara>
+            <simpara>Example: <option>--min-time=2h</option> will skip
+            modules that have been built less than two hours ago.</simpara>
+          </listitem>
+        </varlistentry>
 
       </variablelist>
 
@@ -702,6 +720,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
 	<arg>-D <replaceable>date</replaceable></arg>
 	<arg>--no-xvfb</arg>
 	<arg>--force</arg>
+        <arg>--min-age=<replaceable>time</replaceable></arg>
 	<arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -881,9 +900,11 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
 	<varlistentry>
 	  <term><option>--list-optional-modules</option></term>
-	  <listitem>Some modules, listed as optional dependencies, may not be
-	  required to get to the target module, this option inncludes them
-	  nevertheless.</listitem>
+	  <listitem>
+            <simpara>Some modules, listed as optional dependencies, may not be
+            required to get to the target module, this option inncludes them
+            nevertheless.</simpara>
+          </listitem>
 	</varlistentry>
 
       </variablelist>

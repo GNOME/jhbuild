@@ -18,6 +18,11 @@ modules = [ 'meta-gnome-desktop' ]
 #    have changed.
 build_policy = 'all'
 
+# skip modules installed before $min_time (in seconds since epoch)
+# for example: min_time = time.time() - 3600 will skip modules that
+# have been installed less than one hour ago.
+min_time = None
+
 # modules to skip during dependency expansion
 skip = []
 # tags used as module filters
