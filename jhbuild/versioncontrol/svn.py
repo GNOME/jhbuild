@@ -220,6 +220,16 @@ class SubversionBranch(Branch):
         elif self.config.sticky_date:
             opt.extend(['-r', '{%s}' % self.config.sticky_date])
 
+        uri = get_uri(outputdir)
+
+        if urlparse.urlparse(uri)[:2] != urlparse.urlparse(self.module)[:2]:
+            # server and protocol changed, probably because user changed
+            # svnroots[] config variable.
+            new_uri = urlparse.urlunparse(
+                    urlparse.urlparse(self.module)[:2] + urlparse.urlparse(uri)[2:])
+            cmd = ['svn', 'switch', '--relocate', uri, new_uri, '.']
+            buildscript.execute(cmd, 'svn', cwd=outputdir)
+
         # if the URI doesn't match, use "svn switch" instead of "svn update"
         if get_uri(outputdir) != self.module:
             cmd = ['svn', 'switch'] + opt + [self.module]
