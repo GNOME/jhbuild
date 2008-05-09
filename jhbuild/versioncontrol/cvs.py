@@ -96,7 +96,7 @@ def login(cvsroot, password=None):
     else:
         # call cvs login ..
         if os.system('cvs -d %s login' % cvsroot) != 0:
-            sys.stderr.write('could not log into %s\n' % cvsroot)
+            sys.stderr.write(_('could not log into %s\n') % cvsroot)
             sys.exit(1)
 
 def check_sticky_tag(filename):
@@ -114,7 +114,7 @@ def check_sticky_tag(filename):
             else:
                 return parts[5][1:]
         line = fp.readline()
-    raise RuntimeError('%s is not managed by CVS' % filename)
+    raise RuntimeError(_('%s is not managed by CVS') % filename)
 
 def check_root(dirname):
     root_file = os.path.join(dirname, 'CVS', 'Root')
@@ -263,14 +263,12 @@ class CVSBranch(Branch):
         try:
             wc_root = check_root(outputdir)
         except IOError:
-            raise BuildStateError('"%s" does not appear to be a CVS working '
-                                  'copy' % os.path.abspath(outputdir))
+            raise BuildStateError(_('"%s" does not appear to be a CVS working copy')
+                                  % os.path.abspath(outputdir))
         if wc_root != self.repository.cvsroot:
-            raise BuildStateError('working copy points at the wrong '
-                                  'repository (expected %s but got %s). '
-                                  'Consider using the changecvsroot.py '
-                                  'script to fix this.'
-                                  % (self.repository.cvsroot, wc_root))
+            raise BuildStateError(_('working copy points at the wrong repository (expected %(root1)s but got %(root2)s). ') 
+                                  % {'root1':self.repository.cvsroot, 'root2':wc_root} +
+                                  _('Consider using the changecvsroot.py script to fix this.'))
 
         # update the working tree
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,

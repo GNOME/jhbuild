@@ -51,7 +51,7 @@ def parse_xml_node(node, config, uri, repositories, default_repo):
         except ImportError:
             pass
     if not _module_types.has_key(node.nodeName):
-        raise FatalError('unknown module type %s' % node.nodeName)
+        raise FatalError(_('unknown module type %s') % node.nodeName)
 
     parser = _module_types[node.nodeName]
     return parser(node, config, uri, repositories, default_repo)
@@ -67,7 +67,7 @@ def get_dependencies(node):
             if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
                 package = dep.getAttribute('package')
                 if not package:
-                    raise FatalError('dep node for module %s is missing package attribute' % \
+                    raise FatalError(_('dep node for module %s is missing package attribute') % \
                             node.getAttribute('id'))
                 list.append(package)
 
@@ -90,19 +90,21 @@ def get_branch(node, repositories, default_repo):
             childnode.nodeName == 'branch'):
             break
     else:
-        raise FatalError('no <branch> element found for %s' % name)
+        raise FatalError(_('no <branch> element found for %s') % name)
 
     # look up the repository for this branch ...
     if childnode.hasAttribute('repo'):
         try:
             repo = repositories[childnode.getAttribute('repo')]
         except KeyError:
-            raise FatalError('Repository=%s not found for module id=%s. Possible repositories are %s' % (childnode.getAttribute('repo'), name, repositories))
+            raise FatalError(_('Repository=%s not found for module id=%s. Possible repositories are %s' )
+                             % (childnode.getAttribute('repo'), name, repositories))
     else:
         try:
             repo = repositories[default_repo]
         except KeyError:
-            raise FatalError('Default Repository=%s not found for module id=%s. Possible repositories are %s' % (default_repo, name, repositories))
+            raise FatalError(_('Default Repository=%s not found for module id=%s. Possible repositories are %s')
+                             % (default_repo, name, repositories))
 
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
@@ -191,7 +193,7 @@ class Package:
 
         # module has not been updated
         if buildscript.config.build_policy == 'updated':
-            buildscript.message('Skipping %s (not updated)' % self.name)
+            buildscript.message(_('Skipping %s (not updated)') % self.name)
             return self.STATE_DONE
 
         if buildscript.config.build_policy == 'updated-deps':
@@ -203,7 +205,7 @@ class Package:
                     return None
             else:
                 buildscript.message(
-                        'Skipping %s (package and dependencies not updated)' % self.name)
+                        _('Skipping %s (package and dependencies not updated)') % self.name)
                 return self.STATE_DONE
 
     def checkout(self, buildscript):
@@ -212,7 +214,7 @@ class Package:
         self.branch.checkout(buildscript)
         # did the checkout succeed?
         if not os.path.exists(srcdir):
-            raise BuildStateError('source directory %s was not created' % srcdir)
+            raise BuildStateError(_('source directory %s was not created') % srcdir)
 
         if self.check_build_policy(buildscript) == self.STATE_DONE:
             raise SkipToState(self.STATE_DONE)

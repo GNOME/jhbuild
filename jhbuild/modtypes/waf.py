@@ -73,7 +73,7 @@ class WafModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_CONFIGURE
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -99,9 +99,9 @@ class WafModule(Package):
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
-        buildscript.set_action('Configuring', self)
+        buildscript.set_action(_('Configuring'), self)
         if not inpath(self.waf_cmd, os.environ['PATH'].split(os.pathsep)):
-            raise CommandError('Missing waf, try jhbuild -m bootstrap buildone waf')
+            raise CommandError(_('Missing waf, try jhbuild -m bootstrap buildone waf'))
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
         cmd = [self.waf_cmd, 'configure', '--prefix', buildscript.config.prefix]
@@ -116,7 +116,7 @@ class WafModule(Package):
                 buildscript.config.nobuild)
 
     def do_clean(self, buildscript):
-        buildscript.set_action('Cleaning', self)
+        buildscript.set_action(_('Cleaning'), self)
         cmd = [self.waf_cmd, 'clean']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_clean.next_state = STATE_BUILD
@@ -126,7 +126,7 @@ class WafModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         cmd = [self.waf_cmd, 'build']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_build.next_state = STATE_CHECK
@@ -137,7 +137,7 @@ class WafModule(Package):
                 buildscript.config.nobuild)
 
     def do_check(self, buildscript):
-        buildscript.set_action('Checking', self)
+        buildscript.set_action(_('Checking'), self)
         cmd = [self.waf_cmd, 'check']
         try:
             buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
@@ -151,7 +151,7 @@ class WafModule(Package):
         return not (buildscript.config.makedist or buildscript.config.makedistcheck)
 
     def do_dist(self, buildscript):
-        buildscript.set_action('Creating tarball for', self)
+        buildscript.set_action(_('Creating tarball for'), self)
         if buildscript.config.makedistcheck:
             cmd = [self.waf_cmd, 'distcheck']
         else:
@@ -164,7 +164,7 @@ class WafModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         cmd = [self.waf_cmd, 'install']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.get_revision() or '')

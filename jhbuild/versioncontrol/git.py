@@ -70,7 +70,7 @@ class GitRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
                 module = name
@@ -132,12 +132,12 @@ class GitBranch(Branch):
                                 cwd=self.get_checkoutdir())
         stdout = proc.communicate()[0]
         if not stdout.strip():
-            raise CommandError('Command %s returned no output' % cmd_desc)
+            raise CommandError(_('Command %s returned no output') % cmd_desc)
         for line in stdout.splitlines():
             if line.startswith('commit '):
                 commit = line.split(None, 1)[1].strip()
                 return commit
-        raise CommandError('Command %s did not include commit line: %r'
+        raise CommandError(_('Command %s did not include commit line: %r')
                            % (cmd_desc, stdout))
 
     def _export(self, buildscript):
@@ -252,7 +252,7 @@ class GitSvnBranch(GitBranch):
 
     def _checkout(self, buildscript, copydir=None):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
 
         cmd = ['git-svn', 'clone', self.module]
         if self.checkoutdir:
@@ -264,7 +264,7 @@ class GitSvnBranch(GitBranch):
             if not self.revision:
                 cmd.extend(['-r', last_revision])
         except KeyError:
-            raise FatalError('Cannot get last revision from ' + self.module + '. Check the module location.')
+            raise FatalError(_('Cannot get last revision from %s. Check the module location.') % self.module)
 
         if copydir:
             buildscript.execute(cmd, 'git-svn', cwd=copydir)
@@ -283,7 +283,7 @@ class GitSvnBranch(GitBranch):
 
     def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
 
         cwd = self.get_checkoutdir()
 
@@ -337,7 +337,7 @@ class GitCvsBranch(GitBranch):
 
     def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
 
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']

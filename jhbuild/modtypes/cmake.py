@@ -71,7 +71,7 @@ class CMakeModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_CONFIGURE
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -80,7 +80,7 @@ class CMakeModule(Package):
         return buildscript.config.nobuild
     
     def do_configure(self, buildscript):
-        buildscript.set_action('Configuring', self)
+        buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         if not os.path.exists(builddir):
@@ -95,7 +95,7 @@ class CMakeModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
         buildscript.execute(os.environ.get('MAKE', 'make'), cwd = builddir,
                 extra_env = self.extra_env)
@@ -106,7 +106,7 @@ class CMakeModule(Package):
         return not buildscript.config.makedist
 
     def do_dist(self, buildscript):
-        buildscript.set_action('Creating tarball for', self)
+        buildscript.set_action(_('Creating tarball for'), self)
         cmd = '%s package_source' % os.environ.get('MAKE', 'make')
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -117,7 +117,7 @@ class CMakeModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
         buildscript.execute([os.environ.get('MAKE', 'make'), 'install'],
                 cwd = builddir,

@@ -102,6 +102,6 @@ def unpack_archive(buildscript, localfile, target_directory):
             elif zipfile.is_zipfile(localfile):
                 unpack_zip_file(localfile, target_directory)    
             else:
-                raise CommandError('Failed to unpack %s (unknown archive type)' % localfile)
+                raise CommandError(_('Failed to unpack %s (unknown archive type)') % localfile)
         except:
-            raise CommandError('Failed to unpack %s' % localfile)
+            raise CommandError(_('Failed to unpack %s') % localfile)

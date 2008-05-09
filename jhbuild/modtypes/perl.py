@@ -68,7 +68,7 @@ class PerlModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_BUILD
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -77,7 +77,7 @@ class PerlModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
         perl = os.environ.get('PERL', 'perl')
         make = os.environ.get('MAKE', 'make')
@@ -92,7 +92,7 @@ class PerlModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
         make = os.environ.get('MAKE', 'make')
         buildscript.execute(

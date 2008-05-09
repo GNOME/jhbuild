@@ -58,7 +58,7 @@ class BzrRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
                 module = name
@@ -87,13 +87,13 @@ class BzrBranch(Branch):
             cmd.append(self.checkoutdir)
 
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
 
         buildscript.execute(cmd, 'bzr', cwd=self.checkoutroot)
 
     def _update(self, buildscript, overwrite=False):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
         cmd = ['bzr', 'pull']
         if overwrite:
             cmd.append('--overwrite')

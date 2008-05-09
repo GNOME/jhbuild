@@ -1,9 +1,16 @@
-AC_INIT([jhbuild], [2.21.5],
+AC_INIT([jhbuild], [2.23.1],
 		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE
 GNOME_COMMON_INIT
 AM_MAINTAINER_MODE
+
+# i18n
+GETTEXT_PACKAGE="jhbuild"
+AC_SUBST([GETTEXT_PACKAGE])
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package])
+AM_GLIB_GNU_GETTEXT
+IT_PROG_INTLTOOL([0.35.0])
 
 AC_PROG_CC
 PKG_PROG_PKG_CONFIG
@@ -22,5 +29,6 @@ GNOME_DOC_INIT
 AC_CONFIG_FILES([
 	Makefile
 	doc/Makefile
+	po/Makefile.in
 ])
 AC_OUTPUT

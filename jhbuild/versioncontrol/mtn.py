@@ -48,7 +48,7 @@ class MonotoneRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[module]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
 
         if not branch:
             branch = self.defbranch
@@ -87,7 +87,7 @@ class MonotoneBranch(Branch):
     def _init(self, buildscript):
         """Initializes the monotone database"""
 
-        buildscript.message('Initializing %s' % (self.repository.database))
+        buildscript.message(_('Initializing %s') % (self.repository.database))
 
         cmd = ['mtn', '-d', self.repository.database, 'db', 'init']
         buildscript.execute(cmd, 'mtn')
@@ -95,8 +95,8 @@ class MonotoneBranch(Branch):
     def _pull(self, buildscript):
         """Pulls new revs into the database from the given server"""
 
-        buildscript.message('Pulling branch %s from %s' %
-                            (self.branch, self.repository.server))
+        buildscript.message(_('Pulling branch %(branch)s from %(server)s') %
+                            {'branch':self.branch, 'server':self.repository.server})
 
         cmd = ['mtn', '-d', self.repository.database, 'pull',
                self.repository.server, self.branch]
@@ -113,13 +113,14 @@ class MonotoneBranch(Branch):
         heads = len(output.splitlines())
 
         if heads > 1:
-            raise CommandError('branch %s has %d heads' % (self.branch, heads))
+            raise CommandError(_('branch %(branch)s has %(num)d heads') %
+                               {'branch':self.branch, 'num':heads})
 
     def _checkout(self, buildscript):
         """Checks out a branch from a repository."""
 
-        buildscript.message('Checking out branch \'%s\' to directory \'%s\'' %
-                            (self.branch, self.srcdir))
+        buildscript.message(_('Checking out branch \'%(branch)s\' to directory \'%(dir)s\'') %
+                            {'branch':self.branch, 'dir':self.srcdir})
         cmd = ['mtn', '-d', self.repository.database, 'co', '-b', self.branch,
                self._codir]
         buildscript.execute(cmd, 'mtn')
@@ -127,7 +128,7 @@ class MonotoneBranch(Branch):
     def _update(self, buildscript):
         """Updates a monotone working directory."""
 
-        buildscript.message('Updating working copy %s' % (self.srcdir))
+        buildscript.message(_('Updating working copy %s') % (self.srcdir))
 
         cmd = ['mtn', 'up']
         buildscript.execute(cmd, 'mtn', cwd=self._codir)

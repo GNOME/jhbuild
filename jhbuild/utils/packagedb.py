@@ -21,7 +21,7 @@ import time
 try:
     import xml.dom.minidom
 except ImportError:
-    raise SystemExit, 'Python xml packages are required but could not be found'
+    raise SystemExit, _('Python xml packages are required but could not be found')
 
 def _parse_isotime(string):
     if string[-1] != 'Z':

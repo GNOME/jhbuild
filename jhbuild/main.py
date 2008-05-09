@@ -22,6 +22,12 @@ import sys, os, errno
 import optparse
 import traceback
 
+import gettext
+localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
+gettext.install('messages', localedir=localedir, unicode=True, names=('gettext',))
+import __builtin__
+__builtin__.__dict__['N_'] = lambda x: x
+
 import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
@@ -39,34 +45,33 @@ def help_commands(option, opt_str, value, parser):
         except ImportError:
             pass
     
-    print 'JHBuild commands are:'
-    commands = [(x.name, x.__doc__) for x in jhbuild.commands.get_commands().values()]
+    print _('JHBuild commands are:')
+    commands = [(x.name, x.doc) for x in jhbuild.commands.get_commands().values()]
     commands.sort()
     for name, description in commands:
         print '  %-15s %s' % (name, description)
     print
-    print 'For more information run "jhbuild <command> --help"'
+    print _('For more information run "jhbuild <command> --help"')
     parser.exit()
 
 def main(args):
     parser = optparse.OptionParser(
-        usage='%prog [ -f config ] command [ options ... ]',
-        description='Build a set of modules from diverse repositories '\
-                    'in correct dependency order (such as GNOME).')
+        usage=_('%prog [ -f config ] command [ options ... ]'),
+        description=_('Build a set of modules from diverse repositories in correct dependency order (such as GNOME).'))
     parser.disable_interspersed_args()
     parser.add_option('--help-commands', action='callback',
                       callback=help_commands,
-                      help='Information about available jhbuild commands')
+                      help=_('Information about available jhbuild commands'))
     parser.add_option('-f', '--file', action='store', metavar='CONFIG',
                       type='string', dest='configfile',
                       default=os.path.join(os.environ['HOME'], '.jhbuildrc'),
-                      help='use a non default configuration file')
+                      help=_('use a non default configuration file'))
     parser.add_option('-m', '--moduleset', action='store', metavar='URI',
                       type='string', dest='moduleset', default=None,
-                      help='use a non default module set')
+                      help=_('use a non default module set'))
     parser.add_option('--no-interact', action='store_true',
                       dest='nointeract', default=False,
-                      help='do not prompt for input')
+                      help=_('do not prompt for input'))
 
     options, args = parser.parse_args(args)
 

@@ -51,7 +51,7 @@ def get_output(cmd, cwd=None, extra_env=None):
         raise CommandError(str(e))
     stdout, stderr = p.communicate()
     if p.returncode != 0:
-        raise CommandError('Error running %s' % cmd, p.returncode)
+        raise CommandError(_('Error running %s') % cmd, p.returncode)
     return stdout
 
 class Pipeline(subprocess.Popen):

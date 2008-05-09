@@ -72,12 +72,12 @@ class LinuxModule(Package):
         return buildscript.config.nonetwork
 
     def do_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.checkout(buildscript)
         for kconfig in self.kconfigs:
             kconfig.checkout(buildscript)
             if not os.path.exists(kconfig.path):
-                raise BuildStateError('kconfig file %s was not created' % kconfig.path)
+                raise BuildStateError(_('kconfig file %s was not created') % kconfig.path)
     do_checkout.next_state = STATE_CONFIGURE
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
 
@@ -85,7 +85,7 @@ class LinuxModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_CONFIGURE
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -94,7 +94,7 @@ class LinuxModule(Package):
         return False
 
     def do_configure(self, buildscript):
-        buildscript.set_action('Configuring', self)
+        buildscript.set_action(_('Configuring'), self)
 
         for kconfig in self.kconfigs:
             shutil.copyfile(kconfig.path, os.path.join(self.branch.srcdir, ".config"))
@@ -123,7 +123,7 @@ class LinuxModule(Package):
                 buildscript.config.nobuild)
 
     def do_clean(self, buildscript):
-        buildscript.set_action('Cleaning', self)
+        buildscript.set_action(_('Cleaning'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s clean EXTRAVERSION=%s O=%s' % (
                     os.environ.get('MAKE', 'make'),
@@ -140,7 +140,7 @@ class LinuxModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s EXTRAVERSION=%s O=%s' % (os.environ.get('MAKE', 'make'),
                                                   self.makeargs,
@@ -156,7 +156,7 @@ class LinuxModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s install EXTRAVERSION=%s O=%s INSTALL_PATH=%s/boot' % (
                     os.environ.get('MAKE', 'make'),
@@ -174,7 +174,7 @@ class LinuxModule(Package):
         return buildscript.config.nobuild
 
     def do_modules_install(self, buildscript):
-        buildscript.set_action('Installing modules', self)
+        buildscript.set_action(_('Installing modules'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
@@ -203,12 +203,12 @@ def get_kconfigs(node, repositories, default_repo):
             try:
                 repo = repositories[repo_name]
             except KeyError:
-                raise FatalError('Repository=%s not found for kconfig in linux id=%s. Possible repositories are %s' % (repo_name, id, repositories))
+                raise FatalError(_('Repository=%s not found for kconfig in linux id=%s. Possible repositories are %s') % (repo_name, id, repositories))
         else:
             try:
                 repo = repositories[default_repo]
             except KeyError:
-                raise FatalError('Default Repository=%s not found for kconfig in module id=%s. Possible repositories are %s' % (default_repo, id, repositories))
+                raise FatalError(_('Default Repository=%s not found for kconfig in module id=%s. Possible repositories are %s') % (default_repo, id, repositories))
 
         kconfig = repo.branch_from_xml(id, childnode, repositories, default_repo)
 
@@ -222,7 +222,7 @@ def get_kconfigs(node, repositories, default_repo):
         kconfigs.append(kconfig)
 
     if not kconfigs:
-        raise FatalError('No <kconfig> elements found for module %s' % id)
+        raise FatalError(_('No <kconfig> elements found for module %s') % id)
 
     return kconfigs
 

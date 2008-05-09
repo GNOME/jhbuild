@@ -42,7 +42,7 @@ except ImportError:
 try:
     import xml.dom.minidom
 except ImportError:
-    raise SystemExit, 'Python xml packages are required but could not be found'
+    raise SystemExit, _('Python xml packages are required but could not be found')
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -173,8 +173,7 @@ class Cache:
                 return os.path.join(self.cachedir, entry.local)
 
         if nonetwork:
-            raise RuntimeError('file not in cache, but not allowed '
-                               'to check network')
+            raise RuntimeError(_('file not in cache, but not allowed to check network'))
 
         request = urllib2.Request(uri)
         if gzip:

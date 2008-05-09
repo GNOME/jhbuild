@@ -24,7 +24,7 @@ from jhbuild.commands.base import Command, register_command
 import jhbuild.frontends
 
 class cmd_autobuild(Command):
-    '''Build modules non-interactively and upload results to JhAutobuild'''
+    doc = _('Build modules non-interactively and upload results to JhAutobuild')
 
     name = 'autobuild'
 
@@ -32,22 +32,22 @@ class cmd_autobuild(Command):
         Command.__init__(self, [
             make_option('-a', '--autogen',
                         action='store_true', dest='autogen', default=False,
-                        help='always run autogen.sh'),
+                        help=_('always run autogen.sh')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
-                        help='run make clean before make'),
+                        help=_('run make clean before make')),
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
-                        help='treat the given modules as up to date'),
+                        help=_('treat the given modules as up to date')),
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
-                        help='start building at the given module'),
+                        help=_('start building at the given module')),
             make_option('-r', '--report-url',
                         action='store', dest='reporturl', default=None,
-                        help='jhautobuild report URL'),
+                        help=_('jhautobuild report URL')),
             make_option('-v', '--verbose',
                         action='store_true', dest='verbose', default=False,
-                        help='verbose mode'),
+                        help=_('verbose mode')),
             ])
     
     def run(self, config, options, args):
@@ -66,7 +66,7 @@ class cmd_autobuild(Command):
             config.verbose = True
 
         if not config.autobuild_report_url:
-            raise UsageError('report url for autobuild not specified')
+            raise UsageError(_('report url for autobuild not specified'))
     
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -77,7 +77,7 @@ class cmd_autobuild(Command):
             while module_list and module_list[0].name != options.startat:
                 del module_list[0]
             if not module_list:
-                raise FatalError('%s not in module list' % options.startat)
+                raise FatalError(_('%s not in module list') % options.startat)
     
         build = jhbuild.frontends.get_buildscript(config, module_list)
         build.build()

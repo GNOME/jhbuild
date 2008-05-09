@@ -35,11 +35,11 @@ def parse_relative_time(s):
         coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400}
         return float(m.group(1)) * coeffs[m.group(2)]
     else:
-        raise ValueError('unable to parse \'%s\' as relative time.' % s)
+        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
 
 
 class cmd_update(Command):
-    """Update all modules from version control"""
+    doc = _('Update all modules from version control')
 
     name = 'update'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -48,16 +48,16 @@ class cmd_update(Command):
         Command.__init__(self, [
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
-                        help='treat the given modules as up to date'),
+                        help=_('treat the given modules as up to date')),
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
-                        help='start building at the given module'),
+                        help=_('start building at the given module')),
             make_option('--tags',
                         action='append', dest='tags', default=[],
-                        help='build only modules with the given tags'),
+                        help=_('build only modules with the given tags')),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
-                        help='set a sticky date when checking out modules'),
+                        help=_('set a sticky date when checking out modules')),
             ])
 
     def run(self, config, options, args):
@@ -76,7 +76,7 @@ class cmd_update(Command):
             while module_list and module_list[0].name != options.startat:
                 del module_list[0]
             if not module_list:
-                raise FatalError('%s not in module list' % options.startat)
+                raise FatalError(_('%s not in module list') % options.startat)
 
         # don't actually perform build ...
         config.nobuild = True
@@ -89,7 +89,7 @@ register_command(cmd_update)
 
 
 class cmd_updateone(Command):
-    """Update one or more modules from version control"""
+    doc = _('Update one or more modules from version control')
 
     name = 'updateone'
     usage_args = '[ options ... ] [ modules ... ]'
@@ -98,7 +98,7 @@ class cmd_updateone(Command):
         Command.__init__(self, [
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
-                        help='set a sticky date when checking out modules'),
+                        help=_('set a sticky date when checking out modules')),
             ])
 
     def run(self, config, options, args):
@@ -109,11 +109,11 @@ class cmd_updateone(Command):
         try:
             module_list = [module_set.modules[modname] for modname in args]
         except KeyError, e:
-            raise FatalError("A module called '%s' could not be found."
+            raise FatalError(_("A module called '%s' could not be found.")
                              % str(e))
 
         if not module_list:
-            self.parser.error('This command requires a module parameter.')
+            self.parser.error(_('This command requires a module parameter.'))
 
         # don't actually perform build ...
         config.nobuild = True
@@ -126,61 +126,61 @@ register_command(cmd_updateone)
 
 
 class cmd_build(Command):
-    """Update and compile all modules (the default)"""
+    doc = _('Update and compile all modules (the default)')
 
     name = 'build'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = _('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
                         action='store_true', dest='autogen', default=False,
-                        help='always run autogen.sh'),
+                        help=_('always run autogen.sh')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
-                        help='run make clean before make'),
+                        help=_('run make clean before make')),
             make_option('-d', '--dist',
                         action='store_true', dest='dist', default=False,
-                        help='run make dist after building'),
+                        help=_('run make dist after building')),
             make_option('--distcheck',
                         action='store_true', dest='distcheck', default=False,
-                        help='run make distcheck after building'),
+                        help=_('run make distcheck after building')),
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
-                        help='skip version control update'),
+                        help=_('skip version control update')),
             make_option('-q', '--quiet',
                         action='store_true', dest='quiet', default=False,
-                        help='quiet (no output)'),
+                        help=_('quiet (no output)')),
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
-                        help='treat the given modules as up to date'),
+                        help=_('treat the given modules as up to date')),
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
-                        help='start building at the given module'),
+                        help=_('start building at the given module')),
             make_option('--tags',
                         action='append', dest='tags', default=[],
-                        help='build only modules with the given tags'),
+                        help=_('build only modules with the given tags')),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
-                        help='set a sticky date when checking out modules'),
+                        help=_('set a sticky date when checking out modules')),
             make_option('-x', '--no-xvfb',
                         action='store_true', dest='noxvfb', default=False,
-                        help='run tests in real X and not in Xvfb'),
+                        help=_('run tests in real X and not in Xvfb')),
             make_option('-C', '--try-checkout',
                         action='store_true', dest='trycheckout', default=False,
-                        help='try to force checkout and autogen on failure'),
+                        help=_('try to force checkout and autogen on failure')),
             make_option('-N', '--no-poison',
                         action='store_true', dest='nopoison', default=False,
-                        help="don't poison modules on failure"),
+                        help=_("don't poison modules on failure")),
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
-                        help="build even if policy says not to"),
+                        help=_('build even if policy says not to')),
             make_option('--build-optional-modules',
                         action='store_true', dest='build_optional_modules', default=False,
-                        help="also build soft-dependencies that could be skipped"),
+                        help=_('also build soft-dependencies that could be skipped')),
             make_option('--min-age', metavar='TIME-SPEC',
                         action='store', dest='min_age', default=None,
-                        help='skip modules installed less than the given time ago'),
+                        help=_('skip modules installed less than the given time ago')),
             ])
 
     def run(self, config, options, args):
@@ -222,7 +222,7 @@ class cmd_build(Command):
             while module_list and module_list[0].name != options.startat:
                 del module_list[0]
             if not module_list:
-                raise FatalError('%s not in module list' % options.startat)
+                raise FatalError(_('%s not in module list') % options.startat)
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
@@ -231,43 +231,43 @@ register_command(cmd_build)
 
 
 class cmd_buildone(Command):
-    """Update and compile one or more modules"""
+    doc = _('Update and compile one or more modules')
 
     name = 'buildone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = _('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
                         action='store_true', dest='autogen', default=False,
-                        help='always run autogen.sh'),
+                        help=_('always run autogen.sh')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
-                        help='run make clean before make'),
+                        help=_('run make clean before make')),
             make_option('-d', '--dist',
                         action='store_true', dest='dist', default=False,
-                        help='run make dist after building'),
+                        help=_('run make dist after building')),
             make_option('--distcheck',
                         action='store_true', dest='distcheck', default=False,
-                        help='run make distcheck after building'),
+                        help=_('run make distcheck after building')),
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
-                        help='skip version control update'),
+                        help=_('skip version control update')),
             make_option('-q', '--quiet',
                         action='store_true', dest='quiet', default=False,
-                        help='quiet (no output)'),
+                        help=_('quiet (no output)')),
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
-                        help='set a sticky date when checking out modules'),
+                        help=_('set a sticky date when checking out modules')),
             make_option('-x', '--no-xvfb',
                         action='store_true', dest='noxvfb', default=False,
-                        help='Run tests in real X and not in Xvfb'),
+                        help=_('run tests in real X and not in Xvfb')),
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
-                        help="build even if policy says not to"),
+                        help=_('build even if policy says not to')),
             make_option('--min-age', metavar='TIME-SPEC',
                         action='store', dest='min_age', default=None,
-                        help='skip modules installed less than the given time ago'),
+                        help=_('skip modules installed less than the given time ago')),
             ])
 
     def run(self, config, options, args):
@@ -296,11 +296,11 @@ class cmd_buildone(Command):
         try:
             module_list = [module_set.modules[modname] for modname in args]
         except KeyError, e:
-            raise FatalError("A module called '%s' could not be found."
+            raise FatalError(_("A module called '%s' could not be found.")
                              % str(e))
 
         if not module_list:
-            self.parser.error('This command requires a module parameter.')
+            self.parser.error(_('This command requires a module parameter.'))
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
@@ -309,16 +309,16 @@ register_command(cmd_buildone)
 
 
 class cmd_run(Command):
-    """Run a command under the JHBuild environment"""
+    doc = _('Run a command under the JHBuild environment')
 
     name = 'run'
-    usage_args = '[ options ... ] program [ arguments ... ]'
+    usage_args = _('[ options ... ] program [ arguments ... ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('--in-builddir', metavar='MODULE',
                         action='store', dest='in_builddir', default = None,
-                        help='run command in build dir of the given module'),
+                        help=_('run command in build dir of the given module')),
             ])
 
     def execute(self, config, args):
@@ -328,8 +328,8 @@ class cmd_run(Command):
         try:
             return os.execlp(args[0], *args)
         except OSError, exc:
-            raise FatalError("Unable to execute the command '%s': %s" % (
-                    args[0], str(exc)))
+            raise FatalError(_("Unable to execute the command '%(command)s': %(err)s") % {
+                    'command':args[0], 'err':str(exc)})
 
     def run(self, config, options, args):
         if options.in_builddir:
@@ -337,7 +337,7 @@ class cmd_run(Command):
             try:
                 module_list = [module_set.modules[options.in_builddir]]
             except KeyError, e:
-                raise FatalError("A module called '%s' could not be found." % e)
+                raise FatalError(_("A module called '%s' could not be found.") % e)
 
             build = jhbuild.frontends.get_buildscript(config, module_list)
             builddir = module_list[0].get_builddir(build)
@@ -345,23 +345,23 @@ class cmd_run(Command):
                 build.execute(args, cwd=builddir)
             except CommandError, exc:
                 if args:
-                    raise FatalError("Unable to execute the command '%s'" % args[0])
+                    raise FatalError(_("Unable to execute the command '%s'") % args[0])
                 else:
                     raise FatalError(str(exc))
         else:
             try:
                 os.execlp(args[0], *args)
             except IndexError:
-                raise FatalError('No command given')
+                raise FatalError(_('No command given'))
             except OSError, exc:
-                raise FatalError("Unable to execute the command '%s': %s" % (
-                        args[0], str(exc)))
+                raise FatalError(_("Unable to execute the command '%(command)s': %(err)s") % {
+                        'command':args[0], 'err':str(exc)})
 
 register_command(cmd_run)
 
 
 class cmd_shell(Command):
-    """Start a shell under the JHBuild environment"""
+    doc = _('Start a shell under the JHBuild environment')
 
     name = 'shell'
     usage_args = ''
@@ -376,25 +376,25 @@ register_command(cmd_shell)
 
 
 class cmd_list(Command):
-    """List the modules that would be built"""
+    doc = _('List the modules that would be built')
 
     name = 'list'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = _('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('-r', '--show-revision',
                         action='store_true', dest='show_rev', default=False,
-                        help='show which revision will be built'),
+                        help=_('show which revision will be built')),
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
-                        help='treat the given modules as up to date'),
+                        help=_('treat the given modules as up to date')),
             make_option('--tags',
                         action='append', dest='tags', default=[],
-                        help='build only modules with the given tags'),
+                        help=_('build only modules with the given tags')),
             make_option('--list-optional-modules',
                         action='store_true', dest='list_optional_modules', default=False,
-                        help="also list soft-dependencies that could be skipped"),
+                        help=_('also list soft-dependencies that could be skipped')),
             ])
 
     def run(self, config, options, args):
@@ -421,19 +421,19 @@ register_command(cmd_list)
 
 
 class cmd_dot(Command):
-    """Output a Graphviz dependency graph for one or more modules"""
+    doc = _('Output a Graphviz dependency graph for one or more modules')
 
     name = 'dot'
-    usage_args = '[ modules ... ]'
+    usage_args = _('[ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('--soft-deps',
                         action='store_true', dest='soft_deps', default=False,
-                        help='add dotted lines to soft dependencies'),
+                        help=_('add dotted lines to soft dependencies')),
             make_option('--clusters',
                         action='store_true', dest='clusters', default=False,
-                        help='group modules from metamodule together'),
+                        help=_('group modules from metamodule together')),
             ])
 
     def run(self, config, options, args):

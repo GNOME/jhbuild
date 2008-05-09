@@ -132,7 +132,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         if not command:
-            raise CommandError('No command given')
+            raise CommandError(_('No command given'))
 
         kws = {
             'close_fds': True
@@ -168,7 +168,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             p = subprocess.Popen(command, **kws)
         except OSError, e:
-            sys.stderr.write('Error: %s\n' % str(e))
+            sys.stderr.write(_('Error: %s\n') % str(e))
             raise CommandError(str(e))
 
         output = []
@@ -199,7 +199,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
             cmds.pprint_output(p, format_line)
             if conflicts:
-                sys.stdout.write('\nConflicts during checkout:\n')
+                sys.stdout.write(_('\nConflicts during checkout:\n'))
                 for line in conflicts:
                     sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
@@ -221,7 +221,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         if p.wait() != 0:
             if self.config.quiet_mode:
                 print ''.join(output)
-            raise CommandError('########## Error running %s' % pretty_command, p.returncode)
+            raise CommandError(_('########## Error running %s') % pretty_command, p.returncode)
 
     def start_phase(self, module, state):
         self.trayicon.set_icon(os.path.join(icondir,
@@ -230,16 +230,17 @@ class TerminalBuildScript(buildscript.BuildScript):
     def end_build(self, failures):
         self.is_end_of_build = True
         if len(failures) == 0:
-            self.message('success')
+            self.message(_('success'))
         else:
-            self.message('the following modules were not built')
+            self.message(_('the following modules were not built'))
             for module in failures:
                 print module,
             print
 
     def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
-        summary = 'error during stage %s of %s' % (state, module.name)
+        summary = _('error during stage %(stage)s of %(module)s') % {
+            'stage':state, 'module':module.name}
         self.message('%s: %s' % (summary, error))
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
         self.notify.notify(summary = summary, body = error, icon = 'dialog-error', expire = 20)
@@ -253,15 +254,15 @@ class TerminalBuildScript(buildscript.BuildScript):
             return 'fail'
         while True:
             print
-            print '  [1] rerun stage %s' % state
-            print '  [2] ignore error and continue to %s' % nextstate
-            print '  [3] give up on module'
-            print '  [4] start shell'
+            print _('  [1] rerun stage %s') % state
+            print _('  [2] ignore error and continue to %s') % nextstate
+            print _('  [3] give up on module')
+            print _('  [4] start shell')
             i = 5
             for altstate in altstates:
-                print '  [%d] go to stage %s' % (i, altstate)
+                print _('  [%d] go to stage %s') % (i, altstate)
                 i = i + 1
-            val = raw_input('choice: ')
+            val = raw_input(_('choice: '))
             val = val.strip()
             if val == '1':
                 return state
@@ -274,14 +275,14 @@ class TerminalBuildScript(buildscript.BuildScript):
                     os.chdir(module.get_builddir(self))
                 except OSError:
                     os.chdir(self.config.checkoutroot)
-                print 'exit shell to continue with build'
+                print _('exit shell to continue with build')
                 os.system(user_shell)
             else:
                 try:
                     val = int(val)
                     return altstates[val - 5]
                 except:
-                    print 'invalid choice'
+                    print _('invalid choice')
         assert False, 'not reached'
 
 BUILD_SCRIPT = TerminalBuildScript

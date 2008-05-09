@@ -26,7 +26,7 @@ import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 
 class cmd_checkbranches(Command):
-    """Check modules in GNOME svn have the correct branch definition"""
+    doc = _('Check modules in GNOME subversion have the correct branch definition')
     name = 'checkbranches'
     
     def __init__(self):
@@ -63,7 +63,7 @@ class cmd_checkbranches(Command):
             except urllib2.URLError:
                 pass
             else:
-                print mod.name, 'is missing branch definition for', branch
+                print _('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch}
 
 
 register_command(cmd_checkbranches)

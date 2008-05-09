@@ -72,7 +72,7 @@ class DistutilsModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_BUILD
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -81,7 +81,7 @@ class DistutilsModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         python = os.environ.get('PYTHON', 'python')
@@ -96,7 +96,7 @@ class DistutilsModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         python = os.environ.get('PYTHON', 'python')

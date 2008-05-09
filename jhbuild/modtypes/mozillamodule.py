@@ -69,10 +69,10 @@ class MozillaModule(AutogenModule):
 	    if line[0] not in ('#', '\0', '\n'):
                 return line.strip()
         else:
-            raise FatalError('could not determine mozilla version')
+            raise FatalError(_('could not determine mozilla version'))
 
     def checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot, 'checkout']
         if self.revision:
             cmd.extend(['-r', self.revision])
@@ -95,7 +95,7 @@ class MozillaModule(AutogenModule):
                cvs.check_sticky_tag(client_mk) != self.revision:
             self.checkout(buildscript)
         else:
-            buildscript.set_action('Updating', self)
+            buildscript.set_action(_('Updating'), self)
             make = os.environ.get('MAKE', 'make')
             buildscript.execute([make, '-f', 'client.mk', 'fast-update'],
                     cwd = checkoutdir,
@@ -103,7 +103,7 @@ class MozillaModule(AutogenModule):
 
         # did the checkout succeed?
         if not os.path.exists(checkoutdir):
-            raise BuildStateError('source directory %s was not created'
+            raise BuildStateError(_('source directory %s was not created')
                                   % checkoutdir)
 
         if self.check_build_policy(buildscript):
@@ -118,7 +118,7 @@ class MozillaModule(AutogenModule):
         
     def do_configure(self, buildscript):
         checkoutdir = self.get_builddir(buildscript)
-        buildscript.set_action('Configuring', self)
+        buildscript.set_action(_('Configuring'), self)
         if buildscript.config.use_lib64:
             mozilla_path = '%s/lib64/%s-%s' \
                            % (buildscript.config.prefix,
@@ -144,7 +144,7 @@ class MozillaModule(AutogenModule):
     do_configure.error_states = [AutogenModule.STATE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         make = os.environ.get('MAKE', 'make')
         cmd = '%s %s %s install' % (make, buildscript.config.makeargs,
                                       self.makeargs)

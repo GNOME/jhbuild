@@ -26,7 +26,7 @@ from jhbuild.commands import Command, register_command
 from jhbuild.commands.base import cmd_build
 
 class cmd_bootstrap(cmd_build):
-    """Build required support tools"""
+    doc = _('Build required support tools')
 
     name = 'bootstrap'
 

@@ -69,11 +69,11 @@ class ServerProxy(xmlrpclib.ServerProxy):
                 pass
             if i < ITERS-1:
                 if self.verbose_timeout:
-                    print >> sys.stderr, 'Server Error, retrying in %d seconds' % ((i+1)**2)
+                    print >> sys.stderr, _('Server Error, retrying in %d seconds') % ((i+1)**2)
                 time.sleep((i+1)**2)
             else:
                 if self.verbose_timeout:
-                    print >> sys.stderr, 'Server Error, aborting'
+                    print >> sys.stderr, _('Server Error, aborting')
                 raise e
             
 
@@ -175,12 +175,12 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         try:
             p = subprocess.Popen(command, **kws)
         except OSError, e:
-            self.phasefp.write('<span class="error">Error: %s</span>\n' % escape(str(e)))
+            self.phasefp.write('<span class="error">' + _('Error: %s') % escape(str(e)) + '</span>\n')
             raise CommandError(str(e))
 
         cmds.pprint_output(p, format_line)
         if p.returncode != 0:
-            raise CommandError('Error running %s' % command, p.returncode)
+            raise CommandError(_('Error running %s') % command, p.returncode)
 
     def start_build(self):
         self.server = ServerProxy(self.xmlrpc_report_url, allow_none = True)
@@ -207,13 +207,13 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
             self.build_id = self.server.start_build(info)
         except xmlrpclib.ProtocolError, e:
             if e.errcode == 403:
-                print >> sys.stderr, 'ERROR: Wrong credentials, please check username/password'
+                print >> sys.stderr, _('ERROR: Wrong credentials, please check username/password')
                 sys.exit(1)
             raise
 
         
         if self.verbose:
-            s = 'Starting Build #%s' % self.build_id
+            s = _('Starting Build #%s') % self.build_id
             print s
             print '=' * len(s)
             print ''
@@ -227,7 +227,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
 
     def start_module(self, module):
         if self.verbose:
-            print '\n%s**** Starting module %s ****%s' % (t_bold, module, t_reset)
+            print '\n%s' % t_bold + _('**** Starting module %s ****' % module) + t_reset
         self.server.start_module(self.build_id, module)
         self.current_module = module
         self.modulefp = StringIO()

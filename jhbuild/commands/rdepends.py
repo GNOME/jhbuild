@@ -24,26 +24,26 @@ from jhbuild.commands import Command, register_command
 
 
 class cmd_rdepends(Command):
-    """Display reverse-dependencies of a module"""
+    doc = _('Display reverse-dependencies of a module')
 
     name = 'rdepends'
-    usage_args = '[ module ]'
+    usage_args = _('[ module ]')
 
     def __init__(self):
         Command.__init__(self, [
             make_option('--dependencies',
                         action='store_true', dest='dependencies', default=False,
-                        help='display dependency path next to modules'),
+                        help=_('display dependency path next to modules')),
             make_option('--direct',
                         action='store_true', dest='direct', default=False,
-                        help='limit display to modules directly depending on given module')
+                        help=_('limit display to modules directly depending on given module'))
             ])
 
     def run(self, config, options, args):
         module_set = jhbuild.moduleset.load(config)
 
         if not args:
-            self.parser.error('This command requires a module parameter.')
+            self.parser.error(_('This command requires a module parameter.'))
 
         modname = args[0]
 

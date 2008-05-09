@@ -37,23 +37,23 @@ class BuildScript:
             try:
                 os.makedirs(self.config.checkoutroot)
             except OSError:
-                raise FatalError('checkout root can not be created')
+                raise FatalError(_('checkout root can not be created'))
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError('checkout root must be writable')
+            raise FatalError(_('checkout root must be writable'))
         if not os.path.exists(self.config.prefix):
             try:
                 os.makedirs(self.config.prefix)
             except OSError:
-                raise FatalError('install prefix can not be created')
+                raise FatalError(_('install prefix can not be created'))
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError('install prefix must be writable')
+            raise FatalError(_('install prefix must be writable'))
 
         packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
         try:
             if not os.path.isdir(packagedbdir):
                 os.makedirs(packagedbdir)
         except OSError:
-            raise FatalError('could not create directory %s' % packagedbdir)
+            raise FatalError(_('could not create directory %s') % packagedbdir)
         self.packagedb = packagedb.PackageDB(os.path.join(packagedbdir,
                                                           'packagedb.xml'))
 
@@ -77,7 +77,7 @@ class BuildScript:
             if self.config.min_time is not None:
                 installdate = self.packagedb.installdate(module.name)
                 if installdate > self.config.min_time:
-                    self.message('Skipping %s (installed recently)' % module.name)
+                    self.message(_('Skipping %s (installed recently)') % module.name)
                     continue
 
             self.start_module(module.name)
@@ -85,11 +85,11 @@ class BuildScript:
             for dep in module.dependencies:
                 if dep in failures:
                     if self.config.nopoison:
-                        self.message('module %s will be build even though %s failed' % (
-                                module.name, dep))
+                        self.message(_('module %(mod)s will be build even though %(dep)s failed')
+                                     % { 'mod':module.name, 'dep':dep })
                     else:
-                        self.message('module %s not built due to non buildable %s'
-                                     % (module.name, dep))
+                        self.message(_('module %(mod)s not built due to non buildable %(dep)s')
+                                     % { 'mod':module.name, 'dep':dep })
                         failed = True
             if failed:
                 failures.append(module.name)

@@ -28,7 +28,7 @@ from jhbuild.errors import UsageError, FatalError, DependencyCycleError
 try:
     import xml.dom.minidom
 except ImportError:
-    raise FatalError('Python xml packages are required but could not be found')
+    raise FatalError(_('Python xml packages are required but could not be found'))
 
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
@@ -52,7 +52,7 @@ class ModuleSet:
         try:
             all_modules = [self.modules[mod] for mod in seed if mod not in skip]
         except KeyError, e:
-            raise UsageError('module "%s" not found' % str(e))
+            raise UsageError(_('module "%s" not found') % str(e))
 
         asked_modules = all_modules[:]
 
@@ -64,7 +64,7 @@ class ModuleSet:
             for modname in all_modules[i].dependencies:
                 depmod = self.modules.get(modname)
                 if not depmod:
-                    raise UsageError('dependent module "%s" not found' % modname)
+                    raise UsageError(_('dependent module "%s" not found') % modname)
                 if not depmod in all_modules:
                     all_modules.append(depmod)
 
@@ -168,7 +168,7 @@ class ModuleSet:
             try:
                 mod = self.modules[modname]
             except KeyError:
-                print >> sys.stderr, 'W: Unknown module:', modname
+                print >> sys.stderr, _('W: Unknown module:'), modname
                 del modules[0]
                 continue
             if isinstance(mod, MetaModule):
@@ -251,12 +251,12 @@ def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork)
     except Exception, e:
-        raise FatalError('could not download %s: %s' % (uri, str(e)))
+        raise FatalError(_('could not download %s: %s') % (uri, str(e)))
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
     except xml.parsers.expat.ExpatError, e:
-        raise FatalError('failed to parse %s: %s' % (filename, str(e)))
+        raise FatalError(_('failed to parse %s: %s') % (filename, str(e)))
 
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet()

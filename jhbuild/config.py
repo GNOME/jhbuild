@@ -96,13 +96,13 @@ class Config:
             execfile(_defaults_file, config)
         except:
             traceback.print_exc()
-            raise FatalError('could not load config defaults')
+            raise FatalError(_('could not load config defaults'))
         config['__file__'] = filename
         try:
             execfile(filename, config)
         except Exception:
             traceback.print_exc()
-            raise FatalError('could not load config file')
+            raise FatalError(_('could not load config file'))
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
@@ -129,10 +129,10 @@ class Config:
         # check possible checkout_mode values
         possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
         if self.checkout_mode not in possible_checkout_modes:
-            raise FatalError('invalid checkout mode')
+            raise FatalError(_('invalid checkout mode'))
         for module, checkout_mode in self.module_checkout_mode.items():
             if checkout_mode not in possible_checkout_modes:
-                raise FatalError('invalid checkout mode (module: %s)' % module)
+                raise FatalError(_('invalid checkout mode (module: %s)') % module)
 
         self.setup_env()
 
@@ -143,7 +143,7 @@ class Config:
             try:
                 os.makedirs(self.prefix)
             except:
-                raise FatalError("Can't create %s directory" % self.prefix)
+                raise FatalError(_("Can't create %s directory") % self.prefix)
 
         #includedir = os.path.join(prefix, 'include')
         #addpath('C_INCLUDE_PATH', includedir)
@@ -182,7 +182,7 @@ class Config:
             try:
                 os.makedirs(aclocaldir)
             except:
-                raise FatalError("Can't create %s directory" % aclocaldir)
+                raise FatalError(_("Can't create %s directory") % aclocaldir)
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         # PERL5LIB

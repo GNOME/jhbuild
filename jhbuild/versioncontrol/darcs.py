@@ -48,7 +48,7 @@ class DarcsRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
                 module = name
@@ -77,13 +77,13 @@ class DarcsBranch(Branch):
             cmd.append(self.checkoutdir)
 
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
 
         buildscript.execute(cmd, 'darcs', cwd=self.checkoutroot)
 
     def _update(self, buildscript):
         if self.config.sticky_date:
-            raise FatalError('date based checkout not yet supported\n')
+            raise FatalError(_('date based checkout not yet supported\n'))
         buildscript.execute(['darcs', 'pull', '-a', '--no-set-default', self.module],
                             'darcs', cwd=self.srcdir)
 
@@ -101,7 +101,7 @@ class DarcsBranch(Branch):
 
     def checkout(self, buildscript):
         if not inpath('darcs', os.environ['PATH'].split(os.pathsep)):
-            raise CommandError('Missing darcs command')
+            raise CommandError(_('Missing darcs command'))
 
         if os.path.exists(self.srcdir):
             self._update(buildscript)

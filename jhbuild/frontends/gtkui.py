@@ -51,6 +51,9 @@ class Configuration:
         self.config = config
         self.args = args
 
+        localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../mo'))
+        gtk.glade.bindtextdomain('messages', localedir)
+        
         glade_filename = get_glade_filename()
 
         # Fetch widgets out of the Glade
@@ -82,7 +85,7 @@ class Configuration:
         self.name_to_meta_module = {}
         for possible_meta_module in full_module_list:
             if isinstance(possible_meta_module, MetaModule):
-                print "Found meta module %s" % possible_meta_module.name
+                print _("Found meta module %s") % possible_meta_module.name
                 self.meta_modules.append(possible_meta_module)
                 self.name_to_meta_module[possible_meta_module.name] = possible_meta_module
                 
@@ -153,11 +156,11 @@ class Configuration:
 
         renderer = gtk.CellRendererToggle()
         renderer.connect('toggled', self._meta_module_toggled, self.model)
-        column = gtk.TreeViewColumn('Build', renderer, active=0)
+        column = gtk.TreeViewColumn(_('Build'), renderer, active=0)
         column.set_clickable(True)
         self.meta_modules_list.append_column(column)
 
-        column = gtk.TreeViewColumn('Module Group', gtk.CellRendererText(), text=1)
+        column = gtk.TreeViewColumn(_('Module Group'), gtk.CellRendererText(), text=1)
         self.meta_modules_list.append_column(column)        
 
     def _get_selected_meta_modules(self):
@@ -274,10 +277,11 @@ class GtkBuildScript(buildscript.BuildScript):
         num_modules = len(self.modulelist)
         if module_num > 0:
             self.build_progress.set_fraction(module_num / float(num_modules))
-            self.build_progress.set_text('%d of %d modules'
+            self.build_progress.set_text(_('%d of %d modules')
                                          % (module_num, num_modules))
 
-        self.window.set_title('[%d/%d] %s %s' % (module_num, num_modules, action, module.name))
+        self.window.set_title(_('[%(num)d/%(total)d] %(action)s %(module)s')
+                              % { 'num':module_num, 'total':num_modules, 'action':action, 'module':module.name} )
         self.current_status_label.set_text('%s %s' % (action, module.name))
 
     def _runEventLoop(self):
@@ -369,9 +373,9 @@ class GtkBuildScript(buildscript.BuildScript):
         self.window.show_all()
     def end_build(self, failures):
         if len(failures) == 0:
-            self.message('success')
+            self.message(_('success'))
         else:
-            self.message('the following modules were not built:\n%s'
+            self.message(_('the following modules were not built:\n%s')
                          % ', '.join(failures))
     def start_module(self, module):
         # Remember where we are in case something fails
@@ -387,14 +391,15 @@ class GtkBuildScript(buildscript.BuildScript):
         if not self.config.interact:
             return 'fail'
 
-        dialog = gtk.Dialog('Error during %s for module %s' % (state, module.name))
-        dialog.add_button('_Try %s Again' % state, 1)
-        dialog.add_button('_Ignore Error', 2)
-        dialog.add_button('_Skip Module', 3)
-        dialog.add_button('_Terminal', 4)
+        dialog = gtk.Dialog(_('Error during %(state)s for module %(module)s') 
+                            % {'state':state, 'module':module.name})
+        dialog.add_button(_('_Try %s Again') % state, 1)
+        dialog.add_button(_('_Ignore Error'), 2)
+        dialog.add_button(_('_Skip Module'), 3)
+        dialog.add_button(_('_Terminal'), 4)
 
         for i, altstate in enumerate(altstates):
-            dialog.add_button('Go to %s' % altstate, i + 5)
+            dialog.add_button(_('Go to %s') % altstate, i + 5)
 
         text_view = gtk.TextView()
         text_view.set_buffer(self.build_text)

@@ -27,6 +27,10 @@ import sys
 import tempfile
 import unittest
 
+import __builtin__
+__builtin__.__dict__['_'] = lambda x: x
+__builtin__.__dict__['N_'] = lambda x: x
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from jhbuild.errors import DependencyCycleError, UsageError, CommandError

@@ -94,7 +94,7 @@ class AutogenModule(Package):
         return False
 
     def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.next_state = STATE_CONFIGURE
     do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
@@ -126,7 +126,7 @@ class AutogenModule(Package):
         builddir = self.get_builddir(buildscript)
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
-        buildscript.set_action('Configuring', self)
+        buildscript.set_action(_('Configuring'), self)
 
         if self.autogen_template:
             template = self.autogen_template
@@ -184,7 +184,7 @@ class AutogenModule(Package):
                 buildscript.config.nobuild)
 
     def do_clean(self, buildscript):
-        buildscript.set_action('Cleaning', self)
+        buildscript.set_action(_('Cleaning'), self)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -195,7 +195,7 @@ class AutogenModule(Package):
         return buildscript.config.nobuild
 
     def do_build(self, buildscript):
-        buildscript.set_action('Building', self)
+        buildscript.set_action(_('Building'), self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -208,7 +208,7 @@ class AutogenModule(Package):
                 buildscript.config.nobuild)
 
     def do_check(self, buildscript):
-        buildscript.set_action('Checking', self)
+        buildscript.set_action(_('Checking'), self)
         cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
@@ -223,7 +223,7 @@ class AutogenModule(Package):
         return not (buildscript.config.makedist or buildscript.config.makedistcheck)
 
     def do_dist(self, buildscript):
-        buildscript.set_action('Creating tarball for', self)
+        buildscript.set_action(_('Creating tarball for'), self)
         if buildscript.config.makedistcheck:
             cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
         else:
@@ -237,7 +237,7 @@ class AutogenModule(Package):
         return buildscript.config.nobuild
 
     def do_install(self, buildscript):
-        buildscript.set_action('Installing', self)
+        buildscript.set_action(_('Installing'), self)
         if self.makeinstallargs:
             cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeinstallargs)
         else:
@@ -261,7 +261,7 @@ class AutogenModule(Package):
         return False
 
     def do_force_distclean(self, buildscript):
-        buildscript.set_action('Distcleaning', self)
+        buildscript.set_action(_('Distcleaning'), self)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -372,8 +372,8 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
                 repo = repositories[node.getAttribute(attrname)]
                 break
             except KeyError:
-                raise FatalError('Repository=%s not found for module id=%s. '
-                                 'Possible repositories are %s'
+                raise FatalError(_('Repository=%s not found for module id=%s. '
+                                   'Possible repositories are %s')
                                  % (node.getAttribute(attrname),
                                     node.getAttribute('id'), repositories))
     else:

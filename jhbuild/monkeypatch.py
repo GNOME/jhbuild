@@ -141,12 +141,12 @@ if not hasattr(string, 'Template'):
             else:
                 colno = i - len(''.join(lines[:-1]))
                 lineno = len(lines)
-            raise ValueError('Invalid placeholder in string: line %d, col %d' %
+            raise ValueError(_('Invalid placeholder in string: line %d, col %d') %
                              (lineno, colno))
 
         def substitute(self, *args, **kws):
             if len(args) > 1:
-                raise TypeError('Too many positional arguments')
+                raise TypeError(_('Too many positional arguments'))
             if not args:
                 mapping = kws
             elif kws:
@@ -166,13 +166,13 @@ if not hasattr(string, 'Template'):
                     return self.delimiter
                 if mo.group('invalid') is not None:
                     self._invalid(mo)
-                raise ValueError('Unrecognized named group in pattern',
+                raise ValueError(_('Unrecognized named group in pattern'),
                                  self.pattern)
             return self.pattern.sub(convert, self.template)
 
         def safe_substitute(self, *args, **kws):
             if len(args) > 1:
-                raise TypeError('Too many positional arguments')
+                raise TypeError(_('Too many positional arguments'))
             if not args:
                 mapping = kws
             elif kws:
@@ -199,7 +199,7 @@ if not hasattr(string, 'Template'):
                     return self.delimiter
                 if mo.group('invalid') is not None:
                     return self.delimiter
-                raise ValueError('Unrecognized named group in pattern',
+                raise ValueError(_('Unrecognized named group in pattern'),
                                  self.pattern)
             return self.pattern.sub(convert, self.template)
 

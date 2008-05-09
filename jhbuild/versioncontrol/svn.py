@@ -64,7 +64,7 @@ def get_info(filename):
     return ret
 
 def get_subdirs(url):
-    print "Getting SVN subdirs: this operation might be long..."
+    print _("Getting SVN subdirs: this operation might be long...")
     output = get_output(
         ['svn', 'ls', '-R', url],
         extra_env={
@@ -95,10 +95,10 @@ def get_uri(filename):
     try:
         info = get_info(filename)
     except CommandError:
-        raise BuildStateError('could not get Subversion URI for %s'
+        raise BuildStateError(_('could not get Subversion URI for %s')
                               % filename)
     if 'url' not in info:
-        raise BuildStateError('could not parse "svn info" output for %s'
+        raise BuildStateError(_('could not parse "svn info" output for %s')
                               % filename)
     return info['url']
 
@@ -260,7 +260,7 @@ class SubversionBranch(Branch):
         except OSError, e:
             raise CommandError(str(e))
         if '\nConflict' in output:
-            raise CommandError('Error checking for conflicts')
+            raise CommandError(_('Error checking for conflicts'))
 
     def checkout(self, buildscript):
         if self.checkout_mode in ('clobber', 'export'):

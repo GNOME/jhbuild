@@ -32,8 +32,9 @@ from jhbuild.errors import UsageError, FatalError
 class Command:
     """Base class for Command objects"""
 
+    doc = ''
     name = None
-    usage_args = '[ options ... ]'
+    usage_args = _('[ options ... ]')
 
     def __init__(self, options=[]):
         self.options = options
@@ -45,7 +46,7 @@ class Command:
     def parse_args(self, args):
         self.parser = optparse.OptionParser(
             usage='%%prog %s %s' % (self.name, self.usage_args),
-            description=self.__doc__)
+            description=self.doc)
         self.parser.add_options(self.options)
         return self.parser.parse_args(args)
 
@@ -70,7 +71,7 @@ def run(command, config, args):
         except ImportError:
             pass
     if command not in _commands:
-        raise FatalError('command not found')
+        raise FatalError(_('command not found'))
 
     command_class = _commands[command]
     cmd = command_class()

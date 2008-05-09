@@ -91,7 +91,7 @@ class Branch:
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
-        raise BuildStateError('force_checkout not implemented')
+        raise BuildStateError(_('force_checkout not implemented'))
 
     def tree_id(self):
         """A string identifier for the state of the working tree."""
@@ -120,5 +120,5 @@ def get_repo_type(name):
         except ImportError:
             pass
     if name not in _repo_types:
-        raise FatalError('unknown repository type %s' % name)
+        raise FatalError(_('unknown repository type %s') % name)
     return _repo_types[name]

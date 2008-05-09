@@ -4,6 +4,7 @@ VERSION = 0.1
 CC = gcc
 CFLAGS = -Wall -O2
 
+SUBDIRS = po
 bindir=$(HOME)/bin
 desktopdir=$(HOME)/.local/share/applications
 
@@ -15,8 +16,10 @@ install-check: install-check.c
 
 update:
 	svn update --quiet
+	cd po && make
 
 install: install-check
+	cd po && make -f Makefile.plain install
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
 	@sed "s,@jhbuilddir@,`pwd`,g" < jhbuild.in > $(bindir)/jhbuild
@@ -52,6 +55,8 @@ dist:
 	cp -p jhbuild/modtypes/*.py $(distdir)/jhbuild/modtypes/
 	mkdir $(distdir)/jhbuild/utils
 	cp -p jhbuild/utils/*.py $(distdir)/jhbuild/utils/
+	mkdir $(distdir)/po
+	cp -p po/* $(distdir)/po/ 
 	mkdir $(distdir)/scripts
 	cp -p scripts/*.py scripts/*.xsl scripts/*.deps scripts/*.exceptions $(distdir)/scripts/
 	mkdir $(distdir)/scripts/branch-violations

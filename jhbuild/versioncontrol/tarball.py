@@ -60,7 +60,7 @@ class TarballRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
                 module = name
@@ -105,7 +105,7 @@ class TarballBranch(Branch):
     def _local_tarball(self):
         basename = os.path.basename(self.module)
         if not basename:
-            raise FatalError('URL has no filename component: %s' % self.module)
+            raise FatalError(_('URL has no filename component: %s') % self.module)
         localfile = os.path.join(self.config.tarballdir, basename)
         return localfile
     _local_tarball = property(_local_tarball)
@@ -138,13 +138,13 @@ class TarballBranch(Branch):
         """Check whether the tarball has been downloaded correctly."""
         localfile = self._local_tarball
         if not os.path.exists(localfile):
-            raise BuildStateError('file not downloaded')
+            raise BuildStateError(_('file not downloaded'))
         if self.source_size is not None:
             local_size = os.stat(localfile).st_size
             if local_size != self.source_size:
-                raise BuildStateError('downloaded file size is incorrect '
-                                      '(expected %d, got %d)'
-                                      % (self.source_size, local_size))
+                raise BuildStateError(
+                        _('downloaded file size is incorrect (expected %(size1)d, got %(size2)d)')
+                                      % {'size1':self.source_size, 'size2':local_size})
         if self.source_md5 is not None:
             import md5
             local_md5 = md5.new()
@@ -155,10 +155,8 @@ class TarballBranch(Branch):
                 data = fp.read(32768)
             fp.close()
             if local_md5.hexdigest() != self.source_md5:
-                raise BuildStateError('file MD5 sum is incorrect '
-                                      '(expected %s, got %s)'
-                                      % (self.source_md5,
-                                         local_md5.hexdigest()))
+                raise BuildStateError(_('file MD5 sum is incorrect (expected %(sum1)s, got %(sum2)s)')
+                                      % {'sum1':self.source_md5, 'sum2':local_md5.hexdigest()})
 
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
@@ -175,7 +173,7 @@ class TarballBranch(Branch):
                 res = buildscript.execute(
                         ['curl', '-L', self.module, '-o', localfile])
             else:
-                raise FatalError("unable to find wget or curl")
+                raise FatalError(_("unable to find wget or curl"))
 
             self._check_tarball()
 
@@ -183,10 +181,10 @@ class TarballBranch(Branch):
         try:
             unpack_archive(buildscript, localfile, self.checkoutroot)
         except CommandError:
-            raise FatalError('failed to unpack %s' % localfile)
+            raise FatalError(_('failed to unpack %s') % localfile)
 
         if not os.path.exists(self.srcdir):
-            raise BuildStateError('could not unpack tarball')
+            raise BuildStateError(_('could not unpack tarball'))
 
         if self.patches:
             self._do_patches(buildscript)
@@ -200,9 +198,9 @@ class TarballBranch(Branch):
                 try:
                     patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
                 except urllib2.HTTPError, e:
-                    raise BuildStateError('could not download patch (error: %s)' % e.code)
+                    raise BuildStateError(_('could not download patch (error: %s)') % e.code)
                 except urllib2.URLError, e:
-                    raise BuildStateError('could not download patch')
+                    raise BuildStateError(_('could not download patch'))
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory
@@ -223,14 +221,14 @@ class TarballBranch(Branch):
                 # nothing else, use jbuild provided patches
                 patchfile = os.path.join(jhbuild_directory, 'patches', patch)
 
-            buildscript.set_action('Applying patch', self, action_target=patch)
+            buildscript.set_action(_('Applying patch'), self, action_target=patch)
             buildscript.execute('patch -p%d < "%s"'
                                 % (patchstrip, patchfile),
                                 cwd=self.srcdir)
 
     def _quilt_checkout(self, buildscript):
         if not has_command('quilt'):
-            raise FatalError("unable to find quilt")
+            raise FatalError(_("unable to find quilt"))
 
         if os.path.exists(self.quilt.srcdir) and \
            os.path.exists(os.path.join(self.srcdir, '.pc/applied-patches')):
@@ -241,7 +239,7 @@ class TarballBranch(Branch):
         self.quilt.checkout(buildscript)
 
         if not os.path.exists(self.quilt.srcdir):
-            raise FatalError('could not checkout quilt patch set')
+            raise FatalError(_('could not checkout quilt patch set'))
 
         buildscript.execute('quilt push -a',
                             cwd=self.srcdir,

@@ -36,7 +36,7 @@ def register(archive, uri):
         assert uri is not None, 'can not register archive without uri'
         res = os.system('baz register-archive %s' % uri)
         if res != 0:
-            raise jhbuild.errors.FatalError('could not register archive %s'
+            raise jhbuild.errors.FatalError(_('could not register archive %s')
                                             % archive)
 
 def get_version(directory):
@@ -76,10 +76,10 @@ class ArchRepository(Repository):
             return
 
         if self.href is None:
-            raise BuildStateError('archive %s not registered' % self.href)
+            raise BuildStateError(_('archive %s not registered') % self.href)
         res = os.system('baz register-archive %s' % self.href)
         if res != 0:
-            raise BuildStateError('could not register archive %s'
+            raise BuildStateError(_('could not register archive %s')
                                   % self.archive)
 
     branch_xml_attrs = ['module', 'checkoutdir']
@@ -88,7 +88,7 @@ class ArchRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError('branch for %s has wrong override, check your .jhbuildrc' % name)
+                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
                 module = name
@@ -124,7 +124,7 @@ class ArchBranch(Branch):
             cmd.append(checkoutdir)
 
         if date:
-            raise BuildStageError('date based checkout not yet supported\n')
+            raise BuildStageError(_('date based checkout not yet supported\n'))
 
         buildscript.execute(cmd, 'arch', cwd=self.checkoutroot)
 
@@ -137,7 +137,7 @@ class ArchBranch(Branch):
             self.repository._ensure_registered()
 
         if date:
-            raise BuildStageError('date based checkout not yet supported\n')
+            raise BuildStageError(_('date based checkout not yet supported\n'))
 
         archive, version = split_name(self.module)
         # how do you move a working copy to another branch?
