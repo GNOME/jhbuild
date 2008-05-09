@@ -1,0 +1,10 @@
+MODIR=../mo
+
+%.mo: %.po
+	msgfmt -o $@ $<
+	@mkdir -p $(MODIR)/$(strip $(basename $@ .mo))/LC_MESSAGES
+	@mv $@ $(MODIR)/$(strip $(basename $@ .mo))/LC_MESSAGES/messages.mo 
+
+LANGUAGES=$(shell cat LINGUAS)
+
+install: $(LANGUAGES:=.mo)
