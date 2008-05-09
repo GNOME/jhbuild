@@ -3,7 +3,7 @@ SUBDIRS = doc
 endif
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
-SOURCES = $(shell find $(top_srcdir)/jhbuild/ -name *.py) jhbuild/defaults.jhbuildrc
+SOURCES = $(shell find $(top_srcdir)/jhbuild/ -name *.py -name *.glade) jhbuild/defaults.jhbuildrc
 MODULE_SETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
 
 EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(SOURCES) $(MODULE_SETS) \
