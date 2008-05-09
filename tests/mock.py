@@ -42,6 +42,8 @@ class Config:
     nopoison = False
     makecheck_advisory = False
 
+    min_time = None
+
     prefix = '/tmp/'
 
 class PackageDB:
