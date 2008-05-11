@@ -24,7 +24,7 @@ import traceback
 
 import gettext
 localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
-gettext.install('messages', localedir=localedir, unicode=True)
+gettext.install('jhbuild', localedir=localedir, unicode=True)
 import __builtin__
 __builtin__.__dict__['N_'] = lambda x: x
 
