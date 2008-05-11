@@ -5,6 +5,6 @@ MODIR=../mo
 	@mkdir -p $(MODIR)/$(strip $(basename $@ .mo))/LC_MESSAGES
 	@mv $@ $(MODIR)/$(strip $(basename $@ .mo))/LC_MESSAGES/messages.mo 
 
-LANGUAGES=$(shell grep -v '^#' LINGUAS)
+LANGUAGES=$(shell grep -v '^\#' LINGUAS)
 
 install: $(LANGUAGES:=.mo)
