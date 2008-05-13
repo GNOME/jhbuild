@@ -4,7 +4,6 @@ VERSION = 0.1
 CC = gcc
 CFLAGS = -Wall -O2
 
-SUBDIRS = po
 bindir=$(HOME)/bin
 desktopdir=$(HOME)/.local/share/applications
 
@@ -16,10 +15,10 @@ install-check: install-check.c
 
 update:
 	svn update --quiet
-	cd po && make
+	@if [ "x$(DISABLE_GETTEXT)" == x ]; then (cd po && make -f Makefile.plain); fi
 
 install: install-check
-	cd po && make -f Makefile.plain install
+	@if [ "x$(DISABLE_GETTEXT)" == x ]; then (cd po && make -f Makefile.plain install); fi
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
 	@sed "s,@jhbuilddir@,`pwd`,g" < jhbuild.in > $(bindir)/jhbuild
