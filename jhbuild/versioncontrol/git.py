@@ -25,6 +25,7 @@ import os
 import stat
 import urlparse
 import subprocess
+import re
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -235,20 +236,41 @@ class GitSvnBranch(GitBranch):
         GitBranch.__init__(self, repository, module, "", checkoutdir, branch="git-svn")
         self.revision = revision
 
-    def _get_externals(self, buildscript):
-        subdirs = jhbuild.versioncontrol.svn.get_subdirs (self.module)
-        subdirs.append ('/')
-        for subdir in subdirs:
-            externals = jhbuild.versioncontrol.svn.get_externals (self.module + '/' + subdir)
-            for external in externals:
-                extdir = self.get_checkoutdir() + os.sep + subdir + os.sep + external
-                # fixme: the "right way" is to use submodules
-                extbranch = GitSvnBranch(self.repository, externals[external], extdir)
-                try:
-                    os.stat(extdir)[stat.ST_MODE]
-                    extbranch._update(buildscript)
-                except OSError:
-                    extbranch._checkout(buildscript)
+    def _get_externals(self, buildscript, branch="git-svn"):
+        cwd = self.get_checkoutdir()
+        unhandledFile = open(cwd + os.path.join(os.sep, '.git', 'svn', branch, 'unhandled.log'), 'r')
+        external_expr = re.compile(r"\+dir_prop: (.*?) svn:externals (.*)$")
+        externals = {}
+        for line in unhandledFile:
+            match = external_expr.search(line)
+            if match:
+                branch = match.group(1)
+                external = re.compile("%20| ").split(match.group(2).replace("%0A", "%20").strip("%20 "))
+                revision_expr = re.compile(r"-r(\d*)")
+                i = 0
+                print external
+                while i < len(external):
+                    #see if we have a revision number
+                    match = revision_expr.search(external[i+1])
+                    if match:
+                        externals[external[i]] = (external[i+2], match.group(1))
+                        i = i+3
+                    else:
+                        externals[external[i]] = (external[i+1], None)
+                        i = i+2
+        
+        for extdir in externals.iterkeys():
+            uri = externals[extdir][0]
+            revision = externals[extdir][1]
+            extdir = cwd+os.sep+extdir
+            #fixme: the "right way" is to use submodules
+            extbranch = GitSvnBranch(self.repository, uri, extdir, revision)
+            
+            try:
+                os.stat(extdir)[stat.ST_MODE]
+                extbranch._update(buildscript)
+            except OSError:
+                extbranch._checkout(buildscript)
 
     def _checkout(self, buildscript, copydir=None):
         if self.config.sticky_date:
@@ -279,7 +301,7 @@ class GitSvnBranch(GitBranch):
             pass
 
         #fixme, git-svn should support externals
-        self._get_externals(buildscript)
+        self._get_externals(buildscript, self.branch)
 
     def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
@@ -305,7 +327,7 @@ class GitSvnBranch(GitBranch):
             pass
 
         #fixme, git-svn should support externals
-        self._get_externals(buildscript)
+        self._get_externals(buildscript, self.branch)
 
 class GitCvsBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
