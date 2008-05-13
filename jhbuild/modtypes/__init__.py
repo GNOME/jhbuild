@@ -210,7 +210,7 @@ class Package:
 
     def checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
-        buildscript.set_action('Checking out', self)
+        buildscript.set_action(_('Checking out'), self)
         self.branch.checkout(buildscript)
         # did the checkout succeed?
         if not os.path.exists(srcdir):
