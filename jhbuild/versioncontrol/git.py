@@ -26,6 +26,7 @@ import stat
 import urlparse
 import subprocess
 import re
+import urllib
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -245,10 +246,9 @@ class GitSvnBranch(GitBranch):
             match = external_expr.search(line)
             if match:
                 branch = match.group(1)
-                external = re.compile("%20| ").split(match.group(2).replace("%0A", "%20").strip("%20 "))
+                external = urllib.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
                 revision_expr = re.compile(r"-r(\d*)")
                 i = 0
-                print external
                 while i < len(external):
                     #see if we have a revision number
                     match = revision_expr.search(external[i+1])
