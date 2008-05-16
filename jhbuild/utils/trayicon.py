@@ -75,7 +75,7 @@ class TrayIcon:
     def set_icon(self, icon):
         self._send_cmd('icon: %s\n' % icon)
     def set_tooltip(self, tooltip):
-        self._send_cmd('tooltip: %s\n' % tooltip)
+        self._send_cmd('tooltip: %s\n' % tooltip.encode('utf-8'))
     def set_visible(self, visible):
         if visible:
             visible = 'true'

@@ -41,7 +41,7 @@ class Notify:
             cmd.append('--icon=%s' % icon)
         if expire:
             cmd.append('--expire-time=%d' % (1000 * expire))
-        cmd.extend([summary, body])
+        cmd.extend([summary.encode('utf-8'), body.encode('utf-8')])
         try:
             retcode = subprocess.call(cmd, stderr = open('/dev/null', 'a'))
             if retcode:

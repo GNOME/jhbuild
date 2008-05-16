@@ -67,6 +67,17 @@ phase_map = {
     'install':        'install.png',
     }
 
+def get_term_encoding():
+    return getattr(sys.stdout, 'encoding', sys.getdefaultencoding())
+
+def uprint(s):
+    '''Print Unicode string encoded for the terminal'''
+    if type(s) is unicode:
+        print s.encode(get_term_encoding(), 'replace')
+    else:
+        print s
+
+
 class TerminalBuildScript(buildscript.BuildScript):
     triedcheckout = False
     is_end_of_build = False
@@ -87,15 +98,14 @@ class TerminalBuildScript(buildscript.BuildScript):
             progress = ''
 
         if not (self.config.quiet_mode and self.config.progress_bar):
-            print '%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset)
+            uprint('%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset))
         else:
             progress_percent = 1.0 * (module_num-1) / len(self.modulelist)
             self.display_status_line(progress_percent, module_num, msg)
 
         if is_xterm:
-            sys.stdout.write('\033]0;jhbuild:')
-            sys.stdout.write('%s%s' % (msg, progress))
-            sys.stdout.write('\007')
+            sys.stdout.write('\033]0;jhbuild:%s%s\007' % (
+                        msg.encode('iso-8859-1'), progress))
             sys.stdout.flush()
         self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
@@ -243,9 +253,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         '''handle error during build'''
         summary = _('error during stage %(stage)s of %(module)s') % {
             'stage':state, 'module':module.name}
-        self.message('%s: %s' % (summary, error))
+        self.message('%s: %s' % (summary, error.message))
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
-        self.notify.notify(summary = summary, body = error, icon = 'dialog-error', expire = 20)
+        self.notify.notify(summary = summary, body = error.message,
+                icon = 'dialog-error', expire = 20)
 
         if self.config.trycheckout and (not self.triedcheckout) and altstates.count('force_checkout'):
             self.triedcheckout = True
@@ -256,15 +267,15 @@ class TerminalBuildScript(buildscript.BuildScript):
             return 'fail'
         while True:
             print
-            print _('  [1] rerun stage %s') % state
-            print _('  [2] ignore error and continue to %s') % nextstate
-            print _('  [3] give up on module')
-            print _('  [4] start shell')
+            uprint(_('  [1] rerun stage %s') % state)
+            uprint(_('  [2] ignore error and continue to %s') % nextstate)
+            uprint(_('  [3] give up on module'))
+            uprint(_('  [4] start shell'))
             i = 5
             for altstate in altstates:
-                print _('  [%d] go to stage %s') % (i, altstate)
+                uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
-            val = raw_input(_('choice: '))
+            val = raw_input(_('choice: ').encode(get_term_encoding(), 'replace'))
             val = val.strip()
             if val == '1':
                 return state
@@ -277,14 +288,14 @@ class TerminalBuildScript(buildscript.BuildScript):
                     os.chdir(module.get_builddir(self))
                 except OSError:
                     os.chdir(self.config.checkoutroot)
-                print _('exit shell to continue with build')
+                uprint(_('exit shell to continue with build'))
                 os.system(user_shell)
             else:
                 try:
                     val = int(val)
                     return altstates[val - 5]
                 except:
-                    print _('invalid choice')
+                    uprint(_('invalid choice'))
         assert False, 'not reached'
 
 BUILD_SCRIPT = TerminalBuildScript

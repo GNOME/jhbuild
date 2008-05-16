@@ -180,7 +180,7 @@ class Package:
             return (e.state, None, None)
         except (CommandError, BuildStateError), e:
             return (self._next_state(buildscript, state),
-                    str(e), method.error_states)
+                    e, method.error_states)
         else:
             return (self._next_state(buildscript, state), None, None)
 
