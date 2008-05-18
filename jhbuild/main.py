@@ -23,6 +23,7 @@ import optparse
 import traceback
 
 import gettext
+import locale
 localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
 gettext.install('jhbuild', localedir=localedir, unicode=True)
 import __builtin__
@@ -31,6 +32,24 @@ __builtin__.__dict__['N_'] = lambda x: x
 import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
+
+_encoding = locale.getpreferredencoding()
+
+
+def uprint(*args):
+    '''Print Unicode string encoded for the terminal'''
+    for s in args[:-1]:
+        if type(s) is unicode:
+            print s.encode(_encoding, 'replace'),
+        else:
+            print s,
+    s = args[-1]
+    if type(s) is unicode:
+        print s.encode(_encoding, 'replace')
+    else:
+        print s
+
+__builtin__.__dict__['uprint'] = uprint
 
 def help_commands(option, opt_str, value, parser):
     thisdir = os.path.abspath(os.path.dirname(__file__))
@@ -45,13 +64,13 @@ def help_commands(option, opt_str, value, parser):
         except ImportError:
             pass
     
-    print _('JHBuild commands are:')
+    uprint(_('JHBuild commands are:'))
     commands = [(x.name, x.doc) for x in jhbuild.commands.get_commands().values()]
     commands.sort()
     for name, description in commands:
-        print '  %-15s %s' % (name, description)
+        uprint('  %-15s %s' % (name, description))
     print
-    print _('For more information run "jhbuild <command> --help"')
+    uprint(_('For more information run "jhbuild <command> --help"'))
     parser.exit()
 
 def main(args):
@@ -100,10 +119,10 @@ def main(args):
         sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
         sys.exit(1)
     except KeyboardInterrupt:
-        print "Interrupted"
+        uprint(_('Interrupted'))
         sys.exit(1)
     except EOFError:
-        print "EOF"
+        uprint(_('EOF'))
         sys.exit(1)
     except IOError, e:
         if e.errno != errno.EPIPE:

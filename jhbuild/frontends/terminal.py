@@ -67,17 +67,6 @@ phase_map = {
     'install':        'install.png',
     }
 
-def get_term_encoding():
-    return getattr(sys.stdout, 'encoding', sys.getdefaultencoding())
-
-def uprint(s):
-    '''Print Unicode string encoded for the terminal'''
-    if type(s) is unicode:
-        print s.encode(get_term_encoding(), 'replace')
-    else:
-        print s
-
-
 class TerminalBuildScript(buildscript.BuildScript):
     triedcheckout = False
     is_end_of_build = False

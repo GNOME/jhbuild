@@ -83,39 +83,39 @@ class cmd_sanitycheck(Command):
         # check whether the checkout root and install prefix are writable
         if not (os.path.isdir(config.checkoutroot) and
                 os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):
-            print _('checkout root is not writable')
+            uprint(_('checkout root is not writable'))
         if not (os.path.isdir(config.prefix) and
                 os.access(config.prefix, os.R_OK|os.W_OK|os.X_OK)):
-            print _('install prefix is not writable')
+            uprint(_('install prefix is not writable'))
 
         # check whether various tools are installed
         if not check_version(['libtoolize', '--version'],
                              r'libtoolize \([^)]*\) ([\d.]+)', '1.5'):
-            print _('%s not found') % 'libtool >= 1.5'
+            uprint(_('%s not found') % 'libtool >= 1.5')
         if not check_version(['gettext', '--version'],
                              r'gettext \([^)]*\) ([\d.]+)', '0.10.40'):
-            print _('%s not found') % 'gettext >= 0.10.40'
+            uprint(_('%s not found') % 'gettext >= 0.10.40')
         if not check_version(['pkg-config', '--version'],
                              r'^([\d.]+)', '0.14.0'):
-            print _('%s not found') % 'pkg-config >= 0.14.0'
+            uprint(_('%s not found') % 'pkg-config >= 0.14.0')
         if not check_version(['db2html', '--version'],
                              r'.* ([\d.]+)', '0.0'):
-            print _('%s not found') % 'db2html'
+            uprint(_('%s not found') % 'db2html')
         if not check_version(['autoconf', '--version'],
                              r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
-            print _('%s not found') % 'autoconf >= 2.53'
+            uprint(_('%s not found') % 'autoconf >= 2.53')
         if not check_version(['automake-1.4', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.4'):
-            print _('%s not found') % 'automake-1.4'
+            uprint(_('%s not found') % 'automake-1.4')
         if not check_version(['automake-1.7', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.7'):
-            print _('%s not found') % 'automake-1.7'
+            uprint(_('%s not found') % 'automake-1.7')
         if not check_version(['automake-1.8', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.8'):
-            print _('%s not found') % 'automake-1.8'
+            uprint(_('%s not found') % 'automake-1.8')
         if not check_version(['automake-1.9', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.9'):
-            print _('%s not found') % 'automake-1.9'
+            uprint(_('%s not found') % 'automake-1.9')
 
         for amver in ('1.4', '1.7', '1.8', '1.9'):
             try:
@@ -124,15 +124,15 @@ class cmd_sanitycheck(Command):
                 continue # exception raised if aclocal-ver not runnable
 
             if not inpath('libtool.m4', path):
-                print _("aclocal-%s can't see libtool macros") % amver
+                uprint(_("aclocal-%s can't see libtool macros") % amver)
             if not inpath('gettext.m4', path):
-                print _("aclocal-%s can't see gettext macros") % amver
+                uprint(_("aclocal-%s can't see gettext macros") % amver)
             if not inpath('pkg.m4', path):
-                print _("aclocal-%s can't see pkg-config macros") % amver
+                uprint(_("aclocal-%s can't see pkg-config macros") % amver)
 
         # XML catalog sanity checks
         if not os.access('/etc/xml/catalog', os.R_OK):
-            print _('Could not find XML catalog')
+            uprint(_('Could not find XML catalog'))
         else:
             for (item, name) in [('-//OASIS//DTD DocBook XML V4.1.2//EN',
                                   'DocBook XML DTD V4.1.2'),
@@ -141,36 +141,36 @@ class cmd_sanitycheck(Command):
                 try:
                     data = get_output(['xmlcatalog', '/etc/xml/catalog', item])
                 except:
-                    print _('Could not find %s in XML catalog') % name            
+                    uprint(_('Could not find %s in XML catalog') % name            )
 
         # Perl modules used by tools such as intltool:
         for perlmod in [ 'XML::Parser' ]:
             try:
                 get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
             except:
-                print _('Could not find the perl module %s') % perlmod
+                uprint(_('Could not find the perl module %s') % perlmod)
                 
         # check for cvs:
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
-            print _('%s not found') % 'cvs'
+            uprint(_('%s not found') % 'cvs')
 
         # check for svn:
         if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            print _('%s not found') % 'svn'
+            uprint(_('%s not found') % 'svn')
 
         # check for git:
         if not inpath('git', os.environ['PATH'].split(os.pathsep)):
-            print _('%s not found') % 'git'
+            uprint(_('%s not found') % 'git')
         else:
             try:
                 git_help = os.popen('git --help', 'r').read()
                 if not 'clone' in git_help:
-                    print _('Installed git program is not the right git')
+                    uprint(_('Installed git program is not the right git'))
             except:
-                print _('Could not check git program')
+                uprint(_('Could not check git program'))
 
         # check for svn:
         if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            print _('%s not found') % 'svn'
+            uprint(_('%s not found') % 'svn')
 
 register_command(cmd_sanitycheck)

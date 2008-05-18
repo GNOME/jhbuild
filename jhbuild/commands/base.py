@@ -411,11 +411,11 @@ class cmd_list(Command):
             if options.show_rev:
                 rev = mod.get_revision()
                 if rev:
-                    print '%s (%s)' % (mod.name, rev)
+                    uprint('%s (%s)' % (mod.name, rev))
                 else:
-                    print mod.name
+                    uprint(mod.name)
             else:
-                print mod.name
+                uprint(mod.name)
 
 register_command(cmd_list)
 

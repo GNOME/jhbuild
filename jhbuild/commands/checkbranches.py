@@ -63,7 +63,7 @@ class cmd_checkbranches(Command):
             except urllib2.URLError:
                 pass
             else:
-                print _('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch}
+                uprint(_('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch})
 
 
 register_command(cmd_checkbranches)

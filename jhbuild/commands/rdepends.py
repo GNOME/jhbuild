@@ -61,7 +61,7 @@ class cmd_rdepends(Command):
         for module in modules:
             if options.direct:
                 if modname in module.dependencies:
-                    print module.name
+                    uprint(module.name)
             else:
                 module_list = module_set.get_module_list([module.name], ignore_cycles=True)
                 if modname in [x.name for x in module_list]:
@@ -71,6 +71,6 @@ class cmd_rdepends(Command):
                         dependencies = [x for x in module.dependencies if x in seen_modules]
                         if dependencies:
                             deps = '[' + ','.join(dependencies) + ']'
-                    print module.name, deps
+                    uprint(module.name, deps)
 
 register_command(cmd_rdepends)

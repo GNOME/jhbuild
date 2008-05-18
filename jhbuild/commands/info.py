@@ -60,59 +60,59 @@ class cmd_info(Command):
     def show_info(self, module, packagedb, module_set):
         installdate = packagedb.installdate(module.name, module.get_revision() or '')
 
-        print _('Name:'), module.name
-        print _('Module Set:'), module.moduleset_name
-        print _('Type:'), module.type
+        uprint(_('Name:'), module.name)
+        uprint(_('Module Set:'), module.moduleset_name)
+        uprint(_('Type:'), module.type)
 
         if installdate is not None:
-            print _('Install-date:'), time.strftime('%Y-%m-%d %H:%M:%S',
-                                                 time.localtime(installdate))
+            uprint(_('Install-date:'), time.strftime('%Y-%m-%d %H:%M:%S',
+                                                 time.localtime(installdate)))
         else:
-            print _('Install-date:'), _('not installed')
+            uprint(_('Install-date:'), _('not installed'))
 
         if isinstance(module, MozillaModule):
             if module.projects:
-                print _('Moz-Projects:'), ', '.join(module.projects)
+                uprint(_('Moz-Projects:'), ', '.join(module.projects))
 
         if isinstance(module, MetaModule):
             pass
         elif isinstance(module.branch, CVSBranch):
-            print _('CVS-Root:'), module.branch.repository.cvsroot
-            print _('CVS-Module:'), module.branch.module
+            uprint(_('CVS-Root:'), module.branch.repository.cvsroot)
+            uprint(_('CVS-Module:'), module.branch.module)
             if module.branch.revision:
-                print _('CVS-Revision:'), module.branch.revision
+                uprint(_('CVS-Revision:'), module.branch.revision)
         elif isinstance(module.branch, SubversionBranch):
-            print _('Subversion-Module:'), module.branch.module
+            uprint(_('Subversion-Module:'), module.branch.module)
         elif isinstance(module.branch, ArchBranch):
-            print _('Arch-Version:'), module.branch.module
+            uprint(_('Arch-Version:'), module.branch.module)
         elif isinstance(module.branch, DarcsBranch):
-            print _('Darcs-Archive:'), module.branch.module
+            uprint(_('Darcs-Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):
-            print _('Git-Module:'), module.branch.module
+            uprint(_('Git-Module:'), module.branch.module)
         elif isinstance(module.branch, TarballBranch):
-            print _('URL:'), module.branch.module
-            print _('Version:'), module.branch.version
+            uprint(_('URL:'), module.branch.module)
+            uprint(_('Version:'), module.branch.version)
         try:
             tree_id = module.branch.tree_id()
-            print _('Tree-ID:'), tree_id
+            uprint(_('Tree-ID:'), tree_id)
         except (NotImplementedError, AttributeError):
             pass
 
         # dependencies
         if module.dependencies:
-            print _('Requires:'), ', '.join(module.dependencies)
+            uprint(_('Requires:'), ', '.join(module.dependencies))
         requiredby = [ mod.name for mod in module_set.modules.values()
                        if module.name in mod.dependencies ]
         if requiredby:
-            print _('Required-by:'), ', '.join(requiredby)
+            uprint(_('Required-by:'), ', '.join(requiredby))
         if module.suggests:
-            print _('Suggests:'), ', '.join(module.suggests)
+            uprint(_('Suggests:'), ', '.join(module.suggests))
         if module.after:
-            print _('After:'), ', '.join(module.after)
+            uprint(_('After:'), ', '.join(module.after))
         before = [ mod.name for mod in module_set.modules.values()
                    if module.name in mod.after ]
         if before:
-            print _('Before:'), ', '.join(before)
+            uprint(_('Before:'), ', '.join(before))
 
         print
 

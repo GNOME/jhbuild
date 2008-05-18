@@ -1,3 +1,13 @@
+2008-05-18  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/base.py, jhbuild/commands/checkbranches.py,
+	jhbuild/commands/info.py, jhbuild/commands/rdepends.py,
+	jhbuild/commands/sanitycheck.py, jhbuild/frontends/terminal.py,
+	jhbuild/main.py: made uprint() use locale.getpreferredencoding()
+	instead of getting sys.stdout encoding, as redirecting output would
+	fall to ascii encoding.  Also replaced print by uprint() in many
+	places.
+
 2008-05-18  Murray Cumming  <murrayc@murrayc.com>
 
 	* modulesets/freedesktop-2.22.modules:
