@@ -17,30 +17,37 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-class UsageError(Exception):
+
+class JhbuildException(Exception):
+    # compatibility class to have exception.message for Python < 2.5
+    def __init__(self, message = None):
+        Exception.__init__(self, message)
+        self.message = message
+
+class UsageError(JhbuildException):
     '''An exception that should result in a usage message rather than
     a full traceback.'''
 
 
-class ConfigError(Exception):
+class ConfigError(JhbuildException):
     '''A problem in a configuration file.'''
 
 
-class FatalError(Exception):
+class FatalError(JhbuildException):
     '''An error not related to the user input.'''
 
 
-class CommandError(Exception):
+class CommandError(JhbuildException):
     '''An error occurred in an external command.'''
 
     def __init__(self, message, returncode=None):
-        Exception.__init__(self, message)
+        JhbuildException.__init__(self, message)
         self.returncode = returncode
 
-class BuildStateError(Exception):
+class BuildStateError(JhbuildException):
     '''An error occurred while processing a build state.'''
 
 
-class DependencyCycleError(Exception):
+class DependencyCycleError(JhbuildException):
     '''There is a dependency cycle in the module set'''
 
