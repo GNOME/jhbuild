@@ -22,6 +22,7 @@ import sys
 import os
 import signal
 import subprocess
+import locale
 
 from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
@@ -43,6 +44,7 @@ try:
         t_colour[i] = cmds.get_output(['tput', 'setf', '%d' % i])
         t_colour[i+8] = t_bold + t_colour[i]
 except: pass
+
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
@@ -264,7 +266,8 @@ class TerminalBuildScript(buildscript.BuildScript):
             for altstate in altstates:
                 uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
-            val = raw_input(_('choice: ').encode(get_term_encoding(), 'replace'))
+            val = raw_input(_('choice: ').encode(
+                        locale.getpreferredencoding(), 'replace'))
             val = val.strip()
             if val == '1':
                 return state
