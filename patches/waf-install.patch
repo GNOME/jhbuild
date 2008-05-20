@@ -1,0 +1,15 @@
+Fix stupid prompt for WAF installation.
+
+--- waf-1.4.2/wscript	2008-05-20 15:32:51 +0000
++++ waf-1.4.2/wscript	2008-05-20 15:33:28 +0000
+@@ -286,9 +286,6 @@
+ 		print "Installing Waf on Windows is not possible."
+ 		sys.exit(0)
+ 
+-	val = raw_input("Installing Waf is discouraged. Proceed? [y/n]")
+-	if val != "y": sys.exit(1)
+-
+ 	destdir = None
+ 	if "DESTDIR" in os.environ:
+ 		destdir = os.environ["DESTDIR"]
+
