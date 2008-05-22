@@ -1,4 +1,4 @@
-DOC_LINGUAS = 
+DOC_LINGUAS = fr
 
 include $(top_srcdir)/gnome-doc-utils.make
 
