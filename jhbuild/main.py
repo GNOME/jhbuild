@@ -112,11 +112,11 @@ def main(args):
     try:
         rc = jhbuild.commands.run(command, config, args)
     except UsageError, exc:
-        sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
+        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.message.encode(_encoding, 'replace')))
         parser.print_usage()
         sys.exit(1)
     except FatalError, exc:
-        sys.stderr.write('jhbuild %s: %s\n' % (command, str(exc)))
+        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.message.encode(_encoding, 'replace')))
         sys.exit(1)
     except KeyboardInterrupt:
         uprint(_('Interrupted'))
