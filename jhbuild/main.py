@@ -23,7 +23,6 @@ import optparse
 import traceback
 
 import gettext
-import locale
 localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
 gettext.install('jhbuild', localedir=localedir, unicode=True)
 import __builtin__
@@ -33,8 +32,24 @@ import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 
-_encoding = locale.getpreferredencoding()
 
+if sys.platform == 'darwin':
+    # work around locale.getpreferredencoding() returning an empty string in
+    # Mac OS X, see http://bugzilla.gnome.org/show_bug.cgi?id=534650 and
+    # http://bazaar-vcs.org/DarwinCommandLineArgumentDecoding
+    sys.platform = 'posix'
+    try:
+        import locale
+    finally:
+        sys.platform = 'darwin'
+else:
+    import locale
+
+try:
+    _encoding = locale.getpreferredencoding()
+    assert _encoding
+except (locale.Error, AssertionError):
+    _encoding = 'ascii'
 
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
