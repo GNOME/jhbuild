@@ -42,11 +42,22 @@
     </dependencies>
   </autotools>
 
+  <!-- This is needed for libcroco commit 303 on 2007-01-09, which is
+       not in 0.6.1 -->
+  <autotools id="libcroco" supports-non-srcdir-builds="no">
+    <branch repo="svn.gnome.org"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="pango"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="hippo-canvas">
     <branch repo="svn.gnome.org"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="glib"/>
+      <dep package="libcroco"/>
       <dep package="pygtk"/>
     </dependencies>
   </autotools>
