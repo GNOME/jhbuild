@@ -309,6 +309,8 @@ class GitSvnBranch(GitBranch):
 
         cwd = self.get_checkoutdir()
 
+        last_revision = get_output(['git-svn', 'find-rev', 'HEAD'], cwd=cwd)
+
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
         buildscript.execute(cmd, 'git stash', cwd=cwd)
@@ -319,12 +321,15 @@ class GitSvnBranch(GitBranch):
         cmd = ['git-svn', 'rebase']
         buildscript.execute(cmd, 'git-svn rebase', cwd=cwd)
 
-        try:
-            #is known to fail on some versions
-            cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
-            buildscript.execute(cmd, 'git-svn', cwd=cwd)
-        except:
-            pass
+        current_revision = get_output(['git-svn', 'find-rev', 'HEAD'], cwd=cwd)
+
+        if last_revision != current_revision:
+            try:
+                #is known to fail on some versions
+                cmd = "git-svn show-ignore >> .git/info/exclude"
+                buildscript.execute(cmd, 'git-svn show-ignore', cwd=cwd)
+            except:
+                pass
 
         #fixme, git-svn should support externals
         self._get_externals(buildscript, self.branch)
