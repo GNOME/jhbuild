@@ -172,6 +172,8 @@ class GitBranch(Branch):
 
     def _update(self, buildscript, copydir=None):
         cwd = self.get_checkoutdir(copydir)
+        buildscript.execute(['git', 'fetch'], 'git', cwd=cwd)
+
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
@@ -191,9 +193,9 @@ class GitBranch(Branch):
 
         if not self.tag:
             if self.branch:
-                buildscript.execute(['git', 'pull', 'origin', self.branch], 'git', cwd=cwd)
+                buildscript.execute(['git', 'rebase', 'origin', self.branch], 'git', cwd=cwd)
             else:
-                buildscript.execute(['git', 'pull', 'origin', 'master'], 'git', cwd=cwd)
+                buildscript.execute(['git', 'rebase', 'origin', 'master'], 'git', cwd=cwd)
 
 
     def checkout(self, buildscript):
@@ -223,7 +225,7 @@ class GitBranch(Branch):
         if not os.path.exists(self.srcdir):
             return None
         try:
-            output = get_output(['git-rev-parse', self.branchname],
+            output = get_output(['git-rev-parse', 'HEAD'],
                     cwd = self.srcdir)
         except CommandError:
             return None
