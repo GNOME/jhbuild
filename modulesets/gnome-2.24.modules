@@ -53,6 +53,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
       href="http://bazaar.launchpad.net/"/>
+  <repository type="bzr" name="bzr.burtonini.com"
+      href="http://burtonini.com/bzr/"/>
   <repository type="svn" name="elisa.code.fluendo.com"
       href="https://code.fluendo.com/elisa/svn/"/>
   <repository type="svn" name="pigment.code.fluendo.com"
@@ -2015,5 +2017,14 @@
   <autotools id="ldtp">
     <branch repo="ldtp.freedesktop.org" module="ldtp"/>
   </autotools>
+
+  <distutils id="postr" autogen-sh="autoreconf">
+    <branch repo="bzr.burtonini.com" module="postr/postr.stable" checkoutdir="postr"/>
+   <dependencies>
+     <dep package="pygtk"/>
+     <dep package="nautilus-python"/>
+     <dep package="gnome-python"/>
+   </dependencies>
+  </distutils>
 
 </moduleset>
