@@ -1570,7 +1570,7 @@
   <!--   make -f GNUMakefile maintainer-clean              -->
   <!--                                                     -->
   <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup --enable-dom-storage=yes --enable-icon-database=yes --enable-svg=yes --enable-svg-experimental=yes --enable-svg-filters=yes"
+  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
       makefile="GNUmakefile">
     <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
       checkoutdir="WebKit" revision="filtered"/>
@@ -1610,19 +1610,17 @@
     </dependencies>
   </autotools>
 
-  <repository type="git" name="git.devhelp.webkit"
-      href="git://git.ndesk.org/pub/scm/"/>
   <autotools id="devhelp-webkit">
-    <branch repo="git.devhelp.webkit"
+    <branch repo="svn.gnome.org"
             module="devhelp"
-            revision="webkit"
-            checkoutdir="devhelp-webkit" />
+            revision="../trunk"
+            checkoutdir="devhelp-webkit"/>
     <dependencies>
-      <dep package="WebKit"/>
-      <dep package="gconf"/>
-      <dep package="libwnck"/>
       <dep package="gtk+"/>
       <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="WebKit"/>
     </dependencies>
   </autotools>
 
