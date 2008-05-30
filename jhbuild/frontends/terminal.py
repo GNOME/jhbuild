@@ -171,7 +171,6 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             p = subprocess.Popen(command, **kws)
         except OSError, e:
-            sys.stderr.write(_('Error: %s\n') % str(e))
             raise CommandError(str(e))
 
         output = []

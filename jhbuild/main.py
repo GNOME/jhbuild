@@ -112,7 +112,7 @@ def main(args):
     try:
         config = jhbuild.config.Config(options.configfile)
     except FatalError, exc:
-        sys.stderr.write('jhbuild: %s\n' % (str(exc)))
+        sys.stderr.write('jhbuild: %s\n' % exc.message.encode(_encoding, 'replace'))
         sys.exit(1)
 
     if options.moduleset: config.moduleset = options.moduleset

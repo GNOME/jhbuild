@@ -106,7 +106,6 @@ class HgBranch(Branch):
             hg = Popen(['hg', 'ti', '--template', '{node}'], stdout=PIPE,
                        cwd=self.srcdir)
         except OSError, e:
-            sys.stderr.write('Error: %s\n' % str(e))
             raise CommandError(str(e))
         return hg.stdout.read().strip()
 
