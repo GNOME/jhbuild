@@ -162,6 +162,10 @@ class Config:
         bindir = os.path.join(self.prefix, 'bin')
         addpath('PATH', bindir)
 
+        # MANPATH
+        manpathdir = os.path.join(self.prefix, 'share', 'man')
+        addpath('MANPATH', manpathdir)
+
         # PKG_CONFIG_PATH
         pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
