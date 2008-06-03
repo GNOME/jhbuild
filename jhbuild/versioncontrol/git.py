@@ -243,23 +243,35 @@ class GitSvnBranch(GitBranch):
         cwd = self.get_checkoutdir()
         unhandledFile = open(cwd + os.path.join(os.sep, '.git', 'svn', branch, 'unhandled.log'), 'r')
         external_expr = re.compile(r"\+dir_prop: (.*?) svn:externals (.*)$")
+        rev_expr = re.compile(r"^r(\d+)$")
         externals = {}
+        match = None
+        #the unhandled.log file has the revision numbers
+        #encoded as r#num we should only parse as far as self.revision
         for line in unhandledFile:
-            match = external_expr.search(line)
-            if match:
-                branch = match.group(1)
-                external = urllib.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
-                revision_expr = re.compile(r"-r(\d*)")
-                i = 0
-                while i < len(external):
-                    #see if we have a revision number
-                    match = revision_expr.search(external[i+1])
-                    if match:
-                        externals[external[i]] = (external[i+2], match.group(1))
-                        i = i+3
-                    else:
-                        externals[external[i]] = (external[i+1], None)
-                        i = i+2
+            m = external_expr.search(line)
+            if m:
+                match = m
+            rev_match = rev_expr.search(line)
+            if self.revision and rev_match:
+                if rev_match.group(1) > self.revision:
+                    break
+
+        #only parse the final match
+        if match:
+            branch = match.group(1)
+            external = urllib.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
+            revision_expr = re.compile(r"-r(\d*)")
+            i = 0
+            while i < len(external):
+                #see if we have a revision number
+                match = revision_expr.search(external[i+1])
+                if match:
+                    externals[external[i]] = (external[i+2], match.group(1))
+                    i = i+3
+                else:
+                    externals[external[i]] = (external[i+1], None)
+                    i = i+2
         
         for extdir in externals.iterkeys():
             uri = externals[extdir][0]
