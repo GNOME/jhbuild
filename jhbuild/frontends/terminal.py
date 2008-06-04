@@ -201,7 +201,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
             cmds.pprint_output(p, format_line)
             if conflicts:
-                sys.stdout.write(_('\nConflicts during checkout:\n'))
+                uprint(_('\nConflicts during checkout:\n'))
                 for line in conflicts:
                     sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
