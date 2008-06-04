@@ -51,20 +51,21 @@ try:
 except (locale.Error, AssertionError):
     _encoding = 'ascii'
 
+def uencode(s):
+    if type(s) is unicode:
+        return s.encode(_encoding, 'replace')
+    else:
+        return s
+
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        if type(s) is unicode:
-            print s.encode(_encoding, 'replace'),
-        else:
-            print s,
+        print uencode(s),
     s = args[-1]
-    if type(s) is unicode:
-        print s.encode(_encoding, 'replace')
-    else:
-        print s
+    print uencode(s)
 
 __builtin__.__dict__['uprint'] = uprint
+__builtin__.__dict__['uencode'] = uencode
 
 def help_commands(option, opt_str, value, parser):
     thisdir = os.path.abspath(os.path.dirname(__file__))

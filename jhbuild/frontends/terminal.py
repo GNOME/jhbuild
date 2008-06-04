@@ -265,8 +265,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             for altstate in altstates:
                 uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
-            val = raw_input(_('choice: ').encode(
-                        locale.getpreferredencoding(), 'replace'))
+            val = raw_input(uencode(_('choice: ')))
             val = val.strip()
             if val == '1':
                 return state
