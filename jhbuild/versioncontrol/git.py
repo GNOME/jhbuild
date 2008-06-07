@@ -241,21 +241,38 @@ class GitSvnBranch(GitBranch):
 
     def _get_externals(self, buildscript, branch="git-svn"):
         cwd = self.get_checkoutdir()
-        unhandledFile = open(cwd + os.path.join(os.sep, '.git', 'svn', branch, 'unhandled.log'), 'r')
-        external_expr = re.compile(r"\+dir_prop: (.*?) svn:externals (.*)$")
-        rev_expr = re.compile(r"^r(\d+)$")
-        externals = {}
-        match = None
-        #the unhandled.log file has the revision numbers
-        #encoded as r#num we should only parse as far as self.revision
-        for line in unhandledFile:
-            m = external_expr.search(line)
-            if m:
-                match = m
-            rev_match = rev_expr.search(line)
-            if self.revision and rev_match:
-                if rev_match.group(1) > self.revision:
-                    break
+        try:
+            externals = {}
+            match = None
+            unhandledFile = open(cwd + os.path.join(os.sep, '.git', 'svn', branch, 'unhandled.log'), 'r')
+            external_expr = re.compile(r"\+dir_prop: (.*?) svn:externals (.*)$")
+            rev_expr = re.compile(r"^r(\d+)$")
+            #the unhandled.log file has the revision numbers
+            #encoded as r#num we should only parse as far as self.revision
+            for line in unhandledFile:
+                m = external_expr.search(line)
+                if m:
+                    match = m
+                rev_match = rev_expr.search(line)
+                if self.revision and rev_match:
+                    if rev_match.group(1) > self.revision:
+                        break
+
+        except IOError:
+            #we couldn't find an unhandled.log to parse so try
+            #git-svn show-externals - note this is broken in git < 1.5.6
+            try:
+                output = get_output(['git-svn', 'show-externals'], cwd=cwd)
+                #we search for comment lines to strip them out
+                comment_line = re.compile(r"^#.*")
+                ext = ''
+                for line in output.splitlines():
+                    if not comment_line.search(line):
+                        ext += ' ' + line
+
+                match = re.compile("^(\.) (.+)").search(". " + ext)
+            except OSError:
+                raise FatalError(_("External handling failed\n If you are running git version < 1.5.6 it is recommended you update.\n"))
 
         #only parse the final match
         if match:
