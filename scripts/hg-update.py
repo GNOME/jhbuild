@@ -32,7 +32,11 @@ except ImportError: # Python < 2.4 lacks subprocess module
 
 def get_parent():
     hg = Popen(['hg', 'parents', '--template', '{rev}'], stdout=PIPE)
-    return hg.stdout.read().split()[0]
+    try:
+        return hg.stdout.read().split()[0]
+    except IndexError:
+        # handle parentless revisions
+        return ''
 
 def pull():
     ret = call(['hg', 'pull'])
