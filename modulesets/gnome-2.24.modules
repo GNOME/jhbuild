@@ -544,6 +544,14 @@
     </suggests>
   </autotools>
 
+  <autotools id="geglmm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gegl"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="regexxer">
     <branch/>
     <dependencies>
@@ -1326,6 +1334,15 @@
   </autotools>
 
   <autotools id="clutter">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/clutter-0-6"/>
     <dependencies>
       <dep package="glib"/>
@@ -1335,6 +1352,15 @@
   </autotools>
 
   <autotools id="clutter-gst">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gst"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gst-0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/clutter-gst-0-6"/>
     <dependencies>
       <dep package="clutter"/>
@@ -1344,6 +1370,14 @@
   </autotools>
 
   <autotools id="clutter-cairo">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-cairo"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-cairo-0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/clutter-cairo-0-6"/>
     <dependencies>
       <dep package="clutter"/>
@@ -1352,6 +1386,14 @@
   </autotools>
 
   <autotools id="clutter-gtk">
+    <branch repo="svn.o-hand.com"  module="clutter/trunk/clutter-gtk"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtk-0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/clutter-gtk-0-6"/>
     <dependencies>
       <dep package="gtk+"/>
@@ -1360,6 +1402,19 @@
   </autotools>
 
   <autotools id="pyclutter">
+    <branch repo="svn.o-hand.com"  module="clutter/trunk/pyclutter"/>
+    <dependencies>
+      <dep package="pycairo"/>
+      <dep package="pygtk"/>
+      <dep package="gst-python"/>
+      <dep package="clutter"/>
+      <dep package="clutter-gst"/>
+      <dep package="clutter-cairo"/>
+      <dep package="clutter-gtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pyclutter=0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/pyclutter-0-6"/>
     <dependencies>
       <dep package="pycairo"/>
@@ -1373,6 +1428,16 @@
   </autotools>
 
   <autotools id="clutter-vala">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-vala/clutter"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="clutter-cairo"/>
+      <dep package="clutter-gtk"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-vala-0.6">
     <branch repo="svn.o-hand.com" module="clutter/branches/clutter-vala-0-6/clutter"/>
     <dependencies>
       <dep package="clutter"/>
