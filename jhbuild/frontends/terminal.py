@@ -274,12 +274,14 @@ class TerminalBuildScript(buildscript.BuildScript):
             elif val == '3':
                 return 'fail'
             elif val == '4':
+                cwd = os.getcwd()
                 try:
                     os.chdir(module.get_builddir(self))
                 except OSError:
                     os.chdir(self.config.checkoutroot)
                 uprint(_('exit shell to continue with build'))
                 os.system(user_shell)
+                os.chdir(cwd) # restor working directory
             else:
                 try:
                     val = int(val)
