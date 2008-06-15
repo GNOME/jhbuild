@@ -23,11 +23,13 @@ import subprocess
 from signal import SIGINT
 from jhbuild.errors import CommandError
 
-def get_output(cmd, cwd=None, extra_env=None):
+def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
     '''Return the output (stdout and stderr) from the command.
 
     If the extra_env dictionary is not empty, then it is used to
     update the environment in the child process.
+
+    If the get_stderr parameter is set to False, then stderr output is ignored.
     
     Raises CommandError if the command exited abnormally or had a non-zero
     error code.
@@ -40,12 +42,17 @@ def get_output(cmd, cwd=None, extra_env=None):
     if extra_env is not None:
         kws['env'] = os.environ.copy()
         kws['env'].update(extra_env)
+
+    if get_stderr:
+        stderr_output = subprocess.STDOUT
+    else:
+        stderr_output = subprocess.PIPE
     try:
         p = subprocess.Popen(cmd,
                              close_fds=True,
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT,
+                             stderr=stderr_output,
                              **kws)
     except OSError, e:
         raise CommandError(str(e))

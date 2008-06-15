@@ -202,7 +202,8 @@ class Config:
         python_bin = os.environ.get('PYTHON', 'python')
         try:
             pythonversion = 'python' + get_output([python_bin, '-c',
-                'import sys; print ".".join([str(x) for x in sys.version_info[:2]])']).strip()
+                'import sys; print ".".join([str(x) for x in sys.version_info[:2]])'],
+                get_stderr = False).strip()
         except CommandError:
             pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
         
