@@ -241,7 +241,7 @@ class AutogenModule(Package):
         if self.makeinstallargs:
             cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeinstallargs)
         else:
-            cmd = '%s %s install' % (os.environ.get('MAKE', 'make'), self.makeargs)
+            cmd = '%s install' % os.environ.get('MAKE', 'make')
 
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
