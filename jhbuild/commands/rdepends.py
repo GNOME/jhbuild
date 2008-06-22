@@ -45,7 +45,7 @@ class cmd_rdepends(Command):
         if not args:
             self.parser.error(_('This command requires a module parameter.'))
 
-        modname = args[0]
+        modname = module_set.get_module(args[0], ignore_case = True).name
 
         # get all modules but those that are a dependency of modname
         dependencies_list = [x.name for x in module_set.get_module_list([modname])]

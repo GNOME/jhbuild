@@ -37,11 +37,25 @@ from jhbuild.utils import httpcache
 __all__ = ['load', 'load_tests']
 
 class ModuleSet:
-    def __init__(self):
+    def __init__(self, config = None):
+        self.config = config
         self.modules = {}
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
+
+    def get_module(self, module_name, ignore_case = False):
+        if self.modules.has_key(module_name) or not ignore_case:
+            return self.modules[module_name]
+        module_name = module_name.lower()
+        for module in self.modules.keys():
+            if module.lower() == module_name:
+                if self.config is None or not self.config.quiet_mode:
+                    print >> sys.stderr, uencode(
+                            _('I: fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
+                            'orig': module_name, 'new': module})
+                return self.modules[module]
+        raise KeyError()
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False,
                 include_optional_modules = False):
@@ -50,7 +64,7 @@ class ModuleSet:
 
         if seed == 'all': seed = self.modules.keys()
         try:
-            all_modules = [self.modules[mod] for mod in seed if mod not in skip]
+            all_modules = [self.get_module(mod, ignore_case = True) for mod in seed if mod not in skip]
         except KeyError, e:
             raise UsageError(_('module "%s" not found') % str(e))
 
@@ -221,7 +235,7 @@ def load(config, uri=None):
         modulesets = config.moduleset
     else:
         modulesets = [ config.moduleset ]
-    ms = ModuleSet()
+    ms = ModuleSet(config = config)
     for uri in modulesets:
         if '/' not in uri:
             uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
@@ -231,7 +245,7 @@ def load(config, uri=None):
 
 def load_tests (config, uri=None):
     ms = load (config, uri)
-    ms_tests = ModuleSet()
+    ms_tests = ModuleSet(config = config)
     for app, module in ms.modules.iteritems():
         if module.__class__ == testmodule.TestModule:
             ms_tests.modules[app] = module
@@ -259,7 +273,7 @@ def _parse_module_set(config, uri):
         raise FatalError(_('failed to parse %s: %s') % (filename, str(e)))
 
     assert document.documentElement.nodeName == 'moduleset'
-    moduleset = ModuleSet()
+    moduleset = ModuleSet(config = config)
     moduleset_name = document.documentElement.getAttribute('name')
     if not moduleset_name and uri.endswith('.modules'):
         moduleset_name = os.path.basename(uri)[:-len('.modules')]    

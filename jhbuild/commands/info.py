@@ -49,7 +49,7 @@ class cmd_info(Command):
         if args:
             for modname in args:
                 try:
-                    module = module_set.modules[modname]
+                    module = module_set.modules.get_module(modname, ignore_case = True)
                 except KeyError:
                     raise FatalError(_('unknown module %s') % modname)
                 self.show_info(module, packagedb, module_set)

@@ -107,7 +107,7 @@ class cmd_updateone(Command):
         
         module_set = jhbuild.moduleset.load(config)
         try:
-            module_list = [module_set.modules[modname] for modname in args]
+            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
         except KeyError, e:
             raise FatalError(_("A module called '%s' could not be found.")
                              % str(e))
@@ -294,7 +294,7 @@ class cmd_buildone(Command):
 
         module_set = jhbuild.moduleset.load(config)
         try:
-            module_list = [module_set.modules[modname] for modname in args]
+            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
         except KeyError, e:
             raise FatalError(_("A module called '%s' could not be found.")
                              % str(e))
@@ -335,7 +335,8 @@ class cmd_run(Command):
         if options.in_builddir:
             module_set = jhbuild.moduleset.load(config)
             try:
-                module_list = [module_set.modules[options.in_builddir]]
+                module_list = [module_set.get_module(options.in_builddir, ignore_case = True)
+                               for modname in args]
             except KeyError, e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
