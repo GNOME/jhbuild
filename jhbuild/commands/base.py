@@ -19,6 +19,7 @@
 
 import os
 import re
+import stat
 import sys
 import time
 from optparse import make_option
@@ -125,6 +126,33 @@ class cmd_updateone(Command):
 register_command(cmd_updateone)
 
 
+def check_bootstrap_updateness(config):
+    '''Check install date of bootstrap modules, and compare them to
+       the bootstrap moduleset file last modification date.
+    '''
+    module_set = jhbuild.moduleset.load(config, uri = 'bootstrap')
+    packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
+
+    max_install_date = max([
+            packagedb.installdate(module.name, module.get_revision() or '')
+            for module in module_set.modules.values()])
+
+    if max_install_date is None:
+        # bootstrap module has never been built; probably the user doesn't want
+        # to use it
+        return
+
+    bootstrap_uri = os.path.join(os.path.dirname(__file__), '../../modulesets/bootstrap.modules')
+    bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
+
+    if max_install_date > bootstrap_mtime:
+        return
+
+    print >> sys.stderr, uencode(
+            _('I: bootstrap moduleset has been updated since the last time '\
+              'you used it, perhaps you should run jhbuild bootstrap.'))
+
+
 class cmd_build(Command):
     doc = _('Update and compile all modules (the default)')
 
@@ -213,6 +241,9 @@ class cmd_build(Command):
         if options.min_age:
             config.min_time = time.time() - parse_relative_time(options.min_age)
 
+        if not config.quiet_mode:
+            check_bootstrap_updateness(config)
+
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags = config.tags,
@@ -291,6 +322,9 @@ class cmd_buildone(Command):
             config.build_policy = 'all'
         if options.min_age:
             config.min_time = time.time() - parse_relative_time(options.min_age)
+
+        if not config.quiet_mode:
+            check_bootstrap_updateness(config)
 
         module_set = jhbuild.moduleset.load(config)
         try:
