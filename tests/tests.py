@@ -41,6 +41,15 @@ import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
 
+def uprint(*args):
+    '''Print Unicode string encoded for the terminal'''
+    for s in args[:-1]:
+        print s,
+    s = args[-1]
+    print s
+__builtin__.__dict__['uprint'] = uprint
+
+
 import mock
 
 class ModuleOrderingTestCase(unittest.TestCase):
