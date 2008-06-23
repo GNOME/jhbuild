@@ -21,6 +21,7 @@ from optparse import make_option
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
+from jhbuild.errors import UsageError, FatalError, CommandError
 
 
 class cmd_rdepends(Command):
@@ -45,7 +46,10 @@ class cmd_rdepends(Command):
         if not args:
             self.parser.error(_('This command requires a module parameter.'))
 
-        modname = module_set.get_module(args[0], ignore_case = True).name
+        try:
+            modname = module_set.get_module(args[0], ignore_case = True).name
+        except KeyError:
+            raise FatalError(_("A module called '%s' could not be found.") % args[0])
 
         # get all modules but those that are a dependency of modname
         dependencies_list = [x.name for x in module_set.get_module_list([modname])]
