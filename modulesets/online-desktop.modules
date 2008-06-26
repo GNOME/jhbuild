@@ -9,10 +9,6 @@
       href="http://svn.mugshot.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
-  <repository type="darcs" name="telepathy.freedesktop.org"
-      href="http://projects.collabora.co.uk/darcs/telepathy/"/>
-  <repository type="svn" name="mission-control.sf.net"
-      href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
 
   <include href="gnome-2.24.modules"/>
 
@@ -71,28 +67,6 @@
     <dependencies>
       <dep package="dbus"/>
       <dep package="avahi"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-glib">
-    <branch repo="telepathy.freedesktop.org"
-	    module="telepathy-glib" checkoutdir="telepathy-glib" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-mission-control">
-    <branch repo="mission-control.sf.net"
-            module="branches/mission-control4" checkoutdir="telepathy-mission-control" />
-    <dependencies>
-      <dep package="libtelepathy"/>
-      <dep package="telepathy-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="gconf"/>
     </dependencies>
   </autotools>
 
