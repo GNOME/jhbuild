@@ -3,8 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
 
-  <repository type="svn" name="0pointer.de"
-    href="svn://0pointer.de/"/>
+  <repository type="git" name="0pointer.de"
+    href="git://0pointer.de/"/>
 
   <tarball id="libsamplerate" version="0.1.3" supports-non-srcdir-builds="no">
    <source href="http://www.mega-nerd.com/SRC/libsamplerate-0.1.3.tar.gz"
@@ -18,7 +18,7 @@
   </tarball>
 
   <autotools id="pulseaudio">
-   <branch repo="0pointer.de" module="pulseaudio/trunk" checkoutdir="pulseaudio"/>
+   <branch repo="0pointer.de" module="pulseaudio.git" checkoutdir="pulseaudio"/>
    <dependencies>
     <dep package="libsamplerate"/>
     <dep package="libsndfile"/>
@@ -29,7 +29,7 @@
   </autotools>
 
   <autotools id="pavucontrol">
-   <branch repo="0pointer.de" module="pavucontrol/trunk" checkoutdir="pavucontrol"/>
+   <branch repo="0pointer.de" module="pavucontrol.git" checkoutdir="pavucontrol"/>
    <dependencies>
     <dep package="pulseaudio"/>
     <dep package="gtkmm"/>
@@ -38,7 +38,7 @@
   </autotools>
 
   <autotools id="pavumeter">
-   <branch repo="0pointer.de" module="pavumeter/trunk" checkoutdir="pavumeter"/>
+   <branch repo="0pointer.de" module="pavumeter.git" checkoutdir="pavumeter"/>
    <dependencies>
     <dep package="pulseaudio"/>
     <dep package="gtkmm"/>
@@ -46,7 +46,7 @@
   </autotools>
 
   <autotools id="paman">
-   <branch repo="0pointer.de" module="paman/trunk" checkoutdir="paman"/>
+   <branch repo="0pointer.de" module="paman.git" checkoutdir="paman"/>
    <dependencies>
     <dep package="pulseaudio"/>
     <dep package="gtkmm"/>
@@ -56,7 +56,7 @@
   </autotools>
 
   <autotools id="padevchooser">
-   <branch repo="0pointer.de" module="padevchooser/trunk" checkoutdir="padevchooser"/>
+   <branch repo="0pointer.de" module="padevchooser.git" checkoutdir="padevchooser"/>
    <dependencies>
     <dep package="pulseaudio"/>
     <dep package="gtk+"/>
@@ -66,7 +66,7 @@
   </autotools>
 
   <autotools id="paprefs">
-   <branch repo="0pointer.de" module="paprefs/trunk" checkoutdir="paprefs"/>
+   <branch repo="0pointer.de" module="paprefs.git" checkoutdir="paprefs"/>
    <dependencies>
     <dep package="pulseaudio"/>
     <dep package="gtk+"/>
@@ -76,19 +76,9 @@
    </dependencies>
   </autotools>
 
-  <autotools id="gst-pulse">
-   <branch repo="0pointer.de" module="gst-pulse/trunk" checkoutdir="gst-pulse"/>
-   <dependencies>
-    <dep package="gstreamer"/>
-    <dep package="gst-plugins-base"/>
-    <dep package="pulseaudio"/>
-   </dependencies>
-  </autotools>
-
   <metamodule id="meta-pulseaudio">
     <dependencies>
      <dep package="pulseaudio"/>
-     <dep package="gst-pulse"/>
      <dep package="pavucontrol"/>
      <dep package="pavumeter"/>
      <dep package="paprefs"/>
