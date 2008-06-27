@@ -50,6 +50,9 @@
       cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
       password=""/>
 
+  <repository type="git" name="0pointer.de"
+    href="git://0pointer.de/"/>
+
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
  
   <autotools id="glitz">
@@ -395,5 +398,15 @@
   <!-- ############ End of Telepathy Stuff ############ -->
   <!-- ################################################ -->
 
+  <autotools id="libcanberra">
+   <branch repo="0pointer.de" module="libcanberra.git" checkoutdir="libcanberra"/>
+    <dependencies>
+      <dep package="gtk-doc"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+      <dep package="pulseaudio"/>
+    </after>
+  </autotools>
 
 </moduleset>
