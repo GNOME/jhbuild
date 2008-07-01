@@ -174,6 +174,9 @@ class GitBranch(Branch):
         cwd = self.get_checkoutdir(copydir)
         buildscript.execute(['git', 'fetch'], 'git', cwd=cwd)
 
+        # stash uncommitted changes on the current branch
+        buildscript.execute(['git', 'stash', 'save', 'jhbuild-build'], 'git stash', cwd=self.get_checkoutdir())
+
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
