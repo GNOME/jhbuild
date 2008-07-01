@@ -430,6 +430,9 @@ class cmd_list(Command):
             make_option('--list-optional-modules',
                         action='store_true', dest='list_optional_modules', default=False,
                         help=_('also list soft-dependencies that could be skipped')),
+            make_option('-a', '--all-modules',
+                        action='store_true', dest='list_all_modules', default=False,
+                        help=_('list all modules, not only those that would be built')),
             ])
 
     def run(self, config, options, args):
@@ -438,9 +441,12 @@ class cmd_list(Command):
         for item in options.tags:
             config.tags += item.split(',')
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules,
-                config.skip, tags = config.tags,
-                include_optional_modules = options.list_optional_modules)
+        if options.list_all_modules:
+            module_list = module_set.modules.values()
+        else:
+            module_list = module_set.get_module_list(args or config.modules,
+                                config.skip, tags = config.tags,
+                                include_optional_modules = options.list_optional_modules)
 
         for mod in module_list:
             if options.show_rev:
