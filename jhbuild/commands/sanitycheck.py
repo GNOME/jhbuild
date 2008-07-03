@@ -22,33 +22,8 @@ import os
 import re
 
 from jhbuild.commands import Command, register_command
-from jhbuild.utils.cmds import get_output
+from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.errors import UsageError, FatalError
-
-def check_version(cmd, regexp, minver):
-    try:
-        data = get_output(cmd)
-    except:
-        return False
-    match = re.match(regexp, data, re.MULTILINE)
-    if not match: return False
-    version = match.group(1)
-
-    version = version.split('.')
-    for i, ver in enumerate(version):
-        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
-        if not part:
-            version[i] = None
-        else:
-            version[i] = int(part)
-    minver = minver.split('.')
-    for i, ver in enumerate(minver):
-        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
-        if not part:
-            minver[i] = None
-        else:
-            minver[i] = int(part)
-    return version >= minver
 
 def get_aclocal_path(version):
     data = get_output(['aclocal-%s' % version, '--print-ac-dir'])

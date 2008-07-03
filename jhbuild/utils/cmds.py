@@ -18,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import re
 import select
 import subprocess
 from signal import SIGINT
@@ -213,3 +214,28 @@ def has_command(cmd):
             return True
     return False
 
+def check_version(cmd, regexp, minver):
+    try:
+        data = get_output(cmd)
+    except:
+        return False
+    match = re.match(regexp, data, re.MULTILINE)
+    if not match:
+        return False
+    version = match.group(1)
+
+    version = version.split('.')
+    for i, ver in enumerate(version):
+        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
+        if not part:
+            version[i] = None
+        else:
+            version[i] = int(part)
+    minver = minver.split('.')
+    for i, ver in enumerate(minver):
+        part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
+        if not part:
+            minver[i] = None
+        else:
+            minver[i] = int(part)
+    return version >= minver

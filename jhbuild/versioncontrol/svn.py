@@ -25,10 +25,12 @@ import urlparse
 import subprocess
 
 from jhbuild.errors import CommandError, BuildStateError
-from jhbuild.utils.cmds import get_output
+from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 
 import bzr, git
+
+svn_one_five = None # is this svn 1.5
 
 def _make_uri(repo, path):
     if repo[-1] != '/':
@@ -219,6 +221,15 @@ class SubversionBranch(Branch):
             opt.extend(['-r', '%s' % self.revision])
         elif self.config.sticky_date:
             opt.extend(['-r', '{%s}' % self.config.sticky_date])
+
+        # Subversion 1.5 has interactive behaviour on conflicts; check version
+        # and add appropriate flags to get back 1.4 behaviour.
+        global svn_one_five
+        if svn_one_five is None:
+            svn_one_five = check_version(['svn', '--version'], r'svn, version ([\d.]+)', '1.5')
+
+        if svn_one_five is True:
+            opt.extend(['--accept', 'postpone'])
 
         uri = get_uri(outputdir)
 
