@@ -42,6 +42,7 @@ class cmd_checkbranches(Command):
                 branch = config.moduleset[0].replace('.', '-')
             else:
                 branch = config.moduleset.replace('.', '-')
+            branch = branch.replace('gnome-suites-', 'gnome-')
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -57,7 +58,7 @@ class cmd_checkbranches(Command):
             if rev:
                 continue
 
-            url = 'http://svn.gnome.org/viewcvs/%s/branches/%s' % (mod.name, branch)
+            url = 'http://svn.gnome.org/svn/%s/branches/%s' % (mod.name, branch)
             try:
                 st = urllib2.urlopen(url).read()
             except urllib2.URLError:
