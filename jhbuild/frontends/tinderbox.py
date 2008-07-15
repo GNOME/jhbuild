@@ -25,6 +25,7 @@ import locale
 from jhbuild.utils import cmds
 from jhbuild.errors import CommandError
 import buildscript
+import commands
 
 index_header = '''<html>
   <head>
@@ -135,6 +136,10 @@ def get_distro():
     for filename in release_files:
         if os.path.exists(filename):
             return open(filename, 'r').readline().strip()
+
+    osx = commands.getoutput('sw_vers -productVersion')
+    if osx:
+        return 'Mac OS X ' + osx;
 
     # else:
     return None
