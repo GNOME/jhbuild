@@ -110,8 +110,7 @@ class cmd_updateone(Command):
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
         except KeyError, e:
-            raise FatalError(_("A module called '%s' could not be found.")
-                             % str(e))
+            raise FatalError(_("A module called '%s' could not be found.") % e)
 
         if not module_list:
             self.parser.error(_('This command requires a module parameter.'))
@@ -330,8 +329,7 @@ class cmd_buildone(Command):
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
         except KeyError, e:
-            raise FatalError(_("A module called '%s' could not be found.")
-                             % str(e))
+            raise FatalError(_("A module called '%s' could not be found.") % e)
 
         if not module_list:
             self.parser.error(_('This command requires a module parameter.'))

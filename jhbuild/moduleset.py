@@ -55,7 +55,7 @@ class ModuleSet:
                             _('I: fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
-        raise KeyError()
+        raise KeyError(module_name)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False,
                 include_optional_modules = False):
@@ -66,7 +66,7 @@ class ModuleSet:
         try:
             all_modules = [self.get_module(mod, ignore_case = True) for mod in seed if mod not in skip]
         except KeyError, e:
-            raise UsageError(_('module "%s" not found') % str(e))
+            raise UsageError(_('module "%s" not found') % e)
 
         asked_modules = all_modules[:]
 
@@ -265,12 +265,12 @@ def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork)
     except Exception, e:
-        raise FatalError(_('could not download %s: %s') % (uri, str(e)))
+        raise FatalError(_('could not download %s: %s') % (uri, e))
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
     except xml.parsers.expat.ExpatError, e:
-        raise FatalError(_('failed to parse %s: %s') % (filename, str(e)))
+        raise FatalError(_('failed to parse %s: %s') % (filename, e))
 
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet(config = config)
