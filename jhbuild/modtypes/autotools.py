@@ -205,6 +205,8 @@ class AutogenModule(Package):
 
     def skip_check(self, buildscript, last_state):
         return (not buildscript.config.makecheck or
+                (buildscript.config.module_makecheck.has_key(self.name) and
+                 not buildscript.config.module_makecheck[self.name]) or
                 buildscript.config.nobuild)
 
     def do_check(self, buildscript):
