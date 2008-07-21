@@ -1,3 +1,11 @@
+2008-07-21  Sven Herzberg  <sven@imendio.com>
+
+	Use $(MAKE) instead of literal make; this way make can know that a
+	command will invoke make again. Knowing this will help make to schedule
+	parallel builds.
+
+	* Makefile.plain: use $(MAKE) instead of literal make
+
 2008-07-21  Frederic Peters  <fpeters@0d.be>
 
 	* jhbuild/commands/autobuild.py, jhbuild/versioncontrol/svn.py: don't
