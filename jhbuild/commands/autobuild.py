@@ -55,6 +55,7 @@ class cmd_autobuild(Command):
 
         config.autobuild_report_url = None
         config.verbose = False
+        config.interact = False
 
         if options.autogen:
             config.alwaysautogen = True

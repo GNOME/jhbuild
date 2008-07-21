@@ -199,6 +199,9 @@ class SubversionBranch(Branch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
+        if not self.config.interact:
+            cmd.append('--non-interactive')
+
         if self.revision and self.revision.isdigit():
             cmd.extend(['-r', '%s' % self.revision])
         elif self.config.sticky_date:
@@ -217,6 +220,10 @@ class SubversionBranch(Branch):
             outputdir = self.srcdir
 
         opt = []
+
+        if not self.config.interact:
+            opt.append('--non-interactive')
+
         if self.revision and self.revision.isdigit():
             opt.extend(['-r', '%s' % self.revision])
         elif self.config.sticky_date:
