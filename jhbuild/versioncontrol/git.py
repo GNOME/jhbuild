@@ -146,6 +146,13 @@ class GitBranch(Branch):
         # FIXME: should implement this properly
         self._checkout(buildscript)
 
+    def _update_submodules(self, buildscript):
+        if os.path.exists(os.path.join(self.srcdir, '.gitmodules')):
+            cmd = ['git', 'submodule', 'init']
+            buildscript.execute(cmd, 'git', cwd = self.srcdir)
+            cmd = ['git', 'submodule', 'update']
+            buildscript.execute(cmd, 'git', cwd = self.srcdir)
+
     def _checkout(self, buildscript, copydir=None):
         cmd = ['git', 'clone', self.module]
         if self.checkoutdir:
@@ -168,6 +175,8 @@ class GitBranch(Branch):
 
         if self.config.sticky_date:
             self._update(buildscript)
+
+        self._update_submodules(buildscript)
 
 
     def _update(self, buildscript, copydir=None):
@@ -199,6 +208,8 @@ class GitBranch(Branch):
                 buildscript.execute(['git', 'rebase', 'origin', self.branch], 'git', cwd=cwd)
             else:
                 buildscript.execute(['git', 'rebase', 'origin', 'master'], 'git', cwd=cwd)
+
+        self._update_submodules(buildscript)
 
 
     def checkout(self, buildscript):
