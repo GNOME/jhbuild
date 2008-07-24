@@ -528,7 +528,31 @@
     <branch repo="svn.gnomemm" />
     <dependencies>
       <dep package="clutter"/>
+      <dep package="pangomm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-cairomm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="clutter-cairo"/>
+      <dep package="cairomm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtkmm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="clutter-gtk"/>
       <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-box2dmm">
+    <branch repo="svn.gnomemm" />
+    <dependencies>
+      <dep package="clutter-box2d"/>
+      <dep package="cluttermm"/>
     </dependencies>
   </autotools>
 
@@ -1404,8 +1428,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="clutter-box2d">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-box2d"/>
+    <dependencies>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="pyclutter">
-    <branch repo="svn.o-hand.com"  module="clutter/trunk/bindings/pyclutter"/>
+    <branch repo="svn.o-hand.com" module="clutter/trunk/bindings/pyclutter"/>
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygtk"/>
