@@ -9,6 +9,8 @@
     href="http://go-mono.com/sources/"/>
 <repository type="tarball" name="dbus"
     href="http://dbus.freedesktop.org/releases/"/>
+<repository type="tarball" name="sqlite.org"
+    href="http://www.sqlite.org/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -356,6 +358,7 @@
             checkoutdir="mozilla" />
     <dependencies>
       <dep package="gtk+"/>
+      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
@@ -428,6 +431,7 @@
     </branch>
     <dependencies>
       <dep package="libgdiplus"/>
+      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
@@ -439,6 +443,13 @@
     <dependencies>
       <dep package="mono"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="sqlite3" autogen-sh="configure">
+    <branch module="sqlite-3.5.9.tar.gz" version="3.5.9"
+	    repo="sqlite.org"
+	    md5sum="b58412904b42fe49e5a281e99da0fd72" size="2201083">
+    </branch>
   </autotools>
  
 </moduleset>
