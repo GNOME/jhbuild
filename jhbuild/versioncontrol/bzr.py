@@ -63,6 +63,10 @@ class BzrRepository(Repository):
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
+
+        if checkoutdir is None:
+            checkoutdir = name
+
         return BzrBranch(self, module, checkoutdir)
 
 
