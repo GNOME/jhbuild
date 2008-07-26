@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <repository type="tarball" name="sourceforge.net"
+      href="http://downloads.sourceforge.net/sourceforge/"/>
+  <repository type="tarball" name="twistedmatrix.com"
+      href="http://tmrc.mit.edu/mirror/twisted/"/>
+  <repository type="tarball" name="zope.org"
+      href="http://www.zope.org/Products/"/>
+
+  <distutils id="zope-interface">
+    <branch repo="zope.org"
+            module="ZopeInterface/3.3.0/zope.interface-3.3.0.tar.gz" version="3.3.0"
+            size="104204" md5sum="93668855e37b4691c5c956665c33392c" />
+  </distutils>
+
+  <distutils id="twisted">
+    <branch repo="twistedmatrix.com"
+            module="Twisted/8.1/Twisted-8.1.0.tar.bz2" version="8.1.0"
+            size="2371422" md5sum="a575f29ead4cc02c54e9061d0e6ac7c3" />
+    <dependencies>
+      <dep package="zope-interface"/>
+    </dependencies>
+  </distutils>
+
+  <distutils id="buildbot">
+    <branch repo="sourceforge.net"
+            module="buildbot/buildbot-0.7.8.tar.gz" version="0.7.8"
+            size="1141646" md5sum="22a7f9d518cc41ec75873fc5c6083f03">
+    </branch>
+    <dependencies>
+      <dep package="twisted"/>
+    </dependencies>
+  </distutils>
+
+</moduleset>
