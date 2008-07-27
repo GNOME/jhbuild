@@ -145,15 +145,20 @@ class Config:
             except:
                 raise FatalError(_("Can't create %s directory") % self.prefix)
 
-        #includedir = os.path.join(prefix, 'include')
-        #addpath('C_INCLUDE_PATH', includedir)
-
         # LD_LIBRARY_PATH
         if self.use_lib64:
             libdir = os.path.join(self.prefix, 'lib64')
         else:
             libdir = os.path.join(self.prefix, 'lib')
         addpath('LD_LIBRARY_PATH', libdir)
+
+        # LDFLAGS and C_INCLUDE_PATH are required for autoconf configure
+        # scripts to find modules that do not use pkg-config (such as guile
+        # looking for gmp, or wireless-tools for NetworkManager)
+        # (see bug #377724 and bug #545018)
+        os.environ['LDFLAGS'] = ('-L%s ' % libdir) + os.environ.get('LDFLAGS', '')
+        includedir = os.path.join(self.prefix, 'include')
+        addpath('C_INCLUDE_PATH', includedir)
 
         # On Mac OS X, we use DYLD_FALLBACK_LIBRARY_PATH
         addpath('DYLD_FALLBACK_LIBRARY_PATH', libdir)
