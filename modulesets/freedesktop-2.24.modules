@@ -38,8 +38,6 @@
   <repository type="darcs" name="farsight.freedesktop.org"
       href="http://projects.collabora.co.uk/darcs/farsight/"/>
 
-  <repository type="svn" name="mission-control.sf.net"
-      href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
   <repository type="bzr" name="telepathy-msn.freedesktop.org"
       href="http://bzr.collabora.co.uk/bzr/telepathy/"/>
 
@@ -232,17 +230,6 @@
 
   <!-- ################################################ -->
   <!-- ################ Telepathy Stuff ############### -->
-  <autotools id="telepathy-glib">
-    <branch repo="telepathy.freedesktop.org"
-	    module="telepathy-glib" checkoutdir="telepathy-glib" />
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
-
   <distutils id="telepathy-python">
     <branch repo="telepathy.freedesktop.org"
 	    module="telepathy-python" checkoutdir="telepathy-python" />
@@ -250,26 +237,6 @@
       <dep package="dbus-python"/>
     </dependencies>
   </distutils>
-
-  <!-- Note: libtelepathy is deprecated in favour of Telepathy GLib -->
-  <autotools id="libtelepathy">
-    <branch repo="telepathy.freedesktop.org"
-	    module="libtelepathy" checkoutdir="libtelepathy" />
-    <dependencies>
-      <dep package="telepathy-glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-mission-control">
-    <branch repo="mission-control.sf.net"
-            module="branches/mission-control4" checkoutdir="telepathy-mission-control" />
-    <dependencies>
-      <dep package="libtelepathy"/>
-      <dep package="telepathy-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="gconf"/>
-    </dependencies>
-  </autotools>
 
   <autotools id="gst-plugins-farsight">
     <branch repo="farsight.freedesktop.org"

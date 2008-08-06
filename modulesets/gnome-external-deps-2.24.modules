@@ -307,7 +307,7 @@
              md5sum="2c3bf7e8236a96659728ad139ce30b33" size="1694566"/>
   </tarball>
 
-  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.23">
+  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.50">
     <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.50.tar.bz2"
             md5sum="e6adfaf1989140b3d3930c3842a01895" size="436994"/>
     <dependencies>
@@ -343,6 +343,37 @@
       <dep package="perl-net-dbus"/>
       <dep package="intltool"/>
     </suggests>
+  </tarball>
+
+  <!-- Note: libtelepathy is deprecated in favour of Telepathy GLib -->
+  <tarball id="libtelepathy">
+    <source href="http://telepathy.freedesktop.org/releases/libtelepathy/libtelepathy-0.3.3.tar.gz"
+            md5sum="490ca1a0c614d4466394b72d43bf7370" size="439764"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-glib">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.13.tar.gz"
+            md5sum="e3afae16ea6b049872a0508e51b3b1e7" size="1555341"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-mission-control">
+    <source href="http://dl.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
+            md5sum="0a547e7af4a33355bac3638dd2e40859" size="659444"/>
+    <dependencies>
+      <dep package="libtelepathy"/>
+      <dep package="telepathy-glib"/>
+      <dep package="gnome-keyring"/>
+      <dep package="gconf"/>
+    </dependencies>
   </tarball>
 
   <repository type="tarball" name="mozilla.org"
