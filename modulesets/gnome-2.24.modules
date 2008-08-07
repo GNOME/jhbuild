@@ -92,6 +92,10 @@
   <repository type="cvs" name="ldtp.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/ldtp"
       password=""/>
+  <repository type="svn" name="svn.async.com.br"
+      href="svn://svn.async.com.br/"/>
+  <repository type="svn" name="flumotion.code.fluendo.com"
+      href="https://code.fluendo.com/flumotion/svn/"/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -2131,5 +2135,33 @@
      <dep package="gnome-python"/>
    </dependencies>
   </distutils>
+
+  <distutils id="kiwi">
+    <branch repo="svn.async.com.br" module="kiwi/trunk" checkoutdir="kiwi"/>
+    <dependencies>
+      <dep package="pygtk"/>
+    </dependencies>
+  </distutils>
+
+  <!-- This is probably too difficult to build in jhbuild.
+  <repository type="tarball" name="twistedmatrix.com"
+      href="http://tmrc.mit.edu/mirror/twisted/Twisted/2.5/"/>
+  <distutils id="twisted-core">
+    <branch repo="twistedmatrix.com" module="TwistedCore-2.5.0.tar.bz2"
+      version="2.5.0" md5sum="cf8d8d73c3b58b79c6a16b5fc23d5b61" size="2049409" />
+    <dependencies/>
+  </distutils>
+  -->
+
+  <autotools id="flumotion">
+    <branch repo="flumotion.code.fluendo.com" module="flumotion/trunk" checkoutdir="flumotion"/>
+    <dependencies>
+      <dep package="kiwi"/>
+      <dep package="gst-python"/>
+      <!-- <dep package="twisted-core"/> -->
+    </dependencies>
+  </autotools>
+
+
 
 </moduleset>
