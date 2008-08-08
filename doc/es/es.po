@@ -1,0 +1,2368 @@
+# translation of jhbuild.help.HEAD.po to Español
+#
+# Jorge González <jorgegonz@svn.gnome.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: jhbuild.help.HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-07-31 03:57+0000\n"
+"PO-Revision-Date: 2008-08-08 14:15+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#. When image changes, this message will be marked fuzzy or untranslated for you.
+#. It doesn't matter what you translate it to: it's not used at all.
+#: C/jhbuild.xml:806(None)
+msgid "@@image: 'figures/jhbuild_sample_dot_output.png'; md5=af9fe7edb29fcaefeadfb2f5987aa6e4"
+msgstr "@@image: 'figures/jhbuild_sample_dot_output.png'; md5=af9fe7edb29fcaefeadfb2f5987aa6e4"
+
+#: C/jhbuild.xml:7(title)
+msgid "JHBuild Manual"
+msgstr "Manual de JHBuild"
+
+#: C/jhbuild.xml:10(firstname)
+msgid "James"
+msgstr "James"
+
+#: C/jhbuild.xml:11(surname)
+msgid "Henstridge"
+msgstr "Henstridge"
+
+#: C/jhbuild.xml:14(firstname)
+msgid "C.J."
+msgstr "C.J."
+
+#: C/jhbuild.xml:15(surname)
+msgid "Adams-Collier"
+msgstr "Adams-Collier"
+
+#: C/jhbuild.xml:18(firstname)
+msgid "Frederic"
+msgstr "Frederic"
+
+#: C/jhbuild.xml:19(surname)
+msgid "Peters"
+msgstr "Peters"
+
+#: C/jhbuild.xml:22(firstname)
+msgid "David"
+msgstr "David"
+
+#: C/jhbuild.xml:23(surname)
+msgid "Turner"
+msgstr "Turner"
+
+#: C/jhbuild.xml:27(year)
+msgid "2004, 2008"
+msgstr "2004, 2008"
+
+#: C/jhbuild.xml:28(holder)
+msgid "James Henstridge"
+msgstr "James Henstridge"
+
+#: C/jhbuild.xml:33(revnumber)
+msgid "JHBuild Manual v0.5"
+msgstr "Manual de JHBuild v0.5"
+
+#: C/jhbuild.xml:34(date)
+msgid "January 2008"
+msgstr "Enero de 2008"
+
+#: C/jhbuild.xml:37(revnumber)
+msgid "JHBuild Manual v0.1"
+msgstr "Manual de JHBuild v0.1"
+
+#: C/jhbuild.xml:38(date)
+msgid "August 2007"
+msgstr "Agosto de 2007"
+
+#: C/jhbuild.xml:43(para)
+msgid "JHBuild is a tool used to build the whole GNOME desktop from the SVN source, however, it can be used to build other projects by creating a moduleset for it."
+msgstr "JHBuild es una herramienta que se utiliza para construir el escritorio GNOME completo desde las fuentes del SVN, sin embargo, se puede utilizar para construir otros proyectos creando para ello un conjunto de módulos."
+
+#: C/jhbuild.xml:50(title)
+msgid "Introduction"
+msgstr "Introducción"
+
+#: C/jhbuild.xml:52(para)
+msgid "JHBuild is a tool designed to ease building collections of source packages (also known as modules). It uses <quote>module set</quote> files to describe the modules available to build. These files include dependency information that allows JHBuild to work out what modules need to be built and in what order to build what the user requested."
+msgstr "JHBuild es una herramienta diseñada para construir fácilmente colecciones de paquetes fuente (también conocidos como módulos). Utiliza archivos de <quote>conjunto de módulos</quote> («module set») para describir los módulos disponibles para construir. Estos archivos incluyen información de las dependencias que permite a JHBuild averigüar qué módulos debe construir y en qué orden construir lo que el usuario solicita."
+
+#: C/jhbuild.xml:59(para)
+msgid "JHBuild was originally written for building <ulink url=\"http://www.gnome.org\">GNOME</ulink>, but has since been extended to make it usable with other projects. A <quote>module set</quote> file can be hosted on a web server, allowing people to provide build rules independent of JHBuild."
+msgstr "Originalmente JHBuild se escribió para construir <ulink url=\"http://www.gnome.org\">GNOME</ulink>, pero se ha extendido para hacerlo usable con otros proyectos. Se puede almacenar un <quote>conjunto de módulos</quote> en un servidor web, para permitir a la gente que proporcione reglas de construcción independientes de JHBuild."
+
+#: C/jhbuild.xml:65(para)
+msgid "JHBuild can build modules from a variety of sources, including <ulink url=\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://subversion.tigris.org/\">Subversion</ulink><ulink url=\"http://wiki.gnuarch.org/\">Arch</ulink>, <ulink url=\"http://www.bazaar-vcs.org/\">Bazaar</ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, <ulink url=\"http://git.or.cz/\">Git</ulink> and <ulink url=\"http://www.selenic.com/mercurial/\">Mercurial</ulink> repositories, as well as Tar archives hosted on web or FTP sites; and using a variety of build systems, including Autotools, CMake, WAF, Ant, Python Distutils and Perl Makefiles."
+msgstr "JHBuild puede construir módulos desde varias fuentes, incluyendo los repositorios de <ulink url=\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://subversion.tigris.org/\">Subversion</ulink>, <ulink url=\"http://wiki.gnuarch.org/\">Arch</ulink>, <ulink url=\"http://www.bazaar-vcs.org/\">Bazaar</ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, <ulink url=\"http://git.or.cz/\">Git</ulink> y <ulink url=\"http://www.selenic.com/mercurial/\">Mercurial</ulink>, así como archivos Tar almacenados en una web o un sitio FTP; y utilizando varios sistemas de construcción, incluyendo Autotools, CMake, WAF, Ant, Python Distutils y Makefiles de Perl."
+
+#: C/jhbuild.xml:79(para)
+msgid "JHBuild is not intended as a replacement for the distribution's package management system. Instead, it makes it easy to build everything into a separate install prefix so that it doesn't interfere with the rest of the system."
+msgstr ""
+
+#: C/jhbuild.xml:87(title)
+msgid "Getting Started"
+msgstr "Inicio"
+
+#: C/jhbuild.xml:89(para)
+msgid "JHBuild takes a bit of work to set up on a system. As well as installing JHBuild's prerequisites, it is necessary to install the prerequisite tools needed to obtain and build the software sources."
+msgstr ""
+
+#: C/jhbuild.xml:95(title)
+msgid "Installing JHBuild"
+msgstr "Instalar JHBuild"
+
+#: C/jhbuild.xml:97(para)
+msgid "Before downloading JHBuild, you should make sure you have a copy of Python &gt;= 2.0 installed on your system. It is also essential that the Expat XML parser extension is installed. This will be the case if you are using Python &gt;= 2.3, or had expat installed when building Python. You can check whether this is the case by running the following simple command from the Python interpreter:"
+msgstr ""
+
+#: C/jhbuild.xml:105(prompt) C/jhbuild.xml:106(prompt)
+msgid "&gt;&gt;&gt;"
+msgstr "&gt;&gt;&gt;"
+
+#: C/jhbuild.xml:105(userinput)
+#, no-wrap
+msgid "import xml.parsers.expat"
+msgstr "import xml.parsers.expat"
+
+#: C/jhbuild.xml:108(para)
+msgid "If this completes without an exception, then it is installed correctly."
+msgstr ""
+
+#: C/jhbuild.xml:111(para)
+msgid "At the moment, the only way to download JHBuild is via Subversion. This can be achieved with the following commands. They should be run in the directory where JHBuild will be installed (for example, <filename>~/checkout/gnome2</filename>)."
+msgstr ""
+
+#: C/jhbuild.xml:116(prompt) C/jhbuild.xml:118(prompt) C/jhbuild.xml:124(prompt) C/jhbuild.xml:125(prompt) C/jhbuild.xml:127(prompt) C/jhbuild.xml:129(prompt) C/jhbuild.xml:131(prompt) C/jhbuild.xml:137(prompt) C/jhbuild.xml:138(prompt) C/jhbuild.xml:140(prompt) C/jhbuild.xml:142(prompt) C/jhbuild.xml:149(prompt) C/jhbuild.xml:150(prompt) C/jhbuild.xml:158(prompt) C/jhbuild.xml:159(prompt) C/jhbuild.xml:299(prompt) C/jhbuild.xml:323(prompt) C/jhbuild.xml:349(prompt) C/jhbuild.xml:363(prompt) C/jhbuild.xml:369(prompt) C/jhbuild.xml:376(prompt) C/jhbuild.xml:382(prompt) C/jhbuild.xml:387(prompt) C/jhbuild.xml:393(prompt) C/jhbuild.xml:398(prompt) C/jhbuild.xml:404(prompt) C/jhbuild.xml:409(prompt) C/jhbuild.xml:760(prompt) C/jhbuild.xml:762(prompt) C/jhbuild.xml:795(prompt) C/jhbuild.xml:799(prompt) C/jhbuild.xml:1035(prompt)
+msgid "$"
+msgstr "$"
+
+#: C/jhbuild.xml:116(userinput)
+#, no-wrap
+msgid "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
+msgstr "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
+
+#: C/jhbuild.xml:117(computeroutput) C/jhbuild.xml:126(computeroutput) C/jhbuild.xml:128(computeroutput) C/jhbuild.xml:130(computeroutput) C/jhbuild.xml:139(computeroutput) C/jhbuild.xml:141(computeroutput)
+#, no-wrap
+msgid "..."
+msgstr "..."
+
+#: C/jhbuild.xml:120(para)
+msgid "This will download JHBuild into a new folder named <filename>jhbuild</filename> under the current directory. Now to build and install it:"
+msgstr ""
+
+#: C/jhbuild.xml:124(userinput) C/jhbuild.xml:137(userinput)
+#, no-wrap
+msgid "cd jhbuild"
+msgstr "cd jhbuild"
+
+#: C/jhbuild.xml:125(userinput)
+#, no-wrap
+msgid "./autogen.sh"
+msgstr "./autogen.sh"
+
+#: C/jhbuild.xml:127(userinput)
+#, no-wrap
+msgid "make"
+msgstr "make"
+
+#: C/jhbuild.xml:129(userinput)
+#, no-wrap
+msgid "make install"
+msgstr "make install"
+
+#: C/jhbuild.xml:133(para)
+msgid "Alternatively, if your work environment doesn't have autotools or gnome-doc-utils installed you can also build and install JHBuild that way:"
+msgstr ""
+
+#: C/jhbuild.xml:138(userinput)
+#, no-wrap
+msgid "make -f Makefile.plain"
+msgstr "make -f Makefile.plain"
+
+#: C/jhbuild.xml:140(userinput)
+#, no-wrap
+msgid "make -f Makefile.plain install"
+msgstr "make -f Makefile.plain install"
+
+#: C/jhbuild.xml:144(para)
+msgid "If these steps complete successfully, a small shell script should be installed in <filename>~/bin</filename> to start JHBuild. If this directory is not in the <envar>PATH</envar>, it will need to be added. This can be done with the command:"
+msgstr ""
+
+#: C/jhbuild.xml:149(userinput)
+#, no-wrap
+msgid "PATH=$PATH:~/bin"
+msgstr "PATH=$PATH:~/bin"
+
+#: C/jhbuild.xml:152(para)
+msgid "This command will need to be run every time you login and want to use JHBuild. In order to permanently add <filename>~/bin</filename> to your <envar>PATH</envar> variable, run the following command:"
+msgstr ""
+
+#: C/jhbuild.xml:158(userinput)
+#, no-wrap
+msgid "echo PATH=$PATH:~/bin &gt;&gt; ~/.bashrc"
+msgstr "echo PATH=$PATH:~/bin &gt;&gt; ~/.bashrc"
+
+#: C/jhbuild.xml:161(para)
+msgid "Before JHBuild can be run, it is necessary to set up a configuration file, located at <filename>~/.jhbuildrc</filename>. This file specifies JHBuild will behave."
+msgstr "Antes de que JHBuild pueda se ejecutar es necesario crear un archivo de configuración, ubicado en <filename>~/.jhbuildrc</filename>. Este archivo especifica cómo se comportará JHBuild."
+
+#: C/jhbuild.xml:168(title)
+msgid "Configuring JHBuild"
+msgstr "Configurar JHBuild"
+
+#: C/jhbuild.xml:170(para)
+msgid "The <filename>~/.jhbuildrc</filename> file uses Python syntax to set a number of configuration variables for JHBuild. A minimal configuration file might look something like this:"
+msgstr "El archivo <filename>~/.jhbuildrc</filename> usa la sintaxis de Python para establecer un número de variables de configuración de JHBuild. Un archivo mínimo de configuración debe ser similar a éste:"
+
+#: C/jhbuild.xml:175(programlisting)
+#, no-wrap
+msgid "\nmoduleset = 'gnome-2.22'\nmodules = [ 'meta-gnome-desktop' ]\ncheckoutroot = os.path.join(os.environ['HOME'], 'checkout', 'gnome2')\nprefix = os.path.join(os.environ['HOME'], 'prefix')\nos.environ['INSTALL'] = os.path.join(os.environ['HOME'],\n                                     'bin', 'install-check')\n"
+msgstr "\nmoduleset = 'gnome-2.22'\nmodules = [ 'meta-gnome-desktop' ]\ncheckoutroot = os.path.join(os.environ['HOME'], 'checkout', 'gnome2')\nprefix = os.path.join(os.environ['HOME'], 'prefix')\nos.environ['INSTALL'] = os.path.join(os.environ['HOME'],\n                                     'bin', 'install-check')\n"
+
+#: C/jhbuild.xml:184(para)
+msgid "This will make JHBuild build the <application>meta-gnome-desktop</application> module and its dependencies from the <systemitem>gnome-2.22</systemitem> module set. It will unpack source trees to <filename>~/checkout/gnome2</filename> and install all files to subdirectories of <filename>~/prefix</filename>. It also sets the <envar>INSTALL</envar> environment variable, so modules use a different install program which handles installation of headers differently, in order to reduce the time taken for rebuilds."
+msgstr ""
+
+#: C/jhbuild.xml:194(para)
+msgid "Some of configuration variables available include:"
+msgstr "Algunas de las variables de configuración disponibles son:"
+
+#: C/jhbuild.xml:199(varname) C/jhbuild.xml:1372(varname)
+msgid "moduleset"
+msgstr "moduleset"
+
+#: C/jhbuild.xml:201(simpara)
+msgid "A string or list of strings specifying the name(s) of the module set(s) to use. If a module set name is a fully qualified URL, then the module set will be cached locally and regularly updated. If a module with the same name is present in more than one module set, the last set listed takes priority."
+msgstr ""
+
+#: C/jhbuild.xml:210(varname) C/jhbuild.xml:795(replaceable) C/jhbuild.xml:799(replaceable) C/jhbuild.xml:1363(varname)
+msgid "modules"
+msgstr "modules"
+
+#: C/jhbuild.xml:212(simpara)
+msgid "A list of strings giving the modules you want to build. The list of modules actually built will be recursively expanded to include all the dependencies unless the <command>buildone</command> is used."
+msgstr ""
+
+#: C/jhbuild.xml:219(varname) C/jhbuild.xml:1212(varname)
+msgid "checkoutroot"
+msgstr "checkoutroot"
+
+#: C/jhbuild.xml:221(simpara)
+msgid "The base directory where all source modules are unpacked or checked out of revision control."
+msgstr ""
+
+#: C/jhbuild.xml:226(varname) C/jhbuild.xml:1436(varname)
+msgid "prefix"
+msgstr "prefix"
+
+#: C/jhbuild.xml:228(simpara)
+msgid "The directory prefix to install modules to. You must have write permissions to this directory, or JHBuild will be unable to install files."
+msgstr ""
+
+#: C/jhbuild.xml:234(varname) C/jhbuild.xml:1584(varname)
+msgid "os.environ"
+msgstr "os.environ"
+
+#: C/jhbuild.xml:236(simpara)
+msgid "A dictionary representing the environment. This can be used to set or get environment variable values as shown in the example configuration above."
+msgstr ""
+
+#: C/jhbuild.xml:242(varname) C/jhbuild.xml:1483(varname)
+msgid "skip"
+msgstr "skip"
+
+#: C/jhbuild.xml:244(simpara)
+msgid "A list of module names that to not include when deciding what to build. One use of this variable is to use the version of a package included with the distribution instead of building it."
+msgstr ""
+
+#: C/jhbuild.xml:251(varname) C/jhbuild.xml:1151(varname)
+msgid "autogenargs"
+msgstr "autogenargs"
+
+#: C/jhbuild.xml:253(simpara)
+msgid "A string listing additional arguments to pass to the <command>autogen.sh</command> or <command>configure</command> scripts for modules."
+msgstr ""
+
+#: C/jhbuild.xml:259(varname) C/jhbuild.xml:1267(varname)
+msgid "makeargs"
+msgstr "makeargs"
+
+#: C/jhbuild.xml:261(simpara)
+msgid "A string listing arguments to be pass to the <command>make</command> command."
+msgstr ""
+
+#: C/jhbuild.xml:266(varname) C/jhbuild.xml:1469(varname)
+msgid "repos"
+msgstr "repos"
+
+#: C/jhbuild.xml:268(simpara) C/jhbuild.xml:1471(simpara)
+msgid "By default, JHBuild will check out code from repositories using an anonymous repository location. This dictionary is used to tell JHBuild to use an alternative repository location for a particular repository (a developer would probably want to do this). This variable is a dictionary where the keys are short repository names (for example, <systemitem class=\"systemname\">svn.gnome.org</systemitem> is used for the GNOME SVN repository), and the values are the alternative repository location strings."
+msgstr ""
+
+#: C/jhbuild.xml:283(title)
+msgid "Build Prerequisites"
+msgstr "Prerrequisitos para la construcción"
+
+#: C/jhbuild.xml:285(para)
+msgid "Before any modules can be built, it is necessary to have certain build tools installed. These can include the GNU Autotools (<application>autoconf</application>, <application>automake</application>, <application>libtool</application> and <application>gettext</application>), The GNU Toolchain (<application>binutils</application>, <application>gcc</application>, <application>g++</application>), pkg-config and Python, depending on which modules will be built."
+msgstr ""
+
+#: C/jhbuild.xml:296(para)
+msgid "JHBuild can check if your system has these tools installed using the <command>sanitycheck</command> command:"
+msgstr ""
+
+#: C/jhbuild.xml:299(userinput) C/jhbuild.xml:993(command)
+#, no-wrap
+msgid "jhbuild sanitycheck"
+msgstr "jhbuild sanitycheck"
+
+#: C/jhbuild.xml:301(para)
+msgid "If this command prints any messages, these can be fixed in one of two ways:"
+msgstr ""
+
+#: C/jhbuild.xml:306(simpara)
+msgid "Install the required package from your distribution's repository. A list of <ulink url=\"http://live.gnome.org/JhbuildDependencies\">package names</ulink> for different distributions is maintained on the GNOME wiki. The <command>sanitycheck</command> command should be run again afterwards to make sure required tools are present."
+msgstr ""
+
+#: C/jhbuild.xml:315(simpara)
+msgid "Run the <command>bootstrap</command> command to install the build prerequsites."
+msgstr "Ejecute el comando <command>bootstrap</command> para instalar los prerrequisitos de construcción."
+
+#: C/jhbuild.xml:320(para)
+msgid "The <command>bootstrap</command> command can be invoked like so:"
+msgstr ""
+
+#: C/jhbuild.xml:323(userinput) C/jhbuild.xml:512(command)
+#, no-wrap
+msgid "jhbuild bootstrap"
+msgstr "jhbuild bootstrap"
+
+#: C/jhbuild.xml:325(para)
+msgid "This will download and install all the build prerequisites. Once it is finished, the <command>sanitycheck</command> command should be rerun to verify that everything is in place."
+msgstr "Esto descargará e instalará los prerrequisitos de construcción. Una vez que haya terminado, deberá volver a ejecutar el comando <command>sanitycheck</command> para verificar que todo está en su lugar."
+
+#: C/jhbuild.xml:331(para)
+msgid "The <command>bootstrap</command> command does not build all the packages required by these tools. If your distribution does not provide those packages, then they will need to be built separately."
+msgstr ""
+
+#: C/jhbuild.xml:336(para)
+msgid "Some packages to check for include <application>m4</application>, <application>perl</application> and a C compiler (For example, <application>gcc</application>)."
+msgstr ""
+
+#: C/jhbuild.xml:343(title)
+msgid "Using JHBuild"
+msgstr "Usar JHBuild"
+
+#: C/jhbuild.xml:345(para)
+msgid "Now that everything is set up, JHBuild can be used to build some software. To build all the modules selected in the <filename>~/.jhbuildrc</filename> file, run the following command:"
+msgstr ""
+
+#: C/jhbuild.xml:349(userinput) C/jhbuild.xml:531(command)
+#, no-wrap
+msgid "jhbuild build"
+msgstr "jhbuild build"
+
+#: C/jhbuild.xml:351(para)
+msgid "This will download, configure, compile and install each of the modules. If an error occurs at any stage, JHBuild will present a menu asking what to do. These choices include dropping to a shell to fix the error, rerunning the build from various stages, giving up on the module (which will also cause any modules depending on it to fail), or ignore the error and continue."
+msgstr ""
+
+#: C/jhbuild.xml:359(para)
+msgid "It is also possible to build a different set of modules (and their dependencies) by passing their names as arguments to the <command>build</command> command, for example, to build gtk+:"
+msgstr ""
+
+#: C/jhbuild.xml:363(userinput)
+#, no-wrap
+msgid "jhbuild build gtk+"
+msgstr "jhbuild build gtk+"
+
+#: C/jhbuild.xml:365(para)
+msgid "If you exit JHBuild part way through a build for some reason, it is possible to pick up a build at a particular module using the <option>--start-at</option> option:"
+msgstr ""
+
+#: C/jhbuild.xml:369(userinput)
+#, no-wrap
+msgid "jhbuild build --start-at=pango"
+msgstr "jhbuild build --start-at=pango"
+
+#: C/jhbuild.xml:371(para)
+msgid "To build one or more modules, ignoring their dependencies, the <command>buildone</command> command can be used. This command should only be used if you have manually installed all dependencies, else the build will fail."
+msgstr ""
+
+#: C/jhbuild.xml:376(userinput)
+#, no-wrap
+msgid "jhbuild buildone gtk+"
+msgstr "jhbuild buildone gtk+"
+
+#: C/jhbuild.xml:378(para)
+msgid "To get a list of the modules and dependencies jhbuild will build, and the order in which they will be built, use the <command>list</command> command:"
+msgstr ""
+
+#: C/jhbuild.xml:382(userinput) C/jhbuild.xml:863(command)
+#, no-wrap
+msgid "jhbuild list"
+msgstr "jhbuild list"
+
+#: C/jhbuild.xml:384(para)
+msgid "To get information about a particular module, the <command>info</command> command can be used:"
+msgstr ""
+
+#: C/jhbuild.xml:387(userinput)
+#, no-wrap
+msgid "jhbuild info gtk+"
+msgstr "jhbuild info gtk+"
+
+#: C/jhbuild.xml:389(para)
+msgid "If your internet bandwidth varies, or you wish to modify the sources before building them, you can download or update all the software sources without actually building them:"
+msgstr ""
+
+#: C/jhbuild.xml:393(userinput) C/jhbuild.xml:1088(command)
+#, no-wrap
+msgid "jhbuild update"
+msgstr "jhbuild update"
+
+#: C/jhbuild.xml:395(para)
+msgid "Later on, you can tell JHBuild to build everything without downloading or updating the sources:"
+msgstr ""
+
+#: C/jhbuild.xml:398(userinput)
+#, no-wrap
+msgid "jhbuild build --no-network"
+msgstr "jhbuild build --no-network"
+
+#: C/jhbuild.xml:400(para)
+msgid "If you want to run a particular command with the same environment variables set that JHBuild uses, use the <command>run</command> command:"
+msgstr ""
+
+#: C/jhbuild.xml:404(replaceable) C/jhbuild.xml:966(replaceable)
+msgid "program"
+msgstr "programa"
+
+#: C/jhbuild.xml:404(userinput)
+#, no-wrap
+msgid "jhbuild run <placeholder-1/>"
+msgstr ""
+
+#: C/jhbuild.xml:406(para)
+msgid "To start a shell with the environment used by JHBuild, use the <command>shell</command> command:"
+msgstr ""
+
+#: C/jhbuild.xml:409(userinput) C/jhbuild.xml:1029(command)
+#, no-wrap
+msgid "jhbuild shell"
+msgstr "jhbuild shell"
+
+#: C/jhbuild.xml:415(title)
+msgid "Command Reference"
+msgstr "Referencia de comandos"
+
+#: C/jhbuild.xml:417(para)
+msgid "JHBuild uses a command line syntax similar to tools like CVS:"
+msgstr ""
+
+#: C/jhbuild.xml:420(command)
+msgid "jhbuild"
+msgstr "jhbuild"
+
+#: C/jhbuild.xml:421(replaceable)
+msgid "global-options"
+msgstr "Opciones globales"
+
+#: C/jhbuild.xml:422(replaceable)
+msgid "command"
+msgstr "comando"
+
+#: C/jhbuild.xml:423(replaceable)
+msgid "command-arguments"
+msgstr "argumentos de los comandos"
+
+#: C/jhbuild.xml:426(para)
+msgid "The global JHBuild options are:"
+msgstr ""
+
+#: C/jhbuild.xml:430(term)
+msgid "<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
+msgstr "<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
+
+#: C/jhbuild.xml:433(simpara)
+msgid "Use an alternative configuration file, instead of the default, <filename>~/.jhbuildrc</filename>."
+msgstr ""
+
+#: C/jhbuild.xml:439(term)
+msgid "<option>-m</option>, <option>--moduleset</option><replaceable>moduleset</replaceable>"
+msgstr "<option>-m</option>, <option>--moduleset</option><replaceable>moduleset</replaceable>"
+
+#: C/jhbuild.xml:442(simpara)
+msgid "Use a module set other than the one listed in the configuration file. This should be a relative path if the module set is located in the JHBuild moduleset folder, or an absolute path if it is located elsewhere."
+msgstr ""
+
+#: C/jhbuild.xml:450(option)
+msgid "--no-interact"
+msgstr "--no-interact"
+
+#: C/jhbuild.xml:452(simpara)
+msgid "Do not prompt the user for any input. This is useful when leaving a build unattended, in order to ensure it is not interrupted."
+msgstr ""
+
+#: C/jhbuild.xml:459(para)
+msgid "Command specific options are listed below."
+msgstr ""
+
+#: C/jhbuild.xml:462(title)
+msgid "autobuild"
+msgstr "autobuild"
+
+#: C/jhbuild.xml:464(para)
+msgid "The <command>autobuild</command> command is used to automatically build the modules specified in the configuration file, and then upload the results to JhAutobuild."
+msgstr ""
+
+#: C/jhbuild.xml:469(command)
+msgid "jhbuild autobuild"
+msgstr "jhbuild autobuild"
+
+#: C/jhbuild.xml:470(arg) C/jhbuild.xml:532(arg) C/jhbuild.xml:716(arg) C/jhbuild.xml:1049(arg)
+msgid "--autogen"
+msgstr "--autogen"
+
+#: C/jhbuild.xml:471(arg) C/jhbuild.xml:533(arg) C/jhbuild.xml:717(arg) C/jhbuild.xml:1050(arg)
+msgid "--clean"
+msgstr "--clean"
+
+#: C/jhbuild.xml:472(replaceable) C/jhbuild.xml:473(replaceable) C/jhbuild.xml:537(replaceable) C/jhbuild.xml:538(replaceable) C/jhbuild.xml:547(arg) C/jhbuild.xml:724(arg) C/jhbuild.xml:779(arg) C/jhbuild.xml:838(arg) C/jhbuild.xml:869(arg) C/jhbuild.xml:935(arg) C/jhbuild.xml:1053(replaceable) C/jhbuild.xml:1054(replaceable) C/jhbuild.xml:1058(arg) C/jhbuild.xml:1089(replaceable) C/jhbuild.xml:1090(replaceable) C/jhbuild.xml:1093(arg) C/jhbuild.xml:1113(arg)
+msgid "module"
+msgstr "módulo"
+
+#: C/jhbuild.xml:472(arg) C/jhbuild.xml:537(arg) C/jhbuild.xml:1053(arg) C/jhbuild.xml:1089(arg)
+msgid "--skip=<placeholder-1/>"
+msgstr "--skip=<placeholder-1/>"
+
+#: C/jhbuild.xml:473(arg) C/jhbuild.xml:538(arg) C/jhbuild.xml:1054(arg) C/jhbuild.xml:1090(arg)
+msgid "--start-at=<placeholder-1/>"
+msgstr "--start-at=<placeholder-1/>"
+
+#: C/jhbuild.xml:474(replaceable)
+msgid "reporturl"
+msgstr "reporturl"
+
+#: C/jhbuild.xml:474(arg)
+msgid "--report-url=<placeholder-1/>"
+msgstr "--report-url=<placeholder-1/>"
+
+#: C/jhbuild.xml:475(arg)
+msgid "--verbose"
+msgstr "--verbose"
+
+#: C/jhbuild.xml:478(para)
+msgid "The <option>--autogen</option>, <option>--clean</option>, <option>--skip</option> and <option>--start-at</option> options are processed in the same way as for the <command>build</command> command."
+msgstr ""
+
+#: C/jhbuild.xml:485(term)
+msgid "<option>--report-url=<replaceable>reporturl</replaceable></option>, <option>-r <replaceable>reporturl</replaceable></option>"
+msgstr "<option>--report-url=<replaceable>reporturl</replaceable></option>, <option>-r <replaceable>reporturl</replaceable></option>"
+
+#: C/jhbuild.xml:488(simpara)
+msgid "This option specifies the JhAutobuild URL which JHBuild should report to"
+msgstr ""
+
+#: C/jhbuild.xml:494(term)
+msgid "<option>--verbose</option>, <option>-v</option>"
+msgstr "<option>--verbose</option>, <option>-v</option>"
+
+#: C/jhbuild.xml:496(simpara)
+msgid "This option causes JHBuild's output to be more verbose"
+msgstr ""
+
+#: C/jhbuild.xml:505(title)
+msgid "bootstrap"
+msgstr "bootstrap"
+
+#: C/jhbuild.xml:507(para)
+msgid "The <command>bootstrap</command> command is used to install a set of build utilities required to build most modules (eg. autoconf, automake, etc)."
+msgstr ""
+
+#: C/jhbuild.xml:515(para)
+msgid "Internally, <command>bootstrap</command> is implemented using the same code as <command>build</command>, using the <filename>bootstrap.modules</filename> moduleset."
+msgstr ""
+
+#: C/jhbuild.xml:519(para)
+msgid "Look at the <link linkend=\"command-reference-build\">build</link> command documentation for available options."
+msgstr ""
+
+#: C/jhbuild.xml:525(title)
+msgid "build"
+msgstr "build"
+
+#: C/jhbuild.xml:527(para)
+msgid "The <command>build</command> command is used to build one or more packages, including their dependencies."
+msgstr ""
+
+#: C/jhbuild.xml:534(arg)
+msgid "--dist"
+msgstr "--dist"
+
+#: C/jhbuild.xml:535(arg) C/jhbuild.xml:583(option) C/jhbuild.xml:718(arg)
+msgid "--distcheck"
+msgstr "--distcheck"
+
+#: C/jhbuild.xml:536(arg) C/jhbuild.xml:719(arg) C/jhbuild.xml:1051(arg)
+msgid "--no-network"
+msgstr "--no-network"
+
+#: C/jhbuild.xml:539(replaceable) C/jhbuild.xml:867(replaceable) C/jhbuild.xml:1091(replaceable)
+msgid "tags"
+msgstr "etiquetas"
+
+#: C/jhbuild.xml:539(arg) C/jhbuild.xml:867(arg) C/jhbuild.xml:1091(arg)
+msgid "--tags=<placeholder-1/>"
+msgstr "--tags=<placeholder-1/>"
+
+#: C/jhbuild.xml:540(replaceable) C/jhbuild.xml:635(replaceable) C/jhbuild.xml:720(replaceable) C/jhbuild.xml:1055(replaceable) C/jhbuild.xml:1092(replaceable) C/jhbuild.xml:1112(replaceable)
+msgid "date"
+msgstr "fecha"
+
+#: C/jhbuild.xml:540(arg) C/jhbuild.xml:720(arg) C/jhbuild.xml:1055(arg) C/jhbuild.xml:1092(arg) C/jhbuild.xml:1112(arg)
+msgid "-D <placeholder-1/>"
+msgstr "-D <placeholder-1/>"
+
+#: C/jhbuild.xml:541(arg) C/jhbuild.xml:721(arg)
+msgid "--no-xvfb"
+msgstr "--no-xvfb"
+
+#: C/jhbuild.xml:542(arg)
+msgid "--try-checkout"
+msgstr "--try-checkout"
+
+#: C/jhbuild.xml:543(arg)
+msgid "--no-poison"
+msgstr "--no-poison"
+
+#: C/jhbuild.xml:544(arg) C/jhbuild.xml:722(arg)
+msgid "--force"
+msgstr "--force"
+
+#: C/jhbuild.xml:545(arg) C/jhbuild.xml:681(option)
+msgid "--build-optional-modules"
+msgstr "--build-optional-modules"
+
+#: C/jhbuild.xml:546(replaceable) C/jhbuild.xml:723(replaceable)
+msgid "time"
+msgstr "hora"
+
+#: C/jhbuild.xml:546(arg) C/jhbuild.xml:723(arg)
+msgid "--min-age=<placeholder-1/>"
+msgstr "--min-age=<placeholder-1/>"
+
+#: C/jhbuild.xml:550(para) C/jhbuild.xml:782(para) C/jhbuild.xml:872(para)
+msgid "If no module names are given on the command line, then the module list found in the configuration file will be used."
+msgstr ""
+
+#: C/jhbuild.xml:555(term)
+msgid "<option>-a</option>, <option>--autogen</option>"
+msgstr "<option>-a</option>, <option>--autogen</option>"
+
+#: C/jhbuild.xml:557(simpara)
+msgid "Always run <command>autogen.sh</command> before building modules. By default, <command>autogen.sh</command> will only be called if the toplevel makefile is missing. Otherwise, it relies on the package's makefiles to detect if configure needs to be rebuilt or rerun."
+msgstr ""
+
+#: C/jhbuild.xml:567(term)
+msgid "<option>-c</option>, <option>--clean</option>"
+msgstr "<option>-c</option>, <option>--clean</option>"
+
+#: C/jhbuild.xml:569(simpara)
+msgid "Run <command>make clean</command> before building modules."
+msgstr ""
+
+#: C/jhbuild.xml:575(term)
+msgid "<option>-d</option>, <option>--dist</option>"
+msgstr "<option>-d</option>, <option>--dist</option>"
+
+#: C/jhbuild.xml:577(simpara)
+msgid "Run <command>make dist</command> after building modules."
+msgstr ""
+
+#: C/jhbuild.xml:585(simpara)
+msgid "Run <command>make distcheck</command> after building modules."
+msgstr ""
+
+#: C/jhbuild.xml:591(term)
+msgid "<option>-n</option>, <option>--no-network</option>"
+msgstr "<option>-n</option>, <option>--no-network</option>"
+
+#: C/jhbuild.xml:593(simpara)
+msgid "Do not access the network when building modules. This will skip download or update stages in a build. If a module can't be built without network access, it will fail."
+msgstr ""
+
+#: C/jhbuild.xml:601(term)
+msgid "<option>-s</option>, <option>--skip</option>=<replaceable>module,...</replaceable>"
+msgstr "<option>-s</option>, <option>--skip</option>=<replaceable>módulo,...</replaceable>"
+
+#: C/jhbuild.xml:604(simpara)
+msgid "Ignore the named modules when following dependencies to expand the list of modules to be built."
+msgstr ""
+
+#: C/jhbuild.xml:611(term) C/jhbuild.xml:905(term)
+msgid "<option>--tags</option>=<replaceable>tag,...</replaceable>"
+msgstr "<option>--tags</option>=<replaceable>etiqueta,...</replaceable>"
+
+#: C/jhbuild.xml:614(simpara)
+msgid "Ignore modules that do not match any of <replaceable>tag</replaceable> when following dependencies to expand the list of modules to be built."
+msgstr ""
+
+#: C/jhbuild.xml:617(simpara)
+msgid "At the moment modules are automatically attributed a tag with the name of the module set they sit in."
+msgstr ""
+
+#: C/jhbuild.xml:623(term)
+msgid "<option>-t</option>, <option>--start-at</option>=<replaceable>module</replaceable>"
+msgstr "<option>-t</option>, <option>--start-at</option>=<replaceable>módulo</replaceable>"
+
+#: C/jhbuild.xml:626(simpara)
+msgid "After expanding the list of modules to build, start at the named module rather than at the beginning of the list. This is useful if the build was interrupted for some reason."
+msgstr ""
+
+#: C/jhbuild.xml:634(option)
+msgid "-D"
+msgstr "-D"
+
+#: C/jhbuild.xml:637(simpara)
+msgid "If the underlying version control system supports it, try to update the source tree to its state at the given date before building. The date string should be in ISO format."
+msgstr ""
+
+#: C/jhbuild.xml:645(term)
+msgid "<option>-x</option>, <option>--no-xvfb</option>"
+msgstr "<option>-x</option>, <option>--no-xvfb</option>"
+
+#: C/jhbuild.xml:647(simpara)
+msgid "Run graphical tests on the actual X server rather than in a simulated Xvfb"
+msgstr ""
+
+#: C/jhbuild.xml:653(term)
+msgid "<option>-C</option>, <option>--try-checkout</option>"
+msgstr "<option>-C</option>, <option>--try-checkout</option>"
+
+#: C/jhbuild.xml:656(simpara)
+msgid "If the build fails, and the version control system supports it, force a checkout and run <command>autogen.sh</command> before retrying the build."
+msgstr ""
+
+#: C/jhbuild.xml:664(term)
+msgid "<option>-N</option>, <option>--no-poison</option>"
+msgstr "<option>-N</option>, <option>--no-poison</option>"
+
+#: C/jhbuild.xml:666(simpara)
+msgid "If one or more of a module's dependencies failed, this option forces JHBuild to try to build the module anyway."
+msgstr ""
+
+#: C/jhbuild.xml:673(term)
+msgid "<option>-f</option>, <option>--force</option>"
+msgstr "<option>-f</option>, <option>--force</option>"
+
+#: C/jhbuild.xml:675(simpara)
+msgid "Build the modules even if policy tells it is not required."
+msgstr ""
+
+#: C/jhbuild.xml:683(simpara)
+msgid "Some modules, listed as optional dependencies, may not be required to build the target module, this option inncludes them nevertheless."
+msgstr ""
+
+#: C/jhbuild.xml:690(term)
+msgid "<option>--min-time</option>=<replaceable>time</replaceable>"
+msgstr "<option>--min-time</option>=<replaceable>tiempo</replaceable>"
+
+#: C/jhbuild.xml:692(simpara)
+msgid "Skip modules installed more recently than the given relative time; the <replaceable>time</replaceable> string format is a number followed by a unit, with the following units being supported: seconds (s), minutes (m), hours (h) and days (d)."
+msgstr ""
+
+#: C/jhbuild.xml:697(simpara)
+msgid "Example: <option>--min-time=2h</option> will skip modules that have been built less than two hours ago."
+msgstr ""
+
+#: C/jhbuild.xml:707(title)
+msgid "buildone"
+msgstr "buildone"
+
+#: C/jhbuild.xml:709(para)
+msgid "The <command>buildone</command> command is similar to <command>build</command>, but it does not use dependency information to expand the module list. It is useful for quickly rebuilding one or more modules."
+msgstr ""
+
+#: C/jhbuild.xml:715(command)
+msgid "jhbuild buildone"
+msgstr "jhbuild buildone"
+
+#: C/jhbuild.xml:727(para)
+msgid "The <option>--autogen</option>, <option>--clean</option>, <option>-d</option>, <option>--distcheck</option>, <option>--no-network</option>, <option>-D</option> and <option>-x</option> options are processed in the same way as for the <command>build</command> command."
+msgstr ""
+
+#: C/jhbuild.xml:733(para)
+msgid "Unlike the <command>build</command> command, at least one module must be listed on the command line."
+msgstr ""
+
+#: C/jhbuild.xml:739(title)
+msgid "checkbranches"
+msgstr "checkbranches"
+
+#: C/jhbuild.xml:741(para)
+msgid "The <command>checkbranches</command> checks the modules in GNOME Subversion have the correct branch definition. For example, if modules are marked as not having branched, JHBuild checks this is true."
+msgstr ""
+
+#: C/jhbuild.xml:747(command)
+msgid "jhbuild checkbranches"
+msgstr "jhbuild checkbranches"
+
+#: C/jhbuild.xml:748(replaceable)
+msgid "branch"
+msgstr ""
+
+#: C/jhbuild.xml:748(arg)
+msgid "--branch=<placeholder-1/>"
+msgstr "--branch=<placeholder-1/>"
+
+#: C/jhbuild.xml:753(term)
+msgid "<option>--branch</option>=<replaceable>branch</replaceable>, <option>-b</option><replaceable>branch</replaceable>"
+msgstr ""
+
+#: C/jhbuild.xml:755(simpara)
+msgid "Specify the branch to check"
+msgstr ""
+
+#: C/jhbuild.xml:760(userinput)
+#, no-wrap
+msgid "jhbuild -m gnome-2.20 checkbranches"
+msgstr "jhbuild -m gnome-2.20 checkbranches"
+
+#: C/jhbuild.xml:760(screen)
+#, no-wrap
+msgid "<placeholder-1/> <placeholder-2/>\nlibgnomecanvas is missing branch definition for gnome-2-20\n<placeholder-3/>"
+msgstr ""
+
+#: C/jhbuild.xml:767(title)
+msgid "dot"
+msgstr "dot"
+
+#: C/jhbuild.xml:769(para)
+msgid "The <command>dot</command> command generates a file describing the directed graph formed by the dependencies between a set of modules. This file can then be processed using the <ulink url=\"http://www.graphviz.org/\">GraphViz</ulink> software to produce a nice diagram."
+msgstr ""
+
+#: C/jhbuild.xml:776(command)
+msgid "jhbuild dot"
+msgstr "jhbuild dot"
+
+#: C/jhbuild.xml:777(arg)
+msgid "--soft-deps"
+msgstr "--soft-deps"
+
+#: C/jhbuild.xml:778(arg)
+msgid "--clusters"
+msgstr "--clusters"
+
+#: C/jhbuild.xml:785(para)
+msgid "The <option>--soft-deps</option> option will add dotted lines from the modules to their soft dependencies. The <option>--clusters</option> option will group modules from <link linkend=\"moduleset-syntax-defs-metamodule\">metamodules</link> together."
+msgstr ""
+
+#: C/jhbuild.xml:791(para)
+msgid "The output of this command can easily be piped to the <command>dot</command> utility to generate a PostScript file:"
+msgstr ""
+
+#: C/jhbuild.xml:795(userinput)
+#, no-wrap
+msgid "jhbuild dot <placeholder-1/> | dot -Tps &gt; dependencies.ps"
+msgstr "jhbuild dot <placeholder-1/> | dot -Tps &gt; dependencias.ps"
+
+#: C/jhbuild.xml:797(para)
+msgid "Or a PNG image:"
+msgstr "O una imagen PNG:"
+
+#: C/jhbuild.xml:799(userinput)
+#, no-wrap
+msgid "jhbuild dot <placeholder-1/> | dot -Tpng &gt; dependencies.png"
+msgstr "jhbuild dot <placeholder-1/> | dot -Tpng &gt; dependencias.png"
+
+#: C/jhbuild.xml:802(title)
+msgid "Sample JHBuild dot output"
+msgstr "Ejemplo de salida de JHBuild dot"
+
+#: C/jhbuild.xml:815(title)
+msgid "gui"
+msgstr "gui"
+
+#: C/jhbuild.xml:817(para)
+msgid "The <command>gui</command> command starts a graphical interface to JHBuild which can be used to select modules to build and change some options."
+msgstr "El comando <command>gui</command> inicia una interfaz gráfica de JHBuild que se puede usar para seleccionar los módulos que construir y cambiar algunas opciones."
+
+#: C/jhbuild.xml:822(command)
+msgid "jhbuild gui"
+msgstr "jhbuild gui"
+
+#: C/jhbuild.xml:825(para)
+msgid "The <command>gui</command> graphical interface is rendered using GTK, so some extra support libraries will be required"
+msgstr ""
+
+#: C/jhbuild.xml:831(title)
+msgid "info"
+msgstr "info"
+
+#: C/jhbuild.xml:833(para)
+msgid "The <command>info</command> command is used to display information about one or more modules."
+msgstr "El comando <command>info</command> se utiliza para mostrar información de uno o más módulos."
+
+#: C/jhbuild.xml:837(command)
+msgid "jhbuild info"
+msgstr "jhbuild info"
+
+#: C/jhbuild.xml:841(para)
+msgid "The command prints the module name, type, dependencies, dependent packages, and the time it was last installed with JHBuild. It may also print some information specific to the module type, such as the CVS repository or download URL."
+msgstr ""
+
+#: C/jhbuild.xml:846(para)
+msgid "If there is no module specified the command will print information about all the modules defined in the module set."
+msgstr ""
+
+#: C/jhbuild.xml:852(title)
+msgid "list"
+msgstr "list"
+
+#: C/jhbuild.xml:854(para)
+msgid "The <command>list</command> command is used to show the expanded list of modules the <command>build</command> command would build."
+msgstr "El comando <command>list</command> se utiliza para mostrar una lista expandida de los módulos que el comando <command>build</command> construiría."
+
+#: C/jhbuild.xml:858(para)
+msgid "Run with the <option>-a</option> option, this command will list all the modules known from your moduleset configuration regardless of the build dependency."
+msgstr ""
+
+#: C/jhbuild.xml:864(arg)
+msgid "-a"
+msgstr "-a"
+
+#: C/jhbuild.xml:865(arg)
+msgid "-r"
+msgstr "-r"
+
+#: C/jhbuild.xml:866(arg)
+msgid "-s"
+msgstr "-s"
+
+#: C/jhbuild.xml:868(arg) C/jhbuild.xml:915(option)
+msgid "--list-optional-modules"
+msgstr "--list-optional-modules"
+
+#: C/jhbuild.xml:877(term)
+msgid "<option>-a</option>, <option>--all-modules</option>"
+msgstr "<option>-a</option>, <option>--all-modules</option>"
+
+#: C/jhbuild.xml:880(simpara)
+msgid "List all the modules"
+msgstr "Listar todos los módulos"
+
+#: C/jhbuild.xml:885(term)
+msgid "<option>-r</option>, <option>--show-revision</option>"
+msgstr "<option>-r</option>, <option>--show-revision</option>"
+
+#: C/jhbuild.xml:888(simpara)
+msgid "If a particular module is being checked out on a branch, show the branch tag name with the module name."
+msgstr ""
+
+#: C/jhbuild.xml:895(term)
+msgid "<option>s</option>, <option>--skip</option>=<replaceable>module,...</replaceable>"
+msgstr "<option>s</option>, <option>--skip</option>=<replaceable>módulo,...</replaceable>"
+
+#: C/jhbuild.xml:899(simpara)
+msgid "Ignore the named modules when following dependencies to expand the list of modules."
+msgstr ""
+
+#: C/jhbuild.xml:908(simpara)
+msgid "Ignore modules that do not match any of <replaceable>tag</replaceable> when following dependencies to expand the list of modules to be displayed."
+msgstr ""
+
+#: C/jhbuild.xml:917(simpara)
+msgid "Some modules, listed as optional dependencies, may not be required to get to the target module, this option inncludes them nevertheless."
+msgstr ""
+
+#: C/jhbuild.xml:928(title)
+msgid "rdepends"
+msgstr "rdepends"
+
+#: C/jhbuild.xml:930(para)
+msgid "The <command>rdepends</command> command is used to show the reverse-dependencies of a module."
+msgstr ""
+
+#: C/jhbuild.xml:934(command)
+msgid "jhbuild rdepends"
+msgstr "jhbuild rdepends"
+
+#: C/jhbuild.xml:940(option)
+msgid "--dependencies"
+msgstr "--dependencies"
+
+#: C/jhbuild.xml:942(simpara)
+msgid "Show dependency path next to modules."
+msgstr ""
+
+#: C/jhbuild.xml:947(option)
+msgid "--direct"
+msgstr "--direct"
+
+#: C/jhbuild.xml:949(simpara)
+msgid "Limit display to modules directly depending on given module."
+msgstr ""
+
+#: C/jhbuild.xml:957(title)
+msgid "run"
+msgstr "run"
+
+#: C/jhbuild.xml:959(para)
+msgid "The <command>run</command> command is used to run an arbitrary command using the same environment that JHBuild uses when building modules."
+msgstr ""
+
+#: C/jhbuild.xml:964(command)
+msgid "jhbuild run"
+msgstr "jhbuild run"
+
+#: C/jhbuild.xml:965(arg)
+msgid "--in-builddir"
+msgstr "--in-builddir"
+
+#: C/jhbuild.xml:967(replaceable)
+msgid "argument"
+msgstr "argumento"
+
+#: C/jhbuild.xml:970(para)
+msgid "If using JHBuild to build GNOME, this command can be useful in X startup scripts."
+msgstr ""
+
+#: C/jhbuild.xml:975(term)
+msgid "<option>--in-builddir</option>=<replaceable>module</replaceable>"
+msgstr "<option>--in-builddir</option>=<replaceable>módulo</replaceable>"
+
+#: C/jhbuild.xml:977(simpara)
+msgid "Run the command in the build directory of the specified module."
+msgstr ""
+
+#: C/jhbuild.xml:986(title)
+msgid "sanitycheck"
+msgstr "sanitycheck"
+
+#: C/jhbuild.xml:988(para)
+msgid "The <command>sanitycheck</command> command performs a number of checks to see whether the build environment is okay."
+msgstr "El comando <command>sanitycheck</command> lleva a cabo una serie de comprobaciones para ver si el entorno de compilación es correcto."
+
+#: C/jhbuild.xml:996(para)
+msgid "Some of the checks include:"
+msgstr ""
+
+#: C/jhbuild.xml:1000(simpara)
+msgid "That the checkout and install prefixes are writable."
+msgstr ""
+
+#: C/jhbuild.xml:1004(simpara)
+msgid "That some of the required build tools are installed."
+msgstr ""
+
+#: C/jhbuild.xml:1008(simpara)
+msgid "That some commonly used macros are available in the search paths of the <command>aclocal</command> commands associated with the various versions of <command>automake</command>."
+msgstr ""
+
+#: C/jhbuild.xml:1014(simpara)
+msgid "That the XML catalog contains the DocBook DTD and stylesheets."
+msgstr ""
+
+#: C/jhbuild.xml:1022(title)
+msgid "shell"
+msgstr "shell"
+
+#: C/jhbuild.xml:1024(para)
+msgid "The <command>shell</command> command starts the user's shell with the same environment as JHBuild uses when building modules."
+msgstr ""
+
+#: C/jhbuild.xml:1032(para)
+msgid "This command is roughly equivalent to the following:"
+msgstr ""
+
+#: C/jhbuild.xml:1035(userinput)
+#, no-wrap
+msgid "jhbuild run $SHELL"
+msgstr "jhbuild run $SHELL"
+
+#: C/jhbuild.xml:1039(title)
+msgid "tinderbox"
+msgstr "tinderbox"
+
+#: C/jhbuild.xml:1041(para)
+msgid "The <command>tinderbox</command> command is similar to <command>build</command>, but writes all terminal output to HTML files suitable for publishing on a website. It can be used to set up systems similar to Mozilla's Tinderbox, or Debian's Buildd."
+msgstr ""
+
+#: C/jhbuild.xml:1048(command)
+msgid "jhbuild tinderbox"
+msgstr "jhbuild tinderbox"
+
+#: C/jhbuild.xml:1052(replaceable)
+msgid "directory"
+msgstr "directorio"
+
+#: C/jhbuild.xml:1052(arg)
+msgid "--output=<placeholder-1/>"
+msgstr "--output=<placeholder-1/>"
+
+#: C/jhbuild.xml:1056(arg)
+msgid "-C"
+msgstr "-C"
+
+#: C/jhbuild.xml:1057(arg)
+msgid "-N"
+msgstr "-N"
+
+#: C/jhbuild.xml:1061(para)
+msgid "The <option>--autogen</option>, <option>--clean</option>, <option>--no-network</option>, <option>--skip</option>, <option>--start-at</option>, <option>-D</option>, <option>-C</option> and <option>-N</option> options are processed the same as for <command>build</command>."
+msgstr ""
+
+#: C/jhbuild.xml:1069(term)
+msgid "<option>-o</option>, <option>--output</option>=<replaceable>directory</replaceable>"
+msgstr "<option>-o</option>, <option>--output</option>=<replaceable>directorio</replaceable>"
+
+#: C/jhbuild.xml:1072(simpara)
+msgid "The directory to write the HTML build logs."
+msgstr ""
+
+#: C/jhbuild.xml:1081(title)
+msgid "update"
+msgstr "update"
+
+#: C/jhbuild.xml:1083(para)
+msgid "The <command>update</command> command is similar to <command>build</command>, but only performs the download or update stage for modules without building them."
+msgstr ""
+
+#: C/jhbuild.xml:1096(para)
+msgid "The <option>--skip</option>, <option>--start-at</option>, <option>--tags</option> and <option>-D</option> options are processed the same as for <command>build</command>."
+msgstr ""
+
+#: C/jhbuild.xml:1103(title)
+msgid "updateone"
+msgstr "updateone"
+
+#: C/jhbuild.xml:1105(para)
+msgid "The <command>updateone</command> command is similar to <command>update</command>, but it does not use dependency information to expand the module list. It is useful for quickly updating one or more modules."
+msgstr ""
+
+#: C/jhbuild.xml:1111(command)
+msgid "jhbuild updateone"
+msgstr "jhbuild updateone"
+
+#: C/jhbuild.xml:1116(para)
+msgid "The <option>-D</option> option is processed the same as for <command>update</command>."
+msgstr ""
+
+#: C/jhbuild.xml:1119(para)
+msgid "Unlike the <command>update</command> command, at least one module must be listed on the command line."
+msgstr ""
+
+#: C/jhbuild.xml:1126(title)
+msgid "Configuration File Reference"
+msgstr ""
+
+#: C/jhbuild.xml:1128(para)
+msgid "The <filename>~/.jhbuildrc</filename> file uses standard Python syntax. The file is run, and the resulting variables defined in the namespace are used to control how JHBuild acts. A set of default values are inserted into the namespace before running the user's configuration file."
+msgstr ""
+
+#: C/jhbuild.xml:1135(title)
+msgid "Configuration Variables"
+msgstr ""
+
+#: C/jhbuild.xml:1140(varname)
+msgid "alwaysautogen"
+msgstr "alwaysautogen"
+
+#: C/jhbuild.xml:1142(simpara)
+msgid "If set to <constant>True</constant>, then always run <command>autogen.sh</command> before <command>make</command>, even if a makefile exists. This is equivalent to passing <option>--always-autogen</option> option to JHBuild. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1153(simpara)
+msgid "A string containing arguments passed to the <command>autogen.sh</command> script of all modules. Can be overriden for particular modules using the <varname>module_autogenargs</varname> dictionary."
+msgstr ""
+
+#: C/jhbuild.xml:1161(varname)
+msgid "branches"
+msgstr ""
+
+#: C/jhbuild.xml:1163(simpara)
+msgid "A dictionary that can be used to override the branch used for a particular module. This is useful if you are making some changes on a branch of a module and want JHBuild to build that branch instead of the one listed in the module set."
+msgstr ""
+
+#: C/jhbuild.xml:1171(varname)
+msgid "builddir_pattern"
+msgstr "builddir_pattern"
+
+#: C/jhbuild.xml:1173(simpara)
+msgid "A <function>printf</function> style formatting pattern used to generate build directory names. This is only used when using separate source and build trees. The <literal>%s</literal> in the format string will be replaced with the source directory name. Defaults to <literal>'%s'</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1182(varname)
+msgid "buildroot"
+msgstr "buildroot"
+
+#: C/jhbuild.xml:1184(simpara)
+msgid "A string giving the parent directory to place build trees. Defaults to <constant>None</constant>, which causes builds to be performed within the source trees."
+msgstr ""
+
+#: C/jhbuild.xml:1191(varname)
+msgid "buildscript"
+msgstr "buildscript"
+
+#: C/jhbuild.xml:1193(simpara)
+msgid "A string specifying which buildscript to use. This should probably be left as the default, <literal>terminal</literal>. In particular, do not set to <literal>gtk</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1200(varname)
+msgid "build_policy"
+msgstr "build_policy"
+
+#: C/jhbuild.xml:1202(simpara)
+msgid "A string specifying which modules to build. The three possible options are <literal>all</literal>, to build all modules requested, <literal>updated</literal> to build only modules which have changed, or <literal>updated-deps</literal> to build modules which have changed or which have dependencies which have changed. Defaults to <literal>all</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1214(simpara)
+msgid "A string giving the directory to unpack source trees to. Unless <varname>buildroot</varname> is set, builds will occur in this directory too. Defaults to <filename>~/cvs/gnome2</filename>."
+msgstr ""
+
+#: C/jhbuild.xml:1221(varname)
+msgid "checkout_mode"
+msgstr "checkout_mode"
+
+#: C/jhbuild.xml:1223(simpara)
+msgid "A string specifying how the checkout is done for directories in version control. Defaults to <literal>update</literal>. This can be set per module using <varname>module_checkout_mode</varname>."
+msgstr ""
+
+#: C/jhbuild.xml:1230(varname)
+msgid "copy_dir"
+msgstr "copy_dir"
+
+#: C/jhbuild.xml:1232(simpara)
+msgid "A string specifying the directory to copy to, if the copy checkout mode is in use. Defaults to the checkout directory."
+msgstr ""
+
+#: C/jhbuild.xml:1238(varname)
+msgid "cvsroots"
+msgstr "cvsroots"
+
+#: C/jhbuild.xml:1240(simpara)
+msgid "A dictionary that can be used to change the CVS roots used to check out source code. If you have a CVS account for a particular project, you can set the associated key to use that account rather than the anonymous account. For example, you might want to set <literal>'gnome.org'</literal> to <literal>':ext:<replaceable>username</replaceable>@cvs.gnome.org:/cvs/gnome'</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1250(varname)
+msgid "cvs_program"
+msgstr "cvs_program"
+
+#: C/jhbuild.xml:1252(simpara)
+msgid "A string specifying which program to use for CVS support. Defaults to <literal>cvs</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1257(varname)
+msgid "interact"
+msgstr "interact"
+
+#: C/jhbuild.xml:1259(simpara)
+msgid "A boolean value specifying whether to interact with the user. Setting this value to <constant>False</constant> is equivalent to passing the <option>--no-interact</option> option. Defaults to <constant>True</constant>"
+msgstr ""
+
+#: C/jhbuild.xml:1269(simpara)
+msgid "A string listing additional arguments to be passed to <command>make</command>. Defaults to <literal>''</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1275(varname)
+msgid "makecheck"
+msgstr "makecheck"
+
+#: C/jhbuild.xml:1277(simpara)
+msgid "A boolean value specifying whether to run <command>make check</command> after <command>make</command>. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1284(varname)
+msgid "makecheck_advisory"
+msgstr "makecheck_advisory"
+
+#: C/jhbuild.xml:1286(simpara)
+msgid "A boolean value specifying whether failures when running <command>make check</command> should be advisory only and not cause a build failure. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1292(varname)
+msgid "makeclean"
+msgstr "makeclean"
+
+#: C/jhbuild.xml:1294(simpara)
+msgid "A boolean value specifying whether to run <command>make clean</command> before <command>make</command>. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1301(varname)
+msgid "makedist"
+msgstr "makedist"
+
+#: C/jhbuild.xml:1303(simpara)
+msgid "A boolean value specifying whether to run <command>make dist</command> after <command>make</command>. Defaults to <constant>False</constant>. This setting is equivalent to passing the <option>--dist</option> option."
+msgstr ""
+
+#: C/jhbuild.xml:1311(varname)
+msgid "makedistcheck"
+msgstr "makedistcheck"
+
+#: C/jhbuild.xml:1313(simpara)
+msgid "A boolean value specifying whether to run <command>make distcheck</command> after <command>make</command>. Defaults to <constant>False</constant>. This setting is equivalent to passing the <option>--distcheck</option> option."
+msgstr ""
+
+#: C/jhbuild.xml:1321(varname)
+msgid "module_autogenargs"
+msgstr "module_autogenargs"
+
+#: C/jhbuild.xml:1323(simpara)
+msgid "A dictionary mapping module names to strings giving arguments to be passed to <command>autogen.sh</command>. The setting in <varname>module_autogenargs</varname> is used instead of the global <varname>autogenargs</varname> setting. If a particular module isn't listed in the dictionary, the global <varname>autogenargs</varname> will be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:1334(varname)
+msgid "module_checkout_mode"
+msgstr ""
+
+#: C/jhbuild.xml:1336(simpara)
+msgid "A dictionary specifying which checkout mode to use for modules. This overrides the global <varname>checkout_mode</varname> setting."
+msgstr ""
+
+#: C/jhbuild.xml:1342(varname)
+msgid "module_makeargs"
+msgstr "module_makeargs"
+
+#: C/jhbuild.xml:1344(simpara)
+msgid "A dictionary mapping module names to strings giving arguments to be passed to <command>make</command>. The setting in <varname>module_makeargs</varname> replaces the value of <varname>makeargs</varname>. If a particular module isn't listed in the dictionary, the global <varname>makeargs</varname> will be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:1354(varname)
+msgid "module_extra_env"
+msgstr "module_extra_env"
+
+#: C/jhbuild.xml:1356(simpara)
+msgid "A dictionary mapping module names to dictionaries with extra environment variables to pass when executing commands for the module."
+msgstr ""
+
+#: C/jhbuild.xml:1365(simpara)
+msgid "A list of module names to build. This list will be expanded using the dependency information found in the module set. Defaults to <literal>[ 'meta-gnome-desktop' ]</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1374(simpara)
+msgid "A string giving the name of the module set to use. This can either be the filename of a moduleset included with JHBuild (excluding the path and extension), or a full HTTP URL to refer to an externally managed module set. Currently defaults to <literal>'gnome-2.22'</literal>, but is usually updated as GNOME development progresses."
+msgstr ""
+
+#: C/jhbuild.xml:1384(varname)
+msgid "nobuild"
+msgstr "nobuild"
+
+#: C/jhbuild.xml:1386(simpara)
+msgid "A boolean value which, if set to <constant>True</constant> causes JHBuild to not actually modules, but just download and unpack the sources. The default vale is <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1393(varname)
+msgid "nonetwork"
+msgstr "nonetwork"
+
+#: C/jhbuild.xml:1395(simpara)
+msgid "A boolean value specifying whether to access the network or not. This affects checking out or updating CVS modules, downloading tarballs and updating module sets. Setting this to <constant>True</constant> is equivalent to passing the <option>--no-network</option> option to JHBuild. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1405(varname)
+msgid "nonotify"
+msgstr "nonotify"
+
+#: C/jhbuild.xml:1407(simpara)
+msgid "A boolean value specifying whether to emit notifications using the notification daemon. If set to <constant>True</constant>, notifications are not emitted. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1414(varname)
+msgid "nopoison"
+msgstr "nopoison"
+
+#: C/jhbuild.xml:1416(simpara)
+msgid "A boolean value which, if set to <constant>True</constant> causes JHBuild to try to build modules even if one or more of the module's dependancies failed to build. This option is equivalent to the <option>--no-poison</option> argument. The default value is <constant>False</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1425(varname)
+msgid "noxvfb"
+msgstr "noxvfb"
+
+#: C/jhbuild.xml:1427(simpara)
+msgid "A boolean value which, if set to <constant>True</constant> causes JHBuild to run any graphical tests on the real X server, rather than using <command>Xvfb</command>. This option is equivalent to passing <option>--no-xvfb</option>. The default value is <constant>False</constant>"
+msgstr ""
+
+#: C/jhbuild.xml:1438(simpara)
+msgid "A string giving the prefix to install modules to. Defaults to <literal>'/opt/gnome2'</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1443(varname)
+msgid "pretty_print"
+msgstr "pretty_print"
+
+#: C/jhbuild.xml:1445(simpara)
+msgid "A boolean value that can be used to disable pretty formatting of subprocess output. Currently there is only support for pretty printing CVS output. You probably only want to disable this if the pretty printing causes problems. Defaults to <literal>True</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1453(varname)
+msgid "progress_bar"
+msgstr "progress_bar"
+
+#: C/jhbuild.xml:1455(simpara)
+msgid "A boolean value that can be used to display a progress bar when running in quiet mode (see below). Defaults to <literal>True</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1461(varname)
+msgid "quiet_mode"
+msgstr "quiet_mode"
+
+#: C/jhbuild.xml:1463(simpara)
+msgid "A boolean value that can be used to disable output of running commands. Defaults to <literal>False</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1485(simpara)
+msgid "A list of modules to skip when expanding the list of modules to build. This is similar to the <option>--skip</option> option (in fact, the <option>--skip</option> option extends this list). This list is empty by default."
+msgstr ""
+
+#: C/jhbuild.xml:1493(varname)
+msgid "sticky_date"
+msgstr "sticky_date"
+
+#: C/jhbuild.xml:1495(simpara)
+msgid "If set, JHBuild will attempt to check out modules as they existed at the given date. The date should be given in the form <literal>'<replaceable>yyyy</replaceable>-<replaceable>mm</replaceable>-<replaceable>dd</replaceable>'</literal>. Defaults to <constant>None</constant>."
+msgstr ""
+
+#: C/jhbuild.xml:1503(varname)
+msgid "svnroots"
+msgstr "svnroots"
+
+#: C/jhbuild.xml:1505(simpara)
+msgid "Similar to <varname>cvsroots</varname> but for Subversion repositories."
+msgstr ""
+
+#: C/jhbuild.xml:1510(varname)
+msgid "svn_program"
+msgstr "svn_program"
+
+#: C/jhbuild.xml:1512(simpara)
+msgid "A string specifying which program to use for subversion support. This can be <literal>svn</literal> or <literal>bzr</literal>. Defaults to <literal>svn</literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1519(varname)
+msgid "tarballdir"
+msgstr "tarballdir"
+
+#: C/jhbuild.xml:1521(simpara)
+msgid "If set, tarballs will be downloaded to this directory instead of <varname>checkoutroot</varname>. This is useful if you have multiple JHBuild environments or regularly clear out your <varname>checkoutroot</varname> and want to reduce bandwidth usage."
+msgstr ""
+
+#: C/jhbuild.xml:1530(varname)
+msgid "tinderbox_outputdir"
+msgstr "tinderbox_outputdir"
+
+#: C/jhbuild.xml:1532(simpara)
+msgid "A string giving the directory to store <command>jhbuild tinderbox</command> output. This string can be overridden by the <option>--output</option> option. Defaults to <constant>None</constant>, so either the command line option must be used or this variable must be set in the configuration file."
+msgstr ""
+
+#: C/jhbuild.xml:1541(varname)
+msgid "trycheckout"
+msgstr "trycheckout"
+
+#: C/jhbuild.xml:1543(simpara)
+msgid "A boolean option which if set to <constant>True</constant>, causes JHBuild to try checking out a newer version of a module from version control and running <command>autogen.sh</command>, if the module fails to build. This option is equivalent to passing <option>--try-checkout</option>."
+msgstr ""
+
+#: C/jhbuild.xml:1552(varname)
+msgid "use_lib64"
+msgstr "use_lib64"
+
+#: C/jhbuild.xml:1554(simpara)
+msgid "A boolean value that specifies whether to install libraries to <filename>lib64</filename> directories. If this is set, <literal>--libdir=\\${exec_prefix}/lib64</literal> will be passed to configure. Defaults to <constant>True</constant> if running on <literal>x86_64</literal>, <literal>ppc64</literal> or <literal>s390x</literal> Linux, and <constant>False</constant> on other systems."
+msgstr ""
+
+#: C/jhbuild.xml:1566(varname)
+msgid "xvfbargs"
+msgstr "xvfbargs"
+
+#: C/jhbuild.xml:1568(simpara)
+msgid "A string listing arguments to pass to <command>Xvfb</command> if running graphical tests using it."
+msgstr ""
+
+#: C/jhbuild.xml:1577(title)
+msgid "Other Configuration File Structures"
+msgstr ""
+
+#: C/jhbuild.xml:1579(para)
+msgid "In addition to the above variables, there are some other things that can be set in the configuration file:"
+msgstr ""
+
+#: C/jhbuild.xml:1586(para)
+msgid "This is dictionary represents the environment of the process (which also gets passed on to processes that JHBuild spawns)."
+msgstr ""
+
+#: C/jhbuild.xml:1589(para)
+msgid "Some environment variables you may want to set include <envar>CFLAGS</envar>, <envar>INSTALL</envar> (to use the more efficient <command>install-check</command> program included with JHBuild) and <envar>LDFLAGS</envar>."
+msgstr ""
+
+#: C/jhbuild.xml:1597(term)
+msgid "<function>addpath</function>(<parameter>envvar</parameter>, <parameter>pathname</parameter>)"
+msgstr ""
+
+#: C/jhbuild.xml:1600(para)
+msgid "This will add a directory to a <envar>PATH</envar>-style environment variable. It will correctly handle the case when the environment variable is initially empty (having a stray colon at the beginning or end of an environment variable can have unexpected consequences)."
+msgstr ""
+
+#: C/jhbuild.xml:1606(para)
+msgid "This function has special handling for the <envar>ACLOCAL_FLAGS</envar> environment variable, which expects paths to be listed in the form <literal>-I <replaceable>pathname</replaceable></literal>."
+msgstr ""
+
+#: C/jhbuild.xml:1613(term)
+msgid "<function>prependpath</function>(<parameter>envvar</parameter>, <parameter>pathname</parameter>)"
+msgstr ""
+
+#: C/jhbuild.xml:1616(para)
+msgid "After processing the configuration file, JHBuild will alter some paths based on variables such as <varname>prefix</varname> (eg. adding <literal>$prefix/bin</literal> to the start of <envar>PATH</envar>)."
+msgstr ""
+
+#: C/jhbuild.xml:1621(para)
+msgid "The <function>prependpath</function> function works like <function>addpath</function>, except that the environment variable is modified after JHBuild has made its changes to the environment."
+msgstr ""
+
+#: C/jhbuild.xml:1632(title)
+msgid "Module Set File Syntax"
+msgstr ""
+
+#: C/jhbuild.xml:1634(para)
+msgid "JHBuild uses XML files to describe the dependencies between modules. A RELAX-NG schema and Document Type Definition are included with JHBuild in the <filename>modulesets/</filename> directory. The RELAX-NG schema can be used to edit module set files using <literal>nxml-mode</literal> in Emacs."
+msgstr ""
+
+#: C/jhbuild.xml:1640(para)
+msgid "The toplevel element in a module set file is <sgmltag class=\"element\">moduleset</sgmltag> element. Currently no XML namespace is used, but in the future this might change. The elements below the toplevel come in three types: module sources, include statements and module definitions."
+msgstr ""
+
+#: C/jhbuild.xml:1647(title) C/jhbuild.xml:2262(title)
+msgid "Module Sources"
+msgstr ""
+
+#: C/jhbuild.xml:1649(para)
+msgid "Rather than listing the full location of every module, a number of \"module sources\" are listed in the module set, and then referenced by name in the module definitions. As well as reducing the amount of redundant information in the module set, it makes it easy for a user to specify an alternative source for those modules (for CVS and Subversion, it is common for developers and users to use different repository access methods)."
+msgstr ""
+
+#: C/jhbuild.xml:1658(para)
+msgid "The <sgmltag class=\"element\">repository</sgmltag> element is used to describe all types of repository."
+msgstr ""
+
+#: C/jhbuild.xml:1661(programlisting)
+#, no-wrap
+msgid "\n&lt;repository name=\"<replaceable>name</replaceable>\"\n  type=\"<replaceable>type</replaceable>\"\n  [ default=\"<replaceable>default</replaceable>\" ]\n  [ password=\"<replaceable>password</replaceable>\" ]\n  [ cvsroot=\"<replaceable>cvsroot</replaceable>\" ]\n  [ archive=\"<replaceable>archive</replaceable>\" ]\n  [ href=\"<replaceable>href</replaceable>\" ]\n  [ server=\"<replaceable>server</replaceable>\" ]\n  [ database=\"<replaceable>database</replaceable>\" ]\n  [ defbranch=\"<replaceable>defbranch</replaceable>\" ]\n  [ developer-href-example=\"<replaceable>developer-href-example</replaceable>\" ] /&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1675(para)
+msgid "The <sgmltag class=\"attribute\">name</sgmltag> attribute is a unique identifier for the repository."
+msgstr ""
+
+#: C/jhbuild.xml:1678(para)
+msgid "The <sgmltag class=\"attribute\">default</sgmltag> attribute specifies whether this repository is the default source for this module set."
+msgstr ""
+
+#: C/jhbuild.xml:1682(para)
+msgid "The <sgmltag class=\"attribute\">type</sgmltag> attribute specifies the type of repository. It can be one of: <literal>arch</literal>, <literal>bzr</literal>, <literal>cvs</literal>, <literal>darcs</literal>, <literal>git</literal>, <literal>hg</literal>, <literal>mtr</literal>, <literal>svn</literal>, <literal>tarball</literal>. Other attributes depends on the <sgmltag class=\"attribute\">type</sgmltag>, as well as the <sgmltag class=\"element\">branch</sgmltag> used inside module definitions. Those are described below."
+msgstr ""
+
+#: C/jhbuild.xml:1693(para)
+msgid "The <sgmltag class=\"attribute\">developer-href-example</sgmltag> attribute is used to specify the format of the URL for the repository used by developers. This is informational only."
+msgstr ""
+
+#: C/jhbuild.xml:1698(title)
+msgid "Arch"
+msgstr "Arch"
+
+#: C/jhbuild.xml:1700(para)
+msgid "This repository type is used to define a Arch repository."
+msgstr ""
+
+#: C/jhbuild.xml:1702(para)
+msgid "The <sgmltag class=\"attribute\">archive</sgmltag> attribute is used to specify the archive to use."
+msgstr ""
+
+#: C/jhbuild.xml:1705(para)
+msgid "The <sgmltag class=\"attribute\">href</sgmltag> attribute is used to specify the URL of the repository."
+msgstr ""
+
+#: C/jhbuild.xml:1708(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"arch\" name=\"rhythmbox\"\n    archive=\"rhythmbox-devel@gnome.org--2004\"\n    href=\"http://web.rhythmbox.org/arch/2004\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1717(title)
+msgid "Bazaar"
+msgstr "Bazaar"
+
+#: C/jhbuild.xml:1718(para)
+msgid "This repository type is used to define a Bazaar repository."
+msgstr ""
+
+#: C/jhbuild.xml:1720(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"bzr\" name=\"launchpad.net\"\n      href=\"http://bazaar.launchpad.net/\"/&gt;\n"
+msgstr "\n&lt;repository type=\"bzr\" name=\"launchpad.net\"\n      href=\"http://bazaar.launchpad.net/\"/&gt;\n"
+
+#: C/jhbuild.xml:1727(title)
+msgid "CVS"
+msgstr "CVS"
+
+#: C/jhbuild.xml:1728(para)
+msgid "This repository type is used to define a CVS repository."
+msgstr ""
+
+#: C/jhbuild.xml:1730(para)
+msgid "The <sgmltag class=\"attribute\">password</sgmltag> attribute is used to specify the password to the repository."
+msgstr ""
+
+#: C/jhbuild.xml:1734(para)
+msgid "The <sgmltag class=\"attribute\">cvsroot</sgmltag> attribute is used to specify the root of the repository."
+msgstr ""
+
+#: C/jhbuild.xml:1738(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"cvs\" name=\"tango.freedesktop.org\"\n    cvsroot=\":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango\"\n    password=\"\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1747(title)
+msgid "Darcs"
+msgstr "Darcs"
+
+#: C/jhbuild.xml:1748(para)
+msgid "This repository type is used to define a Darcs repository."
+msgstr ""
+
+#: C/jhbuild.xml:1750(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"darcs\" name=\"telepathy.freedesktop.org\"\n      href=\"http://projects.collabora.co.uk/darcs/telepathy/\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1757(title)
+msgid "Git"
+msgstr "Git"
+
+#: C/jhbuild.xml:1758(para)
+msgid "This repository type is used to define a Git repository."
+msgstr ""
+
+#: C/jhbuild.xml:1760(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"git\" name=\"git.freedesktop.org\"\n    href=\"git://anongit.freedesktop.org/git/\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1765(programlisting)
+#, no-wrap
+msgid "\n&lt;branch repo=\"git.freedesktop.org\" module=\"swfdec/swfdec\"\n    checkoutdir=\"swfdec\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1774(title)
+msgid "Mercurial"
+msgstr "Mercurial"
+
+#: C/jhbuild.xml:1775(para)
+msgid "This repository type is used to define a Mercurial repository."
+msgstr ""
+
+#: C/jhbuild.xml:1777(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"hg\" name=\"hg.gtk-vnc\"\n    href=\"http://gtk-vnc.codemonkey.ws/hg/\" /&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1782(programlisting)
+#, no-wrap
+msgid "\n&lt;branch repo=\"hg.gtk-vnc\" module=\"outgoing.hg\" checkoutdir=\"gtk-vnc\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1789(title)
+msgid "Monotone"
+msgstr "Monotone"
+
+#: C/jhbuild.xml:1790(para)
+msgid "This repository type is used to define a Monotone repository."
+msgstr ""
+
+#: C/jhbuild.xml:1792(para)
+msgid "The <sgmltag class=\"attribute\">server</sgmltag> attribute is used to specify the repository server."
+msgstr ""
+
+#: C/jhbuild.xml:1795(para)
+msgid "The <sgmltag class=\"attribute\">database</sgmltag> attribute is used to specify the database to use for the repository."
+msgstr ""
+
+#: C/jhbuild.xml:1799(para)
+msgid "The <sgmltag class=\"attribute\">defbranch</sgmltag> attribute is used specify the branch of the repository to use."
+msgstr ""
+
+#: C/jhbuild.xml:1803(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"mtn\" name=\"pidgin.im\"\n    server=\"pidgin.im\" database=\"pidgin.im.mtn\"\n    defbranch=\"im.pidgin.pidgin\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1812(title)
+msgid "Subversion"
+msgstr "Subversion"
+
+#: C/jhbuild.xml:1813(para)
+msgid "This repository type is used to define a Subversion repository."
+msgstr ""
+
+#: C/jhbuild.xml:1815(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"svn\" name=\"svn.gnome.org\" default=\"yes\"\n    href=\"http://svn.gnome.org/svn/\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1820(para)
+msgid "It allows a <sgmltag class=\"attribute\">revision</sgmltag> on the <sgmltag class=\"element\">branch</sgmltag> element. This attribute defines the branch to checkout or, if it is a number, a specific revision to checkout."
+msgstr ""
+
+#: C/jhbuild.xml:1825(programlisting)
+#, no-wrap
+msgid "\n&lt;branch revision=\"gnome-2-20\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1832(title)
+msgid "Tarballs"
+msgstr ""
+
+#: C/jhbuild.xml:1833(para)
+msgid "This repository type is used to define a tarball repository."
+msgstr ""
+
+#: C/jhbuild.xml:1835(programlisting)
+#, no-wrap
+msgid "\n&lt;repository type=\"tarball\" name=\"dbus/dbus-python\"\n    href=\"http://dbus.freedesktop.org/releases/dbus-python/\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1840(para)
+msgid "It allows the following attributes on the <sgmltag class=\"element\">branch</sgmltag> element:"
+msgstr ""
+
+#: C/jhbuild.xml:1843(para)
+msgid "The <sgmltag class=\"attribute\">module</sgmltag> attribute specifies the file to download and compile, the <sgmltag class=\"attribute\">version</sgmltag> attribute specifies the module version."
+msgstr ""
+
+#: C/jhbuild.xml:1848(para)
+msgid "The <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class=\"attribute\">md5sum</sgmltag> attributes are optional. If these two attributes are present, they are used to check that the source package was downloaded correctly."
+msgstr ""
+
+#: C/jhbuild.xml:1853(para) C/jhbuild.xml:2565(para)
+msgid "The <sgmltag class=\"element\">patches</sgmltag> element is used to specify one or more patches to apply to the source tree after unpacking, the <sgmltag class=\"attribute\">file</sgmltag> attribute gives the patch filename, and the <sgmltag class=\"attribute\">strip</sgmltag> attribute says how many levels of directories to prune when applying the patch."
+msgstr ""
+
+#: C/jhbuild.xml:1861(para) C/jhbuild.xml:2573(para)
+msgid "For module sets shipped with JHbuild, the patch files are looked up in the <filename>jhbuild/patches/</filename> directory; for module sets referred by URI, the patch files are looked for in the same directory as the moduleset file, or in its <filename>patches/</filename> subdirectory. It is also possible for the <sgmltag class=\"attribute\">file</sgmltag> attribute to specify a URI, in which case it will be downloaded from that location."
+msgstr ""
+
+#: C/jhbuild.xml:1870(programlisting)
+#, no-wrap
+msgid "\n&lt;branch module=\"dbus-python-0.80.2.tar.gz\" version=\"0.80.2\"\n    repo=\"dbus/dbus-python\"\n    md5sum=\"2807bc85215c995bd595e01edd9d2077\" size=\"453499\"&gt;\n  &lt;patches&gt;\n    &lt;patch file=\"dbus-glib-build.patch\" strip=\"1\" /&gt;\n  &lt;/patches&gt;\n&lt;branch&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1885(title)
+msgid "Including Other Module Sets"
+msgstr ""
+
+#: C/jhbuild.xml:1887(para)
+msgid "JHBuild allows one module set to include the contents of another by reference using the <sgmltag class=\"element\">include</sgmltag> element."
+msgstr ""
+
+#: C/jhbuild.xml:1891(programlisting)
+#, no-wrap
+msgid "\n&lt;include href=\"<replaceable>uri</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1895(para)
+msgid "The <sgmltag class=\"attribute\">href</sgmltag> is a URI reference to the module set to be included, relative to the file containing the <sgmltag class=\"element\">include</sgmltag> element."
+msgstr ""
+
+#: C/jhbuild.xml:1900(para)
+msgid "Only module definitions are imported from the referenced module set - module sources are not. Multiple levels of includes are allowed, but include loops are not (there isn't any code to handle loops at the moment)."
+msgstr ""
+
+#: C/jhbuild.xml:1907(title)
+msgid "Module Definitions"
+msgstr ""
+
+#: C/jhbuild.xml:1909(para)
+msgid "There are various types of module definitions that can be used in a module set file, and the list can easily be extended. Only the most common ones will be mentioned here."
+msgstr ""
+
+#: C/jhbuild.xml:1913(para)
+msgid "They are all basically composed of a <sgmltag class=\"element\">branch</sgmltag> element describing how to get the module and <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class=\"element\">after</sgmltag> elements to declare the dependencies of the module."
+msgstr ""
+
+#: C/jhbuild.xml:1920(para)
+msgid "Any modules listed in the <sgmltag class=\"element\">dependencies</sgmltag> element will be added to the module list for <command>jhbuild build</command> if it isn't already included, and make sure the dependent modules are built first."
+msgstr ""
+
+#: C/jhbuild.xml:1926(para)
+msgid "After generating the modules list, the modules listed in the <sgmltag class=\"element\">suggests</sgmltag> element will be used to further sort the modules list (although it will not pull any additional modules). This is intended for cases where a module has an optional dependency on another module."
+msgstr ""
+
+#: C/jhbuild.xml:1934(title)
+msgid "autotools"
+msgstr "autotools"
+
+#: C/jhbuild.xml:1936(para)
+msgid "The <sgmltag class=\"element\">autotools</sgmltag> element is used to define a module which is compiled using the GNU Autotools build system."
+msgstr ""
+
+#: C/jhbuild.xml:1940(programlisting)
+#, no-wrap
+msgid "\n&lt;autotools id=\"<replaceable>id</replaceable>\"\n\t      [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n\t      [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n\t      [ makeinstallargs=\"<replaceable>makeinstallargs</replaceable>\" ]\n\t      [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n\t      [ makefile=\"<replaceable>makefile</replaceable>\" ]\n\t      [ skip-autogen=\"<replaceable>skip-autogen</replaceable>\" ]\n\t      [ autogen-template=\"<replaceable>autogen-template</replaceable>\" ]\n\t      [ supports-non-srcdir-builds=\"<replaceable>supports-non-srcdir-builds</replaceable>\" ]&gt;\n\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n\n&lt;/autotools&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:1967(para)
+msgid "The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class=\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute\">makeinstallargs</sgmltag> attributes are used to specify additional arguments to pass to <command>autogen.sh</command>, <command>make</command> and <command>make install</command> respectively."
+msgstr ""
+
+#: C/jhbuild.xml:1974(para)
+msgid "The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies the name of the autogen.sh script to run. The value <literal>autoreconf</literal> can be used if your module has no <command>autogen.sh</command> script equivalent. In that case, JHBuild will run <command>autoreconf -i</command>, followed by the proper <command>configure</command>. <sgmltag class=\"attribute\">skip-autogen</sgmltag> chooses whether or not to run autogen.sh. <sgmltag class=\"attribute\">makefile</sgmltag> specifies the filename of the makefile to use."
+msgstr ""
+
+#: C/jhbuild.xml:1987(para)
+msgid "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> attribute is used to mark modules that can't be cleanly built using a separate source directory."
+msgstr ""
+
+#: C/jhbuild.xml:1992(para)
+msgid "The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be used if you need finer control over the autogen command line. It is a python format string, which will be substituted with the following variables: <varname>srcdir</varname>, <varname>autogen-sh</varname>, <varname>prefix</varname>, <varname>libdir</varname>, and <varname>autogenargs</varname>. For example, here is the default autogen-template:"
+msgstr ""
+
+#: C/jhbuild.xml:2001(programlisting)
+#, no-wrap
+msgid "\n%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
+msgstr ""
+
+#: C/jhbuild.xml:2008(title)
+msgid "cmake"
+msgstr "cmake"
+
+#: C/jhbuild.xml:2010(para)
+msgid "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a module which is built using the CMake build system."
+msgstr ""
+
+#: C/jhbuild.xml:2013(programlisting)
+#, no-wrap
+msgid "\n&lt;cmake id=\"<replaceable>modulename</replaceable>\"&gt;\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n&lt;/cmake&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2033(title)
+msgid "distutils"
+msgstr "distutils"
+
+#: C/jhbuild.xml:2035(para)
+msgid "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define a module which is built using python's distutils"
+msgstr ""
+
+#: C/jhbuild.xml:2039(programlisting)
+#, no-wrap
+msgid "\n&lt;distutils id=\"<replaceable>modulename</replaceable>\"\n            [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n&lt;/distutils&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2060(title)
+msgid "linux"
+msgstr "linux"
+
+#: C/jhbuild.xml:2062(para)
+msgid "The <sgmltag class=\"element\">linux</sgmltag> element defines a module used to build a linux kernel. In addition, a separate kernel configuration can be chosen using the <sgmltag class=\"element\">kconfig</sgmltag> subelement."
+msgstr ""
+
+#: C/jhbuild.xml:2068(programlisting)
+#, no-wrap
+msgid "\n&lt;linux id=\"<replaceable>id</replaceable>\"\n\t  [ makeargs=\"<replaceable>makeargs</replaceable>\" ]&gt;\n\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n\n  &lt;kconfig [ repo=\"<replaceable>repo</replaceable>\" ]\n\t    version=\"<replaceable>version</replaceable>\"\n\t    [ module=\"<replaceable>module</replaceable>\" ]\n\t    [ config=\"<replaceable>config</replaceable>\" ] /&gt;\n\n&lt;/linux&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2096(title)
+msgid "perl"
+msgstr "perl"
+
+#: C/jhbuild.xml:2098(para)
+msgid "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl modules."
+msgstr ""
+
+#: C/jhbuild.xml:2101(para)
+msgid "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to specify additional arguments to pass to <command>make</command>."
+msgstr ""
+
+#: C/jhbuild.xml:2105(programlisting)
+#, no-wrap
+msgid "\n&lt;perl id=\"<replaceable>modulename</replaceable>\"\n\t [ makeargs=\"<replaceable>makeargs</replaceable>\" ]&gt;\n\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n\n&lt;/perl&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2127(title)
+msgid "waf"
+msgstr "waf"
+
+#: C/jhbuild.xml:2129(para)
+msgid "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a module which is built using the Waf build system."
+msgstr ""
+
+#: C/jhbuild.xml:2132(para)
+msgid "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to specify the waf command script to use; it defaults to <command>waf</command>."
+msgstr ""
+
+#: C/jhbuild.xml:2136(programlisting)
+#, no-wrap
+msgid "\n&lt;waf id=\"<replaceable>modulename</replaceable>\"&gt;\n\t [ waf-command=\"<replaceable>waf-command</replaceable>\" ]&gt;\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n&lt;/waf&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2157(title)
+msgid "Ant"
+msgstr "Ant"
+
+#: C/jhbuild.xml:2159(para)
+msgid "The <sgmltag class=\"element\">ant</sgmltag> element is used to define a module which is built using Ant, the Java based build tool."
+msgstr ""
+
+#: C/jhbuild.xml:2162(programlisting)
+#, no-wrap
+msgid "\n&lt;ant id=\"<replaceable>modulename</replaceable>\"&gt;\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n&lt;/ant&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2180(title)
+msgid "Example of a module built with ant"
+msgstr ""
+
+#: C/jhbuild.xml:2194(title)
+msgid "testmodule"
+msgstr "testmodule"
+
+#: C/jhbuild.xml:2196(para)
+msgid "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to create a module which runs a suite of tests using LDTP or Dogtail."
+msgstr ""
+
+#: C/jhbuild.xml:2200(programlisting)
+#, no-wrap
+msgid "\n&lt;testmodule id=\"<replaceable>id</replaceable>\"\n\t       type=\"<replaceable>type</replaceable>\"&gt;\n\n  &lt;branch [ ... ] &gt;\n    [...]\n  &lt;/branch&gt;\n\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;after&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/after&gt;\n\n  &lt;testedmodules&gt;\n    &lt;tested package=\"<replaceable>package</replaceable>\" /&gt;\n  &lt;/testedmodules&gt;\n\n&lt;/testmodule&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2227(title)
+msgid "metamodule"
+msgstr "metamodule"
+
+#: C/jhbuild.xml:2229(para)
+msgid "The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module that doesn't actually do anything. The only purpose of a module of this type is its dependencies."
+msgstr ""
+
+#: C/jhbuild.xml:2234(para)
+msgid "For example, meta-gnome-desktop depends on all the key components of the GNOME desktop, therefore telling JHBuild to install it actually installs the full desktop."
+msgstr ""
+
+#: C/jhbuild.xml:2238(programlisting)
+#, no-wrap
+msgid "\n&lt;metamodule id=\"<replaceable>modulename</replaceable>\"&gt;\n  &lt;dependencies&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/dependencies&gt;\n  &lt;suggests&gt;\n    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n    ...\n  &lt;/suggests&gt;\n&lt;/metamodule&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2250(para)
+msgid "The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of the module. The child elements are handled as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+msgstr ""
+
+#: C/jhbuild.xml:2259(title)
+msgid "Deprecated Elements"
+msgstr ""
+
+#: C/jhbuild.xml:2265(title)
+msgid "cvsroot"
+msgstr "cvsroot"
+
+#: C/jhbuild.xml:2267(para)
+msgid "The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - the <sgmltag class=\"element\">repository</sgmltag> element should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2272(para)
+msgid "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe a CVS repository."
+msgstr ""
+
+#: C/jhbuild.xml:2275(programlisting)
+#, no-wrap
+msgid "\n  &lt;cvsroot name=\"<replaceable>rootname</replaceable>\"\n           [ default=\"<replaceable>yes|no</replaceable>\" ]\n           root=\"<replaceable>anon-cvsroot</replaceable>\"\n           password=\"<replaceable>anon-password</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2282(para)
+msgid "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique identifier for the CVS repository."
+msgstr ""
+
+#: C/jhbuild.xml:2285(para)
+msgid "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether this is the default module source for this module set file."
+msgstr ""
+
+#: C/jhbuild.xml:2289(para)
+msgid "The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root used for anonymous access to this repository, and the <sgmltag class=\"attribute\">password</sgmltag> attribute gives the password used for anonymous access."
+msgstr ""
+
+#: C/jhbuild.xml:2297(title)
+msgid "svnroot"
+msgstr "svnroot"
+
+#: C/jhbuild.xml:2299(para)
+msgid "The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - the <sgmltag class=\"element\">repository</sgmltag> element should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2304(para)
+msgid "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe a Subversion repository."
+msgstr ""
+
+#: C/jhbuild.xml:2307(programlisting)
+#, no-wrap
+msgid "\n  &lt;svnroot name=\"<replaceable>rootname</replaceable>\"\n           [ default=\"<replaceable>yes|no</replaceable>\" ]\n           href=\"<replaceable>anon-svnroot</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2313(para)
+msgid "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique identifier for the Subversion repository."
+msgstr ""
+
+#: C/jhbuild.xml:2317(para) C/jhbuild.xml:2347(para)
+msgid "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether this is the default module source for this module set file."
+msgstr ""
+
+#: C/jhbuild.xml:2321(para)
+msgid "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL for the repository. This will probably be either a <literal>http</literal>, <literal>https</literal> or <literal>svn</literal> URL."
+msgstr ""
+
+#: C/jhbuild.xml:2328(title)
+msgid "arch-archive"
+msgstr "arch-archive"
+
+#: C/jhbuild.xml:2330(para)
+msgid "The <sgmltag class=\"element\">arch-archive</sgmltag> element is now deprecated - the <sgmltag class=\"element\">repository</sgmltag> element should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2335(para)
+msgid "The <sgmltag class=\"element\">arch-archive</sgmltag> element is used to describe a GNU Arch archive."
+msgstr ""
+
+#: C/jhbuild.xml:2338(programlisting)
+#, no-wrap
+msgid "\n  &lt;arch-archive name=\"<replaceable>archivename</replaceable>\"\n                [ default=\"<replaceable>yes|no</replaceable>\" ]\n                href=\"<replaceable>mirror-url</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2344(para)
+msgid "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be the Arch archive name."
+msgstr ""
+
+#: C/jhbuild.xml:2351(para)
+msgid "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists a public mirror URL for the archive."
+msgstr ""
+
+#: C/jhbuild.xml:2357(title)
+msgid "Deprecated Module Types"
+msgstr ""
+
+#: C/jhbuild.xml:2360(para)
+msgid "This section describes deprecated elements, they may still be used in existing module sets but it is advised not to use them anymore."
+msgstr ""
+
+#: C/jhbuild.xml:2366(title)
+msgid "cvsmodule"
+msgstr "cvsmodule"
+
+#: C/jhbuild.xml:2368(para)
+msgid "The <sgmltag class=\"element\">cvsmodule</sgmltag> element is now deprecated. The appropriate build system's module should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2372(para)
+msgid "The <sgmltag class=\"element\">cvsmodule</sgmltag> element is used to define a module that is to be built from CVS."
+msgstr ""
+
+#: C/jhbuild.xml:2376(programlisting)
+#, no-wrap
+msgid "\n  &lt;cvsmodule module=\"<replaceable>modulename</replaceable>\"\n             [ revision=\"<replaceable>branch-or-tag</replaceable>\" ]\n             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n             [ root=\"<replaceable>rootname</replaceable>\" ]\n             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n    &lt;dependencies&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/dependencies&gt;\n    &lt;suggests&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/suggests&gt;\n    &lt;after&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &gt;\n  &lt;/cvsmodule&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2399(para)
+msgid "The <sgmltag class=\"attribute\">module</sgmltag>, <sgmltag class=\"attribute\">revision</sgmltag> and <sgmltag class=\"attribute\">root</sgmltag> attributes identify the module to check out from CVS. The <sgmltag class=\"attribute\">checkoutdir</sgmltag> attribute can be used to specify an alternative directory to check out to (by default, the value of <sgmltag class=\"attribute\">module</sgmltag> is used)."
+msgstr ""
+
+#: C/jhbuild.xml:2408(para)
+msgid "The <sgmltag class=\"attribute\">autogenargs</sgmltag>, <sgmltag class=\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> attributes are common to many different module types. The <sgmltag class=\"attribute\">autogenargs</sgmltag> attribute lists additional arguments to be passed to <command>autogen.sh</command>, and <sgmltag class=\"attribute\">makeargs</sgmltag> lists additional arguments to be passed to <command>make</command>. The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> attribute is used to mark modules that can't be cleanly built using a separate source directory."
+msgstr ""
+
+#: C/jhbuild.xml:2422(para)
+msgid "The <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class=\"element\">after</sgmltag> elements are processed as for <link linkend=\"moduleset-syntax-defs-autotools\">autotools</link>."
+msgstr ""
+
+#: C/jhbuild.xml:2432(title)
+msgid "svnmodule"
+msgstr "svnmodule"
+
+#: C/jhbuild.xml:2434(para)
+msgid "The <sgmltag class=\"element\">svnmodule</sgmltag> element is now deprecated. The appropriate build system's module should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2438(para)
+msgid "The <sgmltag class=\"element\">svnmodule</sgmltag> element is used to define a module that is to be built from Subversion."
+msgstr ""
+
+#: C/jhbuild.xml:2442(programlisting)
+#, no-wrap
+msgid "\n  &lt;svnmodule module=\"<replaceable>modulename</replaceable>\"\n             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n             [ root=\"<replaceable>rootname</replaceable>\" ]\n             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n    &lt;dependencies&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/dependencies&gt;\n    &lt;suggests&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/suggests&gt;\n    &lt;after&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/after&gt;\n  &lt;/svnmodule&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2463(para)
+msgid "The <sgmltag class=\"attribute\">module</sgmltag> attribute gives the path of the module relative to the repository URI. All other options for this element are processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+msgstr ""
+
+#: C/jhbuild.xml:2472(title)
+msgid "archmodule"
+msgstr "archmodule"
+
+#: C/jhbuild.xml:2474(para)
+msgid "The <sgmltag class=\"element\">archmodule</sgmltag> element is now deprecated. The appropriate build system's module should be used instead."
+msgstr ""
+
+#: C/jhbuild.xml:2478(para)
+msgid "The <sgmltag class=\"element\">archmodule</sgmltag> element is used to define a module that is to be built from a GNU Arch archive."
+msgstr ""
+
+#: C/jhbuild.xml:2482(programlisting)
+#, no-wrap
+msgid "\n  &lt;archmodule version=\"<replaceable>modulename</replaceable>\"\n              [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n              [ root=\"<replaceable>rootname</replaceable>\" ]\n              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n    &lt;dependencies&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/dependencies&gt;\n    &lt;suggests&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/suggests&gt;\n    &lt;after&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/after&gt;\n  &lt;/archmodule&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2503(para)
+msgid "The <sgmltag class=\"attribute\">version</sgmltag> attribute gives the version to be checked out from the archive specified by <sgmltag class=\"attribute\">root</sgmltag>. All other options for this element are processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+msgstr ""
+
+#: C/jhbuild.xml:2512(title)
+msgid "tarball"
+msgstr ""
+
+#: C/jhbuild.xml:2515(para)
+msgid "The <sgmltag class=\"element\">tarball</sgmltag> element is now deprecated. The appropriate build type module should be used instead. As a transitive measure this element has however been reimplemented as a thin wrapper around both <sgmltag class=\"element\">autotools</sgmltag> module type and <sgmltag class=\"element\">tarball</sgmltag> repository type."
+msgstr ""
+
+#: C/jhbuild.xml:2524(para)
+msgid "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a module that is to be built from a tarball."
+msgstr ""
+
+#: C/jhbuild.xml:2528(programlisting)
+#, no-wrap
+msgid "\n  &lt;tarball id=\"<replaceable>modulename</replaceable>\"\n              [ version=\"<replaceable>version</replaceable>\" ]\n              [ checkourdir=\"<replaceable>checkoutdir</replaceable>\" ]\n              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n              [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n    &lt;source href=\"<replaceable>source-url</replaceable>\"\n            [ size=\"<replaceable>source-size</replaceable>\" ]\n            [ md5sum=\"<replaceable>source-md5sum</replaceable>\" ]/&gt;\n    &lt;patches&gt;\n      &lt;patch file=\"<replaceable>filename</replaceable>\" strip=\"<replaceable>level</replaceable>\"/&gt;\n      ...\n    &lt;/patches&gt;\n    &lt;dependencies&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/dependencies&gt;\n    &lt;suggests&gt;\n      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n      ...\n    &lt;/suggests&gt;\n  &lt;/tarball&gt;\n"
+msgstr ""
+
+#: C/jhbuild.xml:2553(para)
+msgid "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute\">version</sgmltag> attributes are used to identify the module."
+msgstr ""
+
+#: C/jhbuild.xml:2557(para)
+msgid "The <sgmltag class=\"element\">source</sgmltag> element specifies the file to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> attribute is mandatory, while the <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class=\"attribute\">md5sum</sgmltag> attributes are optional. If these last two attributes are present, they are used to check that the source package was downloaded correctly."
+msgstr ""
+
+#: C/jhbuild.xml:2582(para)
+msgid "The other attributes and the <sgmltag class=\"element\">dependencies</sgmltag> and <sgmltag class=\"element\">suggests</sgmltag> sub-elements are processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+msgstr ""
+
+#: C/jhbuild.xml:2594(title)
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: C/jhbuild.xml:2598(title)
+msgid "General JHBuild Questions"
+msgstr ""
+
+#: C/jhbuild.xml:2601(simpara)
+msgid "The <command>wget</command> command can't download any tarballs. How do I get it to work with my firewall?"
+msgstr ""
+
+#: C/jhbuild.xml:2606(para)
+msgid "This can be fixed by creating or editing a <filename>~/.wgetrc</filename> file. If you need to go through an HTTP proxy to access FTP sites, add a line like the following to the file:"
+msgstr ""
+
+#: C/jhbuild.xml:2610(programlisting)
+#, no-wrap
+msgid "ftp_proxy = http://<replaceable>hostname</replaceable>:<replaceable>port</replaceable>/"
+msgstr ""
+
+#: C/jhbuild.xml:2611(para)
+msgid "If you just need to use passive FTP connections (sometimes needed with NAT firewalls), add the following line:"
+msgstr ""
+
+#: C/jhbuild.xml:2614(programlisting)
+#, no-wrap
+msgid "passive_ftp = on"
+msgstr "passive_ftp = on"
+
+#: C/jhbuild.xml:2615(para)
+msgid "This will fix all uses of the <command>wget</command> command."
+msgstr ""
+
+#: C/jhbuild.xml:2621(simpara)
+msgid "Building stuff is slow. Is there any way I can speed it up?"
+msgstr ""
+
+#: C/jhbuild.xml:2625(para)
+msgid "Other than buying a faster CPU, hard disk or getting more memory, you might want to install <ulink url=\"http://ccache.samba.org/\">CCache</ulink>, which can cache compilation results for you. It is available with most distributions."
+msgstr ""
+
+#: C/jhbuild.xml:2630(para)
+msgid "After installing CCache, set the cache size with the following command:"
+msgstr ""
+
+#: C/jhbuild.xml:2632(programlisting)
+#, no-wrap
+msgid "ccache -M 2G"
+msgstr "ccache -M 2G"
+
+#: C/jhbuild.xml:2633(para)
+msgid "(replace <literal>2G</literal> with the size you want for your cache). Then create symlinks to CCache for your compiler in <filename>~/bin</filename>:"
+msgstr ""
+
+#: C/jhbuild.xml:2636(programlisting)
+#, no-wrap
+msgid "cd ~/bin\nfor cmd in cc gcc c++ g++; do\n  ln -s /usr/bin/ccache $cmd\ndone"
+msgstr "cd ~/bin\nfor cmd in cc gcc c++ g++; do\n  ln -s /usr/bin/ccache $cmd\ndone"
+
+#: C/jhbuild.xml:2640(para)
+msgid "You can check the status of your cache (such as cache hit rates) with the following command:"
+msgstr ""
+
+#: C/jhbuild.xml:2642(programlisting)
+#, no-wrap
+msgid "ccache -s"
+msgstr "ccache -s"
+
+#: C/jhbuild.xml:2647(simpara)
+msgid "Is there a better way to monitor the status of the build than looking at terminal window?"
+msgstr ""
+
+#: C/jhbuild.xml:2651(para)
+msgid "If you have Zenity &gt;= 2.9 installed on your system, JHBuild will display an icon in the system tray. The icon will display the current build stage, and the tooltip will show the last message from JHBuild."
+msgstr ""
+
+#: C/jhbuild.xml:2655(para)
+msgid "The icon will also pop up a balloon on error."
+msgstr ""
+
+#: C/jhbuild.xml:2660(title)
+msgid "Building GNOME"
+msgstr "Construir GNOME"
+
+#: C/jhbuild.xml:2663(simpara)
+msgid "What other prerequisites are needed to build GNOME with JHBuild?"
+msgstr ""
+
+#: C/jhbuild.xml:2667(para)
+msgid "Some of the packages you will need on your system include:"
+msgstr ""
+
+#: C/jhbuild.xml:2671(simpara)
+msgid "DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML catalog (<filename>/etc/xml/catalog</filename>)."
+msgstr ""
+
+#: C/jhbuild.xml:2676(simpara)
+msgid "X libraries"
+msgstr "Librerías de las X"
+
+#: C/jhbuild.xml:2679(simpara)
+msgid "fam or gamin (used by gnome-vfs for file monitoring)."
+msgstr ""
+
+#: C/jhbuild.xml:2683(simpara)
+msgid "<filename>libsmbclient</filename> from Samba (used for browsing Windows networks)."
+msgstr ""
+
+#: C/jhbuild.xml:2687(simpara)
+msgid "<filename>libbz2</filename> from bzip2."
+msgstr ""
+
+#: C/jhbuild.xml:2691(simpara)
+msgid "<filename>libpng</filename>, <filename>libjpeg</filename> and <filename>libtiff</filename> (used for image loading)."
+msgstr ""
+
+#: C/jhbuild.xml:2697(para)
+msgid "If you are installing distro packages, you may need to install corresponding \"dev\" or \"devel\" packages. Note that this list is just a starting point - not a comprehensive list."
+msgstr ""
+
+#: C/jhbuild.xml:2705(simpara)
+msgid "I've built GNOME with JHBuild. How do I run it?"
+msgstr ""
+
+#: C/jhbuild.xml:2709(para)
+msgid "(a) You will want to create a <filename>~/.xsession</filename> file, which is run by the display manager when you log in. This file should look something like this:"
+msgstr ""
+
+#: C/jhbuild.xml:2713(programlisting)
+#, no-wrap
+msgid "#!/bin/sh\nexec jhbuild run gnome-session"
+msgstr "#!/bin/sh\nexec jhbuild run gnome-session"
+
+#: C/jhbuild.xml:2715(para)
+msgid "Finally, you should make sure that the <filename>~/.xsession</filename> file is executable."
+msgstr ""
+
+#: C/jhbuild.xml:2717(para)
+msgid "(b) Use a more sophisticated session script that is run when you log in using a graphical login manager (gdm /kdm/xdm). The problem with D-Bus and HAL is that these daemons come with your distribution and are most likely already running, but may be unusable by the Gnome development version (i.e. they are too old or incompatible). The session script just starts hal and d-bus from the jhbuild installation in addition to the system-wide versions. Put the following script as e.g. <filename>/usr/bin/gnomesvn-session</filename> and make sure you adjust <userinput>GNOME</userinput> to your local settings:"
+msgstr ""
+
+#: C/jhbuild.xml:2730(programlisting)
+#, no-wrap
+msgid "\nGNOME=/opt/gnome2\n \nGDK_USE_XFT=1\n#XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share\n#XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg\n\nDBUS_LAUNCH=\"$GNOME/bin/dbus-launch --exit-with-session\"\n \nsudo su -c \"$GNOME/bin/dbus-daemon --system; \\\n                   $GNOME/sbin/hald\"\n \njhbuild run $DBUS_LAUNCH gnome-session"
+msgstr "\nGNOME=/opt/gnome2\n \nGDK_USE_XFT=1\n#XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share\n#XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg\n\nDBUS_LAUNCH=\"$GNOME/bin/dbus-launch --exit-with-session\"\n \nsudo su -c \"$GNOME/bin/dbus-daemon --system; \\\n                   $GNOME/sbin/hald\"\n \njhbuild run $DBUS_LAUNCH gnome-session"
+
+#: C/jhbuild.xml:2743(para)
+msgid "Uncomment the XDG_ lines if you want the system-wide program menus from your distribution in addition to the entries from the jhbuild GNOME. Make sure the file is executable:"
+msgstr ""
+
+#: C/jhbuild.xml:2748(programlisting)
+#, no-wrap
+msgid "chmod a+x /usr/bin/gnomesvn-session"
+msgstr "chmod a+x /usr/bin/gnomesvn-session"
+
+#: C/jhbuild.xml:2749(para)
+msgid "Because you need to start system daemons, you will need root privileges which are obtained by sudo. Note that you need to configure sudo so that it won't ask for a password! Run <userinput>visudo</userinput> as root and enter (don't forget to change your username and the paths):"
+msgstr ""
+
+#: C/jhbuild.xml:2757(programlisting)
+#, no-wrap
+msgid "\n# Cmnd alias specification\nCmnd_Alias  GNOME =  /opt/gnome2/bin/dbus-daemon, \\\n                     /opt/gnome2/sbin/hald\n\n# User privilege specification\ngnometester  ALL = NOPASSWD: GNOME"
+msgstr ""
+
+#: C/jhbuild.xml:2764(para)
+msgid "In order to get a new session entry in the login manager, create <filename>/usr/share/xsessions/gnomesvn.desktop</filename> and put this or something similar:"
+msgstr ""
+
+#: C/jhbuild.xml:2768(programlisting)
+#, no-wrap
+msgid "\n[Desktop Entry]\nEncoding=UTF-8\nName=Gnome svn (jhbuild)\nComment=This session logs you into Gnome testing session\nExec=/usr/bin/gnomesvn-session\nIcon=\nType=Application"
+msgstr ""
+
+#: C/jhbuild.xml:2776(para)
+msgid "Now you can restart gdm and log into your jhbuild GNOME. Make sure you select the jhbuild session before entering the login credentials. Advice: Use a seperate user account for testing!"
+msgstr ""
+
+#: C/jhbuild.xml:2785(simpara)
+msgid "I built GNOME using JHBuild with <varname>prefix</varname> set to <filename>/usr</filename>, and now my system is broken. What should I do?"
+msgstr ""
+
+#: C/jhbuild.xml:2790(para)
+msgid "Don't set <varname>prefix</varname> to <filename>/usr</filename>."
+msgstr ""
+
+#: C/jhbuild.xml:2796(simpara)
+msgid "How do I get <command>gnome-volume-manager</command> to work when running in a prefix?"
+msgstr ""
+
+#: C/jhbuild.xml:2801(para)
+msgid "The <command>gnome-volume-manager</command> program reacts to messages from <command>hald</command> over the system message bus, which must be running as root. Assuming that your distribution comes with <acronym>HAL</acronym>, the main problem is getting <command>gnome-volume-manager</command> to talk to the system message bus."
+msgstr ""
+
+#: C/jhbuild.xml:2808(para)
+msgid "Since communication is done over a UNIX domain socket, the easiest way to do this is to create a symlink from <filename>/var/run/dbus</filename> to <filename>$prefix/var/run/dbus</filename>:"
+msgstr ""
+
+#: C/jhbuild.xml:2812(programlisting)
+#, no-wrap
+msgid "mkdir -p $prefix/var/run\ncd $prefix/var/run\nln -s /var/run/dbus dbus"
+msgstr "mkdir -p $prefix/var/run\ncd $prefix/var/run\nln -s /var/run/dbus dbus"
+
+#: C/jhbuild.xml:2815(para)
+msgid "You may also have trouble building HAL with JHBuild, since it tries to install some things outside of its build root. Running <userinput>make -k install</userinput> in the hal directory might help here."
+msgstr ""
+
+#. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
+#: C/jhbuild.xml:0(None)
+msgid "translator-credits"
+msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008."
+
