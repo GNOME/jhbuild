@@ -30,26 +30,20 @@ import jhbuild.frontends
 from jhbuild.commands import Command, register_command
 from jhbuild.commands.base import cmd_build
 from jhbuild.config import addpath
+from jhbuild.errors import UsageError, FatalError, CommandError
 
-from buildbot.slave.commands import Command as BuildBotCommand
-from buildbot.slave.commands import ShellCommand
-from buildbot.slave.registry import registerSlaveCommand
+try:
+    import buildbot
+except ImportError:
+    buildbot = None
 
-from twisted.application import service
-from buildbot.slave.bot import BuildSlave
 
-from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
-
-class JhBuildbotApplicationRunner(UnixApplicationRunner):
-    application = None
-
-    def createOrGetApplication(self):
-        return self.application
-
-class JhBuildbotCommand(BuildBotCommand):
+class JhBuildbotCommand:
+    # will be changed to inherit from BuildBotCommand once it is loaded
     jhbuildrc = None # will be config.filename
 
     def start(self):
+        from buildbot.slave.commands import ShellCommand
         args = self.args
         moduleset = None
         stage = None
@@ -85,9 +79,6 @@ class JhBuildbotCommand(BuildBotCommand):
         self.interrupted = True
         self.command.kill('command interrupted')
 
-registerSlaveCommand('jhbuild', JhBuildbotCommand, 0.1)
-
-
 
 class cmd_bot(Command):
     doc = _('Control buildbot slave')
@@ -117,6 +108,18 @@ class cmd_bot(Command):
     def run(self, config, options, args):
         if options.setup:
             return self.setup(config)
+
+        global buildbot
+        if buildbot is None:
+            import site
+            pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+            pythonpath = os.path.join(config.prefix, 'lib', pythonversion, 'site-packages')
+            site.addsitedir(pythonpath)
+            try:
+                import buildbot
+            except ImportError:
+                raise FatalError(_('buildbot and twisted not found, run jhbuild bot --setup'))
+
         if options.start:
             return self.start(config)
         if options.step:
@@ -150,7 +153,15 @@ class cmd_bot(Command):
         return build.build()
     
     def start(self, config):
+        from buildbot.slave.registry import registerSlaveCommand
+        from buildbot.slave.commands import Command as BuildBotCommand
+
         JhBuildbotCommand.jhbuildrc = config.filename
+        JhBuildbotCommand.__bases__ = (BuildBotCommand,)
+
+        registerSlaveCommand('jhbuild', JhBuildbotCommand, 0.1)
+
+        from twisted.application import service
         application = service.Application('buildslave')
         if ':' in config.jhbuildbot_master:
             master_host, master_port = config.jhbuildbot_master.split(':')
@@ -166,13 +177,23 @@ class cmd_bot(Command):
         basedir = os.path.join(config.checkoutroot, 'jhbuildbot')
         os.makedirs(os.path.join(basedir, 'builddir'))
 
+        from buildbot.slave.bot import BuildSlave
         s = BuildSlave(master_host, master_port,
                 slave_name, config.jhbuildbot_password, basedir,
                 keepalive, usepty, umask=umask)
         s.setServiceParent(application)
 
+
+        from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
+
         options = ServerOptions()
         options.parseOptions(['--no_save', '--nodaemon'])
+
+        class JhBuildbotApplicationRunner(UnixApplicationRunner):
+            application = None
+
+            def createOrGetApplication(self):
+                return self.application
 
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
