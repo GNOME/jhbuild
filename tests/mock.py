@@ -41,6 +41,8 @@ class Config:
     makedistcheck = False
     nopoison = False
     makecheck_advisory = False
+    module_makecheck = {}
+    forcecheck = False
 
     min_time = None
 

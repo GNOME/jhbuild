@@ -28,7 +28,11 @@ class TrayIcon:
     def __init__(self):
         if not os.environ.get('DISPLAY'):
             return
-        self._run_zenity()
+        try:
+            self._run_zenity()
+        except AttributeError:
+            # 'cStringIO.StringO' object has no attribute 'fileno'
+            pass
 
     def __del__(self):
         if self.proc:
