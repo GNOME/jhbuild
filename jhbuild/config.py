@@ -42,7 +42,8 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
                 'nopoison', 'forcecheck', 'makecheck_advisory',
-                'quiet_mode', 'progress_bar', 'module_extra_env']
+                'quiet_mode', 'progress_bar', 'module_extra_env',
+                'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password']
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -98,6 +99,7 @@ class Config:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
         config['__file__'] = filename
+        self.filename = filename
         try:
             execfile(filename, config)
         except Exception:

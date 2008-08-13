@@ -19,13 +19,75 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import sys
 import urllib
 from optparse import make_option
+import socket
+import __builtin__
 
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
 from jhbuild.commands.base import cmd_build
+from jhbuild.config import addpath
+
+from buildbot.slave.commands import Command as BuildBotCommand
+from buildbot.slave.commands import ShellCommand
+from buildbot.slave.registry import registerSlaveCommand
+
+from twisted.application import service
+from buildbot.slave.bot import BuildSlave
+
+from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
+
+class JhBuildbotApplicationRunner(UnixApplicationRunner):
+    application = None
+
+    def createOrGetApplication(self):
+        return self.application
+
+class JhBuildbotCommand(BuildBotCommand):
+    jhbuildrc = None # will be config.filename
+
+    def start(self):
+        args = self.args
+        moduleset = None
+        stage = None
+        module = None
+        assert args['command'] is not None
+        self.timeout = args.get('timeout', 120)
+        command = args['command']
+        if (args['stage'] is not None):
+            stage = args['stage']
+        if (args['module'] is not None):
+            module = args['module']
+        if (args['moduleset'] is not None):
+            moduleset = args['moduleset']
+        assert command in ['buildone','updateone','list']
+        assert command not in ['buildone','updateone'] or module is not None
+        runCommand = [sys.argv[0]]
+        if (moduleset is not None):
+            runCommand += ['--moduleset='+moduleset]
+        runCommand += ['--file='+self.jhbuildrc]
+        runCommand += ['--no-interact']
+        runCommand += [command]
+        if (stage is not None):
+            runCommand += ['--stage='+stage]
+        if (module is not None):
+            runCommand += [module]
+        c = ShellCommand(self.builder, runCommand, self.builder.basedir,
+                         sendRC=True, timeout=self.timeout)
+        self.command = c
+        d = c.start()
+        return d
+
+    def interrupt(self):
+        self.interrupted = True
+        self.command.kill('command interrupted')
+
+registerSlaveCommand('jhbuild', JhBuildbotCommand, 0.1)
+
+
 
 class cmd_bot(Command):
     doc = _('Control buildbot slave')
@@ -47,18 +109,73 @@ class cmd_bot(Command):
             make_option('--log',
                         action='store_true', dest='log', default=False,
                         help=_('watch the log of a running instance')),
+            make_option('--step',
+                        action='store_true', dest='step', default=False,
+                        help=_('exec a buildbot step (internal use)')),
             ])
 
     def run(self, config, options, args):
         if options.setup:
             return self.setup(config)
+        if options.start:
+            return self.start(config)
+        if options.step:
+            os.environ['LC_ALL'] = 'C'
+            os.environ['LANGUAGE'] = 'C'
+            os.environ['LANG'] = 'C'
+            __builtin__.__dict__['_'] = lambda x: x
+            config.interact = False
+            config.nonetwork = True
+            if args[0] == 'update':
+                command = 'updateone'
+                config.nonetwork = False
+            elif args[0] == 'build':
+                command = 'buildone'
+            elif args[0] == 'check':
+                command = 'buildone'
+                config.nobuild = True
+                config.makecheck = True
+                config.forcecheck = True
+                config.build_policy = 'all'
+            else:
+                command = args[0]
+            os.environ['TERM'] = 'dumb'
+            rc = jhbuild.commands.run(command, config, args[1:])
+            sys.exit(rc)
 
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
         module_list = module_set.get_module_list('all', config.skip)
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
+    
+    def start(self, config):
+        JhBuildbotCommand.jhbuildrc = config.filename
+        application = service.Application('buildslave')
+        if ':' in config.jhbuildbot_master:
+            master_host, master_port = config.jhbuildbot_master.split(':')
+            master_port = int(master_port)
+        else:
+            master_host, master_port = config.jhbuildbot_master, 9070
 
+        slave_name = config.jhbuildbot_slavename or socket.gethostname()
+
+        keepalive = 600
+        usepty = 1
+        umask = None
+        basedir = os.path.join(config.checkoutroot, 'jhbuildbot')
+        os.makedirs(os.path.join(basedir, 'builddir'))
+
+        s = BuildSlave(master_host, master_port,
+                slave_name, config.jhbuildbot_password, basedir,
+                keepalive, usepty, umask=umask)
+        s.setServiceParent(application)
+
+        options = ServerOptions()
+        options.parseOptions(['--no_save', '--nodaemon'])
+
+        JhBuildbotApplicationRunner.application = application
+        JhBuildbotApplicationRunner(options).run()
 
 register_command(cmd_bot)
 
