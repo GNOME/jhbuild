@@ -15,7 +15,7 @@ def content(self, request):
 HtmlResource.content = content
 
 from buildbot.status.web.baseweb import WebStatus
-from jhbuildbot.status.web.feeder import WaterfallWithFeeds
+from feeder import WaterfallWithFeeds
 
 class ProjectsSummary(HtmlResource):
 

@@ -103,6 +103,9 @@ class cmd_bot(Command):
             make_option('--step',
                         action='store_true', dest='step', default=False,
                         help=_('exec a buildbot step (internal use)')),
+            make_option('--start-server',
+                        action='store_true', dest='start_server', default=False,
+                        help=_('start a buildbot server')),
             ])
 
     def run(self, config, options, args):
@@ -145,6 +148,9 @@ class cmd_bot(Command):
             os.environ['TERM'] = 'dumb'
             rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
+        if options.start_server:
+            return self.start_server(config)
+
 
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
@@ -175,6 +181,7 @@ class cmd_bot(Command):
         usepty = 1
         umask = None
         basedir = os.path.join(config.checkoutroot, 'jhbuildbot')
+        os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
 
@@ -198,6 +205,40 @@ class cmd_bot(Command):
 
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
+
+    def start_server(self, config):
+
+        from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
+
+        options = ServerOptions()
+        options.parseOptions(['--no_save', '--nodaemon'])
+
+        class JhBuildbotApplicationRunner(UnixApplicationRunner):
+            application = None
+
+            def createOrGetApplication(self):
+                return self.application
+
+        from twisted.application import service
+        from buildbot.master import BuildMaster
+        application = service.Application('buildmaster')
+
+        basedir = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                '../../buildbot/')
+        os.chdir(basedir)
+        if not os.path.exists(os.path.join(basedir, 'builddir')):
+            os.makedirs(os.path.join(basedir, 'builddir'))
+        master_cfg_path = os.path.join(basedir, 'master.cfg')
+
+        # make jhbuild config file accessible in master.cfg
+        __builtin__.__dict__['jhbuild_config'] = config
+
+        BuildMaster(basedir, master_cfg_path).setServiceParent(application)
+
+        JhBuildbotApplicationRunner.application = application
+        JhBuildbotApplicationRunner(options).run()
+
 
 register_command(cmd_bot)
 

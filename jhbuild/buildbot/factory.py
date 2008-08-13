@@ -1,5 +1,5 @@
 from buildbot.process import factory
-from jhbuildbot.steps import JHBuildSource, JHBuildCommand, JHBuildModulePathTestCommand, JHBuildModulePathCommand
+from steps import JHBuildSource, JHBuildCommand, JHBuildModulePathTestCommand, JHBuildModulePathCommand
 
 # This is the JHBuild factory. It creates a standard procedure to compile modules, run
 # checks and create reports.
@@ -10,9 +10,9 @@ class JHBuildFactory(factory.BuildFactory):
     targets = []
     steps = []
 
-    def __init__(self, module, moduleset=None):
+    def __init__(self, module):
         factory.BuildFactory.__init__(self)
-        self.moduleset = moduleset
+        self.moduleset = jhbuild_config.moduleset
         self.module = module
         self.getSteps()
 
