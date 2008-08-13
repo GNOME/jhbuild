@@ -1,0 +1,114 @@
+Return-path: <svn-commits-list-bounces@gnome.org>
+Envelope-to: x469yq@unrouted.co.uk
+Delivery-date: Wed, 16 Jul 2008 05:49:43 +0100
+Received: from menubar.gnome.org ([209.132.176.177])
+	by isshin.unrouted.co.uk with esmtp (Exim 4.63)
+	(envelope-from <svn-commits-list-bounces@gnome.org>)
+	id 1KIyxS-0004mV-U0
+	for x469yq@unrouted.co.uk; Wed, 16 Jul 2008 05:49:43 +0100
+Received: from menubar.gnome.org (localhost.localdomain [127.0.0.1])
+	by menubar.gnome.org (Postfix) with ESMTP id E9793750162;
+	Wed, 16 Jul 2008 04:49:41 +0000 (GMT)
+X-Original-To: svn-commits-list@gnome.org
+Delivered-To: svn-commits-list@gnome.org
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by menubar.gnome.org (Postfix) with ESMTP id D9E2B7500C0
+	for <svn-commits-list@gnome.org>; Wed, 16 Jul 2008 04:49:32 +0000 (GMT)
+X-Virus-Scanned: by amavisd-new at gnome.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.599
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.599 tagged_above=-999 required=2
+	tests=[BAYES_00=-2.599]
+X-Amavis-OS-Fingerprint: Linux 2.6 (newer, 3) (up: 908 hrs), (distance 18,
+	link: ethernet/modem), [91.189.93.3]
+Received: from menubar.gnome.org ([127.0.0.1])
+	by localhost (menubar.gnome.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YqahOU0vh13P for <svn-commits-list@gnome.org>;
+	Wed, 16 Jul 2008 04:49:05 +0000 (GMT)
+Received: from socket.gnome.org (cobalt.canonical.com [91.189.93.3])
+	by menubar.gnome.org (Postfix) with ESMTP id 788517500BE
+	for <svn-commits-list@gnome.org>; Wed, 16 Jul 2008 04:49:05 +0000 (GMT)
+Received: by socket.gnome.org (Postfix, from userid 7538)
+	id C4B939AC021; Wed, 16 Jul 2008 04:49:03 +0000 (UTC)
+From: jstowers@svn.gnome.org
+To: svn-commits-list@gnome.org
+Subject: conduit r1559 - in trunk: . conduit/modules/NetworkModule
+MIME-Version: 1.0
+keywords: conduit
+Message-Id: <20080716044903.C4B939AC021@socket.gnome.org>
+Date: Wed, 16 Jul 2008 04:49:03 +0000 (UTC)
+X-Topics: conduit
+X-BeenThere: svn-commits-list@gnome.org
+X-Mailman-Version: 2.1.10
+Precedence: list
+List-Id: SVN commits <svn-commits-list.gnome.org>
+List-Unsubscribe: <http://mail.gnome.org/mailman/options/svn-commits-list>,
+	<mailto:svn-commits-list-request@gnome.org?subject=unsubscribe>
+List-Archive: </archives/svn-commits-list>
+List-Post: <mailto:svn-commits-list@gnome.org>
+List-Help: <mailto:svn-commits-list-request@gnome.org?subject=help>
+List-Subscribe: <http://mail.gnome.org/mailman/listinfo/svn-commits-list>,
+	<mailto:svn-commits-list-request@gnome.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: svn-commits-list-bounces@gnome.org
+Errors-To: svn-commits-list-bounces@gnome.org
+
+Author: jstowers
+Date: Wed Jul 16 04:49:03 2008
+New Revision: 1559
+URL: http://svn.gnome.org/viewvc/conduit?rev=1559&view=rev
+
+Log:
+Send and check the protocol version over the network module. This will require the maemo packages to be updated
+
+Modified:
+   trunk/   (props changed)
+   trunk/conduit/modules/NetworkModule/Peers.py
+
+Modified: trunk/conduit/modules/NetworkModule/Peers.py
+==============================================================================
+--- trunk/conduit/modules/NetworkModule/Peers.py	(original)
++++ trunk/conduit/modules/NetworkModule/Peers.py	Wed Jul 16 04:49:03 2008
+@@ -19,6 +19,7 @@
+ 
+ AVAHI_SERVICE_NAME = "_conduit._tcp"
+ AVAHI_SERVICE_DOMAIN = ""
++PROTOCOL_VERSION = "1"
+ 
+ PORT_IDX = 0
+ VERSION_IDX = 1
+@@ -165,7 +166,9 @@
+                 AVAHI_SERVICE_DOMAIN,   #domain
+                 '',                     #host
+                 dbus.UInt16(self.port), #port
+-                string_array_to_txt_array(["version=%s" % conduit.VERSION])
++                string_array_to_txt_array([
++                                "version=%s" % conduit.VERSION,
++                                "protocol-version=%s" % PROTOCOL_VERSION])
+                 )
+         self.group.Commit()
+             
+@@ -243,10 +246,13 @@
+ 
+         # Check if the service is local and then check the 
+         # conduit versions are identical
+-        if extra.has_key("version") and extra["version"] == conduit.VERSION:
++        if extra.get("protocol-version", None) == PROTOCOL_VERSION:
+             self.detected_cb(str(name), str(host), str(address), str(port), extra_info)
+         else:
+-            log.debug("Ignoring %s because remote conduit is different version" % name)
++            log.debug("Ignoring %s (version: %s, protocol version: %s)" % (
++                            name,
++                            extra.get("version", "unknown"),
++                            extra.get("protocol-version", "unknown")))
+ 
+     def _remove_service(self, interface, protocol, name, type, domain, flags):
+         """
+_______________________________________________
+SVN-commits-list mailing list (read only)
+http://mail.gnome.org/mailman/listinfo/svn-commits-list
+
+Want to limit the commits to a few modules? Go to above URL, log in to edit your options and select the modules ('topics') you want.
+Module maintainer? It is possible to set the reply-to to your development mailing list. Email svnmaster@gnome.org if interested.

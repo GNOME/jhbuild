@@ -1,0 +1,43 @@
+GNOME Bugzilla #52890: improved time zone handling
+
+This patch adds a new utility function e_cal_check_timezones() to
+libecal. The library version of libecal is bumped in a backwards
+compatible way: code compiled against previous releases still works
+with the extended library.
+
+e_cal_check_timezones() can be used by calendar backends to fix two
+problems:
+
+1. Importing a new meeting invitation into a calendar which already
+contains an old time zone definition ignores the new time zone
+definition. The new meeting is then displayed using the old
+definition.
+
+2. There is no mechanism to update the time zone rules used by
+existing meetings if their time zone changes.
+
+If possible, time zone definitions are mapped to the system time zone
+definitions used by Evolution. Currently this only works for time zone
+definitions which have a known location at the end of their time zone
+identifiers (i.e., older Evolution releases and other programs
+following the Olson database naming scheme). If this mapping works,
+then problem 1 and 2 no longer occur (but see the caveat below).
+
+If the mapping fails, then problem 1 is avoided by checking for an
+existing, conflicting time zone definition first and importing items
+with a renamed time zone definition in such a case.
+
+The caveat with regards to time zone handling is that Evolution only
+uses a subset of the information available for a system time
+zone. Events using a system time zone are only guaranteed to be
+displayed correctly starting at the current time and one year into the
+future. Past events and events even further into the future may be
+displayed incorrectly. 
+
+Due to this limitation, past meetings which would have been displayed
+correctly using the time zone information they came with might be
+displayed incorrectly using Evolution's stripped system time zones.
+This limitation needs to be addressed separately in further patches.
+
+e-cal-check-timezones.[ch] are 1:1 copies of
+SyncEvolution/trunk revision 625.
