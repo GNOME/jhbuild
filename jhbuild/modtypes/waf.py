@@ -133,8 +133,13 @@ class WafModule(Package):
     do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
     def skip_check(self, buildscript, last_state):
-        return (not buildscript.config.makecheck or
-                buildscript.config.nobuild)
+        if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
+            return True
+        if buildscript.config.forcecheck:
+            return False
+        if buildscript.config.nobuild:
+            return True
+        return False
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)

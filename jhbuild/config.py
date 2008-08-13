@@ -41,7 +41,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'makedistcheck', 'nonotify', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
-                'nopoison', 'makecheck_advisory',
+                'nopoison', 'forcecheck', 'makecheck_advisory',
                 'quiet_mode', 'progress_bar', 'module_extra_env']
 
 env_prepends = {}

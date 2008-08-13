@@ -204,10 +204,13 @@ class AutogenModule(Package):
             STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
 
     def skip_check(self, buildscript, last_state):
-        return (not buildscript.config.makecheck or
-                (buildscript.config.module_makecheck.has_key(self.name) and
-                 not buildscript.config.module_makecheck[self.name]) or
-                buildscript.config.nobuild)
+        if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
+            return True
+        if buildscript.config.forcecheck:
+            return False
+        if buildscript.config.nobuild:
+            return True
+        return False
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
