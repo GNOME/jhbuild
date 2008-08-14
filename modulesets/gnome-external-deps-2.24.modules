@@ -11,6 +11,8 @@
     href="http://dbus.freedesktop.org/releases/"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
+<repository type="tarball" name="gnome.org"
+    href="http://download.gnome.org/sources/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -133,11 +135,14 @@
     </dependencies>
   </tarball>
 
-  <tarball id="hicolor-icon-theme" version="0.10" supports-non-srcdir-builds="no"
-	  check-target="false">
-    <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.10.tar.gz"
+  <repository type="tarball" name="icon-theme.freedesktop.org"
+	  href="http://icon-theme.freedesktop.org/releases/"/>
+  <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
+	  autogen-sh="configure" check-target="false">
+    <branch module="hicolor-icon-theme-0.10.tar.gz" version="0.10"
+	    repo="icon-theme.freedesktop.org"
             md5sum="3534f7b8e59785c7d5bfa923e85510a7" size="33616"/>
-  </tarball>
+  </autotools>
 
   <tarball id="icon-naming-utils" version="0.8.6">
     <source href="http://tango.freedesktop.org/releases/icon-naming-utils-0.8.6.tar.gz"
@@ -255,14 +260,15 @@
     </dependencies>
   </tarball>
 
-  <tarball autogen-sh="configure" id="opal" version="2.2.11"
-      autogenargs="PWLIBDIR=../pwlib-1.10.10">
-    <source href="http://download.gnome.org/sources/opal/2.2/opal-2.2.11.tar.bz2"
+  <autotools id="opal" autogen-sh="configure"
+	  autogenargs="PWLIBDIR=../pwlib-1.10.10" check-target="false">
+    <branch module="opal/2.2/opal-2.2.11.tar.bz2" repo="gnome.org"
+	    version="2.2.11"
             md5sum="b759033c85a1351e00ad1a29e4f50f26" size="2664640"/>
     <dependencies>
       <dep package="pwlib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="opencdk" version="0.6.6" supports-non-srcdir-builds="no">
     <source href="http://www.gnu.org/software/gnutls/releases/opencdk/opencdk-0.6.6.tar.bz2"
@@ -303,10 +309,11 @@
     </dependencies>
   </autotools>
 
-  <tarball autogen-sh="configure" id="pwlib" version="1.10.10">
-    <source href="http://download.gnome.org/sources/pwlib/1.10/pwlib-1.10.10.tar.bz2"
+  <autotools id="pwlib" autogen-sh="configure" check-target="false">
+    <branch module="pwlib/1.10/pwlib-1.10.10.tar.bz2" repo="gnome.org"
+	    version="1.10.10"
              md5sum="2c3bf7e8236a96659728ad139ce30b33" size="1694566"/>
-  </tarball>
+  </autotools>
 
   <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.50">
     <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.50.tar.bz2"
