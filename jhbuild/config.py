@@ -217,9 +217,13 @@ class Config:
         if self.use_lib64:
             pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
             addpath('PYTHONPATH', pythonpath)
+            if not os.path.exists(pythonpath):
+                os.makedirs(pythonpath)
 
         pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
         addpath('PYTHONPATH', pythonpath)
+        if not os.path.exists(pythonpath):
+            os.makedirs(pythonpath)
 
         # handle environment prepends ...
         for envvar in env_prepends.keys():
