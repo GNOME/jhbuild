@@ -25,7 +25,7 @@ from twisted.python import log
 from twisted.internet import reactor
 from buildbot.scheduler import Periodic, BaseUpstreamScheduler
 from buildbot.sourcestamp import SourceStamp
-from buildbot import buildset
+from buildbot import buildset, util
 
 def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
         upstream=None, branch=None):
@@ -104,6 +104,7 @@ class StartSerial(ChangeNotification, Periodic):
     def __init__(self, name, project, builderNames, periodicBuildTimer,
                  branch=None):
         Periodic.__init__(self,name,builderNames,periodicBuildTimer,branch)
+        ChangeNotification.__init__(self)
         self.project = project
         self.finishedWatchers = []
 
@@ -128,6 +129,7 @@ class Serial(ChangeNotification, BaseUpstreamScheduler):
 
     def __init__(self, name, project, upstream, builderNames, branch):
         BaseUpstreamScheduler.__init__(self, name)
+        ChangeNotification.__init__(self)
         self.project = project
         self.upstream = upstream
         self.branch = branch
