@@ -181,9 +181,9 @@ class cmd_bot(Command):
         usepty = 1
         umask = None
         basedir = os.path.join(config.checkoutroot, 'jhbuildbot')
-        os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
+        os.chdir(basedir)
 
         from buildbot.slave.bot import BuildSlave
         s = BuildSlave(master_host, master_port,
