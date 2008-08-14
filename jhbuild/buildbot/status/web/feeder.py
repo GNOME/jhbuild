@@ -1,5 +1,24 @@
-# This file is part of the Buildbot configuration for the Subversion project.
-# The original file was created by Lieven Gobaerts
+# jhbuild - a build script for GNOME 1.x and 2.x
+# Copyright Lieven Gobaerts
+# Copyright (C) 2008  apinheiro@igalia.com, John Carr, Frederic Peters
+#
+#   feeder.py: buildbot module RSS/Atom feeds
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
 # Minor changes made by API (apinheiro@igalia.com) in order to fit with our
 # configuration and last buildbot changes
 
