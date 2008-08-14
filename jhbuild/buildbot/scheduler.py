@@ -20,6 +20,7 @@
 import time
 
 from twisted.application import service, internet
+from twisted.python import log
 
 from twisted.internet import reactor
 from buildbot.scheduler import Periodic, BaseUpstreamScheduler
@@ -46,6 +47,7 @@ class ChangeNotification:
     def addChange(self, change):
         log.msg('adding a change')
         if change.project != self.project:
+            log.msg('ignoring change as %s != %s' % (change.project, self.project))
             return
         if change.branch != self.branch:
             return
