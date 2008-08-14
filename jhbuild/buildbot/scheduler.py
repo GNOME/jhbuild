@@ -23,16 +23,18 @@ from buildbot.scheduler import Periodic, BaseUpstreamScheduler
 from buildbot.sourcestamp import SourceStamp
 from buildbot import buildset
 
-def SerialScheduler(name, builderNames, periodicBuildTimer=60*60*12, upstream=None, branch=None):
+def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
+        upstream=None, branch=None):
     if not upstream:
-        return StartSerial(name, builderNames, periodicBuildTimer, branch)
-    return Serial(name, upstream, builderNames, branch)
+        return StartSerial(name, project, builderNames, periodicBuildTimer, branch)
+    return Serial(name, project, upstream, builderNames, branch)
 
 class StartSerial(Periodic):
 
-    def __init__(self, name, builderNames, periodicBuildTimer,
+    def __init__(self, name, project, builderNames, periodicBuildTimer,
                  branch=None):
         Periodic.__init__(self,name,builderNames,periodicBuildTimer,branch)
+        self.project = project
         self.finishedWatchers = []
 
     def subscribeToFinishedBuilds(self, watcher):
@@ -54,8 +56,9 @@ class Serial(BaseUpstreamScheduler):
     after the 'upstream' scheduler has completed (successfully or not)."""
     compare_attrs = ('name', 'upstream', 'builders', 'branch')
 
-    def __init__(self, name, upstream, builderNames, branch):
+    def __init__(self, name, project, upstream, builderNames, branch):
         BaseUpstreamScheduler.__init__(self, name)
+        self.project = project
         self.upstream = upstream
         self.branch = branch
         self.builderNames = builderNames
