@@ -123,6 +123,10 @@ class cmd_bot(Command):
             except ImportError:
                 raise FatalError(_('buildbot and twisted not found, run jhbuild bot --setup'))
 
+        # make jhbuild config file accessible to buildbot files
+        # (master.cfg , steps.py, etc.)
+        __builtin__.__dict__['jhbuild_config'] = config
+
         if options.start:
             return self.start(config)
         if options.step:
@@ -230,9 +234,6 @@ class cmd_bot(Command):
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
         master_cfg_path = os.path.join(basedir, 'master.cfg')
-
-        # make jhbuild config file accessible in master.cfg
-        __builtin__.__dict__['jhbuild_config'] = config
 
         BuildMaster(basedir, master_cfg_path).setServiceParent(application)
 
