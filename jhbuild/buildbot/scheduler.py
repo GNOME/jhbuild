@@ -16,9 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
+
+import time
+
 from twisted.application import service, internet
 
+from twisted.internet import reactor
 from buildbot.scheduler import Periodic, BaseUpstreamScheduler
 from buildbot.sourcestamp import SourceStamp
 from buildbot import buildset
@@ -29,7 +32,72 @@ def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
         return StartSerial(name, project, builderNames, periodicBuildTimer, branch)
     return Serial(name, project, upstream, builderNames, branch)
 
-class StartSerial(Periodic):
+
+class ChangeNotification:
+    fileIsImportant = None
+    treeStableTimer = 180
+
+    def __init__(self):
+        self.importantChanges = []
+        self.unimportantChanges = []
+        self.nextBuildTime = None
+        self.timer = None
+
+    def addChange(self, change):
+        log.msg('adding a change')
+        if change.project != self.project:
+            return
+        if change.branch != self.branch:
+            return
+        if not self.fileIsImportant:
+            self.addImportantChange(change)
+        elif self.fileIsImportant(change):
+            self.addImportantChange(change)
+        else:
+            self.addUnimportantChange(change)
+
+    def addImportantChange(self, change):
+        log.msg("%s: change is important, adding %s" % (self, change))
+        self.importantChanges.append(change)
+        self.nextBuildTime = max(self.nextBuildTime,
+                                 change.when + self.treeStableTimer)
+        self.setTimer(self.nextBuildTime)
+
+    def addUnimportantChange(self, change):
+        log.msg("%s: change is not important, adding %s" % (self, change))
+        self.unimportantChanges.append(change)
+
+    def setTimer(self, when):
+        log.msg("%s: setting timer to %s" %
+                (self, time.strftime("%H:%M:%S", time.localtime(when))))
+        now = util.now()
+        if when < now:
+            when = now + 1
+        if self.timer:
+            self.timer.cancel()
+        self.timer = reactor.callLater(when - now, self.fireTimer)
+
+    def stopTimer(self):
+        if self.timer:
+            self.timer.cancel()
+            self.timer = None
+
+    def fireTimer(self):
+        # clear out our state
+        self.timer = None
+        self.nextBuildTime = None
+        changes = self.importantChanges + self.unimportantChanges
+        self.importantChanges = []
+        self.unimportantChanges = []
+
+        # create a BuildSet, submit it to the BuildMaster
+        bs = buildset.BuildSet(self.builderNames,
+                               SourceStamp(changes=changes),
+                               properties=self.properties)
+        self.submitBuildSet(bs)
+
+
+class StartSerial(ChangeNotification, Periodic):
 
     def __init__(self, name, project, builderNames, periodicBuildTimer,
                  branch=None):
@@ -51,7 +119,7 @@ class StartSerial(Periodic):
             w(ss)
         Periodic.buildSetFinished(self,bss)
 
-class Serial(BaseUpstreamScheduler):
+class Serial(ChangeNotification, BaseUpstreamScheduler):
     """This scheduler runs some set of builds that should be run
     after the 'upstream' scheduler has completed (successfully or not)."""
     compare_attrs = ('name', 'upstream', 'builders', 'branch')

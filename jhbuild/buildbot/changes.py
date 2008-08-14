@@ -32,6 +32,9 @@ class GnomeMaildirSource(MaildirSource):
         # From is svnuser@svn.gnome.org
         name, domain = m["from"].split("@")
 
+        # Subject is project revision - etc.
+        project = m['subject'].split(' ', 1)[0]
+
         # If this e-mail is valid, it will come from an svn.gnome.org email
         if domain != "svn.gnome.org":
             return None
@@ -68,5 +71,7 @@ class GnomeMaildirSource(MaildirSource):
                     if l[:-1] not in ("Added:", "Modified:", "Removed:"):
                         files.append(l[3:-1])
 
-        return changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
+        c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
+        c.project = project # custom attribute
+        return c
 
