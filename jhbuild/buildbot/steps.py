@@ -102,7 +102,6 @@ class JHBuildCommand(steps.shell.ShellCommand):
         command = ['jhbuild']
         if (moduleset is not None):
             command += ['--moduleset='+moduleset]
-        command += ['-f', jhbuild_config.filename]
         command += ['bot', '--step', stage, module]
         self.name =module + ' ' + stage
         self.description = [module + ' ' + stage + ' (running)']
@@ -131,7 +130,6 @@ class JHBuildModulePathCommand(steps.shell.ShellCommand):
         command = ["jhbuild"]
         if (moduleset is not None):
             command += ['--moduleset='+moduleset]
-        command += ['-f', jhbuild_config.filename]
         command += ['bot', '--step', 'run', '--in-builddir', module,
                 '--', action]
         self.name=module+" "+" ".join(action)
