@@ -133,7 +133,8 @@
     </dependencies>
   </tarball>
 
-  <tarball id="hicolor-icon-theme" version="0.10" supports-non-srcdir-builds="no" >
+  <tarball id="hicolor-icon-theme" version="0.10" supports-non-srcdir-builds="no"
+	  check-target="false">
     <source href="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.10.tar.gz"
             md5sum="3534f7b8e59785c7d5bfa923e85510a7" size="33616"/>
   </tarball>
@@ -397,7 +398,8 @@
       href="http://www.kernel.org/pub/linux/"/>
   <autotools id="libvolume_id" skip-autogen="true"
                  makeargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir}"
-                 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man">
+		 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man"
+		 check_target="false">
     <branch repo="kernel.org"
 	    module="utils/kernel/hotplug/udev-111.tar.bz2" version="111"
 	    size="190020" md5sum="bd2a94e3ed243e6a3d501a5c8afc4b54">
@@ -477,7 +479,7 @@
   </autotools>
 
   <autotools id="sqlite3" autogen-sh="configure"  
-	     autogenargs="--enable-threadsafe">
+	     autogenargs="--enable-threadsafe" check-target="false">
     <branch module="sqlite-3.5.9.tar.gz" version="3.5.9"
 	    repo="sqlite.org"
 	    md5sum="b58412904b42fe49e5a281e99da0fd72" size="2201083">

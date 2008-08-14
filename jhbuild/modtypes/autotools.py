@@ -54,7 +54,8 @@ class AutogenModule(Package):
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  extra_env = None,
-                 autogen_template=None):
+                 autogen_template=None,
+                 check_target=True):
         Package.__init__(self, name, dependencies, after, suggests, extra_env)
         self.branch = branch
         self.autogenargs = autogenargs
@@ -65,6 +66,7 @@ class AutogenModule(Package):
         self.autogen_sh = autogen_sh
         self.makefile = makefile
         self.autogen_template = autogen_template
+        self.check_target = check_target
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -204,6 +206,8 @@ class AutogenModule(Package):
             STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
 
     def skip_check(self, buildscript, last_state):
+        if not self.check_target:
+            return True
         if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
             return True
         if buildscript.config.forcecheck:
@@ -282,6 +286,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     supports_non_srcdir_builds = True
     autogen_sh = 'autogen.sh'
     skip_autogen = False
+    check_target = True
     makefile = 'Makefile'
     autogen_template = None
     if node.hasAttribute('autogenargs'):
@@ -295,6 +300,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('skip-autogen'):
         skip_autogen = (node.getAttribute('skip-autogen') == 'true')
+    if node.hasAttribute('check-target'):
+        check_target = (node.getAttribute('check-target') == 'true')
     if node.hasAttribute('autogen-sh'):
         autogen_sh = node.getAttribute('autogen-sh')
     if node.hasAttribute('makefile'):
@@ -335,7 +342,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          autogen_sh=autogen_sh,
                          makefile=makefile,
                          extra_env=extra_env,
-                         autogen_template=autogen_template)
+                         autogen_template=autogen_template,
+                         check_target=check_target)
 register_module_type('autotools', parse_autotools)
 
 

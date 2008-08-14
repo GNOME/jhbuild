@@ -1946,6 +1946,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	      [ makefile="<replaceable>makefile</replaceable>" ]
 	      [ skip-autogen="<replaceable>skip-autogen</replaceable>" ]
 	      [ autogen-template="<replaceable>autogen-template</replaceable>" ]
+	      [ check-target="<replaceable>check-target</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
@@ -2001,6 +2002,10 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 %(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s
 </programlisting>
+
+	<para>The <sgmltag class="attribute">check-target</sgmltag> attribute
+	must be specified (with false as value) for modules that do not have
+	a <command>make check</command> target.</para>
 
       </section>
 
