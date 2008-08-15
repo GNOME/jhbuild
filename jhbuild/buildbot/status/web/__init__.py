@@ -18,8 +18,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+
 from twisted.web import server, static, resource
 from buildbot.status.web.base import HtmlResource, ITopBox, build_get_class
+from buildbot import interfaces, util
+from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+
 
 def content(self, request):
     """
@@ -94,17 +98,33 @@ class ProjectsSummary(HtmlResource):
                 box = ITopBox(builder).getBox(request)
                 lastbuild = ''
                 for bt in box.text:
-                    if bt == "successful" or bt == "failed":
+                    if bt == 'successful' or bt == 'failed':
                         lastbuild = bt
-                if lastbuild == "successful" or lastbuild == "failed":
+
+                if lastbuild == 'successful':
                     class_ = build_get_class(builder.getLastFinishedBuild())
+                    lastbuild_label = 'Success'
+                elif lastbuild == 'failed':
+                    lastbuild_label = 'Failed'
+                    last_build = builder.getLastFinishedBuild()
+                    class_ = build_get_class(last_build)
+                    if last_build:
+                        # use a different class/label if the failure is
+                        # 'make check'
+                        steps = last_build.getSteps()
+                        if steps and steps[-1].results == FAILURE and \
+                                steps[-1].text[0].endswith(' check'):
+                            # make check failed
+                            class_ = 'failedchecks'
+                            lastbuild_label = 'Failed Checks'
                 else:
                     class_ = ''
+                    lastbuild_label = lastbuild
                 state, builds = builder.getState()
                 if state == 'building':
                     result += '<td class="%s">%s</td>' % (state, state)
                 else:
-                    result += '<td class="%s">%s</td>' % (class_, lastbuild)
+                    result += '<td class="%s">%s</td>' % (class_, lastbuild_label)
                 
                 if lastbuild in ('failed', 'successful'):
                     slave_results[slave][1] += 1
