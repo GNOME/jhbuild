@@ -144,6 +144,7 @@ class cmd_bot(Command):
                 config.nonetwork = False
             elif args[0] == 'build':
                 command = 'buildone'
+                config.alwaysautogen = True
             elif args[0] == 'check':
                 command = 'buildone'
                 config.nobuild = True
