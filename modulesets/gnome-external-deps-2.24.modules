@@ -13,6 +13,10 @@
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
     href="http://download.gnome.org/sources/"/>
+<repository type="tarball" name="gnupg.org"
+    href="ftp://ftp.gnupg.org/gcrypt/"/>
+<repository type="tarball" name="xmlsoft.org"
+    href="ftp://xmlsoft.org/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -26,7 +30,7 @@
     </dependencies>
   </tarball>
 
-  <autotools id="cairo" autogen-sh="configure">
+  <autotools id="cairo">
     <branch module="snapshots/cairo-1.7.4.tar.gz" version="1.7.4"
             repo="cairo.org" 
             md5sum="7583b6ff663a708fbfe1501c74d8fd77" size="5482111">
@@ -41,7 +45,7 @@
     </after>
   </autotools>
 
-  <autotools id="cairomm" autogen-sh="configure">
+  <autotools id="cairomm">
     <branch module="releases/cairomm-1.6.0.tar.gz" version="1.6.0"
             repo="cairo.org" 
             md5sum="549b0c9eaa25d61c4dd92d2de1cb4a46" size="797627">
@@ -51,7 +55,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus" autogen-sh="configure" supports-non-srcdir-builds="no">
+  <autotools id="dbus" supports-non-srcdir-builds="no">
     <branch module="dbus/dbus-1.2.3.tar.gz" version="1.2.3"
 	    repo="dbus"
 	    md5sum="f71641385768e99361bd298568207cee" size="1564475">
@@ -64,7 +68,7 @@
     </after>
   </autotools>
 
-  <autotools id="dbus-glib" autogen-sh="configure">
+  <autotools id="dbus-glib">
     <branch module="dbus-glib/dbus-glib-0.76.tar.gz" version="0.76"
 	    repo="dbus"
 	    md5sum="d3b716a7e798faa1c6a867675f00306a" size="667547">
@@ -76,7 +80,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus-python" autogen-sh="configure">
+  <autotools id="dbus-python">
     <branch module="dbus-python/dbus-python-0.80.2.tar.gz" version="0.80.2"
             repo="dbus"
 	    md5sum="2807bc85215c995bd595e01edd9d2077" size="453499"/>
@@ -138,7 +142,7 @@
   <repository type="tarball" name="icon-theme.freedesktop.org"
 	  href="http://icon-theme.freedesktop.org/releases/"/>
   <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
-	  autogen-sh="configure" check-target="false">
+             check-target="false">
     <branch module="hicolor-icon-theme-0.10.tar.gz" version="0.10"
 	    repo="icon-theme.freedesktop.org"
             md5sum="3534f7b8e59785c7d5bfa923e85510a7" size="33616"/>
@@ -174,18 +178,20 @@
             md5sum="76596823cc1a6d1cdf7779b782ff0ee6" size="355167"/>
   </tarball>
 
-  <tarball id="libgpg-error" version="1.4">
-    <source href="ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.4.tar.bz2"
+  <autotools id="libgpg-error" check-target="false">
+    <branch module="gcrypt/libgpg-error/libgpg-error-1.4.tar.bz2"
+            repo="gnupg.org" version="1.4"
             size="467196" md5sum="2ea1e25b7a6f9365c969403af4a6dbc5" />
-  </tarball>
+  </autotools>
 
-  <tarball id="libgcrypt" version="1.4.1">
-    <source href="ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.4.1.tar.gz"
+  <autotools id="libgcrypt" check-target="false">
+    <branch module="gcrypt/libgcrypt/libgcrypt-1.4.1.tar.gz"
+            repo="gnupg.org" version="1.4.1"
             size="1207465" md5sum="555488ddfc81a6e0df1fb5112e7eee13" />
     <dependencies>
       <dep package="libgpg-error" />
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="libgsf" version="1.14.5">
     <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.5.tar.bz2"
@@ -222,19 +228,21 @@
     </dependencies>
   </tarball>
 
-  <tarball id="libxml2" version="2.6.32">
-    <source href="ftp://xmlsoft.org/libxml2/libxml2-2.6.32.tar.gz"
+  <autotools id="libxml2">
+    <branch module="libxml2/libxml2-2.6.32.tar.gz"
+            repo="xmlsoft.org" version="2.6.32"
             md5sum="2621d322c16f0257e30f0ff2b13384de" size="4722227"/>
-  </tarball>
+  </autotools>
 
-  <tarball id="libxslt" version="1.1.22">
-    <source href="ftp://xmlsoft.org/libxml2/libxslt-1.1.22.tar.gz"
+  <autotools id="libxslt" check-target="false">
+    <branch module="libxml2/libxslt-1.1.22.tar.gz"
+            repo="xmlsoft.org" version="1.1.22"
             md5sum="d6a9a020a76a3db17848d769d6c9c8a9" size="2783003"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="libgcrypt"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="gtk-vnc" version="0.3.6">
     <source href="http://dl.sourceforge.net/sourceforge/gtk-vnc/gtk-vnc-0.3.6.tar.gz"
@@ -260,7 +268,7 @@
     </dependencies>
   </tarball>
 
-  <autotools id="opal" autogen-sh="configure"
+  <autotools id="opal"
 	  autogenargs="PWLIBDIR=../pwlib-1.10.10" check-target="false">
     <branch module="opal/2.2/opal-2.2.11.tar.bz2" repo="gnome.org"
 	    version="2.2.11"
@@ -278,7 +286,7 @@
     </dependencies>
   </tarball>
 
-  <autotools id="pixman" autogen-sh="configure">
+  <autotools id="pixman">
     <branch module="releases/pixman-0.11.8.tar.gz" version="0.11.8"
             repo="cairo.org" 
             md5sum="7b5db768c51337b5e5e954fc9c961cd3" size="451489">
@@ -299,7 +307,7 @@
     </after>
   </tarball>
 
-  <autotools id="pycairo" autogen-sh="configure">
+  <autotools id="pycairo">
     <branch module="releases/pycairo-1.4.12.tar.gz" version="1.4.12"
             repo="cairo.org" 
             md5sum="c63199d35b1e1d3c5133509f315f70d7" size="490053">
@@ -309,7 +317,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pwlib" autogen-sh="configure" check-target="false">
+  <autotools id="pwlib" check-target="false">
     <branch module="pwlib/1.10/pwlib-1.10.10.tar.bz2" repo="gnome.org"
 	    version="1.10.10"
              md5sum="2c3bf7e8236a96659728ad139ce30b33" size="1694566"/>
@@ -387,7 +395,6 @@
   <repository type="tarball" name="mozilla.org"
       href="http://releases.mozilla.org/pub/mozilla.org/"/>
   <autotools id="mozilla"
-             autogen-sh="configure"
              autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=browser --disable-javaxpcom --enable-application=browser --enable-extensions=default,cookie,permissions --with-default-mozilla-five-home=${libdir}/firefox-2.0"
              makeinstallargs="install; mkdir ${prefix}/include/firefox-2.0/nss/; find security/nss/lib/ -name '*.h' -type f -exec /bin/cp {} ${prefix}/include/firefox-2.0/nss/ \;">
     <branch repo="mozilla.org"
@@ -452,7 +459,7 @@
 
   <!-- Mono Binding -->
 
-  <autotools id="libgdiplus" autogen-sh="configure">
+  <autotools id="libgdiplus">
     <branch module="libgdiplus/libgdiplus-1.2.6.tar.bz2" version="1.2.6"
             repo="mono.net" 
             md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675" size="2897855">
@@ -464,7 +471,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mono" autogen-sh="configure">
+  <autotools id="mono">
     <branch module="mono/mono-1.2.6.tar.bz2" version="1.2.6"
             repo="mono.net" 
             md5sum="391f85b4f962269e044ceac2b5235310" size="18163130">
@@ -475,7 +482,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="monodoc" autogen-sh="configure">
+  <autotools id="monodoc">
     <branch module="monodoc/monodoc-1.2.6.zip" version="1.2.6"
             repo="mono.net" 
             md5sum="bd4c9619ebf3b41803b7ca9097be7fc1" size="14976182">
@@ -485,7 +492,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="sqlite3" autogen-sh="configure"  
+  <autotools id="sqlite3"
 	     autogenargs="--enable-threadsafe" check-target="false">
     <branch module="sqlite-3.5.9.tar.gz" version="3.5.9"
 	    repo="sqlite.org"
