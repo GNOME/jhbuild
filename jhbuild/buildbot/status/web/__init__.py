@@ -83,7 +83,7 @@ class ProjectsSummary(HtmlResource):
 
         slave_results = {}
         for slave in parent.slaves:
-            slave_results[slave] = [0, 0]
+            slave_results[slave] = [0, 0, 0]
 
         for module in parent.modules:
             result += '<tr>'
@@ -127,15 +127,20 @@ class ProjectsSummary(HtmlResource):
                     result += '<td class="%s">%s</td>' % (class_, lastbuild_label)
                 
                 if lastbuild in ('failed', 'successful'):
-                    slave_results[slave][1] += 1
+                    slave_results[slave][2] += 1
                     if lastbuild == 'successful':
                         slave_results[slave][0] += 1
+                        slave_results[slave][1] += 1
+                    if class_ == 'failedchecks':
+                        slave_results[slave][1] += 1
 
             result += '</tr>\n'
 	result += '</tbody>\n'
         result += '<tfoot><tr class="totals"><td colspan="3"></td>'
         for slave in parent.slaves:
-            result += '<td>%s / %s</td>' % tuple(slave_results[slave])
+            result += '<td><span title="Successful builds">%s</span> '\
+                      '<span title="(ignoring test suites failures)">(%s)</span> / '\
+                      '<span title="Total">%s</span></td>' % tuple(slave_results[slave])
         result += '</tr></tfoot>\n'
         result += '</table>'
 
