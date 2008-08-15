@@ -130,6 +130,13 @@ class AutogenModule(Package):
             os.makedirs(builddir)
         buildscript.set_action(_('Configuring'), self)
 
+        if self.autogen_sh == 'autogen.sh':
+            # if there is no autogen.sh, automatically fallback to configure
+            srcdir = self.get_srcdir(buildscript)
+            if not os.path.exists(os.path.join(srcdir, 'autogen.sh')) and \
+                    os.path.exists(os.path.join(srcdir, 'configure')):
+                self.autogen_sh = 'configure'
+
         if self.autogen_template:
             template = self.autogen_template
         else:
