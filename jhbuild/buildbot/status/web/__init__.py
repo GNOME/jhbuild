@@ -48,30 +48,30 @@ class ProjectsSummary(HtmlResource):
         status = self.getStatus(request)
 
         result = ''
-        result += '<table class="ProjectSummary" border="0">\n'
+        result += '<table class="ProjectSummary">\n'
 
         # Headers
-        result += '<thead><tr><td class="empty">&nbsp;</td><td class="empty">&nbsp;</td><th>'+parent.moduleset+'</td>'
+        result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + parent.moduleset + '</td>'
         for name in parent.slaves:
-                if len(name) > 25:
-                    name = name[:25] + "(...)"
-                result += '<td colspan="2" class="LeftBorder TopBorder header" align="center"><b>' + name + '</b></td>\n'
+            if len(name) > 25:
+                name = name[:25] + "(...)"
+            result += '<th colspan="2">' + name + '</th>\n'
         result += '</tr>\n'
-        result += '<tr><th></th><th></th><th><b>Project</b></td>\n'
+        result += '<tr><th></th><th></th><th>Project</td>\n'
         for i in range(len(parent.slaves)):
-                result += '<td class="BottomBorder LeftBorder header" align="center">Last-Build</td>\n'
-                result += '<td class="BottomBorder header" align="center">State</td>\n'
+            result += '<td>Last-Build</td>\n'
+            result += '<td>State</td>\n'
         result += '</tr></thead>\n'
 
         # Contents
 	result += '<tbody>'
         for module in parent.modules:
             result += '<tr>'
-            result += '<td class="Atom" align="center"><a href="'+module+'/atom">'
-            result += '<image src="/feed-atom.png" border="0" alt="Atom"></a></td>'
-            result += '<td class="RSS" align="center"><a href="'+module+'/rss">'
-            result += '<image src="/feed.png" border="0" alt="RSS"></a></td>\n'
-            result += '<th class="BottomBorder LeftBorder ProjectSummaryBuilder"><a href="'+module+'">'+module+'</a></td>'
+            result += '<td class="feed"><a href="%s/atom">' % module
+            result += '<img src="/feed-atom.png" alt="Atom"></a></td>'
+            result += '<td class="feed"><a href="%s/rss">' % module
+            result += '<img src="/feed.png" alt="RSS"></a></td>\n'
+            result += '<th><a href="%s">%s</a></td>' % (module, module)
 
             for slave in parent.slaves:
                 builder = status.getBuilder("%s-%s" % (module, slave))
@@ -84,9 +84,9 @@ class ProjectsSummary(HtmlResource):
                     class_ = build_get_class(builder.getLastFinishedBuild())
                 else:
                     class_ = ''
-                result += '<td align="center" class="BottomBorder LeftBorder '+class_+'">'+lastbuild+'</td>'
+                result += '<td class="%s">%s</td>' % (class_, lastbuild)
                 state, builds = builder.getState()
-                result += '<td align="center" class="BottomBorder '+state+'">'+state+'</td>'
+                result += '<td class="%s">%s</td>' % (state, state)
             result += '</tr>\n'
 	result += '</tbody>'
         result += '</table>'
