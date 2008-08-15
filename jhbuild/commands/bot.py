@@ -185,7 +185,7 @@ class cmd_bot(Command):
         slave_name = config.jhbuildbot_slavename or socket.gethostname()
 
         keepalive = 600
-        usepty = 1
+        usepty = 0
         umask = None
         basedir = os.path.join(config.checkoutroot, 'jhbuildbot')
         if not os.path.exists(os.path.join(basedir, 'builddir')):
