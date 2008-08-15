@@ -90,6 +90,7 @@ class cmd_bot(Command):
         if options.start:
             return self.start(config)
         if options.step:
+            os.environ['JHBUILDRC'] = config.filename
             os.environ['LC_ALL'] = 'C'
             os.environ['LANGUAGE'] = 'C'
             os.environ['LANG'] = 'C'

@@ -99,7 +99,7 @@ def main(args):
                       help=_('Information about available jhbuild commands'))
     parser.add_option('-f', '--file', action='store', metavar='CONFIG',
                       type='string', dest='configfile',
-                      default=os.path.join(os.environ['HOME'], '.jhbuildrc'),
+                      default=os.environ.get("JHBUILDRC", os.path.join(os.environ['HOME'], '.jhbuildrc')),
                       help=_('use a non default configuration file'))
     parser.add_option('-m', '--moduleset', action='store', metavar='URI',
                       type='string', dest='moduleset', default=None,
