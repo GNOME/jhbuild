@@ -51,20 +51,36 @@ class ProjectsSummary(HtmlResource):
         result += '<table class="ProjectSummary">\n'
 
         # Headers
+        slave_status = {}
+        for slave in parent.slaves:
+            for module in parent.modules:
+                builder = status.getBuilder("%s-%s" % (module, slave))
+                state, builds = builder.getState()
+                if state in ('offline', 'building'):
+                    slave_status[slave] = (state, module)
+                    break
+            else:
+                slave_status[slave] = ('idle', None)
+
         result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + parent.moduleset + '</td>'
         for name in parent.slaves:
             if len(name) > 25:
-                name = name[:25] + "(...)"
-            result += '<th colspan="2">' + name + '</th>\n'
-        result += '</tr>\n'
-        result += '<tr><th></th><th></th><th>Project</td>\n'
-        for i in range(len(parent.slaves)):
-            result += '<td>Last-Build</td>\n'
-            result += '<td>State</td>\n'
+                name = name[:25] + '(...)'
+            klass, module = slave_status.get(name)
+            if klass == 'building':
+                title = 'Building %s' % module
+            else:
+                title = klass
+            result += '<th class="%s" title="%s">%s</th>' % (klass, title, name)
         result += '</tr></thead>\n'
 
         # Contents
 	result += '<tbody>'
+
+        slave_results = {}
+        for slave in parent.slaves:
+            slave_results[slave] = [0, 0]
+
         for module in parent.modules:
             result += '<tr>'
             result += '<td class="feed"><a href="%s/atom">' % module
@@ -84,11 +100,23 @@ class ProjectsSummary(HtmlResource):
                     class_ = build_get_class(builder.getLastFinishedBuild())
                 else:
                     class_ = ''
-                result += '<td class="%s">%s</td>' % (class_, lastbuild)
                 state, builds = builder.getState()
-                result += '<td class="%s">%s</td>' % (state, state)
+                if state == 'building':
+                    result += '<td class="%s">%s</td>' % (state, state)
+                else:
+                    result += '<td class="%s">%s</td>' % (class_, lastbuild)
+                
+                if lastbuild in ('failed', 'successful'):
+                    slave_results[slave][1] += 1
+                    if lastbuild == 'successful':
+                        slave_results[slave][0] += 1
+
             result += '</tr>\n'
-	result += '</tbody>'
+	result += '</tbody>\n'
+        result += '<tfoot><tr class="totals"><td colspan="3"></td>'
+        for slave in parent.slaves:
+            result += '<td>%s / %s</td>' % tuple(slave_results[slave])
+        result += '</tr></tfoot>\n'
         result += '</table>'
 
         return result
