@@ -27,26 +27,10 @@ from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, SKIPPED, EXCEPTI
 class JHBuildSource(steps.source.Source):
     name = "jhbuild"
 
-    def __init__ (self, moduleset=None, module=None, stage=None, clobber=0, export=0, copydir=None, **kwargs):
-        if not kwargs.has_key('mode') and (clobber or export or copydir):
-            # deal with old configs
-            warnings.warn("Please use mode=, not clobber/export/copydir",
-                          DeprecationWarning)
-            if export:
-                kwargs['mode'] = "export"
-            elif clobber:
-                kwargs['mode'] = "clobber"
-            elif copydir:
-                kwargs['mode'] = "copy"
-            else:
-                kwargs['mode'] = "update"
+    def __init__ (self, moduleset=None, module=None, stage=None, **kwargs):
         steps.source.Source.__init__(self, **kwargs)
-        self.args.update({'moduleset': moduleset,
-                          'module': module,
-                          'command': 'updateone',
-                          'stage': None,
-                          'timeout': 900,
-                          })
+        self.moduleset = moduleset
+        self.module = module
         self.name = module + ' update'
         self.description = [module + ' updating']
         self.descriptionDone = [module + ' updated']
@@ -57,9 +41,18 @@ class JHBuildSource(steps.source.Source):
         return max([int(c.revision) for c in changes])
 
     def startVC(self, branch, revision, patch):
-        warnings = []
-        cmd = buildstep.LoggedRemoteCommand("jhbuild", self.args)
-        self.startCommand(cmd, warnings)
+        command = ['jhbuild']
+        if (self.moduleset is not None):
+            command += ['--moduleset='+self.moduleset]
+        command += ['bot', '--step', 'updateone', self.module]
+        properties = self.build.getProperties()
+        kwargs = {}
+        kwargs['workdir'] = './'
+        #kwargs = properties.render(self.remote_kwargs)
+        kwargs['command'] = properties.render(command)
+        kwargs['env'] = {}
+        cmd = buildstep.RemoteShellCommand(**kwargs)
+        self.startCommand(cmd)
 
 class UnitTestsObserver(buildstep.LogLineObserver):
 
@@ -122,7 +115,7 @@ class JHBuildCommand(steps.shell.ShellCommand):
         if (moduleset is not None):
             command += ['--moduleset='+moduleset]
         command += ['bot', '--step', stage, module]
-        self.name =module + ' ' + stage
+        self.name = module + ' ' + stage
         self.description = [module + ' ' + stage + ' (running)']
         self.descriptionDone = [module + ' ' + stage]
         steps.shell.ShellCommand.__init__(self, description=self.description,

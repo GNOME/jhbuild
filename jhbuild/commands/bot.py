@@ -37,49 +37,6 @@ try:
 except ImportError:
     buildbot = None
 
-
-class JhBuildbotCommand:
-    # will be changed to inherit from BuildBotCommand once it is loaded
-    jhbuildrc = None # will be config.filename
-
-    def start(self):
-        from buildbot.slave.commands import ShellCommand
-        args = self.args
-        moduleset = None
-        stage = None
-        module = None
-        assert args['command'] is not None
-        self.timeout = args.get('timeout', 120)
-        command = args['command']
-        if (args['stage'] is not None):
-            stage = args['stage']
-        if (args['module'] is not None):
-            module = args['module']
-        if (args['moduleset'] is not None):
-            moduleset = args['moduleset']
-        assert command in ['buildone','updateone','list']
-        assert command not in ['buildone','updateone'] or module is not None
-        runCommand = [sys.argv[0]]
-        if (moduleset is not None):
-            runCommand += ['--moduleset='+moduleset]
-        runCommand += ['--file='+self.jhbuildrc]
-        runCommand += ['--no-interact']
-        runCommand += [command]
-        if (stage is not None):
-            runCommand += ['--stage='+stage]
-        if (module is not None):
-            runCommand += [module]
-        c = ShellCommand(self.builder, runCommand, self.builder.basedir,
-                         sendRC=True, timeout=self.timeout)
-        self.command = c
-        d = c.start()
-        return d
-
-    def interrupt(self):
-        self.interrupted = True
-        self.command.kill('command interrupted')
-
-
 class cmd_bot(Command):
     doc = _('Control buildbot slave')
 
@@ -167,14 +124,6 @@ class cmd_bot(Command):
         return build.build()
     
     def start(self, config):
-        from buildbot.slave.registry import registerSlaveCommand
-        from buildbot.slave.commands import Command as BuildBotCommand
-
-        JhBuildbotCommand.jhbuildrc = config.filename
-        JhBuildbotCommand.__bases__ = (BuildBotCommand,)
-
-        registerSlaveCommand('jhbuild', JhBuildbotCommand, 0.1)
-
         from twisted.application import service
         application = service.Application('buildslave')
         if ':' in config.jhbuildbot_master:
