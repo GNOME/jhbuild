@@ -65,10 +65,10 @@ class XmlResource(Resource):
         return request.site.buildbot_service.parent.change_svc
 
 class FeedResource(XmlResource):
-    title = 'Dummy'
+    title = 'Dummy (please reload)'
     link = 'http://dummylink'
     language = 'en'
-    description = 'Dummy rss'
+    description = 'Dummy (please reload)'
     status = None
 
     def __init__(self, categories):
@@ -129,15 +129,15 @@ class FeedResource(XmlResource):
         data = ''
 	self.status = self.getStatus(request)
         self.link = str(self.status.getBuildbotURL())
-        self.title = 'Build status of %s' % self.status.getProjectName()
-        self.description = 'List of FAILed builds'
+        projectName = str(self.categories[0])
+        self.title = 'Build status of %s' % projectName
+        self.description = 'List of FAILed %s builds' % projectName
 
         builds = self.getBuilds()
 
         for build in builds:
             start, finished = build.getTimes()
             strFinished = time.strftime("%a, %d %b %Y %H:%M:%S %z", time.localtime(int(finished)))
-            projectName = str(self.status.getProjectName())
             link = str(self.status.getURLForThing(build))
 
             # title: trunk r22191 (plus patch) failed on 'i686-debian-sarge1 shared gcc-3.3.5'
@@ -154,10 +154,11 @@ class FeedResource(XmlResource):
                 if revision:
                     source += "r%s " % str(revision)
                 else:
-                    source += "HEAD"
+                    source += "trunk"
                 if patch is not None:
                     source += " (plus patch)"
-            title = source + " failed on '" + build.getBuilder().getName() + "'"
+            builder_name = build.getBuilder().getName()[len(projectName)+1:]
+            title = projectName + ' ' + source + " failed on '" + builder_name + "'"
 
             # get name of the failed step and the last 30 lines of its log.
             if build.getLogs():
@@ -172,23 +173,25 @@ class FeedResource(XmlResource):
             lines = re.split('\n', lastlog)
             lastlog = ''
             for logline in lines[max(0, len(lines)-30):]:
-                lastlog = lastlog + logline + '<br/>'
+                lastlog = lastlog + logline
 
-            description = '<![CDATA['
-            description += 'Date: ' + strFinished + '<br/><br/>'
-            description += 'Full details are available at: <br/>'
-            description += 'Build summary: <a href="' + self.link + projectName + '">' + self.link + projectName + '</a><br/><br/>'
-            description += 'Build details: <a href="' + link + '">' + self.link + link[1:] + '</a><br/><br/>'
-            description += 'Author list: <b>' + ",".join(build.getResponsibleUsers()) + '</b><br/><br/>'
-            description += 'Failed step: <b>' + laststep + '</b><br/><br/>'
-            description += 'Last lines of the build log:<br/>'
-            description += lastlog.replace('\n', '<br/>')
-            description += ']]>'
+            description = '<dl>\n'
+            description += '<dt>Date</dt><dd>%s</dd>\n' % strFinished
+            description += '<dt>Build summary</dt><dd><a href="' + self.link + projectName + '">' + self.link + projectName + '</a></dd>\n'
+            description += '<dt>Build details</dt><dd><a href="%s">%s</a></dd>' % (link, link)
+            if build.getResponsibleUsers():
+                description += '<dt>Author list</dt><dd>' + ', '.join(build.getResponsibleUsers()) + '</dd>\n'
+            description += '<dt>Failed step</dt><dd><b>%s</b></dd>\n' % laststep
+            description += '</dl>\n'
+            description += '<p>Last lines of the build log:</p>\n'
+            description += '<pre>%s</pre>' % twhtml.escape(lastlog)
 
             data += self.item(title,
                               description = description,
                               link=link,pubDate=strFinished)
 
+        if type(data) is unicode:
+            data = data.encode('utf-8', 'ignore')
         return data
 
     def item(self, title='', link='', description='', pubDate=''):
@@ -197,7 +200,7 @@ class FeedResource(XmlResource):
 class Rss20StatusResource(FeedResource):
     def __init__(self, categories):
         FeedResource.__init__(self, categories)
-        contentType = 'application/rss+xml'
+        self.contentType = 'application/rss+xml'
 
     def header(self, request):
         data = FeedResource.header(self, request)
@@ -210,7 +213,7 @@ class Rss20StatusResource(FeedResource):
         if self.language is not None:
             data += '<language>'+self.language+'</language>'
         if self.description is not None:
-            data += '<description>'+self.description+'</description>'
+            data += '<description><![CDATA[%s]]></description>' % self.description
         return data
 
     def item(self, title='', link='', description='', pubDate=''):
@@ -219,7 +222,7 @@ class Rss20StatusResource(FeedResource):
         if link is not None:
             data += '<link>'+link+'</link>'
         if description is not None:
-            data += '<description>'+ description + '</description>'
+            data += '<description><![CDATA[%s]]></description>' % description
         if pubDate is not None:
             data += '<pubDate>'+pubDate+'</pubDate>'
         data += '</item>'
@@ -233,31 +236,32 @@ class Rss20StatusResource(FeedResource):
 class Atom10StatusResource(FeedResource):
     def __init__(self, categories):
         FeedResource.__init__(self, categories)
-        contentType = 'application/atom+xml'
+        self.contentType = 'application/atom+xml'
 
     def header(self, request):
         data = FeedResource.header(self, request)
         data += '<feed xmlns="http://www.w3.org/2005/Atom">\n'
         if self.title is not None:
-            data += '<title>'+self.title+'</title>'
+            data += '<title>'+self.title+'</title>\n'
         if self.link is not None:
-            data += '<link href="'+self.link+'"/>'
+            data += '<link href="'+self.link+'"/>\n'
         # if self.language is not None:
             # data += '<language>'+self.language+'</language>'
         if self.description is not None:
-            data += '<subtitle>'+self.description+'</subtitle>'
+            data += '<subtitle>'+self.description+'</subtitle>\n'
         return data
 
     def item(self, title='', link='', description='', pubDate=''):
-        data = '<entry>'
-        data += '<title>'+title+'</title>'
+        data = '<entry>\n'
+        data += '<id>%s</id>\n' % link
+        data += '<title>%s</title>\n' % title
         if link is not None:
-            data += '<link href="'+link+'"/>'
+            data += '<link href="%s"/>\n' % link
         if description is not None:
-            data += '<summary type="xhtml">'+ description + '</summary>'
+            data += '<content type="html">%s</content>\n' % twhtml.escape(description)
         if pubDate is not None:
-            data += '<updated>'+pubDate+'</updated>'
-        data += '</entry>'
+            data += '<updated>%s</updated>\n' % pubDate
+        data += '</entry>\n'
         return data
 
     def footer(self, request):
