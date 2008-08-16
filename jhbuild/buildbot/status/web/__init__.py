@@ -23,6 +23,10 @@ from twisted.web import server, static, resource
 from buildbot.status.web.base import HtmlResource, ITopBox, build_get_class
 from buildbot import interfaces, util
 from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.status.web.baseweb import WebStatus
+
+from waterfall import JhWaterfallStatusResource
+from changes import  ChangesResource
 
 
 def content(self, request):
@@ -36,9 +40,6 @@ def content(self, request):
     data = data.replace('@@GNOME_BUILDBOT_BODY@@', self.body(request))
     return data
 HtmlResource.content = content
-
-from buildbot.status.web.baseweb import WebStatus
-from waterfall import JhWaterfallStatusResource
 
 class ProjectsSummary(HtmlResource):
 
@@ -169,6 +170,9 @@ class JHBuildWebStatus(WebStatus):
 
         # set the summary homepage
         self.putChild("", ProjectsSummary())
+
+        # set custom changes pages
+        self.putChild('changes', ChangesResource())
 
     def setupSite(self):
         WebStatus.setupSite(self)
