@@ -62,19 +62,26 @@ class ProjectsSummary(HtmlResource):
             for module in parent.modules:
                 builder = status.getBuilder("%s-%s" % (module, slave))
                 state, builds = builder.getState()
-                if state in ('offline', 'building'):
-                    slave_status[slave] = (state, module)
+                if state == 'offline':
+                    slave_status[slave] = ('offline', [])
                     break
+                elif state == 'building':
+                    if slave in slave_status:
+                        modules = slave_status[slave][1] or []
+                        slave_status[slave] = (state, modules + [module])
+                    else:
+                        slave_status[slave] = (state, [module])
             else:
-                slave_status[slave] = ('idle', None)
+                if not slave in slave_status:
+                    slave_status[slave] = ('idle', None)
 
         result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + parent.moduleset + '</td>'
         for name in parent.slaves:
             if len(name) > 25:
                 name = name[:25] + '(...)'
-            klass, module = slave_status.get(name)
+            klass, modules = slave_status.get(name)
             if klass == 'building':
-                title = 'Building %s' % module
+                title = 'Building %s' % ', '.join(modules)
             else:
                 title = klass
             result += '<th class="%s" title="%s">%s</th>' % (klass, title, name)
