@@ -2,7 +2,7 @@
 # Copyright Lieven Gobaerts
 # Copyright (C) 2008  apinheiro@igalia.com, John Carr, Frederic Peters
 #
-#   feeder.py: buildbot module RSS/Atom feeds
+#   feeds.py: RSS/Atom feeds
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,20 +18,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
 # Minor changes made by API (apinheiro@igalia.com) in order to fit with our
 # configuration and last buildbot changes
 
-import urllib, time, re
+import time, re
 
 from twisted.web.resource import Resource
-from twisted.application import strports
-from twisted.web import server, distrib
 from twisted.web import html as twhtml
 
-from buildbot import interfaces
 from buildbot.status.builder import FAILURE, SUCCESS, WARNINGS
-from buildbot.status.web.waterfall import WaterfallStatusResource
 
 class XmlResource(Resource):
     contentType = "text/xml; charset=UTF-8"
@@ -268,13 +263,3 @@ class Atom10StatusResource(FeedResource):
         data = ('</feed>')
         return data
 
-class WaterfallWithFeeds(WaterfallStatusResource):
-    """ Override the standard Waterfall class to add RSS and Atom feeds """
-
-    def __init__(self, *args, **kwargs):
-        WaterfallStatusResource.__init__(self, *args, **kwargs)
-
-        rss = Rss20StatusResource(self.categories)
-        self.putChild("rss", rss)
-        atom = Atom10StatusResource(self.categories)
-        self.putChild("atom", atom)

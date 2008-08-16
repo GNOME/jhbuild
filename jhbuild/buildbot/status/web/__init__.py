@@ -38,7 +38,7 @@ def content(self, request):
 HtmlResource.content = content
 
 from buildbot.status.web.baseweb import WebStatus
-from feeder import WaterfallWithFeeds
+from waterfall import JhWaterfallStatusResource
 
 class ProjectsSummary(HtmlResource):
 
@@ -156,7 +156,7 @@ class JHBuildWebStatus(WebStatus):
 
         # set up the per-module waterfalls
         for module in self.modules:
-            self.putChild(module, feeder.WaterfallWithFeeds(categories=[module]))
+            self.putChild(module, JhWaterfallStatusResource(categories=[module]))
 
         # set the summary homepage
         self.putChild("", ProjectsSummary())
