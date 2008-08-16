@@ -35,7 +35,6 @@ def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
 
 
 class ChangeNotification:
-    fileIsImportant = None
     treeStableTimer = 180
 
     def __init__(self):
@@ -44,6 +43,17 @@ class ChangeNotification:
         self.nextBuildTime = None
         self.timer = None
 
+    def changeIsImportant(self, change):
+        if not change.files:
+            # strange, better be on the safe side
+            return True
+        non_po_files = [x for x in change.files if not '/po/' in x]
+        if non_po_files:
+            return True
+        # changes are limited to translations, it is unlikely it would break
+        # the build, mark them as unimportant.
+        return False
+
     def addChange(self, change):
         log.msg('adding a change')
         if change.project != self.project:
@@ -51,9 +61,7 @@ class ChangeNotification:
             return
         if change.branch != self.branch:
             return
-        if not self.fileIsImportant:
-            self.addImportantChange(change)
-        elif self.fileIsImportant(change):
+        if self.changeIsImportant(change):
             self.addImportantChange(change)
         else:
             self.addUnimportantChange(change)
