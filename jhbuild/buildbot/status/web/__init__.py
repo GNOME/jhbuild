@@ -45,7 +45,9 @@ class ProjectsSummary(HtmlResource):
     MAX_PROJECT_NAME = 25
 
     def getTitle(self, request):
-        return "BuildBot"
+        status = self.getStatus(request)
+        p = status.getProjectName()
+        return p
 
     def body(self, request):
         parent = request.site.buildbot_service
