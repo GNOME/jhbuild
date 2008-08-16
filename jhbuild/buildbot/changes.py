@@ -75,6 +75,7 @@ class GnomeMaildirSource(MaildirSource):
                     if l[:-1] not in ("Added:", "Modified:", "Removed:"):
                         files.append(l[3:-1])
 
+        comments = unicode(comments, m.get_content_charse())
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
         c.project = project # custom attribute
         return c
