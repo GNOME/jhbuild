@@ -43,7 +43,9 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'build_policy', 'trycheckout', 'min_time',
                 'nopoison', 'forcecheck', 'makecheck_advisory',
                 'quiet_mode', 'progress_bar', 'module_extra_env',
-                'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password']
+                'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
+                'jhbuildbot_svn_commits_box',
+                ]
 
 env_prepends = {}
 def prependpath(envvar, path):
