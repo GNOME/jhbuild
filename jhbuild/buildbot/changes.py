@@ -24,6 +24,8 @@ from buildbot.changes import changes
 from email.Utils import parseaddr
 from email.Iterators import body_line_iterator
 
+import base64
+
 class GnomeMaildirSource(MaildirSource):
 
     name = "Gnome svn-commits-list"
@@ -48,25 +50,27 @@ class GnomeMaildirSource(MaildirSource):
         files = []
         comments = ""
         isdir = 0
-        lines = list(body_line_iterator(m))
+        lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
         changeType = ''
         links = []
         while lines:
             line = lines.pop(0)
 
-            if line[:14] == "New Revision: ":
-                revision = line[14:-1]
+            if line.startswith('New Revision: '):
+                revision = line.split(':', 1)[1].strip()
 
-            if line[:5] == "URL: ":
-                links.append(line[5:-1])
+            if line.startswith('URL: '):
+                links.append(line.split(':', 1)[1].strip())
 
-            if line[:-1] == "Log:":
-                while not (lines[0].startswith("Added:") or lines[0].startswith("Modified:") or lines[0].startswith("Removed:")):
+            if line[:-1] == 'Log:':
+                while not (lines[0].startswith('Added:') or 
+                        lines[0].startswith('Modified:') or 
+                        lines[0].startswith('Removed:')):
                     comments += lines.pop(0)
                 comments = comments.rstrip()
 
             if line[:-1] in ("Added:", "Modified:", "Removed:"):
-                while not (lines[0] == "\n"):
+                while not (lines[0] == "\n" or lines[0].startswith('______')):
                     l = lines.pop(0)
                     if l[:-1] not in ("Added:", "Modified:", "Removed:"):
                         files.append(l[3:-1])
