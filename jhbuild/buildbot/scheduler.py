@@ -23,7 +23,7 @@ from twisted.application import service, internet
 from twisted.python import log
 
 from twisted.internet import reactor
-from buildbot.scheduler import Periodic, BaseUpstreamScheduler
+from buildbot.scheduler import Periodic, BaseUpstreamScheduler, Scheduler
 from buildbot.sourcestamp import SourceStamp
 from buildbot import buildset, util
 
@@ -34,10 +34,15 @@ def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
     return Serial(name, project, upstream, builderNames, branch)
 
 
-class ChangeNotification:
-    treeStableTimer = 180
-
-    def __init__(self):
+class OnCommitScheduler(Scheduler):
+    '''
+    Scheduler that will build a module when a change notification
+    (on svn-commits-list) is received.
+    '''
+    def __init__(self, name, project, builderNames, properties={}):
+        Scheduler.__init__(self, name, branch=None, treeStableTimer=180,
+                builderNames=builderNames, properties=properties)
+        self.project = project
         self.importantChanges = []
         self.unimportantChanges = []
         self.nextBuildTime = None
@@ -57,7 +62,6 @@ class ChangeNotification:
     def addChange(self, change):
         log.msg('adding a change')
         if change.project != self.project:
-            log.msg('ignoring change as %s != %s' % (change.project, self.project))
             return
         if change.branch != self.branch:
             return
@@ -66,53 +70,12 @@ class ChangeNotification:
         else:
             self.addUnimportantChange(change)
 
-    def addImportantChange(self, change):
-        log.msg("%s: change is important, adding %s" % (self, change))
-        self.importantChanges.append(change)
-        self.nextBuildTime = max(self.nextBuildTime,
-                                 change.when + self.treeStableTimer)
-        self.setTimer(self.nextBuildTime)
 
-    def addUnimportantChange(self, change):
-        log.msg("%s: change is not important, adding %s" % (self, change))
-        self.unimportantChanges.append(change)
-
-    def setTimer(self, when):
-        log.msg("%s: setting timer to %s" %
-                (self, time.strftime("%H:%M:%S", time.localtime(when))))
-        now = util.now()
-        if when < now:
-            when = now + 1
-        if self.timer:
-            self.timer.cancel()
-        self.timer = reactor.callLater(when - now, self.fireTimer)
-
-    def stopTimer(self):
-        if self.timer:
-            self.timer.cancel()
-            self.timer = None
-
-    def fireTimer(self):
-        # clear out our state
-        self.timer = None
-        self.nextBuildTime = None
-        changes = self.importantChanges + self.unimportantChanges
-        self.importantChanges = []
-        self.unimportantChanges = []
-
-        # create a BuildSet, submit it to the BuildMaster
-        bs = buildset.BuildSet(self.builderNames,
-                               SourceStamp(changes=changes),
-                               properties=self.properties)
-        self.submitBuildSet(bs)
-
-
-class StartSerial(ChangeNotification, Periodic):
+class StartSerial(Periodic):
 
     def __init__(self, name, project, builderNames, periodicBuildTimer,
                  branch=None):
         Periodic.__init__(self,name,builderNames,periodicBuildTimer,branch)
-        ChangeNotification.__init__(self)
         self.project = project
         self.finishedWatchers = []
 
@@ -130,14 +93,13 @@ class StartSerial(ChangeNotification, Periodic):
             w(ss)
         Periodic.buildSetFinished(self,bss)
 
-class Serial(ChangeNotification, BaseUpstreamScheduler):
+class Serial(BaseUpstreamScheduler):
     """This scheduler runs some set of builds that should be run
     after the 'upstream' scheduler has completed (successfully or not)."""
     compare_attrs = ('name', 'upstream', 'builders', 'branch')
 
     def __init__(self, name, project, upstream, builderNames, branch):
         BaseUpstreamScheduler.__init__(self, name)
-        ChangeNotification.__init__(self)
         self.project = project
         self.upstream = upstream
         self.branch = branch
