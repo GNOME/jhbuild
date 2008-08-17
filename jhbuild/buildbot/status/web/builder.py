@@ -23,6 +23,8 @@ from twisted.web import html
 from twisted.web.util import Redirect
 
 from buildbot.status.web.builder import BuildersResource, StatusResourceBuilder
+from buildbot.status.web.base import make_row, make_force_build_form
+
 from build import JhBuildsResource
 
 class JhStatusResourceBuilder(StatusResourceBuilder):
