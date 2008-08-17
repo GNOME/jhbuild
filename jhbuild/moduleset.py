@@ -57,8 +57,8 @@ class ModuleSet:
                 return self.modules[module]
         raise KeyError(module_name)
 
-    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles = False,
-                include_optional_modules = False):
+    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
+                include_optional_modules=False, ignore_missing=False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -78,7 +78,10 @@ class ModuleSet:
             for modname in all_modules[i].dependencies:
                 depmod = self.modules.get(modname)
                 if not depmod:
-                    raise UsageError(_('dependent module "%s" not found') % modname)
+                    if not ignore_missing:
+                        raise UsageError(_('dependent module "%s" not found') % modname)
+                    del all_modules[i]
+                    continue
                 if not depmod in all_modules:
                     all_modules.append(depmod)
 
@@ -151,7 +154,7 @@ class ModuleSet:
     
     def get_full_module_list(self, skip=[], ignore_cycles=False):
         return self.get_module_list(self.modules.keys(), skip=skip,
-                ignore_cycles=ignore_cycles)
+                ignore_cycles=ignore_cycles, ignore_missing=True)
 
     def get_test_module_list (self, seed, skip=[]):
         test_modules = []
