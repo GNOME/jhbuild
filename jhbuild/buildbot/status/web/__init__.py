@@ -119,7 +119,6 @@ class ProjectsSummary(HtmlResource):
                     if last_build:
                         # use a different class/label if make check failed
                         steps = last_build.getSteps()
-                        print 'XXX:', [x.__dict__ for x in steps]
                         if steps and steps[-1].results == WARNINGS:
                             # make check failed
                             class_ = 'failedchecks'
