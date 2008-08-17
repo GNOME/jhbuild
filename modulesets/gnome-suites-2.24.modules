@@ -15,8 +15,6 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="http://anonsvn.mono-project.com/source/"/>
-  <repository type="svn" name="svn.seahorse-plugins"
-      href="http://svn.gnome.org/svn/seahorse/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -1058,7 +1056,7 @@
   </autotools>
 
   <autotools id="seahorse-plugins">
-    <branch repo="svn.seahorse-plugins" />
+    <branch module="seahorse/seahorse-plugins/trunk" checkoutdir="seahorse-plugins" />
     <dependencies>
       <dep package="libgnome"/>
       <dep package="libgnomeui"/>
