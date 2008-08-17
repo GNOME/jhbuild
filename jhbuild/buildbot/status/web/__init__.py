@@ -138,10 +138,10 @@ class ProjectsSummary(HtmlResource):
                 
                 if lastbuild in ('failed', 'successful'):
                     slave_results[slave][2] += 1
-                    if lastbuild == 'successful':
-                        slave_results[slave][0] += 1
-                        slave_results[slave][1] += 1
                     if class_ == 'failedchecks':
+                        slave_results[slave][1] += 1
+                    elif lastbuild == 'successful':
+                        slave_results[slave][0] += 1
                         slave_results[slave][1] += 1
 
             result += '</tr>\n'

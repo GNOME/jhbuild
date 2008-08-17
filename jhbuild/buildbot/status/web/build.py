@@ -140,10 +140,10 @@ class JhStatusResourceBuild(StatusResourceBuild):
         data += '</li>'
 
         if ss.changes:
-            data += "<li>All Changes<\n"
+            data += "<li>All changes\n"
             data += "<ol>\n"
             for c in ss.changes:
-                data += "<li>" + c.asHTML() + "</li>\n"
+                data += '<li class="changeset">' + c.asHTML() + '</li>\n'
             data += "</ol></li>\n"
 
         data += '</ul>'
