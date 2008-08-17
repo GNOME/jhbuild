@@ -125,6 +125,88 @@ class JHBuildCommand(steps.shell.ShellCommand):
         text = self.describe(True)[:]
         return text
 
+
+class JHBuildCheckCommand(JHBuildCommand):
+    def __init__(self, **kwargs):
+        JHBuildCommand.__init__(self, stage='check', **kwargs)
+        self.failedTestsCount = 0
+        self.passedTestsCount = 0
+        self.testsResults = []
+        self.addLogObserver('stdio', UnitTestsObserver())
+
+    def evaluateCommand(self, cmd):
+        if self.failedTestsCount > 0:
+            return WARNINGS
+        else:
+            return SUCCESS
+
+    def getText(self, cmd, results):
+        text = JHBuildCommand.getText(self, cmd, results)
+        if self.failedTestsCount > 0 or self.passedTestsCount > 0:
+            text.append('failed: %s' % self.failedTestsCount)
+            text.append('passed: %s' % self.passedTestsCount)
+        return text
+
+    def createSummary(self, log):
+        if self.failedTestsCount > 0 or self.passedTestsCount > 0:
+            self.addHTMLLog('summary', self.createTestsSummary())
+
+    def createTestsSummary (self):
+        html = '<html>\n'
+        html += '<head>\n'
+        html += ' <title>Tests summary</title>\n'
+        html += ' <link rel="stylesheet" type="text/css" href="/lgo.css">\n'
+        html += ' <title>Tests summary</title>\n'
+        html += '</head>\n'
+        html += '<body>\n'
+
+        # Show summary
+        has_details = False
+        html += '<ul id="tests-summary">\n'
+        for t in self.testsResults:
+            if t[1]:
+                ttdclass = "success"
+            else:
+                ttdclass = "failure"
+            if len(t[2]) > 0:
+                html += '<li class="%s"><a href="#%s">%s</a></li>\n' % (ttdclass, t[0], t[0])
+                has_details = True
+            else:
+                html += '<li class="%s">%s</a></li>\n' % (ttdclass, t[0])
+        html += '</ul>\n'
+
+        if has_details:
+            # Show details
+            html += '<dl id="test-details">\n'
+            for t in self.testsResults:
+                if len(t[2]) == 0:
+                    continue
+                if t[1]:
+                    ttdclass = "success"
+                else:
+                    ttdclass = "failure"
+                html += '<dt class="%s">%s</dt>\n' % (ttdclass, t[0])
+                html += '<dd><ul>\n'
+
+                for ut in t[2]:
+                    if ut[1]:
+                        uttdclass = "success"
+                    else:
+                        uttdclass = "failure"
+                    html += '<li class="%s">' % uttdclass
+                    html += ut[0]
+                    if ut[1] == False:
+                        html += ' ' + ut[2]
+                    html += '</li>'
+                html += '</ul></dd>\n'
+            html += '</dl\n'
+
+        html += '</body>\n'
+        html += '</html>\n'
+
+        return html
+
+
 class JHBuildModulePathCommand(steps.shell.ShellCommand):
     name = "jhbuild_stage"
     haltOnFailure = 1
@@ -166,92 +248,4 @@ class JHBuildModulePathCommand(steps.shell.ShellCommand):
     def getText(self, cmd, results):
         text = self.describe(True)[:]
         return text
-
-class JHBuildModulePathTestCommand(JHBuildModulePathCommand):
-
-    def __init__(self, module=None, moduleset=None, action=[], **kwargs):
-        JHBuildModulePathCommand.__init__(self, module, moduleset, action, **kwargs)
-        self.failedTestsCount = 0
-        self.passedTestsCount = 0
-        self.testsResults = []
-        testFailuresObserver = UnitTestsObserver ()
-        self.addLogObserver('stdio', testFailuresObserver)
-
-    def createSummary(self, log):
-        if self.failedTestsCount > 0 or self.passedTestsCount > 0:
-            self.addHTMLLog ('tests summary', self.createTestsSummary())
-
-    def getText(self, cmd, results):
-        text = JHBuildModulePathCommand.getText(self, cmd, results)
-        if self.failedTestsCount > 0 or self.passedTestsCount > 0:
-            text.append("tests failed: " + str(self.failedTestsCount))
-            text.append("tests passed: " + str(self.passedTestsCount))
-        return text
-
-    def evaluateCommand(self, cmd):
-        if self.failedTestsCount > 0:
-            return WARNINGS
-        else:
-            return SUCCESS
-
-    def createTestsSummary (self):
-        html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'
-        html += '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n'
-        html += '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">\n'
-        html += '<head>\n'
-        html += ' <title>BuildBot: tests summary</title>\n'
-        html += '<link href="/buildbot.css" rel="stylesheet" type="text/css"/>\n'
-        html += '</head>\n'
-        html += '<body vlink="#800080">\n'
-
-        # Show summary
-        html += '<table width="720" class="TestsSummary" cellspacing="0" cellpadding="4" align="center">\n'
-        col = 0
-        maxcolumns = 5
-
-        for t in self.testsResults:
-            if col == 0:
-                html += '<tr>\n'
-            if t[1]:
-                ttdclass = "success"
-            else:
-                ttdclass = "failure"
-            html += '<td width="20%" class="TestsSummary '+ ttdclass + '"><a href="#' + t[0] + '">' + t[0] + '</a></td>\n'
-            col += 1
-            if col >= maxcolumns:
-                col = 0
-                html += '</tr>\n'
-        html += '</table>\n'
-
-        html += '<br><hr>\n'
-
-        # Show details
-        for t in self.testsResults:
-            html += '<br><br>\n'
-            html += '<table align="center" width="720" class="TestsDetail" cellspacing="0" cellpadding="4">\n'
-            if t[1]:
-                ttdclass = "success"
-            else:
-                ttdclass = "failure"
-            html += '<tr><td colspan="2" class="TestsDetailHeader ' + ttdclass + '"><a name="' + t[0]+ '"></a>' + t[0] + '</td></tr>\n'
-
-            if len(t[2]) > 0:
-                for ut in t[2]:
-                    if ut[1]:
-                        uttdclass = "success"
-                    else:
-                        uttdclass = "failure"
-                    html += '<tr><td width="15" class="TestsDetail ' + uttdclass+ '">&nbsp;</td>\n'
-                    html += '<td class="TestsDetail">' + ut[0]
-                    if ut[1] == False:
-                        html += '<br><span class="text' + uttdclass+ '">' + ut[2] + '</span>'
-                    html += '</td></tr>'
-            else:
-                html += '<tr><td colspan="2" class="TestDetail">No unit tests found.</td></tr>\n'
-            html += '</table>\n'
-
-        html += '</body>\n'
-        html += '</html>\n'
-
-        return html
 

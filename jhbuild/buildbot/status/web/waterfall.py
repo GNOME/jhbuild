@@ -204,7 +204,7 @@ class JhWaterfallStatusResource(WaterfallStatusResource):
                         text = t[0][len(self.module_name)+1:]
                         if text == 'updated':
                             text = 'update'
-                        event.setText([text])
+                        event.setText([text] + t[1:])
 
                     events.append(event)
                     starts, finishes = event.getTimes()

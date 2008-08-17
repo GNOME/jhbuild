@@ -18,7 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 from buildbot.process import factory
-from steps import JHBuildSource, JHBuildCommand, JHBuildModulePathTestCommand, JHBuildModulePathCommand
+from steps import JHBuildSource, JHBuildCommand, JHBuildModulePathCommand, JHBuildCheckCommand
 
 class JHBuildFactory(factory.BuildFactory):
     module = None
@@ -35,7 +35,7 @@ class JHBuildFactory(factory.BuildFactory):
     def getSteps(self):
         self.addStep(JHBuildSource, moduleset=self.moduleset, module=self.module)
         self.addStep(JHBuildCommand, stage='build', moduleset=self.moduleset, module=self.module)
-        self.addStep(JHBuildCommand, stage='check', moduleset=self.moduleset, module=self.module)
+        self.addStep(JHBuildCheckCommand, moduleset=self.moduleset, module=self.module)
         #self.addStep(JHBuildModulePathTestCommand, moduleset=self.moduleset, module=self.module, action=['make-check.sh'], haltOnFailure = False)
         #self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset, module=self.module, action=['module-reports.sh'], haltOnFailure = False)
 

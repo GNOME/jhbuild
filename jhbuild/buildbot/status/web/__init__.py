@@ -27,6 +27,7 @@ from buildbot.status.web.baseweb import WebStatus
 
 from waterfall import JhWaterfallStatusResource
 from changes import  ChangesResource
+from builder import JhBuildersResource
 
 
 def content(self, request):
@@ -112,21 +113,21 @@ class ProjectsSummary(HtmlResource):
                         lastbuild = bt
 
                 if lastbuild == 'successful':
-                    class_ = build_get_class(builder.getLastFinishedBuild())
+                    last_build = builder.getLastFinishedBuild()
+                    class_ = build_get_class(last_build)
                     lastbuild_label = 'Success'
+                    if last_build:
+                        # use a different class/label if make check failed
+                        steps = last_build.getSteps()
+                        print 'XXX:', [x.__dict__ for x in steps]
+                        if steps and steps[-1].results == WARNINGS:
+                            # make check failed
+                            class_ = 'failedchecks'
+                            lastbuild_label = 'Failed Checks'
                 elif lastbuild == 'failed':
                     lastbuild_label = 'Failed'
                     last_build = builder.getLastFinishedBuild()
                     class_ = build_get_class(last_build)
-                    if last_build:
-                        # use a different class/label if the failure is
-                        # 'make check'
-                        steps = last_build.getSteps()
-                        if steps and steps[-1].results == FAILURE and \
-                                steps[-1].text[0].endswith(' check'):
-                            # make check failed
-                            class_ = 'failedchecks'
-                            lastbuild_label = 'Failed Checks'
                 else:
                     class_ = ''
                     lastbuild_label = lastbuild
@@ -173,6 +174,7 @@ class JHBuildWebStatus(WebStatus):
 
         # set custom changes pages
         self.putChild('changes', ChangesResource())
+        self.putChild('builders', JhBuildersResource())
 
     def setupSite(self):
         WebStatus.setupSite(self)
