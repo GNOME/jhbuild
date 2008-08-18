@@ -31,6 +31,10 @@ class GnomeMaildirSource(MaildirSource):
     name = "Gnome svn-commits-list"
 
     def parse(self, m, prefix=None):
+        if m is None:
+            # not a mail at all
+            return None
+
         # From is svnuser@svn.gnome.org
         name, domain = m["from"].split("@")
 
@@ -75,7 +79,7 @@ class GnomeMaildirSource(MaildirSource):
                     if l[:-1] not in ("Added:", "Modified:", "Removed:"):
                         files.append(l[3:-1])
 
-        comments = unicode(comments, m.get_content_charset())
+        comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
         c.project = project # custom attribute
         return c
