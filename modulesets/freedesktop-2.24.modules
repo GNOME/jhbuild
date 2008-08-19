@@ -6,6 +6,8 @@
       href="http://cairographics.org/releases/"/>
   <repository type="tarball" name="dbus"
       href="http://dbus.freedesktop.org/releases/"/>
+  <repository type="tarball" name="hal"
+      href="http://hal.freedesktop.org/releases/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
@@ -73,8 +75,8 @@
   </autotools>
 
   <autotools id="PolicyKit" autogenargs="--enable-tests=no">
-    <branch repo="git.freedesktop.org"
-	    module="PolicyKit" checkoutdir="PolicyKit"/>
+    <branch repo="hal" module="PolicyKit-0.9.tar.gz" version="0.9"
+	    md5sum="802fd13ae41f73d79359e5ecb0a98716" size="1254318"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
