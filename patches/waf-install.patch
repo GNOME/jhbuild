@@ -2,14 +2,13 @@ Fix stupid prompt for WAF installation.
 
 --- waf-1.4.2/wscript	2008-05-20 15:32:51 +0000
 +++ waf-1.4.2/wscript	2008-05-20 15:33:28 +0000
-@@ -286,9 +286,6 @@
- 		print "Installing Waf on Windows is not possible."
- 		sys.exit(0)
+@@ -314,9 +314,6 @@
+ 			sys.exit(0)
  
--	val = raw_input("Installing Waf is discouraged. Proceed? [y/n]")
--	if val != "y": sys.exit(1)
+ 	if Params.g_commands['install']:
+-		val = Params.g_options.yes or (not sys.stdin.isatty() or raw_input("Installing Waf is discouraged. Proceed? [y/n]"))
+-		if val != True and val != "y": sys.exit(1)
 -
- 	destdir = None
- 	if "DESTDIR" in os.environ:
- 		destdir = os.environ["DESTDIR"]
-
+ 		compute_revision()
+ 
+ 		create_waf()
