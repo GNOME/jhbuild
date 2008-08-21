@@ -1,7 +1,7 @@
-Fix stupid prompt for WAF installation.
+Fix WAF to work as an autotools module type.
 
---- waf-1.4.2/wscript	2008-05-20 15:32:51 +0000
-+++ waf-1.4.2/wscript	2008-05-20 15:33:28 +0000
+--- waf-1.4.3/wscript	2008-05-20 15:32:51 +0000
++++ waf-1.4.3/wscript	2008-05-20 15:33:28 +0000
 @@ -314,9 +314,6 @@
  			sys.exit(0)
  
@@ -12,3 +12,11 @@ Fix stupid prompt for WAF installation.
  		compute_revision()
  
  		create_waf()
+--- waf-1.4.3/utils/autogen.sh	2008-06-23 01:52:48 +0200
++++ waf-1.4.3/utils/autogen.sh	2008-08-21 13:52:04 +0200
+@@ -47,3 +47,5 @@
+ 
+ EOF
+ 
++./configure --prefix=$prefix
++./waf configure $prefix
