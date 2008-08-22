@@ -113,7 +113,7 @@ class GitBranch(Branch):
         if not branch:
             return False
         try:
-            get_output(['git-rev-parse', branch], cwd = self.srcdir)
+            get_output(['git', 'rev-parse', branch], cwd = self.srcdir)
             return True
         except:
             return False
@@ -239,7 +239,7 @@ class GitBranch(Branch):
         if not os.path.exists(self.srcdir):
             return None
         try:
-            output = get_output(['git-rev-parse', 'HEAD'],
+            output = get_output(['git', 'rev-parse', 'HEAD'],
                     cwd = self.srcdir)
         except CommandError:
             return None
@@ -276,7 +276,7 @@ class GitSvnBranch(GitBranch):
             #we couldn't find an unhandled.log to parse so try
             #git-svn show-externals - note this is broken in git < 1.5.6
             try:
-                output = get_output(['git-svn', 'show-externals'], cwd=cwd)
+                output = get_output(['git', 'svn', 'show-externals'], cwd=cwd)
                 #we search for comment lines to strip them out
                 comment_line = re.compile(r"^#.*")
                 ext = ''
@@ -321,7 +321,7 @@ class GitSvnBranch(GitBranch):
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
 
-        cmd = ['git-svn', 'clone', self.module]
+        cmd = ['git', 'svn', 'clone', self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
@@ -340,7 +340,12 @@ class GitSvnBranch(GitBranch):
 
         try:
             #is known to fail on some versions
-            cmd = ['git-svn', 'show-ignore', '>>', '.git/info/exclude']
+            cmd = ['git', 'svn', 'show-ignore']
+            s = get_output(cmd, cwd = self.get_checkoutdir(copydir))
+            fd = file(os.path.join(
+                        self.get_checkoutdir(copydir), '.git/info/exclude'), 'a')
+            fd.write(s)
+            fc.close()
             buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir(copydir))
         except:
             pass
@@ -354,7 +359,7 @@ class GitSvnBranch(GitBranch):
 
         cwd = self.get_checkoutdir()
 
-        last_revision = get_output(['git-svn', 'find-rev', 'HEAD'], cwd=cwd)
+        last_revision = get_output(['git', 'svn', 'find-rev', 'HEAD'], cwd=cwd)
 
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
@@ -363,7 +368,7 @@ class GitSvnBranch(GitBranch):
         cmd = ['git', 'checkout', 'master']
         buildscript.execute(cmd, 'git checkout master', cwd=cwd)
 
-        cmd = ['git-svn', 'rebase']
+        cmd = ['git', 'svn', 'rebase']
         buildscript.execute(cmd, 'git-svn rebase', cwd=cwd)
 
         current_revision = get_output(['git-svn', 'find-rev', 'HEAD'], cwd=cwd)
@@ -393,7 +398,7 @@ class GitCvsBranch(GitBranch):
 
     def _checkout(self, buildscript, copydir=None):
 
-        cmd = ['git-cvsimport', '-r', 'cvs', '-p', 'b,HEAD', '-k', '-m', '-a', '-v', '-d', self.repository.cvsroot, '-C']
+        cmd = ['git', 'cvsimport', '-r', 'cvs', '-p', 'b,HEAD', '-k', '-m', '-a', '-v', '-d', self.repository.cvsroot, '-C']
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
