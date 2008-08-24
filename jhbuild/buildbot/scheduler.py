@@ -60,11 +60,11 @@ class OnCommitScheduler(Scheduler):
         return False
 
     def addChange(self, change):
-        log.msg('adding a change')
         if change.project != self.project:
             return
         if change.branch != self.branch:
             return
+        log.msg('adding a change')
         if self.changeIsImportant(change):
             self.addImportantChange(change)
         else:
