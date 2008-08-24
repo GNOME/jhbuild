@@ -45,6 +45,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'quiet_mode', 'progress_bar', 'module_extra_env',
                 'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
                 'jhbuildbot_svn_commits_box',
+                'use_local_modulesets',
                 ]
 
 env_prepends = {}
