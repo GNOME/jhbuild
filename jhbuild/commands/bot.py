@@ -24,6 +24,7 @@
 # GNU General Public License.
 
 import os
+import signal
 import sys
 import urllib
 from optparse import make_option
@@ -44,7 +45,7 @@ except ImportError:
     buildbot = None
 
 class cmd_bot(Command):
-    doc = _('Control buildbot slave')
+    doc = _('Control buildbot')
 
     name = 'bot'
     usage_args = '[ options ... ]'
@@ -53,22 +54,28 @@ class cmd_bot(Command):
         Command.__init__(self, [
             make_option('--setup',
                         action='store_true', dest='setup', default=False,
-                        help=_('create a new instance')),
+                        help=_('setup a buildbot environment')),
             make_option('--start',
                         action='store_true', dest='start', default=False,
-                        help=_('start an instance')),
+                        help=_('start a buildbot slave server')),
             make_option('--stop',
                         action='store_true', dest='stop', default=False,
-                        help=_('stop an instance')),
-            make_option('--log',
-                        action='store_true', dest='log', default=False,
-                        help=_('watch the log of a running instance')),
-            make_option('--step',
-                        action='store_true', dest='step', default=False,
-                        help=_('exec a buildbot step (internal use)')),
+                        help=_('stop a buildbot slave server')),
             make_option('--start-server',
                         action='store_true', dest='start_server', default=False,
-                        help=_('start a buildbot server')),
+                        help=_('start a buildbot master server')),
+            make_option('--stop-server',
+                        action='store_true', dest='stop_server', default=False,
+                        help=_('stop a buildbot master server')),
+            make_option('--daemon',
+                        action='store_true', dest='daemon', default=False,
+                        help=_('start as daemon')),
+            make_option('--pidfile', metavar='PIDFILE',
+                        action='store', dest='pidfile', default=None,
+                        help=_('pid file location')),
+            make_option('--step',
+                        action='store_true', dest='step', default=False,
+                        help=_('exec a buildbot step (internal use only)')),
             ])
 
     def run(self, config, options, args):
@@ -93,8 +100,18 @@ class cmd_bot(Command):
         # (master.cfg , steps.py, etc.)
         __builtin__.__dict__['jhbuild_config'] = config
 
+        daemonize = False
+        pidfile = None
+
+        if options.daemon:
+            daemonize = True
+        if options.pidfile:
+            pidfile = options.pidfile
+
+
         if options.start:
-            return self.start(config)
+            return self.start(config, daemonize, pidfile)
+
         if options.step:
             os.environ['JHBUILDRC'] = config.filename
             os.environ['LC_ALL'] = 'C'
@@ -120,9 +137,12 @@ class cmd_bot(Command):
             os.environ['TERM'] = 'dumb'
             rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
-        if options.start_server:
-            return self.start_server(config)
 
+        if options.start_server:
+            return self.start_server(config, daemonize, pidfile)
+
+        if options.stop or options.stop_server:
+            return self.stop(config, pidfile)
 
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
@@ -130,7 +150,7 @@ class cmd_bot(Command):
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
     
-    def start(self, config):
+    def start(self, config, daemonize, pidfile):
         from twisted.application import service
         application = service.Application('buildslave')
         if ':' in config.jhbuildbot_master:
@@ -158,8 +178,13 @@ class cmd_bot(Command):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
+        opts = ['--no_save']
+        if not daemonize:
+            opts.append('--nodaemon')
+        if pidfile:
+            opts.extend(['--pidfile', pidfile])
         options = ServerOptions()
-        options.parseOptions(['--no_save', '--nodaemon'])
+        options.parseOptions(opts)
 
         class JhBuildbotApplicationRunner(UnixApplicationRunner):
             application = None
@@ -170,12 +195,17 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config):
+    def start_server(self, config, daemonize, pidfile):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
+        opts = ['--no_save']
+        if not daemonize:
+            opts.append('--nodaemon')
+        if pidfile:
+            opts.extend(['--pidfile', pidfile])
         options = ServerOptions()
-        options.parseOptions(['--no_save', '--nodaemon'])
+        options.parseOptions(opts)
 
         class JhBuildbotApplicationRunner(UnixApplicationRunner):
             application = None
@@ -572,6 +602,14 @@ class cmd_bot(Command):
 
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
+
+    def stop(self, config, pidfile):
+        try:
+            pid = int(file(pidfile).read())
+        except:
+            raise FatalError(_('failed to get buildbot PID'))
+
+        os.kill(pid, signal.SIGTERM)
 
 
 register_command(cmd_bot)
