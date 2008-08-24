@@ -44,7 +44,11 @@ builddir_pattern = '%s'
 autogenargs = '--disable-static --disable-gtk-doc'
 makeargs = ''
 cflags = ''
-installprog = None
+installprog = os.path.join(os.environ['HOME'], 'bin', 'install-check')
+if not os.path.exists(installprog):
+    installprog = '/usr/bin/install-check'
+if not os.path.exists(installprog):
+    installprog = None
 
 # override cvs roots, branch tags, etc
 repos = {}

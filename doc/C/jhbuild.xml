@@ -177,8 +177,6 @@ moduleset = 'gnome-2.22'
 modules = [ 'meta-gnome-desktop' ]
 checkoutroot = os.path.join(os.environ['HOME'], 'checkout', 'gnome2')
 prefix = os.path.join(os.environ['HOME'], 'prefix')
-os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
-                                     'bin', 'install-check')
 </programlisting>
 
       <para>This will make JHBuild build the
@@ -186,10 +184,7 @@ os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
       dependencies from the <systemitem>gnome-2.22</systemitem> module
       set.  It will unpack source trees to
       <filename>~/checkout/gnome2</filename> and install all files to
-      subdirectories of <filename>~/prefix</filename>.  It also sets the
-      <envar>INSTALL</envar> environment variable, so modules use a
-      different install program which handles installation of headers
-      differently, in order to reduce the time taken for rebuilds.</para>
+      subdirectories of <filename>~/prefix</filename>.</para>
 
       <para>Some of configuration variables available include:</para>
 
@@ -1251,6 +1246,17 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  <listitem>
 	    <simpara>A string specifying which program to use for
 	    CVS support.  Defaults to <literal>cvs</literal>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><varname>installprog</varname></term>
+	  <listitem>
+	    <simpara>A string specifying which program to use as
+	    replacement for <literal>/usr/bin/install</literal>; if available
+	    it defaults to the <literal>install-check</literal> wrapper provided
+	    by JHBuild, which handles installation of headers differently,
+	    in order to reduce the time taken for rebuilds.
+	    </simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>

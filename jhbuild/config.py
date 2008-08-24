@@ -32,7 +32,7 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
-                'repos', 'branches', 'noxvfb', 'xvfbargs',
+                'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
@@ -121,7 +121,7 @@ class Config:
         # environment variables
         if config.has_key('cflags') and config['cflags']:
             os.environ['CFLAGS'] = config['cflags']
-        if config.has_key('installprog') and config['installprog']:
+        if config.has_key('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
 
         # copy known config keys to attributes on the instance
