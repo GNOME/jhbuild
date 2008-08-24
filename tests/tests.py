@@ -153,6 +153,15 @@ class ModuleOrderingTestCase(unittest.TestCase):
         self.moduleset.modules['qux'].suggests = ['foo']
         self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'quux', 'qux', 'foo'])
 
+    def test_dependency_chain_recursive_after(self):
+        '''A chain of dependencies with a recursively defined <after> module'''
+        # see http://bugzilla.gnome.org/show_bug.cgi?id=546640
+        self.moduleset.modules['foo'] # gtk-doc
+        self.moduleset.modules['bar'].dependencies = ['foo'] # meta-bootstrap
+        self.moduleset.modules['baz'].after = ['bar'] # cairo
+        self.moduleset.modules['qux'].dependencies = ['baz'] # meta-stuff
+        self.assertEqual(self.get_module_list(['qux', 'foo']), ['foo', 'baz', 'qux'])
+
 
 class BuildTestCase(unittest.TestCase):
     def setUp(self):

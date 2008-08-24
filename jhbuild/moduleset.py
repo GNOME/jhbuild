@@ -132,15 +132,32 @@ class ModuleSet:
                 if not depmod:
                     continue
                 order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+            extra_afters = []
             for modname in module.after:
                 depmod = self.modules.get(modname)
+                if not depmod:
+                    # this module doesn't exist, skip.
+                    continue
                 if not depmod in all_modules and not include_optional_modules:
-                    # skipping modules that would not be built otherwise
+                    # skip modules that would not be built otherwise
                     # (build_optional_modules being the argument to force them
                     # to be included nevertheless)
+
+                    if not depmod.dependencies:
+                        # depmod itself has no dependencies, skip.
+                        continue
+
+                    # more expensive, if depmod has dependencies, compute its
+                    # full list of hard dependencies, getting it into
+                    # extra_afters, so they are also evaluated.
+                    # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
+                    dep_modules = self.get_module_list(seed=[depmod.name])
+                    for m in dep_modules:
+                        if m in all_modules:
+                            extra_afters.append(m)
                     continue
-                if not depmod:
-                    continue
+                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+            for depmod in extra_afters:
                 order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
             state[module] = 'processed'
             ordered.append(module)
