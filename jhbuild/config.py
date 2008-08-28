@@ -121,7 +121,7 @@ class Config:
         # environment variables
         if config.has_key('cflags') and config['cflags']:
             os.environ['CFLAGS'] = config['cflags']
-        if config.has_key('installprog') and os.path.exists(config['installprog']):
+        if config.get('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
 
         # copy known config keys to attributes on the instance
