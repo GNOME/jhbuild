@@ -1565,6 +1565,30 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gupnp-vala">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/bindings/gupnp-vala"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gupnp-ui"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-media-server">
+    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-media-server"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gupnp-vala"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gconf"/>
+      <dep package="dbus-glib"/>
+      <dep package="gstreamer"/>
+    </dependencies>
+  </autotools>
+
   <metamodule id="meta-gupnp">
     <dependencies>
       <dep package="gssdp"/>
@@ -1573,6 +1597,8 @@
       <dep package="gupnp-tools"/>
       <dep package="gupnp-ui"/>
       <dep package="rhythmbox-gupnp"/>
+      <dep package="gupnp-vala"/>
+      <dep package="gupnp-media-server"/>
     </dependencies>
   </metamodule>
 
