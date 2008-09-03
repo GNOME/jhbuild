@@ -1327,6 +1327,21 @@
     </dependencies>
   </tarball>
 
+  <!-- External deps that you MUST have installed in order -->
+  <!-- to compile vala from trunk                          -->
+  <!--                                                     -->
+  <!--   bison                                             -->
+  <!--   flex                                              -->
+  <autotools id="vala-trunk"
+             autogenargs="--enable-vapigen --disable-shared --enable-static">
+    <branch module="vala/trunk"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libgee">
     <branch/>
     <dependencies>
