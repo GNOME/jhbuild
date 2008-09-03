@@ -23,7 +23,7 @@ import os
 import sys
 import urlparse
 
-from jhbuild.errors import UsageError, FatalError, DependencyCycleError
+from jhbuild.errors import UsageError, FatalError, DependencyCycleError, CommandError
 
 try:
     import xml.dom.minidom
@@ -33,6 +33,7 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
+from jhbuild.utils.cmds import get_output
 
 __all__ = ['load', 'load_tests']
 
@@ -366,3 +367,41 @@ def _parse_module_set(config, uri):
             moduleset.add(module)
 
     return moduleset
+
+def warn_local_modulesets(config):
+    if config.use_local_modulesets:
+        return
+
+    moduleset_local_path = os.path.join(os.path.dirname(__file__), '..', 'modulesets')
+    if not os.path.exists(moduleset_local_path):
+        # moduleset-less checkout
+        return
+
+    if not os.path.exists(os.path.join(moduleset_local_path, '.svn')):
+        # checkout was not done via subversion
+        return
+
+    if type(config.moduleset) == type([]):
+        modulesets = config.moduleset
+    else:
+        modulesets = [ config.moduleset ]
+
+    if not [x for x in modulesets if x.find('/') == -1]:
+        # all modulesets have a slash; they are URI
+        return
+
+    try:
+        svn_status = get_output(['svn', 'status'], cwd=moduleset_local_path)
+    except CommandError:
+        # svn error, ignore
+        return
+
+    if not [x for x in svn_status.splitlines() if x.startswith('M')]:
+        # no locally modified moduleset
+        return
+
+    print >> sys.stderr, uencode(
+            _('I: modulesets were edited locally but jhbuild is configured '\
+              'to get them from subversion, perhaps you need to add '\
+              'use_local_modulesets = True to your .jhbuildrc.'))
+
