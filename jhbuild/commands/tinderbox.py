@@ -58,7 +58,10 @@ class cmd_tinderbox(Command):
                         help=_('try to force checkout and autogen on failure')),
             make_option('-N', '--no-poison',
                         action='store_true', dest='nopoison', default=False,
-                        help=_("don't poison modules on failure"))
+                        help=_("don't poison modules on failure")),
+            make_option('-f', '--force',
+                        action='store_true', dest='force_policy', default=False,
+                        help=_('build even if policy says not to'))
             ])
 
     def run(self, config, options, args):
@@ -80,6 +83,8 @@ class cmd_tinderbox(Command):
             config.trycheckout = True
         if options.nopoison:
             config.nopoison = True
+        if options.force_policy:
+            config.build_policy = 'all'
 
         if not config.tinderbox_outputdir:
             raise UsageError(_('output directory for tinderbox build not specified'))
