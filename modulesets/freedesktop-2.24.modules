@@ -34,11 +34,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="libcc-git.freedesktop.org"
       href="git://people.freedesktop.org/~herzi/"/>
-
-  <repository type="darcs" name="telepathy.freedesktop.org"
-      href="http://projects.collabora.co.uk/darcs/telepathy/"/>
-  <repository type="darcs" name="farsight.freedesktop.org"
-      href="http://projects.collabora.co.uk/darcs/farsight/"/>
+  <repository type="git" name="git.collabora.co.uk"
+      href="git://git.collabora.co.uk/git/"/>
 
   <repository type="bzr" name="telepathy-msn.freedesktop.org"
       href="http://bzr.collabora.co.uk/bzr/telepathy/"/>
@@ -221,7 +218,7 @@
   <!-- ################################################ -->
   <!-- ################ Telepathy Stuff ############### -->
   <distutils id="telepathy-python">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
 	    module="telepathy-python" checkoutdir="telepathy-python" />
     <dependencies>
       <dep package="dbus-python"/>
@@ -229,7 +226,7 @@
   </distutils>
 
   <autotools id="gst-plugins-farsight">
-    <branch repo="farsight.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
 	    module="gst-plugins-farsight" checkoutdir="gst-plugins-farsight" />
     <dependencies>
       <dep package="glib"/>
@@ -239,24 +236,19 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libfarsight">
-    <branch repo="farsight.freedesktop.org"
-	    module="farsight" checkoutdir="libfarsight" />
+  <autotools id="farsight2">
+    <branch repo="git.collabora.co.uk"
+	    module="farsight2" checkoutdir="farsight2" />
     <dependencies>
-      <dep package="telepathy-glib"/>
       <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
-      <dep package="gst-plugins-good"/>
-      <dep package="gst-plugins-farsight"/>
       <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
   <autotools id="telepathy-stream-engine">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
 	    module="stream-engine" checkoutdir="telepathy-stream-engine" />
     <dependencies>
       <dep package="telepathy-glib"/>
@@ -271,7 +263,7 @@
   <!-- Gabble is a Jabber/XMPP connection manager that handles -->
   <!-- single-user and multi-user chats and voice/video calls  -->
   <autotools id="telepathy-gabble">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
 	    module="telepathy-gabble" checkoutdir="telepathy-gabble" />
     <dependencies>
       <dep package="telepathy-glib"/>
@@ -282,7 +274,7 @@
   <!-- Salut is a link-local XMPP connection manager                -->
   <!-- See http://www.xmpp.org/extensions/xep-0174.html for details -->
   <autotools id="telepathy-salut">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
             module="telepathy-salut" checkoutdir="telepathy-salut" />
     <dependencies>
       <dep package="telepathy-glib"/>
@@ -292,7 +284,7 @@
 
   <!-- Idle is a full-featured IRC connection manager -->
   <autotools id="telepathy-idle">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
             module="telepathy-idle" checkoutdir="telepathy-idle" />
     <dependencies>
       <dep package="telepathy-glib"/>
@@ -301,7 +293,7 @@
 
   <!-- Haze is a connection manager based on Pidgin's libpurple -->
   <autotools id="telepathy-haze">
-    <branch repo="telepathy.freedesktop.org"
+    <branch repo="git.collabora.co.uk"
             module="telepathy-haze" checkoutdir="telepathy-haze" />
     <dependencies>
       <dep package="telepathy-glib"/>
