@@ -293,6 +293,8 @@ def _parse_module_set(config, uri):
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
+    except IOError, e:
+        raise FatalError(_('failed to parse %s: %s') % (filename, e))
     except xml.parsers.expat.ExpatError, e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
 
