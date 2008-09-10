@@ -220,10 +220,14 @@ class TerminalBuildScript(buildscript.BuildScript):
                 except OSError:
                     # process might already be dead.
                     pass
-        if p.wait() != 0:
-            if self.config.quiet_mode:
-                print ''.join(output)
-            raise CommandError(_('########## Error running %s') % pretty_command, p.returncode)
+        try:
+            if p.wait() != 0:
+                if self.config.quiet_mode:
+                    print ''.join(output)
+                raise CommandError(_('########## Error running %s') % pretty_command)
+        except OSError:
+            # it could happen on a really badly-timed ctrl-c (see bug 551641)
+            raise CommandError(_('########## Error running %s') % pretty_command)
 
     def start_phase(self, module, state):
         self.trayicon.set_icon(os.path.join(icondir,
