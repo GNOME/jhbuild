@@ -1,6 +1,6 @@
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright Lieven Gobaerts
-# Copyright (C) 2008  apinheiro@igalia.com, John Carr, Frederic Peters
+# Copyright (C)  2008 Igalia S.L., John Carr, Frederic Peters
 #
 #   feeds.py: RSS/Atom feeds
 #
