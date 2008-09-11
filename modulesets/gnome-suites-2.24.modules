@@ -1476,6 +1476,27 @@
     </dependencies>
   </autotools>
 
+<!-- Mobile -->
+
+  <repository type="svn" name="o-hand.com"
+    href="http://svn.o-hand.com/repos/"/>
+
+  <repository type="svn" name="imendio.com"
+    href="http://developer.imendio.com/svn/"/>
+
+  <autotools id="evolution-data-server-dbus" autogenargs="--with-libdb --with-dbus --enable-calendar --enable-nntp=no --without-libgnome --without-openldap --without-bug-buddy --without-soup --disable-groupwise --disable-smime --disable-nss">
+    <branch repo="o-hand.com" module="eds-dbus/trunk" checkoutdir="eds-dbus"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gconf-dbus">
+    <branch repo="imendio.com" module="gconf-dbus/trunk" checkoutdir="gconf-dbus"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
 <!-- Proposed Modules -->
 
 <!-- Meta Modules -->
@@ -1665,6 +1686,21 @@
       <dep package="glade3"/>
       <dep package="gnome-build"/>
       <dep package="gnome-devel-docs"/>
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-mobile-suite">
+    <dependencies>
+      <dep package="gconf-dbus"/>
+      <dep package="atk"/>
+      <dep package="evolution-data-server-dbus"/>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+      <dep package="intltool"/>
+      <dep package="pango"/>
     </dependencies>
   </metamodule>
 
