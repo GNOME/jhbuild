@@ -94,6 +94,8 @@
       href="svn://svn.async.com.br/"/>
   <repository type="svn" name="flumotion.code.fluendo.com"
       href="https://code.fluendo.com/flumotion/svn/"/>
+  <repository type="tarball" name="matchbox-project.org"
+      href="http://matchbox-project.org/sources/"/>
 
   <include href="freedesktop-2.24.modules"/>
   <include href="gnome-suites-2.24.modules"/>
@@ -2198,5 +2200,95 @@
       <dep package="libwnck"/>
     </dependencies>
   </autotools>
+
+  <autotools id="murrine">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-css-engine">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libfakekey">
+    <branch repo="matchbox-project.org"
+            module="libfakekey/0.1/libfakekey-0.1.tar.bz2" version="0.1"
+            size="203504" md5="83dbde4d77e8baf0176fe4291d8a2303"/>
+  </autotools>
+     
+  <!-- ########## Ubuntu Netbook Remix Modules ########## -->
+
+  <autotools id="maximus">
+    <branch repo="launchpad.net"
+            module="~netbook-remix-team/netbook-remix/maximus"
+            checkoutdir="maximus"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="libgnomeui"/>
+      <dep package="libfakekey"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="window-picker-applet">
+    <branch repo="launchpad.net"
+            module="~netbook-remix-team/netbook-remix/window-picker-applet"
+            checkoutdir="window-picker-applet"/>
+    <dependencies>
+      <dep package="gnome-panel"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="go-home-applet">
+    <branch repo="launchpad.net"
+            module="~netbook-remix-team/netbook-remix/go-home-applet"
+            checkoutdir="go-home-applet"/>
+    <dependencies>
+      <dep package="gnome-panel"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="netbook-remix-launcher">
+    <branch repo="launchpad.net"
+            module="~netbook-remix-team/netbook-remix-launcher/clutter-0-8-intrepid"
+            checkoutdir="netbook-remix-launcher"/>
+    <dependencies>
+      <dep package="clutter-gtk"/>
+      <dep package="clutter"/>
+      <dep package="startup-notification"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-menus"/>
+      <dep package="libwnck"/>
+      <dep package="gconf"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <metamodule id="meta-netbook-remix">
+    <dependencies>
+      <dep package="netbook-remix-launcher"/>
+      <dep package="maximus"/>
+      <dep package="window-picker-applet"/>
+      <dep package="go-home-applet"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- ########## End of Ubuntu Netbook Remix Modules ########## -->
 
 </moduleset>
