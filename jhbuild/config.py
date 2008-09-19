@@ -19,8 +19,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import traceback
 import sys
+import traceback
+import types
 
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -108,6 +109,21 @@ class Config:
         except Exception:
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
+
+        if not config.get('quiet_mode'):
+            unknown_keys = []
+            for k in config.keys():
+                if k in _known_keys + ['cvsroots', 'svnroots', 'cflags']:
+                    continue
+                if k[0] == '_':
+                    continue
+                if type(config[k]) in (types.ModuleType, types.FunctionType):
+                    continue
+                unknown_keys.append(k)
+            if unknown_keys:
+                print >> sys.stderr, uencode(
+                        _('I: unknown keys defined in configuration file: %s') % \
+                        ', '.join(unknown_keys))
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
