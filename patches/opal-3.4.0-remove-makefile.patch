@@ -1,0 +1,584 @@
+diff -Naur opal_3.4.0.orig/Makefile opal_3.4.0/Makefile
+--- opal_3.4.0.orig/Makefile	2008-09-15 13:48:22.000000000 +0200
++++ opal_3.4.0/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,580 +0,0 @@
+-#
+-# Makefile
+-#
+-# Make file for Open Phone Abstraction library
+-#
+-# Copyright (c) 2001 Equivalence Pty. Ltd.
+-#
+-# The contents of this file are subject to the Mozilla Public License
+-# Version 1.0 (the "License"); you may not use this file except in
+-# compliance with the License. You may obtain a copy of the License at
+-# http://www.mozilla.org/MPL/
+-#
+-# Software distributed under the License is distributed on an "AS IS"
+-# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+-# the License for the specific language governing rights and limitations
+-# under the License.
+-#
+-# The Original Code is Open Phone Abstraction Library.
+-#
+-# The Initial Developer of the Original Code is Equivalence Pty. Ltd.
+-#
+-# Contributor(s): ______________________________________.
+-#
+-# $Revision: 20695 $
+-# $Author: rjongbloed $
+-# $Date: 2008-08-19 04:11:10 +0000 (Tue, 19 Aug 2008) $
+-#
+-
+-export OPALDIR=/home/release/opal
+-
+-INSTALL=/usr/bin/install -c
+-OS_NAME=$(shell uname -s)
+-ifeq ($(OS_NAME),SunOS)
+-  override SHELL=/usr/bin/bash
+-endif
+-
+-default :: optshared
+-
+-all :: bothdepend both
+-
+-update:
+-	svn update
+-	$(MAKE) all
+-
+-
+-SUBDIRS := 
+-
+-HAS_PLUGINS=1
+-ifeq ($(HAS_PLUGINS),1)
+-SUBDIRS += plugins 
+-endif
+-
+-HAS_SAMPLES=0
+-ifeq ($(HAS_SAMPLES),1)
+-SUBDIRS += samples/simple samples/opalcodecinfo samples/callgen samples/c_api
+-endif
+-
+-LIBRARY_MAKEFILE:=1
+-
+-include $(OPALDIR)/opal_inc.mak
+-
+-PREFIX=/usr/local/
+-exec_prefix = ${PREFIX}
+-
+-ifndef PREFIX
+-PREFIX=/usr/local
+-endif
+-
+-ifeq ($(USE_GCC),yes)
+-ANSI_FLAG = -ansi
+-endif
+-
+-OPAL_OBJDIR = $(OPAL_LIBDIR)/$(PT_OBJBASE)
+-
+-OBJDIR	=	$(OPAL_OBJDIR)
+-LIBDIR  =	$(OPAL_LIBDIR)
+-TARGET	=	$(OPAL_LIBDIR)/$(OPAL_FILE)
+-
+-ASN_SRCDIR := $(OPAL_SRCDIR)/asn
+-ASN_INCDIR := $(OPAL_INCDIR)/asn
+-
+-STDCCFLAGS += 
+-
+-VPATH_CXX := $(OPAL_SRCDIR)/opal \
+-	     $(OPAL_SRCDIR)/rtp \
+-	     $(OPAL_SRCDIR)/lids \
+-	     $(OPAL_SRCDIR)/codec \
+-             $(OPAL_SRCDIR)/t38
+-
+-ifneq (,$(wildcard src/iax2))
+-IAX2_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/iax2 
+-endif
+-
+-ifneq (,$(wildcard src/zrtp))
+-ZRTP_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/zrtp
+-endif
+-
+-ifneq (,$(wildcard src/sip))
+-SIP_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/sip
+-endif
+-
+-ifneq (,$(wildcard src/h323))
+-H323_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/h323 \
+-	     $(OPAL_SRCDIR)/t120 \
+-	     $(OPAL_SRCDIR)/asn 
+-endif
+-
+-ifneq (,$(wildcard src/h224))
+-H224_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/h224
+-
+-endif
+-
+-ifneq (,$(wildcard src/h460))
+-H460_AVAIL = 1
+-VPATH_CXX += $(OPAL_SRCDIR)/h460
+-endif
+-
+-VPATH_C := $(OPAL_SRCDIR)/codec
+-
+-########################################
+-# Source files for library
+-
+-SOURCES := $(OPAL_SRCDIR)/opal/manager.cxx \
+-           $(OPAL_SRCDIR)/opal/endpoint.cxx \
+-           $(OPAL_SRCDIR)/opal/rtpep.cxx \
+-           $(OPAL_SRCDIR)/opal/connection.cxx \
+-           $(OPAL_SRCDIR)/opal/rtpconn.cxx \
+-           $(OPAL_SRCDIR)/opal/localep.cxx \
+-           $(OPAL_SRCDIR)/opal/call.cxx \
+-           $(OPAL_SRCDIR)/opal/mediafmt.cxx \
+-           $(OPAL_SRCDIR)/opal/mediatype.cxx \
+-           $(OPAL_SRCDIR)/opal/mediastrm.cxx \
+-           $(OPAL_SRCDIR)/opal/patch.cxx \
+-           $(OPAL_SRCDIR)/opal/transcoders.cxx \
+-           $(OPAL_SRCDIR)/opal/transports.cxx \
+-           $(OPAL_SRCDIR)/opal/guid.cxx \
+-           $(OPAL_SRCDIR)/opal/opalmixer.cxx \
+-	   $(OPAL_SRCDIR)/opal/opalglobalstatics.cxx \
+-           $(OPAL_SRCDIR)/rtp/rtp.cxx \
+-           $(OPAL_SRCDIR)/rtp/jitter.cxx \
+-           $(OPAL_SRCDIR)/opal/opal_c.cxx
+-
+-ifeq ($(HAS_AUDIO),1)
+-SOURCES += $(OPAL_SRCDIR)/opal/pcss.cxx 
+-endif
+-
+-ifeq ($(OPAL_IVR), 1)
+-SOURCES += $(OPAL_SRCDIR)/opal/ivr.cxx \
+-           $(OPAL_SRCDIR)/opal/opalvxml.cxx 
+-endif
+-
+-
+-########################################
+-
+-# H.323 files
+-
+-ifeq ($(OPAL_H323),1)
+-ifdef H323_AVAIL
+-
+-H450_ASN_FILES := h4501 h4502 h4503 h4504 h4505 h4506 h4507 h4508 h4509 h45010 h45011
+-SIMPLE_ASN_FILES := x880 $(H450_ASN_FILES) mcs gcc
+-
+-ASN_H_FILES   := $(addprefix $(ASN_INCDIR)/,$(addsuffix .h,  $(SIMPLE_ASN_FILES)))
+-ASN_CXX_FILES := $(addprefix $(ASN_SRCDIR)/,$(addsuffix .cxx,$(SIMPLE_ASN_FILES)))
+-
+-ASN_H_FILES   += $(ASN_INCDIR)/h225.h
+-ASN_CXX_FILES += $(ASN_SRCDIR)/h225_1.cxx $(ASN_SRCDIR)/h225_2.cxx
+-
+-ASN_H_FILES   += $(ASN_INCDIR)/h235.h $(ASN_SRCDIR)/h235_t.cxx
+-ASN_CXX_FILES += $(ASN_SRCDIR)/h235.cxx
+-
+-ASN_H_FILES   += $(ASN_INCDIR)/h245.h
+-ASN_CXX_FILES += $(ASN_SRCDIR)/h245_1.cxx $(ASN_SRCDIR)/h245_2.cxx $(ASN_SRCDIR)/h245_3.cxx
+-
+-ASN_H_FILES   += $(ASN_INCDIR)/h248.h
+-ASN_CXX_FILES += $(ASN_SRCDIR)/h248.cxx
+-
+-ASN_H_FILES   += $(ASN_INCDIR)/h501.h
+-ASN_CXX_FILES += $(ASN_SRCDIR)/h501.cxx
+-
+-.PRECIOUS: $(ASN_CXX_FILES) $(ASN_H_FILES)
+-
+-
+-SOURCES += $(ASN_CXX_FILES) \
+-           $(OPAL_SRCDIR)/h323/h323ep.cxx \
+-           $(OPAL_SRCDIR)/h323/h323.cxx \
+-           $(OPAL_SRCDIR)/h323/h323caps.cxx \
+-           $(OPAL_SRCDIR)/h323/h323neg.cxx \
+-           $(OPAL_SRCDIR)/h323/h323pdu.cxx \
+-           $(OPAL_SRCDIR)/h323/h323rtp.cxx \
+-           $(OPAL_SRCDIR)/h323/channels.cxx \
+-           $(OPAL_SRCDIR)/h323/svcctrl.cxx \
+-           $(OPAL_SRCDIR)/h323/h450pdu.cxx \
+-           $(OPAL_SRCDIR)/h323/q931.cxx \
+-           $(OPAL_SRCDIR)/h323/transaddr.cxx \
+-           $(OPAL_SRCDIR)/h323/gkclient.cxx \
+-           $(OPAL_SRCDIR)/h323/gkserver.cxx \
+-           $(OPAL_SRCDIR)/h323/h225ras.cxx \
+-           $(OPAL_SRCDIR)/h323/h323trans.cxx \
+-           $(OPAL_SRCDIR)/h323/h235auth.cxx \
+-           $(OPAL_SRCDIR)/h323/h501pdu.cxx \
+-           $(OPAL_SRCDIR)/h323/h323annexg.cxx \
+-           $(OPAL_SRCDIR)/h323/peclient.cxx \
+-           
+-ifeq ($(OPAL_H460), 1)
+-ifdef H460_AVAIL
+-SOURCES += $(OPAL_SRCDIR)/h460/h4601.cxx \
+-	   $(OPAL_SRCDIR)/h460/h46018.cxx \
+-	   $(OPAL_SRCDIR)/h460/h46019.cxx \
+-	   $(OPAL_SRCDIR)/h460/h4609.cxx \
+-	   $(OPAL_SRCDIR)/h460/h460p.cxx \
+-	   $(OPAL_SRCDIR)/h460/h460pres.cxx \
+-	   $(OPAL_SRCDIR)/h460/h460tm.cxx
+-endif
+-endif
+-
+-ifdef HAS_OPENSSL
+-SOURCES += $(OPAL_SRCDIR)/h235auth1.cxx
+-endif
+-
+-SOURCES += $(OPAL_SRCDIR)/t120/t120proto.cxx \
+-           $(OPAL_SRCDIR)/t120/h323t120.cxx \
+-           $(OPAL_SRCDIR)/t120/x224.cxx 
+-
+-ifeq ($(OPAL_T38_CAP), 1)
+-SOURCES += $(OPAL_SRCDIR)/t38/h323t38.cxx
+-endif
+-
+-ifeq ($(OPAL_H224), 1)
+-ifdef H224_AVAIL
+-SOURCES += $(OPAL_SRCDIR)/h224/h323h224.cxx
+-endif
+-endif
+-
+-endif
+-endif
+-
+-##################
+-# IAX2 files
+-
+-ifeq ($(OPAL_IAX2),1)
+-ifdef IAX2_AVAIL
+-
+-SOURCES += \
+-           $(OPAL_SRCDIR)/iax2/callprocessor.cxx \
+-           $(OPAL_SRCDIR)/iax2/frame.cxx \
+-           $(OPAL_SRCDIR)/iax2/iax2con.cxx \
+-           $(OPAL_SRCDIR)/iax2/iax2ep.cxx \
+-           $(OPAL_SRCDIR)/iax2/iax2jitter.cxx \
+-           $(OPAL_SRCDIR)/iax2/iax2medstrm.cxx \
+-           $(OPAL_SRCDIR)/iax2/iedata.cxx \
+-           $(OPAL_SRCDIR)/iax2/ies.cxx \
+-           $(OPAL_SRCDIR)/iax2/processor.cxx \
+-           $(OPAL_SRCDIR)/iax2/receiver.cxx \
+-           $(OPAL_SRCDIR)/iax2/regprocessor.cxx\
+-           $(OPAL_SRCDIR)/iax2/remote.cxx \
+-           $(OPAL_SRCDIR)/iax2/safestrings.cxx \
+-           $(OPAL_SRCDIR)/iax2/sound.cxx \
+-           $(OPAL_SRCDIR)/iax2/specialprocessor.cxx \
+-           $(OPAL_SRCDIR)/iax2/transmit.cxx 
+-endif
+-endif
+-
+-################################################################################
+-# ZRTP files
+-
+-ifeq ($(OPAL_ZRTP),1)
+-ifdef ZRTP_AVAIL
+-
+-SOURCES += $(OPAL_SRCDIR)/zrtp/opalzrtp.cxx \
+-           $(OPAL_SRCDIR)/rtp/zrtpudp.cxx
+-
+-endif
+-endif
+-
+-
+-################################################################################
+-# SIP files
+-
+-ifeq ($(OPAL_SIP),1)
+-ifdef SIP_AVAIL
+-
+-SOURCES += $(OPAL_SRCDIR)/sip/sipep.cxx \
+-           $(OPAL_SRCDIR)/sip/sipcon.cxx \
+-           $(OPAL_SRCDIR)/sip/sippdu.cxx \
+-           $(OPAL_SRCDIR)/sip/sdp.cxx \
+-           $(OPAL_SRCDIR)/sip/handlers.cxx \
+-
+-ifeq ($(OPAL_T38_CAP), 1)
+-SOURCES += $(OPAL_SRCDIR)/t38/sipt38.cxx
+-endif
+-
+-endif
+-endif
+-
+-##################
+-# H.224 files
+-
+-ifeq ($(OPAL_H224), 1)
+-ifdef H224_AVAIL
+-
+-SOURCES += $(OPAL_SRCDIR)/h224/q922.cxx \
+-		   $(OPAL_SRCDIR)/h224/h224.cxx \
+-		   $(OPAL_SRCDIR)/h224/h281.cxx
+-endif
+-endif
+-
+-##################
+-# LIDS
+-
+-ifeq ($(OPAL_LID), 1)
+-
+-SOURCES += $(OPAL_SRCDIR)/lids/lid.cxx \
+-           $(OPAL_SRCDIR)/lids/lidep.cxx \
+-           $(OPAL_SRCDIR)/lids/lidpluginmgr.cxx \
+-
+-endif
+-
+-##################
+-# SRTP
+-
+-ifeq ($(OPAL_SRTP), 1)
+-SOURCES += $(OPAL_SRCDIR)/rtp/srtp.cxx \
+-
+-endif
+-
+-
+-####################################################
+-# Java interface
+-
+-ifeq ($(OPAL_JAVA), 1)
+-
+-JAVA_SRCDIR      = $(OPAL_SRCDIR)/java
+-JAVA_WRAPPER     = $(JAVA_SRCDIR)/java_swig_wrapper.c
+-
+-VPATH_C         += $(JAVA_SRCDIR)
+-SOURCES         += $(JAVA_WRAPPER)
+-
+-endif
+-
+-
+-##################
+-# T.38 Fax
+-
+-ifeq ($(OPAL_FAX), 1)
+-SOURCES += $(OPAL_SRCDIR)/t38/t38proto.cxx \
+-           $(ASN_SRCDIR)/t38.cxx
+-endif
+-
+-
+-
+-##################
+-# Software codecs
+-
+-SOURCES += $(OPAL_SRCDIR)/codec/g711codec.cxx \
+-           $(OPAL_SRCDIR)/codec/g711.c \
+-           $(OPAL_SRCDIR)/codec/g7231mf.cxx \
+-           $(OPAL_SRCDIR)/codec/g726mf.cxx \
+-           $(OPAL_SRCDIR)/codec/g728mf.cxx \
+-           $(OPAL_SRCDIR)/codec/g729mf.cxx \
+-           $(OPAL_SRCDIR)/codec/gsm0610mf.cxx \
+-           $(OPAL_SRCDIR)/codec/gsmamrmf.cxx \
+-           $(OPAL_SRCDIR)/codec/iLBCmf.cxx \
+-           $(OPAL_SRCDIR)/codec/t38mf.cxx \
+-           $(OPAL_SRCDIR)/codec/rfc2833.cxx \
+-           $(OPAL_SRCDIR)/codec/opalwavfile.cxx \
+-	   $(OPAL_SRCDIR)/codec/silencedetect.cxx \
+-	   $(OPAL_SRCDIR)/codec/echocancel.cxx \
+-	   $(OPAL_SRCDIR)/codec/opalpluginmgr.cxx
+-
+-ifeq ($(HAS_VIDEO), 1)
+-SOURCES += $(OPAL_SRCDIR)/codec/vidcodec.cxx 
+-endif
+-
+-ifeq ($(OPAL_RFC4175), 1)
+-SOURCES += $(OPAL_SRCDIR)/codec/rfc4175.cxx
+-endif
+-
+-ifeq ($(OPAL_G711PLC), 1)
+-SOURCES += $(OPAL_SRCDIR)/codec/g711a1_plc.cxx
+-endif
+-
+-ifeq ($(OPAL_AEC), 1)
+-
+-SPEEX_DIR       = $(OPAL_SRCDIR)/codec/speex
+-
+-#HEADER_FILES    += $(OPAL_INCDIR)/speexcodec.h
+-
+-#SOURCES        += $(OPAL_SRCDIR)/codec/speexcodec.cxx
+-
+-ifndef OPAL_SYSTEM_SPEEX
+-
+-SPEEX_INCDIR    = $(SPEEX_DIR)/libspeex
+-SPEEX_SRCDIR    = $(SPEEX_DIR)/libspeex
+-
+-VPATH_C         += $(SPEEX_SRCDIR)
+-VPATH_CXX       += $(SPEEX_SRCDIR)
+-
+-HEADER_FILES    += $(SPEEX_INCDIR)/speex.h \
+-		   $(SPEEX_INCDIR)/speex_bits.h \
+-		   $(SPEEX_INCDIR)/speex_header.h \
+-		   $(SPEEX_INCDIR)/speex_callbacks.h \
+-		   $(SPEEX_INCDIR)/speex_config_types.h \
+-		   $(SPEEX_INCDIR)/speex_preprocess.h \
+-		   $(SPEEX_INCDIR)/speex_stereo.h \
+-		   $(SPEEX_INCDIR)/speex_types.h \
+-		   $(SPEEX_INCDIR)/speex_jitter.h \
+-		   $(SPEEX_INCDIR)/speex_echo.h
+-
+-SOURCES         += $(SPEEX_SRCDIR)/speex_preprocess.c \
+-		   $(SPEEX_SRCDIR)/smallft.c \
+-                   $(SPEEX_SRCDIR)/misc.c \
+-                   $(SPEEX_SRCDIR)/mdf.c \
+-                   $(SPEEX_SRCDIR)/math_approx.c \
+-                   $(SPEEX_SRCDIR)/kiss_fftr.c \
+-                   $(SPEEX_SRCDIR)/kiss_fft.c \
+-                   $(SPEEX_SRCDIR)/fftwrap.c \
+-
+-endif # OPAL_SYSTEM_SPEEX
+-
+-endif # ifeq ($(OPAL_AEC), 1)
+-
+-
+-#
+-# Files to be cleaned during make clean
+-#
+-
+-CLEAN_FILES = $(OPAL_LIB) 
+-
+-
+-####################################################
+-
+-include /home/robertj/ptlib/make/common.mak
+-
+-LIB_FILENAME=$(OPAL_FILE)
+-SYSLIBS += -L$(PT_LIBDIR) -l$(PTLIB_BASE)$(LIB_TYPE)
+-
+-include /home/robertj/ptlib/make/lib.mak
+-
+-
+-####################################################
+-
+-ifeq ($(OPAL_AEC), 1)
+-
+-# Build rules for the Speex codec
+-
+-$(OPAL_OBJDIR)/%.o : $(SPEEX_SRCDIR)/%.c
+-	@if [ ! -d $(OPAL_OBJDIR) ] ; then mkdir -p $(OPAL_OBJDIR) ; fi
+-	$(CC) $(STDCCFLAGS) -I$(SPEEX_INCDIR) $(OPTCCFLAGS) $(CFLAGS) -c $< -o $@
+-
+-$(DEPDIR)/%.dep : $(SPEEX_SRCDIR)/%.c
+-	@if [ ! -d $(DEPDIR) ] ; then mkdir -p $(DEPDIR) ; fi
+-	@printf %s $(OPAL_OBJDIR)/ > $@
+-	$(CC) -I$(SPEEX_INCDIR) $(CFLAGS) -M $< >> $@
+-
+-endif
+-
+-
+-###############################################################################
+-#### Subdirectories
+-$(subst tagbuild,,$(STANDARD_TARGETS)) ::
+-	@set -e; $(foreach dir,$(SUBDIRS),if test -e $(dir) ; then $(MAKE) -C $(dir) $@; fi ;)
+-
+-
+-$(STANDARD_TARGETS) :: Makefile
+-
+-Makefile: Makefile.in configure
+-	@echo
+-	@echo "*******************************************************"
+-	@echo Makefile is not up to date, is a ./configure necessary?
+-	@echo "*******************************************************"
+-	@false
+-
+-
+-ifdef JAVA_WRAPPER
+-
+-$(JAVA_WRAPPER): $(JAVA_SRCDIR)/opal.i $(OPAL_INCDIR)/opal.h
+-	swig -java -package org.opalvoip -w451 -I$(OPAL_INCDIR) -o $@ $<
+-
+-endif
+-
+-
+-#### Install targets
+-install ::
+-	mkdir -p $(DESTDIR)${exec_prefix}/lib
+-	( for dir in $(DESTDIR)${exec_prefix}/lib \
+-		     $(DESTDIR)$(PREFIX)/include/opal/asn \
+-		     $(DESTDIR)$(PREFIX)/include/opal/codec \
+-		     $(DESTDIR)$(PREFIX)/include/opal/h323 \
+-		     $(DESTDIR)$(PREFIX)/include/opal/h460 \
+-		     $(DESTDIR)$(PREFIX)/include/opal/iax2 \
+-		     $(DESTDIR)$(PREFIX)/include/opal/lids \
+-		     $(DESTDIR)$(PREFIX)/include/opal/opal \
+-		     $(DESTDIR)$(PREFIX)/include/opal/rtp \
+-		     $(DESTDIR)$(PREFIX)/include/opal/sip \
+-		     $(DESTDIR)$(PREFIX)/include/opal/t120 \
+-		     $(DESTDIR)$(PREFIX)/include/opal/t38 \
+-		     $(DESTDIR)$(PREFIX)/include/opal/zrtp \
+-		     $(DESTDIR)${exec_prefix}/lib/pkgconfig \
+-		     $(DESTDIR)$(PREFIX)/share/opal ;\
+-		do mkdir -p $$dir ; chmod 755 $$dir ; \
+-	done)
+-	$(INSTALL) -m 755 lib/$(LIBNAME_PAT) $(DESTDIR)${exec_prefix}/lib
+-	$(INSTALL) -m 444 opal.pc $(DESTDIR)${exec_prefix}/lib/pkgconfig
+-	ln -snf $(LIBNAME_PAT) \
+-		$(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE).$(MAJOR_VERSION).$(MINOR_VERSION)
+-	ln -snf $(LIBNAME_PAT) \
+-		$(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE).$(MAJOR_VERSION)
+-	ln -snf $(LIBNAME_PAT) \
+-		$(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE)
+-	ln -snf $(LIBNAME_PAT) \
+-		$(DESTDIR)${exec_prefix}/lib/libopal.so
+-	( for fn in include/asn/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/asn ; \
+-	done)
+-	$(INSTALL) -m 644 include/opal.h $(DESTDIR)$(PREFIX)/include ; \
+-	( for fn in include/codec/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/codec ; \
+-	done)
+-	( for fn in include/h323/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/h323 ; \
+-	done)
+-	( for fn in include/h460/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/h460 ; \
+-	done)
+-	( for fn in include/iax2/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/iax2 ; \
+-	done)
+-	( for fn in include/lids/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/lids ; \
+-	done)
+-	( for fn in include/opal/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/opal ; \
+-	done)
+-	( for fn in include/rtp/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/rtp ; \
+-	done)
+-	( for fn in include/sip/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/sip ; \
+-	done)
+-	( for fn in include/t120/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/t120 ; \
+-	done)
+-	( for fn in include/t38/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/t38 ; \
+-	done)
+-	( for fn in include/zrtp/*.h ; do \
+-		$(INSTALL) -m 644 $$fn $(DESTDIR)$(PREFIX)/include/opal/zrtp ; \
+-	done)
+-	$(INSTALL) -m 644 opal_inc.mak $(DESTDIR)$(PREFIX)/share/opal
+-	$(MAKE) -C plugins install
+-
+-uninstall:
+-	rm -rf $(DESTDIR)$(PREFIX)/include/opal \
+-	       $(DESTDIR)$(PREFIX)/share/opal
+-	rm -f $(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE) \
+-	      $(DESTDIR)${exec_prefix}/lib/libopal.so \
+-	      $(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE).$(MAJOR_VERSION).$(MINOR_VERSION) \
+-	      $(DESTDIR)${exec_prefix}/lib/$(OPAL_FILE).$(MAJOR_VERSION) \
+-	      $(DESTDIR)${exec_prefix}/lib/$(LIBNAME_PAT) \
+-	      $(DESTDIR)${exec_prefix}/lib/pkgconfig/opal.pc 
+-	$(MAKE) -C plugins uninstall
+- 
+-docs: FORCE
+-	cat opal_cfg.dxy > /tmp/docs.dxy ; echo HAVE_DOT=NO >> /tmp/docs.dxy
+-	doxygen /tmp/docs.dxy
+-
+-graphdocs: FORCE
+-	cat opal_cfg.dxy > /tmp/docs.dxy ; echo HAVE_DOT=YES >> /tmp/docs.dxy
+-	doxygen /tmp/docs.dxy
+-
+-FORCE:
+- 
+-
+-# End of file #################################################################
