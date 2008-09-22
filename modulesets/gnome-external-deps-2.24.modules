@@ -17,6 +17,8 @@
     href="ftp://ftp.gnupg.org/gcrypt/"/>
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
+<repository type="tarball" name="sourceforge.net"
+    href="http://dl.sourceforge.net/sourceforge/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -280,11 +282,14 @@
     </dependencies>
   </tarball>
 
-  <autotools id="opal"
-	  autogenargs="PTLIBDIR=../ptlib-2.3.1" check-target="false">
-    <branch module="opal/3.3/opal-3.3.1.tar.bz2" repo="gnome.org"
-	    version="3.3.1"
-            md5sum="6e7525b440c9fb2d68b8767996ab4a76" size="7911984"/>
+  <autotools id="opal" autogenargs="--disable-vpb"
+	  check-target="false">
+    <branch module="opalvoip/opal-3.4.0-src.tar.bz2" repo="sourceforge.net"
+	    version="3.4.0" checkoutdir="opal_3.4.0"
+            md5sum="0c937919c698630f72ab4e3e0bb27fc0" size="8276609">
+      <patch file="opal-3.4.0-remove-makefile.patch" strip="1"/>
+      <patch file="opal-3.4.0-add-missing-file.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="ptlib"/>
     </dependencies>
@@ -330,9 +335,12 @@
   </autotools>
 
   <autotools id="ptlib" check-target="false">
-    <branch module="ptlib/2.3/ptlib-2.3.1.tar.bz2" repo="gnome.org"
-	    version="2.3.1"
-             md5sum="bd495deba21a292348bb57ae2cb05d6a" size="2881127"/>
+    <branch module="opalvoip/ptlib-2.4.0-src.tar.bz2" repo="sourceforge.net"
+            autogen-sh="configure"
+            version="2.4.0" checkoutdir="ptlib_2.4.0"
+            md5sum="95412075c331e79d27639b0bf5c95177" size="5123136">
+      <patch file="ptlib-2.4.0-remove-makefile.patch" strip="1"/>
+    </branch>
   </autotools>
 
   <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.50">
