@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.help.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 12:01+0000\n"
-"PO-Revision-Date: 2008-09-16 21:22+0200\n"
+"POT-Creation-Date: 2008-09-18 20:19+0000\n"
+"PO-Revision-Date: 2008-09-24 21:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -403,6 +403,11 @@ msgid ""
 "be cached locally and regularly updated. If a module with the same name is "
 "present in more than one module set, the last set listed takes priority."
 msgstr ""
+"Una cadena o lista de cadenas que especifican los nombres de los conjuntos de "
+"módulos que usar. Si el nombre de un conjunto de módulos es un URL completamente "
+"cualificado, el conjunto de módulos será cacheado en local y actualizado regularmente. "
+"Si existe otro módulo con el mismo nombre en más de un conjunto de módulos, tendrá "
+"prioridad el último conjunto listado."
 
 #: C/jhbuild.xml:205(varname) C/jhbuild.xml:790(replaceable)
 #: C/jhbuild.xml:794(replaceable) C/jhbuild.xml:1377(varname)
@@ -467,6 +472,9 @@ msgid ""
 "this variable is to use the version of a package included with the "
 "distribution instead of building it."
 msgstr ""
+"Una lista de nombres de módulos que excluir cuándo se decide qué construir. Un uso "
+"de esta variable es utilizar la versión de un paquete incluido con la distribución en "
+"lugar de construirlo."
 
 #: C/jhbuild.xml:246(varname) C/jhbuild.xml:1147(varname)
 msgid "autogenargs"
@@ -626,6 +634,9 @@ msgid ""
 "To build all the modules selected in the <filename>~/.jhbuildrc</filename> "
 "file, run the following command:"
 msgstr ""
+"Ahora que ya está todo configurado, se puede utilizar JHBuild para construir algún software. "
+"Para construir los todos módulos seleccionados en el archivo <filename>~/.jhbuildrc</filename>, "
+"ejecute el siguiente comando:"
 
 #: C/jhbuild.xml:344(userinput) C/jhbuild.xml:526(command)
 #, no-wrap
@@ -640,6 +651,11 @@ msgid ""
 "build from various stages, giving up on the module (which will also cause "
 "any modules depending on it to fail), or ignore the error and continue."
 msgstr ""
+"Esto descargará, configurará, compilará e instalará cada uno de los módulos. Si ocurre "
+"un error en cualquier fase, JHBuild mostrará un menú preguntando qué hacer. Estas opciones "
+"incluyen salir a una consola para reparar el error, volver a ejecutar la construcción desde varias "
+"fases, abandonar el módulo (lo que puede provocar que otros módulos que dependan de él fallen), "
+"o ignorar el error y continuar."
 
 #: C/jhbuild.xml:354(para)
 msgid ""
@@ -1139,6 +1155,8 @@ msgid ""
 "At the moment modules are automatically attributed a tag with the name of "
 "the module set they sit in."
 msgstr ""
+"Por el momento se asigna automáticamente una etiqueta a los conjuntos de módulos "
+"con el nombre del conjunto de módulos en el que están."
 
 #: C/jhbuild.xml:618(term)
 msgid ""
@@ -1154,6 +1172,9 @@ msgid ""
 "rather than at the beginning of the list. This is useful if the build was "
 "interrupted for some reason."
 msgstr ""
+"Después de expandir la lista módulos para construir, comienza en el módulo "
+"nombrado en lugar de por el principio de la lista. Esto es útil si se interrumpió "
+"la construcción por algún motivo."
 
 #: C/jhbuild.xml:629(option)
 msgid "-D"
@@ -1165,6 +1186,9 @@ msgid ""
 "source tree to its state at the given date before building. The date string "
 "should be in ISO format."
 msgstr ""
+"Si la versión del sistema de control de versiones subyacente lo soporta, intente "
+"actualizar el árbol de repositorios a su estado en la fecha dada antes de la construcción. "
+"La cadena de la fecha debe estar en formato ISO."
 
 #: C/jhbuild.xml:640(term)
 msgid "<option>-x</option>, <option>--no-xvfb</option>"
@@ -1199,6 +1223,8 @@ msgid ""
 "If one or more of a module's dependencies failed, this option forces JHBuild "
 "to try to build the module anyway."
 msgstr ""
+"Si falla una o más dependencias de un conjunto de módulos, esta opción fuerza "
+"a JHBuild a intentar construir el módulo de todas formas."
 
 #: C/jhbuild.xml:668(term)
 msgid "<option>-f</option>, <option>--force</option>"
@@ -1448,6 +1474,10 @@ msgid ""
 "information specific to the module type, such as the CVS repository or "
 "download URL."
 msgstr ""
+"El comando muestra el nombre del módulo, el tipo, sus dependencias, "
+"paquetes dependientes y la hora en que fue instalado con JHBuild. También puede "
+"mostrar alguna información específica del tipo de módulo, tal como el repositorio CVS o "
+"el URL de descarga."
 
 #: C/jhbuild.xml:841(para)
 msgid ""
@@ -1512,6 +1542,8 @@ msgid ""
 "If a particular module is being checked out on a branch, show the branch tag "
 "name with the module name."
 msgstr ""
+"Si se va descargar un módulo concreto de una rama, muestra el nombre de la "
+"etiqueta de la rama con el nombre del módulo."
 
 #: C/jhbuild.xml:890(term)
 msgid ""
@@ -1534,12 +1566,16 @@ msgid ""
 "Ignore modules that do not match any of <replaceable>tag</replaceable> when "
 "following dependencies to expand the list of modules to be displayed."
 msgstr ""
+"Ignorar los módulos que no coinciden con ninguna <replaceable>etiqueta</replaceable> "
+"cuando se sigan las dependencias para expandir la lista de módulos que mostrar."
 
 #: C/jhbuild.xml:912(simpara)
 msgid ""
 "Some modules, listed as optional dependencies, may not be required to get to "
 "the target module, this option inncludes them nevertheless."
 msgstr ""
+"Algunos módulos, listados como dependencias opcionales, pueden no necesitarse para "
+"obtener el módulo objetivo. Sin embargo, esta opción los incluye."
 
 #: C/jhbuild.xml:923(title)
 msgid "rdepends"
@@ -1571,7 +1607,7 @@ msgstr "--direct"
 
 #: C/jhbuild.xml:944(simpara)
 msgid "Limit display to modules directly depending on given module."
-msgstr ""
+msgstr "Limitar la muestra a los módulos directamente dependientes del módulo dado."
 
 #: C/jhbuild.xml:952(title)
 msgid "run"
@@ -1645,6 +1681,8 @@ msgid ""
 "<command>aclocal</command> commands associated with the various versions of "
 "<command>automake</command>."
 msgstr ""
+"Algunas macros usadas habitualmente están disponibles en la rutas de búsqueda de los comandos "
+"de <command>aclocal</command>, asociados con varias versiones de <command>automake</command>."
 
 #: C/jhbuild.xml:1009(simpara)
 msgid "That the XML catalog contains the DocBook DTD and stylesheets."
@@ -1682,6 +1720,10 @@ msgid ""
 "publishing on a website. It can be used to set up systems similar to "
 "Mozilla's Tinderbox, or Debian's Buildd."
 msgstr ""
+"El comando <command>tinderbox</command> es parecido a <command>build</"
+"command>, pero guarda toda la salida del terminal en archivos HTML aptos para publicarlos "
+"en un sitio web. Se puede utilizar para configurar sistemas parecidos a Tinderbox de Mozilla o "
+"o Buildd de Debian."
 
 #: C/jhbuild.xml:1043(command)
 msgid "jhbuild tinderbox"
@@ -1741,6 +1783,8 @@ msgid ""
 "command>, but only performs the download or update stage for modules without "
 "building them."
 msgstr ""
+"El comando <command>update</command> es similar a <command>build</command>, "
+"pero sólo realiza la fase de descarga o actualización de los módulos sin construirlos."
 
 #: C/jhbuild.xml:1092(para)
 msgid ""
@@ -1762,6 +1806,9 @@ msgid ""
 "command>, but it does not use dependency information to expand the module "
 "list. It is useful for quickly updating one or more modules."
 msgstr ""
+"El comando <command>updateone</command> es similar a <command>update</command>, "
+"pero no usa la información de dependencias para expandir la lista de módulos. Es útil para actualizar "
+"rápidamente uno o varios módulos."
 
 #: C/jhbuild.xml:1107(command)
 msgid "jhbuild updateone"
@@ -1780,6 +1827,8 @@ msgid ""
 "Unlike the <command>update</command> command, at least one module must be "
 "listed on the command line."
 msgstr ""
+"A diferencia del comando <command>update</command>, se debe especificar al menos "
+"un módulo en la línea de comandos."
 
 #: C/jhbuild.xml:1122(title)
 msgid "Configuration File Reference"
@@ -1792,6 +1841,10 @@ msgid ""
 "to control how JHBuild acts. A set of default values are inserted into the "
 "namespace before running the user's configuration file."
 msgstr ""
+"El archivo <filename>~/.jhbuildrc</filename> usa la sintaxis estándar de Python. Se "
+"ejecuta el archivo, y las variables resultantes, definidas en el espacio de nombres, se usan "
+"para controlar como actúa JHBuild. Se inserta un conjunto de valores predeterminados en el "
+"espacio de nombres antes de ejecutar el archivo de configuración del usuario."
 
 #: C/jhbuild.xml:1131(title)
 msgid "Configuration Variables"
@@ -1815,6 +1868,9 @@ msgid ""
 "script of all modules. Can be overriden for particular modules using the "
 "<varname>module_autogenargs</varname> dictionary."
 msgstr ""
+"Una cadena que contiene los argumentos pasados al script <command>autogen.sh</command> "
+"de todos los módulos. Se pueden omitir para algunos módulos concretos usando el "
+"diccionario <varname>module_autogenargs</varname>."
 
 #: C/jhbuild.xml:1157(varname)
 msgid "branches"
@@ -1839,6 +1895,11 @@ msgid ""
 "build trees. The <literal>%s</literal> in the format string will be replaced "
 "with the source directory name. Defaults to <literal>'%s'</literal>."
 msgstr ""
+"Un patrón de formateo al estilo de <function>printf</function> usado para "
+"generar nombres de directorios de construcción. Esto se usa solamente cuando se "
+"utilizan repositorios y árboles de construcción por separado. En la cadena de formato, "
+"el <literal>%s</literal> se reemplazará con el nombre del directorio origen. De manera "
+"predeterminada es <literal>«%s»</literal>."
 
 #: C/jhbuild.xml:1178(varname)
 msgid "buildroot"
@@ -1861,6 +1922,8 @@ msgid ""
 "as the default, <literal>terminal</literal>. In particular, do not set to "
 "<literal>gtk</literal>."
 msgstr ""
+"Una cadena que especifica el script de construcción que utilizar. Probablemente se mantendrá "
+"el predeterminado, <literal>terminal</literal>. En particular, no lo configure como <literal>gtk</literal>."
 
 #: C/jhbuild.xml:1196(varname)
 msgid "build_policy"
@@ -1874,6 +1937,11 @@ msgid ""
 "literal> to build modules which have changed or which have dependencies "
 "which have changed. Defaults to <literal>all</literal>."
 msgstr ""
+"Una cadena que especifica los módulos que construir. Las tres opciones son "
+"<literal>all</literal>, para construir todos los módulos solicitados, <literal>updated</"
+"literal>, para construir solamente los módulos que han cambiado, o <literal>updated-deps</"
+"literal> para construir los módulos que han cambiado o que tienen dependencias que han "
+"cambiado. El valor predeterminado es <literal>all</literal>."
 
 #: C/jhbuild.xml:1210(simpara)
 msgid ""
@@ -1907,6 +1975,8 @@ msgid ""
 "A string specifying the directory to copy to, if the copy checkout mode is "
 "in use. Defaults to the checkout directory."
 msgstr ""
+"Una cadena que especifica el directorio a copiar, si el modo de descarga de la copia "
+"está en uso. El predeterminado es el directorio de descarga."
 
 #: C/jhbuild.xml:1241(varname)
 msgid "cvsroots"
@@ -1931,6 +2001,8 @@ msgid ""
 "A string specifying which program to use for CVS support. Defaults to "
 "<literal>cvs</literal>."
 msgstr ""
+"Una cadena que especifica qué programa se utilizará como soporte de CVS. El "
+"predeterminado es <literal>cvs</literal>."
 
 #: C/jhbuild.xml:1260(varname)
 msgid "installprog"
@@ -2147,8 +2219,8 @@ msgid ""
 "A string giving the prefix to install modules to. Defaults to <literal>'/opt/"
 "gnome2'</literal>."
 msgstr ""
-"Una cadena que indica el prefijo donde instalar módulos. De forma predeterminada o es <literal>«/opt/"
-"gnome2»</literal>."
+"Una cadena que indica el prefijo donde instalar módulos. De forma "
+"predeterminada o es <literal>«/opt/gnome2»</literal>."
 
 #: C/jhbuild.xml:1457(varname)
 msgid "pretty_print"
@@ -2438,16 +2510,16 @@ msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute is a unique "
 "identifier for the repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">nombre</sgmltag> es un identificador "
-"único del repositorio."
+"El atributo <sgmltag class=\"attribute\">nombre</sgmltag> es un "
+"identificador único del repositorio."
 
 #: C/jhbuild.xml:1702(para)
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute specifies "
 "whether this repository is the default source for this module set."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">predeterminado</sgmltag> especifica si "
-"este repositorio es el predeterminado para este conjunto de módulos."
+"El atributo <sgmltag class=\"attribute\">predeterminado</sgmltag> especifica "
+"si este repositorio es el predeterminado para este conjunto de módulos."
 
 #: C/jhbuild.xml:1706(para)
 msgid ""
@@ -2460,14 +2532,14 @@ msgid ""
 "\"element\">branch</sgmltag> used inside module definitions. Those are "
 "described below."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">tipo</sgmltag> especifica el tipo de "
-"repositorio. Puede ser uno de estos: <literal>arch</literal>, <literal>bzr</"
-"literal>, <literal>cvs</literal>, <literal>darcs</literal>, <literal>git</"
-"literal>, <literal>hg</literal>, <literal>mtr</literal>, <literal>svn</"
-"literal>, <literal>tarball</literal>. Hay otros atributos que dependenden de "
-"<sgmltag class=\"attribute\">tipo</sgmltag>, así como de <sgmltag class="
-"\"element\">rama</sgmltag> usados dentro de las definiciones de los módulos. Se describen "
-"a continuación"
+"El atributo <sgmltag class=\"attribute\">tipo</sgmltag> especifica el tipo "
+"de repositorio. Puede ser uno de estos: <literal>arch</literal>, "
+"<literal>bzr</literal>, <literal>cvs</literal>, <literal>darcs</literal>, "
+"<literal>git</literal>, <literal>hg</literal>, <literal>mtr</literal>, "
+"<literal>svn</literal>, <literal>tarball</literal>. Hay otros atributos que "
+"dependenden de <sgmltag class=\"attribute\">tipo</sgmltag>, así como de "
+"<sgmltag class=\"element\">rama</sgmltag> usados dentro de las definiciones "
+"de los módulos. Se describen a continuación"
 
 #: C/jhbuild.xml:1717(para)
 msgid ""
@@ -2497,8 +2569,8 @@ msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute is used to specify "
 "the URL of the repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">href</sgmltag> se usa para especificar "
-"la URL del repositorio."
+"El atributo <sgmltag class=\"attribute\">href</sgmltag> se usa para "
+"especificar la URL del repositorio."
 
 #: C/jhbuild.xml:1732(programlisting)
 #, no-wrap
@@ -2545,16 +2617,16 @@ msgid ""
 "The <sgmltag class=\"attribute\">password</sgmltag> attribute is used to "
 "specify the password to the repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">password</sgmltag> se usa para especificar "
-"la contraseña del repositorio."
+"El atributo <sgmltag class=\"attribute\">password</sgmltag> se usa para "
+"especificar la contraseña del repositorio."
 
 #: C/jhbuild.xml:1758(para)
 msgid ""
 "The <sgmltag class=\"attribute\">cvsroot</sgmltag> attribute is used to "
 "specify the root of the repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">cvsroot</sgmltag> se usa para especificar "
-"la raíz del repositorio."
+"El atributo <sgmltag class=\"attribute\">cvsroot</sgmltag> se usa para "
+"especificar la raíz del repositorio."
 
 #: C/jhbuild.xml:1762(programlisting)
 #, no-wrap
@@ -2659,16 +2731,16 @@ msgid ""
 "The <sgmltag class=\"attribute\">server</sgmltag> attribute is used to "
 "specify the repository server."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">server</sgmltag> se usa para especificar "
-"el servidor del repositorio."
+"El atributo <sgmltag class=\"attribute\">server</sgmltag> se usa para "
+"especificar el servidor del repositorio."
 
 #: C/jhbuild.xml:1819(para)
 msgid ""
 "The <sgmltag class=\"attribute\">database</sgmltag> attribute is used to "
 "specify the database to use for the repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">database</sgmltag> se usa para especificar "
-"la base de datos que usar por el repositorio."
+"El atributo <sgmltag class=\"attribute\">database</sgmltag> se usa para "
+"especificar la base de datos que usar por el repositorio."
 
 #: C/jhbuild.xml:1823(para)
 msgid ""
@@ -2732,7 +2804,8 @@ msgstr "Archivos tar"
 
 #: C/jhbuild.xml:1857(para)
 msgid "This repository type is used to define a tarball repository."
-msgstr "El tipo de repositorio se usa para definir un repositorio de archivos tar."
+msgstr ""
+"El tipo de repositorio se usa para definir un repositorio de archivos tar."
 
 #: C/jhbuild.xml:1859(programlisting)
 #, no-wrap
@@ -2815,8 +2888,8 @@ msgid ""
 "JHBuild allows one module set to include the contents of another by "
 "reference using the <sgmltag class=\"element\">include</sgmltag> element."
 msgstr ""
-"JHBuild permite un conjunto de módulos para incluir los contenidos referidos por otro "
-"usando el elemento <sgmltag class=\"element\">include</sgmltag>."
+"JHBuild permite un conjunto de módulos para incluir los contenidos referidos "
+"por otro usando el elemento <sgmltag class=\"element\">include</sgmltag>."
 
 #: C/jhbuild.xml:1915(programlisting)
 #, no-wrap
@@ -2887,8 +2960,9 @@ msgid ""
 "The <sgmltag class=\"element\">autotools</sgmltag> element is used to define "
 "a module which is compiled using the GNU Autotools build system."
 msgstr ""
-"El elemento <sgmltag class=\"element\">autotools</sgmltag> se usa para definir "
-"un módulo que se compila usando el sistema de construcción GNU Autotools."
+"El elemento <sgmltag class=\"element\">autotools</sgmltag> se usa para "
+"definir un módulo que se compila usando el sistema de construcción GNU "
+"Autotools."
 
 #: C/jhbuild.xml:1964(programlisting)
 #, no-wrap
@@ -3000,6 +3074,9 @@ msgid ""
 "specified (with false as value) for modules that do not have a <command>make "
 "check</command> target."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">check-target</sgmltag> se debe especificar "
+"(con un valor «false») para aquellos módulos que no tienen un objetivo <command>make "
+"check</command>."
 
 #: C/jhbuild.xml:2037(title)
 msgid "cmake"
@@ -3010,6 +3087,8 @@ msgid ""
 "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
 "module which is built using the CMake build system."
 msgstr ""
+"El elemento <sgmltag class=\"element\">cmake</sgmltag> se utiliza para definir un "
+"módulo que se construirá utilizando el sistema de construcción CMake."
 
 #: C/jhbuild.xml:2042(programlisting)
 #, no-wrap
@@ -3055,6 +3134,8 @@ msgid ""
 "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
 "a module which is built using python's distutils"
 msgstr ""
+"El elemento <sgmltag class=\"element\">distutils</sgmltag> se utiliza para definir un "
+"módulo que se construirá utilizando las distutils de python."
 
 #: C/jhbuild.xml:2068(programlisting)
 #, no-wrap
@@ -3164,12 +3245,16 @@ msgid ""
 "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
 "modules."
 msgstr ""
+"El elemento <sgmltag class=\"element\">perl</sgmltag> se utiliza para construir "
+"módulos perl."
 
 #: C/jhbuild.xml:2130(para)
 msgid ""
 "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>make</command>."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">makeargs</sgmltag> se utiliza para "
+"especificar argumentos adicionales para pasárselos a <command>make</command>."
 
 #: C/jhbuild.xml:2134(programlisting)
 #, no-wrap
@@ -3221,12 +3306,16 @@ msgid ""
 "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
 "module which is built using the Waf build system."
 msgstr ""
+"El elemento <sgmltag class=\"element\">waf</sgmltag> se utiliza para definir "
+"un módulo que se construirá con el sistema de construcción Waf."
 
 #: C/jhbuild.xml:2161(para)
 msgid ""
 "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
 "specify the waf command script to use; it defaults to <command>waf</command>."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">waf-command</sgmltag> se utiliza para especificar "
+"el script del comando waf a utilizar; el predeterminado es <command>waf</command>."
 
 #: C/jhbuild.xml:2165(programlisting)
 #, no-wrap
@@ -3274,6 +3363,9 @@ msgid ""
 "The <sgmltag class=\"element\">ant</sgmltag> element is used to define a "
 "module which is built using Ant, the Java based build tool."
 msgstr ""
+"El elemento <sgmltag class=\"element\">ant</sgmltag> se utiliza para definir "
+"un módulo que se construirá utilizando Ant, la herramienta de construcción "
+"basada en Java."
 
 #: C/jhbuild.xml:2191(programlisting)
 #, no-wrap
@@ -3323,8 +3415,8 @@ msgid ""
 "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
 "create a module which runs a suite of tests using LDTP or Dogtail."
 msgstr ""
-"El elemento <sgmltag class=\"element\">testmodule</sgmltag> se usa para crear "
-"un módulo que ejecute un conjunto de pruebas usado LDTP o Dogtail."
+"El elemento <sgmltag class=\"element\">testmodule</sgmltag> se usa para "
+"crear un módulo que ejecute un conjunto de pruebas usado LDTP o Dogtail."
 
 #: C/jhbuild.xml:2229(programlisting)
 #, no-wrap
@@ -3448,8 +3540,8 @@ msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
 "a CVS repository."
 msgstr ""
-"El elemento <sgmltag class=\"element\">cvsroot</sgmltag> se usa para describir "
-"un repositorio CVS."
+"El elemento <sgmltag class=\"element\">cvsroot</sgmltag> se usa para "
+"describir un repositorio CVS."
 
 #: C/jhbuild.xml:2304(programlisting)
 #, no-wrap
@@ -3471,14 +3563,16 @@ msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the CVS repository."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un identificador "
-"único para el repositorio CVS."
+"El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un "
+"identificador único para el repositorio CVS."
 
 #: C/jhbuild.xml:2314(para)
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">default</sgmltag> indica si es el repositorio "
+"de módulos predeterminados para ese archivo de conjuntos de módulos."
 
 #: C/jhbuild.xml:2318(para)
 msgid ""
@@ -3504,6 +3598,8 @@ msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
 "a Subversion repository."
 msgstr ""
+"El elemento <sgmltag class=\"element\">svnroot</sgmltag> se utiliza para describir un "
+"repositorio de Subversion."
 
 #: C/jhbuild.xml:2336(programlisting)
 #, no-wrap
@@ -3523,12 +3619,16 @@ msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the Subversion repository."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un identificador "
+"único para el repositorio de Subversion."
 
 #: C/jhbuild.xml:2346(para) C/jhbuild.xml:2376(para)
 msgid ""
 "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
 msgstr ""
+"Si el atributo <sgmltag class=\"attribute\">default</sgmltag> indica si "
+"si este repositorio es el predeterminado para este conjunto de módulos."
 
 #: C/jhbuild.xml:2350(para)
 msgid ""
@@ -3840,6 +3940,8 @@ msgid ""
 "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
 "module that is to be built from a tarball."
 msgstr ""
+"El elemento <sgmltag class=\"element\">tarball</sgmltag> se utiliza para definir "
+"un módulo que se construirá a partir de un archivo tar."
 
 #: C/jhbuild.xml:2557(programlisting)
 #, no-wrap
@@ -3899,6 +4001,8 @@ msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
 "\">version</sgmltag> attributes are used to identify the module."
 msgstr ""
+"Los atributos <sgmltag class=\"attribute\">id</sgmltag> y <sgmltag class=\"attribute"
+"\">version</sgmltag> se utilizan para identificar el módulo."
 
 #: C/jhbuild.xml:2586(para)
 msgid ""
@@ -3931,6 +4035,8 @@ msgid ""
 "The <command>wget</command> command can't download any tarballs. How do I "
 "get it to work with my firewall?"
 msgstr ""
+"El comando <command>wget</command> no puede descargar ningún archivo tar. "
+"¿Cómo puedo hacer que funcione con mi cortafuegos?"
 
 #: C/jhbuild.xml:2635(para)
 msgid ""
@@ -3949,6 +4055,8 @@ msgid ""
 "If you just need to use passive FTP connections (sometimes needed with NAT "
 "firewalls), add the following line:"
 msgstr ""
+"Si solamente necesita utilizar conexiones de FTP pasivas (requerido algunas veces "
+"con cortafuegos NAT), añada la siguiente línea:"
 
 #: C/jhbuild.xml:2643(programlisting)
 #, no-wrap
@@ -3957,11 +4065,11 @@ msgstr "passive_ftp = on"
 
 #: C/jhbuild.xml:2644(para)
 msgid "This will fix all uses of the <command>wget</command> command."
-msgstr ""
+msgstr "Esto fijará todos los usos del comando <command>wget</command>."
 
 #: C/jhbuild.xml:2650(simpara)
 msgid "Building stuff is slow. Is there any way I can speed it up?"
-msgstr ""
+msgstr "Compilar cosas es lento. ¿Hay alguna manera de acelerarlo?"
 
 #: C/jhbuild.xml:2654(para)
 msgid ""
@@ -3973,7 +4081,7 @@ msgstr ""
 
 #: C/jhbuild.xml:2659(para)
 msgid "After installing CCache, set the cache size with the following command:"
-msgstr ""
+msgstr "Después de instalar CCache, configure el tamaño de la caché con el siguiente comando:"
 
 #: C/jhbuild.xml:2661(programlisting)
 #, no-wrap
@@ -3985,6 +4093,8 @@ msgid ""
 "(replace <literal>2G</literal> with the size you want for your cache). Then "
 "create symlinks to CCache for your compiler in <filename>~/bin</filename>:"
 msgstr ""
+"(reemplace <literal>2G</literal> con el tamaño que quiere para su caché.) Entonces "
+"cree enlaces simbólicos a CCache para su compilador en <filename>~/bin</filename>:"
 
 #: C/jhbuild.xml:2665(programlisting)
 #, no-wrap
@@ -4004,6 +4114,8 @@ msgid ""
 "You can check the status of your cache (such as cache hit rates) with the "
 "following command:"
 msgstr ""
+"Puede comprobar es estado de su caché (tal como los ratios de acierto de la caché) con "
+"el siguiente comando:"
 
 #: C/jhbuild.xml:2671(programlisting)
 #, no-wrap
@@ -4033,17 +4145,20 @@ msgstr "Construir GNOME"
 
 #: C/jhbuild.xml:2692(simpara)
 msgid "What other prerequisites are needed to build GNOME with JHBuild?"
-msgstr "¿Qué otros prerrequisitos son necesarios para construir GNOME con JHBuild?"
+msgstr ""
+"¿Qué otros prerrequisitos son necesarios para construir GNOME con JHBuild?"
 
 #: C/jhbuild.xml:2696(para)
 msgid "Some of the packages you will need on your system include:"
-msgstr ""
+msgstr "Algunos de los paquetes que necesitará en su sistema incluyen:"
 
 #: C/jhbuild.xml:2700(simpara)
 msgid ""
 "DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML "
 "catalog (<filename>/etc/xml/catalog</filename>)."
 msgstr ""
+"DocBook XML DTD y hojas de estilo XSLT. Deben registrarse en el catálogo "
+"XML (<filename>/etc/xml/catalog</filename>)."
 
 #: C/jhbuild.xml:2705(simpara)
 msgid "X libraries"
