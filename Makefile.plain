@@ -17,10 +17,10 @@ install-check: install-check.c
 
 update:
 	svn update --quiet
-	@if [ "x$(DISABLE_GETTEXT)" == x ]; then (cd po && $(MAKE) -f Makefile.plain); fi
+	@if [ "x$(DISABLE_GETTEXT)" = x ]; then (cd po && $(MAKE) -f Makefile.plain); fi
 
 install: install-check
-	@if [ "x$(DISABLE_GETTEXT)" == x ]; then (cd po && $(MAKE) -f Makefile.plain install); fi
+	@if [ "x$(DISABLE_GETTEXT)" = x ]; then (cd po && $(MAKE) -f Makefile.plain install); fi
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
 	@sed "s,@jhbuilddir@,`pwd`,g" < jhbuild.in > $(bindir)/jhbuild
