@@ -21,7 +21,9 @@ import os
 import time
 import subprocess
 import locale
+import codecs
 
+from jhbuild.main import _encoding
 from jhbuild.utils import cmds
 from jhbuild.errors import CommandError
 import buildscript
@@ -29,7 +31,7 @@ import commands
 
 index_header = '''<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html%(charset)s">
+    <meta http-equiv="Content-Type" content="text/html;charset=%(charset)s">
     <title>JHBuild Results</title>
     <style type="text/css">
       .section {
@@ -74,7 +76,7 @@ index_footer = '''
 
 buildlog_header = '''<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html%(charset)s">
+    <meta http-equiv="Content-Type" content="text/html;charset=%(charset)s">
     <title>%(module)s Build Log</title>
     <style type="text/css">
       pre {
@@ -145,6 +147,8 @@ def get_distro():
     return None
 
 def escape(string):
+    if type(string) is not unicode:
+        string = unicode(string, _encoding)
     return string.replace('&','&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
@@ -164,11 +168,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         os.environ['TERM'] = 'dumb'
 
-        charset = locale.getpreferredencoding()
-        if charset:
-            self.charset = ';charset=%s' % charset
-        else:
-            self.charset = ''
+        self.charset = _encoding
 
     def timestamp(self):
         tm = time.time()
@@ -273,7 +273,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
                              % (key, val)
         buildplatform += '</table>\n'
         
-        self.indexfp = open(os.path.join(self.outputdir, 'index.html'), 'w')
+        self.indexfp = codecs.open(os.path.join(self.outputdir, 'index.html'),
+                'w', encoding=self.charset, errors='xmlcharrefreplace')
 
         self.indexfp.write(index_header % { 'buildplatform': buildplatform,
                                             'charset': self.charset })
@@ -302,8 +303,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
                            '<td><a href="%s">%s</a></td>'
                            '<td>\n' % (self.timestamp(), self.modulefilename,
                                        module))
-        self.modulefp = open(os.path.join(self.outputdir,
-                                          self.modulefilename), 'w')
+        self.modulefp = codecs.open(
+                os.path.join(self.outputdir, self.modulefilename), 'w',
+                encoding=self.charset, errors='xmlcharrefreplace')
         self.modulefp.write(buildlog_header % { 'module': module,
                                                 'charset': self.charset })
     def end_module(self, module, failed):
