@@ -217,15 +217,14 @@ class JHBuildModulePathCommand(steps.shell.ShellCommand):
 
     # things to track: number of files compiled, number of directories
     # traversed (assuming 'make' is being used)
-    def __init__(self, module=None, moduleset=None, action=[], **kwargs):
+    def __init__(self, module=None, moduleset=None, action='', **kwargs):
         assert module is not None
         kwargs['workdir'] = "./"
         #workdir = "./"
         command = ["jhbuild"]
         if (moduleset is not None):
             command += ['--moduleset='+moduleset]
-        command += ['bot', '--step', 'run', '--in-builddir', module,
-                '--', action]
+        command += ['run', '--in-builddir', module, '--', action]
         self.name=module+" "+" ".join(action)
         self.description = [" ".join(action) + '(run)']
         self.descriptionDone = [" ".join(action)]
