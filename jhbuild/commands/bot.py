@@ -303,7 +303,7 @@ class cmd_bot(Command):
                 else:
                     # support injection (use 'buildbot sendchange')
                     from buildbot.changes.pb import PBChangeSource
-                    c['change_source'] = PBChangeSource()
+                    config['change_source'] = PBChangeSource()
 
                 # Schedulers
                 from jhbuild.buildbot.scheduler import SerialScheduler, OnCommitScheduler
