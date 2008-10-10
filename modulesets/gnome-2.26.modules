@@ -2212,6 +2212,13 @@
     <dependencies>
       <dep package="glib"/>
     </dependencies>
+    <suggests>
+      <dep package="gir-repository"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gir-repository">
+    <branch/>
   </autotools>
 
   <autotools id="gjs">
@@ -2219,6 +2226,9 @@
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
+    <after>
+      <dep package="gir-repository"/>
+    </after>
   </autotools>
 
   <!-- ########## Ubuntu Netbook Remix Modules ########## -->
