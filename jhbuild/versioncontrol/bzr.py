@@ -27,6 +27,7 @@ import urlparse
 from jhbuild.errors import FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 # Make sure that the urlparse module considers sftp://
 # scheme to be netloc aware and set to allow relative URIs.
@@ -105,6 +106,8 @@ class BzrBranch(Branch):
         buildscript.execute(cmd, 'bzr', cwd=self.srcdir)
 
     def checkout(self, buildscript):
+        if not inpath('bzr', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'bzr')
         if os.path.exists(self.srcdir):
             self._update(buildscript)
         else:

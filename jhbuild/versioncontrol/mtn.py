@@ -26,6 +26,7 @@ import os
 from jhbuild.errors import CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 class MonotoneRepository(Repository):
     """A class representing a Monotone database."""
@@ -134,6 +135,9 @@ class MonotoneBranch(Branch):
         buildscript.execute(cmd, 'mtn', cwd=self._codir)
 
     def checkout(self, buildscript):
+        if not inpath('mtn', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'mtn')
+
         if not os.path.exists(self.repository.database):
             self._init(buildscript)
 

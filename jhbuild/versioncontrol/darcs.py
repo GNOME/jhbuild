@@ -101,7 +101,7 @@ class DarcsBranch(Branch):
 
     def checkout(self, buildscript):
         if not inpath('darcs', os.environ['PATH'].split(os.pathsep)):
-            raise CommandError(_('Missing darcs command'))
+            raise CommandError(_('%s not found') % 'darcs')
 
         if os.path.exists(self.srcdir):
             self._update(buildscript)

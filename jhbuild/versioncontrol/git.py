@@ -32,6 +32,7 @@ from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 import jhbuild.versioncontrol.svn
+from jhbuild.commands.sanitycheck import inpath
 
 # Make sure that the urlparse module considers git:// and git+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
@@ -212,6 +213,8 @@ class GitBranch(Branch):
 
 
     def checkout(self, buildscript):
+        if not inpath('git', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'git')
         if self.checkout_mode in ('clobber', 'export'):
             self._wipedir(buildscript)
             self._checkout(buildscript)

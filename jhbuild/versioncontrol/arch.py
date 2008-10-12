@@ -25,6 +25,7 @@ import os, sys
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 def is_registered(archive):
     location = os.path.join(os.environ['HOME'], '.arch-params',
@@ -150,6 +151,8 @@ class ArchBranch(Branch):
         buildscript.execute(cmd, 'arch', cwd=self.srcdir)
 
     def checkout(self, buildscript):
+        if not inpath('arch', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'arch')
         if os.path.exists(self.srcdir):
             self._update(buildscript)
         else:

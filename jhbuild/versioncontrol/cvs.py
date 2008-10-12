@@ -32,6 +32,7 @@ import git
 
 from jhbuild.errors import BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 
 # table used to scramble passwords in ~/.cvspass files
@@ -285,6 +286,8 @@ class CVSBranch(Branch):
         buildscript.execute(cmd, 'cvs', cwd=outputdir)
 
     def checkout(self, buildscript):
+        if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'cvs')
         if self.checkout_mode in ('clobber', 'export'):
             self._wipedir(buildscript)
             if self.checkout_mode == 'clobber':

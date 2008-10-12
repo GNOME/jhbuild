@@ -27,6 +27,7 @@ import subprocess
 from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 import bzr, git
 
@@ -281,6 +282,8 @@ class SubversionBranch(Branch):
             raise CommandError(_('Error checking for conflicts'))
 
     def checkout(self, buildscript):
+        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'svn')
         if self.checkout_mode in ('clobber', 'export'):
             self._wipedir(buildscript)
             if self.checkout_mode == 'clobber':

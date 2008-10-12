@@ -28,6 +28,7 @@ from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
+from jhbuild.commands.sanitycheck import inpath
 
 class HgRepository(Repository):
     """A class representing a Mercurial repository.
@@ -95,6 +96,8 @@ class HgBranch(Branch):
         buildscript.execute([hg_update_path], hg_update, cwd=self.srcdir)
 
     def checkout(self, buildscript):
+        if not inpath('hg', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'hg')
         if os.path.exists(self.srcdir):
             self._update(buildscript)
         else:
