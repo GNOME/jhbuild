@@ -149,9 +149,9 @@ class GitBranch(Branch):
     def _update_submodules(self, buildscript):
         if os.path.exists(os.path.join(self.srcdir, '.gitmodules')):
             cmd = ['git', 'submodule', 'init']
-            buildscript.execute(cmd, 'git', cwd = self.srcdir)
+            buildscript.execute(cmd, cwd=self.srcdir)
             cmd = ['git', 'submodule', 'update']
-            buildscript.execute(cmd, 'git', cwd = self.srcdir)
+            buildscript.execute(cmd, cwd=self.srcdir)
 
     def _checkout(self, buildscript, copydir=None):
         cmd = ['git', 'clone', self.module]
@@ -159,19 +159,19 @@ class GitBranch(Branch):
             cmd.append(self.checkoutdir)
 
         if copydir:
-            buildscript.execute(cmd, 'git', cwd=copydir)
+            buildscript.execute(cmd, cwd=copydir)
         else:
-            buildscript.execute(cmd, 'git', cwd=self.config.checkoutroot)
+            buildscript.execute(cmd, cwd=self.config.checkoutroot)
 
         if self.branch:
             # don't try to create a new branch if we already got a local branch
             # with that name during the initial git-clone
             try:
                 buildscript.execute(['git', 'show-branch', self.branch],
-                                    'git', cwd = self.srcdir)
+                                    cwd=self.srcdir)
             except CommandError:
-                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], 'git',
-                                    cwd = self.srcdir)
+                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname],
+                                    cwd=self.srcdir)
 
         if self.config.sticky_date:
             self._update(buildscript)
@@ -181,33 +181,32 @@ class GitBranch(Branch):
 
     def _update(self, buildscript, copydir=None):
         cwd = self.get_checkoutdir(copydir)
-        buildscript.execute(['git', 'fetch'], 'git', cwd=cwd)
+        buildscript.execute(['git', 'fetch'], cwd=cwd)
 
         # stash uncommitted changes on the current branch
-        buildscript.execute(['git', 'stash', 'save', 'jhbuild-build'], 'git stash', cwd=self.get_checkoutdir())
+        buildscript.execute(['git', 'stash', 'save', 'jhbuild-build'], cwd=self.get_checkoutdir())
 
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
             branch_cmd = ['git', 'checkout', branch]
             try:
-                buildscript.execute(branch_cmd, 'git', cwd=cwd)
+                buildscript.execute(branch_cmd, cwd=cwd)
             except CommandError:
                 branch_cmd = ['git', 'checkout', '-b', branch]
-                buildscript.execute(branch_cmd, 'git', cwd=cwd)
-            buildscript.execute(['git', 'reset', '--hard', commit],
-                                'git', cwd=cwd)
+                buildscript.execute(branch_cmd, cwd=cwd)
+            buildscript.execute(['git', 'reset', '--hard', commit], cwd=cwd)
 
         if self.branch:
-            buildscript.execute(['git', 'checkout', self.branch], 'git', cwd = self.srcdir)
+            buildscript.execute(['git', 'checkout', self.branch], cwd=self.srcdir)
         else:
-            buildscript.execute(['git', 'checkout'], 'git', cwd = self.srcdir)
+            buildscript.execute(['git', 'checkout'], cwd=self.srcdir)
 
         if not self.tag:
             if self.branch:
-                buildscript.execute(['git', 'rebase', 'origin', self.branch], 'git', cwd=cwd)
+                buildscript.execute(['git', 'rebase', 'origin', self.branch], cwd=cwd)
             else:
-                buildscript.execute(['git', 'rebase', 'origin', 'master'], 'git', cwd=cwd)
+                buildscript.execute(['git', 'rebase', 'origin', 'master'], cwd=cwd)
 
         self._update_submodules(buildscript)
 
@@ -258,12 +257,11 @@ class GitSvnBranch(GitBranch):
         try:
             externals = {}
             match = None
-            unhandledFile = open(cwd + os.path.join(os.sep, '.git', 'svn', branch, 'unhandled.log'), 'r')
             external_expr = re.compile(r"\+dir_prop: (.*?) svn:externals (.*)$")
             rev_expr = re.compile(r"^r(\d+)$")
-            #the unhandled.log file has the revision numbers
-            #encoded as r#num we should only parse as far as self.revision
-            for line in unhandledFile:
+            # the unhandled.log file has the revision numbers
+            # encoded as r#num we should only parse as far as self.revision
+            for line in open(os.path.join(cwd, '.git', 'svn', branch, 'unhandled.log')):
                 m = external_expr.search(line)
                 if m:
                     match = m
@@ -271,13 +269,12 @@ class GitSvnBranch(GitBranch):
                 if self.revision and rev_match:
                     if rev_match.group(1) > self.revision:
                         break
-
         except IOError:
-            #we couldn't find an unhandled.log to parse so try
-            #git-svn show-externals - note this is broken in git < 1.5.6
+            # we couldn't find an unhandled.log to parse so try
+            # git svn show-externals - note this is broken in git < 1.5.6
             try:
                 output = get_output(['git', 'svn', 'show-externals'], cwd=cwd)
-                #we search for comment lines to strip them out
+                # we search for comment lines to strip them out
                 comment_line = re.compile(r"^#.*")
                 ext = ''
                 for line in output.splitlines():
@@ -288,14 +285,14 @@ class GitSvnBranch(GitBranch):
             except OSError:
                 raise FatalError(_("External handling failed\n If you are running git version < 1.5.6 it is recommended you update.\n"))
 
-        #only parse the final match
+        # only parse the final match
         if match:
             branch = match.group(1)
             external = urllib.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
             revision_expr = re.compile(r"-r(\d*)")
             i = 0
             while i < len(external):
-                #see if we have a revision number
+                # see if we have a revision number
                 match = revision_expr.search(external[i+1])
                 if match:
                     externals[external[i]] = (external[i+2], match.group(1))
@@ -308,7 +305,7 @@ class GitSvnBranch(GitBranch):
             uri = externals[extdir][0]
             revision = externals[extdir][1]
             extdir = cwd+os.sep+extdir
-            #fixme: the "right way" is to use submodules
+            # FIXME: the "right way" is to use submodules
             extbranch = GitSvnBranch(self.repository, uri, extdir, revision)
             
             try:
@@ -325,7 +322,7 @@ class GitSvnBranch(GitBranch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
-        #fixme (add self.revision support)
+        # FIXME (add self.revision support)
         try:
             last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
             if not self.revision:
@@ -334,23 +331,23 @@ class GitSvnBranch(GitBranch):
             raise FatalError(_('Cannot get last revision from %s. Check the module location.') % self.module)
 
         if copydir:
-            buildscript.execute(cmd, 'git-svn', cwd=copydir)
+            buildscript.execute(cmd, cwd=copydir)
         else:
-            buildscript.execute(cmd, 'git-svn', cwd=self.config.checkoutroot)
+            buildscript.execute(cmd, cwd=self.config.checkoutroot)
 
         try:
-            #is known to fail on some versions
+            # is known to fail on some versions
             cmd = ['git', 'svn', 'show-ignore']
             s = get_output(cmd, cwd = self.get_checkoutdir(copydir))
             fd = file(os.path.join(
                         self.get_checkoutdir(copydir), '.git/info/exclude'), 'a')
             fd.write(s)
             fc.close()
-            buildscript.execute(cmd, 'git-svn', cwd=self.get_checkoutdir(copydir))
+            buildscript.execute(cmd, cwd=self.get_checkoutdir(copydir))
         except:
             pass
 
-        #fixme, git-svn should support externals
+        # FIXME, git-svn should support externals
         self._get_externals(buildscript, self.branch)
 
     def _update(self, buildscript, copydir=None):
@@ -363,25 +360,25 @@ class GitSvnBranch(GitBranch):
 
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
-        buildscript.execute(cmd, 'git stash', cwd=cwd)
+        buildscript.execute(cmd, cwd=cwd)
 
         cmd = ['git', 'checkout', 'master']
-        buildscript.execute(cmd, 'git checkout master', cwd=cwd)
+        buildscript.execute(cmd, cwd=cwd)
 
         cmd = ['git', 'svn', 'rebase']
-        buildscript.execute(cmd, 'git-svn rebase', cwd=cwd)
+        buildscript.execute(cmd, cwd=cwd)
 
-        current_revision = get_output(['git-svn', 'find-rev', 'HEAD'], cwd=cwd)
+        current_revision = get_output(['git', 'svn', 'find-rev', 'HEAD'], cwd=cwd)
 
         if last_revision != current_revision:
             try:
-                #is known to fail on some versions
-                cmd = "git-svn show-ignore >> .git/info/exclude"
-                buildscript.execute(cmd, 'git-svn show-ignore', cwd=cwd)
+                # is known to fail on some versions
+                cmd = "git svn show-ignore >> .git/info/exclude"
+                buildscript.execute(cmd, cwd=cwd)
             except:
                 pass
 
-        #fixme, git-svn should support externals
+        # FIXME, git-svn should support externals
         self._get_externals(buildscript, self.branch)
 
 class GitCvsBranch(GitBranch):
@@ -408,9 +405,9 @@ class GitCvsBranch(GitBranch):
         cmd.append(self.module)
 
         if copydir:
-            buildscript.execute(cmd, 'git-cvsimport', cwd=copydir)
+            buildscript.execute(cmd, cwd=copydir)
         else:
-            buildscript.execute(cmd, 'git-cvsimport', cwd=self.config.checkoutroot)
+            buildscript.execute(cmd, cwd=self.config.checkoutroot)
 
     def _update(self, buildscript, copydir=None):
         if self.config.sticky_date:
@@ -418,7 +415,7 @@ class GitCvsBranch(GitBranch):
 
         # stash uncommitted changes on the current branch
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
-        buildscript.execute(cmd, 'git stash', cwd=self.get_checkoutdir())
+        buildscript.execute(cmd, cwd=self.get_checkoutdir())
 
         self._checkout(buildscript, copydir)
 
