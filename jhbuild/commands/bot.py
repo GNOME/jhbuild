@@ -73,6 +73,9 @@ class cmd_bot(Command):
             make_option('--pidfile', metavar='PIDFILE',
                         action='store', dest='pidfile', default=None,
                         help=_('pid file location')),
+            make_option('--logfile', metavar='LOGFILE',
+                        action='store', dest='logfile', default=None,
+                        help=_('log file location')),
             make_option('--step',
                         action='store_true', dest='step', default=False,
                         help=_('exec a buildbot step (internal use only)')),
@@ -102,15 +105,17 @@ class cmd_bot(Command):
 
         daemonize = False
         pidfile = None
+        logfile = None
 
         if options.daemon:
             daemonize = True
         if options.pidfile:
             pidfile = options.pidfile
-
+        if options.logfile:
+            logfile = options.logfile
 
         if options.start:
-            return self.start(config, daemonize, pidfile)
+            return self.start(config, daemonize, pidfile, logfile)
 
         if options.step:
             os.environ['JHBUILDRC'] = config.filename
@@ -139,7 +144,7 @@ class cmd_bot(Command):
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile)
+            return self.start_server(config, daemonize, pidfile, logfile)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
@@ -150,7 +155,7 @@ class cmd_bot(Command):
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
     
-    def start(self, config, daemonize, pidfile):
+    def start(self, config, daemonize, pidfile, logfile):
         from twisted.application import service
         application = service.Application('buildslave')
         if ':' in config.jhbuildbot_master:
@@ -183,6 +188,8 @@ class cmd_bot(Command):
             opts.append('--nodaemon')
         if pidfile:
             opts.extend(['--pidfile', pidfile])
+        if logfile:
+            opts.extend(['--logfile', logfile])
         options = ServerOptions()
         options.parseOptions(opts)
 
@@ -195,7 +202,7 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile):
+    def start_server(self, config, daemonize, pidfile, logfile):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -204,6 +211,8 @@ class cmd_bot(Command):
             opts.append('--nodaemon')
         if pidfile:
             opts.extend(['--pidfile', pidfile])
+        if pidfile:
+            opts.extend(['--logfile', logfile])
         options = ServerOptions()
         options.parseOptions(opts)
 
