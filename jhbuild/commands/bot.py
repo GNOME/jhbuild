@@ -76,6 +76,12 @@ class cmd_bot(Command):
             make_option('--logfile', metavar='LOGFILE',
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
+            make_option('--slvfile', metavar='SLAVESFILE',
+                        action='store', dest='slavesfile', default='slaves.csv',
+                        help=_('slaves csv file location (only with --start-server)')),
+            make_option('--mastercfg', metavar='CFGFILE',
+                        action='store', dest='mastercfgfile', default='master.cfg',
+                        help=_('master cfg file location (only with --start-server)')),
             make_option('--step',
                         action='store_true', dest='step', default=False,
                         help=_('exec a buildbot step (internal use only)')),
@@ -106,6 +112,8 @@ class cmd_bot(Command):
         daemonize = False
         pidfile = None
         logfile = None
+        slavesfile = None
+        mastercfgfile = None
 
         if options.daemon:
             daemonize = True
@@ -113,6 +121,10 @@ class cmd_bot(Command):
             pidfile = options.pidfile
         if options.logfile:
             logfile = options.logfile
+        if options.slavesfile:
+            slavesfile = options.slavesfile
+        if options.mastercfgfile:
+            mastercfgfile = options.mastercfgfile
 
         if options.start:
             return self.start(config, daemonize, pidfile, logfile)
@@ -144,7 +156,7 @@ class cmd_bot(Command):
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile, logfile)
+            return self.start_server(config, daemonize, pidfile, logfile, slavesfile, mastercfgfile)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
@@ -202,7 +214,7 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile, logfile):
+    def start_server(self, config, daemonize, pidfile, logfile, slavesfile, mastercfgfile):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -266,7 +278,8 @@ class cmd_bot(Command):
                         log.msg("unknown key '%s' defined in config dictionary" % k)
 
                 # the 'slaves' list is read from the 'slaves.csv' file in the
-                # current directory it is a CSV file structured like this:
+                # current directory (unless instructed different from command line) 
+                # it is a CSV file structured like this:
                 #   slavename,password
                 # it is also possible to define build slave options, for
                 # example:
@@ -274,8 +287,8 @@ class cmd_bot(Command):
                 # (recognized build slave options are max_build and
                 # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists('slaves.csv'):
-                    for x in csv.reader(file('slaves.csv')):
+                if os.path.exists(slavesfile):
+                    for x in csv.reader(file(slavesfile)):
                         if not x or x[0].startswith('#'):
                             continue
                         kw = {}
@@ -605,7 +618,7 @@ class cmd_bot(Command):
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
-        master_cfg_path = os.path.join(basedir, 'master.cfg')
+        master_cfg_path = mastercfgfile
 
         JhBuildMaster(basedir, master_cfg_path).setServiceParent(application)
 
