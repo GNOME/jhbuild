@@ -19,6 +19,8 @@
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://dl.sourceforge.net/sourceforge/"/>
+ <repository type="tarball" name="clutter-project.org"
+      href="http://www.clutter-project.org/sources/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -555,6 +557,17 @@
       <dep package="gtk+"/>
       <dep package="pulseaudio"/>
     </after>
+  </autotools>
+
+  <autotools id="clutter">
+    <branch module="clutter/0.8/clutter-0.8.2.tar.bz2" version="0.8.2"
+	    repo="clutter-project.org"
+	    size="1532283" md5sum="6fd2c0e63d904523a773736cbb45d176"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
   </autotools>
 
 </moduleset>
