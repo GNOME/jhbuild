@@ -61,9 +61,8 @@
       href="https://code.fluendo.com/pigment/svn/"/>
   <repository type="svn" name="rc.code.fluendo.com"
       href="https://code.fluendo.com/remotecontrol/svn/"/>
-  <repository type="cvs" name="cvs.bluez.org"
-      cvsroot=":pserver:anonymous@cvs.bluez.org:/cvsroot/bluez"
-      password=""/>
+  <repository type="git" name="git.kernel.org"
+      href="git://git.kernel.org/pub/scm/"/>
   <repository type="mtn" name="pidgin.im"
       server="pidgin.im" database="pidgin.im.mtn"
       defbranch="im.pidgin.pidgin"/>
@@ -1632,12 +1631,20 @@
     </dependencies>
   </autotools>
 
+  <autotools id="bluez">
+    <branch repo="git.kernel.org" module="bluetooth/bluez.git" checkoutdir="bluez"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
   <autotools id="bluez-gnome">
-    <branch repo="cvs.bluez.org" module="gnome" checkoutdir="bluez-gnome"/>
+    <branch repo="git.kernel.org" module="bluetooth/bluez-gnome.git" checkoutdir="bluez-gnome"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="dbus-glib"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
+      <dep package="libnotify"/>
       <dep package="dbus"/>
       <dep package="hal"/>
     </dependencies>
