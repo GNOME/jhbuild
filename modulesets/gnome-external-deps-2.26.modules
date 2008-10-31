@@ -19,6 +19,8 @@
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://dl.sourceforge.net/sourceforge/"/>
+<repository type="tarball" name="libproxy.googlecode.com"
+    href="http://libproxy.googlecode.com/files/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -558,4 +560,21 @@
     </after>
   </autotools>
 
+  <!-- Proposed -->
+
+  <autotools id="libproxy" autogenargs="--without-networkmanager">
+    <branch repo="libproxy.googlecode.com"
+            module="libproxy-0.2.3.tar.gz" version="0.2.3"
+            size="378773" md5="86b635e1eb2d665cfbef4c6134fe6604"/>
+    <dependencies>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="mozilla"/>
+      <!-- NetworkManager doesn't build correctly in 0.2.3
+      <dep package="NetworkManager"/>
+      -->
+    </suggests>
+</autotools>
+     
 </moduleset>
