@@ -73,7 +73,10 @@ class TarballRepository(Repository):
                              branch_id=branch_id)
 
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
-        branch = Repository.branch_from_xml(self, name, branchnode, repositories, default_repo)
+        try:
+            branch = Repository.branch_from_xml(self, name, branchnode, repositories, default_repo)
+        except TypeError:
+            raise FatalError(_('branch for %s is not correct, check the moduleset file.') % name)
         # patches represented as children of the branch node
         for childnode in branchnode.childNodes:
             if childnode.nodeType != childnode.ELEMENT_NODE: continue
