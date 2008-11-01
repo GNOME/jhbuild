@@ -129,7 +129,11 @@ def check_bootstrap_updateness(config):
     '''Check install date of bootstrap modules, and compare them to
        the bootstrap moduleset file last modification date.
     '''
-    module_set = jhbuild.moduleset.load(config, uri = 'bootstrap')
+    try:
+        module_set = jhbuild.moduleset.load(config, uri = 'bootstrap')
+    except:
+        # failed to get bootstrap moduleset, silently ignore.
+        return
     packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
 
     max_install_date = max([
