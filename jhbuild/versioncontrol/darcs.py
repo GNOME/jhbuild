@@ -20,9 +20,13 @@
 __all__ = []
 __metaclass__ = type
 
-import md5
 import os
 import urlparse
+
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -114,6 +118,6 @@ class DarcsBranch(Branch):
         # this
         if not os.path.exists(self.srcdir):
             return None
-        return md5.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory')).read()).hexdigest()
+        return hashlib.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory')).read()).hexdigest()
 
 register_repo_type('darcs', DarcsRepository)

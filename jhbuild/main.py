@@ -115,7 +115,7 @@ def main(args):
     try:
         config = jhbuild.config.Config(options.configfile)
     except FatalError, exc:
-        sys.stderr.write('jhbuild: %s\n' % exc.message.encode(_encoding, 'replace'))
+        sys.stderr.write('jhbuild: %s\n' % exc.args[0].encode(_encoding, 'replace'))
         sys.exit(1)
 
     if options.moduleset: config.moduleset = options.moduleset
@@ -132,11 +132,11 @@ def main(args):
     try:
         rc = jhbuild.commands.run(command, config, args)
     except UsageError, exc:
-        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.message.encode(_encoding, 'replace')))
+        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
         parser.print_usage()
         sys.exit(1)
     except FatalError, exc:
-        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.message.encode(_encoding, 'replace')))
+        sys.stderr.write('jhbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
         sys.exit(1)
     except KeyboardInterrupt:
         uprint(_('Interrupted'))

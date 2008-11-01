@@ -19,10 +19,8 @@
 
 
 class JhbuildException(Exception):
-    # compatibility class to have exception.message for Python < 2.5
-    def __init__(self, message = None):
-        Exception.__init__(self, message)
-        self.message = message
+    pass
+
 
 class UsageError(JhbuildException):
     '''An exception that should result in a usage message rather than

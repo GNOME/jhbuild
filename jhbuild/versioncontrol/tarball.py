@@ -21,7 +21,10 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import md5
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 import urlparse
 import urllib2
 
@@ -149,8 +152,7 @@ class TarballBranch(Branch):
                         _('downloaded file size is incorrect (expected %(size1)d, got %(size2)d)')
                                       % {'size1':self.source_size, 'size2':local_size})
         if self.source_md5 is not None:
-            import md5
-            local_md5 = md5.new()
+            local_md5 = hashlib.md5()
             fp = open(localfile, 'rb')
             data = fp.read(32768)
             while data:
@@ -263,7 +265,7 @@ class TarballBranch(Branch):
             self._quilt_checkout(buildscript)
 
     def tree_id(self):
-        md5sum = md5.new()
+        md5sum = hashlib.md5()
         if self.patches:
             for patch in self.patches:
                 md5sum.update(patch[0])

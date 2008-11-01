@@ -26,7 +26,10 @@ __metaclass__ = type
 
 import sys
 import os
-import md5
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 
 import git
 
@@ -316,7 +319,7 @@ class CVSBranch(Branch):
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
-        md5sum = md5.new()
+        md5sum = hashlib.md5()
         _process_directory(self.srcdir, '', md5sum.update)
         return 'jhbuild-cvs-treeid:%s' % md5sum.hexdigest()
 
