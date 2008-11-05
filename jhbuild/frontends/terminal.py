@@ -247,9 +247,14 @@ class TerminalBuildScript(buildscript.BuildScript):
         '''handle error during build'''
         summary = _('error during stage %(stage)s of %(module)s') % {
             'stage':state, 'module':module.name}
-        self.message('%s: %s' % (summary, error.message))
+        try:
+            error_message = error.args[0]
+            self.message('%s: %s' % (summary, error_message))
+        except:
+            error_message = None
+            self.message(summary)
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
-        self.notify.notify(summary = summary, body = error.message,
+        self.notify.notify(summary = summary, body = error_message,
                 icon = 'dialog-error', expire = 20)
 
         if self.config.trycheckout and (not self.triedcheckout) and altstates.count('force_checkout'):
