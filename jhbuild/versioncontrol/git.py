@@ -120,8 +120,8 @@ class GitBranch(Branch):
             return False
 
     def branchname(self):
-        for b in [self.tag, 'origin/' + str(self.branch), self.branch,
-                  'origin/master', 'origin/trunk', 'master', 'trunk']:
+        for b in [self.tag, 'origin/' + str(self.branch), 'origin/svn/' + str(self.branch),
+                  self.branch, 'origin/master', 'origin/trunk', 'master', 'trunk']:
             if self.branch_exist(b):
                 return b
         raise GitUnknownBranchNameError()
