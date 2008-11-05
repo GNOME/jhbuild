@@ -1,5 +1,25 @@
 2008-11-05  John Carr  <john.carr@unrouted.co.uk>
 
+	* jhbuild/config.py:
+	* jhbuild/defaults.jhbuildrc:
+	Allow user to set a mirror_policy in .jhbuildrc
+
+	* jhbuild/modtypes/__init__.py:
+	If mirror policy is set, try and use a mirror repo
+	where possible. E.g. use git-mirror instead of SVN.
+
+	* jhbuild/modtypes/autotools.py:
+	* jhbuild/modtypes/waf.py:
+	* jhbuild/modtypes/linux.py:
+	* jhbuild/modtypes/cmake.py:
+	* jhbuild/modtypes/perl.py:
+	* jhbuild/modtypes/distutils.py:
+	* jhbuild/modtypes/mesa.py:
+	* jhbuild/modtypes/testmodule.py:
+	Modtypes need to pass config data to branching func.
+
+2008-11-05  John Carr  <john.carr@unrouted.co.uk>
+
 	* jhbuild/moduleset.py:
 	Allow modulesets to specify a <mirror> node, so jhbuild is
 	aware of $dvcs-mirror.gnome.org.

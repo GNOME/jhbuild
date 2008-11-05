@@ -239,7 +239,7 @@ def parse_linux(node, config, uri, repositories, default_repo):
 
     dependencies, after, suggests = get_dependencies(node)
     extra_env = config.module_extra_env.get(id)
-    branch = get_branch(node, repositories, default_repo)
+    branch = get_branch(node, repositories, default_repo, config)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
     kconfigs = get_kconfigs(node, repositories, default_repo)

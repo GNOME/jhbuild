@@ -82,7 +82,7 @@ def get_dependencies(node):
 
     return dependencies, after, suggests
 
-def get_branch(node, repositories, default_repo):
+def get_branch(node, repositories, default_repo, config):
     """Scan for a <branch> element and create a corresponding Branch object."""
     name = node.getAttribute('id')
     for childnode in node.childNodes:
@@ -105,6 +105,13 @@ def get_branch(node, repositories, default_repo):
         except KeyError:
             raise FatalError(_('Default Repository=%s not found for module id=%s. Possible repositories are %s')
                              % (default_repo, name, repositories))
+
+    if repo.mirrors:
+        mirror_type = config.mirror_policy
+        if name in config.module_mirror_policy:
+            mirror_type = config.module_mirror_policy[name]
+        if mirror_type in repo.mirrors:
+            repo = repo.mirrors[mirror_type]
 
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
