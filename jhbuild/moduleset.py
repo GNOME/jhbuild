@@ -322,6 +322,17 @@ def _parse_module_set(config, uri):
                     kws[attr.replace('-', '_')] = node.getAttribute(attr)
             repositories[name] = repo_class(config, name, **kws)
             repositories[name].moduleset_uri = uri
+            mirrors = {}
+            for mirror in _child_elements_matching(node, ['mirror']):
+                mirror_type = mirror.getAttribute('type')
+                mirror_class = get_repo_type(mirror_type)
+                kws = {}
+                for attr in mirror_class.init_xml_attrs:
+                    if mirror.hasAttribute(attr):
+                        kws[attr.replace('-','_')] = mirror.getAttribute(attr)
+                mirrors[mirror_type] = mirror_class(config, name, **kws)
+                #mirrors[mirror_type].moduleset_uri = uri
+            setattr(repositories[name], "mirrors", mirrors)
         if node.nodeName == 'cvsroot':
             cvsroot = node.getAttribute('root')
             if node.hasAttribute('password'):

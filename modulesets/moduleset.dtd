@@ -2,7 +2,7 @@
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
-<!ELEMENT repository EMPTY>
+<!ELEMENT repository (mirror?)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
 	type	 (bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
@@ -19,6 +19,11 @@
       - CVS: password & cvsroot
       - Arch: archive & href
       - Monotone: server, database, defbranch -->
+
+<!ELEMENT mirror EMPTY>
+<!ATTLIST mirror
+	type	(bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
+	href	CDATA  #IMPLIED>
 
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>

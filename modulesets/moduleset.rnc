@@ -22,11 +22,17 @@ repository_git     = attribute type { "git" },
 repository_tarball = attribute type { "tarball" },
                      attribute href { xsd:anyURI }
 
+mirror = element mirror {
+   (repository_cvs|repository_svn|repository_arch|
+   repository_darcs|repository_git|repository_tarball)
+}
+
 repository = element repository {
   attribute name { text },
   attribute default { boolean }?,
   (repository_cvs|repository_svn|repository_arch|
-   repository_darcs|repository_git|repository_tarball)
+   repository_darcs|repository_git|repository_tarball),
+  mirror*
 }
 
 \include = element include {
