@@ -46,12 +46,13 @@ class BzrRepository(Repository):
     It can be a parent of a number of Bzr repositories or branches.
     """
 
-    init_xml_attrs = ['href']
+    init_xml_attrs = ['href', 'trunk-path']
 
-    def __init__(self, config, name, href):
+    def __init__(self, config, name, href, trunk_path=''):
         Repository.__init__(self, config, name)
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
+        self.trunk_path = trunk_path
 
     branch_xml_attrs = ['module', 'checkoutdir']
 
@@ -62,7 +63,10 @@ class BzrRepository(Repository):
                 raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
         else:
             if module is None:
-                module = name
+                if self.trunk_path:
+                    module = name + "/" + self.trunk_path
+                else:
+                    module = name
             module = urlparse.urljoin(self.href, module)
 
         if checkoutdir is None:
