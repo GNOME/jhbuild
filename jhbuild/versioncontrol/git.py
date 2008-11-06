@@ -199,13 +199,16 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'reset', '--hard', commit], cwd=cwd)
 
         if self.branch:
-            buildscript.execute(['git', 'checkout', self.branch], cwd=self.srcdir)
+            try:
+                buildscript.execute(['git', 'checkout', self.branch], cwd=self.srcdir)
+            except CommandError:
+                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], cwd=self.srcdir)
         else:
             buildscript.execute(['git', 'checkout'], cwd=self.srcdir)
 
         if not self.tag:
             if self.branch:
-                buildscript.execute(['git', 'rebase', 'origin', self.branch], cwd=cwd)
+                buildscript.execute(['git', 'rebase', self.branchname, self.branch], cwd=cwd)
             else:
                 buildscript.execute(['git', 'rebase', 'origin', 'master'], cwd=cwd)
 
