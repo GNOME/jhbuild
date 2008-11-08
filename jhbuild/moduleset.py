@@ -80,7 +80,10 @@ class ModuleSet:
                 depmod = self.modules.get(modname)
                 if not depmod:
                     if not ignore_missing:
-                        raise UsageError(_('dependent module "%s" not found') % modname)
+                        raise UsageError(_(
+                                '%(module)s has a dependency on unknown "%(invalid)s" module') % {
+                                    'module': all_modules[i].name,
+                                    'invalid': modname})
                     del all_modules[i]
                     continue
                 if not depmod in all_modules:
