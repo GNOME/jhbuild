@@ -33,8 +33,6 @@
       href="http://osiris.chipx86.com/svn/osiris-misc/"/>
   <repository type="svn" name="svn.debian.org"
       href="svn://svn.debian.org/"/>
-  <repository type="git" name="git.debian.org"
-      href="git://git.debian.org/"/>
   <repository type="svn" name="svn.navi.cx"
       href="http://svn.navi.cx/" />
   <repository type="cvs" name="anoncvs.abisource.com"
@@ -1683,39 +1681,6 @@
       <dep package="pango"/>
       <dep package="gtk+"/>
       <dep package="librsvg"/>
-    </dependencies>
-  </autotools>
-
-  <!-- External deps that you MUST have installed in order -->
-  <!-- to compile WebKit (if not the build tree might be   -->
-  <!-- in in a bad state and might fail to compile even    -->
-  <!-- after you've installed the missing dependency.      -->
-  <!--                                                     -->
-  <!--   libicu-dev                                        -->
-  <!--   libjpeg62-dev                                     -->
-  <!--   libpng12-dev                                      -->
-  <!--   gperf                                             -->
-  <!--   bison                                             -->
-  <!--   flex >= 2.5.33                                    -->
-  <!--                                                     -->
-  <!-- To clean the build tree if you tried to compile     -->
-  <!-- without those deps, run the following command:      -->
-  <!--                                                     -->
-  <!--   make -f GNUMakefile maintainer-clean              -->
-  <!--                                                     -->
-  <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <autotools id="WebKit" autogenargs="--enable-video=yes"
-      makefile="GNUmakefile">
-    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
-      checkoutdir="WebKit" revision="filtered"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
-      <dep package="libsoup"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
