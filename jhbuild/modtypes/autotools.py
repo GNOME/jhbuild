@@ -138,8 +138,11 @@ class AutogenModule(Package):
                     os.path.exists(os.path.join(srcdir, 'configure')):
                 self.autogen_sh = 'configure'
 
-        if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0111):
-            os.chmod(os.path.join(srcdir, self.autogen_sh), 0755)
+        try:
+            if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0111):
+                os.chmod(os.path.join(srcdir, self.autogen_sh), 0755)
+        except:
+            pass
 
         if self.autogen_template:
             template = self.autogen_template
