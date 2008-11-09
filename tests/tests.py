@@ -540,7 +540,7 @@ def restore_environ(env):
 
 STDOUT_FILENO = 1
 
-def with_stdout(func):
+def with_stdout_hidden(func):
     old_fd = os.dup(STDOUT_FILENO)
     new_fd = os.open('/dev/null', os.O_WRONLY)
     os.dup2(new_fd, STDOUT_FILENO)
@@ -581,14 +581,19 @@ class EndToEndTest(unittest.TestCase):
         config.real_setup_env()
         return config
 
+    def make_branch(self, config, src_name):
+        branch_dir = os.path.join(config.checkoutroot, src_name)
+        shutil.copytree(os.path.join(os.path.dirname(__file__), src_name),
+                        branch_dir)
+        return SimpleBranch(src_name, branch_dir)
+
     def test_distutils(self):
         config = self.make_config()
-        branch_dir = os.path.join(config.checkoutroot, 'hello')
-        shutil.copytree(os.path.join(os.path.dirname(__file__), 'distutils'), branch_dir)
-        module_list = [DistutilsModule('hello', SimpleBranch('hello', branch_dir))]
+        module_list = [DistutilsModule('hello',
+                                       self.make_branch(config, 'distutils'))]
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
-        with_stdout(build.build)
+        with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
         self.assertEquals(stdout, 'Hello world (distutils)\n')
@@ -596,16 +601,27 @@ class EndToEndTest(unittest.TestCase):
 
     def test_autotools(self):
         config = self.make_config()
-        branch_dir = os.path.join(config.checkoutroot, 'hello')
-        shutil.copytree(os.path.join(os.path.dirname(__file__), 'autotools'),
-                        branch_dir)
-        module_list = [AutogenModule('hello', SimpleBranch('hello', branch_dir))]
+        module_list = [AutogenModule('hello',
+                                     self.make_branch(config, 'autotools'))]
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
-        with_stdout(build.build)
+        with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
         self.assertEquals(stdout, 'Hello world (autotools)\n')
+        self.assertEquals(proc.wait(), 0)
+
+    def test_autotools_with_libtool(self):
+        config = self.make_config()
+        module_list = [
+            AutogenModule('libhello', self.make_branch(config, 'libhello')),
+            AutogenModule('hello', self.make_branch(config, 'hello'))]
+        build = jhbuild.frontends.terminal.TerminalBuildScript(
+            config, module_list)
+        with_stdout_hidden(build.build)
+        proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
+        self.assertEquals(stdout, 'Hello world (library test)\n')
         self.assertEquals(proc.wait(), 0)
 
 
