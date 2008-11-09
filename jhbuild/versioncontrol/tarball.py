@@ -189,7 +189,8 @@ class TarballBranch(Branch):
             raise FatalError(_('failed to unpack %s') % localfile)
 
         if not os.path.exists(self.srcdir):
-            raise BuildStateError(_('could not unpack tarball'))
+            raise BuildStateError(_('could not unpack tarball (expected %s dir)'
+                        ) % os.path.basename(self.srcdir))
 
         if self.patches:
             self._do_patches(buildscript)
