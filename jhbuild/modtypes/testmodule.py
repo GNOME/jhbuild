@@ -329,10 +329,15 @@ class TestModule(Package):
                 test_cases.append(file)
 
         status = ''
+        if buildscript.config.noxvfb:
+            extra_env = {}
+        else:
+            extra_env = {'DISPLAY': ':%s' % self.screennum}
+
         for test_case in test_cases:
             try:
                 buildscript.execute('python %s' % test_case,
-                        cwd=src_dir, extra_env={'DISPLAY': ':%s' % self.screennum})
+                        cwd=src_dir, extra_env=extra_env)
             except CommandError, e:
                 if e.returncode != 0:
                     raise BuildStateError('%s failed' % test_case)
