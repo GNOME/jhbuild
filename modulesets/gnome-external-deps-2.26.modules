@@ -417,6 +417,35 @@
     </dependencies>
   </tarball>
 
+  <repository type="tarball" name="ftp.mozilla.org"
+      href="https://ftp.mozilla.org/pub/mozilla.org/"/>
+  <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
+  	autogenargs="--enable-ipv6 --with-mozilla">
+    <branch repo="ftp.mozilla.org"
+            module="nspr/releases/v4.7.3/src/nspr-4.7.3.tar.gz"
+	    version="4.7.3"
+	    size="1254585" md5sum="3496d6656f3e02dddc7e29f1b122b744">
+      <patch file="nspr.config_64bits.patch" strip="1" />
+      <patch file="nspr.pkgconfig.patch" strip="1"/>
+      <patch file="nspr.sonames.patch" strip="1"/>
+      <patch file="nspr.configure.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="nss" autogen-sh="configure">
+    <branch repo="ftp.mozilla.org"
+            module="security/nss/releases/NSS_3_12_RTM/src/nss-3.12.tar.gz"
+	    version="3.12"
+	    size="5163155" md5sum="917f4e05f3982bd7fceaede197f0e1d4">
+      <patch file="nss.sonames.patch" strip="1"/>
+      <patch file="nss.pkgconfig-and-configure.patch"/>
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
   <repository type="tarball" name="mozilla.org"
       href="http://releases.mozilla.org/pub/mozilla.org/"/>
   <autotools id="mozilla"
