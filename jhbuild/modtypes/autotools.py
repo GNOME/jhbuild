@@ -22,6 +22,7 @@ __metaclass__ = type
 
 import os
 import re
+import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
@@ -130,12 +131,15 @@ class AutogenModule(Package):
             os.makedirs(builddir)
         buildscript.set_action(_('Configuring'), self)
 
+        srcdir = self.get_srcdir(buildscript)
         if self.autogen_sh == 'autogen.sh':
             # if there is no autogen.sh, automatically fallback to configure
-            srcdir = self.get_srcdir(buildscript)
             if not os.path.exists(os.path.join(srcdir, 'autogen.sh')) and \
                     os.path.exists(os.path.join(srcdir, 'configure')):
                 self.autogen_sh = 'configure'
+
+        if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0111):
+            os.chmod(os.path.join(srcdir, self.autogen_sh), 0755)
 
         if self.autogen_template:
             template = self.autogen_template
