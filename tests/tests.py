@@ -41,13 +41,21 @@ import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
 
+
+def uencode(s):
+    if type(s) is unicode:
+        return s.encode(_encoding, 'replace')
+    else:
+        return s
+
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        print s,
+        print uencode(s),
     s = args[-1]
-    print s
+    print uencode(s)
 __builtin__.__dict__['uprint'] = uprint
+__builtin__.__dict__['uencode'] = uencode
 
 
 import mock
