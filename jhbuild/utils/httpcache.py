@@ -68,7 +68,11 @@ class CacheEntry:
         self.expires = expires
 
 class Cache:
-    cachedir = os.path.join(os.environ['HOME'], '.jhbuild', 'cache')
+    try:
+        cachedir = os.path.join(os.environ['XDG_CACHE_HOME'], 'jhbuild')
+    except KeyError:
+        cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
+
     # default to a 6 hour expiry time.
     default_age = 6 * 60 * 60
 
