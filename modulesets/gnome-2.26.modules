@@ -98,6 +98,8 @@
       href="http://matchbox-project.org/sources/"/>
   <repository type="git" name="diracvideo.org"
     href="git://diracvideo.org/git/"/>
+  <repository type="git" name="git.collabora"
+      href="git://git.collabora.co.uk/git/"/>
 
   <include href="freedesktop-2.26.modules"/>
   <include href="gnome-suites-2.26.modules"/>
@@ -2286,5 +2288,24 @@
   </metamodule>
 
   <!-- ########## End of Ubuntu Netbook Remix Modules ########## -->
+
+  <autotools id="empathy-webkit">
+    <branch repo="git.collabora"
+            module="user/xclaesse/empathy.git"
+            revision="adium"
+            checkoutdir="empathy-webkit"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="telepathy-glib"/>
+      <dep package="telepathy-mission-control"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gnome-panel"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </autotools>
 
 </moduleset>
