@@ -108,14 +108,15 @@ def get_uri(filename):
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
 
-    init_xml_attrs = ['href', 'trunk-path', 'branches-path']
+    init_xml_attrs = ['href', 'trunk-template', 'branch-template', 'tags-template']
 
-    def __init__(self, config, name, href, trunk_path='trunk', branches_path='branches'):
+    def __init__(self, config, name, href, trunk_template=None, branches_template=None, tags_template=None):
         Repository.__init__(self, config, name)
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
-        self.trunk_path = trunk_path
-        self.branches_path = branches_path
+        self.trunk_template = trunk_template or "%(module)s/trunk"
+        self.branches_template = branches_template or "%(module)s/branches/%(branch)s"
+        self.tags_template = tags_template or "%(module)s/tags/%(tag)s"
         self.svn_program = config.svn_program
 
     branch_xml_attrs = ['module', 'checkoutdir', 'revision']
@@ -129,30 +130,36 @@ class SubversionRepository(Repository):
                 module = None
                 revision = None
 
-        if self.branches_path:
-            branches_path = '/' + self.branches_path
-        else:
-            branches_path = ""
+        template = None
 
         if module:
             if revision:
                 if not revision.isdigit():
-                    module += branches_path + '/' + revision
+                    template = self.branches_template
         else:
+            module = name
             if revision:
                 if revision.isdigit():
-                    module = name + '/' + self.trunk_path
+                    template = self.trunk_template
                 else:
-                    module = name + branches_path + '/' + revision  
+                    template = self.branches_template
             else:
-                module = name + '/' + self.trunk_path
-        
+                template = self.trunk_template
+
         if module_href is None:
-            module_href = urlparse.urljoin(self.href, module)
-        
+            if template:
+                template = self.href + template
+                module_href = template % {
+                    'module': module,
+                    'branch': revision,
+                    'tag': revision,
+                }
+            else:
+                module_href = urlparse.urljoin(self.href, module)
+
         if checkoutdir is None:
             checkoutdir = name
-        
+
         if self.svn_program == 'bzr' and not revision:
             return bzr.BzrBranch(self, module_href, checkoutdir)
         elif self.svn_program == 'git-svn':
