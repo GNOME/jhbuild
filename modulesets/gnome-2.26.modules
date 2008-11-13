@@ -96,6 +96,8 @@
       href="https://code.fluendo.com/flumotion/svn/"/>
   <repository type="tarball" name="matchbox-project.org"
       href="http://matchbox-project.org/sources/"/>
+  <repository type="git" name="fishsoup.net"
+      href="git://git.fishsoup.net/"/>
   <repository type="git" name="diracvideo.org"
     href="git://diracvideo.org/git/"/>
   <repository type="git" name="git.collabora"
@@ -2306,6 +2308,41 @@
       <dep package="gnome-panel"/>
       <dep package="WebKit"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="metacity-clutter" autogenargs="--with-clutter">
+    <branch repo="fishsoup.net" module="metacity-clutter" revision="clutter"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="intltool"/>
+      <dep package="zenity"/>
+      <dep package="clutter"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gir-repository"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-shell">
+    <branch/>
+    <dependencies>
+      <dep package="metacity-clutter"/>
+      <dep package="gjs"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="almanah">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+    <suggests>
+      <dep package="gtkspell"/>
+    </suggests>
   </autotools>
 
 </moduleset>
