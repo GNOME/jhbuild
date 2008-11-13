@@ -67,7 +67,7 @@ class GnomeMaildirSource(MaildirSource):
                 links.append(line.split(':', 1)[1].strip())
 
             if line[:-1] == 'Log:':
-                while not (lines[0].startswith('Added:') or 
+                while lines and not (lines[0].startswith('Added:') or 
                         lines[0].startswith('Modified:') or 
                         lines[0].startswith('Removed:')):
                     comments += lines.pop(0)
