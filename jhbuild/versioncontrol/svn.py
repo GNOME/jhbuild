@@ -192,6 +192,13 @@ class SubversionBranch(Branch):
         return self.revision
     branchname = property(branchname)
 
+    def exists(self):
+        try:
+            get_output(['svn', 'ls', self.module])
+            return True
+        except:
+            return False
+
     def _export(self, buildscript):
         cmd = ['svn', 'export', self.module]
 

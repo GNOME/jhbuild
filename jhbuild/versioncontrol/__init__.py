@@ -82,6 +82,12 @@ class Branch:
         raise NotImplementedError
     branchname = property(branchname)
 
+    def exists(self):
+        """Return True if branch exists or False if not.
+
+           May raise NotImplementedError if cannot check a given branch."""
+        raise NotImplementedError
+
     def checkout(self, buildscript):
         """Checkout or update the given source directory.
 

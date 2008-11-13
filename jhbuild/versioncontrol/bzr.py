@@ -90,6 +90,13 @@ class BzrBranch(Branch):
         return None
     branchname = property(branchname)
 
+    def exists(self):
+        try:
+            get_output(['bzr', 'ls', self.module])
+            return True
+        except:
+            return False
+
     def _checkout(self, buildscript):
         cmd = ['bzr', 'branch', self.module]
         if self.checkoutdir:

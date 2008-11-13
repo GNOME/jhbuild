@@ -1,0 +1,46 @@
+# jhbuild - a build script for GNOME 1.x and 2.x
+# Copyright (C) 2001-2004  James Henstridge
+#
+#   checkmodulesets.py: check GNOME module sets for missing branches definition
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+
+import urllib2
+from optparse import make_option
+
+import jhbuild.moduleset
+from jhbuild.commands import Command, register_command
+
+class cmd_checkmodulesets(Command):
+    doc = _('Check modules in jhbuild have the correct definition')
+    name = 'checkmodulesets'
+
+    def run(self, config, options, args):
+        module_set = jhbuild.moduleset.load(config)
+        module_list = module_set.get_full_module_list()
+        for mod in module_list:
+            if mod.type in ('meta', 'tarball'):
+                continue
+
+            try:
+                if not mod.branch.exists():
+                    uprint(_('E: %(module)s is unreachable!') % {'module': mod.name,})
+            except NotImplementedError:
+                if False:
+                    uprint(_('W: Cannot check %(module)s') % {'module': mod.name,})
+
+register_command(cmd_checkmodulesets)

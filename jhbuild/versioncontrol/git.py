@@ -127,6 +127,16 @@ class GitBranch(Branch):
         raise GitUnknownBranchNameError()
     branchname = property(branchname)
 
+    def exists(self):
+        try:
+            refs = get_output(['git', 'ls-remote', self.module])
+        except:
+            return False
+
+        #FIXME: Parse output from ls-remote to work out if tag/branch is present
+
+        return True
+
     def _get_commit_from_date(self):
         cmd = ['git', 'log', '--max-count=1',
                '--until=%s' % self.config.sticky_date]
