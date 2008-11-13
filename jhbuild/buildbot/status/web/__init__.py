@@ -87,10 +87,13 @@ class ProjectsSummary(HtmlResource):
             else:
                 title = klass
             result += '<th class="%s" title="%s">%s</th>' % (klass, title, name)
-        result += '</tr></thead>\n'
+        result += '</tr>'
+        thead = result
+        # stop it here as a row with totals will be added here once every rows
+        # have been handled
 
         # Contents
-	result += '<tbody>'
+	result = '<tbody>'
 
         slave_results = {}
         for slave in parent.slaves:
@@ -147,14 +150,18 @@ class ProjectsSummary(HtmlResource):
             result += '</tr>\n'
 	result += '</tbody>\n'
         result += '<tfoot><tr class="totals"><td colspan="3"></td>'
+        thead += '<tr class="totals"><td colspan="3"></td>'
         for slave in parent.slaves:
-            result += '<td><span title="Successful builds">%s</span> '\
+            td = '<td><span title="Successful builds">%s</span> '\
                       '<span title="(ignoring test suites failures)">(%s)</span> / '\
                       '<span title="Total">%s</span></td>' % tuple(slave_results[slave])
+            thead += td
+            result += td
+        thead += '</tr>\n</thead>\n'
         result += '</tr></tfoot>\n'
         result += '</table>'
 
-        return result
+        return thead+result
 
 class JHBuildWebStatus(WebStatus):
 
