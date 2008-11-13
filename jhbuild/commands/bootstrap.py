@@ -23,6 +23,7 @@ import urllib
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
+import jhbuild.commands.base
 from jhbuild.commands.base import cmd_build
 
 class cmd_bootstrap(cmd_build):
@@ -35,6 +36,10 @@ class cmd_bootstrap(cmd_build):
         # load the bootstrap module set
         if not args:
             args = ['meta-bootstrap']
+
+        # cancel the bootstrap updateness check as it has no sense (it *is*
+        # running bootstrap right now)
+        jhbuild.commands.base.check_bootstrap_updateness = lambda x: x
         return cmd_build.run(self, config, options, args)
 
 register_command(cmd_bootstrap)
