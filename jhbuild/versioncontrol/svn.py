@@ -119,9 +119,9 @@ class SubversionRepository(Repository):
         self.tags_template = tags_template or "%(module)s/tags/%(tag)s"
         self.svn_program = config.svn_program
 
-    branch_xml_attrs = ['module', 'checkoutdir', 'revision']
+    branch_xml_attrs = ['module', 'checkoutdir', 'revision', 'tag']
 
-    def branch(self, name, module=None, checkoutdir=None, revision=None):
+    def branch(self, name, module=None, checkoutdir=None, revision=None, tag=None):
         module_href = None
         if name in self.config.branches:
             if self.config.branches[name]:
@@ -136,6 +136,8 @@ class SubversionRepository(Repository):
             if revision:
                 if not revision.isdigit():
                     template = self.branches_template
+            elif tag:
+                template = self.tags_template
         else:
             module = name
             if revision:
@@ -143,6 +145,8 @@ class SubversionRepository(Repository):
                     template = self.trunk_template
                 else:
                     template = self.branches_template
+            elif tag:
+                template = self.tags_template
             else:
                 template = self.trunk_template
 
@@ -152,7 +156,7 @@ class SubversionRepository(Repository):
                 module_href = template % {
                     'module': module,
                     'branch': revision,
-                    'tag': revision,
+                    'tag': tag,
                 }
             else:
                 module_href = urlparse.urljoin(self.href, module)
