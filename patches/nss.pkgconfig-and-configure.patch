@@ -2644,7 +2644,7 @@
 +AC_OUTPUT
 --- Makefile.in	1970-01-01 01:00:00.000000000 +0100
 +++ Makefile.in	2008-11-09 15:03:31.000000000 +0100
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,31 @@
 +prefix=@prefix@
 +nspr_prefix=@NSPR_PREFIX@
 +
@@ -2666,10 +2666,14 @@
 +		all \
 +		$(ARGS)
 +
++clean:
++	$(MAKE) -C mozilla/security/nss clean
++
 +install:
 +	$(MAKE) -C mozilla/security/nss install $(ARGS)
 +	-mkdir $(prefix)/include/nss
 +	install -m 644 -t $(prefix)/include/nss mozilla/dist/public/nss/*
++	-rm $(prefix)/lib/libssl.a
 +	cp nss.pc $(prefix)/lib/pkgconfig/nss.pc
 +
 --- nss.pc.in	1970-01-01 01:00:00.000000000 +0100
