@@ -164,6 +164,10 @@ class SubversionRepository(Repository):
         if checkoutdir is None:
             checkoutdir = name
 
+        splitted_href = list(urlparse.urlsplit(module_href))
+        splitted_href[2] = os.path.abspath(splitted_href[2])
+        module_href = urlparse.urlunsplit(splitted_href)
+
         if self.svn_program == 'bzr' and not revision:
             return bzr.BzrBranch(self, module_href, checkoutdir)
         elif self.svn_program == 'git-svn':
