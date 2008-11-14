@@ -1161,10 +1161,23 @@
     </after>
   </autotools>
 
+  <autotools id="gmime-2-2">
+    <branch repo="svn.gnome.org"
+            module="gmime/branches/gmime-2-2"
+            checkoutdir="gmime-2-2"/>
+    <dependencies>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk-sharp"/>
+    </after>
+  </autotools>
+
   <autotools id="tracker">
     <branch/>
     <dependencies>
-      <dep package="gmime"/>
+      <dep package="gmime-2-2"/>
       <dep package="dbus-glib"/>
       <dep package="libgnomeui"/>
       <dep package="gnome-desktop"/>
@@ -1706,10 +1719,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="epiphany-webkit" autogenargs="--with-engine=webkit">
+  <autotools id="epiphany-webkit">
     <branch repo="svn.gnome.org"
-            module="epiphany"
-            revision="../trunk"
+            module="epiphany/trunk"
             checkoutdir="epiphany-webkit" />
     <dependencies>
       <dep package="WebKit"/>
@@ -1724,8 +1736,7 @@
 
   <autotools id="epiphany-extensions-webkit">
     <branch repo="svn.gnome.org"
-            module="epiphany-extensions"
-            revision="../trunk"
+            module="epiphany-extensions/trunk"
             checkoutdir="epiphany-extensions-webkit" />
     <dependencies>
       <dep package="epiphany-webkit"/>
@@ -1734,8 +1745,7 @@
 
   <autotools id="devhelp-webkit">
     <branch repo="svn.gnome.org"
-            module="devhelp"
-            revision="../trunk"
+            module="devhelp/trunk"
             checkoutdir="devhelp-webkit"/>
     <dependencies>
       <dep package="gtk+"/>
@@ -1748,8 +1758,7 @@
 
   <autotools id="yelp-webkit">
     <branch repo="svn.gnome.org"
-            module="yelp"
-            revision="../branches/webkit"
+            module="yelp/branches/webkit"
             checkoutdir="yelp-webkit"/>
     <dependencies>
       <dep package="rarian"/>
