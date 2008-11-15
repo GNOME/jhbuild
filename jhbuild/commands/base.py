@@ -59,6 +59,9 @@ class cmd_update(Command):
             make_option('-D', metavar='DATE-SPEC',
                         action='store', dest='sticky_date', default=None,
                         help=_('set a sticky date when checking out modules')),
+            make_option('--ignore-suggests',
+                        action='store_true', dest='ignore_suggests', default=False,
+                        help=_('ignore all soft-dependencies')),
             ])
 
     def run(self, config, options, args):
@@ -68,10 +71,13 @@ class cmd_update(Command):
             config.tags += item.split(',')
         if options.sticky_date is not None:
             config.sticky_date = options.sticky_date
+        if options.ignore_suggests:
+            config.ignore_suggests = True
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
-                config.skip, tags = config.tags)
+                config.skip, tags=config.tags,
+                ignore_suggests=config.ignore_suggests)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -176,6 +182,9 @@ class cmd_build(Command):
             make_option('--distcheck',
                         action='store_true', dest='distcheck', default=False,
                         help=_('run make distcheck after building')),
+            make_option('--ignore-suggests',
+                        action='store_true', dest='ignore_suggests', default=False,
+                        help=_('ignore all soft-dependencies')),
             make_option('-n', '--no-network',
                         action='store_true', dest='nonetwork', default=False,
                         help=_('skip version control update')),
@@ -221,6 +230,8 @@ class cmd_build(Command):
             config.makeclean = True
         if options.dist:
             config.makedist = True
+        if options.ignore_suggests:
+            config.ignore_suggests = True
         if options.distcheck:
             config.makedistcheck = True
         if options.nonetwork:
@@ -250,7 +261,8 @@ class cmd_build(Command):
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags = config.tags,
-                include_optional_modules = options.build_optional_modules)
+                include_optional_modules=options.build_optional_modules,
+                ignore_suggests=config.ignore_suggests)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -429,6 +441,9 @@ class cmd_list(Command):
             make_option('--tags',
                         action='append', dest='tags', default=[],
                         help=_('build only modules with the given tags')),
+            make_option('--ignore-suggests',
+                        action='store_true', dest='ignore_suggests', default=False,
+                        help=_('ignore all soft-dependencies')),
             make_option('--list-optional-modules',
                         action='store_true', dest='list_optional_modules', default=False,
                         help=_('also list soft-dependencies that could be skipped')),
@@ -442,13 +457,16 @@ class cmd_list(Command):
             config.skip += item.split(',')
         for item in options.tags:
             config.tags += item.split(',')
+        if options.ignore_suggests:
+            config.ignore_suggests = True
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
             module_list = module_set.modules.values()
         else:
             module_list = module_set.get_module_list(args or config.modules,
                                 config.skip, tags = config.tags,
-                                include_optional_modules = options.list_optional_modules)
+                                include_optional_modules = options.list_optional_modules,
+                                ignore_suggests=config.ignore_suggests)
 
         for mod in module_list:
             if options.show_rev:

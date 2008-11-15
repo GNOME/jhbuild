@@ -59,7 +59,8 @@ class ModuleSet:
         raise KeyError(module_name)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
-                include_optional_modules=False, ignore_missing=False):
+                ignore_suggests=False, include_optional_modules=False,
+                ignore_missing=False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -89,13 +90,14 @@ class ModuleSet:
                 if not depmod in all_modules:
                     all_modules.append(depmod)
 
-            # suggests can be ignored if not in moduleset
-            for modname in all_modules[i].suggests:
-                depmod = self.modules.get(modname)
-                if not depmod:
-                    continue
-                if not depmod in all_modules:
-                    all_modules.append(depmod)
+            if not ignore_suggests:
+                # suggests can be ignored if not in moduleset
+                for modname in all_modules[i].suggests:
+                    depmod = self.modules.get(modname)
+                    if not depmod:
+                        continue
+                    if not depmod in all_modules:
+                        all_modules.append(depmod)
             i += 1
 
         # 2nd: order them, raise an exception on hard dependency cycle, ignore
@@ -131,11 +133,12 @@ class ModuleSet:
             for modname in module.dependencies:
                 depmod = self.modules[modname]
                 order([self.modules[x] for x in depmod.dependencies], depmod, mode)
-            for modname in module.suggests:
-                depmod = self.modules.get(modname)
-                if not depmod:
-                    continue
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+            if not ignore_suggests:
+                for modname in module.suggests:
+                    depmod = self.modules.get(modname)
+                    if not depmod:
+                        continue
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
             extra_afters = []
             for modname in module.after:
                 depmod = self.modules.get(modname)

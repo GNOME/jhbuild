@@ -528,6 +528,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	<arg>--clean</arg>
 	<arg>--dist</arg>
 	<arg>--distcheck</arg>
+	<arg>--ignore-suggests</arg>
 	<arg>--no-network</arg>
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
@@ -579,6 +580,13 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  <listitem>
 	    <simpara>Run <command>make distcheck</command> after building
 	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--ignore-suggests</option></term>
+	  <listitem>
+	    <simpara>Do not build soft dependencies.</simpara>
 	  </listitem>
 	</varlistentry>
 
@@ -860,6 +868,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<arg>-r</arg>
 	<arg>-s</arg>
 	<arg>--tags=<replaceable>tags</replaceable></arg>
+	<arg>--ignore-suggests</arg>
 	<arg>--list-optional-modules</arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
@@ -910,9 +919,16 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  <term><option>--list-optional-modules</option></term>
 	  <listitem>
             <simpara>Some modules, listed as optional dependencies, may not be
-            required to get to the target module, this option inncludes them
+            required to get to the target module, this option includes them
             nevertheless.</simpara>
           </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--ignore-suggests</option></term>
+	  <listitem>
+	    <simpara>Do not list soft dependencies.</simpara>
+	  </listitem>
 	</varlistentry>
 
       </variablelist>
@@ -1085,13 +1101,15 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
 	<arg>--start-at=<replaceable>module</replaceable></arg>
 	<arg>--tags=<replaceable>tags</replaceable></arg>
+	<arg>--ignore-suggests</arg>
 	<arg>-D <replaceable>date</replaceable></arg>
 	<arg rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The <option>--skip</option>, <option>--start-at</option>,
-      <option>--tags</option> and <option>-D</option> options are processed the
-      same as for <command>build</command>.</para>
+      <option>--tags</option>, <option>--ignore-suggests</option> and
+      <option>-D</option> options are processed the same as for
+      <command>build</command>.</para>
 
     </section>
 
@@ -1267,6 +1285,15 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    </simpara>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term><varname>ignore_suggests</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to ignore
+	    soft dependencies when calculating the dependency tree.
+	    Defaults to <constant>False</constant>.
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	<varlistentry>
 	  <term><varname>interact</varname></term>
 	  <listitem>
