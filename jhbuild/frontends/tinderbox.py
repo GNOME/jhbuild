@@ -147,10 +147,9 @@ def get_distro():
     return None
 
 def escape(string):
-    string = string.replace('&', '&amp;')
     if type(string) is not unicode:
-        string = unicode(string, _encoding, 'xmlcharrefreplace')
-    string = string.replace('<','&lt;').replace(
+        string = unicode(string, _encoding, 'replace')
+    string = string.replace('&', '&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
     return string
