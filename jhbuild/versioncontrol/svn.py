@@ -103,7 +103,7 @@ def get_uri(filename):
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
 
-    init_xml_attrs = ['href', 'trunk-template', 'branch-template', 'tags-template']
+    init_xml_attrs = ['href', 'trunk-template', 'branches-template', 'tags-template']
 
     def __init__(self, config, name, href, trunk_template=None, branches_template=None, tags_template=None):
         Repository.__init__(self, config, name)
@@ -125,36 +125,27 @@ class SubversionRepository(Repository):
                 module = None
                 revision = None
 
-        template = None
-
-        if module:
-            if revision:
-                if not revision.isdigit():
-                    template = self.branches_template
-            elif tag:
-                template = self.tags_template
-        else:
+        if not module:
             module = name
-            if revision:
-                if revision.isdigit():
-                    template = self.trunk_template
-                else:
-                    template = self.branches_template
-            elif tag:
-                template = self.tags_template
-            else:
-                template = self.trunk_template
+
+        if revision and not revision.isdigit():
+            template = self.branches_template
+        elif tag:
+            template = self.tags_template
+        else:
+            template = self.trunk_template
+
+        # Workarounds for people with hacked modulesets
+        if "/" in module or "trunk" == module:
+            template = "%(module)s"
 
         if module_href is None:
-            if template:
-                template = self.href + template
-                module_href = template % {
-                    'module': module,
-                    'branch': revision,
-                    'tag': tag,
-                }
-            else:
-                module_href = urlparse.urljoin(self.href, module)
+            template = self.href + template
+            module_href = template % {
+                'module': module,
+                'branch': revision,
+                'tag': tag,
+            }
 
         if checkoutdir is None:
             checkoutdir = name
