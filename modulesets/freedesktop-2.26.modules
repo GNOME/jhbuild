@@ -41,7 +41,8 @@
       href="http://bzr.collabora.co.uk/bzr/telepathy/"/>
 
   <repository type="svn" name="gypsy.o-hand.com"
-      href="http://svn.o-hand.com/repos/gypsy"/>
+      href="http://svn.o-hand.com/repos/gypsy/"
+      trunk-template="trunk/%(module)s" />
 
   <repository type="cvs" name="lirc.sf.net"
       cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
@@ -198,7 +199,7 @@
   </autotools>
 
   <autotools id="gypsy">
-    <branch repo="gypsy.o-hand.com" module="gypsy/trunk/gypsy"/>
+    <branch repo="gypsy.o-hand.com" module="gypsy"/>
     <dependencies>
       <dep package="dbus-glib"/>
     </dependencies>
@@ -250,8 +251,7 @@
   </autotools>
 
   <autotools id="telepathy-stream-engine">
-    <branch repo="git.collabora.co.uk"
-	    module="stream-engine" checkoutdir="telepathy-stream-engine" />
+    <branch repo="git.collabora.co.uk" />
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="glib"/>
