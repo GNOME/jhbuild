@@ -38,9 +38,9 @@ class cmd_checkmodulesets(Command):
 
             try:
                 if not mod.branch.exists():
-                    uprint(_('E: %(module)s is unreachable!') % {'module': mod.name,})
+                    uprint(_('E: %(module)s is unreachable (%(href)s)') % {'module': mod.name, 'href': mod.branch.module})
             except NotImplementedError:
                 if False:
-                    uprint(_('W: Cannot check %(module)s') % {'module': mod.name,})
+                    uprint(_('W: Cannot check %(module)s (%(href)s)') % {'module': mod.name, 'href': mod.branch.module})
 
 register_command(cmd_checkmodulesets)
