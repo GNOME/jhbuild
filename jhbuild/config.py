@@ -167,6 +167,8 @@ class Config:
             except:
                 raise FatalError(_("Can't create %s directory") % self.prefix)
 
+        os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
+
         # LD_LIBRARY_PATH
         if self.use_lib64:
             libdir = os.path.join(self.prefix, 'lib64')

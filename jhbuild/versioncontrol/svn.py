@@ -50,15 +50,18 @@ if 'svn+ssh' not in urlparse.uses_netloc:
 if 'svn+ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('svn+ssh')
 
-def get_info(filename):
+def get_svn_extra_env():
     # we run Subversion in the C locale, because Subversion localises
     # the key names in the output.  See bug #334678 for more info.
+    #
+    # Also we run it without the JHBuild LD_LIBRARY_PATH, as it can lead to
+    # errors if it picks up jhbuilded gnutls library.  See bug #561191.
+    return { 'LANGUAGE': 'C', 'LC_ALL': 'C', 'LANG': 'C',
+             'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH') }
+
+def get_info(filename):
     output = get_output(
-        ['svn', 'info', filename],
-        extra_env={
-            'LANGUAGE': 'C',
-            'LC_ALL': 'C',
-            'LANG': 'C'})
+        ['svn', 'info', filename], extra_env=get_svn_extra_env())
     ret = {}
     for line in output.splitlines():
         if ':' not in line: continue
@@ -69,11 +72,7 @@ def get_info(filename):
 def get_subdirs(url):
     print _("Getting SVN subdirs: this operation might be long...")
     output = get_output(
-        ['svn', 'ls', '-R', url],
-        extra_env={
-            'LANGUAGE': 'C',
-            'LC_ALL': 'C',
-            'LANG': 'C'})
+        ['svn', 'ls', '-R', url], extra_env=get_svn_extra_env())
     ret = []
     for line in output.splitlines():
         if not line[-1] == '/': continue
@@ -81,12 +80,8 @@ def get_subdirs(url):
     return ret
 
 def get_externals(url):
-    output = get_output(
-        ['svn', 'propget', 'svn:externals', url],
-        extra_env={
-            'LANGUAGE': 'C',
-            'LC_ALL': 'C',
-            'LANG': 'C'})
+    output = get_output(['svn', 'propget', 'svn:externals', url],
+            extra_env=get_svn_extra_env())
     ret = {}
     for line in output.splitlines():
         if ' ' not in line: continue
@@ -198,7 +193,9 @@ class SubversionBranch(Branch):
 
     def exists(self):
         try:
-            get_output(['svn', 'ls', self.module])
+            get_output(['svn', 'ls', self.module], extra_env={
+                'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
+                })
             return True
         except:
             return False
@@ -214,7 +211,8 @@ class SubversionBranch(Branch):
         elif self.config.sticky_date:
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
-        buildscript.execute(cmd, 'svn', cwd=self.checkoutroot)
+        buildscript.execute(cmd, 'svn', cwd=self.checkoutroot,
+                extra_env = get_svn_extra_env())
     
     def _checkout(self, buildscript, copydir=None):
         cmd = ['svn', 'checkout', self.module]
@@ -231,9 +229,11 @@ class SubversionBranch(Branch):
             cmd.extend(['-r', '{%s}' % self.config.sticky_date])
 
         if copydir:
-            buildscript.execute(cmd, 'svn', cwd=copydir)
+            buildscript.execute(cmd, 'svn', cwd=copydir,
+                    extra_env=get_svn_extra_env())
         else:
-            buildscript.execute(cmd, 'svn', cwd=self.config.checkoutroot)
+            buildscript.execute(cmd, 'svn', cwd=self.config.checkoutroot,
+                    extra_env=get_svn_extra_env())
 
     def _update(self, buildscript, copydir=None):
         opt = []
@@ -256,7 +256,8 @@ class SubversionBranch(Branch):
         # and add appropriate flags to get back 1.4 behaviour.
         global svn_one_five
         if svn_one_five is None:
-            svn_one_five = check_version(['svn', '--version'], r'svn, version ([\d.]+)', '1.5')
+            svn_one_five = check_version(['svn', '--version'], r'svn, version ([\d.]+)', '1.5',
+                    extra_env=get_svn_extra_env())
 
         if svn_one_five is True:
             opt.extend(['--accept', 'postpone'])
@@ -269,7 +270,8 @@ class SubversionBranch(Branch):
             new_uri = urlparse.urlunparse(
                     urlparse.urlparse(self.module)[:2] + urlparse.urlparse(uri)[2:])
             cmd = ['svn', 'switch', '--relocate', uri, new_uri, '.']
-            buildscript.execute(cmd, 'svn', cwd=outputdir)
+            buildscript.execute(cmd, 'svn', cwd=outputdir,
+                    extra_env=get_svn_extra_env())
 
         # if the URI doesn't match, use "svn switch" instead of "svn update"
         if get_uri(outputdir) != self.module:
@@ -277,23 +279,22 @@ class SubversionBranch(Branch):
         else:
             cmd = ['svn', 'update'] + opt + ['.']
 
-        buildscript.execute(cmd, 'svn', cwd=outputdir)
+        buildscript.execute(cmd, 'svn', cwd=outputdir,
+                extra_env=get_svn_extra_env())
 
         try:
             self._check_for_conflicts()
         except CommandError:
             # execute svn status so conflicts are displayed
-            buildscript.execute(['svn', 'status'], 'svn', cwd=self.srcdir)
+            buildscript.execute(['svn', 'status'], 'svn', cwd=self.srcdir,
+                    extra_env=get_svn_extra_env())
             raise
 
     def _check_for_conflicts(self):
         kws = {}
         kws['cwd'] = self.srcdir
         kws['env'] = os.environ.copy()
-        extra_env={
-            'LANGUAGE': 'C',
-            'LC_ALL': 'C',
-            'LANG': 'C'}
+        extra_env = get_svn_extra_env()
         kws['env'].update(extra_env)
         try:
             output = subprocess.Popen(['svn', 'info', '-R'],

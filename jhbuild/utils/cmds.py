@@ -214,9 +214,9 @@ def has_command(cmd):
             return True
     return False
 
-def check_version(cmd, regexp, minver):
+def check_version(cmd, regexp, minver, extra_env=None):
     try:
-        data = get_output(cmd)
+        data = get_output(cmd, extra_env=extra_env)
     except:
         return False
     match = re.match(regexp, data, re.MULTILINE)

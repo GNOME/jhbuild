@@ -1,5 +1,11 @@
 2008-11-17  Frederic Peters  <fpeters@0d.be>
 
+	* jhbuild/utils/cmds.py, jhbuild/versioncontrol/svn.py,
+	jhbuild/config.py: keep a copy of LD_LIBRARY_PATH; and use it when
+	calling svn, to avoid gnutls library mismatch.  (closes: #561191)
+
+2008-11-17  Frederic Peters  <fpeters@0d.be>
+
 	* modulesets/bootstrap.modules: removed pyxml, as GStreamer doesn't
 	depend on it any longer (it was #519635).
 
