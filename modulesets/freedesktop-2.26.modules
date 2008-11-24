@@ -349,4 +349,23 @@
   <!-- ############ End of Telepathy Stuff ############ -->
   <!-- ################################################ -->
 
+  <!-- librsvg needed for optional support to SVG images         -->
+  <!-- gtk+ needed for optional support to GTK+ primitives       -->
+  <!-- libsoup WIP optional support to SVG fragments             -->
+  <!-- clutter-cairo WIP optional support to... clutter-cairo :) -->
+  <!-- Feel free to change depend/suggest status                 -->
+  <autotools id="libccss">
+    <branch repo="git.freedesktop.org"
+	    module="ccss" checkoutdir="libccss"/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="librsvg"/>
+      <dep package="gtk+"/>
+    </dependencies>
+    <suggests>
+      <dep package="libsoup"/>
+      <dep package="clutter-cairo"/>
+    </suggests>
+  </autotools>
+
 </moduleset>
