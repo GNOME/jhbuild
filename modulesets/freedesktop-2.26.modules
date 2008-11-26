@@ -40,10 +40,6 @@
   <repository type="bzr" name="telepathy-msn.freedesktop.org"
       href="http://bzr.collabora.co.uk/bzr/telepathy/"/>
 
-  <repository type="svn" name="gypsy.o-hand.com"
-      href="http://svn.o-hand.com/repos/gypsy/"
-      trunk-template="trunk/%(module)s" />
-
   <repository type="cvs" name="lirc.sf.net"
       cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
       password=""/>
@@ -188,6 +184,16 @@
     </suggests>
   </autotools>
 
+  <autotools id="gypsy">
+    <branch repo="git.freedesktop.org"
+	    module="gypsy" checkoutdir="gypsy"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+      <dep package="bluez"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="geoclue">
     <branch repo="git.freedesktop.org"/>
     <dependencies>
@@ -195,13 +201,6 @@
       <dep package="gconf"/>
       <dep package="NetworkManager"/>
       <dep package="gypsy"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gypsy">
-    <branch repo="gypsy.o-hand.com" module="gypsy"/>
-    <dependencies>
-      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
