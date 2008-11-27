@@ -135,7 +135,7 @@ class JHBuildCheckCommand(JHBuildCommand):
         self.addLogObserver('stdio', UnitTestsObserver())
 
     def evaluateCommand(self, cmd):
-        if self.failedTestsCount > 0:
+        if self.failedTestsCount > 0 or cmd.rc != 0:
             return WARNINGS
         else:
             return SUCCESS
@@ -224,12 +224,22 @@ class JHBuildModulePathCommand(steps.shell.ShellCommand):
         command = ["jhbuild"]
         if (moduleset is not None):
             command += ['--moduleset='+moduleset]
-        command += ['run', '--in-builddir', module, '--', action]
-        self.name=module+" "+" ".join(action)
-        self.description = [" ".join(action) + '(run)']
-        self.descriptionDone = [" ".join(action)]
+        actionParts = action.split(" ")
+        command += ['run', '--in-builddir', module, '--']
+        command += actionParts
+        self.name=module + " " + kwargs['actionName']
+        self.description = [kwargs['actionName'] + ' (running)']
+        self.descriptionDone = [kwargs['actionName']]
         steps.shell.ShellCommand.__init__(self, description=self.description,
                                    descriptionDone=self.descriptionDone, command=command, **kwargs)
+
+    def evaluateCommand(self, cmd):
+        if self.haltOnFailure and cmd.rc != 0:
+            return FAILURE
+        elif cmd.rc != 0:
+            return WARNINGS
+        else:
+            return SUCCESS	
 
     def createSummary(self, log):
         output = StringIO.StringIO(log.getText())
