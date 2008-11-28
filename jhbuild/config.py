@@ -197,6 +197,14 @@ class Config:
         addpath('MANPATH', manpathdir)
 
         # PKG_CONFIG_PATH
+        if os.environ.get('PKG_CONFIG_PATH') is None:
+            # add system pkgconfig lookup-directories by default, as pkg-config
+            # usage spread and is now used by libraries that are out of jhbuild
+            # realm; this also helps when building a single module with
+            # jhbuild.  It is possible to avoid this by setting PKG_CONFIG_PATH
+            # to the empty string.
+            addpath('PKG_CONFIG_PATH', '/usr/share/pkgconfig')
+            addpath('PKG_CONFIG_PATH', '/usr/lib/pkgconfig')
         pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
         addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
