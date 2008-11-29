@@ -105,6 +105,8 @@
     href="git://diracvideo.org/git/"/>
   <repository type="git" name="git.collabora"
       href="git://git.collabora.co.uk/git/"/>
+  <repository type="bzr" name="bzr.dvb-daemon.gnome.org"
+    href="http://www.gnome.org/~sebp/bzr/"/>
 
   <include href="freedesktop-2.26.modules"/>
   <include href="gnome-suites-2.26.modules"/>
@@ -2197,6 +2199,21 @@
     <suggests>
       <dep package="gtkspell"/>
     </suggests>
+  </autotools>
+
+  <autotools id="dvb-daemon">
+    <branch repo="bzr.dvb-daemon.gnome.org"
+            module="dvb-daemon"
+            checkoutdir="dvb-daemon/"/>
+   <dependencies>
+     <dep package="glib"/>
+     <dep package="gstreamer"/>
+     <dep package="gst-plugins-bad"/>
+     <dep package="dbus-glib"/>
+     <dep package="libgee"/>
+     <dep package="gconf"/>
+     <dep package="sqlite3"/>
+   </dependencies>
   </autotools>
 
 </moduleset>
