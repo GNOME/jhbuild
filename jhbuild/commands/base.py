@@ -31,9 +31,9 @@ from jhbuild.commands import Command, register_command
 
 
 def parse_relative_time(s):
-    m = re.match(r'(\d+) *([smhd])', s.lower())
+    m = re.match(r'(\d+) *([smhdw])', s.lower())
     if m:
-        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400}
+        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
         return float(m.group(1)) * coeffs[m.group(2)]
     else:
         raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
@@ -253,7 +253,10 @@ class cmd_build(Command):
         if options.force_policy:
             config.build_policy = 'all'
         if options.min_age:
-            config.min_time = time.time() - parse_relative_time(options.min_age)
+            try:
+                config.min_time = time.time() - parse_relative_time(options.min_age)
+            except ValueError:
+                raise FatalError(_('Failed to parse relative time'))
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
@@ -336,7 +339,10 @@ class cmd_buildone(Command):
         if options.force_policy:
             config.build_policy = 'all'
         if options.min_age:
-            config.min_time = time.time() - parse_relative_time(options.min_age)
+            try:
+                config.min_time = time.time() - parse_relative_time(options.min_age)
+            except ValueError:
+                raise FatalError(_('Failed to parse relative time'))
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
