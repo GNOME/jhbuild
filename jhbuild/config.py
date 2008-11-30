@@ -203,8 +203,10 @@ class Config:
             # realm; this also helps when building a single module with
             # jhbuild.  It is possible to avoid this by setting PKG_CONFIG_PATH
             # to the empty string.
-            addpath('PKG_CONFIG_PATH', '/usr/share/pkgconfig')
-            addpath('PKG_CONFIG_PATH', '/usr/lib/pkgconfig')
+            for dirname in ('share', 'lib', 'lib64'):
+                full_name = '/usr/%s/pkgconfig' % dirname
+                if os.path.exists(full_name):
+                    addpath('PKG_CONFIG_PATH', full_name)
         pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
         addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
