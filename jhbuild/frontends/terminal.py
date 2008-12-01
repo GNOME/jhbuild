@@ -95,8 +95,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             self.display_status_line(progress_percent, module_num, msg)
 
         if is_xterm:
-            sys.stdout.write('\033]0;jhbuild:%s%s\007' % (
-                        msg.encode('iso-8859-1'), progress))
+            sys.stdout.write('\033]0;jhbuild:%s%s\007' % (uencode(msg), progress))
             sys.stdout.flush()
         self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
