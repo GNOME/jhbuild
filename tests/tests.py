@@ -166,9 +166,21 @@ class ModuleOrderingTestCase(unittest.TestCase):
         # see http://bugzilla.gnome.org/show_bug.cgi?id=546640
         self.moduleset.modules['foo'] # gtk-doc
         self.moduleset.modules['bar'].dependencies = ['foo'] # meta-bootstrap
+        self.moduleset.modules['bar'].type = 'meta'
         self.moduleset.modules['baz'].after = ['bar'] # cairo
         self.moduleset.modules['qux'].dependencies = ['baz'] # meta-stuff
         self.assertEqual(self.get_module_list(['qux', 'foo']), ['foo', 'baz', 'qux'])
+
+    def test_dependency_chain_recursive_after_dependencies(self):
+        '''A chain dependency with an <after> module depending on an inversed relation'''
+        # see http://bugzilla.gnome.org/show_bug.cgi?id=546640
+        self.moduleset.modules['foo'] # nautilus
+        self.moduleset.modules['bar'] # nautilus-cd-burner
+        self.moduleset.modules['baz'] # tracker
+        self.moduleset.modules['foo'].after = ['baz']
+        self.moduleset.modules['bar'].dependencies = ['foo']
+        self.moduleset.modules['baz'].dependencies = ['bar']
+        self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
 
 
 class BuildTestCase(unittest.TestCase):

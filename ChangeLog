@@ -1,3 +1,19 @@
+2008-12-08  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/moduleset.py, tests/tests.py: do not assume after/suggests
+	modules have a relationship of after/suggests with their dependencies.
+	nautilus after tracker, nautilus-cd-burner depends on nautilus, tracker
+	depends on nautilus-cd-burner, the <after> would be evaluated first and
+	would transform the dependency of nautilus-cd-burner into an <after>,
+	ignoring it as it would cycle, causing nautilus-cd-burner to be built
+	before nautilus.  (closes: #563597)
+
+2008-12-08  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/moduleset.py, tests/tests.py: do not let <after> introduce
+	new dependencies unless explicitely pointing to a <metamodule>.
+	(closes: #563597)
+
 2008-12-06  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-suites-2.24.modules: gtksourceview, pygtksourceview,

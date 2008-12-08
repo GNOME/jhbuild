@@ -102,12 +102,12 @@ class ModuleSet:
 
         # 2nd: order them, raise an exception on hard dependency cycle, ignore
         # them for soft dependencies
-        ordered = []
-        state = {}
+        self._ordered = []
+        self._state = {}
 
         for modname in skip:
             # mark skipped modules as already processed
-            state[self.modules.get(modname)] = 'processed'
+            self._state[self.modules.get(modname)] = 'processed'
 
         if tags:
             for modname in self.modules:
@@ -116,29 +116,34 @@ class ModuleSet:
                         break
                 else:
                     # no tag matched, mark module as processed
-                    state[self.modules[modname]] = 'processed'
+                    self._state[self.modules[modname]] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
-            if state.get(module, 'clean') == 'processed':
+            if self._state.get(module, 'clean') == 'processed':
                 # already seen
                 return
-            if state.get(module, 'clean') == 'in-progress':
+            if self._state.get(module, 'clean') == 'in-progress':
                 # dependency circle, abort when processing hard dependencies
-                if mode == 'dependencies' and not ignore_cycles:
+                if not ignore_cycles:
                     raise DependencyCycleError()
                 else:
-                    state[module] = 'in-progress'
+                    self._state[module] = 'in-progress'
                     return
-            state[module] = 'in-progress'
+            self._state[module] = 'in-progress'
             for modname in module.dependencies:
                 depmod = self.modules[modname]
-                order([self.modules[x] for x in depmod.dependencies], depmod, mode)
+                order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
             if not ignore_suggests:
                 for modname in module.suggests:
                     depmod = self.modules.get(modname)
                     if not depmod:
                         continue
-                    order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+                    save_state, save_ordered = self._state.copy(), self._ordered[:]
+                    try:
+                        order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+                    except DependencyCycleError:
+                        self._state, self._ordered = save_state, save_ordered
+
             extra_afters = []
             for modname in module.after:
                 depmod = self.modules.get(modname)
@@ -158,22 +163,35 @@ class ModuleSet:
                     # full list of hard dependencies, getting it into
                     # extra_afters, so they are also evaluated.
                     # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
-                    dep_modules = self.get_module_list(seed=[depmod.name])
-                    for m in dep_modules:
+                    t_ms = ModuleSet(self.config)
+                    t_ms.modules = self.modules.copy()
+                    dep_modules = t_ms.get_module_list(seed=[depmod.name])
+                    for m in dep_modules[:-1]:
                         if m in all_modules:
                             extra_afters.append(m)
                     continue
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                save_state, save_ordered = self._state.copy(), self._ordered[:]
+                try:
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                except DependencyCycleError:
+                    self._state, self._ordered = save_state, save_ordered
             for depmod in extra_afters:
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
-            state[module] = 'processed'
-            ordered.append(module)
+                save_state, save_ordered = self._state.copy(), self._ordered[:]
+                try:
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                except DependencyCycleError:
+                    self._state, self._ordered = save_state, save_ordered
+            self._state[module] = 'processed'
+            self._ordered.append(module)
 
         for i, module in enumerate(all_modules):
             order([], module)
             if i+1 == len(asked_modules): 
                 break
 
+        ordered = self._ordered[:]
+        del self._ordered
+        del self._state
         return ordered
     
     def get_full_module_list(self, skip=[], ignore_cycles=False):
