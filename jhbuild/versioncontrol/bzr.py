@@ -40,43 +40,55 @@ if 'sftp' not in urlparse.uses_relative:
 class BzrRepository(Repository):
     """A class representing a Bzr repository.
 
-    Note that this is just the parent directory for a bunch of darcs
-    branches, making it easy to switch to a mirror URI.
-
     It can be a parent of a number of Bzr repositories or branches.
     """
 
-    init_xml_attrs = ['href', 'trunk-path']
+    init_xml_attrs = ['href', 'trunk-template', 'branches-template']
 
-    def __init__(self, config, name, href, trunk_path=''):
+    def __init__(self, config, name, href, trunk_template='%(module)s', branches_template=''):
         Repository.__init__(self, config, name)
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
-        self.trunk_path = trunk_path
+        self.trunk_template = trunk_template
+        self.branches_template = branches_template
 
-    branch_xml_attrs = ['module', 'checkoutdir']
+    branch_xml_attrs = ['module', 'checkoutdir', 'revision', 'tag']
 
-    def branch(self, name, module=None, checkoutdir=None):
+    def branch(self, name, module=None, checkoutdir=None, revision=None, tag=None):
+        module_href = None
         if name in self.config.branches:
-            module = self.config.branches[name]
-            if not module:
+            module_href = self.config.branches[name]
+            if not module_href:
                 raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
+
+        if module is None:
+            module = name
+
+        if revision and not revision.isdigit():
+            template = urlparse.urljoin(self.href, self.branches_template)
         else:
-            if module is None:
-                if self.trunk_path:
-                    module = name + "/" + self.trunk_path
-                else:
-                    module = name
-            module = urlparse.urljoin(self.href, module)
+            template = urlparse.urljoin(self.href, self.trunk_template)
+
+        if not module_href:
+            module_href = template % {
+                'module': module,
+                'revision': revision,
+                'branch': revision,
+                'tag': tag
+            }
 
         if checkoutdir is None:
             checkoutdir = name
 
-        return BzrBranch(self, module, checkoutdir)
+        return BzrBranch(self, module_href, checkoutdir, tag)
 
 
 class BzrBranch(Branch):
-    """A class representing a Darcs branch."""
+    """A class representing a Bazaar branch."""
+
+    def __init__(self, repository, module_href, checkoutdir, tag):
+        Branch.__init__(self, repository, module_href, checkoutdir)
+        self.tag = tag
 
     def srcdir(self):
         if self.checkoutdir:
@@ -102,6 +114,9 @@ class BzrBranch(Branch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
+        if self.tag:
+            cmd.append('-rtag:%s' % self.tag)
+
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
 
@@ -113,6 +128,8 @@ class BzrBranch(Branch):
         cmd = ['bzr', 'pull']
         if overwrite:
             cmd.append('--overwrite')
+        if self.tag:
+            cmd.append('-rtag:%s' % self.tag)
         cmd.append(self.module)
         buildscript.execute(cmd, 'bzr', cwd=self.srcdir)
 

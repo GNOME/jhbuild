@@ -5,8 +5,9 @@
 <moduleset>
   <repository type="svn" name="svn.gnome.org" default="yes"
       href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
+    <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
+      trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
+    <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
