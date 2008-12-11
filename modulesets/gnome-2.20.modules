@@ -45,6 +45,8 @@
     href="http://gtk-vnc.codemonkey.ws/hg/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/clutter/"/>
+  <repository type="git" name="git.freedesktop.org"
+      href="git://anongit.freedesktop.org/git/"/>
 
   <include href="freedesktop-2.20.modules"/>
   <include href="gnome-suites-2.20.modules"/>
@@ -1095,7 +1097,8 @@
   </autotools>
 
   <autotools id="NetworkManager">
-    <branch module="NetworkManager/branches/NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
+    <branch repo="git.freedesktop.org"
+	    module="NetworkManager" revision="NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
