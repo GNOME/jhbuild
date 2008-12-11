@@ -21,7 +21,7 @@
 import os
 
 from jhbuild.utils import packagedb
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 
 class BuildScript:
     def __init__(self, config, module_list):
@@ -64,6 +64,27 @@ class BuildScript:
         gives a hint about the type of output to expect.
         '''
         raise NotImplementedError
+
+    def start_clean(self):
+        '''Hook to perform actions at start of clean.'''
+        pass
+
+    def end_clean(self):
+        '''Hook to perform actions at end of clean.'''
+        pass
+
+    def clean(self):
+        self.start_clean()
+
+        for module in self.modulelist:
+            try:
+                module.do_clean(self)
+            except CommandError:
+                self.message(_('Failed to clean %s') % module.name)
+
+        self.end_clean()
+        return 0
+
 
     def build(self):
         '''start the build of the current configuration'''

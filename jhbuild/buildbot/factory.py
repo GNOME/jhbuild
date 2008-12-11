@@ -38,8 +38,7 @@ class JHBuildFactory(factory.BuildFactory):
         self.addStep(JHBuildCheckCommand, moduleset=self.moduleset, module=self.module)
 #	self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset, module=self.module, action='module-reports.sh', 
 #                     haltOnFailure = False, actionName='coverage')
-	self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset, module=self.module, action='make clean', 
-                     haltOnFailure = False, actionName='clean')
+	self.addStep(JHBuildCommand, stage='clean', moduleset=self.moduleset, module=self.module)
 
     def newBuild(self, request):
         return factory.BuildFactory.newBuild(self, request)

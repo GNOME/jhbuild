@@ -149,6 +149,9 @@ class cmd_bot(Command):
                 config.makecheck = True
                 config.forcecheck = True
                 config.build_policy = 'all'
+            elif args[0] == 'clean':
+                command = 'cleanone'
+                args.append('--honour-config')
             else:
                 command = args[0]
             os.environ['TERM'] = 'dumb'

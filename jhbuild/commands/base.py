@@ -131,6 +131,42 @@ class cmd_updateone(Command):
 register_command(cmd_updateone)
 
 
+class cmd_cleanone(Command):
+    doc = _('Clean one or more modules')
+
+    name = 'cleanone'
+    usage_args = '[ options ... ] [ modules ... ]'
+
+    def __init__(self):
+        Command.__init__(self, [
+            make_option('--honour-config',
+                        action='store_true', dest='honour_config', default=False,
+                        help=_('honour the makeclean setting in config file')),
+            ])
+
+    def run(self, config, options, args):
+        if options.honour_config is False:
+            config.makeclean = True
+        module_set = jhbuild.moduleset.load(config)
+        try:
+            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
+        except KeyError, e:
+            raise FatalError(_("A module called '%s' could not be found.") % e)
+
+        if not module_list:
+            self.parser.error(_('This command requires a module parameter.'))
+
+        if not config.makeclean:
+            print >> sys.stderr, uencode(
+                    _('I: clean command called while makeclean is set to False, skipped.'))
+            return 0
+
+        build = jhbuild.frontends.get_buildscript(config, module_list)
+        return build.clean()
+
+register_command(cmd_cleanone)
+
+
 def check_bootstrap_updateness(config):
     '''Check install date of bootstrap modules, and compare them to
        the bootstrap moduleset file last modification date.
