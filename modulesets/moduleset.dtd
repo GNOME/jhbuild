@@ -2,7 +2,7 @@
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
-<!ELEMENT repository (mirror?)>
+<!ELEMENT repository (mirror*)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
 	type	 (bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
@@ -23,6 +23,8 @@
 <!ELEMENT mirror EMPTY>
 <!ATTLIST mirror
 	type	(bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
+	trunk-template CDATA #IMPLIED
+	branches-template CDATA #IMPLIED
 	href	CDATA  #IMPLIED>
 
 <!ELEMENT include EMPTY>
