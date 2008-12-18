@@ -281,3 +281,14 @@ class Config:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
+    def __setattr__(self, k, v):
+        '''Override __setattr__ for additional checks on some options.'''
+        if k == 'quiet_mode' and v:
+            try:
+                import curses
+            except ImportError:
+                print >> sys.stderr, uencode(
+                        _('W: quiet mode has been disabled because the Python curses module is missing.'))
+                v = False
+
+        self.__dict__[k] = v
