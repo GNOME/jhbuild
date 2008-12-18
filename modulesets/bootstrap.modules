@@ -18,10 +18,19 @@
 	    size="11640890" md5sum="58a2bc6d39c0ba57823034d55d65d606" />
   </autotools>
 
+  <autotools id="m4" autogen-sh="configure">
+    <branch  repo="ftp.gnu.org"
+             module="m4/m4-1.4.11.tar.bz2" version="1.4.11"
+             size="928910" md5sum="96ec473c2a6f203976c028e896a01b28" />
+  </autotools>
+
   <autotools id="autoconf" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
 	    module="autoconf/autoconf-2.62.tar.bz2" version="2.62"
 	    size="1165951" md5sum="e1fb8fe0b22e651240afdfa2be537a3c" />
+    <dependencies>
+      <dep package="m4"/>
+    </dependencies>
   </autotools>
 
   <autotools id="libtool" autogen-sh="configure">
