@@ -105,6 +105,9 @@ class Config:
             raise FatalError(_('could not load config defaults'))
         config['__file__'] = filename
         self.filename = filename
+        if not os.path.exists(filename):
+            raise FatalError(_('could not load config file, %s is missing') % filename)
+
         try:
             execfile(filename, config)
         except Exception:
