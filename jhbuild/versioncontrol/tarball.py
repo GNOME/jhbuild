@@ -173,7 +173,7 @@ class TarballBranch(Branch):
             # don't have the tarball, try downloading it and check again
             if has_command('wget'):
                 res = buildscript.execute(
-                        ['wget', self.module, '-O', localfile])
+                        ['wget', '--continue', self.module, '-O', localfile])
             elif has_command('curl'):
                 res = buildscript.execute(
                         ['curl', '-L', self.module, '-o', localfile])
