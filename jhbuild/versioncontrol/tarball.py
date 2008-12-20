@@ -176,7 +176,7 @@ class TarballBranch(Branch):
                         ['wget', '--continue', self.module, '-O', localfile])
             elif has_command('curl'):
                 res = buildscript.execute(
-                        ['curl', '-L', self.module, '-o', localfile])
+                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile])
             else:
                 raise FatalError(_("unable to find wget or curl"))
 
