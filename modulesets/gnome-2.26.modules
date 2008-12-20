@@ -2209,6 +2209,18 @@
     </suggests>
   </autotools>
 
+  <autotools id="gst-rtsp-server">
+    <branch repo="git.capuchin.gnome.org"
+            module="gst-rtsp-server.git"
+            checkoutdir="gst-rtsp-server"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-bad"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="dvb-daemon">
     <branch repo="bzr.dvb-daemon.gnome.org"
             module="dvb-daemon"
@@ -2216,6 +2228,7 @@
    <dependencies>
      <dep package="glib"/>
      <dep package="gstreamer"/>
+     <dep package="gst-rtsp-server"/>
      <dep package="vala-trunk"/>
      <dep package="gst-plugins-bad"/>
      <dep package="dbus-glib"/>
