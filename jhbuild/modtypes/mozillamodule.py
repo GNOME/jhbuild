@@ -165,6 +165,13 @@ class MozillaModule(AutogenModule):
     do_install.next_state = AutogenModule.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        # NB, we don't do cvsroot or revision. That should probably be
+        # done with branches.
+        return 'mozillamodule', [('id', 'name', None),
+                                 ('autogenargs', 'autogenargs', ''),
+                                 ('makeargs', 'makeargs', '')]
+
 def parse_mozillamodule(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
     projects = node.getAttribute('projects')

@@ -126,6 +126,9 @@ class CMakeModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return 'cmake', [('id', 'name', None)]
+
 
 def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')

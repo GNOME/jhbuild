@@ -291,6 +291,19 @@ class AutogenModule(Package):
     do_force_distclean.next_state = STATE_CONFIGURE
     do_force_distclean.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return ('autotools',
+                [('autogenargs', 'autogenargs', ''),
+                 ('id', 'name', None),
+                 ('makeargs', 'makeargs', ''),
+                 ('makeinstallargs', 'makeinstallargs', ''),
+                 ('supports-non-srcdir-builds',
+                  'supports_non_srcdir_builds', True),
+                 ('skip-autogen', 'skip_autogen', False),
+                 ('autogen-sh', 'autogen_sh', 'autogen.sh'),
+                 ('makefile', 'makefile', 'Makefile'),
+                 ('autogen-template', 'autogen_template', None)])
+
 
 def parse_autotools(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')

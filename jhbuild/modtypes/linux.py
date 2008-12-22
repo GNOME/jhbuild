@@ -189,6 +189,11 @@ class LinuxModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return 'linux', [('id', 'name', None),
+                         ('makeargs', 'makeargs', '')]
+
+
 def get_kconfigs(node, repositories, default_repo):
     id = node.getAttribute('id')
 

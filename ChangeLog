@@ -1,3 +1,36 @@
+2008-12-22  Andy Wingo  <wingo@pobox.com>
+
+	* jhbuild/commands/snapshot.py: New file, implements the new
+	command, "jhbuild snapshot". (closes: #564873)
+
+	* jhbuild/utils/sxml.py: New helper lib for xml serialization.
+
+	* jhbuild/versioncontrol/svn.py (SubversionRepository.to_sxml)
+	(SubversionBranch.to_sxml):
+	* jhbuild/versioncontrol/git.py (GitRepository.to_sxml)
+	(GitBranch.to_sxml):
+	* jhbuild/versioncontrol/tarball.py (TarballRepository.to_sxml)
+	(TarballBranch.to_sxml):
+	* jhbuild/versioncontrol/__init__.py (Repository.to_sxml)
+	(Branch.to_sxml):
+	* jhbuild/versioncontrol/cvs.py (CVSRepository.to_sxml)
+	(CVSBranch.to_sxml):
+	* jhbuild/modtypes/__init__.py (Package.to_sxml)
+	(MetaModule.to_sxml): Plug in to_sxml() methods for serialization.
+
+	* jhbuild/modtypes/autotools.py (AutogenModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule):
+	* jhbuild/modtypes/waf.py (WafModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/linux.py (LinuxModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/perl.py (PerlModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/ant.py (AntModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/distutils.py (DistutilsModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/mesa.py (MesaModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/testmodule.py (TestModule.xml_tag_and_attrs):
+	Plug bits so we can serialize all the types of modules. There are
+	still some version control backends that aren't yet serialized
+	though.
+
 2008-12-22  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/bootstrap.modules: removed python patch for the time being

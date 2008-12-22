@@ -60,6 +60,10 @@ class Repository:
             kws['branch_id'] = branchnode.getAttribute('id')
         return self.branch(name, **kws)
 
+    def to_sxml(self):
+        """Return an sxml representation of this repository."""
+        raise NotImplementedError
+
 
 class Branch:
     """An abstract class representing a branch in a repository."""
@@ -114,6 +118,10 @@ class Branch:
          fromdir = os.path.join(copydir, os.path.basename(module))
          todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
          buildscript.execute(['cp', '-R', fromdir, todir])
+
+    def to_sxml(self):
+        """Return an sxml representation of this checkout."""
+        raise NotImplementedError
 
 _repo_types = {}
 def register_repo_type(name, repo_class):

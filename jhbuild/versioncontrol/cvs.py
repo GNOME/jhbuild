@@ -36,6 +36,7 @@ import git
 from jhbuild.errors import BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 
 # table used to scramble passwords in ~/.cvspass files
@@ -205,6 +206,9 @@ class CVSRepository(Repository):
                          update_new_dirs=update_new_dirs != 'no',
                          override_checkoutdir=override_checkoutdir != 'no')
 
+    def to_sxml(self):
+        return [sxml.repository(type='cvs', name=self.name, cvsroot=self.cvsroot)]
+
 
 class CVSBranch(Branch):
     """A class representing a CVS branch inside a CVS repository"""
@@ -322,5 +326,11 @@ class CVSBranch(Branch):
         md5sum = hashlib.md5()
         _process_directory(self.srcdir, '', md5sum.update)
         return 'jhbuild-cvs-treeid:%s' % md5sum.hexdigest()
+
+    def to_sxml(self):
+        # FIXME: fix the current revision
+        return [sxml.branch(repo=self.repository.name,
+                            module=self.module)]
+
 
 register_repo_type('cvs', CVSRepository)

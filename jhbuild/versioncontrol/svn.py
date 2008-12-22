@@ -28,6 +28,7 @@ from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 import bzr, git
 
@@ -100,6 +101,13 @@ def get_uri(filename):
                               % filename)
     return info['url']
 
+def call_with_info(proc, filename, *keys):
+    info = get_info(filename)
+    try:
+        return proc(*[info[k] for k in keys])
+    except KeyError:
+        return None
+
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
 
@@ -160,6 +168,9 @@ class SubversionRepository(Repository):
             return git.GitSvnBranch(self, module_href, checkoutdir, revision)
         else:
             return SubversionBranch(self, module_href, name, checkoutdir, revision)
+
+    def to_sxml(self):
+        return [sxml.repository(type='svn', name=self.name, href=self.href)]
 
 
 class SubversionBranch(Branch):
@@ -345,6 +356,15 @@ class SubversionBranch(Branch):
             path = path[1:]
 
         return '%s,%s,%s' % (uuid.lower(), rev, path)
+
+    def to_sxml(self):
+        return (call_with_info(lambda rev:
+                                   [sxml.branch(repo=self.repository.name,
+                                                module=self.module,
+                                                revision=rev)],
+                               self.srcdir, 'last changed rev')
+                or [sxml.branch(repo=self.repository.name,
+                                module=self.module)])
 
 
 register_repo_type('svn', SubversionRepository)

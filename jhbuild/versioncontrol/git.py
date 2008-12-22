@@ -33,6 +33,7 @@ from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 import jhbuild.versioncontrol.svn
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 # Make sure that the urlparse module considers git:// and git+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
@@ -79,6 +80,9 @@ class GitRepository(Repository):
                 module = name
             module = urlparse.urljoin(self.href, module)
         return GitBranch(self, module, subdir, checkoutdir, revision, tag)
+
+    def to_sxml(self):
+        return [sxml.repository(type='git', name=self.name, href=self.href)]
 
 
 class GitBranch(Branch):
@@ -261,6 +265,15 @@ class GitBranch(Branch):
         except GitUnknownBranchNameError:
             return None
         return output.strip()
+
+    def to_sxml(self):
+        attrs = {}
+        if self.branch:
+            attrs['branch'] = self.branch
+        return [sxml.branch(repo=self.repository.name,
+                            module=self.module,
+                            tag=self.tree_id(),
+                            **attrs)]
 
 
 class GitSvnBranch(GitBranch):

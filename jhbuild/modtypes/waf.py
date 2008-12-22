@@ -176,6 +176,10 @@ class WafModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return 'waf', [('id', 'name', None),
+                       ('waf-command', 'waf_cmd', 'waf')]
+
 
 def parse_waf(node, config, uri, repositories, default_repo):
     module_id = node.getAttribute('id')

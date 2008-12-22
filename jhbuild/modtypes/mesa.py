@@ -130,6 +130,10 @@ class MesaModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return 'mesa', [('id', 'name', None),
+                        ('makeargs', 'makeargs', '')]
+
 
 def parse_mesa(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')

@@ -102,6 +102,10 @@ class PerlModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def xml_tag_and_attrs(self):
+        return 'perl', [('id', 'name', None),
+                         ('makeargs', 'makeargs', '')]
+
 
 def parse_perl(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')

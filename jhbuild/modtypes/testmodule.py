@@ -342,6 +342,9 @@ class TestModule(Package):
                 if e.returncode != 0:
                     raise BuildStateError('%s failed' % test_case)
 
+    def xml_tag_and_attrs(self):
+        return 'testmodule', [('id', 'name', None),
+                              ('type', 'test_type', None)]
 
 def get_tested_packages(node):
     tested_pkgs = []

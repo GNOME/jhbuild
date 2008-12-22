@@ -30,6 +30,7 @@ __all__ = [
 import os
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.utils.sxml import sxml
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -234,6 +235,44 @@ class Package:
             return True
         return False
 
+    def xml_tag_and_attrs(self):
+        """Return a (tag, attrs) pair, describing how to serialize this
+        module.
+
+        "attrs" is expected to be a list of (xmlattrname, pyattrname,
+        default) tuples. The xmlattr will be serialized iff
+        getattr(self, pyattrname) != default. See AutogenModule for an
+        example."""
+        raise NotImplementedError
+
+    def to_sxml(self):
+        """Serialize this module as sxml.
+
+        By default, calls sxml_tag_and_attrs() to get the tag name and
+        attributes, serializing those attribute values that are
+        different from their defaults, and embedding the dependencies
+        and checkout branch. You may however override this method to
+        implement a different behavior."""
+        tag, attrs = self.xml_tag_and_attrs()
+        xmlattrs = {}
+        for xmlattr, pyattr, default in attrs:
+            val = getattr(self, pyattr)
+            if val != default:
+                if type(val) == bool:
+                    val = val and 'true' or 'no'
+                    xmlattrs[xmlattr] = val
+        return [getattr(sxml, tag)(**xmlattrs), self.deps_to_sxml(),
+                self.branch_to_sxml()]
+
+    def deps_to_sxml(self):
+        """Serialize this module's dependencies as sxml."""
+        return ([sxml.dependencies]
+                + [[sxml.dep(package=d)] for d in self.dependencies])
+
+    def branch_to_sxml(self):
+        """Serialize this module's checkout branch as sxml."""
+        return self.branch.to_sxml()
+
 
 class MetaModule(Package):
     """A simple module type that consists only of dependencies."""
@@ -249,6 +288,12 @@ class MetaModule(Package):
         pass
     do_start.next_state = Package.STATE_DONE
     do_start.error_states = []
+
+    def to_sxml(self):
+        return [sxml.metamodule(id=self.name),
+                [sxml.dependencies]
+                + [[sxml.dep(package=d)] for d in self.dependencies]]
+
 
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')

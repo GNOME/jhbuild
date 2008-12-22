@@ -34,6 +34,7 @@ from jhbuild.utils.cmds import has_command, get_output
 from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache
+from jhbuild.utils.sxml import sxml
 
 jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                  '..', '..'))
@@ -93,6 +94,9 @@ class TarballRepository(Repository):
             elif childnode.nodeName == 'quilt':
                 branch.quilt = get_branch(childnode, repositories, default_repo)
         return branch
+
+    def to_sxml(self):
+        return [sxml.repository(type='tarball', name=self.name, href=self.href)]
 
 
 class TarballBranch(Branch):
@@ -275,5 +279,15 @@ class TarballBranch(Branch):
                         cwd=self.srcdir,
                         extra_env={'QUILT_PATCHES' : self.quilt.srcdir}))
         return '%s-%s' % (self.version, md5sum.hexdigest())
+
+    def to_sxml(self):
+        return ([sxml.branch(module=self.module,
+                             repo=self.repository.name,
+                             version=self.version,
+                             size=str(self.source_size),
+                             md5sum=self.source_md5)]
+                + [[sxml.patch(file=patch, strip=str(strip))]
+                   for patch, strip in self.patches])
+
 
 register_repo_type('tarball', TarballRepository)
