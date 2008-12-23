@@ -208,16 +208,6 @@ diff -Naur Python-2.5.2.orig/Lib/distutils/sysconfig.py Python-2.5.2/Lib/distuti
          if standard_lib:
              return libpython
          else:
-@@ -187,7 +191,8 @@
-     if python_build:
-         inc_dir = argv0_path
-     else:
--        inc_dir = get_python_inc(plat_specific=1)
-+        prefix = EXEC_PREFIX or PREFIX
-+        inc_dir = os.path.join(prefix, "include", "multiarch-" + sys.arch + "-linux", "python" + sys.version[:3])
-     if get_python_version() < '2.2':
-         config_h = 'config.h'
-     else:
 diff -Naur Python-2.5.2.orig/Lib/distutils/tests/test_install.py Python-2.5.2/Lib/distutils/tests/test_install.py
 --- Python-2.5.2.orig/Lib/distutils/tests/test_install.py	2008-12-04 12:53:20.870370919 +0100
 +++ Python-2.5.2/Lib/distutils/tests/test_install.py	2008-12-04 12:54:55.365365533 +0100
