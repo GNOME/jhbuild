@@ -480,6 +480,9 @@ class cmd_list(Command):
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
                         help=_('treat the given modules as up to date')),
+            make_option('-t', '--start-at', metavar='MODULE',
+                        action='store', dest='startat', default=None,
+                        help=_('start list at the given module')),
             make_option('--tags',
                         action='append', dest='tags', default=[],
                         help=_('build only modules with the given tags')),
@@ -509,6 +512,13 @@ class cmd_list(Command):
                                 config.skip, tags = config.tags,
                                 include_optional_modules = options.list_optional_modules,
                                 ignore_suggests=config.ignore_suggests)
+
+        # remove modules up to startat
+        if options.startat:
+            while module_list and module_list[0].name != options.startat:
+                del module_list[0]
+            if not module_list:
+                raise FatalError(_('%s not in module list') % options.startat)
 
         for mod in module_list:
             if options.show_rev:
