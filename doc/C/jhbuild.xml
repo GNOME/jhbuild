@@ -186,12 +186,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
       <filename>~/checkout/gnome2</filename> and install all files to
       subdirectories of <filename>~/prefix</filename>.</para>
 
-      <para>Some of configuration variables available include:</para>
+      <para>Configuration variables are documented in <xref
+      linkend="config-reference"/>, here are some of the most commonly used
+      ones:</para>
 
       <variablelist>
 	<?dbhtml list-presentation="table"?>
 	<varlistentry>
-	  <term><varname>moduleset</varname></term>
+	  <term><varname><link linkend="cfg-moduleset">moduleset</link></varname></term>
 	  <listitem>
 	    <simpara>A string or list of strings specifying the name(s) of
 	    the module set(s) to use.  If a module set name is a fully
@@ -202,7 +204,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>modules</varname></term>
+	  <term><varname><link linkend="cfg-modules">modules</link></varname></term>
 	  <listitem>
 	    <simpara>A list of strings giving the modules you want to
 	    build.  The list of modules actually built will be
@@ -211,14 +213,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkoutroot</varname></term>
+	  <term><varname><link linkend="cfg-checkoutroot">checkoutroot</link></varname></term>
 	  <listitem>
 	    <simpara>The base directory where all source modules
 	    are unpacked or checked out of revision control.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>prefix</varname></term>
+	  <term><varname><link linkend="cfg-prefix">prefix</link></varname></term>
 	  <listitem>
 	    <simpara>The directory prefix to install modules
 	    to.  You must have write permissions to this directory, or
@@ -234,7 +236,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>skip</varname></term>
+	  <term><varname><link linkend="cfg-skip">skip</link></varname></term>
 	  <listitem>
 	    <simpara>A list of module names to exclude when deciding
 	    what to build.  One use of this variable is to use the
@@ -243,7 +245,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>autogenargs</varname></term>
+	  <term><varname><link linkend="cfg-autogenargs">autogenargs</link></varname></term>
 	  <listitem>
 	    <simpara>A string listing additional arguments to pass
 	    to the <command>autogen.sh</command> or
@@ -251,14 +253,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeargs</varname></term>
+	  <term><varname><link linkend="cfg-makeargs">makeargs</link></varname></term>
 	  <listitem>
 	    <simpara>A string listing arguments to be pass
 	    to the <command>make</command> command.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>repos</varname></term>
+	  <term><varname><link linkend="cfg-repos">repos</link></varname></term>
 	  <listitem>
 	    <simpara>By default, JHBuild will check out code from
 	    repositories using an anonymous repository location.  This
@@ -268,7 +270,8 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	    dictionary where the keys are short repository names (for
 	    example,
 	    <systemitem class="systemname">svn.gnome.org</systemitem>
-	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
+	    is used for the GNOME SVN repository), and the values are the
+	    alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
       </variablelist>
@@ -1161,7 +1164,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
       <variablelist>
 	<?dbhtml list-presentation="table"?>
 	<varlistentry>
-	  <term><varname>alwaysautogen</varname></term>
+	  <term id="cfg-alwaysautogen"><varname>alwaysautogen</varname></term>
 	  <listitem>
 	    <simpara>If set to <constant>True</constant>, then always
 	    run <command>autogen.sh</command> before
@@ -1172,7 +1175,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>autogenargs</varname></term>
+	  <term id="cfg-autogenargs"><varname>autogenargs</varname></term>
 	  <listitem>
 	    <simpara>A string containing arguments passed to the
 	    <command>autogen.sh</command> script of all modules.  Can
@@ -1182,7 +1185,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	</listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>branches</varname></term>
+	  <term id="cfg-branches"><varname>branches</varname></term>
 	  <listitem>
 	    <simpara>A dictionary that can be used to override the
 	    branch used for a particular module.  This is useful if
@@ -1192,7 +1195,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>builddir_pattern</varname></term>
+	  <term id="cfg-builddir-pattern"><varname>builddir_pattern</varname></term>
 	  <listitem>
 	    <simpara>A <function>printf</function> style formatting
 	    pattern used to generate build directory names.  This is
@@ -1203,7 +1206,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>buildroot</varname></term>
+	  <term id="cfg-buildroot"><varname>buildroot</varname></term>
 	  <listitem>
 	    <simpara>A string giving the parent directory to place
 	    build trees.  Defaults to <constant>None</constant>, which
@@ -1212,7 +1215,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>buildscript</varname></term>
+	  <term id="cfg-buildscript"><varname>buildscript</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which buildscript to use.
 	    This should probably be left as the default,
@@ -1221,7 +1224,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>build_policy</varname></term>
+	  <term id="cf-build-policy"><varname>build_policy</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which modules to build.
 	    The three possible options are <literal>all</literal>, to
@@ -1233,7 +1236,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkoutroot</varname></term>
+	  <term id="cfg-checkoutroot"><varname>checkoutroot</varname></term>
 	  <listitem>
 	    <simpara>A string giving the directory to unpack source
 	    trees to.  Unless <varname>buildroot</varname> is set,
@@ -1242,7 +1245,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkout_mode</varname></term>
+	  <term id="cfg-checkout-mode"><varname>checkout_mode</varname></term>
 	  <listitem>
 	    <simpara>A string specifying how the checkout is done for
 	    directories in version control.  Defaults to
@@ -1258,7 +1261,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>copy_dir</varname></term>
+	  <term id="cfg-copy-dir"><varname>copy_dir</varname></term>
 	  <listitem>
 	    <simpara>A string specifying the directory to copy to, if
 	    the copy checkout mode is in use.  Defaults to the
@@ -1266,7 +1269,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>cvsroots</varname></term>
+	  <term id="cfg-cvsroots"><varname>cvsroots</varname></term>
 	  <listitem>
 	    <simpara>A dictionary that can be used to change the CVS
 	    roots used to check out source code.  If you have a CVS
@@ -1278,14 +1281,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>cvs_program</varname></term>
+	  <term id="cfg-cvs-program"><varname>cvs_program</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use for
 	    CVS support.  Defaults to <literal>cvs</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>installprog</varname></term>
+	  <term id="cfg-installprog"><varname>installprog</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use as
 	    replacement for <literal>/usr/bin/install</literal>; if available
@@ -1296,7 +1299,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>ignore_suggests</varname></term>
+	  <term id="cfg-ignore-suggests"><varname>ignore_suggests</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to ignore
 	    soft dependencies when calculating the dependency tree.
@@ -1304,7 +1307,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>interact</varname></term>
+	  <term id="cfg-interact"><varname>interact</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to interact
 	    with the user.  Setting this value to
@@ -1314,7 +1317,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeargs</varname></term>
+	  <term id="cfg-makeargs"><varname>makeargs</varname></term>
 	  <listitem>
 	    <simpara>A string listing additional arguments to be
 	    passed to <command>make</command>.  Defaults to
@@ -1322,7 +1325,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makecheck</varname></term>
+	  <term id="cfg-makecheck"><varname>makecheck</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make check</command> after
@@ -1331,7 +1334,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makecheck_advisory</varname></term>
+	  <term id="cfg-makecheck-advistory"><varname>makecheck_advisory</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether failures when running
 	    <command>make check</command> should be advisory only and not cause
@@ -1339,7 +1342,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeclean</varname></term>
+	  <term id="cfg-makeclean"><varname>makeclean</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make clean</command> before
@@ -1348,7 +1351,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makedist</varname></term>
+	  <term id="cfg-makedist"><varname>makedist</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make dist</command> after <command>make</command>.
@@ -1358,7 +1361,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makedistcheck</varname></term>
+	  <term id="cfg-makedistcheck"><varname>makedistcheck</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make distcheck</command> after
@@ -1368,7 +1371,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_autogenargs</varname></term>
+	  <term id="cfg-module-autogenargs"><varname>module_autogenargs</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to
@@ -1381,7 +1384,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_checkout_mode</varname></term>
+	  <term id="cfg-module-checkout-mode"><varname>module_checkout_mode</varname></term>
 	  <listitem>
 	    <simpara>A dictionary specifying which checkout mode to
 	    use for modules.  This overrides the global
@@ -1389,7 +1392,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_makeargs</varname></term>
+	  <term id="cfg-module-makeargs"><varname>module_makeargs</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to <command>make</command>.
@@ -1401,7 +1404,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_extra_env</varname></term>
+	  <term id="cfg-module-extra-env"><varname>module_extra_env</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to dictionaries
 	    with extra environment variables to pass when executing commands
@@ -1410,7 +1413,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>modules</varname></term>
+	  <term id="cfg-modules"><varname>modules</varname></term>
 	  <listitem>
 	    <simpara>A list of module names to build.  This list will
 	    be expanded using the dependency information found in the
@@ -1419,7 +1422,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>moduleset</varname></term>
+	  <term id="cfg-moduleset"><varname>moduleset</varname></term>
 	  <listitem>
 	    <simpara>A string giving the name of the module set to
 	    use.  This can either be the filename of a moduleset
@@ -1431,7 +1434,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nobuild</varname></term>
+	  <term id="cfg-nobuild"><varname>nobuild</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to not actually
@@ -1440,7 +1443,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nonetwork</varname></term>
+	  <term id="cfg-nonetwork"><varname>nonetwork</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to access the
 	    network or not.  This affects checking out or updating CVS
@@ -1452,7 +1455,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nonotify</varname></term>
+	  <term id="cfg-nonotify"><varname>nonotify</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to emit
 	    notifications using the notification daemon.  If set to
@@ -1461,7 +1464,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nopoison</varname></term>
+	  <term id="cfg-nopoison"><varname>nopoison</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to try to build
@@ -1472,7 +1475,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>noxvfb</varname></term>
+	  <term id="cfg-noxvfb"><varname>noxvfb</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to run any
@@ -1483,14 +1486,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>prefix</varname></term>
+	  <term id="cfg-prefix"><varname>prefix</varname></term>
 	  <listitem>
 	    <simpara>A string giving the prefix to install modules to.
 	    Defaults to <literal>'/opt/gnome2'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>pretty_print</varname></term>
+	  <term id="cfg-pretty-print"><varname>pretty_print</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that can be used to disable
 	    pretty formatting of subprocess output.  Currently there is
@@ -1500,7 +1503,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
         <varlistentry>
-          <term><varname>progress_bar</varname></term>
+          <term id="cfg-progress-bar"><varname>progress_bar</varname></term>
           <listitem>
             <simpara>A boolean value that can be used to display a progress bar
             when running in quiet mode (see below).  Defaults to
@@ -1508,7 +1511,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term><varname>quiet_mode</varname></term>
+          <term id="cfg-quiet-mode"><varname>quiet_mode</varname></term>
           <listitem>
             <simpara>A boolean value that can be used to disable
             output of running commands.  Defaults to
@@ -1516,7 +1519,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           </listitem>
         </varlistentry>
 	<varlistentry>
-	  <term><varname>repos</varname></term>
+	  <term id="cfg-repos"><varname>repos</varname></term>
 	  <listitem>
 	    <simpara>By default, JHBuild will check out code from
 	    repositories using an anonymous repository location.  This
@@ -1529,7 +1532,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-skip">
 	  <term><varname>skip</varname></term>
 	  <listitem>
 	    <simpara>A list of modules to skip when expanding the list
@@ -1539,7 +1542,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    list is empty by default.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-sticky-date">
 	  <term><varname>sticky_date</varname></term>
 	  <listitem>
 	    <simpara>If set, JHBuild will attempt to check out modules
@@ -1549,14 +1552,20 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    Defaults to <constant>None</constant>.</simpara>
 	</listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-svnroots">
 	  <term><varname>svnroots</varname></term>
 	  <listitem>
 	    <simpara>Similar to <varname>cvsroots</varname> but for
-	    Subversion repositories.</simpara>
+	    Subversion repositories; a dictionary that can be used to
+	    change the Subversion roots used to check out source code.
+	    If you have a Subversion account for a particular project,
+	    you can set the associated key to use that account rather
+	    than the anonymous account.  For example, you might want to
+	    set <literal>'svn.gnome.org'</literal> to
+	    <literal>'svn+ssh://<replaceable>username</replaceable>@svn.gnome.org:/svn'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-svn-program">
 	  <term><varname>svn_program</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use for
@@ -1565,7 +1574,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <literal>svn</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-tarballdir">
 	  <term><varname>tarballdir</varname></term>
 	  <listitem>
 	    <simpara>If set, tarballs will be downloaded to this
@@ -1576,7 +1585,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    bandwidth usage.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-tinderbox-outputdir">
 	  <term><varname>tinderbox_outputdir</varname></term>
 	  <listitem>
 	    <simpara>A string giving the directory to store
@@ -1587,7 +1596,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    set in the configuration file.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-trycheckout">
 	  <term><varname>trycheckout</varname></term>
 	  <listitem>
 	    <simpara>A boolean option which if set to
@@ -1598,7 +1607,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <option>--try-checkout</option>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-use-lib64">
 	  <term><varname>use_lib64</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that specifies whether to install
@@ -1612,7 +1621,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <constant>False</constant> on other systems.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-use-local-modulesets">
 	  <term><varname>use_local_modulesets</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that specifies to use modulesets
@@ -1622,7 +1631,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    </simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-xvfbargs">
 	  <term><varname>xvfbargs</varname></term>
 	  <listitem>
 	    <simpara>A string listing arguments to pass to
