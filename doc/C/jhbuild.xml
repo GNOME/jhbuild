@@ -409,6 +409,84 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
     </section>
   </section>
 
+  <section id="buildbot-integration">
+    <title>Buildbot Integration</title>
+
+    <para>
+      Coupled with the <link linkend="http://buildbot.net">Buildbot</link>
+      project, JHBuild can also help as a continuous integration tool.  Such a
+      configuration is used by the GNOME project at <link
+      linkend="http://build.gnome.org">build.gnome.org</link>.
+    </para>
+
+    <section id="buildbot-slave">
+      <title>Configuring a Buildbot Slave</title>
+
+      <para>
+        A Buildbot slave is just a variation of a normal JHBuild installation,
+	the difference is mostly it will serve the requests of the Buildbot
+	master instead of your own.  Thus it is generally advised to get
+	JHBuild running and performing correctly (a full run with most
+	modules building fine is a good test) before adding the few special
+	Buildbot bits.
+      </para>
+
+      <para>
+        All Buildbot-related commands are options of the
+	<command>bot</command>, downloading and installing the extra required
+	softwares is done like this:
+      </para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild bot --setup</userinput></screen>
+
+      <para>
+        Once this step has been run successfully, there are three new
+	configuration variables to define in <filename>~/.jhbuildrc</filename>.
+      </para>
+
+      <note>
+        <para>
+	  It is currently not possible to use an alternate configuration file,
+	  the <option>--file</option> will not get desired effects.
+	</para>
+      </note>
+
+      <programlisting>
+jhbuildbot_master = 'build.gnome.org:9070'
+jhbuildbot_slavename = 'slavename'
+jhbuildbot_password = 'password'
+</programlisting>
+
+      <para>
+	<varname>jhbuildbot_master</varname> is a string pointing to the
+	Buildbot master server; it defaults to
+	<literal>'build.gnome.org:9070'</literal>.
+	<varname>jhbuildbot_slavename</varname> and
+	<varname>jhbuildbot_password</varname> identify the slave on the
+	master server; you should contact the Buildbot master administrators to
+	get them.
+      </para>
+
+      <note>
+        <para>
+	  The administrators of <ulink
+	  url="http://build.gnome.org">build.gnome.org</ulink>
+	  can be reached on the <ulink
+	  url="mailto:build-brigade-list@gnome.org">Build Brigade mailing
+	  list</ulink>.
+	</para>
+      </note>
+
+    </section>
+
+    <!-- TODO: configuring a buildbot master
+    <section id="buildbot-master">
+      <title>Configuring a Buildbot Master</title>
+    </section>
+    -->
+
+  </section>
+
   <section id="command-reference">
     <title>Command Reference</title>
 
