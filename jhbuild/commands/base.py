@@ -179,7 +179,7 @@ def check_bootstrap_updateness(config):
     packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
 
     max_install_date = max([
-            packagedb.installdate(module.name, module.get_revision() or '')
+            packagedb.installdate(module.name)
             for module in module_set.modules.values()])
 
     if max_install_date is None:
@@ -187,15 +187,29 @@ def check_bootstrap_updateness(config):
         # to use it
         return
 
+    updated_modules = []
+    for module in module_set.modules.values():
+        if not packagedb.entries.has_key(module.name):
+            continue
+        p_version = packagedb.entries.get(module.name)[0]
+        if p_version != module.get_revision():
+            updated_modules.append(module.name)
+
     bootstrap_uri = os.path.join(os.path.dirname(__file__), '../../modulesets/bootstrap.modules')
     bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
 
-    if max_install_date > bootstrap_mtime:
-        return
+    if max_install_date <= bootstrap_mtime:
+        # general note, to cover added modules
+        print >> sys.stderr, uencode(
+                _('I: bootstrap moduleset has been updated since the last time '\
+                  'you used it, perhaps you should run jhbuild bootstrap.'))
 
-    print >> sys.stderr, uencode(
-            _('I: bootstrap moduleset has been updated since the last time '\
-              'you used it, perhaps you should run jhbuild bootstrap.'))
+    if updated_modules:
+        # note about updated modules
+        print >> sys.stderr, uencode(
+                _('I: some bootstrap modules have been updated, '\
+                  'perhaps you should update them: %s.') % \
+                  ', '.join(updated_modules))
 
 
 class cmd_build(Command):
