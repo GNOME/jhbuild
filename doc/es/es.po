@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.help.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-15 20:09+0000\n"
-"PO-Revision-Date: 2008-12-21 12:21+0100\n"
+"POT-Creation-Date: 2008-12-27 13:57+0000\n"
+"PO-Revision-Date: 2008-12-28 20:00+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <Gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -392,8 +392,9 @@ msgstr ""
 msgid ""
 "Configuration variables are documented in <xref linkend=\"config-reference\"/"
 ">, here are some of the most commonly used ones:"
-msgstr "Las variables de configuración están documentadas en <xref linkend=\"config-reference\"/"
-">, aquí están algunas de las más comúnmente usadas:"
+msgstr ""
+"Las variables de configuración están documentadas en <xref linkend=\"config-"
+"reference\"/>, aquí están algunas de las más comúnmente usadas:"
 
 #: C/jhbuild.xml:196(varname) C/jhbuild.xml:1503(varname)
 msgid "moduleset"
@@ -804,10 +805,14 @@ msgid ""
 "configuration is used by the GNOME project at <ulink url=\"http://build."
 "gnome.org\">build.gnome.org</ulink>."
 msgstr ""
+"Junto al proyecto <ulink url=\"http://buildbot.net\">Buildbot</ulink>, "
+"JHBuild puede también ayudar como una herramienta de integración. Esta "
+"configuración la utiliza el proyecto GNOME en <ulink url=\"http://build."
+"gnome.org\">build.gnome.org</ulink>."
 
 #: C/jhbuild.xml:423(title)
 msgid "Configuring a Buildbot Slave"
-msgstr ""
+msgstr "Configurar un Buildbot esclavo"
 
 #: C/jhbuild.xml:425(para)
 msgid ""
@@ -817,12 +822,20 @@ msgid ""
 "performing correctly (a full run with most modules building fine is a good "
 "test) before adding the few special Buildbot bits."
 msgstr ""
+"Un Buildbot esclavo es sólo una variación de una instalación normal de "
+"JHBuild. La diferencia es que principalmente servirá las peticiones al Buildbot "
+"maestro en lugar de las suyas. Generalmente esto se avisa para ejecutar y "
+"hacer funcionar JHBuild correctamente (una ejecución completa con la mayoría "
+"de los módulos construyéndose bien es un buen test) antes de añadir el poco "
+"espacio de Buildbot necesita."
 
 #: C/jhbuild.xml:434(para)
 msgid ""
 "All Buildbot-related commands are options of the <command>bot</command>, "
 "downloading and installing the extra required softwares is done like this:"
 msgstr ""
+"Los comandos relativos a Buildbot son opciones del <command>bot</command>. "
+"Para descargar e instalar el software adicional requerido hágalo así:"
 
 #: C/jhbuild.xml:440(userinput)
 #, no-wrap
@@ -830,19 +843,20 @@ msgid "jhbuild bot --setup"
 msgstr "jhbuild bot --setup"
 
 #: C/jhbuild.xml:442(para)
-#, fuzzy
 msgid ""
 "Once this step has been run successfully, there are three new configuration "
 "variables to define in <filename>~/.jhbuildrc</filename>."
 msgstr ""
-"Use un archivo de configuración alternativo, en lugar del predeterminado, "
-"<filename>~/.jhbuildrc</filename>."
+"Una vez que este paso ha terminado correctamente, hay tres nuevas variables "
+"de configuración para definir en <filename>~/.jhbuildrc</filename>."
 
 #: C/jhbuild.xml:448(para)
 msgid ""
 "It is currently not possible to use an alternate configuration file, the "
 "<option>--file</option> will not get desired effects."
 msgstr ""
+"Actualmente no se puede usar un archivo alternativo de configuración. La "
+"opción <option>--file</option> no tendrá los efectos deseados."
 
 #: C/jhbuild.xml:454(programlisting)
 #, no-wrap
@@ -852,6 +866,10 @@ msgid ""
 "jhbuildbot_slavename = 'slavename'\n"
 "jhbuildbot_password = 'password'\n"
 msgstr ""
+"\n"
+"jhbuildbot_master = 'build.gnome.org:9070'\n"
+"jhbuildbot_slavename = 'nombredelesclavo'\n"
+"jhbuildbot_password = 'contraseña'\n"
 
 #: C/jhbuild.xml:460(para)
 msgid ""
@@ -861,6 +879,11 @@ msgid ""
 "varname> identify the slave on the master server; you should contact the "
 "Buildbot master administrators to get them."
 msgstr ""
+"<varname>jhbuildbot_master</varname> es una cadena que apunta al servidor "
+"Buildbot maestro; el predeterminado es <literal>'build.gnome.org:9070'</"
+"literal>. <varname>jhbuildbot_slavename</varname> y "
+"<varname>jhbuildbot_password</varname> identifican al esclavo en el servidor "
+"maestro; debe contactar con el servidor Buildbot maestro para obtenerlos."
 
 #: C/jhbuild.xml:471(para)
 msgid ""
@@ -868,6 +891,9 @@ msgid ""
 "ulink> can be reached on the <ulink url=\"mailto:build-brigade-list@gnome.org"
 "\">Build Brigade mailing list</ulink>."
 msgstr ""
+"Se puede contactar con los administradores de <ulink url=\"http://build.gnome.org"
+"\">build.gnome.org</ulink> en la <ulink url=\"mailto:build-brigade-"
+"list@gnome.org\">lista de correo de Build Brigade</ulink>."
 
 #: C/jhbuild.xml:491(title)
 msgid "Command Reference"
@@ -2173,8 +2199,8 @@ msgid ""
 "calculating the dependency tree. Defaults to <constant>False</constant>."
 msgstr ""
 "Valor booleano que indica si se ignorarán las dependencias suaves cuando se "
-"calcule el árbol de dependencias. Su valor predeterminado es <constant>False</"
-"constant>."
+"calcule el árbol de dependencias. Su valor predeterminado es "
+"<constant>False</constant>."
 
 #: C/jhbuild.xml:1388(varname)
 msgid "interact"
@@ -2519,7 +2545,6 @@ msgid "svnroots"
 msgstr "svnroots"
 
 #: C/jhbuild.xml:1636(simpara)
-#, fuzzy
 msgid ""
 "Similar to <varname>cvsroots</varname> but for Subversion repositories; a "
 "dictionary that can be used to change the Subversion roots used to check out "
@@ -2529,12 +2554,13 @@ msgid ""
 "literal> to <literal>'svn+ssh://<replaceable>username</replaceable>@svn."
 "gnome.org:/svn'</literal>."
 msgstr ""
-"Un diccionario que se puede usar para cambiar la raíces de CVS usadas para "
-"descargar código fuente. Si tiene una cuenta de CVS para un proyecto en "
-"particular, puede establecer la clave asociada para usar esa cuenta en lugar "
-"de la cuenta anónima. Por ejemplo, puede querer establecer <literal>'gnome."
-"org'/literal> a <literal>':ext:<replaceable>nombre_de_usuario</"
-"replaceable>@cvs.gnome.org:/cvs/gnome'</literal>."
+"Similar a <varname>cvsroots</varname> pero para repositorios Subversion; un "
+"diccionario que se puede usar para cambiar la raíces de Subversion usadas "
+"para descargar código fuente. Si tiene una cuenta de Subversion para un "
+"proyecto en particular, puede establecer la clave asociada para usar esa "
+"cuenta en lugar de la cuenta anónima. Por ejemplo, puede querer establecer "
+"<literal>'svn.gnome.org'</literal> a <literal>'svn+ssh://"
+"<replaceable>nombre_de_usuario</replaceable>@svn.gnome.org:/svn'</literal>."
 
 #: C/jhbuild.xml:1647(varname)
 msgid "svn_program"
