@@ -1,5 +1,13 @@
 2009-01-03  Frederic Peters  <fpeters@0d.be>
 
+	* modulesets/gnome-suites-2.26.modules: removed hard dependency of glib
+	on shared-mime-info, as shared-mime-info has a real build dependency on
+	glib, and it caused a dependency cycle; added shared-mime-info as
+	<after> for both glib and gtk+ to get back to the situation before glib
+	and gtk+ deps shuffleing.
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
 	* modulesets/gnome-external-deps-2.26.modules:
 	* modulesets/gnome-suites-2.26.modules: updated libgda to 3.99.7 and
 	added it as a dependency of anjuta.
