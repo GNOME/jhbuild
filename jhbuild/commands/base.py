@@ -312,7 +312,8 @@ class cmd_build(Command):
             check_bootstrap_updateness(config)
 
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules,
+        modules = args or config.modules
+        module_list = module_set.get_module_list(modules,
                 config.skip, tags = config.tags,
                 include_optional_modules=options.build_optional_modules,
                 ignore_suggests=config.ignore_suggests)
@@ -322,6 +323,11 @@ class cmd_build(Command):
                 del module_list[0]
             if not module_list:
                 raise FatalError(_('%s not in module list') % options.startat)
+
+        if len(module_list) == 0 and modules[0] in (config.skip or []):
+            print >> sys.stderr, uencode(
+                    _('I: requested module is in the ignore list, nothing to do.'))
+            return 0
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
