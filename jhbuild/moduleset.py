@@ -284,8 +284,7 @@ def load(config, uri=None):
     for uri in modulesets:
         if '/' not in uri:
             if config.nonetwork or config.use_local_modulesets:
-                uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
-                                   uri + '.modules')
+                uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
                 uri = 'http://svn.gnome.org/svn/jhbuild/trunk/modulesets/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
