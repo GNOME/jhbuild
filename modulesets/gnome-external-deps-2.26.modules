@@ -19,10 +19,12 @@
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://dl.sourceforge.net/sourceforge/"/>
- <repository type="tarball" name="clutter-project.org"
-      href="http://www.clutter-project.org/sources/"/>
+<repository type="tarball" name="clutter-project.org"
+    href="http://www.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
     href="http://libproxy.googlecode.com/files/"/>
+<repository type="tarball" name="0pointer.de"
+    href="http://0pointer.de/lennart/projects/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -199,8 +201,6 @@
     </dependencies>
   </tarball>
 
-  <repository type="tarball" name="0pointer.de"
-      href="http://0pointer.de/lennart/projects/"/>
   <autotools id="libdaemon" autogenargs="--disable-lynx">
     <branch repo="0pointer.de" module="libdaemon/libdaemon-0.13.tar.gz"
 	    version="0.13"
@@ -594,8 +594,6 @@
     </dependencies>
   </tarball>
 
-  <repository type="tarball" name="0pointer.de"
-              href="http://0pointer.de/lennart/projects/"/>
   <autotools id="libcanberra" autogen-sh="configure">
     <branch repo="0pointer.de" module="libcanberra/libcanberra-0.10.tar.gz"
             version="0.10" size="826222" md5sum="2623370bfcecaeecaeb85e5ec445f340"/>
@@ -605,6 +603,37 @@
     <after>
       <dep package="gtk+"/>
       <dep package="pulseaudio"/>
+    </after>
+  </autotools>
+
+  <tarball id="speex" version="1.2rc1">
+    <source href="http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+            size="1061882" md5sum="c4438b22c08e5811ff10e2b06ee9b9ae"/>
+  </tarball>
+
+  <tarball id="libsndfile" version="1.0.17" supports-non-srcdir-builds="no"
+           autogenargs="--disable-flac">
+    <source href="http://www.mega-nerd.com/libsndfile/libsndfile-1.0.17.tar.gz"
+            size="819456" md5sum="2d126c35448503f6dbe33934d9581f6b"/>
+  </tarball>
+
+  <autotools id="pulseaudio">
+    <branch repo="0pointer.de" module="pulseaudio/pulseaudio-0.9.12.tar.gz"
+            version="0.9.12" size="1270635" md5sum="b8851d52152c5c3b65f4f31ee1ab7631"/>
+    <dependencies>
+      <dep package="libsndfile"/>
+      <dep package="liboil"/>
+      <dep package="glib"/>
+      <dep package="speex"/>
+    </dependencies>
+    <after>
+      <dep package="libsamplerate"/>
+      <dep package="gconf"/>
+      <dep package="avahi"/>
+      <dep package="hal"/>
+      <dep package="bluez"/>
+      <dep package="dbus"/>
+      <dep package="PolicyKit"/>
     </after>
   </autotools>
 
