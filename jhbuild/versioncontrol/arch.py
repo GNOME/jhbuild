@@ -22,7 +22,7 @@ __all__ = []
 
 import os, sys
 
-from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath

@@ -24,7 +24,7 @@ import os
 import errno
 import urlparse
 
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
