@@ -44,6 +44,9 @@
       cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
       password=""/>
 
+  <repository type="git" name="github.com"
+    href="git://github.com/"/>
+
   <include href="gnome-suites-2.26.modules"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
@@ -296,6 +299,14 @@
       <dep package="dbus-glib"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="loudmouth">
+    <branch repo="github.com" module="hallski/loudmouth.git" checkoutdir="loudmouth" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnutls"/>
     </dependencies>
   </autotools>
 
