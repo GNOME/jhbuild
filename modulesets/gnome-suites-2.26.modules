@@ -1582,35 +1582,19 @@
     </dependencies>
   </autotools>  
 
-<!-- Use the last mozilla-based version of devhelp until
-     WebKit problems are resolved
--->
-
-  <tarball id="devhelp" version="0.21">
-    <source href="http://download.gnome.org/sources/devhelp/0.21/devhelp-0.21.tar.bz2" md5sum="24ad71080dde0778cb42c30575b5aca6" size="549576"/>
-    <branch revision="gnome-2-22"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libwnck"/>
-      <dep package="mozilla"/>
-    </dependencies>
-  </tarball>
-
-<!--
+  <!-- devhelp is branched in 2-22, and default to gecko  -->
+  <!-- use devhelp-webkit instead to build it with Webkit -->
   <autotools id="devhelp">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>
       <dep package="libglade"/>
       <dep package="gconf"/>
       <dep package="libwnck"/>
-      <dep package="WebKit"/>
+      <dep package="mozilla"/>
     </dependencies>
   </autotools>
--->
 
   <autotools id="gdl">
     <branch/>
