@@ -173,6 +173,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="dbus-glib">
+    <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="PackageKit">
     <branch repo="git.freedesktop.org"
 	    module="packagekit" checkoutdir="PackageKit" autogenargs="--disable-tests"/>
@@ -298,7 +307,17 @@
     </dependencies>
   </autotools>
 
-  <!-- Telepathy Farsigh2 -->
+  <autotools id="telepathy-glib">
+    <branch repo="git.collabora.co.uk" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Telepathy Farsight2 -->
   <autotools id="telepathy-farsight">
     <branch repo="git.collabora.co.uk"
             module="telepathy-farsight"
