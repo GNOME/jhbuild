@@ -108,7 +108,7 @@ class AutogenModule(Package):
             return True
 
         # skip if manually instructed to do so
-        if self.skip_autogen:
+        if self.skip_autogen is True:
             return True
 
         # don't skip this stage if we got here from one of the
@@ -117,6 +117,9 @@ class AutogenModule(Package):
                           self.STATE_CLEAN,
                           self.STATE_BUILD,
                           self.STATE_INSTALL]:
+            return False
+
+        if self.skip_autogen == 'never':
             return False
 
         # skip if the makefile exists and we don't have the
@@ -326,7 +329,13 @@ def parse_autotools(node, config, uri, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('skip-autogen'):
-        skip_autogen = (node.getAttribute('skip-autogen') == 'true')
+        skip_autogen = node.getAttribute('skip-autogen')
+        if skip_autogen == 'true':
+            skip_autogen = True
+        elif skip_autogen == 'never':
+            skip_autogen = 'never'
+        else:
+            skip_autogen = False
     if node.hasAttribute('check-target'):
         check_target = (node.getAttribute('check-target') == 'true')
     if node.hasAttribute('autogen-sh'):
