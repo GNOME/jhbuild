@@ -131,13 +131,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="intltool">
-    <branch/>
-    <dependencies>
-      <dep package="gnome-common"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libglade">
     <branch/>
     <dependencies>
@@ -449,6 +442,7 @@
       <dep package="nss"/>
       <dep package="sqlite3"/>
       <dep package="libgweather"/>
+      <dep package="libical"/>
     </dependencies>
     <after>
       <dep package="gnome-keyring"/>
@@ -464,6 +458,7 @@
       <dep package="libgnomeui"/>
       <dep package="libbonoboui"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="libical"/>
     </dependencies>
     <suggests>
       <dep package="libnotify"/>
@@ -484,6 +479,17 @@
       <dep package="libsoup"/>
     </dependencies>
   </autotools>
+
+  <autotools id="evolution-mapi">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="evolution-data-server"/>
+      <dep package="evolution"/>
+      <dep package="libmapi"/>
+    </dependencies>
+  </autotools>
+
 
   <autotools id="evolution-webcal">
     <branch/>
@@ -908,22 +914,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-volume-manager">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="libgnomeui"/>
-      <dep package="libglade"/>
-      <dep package="hal"/>
-      <dep package="dbus-glib"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
-
   <autotools id="gok">
     <branch/>
     <dependencies>
@@ -1154,14 +1144,6 @@
       <dep package="tracker"/>
     </after>
   </autotools>
-
-  <autotools id="nautilus-cd-burner">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="nautilus"/>
-    </dependencies>
-  </autotools>      
 
   <autotools id="orca">
     <branch/>
@@ -1741,7 +1723,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
-      <dep package="intltool"/>
       <dep package="libglade"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
@@ -1760,6 +1741,7 @@
   <metamodule id="meta-gnome-desktop-suite">
     <dependencies>
       <dep package="alacarte"/>
+      <dep package="brasero"/>
       <dep package="bug-buddy"/>
       <dep package="cheese"/>
       <dep package="gnome-control-center"/>
@@ -1773,6 +1755,7 @@
       <dep package="evolution-data-server"/>
       <dep package="evolution"/>
       <dep package="evolution-exchange"/>
+      <dep package="evolution-mapi"/>
       <dep package="evolution-webcal"/>
       <dep package="file-roller"/>
       <dep package="gcalctool"/>
@@ -1804,8 +1787,8 @@
       <dep package="gnome-terminal"/>
       <dep package="gnome-themes"/>
       <dep package="gnome-user-docs"/>
+      <dep package="gnome-user-share"/>
       <dep package="gnome-utils"/>
-      <dep package="gnome-volume-manager"/>
       <dep package="gok"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
@@ -1825,7 +1808,6 @@
       <dep package="metacity"/>
       <dep package="mousetweaks"/>
       <dep package="nautilus"/>
-      <dep package="nautilus-cd-burner"/>
       <dep package="orca"/>
       <dep package="hamster-applet"/>
       <dep package="pygtksourceview"/>
@@ -1912,7 +1894,6 @@
       <dep package="gst-plugins-base"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
-      <dep package="intltool"/>
       <dep package="pango"/>
     </dependencies>
   </metamodule>
@@ -1928,8 +1909,6 @@
 
   <metamodule id="meta-gnome-proposed">
     <dependencies>
-      <dep package="gnome-user-share"/>
-      <dep package="brasero"/>
     </dependencies>
   </metamodule>
 

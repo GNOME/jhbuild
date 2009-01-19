@@ -25,6 +25,8 @@
     href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
     href="http://0pointer.de/lennart/projects/"/>
+<repository type="tarball" name="samba.org"
+    href="http://samba.org/samba/ftp/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -638,8 +640,6 @@
     </after>
   </autotools>
 
-  <!-- Proposed -->
-
   <autotools id="libproxy" autogenargs="--without-networkmanager">
     <branch repo="libproxy.googlecode.com"
             module="libproxy-0.2.3.tar.gz" version="0.2.3"
@@ -658,7 +658,6 @@
     </after>
   </autotools>
 
-
   <tarball id="unique" version="1.0.2">
     <source href="http://www.gnome.org/~ebassi/source/unique-1.0.2.tar.gz"
             size="448032" md5sum="3064930a9dd5f382641bbb2072d13563"/>
@@ -668,6 +667,75 @@
     </dependencies>
   </tarball>
 
+  <tarball id="intltool" version="0.40.5">
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/intltool/0.40/intltool-0.40.5.tar.bz2"
+            size="141110" md5sum="3e7ded6f50d88cf8b8bb505eaf591775"/>
+    <dependencies>
+      <dep package="gnome-common"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libical" version="0.42">
+    <source href="http://downloads.sourceforge.net/freeassociation/libical-0.42.tar.gz"
+            size="1145477" md5sum="34395dcc0c0f950f337f7bf183b5ac1a3"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <autotools id="samba4" skip-autogen="never" autogen-sh="configure">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha5.tar.gz" version="4.0.0alpha5"
+            size="9949674" md5="3d60f1bacad5b3e982b2dbd4920e32c4"
+            checkoutdir="samba-4.0.0alpha5/source"/>
+  </autotools>
+
+  <tarball id="libmapi">
+    <source href="http://downloads.sourceforge.net/openchange/libmapi-0.7-PHASER.tar.gz"
+            size="845059" md5sum="738015f88c98a078de8a785cf4db70bb"/>
+    <dependencies>
+      <dep package="samba4"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gst-plugins-farsight">
+    <source href="http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.10.tar.gz"
+            size="600488" md5sum="6a75793f4ffb35c8de6e29e88275a0c4"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="farsight2">
+    <source href="http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.7.tar.gz"
+            size="934876" md5sum="b3aa7ae00354b122f47215576acfc2ca"/>
+    <dependencies>
+      <dep package="nice"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libnice">
+    <source href="http://nice.freedesktop.org/releases/libnice-0.0.4.tar.gz"
+            size="529834" md5sum="3a5a68cbc58a2f2d53d00e8c2cbb1f7a"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-farsight">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.4.tar.gz"
+            size="571617" md5sum="2862c3c07d150485b22b2614391c36e2"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farsight2"/>
+    </dependencies>
+  </tarball>
+
+  <!-- Proposed -->
+
   <tarball id="libgda" version="3.99.7">
     <source href="http://download.gnome.org/sources/libgda/3.99/libgda-3.99.7.tar.bz2"
             size="7862711" md5sum="443d0aa26cad2990944b4f399dd8c7dc"/>
@@ -676,40 +744,5 @@
       <dep package="libxml2"/>
     </dependencies>
   </tarball>
-
-  <!-- External deps that you MUST have installed in order -->
-  <!-- to compile WebKit (if not the build tree might be   -->
-  <!-- in in a bad state and might fail to compile even    -->
-  <!-- after you've installed the missing dependency.      -->
-  <!--                                                     -->
-  <!--   libicu-dev                                        -->
-  <!--   libjpeg62-dev                                     -->
-  <!--   libpng12-dev                                      -->
-  <!--   gperf                                             -->
-  <!--   bison                                             -->
-  <!--   flex >= 2.5.33                                    -->
-  <!--                                                     -->
-  <!-- To clean the build tree if you tried to compile     -->
-  <!-- without those deps, run the following command:      -->
-  <!--                                                     -->
-  <!--   make -f GNUMakefile maintainer-clean              -->
-  <!--                                                     -->
-  <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <repository type="git" name="git.debian.org"
-      href="git://git.debian.org/"/>
-  <autotools id="WebKit" autogenargs="--enable-video=yes"
-      makefile="GNUmakefile">
-    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
-      checkoutdir="WebKit" revision="filtered"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
-      <dep package="libsoup"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="sqlite3"/>
-    </dependencies>
-  </autotools>
 
 </moduleset>
