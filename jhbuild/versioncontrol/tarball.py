@@ -57,10 +57,10 @@ class TarballRepository(Repository):
         self.href = config.repos.get(name, href)
 
     branch_xml_attrs = ['version', 'module', 'checkoutdir',
-                        'size', 'md5sum']
+                        'size', 'md5sum', 'source-subdir']
 
     def branch(self, name, version, module=None, checkoutdir=None,
-               size=None, md5sum=None, branch_id=None):
+               size=None, md5sum=None, branch_id=None, source_subdir=None):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
@@ -74,7 +74,7 @@ class TarballRepository(Repository):
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
                              source_size=size, source_md5=md5sum,
-                             branch_id=branch_id)
+                             branch_id=branch_id, source_subdir=source_subdir)
 
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
         try:
@@ -103,7 +103,7 @@ class TarballBranch(Branch):
     """A class representing a Tarball."""
 
     def __init__(self, repository, module, version, checkoutdir,
-                 source_size, source_md5, branch_id):
+                 source_size, source_md5, branch_id, source_subdir=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.version = version
         self.source_size = source_size
@@ -111,6 +111,7 @@ class TarballBranch(Branch):
         self.patches = []
         self.quilt = None
         self.branch_id = branch_id
+        self.source_subdir = source_subdir
 
     def _local_tarball(self):
         basename = os.path.basename(self.module)
@@ -120,7 +121,7 @@ class TarballBranch(Branch):
         return localfile
     _local_tarball = property(_local_tarball)
 
-    def srcdir(self):
+    def raw_srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
 
@@ -138,6 +139,12 @@ class TarballBranch(Branch):
         if localdir.endswith('.src'):
             localdir = localdir[:-4]
         return localdir
+    raw_srcdir = property(raw_srcdir)
+
+    def srcdir(self):
+        if self.source_subdir:
+            return os.path.join(self.raw_srcdir, self.source_subdir)
+        return self.raw_srcdir
     srcdir = property(srcdir)
 
     def branchname(self):
@@ -234,7 +241,7 @@ class TarballBranch(Branch):
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
             buildscript.execute('patch -p%d < "%s"'
                                 % (patchstrip, patchfile),
-                                cwd=self.srcdir)
+                                cwd=self.raw_srcdir)
 
     def _quilt_checkout(self, buildscript):
         if not has_command('quilt'):
