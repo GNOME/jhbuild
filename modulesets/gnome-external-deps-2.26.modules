@@ -686,16 +686,49 @@
     <branch repo="samba.org"
             module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
             size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
-            checkoutdir="samba-4.0.0alpha6/source4"/>
+	    source-subdir="source4">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
   </autotools>
 
-  <tarball id="libmapi" version="0.8">
-    <source href="http://downloads.sourceforge.net/openchange/libmapi-0.8-ROMULUS.tar.gz"
+  <autotools id="talloc">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/talloc">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tdb">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/tdb">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tevent">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/tevent">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="libmapi" skip-autogen="never" autogen-sh="configure">
+    <branch repo="sourceforge.net"
+            module="openchange/libmapi-0.8-ROMULUS.tar.gz" version="0.8"
             size="1207615" md5sum="053a9223d335b81ba914e7b0b5d5b678"/>
     <dependencies>
+      <dep package="tdb"/>
+      <dep package="talloc"/>
+      <dep package="tevent"/>
       <dep package="samba4"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="gst-plugins-farsight" version="0.12.10">
     <source href="http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.10.tar.gz"
