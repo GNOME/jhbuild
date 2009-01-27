@@ -294,7 +294,7 @@ class CVSBranch(Branch):
 
     def checkout(self, buildscript):
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
-            raise CommandError(_('%s not found') % 'cvs')
+            raise RuntimeError(_('%s not found') % 'cvs')
         if self.checkout_mode in ('clobber', 'export'):
             self._wipedir(buildscript)
             if self.checkout_mode == 'clobber':
