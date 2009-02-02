@@ -260,7 +260,7 @@ class Package:
             if val != default:
                 if type(val) == bool:
                     val = val and 'true' or 'no'
-                    xmlattrs[xmlattr] = val
+                xmlattrs[xmlattr] = val
         return [getattr(sxml, tag)(**xmlattrs), self.deps_to_sxml(),
                 self.branch_to_sxml()]
 
