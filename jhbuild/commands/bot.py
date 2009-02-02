@@ -253,6 +253,13 @@ class cmd_bot(Command):
         from buildbot.process.properties import Properties
 
         class JhBuildSlave(BuildSlave):
+            contact_name = None
+            contact_email = None
+            url = None
+            distribution = None
+            architecture = None
+            version = None
+
             def load_extra_configuration(self, slaves_dir):
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
                 if not os.path.exists(slave_xml_file):
@@ -273,7 +280,7 @@ class cmd_bot(Command):
                     try:
                         setattr(self, text_attribute, cfg.find(text_attribute).text)
                     except (AttributeError, ValueError):
-                        setattr(self, text_attribute, None)
+                        pass
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
