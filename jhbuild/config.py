@@ -92,24 +92,29 @@ def addpath(envvar, path):
 
 class Config:
     def __init__(self, filename=_default_jhbuildrc):
-        config = {
+        self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
             'prependpath':  prependpath
             }
         env_prepends.clear()
         try:
-            execfile(_defaults_file, config)
+            execfile(_defaults_file, self._config)
         except:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
-        config['__file__'] = filename
+        self._config['__file__'] = filename
         self.filename = filename
         if not os.path.exists(filename):
             raise FatalError(_('could not load config file, %s is missing') % filename)
 
+        self.load()
+        self.setup_env()
+
+    def load(self):
+        config = self._config
         try:
-            execfile(filename, config)
+            execfile(self.filename, config)
         except Exception:
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
@@ -158,8 +163,6 @@ class Config:
         for module, checkout_mode in self.module_checkout_mode.items():
             if checkout_mode not in possible_checkout_modes:
                 raise FatalError(_('invalid checkout mode (module: %s)') % module)
-
-        self.setup_env()
 
     def setup_env(self):
         '''set environment variables for using prefix'''
@@ -292,3 +295,4 @@ class Config:
                 v = False
 
         self.__dict__[k] = v
+

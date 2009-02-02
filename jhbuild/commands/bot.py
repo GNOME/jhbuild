@@ -262,6 +262,8 @@ class cmd_bot(Command):
                     log.msg("error while parsing config file")
                     raise
 
+                jhbuild_config.load()
+
                 try:
                     config = localDict['BuildmasterConfig']
                 except KeyError:
