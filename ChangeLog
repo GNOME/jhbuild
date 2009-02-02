@@ -1,5 +1,14 @@
 2009-02-02  Frederic Peters  <fpeters@0d.be>
 
+	* jhbuild/buildbot/status/web/__init__.py:
+	* jhbuild/commands/bot.py: replaced jhbuild bot --slvfile option by a
+	--slave-dir option, pointing to a directory with slaves.csv (csv with
+	slave names and passwords) and XML files describing each hosts
+	(options, contact informations, etc) ($slavename.xml); added pages in 
+	web view to get those informations.
+
+2009-02-02  Frederic Peters  <fpeters@0d.be>
+
 	* jhbuild/commands/bot.py:
 	* jhbuild/config.py: reload (parts of) jhbuild configuration file when
 	buildbot server is sent SIGHUP (everything but environment variables).

@@ -32,6 +32,11 @@ import socket
 import __builtin__
 import csv
 
+try:
+    import elementtree.ElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
+
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
@@ -76,9 +81,9 @@ class cmd_bot(Command):
             make_option('--logfile', metavar='LOGFILE',
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
-            make_option('--slvfile', metavar='SLAVESFILE',
-                        action='store', dest='slavesfile', default='slaves.csv',
-                        help=_('slaves csv file location (only with --start-server)')),
+            make_option('--slaves-dir', metavar='SLAVESDIR',
+                        action='store', dest='slaves_dir', default='.',
+                        help=_('directory with slaves files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
                         action='store', dest='mastercfgfile', default='master.cfg',
                         help=_('master cfg file location (only with --start-server)')),
@@ -112,7 +117,7 @@ class cmd_bot(Command):
         daemonize = False
         pidfile = None
         logfile = None
-        slavesfile = None
+        slaves_dir = None
         mastercfgfile = None
 
         if options.daemon:
@@ -121,8 +126,8 @@ class cmd_bot(Command):
             pidfile = options.pidfile
         if options.logfile:
             logfile = options.logfile
-        if options.slavesfile:
-            slavesfile = options.slavesfile
+        if options.slaves_dir:
+            slaves_dir = options.slaves_dir
         if options.mastercfgfile:
             mastercfgfile = options.mastercfgfile
 
@@ -159,7 +164,7 @@ class cmd_bot(Command):
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile, logfile, slavesfile, mastercfgfile)
+            return self.start_server(config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
@@ -217,7 +222,7 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile, logfile, slavesfile, mastercfgfile):
+    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -247,6 +252,28 @@ class cmd_bot(Command):
         from buildbot import interfaces
         from buildbot.process.properties import Properties
 
+        class JhBuildSlave(BuildSlave):
+            def load_extra_configuration(self, slaves_dir):
+                slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
+                if not os.path.exists(slave_xml_file):
+                    return
+                try:
+                    cfg = ET.parse(slave_xml_file)
+                except: # parse error
+                    return
+
+                for int_attribute in ('max_builds', 'missing_timeout'):
+                    try:
+                        setattr(self, int_attribute, int(cfg.find(int_attribute).text))
+                    except (AttributeError, ValueError):
+                        pass
+
+                for text_attribute in ('contact_name', 'contact_email', 'url',
+                        'distribution', 'architecture', 'version'):
+                    try:
+                        setattr(self, text_attribute, cfg.find(text_attribute).text)
+                    except (AttributeError, ValueError):
+                        setattr(self, text_attribute, None)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
@@ -292,22 +319,15 @@ class cmd_bot(Command):
                 # (recognized build slave options are max_build and
                 # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists(slavesfile):
-                    for x in csv.reader(file(slavesfile)):
+                if os.path.exists(slaves_dir):
+                    slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                    for x in csv.reader(file(slaves_csv_file)):
                         if not x or x[0].startswith('#'):
                             continue
                         kw = {}
-                        for option in x[2:]:
-                            if not '=' in option:
-                                continue
-                            k, v = option.split('=', 1)
-                            if k in ('max_builds', 'missing_timeout'):
-                                v = int(v)
-                            else:
-                                # unrecognized option
-                                continue
-                            kw[k] = v
-                        config['slaves'].append(BuildSlave(x[0], x[1], **kw))
+                        build_slave = JhBuildSlave(x[0], x[1])
+                        build_slave.load_extra_configuration(slaves_dir)
+                        config['slaves'].append(build_slave)
 
                 if len(config['slaves']) == 0:
                     log.msg('you must fill slaves.csv with slaves')
@@ -419,7 +439,7 @@ class cmd_bot(Command):
                     log.msg(m)
                     warnings.warn(m, DeprecationWarning)
                     for name, passwd in config['bots']:
-                        slaves.append(BuildSlave(name, passwd))
+                        slaves.append(JhBuildSlave(name, passwd))
 
                 if "bots" not in config and "slaves" not in config:
                     log.msg("config dictionary must have either 'bots' or 'slaves'")
@@ -444,7 +464,7 @@ class cmd_bot(Command):
 
                 # do some validation first
                 for s in slaves:
-                    assert isinstance(s, BuildSlave)
+                    assert isinstance(s, JhBuildSlave)
                     if s.slavename in ("debug", "change", "status"):
                         raise KeyError, "reserved name '%s' used for a bot" % s.slavename
                 if config.has_key('interlocks'):

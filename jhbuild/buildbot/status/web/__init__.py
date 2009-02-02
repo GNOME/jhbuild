@@ -28,6 +28,7 @@ from buildbot.status.web.baseweb import WebStatus
 from waterfall import JhWaterfallStatusResource
 from changes import  ChangesResource
 from builder import JhBuildersResource
+from bot import JhBuildbotsResource
 
 
 def content(self, request):
@@ -86,7 +87,8 @@ class ProjectsSummary(HtmlResource):
                 title = 'Building %s' % ', '.join(modules)
             else:
                 title = klass
-            result += '<th class="%s" title="%s">%s</th>' % (klass, title, name)
+            result += '<th class="%s" title="%s"><a href="bots/%s">%s</a></th>' % (
+                    klass, title, name, name)
         result += '</tr>'
         thead = result
         # stop it here as a row with totals will be added here once every rows
@@ -181,6 +183,7 @@ class JHBuildWebStatus(WebStatus):
         # set custom changes pages
         self.putChild('changes', ChangesResource())
         self.putChild('builders', JhBuildersResource())
+        self.putChild('bots', JhBuildbotsResource())
 
     def setupSite(self):
         WebStatus.setupSite(self)
