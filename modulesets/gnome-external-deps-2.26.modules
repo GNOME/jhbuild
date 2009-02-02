@@ -325,7 +325,7 @@
   </tarball>
 
   <autotools id="opal" autogenargs="--disable-vpb"
-	  check-target="false">
+	  check-target="false" supports-non-srcdir-builds="no">
     <branch module="opal/3.5/opal-3.5.2.tar.bz2" repo="gnome.org"
 	    version="3.5.2"
             md5sum="0b593302c10e7c5f14ae20484ddf8e6b" size="8354326">
@@ -366,7 +366,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="ptlib" check-target="false">
+  <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
     <branch module="ptlib/2.5/ptlib-2.5.2.tar.bz2" repo="gnome.org"
             autogen-sh="configure"
             version="2.5.2"
@@ -403,7 +403,8 @@
     </dependencies>
   </tarball>
 
-  <tarball id="system-tools-backends" version="2.6.0">
+  <tarball id="system-tools-backends" version="2.6.0"
+           supports-non-srcdir-builds="no">
     <source href="http://ftp.gnome.org/pub/GNOME/sources/system-tools-backends/2.6/system-tools-backends-2.6.0.tar.bz2" md5sum="faf321012e92b72305878cd684547c54" size="421806"/>
     <suggests>
       <dep package="dbus"/>
@@ -460,7 +461,7 @@
     </branch>
   </autotools>
 
-  <autotools id="nss" autogen-sh="configure">
+  <autotools id="nss" autogen-sh="configure" supports-non-srcdir-builds="no">
     <branch repo="ftp.mozilla.org"
             module="security/nss/releases/NSS_3_12_RTM/src/nss-3.12.tar.gz"
 	    version="3.12"
@@ -495,7 +496,7 @@
   <autotools id="libvolume_id" skip-autogen="true"
                  makeargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir}"
 		 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man"
-		 check-target="false">
+		 check-target="false" supports-non-srcdir-builds="no">
     <branch repo="kernel.org"
 	    module="utils/kernel/hotplug/udev-111.tar.bz2" version="111"
 	    size="190020" md5sum="bd2a94e3ed243e6a3d501a5c8afc4b54">
@@ -714,7 +715,7 @@
   </tarball>
 
   <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
-             autogenargs="--enable-fhs">
+             autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
     <branch repo="samba.org"
             module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
             size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
@@ -723,7 +724,8 @@
     </branch>
   </autotools>
 
-  <autotools id="talloc">
+  <autotools id="talloc"
+             supports-non-srcdir-builds="no">
     <branch repo="samba.org"
             module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
             size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
@@ -732,7 +734,8 @@
     </branch>
   </autotools>
 
-  <autotools id="tdb">
+  <autotools id="tdb"
+             supports-non-srcdir-builds="no">
     <branch repo="samba.org"
             module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
             size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
@@ -741,7 +744,8 @@
     </branch>
   </autotools>
 
-  <autotools id="tevent">
+  <autotools id="tevent"
+             supports-non-srcdir-builds="no">
     <branch repo="samba.org"
             module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
             size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
@@ -750,7 +754,8 @@
     </branch>
   </autotools>
 
-  <autotools id="libmapi" skip-autogen="never" autogen-sh="configure">
+  <autotools id="libmapi" skip-autogen="never" autogen-sh="configure"
+             supports-non-srcdir-builds="no">
     <branch repo="sourceforge.net"
             module="openchange/libmapi-0.8-ROMULUS.tar.gz" version="0.8"
             size="1404900" md5sum="ac194f9952803e24821f0e530fb87465"/>
