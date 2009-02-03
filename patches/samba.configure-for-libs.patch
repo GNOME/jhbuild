@@ -1,7 +1,7 @@
 diff -Naur samba-4.0.0alpha6.orig/lib/talloc/autogen.sh samba-4.0.0alpha6/lib/talloc/autogen.sh
---- samba-4.0.0alpha6.orig/lib/talloc/autogen.sh	2009-01-21 16:14:23.146538547 +0100
-+++ samba-4.0.0alpha6/lib/talloc/autogen.sh	2009-01-21 16:17:00.855537827 +0100
-@@ -1,5 +1,13 @@
+--- samba-4.0.0alpha6.orig/lib/talloc/autogen.sh	2009-02-03 11:09:21.000000000 +0700
++++ samba-4.0.0alpha6/lib/talloc/autogen.sh	2009-02-03 11:13:03.000000000 +0700
+@@ -1,5 +1,16 @@
  #!/bin/sh
  
 +ARGV0=$0
@@ -12,10 +12,13 @@ diff -Naur samba-4.0.0alpha6.orig/lib/talloc/autogen.sh samba-4.0.0alpha6/lib/ta
 +srcdir=`dirname $ARGV0`
 +test -z "$srcdir" && srcdir=.
 +
++ORIGDIR=`pwd`
++cd $srcdir
++
  rm -rf autom4te.cache
  rm -f configure config.h.in
  
-@@ -9,6 +17,8 @@
+@@ -9,6 +20,8 @@
  
  rm -rf autom4te.cache
  
@@ -27,9 +30,9 @@ diff -Naur samba-4.0.0alpha6.orig/lib/talloc/autogen.sh samba-4.0.0alpha6/lib/ta
 +	echo "Now type \`make' to compile." || exit 1
  
 diff -Naur samba-4.0.0alpha6.orig/lib/tdb/autogen.sh samba-4.0.0alpha6/lib/tdb/autogen.sh
---- samba-4.0.0alpha6.orig/lib/tdb/autogen.sh	2009-01-21 16:14:23.165537336 +0100
-+++ samba-4.0.0alpha6/lib/tdb/autogen.sh	2009-01-21 16:17:39.882537381 +0100
-@@ -1,5 +1,13 @@
+--- samba-4.0.0alpha6.orig/lib/tdb/autogen.sh	2009-02-03 11:09:27.000000000 +0700
++++ samba-4.0.0alpha6/lib/tdb/autogen.sh	2009-02-03 11:13:45.000000000 +0700
+@@ -1,5 +1,16 @@
  #!/bin/sh
  
 +ARGV0=$0
@@ -40,10 +43,13 @@ diff -Naur samba-4.0.0alpha6.orig/lib/tdb/autogen.sh samba-4.0.0alpha6/lib/tdb/a
 +srcdir=`dirname $ARGV0`
 +test -z "$srcdir" && srcdir=.
 +
++ORIGDIR=`pwd`
++cd $srcdir
++
  rm -rf autom4te.cache
  rm -f configure config.h.in
  
-@@ -9,6 +17,8 @@
+@@ -9,6 +20,8 @@
  
  rm -rf autom4te.cache
  
@@ -55,9 +61,9 @@ diff -Naur samba-4.0.0alpha6.orig/lib/tdb/autogen.sh samba-4.0.0alpha6/lib/tdb/a
 +	echo "Now type \`make' to compile." || exit 1
  
 diff -Naur samba-4.0.0alpha6.orig/lib/tevent/autogen.sh samba-4.0.0alpha6/lib/tevent/autogen.sh
---- samba-4.0.0alpha6.orig/lib/tevent/autogen.sh	2009-01-21 16:14:23.144537174 +0100
-+++ samba-4.0.0alpha6/lib/tevent/autogen.sh	2009-01-21 16:17:45.844538192 +0100
-@@ -1,14 +1,24 @@
+--- samba-4.0.0alpha6.orig/lib/tevent/autogen.sh	2009-02-03 11:09:37.000000000 +0700
++++ samba-4.0.0alpha6/lib/tevent/autogen.sh	2009-02-03 11:14:06.000000000 +0700
+@@ -1,14 +1,27 @@
  #!/bin/sh
  
 +ARGV0=$0
@@ -67,6 +73,9 @@ diff -Naur samba-4.0.0alpha6.orig/lib/tevent/autogen.sh samba-4.0.0alpha6/lib/te
 +# configure
 +srcdir=`dirname $ARGV0`
 +test -z "$srcdir" && srcdir=.
++
++ORIGDIR=`pwd`
++cd $srcdir
 +
  rm -rf autom4te.cache
  rm -f configure config.h.in
