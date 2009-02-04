@@ -31,6 +31,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     checkoutdir = None
     autogenargs = ''
     makeargs = ''
+    makeinstallargs = ''
     supports_non_srcdir_builds = True
     makefile = 'Makefile'
     if node.hasAttribute('checkoutdir'):
@@ -39,6 +40,8 @@ def parse_tarball(node, config, uri, repositories, default_repo):
         autogenargs = node.getAttribute('autogenargs')
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
+    if node.hasAttribute('makeinstallargs'):
+        makeinstallargs = node.getAttribute('makeinstallargs')
     if node.hasAttribute('supports-non-srcdir-builds'):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
@@ -86,7 +89,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     branch.patches = patches
 
     return AutogenModule(name, branch,
-            autogenargs, makeargs, '',
+            autogenargs, makeargs, makeinstallargs,
             dependencies, after, suggests,
             supports_non_srcdir_builds = supports_non_srcdir_builds,
             skip_autogen = False, autogen_sh = 'configure',
