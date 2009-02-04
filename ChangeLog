@@ -1,3 +1,11 @@
+2009-02-04  John Carr  <john.carr@unrouted.co.uk>
+
+	* jhbuild/modtypes/linux.py: Fix a bug that prevented jhbuild
+	calling make modules_install. Support doing make mrproper. Do
+	make install by hand (to avoid colliding with custom distro
+	Kbuild foo or installing to /boot). Install headers. Support
+	'make defconfig' if moduleset doesnt specificy a kconfig.
+
 2009-02-04  Christian Persch  <chpe@gnome.org>
 
 	* modulesets/gnome-2.26.modules: Add quick-lounge-applet.
