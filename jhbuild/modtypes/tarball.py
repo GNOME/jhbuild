@@ -19,6 +19,8 @@
 
 __metaclass__ = type
 
+import sys
+
 from jhbuild.modtypes import register_module_type, get_dependencies
 
 def parse_tarball(node, config, uri, repositories, default_repo):
@@ -53,7 +55,12 @@ def parse_tarball(node, config, uri, repositories, default_repo):
         if childnode.nodeName == 'source':
             source_url = childnode.getAttribute('href')
             if childnode.hasAttribute('size'):
-                source_size = int(childnode.getAttribute('size'))
+                try:
+                    source_size = int(childnode.getAttribute('size'))
+                except ValueError:
+                    print >> sys.stderr, uencode(
+                            _('W: module \'%s\' has invalid size attribute (\'%s\')') % (
+                                name, childnode.getAttribute('size')))
             if childnode.hasAttribute('md5sum'):
                 source_md5 = childnode.getAttribute('md5sum')
         elif childnode.nodeName == 'patches':
