@@ -196,6 +196,12 @@ class GitBranch(Branch):
 
     def _update(self, buildscript, copydir=None):
         cwd = self.get_checkoutdir(copydir)
+
+        if not os.path.exists(os.path.join(cwd, '.git')):
+            if os.path.exists(os.path.join(cwd, '.svn')):
+                raise CommandError(_('Failed to update module as it switched to git (you should check for changes then remove the directory).'))
+            raise CommandError(_('Failed to update module (missing .git) (you should check for changes then remove the directory).'))
+
         buildscript.execute(['git', 'fetch'], cwd=cwd)
 
         # stash uncommitted changes on the current branch
