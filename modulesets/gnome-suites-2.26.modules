@@ -9,6 +9,8 @@
         trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
       <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
+  <repository type="git" name="git.gnome.org"
+      href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="svn" name="svn.gnome.org/seahorse"
@@ -797,7 +799,7 @@
   </waf>
 
   <autotools id="gnome-screensaver">
-    <branch/>
+    <branch repo="git.gnome.org" />
     <dependencies>
       <dep package="intltool"/>
       <dep package="gconf"/>
