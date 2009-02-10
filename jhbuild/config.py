@@ -270,6 +270,10 @@ class Config:
         if os.path.exists(os.path.join(self.prefix, 'bin', 'python')):
             os.environ['PYTHON'] = os.path.join(self.prefix, 'bin', 'python')
 
+        # Mono Prefixes
+        os.environ['MONO_PREFIX'] = self.prefix
+        os.environ['MONO_GAC_PREFIX'] = self.prefix
+
         # handle environment prepends ...
         for envvar in env_prepends.keys():
             for path in env_prepends[envvar]:
