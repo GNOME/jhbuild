@@ -9,6 +9,7 @@
       trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
     <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
+  <repository type="git" name="git.gnome.org" href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="cvs.cairographics.org"
@@ -2009,16 +2010,16 @@
             module="libfakekey/0.1/libfakekey-0.1.tar.bz2" version="0.1"
             size="203504" md5="83dbde4d77e8baf0176fe4291d8a2303"/>
   </autotools>
-     
+
   <autotools id="gobject-introspection">
-    <branch/>
+    <branch repo="git.gnome.org"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
   </autotools>
 
   <autotools id="gir-repository">
-    <branch/>
+    <branch repo="git.gnome.org"/>
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
@@ -2043,7 +2044,7 @@
   </autotools>
 
   <autotools id="gjs">
-    <branch/>
+    <branch repo="git.gnome.org"/>
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
@@ -2166,7 +2167,7 @@
   </autotools>
 
   <autotools id="gnome-shell">
-    <branch/>
+    <branch repo="git.gnome.org"/>
     <dependencies>
       <dep package="metacity-clutter"/>
       <dep package="gjs"/>
