@@ -112,6 +112,8 @@
       href="git://git.collabora.co.uk/git/"/>
   <repository type="bzr" name="bzr.dvb-daemon.gnome.org"
     href="http://www.gnome.org/~sebp/bzr/"/>
+  <repository type="tarball" name="people.suug.ch/~tgr/libnl/"
+      href="http://people.suug.ch/~tgr/libnl/"/>
 
   <include href="freedesktop-2.26.modules"/>
   <include href="gnome-suites-2.26.modules"/>
@@ -1125,20 +1127,22 @@
     <branch/>
   </autotools>
 
+  <autotools id="libnl" skip-autogen="never" autogen-sh="configure">
+    <branch repo="people.suug.ch/~tgr/libnl/"
+            module="libnl-1.1.tar.gz" version="1.1"
+            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932"/>
+  </autotools>
+
   <autotools id="NetworkManager">
     <branch repo="git.freedesktop.org"
 	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_7" checkoutdir="NetworkManager"/>
     <dependencies>
+      <dep package="libnl"/>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
       <dep package="hal"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libgnomeui"/>
       <dep package="libgcrypt"/>
+      <dep package="gtk-doc"/>
     </dependencies>
   </autotools>
 
@@ -1150,14 +1154,10 @@
       <dep package="gtk+"/>
       <dep package="libglade"/>
       <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="gnome-keyring"/>
       <dep package="NetworkManager"/>
-    </dependencies>
-    <suggests>
       <dep package="libnotify"/>
-    </suggests>
+    </dependencies>
   </autotools>
 
   <autotools id="xdg-user-dirs-gtk">
