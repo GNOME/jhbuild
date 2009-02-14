@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&component=general\n"
-"POT-Creation-Date: 2009-02-04 13:40+0000\n"
-"PO-Revision-Date: 2009-02-06 19:07+0100\n"
+"POT-Creation-Date: 2009-02-10 12:37+0000\n"
+"PO-Revision-Date: 2009-02-14 13:16+0100\n"
 "Last-Translator: Claudio Saavedra <csaavedra@igalia.com>\n"
 "Language-Team: Español <Gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -310,7 +310,6 @@ msgid "log file location"
 msgstr "ubicación del archivo de registro"
 
 #: ../jhbuild/commands/bot.py:86
-#| msgid "slaves csv file location (only with --start-server)"
 msgid "directory with slaves files (only with --start-server)"
 msgstr "directorio con archivos esclavos (sólo con --start-server)"
 
@@ -492,7 +491,7 @@ msgstr "no se puede escribir en el prefijo de instalación"
 #: ../jhbuild/commands/sanitycheck.py:149
 #: ../jhbuild/versioncontrol/arch.py:155 ../jhbuild/versioncontrol/bzr.py:138
 #: ../jhbuild/versioncontrol/cvs.py:297 ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/git.py:234 ../jhbuild/versioncontrol/hg.py:100
+#: ../jhbuild/versioncontrol/git.py:240 ../jhbuild/versioncontrol/hg.py:100
 #: ../jhbuild/versioncontrol/mtn.py:139 ../jhbuild/versioncontrol/svn.py:311
 #, python-format
 msgid "%s not found"
@@ -974,7 +973,6 @@ msgid "Installing modules"
 msgstr "Instalando módulos"
 
 #: ../jhbuild/modtypes/linux.py:241
-#| msgid "Installing"
 msgid "Installing kernel"
 msgstr "Instalando núcleo"
 
@@ -1048,8 +1046,8 @@ msgstr "la rama de %s tiene una anulación incorrecta. Compruebe su .jhbuildrc"
 #: ../jhbuild/versioncontrol/arch.py:128 ../jhbuild/versioncontrol/arch.py:141
 #: ../jhbuild/versioncontrol/bzr.py:121 ../jhbuild/versioncontrol/bzr.py:127
 #: ../jhbuild/versioncontrol/darcs.py:84 ../jhbuild/versioncontrol/darcs.py:90
-#: ../jhbuild/versioncontrol/git.py:348 ../jhbuild/versioncontrol/git.py:384
-#: ../jhbuild/versioncontrol/git.py:443 ../jhbuild/versioncontrol/hg.py:85
+#: ../jhbuild/versioncontrol/git.py:354 ../jhbuild/versioncontrol/git.py:390
+#: ../jhbuild/versioncontrol/git.py:449 ../jhbuild/versioncontrol/hg.py:85
 #: ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
 msgstr "aún no se soporta la comprobación basada en fechas\n"
@@ -1092,7 +1090,23 @@ msgstr "El comando %s no devolvió ninguna salida"
 msgid "Command %s did not include commit line: %r"
 msgstr "El comando %s no incluyó la línea de commit: %r"
 
-#: ../jhbuild/versioncontrol/git.py:315
+#: ../jhbuild/versioncontrol/git.py:202
+msgid ""
+"Failed to update module as it switched to git (you should check for changes "
+"then remove the directory)."
+msgstr ""
+"Falló al actualizar el módulo porque se ha migrado a git (debería comprobar "
+"si hay cambios y eliminar el directorio)."
+
+#: ../jhbuild/versioncontrol/git.py:203
+msgid ""
+"Failed to update module (missing .git) (you should check for changes then "
+"remove the directory)."
+msgstr ""
+"Falló al actualizar el módulo (no se ha encontrado .git) (debería comprobar "
+"si hay cambios y eliminar el directorio)."
+
+#: ../jhbuild/versioncontrol/git.py:321
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1101,7 +1115,7 @@ msgstr ""
 " Si está ejecutando una versión de git < 1.5.6 se recomienda que la "
 "actualice.\n"
 
-#: ../jhbuild/versioncontrol/git.py:360
+#: ../jhbuild/versioncontrol/git.py:366
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
