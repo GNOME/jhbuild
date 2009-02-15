@@ -159,7 +159,7 @@ class Cache:
                 base = base + '-'
         return base
 
-    def load(self, uri, nonetwork=False):
+    def load(self, uri, nonetwork=False, age=None):
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
@@ -172,7 +172,7 @@ class Cache:
         # is the file cached and not expired?
         self.read_cache()
         entry = self.entries.get(uri)
-        if entry:
+        if entry and age != 0:
             if (nonetwork or now <= entry.expires):
                 return os.path.join(self.cachedir, entry.local)
 
@@ -217,7 +217,9 @@ class Cache:
         # set expiry date
         entry.expires = _parse_date(expires)
         if entry.expires <= now: # ignore expiry times that have already passed
-            entry.expires = now + self.default_age
+            if age is None:
+                age = self.default_age
+            entry.expires = now + age
 
         # save cache
         self.entries[uri] = entry
@@ -225,9 +227,9 @@ class Cache:
         return filename
 
 _cache = None
-def load(uri, nonetwork=False):
+def load(uri, nonetwork=False, age=None):
     '''Downloads the file associated with the URI, and returns a local
     file name for contents.'''
     global _cache
     if not _cache: _cache = Cache()
-    return _cache.load(uri, nonetwork=nonetwork)
+    return _cache.load(uri, nonetwork=nonetwork, age=age)
