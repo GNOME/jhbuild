@@ -36,9 +36,8 @@
       href="svn://svn.debian.org/"/>
   <repository type="svn" name="svn.navi.cx"
       href="http://svn.navi.cx/" />
-  <repository type="cvs" name="anoncvs.abisource.com"
-      cvsroot=":pserver:anoncvs@anoncvs.abisource.com:/cvsroot"
-      password="anoncvs" />
+  <repository type="svn" name="svn.abisource.com"
+      href="http://svn.abisource.com/"/>
   <repository type="svn" name="svn.gna.org"
       href="svn://svn.gna.org/svn/"/>
   <repository type="git" name="git.imendio.com"
@@ -2276,6 +2275,32 @@
       <dep package="gnome-panel"/>
       <dep package="gnome-menus"/>
     </dependencies>
+  </autotools>
+
+  <tarball id="wv" version="1.2.4">
+    <source href="http://downloads.sourceforge.net/wvware/wv-1.2.4.tar.gz"
+            size="629554" md5sum="c1861c560491f121e12917fa76970ac5"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libgsf"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="abiword">
+    <branch repo="svn.abisource.com"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="libgsf"/>
+      <dep package="wv"/>
+    </dependencies>
+    <suggests>
+      <dep package="enchant"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gucharmap"/>
+    </suggests>
   </autotools>
 
 </moduleset>
