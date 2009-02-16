@@ -165,14 +165,16 @@
 	repo		CDATA	#IMPLIED
 	module		CDATA	#IMPLIED
 	checkoutdir	CDATA	#IMPLIED
-	override-checkoutdir (yes|no) "yes"  <!-- CVS only -->
-	update-new-dirs (yes|no) "yes"       <!-- CVS only -->
-	source-subdir   CDATA   #IMPLIED     <!-- Tarballs only  -->
+	override-checkoutdir (yes|no) "yes"
+	update-new-dirs (yes|no) "yes"
+	source-subdir   CDATA   #IMPLIED
 	revision	CDATA	#IMPLIED
 	tag             CDATA   #IMPLIED
 	version		CDATA	#IMPLIED
 	size		CDATA	#IMPLIED
 	md5sum		CDATA	#IMPLIED>
+	<!-- override-checkoutdir and update-new-dirs are CVS only
+	     source-subdir is tarballs only -->
 
 <!ELEMENT quilt (branch)>
 <!ATTLIST quilt
