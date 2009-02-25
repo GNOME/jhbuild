@@ -2250,13 +2250,10 @@
   <!-- See also http://live.gnome.org/WebKitGtk            -->
   <repository type="git" name="git.debian.org"
       href="git://git.debian.org/"/>
-  <repository type="tarball" name="webkit-zecke"
-  	href="http://oe.linuxtogo.org/~zecke/webkit/gtk/"/>
   <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
       makefile="GNUmakefile">
-    <branch repo="webkit-zecke" module="webkit-1.1.0.tar.gz" version="1.1.0"/>
-    <!--<branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
-      checkoutdir="WebKit" revision="filtered"/>-->
+    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
+      checkoutdir="WebKit" revision="filtered"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
