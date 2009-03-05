@@ -92,18 +92,23 @@ class cmd_sanitycheck(Command):
                              r'automake \([^)]*\) ([\d.]+)', '1.9'):
             uprint(_('%s not found') % 'automake-1.9')
 
+        not_in_path = []
         for amver in ('1.4', '1.7', '1.8', '1.9'):
             try:
                 path = get_aclocal_path(amver)
             except:
                 continue # exception raised if aclocal-ver not runnable
 
-            if not inpath('libtool.m4', path):
-                uprint(_("aclocal-%s can't see libtool macros") % amver)
-            if not inpath('gettext.m4', path):
-                uprint(_("aclocal-%s can't see gettext macros") % amver)
-            if not inpath('pkg.m4', path):
-                uprint(_("aclocal-%s can't see pkg-config macros") % amver)
+            macros = ['libtool.m4', 'gettext.m4', 'pkg.m4']
+            for macro in macros:
+                if not inpath (macro, path):
+                    uprint(_("aclocal-%s can't see %s macros") % (amver, macro.split('.m4')[0]))
+                    if not_in_path.count(macro) == 0:
+                        not_in_path.append(macro)
+
+        if len(not_in_path) > 0:
+            uprint(_("Please copy the lacking macros (%s) in one of the following paths: %s" 
+                     % (', '.join(not_in_path), ', '.join(path))))
 
         # XML catalog sanity checks
         if not os.access('/etc/xml/catalog', os.R_OK):
