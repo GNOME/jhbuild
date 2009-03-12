@@ -29,12 +29,22 @@ from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
 
-# Make sure that the urlparse module considers sftp://
+# Make sure that the urlparse module considers bzr://, bzr+ssh://, sftp:// and lp:
 # scheme to be netloc aware and set to allow relative URIs.
+if 'bzr' not in urlparse.uses_netloc:
+    urlparse.uses_netloc.append('bzr')
+if 'bzr' not in urlparse.uses_relative:
+    urlparse.uses_relative.append('bzr')
+if 'bzr+ssh' not in urlparse.uses_netloc:
+    urlparse.uses_netloc.append('bzr+ssh')
+if 'bzr+ssh' not in urlparse.uses_relative:
+    urlparse.uses_relative.append('bzr+ssh')
 if 'sftp' not in urlparse.uses_netloc:
     urlparse.uses_netloc.append('sftp')
 if 'sftp' not in urlparse.uses_relative:
     urlparse.uses_relative.append('sftp')
+if 'lp' not in urlparse.uses_relative:
+    urlparse.uses_relative.append('lp')
 
 
 class BzrRepository(Repository):
