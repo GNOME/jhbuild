@@ -276,7 +276,7 @@ class ModuleSet:
 def load(config, uri=None):
     if uri is not None:
         modulesets = [ uri ]
-    elif type(config.moduleset) == type([]):
+    elif type(config.moduleset) in (list, tuple):
         modulesets = config.moduleset
     else:
         modulesets = [ config.moduleset ]
