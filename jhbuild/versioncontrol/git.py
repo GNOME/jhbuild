@@ -169,7 +169,13 @@ class GitBranch(Branch):
             buildscript.execute(cmd, cwd=self.srcdir)
 
     def _checkout(self, buildscript, copydir=None):
-        cmd = ['git', 'clone', self.module]
+
+        if self.config.quiet_mode:
+            quiet = ['-q']
+        else:
+            quiet = []
+
+        cmd = ['git', 'clone'] + quiet + [self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
@@ -185,8 +191,8 @@ class GitBranch(Branch):
                 buildscript.execute(['git', 'show-branch', self.branch],
                                     cwd=self.srcdir)
             except CommandError:
-                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname],
-                                    cwd=self.srcdir)
+                buildscript.execute(['git', 'checkout'] + quiet + [
+                        '-b', self.branch, self.branchname], cwd=self.srcdir)
 
         if self.config.sticky_date:
             self._update(buildscript)
@@ -202,7 +208,12 @@ class GitBranch(Branch):
                 raise CommandError(_('Failed to update module as it switched to git (you should check for changes then remove the directory).'))
             raise CommandError(_('Failed to update module (missing .git) (you should check for changes then remove the directory).'))
 
-        buildscript.execute(['git', 'fetch'], cwd=cwd)
+        if self.config.quiet_mode:
+            quiet = ['-q']
+        else:
+            quiet = []
+
+        buildscript.execute(['git', 'fetch'] + quiet, cwd=cwd)
 
         # stash uncommitted changes on the current branch
         buildscript.execute(['git', 'stash', 'save', 'jhbuild-build'], cwd=self.get_checkoutdir())
@@ -210,21 +221,22 @@ class GitBranch(Branch):
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
-            branch_cmd = ['git', 'checkout', branch]
+            branch_cmd = ['git', 'checkout'] + quiet + [branch]
             try:
                 buildscript.execute(branch_cmd, cwd=cwd)
             except CommandError:
-                branch_cmd = ['git', 'checkout', '-b', branch]
+                branch_cmd = ['git', 'checkout'] + quiet + ['-b', branch]
                 buildscript.execute(branch_cmd, cwd=cwd)
             buildscript.execute(['git', 'reset', '--hard', commit], cwd=cwd)
 
         if self.branch:
             try:
-                buildscript.execute(['git', 'checkout', self.branch], cwd=self.srcdir)
+                buildscript.execute(['git', 'checkout'] + quiet + [self.branch], cwd=self.srcdir)
             except CommandError:
-                buildscript.execute(['git', 'checkout', '-b', self.branch, self.branchname], cwd=self.srcdir)
+                buildscript.execute(['git', 'checkout'] + quiet + [
+                        '-b', self.branch, self.branchname], cwd=self.srcdir)
         else:
-            buildscript.execute(['git', 'checkout'], cwd=self.srcdir)
+            buildscript.execute(['git', 'checkout'] + quiet, cwd=self.srcdir)
 
         if not self.tag:
             if self.branch:
@@ -389,6 +401,11 @@ class GitSvnBranch(GitBranch):
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
 
+        if self.config.quiet_mode:
+            quiet = ['-q']
+        else:
+            quiet = []
+
         cwd = self.get_checkoutdir()
 
         last_revision = get_output(['git', 'svn', 'find-rev', 'HEAD'], cwd=cwd)
@@ -397,7 +414,7 @@ class GitSvnBranch(GitBranch):
         cmd = ['git', 'stash', 'save', 'jhbuild-build']
         buildscript.execute(cmd, cwd=cwd)
 
-        cmd = ['git', 'checkout', 'master']
+        cmd = ['git', 'checkout'] + quiet + ['master']
         buildscript.execute(cmd, cwd=cwd)
 
         cmd = ['git', 'svn', 'rebase']
