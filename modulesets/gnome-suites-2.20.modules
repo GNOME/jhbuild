@@ -14,6 +14,7 @@
   <repository type="cvs" name="gstreamer.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
       password=""/>
+  <repository type="git" name="git.gnome.org" href="git://git.gnome.org/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -71,7 +72,7 @@
   </autotools>
 
   <autotools id="glib">
-    <branch revision="glib-2-14"/>
+    <branch repo="git.gnome.org" revision="glib-2-14"/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -100,7 +101,7 @@
   </autotools>
 
   <autotools id="gtk+">
-    <branch revision="gtk-2-12"/>
+    <branch repo="git.gnome.org" revision="gtk-2-12"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="pango"/>
