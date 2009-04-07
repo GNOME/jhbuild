@@ -1,3 +1,12 @@
+2009-04-07  Owen Taylor  <otaylor@redhat.com>
+
+	Bug 571240 – Search for 'install' binary at run time
+
+	* install-check.c (main): Some systems (in particular Arch Linux)
+	use put the install executable somewhere other than
+	/usr/bin/install. So use execvp() rather than execv() to run the
+	system install.
+
 2009-04-06  Frederic Peters  <fpeters@0d.be>
 
 	* modulesets/gnome-suites-2.26.modules: evince and gnome-keyring opened
