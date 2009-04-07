@@ -65,7 +65,6 @@ main (int    argc,
   char **args;
   int i, len;
   char *dot, *lastarg, *start;
-  int ret;
 
   lastarg = argv[argc - 1];
 
@@ -120,7 +119,7 @@ install:
 
   args[argc] = NULL;
 
-  ret = execvp (args[0], args);
+  execvp (args[0], args);
   perror("executing 'install' failed");
 
   return 1;
