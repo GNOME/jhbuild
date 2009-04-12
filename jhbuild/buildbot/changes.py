@@ -35,14 +35,17 @@ class GnomeMaildirSource(MaildirSource):
             # not a mail at all
             return None
 
+        from_header = m['from']
+        if '<' in from_header:
+            from_email = m['from'].split('<')[0].split('>')[0]
+        else:
+            from_email = m['from']
+
         # From is svnuser@svn.gnome.org
         name, domain = m["from"].split("@")
 
-        # Subject is project revision - etc.
-        project = m['subject'].split(' ', 1)[0]
-
-        # If this e-mail is valid, it will come from an svn.gnome.org email
-        if domain != "svn.gnome.org":
+        # If this e-mail is valid, it will come from an svn/src.gnome.org email
+        if domain not in ('svn.gnome.org', 'src.gnome.org'):
             return None
 
         # we take the time of receipt as the time of checkin. Not correct, but it
@@ -54,32 +57,99 @@ class GnomeMaildirSource(MaildirSource):
         files = []
         comments = ""
         isdir = 0
-        lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
-        changeType = ''
         links = []
-        while lines:
-            line = lines.pop(0)
 
-            if line.startswith('New Revision: '):
-                revision = line.split(':', 1)[1].strip()
+        subject = m['subject']
 
-            if line.startswith('URL: '):
-                links.append(line.split(':', 1)[1].strip())
+        if subject.startswith('['):
+            # git message
+            revision = m.get('X-Git-Newrev')
+            if not revision:
+                # not a new git revision, may be a new tag, a new branch, etc.
+                return None
 
-            if line[:-1] == 'Log:':
-                while lines and not (lines[0].startswith('Added:') or 
-                        lines[0].startswith('Modified:') or 
-                        lines[0].startswith('Removed:')):
-                    comments += lines.pop(0)
-                comments = comments.rstrip()
+            if m.get('X-Git-Refname', '').startswith('refs/tags/'):
+                # ignore tags
+                return None
 
-            if line[:-1] in ("Added:", "Modified:", "Removed:"):
-                while not (lines[0] == "\n" or lines[0].startswith('______')):
-                    l = lines.pop(0)
-                    if l[:-1] not in ("Added:", "Modified:", "Removed:"):
-                        files.append(l[3:-1])
+            try:
+                project = subject[1:subject.index(']')]
+            except ValueError:
+                return None # old git commit message; ignored
 
-        comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
+            if '/' in project:
+                # remove the branch part (ex: [anjal/inline-composer-quotes])
+                project = project.split('/')[0]
+
+            if ':' in project:
+                # remove the patch number part (ex: [anjal: 3/3])
+                project = project.split(':')[0]
+
+            if 'Merge branch' in subject:
+                comments = subject[subject.index('Merge branch'):]
+            elif 'Created branch' in subject:
+                comments = subject[subject.index('Created branch'):]
+            else:
+                lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
+                after_date = False
+                while lines:
+                    line = lines.pop(0)
+                    if line.startswith('Date:'):
+                        after_date = True
+                        continue
+                    if not after_date:
+                        continue
+                    if line.startswith('---'):
+                        after_date = False
+                        break
+                    comments += line[4:] + '\n'
+                comments = comments.strip()
+
+                comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
+
+                lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
+                after_dash = False
+                while lines:
+                    line = lines.pop(0)
+                    if line.startswith('---'):
+                        after_dash = True
+                        continue
+                    if not after_dash:
+                        continue
+                    if not '|' in line:
+                        break
+                    files.append(line.split()[0])
+
+        else:
+            # Subject is project revision - etc.
+            project = m['subject'].split(' ', 1)[0]
+
+            lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
+            changeType = ''
+            while lines:
+                line = lines.pop(0)
+
+                if line.startswith('New Revision: '):
+                    revision = line.split(':', 1)[1].strip()
+
+                if line.startswith('URL: '):
+                    links.append(line.split(':', 1)[1].strip())
+
+                if line[:-1] == 'Log:':
+                    while lines and not (lines[0].startswith('Added:') or 
+                            lines[0].startswith('Modified:') or 
+                            lines[0].startswith('Removed:')):
+                        comments += lines.pop(0)
+                    comments = comments.rstrip()
+
+                if line[:-1] in ("Added:", "Modified:", "Removed:"):
+                    while not (lines[0] == "\n" or lines[0].startswith('______')):
+                        l = lines.pop(0)
+                        if l[:-1] not in ("Added:", "Modified:", "Removed:"):
+                            files.append(l[3:-1])
+
+            comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
+
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
         c.project = project # custom attribute
         return c
