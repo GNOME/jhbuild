@@ -101,6 +101,6 @@ class cmd_tinderbox(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_tinderbox)

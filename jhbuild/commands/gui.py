@@ -51,6 +51,6 @@ class cmd_gui(Command):
 
         if module_list != None:
             build = jhbuild.frontends.get_buildscript(config, module_list)
-            build.build()
+            return build.build()
 
 register_command(cmd_gui)
