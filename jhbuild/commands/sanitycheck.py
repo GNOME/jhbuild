@@ -58,10 +58,10 @@ class cmd_sanitycheck(Command):
         # check whether the checkout root and install prefix are writable
         if not (os.path.isdir(config.checkoutroot) and
                 os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):
-            uprint(_('checkout root is not writable'))
+            uprint(_('checkout root (%s) is not writable') % config.checkoutroot)
         if not (os.path.isdir(config.prefix) and
                 os.access(config.prefix, os.R_OK|os.W_OK|os.X_OK)):
-            uprint(_('install prefix is not writable'))
+            uprint(_('install prefix (%s) is not writable') % config.prefix)
 
         # check whether various tools are installed
         if not check_version(['libtoolize', '--version'],
