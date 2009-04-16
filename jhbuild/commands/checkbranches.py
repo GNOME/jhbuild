@@ -17,13 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
-
-import urllib2
 from optparse import make_option
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
+from jhbuild.utils.cmds import get_output
+from jhbuild.errors import CommandError
 
 class cmd_checkbranches(Command):
     doc = _('Check modules in GNOME subversion have the correct branch definition')
@@ -49,21 +48,21 @@ class cmd_checkbranches(Command):
         for mod in module_list:
             if mod.type in ('meta', 'tarball'):
                 continue
-            if not mod.branch or not mod.branch.repository.__class__.__name__ == 'SubversionRepository':
+            if not mod.branch or not mod.branch.repository.__class__.__name__ == 'GitRepository':
                 continue
-            if not 'svn.gnome.org' in mod.branch.repository.href:
+            if not 'git.gnome.org' in mod.branch.repository.href:
                 continue
-            rev = mod.branch.revision
-            if rev:
+            if mod.branch.branch:
+                # there is already a branch defined
                 continue
 
-            url = 'http://svn.gnome.org/svn/%s/branches/%s' % (mod.name, branch)
             try:
-                st = urllib2.urlopen(url).read()
-            except urllib2.URLError:
+                if get_output(['git', 'ls-remote',
+                        'git://git.gnome.org/%s' % mod.name,
+                        'refs/heads/%s' % branch]):
+                    uprint(_('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch})
+            except CommandError:
                 pass
-            else:
-                uprint(_('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch})
 
 
 register_command(cmd_checkbranches)
