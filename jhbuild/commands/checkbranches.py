@@ -45,8 +45,7 @@ class cmd_checkbranches(Command):
             branch = branch.replace('gnome-suites-', 'gnome-')
 
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules,
-                                                 config.skip)
+        module_list = module_set.get_module_list(args or config.modules)
         for mod in module_list:
             if mod.type in ('meta', 'tarball'):
                 continue
