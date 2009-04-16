@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
+  <repository type="svn" name="svn.gnome.org"
       href="http://svn.gnome.org/svn/">
       <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
         trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
@@ -14,9 +14,9 @@
   <repository type="cvs" name="gstreamer.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
       password=""/>
-  <repository type="git" name="git.gnome.org" href="git://git.gnome.org/"/>
+  <repository type="git" name="git.gnome.org" default="yes" href="git://git.gnome.org/"/>
 
-<!-- This is a special module: it's needed to build from svn, but not
+<!-- This is a special module: it's needed to build from git, but not
      needed to build from tarballs, so it doesn't need to be in our suites
      and it doesn't need to be an external dependency -->
   <autotools id="gnome-common">
@@ -72,7 +72,7 @@
   </autotools>
 
   <autotools id="glib">
-    <branch repo="git.gnome.org" revision="glib-2-14"/>
+    <branch revision="glib-2-14"/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -101,7 +101,7 @@
   </autotools>
 
   <autotools id="gtk+">
-    <branch repo="git.gnome.org" revision="gtk-2-12"/>
+    <branch revision="gtk-2-12"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="pango"/>

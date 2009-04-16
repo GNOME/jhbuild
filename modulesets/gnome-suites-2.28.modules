@@ -3,13 +3,13 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
+  <repository type="svn" name="svn.gnome.org"
       href="http://svn.gnome.org/svn/">
       <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
         trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
       <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
-  <repository type="git" name="git.gnome.org"
+  <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
@@ -77,7 +77,7 @@
   </autotools>
 
   <autotools id="glib">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -111,7 +111,7 @@
   </autotools>
 
   <autotools id="gtk+">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -141,7 +141,7 @@
   </autotools>
 
   <autotools id="pango">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gnome-common"/>
       <dep package="glib"/>

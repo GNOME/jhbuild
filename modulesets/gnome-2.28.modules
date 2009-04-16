@@ -3,13 +3,14 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
+  <repository type="svn" name="svn.gnome.org"
       href="http://svn.gnome.org/svn/">
     <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
       trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
     <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
-  <repository type="git" name="git.gnome.org" href="git://git.gnome.org/"/>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="cvs.cairographics.org"
@@ -994,7 +995,7 @@
   </autotools>
 
   <autotools id="pitivi">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
@@ -1048,7 +1049,7 @@
   </autotools>
 
   <autotools id="tracker">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gmime-2-2"/>
@@ -1071,7 +1072,7 @@
   </autotools>
 
  <autotools id="nemiver">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libglademm"/>
@@ -1093,7 +1094,7 @@
   </autotools>
 
   <autotools id="gnome-scan">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gconf"/>
@@ -1209,7 +1210,7 @@
   <!--   flex                                              -->
   <autotools id="vala-trunk"
              autogenargs="--enable-vapigen --disable-shared --enable-static">
-    <branch repo="git.gnome.org" module="vala"/>
+    <branch module="vala"/>
     <dependencies>
       <dep package="vala"/>
       <dep package="glib"/>
@@ -1947,7 +1948,7 @@
   </distutils>
 
   <autotools id="conduit">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="pygoocanvas"/>
       <dep package="python-vobject"/>
@@ -2041,14 +2042,14 @@
   </autotools>
 
   <autotools id="gobject-introspection">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
   </autotools>
 
   <autotools id="gir-repository">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
@@ -2073,7 +2074,7 @@
   </autotools>
 
   <autotools id="gjs">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gobject-introspection"/>
     </dependencies>
@@ -2196,7 +2197,7 @@
   </autotools>
 
   <autotools id="gnome-shell">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="metacity-clutter"/>
       <dep package="gjs"/>
@@ -2246,7 +2247,7 @@
   </autotools>
 
   <autotools id="seed">
-    <branch repo="git.gnome.org"/>
+    <branch/>
     <dependencies>
       <dep package="gobject-introspection"/>
       <dep package="WebKit"/>

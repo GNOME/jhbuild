@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
+  <repository type="svn" name="svn.gnome.org"
       href="http://svn.gnome.org/svn/">
       <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
         trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
@@ -20,7 +20,7 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="svn://anonsvn.mono-project.com/source/"/>
-  <repository type="git" name="git.gnome.org" href="git://git.gnome.org/"/>
+  <repository type="git" name="git.gnome.org" default="yes" href="git://git.gnome.org/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -71,7 +71,7 @@
   </autotools>
 
   <autotools id="glib">
-    <branch repo="git.gnome.org" revision="glib-2-18"/>
+    <branch revision="glib-2-18"/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -100,7 +100,7 @@
   </autotools>
 
   <autotools id="gtk+">
-    <branch repo="git.gnome.org" revision="gtk-2-14"/>
+    <branch revision="gtk-2-14"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="pango"/>
