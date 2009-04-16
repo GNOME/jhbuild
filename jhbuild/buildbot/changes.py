@@ -37,12 +37,12 @@ class GnomeMaildirSource(MaildirSource):
 
         from_header = m['from']
         if '<' in from_header:
-            from_email = m['from'].split('<')[0].split('>')[0]
+            from_email = m['from'].split('<')[1][:-1]
         else:
             from_email = m['from']
 
         # From is svnuser@svn.gnome.org
-        name, domain = m["from"].split("@")
+        name, domain = from_email.split("@")
 
         # If this e-mail is valid, it will come from an svn/src.gnome.org email
         if domain not in ('svn.gnome.org', 'src.gnome.org'):
