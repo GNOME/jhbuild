@@ -41,7 +41,10 @@ class ChangeResource(HtmlResource):
     def getTitle(self, request):
         status = self.getStatus(request)
         p = status.getProjectName()
-        return '%s - %s - revision #%s' % (p, self.change.project, self.change.revision)
+        if len(self.change.revision) == 40:
+            return '%s - %s - commit %s' % (p, self.change.project, self.change.revision[:8])
+        else:
+            return '%s - %s - revision #%s' % (p, self.change.project, int(self.change.revision))
 
     def body(self, request):
         data = '<div class="changeset">\n'
