@@ -286,7 +286,7 @@ def load(config, uri=None):
             if config.nonetwork or config.use_local_modulesets:
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
-                uri = 'http://svn.gnome.org/svn/jhbuild/trunk/modulesets/%s.modules' % uri
+                uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
     return ms
 
