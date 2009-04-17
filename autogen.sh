@@ -21,7 +21,7 @@ which gnome-autogen.sh || {
     exit 1
 }
 
-touch ChangeLog # required for automake
+touch $srcdir/ChangeLog # required for automake
 
 REQUIRED_AUTOCONF_VERSION=2.57 \
 REQUIRED_AUTOMAKE_VERSION=1.8 \
