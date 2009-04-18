@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-09 22:04+0100\n"
-"PO-Revision-Date: 2009-03-09 22:05+0100\n"
+"POT-Creation-Date: 2009-04-18 16:58+0200\n"
+"PO-Revision-Date: 2009-04-18 16:58+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -343,11 +343,11 @@ msgstr "buildbot och twisted hittades inte, kör jhbuild bot --setup"
 msgid "failed to get buildbot PID"
 msgstr "misslyckades med att få PID för buildbot"
 
-#: ../jhbuild/commands/checkbranches.py:29
+#: ../jhbuild/commands/checkbranches.py:28
 msgid "Check modules in GNOME subversion have the correct branch definition"
 msgstr "Kontrollera att moduler i GNOME:s subversion har korrekt grendefinition"
 
-#: ../jhbuild/commands/checkbranches.py:67
+#: ../jhbuild/commands/checkbranches.py:63
 #, python-format
 msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "%(module)s saknar grendefinition för %(branch)s"
@@ -483,12 +483,14 @@ msgid "no extra arguments expected"
 msgstr "inga extra argument förväntades"
 
 #: ../jhbuild/commands/sanitycheck.py:61
-msgid "checkout root is not writable"
-msgstr "utcheckningsroten är inte skrivbar"
+#, python-format
+msgid "checkout root (%s) is not writable"
+msgstr "utcheckningsroten (%s) är inte skrivbar"
 
 #: ../jhbuild/commands/sanitycheck.py:64
-msgid "install prefix is not writable"
-msgstr "installationsprefix är inte skrivbart"
+#, python-format
+msgid "install prefix (%s) is not writable"
+msgstr "installationsprefixet (%s) är inte skrivbart"
 
 #: ../jhbuild/commands/sanitycheck.py:69
 #: ../jhbuild/commands/sanitycheck.py:72
@@ -504,10 +506,10 @@ msgstr "installationsprefix är inte skrivbart"
 #: ../jhbuild/commands/sanitycheck.py:143
 #: ../jhbuild/commands/sanitycheck.py:154
 #: ../jhbuild/versioncontrol/arch.py:155
-#: ../jhbuild/versioncontrol/bzr.py:138
+#: ../jhbuild/versioncontrol/bzr.py:148
 #: ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/git.py:240
+#: ../jhbuild/versioncontrol/git.py:253
 #: ../jhbuild/versioncontrol/hg.py:100
 #: ../jhbuild/versioncontrol/mtn.py:139
 #: ../jhbuild/versioncontrol/svn.py:311
@@ -1054,9 +1056,8 @@ msgid "archive %s not registered"
 msgstr "arkivet %s är inte registrerat"
 
 #: ../jhbuild/versioncontrol/arch.py:92
-#: ../jhbuild/versioncontrol/bzr.py:62
+#: ../jhbuild/versioncontrol/bzr.py:72
 #: ../jhbuild/versioncontrol/darcs.py:55
-#: ../jhbuild/versioncontrol/git.py:77
 #: ../jhbuild/versioncontrol/hg.py:53
 #: ../jhbuild/versioncontrol/mtn.py:52
 #: ../jhbuild/versioncontrol/tarball.py:67
@@ -1066,13 +1067,13 @@ msgstr "gren för %s har felaktig override, kontrollera din .jhbuildrc"
 
 #: ../jhbuild/versioncontrol/arch.py:128
 #: ../jhbuild/versioncontrol/arch.py:141
-#: ../jhbuild/versioncontrol/bzr.py:121
-#: ../jhbuild/versioncontrol/bzr.py:127
+#: ../jhbuild/versioncontrol/bzr.py:131
+#: ../jhbuild/versioncontrol/bzr.py:137
 #: ../jhbuild/versioncontrol/darcs.py:84
 #: ../jhbuild/versioncontrol/darcs.py:90
-#: ../jhbuild/versioncontrol/git.py:354
-#: ../jhbuild/versioncontrol/git.py:390
-#: ../jhbuild/versioncontrol/git.py:449
+#: ../jhbuild/versioncontrol/git.py:367
+#: ../jhbuild/versioncontrol/git.py:403
+#: ../jhbuild/versioncontrol/git.py:467
 #: ../jhbuild/versioncontrol/hg.py:85
 #: ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
@@ -1102,25 +1103,25 @@ msgstr "arbetskopia pekar på fel förråd (förväntade %(root1)s men fick %(ro
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Överväg att använda skriptet changecvsroot.py för att rätta till detta."
 
-#: ../jhbuild/versioncontrol/git.py:152
+#: ../jhbuild/versioncontrol/git.py:153
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Kommandot %s returnerade inget data"
 
-#: ../jhbuild/versioncontrol/git.py:157
+#: ../jhbuild/versioncontrol/git.py:158
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Kommandot %s inkluderade inte en commit-rad: %r"
 
-#: ../jhbuild/versioncontrol/git.py:202
+#: ../jhbuild/versioncontrol/git.py:209
 msgid "Failed to update module as it switched to git (you should check for changes then remove the directory)."
 msgstr "Misslyckades med att uppdatera modulen eftersom den bytt till git (du bör leta efter ändringar och sedan ta bort katalogen)."
 
-#: ../jhbuild/versioncontrol/git.py:203
+#: ../jhbuild/versioncontrol/git.py:210
 msgid "Failed to update module (missing .git) (you should check for changes then remove the directory)."
 msgstr "Misslyckades med att uppdatera modulen (saknar .git) (du bör leta efter ändringar och sedan ta bort katalogen)."
 
-#: ../jhbuild/versioncontrol/git.py:321
+#: ../jhbuild/versioncontrol/git.py:334
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1128,7 +1129,7 @@ msgstr ""
 "Extern hantering misslyckades\n"
 " Om du kör git version < 1.5.6 så rekommenderas det att du uppdaterar.\n"
 
-#: ../jhbuild/versioncontrol/git.py:366
+#: ../jhbuild/versioncontrol/git.py:379
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Kan inte få senaste revision från %s. Kontrollera modulens plats."
