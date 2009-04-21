@@ -69,6 +69,9 @@ class cmd_bot(Command):
             make_option('--start-server',
                         action='store_true', dest='start_server', default=False,
                         help=_('start a buildbot master server')),
+            make_option('--reload-server-config',
+                        action='store_true', dest='reload_server_config', default=False,
+                        help=_('reload a buildbot master server configuration')),
             make_option('--stop-server',
                         action='store_true', dest='stop_server', default=False,
                         help=_('stop a buildbot master server')),
@@ -168,6 +171,9 @@ class cmd_bot(Command):
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
+
+        if options.reload_server_config:
+            return self.reload_server_config(config, pidfile)
 
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
@@ -664,6 +670,14 @@ class cmd_bot(Command):
             raise FatalError(_('failed to get buildbot PID'))
 
         os.kill(pid, signal.SIGTERM)
+
+    def reload_server_config(self, config, pidfile):
+        try:
+            pid = int(file(pidfile).read())
+        except:
+            raise FatalError(_('failed to get buildbot PID'))
+
+        os.kill(pid, signal.SIGHUP)
 
 
 register_command(cmd_bot)
