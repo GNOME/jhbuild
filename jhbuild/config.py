@@ -252,14 +252,25 @@ class Config:
                 get_stderr = False).strip()
         except CommandError:
             pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
-        
+
+        # In Python 2.6, site-packages got replaced by dist-packages, get the
+        # actual value by asking distutils
+        # <http://bugzilla.gnome.org/show_bug.cgi?id=575426>
+        try:
+            python_packages_dir = get_output([python_bin, 'c',
+                'import os, distutils.sysconfig; '\
+                'print distutils.sysconfig.get_python_lib(prefix="").split(os.path.sep)[-1]'],
+                get_stderr=False).strip()
+        except CommandError:
+            python_packages_dir = 'site-packages'
+            
         if self.use_lib64:
-            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
+            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, python_packages_dir)
             addpath('PYTHONPATH', pythonpath)
             if not os.path.exists(pythonpath):
                 os.makedirs(pythonpath)
 
-        pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
+        pythonpath = os.path.join(self.prefix, 'lib', pythonversion, python_packages_dir)
         addpath('PYTHONPATH', pythonpath)
         if not os.path.exists(pythonpath):
             os.makedirs(pythonpath)
