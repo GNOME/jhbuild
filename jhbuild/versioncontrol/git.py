@@ -27,6 +27,7 @@ import urlparse
 import subprocess
 import re
 import urllib
+import sys
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -75,9 +76,13 @@ class GitRepository(Repository):
             module = name
         # allow remapping of branch for module
         if name in self.config.branches:
-            new_module, revision = self.config.branches.get(name)
-            if new_module:
-                module = new_module
+            try:
+                new_module, revision = self.config.branches.get(name)
+            except (ValueError, TypeError):
+                print >> sys.stderr, _('W: ignored bad branch redefinition for module:'), name
+            else:
+                if new_module:
+                    module = new_module
         if not urlparse.urlparse(module)[0]:
             module = urlparse.urljoin(self.href, module)
         return GitBranch(self, module, subdir, checkoutdir, revision, tag)
