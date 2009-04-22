@@ -413,8 +413,8 @@ def warn_local_modulesets(config):
         # moduleset-less checkout
         return
 
-    if not os.path.exists(os.path.join(moduleset_local_path, '.svn')):
-        # checkout was not done via subversion
+    if not os.path.exists(os.path.join(moduleset_local_path, '..', '.git')):
+        # checkout was not done via git
         return
 
     if type(config.moduleset) == type([]):
@@ -427,12 +427,13 @@ def warn_local_modulesets(config):
         return
 
     try:
-        svn_status = get_output(['svn', 'status'], cwd=moduleset_local_path)
+        git_diff = get_output(['git', 'diff', 'origin/master', '--', '.'],
+                cwd=moduleset_local_path).strip()
     except CommandError:
-        # svn error, ignore
+        # git error, ignore
         return
 
-    if not [x for x in svn_status.splitlines() if x.startswith('M')]:
+    if not git_diff:
         # no locally modified moduleset
         return
 
