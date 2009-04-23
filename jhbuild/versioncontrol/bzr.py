@@ -151,12 +151,6 @@ class BzrBranch(Branch):
         else:
             self._checkout(buildscript)
 
-    def force_checkout(self, buildscript):
-        if os.path.exists(self.srcdir):
-            self._update(buildscript, overwrite=True)
-        else:
-            self._checkout(buildscript)
-
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None

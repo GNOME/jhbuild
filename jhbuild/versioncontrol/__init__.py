@@ -101,7 +101,8 @@ class Branch:
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
-        raise BuildStateError(_('force_checkout not implemented'))
+        self._wipedir(buildscript)
+        self.checkout(buildscript)
 
     def tree_id(self):
         """A string identifier for the state of the working tree."""

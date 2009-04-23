@@ -317,9 +317,6 @@ class CVSBranch(Branch):
                 else:
                     self._checkout(buildscript, copydir = self.config.checkoutroot)
 
-    def force_checkout(self, buildscript):
-        self._checkout(buildscript)
-
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
