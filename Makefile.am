@@ -29,5 +29,8 @@ all-local:
 	test z"$(srcdir)" = z"." && $(MAKE) -f Makefile.plain || true
 
 install-exec-local:
-	test z"$(srcdir)" = z"." && $(MAKE) -f Makefile.plain install || true
+	test z"$(srcdir)" = z"." && \
+		$(MAKE) -f Makefile.plain install \
+			bindir="$(bindir)" \
+			datarootdir="$(datarootdir)"
 
