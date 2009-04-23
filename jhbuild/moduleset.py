@@ -287,7 +287,10 @@ def load(config, uri=None):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
                 uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
-        ms.modules.update(_parse_module_set(config, uri).modules)
+        try:
+            ms.modules.update(_parse_module_set(config, uri).modules)
+        except xml.parsers.expat.ExpatError, e:
+            raise FatalError(_('failed to parse %s: %s') % (uri, e))
     return ms
 
 def load_tests (config, uri=None):
@@ -317,8 +320,6 @@ def _parse_module_set(config, uri):
     try:
         document = xml.dom.minidom.parse(filename)
     except IOError, e:
-        raise FatalError(_('failed to parse %s: %s') % (filename, e))
-    except xml.parsers.expat.ExpatError, e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
 
     assert document.documentElement.nodeName == 'moduleset'
