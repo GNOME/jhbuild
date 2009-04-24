@@ -422,7 +422,7 @@ class GitSvnBranch(GitBranch):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        buildscript.execute(['git', 'checkout'] + quiet + ['master']cmd, cwd=cwd)
+        buildscript.execute(['git', 'checkout'] + quiet + ['master'], cwd=cwd)
         buildscript.execute(['git', 'svn', 'rebase'], cwd=cwd)
 
         if stashed:
