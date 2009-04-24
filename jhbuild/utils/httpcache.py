@@ -172,7 +172,7 @@ class Cache:
         # is the file cached and not expired?
         self.read_cache()
         entry = self.entries.get(uri)
-        if entry and age != 0:
+        if entry and (age != 0 or nonetwork):
             if (nonetwork or now <= entry.expires):
                 return os.path.join(self.cachedir, entry.local)
 
