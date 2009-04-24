@@ -313,7 +313,7 @@ def _child_elements_matching(parent, names):
 
 def _parse_module_set(config, uri):
     try:
-        filename = httpcache.load(uri, nonetwork=config.nonetwork)
+        filename = httpcache.load(uri, nonetwork=config.nonetwork, age=0)
     except Exception, e:
         raise FatalError(_('could not download %s: %s') % (uri, e))
     filename = os.path.normpath(filename)
