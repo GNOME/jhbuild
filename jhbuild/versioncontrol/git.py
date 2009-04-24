@@ -120,22 +120,30 @@ class GitBranch(Branch):
             return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
 
-    def branch_exist(self, branch):
-        if not branch:
-            return False
+    def local_branch_exist(self, branch, buildscript=None):
         try:
-            get_output(['git', 'rev-parse', branch], cwd = self.srcdir)
-            return True
-        except:
+            cmd = ['git', 'show-ref', '--quiet', '--verify', 'refs/heads/' + branch]
+            if buildscript:
+                buildscript.execute(cmd, cwd=self.get_checkoutdir())
+            else:
+                get_output(cmd, cwd=self.get_checkoutdir())
+        except CommandError:
             return False
+        return True
 
     def branchname(self):
-        for b in [self.tag, 'origin/' + str(self.branch), 'origin/svn/' + str(self.branch),
-                  self.branch, 'origin/master', 'origin/trunk', 'master', 'trunk']:
-            if self.branch_exist(b):
-                return b
-        raise GitUnknownBranchNameError()
+        return self.branch
     branchname = property(branchname)
+
+    def get_current_branch(self):
+        for line in get_output(['git', 'branch'], cwd=self.srcdir).splitlines():
+            if line[0] == '*':
+                return line[2:]
+        return None
+
+    def get_remote_branches_list(self):
+        return [x.strip() for x in get_output(['git', 'branch', '-r'],
+                cwd=self.srcdir).splitlines()]
 
     def exists(self):
         try:
@@ -191,20 +199,13 @@ class GitBranch(Branch):
             buildscript.execute(cmd, cwd=self.config.checkoutroot)
 
         if self.branch:
-            # don't try to create a new branch if we already got a local branch
-            # with that name during the initial git-clone
-            try:
-                buildscript.execute(['git', 'show-branch', self.branch],
-                                    cwd=self.srcdir)
-            except CommandError:
-                buildscript.execute(['git', 'checkout'] + quiet + [
-                        '-b', self.branch, self.branchname], cwd=self.srcdir)
+            buildscript.execute(['git', 'checkout', '--track', '-b',
+                    self.branch, 'origin/' + self.branch], cwd=self.get_checkoutdir())
 
         if self.config.sticky_date:
             self._update(buildscript)
 
         self._update_submodules(buildscript)
-
 
     def _update(self, buildscript, copydir=None):
         cwd = self.get_checkoutdir(copydir)
@@ -219,10 +220,27 @@ class GitBranch(Branch):
         else:
             quiet = []
 
-        buildscript.execute(['git', 'fetch'] + quiet, cwd=cwd)
+        stashed = False
+        if get_output(['git', 'diff'], cwd=cwd):
+            stashed = True
+            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        # stash uncommitted changes on the current branch
-        buildscript.execute(['git', 'stash', 'save', 'jhbuild-build'], cwd=self.get_checkoutdir())
+        buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
+
+        if stashed:
+            buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
+
+        current_branch = self.get_current_branch()
+        would_be_branch = self.branch or 'master'
+        if current_branch != would_be_branch:
+            # if current branch doesn't exist as origin/$branch it is assumed
+            # a local work branch, and it won't be changed
+            if ('origin/' + current_branch) in self.get_remote_branches_list():
+                if self.local_branch_exist(would_be_branch, buildscript):
+                    buildscript.execute(['git', 'checkout', would_be_branch], cwd=cwd)
+                else:
+                    buildscript.execute(['git', 'checkout', '--track', '-b',
+                            would_be_branch, 'origin/' + would_be_branch], cwd=cwd)
 
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
@@ -234,21 +252,6 @@ class GitBranch(Branch):
                 branch_cmd = ['git', 'checkout'] + quiet + ['-b', branch]
                 buildscript.execute(branch_cmd, cwd=cwd)
             buildscript.execute(['git', 'reset', '--hard', commit], cwd=cwd)
-
-        if self.branch:
-            try:
-                buildscript.execute(['git', 'checkout'] + quiet + [self.branch], cwd=self.srcdir)
-            except CommandError:
-                buildscript.execute(['git', 'checkout'] + quiet + [
-                        '-b', self.branch, self.branchname], cwd=self.srcdir)
-        else:
-            buildscript.execute(['git', 'checkout'] + quiet, cwd=self.srcdir)
-
-        if not self.tag:
-            if self.branch:
-                buildscript.execute(['git', 'rebase', self.branchname, self.branch], cwd=cwd)
-            else:
-                buildscript.execute(['git', 'rebase', 'origin', 'master'], cwd=cwd)
 
         self._update_submodules(buildscript)
 
@@ -413,15 +416,17 @@ class GitSvnBranch(GitBranch):
 
         last_revision = get_output(['git', 'svn', 'find-rev', 'HEAD'], cwd=cwd)
 
-        # stash uncommitted changes on the current branch
-        cmd = ['git', 'stash', 'save', 'jhbuild-build']
-        buildscript.execute(cmd, cwd=cwd)
+        stashed = False
+        if get_output(['git', 'diff'], cwd=cwd):
+            # stash uncommitted changes on the current branch
+            stashed = True
+            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        cmd = ['git', 'checkout'] + quiet + ['master']
-        buildscript.execute(cmd, cwd=cwd)
+        buildscript.execute(['git', 'checkout'] + quiet + ['master']cmd, cwd=cwd)
+        buildscript.execute(['git', 'svn', 'rebase'], cwd=cwd)
 
-        cmd = ['git', 'svn', 'rebase']
-        buildscript.execute(cmd, cwd=cwd)
+        if stashed:
+            buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
 
         current_revision = get_output(['git', 'svn', 'find-rev', 'HEAD'], cwd=cwd)
 
@@ -450,7 +455,8 @@ class GitCvsBranch(GitBranch):
 
     def _checkout(self, buildscript, copydir=None):
 
-        cmd = ['git', 'cvsimport', '-r', 'cvs', '-p', 'b,HEAD', '-k', '-m', '-a', '-v', '-d', self.repository.cvsroot, '-C']
+        cmd = ['git', 'cvsimport', '-r', 'cvs', '-p', 'b,HEAD',
+               '-k', '-m', '-a', '-v', '-d', self.repository.cvsroot, '-C']
 
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
@@ -468,10 +474,18 @@ class GitCvsBranch(GitBranch):
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
 
-        # stash uncommitted changes on the current branch
-        cmd = ['git', 'stash', 'save', 'jhbuild-build']
-        buildscript.execute(cmd, cwd=self.get_checkoutdir())
+        cwd = self.get_checkoutdir()
 
-        self._checkout(buildscript, copydir)
+        stashed = False
+        # stash uncommitted changes on the current branch
+        if get_output(['git', 'diff'], cwd=cwd):
+            # stash uncommitted changes on the current branch
+            stashed = True
+            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
+
+        self._checkout(buildscript, cwd=cwd)
+
+        if stashed:
+            buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
 
 register_repo_type('git', GitRepository)
