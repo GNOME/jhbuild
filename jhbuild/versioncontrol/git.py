@@ -250,21 +250,28 @@ class GitBranch(Branch):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
+        current_branch = self.get_current_branch()
+        if current_branch != '(no branch)':
+            buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
 
         if stashed:
             buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
 
-        current_branch = self.get_current_branch()
         would_be_branch = self.branch or 'master'
-        if current_branch != would_be_branch:
-            # if current branch doesn't exist as origin/$branch it is assumed
-            # a local work branch, and it won't be changed
-            if ('origin/' + current_branch) in self.get_remote_branches_list():
-                if self.local_branch_exist(would_be_branch, buildscript):
-                    buildscript.execute(['git', 'checkout', would_be_branch], cwd=cwd)
-                else:
-                    buildscript.execute(['git', 'checkout', '--track', '-b',
+        if self.tag:
+            buildscript.execute(['git', 'checkout', self.tag], cwd=cwd)
+        else:
+            if current_branch != would_be_branch or current_branch == '(no branch)':
+                if current_branch == '(no branch)':
+                    # if user was not on any branch, get back to a known track
+                    current_branch = 'master'
+                # if current branch doesn't exist as origin/$branch it is assumed
+                # a local work branch, and it won't be changed
+                if ('origin/' + current_branch) in self.get_remote_branches_list():
+                    if self.local_branch_exist(would_be_branch, buildscript):
+                        buildscript.execute(['git', 'checkout', would_be_branch], cwd=cwd)
+                    else:
+                        buildscript.execute(['git', 'checkout', '--track', '-b',
                             would_be_branch, 'origin/' + would_be_branch], cwd=cwd)
 
         if self.config.sticky_date:
