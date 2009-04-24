@@ -153,8 +153,4 @@ class cmd_sanitycheck(Command):
             except:
                 uprint(_('Could not check git program'))
 
-        # check for svn:
-        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            uprint(_('%s not found') % 'svn')
-
 register_command(cmd_sanitycheck)
