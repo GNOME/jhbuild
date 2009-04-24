@@ -226,16 +226,10 @@ class GitBranch(Branch):
         else:
             buildscript.execute(cmd, cwd=self.config.checkoutroot)
 
-        if self.branch:
-            buildscript.execute(['git', 'checkout', '--track', '-b',
-                    self.branch, 'origin/' + self.branch], cwd=self.get_checkoutdir())
+        self._update(buildscript, copydir=copydir, update_mirror=False)
 
-        if self.config.sticky_date:
-            self._update(buildscript)
 
-        self._update_submodules(buildscript)
-
-    def _update(self, buildscript, copydir=None):
+    def _update(self, buildscript, copydir=None, update_mirror=True):
         cwd = self.get_checkoutdir(copydir)
 
         if not os.path.exists(os.path.join(cwd, '.git')):
@@ -248,7 +242,8 @@ class GitBranch(Branch):
         else:
             quiet = []
 
-        self.update_dvcs_mirror(buildscript)
+        if update_mirror:
+            self.update_dvcs_mirror(buildscript)
 
         stashed = False
         if get_output(['git', 'diff'], cwd=cwd):
