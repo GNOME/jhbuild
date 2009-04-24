@@ -146,6 +146,10 @@ class cmd_sanitycheck(Command):
                 git_help = os.popen('git --help', 'r').read()
                 if not 'clone' in git_help:
                     uprint(_('Installed git program is not the right git'))
+                else:
+                    if not check_version(['git', '--version'],
+                                 r'git version ([\d.]+)', '1.5.6'):
+                         uprint(_('%s not found') % 'git >= 1.5.6')
             except:
                 uprint(_('Could not check git program'))
 
