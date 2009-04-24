@@ -74,6 +74,11 @@ class GitRepository(Repository):
                revision = None, tag = None):
         if module is None:
             module = name
+
+        mirror_module = None
+        if self.config.dvcs_mirror_dir:
+            mirror_module = os.path.join(self.config.dvcs_mirror_dir, module)
+
         # allow remapping of branch for module
         if name in self.config.branches:
             try:
@@ -83,9 +88,14 @@ class GitRepository(Repository):
             else:
                 if new_module:
                     module = new_module
-        if not urlparse.urlparse(module)[0]:
+        if not (urlparse.urlparse(module)[0] or module[0] == '/'):
             module = urlparse.urljoin(self.href, module)
-        return GitBranch(self, module, subdir, checkoutdir, revision, tag)
+
+        if mirror_module:
+            return GitBranch(self, mirror_module, subdir, checkoutdir,
+                    revision, tag, unmirrored_module=module)
+        else:
+            return GitBranch(self, module, subdir, checkoutdir, revision, tag)
 
     def to_sxml(self):
         return [sxml.repository(type='git', name=self.name, href=self.href)]
@@ -94,11 +104,13 @@ class GitRepository(Repository):
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
-    def __init__(self, repository, module, subdir, checkoutdir=None, branch=None, tag=None):
+    def __init__(self, repository, module, subdir, checkoutdir=None,
+                 branch=None, tag=None, unmirrored_module=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
         self.branch = branch
         self.tag = tag
+        self.unmirrored_module = unmirrored_module
 
     def srcdir(self):
         path_elements = [self.checkoutroot]
@@ -182,12 +194,28 @@ class GitBranch(Branch):
             cmd = ['git', 'submodule', 'update']
             buildscript.execute(cmd, cwd=self.srcdir)
 
+    def update_dvcs_mirror(self, buildscript):
+        if not self.config.dvcs_mirror_dir:
+            return
+
+        mirror_dir = os.path.join(self.config.dvcs_mirror_dir,
+                os.path.basename(self.module) + '.git')
+
+        if os.path.exists(mirror_dir):
+            buildscript.execute(['git', 'fetch'], cwd=mirror_dir)
+        else:
+            buildscript.execute(
+                    ['git', 'clone', '--mirror', self.unmirrored_module],
+                    cwd=self.config.dvcs_mirror_dir)
+
     def _checkout(self, buildscript, copydir=None):
 
         if self.config.quiet_mode:
             quiet = ['-q']
         else:
             quiet = []
+
+        self.update_dvcs_mirror(buildscript)
 
         cmd = ['git', 'clone'] + quiet + [self.module]
         if self.checkoutdir:
@@ -219,6 +247,8 @@ class GitBranch(Branch):
             quiet = ['-q']
         else:
             quiet = []
+
+        self.update_dvcs_mirror(buildscript)
 
         stashed = False
         if get_output(['git', 'diff'], cwd=cwd):

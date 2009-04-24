@@ -47,7 +47,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
                 'jhbuildbot_svn_commits_box',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
-                'mirror_policy', 'module_mirror_policy',
+                'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
                 ]
 
 env_prepends = {}
