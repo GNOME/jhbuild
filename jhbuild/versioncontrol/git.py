@@ -30,7 +30,7 @@ import urllib
 import sys
 
 from jhbuild.errors import FatalError, CommandError
-from jhbuild.utils.cmds import get_output
+from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 import jhbuild.versioncontrol.svn
 from jhbuild.commands.sanitycheck import inpath
@@ -255,7 +255,12 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
 
         if stashed:
-            buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
+            # git stash pop was introduced in 1.5.5, 
+            if check_version(['git', '--version'],
+                         r'git version ([\d.]+)', '1.5.5'):
+                buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
+            else:
+                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'], cwd=cwd)
 
         would_be_branch = self.branch or 'master'
         if self.tag:
