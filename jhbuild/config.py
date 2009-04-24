@@ -73,6 +73,12 @@ def addpath(envvar, path):
             else:
                 i += 1
         envval = ' '.join(parts)
+    elif envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
+        envval = os.environ.get(envvar)
+        if envval:
+            envval = path + ' ' + envval
+        else:
+            envval = path
     else:
         envval = os.environ.get(envvar, path)
         parts = envval.split(':')
