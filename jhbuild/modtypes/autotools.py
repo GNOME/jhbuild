@@ -193,6 +193,13 @@ class AutogenModule(Package):
                        (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
                 cmd = p.sub(r'\1\4-- \2\3', cmd)
 
+        # If there is no --exec-prefix in the constructed autogen command, we
+        # can safely assume it will be the same as {prefix} and substitute it
+        # right now, so the printed command can be copy/pasted afterwards.
+        # (GNOME #580272)
+        if not '--exec-prefix' in template:
+            cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
+
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.next_state = STATE_CLEAN
     do_configure.error_states = [STATE_FORCE_CHECKOUT,
