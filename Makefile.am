@@ -6,7 +6,7 @@ endif
 
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
-SOURCES = $(shell find $(top_srcdir)/jhbuild/ -name *.py -or -name *.glade) jhbuild/defaults.jhbuildrc
+SOURCES = $(shell find $(top_srcdir)/jhbuild/ -name '*.py' -or -name '*.glade') jhbuild/defaults.jhbuildrc
 MODULE_SETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
 
 INTLTOOL = 			\
