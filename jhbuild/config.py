@@ -142,11 +142,20 @@ class Config:
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
-        if config.has_key('cvsroot'):
-            config['cvsroots']['gnome.org'] = config['cvsroot']
-        if config.has_key('cvsroots'):
+        if config.get('cvsroot'):
+            print >> sys.stderr, uencode(
+                    _('W: the "%s" configuration variable is deprecated, '
+                      'you should use "repos[\'gnome.org\']".') % 'cvsroot')
+            config['repos'].update({'gnome.org': config['cvsroot']})
+        if config.get('cvsroots'):
+            print >> sys.stderr, uencode(
+                    _('W: the "%s" configuration variable is deprecated, '
+                      'you should use "repos".') % 'cvsroots')
             config['repos'].update(config['cvsroots'])
-        if config.has_key('svnroots'):
+        if config.get('svnroots'):
+            print >> sys.stderr, uencode(
+                    _('W: the "%s" configuration variable is deprecated, '
+                      'you should use "repos".') % 'svnroots')
             config['repos'].update(config['svnroots'])
 
         # environment variables
