@@ -1,4 +1,4 @@
-AC_INIT([jhbuild], [2.23.1],
+AC_INIT([jhbuild], [2.27.0],
 		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE
