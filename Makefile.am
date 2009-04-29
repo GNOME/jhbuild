@@ -26,11 +26,14 @@ DISTCLEANFILES = 		\
 # those won't be executed by make distcheck, it is necessary as they build
 # in source tree and do install to ~/bin/
 all-local:
-	test z"$(srcdir)" = z"." && $(MAKE) -f Makefile.plain || true
+	if [ z"$(srcdir)" = z"." ]; then \
+		$(MAKE) -f Makefile.plain; \
+	fi
 
 install-exec-local:
-	test z"$(srcdir)" = z"." && \
+	if [ z"$(srcdir)" = z"." ]; then \
 		$(MAKE) -f Makefile.plain install \
 			bindir="$(bindir)" \
-			datarootdir="$(datarootdir)"
+			datarootdir="$(datarootdir)"; \
+	fi
 
