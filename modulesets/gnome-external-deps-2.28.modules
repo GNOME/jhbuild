@@ -497,17 +497,23 @@
   <repository type="tarball" name="mozilla.org"
       href="http://releases.mozilla.org/pub/mozilla.org/"/>
   <autotools id="mozilla"
-             autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=browser --disable-javaxpcom --enable-application=browser --enable-extensions=default,cookie,permissions --with-default-mozilla-five-home=${libdir}/firefox-2.0"
-             makeinstallargs="install; mkdir ${prefix}/include/firefox-2.0/nss/; find security/nss/lib/ -name '*.h' -type f -exec /bin/cp {} ${prefix}/include/firefox-2.0/nss/ \;">
+             autogenargs="--with-x --with-system-jpeg --with-system-zlib --with-system-bz2
+	     --enable-application=xulrunner --enable-default-toolkit=cairo-gtk2
+	     --enable-startup-notification --disable-mailnews --disable-ldap
+	     --disable-gnomevfs --disable-gnomeui 
+	     --with-default-mozilla-five-home=${libdir}/mozilla
+	     --enable-system-cairo
+	     --disable-debug --enable-optimize=-O2 --disable-tests
+	     --disable-javaxpcom
+	     --enable-extensions=xml-rpc,venkman,inspector,cview,tasks,reporter,python/xpcom
+	     --enable-system-sqlite
+	     "
+             makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
-            module="firefox/releases/2.0.0.20/source/firefox-2.0.0.20-source.tar.bz2"
-            version="2.0.0.20"
-            size="40293412" md5sum="f3718fefd01c8edc007ec0b416a8a7b8"
+            module="xulrunner/releases/1.9.0.7/source/xulrunner-1.9.0.7-source.tar.bz2"
+            version="1.9.0.7"
+            size="37066129" md5sum="9875c9237b532009df8e91c3785539a3"
             checkoutdir="mozilla" />
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="sqlite3"/>
-    </dependencies>
   </autotools>
 
   <repository type="tarball" name="kernel.org"
