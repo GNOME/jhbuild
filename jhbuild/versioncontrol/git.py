@@ -146,7 +146,7 @@ class GitBranch(Branch):
 
     def get_remote_branches_list(self):
         return [x.strip() for x in get_output(['git', 'branch', '-r'],
-                cwd=self.srcdir).splitlines()]
+                cwd=self.get_checkoutdir()).splitlines()]
 
     def exists(self):
         try:
@@ -179,11 +179,11 @@ class GitBranch(Branch):
         self._checkout(buildscript)
 
     def _update_submodules(self, buildscript):
-        if os.path.exists(os.path.join(self.srcdir, '.gitmodules')):
+        if os.path.exists(os.path.join(self.get_checkoutdir(), '.gitmodules')):
             cmd = ['git', 'submodule', 'init']
-            buildscript.execute(cmd, cwd=self.srcdir)
+            buildscript.execute(cmd, cwd=self.get_checkoutdir())
             cmd = ['git', 'submodule', 'update']
-            buildscript.execute(cmd, cwd=self.srcdir)
+            buildscript.execute(cmd, cwd=self.get_checkoutdir())
 
     def update_dvcs_mirror(self, buildscript):
         if not self.config.dvcs_mirror_dir:
@@ -290,11 +290,11 @@ class GitBranch(Branch):
         Branch.checkout(self, buildscript)
 
     def tree_id(self):
-        if not os.path.exists(self.srcdir):
+        if not os.path.exists(self.get_checkoutdir()):
             return None
         try:
             output = get_output(['git', 'rev-parse', 'HEAD'],
-                    cwd = self.srcdir)
+                    cwd = self.get_checkoutdir())
         except CommandError:
             return None
         except GitUnknownBranchNameError:
