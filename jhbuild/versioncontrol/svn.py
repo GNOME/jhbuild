@@ -239,7 +239,7 @@ class SubversionBranch(Branch):
 
     def _update(self, buildscript, copydir=None):
         opt = []
-        if not copydir:
+        if copydir:
             outputdir = os.path.join(copydir, os.path.basename(self.srcdir))
         else:
             outputdir = self.srcdir
