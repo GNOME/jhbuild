@@ -92,12 +92,45 @@ class Branch:
            May raise NotImplementedError if cannot check a given branch."""
         raise NotImplementedError
 
+    def get_checkoutdir(self):
+        if self.config.checkout_mode == 'copy' and self.config.copy_dir:
+            return os.path.join(self.config.copy_dir, os.path.basename(self.module))
+        if self.checkoutdir:
+            return os.path.join(self.checkoutroot, self.checkoutdir)
+        else:
+            return os.path.join(self.checkoutroot, os.path.basename(self.module))
+
+
     def checkout(self, buildscript):
         """Checkout or update the given source directory.
 
         May raise CommandError or BuildStateError if a problem occurrs.
         """
-        raise NotImplementedError
+        if self.checkout_mode in ('clobber', 'export'):
+            self._wipedir(buildscript)
+            if self.checkout_mode == 'export':
+                try:
+                    self._export(buildscript)
+                except NotImplementedError:
+                    pass
+                else:
+                    return
+            self._checkout(buildscript)
+        elif self.checkout_mode in ('update', 'copy'):
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                copydir = self.config.copy_dir
+                if os.path.exists(os.path.join(copydir,
+                            os.path.basename(self.get_checkoutdir()))):
+                    self._update(buildscript, copydir)
+                else:
+                    self._wipedir(buildscript)
+                    self._checkout(buildscript, copydir)
+                self._copy(buildscript, copydir)
+            else:
+                if os.path.exists(self.get_checkoutdir()):
+                    self._update(buildscript)
+                else:
+                    self._checkout(buildscript)
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
@@ -111,6 +144,9 @@ class Branch:
     def _wipedir(self, buildscript):
         if os.path.exists(self.srcdir):
             buildscript.execute(['rm', '-rf', self.srcdir])
+
+    def _export(self, buildscript):
+        raise NotImplementedError
 
     def _copy(self, buildscript, copydir):
          module = self.module

@@ -153,10 +153,7 @@ class ArchBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('arch', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'arch')
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):

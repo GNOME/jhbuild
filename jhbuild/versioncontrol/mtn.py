@@ -135,6 +135,7 @@ class MonotoneBranch(Branch):
         buildscript.execute(cmd, 'mtn', cwd=self._codir)
 
     def checkout(self, buildscript):
+        # XXX: doesn't support alternative checkout modes
         if not inpath('mtn', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'mtn')
 

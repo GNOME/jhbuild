@@ -295,27 +295,7 @@ class CVSBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cvs')
-        if self.checkout_mode in ('clobber', 'export'):
-            self._wipedir(buildscript)
-            if self.checkout_mode == 'clobber':
-                self._checkout(buildscript)
-            else:
-                self._export(buildscript)
-        elif self.checkout_mode in ('update', 'copy'):
-            if self.checkout_mode == 'copy' and self.config.copy_dir:
-                copydir = self.config.copy_dir
-                if os.path.exists(os.path.join(copydir, 
-                                  os.path.basename(self.srcdir), 'CVS')):
-                    self._update(buildscript, copydir)
-                else:
-                    self._wipedir(buildscript)
-                    self._checkout(buildscript, copydir)
-                self._copy(buildscript, copydir)
-            else:
-                if os.path.exists(self.srcdir):
-                    self._update(buildscript, copydir = self.config.checkoutroot)
-                else:
-                    self._checkout(buildscript, copydir = self.config.checkoutroot)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):

@@ -123,15 +123,6 @@ class GitBranch(Branch):
         return os.path.join(*path_elements)
     srcdir = property(srcdir)
 
-    def get_checkoutdir(self, copydir=None):
-        if copydir:
-            return os.path.join(copydir, os.path.basename(self.module))
-        elif self.checkoutdir:
-            return os.path.join(self.checkoutroot, self.checkoutdir)
-        else:
-            return os.path.join(self.checkoutroot,
-                                os.path.basename(self.module))
-
     def local_branch_exist(self, branch, buildscript=None):
         try:
             cmd = ['git', 'show-ref', '--quiet', '--verify', 'refs/heads/' + branch]
@@ -230,7 +221,7 @@ class GitBranch(Branch):
 
 
     def _update(self, buildscript, copydir=None, update_mirror=True):
-        cwd = self.get_checkoutdir(copydir)
+        cwd = self.get_checkoutdir()
 
         if not os.path.exists(os.path.join(cwd, '.git')):
             if os.path.exists(os.path.join(cwd, '.svn')):
@@ -296,24 +287,7 @@ class GitBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('git', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'git')
-        if self.checkout_mode in ('clobber', 'export'):
-            self._wipedir(buildscript)
-            self._checkout(buildscript)
-        elif self.checkout_mode in ('update', 'copy'):
-            if self.checkout_mode == 'copy' and self.config.copy_dir:
-                copydir = self.config.copy_dir
-                if os.path.exists(os.path.join(copydir,
-                        os.path.basename(self.get_checkoutdir()), '.git')):
-                    self._update(buildscript, copydir)
-                else:
-                    self._wipedir(buildscript)
-                    self._checkout(buildscript, copydir)
-                self._copy(buildscript, copydir)
-            else:
-                if os.path.exists(self.get_checkoutdir()):
-                    self._update(buildscript)
-                else:
-                    self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):

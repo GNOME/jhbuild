@@ -98,10 +98,7 @@ class HgBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('hg', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'hg')
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def get_revision_id(self):
         # Return the id of the tip, see bug #313997.
