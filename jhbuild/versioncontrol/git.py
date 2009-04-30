@@ -139,7 +139,7 @@ class GitBranch(Branch):
     branchname = property(branchname)
 
     def get_current_branch(self):
-        for line in get_output(['git', 'branch'], cwd=self.srcdir).splitlines():
+        for line in get_output(['git', 'branch'], cwd=self.get_checkoutdir()).splitlines():
             if line[0] == '*':
                 return line[2:]
         return None
