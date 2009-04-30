@@ -119,9 +119,8 @@ class Branch:
         elif self.checkout_mode in ('update', 'copy'):
             if self.checkout_mode == 'copy' and self.config.copy_dir:
                 copydir = self.config.copy_dir
-                if os.path.exists(os.path.join(copydir,
-                            os.path.basename(self.get_checkoutdir()))):
-                    self._update(buildscript, copydir)
+                if os.path.exists(self.get_checkoutdir()):
+                    self._update(buildscript, self.config.copy_dir)
                 else:
                     self._wipedir(buildscript)
                     self._checkout(buildscript, copydir)
