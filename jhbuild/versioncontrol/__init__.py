@@ -118,6 +118,8 @@ class Branch:
              module = self.checkoutdir
          fromdir = os.path.join(copydir, os.path.basename(module))
          todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
+         if os.path.exists(todir):
+             self._wipedir(buildscript)
          buildscript.execute(['cp', '-R', fromdir, todir])
 
     def to_sxml(self):
