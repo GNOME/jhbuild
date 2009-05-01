@@ -172,12 +172,16 @@ class Config:
         if not self.tarballdir: self.tarballdir = self.checkoutroot
 
         # check possible checkout_mode values
+        seen_copy_mode = (self.checkout_mode == 'copy')
         possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
         if self.checkout_mode not in possible_checkout_modes:
             raise FatalError(_('invalid checkout mode'))
         for module, checkout_mode in self.module_checkout_mode.items():
+            seen_copy_mode = seen_copy_mode or (checkout_mode == 'copy')
             if checkout_mode not in possible_checkout_modes:
                 raise FatalError(_('invalid checkout mode (module: %s)') % module)
+        if seen_copy_mode and not self.copy_dir:
+            raise FatalError(_('copy mode requires copy_dir to be set'))
 
     def setup_env(self):
         '''set environment variables for using prefix'''
