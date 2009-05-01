@@ -179,7 +179,13 @@ class TarballBranch(Branch):
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
         if not os.path.exists(self.config.tarballdir):
-            os.makedirs(self.config.tarballdir)
+            try:
+                os.makedirs(self.config.tarballdir)
+            except OSError:
+                raise FatalError(
+                        _('tarball dir (%s) can not be created') % self.config.tarballdir)
+        if not os.access(self.config.tarballdir, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('tarball dir (%s) must be writable') % self.config.tarballdir)
         try:
             self._check_tarball()
         except BuildStateError:
