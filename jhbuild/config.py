@@ -97,12 +97,18 @@ def addpath(envvar, path):
     os.environ[envvar] = envval
 
 class Config:
+    _orig_environ = None
+
     def __init__(self, filename=_default_jhbuildrc):
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
             'prependpath':  prependpath
             }
+
+        if not self._orig_environ:
+            self._config['_orig_environ'] = os.environ.copy()
+
         env_prepends.clear()
         try:
             execfile(_defaults_file, self._config)
@@ -116,6 +122,10 @@ class Config:
 
         self.load()
         self.setup_env()
+
+    def reload(self):
+        os.environ = self._orig_environ.copy()
+        self.__init__(filename=self.__file__)
 
     def load(self):
         config = self._config
