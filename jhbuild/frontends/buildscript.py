@@ -42,6 +42,15 @@ class BuildScript:
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError(_('checkout root (%s) must be writable') % self.config.checkoutroot)
 
+        if self.config.copy_dir and not os.path.exists(self.config.copy_dir):
+            try:
+                os.makedirs(self.config.copy_dir)
+            except OSError:
+                raise FatalError(
+                        _('checkout copy dir (%s) can not be created') % self.config.copy_dir)
+            if not os.access(self.config.copy_dir, os.R_OK|os.W_OK|os.X_OK):
+                raise FatalError(_('checkout copy dir (%s) must be writable') % self.config.copy_dir)
+
         packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
         try:
             if not os.path.isdir(packagedbdir):
