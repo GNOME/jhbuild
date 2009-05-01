@@ -37,9 +37,10 @@ class BuildScript:
             try:
                 os.makedirs(self.config.checkoutroot)
             except OSError:
-                raise FatalError(_('checkout root can not be created'))
+                raise FatalError(
+                        _('checkout root (%s) can not be created') % self.config.checkoutroot)
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('checkout root must be writable'))
+            raise FatalError(_('checkout root (%s) must be writable') % self.config.checkoutroot)
 
         packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
         try:
