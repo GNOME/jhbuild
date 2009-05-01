@@ -186,7 +186,9 @@ class Config:
             try:
                 os.makedirs(self.prefix)
             except:
-                raise FatalError(_("Can't create %s directory") % self.prefix)
+                raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
+        if not os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('install prefix (%s) must be writable') % self.prefix)
 
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
 

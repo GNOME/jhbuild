@@ -40,13 +40,6 @@ class BuildScript:
                 raise FatalError(_('checkout root can not be created'))
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError(_('checkout root must be writable'))
-        if not os.path.exists(self.config.prefix):
-            try:
-                os.makedirs(self.config.prefix)
-            except OSError:
-                raise FatalError(_('install prefix can not be created'))
-        if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('install prefix must be writable'))
 
         packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
         try:
