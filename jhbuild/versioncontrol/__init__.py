@@ -93,7 +93,7 @@ class Branch:
         raise NotImplementedError
 
     def get_checkoutdir(self):
-        if self.config.checkout_mode == 'copy' and self.config.copy_dir:
+        if self.checkout_mode == 'copy' and self.config.copy_dir:
             return os.path.join(self.config.copy_dir, os.path.basename(self.module))
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
