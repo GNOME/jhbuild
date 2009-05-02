@@ -22,6 +22,7 @@ from __future__ import generators
 import os
 import sys
 import urlparse
+import logging
 
 from jhbuild.errors import UsageError, FatalError, DependencyCycleError, CommandError
 
@@ -52,8 +53,7 @@ class ModuleSet:
         for module in self.modules.keys():
             if module.lower() == module_name:
                 if self.config is None or not self.config.quiet_mode:
-                    print >> sys.stderr, uencode(
-                            _('I: fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
+                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
         raise KeyError(module_name)
@@ -227,7 +227,7 @@ class ModuleSet:
             try:
                 mod = self.modules[modname]
             except KeyError:
-                print >> sys.stderr, _('W: Unknown module:'), modname
+                logging.warning(_('Unknown module:') + ' '+ modname)
                 del modules[0]
                 continue
             if isinstance(mod, MetaModule):
@@ -438,8 +438,8 @@ def warn_local_modulesets(config):
         # no locally modified moduleset
         return
 
-    print >> sys.stderr, uencode(
-            _('I: modulesets were edited locally but jhbuild is configured '\
+    logging.info(
+            _('modulesets were edited locally but jhbuild is configured '\
               'to get them from subversion, perhaps you need to add '\
               'use_local_modulesets = True to your .jhbuildrc.'))
 

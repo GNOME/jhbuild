@@ -23,6 +23,7 @@ import stat
 import sys
 import time
 from optparse import make_option
+import logging
 
 import jhbuild.moduleset
 import jhbuild.frontends
@@ -157,8 +158,8 @@ class cmd_cleanone(Command):
             self.parser.error(_('This command requires a module parameter.'))
 
         if not config.makeclean:
-            print >> sys.stderr, uencode(
-                    _('I: clean command called while makeclean is set to False, skipped.'))
+            logging.info(
+                    _('clean command called while makeclean is set to False, skipped.'))
             return 0
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
@@ -200,14 +201,14 @@ def check_bootstrap_updateness(config):
 
     if max_install_date <= bootstrap_mtime:
         # general note, to cover added modules
-        print >> sys.stderr, uencode(
-                _('I: bootstrap moduleset has been updated since the last time '\
+        logging.info(
+                _('bootstrap moduleset has been updated since the last time '\
                   'you used it, perhaps you should run jhbuild bootstrap.'))
 
     if updated_modules:
         # note about updated modules
-        print >> sys.stderr, uencode(
-                _('I: some bootstrap modules have been updated, '\
+        logging.info(
+                _('some bootstrap modules have been updated, '\
                   'perhaps you should update them: %s.') % \
                   ', '.join(updated_modules))
 
@@ -325,8 +326,8 @@ class cmd_build(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         if len(module_list) == 0 and modules[0] in (config.skip or []):
-            print >> sys.stderr, uencode(
-                    _('I: requested module is in the ignore list, nothing to do.'))
+            logging.info(
+                    _('requested module is in the ignore list, nothing to do.'))
             return 0
 
         build = jhbuild.frontends.get_buildscript(config, module_list)

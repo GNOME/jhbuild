@@ -22,6 +22,7 @@ import os
 import sys
 import traceback
 import types
+import logging
 
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -146,25 +147,25 @@ class Config:
                     continue
                 unknown_keys.append(k)
             if unknown_keys:
-                print >> sys.stderr, uencode(
-                        _('I: unknown keys defined in configuration file: %s') % \
+                logging.info(
+                        _('unknown keys defined in configuration file: %s') % \
                         ', '.join(unknown_keys))
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
         if config.get('cvsroot'):
-            print >> sys.stderr, uencode(
-                    _('W: the "%s" configuration variable is deprecated, '
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
                       'you should use "repos[\'gnome.org\']".') % 'cvsroot')
             config['repos'].update({'gnome.org': config['cvsroot']})
         if config.get('cvsroots'):
-            print >> sys.stderr, uencode(
-                    _('W: the "%s" configuration variable is deprecated, '
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
                       'you should use "repos".') % 'cvsroots')
             config['repos'].update(config['cvsroots'])
         if config.get('svnroots'):
-            print >> sys.stderr, uencode(
-                    _('W: the "%s" configuration variable is deprecated, '
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
                       'you should use "repos".') % 'svnroots')
             config['repos'].update(config['svnroots'])
 
@@ -336,8 +337,8 @@ class Config:
             try:
                 import curses
             except ImportError:
-                print >> sys.stderr, uencode(
-                        _('W: quiet mode has been disabled because the Python curses module is missing.'))
+                logging.warning(
+                        _('quiet mode has been disabled because the Python curses module is missing.'))
                 v = False
 
         self.__dict__[k] = v

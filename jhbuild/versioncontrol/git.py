@@ -28,6 +28,7 @@ import subprocess
 import re
 import urllib
 import sys
+import logging
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
@@ -84,7 +85,7 @@ class GitRepository(Repository):
             try:
                 new_module, revision = self.config.branches.get(name)
             except (ValueError, TypeError):
-                print >> sys.stderr, _('W: ignored bad branch redefinition for module:'), name
+                logging.warning(_('ignored bad branch redefinition for module:') + ' ' + name)
             else:
                 if new_module:
                     module = new_module

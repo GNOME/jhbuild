@@ -21,6 +21,7 @@ import os
 import sys
 import urllib
 from optparse import make_option
+import logging
 
 import jhbuild.moduleset
 import jhbuild.frontends
@@ -80,8 +81,8 @@ class cmd_bootstrap(cmd_build):
         rc = cmd_build.run(self, config, options, args)
 
         if ignored_modules:
-            print >> sys.stderr, uencode(
-                    _('I: some modules (%s) were automatically ignored as a '
+            logging.info(
+                    _('some modules (%s) were automatically ignored as a '
                       'sufficient enough version was found installed on '
                       'your system. Use --ignore-system if you want to build '
                       'them nevertheless.' % ', '.join(ignored_modules)))
