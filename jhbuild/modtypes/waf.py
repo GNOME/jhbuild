@@ -190,8 +190,6 @@ def parse_waf(node, config, uri, repositories, default_repo):
     # override revision tag if requested.
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
-    if config.module_checkout_mode.get(module_id):
-        branch.checkout_mode = config.module_checkout_mode[module_id]
 
     return WafModule(module_id, branch, dependencies=dependencies, after=after,
             suggests=suggests, waf_cmd=waf_cmd)

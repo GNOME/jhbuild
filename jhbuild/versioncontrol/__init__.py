@@ -74,7 +74,11 @@ class Branch:
         self.module = module
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
-        self.checkout_mode = self.config.checkout_mode
+
+    def get_checkout_mode(self):
+        checkout_mode = self.config.checkout_mode
+        return self.config.module_checkout_mode.get(self.module, checkout_mode)
+    checkout_mode = property(get_checkout_mode)
 
     def srcdir(self):
         """Return the directory where this branch is checked out."""
