@@ -273,7 +273,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             uprint(_('  [2] ignore error and continue to %s') % nextstate)
             uprint(_('  [3] give up on module'))
             uprint(_('  [4] start shell'))
-            i = 5
+            nb_options = i = 5
             for altstate in altstates:
                 uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
@@ -297,7 +297,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             else:
                 try:
                     val = int(val)
-                    return altstates[val - 5]
+                    return altstates[val - nb_options]
                 except:
                     uprint(_('invalid choice'))
         assert False, 'not reached'
