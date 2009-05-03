@@ -119,8 +119,8 @@ def get_branch(node, repositories, default_repo, config):
 
 class Package:
     type = 'base'
-    STATE_START = 'start'
-    STATE_DONE  = 'done'
+    PHASE_START = 'start'
+    PHASE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name
         self.dependencies = dependencies
@@ -178,7 +178,7 @@ class Package:
         # module has not been updated
         if buildscript.config.build_policy == 'updated':
             buildscript.message(_('Skipping %s (not updated)') % self.name)
-            return self.STATE_DONE
+            return self.PHASE_DONE
 
         if buildscript.config.build_policy == 'updated-deps':
             install_date = buildscript.packagedb.installdate(self.name)
@@ -190,7 +190,7 @@ class Package:
             else:
                 buildscript.message(
                         _('Skipping %s (package and dependencies not updated)') % self.name)
-                return self.STATE_DONE
+                return self.PHASE_DONE
 
     def checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
@@ -200,13 +200,13 @@ class Package:
         if not os.path.exists(srcdir):
             raise BuildStateError(_('source directory %s was not created') % srcdir)
 
-        if self.check_build_policy(buildscript) == self.STATE_DONE:
+        if self.check_build_policy(buildscript) == self.PHASE_DONE:
             raise SkipToEnd()
 
     def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
         if buildscript.config.nonetwork:
-            if self.check_build_policy(buildscript) == self.STATE_DONE:
+            if self.check_build_policy(buildscript) == self.PHASE_DONE:
                 raise SkipToEnd()
             return True
         return False
