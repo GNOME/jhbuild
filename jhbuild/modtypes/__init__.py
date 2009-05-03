@@ -144,12 +144,12 @@ class Package:
     def get_revision(self):
         return None
 
-    def skip_phase(self, phase, last_phase):
+    def skip_phase(self, buildscript, phase, last_phase):
         try:
             skip_phase_method = getattr(self, 'skip_' + phase)
         except AttributeError:
             return False
-        return skip_phase_method(self, last_phase)
+        return skip_phase_method(buildscript, last_phase)
 
     def run_phase(self, buildscript, phase):
         """run a particular part of the build for this package.
