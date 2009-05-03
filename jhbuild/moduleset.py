@@ -401,6 +401,7 @@ def _parse_module_set(config, uri):
             if moduleset_name:
                 module.tags.append(moduleset_name)
             module.moduleset_name = moduleset_name
+            module.config = config
             moduleset.add(module)
 
     return moduleset
