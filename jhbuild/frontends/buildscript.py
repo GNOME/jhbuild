@@ -103,8 +103,6 @@ class BuildScript:
             phase = None
             num_phase = 0
             while num_phase < len(phases):
-                print 'phases:', phases
-                print '  current phase:', num_phase
                 last_phase, phase = phase, phases[num_phase]
                 try:
                     if module.skip_phase(self, phase, last_phase):
