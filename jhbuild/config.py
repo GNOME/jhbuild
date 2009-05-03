@@ -108,7 +108,7 @@ class Config:
             }
 
         if not self._orig_environ:
-            self._config['_orig_environ'] = os.environ.copy()
+            self.__dict__['_orig_environ'] = os.environ.copy()
 
         env_prepends.clear()
         try:
@@ -126,7 +126,7 @@ class Config:
 
     def reload(self):
         os.environ = self._orig_environ.copy()
-        self.__init__(filename=self.__file__)
+        self.__init__(filename=self._config.get('__file__'))
 
     def load(self):
         config = self._config
