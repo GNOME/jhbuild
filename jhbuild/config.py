@@ -49,6 +49,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_svn_commits_box',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
+                'build_targets',
                 ]
 
 env_prepends = {}
@@ -330,6 +331,20 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
+        # update build targets according to old flags
+        if self.makeclean and not 'clean' in self.build_targets:
+            self.build_targets.insert(0, 'clean')
+        if self.makecheck and not 'check' in self.build_targets:
+            self.build_targets.insert(0, 'check')
+        if self.nobuild:
+            self.build_targets.remove('install')
+            if len(self.build_targets) == 0:
+                self.build_targets = ['checkout']
+        if self.makedist and not 'dist' in self.build_targets:
+            self.build_targets.append('dist')
+        if self.makedistcheck and not 'distcheck' in self.build_targets:
+            self.build_targets.append('distcheck')
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''

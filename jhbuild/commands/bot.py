@@ -153,9 +153,7 @@ class cmd_bot(Command):
                 config.alwaysautogen = True
             elif args[0] == 'check':
                 command = 'buildone'
-                config.nobuild = True
-                config.makecheck = True
-                config.forcecheck = True
+                config.build_targets = ['check']
                 config.build_policy = 'all'
             elif args[0] == 'clean':
                 command = 'cleanone'

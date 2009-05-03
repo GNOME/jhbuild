@@ -33,10 +33,10 @@ class AntModule(Package):
     """Base type for modules that are built with Ant."""
     type = 'ant'
 
-    STATE_CHECKOUT = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_BUILD = 'build'
-    STATE_INSTALL = 'install'
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_BUILD = 'build'
+    PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch,
                  dependencies=[], after=[],
@@ -59,31 +59,17 @@ class AntModule(Package):
     def get_revision(self):
         return self.branch.branchname
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
-    def skip_checkout(self, buildscript, last_state):
-        # skip the checkout stage if the nonetwork flag is set
-        return buildscript.config.nonetwork
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_BUILD
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
-    def skip_force_checkout(self, buildscript, last_state):
+    def skip_force_checkout(self, buildscript, last_phase):
         return False
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_BUILD
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
@@ -96,11 +82,8 @@ class AntModule(Package):
         #if srcdir != builddir:
         #    cmd.extend(['--build-base', builddir])
         buildscript.execute(cmd, cwd=srcdir)
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
         # Quoting David Schleef:
@@ -109,8 +92,7 @@ class AntModule(Package):
         #    -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
         buildscript.set_action(_('Installing'), self)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
         return 'ant', [('id', 'name', None),

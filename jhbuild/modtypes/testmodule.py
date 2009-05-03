@@ -58,21 +58,14 @@ class TestModule(Package):
     def get_revision(self):
         return self.branch.branchname
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_TEST
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_checkout.error_phases = [STATE_FORCE_CHECKOUT]
         
     def do_force_checkout(self, buildscript):
         buildscript.set_action('Checking out', self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_TEST
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_force_checkout.error_phases = [STATE_FORCE_CHECKOUT]
 
     def _get_display(self):
         # get free display
@@ -106,9 +99,6 @@ class TestModule(Package):
             return ''
         return new_xauth
     
-    def skip_test(self, buildscript, last_state):
-        return False
-
     def do_test(self, buildscript):
         buildscript.set_action('Testing', self)
         if not buildscript.config.noxvfb:
@@ -135,9 +125,8 @@ class TestModule(Package):
                     os.environ['XAUTHORITY'] = old_xauth
                 else:
                     os.unsetenv('XAUTHORITY')
-    do_test.next_state = Package.STATE_DONE
-    do_test.error_states = []
-                
+    do_test.depends = [STATE_CHECKOUT]
+
     def get_ldtp_log_file(self, filename):
         # <ldtp>
         # |

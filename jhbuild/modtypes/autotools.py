@@ -36,16 +36,15 @@ class AutogenModule(Package):
     responsible for downloading/updating the working copy.'''
     type = 'autogen'
 
-    STATE_CHECKOUT       = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_CLEAN          = 'clean'
-    STATE_FORCE_CLEAN    = 'force_clean'
-    STATE_FORCE_DISTCLEAN= 'force_distclean'
-    STATE_CONFIGURE      = 'configure'
-    STATE_BUILD          = 'build'
-    STATE_CHECK          = 'check'
-    STATE_DIST           = 'dist'
-    STATE_INSTALL        = 'install'
+    PHASE_CHECKOUT       = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CLEAN          = 'clean'
+    PHASE_DISTCLEAN      = 'distclean'
+    PHASE_CONFIGURE      = 'configure'
+    PHASE_BUILD          = 'build'
+    PHASE_CHECK          = 'check'
+    PHASE_DIST           = 'dist'
+    PHASE_INSTALL        = 'install'
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  makeinstallargs='',
@@ -82,40 +81,26 @@ class AutogenModule(Package):
     def get_revision(self):
         return self.branch.tree_id()
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_CONFIGURE
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_CONFIGURE
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
-    def skip_configure(self, buildscript, last_state):
-        # skip if nobuild is set.
-        if buildscript.config.nobuild:
-            return True
-
+    def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
         if self.skip_autogen is True:
             return True
 
         # don't skip this stage if we got here from one of the
-        # following states:
-        if last_state in [self.STATE_FORCE_CHECKOUT,
-                          self.STATE_CLEAN,
-                          self.STATE_BUILD,
-                          self.STATE_INSTALL]:
+        # following phases:
+        if last_phase in [self.PHASE_FORCE_CHECKOUT,
+                          self.PHASE_CLEAN,
+                          self.PHASE_BUILD,
+                          self.PHASE_INSTALL]:
             return False
 
         if self.skip_autogen == 'never':
@@ -203,13 +188,17 @@ class AutogenModule(Package):
             cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
 
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
-    do_configure.next_state = STATE_CLEAN
-    do_configure.error_states = [STATE_FORCE_CHECKOUT,
-            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
+    do_configure.depends = [PHASE_CHECKOUT]
+    do_configure.error_phases = [PHASE_FORCE_CHECKOUT,
+            PHASE_CLEAN, PHASE_DISTCLEAN]
 
-    def skip_clean(self, buildscript, last_state):
-        return (not buildscript.config.makeclean or
-                buildscript.config.nobuild)
+    def skip_clean(self, buildscript, last_phase):
+        srcdir = self.get_srcdir(buildscript)
+        if not os.path.exists(srcdir):
+            return True
+        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+            return True
+        return False
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
@@ -218,29 +207,21 @@ class AutogenModule(Package):
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
-    do_clean.next_state = STATE_BUILD
-    do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
-    do_build.next_state = STATE_CHECK
-    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE,
-            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
+    do_build.depends = [PHASE_CONFIGURE]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
+            PHASE_CLEAN, PHASE_DISTCLEAN]
 
-    def skip_check(self, buildscript, last_state):
+    def skip_check(self, buildscript, last_phase):
         if not self.check_target:
             return True
         if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
-            return True
-        if buildscript.config.forcecheck:
-            return False
-        if buildscript.config.nobuild:
             return True
         return False
 
@@ -253,25 +234,24 @@ class AutogenModule(Package):
         except CommandError:
             if not buildscript.config.makecheck_advisory:
                 raise
-    do_check.next_state = STATE_DIST
-    do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_dist(self, buildscript, last_state):
-        return not (buildscript.config.makedist or buildscript.config.makedistcheck)
+    do_check.depends = [PHASE_BUILD]
+    do_check.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        if buildscript.config.makedistcheck:
-            cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        else:
-            cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_dist.next_state = STATE_INSTALL
-    do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+    do_dist.depends = [PHASE_CONFIGURE]
+    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    def do_distcheck(self, buildscript):
+        buildscript.set_action(_('Creating tarball for'), self)
+        cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
+    do_dist.depends = [PHASE_CONFIGURE]
+    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
@@ -283,27 +263,14 @@ class AutogenModule(Package):
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_BUILD]
 
-    def skip_force_clean(self, buildscript, last_state):
-        return False
-
-    def do_force_clean(self, buildscript):
-        self.do_clean(buildscript)
-    do_force_clean.next_state = STATE_CONFIGURE
-    do_force_clean.error_states = []
-
-    def skip_force_distclean(self, buildscript, last_state):
-        return False
-
-    def do_force_distclean(self, buildscript):
+    def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_force_distclean.next_state = STATE_CONFIGURE
-    do_force_distclean.error_states = []
+    do_distclean.depends = [PHASE_CONFIGURE]
 
     def xml_tag_and_attrs(self):
         return ('autotools',

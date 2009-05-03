@@ -87,7 +87,7 @@ class cmd_update(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         # don't actually perform build ...
-        config.nobuild = True
+        config.build_targets = ['checkout']
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
@@ -123,7 +123,7 @@ class cmd_updateone(Command):
             self.parser.error(_('This command requires a module parameter.'))
 
         # don't actually perform build ...
-        config.nobuild = True
+        config.build_targets = ['checkout']
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
@@ -161,9 +161,10 @@ class cmd_cleanone(Command):
             logging.info(
                     _('clean command called while makeclean is set to False, skipped.'))
             return 0
+        config.build_targets = ['clean']
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.clean()
+        return build.build()
 
 register_command(cmd_cleanone)
 
@@ -277,14 +278,14 @@ class cmd_build(Command):
     def run(self, config, options, args):
         if options.autogen:
             config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.dist:
-            config.makedist = True
+        if options.clean and not 'clean' in config.build_targets:
+            config.build_targets.insert(0, 'clean')
+        if options.dist and not 'dist' in config.build_targets:
+            config.build_targets.append('dist')
+        if options.distcheck and not 'distcheck' in config.build_targets:
+            config.build_targets.append('distcheck')
         if options.ignore_suggests:
             config.ignore_suggests = True
-        if options.distcheck:
-            config.makedistcheck = True
         if options.nonetwork:
             config.nonetwork = True
         for item in options.skip:
@@ -379,12 +380,12 @@ class cmd_buildone(Command):
     def run(self, config, options, args):
         if options.autogen:
             config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.dist:
-            config.makedist = True
-        if options.distcheck:
-            config.makedistcheck = True
+        if options.clean and not 'clean' in config.build_targets:
+            config.build_targets.insert(0, 'clean')
+        if options.dist and not 'dist' in config.build_targets:
+            config.build_targets.append('dist')
+        if options.distcheck and not 'distcheck' in config.build_targets:
+            config.build_targets.append('distcheck')
         if options.nonetwork:
             config.nonetwork = True
         if options.sticky_date is not None:

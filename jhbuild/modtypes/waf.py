@@ -35,14 +35,14 @@ class WafModule(Package):
     '''Base type for modules that are distributed with a WAF script.'''
     type = 'waf'
 
-    STATE_CHECKOUT       = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_CLEAN          = 'clean'
-    STATE_CONFIGURE      = 'configure'
-    STATE_BUILD          = 'build'
-    STATE_CHECK          = 'check'
-    STATE_DIST           = 'dist'
-    STATE_INSTALL        = 'install'
+    PHASE_CHECKOUT       = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CLEAN          = 'clean'
+    PHASE_CONFIGURE      = 'configure'
+    PHASE_BUILD          = 'build'
+    PHASE_CHECK          = 'check'
+    PHASE_DIST           = 'dist'
+    PHASE_INSTALL        = 'install'
 
     def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
                  waf_cmd='waf'):
@@ -59,36 +59,22 @@ class WafModule(Package):
     def get_revision(self):
         return self.branch.tree_id()
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_CONFIGURE
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_CONFIGURE
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
-    def skip_configure(self, buildscript, last_state):
-        # skip if nobuild is set.
-        if buildscript.config.nobuild:
-            return True
-
+    def skip_configure(self, buildscript, last_phase):
         # don't skip this stage if we got here from one of the
-        # following states:
-        if last_state in [self.STATE_FORCE_CHECKOUT,
-                          self.STATE_CLEAN,
-                          self.STATE_BUILD,
-                          self.STATE_INSTALL]:
+        # following phases:
+        if last_phase in [self.PHASE_FORCE_CHECKOUT,
+                          self.PHASE_CLEAN,
+                          self.PHASE_BUILD,
+                          self.PHASE_INSTALL]:
             return False
 
         # skip if the .lock-wscript file exists and we don't have the
@@ -108,36 +94,24 @@ class WafModule(Package):
         if buildscript.config.use_lib64:
             cmd += ["--libdir", os.path.join(buildscript.config.prefix, "lib64")]
         buildscript.execute(cmd, cwd=builddir)
-    do_configure.next_state = STATE_CLEAN
-    do_configure.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_clean(self, buildscript, last_state):
-        return (not buildscript.config.makeclean or
-                buildscript.config.nobuild)
+    do_configure.depends = [PHASE_CHECKOUT]
+    do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         cmd = [self.waf_cmd, 'clean']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_clean.next_state = STATE_BUILD
-    do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         cmd = [self.waf_cmd, 'build']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_build.next_state = STATE_CHECK
-    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
-    def skip_check(self, buildscript, last_state):
+    def skip_check(self, buildscript, last_phase):
         if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
-            return True
-        if buildscript.config.forcecheck:
-            return False
-        if buildscript.config.nobuild:
             return True
         return False
 
@@ -149,11 +123,8 @@ class WafModule(Package):
         except CommandError:
             if not buildscript.config.makecheck_advisory:
                 raise
-    do_check.next_state = STATE_DIST
-    do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_dist(self, buildscript, last_state):
-        return not (buildscript.config.makedist or buildscript.config.makedistcheck)
+    do_check.depends = [PHASE_BUILD]
+    do_check.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
@@ -162,19 +133,15 @@ class WafModule(Package):
         else:
             cmd = [self.waf_cmd, 'dist']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_dist.next_state = STATE_INSTALL
-    do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_dist.depends = [PHASE_BUILD]
+    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         cmd = [self.waf_cmd, 'install']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
         return 'waf', [('id', 'name', None),
