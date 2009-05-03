@@ -273,7 +273,8 @@ class TerminalBuildScript(buildscript.BuildScript):
             uprint(_('  [2] ignore error and continue to %s') % nextstate)
             uprint(_('  [3] give up on module'))
             uprint(_('  [4] start shell'))
-            nb_options = i = 5
+            uprint(_('  [5] reload configuration'))
+            nb_options = i = 6
             for altstate in altstates:
                 uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
@@ -294,6 +295,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                 uprint(_('exit shell to continue with build'))
                 os.system(user_shell)
                 os.chdir(cwd) # restor working directory
+            elif val == '5':
+                self.config.reload()
             else:
                 try:
                     val = int(val)
