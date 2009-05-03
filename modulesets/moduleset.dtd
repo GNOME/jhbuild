@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|mozillamodule|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf)+>
+<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf)+>
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
@@ -67,18 +67,6 @@
 	makeargs	CDATA	#IMPLIED
 	autogen-sh	CDATA	#IMPLIED
 	supports-non-srcdir-builds (yes|no) "yes">
-
-<!-- mozillamodule is deprecated, mozilla projects should
-     be built using the autotools module type -->
-<!ELEMENT mozillamodule (dependencies?,after?)>
-<!ATTLIST mozillamodule
-	id		CDATA	#REQUIRED
-	projects	CDATA	#IMPLIED
-	revision	CDATA	#IMPLIED
-	autogenargs	CDATA	#IMPLIED
-	makeargs	CDATA	#IMPLIED
-	cvsroot		CDATA	#IMPLIED
-	root		CDATA	#IMPLIED>
 
 <!ELEMENT distutils (branch?,dependencies?,after?)>
 <!ATTLIST distutils

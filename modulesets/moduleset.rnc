@@ -44,7 +44,6 @@ package = autotools |
           distutils |
           perl |
           tarball |
-          mozillamodule |
           linux
 
 dep = element dep {
@@ -129,17 +128,6 @@ tarball = element tarball {
        attribute strip { text }?
      }+ }? &
    common)
-}
-
-mozillamodule = element mozillamodule {
-  attribute module { text }?,
-  attribute revision { text }?,
-  attribute checkoutdir { text }?,
-  attribute autogenargs { text }?,
-  attribute makeargs { text }?,
-  attribute cvsroot { text }?,
-  attribute root { text }?,
-  common
 }
 
 kconfig = element kconfig {
