@@ -106,9 +106,12 @@ class BuildScript:
                 print 'phases:', phases
                 print '  current phase:', num_phase
                 last_phase, phase = phase, phases[num_phase]
-                if module.skip_phase(self, phase, last_phase):
-                    num_phase += 1
-                    continue
+                try:
+                    if module.skip_phase(self, phase, last_phase):
+                        num_phase += 1
+                        continue
+                except SkipToEnd:
+                    break
 
                 self.start_phase(module.name, phase)
                 error = None
