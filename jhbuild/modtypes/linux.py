@@ -62,8 +62,8 @@ class LinuxModule(Package):
     STATE_HEADERS_INSTALL = 'headers_install'
 
     def __init__(self, name, branch, kconfigs, makeargs,
-            dependencies, after, suggests, extra_env = None):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+            dependencies, after, suggests):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.kconfigs = kconfigs
         self.makeargs = makeargs
@@ -108,12 +108,15 @@ class LinuxModule(Package):
     def skip_mrproper(self, buildscript, last_state):
         return buildscript.config.nobuild
 
+    def get_makeargs(self):
+        return self.makeargs + ' ' + self.config.module_makeargs.get(self.name, self.config.makeargs)
+
     def do_mrproper(self, buildscript):
         buildscript.set_action(_('make mrproper'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s mrproper EXTRAVERSION=%s O=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.makeargs,
+                    self.get_makeargs(),
                     kconfig.version,
                     'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -170,7 +173,7 @@ class LinuxModule(Package):
         for kconfig in self.kconfigs:
             cmd = '%s %s clean EXTRAVERSION=%s O=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.makeargs,
+                    self.get_makeargs(),
                     kconfig.version,
                     'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -186,7 +189,7 @@ class LinuxModule(Package):
         buildscript.set_action(_('Building'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s EXTRAVERSION=%s O=%s' % (os.environ.get('MAKE', 'make'),
-                                                  self.makeargs,
+                                                  self.get_makeargs(),
                                                   kconfig.version,
                                                   'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -224,7 +227,7 @@ class LinuxModule(Package):
         for kconfig in self.kconfigs:
             cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.makeargs,
+                    self.get_makeargs(,
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)
@@ -242,7 +245,7 @@ class LinuxModule(Package):
         for kconfig in self.kconfigs:
             cmd = '%s %s headers_install EXTRAVERSION=%s O=%s INSTALL_HDR_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.makeargs,
+                    self.get_makeargs(),
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)
@@ -306,17 +309,14 @@ def parse_linux(node, config, uri, repositories, default_repo):
     # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
     p = re.compile('(\${prefix})')
     makeargs = p.sub(config.prefix, makeargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
 
     dependencies, after, suggests = get_dependencies(node)
-    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo, config)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
     return LinuxModule(id, branch, kconfigs,
-                       makeargs, dependencies, after, suggests,
-                       extra_env = extra_env)
+                       makeargs, dependencies, after, suggests)
 
 register_module_type('linux', parse_linux)

@@ -54,10 +54,9 @@ class AutogenModule(Package):
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
-                 extra_env = None,
                  autogen_template=None,
                  check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -153,9 +152,12 @@ class AutogenModule(Package):
             template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
                         " --libdir %(libdir)s %(autogenargs)s ")
 
+        autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
+                self.name, self.config.autogenargs)
+
         vars = {'prefix': buildscript.config.prefix,
                 'autogen-sh': self.autogen_sh,
-                'autogenargs': self.autogenargs}
+                'autogenargs': autogenargs}
                 
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             vars['srcdir'] = self.get_srcdir(buildscript)
@@ -188,7 +190,7 @@ class AutogenModule(Package):
         else:
             # place --prefix and --libdir arguments after '-- '
             # (GStreamer weirdness)
-            if self.autogenargs.find('-- ') != -1:
+            if autogenargs.find('-- ') != -1:
                 p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
                        (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
                 cmd = p.sub(r'\1\4-- \2\3', cmd)
@@ -211,7 +213,9 @@ class AutogenModule(Package):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs(
+                self.name, self.config.makeargs)
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_clean.next_state = STATE_BUILD
@@ -366,10 +370,6 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     makeargs        = p.sub(config.prefix + libsubdir, makeargs)
     makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
 
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
     if config.module_checkout_mode.get(id):
@@ -384,7 +384,6 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
                          makefile=makefile,
-                         extra_env=extra_env,
                          autogen_template=autogen_template,
                          check_target=check_target)
 register_module_type('autotools', parse_autotools)
@@ -416,10 +415,6 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
     if not id:
         id = checkoutdir or module
 
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
     dependencies, after, suggests = get_dependencies(node)
 
     for attrname in ['cvsroot', 'root']:
@@ -440,8 +435,7 @@ def parse_cvsmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('cvsmodule', parse_cvsmodule)
 
 def parse_svnmodule(node, config, uri, repositories, default_repo):
@@ -466,10 +460,6 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
     if not id:
         id = checkoutdir or os.path.basename(module)
 
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
     dependencies, after, suggests = get_dependencies(node)
 
     if node.hasAttribute('root'):
@@ -481,8 +471,7 @@ def parse_svnmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('svnmodule', parse_svnmodule)
 
 def parse_archmodule(node, config, uri, repositories, default_repo):
@@ -507,10 +496,6 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
     if not id:
         id = checkoutdir or version
 
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, makeargs)
-    extra_env = config.module_extra_env.get(id)
-
     dependencies, after, suggests = get_dependencies(node)
 
     if node.hasAttribute('root'):
@@ -522,6 +507,5 @@ def parse_archmodule(node, config, uri, repositories, default_repo):
     return AutogenModule(id, branch, autogenargs, makeargs,
                          dependencies=dependencies,
                          after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
+                         supports_non_srcdir_builds=supports_non_srcdir_builds)
 register_module_type('archmodule', parse_archmodule)

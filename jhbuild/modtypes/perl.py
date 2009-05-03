@@ -39,8 +39,8 @@ class PerlModule(Package):
     STATE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[], extra_env = None):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+                 dependencies=[], after=[], suggests=[]):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -81,7 +81,9 @@ class PerlModule(Package):
         builddir = self.get_builddir(buildscript)
         perl = os.environ.get('PERL', 'perl')
         make = os.environ.get('MAKE', 'make')
-        cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, makeargs)
         buildscript.execute(cmd, cwd=builddir, extra_env = self.extra_env)
         buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir,
                 extra_env = self.extra_env)
@@ -113,21 +115,17 @@ def parse_perl(node, config, uri, repositories, default_repo):
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
 
-    # override revision tag if requested.
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-
     # Make some substitutions; do special handling of '${prefix}'
     p = re.compile('(\${prefix})')
     makeargs = p.sub(config.prefix, makeargs)
     
     dependencies, after, suggests = get_dependencies(node)
-    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo, config)
     if config.module_checkout_mode.get(id):
         branch.checkout_mode = config.module_checkout_mode[id]
 
     return PerlModule(id, branch, makeargs,
             dependencies=dependencies, after=after,
-            suggests=suggests, extra_env = extra_env)
+            suggests=suggests)
 register_module_type('perl', parse_perl)
 
