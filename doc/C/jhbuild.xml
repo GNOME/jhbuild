@@ -2525,162 +2525,13 @@ libgnomecanvas is missing branch definition for gnome-2-20
         </para>
         </warning>
   
-        <section id="moduleset-syntax-defs-cvsmodule">
-          <title>cvsmodule</title>
-  
-          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
-          is used to define a module that is to be built from
-          CVS.</para>
-  
-          <programlisting>
-  &lt;cvsmodule module="<replaceable>modulename</replaceable>"
-             [ revision="<replaceable>branch-or-tag</replaceable>" ]
-             [ checkoutdir="<replaceable>directory</replaceable>" ]
-             [ root="<replaceable>rootname</replaceable>" ]
-             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-             [ makeargs="<replaceable>makeargs</replaceable>" ]
-             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &gt;
-  &lt;/cvsmodule&gt;
-</programlisting>
-  
-          <para>The <sgmltag class="attribute">module</sgmltag>,
-          <sgmltag class="attribute">revision</sgmltag> and <sgmltag
-          class="attribute">root</sgmltag> attributes identify the
-          module to check out from CVS.  The <sgmltag
-          class="attribute">checkoutdir</sgmltag> attribute can be used
-          to specify an alternative directory to check out to (by
-          default, the value of <sgmltag
-          class="attribute">module</sgmltag> is used).</para>
-  
-          <para>The <sgmltag class="attribute">autogenargs</sgmltag>,
-          <sgmltag class="attribute">makeargs</sgmltag> and <sgmltag
-          class="attribute">supports-non-srcdir-builds</sgmltag>
-          attributes are common to many different module types.  The
-          <sgmltag class="attribute">autogenargs</sgmltag> attribute
-          lists additional arguments to be passed to
-          <command>autogen.sh</command>, and <sgmltag
-          class="attribute">makeargs</sgmltag> lists additional
-          arguments to be passed to <command>make</command>.  The
-          <sgmltag
-          class="attribute">supports-non-srcdir-builds</sgmltag>
-          attribute is used to mark modules that can't be cleanly built
-          using a separate source directory.</para>
-  
-          <para>The <sgmltag class="element">dependencies</sgmltag>,
-          <sgmltag class="element">suggests</sgmltag> and
-          <sgmltag class="element">after</sgmltag> elements are processed
-          as for <link
-          linkend="moduleset-syntax-defs-autotools">autotools</link>.
-          </para>
-
-        </section>
-  
-        <section id="moduleset-syntax-defs-svnmodule">
-          <title>svnmodule</title>
-  
-          <para>The <sgmltag class="element">svnmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">svnmodule</sgmltag> element
-          is used to define a module that is to be built from
-          Subversion.</para>
-  
-          <programlisting>
-  &lt;svnmodule module="<replaceable>modulename</replaceable>"
-             [ checkoutdir="<replaceable>directory</replaceable>" ]
-             [ root="<replaceable>rootname</replaceable>" ]
-             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-             [ makeargs="<replaceable>makeargs</replaceable>" ]
-             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/after&gt;
-  &lt;/svnmodule&gt;
-</programlisting>
-          <para>The <sgmltag class="attribute">module</sgmltag>
-          attribute gives the path of the module relative to the
-          repository URI.  All other options for this element are
-          processed as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
-        </section>
-  
-        <section id="moduleset-syntax-defs-archmodule">
-          <title>archmodule</title>
-  
-          <para>The <sgmltag class="element">archmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">archmodule</sgmltag> element
-          is used to define a module that is to be built from
-          a GNU Arch archive.</para>
-  
-          <programlisting>
-  &lt;archmodule version="<replaceable>modulename</replaceable>"
-              [ checkoutdir="<replaceable>directory</replaceable>" ]
-              [ root="<replaceable>rootname</replaceable>" ]
-              [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-              [ makeargs="<replaceable>makeargs</replaceable>" ]
-              [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/after&gt;
-  &lt;/archmodule&gt;
-</programlisting>
-          <para>The <sgmltag class="attribute">version</sgmltag>
-          attribute gives the version to be checked out from the archive
-          specified by <sgmltag class="attribute">root</sgmltag>.  All
-          other options for this element are processed as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
-        </section>
-  
         <section id="moduleset-syntax-defs-tarball">
           <title>tarball</title>
 
           <important>
-          <para>The <sgmltag class="element">tarball</sgmltag> element
-          is now deprecated.  The appropriate build type module should
-          be used instead.  As a transitive measure this element has
-          however been reimplemented as a thin wrapper around both <sgmltag
-          class="element">autotools</sgmltag> module type and <sgmltag
-          class="element">tarball</sgmltag> repository type.
+            <para>This deprecated element is just a thin wrapper
+            around both <sgmltag class="element">autotools</sgmltag> module type
+	    and <sgmltag class="element">tarball</sgmltag> repository type.
           </para>
           </important>
   
@@ -2741,13 +2592,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
           for the <sgmltag class="attribute">file</sgmltag> attribute to
           specify a URI, in which case it will be downloaded from that location.
           </para>
-          
-          <para>The other attributes and the <sgmltag
-          class="element">dependencies</sgmltag> and <sgmltag
-          class="element">suggests</sgmltag> sub-elements are processed
-          as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
+
+
+	  <para>
+	    The other attributes and the <sgmltag class="element">dependencies</sgmltag>,
+	    <sgmltag class="element">suggests</sgmltag> and <sgmltag
+	    class="element">after</sgmltag> elements are processed as for <link
+	    linkend="moduleset-syntax-defs-autotools">autotools</link>.
+	  </para>
         </section>
       </section> <!-- end of deprecated module types -->
     </section> <!-- end of deprecated elements -->
