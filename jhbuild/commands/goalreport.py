@@ -265,8 +265,8 @@ class cmd_goalreport(Command):
     def load_checks_from_options(self, checks):
         self.checks = []
         for check_option in checks:
-            check_class_name, args = check_option.split(':', 2)
-            args = args.split(':')
+            check_class_name, args = check_option.split(':', 1)
+            args = args.split(',')
             check_base_class = globals().get(check_class_name)
             check = check_base_class.create_from_args(*args)
             self.checks.append(check)
