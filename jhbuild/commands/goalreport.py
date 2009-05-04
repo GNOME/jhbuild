@@ -253,8 +253,8 @@ class cmd_goalreport(Command):
                     action='store', dest='falsepositivesfile', default=None),
             make_option('--devhelp-dirname', metavar='DIR',
                     action='store', dest='devhelp_dirname', default=None),
-            make_option('--no-cache',
-                    action='store_true', dest='nocache', default=False),
+            make_option('--cache', metavar='FILE',
+                    action='store', dest='cache', default=None),
             make_option('--all-modules',
                         action='store_true', dest='list_all_modules', default=False),
             make_option('--check', metavar='CHECK',
@@ -303,9 +303,9 @@ class cmd_goalreport(Command):
             cachedir = os.path.join(os.environ['XDG_CACHE_HOME'], 'jhbuild')
         except KeyError:
             cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
-        if not options.nocache:
+        if options.cache:
             try:
-                results = cPickle.load(file(os.path.join(cachedir, 'twoninetynine.pck')))
+                results = cPickle.load(file(os.path.join(cachedir, options.cache)))
             except:
                 pass
 
@@ -362,7 +362,8 @@ class cmd_goalreport(Command):
 
         if not os.path.exists(cachedir):
             os.makedirs(cachedir)
-        cPickle.dump(results, file(os.path.join(cachedir, 'twoninetynine.pck'), 'w'))
+        if options.cache:
+            cPickle.dump(results, file(os.path.join(cachedir, options.cache), 'w'))
 
         print >> output, HTML_AT_TOP % {'title': self.title}
         if self.page_intro:

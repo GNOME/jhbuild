@@ -186,6 +186,9 @@ relative to the number of deprecated symbols in use (&lt;5/&lt;20/&gt;=20).
             ])
 
     def run(self, config, options, args):
+        options.cache = 'twoninetynine.pck'
+        if options.nocache:
+            options.cache = None
         options.bugfile = 'http://live.gnome.org/FredericPeters/Bugs299?action=raw'
         options.falsepositivesfile = 'http://live.gnome.org/FredericPeters/FalsePositives299?action=raw'
         return cmd_goalreport.run(self, config, options, args)
