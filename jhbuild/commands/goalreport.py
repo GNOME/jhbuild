@@ -21,6 +21,7 @@ import os
 import re
 import sys
 import subprocess
+import types
 import cPickle
 from optparse import make_option
 try:
@@ -129,6 +130,10 @@ class Check:
             return
         self.status = 'ok'
 
+    def create_from_args(cls, *args):
+        pass
+    create_from_args = classmethod(create_from_args)
+
 
 class ShellCheck(Check):
     cmd = None
@@ -200,6 +205,11 @@ class SymbolsCheck(Check):
                 self.bad_symbols.remove(symbol)
         self.compute_status()
 
+    def create_from_args(cls, *args):
+        new_class = types.ClassType('SymbolsCheck (%s)' % ', '.join(args),
+                (cls,), {'symbols': args})
+        return new_class
+    create_from_args = classmethod(create_from_args)
 
 
 class DeprecatedSymbolsCheck(SymbolsCheck):
@@ -246,7 +256,20 @@ class cmd_goalreport(Command):
                     action='store_true', dest='nocache', default=False),
             make_option('--all-modules',
                         action='store_true', dest='list_all_modules', default=False),
+            make_option('--check', metavar='CHECK',
+                        action='append', dest='checks', default=[],
+                        help=_('check to perform')),
             ])
+
+    def load_checks_from_options(self, checks):
+        self.checks = []
+        for check_option in checks:
+            check_class_name, args = check_option.split(':', 2)
+            args = args.split(':')
+            check_base_class = globals().get(check_class_name)
+            check = check_base_class.create_from_args(*args)
+            self.checks.append(check)
+
 
     def run(self, config, options, args):
         if options.output:
@@ -262,6 +285,9 @@ class cmd_goalreport(Command):
 
         self.load_bugs(options.bugfile)
         self.load_false_positives(options.falsepositivesfile)
+
+        if not self.checks:
+            self.load_checks_from_options(options.checks)
 
         config.devhelp_dirname = options.devhelp_dirname
 
@@ -511,12 +537,14 @@ class cmd_goalreport(Command):
         #  $(module)/$(checkname) $(bugnumber)
         # Sample bug file:
         #  evolution/LibGnomeCanvas 571742
+        self.bugs = {}
+        if not filename:
+            return
         if filename.startswith('http://'):
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
                 raise FatalError(_('could not download %s: %s') % (filename, e))
-        self.bugs = {}
         for line in file(filename):
             line = line.strip()
             if not line:
@@ -540,12 +568,14 @@ class cmd_goalreport(Command):
             self.bug_status[bug_id] = bug_resolved
 
     def load_false_positives(self, filename):
+        self.false_positives = {}
+        if not filename:
+            return
         if filename.startswith('http://'):
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
                 raise FatalError(_('could not download %s: %s') % (filename, e))
-        self.false_positives = {}
         for line in file(filename):
             line = line.strip()
             if not line:
