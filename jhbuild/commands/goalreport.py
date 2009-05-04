@@ -102,13 +102,6 @@ a.warn-bug-status::after {
 </head>
 <body>
 
-<p style="font-size: small;">
-Disclaimer: Complexities are (mis)calculated arbitrary on the following basis:
-1) for libraries low/average/complex are relative to the number of includes
-of a library header (&lt;5/&lt;20/&gt;=20); 2) for deprecated symbols thet are
-relative to the number of deprecated symbols in use (&lt;5/&lt;20/&gt;=20).
-</p>
-
 '''
 
 class ExcludedModuleException(Exception):
@@ -162,86 +155,6 @@ class ShellCheck(Check):
             self.complexity = 'complex'
 
 FIND_C = "find -name '*.[ch]' -or -name '*.cpp' -or -name '*.cc'"
-
-class LibBonobo(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libbonobo'",
-        FIND_C + " | xargs grep '#include <bonobo'",
-        FIND_C + " | xargs grep 'BonoboObject'",
-        FIND_C + " | xargs grep 'BonoboApplication'",
-        "find -name '*.py' | xargs grep 'import .*bonobo'",
-    )
-
-class LibGnome(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libgnome/' | "\
-                        "egrep -v 'gnome-desktop-item.h|gnome-desktop-utils.h'",
-                        # gnome-desktop installs stuff under libgnome/
-        FIND_C + " | xargs grep '#include <gnome.h>'",
-        "find -name '*.cs' | xargs grep 'Gnome.Url.'", # as 'using ...' is not mandatory
-    )
-
-class LibGnomeUi(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libgnomeui/' | egrep -v '"\
-                    "gnome-rr.h|"\
-                    "gnome-rr-config.h|"\
-                    "gnome-desktop-thumbnail.h|"\
-                    "gnome-bg-crossfade.h|"\
-                    "gnome-bg.h'", # gnome-desktop installs stuff under libgnomeui/
-        "find -name '*.py' | xargs grep 'import .*gnome\.ui'",
-    )
-
-class LibGnomeCanvas(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libgnomecanvas/'",
-        "find -name '*.py' | xargs grep 'import .*gnomecanvas'",
-    )
-
-class LibArtLgpl(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libart_lgpl/'",
-        "find -name '*.cs' | xargs grep '^using Art;'",
-    )
-
-class LibGnomeVfs(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libgnomevfs/'",
-        "find -name '*.py' | xargs grep 'import .*gnomevfs'",
-        "find -name '*.cs' | xargs grep '^using Gnome.Vfs'",
-    )
-
-class LibGnomePrint(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <libgnomeprint'",
-        "find -name '*.py' | xargs grep 'import .*gnomeprint'",
-    )
-
-
-class Esound(ShellCheck):
-    cmd = FIND_C + " | xargs grep '#include <esd.h>'"
-
-class Orbit(ShellCheck):
-    cmds = (
-        FIND_C + " | xargs grep '#include <orbit'",
-        "find -name '*.py' | xargs grep 'import .*bonobo'",
-    )
-
-class LibGlade(ShellCheck):
-    excluded_modules = ('libglade',)
-    cmds = (
-        FIND_C + " | xargs grep '#include <glade/'",
-        "find -name '*.py' | xargs grep 'import .*glade'",
-        "find -name '*.cs' | xargs grep '^using Glade'",
-    )
-
-class GConf(ShellCheck):
-    excluded_modules = ('gconf',)
-    cmds = (
-        FIND_C + " | xargs grep '#include <gconf/'",
-        "find -name '*.py' | xargs grep 'import .*gconf'",
-        "find -name '*.cs' | xargs grep '^using GConf'",
-    )
 
 
 class DeprecatedSymbolsCheck(Check):
@@ -309,61 +222,12 @@ class DeprecatedSymbolsCheck(Check):
         self.compute_status()
 
 
-class GlibDeprecatedSymbols(DeprecatedSymbolsCheck):
-    devhelp_filenames = ('glib.devhelp2', 'gobject.devhelp2', 'gio.devhelp2')
-    excluded_modules = ('glib',)
-
-class GtkDeprecatedSymbols(DeprecatedSymbolsCheck):
-    devhelp_filenames = ('gdk.devhelp2', 'gdk-pixbuf.devhelp2', 'gtk.devhelp2')
-    excluded_modules = ('gtk+',)
-
-
-class GObjectIntrospectionSupport(Check):
-    def run(self):
-        pkg_config = False
-        gir_file = False
-        try:
-            for base, dirnames, filenames in os.walk(self.module.branch.srcdir):
-                if [x for x in filenames if x.endswith('.pc') or x.endswith('.pc.in')]:
-                    pkg_config = True
-                if [x for x in filenames if x.endswith('.gir')]:
-                    gir_file = True
-                if not gir_file and 'Makefile.am' in filenames:
-                    # if there is no .gir, we may simply be in an unbuilt module,
-                    # let's look up for a .gir target in the Makefile.am
-                    makefile_am = file(os.path.join(base, 'Makefile.am')).read()
-                    if re.findall(r'^[A-Za-z0-9.\-]+\.gir:', makefile_am, re.MULTILINE):
-                        gir_file = True
-                if pkg_config and gir_file:
-                    break
-        except UnicodeDecodeError:
-            raise ExcludedModuleException()
-
-        if not pkg_config:
-            raise ExcludedModuleException()
-
-        if gir_file:
-            self.status = 'ok'
-        else:
-            self.status = 'todo'
-            self.complexity = 'average'
-
-    def fix_false_positive(self, false_positive):
-        if not false_positive:
-            return
-        if false_positive == 'n/a':
-            raise ExcludedModuleException()
-        self.status = 'ok'
-
-
-checks = [LibBonobo, LibGnome, LibGnomeUi, LibGnomeCanvas, LibArtLgpl,
-          LibGnomeVfs, LibGnomePrint, Esound, Orbit, LibGlade, GConf,
-          GlibDeprecatedSymbols, GtkDeprecatedSymbols,
-          GObjectIntrospectionSupport]
-
 class cmd_goalreport(Command):
     doc = _('Report GNOME modules status wrt various goals')
     name = 'goalreport'
+
+    checks = None
+    page_intro = None
     
     def __init__(self):
         Command.__init__(self, [
@@ -435,7 +299,7 @@ class cmd_goalreport(Command):
                 }
             results[mod.name]['tree-id'] = tree_id
             r = results[mod.name]['results']
-            for check in checks:
+            for check in self.checks:
                 if valid_cache and check.__name__ in r:
                     continue
                 try:
@@ -467,10 +331,12 @@ class cmd_goalreport(Command):
         cPickle.dump(results, file(os.path.join(cachedir, 'twoninetynine.pck'), 'w'))
 
         print >> output, HTML_AT_TOP
+        if self.page_intro:
+            print >> output, self.page_intro
         print >> output, '<table>'
         print >> output, '<thead>'
         print >> output, '<tr><td></td>'
-        for check in checks:
+        for check in self.checks:
             print >> output, '<th>%s</th>' % check.__name__
         print >> output, '<td></td></tr>'
         print >> output, '</thead>'
@@ -502,7 +368,7 @@ class cmd_goalreport(Command):
             if not module_names:
                 continue
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(checks), suite_label)
+                    2+len(self.checks), suite_label)
             for module_name in module_names:
                 r = results[module_name].get('results')
                 print >> output, self.get_mod_line(module_name, r)
@@ -510,11 +376,12 @@ class cmd_goalreport(Command):
             not_other_module_names.extend(module_names)
 
         external_deps = [x for x in results.keys() if \
+                         x in [y.name for y in self.module_list] and \
                          not x in processed_modules and \
                          module_set.get_module(x).moduleset_name.startswith('gnome-external-deps')]
         if external_deps:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(checks), 'External Dependencies')
+                    2+len(self.checks), 'External Dependencies')
             for module_name in sorted(external_deps):
                 if not module_name in results:
                     continue
@@ -529,7 +396,7 @@ class cmd_goalreport(Command):
                               not x in processed_modules and not x in external_deps]
         if other_module_names:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(checks), 'Others')
+                    2+len(self.checks), 'Others')
             for module_name in sorted(other_module_names):
                 if not module_name in results:
                     continue
@@ -539,7 +406,7 @@ class cmd_goalreport(Command):
         print >> output, '<tfoot>'
 
         print >> output, '<tr><td></td>'
-        for check in checks:
+        for check in self.checks:
             print >> output, '<th>%s</th>' % check.__name__
         print >> output, '<td></td></tr>'
 
@@ -565,7 +432,7 @@ class cmd_goalreport(Command):
             s.append('<th>%s&nbsp;(%s)</th>' % (module_name, version_number))
         else:
             s.append('<th>%s</th>' % module_name)
-        for check in checks:
+        for check in self.checks:
             ri = r.get(check.__name__)
             if not ri:
                 classname = 'n-a'
@@ -609,7 +476,7 @@ class cmd_goalreport(Command):
         s = []
         s.append('<tr>')
         s.append('<td>Stats<br/>(excluding "Others")</td>')
-        for check in checks:
+        for check in self.checks:
             s.append('<td>')
             for complexity in ('low', 'average', 'complex'):
                 nb_modules = len([x for x in module_names if \
@@ -641,8 +508,6 @@ class cmd_goalreport(Command):
         #  $(module)/$(checkname) $(bugnumber)
         # Sample bug file:
         #  evolution/LibGnomeCanvas 571742
-        if not filename:
-            filename = 'http://live.gnome.org/FredericPeters/Bugs299?action=raw'
         if filename.startswith('http://'):
             try:
                 filename = httpcache.load(filename, age=0)
@@ -672,8 +537,6 @@ class cmd_goalreport(Command):
             self.bug_status[bug_id] = bug_resolved
 
     def load_false_positives(self, filename):
-        if not filename:
-            filename = 'http://live.gnome.org/FredericPeters/FalsePositives299?action=raw'
         if filename.startswith('http://'):
             try:
                 filename = httpcache.load(filename, age=0)
