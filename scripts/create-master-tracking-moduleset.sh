@@ -1,10 +1,10 @@
 #! /bin/sh
 
-xsltproc --nodtdattr scripts/set-to-trunk.xsl \
+xsltproc --nodtdattr scripts/create-master-tracking-moduleset.xsl \
 	modulesets/gnome-suites-2.28.modules > \
 	modulesets/gnome-suites-trunk.modules
 
-xsltproc --nodtdattr scripts/set-to-trunk.xsl \
+xsltproc --nodtdattr scripts/create-master-tracking-moduleset.xsl \
 	modulesets/gnome-2.28.modules > \
 	modulesets/gnome-trunk.modules
 
