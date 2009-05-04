@@ -309,6 +309,10 @@ class cmd_goalreport(Command):
             except:
                 pass
 
+        self.repeat_row_header = 0
+        if len(self.checks) > 4:
+            self.repeat_row_header = 1
+
         for module_num, mod in enumerate(self.module_list):
             if mod.type in ('meta', 'tarball'):
                 continue
@@ -398,7 +402,7 @@ class cmd_goalreport(Command):
             if not module_names:
                 continue
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(self.checks), suite_label)
+                    1+len(self.checks)+self.repeat_row_header, suite_label)
             for module_name in module_names:
                 r = results[module_name].get('results')
                 print >> output, self.get_mod_line(module_name, r)
@@ -411,7 +415,7 @@ class cmd_goalreport(Command):
                          module_set.get_module(x).moduleset_name.startswith('gnome-external-deps')]
         if external_deps:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(self.checks), 'External Dependencies')
+                    1+len(self.checks)+self.repeat_row_header, 'External Dependencies')
             for module_name in sorted(external_deps):
                 if not module_name in results:
                     continue
@@ -426,7 +430,7 @@ class cmd_goalreport(Command):
                               not x in processed_modules and not x in external_deps]
         if other_module_names:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    2+len(self.checks), 'Others')
+                    1+len(self.checks)+self.repeat_row_header, 'Others')
             for module_name in sorted(other_module_names):
                 if not module_name in results:
                     continue
@@ -498,7 +502,8 @@ class cmd_goalreport(Command):
             if k in self.bugs:
                 s.append('</a>')
             s.append('</td>')
-        s.append('<th>%s</th>' % module_name)
+        if self.repeat_row_header:
+            s.append('<th>%s</th>' % module_name)
         s.append('</tr>')
         return '\n'.join(s)
 
