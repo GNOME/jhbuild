@@ -157,12 +157,9 @@ class ShellCheck(Check):
 FIND_C = "find -name '*.[ch]' -or -name '*.cpp' -or -name '*.cc'"
 
 
-class DeprecatedSymbolsCheck(Check):
-    cached_symbols = {}
-
+class SymbolsCheck(Check):
     def run(self):
-        symbols = self.load_deprecated_symbols()
-        symbol_regex = re.compile(r'[\s\(\){}\+\|&-](%s)[\s\(\){}\+\|&-]' % '|'.join(symbols))
+        symbol_regex = re.compile(r'[\s\(\){}\+\|&-](%s)[\s\(\){}\+\|&-]' % '|'.join(self.symbols))
         deprecated_and_used = {}
         try:
             for base, dirnames, filenames in os.walk(self.module.branch.srcdir):
@@ -194,6 +191,20 @@ class DeprecatedSymbolsCheck(Check):
         else:
             self.result_comment = None
 
+    def fix_false_positive(self, false_positive):
+        if not false_positive:
+            return
+        for symbol in false_positive.split(','):
+	    symbol = symbol.strip()
+            if symbol in self.bad_symbols:
+                self.bad_symbols.remove(symbol)
+        self.compute_status()
+
+
+
+class DeprecatedSymbolsCheck(SymbolsCheck):
+    cached_symbols = {}
+
     def load_deprecated_symbols(self):
         if self.cached_symbols.get(self.devhelp_filenames):
             return self.cached_symbols.get(self.devhelp_filenames)
@@ -211,15 +222,7 @@ class DeprecatedSymbolsCheck(Check):
                 symbols.append(name)
         DeprecatedSymbolsCheck.cached_symbols[self.devhelp_filenames] = symbols
         return symbols
-
-    def fix_false_positive(self, false_positive):
-        if not false_positive:
-            return
-        for symbol in false_positive.split(','):
-	    symbol = symbol.strip()
-            if symbol in self.bad_symbols:
-                self.bad_symbols.remove(symbol)
-        self.compute_status()
+    symbols = property(load_deprecated_symbols)
 
 
 class cmd_goalreport(Command):
