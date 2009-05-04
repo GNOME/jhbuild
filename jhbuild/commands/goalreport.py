@@ -53,7 +53,7 @@ except: t_reset = ''
 
 HTML_AT_TOP = '''<html>
 <head>
-<title>2.99</title>
+<title>%(title)s</title>
 <style type="text/css">
 body {
     font-family: sans-serif;
@@ -241,6 +241,7 @@ class cmd_goalreport(Command):
 
     checks = None
     page_intro = None
+    title = 'GNOME Goal Report'
     
     def __init__(self):
         Command.__init__(self, [
@@ -359,7 +360,7 @@ class cmd_goalreport(Command):
             os.makedirs(cachedir)
         cPickle.dump(results, file(os.path.join(cachedir, 'twoninetynine.pck'), 'w'))
 
-        print >> output, HTML_AT_TOP
+        print >> output, HTML_AT_TOP % {'title': self.title}
         if self.page_intro:
             print >> output, self.page_intro
         print >> output, '<table>'

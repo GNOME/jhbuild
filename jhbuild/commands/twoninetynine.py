@@ -161,6 +161,7 @@ class cmd_twoninetynine(cmd_goalreport):
               LibGnomeVfs, LibGnomePrint, Esound, Orbit, LibGlade, GConf,
               GlibDeprecatedSymbols, GtkDeprecatedSymbols,
               GObjectIntrospectionSupport]
+    title = '2.99'
     
     page_intro = '''
 <p style="font-size: small;">
