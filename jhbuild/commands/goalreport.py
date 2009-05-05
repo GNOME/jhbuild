@@ -23,6 +23,7 @@ import sys
 import subprocess
 import types
 import cPickle
+import logging
 from optparse import make_option
 try:
     from cStringIO import StringIO
@@ -561,7 +562,8 @@ class cmd_goalreport(Command):
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
-                raise FatalError(_('could not download %s: %s') % (filename, e))
+                logging.warning('could not download %s: %s' % (filename, e))
+                return
         for line in file(filename):
             line = line.strip()
             if not line:
@@ -592,7 +594,8 @@ class cmd_goalreport(Command):
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
-                raise FatalError(_('could not download %s: %s') % (filename, e))
+                logging.warning('could not download %s: %s' % (filename, e))
+                return
         for line in file(filename):
             line = line.strip()
             if not line:
