@@ -26,19 +26,24 @@ class JHBuildFactory(factory.BuildFactory):
     targets = []
     steps = []
 
-    def __init__(self, module):
+    def __init__(self, module, slave):
         factory.BuildFactory.__init__(self)
         self.moduleset = jhbuild_config.moduleset
         self.module = module
+        self.slave = slave
         self.getSteps()
 
     def getSteps(self):
         self.addStep(JHBuildSource, moduleset=self.moduleset, module=self.module)
         self.addStep(JHBuildCommand, stage='build', moduleset=self.moduleset, module=self.module)
-        self.addStep(JHBuildCheckCommand, moduleset=self.moduleset, module=self.module)
-#	self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset, module=self.module, action='module-reports.sh', 
-#                     haltOnFailure = False, actionName='coverage')
-	self.addStep(JHBuildCommand, stage='clean', moduleset=self.moduleset, module=self.module)
+        if self.slave.run_checks:
+            self.addStep(JHBuildCheckCommand, moduleset=self.moduleset, module=self.module)
+        if self.slave.run_coverage_report:
+            self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset,
+                    module=self.module, action='module-reports.sh')
+        if self.slave.run_clean_afterwards:
+            self.addStep(JHBuildCommand, stage='clean', moduleset=self.moduleset,
+                    module=self.module)
 
     def newBuild(self, request):
         return factory.BuildFactory.newBuild(self, request)
