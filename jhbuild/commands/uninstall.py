@@ -62,9 +62,8 @@ class cmd_uninstall(Command):
 
         config.nonetwork = True
         config.nopoison = True
-        config.build_targets = ['uninstall']
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.build()
+        return build.build(phases=['uninstall'])
 
 register_command(cmd_uninstall)

@@ -60,11 +60,9 @@ class cmd_clean(Command):
             if not packagedb.check(module.name):
                 module_list.remove(module)
 
-        config.nonetwork = True
         config.nopoison = True
-        config.build_targets = ['clean']
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.build()
+        return build.build(phases=['clean'])
 
 register_command(cmd_clean)
