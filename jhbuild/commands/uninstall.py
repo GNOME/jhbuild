@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from optparse import make_option
+
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError
@@ -29,18 +31,37 @@ class cmd_uninstall(Command):
     name = 'uninstall'
     usage_args = '[ options ... ] [ modules ... ]'
 
+    def __init__(self):
+        Command.__init__(self, [
+            make_option('-s', '--skip', metavar='MODULES',
+                        action='append', dest='skip', default=[],
+                        help=_('treat the given modules as up to date')),
+            make_option('-t', '--start-at', metavar='MODULE',
+                        action='store', dest='startat', default=None,
+                        help=_('start building at the given module')),
+            ])
+
     def run(self, config, options, args):
+        for item in options.skip:
+            config.skip += item.split(',')
+
         module_set = jhbuild.moduleset.load(config)
-        module_list = []
+        module_list = module_set.get_module_list(args or config.modules, config.skip)
+        # remove modules up to startat
+        if options.startat:
+            while module_list and module_list[0].name != options.startat:
+                del module_list[0]
+            if not module_list:
+                raise FatalError(_('%s not in module list') % options.startat)
 
         # remove modules that are not marked as installed
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
-        for module in module_set.get_module_list(args or config.modules,
-                config.skip, tags=config.tags, ignore_suggests=config.ignore_suggests):
-            if packagedb.check(module.name):
-                module_list.append(module)
+        for module in module_list[:]:
+            if not packagedb.check(module.name):
+                module_list.remove(module)
 
-        config.build_policy = 'all'
+        config.nonetwork = True
+        config.nopoison = True
         config.build_targets = ['uninstall']
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
