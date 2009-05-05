@@ -275,18 +275,23 @@ class cmd_bot(Command):
                 except: # parse error
                     return
 
-                for int_attribute in ('max_builds', 'missing_timeout'):
+                for attribute in ('config/max_builds', 'config/missing_timeout',
+                            'info/contact_name', 'info/contact_email',
+                            'info/url', 'info/distribution', 'info/architecture',
+                            'info/version'):
+                    attr_name = attribute.split('/')[-1]
                     try:
-                        setattr(self, int_attribute, int(cfg.find(int_attribute).text))
-                    except (AttributeError, ValueError):
-                        pass
+                        value = cfg.find(attribute).text
+                    except AttributeError:
+                        continue
 
-                for text_attribute in ('contact_name', 'contact_email', 'url',
-                        'distribution', 'architecture', 'version'):
-                    try:
-                        setattr(self, text_attribute, cfg.find(text_attribute).text)
-                    except (AttributeError, ValueError):
-                        pass
+                    if attr_name in ('max_builds', 'missing_timeout'): # int value
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            continue
+
+                    setattr(self, attr_name, value)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
