@@ -145,23 +145,26 @@ class cmd_bot(Command):
             __builtin__.__dict__['_'] = lambda x: x
             config.interact = False
             config.nonetwork = True
-            if args[0] == 'update':
-                command = 'updateone'
-                config.nonetwork = False
-            elif args[0] == 'build':
-                command = 'buildone'
-                config.alwaysautogen = True
-            elif args[0] == 'check':
-                command = 'buildone'
-                config.build_targets = ['check']
-                config.build_policy = 'all'
-            elif args[0] == 'clean':
-                command = 'cleanone'
-                args.append('--honour-config')
+            os.environ['TERM'] = 'dumb'
+            if args[0] in ('update', 'build', 'check', 'clean'):
+                module_set = jhbuild.moduleset.load(config)
+                buildscript = jhbuild.frontends.get_buildscript(config,
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                phases = None
+                if args[0] == 'update':
+                    config.nonetwork = False
+                    phases = ['checkout']
+                elif args[0] == 'build':
+                    config.alwaysautogen = True
+                    config.build_targets = ['install']
+                elif args[0] == 'check':
+                    phases = ['check']
+                elif args[0] == 'clean':
+                    phases = ['clean']
+                rc = buildscript.build(phases=phases)
             else:
                 command = args[0]
-            os.environ['TERM'] = 'dumb'
-            rc = jhbuild.commands.run(command, config, args[1:])
+                rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
 
         if options.start_server:
