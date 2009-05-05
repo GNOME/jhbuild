@@ -1694,6 +1694,20 @@
 
 <!-- Proposed Modules -->
 
+  <autotools id="gnome-disk-utility">
+    <branch/>
+    <dependencies>
+      <dep package="DeviceKit-disks"/>
+      <dep package="PolicyKit-gnome"/>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-keyring"/>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
+      <!-- and libsexy, unapproved dependency -->
+    </dependencies>
+  </autotools>
+
 <!-- Meta Modules -->
 
   <metamodule id="meta-gnome-devel-platform-upcoming-deprecations">
@@ -1908,6 +1922,7 @@
 
   <metamodule id="meta-gnome-proposed">
     <dependencies>
+      <dep package="gnome-disk-utility"/>
     </dependencies>
   </metamodule>
 
