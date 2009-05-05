@@ -272,6 +272,23 @@ class AutogenModule(Package):
                     extra_env = self.extra_env)
     do_distclean.depends = [PHASE_CONFIGURE]
 
+    def skip_uninstall(self, buildscript, last_phase):
+        srcdir = self.get_srcdir(buildscript)
+        if not os.path.exists(srcdir):
+            return True
+        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+            return True
+        return False
+
+    def do_uninstall(self, buildscript):
+        buildscript.set_action(_('Uninstalling'), self)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s uninstall' % (os.environ.get('MAKE', 'make'), makeargs)
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
+        buildscript.packagedb.remove(self.name)
+
     def xml_tag_and_attrs(self):
         return ('autotools',
                 [('autogenargs', 'autogenargs', ''),

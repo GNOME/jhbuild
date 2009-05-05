@@ -143,6 +143,13 @@ class WafModule(Package):
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.depends = [PHASE_BUILD]
 
+    def do_uninstall(self, buildscript):
+        buildscript.set_action(_('Uninstalling'), self)
+        cmd = [self.waf_cmd, 'uninstall']
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.packagedb.remove(self.name)
+    do_install.depends = [PHASE_BUILD]
+
     def xml_tag_and_attrs(self):
         return 'waf', [('id', 'name', None),
                        ('waf-command', 'waf_cmd', 'waf')]
