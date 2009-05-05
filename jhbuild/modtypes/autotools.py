@@ -202,7 +202,7 @@ class AutogenModule(Package):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs(
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
                 self.name, self.config.makeargs)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
