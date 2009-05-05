@@ -27,6 +27,8 @@
     href="http://0pointer.de/lennart/projects/"/>
 <repository type="tarball" name="samba.org"
     href="http://samba.org/samba/ftp/"/>
+<repository type="tarball" name="webkitgtk.org"
+    href="http://webkitgtk.org/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -868,20 +870,36 @@
     </dependencies>
   </tarball>
 
-  <tarball id="gnome-disk-utility" version="0.3">
-    <source href="http://hal.freedesktop.org/releases/gnome-disk-utility-0.3.tar.bz2"
-            md5sum="1aa94c224cd3dd2ebfd05bf31476dbb5" size="753026"/>
+  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
+      makefile="GNUmakefile">
+    <branch repo="webkitgtk.org"
+            module="webkit-1.1.6.tar.gz" version="1.1.6"
+	    size="6068467" md5sum="b311337561507b485fc2172cec7c2266"/>
     <dependencies>
-      <dep package="DeviceKit-disks"/>
-      <dep package="PolicyKit-gnome"/>
       <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libunique"/>
-      <dep package="libnotify"/>
-      <!-- deps non managed by jhbuild -->
-      <!--     * libsexy               -->
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <dep package="libsoup"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="sqlite3"/>
     </dependencies>
+  </autotools>
+
+  <tarball id="libchamplain" version="0.3.0">
+    <source href="http://libchamplain.pierlux.com/release/0.3.0/libchamplain-0.3.0.tar.gz"
+            md5sum="db410c9b7698180e584f40d9a326dba4" size="550418"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="clutter"/>
+      <dep package="clutter-cairo"/>
+      <dep package="cairo"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+    <suggests>
+      <dep package="libsoup"/>
+      <dep package="gtk+"/>
+    </suggests>
   </tarball>
 
 </moduleset>
