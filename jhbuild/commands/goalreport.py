@@ -114,6 +114,8 @@ class CouldNotPerformCheckException(Exception):
 
 
 class Check:
+    header_note = None
+
     complexity = 'average'
     status = 'dunno'
     result_comment = None
@@ -375,6 +377,11 @@ class cmd_goalreport(Command):
         for check in self.checks:
             print >> output, '<th>%s</th>' % check.__name__
         print >> output, '<td></td></tr>'
+        if [x for x in self.checks if x.header_note]:
+            print >> output, '<tr><td></td>'
+            for check in self.checks:
+                print >> output, '<td>%s</td>' % (check.header_note or '')
+            print >> output, '</tr>'
         print >> output, '</thead>'
         print >> output, '<tbody>'
 
