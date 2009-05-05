@@ -397,10 +397,8 @@
     </suggests>
   </autotools>
 
-  <!-- epiphany is branched in 2-26, and default to gecko -->
-  <!-- use epiphany-webkit instead to build epi with Webkit -->
   <autotools id="epiphany">
-    <branch revision="gnome-2-26"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="iso-codes"/>
@@ -409,7 +407,7 @@
       <dep package="gnome-python"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gnome-desktop"/>
-      <dep package="mozilla"/>
+      <dep package="WebKit"/>
     </dependencies>
     <suggests>
       <dep package="avahi"/>
@@ -1359,7 +1357,7 @@
   </autotools>
 
   <autotools id="yelp">
-    <branch/>
+    <branch revision="webkit"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -1371,7 +1369,7 @@
       <dep package="libxml2"/>
       <dep package="gnome-doc-utils"/>
       <dep package="startup-notification"/>
-      <dep package="mozilla"/>
+      <dep package="WebKit"/>
       <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
@@ -1596,17 +1594,15 @@
     </suggests>
   </autotools>  
 
-  <!-- devhelp is branched in 2-22, and default to gecko  -->
-  <!-- use devhelp-webkit instead to build it with Webkit -->
   <autotools id="devhelp">
-    <branch revision="gnome-2-22"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>
       <dep package="libglade"/>
       <dep package="gconf"/>
       <dep package="libwnck"/>
-      <dep package="mozilla"/>
+      <dep package="WebKit"/>
     </dependencies>
   </autotools>
 
