@@ -331,11 +331,6 @@ class cmd_bot(Command):
                 # current directory (unless instructed different from command line) 
                 # it is a CSV file structured like this:
                 #   slavename,password
-                # it is also possible to define build slave options, for
-                # example:
-                #   slavename,password,max_builds=2
-                # (recognized build slave options are max_build and
-                # missing_timeout)
                 config['slaves'] = []
                 slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
                 if os.path.exists(slaves_csv_file):
