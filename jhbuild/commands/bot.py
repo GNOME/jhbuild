@@ -332,8 +332,8 @@ class cmd_bot(Command):
                 # (recognized build slave options are max_build and
                 # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists(slaves_dir):
-                    slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                if os.path.exists(slaves_csv_file):
                     for x in csv.reader(file(slaves_csv_file)):
                         if not x or x[0].startswith('#'):
                             continue
