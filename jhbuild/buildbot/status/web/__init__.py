@@ -124,10 +124,13 @@ class ProjectsSummary(HtmlResource):
                     if last_build:
                         # use a different class/label if make check failed
                         steps = last_build.getSteps()
-                        if steps and steps[2].results == WARNINGS:
-                            # make check failed
-                            class_ = 'failedchecks'
-                            lastbuild_label = 'Failed Checks'
+                        for step in reversed(steps):
+                            if step.name.split()[-1] == 'check':
+                                if step.results == WARNINGS:
+                                    # make check failed
+                                    class_ = 'failedchecks'
+                                    lastbuild_label = 'Failed Checks'
+                                break
                 elif lastbuild == 'failed':
                     lastbuild_label = 'Failed'
                     last_build = builder.getLastFinishedBuild()
