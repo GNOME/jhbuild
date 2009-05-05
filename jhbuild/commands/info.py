@@ -25,8 +25,6 @@ import jhbuild.frontends
 from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule
-from jhbuild.modtypes.autotools import AutogenModule
-from jhbuild.modtypes.mozillamodule import MozillaModule
 from jhbuild.versioncontrol.cvs import CVSBranch
 from jhbuild.versioncontrol.svn import SubversionBranch
 from jhbuild.versioncontrol.arch import ArchBranch
@@ -69,10 +67,6 @@ class cmd_info(Command):
                                                  time.localtime(installdate)))
         else:
             uprint(_('Install-date:'), _('not installed'))
-
-        if isinstance(module, MozillaModule):
-            if module.projects:
-                uprint(_('Moz-Projects:'), ', '.join(module.projects))
 
         if isinstance(module, MetaModule):
             pass
