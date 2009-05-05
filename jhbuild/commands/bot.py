@@ -266,6 +266,8 @@ class cmd_bot(Command):
             architecture = None
             version = None
 
+            max_builds = 2
+
             def load_extra_configuration(self, slaves_dir):
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
                 if not os.path.exists(slave_xml_file):
