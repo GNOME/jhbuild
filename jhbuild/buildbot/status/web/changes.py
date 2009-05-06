@@ -74,7 +74,7 @@ class ChangeResource(HtmlResource):
                 link = 'http://git.gnome.org/cgit/%s/commit/?id=%s' % (
                         self.change.project, self.change.revision)
                 data += '<p>View in GNOME cgit: <a href="%s">%s commit %s</a></dd>\n' % (
-                        link, self.change.project, self.change.revision)
+                        link, self.change.project, self.change.revision[:8])
             else:
                 link = 'http://svn.gnome.org/viewvc/%s?view=revision&revision=%s' % (
                         self.change.project, self.change.revision)

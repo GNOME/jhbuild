@@ -74,7 +74,7 @@ phase_map = {
     }
 
 class TerminalBuildScript(buildscript.BuildScript):
-    triedcheckout = False
+    triedcheckout = None
     is_end_of_build = False
 
     def __init__(self, config, module_list):
@@ -260,10 +260,16 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.notify.notify(summary = summary, body = error_message,
                 icon = 'dialog-error', expire = 20)
 
-        if self.config.trycheckout and (not self.triedcheckout) and altphases.count('force_checkout'):
-            self.triedcheckout = True
-            return 'force_checkout'
-        self.triedcheckout = False
+        if self.config.trycheckout:
+            if self.triedcheckout is None and altphases.count('configure'):
+                self.triedcheckout = 'configure'
+                self.message(_('automatically retrying configure'))
+                return 'configure'
+            elif self.triedcheckout == 'configure' and altphases.count('force_checkout'):
+                self.triedcheckout = 'done'
+                self.message(_('automatically forcing a fresh checkout'))
+                return 'force_checkout'
+        self.triedcheckout = None
 
         if not self.config.interact:
             return 'fail'

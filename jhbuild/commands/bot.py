@@ -267,6 +267,12 @@ class cmd_bot(Command):
             architecture = None
             version = None
 
+            max_builds = 2
+
+            run_checks = True
+            run_coverage_report = False
+            run_clean_afterwards = False
+
             def load_extra_configuration(self, slaves_dir):
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
                 if not os.path.exists(slave_xml_file):
@@ -276,18 +282,28 @@ class cmd_bot(Command):
                 except: # parse error
                     return
 
-                for int_attribute in ('max_builds', 'missing_timeout'):
+                for attribute in ('config/max_builds', 'config/missing_timeout',
+                            'config/run_checks', 'config/run_coverage_report',
+                            'config/run_clean_afterwards',
+                            'info/contact_name', 'info/contact_email',
+                            'info/url', 'info/distribution', 'info/architecture',
+                            'info/version'):
+                    attr_name = attribute.split('/')[-1]
                     try:
-                        setattr(self, int_attribute, int(cfg.find(int_attribute).text))
-                    except (AttributeError, ValueError):
-                        pass
+                        value = cfg.find(attribute).text
+                    except AttributeError:
+                        continue
 
-                for text_attribute in ('contact_name', 'contact_email', 'url',
-                        'distribution', 'architecture', 'version'):
-                    try:
-                        setattr(self, text_attribute, cfg.find(text_attribute).text)
-                    except (AttributeError, ValueError):
-                        pass
+                    if attr_name in ('max_builds', 'missing_timeout'): # int value
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            continue
+
+                    if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards'):
+                        value = (value == 'yes')
+
+                    setattr(self, attr_name, value)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
@@ -327,14 +343,9 @@ class cmd_bot(Command):
                 # current directory (unless instructed different from command line) 
                 # it is a CSV file structured like this:
                 #   slavename,password
-                # it is also possible to define build slave options, for
-                # example:
-                #   slavename,password,max_builds=2
-                # (recognized build slave options are max_build and
-                # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists(slaves_dir):
-                    slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                if os.path.exists(slaves_csv_file):
                     for x in csv.reader(file(slaves_csv_file)):
                         if not x or x[0].startswith('#'):
                             continue
@@ -388,7 +399,7 @@ class cmd_bot(Command):
                 config['builders'] = []
                 for project in config['projects']:
                     for slave in config['slaves']:
-                        f = JHBuildFactory(project)
+                        f = JHBuildFactory(project, slave)
                         config['builders'].append({
                             'name' : "%s-%s" % (project, slave.slavename),
                             'slavename' : slave.slavename,
