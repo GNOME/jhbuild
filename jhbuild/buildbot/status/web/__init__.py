@@ -119,9 +119,12 @@ class ProjectsSummary(HtmlResource):
 
                 if lastbuild == 'successful':
                     last_build = builder.getLastFinishedBuild()
-                    class_ = build_get_class(last_build)
-                    lastbuild_label = 'Success'
                     if last_build:
+                        class_ = build_get_class(last_build)
+                    else:
+                        class_ = None
+                    lastbuild_label = 'Success'
+                    if last_build and class_:
                         # use a different class/label if make check failed
                         steps = last_build.getSteps()
                         for step in reversed(steps):
