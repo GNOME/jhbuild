@@ -87,6 +87,9 @@ class cmd_bot(Command):
             make_option('--slaves-dir', metavar='SLAVESDIR',
                         action='store', dest='slaves_dir', default='.',
                         help=_('directory with slaves files (only with --start-server)')),
+            make_option('--buildbot-dir', metavar='BUILDBOTDIR',
+                        action='store', dest='buildbot_dir', default=None,
+                        help=_('directory with buildbot work files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
                         action='store', dest='mastercfgfile', default='master.cfg',
                         help=_('master cfg file location (only with --start-server)')),
@@ -122,6 +125,7 @@ class cmd_bot(Command):
         logfile = None
         slaves_dir = None
         mastercfgfile = None
+        buildbot_dir = None
 
         if options.daemon:
             daemonize = True
@@ -133,6 +137,8 @@ class cmd_bot(Command):
             slaves_dir = options.slaves_dir
         if options.mastercfgfile:
             mastercfgfile = options.mastercfgfile
+        if options.buildbot_dir:
+            buildbot_dir = os.path.abspath(options.buildbot_dir)
 
         if options.start:
             return self.start(config, daemonize, pidfile, logfile)
@@ -167,7 +173,8 @@ class cmd_bot(Command):
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile)
+            return self.start_server(config, daemonize, pidfile, logfile,
+                    slaves_dir, mastercfgfile, buildbot_dir)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
@@ -228,7 +235,8 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile):
+    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir,
+            mastercfgfile, buildbot_dir):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -661,9 +669,12 @@ class cmd_bot(Command):
                 d.addCallback(lambda res: self.botmaster.maybeStartAllBuilds())
                 return d
 
-        basedir = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '../../buildbot/')
+        if buildbot_dir:
+            basedir = buildbot_dir
+        else:
+            basedir = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)),
+                    '../../buildbot/')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
