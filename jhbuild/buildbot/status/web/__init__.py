@@ -122,7 +122,7 @@ class ProjectsSummary(HtmlResource):
                     if last_build:
                         class_ = build_get_class(last_build)
                     else:
-                        class_ = None
+                        class_ = 'success'
                     lastbuild_label = 'Success'
                     if last_build and class_:
                         # use a different class/label if make check failed
@@ -137,7 +137,10 @@ class ProjectsSummary(HtmlResource):
                 elif lastbuild == 'failed':
                     lastbuild_label = 'Failed'
                     last_build = builder.getLastFinishedBuild()
-                    class_ = build_get_class(last_build)
+                    if last_build:
+                        class_ = build_get_class(last_build)
+                    else:
+                        class_ = 'failure'
                 else:
                     class_ = ''
                     lastbuild_label = lastbuild
