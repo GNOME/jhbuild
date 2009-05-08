@@ -43,6 +43,6 @@ class cmd_checkmodulesets(Command):
                             'module': mod.name, 'href': mod.branch.module})
             except NotImplementedError:
                 logging.warning((_('Cannot check %(module)s (%(href)s)') % {
-                            'module': mod.name, 'href': mod.branch.module})
+                            'module': mod.name, 'href': mod.branch.module}))
 
 register_command(cmd_checkmodulesets)
