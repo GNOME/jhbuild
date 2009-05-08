@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.help.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-20 05:17+0000\n"
-"PO-Revision-Date: 2009-01-20 19:33+0100\n"
+"POT-Creation-Date: 2009-05-06 18:20+0000\n"
+"PO-Revision-Date: 2009-05-01 12:15+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <Gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -245,8 +245,8 @@ msgstr "$"
 
 #: C/jhbuild.xml:116(userinput)
 #, no-wrap
-msgid "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
-msgstr "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
+msgid "git clone git://git.gnome.org/jhbuild"
+msgstr "git clone git://git.gnome.org/jhbuild"
 
 #: C/jhbuild.xml:117(computeroutput) C/jhbuild.xml:126(computeroutput)
 #: C/jhbuild.xml:128(computeroutput) C/jhbuild.xml:130(computeroutput)
@@ -304,34 +304,34 @@ msgstr "make -f Makefile.plain install"
 #: C/jhbuild.xml:144(para)
 msgid ""
 "If these steps complete successfully, a small shell script should be "
-"installed in <filename>~/bin</filename> to start JHBuild. If this directory "
-"is not in the <envar>PATH</envar>, it will need to be added. This can be "
-"done with the command:"
+"installed in <filename>~/.local/bin</filename> to start JHBuild. If this "
+"directory is not in the <envar>PATH</envar>, it will need to be added. This "
+"can be done with the command:"
 msgstr ""
-"Si estos pasos de completan correctamente se debería instalar una pequeña "
-"línea de comandos en <filename>~/bin</filename> para iniciar JHBuild. Si "
-"este directorio no está en el <envar>PATH</envar>, deberá añadirse. Esto se "
-"puede hacer con el comando:"
+"Si estos pasos se completan correctamente se debería haber instalado una "
+"línea de comandos en <filename>~/.local/bin</filename> para iniciar JHBuild. "
+"Si este directorio no está en el <envar>PATH</envar>, deberá añadirse. Esto "
+"se puede hacer con el comando:"
 
 #: C/jhbuild.xml:149(userinput)
 #, no-wrap
-msgid "PATH=$PATH:~/bin"
-msgstr "PATH=$PATH:~/bin"
+msgid "PATH=$PATH:~/.local/bin"
+msgstr "PATH=$PATH:~/.local/bin"
 
 #: C/jhbuild.xml:152(para)
 msgid ""
 "This command will need to be run every time you login and want to use "
-"JHBuild. In order to permanently add <filename>~/bin</filename> to your "
-"<envar>PATH</envar> variable, run the following command:"
+"JHBuild. In order to permanently add <filename>~/.local/bin</filename> to "
+"your <envar>PATH</envar> variable, run the following command:"
 msgstr ""
-"Este comando deberá ejecutarse cada vez que inicie sesión en el sistema y "
-"desee usar JHBuild. Para hacerlo permanente, añada <filename>~/bin</"
-"filename> a la variable <envar>PATH</envar> y ejecute el siguiente comando:"
+"Este comando deberá ejecutarse cada vez que inicie sesión y desee usar "
+"JHBuild. Para hacerlo permanente, añada <filename>~/.local/bin</filename> a "
+"la variable <envar>PATH</envar> y ejecute el siguiente comando:"
 
 #: C/jhbuild.xml:158(userinput)
 #, no-wrap
-msgid "echo PATH=$PATH:~/bin &gt;&gt; ~/.bashrc"
-msgstr "echo PATH=$PATH:~/bin &gt;&gt; ~/.bashrc"
+msgid "echo PATH=$PATH:~/.local/bin &gt;&gt; ~/.bashrc"
+msgstr "echo PATH=$PATH:~/.local/bin &gt;&gt; ~/.bashrc"
 
 #: C/jhbuild.xml:161(para)
 msgid ""
@@ -453,7 +453,7 @@ msgstr ""
 "El prefijo de directorio para instalar módulos. Debe tener permisos de "
 "escritura sobre este directorio o JHBuild no podrá instalar archivos."
 
-#: C/jhbuild.xml:231(varname) C/jhbuild.xml:1740(varname)
+#: C/jhbuild.xml:231(varname) C/jhbuild.xml:1741(varname)
 msgid "os.environ"
 msgstr "os.environ"
 
@@ -2627,11 +2627,19 @@ msgid "trycheckout"
 msgstr "trycheckout"
 
 #: C/jhbuild.xml:1689(simpara)
+#, fuzzy
+#| msgid ""
+#| "A boolean option which if set to <constant>True</constant>, causes "
+#| "JHBuild to try checking out a newer version of a module from version "
+#| "control and running <command>autogen.sh</command>, if the module fails to "
+#| "build. This option is equivalent to passing <option>--try-checkout</"
+#| "option>."
 msgid ""
 "A boolean option which if set to <constant>True</constant>, causes JHBuild "
-"to try checking out a newer version of a module from version control and "
-"running <command>autogen.sh</command>, if the module fails to build. This "
-"option is equivalent to passing <option>--try-checkout</option>."
+"to automatically try to solve failures by 1) running <command>autogen.sh</"
+"command> again, and 2) checking out a newer version of a module from version "
+"control (then running <command>autogen.sh</command>. This option is "
+"equivalent to passing <option>--try-checkout</option>."
 msgstr ""
 "Un valor booleano que si está establecido a <constant>True</constant> hace "
 "que JHBuild intente encontrar una versión más nueva del módulo en el control "
@@ -2639,11 +2647,11 @@ msgstr ""
 "al construirlo. Esta opción es equivalente a pasar la opción <option>--try-"
 "checkout</option>."
 
-#: C/jhbuild.xml:1698(varname)
+#: C/jhbuild.xml:1699(varname)
 msgid "use_lib64"
 msgstr "use_lib64"
 
-#: C/jhbuild.xml:1700(simpara)
+#: C/jhbuild.xml:1701(simpara)
 msgid ""
 "A boolean value that specifies whether to install libraries to "
 "<filename>lib64</filename> directories. If this is set, <literal>--libdir=\\"
@@ -2659,11 +2667,11 @@ msgstr ""
 "<literal>ppc64</literal> o <literal>s390x</literal>, y <constant>False</"
 "constant> en otros sistemas."
 
-#: C/jhbuild.xml:1712(varname)
+#: C/jhbuild.xml:1713(varname)
 msgid "use_local_modulesets"
 msgstr "use_local_modulesets"
 
-#: C/jhbuild.xml:1714(simpara)
+#: C/jhbuild.xml:1715(simpara)
 msgid ""
 "A boolean value that specifies to use modulesets that were checked out along "
 "the JHBuild source code; instead of downloading them on-the-fly from GNOME "
@@ -2674,11 +2682,11 @@ msgstr ""
 "manualmente del repositorio de Subversion de GNOME. Su valor predeterminado "
 "es <constant>False</constant>."
 
-#: C/jhbuild.xml:1722(varname)
+#: C/jhbuild.xml:1723(varname)
 msgid "xvfbargs"
 msgstr "xvfbargs"
 
-#: C/jhbuild.xml:1724(simpara)
+#: C/jhbuild.xml:1725(simpara)
 msgid ""
 "A string listing arguments to pass to <command>Xvfb</command> if running "
 "graphical tests using it."
@@ -2686,11 +2694,11 @@ msgstr ""
 "Una cadena que lista los argumentos para pasar a <command>Xvfb</command> si "
 "las comprobaciones gráficas lo usan."
 
-#: C/jhbuild.xml:1733(title)
+#: C/jhbuild.xml:1734(title)
 msgid "Other Configuration File Structures"
 msgstr "Otras estructuras de los archivos de configuración"
 
-#: C/jhbuild.xml:1735(para)
+#: C/jhbuild.xml:1736(para)
 msgid ""
 "In addition to the above variables, there are some other things that can be "
 "set in the configuration file:"
@@ -2698,7 +2706,7 @@ msgstr ""
 "Aparte de las variables anteriores, hay algunas otras cosas que se pueden "
 "configurar en el archivo de configuración."
 
-#: C/jhbuild.xml:1742(para)
+#: C/jhbuild.xml:1743(para)
 msgid ""
 "This is dictionary represents the environment of the process (which also "
 "gets passed on to processes that JHBuild spawns)."
@@ -2706,7 +2714,7 @@ msgstr ""
 "Esto es un diccionario que representa el entorno del proceso (que también se "
 "le pasa a los procesos que JHBuild crea)."
 
-#: C/jhbuild.xml:1745(para)
+#: C/jhbuild.xml:1746(para)
 msgid ""
 "Some environment variables you may want to set include <envar>CFLAGS</"
 "envar>, <envar>INSTALL</envar> (to use the more efficient <command>install-"
@@ -2717,7 +2725,7 @@ msgstr ""
 "<command>install-check</command>, incluido con JHBuil y más eficiente) y "
 "<envar>LDFLAGS</envar>."
 
-#: C/jhbuild.xml:1753(term)
+#: C/jhbuild.xml:1754(term)
 msgid ""
 "<function>addpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
@@ -2725,7 +2733,7 @@ msgstr ""
 "<function>addpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
 
-#: C/jhbuild.xml:1756(para)
+#: C/jhbuild.xml:1757(para)
 msgid ""
 "This will add a directory to a <envar>PATH</envar>-style environment "
 "variable. It will correctly handle the case when the environment variable is "
@@ -2737,7 +2745,7 @@ msgstr ""
 "(tener una comilla al principio o al final de una variable de entorno puede "
 "tener consecuencias inesperadas)."
 
-#: C/jhbuild.xml:1762(para)
+#: C/jhbuild.xml:1763(para)
 msgid ""
 "This function has special handling for the <envar>ACLOCAL_FLAGS</envar> "
 "environment variable, which expects paths to be listed in the form <literal>-"
@@ -2748,7 +2756,7 @@ msgstr ""
 "formulario <literal>-I <replaceable>nomre-de--la-ruta</replaceable></"
 "literal>."
 
-#: C/jhbuild.xml:1769(term)
+#: C/jhbuild.xml:1770(term)
 msgid ""
 "<function>prependpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
@@ -2756,7 +2764,7 @@ msgstr ""
 "<function>prependpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
 
-#: C/jhbuild.xml:1772(para)
+#: C/jhbuild.xml:1773(para)
 msgid ""
 "After processing the configuration file, JHBuild will alter some paths based "
 "on variables such as <varname>prefix</varname> (eg. adding <literal>$prefix/"
@@ -2767,7 +2775,7 @@ msgstr ""
 "añadiendo <literal>$prefix/bin</literal> al principio de <envar>PATH</"
 "envar>)."
 
-#: C/jhbuild.xml:1777(para)
+#: C/jhbuild.xml:1778(para)
 msgid ""
 "The <function>prependpath</function> function works like <function>addpath</"
 "function>, except that the environment variable is modified after JHBuild "
@@ -2777,11 +2785,11 @@ msgstr ""
 "<function>addpath</function>, excepto que la variable de entorno se modifica "
 "después de que JHBuild haya hecho sus cambios al entorno."
 
-#: C/jhbuild.xml:1788(title)
+#: C/jhbuild.xml:1789(title)
 msgid "Module Set File Syntax"
 msgstr "Archivo de sintaxis del conjunto de módulos"
 
-#: C/jhbuild.xml:1790(para)
+#: C/jhbuild.xml:1791(para)
 msgid ""
 "JHBuild uses XML files to describe the dependencies between modules. A RELAX-"
 "NG schema and Document Type Definition are included with JHBuild in the "
@@ -2794,7 +2802,7 @@ msgstr ""
 "usar para editar los archivos del conjunto de módulos usando <literal>nxml-"
 "mode</literal> en Emacs."
 
-#: C/jhbuild.xml:1796(para)
+#: C/jhbuild.xml:1797(para)
 msgid ""
 "The toplevel element in a module set file is <sgmltag class=\"element"
 "\">moduleset</sgmltag> element. Currently no XML namespace is used, but in "
@@ -2807,11 +2815,11 @@ msgstr ""
 "continuación del superior tiene tres tipos: fuentes de módulos, sentencias "
 "«include» y definiciones de módulos."
 
-#: C/jhbuild.xml:1803(title) C/jhbuild.xml:2425(title)
+#: C/jhbuild.xml:1804(title) C/jhbuild.xml:2426(title)
 msgid "Module Sources"
 msgstr "Repositorios de módulos"
 
-#: C/jhbuild.xml:1805(para)
+#: C/jhbuild.xml:1806(para)
 msgid ""
 "Rather than listing the full location of every module, a number of \"module "
 "sources\" are listed in the module set, and then referenced by name in the "
@@ -2828,7 +2836,7 @@ msgstr ""
 "Subversion, es frecuente que desarrolladores y usuarios usen diferentes "
 "métodos de acceso al repositorio)."
 
-#: C/jhbuild.xml:1814(para)
+#: C/jhbuild.xml:1815(para)
 msgid ""
 "The <sgmltag class=\"element\">repository</sgmltag> element is used to "
 "describe all types of repository."
@@ -2836,7 +2844,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">repositorio</sgmltag> se usa para "
 "describir todos los tipos de repositorios."
 
-#: C/jhbuild.xml:1817(programlisting)
+#: C/jhbuild.xml:1818(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -2865,7 +2873,7 @@ msgstr ""
 "  [ defbranch=\"<replaceable>rama predeterminada</replaceable>\" ]\n"
 "  [ developer-href-example=\"<replaceable>ejemplo-href-developer</replaceable>\" ] /&gt;\n"
 
-#: C/jhbuild.xml:1831(para)
+#: C/jhbuild.xml:1832(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute is a unique "
 "identifier for the repository."
@@ -2873,7 +2881,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">nombre</sgmltag> es un "
 "identificador único del repositorio."
 
-#: C/jhbuild.xml:1834(para)
+#: C/jhbuild.xml:1835(para)
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute specifies "
 "whether this repository is the default source for this module set."
@@ -2881,7 +2889,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">predeterminado</sgmltag> especifica "
 "si este repositorio es el predeterminado para este conjunto de módulos."
 
-#: C/jhbuild.xml:1838(para)
+#: C/jhbuild.xml:1839(para)
 msgid ""
 "The <sgmltag class=\"attribute\">type</sgmltag> attribute specifies the type "
 "of repository. It can be one of: <literal>arch</literal>, <literal>bzr</"
@@ -2901,7 +2909,7 @@ msgstr ""
 "<sgmltag class=\"element\">rama</sgmltag> usados dentro de las definiciones "
 "de los módulos. Se describen a continuación"
 
-#: C/jhbuild.xml:1849(para)
+#: C/jhbuild.xml:1850(para)
 msgid ""
 "The <sgmltag class=\"attribute\">developer-href-example</sgmltag> attribute "
 "is used to specify the format of the URL for the repository used by "
@@ -2911,15 +2919,15 @@ msgstr ""
 "usa para especificar el formato del URL del repositorio usado por los "
 "desarrolladores. Esto es sólo informativo."
 
-#: C/jhbuild.xml:1854(title)
+#: C/jhbuild.xml:1855(title)
 msgid "Arch"
 msgstr "Arch"
 
-#: C/jhbuild.xml:1856(para)
+#: C/jhbuild.xml:1857(para)
 msgid "This repository type is used to define a Arch repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Arch."
 
-#: C/jhbuild.xml:1858(para)
+#: C/jhbuild.xml:1859(para)
 msgid ""
 "The <sgmltag class=\"attribute\">archive</sgmltag> attribute is used to "
 "specify the archive to use."
@@ -2927,7 +2935,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">archive</sgmltag> se usa para "
 "especificar el archivo que usar."
 
-#: C/jhbuild.xml:1861(para)
+#: C/jhbuild.xml:1862(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute is used to specify "
 "the URL of the repository."
@@ -2935,7 +2943,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">href</sgmltag> se usa para "
 "especificar el URL del repositorio."
 
-#: C/jhbuild.xml:1864(programlisting)
+#: C/jhbuild.xml:1865(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -2948,15 +2956,15 @@ msgstr ""
 "    archive=\"rhythmbox-devel@gnome.org--2004\"\n"
 "    href=\"http://web.rhythmbox.org/arch/2004\"/&gt;\n"
 
-#: C/jhbuild.xml:1873(title)
+#: C/jhbuild.xml:1874(title)
 msgid "Bazaar"
 msgstr "Bazaar"
 
-#: C/jhbuild.xml:1874(para)
+#: C/jhbuild.xml:1875(para)
 msgid "This repository type is used to define a Bazaar repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Bazaar."
 
-#: C/jhbuild.xml:1876(programlisting)
+#: C/jhbuild.xml:1877(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -2967,15 +2975,15 @@ msgstr ""
 "&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
 "      href=\"http://bazaar.launchpad.net/\"/&gt;\n"
 
-#: C/jhbuild.xml:1883(title)
+#: C/jhbuild.xml:1884(title)
 msgid "CVS"
 msgstr "CVS"
 
-#: C/jhbuild.xml:1884(para)
+#: C/jhbuild.xml:1885(para)
 msgid "This repository type is used to define a CVS repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio CVS."
 
-#: C/jhbuild.xml:1886(para)
+#: C/jhbuild.xml:1887(para)
 msgid ""
 "The <sgmltag class=\"attribute\">password</sgmltag> attribute is used to "
 "specify the password to the repository."
@@ -2983,7 +2991,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">password</sgmltag> se usa para "
 "especificar la contraseña del repositorio."
 
-#: C/jhbuild.xml:1890(para)
+#: C/jhbuild.xml:1891(para)
 msgid ""
 "The <sgmltag class=\"attribute\">cvsroot</sgmltag> attribute is used to "
 "specify the root of the repository."
@@ -2991,7 +2999,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">cvsroot</sgmltag> se usa para "
 "especificar la raíz del repositorio."
 
-#: C/jhbuild.xml:1894(programlisting)
+#: C/jhbuild.xml:1895(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3004,15 +3012,15 @@ msgstr ""
 "    cvsroot=\":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango\"\n"
 "    password=\"\"/&gt;\n"
 
-#: C/jhbuild.xml:1903(title)
+#: C/jhbuild.xml:1904(title)
 msgid "Darcs"
 msgstr "Darcs"
 
-#: C/jhbuild.xml:1904(para)
+#: C/jhbuild.xml:1905(para)
 msgid "This repository type is used to define a Darcs repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Darcs."
 
-#: C/jhbuild.xml:1906(programlisting)
+#: C/jhbuild.xml:1907(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3023,15 +3031,15 @@ msgstr ""
 "&lt;repository type=\"darcs\" name=\"telepathy.freedesktop.org\"\n"
 "      href=\"http://projects.collabora.co.uk/darcs/telepathy/\"/&gt;\n"
 
-#: C/jhbuild.xml:1913(title)
+#: C/jhbuild.xml:1914(title)
 msgid "Git"
 msgstr "Git"
 
-#: C/jhbuild.xml:1914(para)
+#: C/jhbuild.xml:1915(para)
 msgid "This repository type is used to define a Git repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Git."
 
-#: C/jhbuild.xml:1916(programlisting)
+#: C/jhbuild.xml:1917(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3042,7 +3050,7 @@ msgstr ""
 "&lt;repository type=\"git\" name=\"git.freedesktop.org\"\n"
 "    href=\"git://anongit.freedesktop.org/git/\"/&gt;\n"
 
-#: C/jhbuild.xml:1921(programlisting)
+#: C/jhbuild.xml:1922(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3053,15 +3061,15 @@ msgstr ""
 "&lt;branch repo=\"git.freedesktop.org\" module=\"swfdec/swfdec\"\n"
 "    checkoutdir=\"swfdec\"/&gt;\n"
 
-#: C/jhbuild.xml:1930(title)
+#: C/jhbuild.xml:1931(title)
 msgid "Mercurial"
 msgstr "Mercurial"
 
-#: C/jhbuild.xml:1931(para)
+#: C/jhbuild.xml:1932(para)
 msgid "This repository type is used to define a Mercurial repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Mercurial."
 
-#: C/jhbuild.xml:1933(programlisting)
+#: C/jhbuild.xml:1934(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3072,7 +3080,7 @@ msgstr ""
 "&lt;repository type=\"hg\" name=\"hg.gtk-vnc\"\n"
 "    href=\"http://gtk-vnc.codemonkey.ws/hg/\" /&gt;\n"
 
-#: C/jhbuild.xml:1938(programlisting)
+#: C/jhbuild.xml:1939(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3081,15 +3089,15 @@ msgstr ""
 "\n"
 "&lt;branch repo=\"hg.gtk-vnc\" module=\"outgoing.hg\" checkoutdir=\"gtk-vnc\"/&gt;\n"
 
-#: C/jhbuild.xml:1945(title)
+#: C/jhbuild.xml:1946(title)
 msgid "Monotone"
 msgstr "Monotone"
 
-#: C/jhbuild.xml:1946(para)
+#: C/jhbuild.xml:1947(para)
 msgid "This repository type is used to define a Monotone repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Monotone."
 
-#: C/jhbuild.xml:1948(para)
+#: C/jhbuild.xml:1949(para)
 msgid ""
 "The <sgmltag class=\"attribute\">server</sgmltag> attribute is used to "
 "specify the repository server."
@@ -3097,7 +3105,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">server</sgmltag> se usa para "
 "especificar el servidor del repositorio."
 
-#: C/jhbuild.xml:1951(para)
+#: C/jhbuild.xml:1952(para)
 msgid ""
 "The <sgmltag class=\"attribute\">database</sgmltag> attribute is used to "
 "specify the database to use for the repository."
@@ -3105,7 +3113,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">database</sgmltag> se usa para "
 "especificar la base de datos que usar por el repositorio."
 
-#: C/jhbuild.xml:1955(para)
+#: C/jhbuild.xml:1956(para)
 msgid ""
 "The <sgmltag class=\"attribute\">defbranch</sgmltag> attribute is used "
 "specify the branch of the repository to use."
@@ -3113,7 +3121,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">defbranch</sgmltag> se usa para "
 "especificar la rama del repositorio que usar."
 
-#: C/jhbuild.xml:1959(programlisting)
+#: C/jhbuild.xml:1960(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3126,15 +3134,15 @@ msgstr ""
 "    server=\"pidgin.im\" database=\"pidgin.im.mtn\"\n"
 "    defbranch=\"im.pidgin.pidgin\"/&gt;\n"
 
-#: C/jhbuild.xml:1968(title)
+#: C/jhbuild.xml:1969(title)
 msgid "Subversion"
 msgstr "Subversion"
 
-#: C/jhbuild.xml:1969(para)
+#: C/jhbuild.xml:1970(para)
 msgid "This repository type is used to define a Subversion repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Subversion."
 
-#: C/jhbuild.xml:1971(programlisting)
+#: C/jhbuild.xml:1972(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3145,7 +3153,7 @@ msgstr ""
 "&lt;repository type=\"svn\" name=\"svn.gnome.org\" default=\"yes\"\n"
 "    href=\"http://svn.gnome.org/svn/\"/&gt;\n"
 
-#: C/jhbuild.xml:1976(para)
+#: C/jhbuild.xml:1977(para)
 msgid ""
 "It allows a <sgmltag class=\"attribute\">revision</sgmltag> on the <sgmltag "
 "class=\"element\">branch</sgmltag> element. This attribute defines the "
@@ -3155,7 +3163,7 @@ msgstr ""
 "<sgmltag class=\"element\">branch</sgmltag>. Este atributo define la rama "
 "que se descargará o, si es un número, una revisión específica para descargar."
 
-#: C/jhbuild.xml:1981(programlisting)
+#: C/jhbuild.xml:1982(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3164,16 +3172,16 @@ msgstr ""
 "\n"
 "&lt;branch revision=\"gnome-2-20\"/&gt;\n"
 
-#: C/jhbuild.xml:1988(title)
+#: C/jhbuild.xml:1989(title)
 msgid "Tarballs"
 msgstr "Archivos tar"
 
-#: C/jhbuild.xml:1989(para)
+#: C/jhbuild.xml:1990(para)
 msgid "This repository type is used to define a tarball repository."
 msgstr ""
 "El tipo de repositorio se usa para definir un repositorio de archivos tar."
 
-#: C/jhbuild.xml:1991(programlisting)
+#: C/jhbuild.xml:1992(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3184,7 +3192,7 @@ msgstr ""
 "&lt;repository type=\"tarball\" name=\"dbus/dbus-python\"\n"
 "    href=\"http://dbus.freedesktop.org/releases/dbus-python/\"/&gt;\n"
 
-#: C/jhbuild.xml:1996(para)
+#: C/jhbuild.xml:1997(para)
 msgid ""
 "It allows the following attributes on the <sgmltag class=\"element\">branch</"
 "sgmltag> element:"
@@ -3192,7 +3200,7 @@ msgstr ""
 "Permite los siguientes atributos en el elemento <sgmltag class=\"element"
 "\">branch</sgmltag>:"
 
-#: C/jhbuild.xml:1999(para)
+#: C/jhbuild.xml:2000(para)
 msgid ""
 "The <sgmltag class=\"attribute\">module</sgmltag> attribute specifies the "
 "file to download and compile, the <sgmltag class=\"attribute\">version</"
@@ -3202,7 +3210,7 @@ msgstr ""
 "archivo que se descargará y compilará; el atributo <sgmltag class=\"attribute"
 "\">version</sgmltag> especifica la versión del módulo."
 
-#: C/jhbuild.xml:2004(para)
+#: C/jhbuild.xml:2005(para)
 msgid ""
 "The <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class="
 "\"attribute\">md5sum</sgmltag> attributes are optional. If these two "
@@ -3214,7 +3222,7 @@ msgstr ""
 "presentes, se usar para comprobar que las fuentes del paquete se han "
 "descargado correctamente."
 
-#: C/jhbuild.xml:2009(para) C/jhbuild.xml:2728(para)
+#: C/jhbuild.xml:2010(para) C/jhbuild.xml:2580(para)
 msgid ""
 "The <sgmltag class=\"element\">patches</sgmltag> element is used to specify "
 "one or more patches to apply to the source tree after unpacking, the "
@@ -3229,7 +3237,7 @@ msgstr ""
 "class=\"attribute\">strip</sgmltag> dice a cuántos niveles de directorios se "
 "descenderá al aplicar el parche."
 
-#: C/jhbuild.xml:2017(para) C/jhbuild.xml:2736(para)
+#: C/jhbuild.xml:2018(para) C/jhbuild.xml:2588(para)
 msgid ""
 "For module sets shipped with JHbuild, the patch files are looked up in the "
 "<filename>jhbuild/patches/</filename> directory; for module sets referred by "
@@ -3246,7 +3254,7 @@ msgstr ""
 "atributo <sgmltag class=\"attribute\">file</sgmltag> especifique un URI, en "
 "cuyo caso se descargará de esa ubicación."
 
-#: C/jhbuild.xml:2026(programlisting)
+#: C/jhbuild.xml:2027(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3267,11 +3275,11 @@ msgstr ""
 "  &lt;/patches&gt;\n"
 "&lt;branch&gt;\n"
 
-#: C/jhbuild.xml:2041(title)
+#: C/jhbuild.xml:2042(title)
 msgid "Including Other Module Sets"
 msgstr "Incluir otros conjuntos de módulos"
 
-#: C/jhbuild.xml:2043(para)
+#: C/jhbuild.xml:2044(para)
 msgid ""
 "JHBuild allows one module set to include the contents of another by "
 "reference using the <sgmltag class=\"element\">include</sgmltag> element."
@@ -3279,7 +3287,7 @@ msgstr ""
 "JHBuild permite un conjunto de módulos para incluir los contenidos referidos "
 "por otro usando el elemento <sgmltag class=\"element\">include</sgmltag>."
 
-#: C/jhbuild.xml:2047(programlisting)
+#: C/jhbuild.xml:2048(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3288,7 +3296,7 @@ msgstr ""
 "\n"
 "&lt;include href=\"<replaceable>uri</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2051(para)
+#: C/jhbuild.xml:2052(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> is a URI reference to the "
 "module set to be included, relative to the file containing the <sgmltag "
@@ -3298,7 +3306,7 @@ msgstr ""
 "URI del conjunto de módulos que se incluirá, relativa al archivo que "
 "contiene el elemento <sgmltag class=\"element\">include</sgmltag>."
 
-#: C/jhbuild.xml:2056(para)
+#: C/jhbuild.xml:2057(para)
 msgid ""
 "Only module definitions are imported from the referenced module set - module "
 "sources are not. Multiple levels of includes are allowed, but include loops "
@@ -3308,11 +3316,11 @@ msgstr ""
 "módulos; no fuentes de módulos. Se permiten múltiples niveles de inclusión, "
 "pero no bucles (en este momento no hay ningún código para manejar bucles)."
 
-#: C/jhbuild.xml:2063(title)
+#: C/jhbuild.xml:2064(title)
 msgid "Module Definitions"
 msgstr "Definiciones de módulos"
 
-#: C/jhbuild.xml:2065(para)
+#: C/jhbuild.xml:2066(para)
 msgid ""
 "There are various types of module definitions that can be used in a module "
 "set file, and the list can easily be extended. Only the most common ones "
@@ -3322,7 +3330,7 @@ msgstr ""
 "de conjunto de módulos, y la lista se puede extender fácilmente. Aquí sólo "
 "se mencionan los más comunes."
 
-#: C/jhbuild.xml:2069(para)
+#: C/jhbuild.xml:2070(para)
 msgid ""
 "They are all basically composed of a <sgmltag class=\"element\">branch</"
 "sgmltag> element describing how to get the module and <sgmltag class="
@@ -3336,7 +3344,7 @@ msgstr ""
 "\"element\">suggests</sgmltag> y <sgmltag class=\"element\">after</sgmltag> "
 "para declarar las dependencias del módulo."
 
-#: C/jhbuild.xml:2076(para)
+#: C/jhbuild.xml:2077(para)
 msgid ""
 "Any modules listed in the <sgmltag class=\"element\">dependencies</sgmltag> "
 "element will be added to the module list for <command>jhbuild build</"
@@ -3348,7 +3356,7 @@ msgstr ""
 "sgmltag>, si no están ya incluidos, y se asegurará que los módulos "
 "dependientes se construyen primero."
 
-#: C/jhbuild.xml:2082(para)
+#: C/jhbuild.xml:2083(para)
 msgid ""
 "After generating the modules list, the modules listed in the <sgmltag class="
 "\"element\">suggests</sgmltag> element will be used to further sort the "
@@ -3362,11 +3370,11 @@ msgstr ""
 "hace para casos en que un módulo tiene dependencias opcionales en otro "
 "módulo."
 
-#: C/jhbuild.xml:2090(title)
+#: C/jhbuild.xml:2091(title)
 msgid "autotools"
 msgstr "autotools"
 
-#: C/jhbuild.xml:2092(para)
+#: C/jhbuild.xml:2093(para)
 msgid ""
 "The <sgmltag class=\"element\">autotools</sgmltag> element is used to define "
 "a module which is compiled using the GNU Autotools build system."
@@ -3375,7 +3383,7 @@ msgstr ""
 "definir un módulo que se compila usando el sistema de construcción GNU "
 "Autotools."
 
-#: C/jhbuild.xml:2096(programlisting)
+#: C/jhbuild.xml:2097(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3432,7 +3440,7 @@ msgstr ""
 "\n"
 "&lt;/autotools&gt;\n"
 
-#: C/jhbuild.xml:2124(para)
+#: C/jhbuild.xml:2125(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class="
 "\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
@@ -3446,7 +3454,7 @@ msgstr ""
 "para pasarlos a <command>autogen.sh</command>, <command>make</command> y "
 "<command>make install</command> respectivamente."
 
-#: C/jhbuild.xml:2131(para)
+#: C/jhbuild.xml:2132(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies "
 "the name of the autogen.sh script to run. The value <literal>autoreconf</"
@@ -3470,7 +3478,7 @@ msgstr ""
 "<command>autogen.sh</command>. <sgmltag class=\"attribute\">makefile</"
 "sgmltag> especifica el nombre del makefile que se usará."
 
-#: C/jhbuild.xml:2146(para)
+#: C/jhbuild.xml:2147(para)
 msgid ""
 "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
 "attribute is used to mark modules that can't be cleanly built using a "
@@ -3480,7 +3488,7 @@ msgstr ""
 "sgmltag> se usa para marcar módulos que no se pueden construir limpiamente "
 "usando un directorio de fuentes por separado."
 
-#: C/jhbuild.xml:2151(para)
+#: C/jhbuild.xml:2152(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be "
 "used if you need finer control over the autogen command line. It is a python "
@@ -3496,7 +3504,7 @@ msgstr ""
 "varname>, <varname>libdir</varname> y <varname>autogenargs</varname>. Por "
 "ejemplo, esta es la plantilla predeterminada de autogen:"
 
-#: C/jhbuild.xml:2160(programlisting)
+#: C/jhbuild.xml:2161(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3505,7 +3513,7 @@ msgstr ""
 "\n"
 "%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
 
-#: C/jhbuild.xml:2164(para)
+#: C/jhbuild.xml:2165(para)
 msgid ""
 "The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
 "specified (with false as value) for modules that do not have a <command>make "
@@ -3515,11 +3523,11 @@ msgstr ""
 "especificar (con un valor «false») para aquellos módulos que no tienen un "
 "objetivo <command>make check</command>."
 
-#: C/jhbuild.xml:2171(title)
+#: C/jhbuild.xml:2172(title)
 msgid "cmake"
 msgstr "cmake"
 
-#: C/jhbuild.xml:2173(para)
+#: C/jhbuild.xml:2174(para)
 msgid ""
 "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
 "module which is built using the CMake build system."
@@ -3527,7 +3535,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">cmake</sgmltag> se usa para definir "
 "un módulo que se construirá usando el sistema de construcción CMake."
 
-#: C/jhbuild.xml:2176(programlisting)
+#: C/jhbuild.xml:2177(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3562,11 +3570,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/cmake&gt;\n"
 
-#: C/jhbuild.xml:2196(title)
+#: C/jhbuild.xml:2197(title)
 msgid "distutils"
 msgstr "distutils"
 
-#: C/jhbuild.xml:2198(para)
+#: C/jhbuild.xml:2199(para)
 msgid ""
 "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
 "a module which is built using python's distutils"
@@ -3574,7 +3582,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">distutils</sgmltag> se usa para "
 "definir un módulo que se construirá usando las distutils de python."
 
-#: C/jhbuild.xml:2202(programlisting)
+#: C/jhbuild.xml:2203(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3611,11 +3619,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/distutils&gt;\n"
 
-#: C/jhbuild.xml:2223(title)
+#: C/jhbuild.xml:2224(title)
 msgid "linux"
 msgstr "linux"
 
-#: C/jhbuild.xml:2225(para)
+#: C/jhbuild.xml:2226(para)
 msgid ""
 "The <sgmltag class=\"element\">linux</sgmltag> element defines a module used "
 "to build a linux kernel. In addition, a separate kernel configuration can be "
@@ -3626,7 +3634,7 @@ msgstr ""
 "configuración del kernel aparte usando el subelemento <sgmltag class="
 "\"element\">kconfig</sgmltag>."
 
-#: C/jhbuild.xml:2231(programlisting)
+#: C/jhbuild.xml:2232(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3677,11 +3685,11 @@ msgstr ""
 "\n"
 "&lt;/linux&gt;\n"
 
-#: C/jhbuild.xml:2259(title)
+#: C/jhbuild.xml:2260(title)
 msgid "perl"
 msgstr "perl"
 
-#: C/jhbuild.xml:2261(para)
+#: C/jhbuild.xml:2262(para)
 msgid ""
 "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
 "modules."
@@ -3689,7 +3697,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">perl</sgmltag> se usa para construir "
 "módulos perl."
 
-#: C/jhbuild.xml:2264(para)
+#: C/jhbuild.xml:2265(para)
 msgid ""
 "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>make</command>."
@@ -3697,7 +3705,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">makeargs</sgmltag> se usa para "
 "especificar argumentos adicionales para pasárselos a <command>make</command>."
 
-#: C/jhbuild.xml:2268(programlisting)
+#: C/jhbuild.xml:2269(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3738,11 +3746,11 @@ msgstr ""
 "\n"
 "&lt;/perl&gt;\n"
 
-#: C/jhbuild.xml:2290(title)
+#: C/jhbuild.xml:2291(title)
 msgid "waf"
 msgstr "waf"
 
-#: C/jhbuild.xml:2292(para)
+#: C/jhbuild.xml:2293(para)
 msgid ""
 "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
 "module which is built using the Waf build system."
@@ -3750,7 +3758,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">waf</sgmltag> se usa para definir un "
 "módulo que se construirá con el sistema de construcción Waf."
 
-#: C/jhbuild.xml:2295(para)
+#: C/jhbuild.xml:2296(para)
 msgid ""
 "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
 "specify the waf command script to use; it defaults to <command>waf</command>."
@@ -3759,7 +3767,7 @@ msgstr ""
 "especificar el script del comando waf a usar; el predeterminado es "
 "<command>waf</command>."
 
-#: C/jhbuild.xml:2299(programlisting)
+#: C/jhbuild.xml:2300(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3796,11 +3804,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/waf&gt;\n"
 
-#: C/jhbuild.xml:2320(title)
+#: C/jhbuild.xml:2321(title)
 msgid "Ant"
 msgstr "Ant"
 
-#: C/jhbuild.xml:2322(para)
+#: C/jhbuild.xml:2323(para)
 msgid ""
 "The <sgmltag class=\"element\">ant</sgmltag> element is used to define a "
 "module which is built using Ant, the Java based build tool."
@@ -3809,7 +3817,7 @@ msgstr ""
 "módulo que se construirá usando Ant, la herramienta de construcción basada "
 "en Java."
 
-#: C/jhbuild.xml:2325(programlisting)
+#: C/jhbuild.xml:2326(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3844,15 +3852,15 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/ant&gt;\n"
 
-#: C/jhbuild.xml:2343(title)
+#: C/jhbuild.xml:2344(title)
 msgid "Example of a module built with ant"
 msgstr "Ejemplo de módulo construido con ant"
 
-#: C/jhbuild.xml:2357(title)
+#: C/jhbuild.xml:2358(title)
 msgid "testmodule"
 msgstr "testmodule"
 
-#: C/jhbuild.xml:2359(para)
+#: C/jhbuild.xml:2360(para)
 msgid ""
 "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
 "create a module which runs a suite of tests using LDTP or Dogtail."
@@ -3860,7 +3868,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">testmodule</sgmltag> se usa para "
 "crear un módulo que ejecute un conjunto de pruebas usado LDTP o Dogtail."
 
-#: C/jhbuild.xml:2363(programlisting)
+#: C/jhbuild.xml:2364(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3909,11 +3917,11 @@ msgstr ""
 "\n"
 "&lt;/testmodule&gt;\n"
 
-#: C/jhbuild.xml:2390(title)
+#: C/jhbuild.xml:2391(title)
 msgid "metamodule"
 msgstr "metamodule"
 
-#: C/jhbuild.xml:2392(para)
+#: C/jhbuild.xml:2393(para)
 msgid ""
 "The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module "
 "that doesn't actually do anything. The only purpose of a module of this type "
@@ -3923,7 +3931,7 @@ msgstr ""
 "que actualmente no hace nada. El único propósito de un módulo de este tipo "
 "son sus dependencias."
 
-#: C/jhbuild.xml:2397(para)
+#: C/jhbuild.xml:2398(para)
 msgid ""
 "For example, meta-gnome-desktop depends on all the key components of the "
 "GNOME desktop, therefore telling JHBuild to install it actually installs the "
@@ -3933,7 +3941,7 @@ msgstr ""
 "escritorio GNOME, por lo que actualmente, decirle a JHBuild que lo instale, "
 "instala el escritorio completo."
 
-#: C/jhbuild.xml:2401(programlisting)
+#: C/jhbuild.xml:2402(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3960,7 +3968,7 @@ msgstr ""
 "  &lt;/suggests&gt;\n"
 "&lt;/metamodule&gt;\n"
 
-#: C/jhbuild.xml:2413(para)
+#: C/jhbuild.xml:2414(para)
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of "
 "the module. The child elements are handled as for <link linkend=\"moduleset-"
@@ -3972,15 +3980,15 @@ msgstr ""
 "\"moduleset-syntax-defs-cvsmodule\"><sgmltag class=\"element\">cvsmodule</"
 "sgmltag></link>."
 
-#: C/jhbuild.xml:2422(title)
+#: C/jhbuild.xml:2423(title)
 msgid "Deprecated Elements"
 msgstr "Elementos obsotelos"
 
-#: C/jhbuild.xml:2428(title)
+#: C/jhbuild.xml:2429(title)
 msgid "cvsroot"
 msgstr "cvsroot"
 
-#: C/jhbuild.xml:2430(para)
+#: C/jhbuild.xml:2431(para)
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -3990,7 +3998,7 @@ msgstr ""
 "su lugar, se debe usar el elemento <sgmltag class=\"element\">repository</"
 "sgmltag>."
 
-#: C/jhbuild.xml:2435(para)
+#: C/jhbuild.xml:2436(para)
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
 "a CVS repository."
@@ -3998,7 +4006,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">cvsroot</sgmltag> se usa para "
 "describir un repositorio CVS."
 
-#: C/jhbuild.xml:2438(programlisting)
+#: C/jhbuild.xml:2439(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4013,7 +4021,7 @@ msgstr ""
 "           root=\"<replaceable>cvsroot-anónimo</replaceable>\"\n"
 "           password=\"<replaceable>contraseña-anónima</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2445(para)
+#: C/jhbuild.xml:2446(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the CVS repository."
@@ -4021,7 +4029,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un "
 "identificador único para el repositorio CVS."
 
-#: C/jhbuild.xml:2448(para)
+#: C/jhbuild.xml:2449(para)
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -4030,7 +4038,7 @@ msgstr ""
 "repositorio de módulos predeterminados para ese archivo de conjuntos de "
 "módulos."
 
-#: C/jhbuild.xml:2452(para)
+#: C/jhbuild.xml:2453(para)
 msgid ""
 "The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root "
 "used for anonymous access to this repository, and the <sgmltag class="
@@ -4042,11 +4050,11 @@ msgstr ""
 "\"attribute\">password</sgmltag> da la contraseña usada para el acceso "
 "anónimo."
 
-#: C/jhbuild.xml:2460(title)
+#: C/jhbuild.xml:2461(title)
 msgid "svnroot"
 msgstr "svnroot"
 
-#: C/jhbuild.xml:2462(para)
+#: C/jhbuild.xml:2463(para)
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -4056,7 +4064,7 @@ msgstr ""
 "su lugar se debe usar el elemento <sgmltag class=\"element\">repository</"
 "sgmltag>."
 
-#: C/jhbuild.xml:2467(para)
+#: C/jhbuild.xml:2468(para)
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
 "a Subversion repository."
@@ -4064,7 +4072,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">svnroot</sgmltag> se usa para "
 "describir un repositorio de Subversion."
 
-#: C/jhbuild.xml:2470(programlisting)
+#: C/jhbuild.xml:2471(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4077,7 +4085,7 @@ msgstr ""
 "           [ default=\"<replaceable>sí|no</replaceable>\" ]\n"
 "           href=\"<replaceable>svnroot-anónimo</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2476(para)
+#: C/jhbuild.xml:2477(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the Subversion repository."
@@ -4085,7 +4093,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un "
 "identificador único para el repositorio de Subversion."
 
-#: C/jhbuild.xml:2480(para) C/jhbuild.xml:2510(para)
+#: C/jhbuild.xml:2481(para) C/jhbuild.xml:2511(para)
 msgid ""
 "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -4093,7 +4101,7 @@ msgstr ""
 "Si el atributo <sgmltag class=\"attribute\">default</sgmltag> indica si si "
 "este repositorio es el predeterminado para este conjunto de módulos."
 
-#: C/jhbuild.xml:2484(para)
+#: C/jhbuild.xml:2485(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL "
 "for the repository. This will probably be either a <literal>http</literal>, "
@@ -4103,11 +4111,11 @@ msgstr ""
 "del repositorio. Probablemente será un URL <literal>http</literal>, "
 "<literal>https</literal> o <literal>svn</literal>."
 
-#: C/jhbuild.xml:2491(title)
+#: C/jhbuild.xml:2492(title)
 msgid "arch-archive"
 msgstr "arch-archive"
 
-#: C/jhbuild.xml:2493(para)
+#: C/jhbuild.xml:2494(para)
 msgid ""
 "The <sgmltag class=\"element\">arch-archive</sgmltag> element is now "
 "deprecated - the <sgmltag class=\"element\">repository</sgmltag> element "
@@ -4117,7 +4125,7 @@ msgstr ""
 "en su lugar se debe usar el elemento <sgmltag class=\"element\">repository</"
 "sgmltag>."
 
-#: C/jhbuild.xml:2498(para)
+#: C/jhbuild.xml:2499(para)
 msgid ""
 "The <sgmltag class=\"element\">arch-archive</sgmltag> element is used to "
 "describe a GNU Arch archive."
@@ -4125,7 +4133,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">arch-archive</sgmltag> se usa para "
 "describir un archivo de GNU Arch."
 
-#: C/jhbuild.xml:2501(programlisting)
+#: C/jhbuild.xml:2502(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4138,7 +4146,7 @@ msgstr ""
 "                [ default=\"<replaceable>sí|no</replaceable>\" ]\n"
 "                href=\"<replaceable>url del repositorio</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2507(para)
+#: C/jhbuild.xml:2508(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be the Arch "
 "archive name."
@@ -4146,7 +4154,7 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">name</sgmltag> debe ser un nombre "
 "de archivo Arch."
 
-#: C/jhbuild.xml:2514(para)
+#: C/jhbuild.xml:2515(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists a public "
 "mirror URL for the archive."
@@ -4154,11 +4162,11 @@ msgstr ""
 "El atributo <sgmltag class=\"attribute\">href</sgmltag> lista el URL de un "
 "repositorio del archivo."
 
-#: C/jhbuild.xml:2520(title)
+#: C/jhbuild.xml:2521(title)
 msgid "Deprecated Module Types"
 msgstr "Tipos de módulos obsoletos"
 
-#: C/jhbuild.xml:2523(para)
+#: C/jhbuild.xml:2524(para)
 msgid ""
 "This section describes deprecated elements, they may still be used in "
 "existing module sets but it is advised not to use them anymore."
@@ -4166,291 +4174,23 @@ msgstr ""
 "Esta sección describe elementos obsoletos, aún se deben usar en conjuntos de "
 "módulos existentes, pero se recomienda que no se usen más."
 
-#: C/jhbuild.xml:2529(title)
-msgid "cvsmodule"
-msgstr "cvsmodule"
-
-#: C/jhbuild.xml:2531(para)
-msgid ""
-"The <sgmltag class=\"element\">cvsmodule</sgmltag> element is now "
-"deprecated. The appropriate build system's module should be used instead."
-msgstr ""
-"El elemento <sgmltag class=\"element\">cvsmodule</sgmltag> está obsoleto. En "
-"su lugar se debe usar el módulo apropiado construido por el sistema."
-
-#: C/jhbuild.xml:2535(para)
-msgid ""
-"The <sgmltag class=\"element\">cvsmodule</sgmltag> element is used to define "
-"a module that is to be built from CVS."
-msgstr ""
-"El elemento <sgmltag class=\"element\">cvsmodule</sgmltag> se usa para "
-"definir un módulo que se tiene que construir desde CVS."
-
-#: C/jhbuild.xml:2539(programlisting)
-#, no-wrap
-msgid ""
-"\n"
-"  &lt;cvsmodule module=\"<replaceable>modulename</replaceable>\"\n"
-"             [ revision=\"<replaceable>branch-or-tag</replaceable>\" ]\n"
-"             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &gt;\n"
-"  &lt;/cvsmodule&gt;\n"
-msgstr ""
-"\n"
-"  &lt;cvsmodule module=\"<replaceable>nombre del módulo</replaceable>\"\n"
-"             [ revision=\"<replaceable>branch-or-tag</replaceable>\" ]\n"
-"             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &gt;\n"
-"  &lt;/cvsmodule&gt;\n"
-
-#: C/jhbuild.xml:2562(para)
-msgid ""
-"The <sgmltag class=\"attribute\">module</sgmltag>, <sgmltag class=\"attribute"
-"\">revision</sgmltag> and <sgmltag class=\"attribute\">root</sgmltag> "
-"attributes identify the module to check out from CVS. The <sgmltag class="
-"\"attribute\">checkoutdir</sgmltag> attribute can be used to specify an "
-"alternative directory to check out to (by default, the value of <sgmltag "
-"class=\"attribute\">module</sgmltag> is used)."
-msgstr ""
-"Los atributos <sgmltag class=\"attribute\">module</sgmltag>, <sgmltag class="
-"\"attribute\">revision</sgmltag> y <sgmltag class=\"attribute\">root</"
-"sgmltag> identifican al módulo descargado desde CVS. el atributo <sgmltag "
-"class=\"attribute\">checkoutdir</sgmltag> se puede usar para especificar un "
-"directorio alternativo en el que descargar (de manera predeterminada se usa "
-"el valor de <sgmltag class=\"attribute\">module</sgmltag>)."
-
-#: C/jhbuild.xml:2571(para)
-msgid ""
-"The <sgmltag class=\"attribute\">autogenargs</sgmltag>, <sgmltag class="
-"\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute\">supports-"
-"non-srcdir-builds</sgmltag> attributes are common to many different module "
-"types. The <sgmltag class=\"attribute\">autogenargs</sgmltag> attribute "
-"lists additional arguments to be passed to <command>autogen.sh</command>, "
-"and <sgmltag class=\"attribute\">makeargs</sgmltag> lists additional "
-"arguments to be passed to <command>make</command>. The <sgmltag class="
-"\"attribute\">supports-non-srcdir-builds</sgmltag> attribute is used to mark "
-"modules that can't be cleanly built using a separate source directory."
-msgstr ""
-"Los atributos <sgmltag class=\"attribute\">autogenargs</sgmltag>, <sgmltag "
-"class=\"attribute\">makeargs</sgmltag> y <sgmltag class=\"attribute"
-"\">supports-non-srcdir-builds</sgmltag> son comunes a varios tipos "
-"diferentes de módulos. El atributo <sgmltag class=\"attribute\">autogenargs</"
-"sgmltag> lista argumentos adicionales para pasarlos a <command>autogen.sh</"
-"command>, y <sgmltag class=\"attribute\">makeargs</sgmltag> lista argumentos "
-"adicionales para pasárselos a <command>make</command>. El atributo <sgmltag "
-"class=\"attribute\">supports-non-srcdir-builds</sgmltag> se usa para marcar "
-"módulos que no se pueden construir limpiamente usando un directorio fuente "
-"separado."
-
-#: C/jhbuild.xml:2585(para)
-msgid ""
-"The <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag class="
-"\"element\">suggests</sgmltag> and <sgmltag class=\"element\">after</"
-"sgmltag> elements are processed as for <link linkend=\"moduleset-syntax-defs-"
-"autotools\">autotools</link>."
-msgstr ""
-"Los elementos <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag "
-"class=\"element\">suggests</sgmltag> y <sgmltag class=\"element\">after</"
-"sgmltag> se procesan igual que para <link linkend=\"moduleset-syntax-defs-"
-"autotools\">autotools</link>."
-
-#: C/jhbuild.xml:2595(title)
-msgid "svnmodule"
-msgstr "svnmodule"
-
-#: C/jhbuild.xml:2597(para)
-msgid ""
-"The <sgmltag class=\"element\">svnmodule</sgmltag> element is now "
-"deprecated. The appropriate build system's module should be used instead."
-msgstr ""
-"El elemento <sgmltag class=\"element\">svnmodule</sgmltag> está obsoleto. En "
-"su lugar se debe usar el módulo apropiado construido por el sistema."
-
-#: C/jhbuild.xml:2601(para)
-msgid ""
-"The <sgmltag class=\"element\">svnmodule</sgmltag> element is used to define "
-"a module that is to be built from Subversion."
-msgstr ""
-"El elemento <sgmltag class=\"element\">svnmodule</sgmltag> se usa para "
-"definir un módulo que se tiene que construir desde Subversion."
-
-#: C/jhbuild.xml:2605(programlisting)
-#, no-wrap
-msgid ""
-"\n"
-"  &lt;svnmodule module=\"<replaceable>modulename</replaceable>\"\n"
-"             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/after&gt;\n"
-"  &lt;/svnmodule&gt;\n"
-msgstr ""
-"\n"
-"  &lt;svnmodule module=\"<replaceable>nombre del módulo</replaceable>\"\n"
-"             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/after&gt;\n"
-"  &lt;/svnmodule&gt;\n"
-
-#: C/jhbuild.xml:2626(para)
-msgid ""
-"The <sgmltag class=\"attribute\">module</sgmltag> attribute gives the path "
-"of the module relative to the repository URI. All other options for this "
-"element are processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule"
-"\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
-msgstr ""
-"El atributo <sgmltag class=\"attribute\">module</sgmltag> da la ruta del "
-"módulo relativa al URI del repositorio. Todas las demás opciones de este "
-"elemento se procesan igual que para <link linkend=\"moduleset-syntax-defs-"
-"cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
-
-#: C/jhbuild.xml:2635(title)
-msgid "archmodule"
-msgstr "archmodule"
-
-#: C/jhbuild.xml:2637(para)
-msgid ""
-"The <sgmltag class=\"element\">archmodule</sgmltag> element is now "
-"deprecated. The appropriate build system's module should be used instead."
-msgstr ""
-"El elemento <sgmltag class=\"element\">archmodule</sgmltag> está obsoleto. "
-"En su lugar se debe usar el módulo apropiado construido por el sistema."
-
-#: C/jhbuild.xml:2641(para)
-msgid ""
-"The <sgmltag class=\"element\">archmodule</sgmltag> element is used to "
-"define a module that is to be built from a GNU Arch archive."
-msgstr ""
-"El elemento <sgmltag class=\"element\">archmodule</sgmltag> se usa para "
-"definir un módulo que se tiene que construir desde un archivo GNU Arch."
-
-#: C/jhbuild.xml:2645(programlisting)
-#, no-wrap
-msgid ""
-"\n"
-"  &lt;archmodule version=\"<replaceable>modulename</replaceable>\"\n"
-"              [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"              [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/after&gt;\n"
-"  &lt;/archmodule&gt;\n"
-msgstr ""
-"\n"
-"  &lt;archmodule version=\"<replaceable>nombre del módulo</replaceable>\"\n"
-"              [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
-"              [ root=\"<replaceable>rootname</replaceable>\" ]\n"
-"              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-"              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-"              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
-"    &lt;dependencies&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/dependencies&gt;\n"
-"    &lt;suggests&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/suggests&gt;\n"
-"    &lt;after&gt;\n"
-"      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
-"      ...\n"
-"    &lt;/after&gt;\n"
-"  &lt;/archmodule&gt;\n"
-
-#: C/jhbuild.xml:2666(para)
-msgid ""
-"The <sgmltag class=\"attribute\">version</sgmltag> attribute gives the "
-"version to be checked out from the archive specified by <sgmltag class="
-"\"attribute\">root</sgmltag>. All other options for this element are "
-"processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag "
-"class=\"element\">cvsmodule</sgmltag></link>."
-msgstr ""
-"El atributo <sgmltag class=\"attribute\">version</sgmltag> contiene la "
-"versión que se descargará del archivo especificado por <sgmltag class="
-"\"attribute\">root</sgmltag>. Todas las demás opciones para este elemento se "
-"procesan igual que para <link linkend=\"moduleset-syntax-defs-cvsmodule"
-"\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
-
-#: C/jhbuild.xml:2675(title)
+#: C/jhbuild.xml:2530(title)
 msgid "tarball"
 msgstr "archivo tar"
 
-#: C/jhbuild.xml:2678(para)
+#: C/jhbuild.xml:2533(para)
+#, fuzzy
+#| msgid ""
+#| "The <sgmltag class=\"element\">tarball</sgmltag> element is now "
+#| "deprecated. The appropriate build type module should be used instead. As "
+#| "a transitive measure this element has however been reimplemented as a "
+#| "thin wrapper around both <sgmltag class=\"element\">autotools</sgmltag> "
+#| "module type and <sgmltag class=\"element\">tarball</sgmltag> repository "
+#| "type."
 msgid ""
-"The <sgmltag class=\"element\">tarball</sgmltag> element is now deprecated. "
-"The appropriate build type module should be used instead. As a transitive "
-"measure this element has however been reimplemented as a thin wrapper around "
-"both <sgmltag class=\"element\">autotools</sgmltag> module type and <sgmltag "
-"class=\"element\">tarball</sgmltag> repository type."
+"This deprecated element is just a thin wrapper around both <sgmltag class="
+"\"element\">autotools</sgmltag> module type and <sgmltag class=\"element"
+"\">tarball</sgmltag> repository type."
 msgstr ""
 "El elemento <sgmltag class=\"element\">tarball</sgmltag> está obsoleto. En "
 "su lugar se debe usar el tipo de construcción de módulo apropiado. Como "
@@ -4458,7 +4198,7 @@ msgstr ""
 "alrededor del tipo de módulo <sgmltag class=\"element\">autotools</sgmltag> "
 "y el tipo de repositorio <sgmltag class=\"element\">tarball</sgmltag>."
 
-#: C/jhbuild.xml:2687(para)
+#: C/jhbuild.xml:2539(para)
 msgid ""
 "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
 "module that is to be built from a tarball."
@@ -4466,7 +4206,7 @@ msgstr ""
 "El elemento <sgmltag class=\"element\">tarball</sgmltag> se usa para definir "
 "un módulo que se construirá a partir de un archivo tar."
 
-#: C/jhbuild.xml:2691(programlisting)
+#: C/jhbuild.xml:2543(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4519,7 +4259,7 @@ msgstr ""
 "    &lt;/suggests&gt;\n"
 "  &lt;/tarball&gt;\n"
 
-#: C/jhbuild.xml:2716(para)
+#: C/jhbuild.xml:2568(para)
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
 "\">version</sgmltag> attributes are used to identify the module."
@@ -4527,7 +4267,7 @@ msgstr ""
 "Los atributos <sgmltag class=\"attribute\">id</sgmltag> y <sgmltag class="
 "\"attribute\">version</sgmltag> se usan para identificar el módulo."
 
-#: C/jhbuild.xml:2720(para)
+#: C/jhbuild.xml:2572(para)
 msgid ""
 "The <sgmltag class=\"element\">source</sgmltag> element specifies the file "
 "to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> "
@@ -4543,27 +4283,33 @@ msgstr ""
 "son opcionales. Si los dos últimos están presentes, se usan para comprobar "
 "que el paquete fuente se ha descargado correctamente."
 
-#: C/jhbuild.xml:2745(para)
+#: C/jhbuild.xml:2598(para)
+#, fuzzy
+#| msgid ""
+#| "The <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag class="
+#| "\"element\">suggests</sgmltag> and <sgmltag class=\"element\">after</"
+#| "sgmltag> elements are processed as for <link linkend=\"moduleset-syntax-"
+#| "defs-autotools\">autotools</link>."
 msgid ""
 "The other attributes and the <sgmltag class=\"element\">dependencies</"
-"sgmltag> and <sgmltag class=\"element\">suggests</sgmltag> sub-elements are "
-"processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule\"><sgmltag "
-"class=\"element\">cvsmodule</sgmltag></link>."
+"sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class="
+"\"element\">after</sgmltag> elements are processed as for <link linkend="
+"\"moduleset-syntax-defs-autotools\">autotools</link>."
 msgstr ""
-"Los otros atributos y los subelementos <sgmltag class=\"element"
-"\">dependencies</sgmltag> y <sgmltag class=\"element\">suggests</sgmltag> se "
-"procesan igual que para <link linkend=\"moduleset-syntax-defs-cvsmodule"
-"\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+"Los elementos <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag "
+"class=\"element\">suggests</sgmltag> y <sgmltag class=\"element\">after</"
+"sgmltag> se procesan igual que para <link linkend=\"moduleset-syntax-defs-"
+"autotools\">autotools</link>."
 
-#: C/jhbuild.xml:2757(title)
+#: C/jhbuild.xml:2610(title)
 msgid "Frequently Asked Questions"
 msgstr "Preguntas más frecuentes"
 
-#: C/jhbuild.xml:2761(title)
+#: C/jhbuild.xml:2614(title)
 msgid "General JHBuild Questions"
 msgstr "Cuestiones generales sobre JHBuild"
 
-#: C/jhbuild.xml:2764(simpara)
+#: C/jhbuild.xml:2617(simpara)
 msgid ""
 "The <command>wget</command> command can't download any tarballs. How do I "
 "get it to work with my firewall?"
@@ -4571,7 +4317,7 @@ msgstr ""
 "El comando <command>wget</command> no puede descargar ningún archivo tar. "
 "¿Cómo puedo hacer que funcione con mi cortafuegos?"
 
-#: C/jhbuild.xml:2769(para)
+#: C/jhbuild.xml:2622(para)
 msgid ""
 "This can be fixed by creating or editing a <filename>~/.wgetrc</filename> "
 "file. If you need to go through an HTTP proxy to access FTP sites, add a "
@@ -4581,12 +4327,12 @@ msgstr ""
 "filename>. Si necesita salir a través de un proxy HTTP para acceder a sitios "
 "FTP, añada al archivo una línea como la siguiente:"
 
-#: C/jhbuild.xml:2773(programlisting)
+#: C/jhbuild.xml:2626(programlisting)
 #, no-wrap
 msgid "ftp_proxy = http://<replaceable>hostname</replaceable>:<replaceable>port</replaceable>/"
 msgstr "ftp_proxy = http://<replaceable>nombre del servidor</replaceable>:<replaceable>puerto</replaceable>/"
 
-#: C/jhbuild.xml:2774(para)
+#: C/jhbuild.xml:2627(para)
 msgid ""
 "If you just need to use passive FTP connections (sometimes needed with NAT "
 "firewalls), add the following line:"
@@ -4594,20 +4340,20 @@ msgstr ""
 "Si solamente necesita usar conexiones de FTP pasivas (requerido algunas "
 "veces con cortafuegos NAT), añada la siguiente línea:"
 
-#: C/jhbuild.xml:2777(programlisting)
+#: C/jhbuild.xml:2630(programlisting)
 #, no-wrap
 msgid "passive_ftp = on"
 msgstr "passive_ftp = on"
 
-#: C/jhbuild.xml:2778(para)
+#: C/jhbuild.xml:2631(para)
 msgid "This will fix all uses of the <command>wget</command> command."
 msgstr "Esto fijará todos los usos del comando <command>wget</command>."
 
-#: C/jhbuild.xml:2784(simpara)
+#: C/jhbuild.xml:2637(simpara)
 msgid "Building stuff is slow. Is there any way I can speed it up?"
 msgstr "Compilar cosas es lento. ¿Hay alguna manera de acelerarlo?"
 
-#: C/jhbuild.xml:2788(para)
+#: C/jhbuild.xml:2641(para)
 msgid ""
 "Other than buying a faster CPU, hard disk or getting more memory, you might "
 "want to install <ulink url=\"http://ccache.samba.org/\">CCache</ulink>, "
@@ -4619,18 +4365,18 @@ msgstr ""
 "cachear los resultados de la compilación. Está disponible para la mayoría de "
 "las distribuciones."
 
-#: C/jhbuild.xml:2793(para)
+#: C/jhbuild.xml:2646(para)
 msgid "After installing CCache, set the cache size with the following command:"
 msgstr ""
 "Después de instalar CCache, configure el tamaño de la caché con el siguiente "
 "comando:"
 
-#: C/jhbuild.xml:2795(programlisting)
+#: C/jhbuild.xml:2648(programlisting)
 #, no-wrap
 msgid "ccache -M 2G"
 msgstr "ccache -M 2G"
 
-#: C/jhbuild.xml:2796(para)
+#: C/jhbuild.xml:2649(para)
 msgid ""
 "(replace <literal>2G</literal> with the size you want for your cache). Then "
 "create symlinks to CCache for your compiler in <filename>~/bin</filename>:"
@@ -4639,7 +4385,7 @@ msgstr ""
 "Entonces cree enlaces simbólicos a CCache para su compilador en <filename>~/"
 "bin</filename>:"
 
-#: C/jhbuild.xml:2799(programlisting)
+#: C/jhbuild.xml:2652(programlisting)
 #, no-wrap
 msgid ""
 "cd ~/bin\n"
@@ -4652,7 +4398,7 @@ msgstr ""
 "  ln -s /usr/bin/ccache $cmd\n"
 "done"
 
-#: C/jhbuild.xml:2803(para)
+#: C/jhbuild.xml:2656(para)
 msgid ""
 "You can check the status of your cache (such as cache hit rates) with the "
 "following command:"
@@ -4660,12 +4406,12 @@ msgstr ""
 "Puede comprobar es estado de su caché (tal como los ratios de acierto de la "
 "caché) con el siguiente comando:"
 
-#: C/jhbuild.xml:2805(programlisting)
+#: C/jhbuild.xml:2658(programlisting)
 #, no-wrap
 msgid "ccache -s"
 msgstr "ccache -s"
 
-#: C/jhbuild.xml:2810(simpara)
+#: C/jhbuild.xml:2663(simpara)
 msgid ""
 "Is there a better way to monitor the status of the build than looking at "
 "terminal window?"
@@ -4673,7 +4419,7 @@ msgstr ""
 "¿Hay alguna manera mejor de monitorizar el estado de la construcción que "
 "mirando la ventana de un terminal?"
 
-#: C/jhbuild.xml:2814(para)
+#: C/jhbuild.xml:2667(para)
 msgid ""
 "If you have Zenity &gt;= 2.9 installed on your system, JHBuild will display "
 "an icon in the system tray. The icon will display the current build stage, "
@@ -4683,24 +4429,24 @@ msgstr ""
 "en la bandeja del sistema. El icono mostrará el estado actual de la "
 "construcción y el consejo mostrará el último mensaje de JHBuild."
 
-#: C/jhbuild.xml:2818(para)
+#: C/jhbuild.xml:2671(para)
 msgid "The icon will also pop up a balloon on error."
 msgstr "El icono también mostrará un globo en caso de error."
 
-#: C/jhbuild.xml:2823(title)
+#: C/jhbuild.xml:2676(title)
 msgid "Building GNOME"
 msgstr "Construir GNOME"
 
-#: C/jhbuild.xml:2826(simpara)
+#: C/jhbuild.xml:2679(simpara)
 msgid "What other prerequisites are needed to build GNOME with JHBuild?"
 msgstr ""
 "¿Qué otros prerrequisitos son necesarios para construir GNOME con JHBuild?"
 
-#: C/jhbuild.xml:2830(para)
+#: C/jhbuild.xml:2683(para)
 msgid "Some of the packages you will need on your system include:"
 msgstr "Algunos de los paquetes que necesitará en su sistema incluyen:"
 
-#: C/jhbuild.xml:2834(simpara)
+#: C/jhbuild.xml:2687(simpara)
 msgid ""
 "DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML "
 "catalog (<filename>/etc/xml/catalog</filename>)."
@@ -4708,15 +4454,15 @@ msgstr ""
 "DocBook XML DTD y hojas de estilo XSLT. Deben registrarse en el catálogo XML "
 "(<filename>/etc/xml/catalog</filename>)."
 
-#: C/jhbuild.xml:2839(simpara)
+#: C/jhbuild.xml:2692(simpara)
 msgid "X libraries"
 msgstr "Bibliotecas de las X"
 
-#: C/jhbuild.xml:2842(simpara)
+#: C/jhbuild.xml:2695(simpara)
 msgid "fam or gamin (used by gnome-vfs for file monitoring)."
 msgstr "fam o gamin (usado por gnome-vfs para monitorizar archivos)."
 
-#: C/jhbuild.xml:2846(simpara)
+#: C/jhbuild.xml:2699(simpara)
 msgid ""
 "<filename>libsmbclient</filename> from Samba (used for browsing Windows "
 "networks)."
@@ -4724,11 +4470,11 @@ msgstr ""
 "<filename>libsmbclient</filename> de Samba (usado para explorar redes "
 "Windows)."
 
-#: C/jhbuild.xml:2850(simpara)
+#: C/jhbuild.xml:2703(simpara)
 msgid "<filename>libbz2</filename> from bzip2."
 msgstr "<filename>libbz2</filename> de bzip2."
 
-#: C/jhbuild.xml:2854(simpara)
+#: C/jhbuild.xml:2707(simpara)
 msgid ""
 "<filename>libpng</filename>, <filename>libjpeg</filename> and "
 "<filename>libtiff</filename> (used for image loading)."
@@ -4736,7 +4482,7 @@ msgstr ""
 "<filename>libpng</filename>, <filename>libjpeg</filename> y "
 "<filename>libtiff</filename> (usada para cargar imágenes)."
 
-#: C/jhbuild.xml:2860(para)
+#: C/jhbuild.xml:2713(para)
 msgid ""
 "If you are installing distro packages, you may need to install corresponding "
 "\"dev\" or \"devel\" packages. Note that this list is just a starting point "
@@ -4746,11 +4492,11 @@ msgstr ""
 "correspondientes paquetes «dev» o «devel». Tenga en cuenta que esta lista es "
 "sólo un punto de comienzo; no una lista comprensible."
 
-#: C/jhbuild.xml:2868(simpara)
+#: C/jhbuild.xml:2721(simpara)
 msgid "I've built GNOME with JHBuild. How do I run it?"
 msgstr "He construido GNOME con JHBuild. ¿Cómo lo ejecuto?"
 
-#: C/jhbuild.xml:2872(para)
+#: C/jhbuild.xml:2725(para)
 msgid ""
 "(a) You will want to create a <filename>~/.xsession</filename> file, which "
 "is run by the display manager when you log in. This file should look "
@@ -4760,7 +4506,7 @@ msgstr ""
 "el gestor de pantallas cuando ingrese en el sistema. El archivo debe tener "
 "un aspecto similar a este:"
 
-#: C/jhbuild.xml:2876(programlisting)
+#: C/jhbuild.xml:2729(programlisting)
 #, no-wrap
 msgid ""
 "#!/bin/sh\n"
@@ -4769,7 +4515,7 @@ msgstr ""
 "#!/bin/sh\n"
 "exec jhbuild run gnome-session"
 
-#: C/jhbuild.xml:2878(para)
+#: C/jhbuild.xml:2731(para)
 msgid ""
 "Finally, you should make sure that the <filename>~/.xsession</filename> file "
 "is executable."
@@ -4777,7 +4523,7 @@ msgstr ""
 "Finalmente, debe asegurarse de que el archivo <filename>~/.xsession</"
 "filename> es ejecutable."
 
-#: C/jhbuild.xml:2880(para)
+#: C/jhbuild.xml:2733(para)
 msgid ""
 "(b) Use a more sophisticated session script that is run when you log in "
 "using a graphical login manager (gdm /kdm/xdm). The problem with D-Bus and "
@@ -4799,7 +4545,7 @@ msgstr ""
 "ejemplo <filename>/usr/bin/gnomesvn-session</filename> y asegúrese de que "
 "ajusta <userinput>GNOME</userinput> a su configuración local:"
 
-#: C/jhbuild.xml:2893(programlisting)
+#: C/jhbuild.xml:2746(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4830,7 +4576,7 @@ msgstr ""
 " \n"
 "jhbuild run $DBUS_LAUNCH gnome-session"
 
-#: C/jhbuild.xml:2906(para)
+#: C/jhbuild.xml:2759(para)
 msgid ""
 "Uncomment the XDG_ lines if you want the system-wide program menus from your "
 "distribution in addition to the entries from the jhbuild GNOME. Make sure "
@@ -4840,12 +4586,12 @@ msgstr ""
 "además de las entradas del jhbuild GNOME. Asegúrese de que el archivo es "
 "ejecutable:"
 
-#: C/jhbuild.xml:2911(programlisting)
+#: C/jhbuild.xml:2764(programlisting)
 #, no-wrap
 msgid "chmod a+x /usr/bin/gnomesvn-session"
 msgstr "chmod a+x /usr/bin/gnomesvn-session"
 
-#: C/jhbuild.xml:2912(para)
+#: C/jhbuild.xml:2765(para)
 msgid ""
 "Because you need to start system daemons, you will need root privileges "
 "which are obtained by sudo. Note that you need to configure sudo so that it "
@@ -4858,7 +4604,7 @@ msgstr ""
 "userinput> como superusuario y pulse intro (no olvide cambiar su nombre de "
 "usuario y las rutas):"
 
-#: C/jhbuild.xml:2920(programlisting)
+#: C/jhbuild.xml:2773(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4877,7 +4623,7 @@ msgstr ""
 "# Especificación de privilegios de usuario\n"
 "gnometester  ALL = NOPASSWD: GNOME"
 
-#: C/jhbuild.xml:2927(para)
+#: C/jhbuild.xml:2780(para)
 msgid ""
 "In order to get a new session entry in the login manager, create <filename>/"
 "usr/share/xsessions/gnomesvn.desktop</filename> and put this or something "
@@ -4887,7 +4633,7 @@ msgstr ""
 "<filename>/usr/share/xsessions/gnomesvn.desktop</filename> y ponga esto o "
 "algo similar:"
 
-#: C/jhbuild.xml:2931(programlisting)
+#: C/jhbuild.xml:2784(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4908,7 +4654,7 @@ msgstr ""
 "Icon=\n"
 "Type=Application"
 
-#: C/jhbuild.xml:2939(para)
+#: C/jhbuild.xml:2792(para)
 msgid ""
 "Now you can restart gdm and log into your jhbuild GNOME. Make sure you "
 "select the jhbuild session before entering the login credentials. Advice: "
@@ -4919,7 +4665,7 @@ msgstr ""
 "credenciales de inicio de sesión. Consejo: Use una cuenta de usuario aparte "
 "para las pruebas"
 
-#: C/jhbuild.xml:2948(simpara)
+#: C/jhbuild.xml:2801(simpara)
 msgid ""
 "I built GNOME using JHBuild with <varname>prefix</varname> set to <filename>/"
 "usr</filename>, and now my system is broken. What should I do?"
@@ -4927,11 +4673,11 @@ msgstr ""
 "He construido GNOME usando JHBuild con <varname>prefix</varname> establecido "
 "a <filename>/usr</filename> y ahora mi sistema se ha roto. ¿Qué debo hacer?"
 
-#: C/jhbuild.xml:2953(para)
+#: C/jhbuild.xml:2806(para)
 msgid "Don't set <varname>prefix</varname> to <filename>/usr</filename>."
 msgstr "No establecer <varname>prefijo</varname> a <filename>/usr</filename>."
 
-#: C/jhbuild.xml:2959(simpara)
+#: C/jhbuild.xml:2812(simpara)
 msgid ""
 "How do I get <command>gnome-volume-manager</command> to work when running in "
 "a prefix?"
@@ -4939,7 +4685,7 @@ msgstr ""
 "¿Cómo hago para que <command>gnome-volume-manager</command> funcione cuando "
 "se ejecuta desde un prefijo?"
 
-#: C/jhbuild.xml:2964(para)
+#: C/jhbuild.xml:2817(para)
 msgid ""
 "The <command>gnome-volume-manager</command> program reacts to messages from "
 "<command>hald</command> over the system message bus, which must be running "
@@ -4954,7 +4700,7 @@ msgstr ""
 "<command>gnome-volume-manager</command> hable con el bus de mensajes del "
 "sistema."
 
-#: C/jhbuild.xml:2971(para)
+#: C/jhbuild.xml:2824(para)
 msgid ""
 "Since communication is done over a UNIX domain socket, the easiest way to do "
 "this is to create a symlink from <filename>/var/run/dbus</filename> to "
@@ -4964,7 +4710,7 @@ msgstr ""
 "forma más sencilla de hacer esto es crear un enlace simbólico de <filename>/"
 "var/run/dbus</filename> a <filename>$prefix/var/run/dbus</filename>:"
 
-#: C/jhbuild.xml:2975(programlisting)
+#: C/jhbuild.xml:2828(programlisting)
 #, no-wrap
 msgid ""
 "mkdir -p $prefix/var/run\n"
@@ -4975,7 +4721,7 @@ msgstr ""
 "cd $prefix/var/run\n"
 "ln -s /var/run/dbus dbus"
 
-#: C/jhbuild.xml:2978(para)
+#: C/jhbuild.xml:2831(para)
 msgid ""
 "You may also have trouble building HAL with JHBuild, since it tries to "
 "install some things outside of its build root. Running <userinput>make -k "
@@ -4990,3 +4736,263 @@ msgstr ""
 #: C/jhbuild.xml:0(None)
 msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008."
+
+#~ msgid "cvsmodule"
+#~ msgstr "cvsmodule"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">cvsmodule</sgmltag> element is now "
+#~ "deprecated. The appropriate build system's module should be used instead."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">cvsmodule</sgmltag> está obsoleto. "
+#~ "En su lugar se debe usar el módulo apropiado construido por el sistema."
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">cvsmodule</sgmltag> element is used to "
+#~ "define a module that is to be built from CVS."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">cvsmodule</sgmltag> se usa para "
+#~ "definir un módulo que se tiene que construir desde CVS."
+
+#~ msgid ""
+#~ "\n"
+#~ "  &lt;cvsmodule module=\"<replaceable>modulename</replaceable>\"\n"
+#~ "             [ revision=\"<replaceable>branch-or-tag</replaceable>\" ]\n"
+#~ "             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &gt;\n"
+#~ "  &lt;/cvsmodule&gt;\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  &lt;cvsmodule module=\"<replaceable>nombre del módulo</replaceable>\"\n"
+#~ "             [ revision=\"<replaceable>branch-or-tag</replaceable>\" ]\n"
+#~ "             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &gt;\n"
+#~ "  &lt;/cvsmodule&gt;\n"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"attribute\">module</sgmltag>, <sgmltag class="
+#~ "\"attribute\">revision</sgmltag> and <sgmltag class=\"attribute\">root</"
+#~ "sgmltag> attributes identify the module to check out from CVS. The "
+#~ "<sgmltag class=\"attribute\">checkoutdir</sgmltag> attribute can be used "
+#~ "to specify an alternative directory to check out to (by default, the "
+#~ "value of <sgmltag class=\"attribute\">module</sgmltag> is used)."
+#~ msgstr ""
+#~ "Los atributos <sgmltag class=\"attribute\">module</sgmltag>, <sgmltag "
+#~ "class=\"attribute\">revision</sgmltag> y <sgmltag class=\"attribute"
+#~ "\">root</sgmltag> identifican al módulo descargado desde CVS. el atributo "
+#~ "<sgmltag class=\"attribute\">checkoutdir</sgmltag> se puede usar para "
+#~ "especificar un directorio alternativo en el que descargar (de manera "
+#~ "predeterminada se usa el valor de <sgmltag class=\"attribute\">module</"
+#~ "sgmltag>)."
+
+#~ msgid ""
+#~ "The <sgmltag class=\"attribute\">autogenargs</sgmltag>, <sgmltag class="
+#~ "\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
+#~ "\">supports-non-srcdir-builds</sgmltag> attributes are common to many "
+#~ "different module types. The <sgmltag class=\"attribute\">autogenargs</"
+#~ "sgmltag> attribute lists additional arguments to be passed to "
+#~ "<command>autogen.sh</command>, and <sgmltag class=\"attribute\">makeargs</"
+#~ "sgmltag> lists additional arguments to be passed to <command>make</"
+#~ "command>. The <sgmltag class=\"attribute\">supports-non-srcdir-builds</"
+#~ "sgmltag> attribute is used to mark modules that can't be cleanly built "
+#~ "using a separate source directory."
+#~ msgstr ""
+#~ "Los atributos <sgmltag class=\"attribute\">autogenargs</sgmltag>, "
+#~ "<sgmltag class=\"attribute\">makeargs</sgmltag> y <sgmltag class="
+#~ "\"attribute\">supports-non-srcdir-builds</sgmltag> son comunes a varios "
+#~ "tipos diferentes de módulos. El atributo <sgmltag class=\"attribute"
+#~ "\">autogenargs</sgmltag> lista argumentos adicionales para pasarlos a "
+#~ "<command>autogen.sh</command>, y <sgmltag class=\"attribute\">makeargs</"
+#~ "sgmltag> lista argumentos adicionales para pasárselos a <command>make</"
+#~ "command>. El atributo <sgmltag class=\"attribute\">supports-non-srcdir-"
+#~ "builds</sgmltag> se usa para marcar módulos que no se pueden construir "
+#~ "limpiamente usando un directorio fuente separado."
+
+#~ msgid "svnmodule"
+#~ msgstr "svnmodule"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">svnmodule</sgmltag> element is now "
+#~ "deprecated. The appropriate build system's module should be used instead."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">svnmodule</sgmltag> está obsoleto. "
+#~ "En su lugar se debe usar el módulo apropiado construido por el sistema."
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">svnmodule</sgmltag> element is used to "
+#~ "define a module that is to be built from Subversion."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">svnmodule</sgmltag> se usa para "
+#~ "definir un módulo que se tiene que construir desde Subversion."
+
+#~ msgid ""
+#~ "\n"
+#~ "  &lt;svnmodule module=\"<replaceable>modulename</replaceable>\"\n"
+#~ "             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/after&gt;\n"
+#~ "  &lt;/svnmodule&gt;\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  &lt;svnmodule module=\"<replaceable>nombre del módulo</replaceable>\"\n"
+#~ "             [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "             [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "             [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "             [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "             [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/after&gt;\n"
+#~ "  &lt;/svnmodule&gt;\n"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"attribute\">module</sgmltag> attribute gives the "
+#~ "path of the module relative to the repository URI. All other options for "
+#~ "this element are processed as for <link linkend=\"moduleset-syntax-defs-"
+#~ "cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+#~ msgstr ""
+#~ "El atributo <sgmltag class=\"attribute\">module</sgmltag> da la ruta del "
+#~ "módulo relativa al URI del repositorio. Todas las demás opciones de este "
+#~ "elemento se procesan igual que para <link linkend=\"moduleset-syntax-defs-"
+#~ "cvsmodule\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+
+#~ msgid "archmodule"
+#~ msgstr "archmodule"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">archmodule</sgmltag> element is now "
+#~ "deprecated. The appropriate build system's module should be used instead."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">archmodule</sgmltag> está "
+#~ "obsoleto. En su lugar se debe usar el módulo apropiado construido por el "
+#~ "sistema."
+
+#~ msgid ""
+#~ "The <sgmltag class=\"element\">archmodule</sgmltag> element is used to "
+#~ "define a module that is to be built from a GNU Arch archive."
+#~ msgstr ""
+#~ "El elemento <sgmltag class=\"element\">archmodule</sgmltag> se usa para "
+#~ "definir un módulo que se tiene que construir desde un archivo GNU Arch."
+
+#~ msgid ""
+#~ "\n"
+#~ "  &lt;archmodule version=\"<replaceable>modulename</replaceable>\"\n"
+#~ "              [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "              [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/after&gt;\n"
+#~ "  &lt;/archmodule&gt;\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  &lt;archmodule version=\"<replaceable>nombre del módulo</replaceable>\"\n"
+#~ "              [ checkoutdir=\"<replaceable>directory</replaceable>\" ]\n"
+#~ "              [ root=\"<replaceable>rootname</replaceable>\" ]\n"
+#~ "              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#~ "              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#~ "              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#~ "    &lt;dependencies&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/dependencies&gt;\n"
+#~ "    &lt;suggests&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/suggests&gt;\n"
+#~ "    &lt;after&gt;\n"
+#~ "      &lt;dep package=\"<replaceable>nombre del módulo</replaceable>\"/&gt;\n"
+#~ "      ...\n"
+#~ "    &lt;/after&gt;\n"
+#~ "  &lt;/archmodule&gt;\n"
+
+#~ msgid ""
+#~ "The <sgmltag class=\"attribute\">version</sgmltag> attribute gives the "
+#~ "version to be checked out from the archive specified by <sgmltag class="
+#~ "\"attribute\">root</sgmltag>. All other options for this element are "
+#~ "processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule"
+#~ "\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+#~ msgstr ""
+#~ "El atributo <sgmltag class=\"attribute\">version</sgmltag> contiene la "
+#~ "versión que se descargará del archivo especificado por <sgmltag class="
+#~ "\"attribute\">root</sgmltag>. Todas las demás opciones para este elemento "
+#~ "se procesan igual que para <link linkend=\"moduleset-syntax-defs-cvsmodule"
+#~ "\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+
+#~ msgid ""
+#~ "The other attributes and the <sgmltag class=\"element\">dependencies</"
+#~ "sgmltag> and <sgmltag class=\"element\">suggests</sgmltag> sub-elements "
+#~ "are processed as for <link linkend=\"moduleset-syntax-defs-cvsmodule"
+#~ "\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+#~ msgstr ""
+#~ "Los otros atributos y los subelementos <sgmltag class=\"element"
+#~ "\">dependencies</sgmltag> y <sgmltag class=\"element\">suggests</sgmltag> "
+#~ "se procesan igual que para <link linkend=\"moduleset-syntax-defs-cvsmodule"
+#~ "\"><sgmltag class=\"element\">cvsmodule</sgmltag></link>."
+
+#~ msgid "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
+#~ msgstr "svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild"
