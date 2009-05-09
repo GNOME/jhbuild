@@ -495,7 +495,7 @@ class GitCvsBranch(GitBranch):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        self._checkout(buildscript, cwd=cwd)
+        self._checkout(buildscript, copydir=copydir)
 
         if stashed:
             buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
