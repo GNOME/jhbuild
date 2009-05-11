@@ -59,7 +59,10 @@ else:
         pass
 
 # tray icon stuff ...
-icondir = os.path.join(os.path.dirname(__file__), 'icons')
+if DATADIR:
+    icondir = os.path.join(DATADIR, 'jhbuild')
+else:
+    icondir = os.path.join(os.path.dirname(__file__), 'icons')
 phase_map = {
     'checkout':       'checkout.png',
     'force_checkout': 'checkout.png',

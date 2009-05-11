@@ -24,7 +24,9 @@ install: install-check
 	@if [ "x$(DISABLE_GETTEXT)" = x ]; then (cd po && $(MAKE) -f Makefile.plain install); fi
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
-	@sed "s,@jhbuilddir@,`pwd`,g" < jhbuild.in > $(bindir)/jhbuild
+	@sed -e "s,@jhbuilddir@,`pwd`,g" \
+		-e "s,USE_CHECKOUT_SRC = False,USE_CHECKOUT_SRC = True," < \
+		scripts/jhbuild.in > $(bindir)/jhbuild
 	@chmod a+x $(bindir)/jhbuild
 
 	@echo "Creating $(desktopdir)/jhbuild.desktop"
