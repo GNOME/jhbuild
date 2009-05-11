@@ -16,7 +16,7 @@ INTLTOOL = 			\
 
 EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(SOURCES) $(MODULE_SETS) \
 	scripts/hg-update.py Makefile.plain install-check.c \
-	po/Makefile.plain $(INTLTOOL)
+	po/Makefile.plain jhbuild.in $(INTLTOOL)
 
 DISTCLEANFILES = 		\
 	intltool-extract 	\
