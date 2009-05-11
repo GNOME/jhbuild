@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+  <repository type="git" name="git.sv.gnu.org" default="yes"
+      href="git://git.sv.gnu.org/"/>
+  <repository type="cvs" name="cvs.gettext.sv.org"
+      cvsroot=":pserver:anonymous@cvs.sv.gnu.org:/sources/gettext"
+      password=""/>
+
+  <autotools id="autoconf" autogen-sh="autoreconf">
+    <branch/>
+  </autotools>
+
+  <autotools id="libtool" autogen-sh="bootstrap">
+    <branch/>
+  </autotools>
+
+  <autotools id="automake" autogen-sh="autoreconf">
+    <branch/>
+  </autotools>
+
+  <autotools id="gettext" autogen-sh="autoreconf">
+    <branch/>
+  </autotools>
+
+  <autotools id="guile" autogenargs="--enable-error-on-warning=no" autogen-sh="autoreconf">
+    <branch/>
+    <dependencies>
+      <dep package="gmp"/>
+    </dependencies>
+  </autotools>
+
+  <metamodule id="meta-bootstrap">
+    <dependencies>
+      <dep package="automake" />
+      <dep package="autoconf" />
+      <dep package="gettext" />
+      <dep package="libtool" />
+      <dep package="gmp" />
+    </dependencies>
+  </metamodule>
+
+</moduleset>
