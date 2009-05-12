@@ -4,11 +4,8 @@ if DOC_INSTALLATION_ENABLED
 SUBDIRS += doc
 endif
 
-patchesdir = $(datadir)/jhbuild/patches/
-patches_DATA = $(wildcard $(top_srcdir)/patches/*.patch)
-
-modulesetsdir = $(datadir)/jhbuild/modulesets/
-modulesets_DATA = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
+PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
+MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
 
 
 INTLTOOL = 			\
@@ -16,7 +13,7 @@ INTLTOOL = 			\
 	intltool-merge.in 	\
 	intltool-update.in
 
-EXTRA_DIST = gnome-doc-utils.make $(patches_DATA) $(modulesets_DATA) \
+EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
 	install-check.c \
 	jhbuild.desktop $(INTLTOOL)
 
