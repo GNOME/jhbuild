@@ -5,6 +5,7 @@ CLEANFILES = jhbuild
 
 jhbuild: jhbuild.in
 	sed						\
+		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
 		-e s!\@prefix\@!$(prefix)!		\
 		-e s!\@datadir\@!$(datadir)!		\
 		-e s!\@pkgdatadir\@!$(pkgdatadir)!	\
