@@ -15,6 +15,10 @@ else:
     pkgdatadir = "@pkgdatadir@"
     datadir = "@datadir@"
     srcdir = "@srcdir@"
+    try:
+        import jhbuild
+    except ImportError:
+        sys.path.insert(0, srcdir)
 
 __builtin__.__dict__['PKGDATADIR'] = pkgdatadir
 __builtin__.__dict__['DATADIR'] = datadir
