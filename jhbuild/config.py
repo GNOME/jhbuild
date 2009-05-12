@@ -194,6 +194,14 @@ class Config:
         if seen_copy_mode and not self.copy_dir:
             raise FatalError(_('copy mode requires copy_dir to be set'))
 
+        if not os.path.exists(self.modulesets_dir):
+            if self.use_local_modulesets:
+                logging.warning(
+                        _('modulesets directory (%s) not found, '
+                          'disabling use_local_modulesets') % self.modulesets_dir)
+                self.use_local_modulesets = False
+            self.modulesets_dir = None
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 
