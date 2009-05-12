@@ -283,7 +283,7 @@ def load(config, uri=None):
     ms = ModuleSet(config = config)
     for uri in modulesets:
         if '/' not in uri:
-            if config.nonetwork or config.use_local_modulesets:
+            if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
                 uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
