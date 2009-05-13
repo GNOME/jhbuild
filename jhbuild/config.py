@@ -110,6 +110,11 @@ class Config:
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
 
+        try:
+            SRCDIR
+        except NameError:
+            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
+
         env_prepends.clear()
         try:
             execfile(_defaults_file, self._config)
