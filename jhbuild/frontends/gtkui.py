@@ -32,6 +32,7 @@ import subprocess
 import gobject
 import gtk
 import gtk.glade
+import vte
 
 #FIXME: would be nice if we ran w/o GConf, do a try...except block around
 #       the import and then set have_gconf to false
@@ -42,6 +43,117 @@ import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
+
+
+class AppWindow(gtk.Window):
+    def __init__(self, config):
+        self.config = config
+        gtk.Window.__init__(self)
+        self.set_title('JHBuild')
+
+        self.module_set = jhbuild.moduleset.load(config)
+
+        # name, status
+        self.modules_list = gtk.ListStore(str, str)
+
+        self.create_ui()
+
+        module = self.config.modules
+        if type(module) is list:
+            module = module[0]
+        self.filter_entry.connect('changed', self.on_module_changed_cb)
+        self.filter_entry.set_text(module)
+
+        self.connect('delete-event', self.on_delete_event)
+
+    def on_module_changed_cb(self, *args):
+        module = self.filter_entry.get_text()
+        self.modules_list.clear()
+        for i, module in enumerate(self.module_set.get_module_list([module])):
+            if i < 5:
+                status = gtk.STOCK_YES
+            elif i == 5:
+                status = gtk.STOCK_MEDIA_PLAY
+            else:
+                status = None
+            self.modules_list.append([module.name, status])
+
+
+
+    def on_delete_event(self, *args):
+        gtk.main_quit()
+
+    def create_ui(self):
+        app_vbox = gtk.VBox()
+
+        hpane = gtk.HPaned()
+        app_vbox.pack_start(hpane)
+
+        main_vbox = gtk.VBox() # will hold treeview with modules, filter, buttons
+        hpane.add1(main_vbox)
+        filter_hbox = gtk.HBox()
+        main_vbox.pack_start(filter_hbox, fill=False, expand=False)
+
+        label = gtk.Label(_('Filter:'))
+        filter_hbox.pack_start(label)
+
+        self.filter_entry = gtk.Entry()
+        filter_hbox.pack_end(self.filter_entry, fill=True)
+
+        sclwin = gtk.ScrolledWindow()
+        sclwin.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+        main_vbox.pack_start(sclwin, fill=True, expand=True, padding=5)
+
+        self.treeview = treeview = gtk.TreeView(self.modules_list)
+        treeview.set_headers_visible(True)
+        sclwin.add(treeview)
+
+        # status column
+        renderer = gtk.CellRendererPixbuf()
+        tv_col = gtk.TreeViewColumn('', renderer, stock_id = 1)
+        tv_col.set_expand(False)
+        tv_col.set_min_width(32)
+        treeview.append_column(tv_col)
+
+        # name column
+        renderer = gtk.CellRendererText()
+        tv_col = gtk.TreeViewColumn('', renderer, text = 0)
+        tv_col.set_expand(True)
+        tv_col.set_min_width(200)
+        treeview.append_column(tv_col)
+
+        bbox = gtk.HBox()
+        main_vbox.pack_start(bbox, expand=False)
+
+        build = gtk.Button(_('Build All'))
+        build.connect('clicked', self.on_build_all_cb)
+        bbox.pack_start(build, expand=False)
+
+        build = gtk.Button(_('Build Selected'))
+        build.connect('clicked', self.on_build_one_cb)
+        bbox.pack_start(build, expand=False)
+        
+        sidebar = gtk.ToggleButton(_('Terminal'))
+        sidebar.connect('toggled', self.on_sidebar_toggled)
+        bbox.pack_end(sidebar, expand=False)
+
+        terminal = vte.Terminal()
+        hpane.add2(terminal)
+
+        app_vbox.show_all()
+        self.add(app_vbox)
+
+
+    def on_build_all_cb(self, *args):
+        pass
+
+    def on_build_one_cb(self, *args):
+        pass
+
+    def on_sidebar_toggled(self, *args):
+        pass
+
+
 
 def get_glade_filename():
     return os.path.join(os.path.dirname(__file__), 'jhbuild.glade')

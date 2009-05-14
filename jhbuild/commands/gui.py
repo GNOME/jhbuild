@@ -18,9 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import pygtk
+pygtk.require('2.0')
+import gtk
+
 from jhbuild.commands import Command, register_command
 import jhbuild.frontends
-from jhbuild.frontends.gtkui import Configuration
+from jhbuild.frontends.gtkui import Configuration, AppWindow
 
 
 class cmd_gui(Command):
@@ -32,6 +36,11 @@ class cmd_gui(Command):
     def run(self, config, options, args):
         # request GTK build script.
         config.buildscript = 'gtkui'
+
+        gui = AppWindow(config)
+        gui.show()
+        gtk.main()
+        return
 
         configuration = Configuration(config, args)
         (module_list, start_at,
