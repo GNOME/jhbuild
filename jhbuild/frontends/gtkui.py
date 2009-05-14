@@ -137,7 +137,7 @@ class AppWindow(gtk.Window):
         sidebar.connect('toggled', self.on_sidebar_toggled)
         bbox.pack_end(sidebar, expand=False)
 
-        terminal = vte.Terminal()
+        self.terminal = terminal = vte.Terminal()
         hpane.add2(terminal)
 
         app_vbox.show_all()
@@ -150,8 +150,11 @@ class AppWindow(gtk.Window):
     def on_build_one_cb(self, *args):
         pass
 
-    def on_sidebar_toggled(self, *args):
-        pass
+    def on_sidebar_toggled(self, button, *args):
+        if button.get_active():
+            self.terminal.show()
+        else:
+            self.terminal.hide()
 
 
 
