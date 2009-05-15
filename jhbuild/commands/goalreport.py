@@ -202,8 +202,12 @@ class SymbolsCheck(Check):
     def fix_false_positive(self, false_positive):
         if not false_positive:
             return
+        if len(self.symbols) == 1 and false_positive == '-':
+            self.bad_symbols = []
+            self.compute_status()
+            return
         for symbol in false_positive.split(','):
-	    symbol = symbol.strip()
+            symbol = symbol.strip()
             if symbol in self.bad_symbols:
                 self.bad_symbols.remove(symbol)
         self.compute_status()
