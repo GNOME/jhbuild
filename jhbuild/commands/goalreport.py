@@ -100,6 +100,10 @@ a.warn-bug-status::after {
     font-weight: bold;
 }
 
+a.has-patch {
+    padding-right: 20px;
+    background: transparent url(http://bugzilla.gnome.org/images/emblems/P.png) center right no-repeat;
+}
 </style>
 </head>
 <body>
