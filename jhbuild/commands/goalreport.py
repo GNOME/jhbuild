@@ -290,6 +290,14 @@ class cmd_goalreport(Command):
         if not self.checks:
             self.load_checks_from_options(options.checks)
 
+        if options.bugfile.startswith('http://live.gnome.org') and \
+                not options.bugfile.endswith('?action=raw'):
+            options.bugfile += '?action=raw'
+
+        if options.falsepositivesfile.startswith('http://live.gnome.org') and \
+                not options.falsepositivesfile.endswith('?action=raw'):
+            options.falsepositivesfile += '?action=raw'
+
         self.load_bugs(options.bugfile)
         self.load_false_positives(options.falsepositivesfile)
 
