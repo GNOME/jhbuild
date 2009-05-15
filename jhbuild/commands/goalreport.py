@@ -287,11 +287,11 @@ class cmd_goalreport(Command):
         else:
             output = sys.stdout
 
-        self.load_bugs(options.bugfile)
-        self.load_false_positives(options.falsepositivesfile)
-
         if not self.checks:
             self.load_checks_from_options(options.checks)
+
+        self.load_bugs(options.bugfile)
+        self.load_false_positives(options.falsepositivesfile)
 
         config.devhelp_dirname = options.devhelp_dirname
 
@@ -562,6 +562,9 @@ class cmd_goalreport(Command):
         #  $(module)/$(checkname) $(bugnumber)
         # Sample bug file:
         #  evolution/LibGnomeCanvas 571742
+        #
+        # also, if there is only a single check, the /$(checkname) part
+        # can be skipped.
         self.bugs = {}
         if not filename:
             return
@@ -578,7 +581,13 @@ class cmd_goalreport(Command):
             if line.startswith('#'):
                 continue
             part, bugnumber = line.split()
-            module_name, check = part.split('/')
+            if '/' in part:
+                module_name, check = part.split('/')
+            elif len(self.checks) == 1:
+                module_name = part
+                check = self.checks[0].__name__
+            else:
+                continue
             self.bugs[(module_name, check)] = bugnumber
 
         self.bug_status = {}
@@ -613,7 +622,15 @@ class cmd_goalreport(Command):
                 part, extra = line.split(' ', 1)
             else:
                 part, extra = line, '-'
-            module_name, check = part.split('/')
+
+            if '/' in part:
+                module_name, check = part.split('/')
+            elif len(self.checks) == 1:
+                module_name = part
+                check = self.checks[0].__name__
+            else:
+                continue
+
             self.false_positives[(module_name, check)] = extra
 
 
