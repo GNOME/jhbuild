@@ -595,7 +595,8 @@ class cmd_goalreport(Command):
         bug_status = httpcache.load(
                 'http://bugzilla.gnome.org/show_bug.cgi?%s&'
                 'ctype=xml&field=bug_id&field=bug_status&'
-                'field=resolution' % '&'.join(['id=' + x for x in self.bugs.values() if x.isdigit()]))
+                'field=resolution' % '&'.join(['id=' + x for x in self.bugs.values() if x.isdigit()]),
+                age=0)
         tree = ET.parse(bug_status)
         for bug in tree.findall('bug'):
             bug_id = bug.find('bug_id').text
