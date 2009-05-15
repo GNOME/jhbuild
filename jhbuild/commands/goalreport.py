@@ -290,14 +290,6 @@ class cmd_goalreport(Command):
         if not self.checks:
             self.load_checks_from_options(options.checks)
 
-        if options.bugfile.startswith('http://live.gnome.org') and \
-                not options.bugfile.endswith('?action=raw'):
-            options.bugfile += '?action=raw'
-
-        if options.falsepositivesfile.startswith('http://live.gnome.org') and \
-                not options.falsepositivesfile.endswith('?action=raw'):
-            options.falsepositivesfile += '?action=raw'
-
         self.load_bugs(options.bugfile)
         self.load_false_positives(options.falsepositivesfile)
 
@@ -577,6 +569,8 @@ class cmd_goalreport(Command):
         if not filename:
             return
         if filename.startswith('http://'):
+            if filename.startswith('http://live.gnome.org') and not filename.endswith('?action=raw'):
+                filename += '?action=raw'
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
@@ -616,6 +610,8 @@ class cmd_goalreport(Command):
         if not filename:
             return
         if filename.startswith('http://'):
+            if filename.startswith('http://live.gnome.org') and not filename.endswith('?action=raw'):
+                filename += '?action=raw'
             try:
                 filename = httpcache.load(filename, age=0)
             except Exception, e:
