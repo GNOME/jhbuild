@@ -462,12 +462,14 @@ class cmd_goalreport(Command):
         print >> output, '</table>'
 
         if (options.bugfile and options.bugfile.startswith('http://')) or \
-                (options.false_positives and options.false_positives.startswith('http://')):
+                (options.falsepositivesfile and options.falsepositivesfile.startswith('http://')):
             print >> output, '<div id="data">'
             print >> output, '<p>The following data sources are used:</p>'
             print >> output, '<ul>'
-            print >> output, '  <li><a href="%s">Bugs</a></li>' % options.bugfile
-            print >> output, '  <li><a href="%s">False positives</a></li>' % options.falsepositivesfile
+            if options.bugfile.startswith('http://'):
+                print >> output, '  <li><a href="%s">Bugs</a></li>' % options.bugfile
+            if options.falsepositivesfile.startswith('http://'):
+                print >> output, '  <li><a href="%s">False positives</a></li>' % options.falsepositivesfile
             print >> output, '</ul>'
             print >> output, '</div>'
 
