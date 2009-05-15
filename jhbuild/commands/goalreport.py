@@ -519,8 +519,10 @@ class cmd_goalreport(Command):
                     bug_classes.append('bug-closed')
                     if label:
                         bug_classes.append('warn-bug-status')
-                elif self.bug_status.get(self.bugs[k], {}).get('patch'):
+
+                if label and self.bug_status.get(self.bugs[k], {}).get('patch'):
                     bug_classes.append('has-patch')
+
                 bug_class = ''
                 if bug_classes:
                     bug_class = ' class="%s"' % ' '.join(bug_classes)
