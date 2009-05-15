@@ -508,12 +508,16 @@ class cmd_goalreport(Command):
             s.append('<td class="%s" title="%s">' % (classname, comment))
             k = (module_name, check.__name__)
             if k in self.bugs:
+                bug_classes = []
+                if self.bug_status.get(self.bugs[k], {}).get('resolution'):
+                    bug_classes.append('bug-closed')
+                    if label:
+                        bug_classes.append('warn-bug-status')
+                elif self.bug_status.get(self.bugs[k], {}).get('patch'):
+                    bug_classes.append('has-patch')
                 bug_class = ''
-                if self.bug_status.get(self.bugs[k]):
-                    if label == '':
-                        bug_class = ' class="bug-closed"'
-                    else:
-                        bug_class = ' class="bug-closed warn-bug-status"'
+                if bug_classes:
+                    bug_class = ' class="%s"' % ' '.join(bug_classes)
                 if self.bugs[k].isdigit():
                     s.append('<a href="http://bugzilla.gnome.org/show_bug.cgi?id=%s"%s>' % (
                                 self.bugs[k], bug_class))
@@ -600,14 +604,18 @@ class cmd_goalreport(Command):
 
         bug_status = httpcache.load(
                 'http://bugzilla.gnome.org/show_bug.cgi?%s&'
-                'ctype=xml&field=bug_id&field=bug_status&'
+                'ctype=xml&field=bug_id&field=bug_status&field=emblems&'
                 'field=resolution' % '&'.join(['id=' + x for x in self.bugs.values() if x.isdigit()]),
                 age=0)
         tree = ET.parse(bug_status)
         for bug in tree.findall('bug'):
             bug_id = bug.find('bug_id').text
             bug_resolved = (bug.find('resolution') is not None)
-            self.bug_status[bug_id] = bug_resolved
+            bug_has_patch = (bug.find('emblems') is not None and 'P' in bug.find('emblems').text)
+            self.bug_status[bug_id] = {
+                'resolution': bug_resolved,
+                'patch': bug_has_patch,
+                }
 
     def load_false_positives(self, filename):
         self.false_positives = {}
