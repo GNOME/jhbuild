@@ -46,6 +46,8 @@ from jhbuild.errors import CommandError
 
 
 class AppWindow(gtk.Window):
+    default_module_iter = None
+
     def __init__(self, config):
         self.config = config
         gtk.Window.__init__(self)
@@ -53,32 +55,26 @@ class AppWindow(gtk.Window):
 
         self.module_set = jhbuild.moduleset.load(config)
 
-        # name, status
-        self.modules_list = gtk.ListStore(str, str)
-
+        self.create_modules_list_model()
         self.create_ui()
 
-        module = self.config.modules
-        if type(module) is list:
-            module = module[0]
-        self.filter_entry.connect('changed', self.on_module_changed_cb)
-        self.filter_entry.set_text(module)
+        if self.default_module_iter:
+            self.module_combo.set_active_iter(self.default_module_iter)
 
         self.connect('delete-event', self.on_delete_event)
 
-    def on_module_changed_cb(self, *args):
-        module = self.filter_entry.get_text()
-        self.modules_list.clear()
-        for i, module in enumerate(self.module_set.get_module_list([module])):
-            if i < 5:
-                status = gtk.STOCK_YES
-            elif i == 5:
-                status = gtk.STOCK_MEDIA_PLAY
-            else:
-                status = None
-            self.modules_list.append([module.name, status])
 
-
+    def create_modules_list_model(self):
+        # name, separator
+        self.modules_list = gtk.ListStore(str, bool)
+        full_module_list = self.module_set.get_full_module_list()
+        for module in full_module_list:
+            if isinstance(module, MetaModule):
+                iter = self.modules_list.append((module.name, False))
+                if module.name == self.config.modules[0]:
+                    self.default_module_iter = iter
+        self.modules_list.append(('', True))
+        self.modules_list.append((_('Others...'), False))
 
     def on_delete_event(self, *args):
         gtk.main_quit()
@@ -86,59 +82,22 @@ class AppWindow(gtk.Window):
     def create_ui(self):
         app_vbox = gtk.VBox()
 
-        hpane = gtk.HPaned()
-        app_vbox.pack_start(hpane)
+        module_hbox = gtk.HBox()
+        app_vbox.pack_start(module_hbox, fill=False, expand=False)
 
-        main_vbox = gtk.VBox() # will hold treeview with modules, filter, buttons
-        hpane.add1(main_vbox)
-        filter_hbox = gtk.HBox()
-        main_vbox.pack_start(filter_hbox, fill=False, expand=False)
+        label = gtk.Label(_('Module'))
+        module_hbox.pack_start(label)
 
-        label = gtk.Label(_('Filter:'))
-        filter_hbox.pack_start(label)
+        self.module_combo = gtk.ComboBox(self.modules_list)
+        cell = gtk.CellRendererText()
+        self.module_combo.pack_start(cell, True)
+        self.module_combo.add_attribute(cell, 'text', 0)
 
-        self.filter_entry = gtk.Entry()
-        filter_hbox.pack_end(self.filter_entry, fill=True)
+        self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
+        module_hbox.pack_start(self.module_combo, fill=True)
 
-        sclwin = gtk.ScrolledWindow()
-        sclwin.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
-        main_vbox.pack_start(sclwin, fill=True, expand=True, padding=5)
-
-        self.treeview = treeview = gtk.TreeView(self.modules_list)
-        treeview.set_headers_visible(True)
-        sclwin.add(treeview)
-
-        # status column
-        renderer = gtk.CellRendererPixbuf()
-        tv_col = gtk.TreeViewColumn('', renderer, stock_id = 1)
-        tv_col.set_expand(False)
-        tv_col.set_min_width(32)
-        treeview.append_column(tv_col)
-
-        # name column
-        renderer = gtk.CellRendererText()
-        tv_col = gtk.TreeViewColumn('', renderer, text = 0)
-        tv_col.set_expand(True)
-        tv_col.set_min_width(200)
-        treeview.append_column(tv_col)
-
-        bbox = gtk.HBox()
-        main_vbox.pack_start(bbox, expand=False)
-
-        build = gtk.Button(_('Build All'))
-        build.connect('clicked', self.on_build_all_cb)
-        bbox.pack_start(build, expand=False)
-
-        build = gtk.Button(_('Build Selected'))
-        build.connect('clicked', self.on_build_one_cb)
-        bbox.pack_start(build, expand=False)
-        
-        sidebar = gtk.ToggleButton(_('Terminal'))
-        sidebar.connect('toggled', self.on_sidebar_toggled)
-        bbox.pack_end(sidebar, expand=False)
-
-        self.terminal = terminal = vte.Terminal()
-        hpane.add2(terminal)
+        button = gtk.Button(_('Build'))
+        module_hbox.pack_start(button)
 
         app_vbox.show_all()
         self.add(app_vbox)
@@ -149,12 +108,6 @@ class AppWindow(gtk.Window):
 
     def on_build_one_cb(self, *args):
         pass
-
-    def on_sidebar_toggled(self, button, *args):
-        if button.get_active():
-            self.terminal.show()
-        else:
-            self.terminal.hide()
 
 
 
