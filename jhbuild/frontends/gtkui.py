@@ -183,7 +183,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.build_button.set_sensitive(False)
         self.module_hbox.set_sensitive(False)
 
-    def end_build(self):
+    def end_build(self, failures):
         self.build_button.set_sensitive(True)
         self.module_hbox.set_sensitive(True)
 
