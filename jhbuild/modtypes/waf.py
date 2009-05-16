@@ -107,7 +107,7 @@ class WafModule(Package):
         buildscript.set_action(_('Building'), self)
         cmd = [self.waf_cmd, 'build']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-    do_build.depends = [PHASE_CHECKOUT]
+    do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def skip_check(self, buildscript, last_phase):
