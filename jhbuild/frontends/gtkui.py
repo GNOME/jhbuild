@@ -70,6 +70,9 @@ class AppWindow(gtk.Window):
         full_module_list = self.module_set.get_full_module_list()
         for module in full_module_list:
             if isinstance(module, MetaModule):
+                if module.name.endswith('-deprecations'):
+                    # skip the deprecation meta modules, nobody want them
+                    continue
                 iter = self.modules_list.append((module.name, False))
                 if module.name == self.config.modules[0]:
                     self.default_module_iter = iter
