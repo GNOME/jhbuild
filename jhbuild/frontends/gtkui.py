@@ -91,10 +91,29 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     # skip the deprecation meta modules, nobody want them
                     continue
                 iter = self.modules_list_model.append((module.name, False))
-                if module.name == self.config.modules[0]:
-                    self.default_module_iter = iter
         self.modules_list_model.append(('', True))
         self.modules_list_model.append((_('Others...'), False))
+
+        for module in self.config.modules:
+            iter = self.add_extra_module_to_model(module)
+            if not self.default_module_iter:
+                self.default_module_iter = iter
+
+    def add_extra_module_to_model(self, module):
+        # lookup selected module in current modules list
+        for row in self.modules_list_model:
+            row_value = self.modules_list_model.get(row.iter, 0)[0]
+            if row_value == module:
+                return row.iter
+
+        # add selected module in the list
+        if self.modules_list_model.get(self.modules_list_model[-3].iter, 1)[0] is False:
+            # there is no user-added modules at the moment, add a separator row
+            self.modules_list_model.insert_before(
+                    self.modules_list_model[-2].iter, ('', True))
+        iter = self.modules_list_model.insert_before(
+                self.modules_list_model[-2].iter, (module, False))
+        return iter
 
     def on_delete_event(self, *args):
         gtk.main_quit()
@@ -181,22 +200,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         selected_module = dlg.selected_module
         dlg.destroy()
 
-        # lookup selected module in current modules list
-        for row in self.modules_list_model:
-            row_value = self.modules_list_model.get(row.iter, 0)[0]
-            if row_value == selected_module:
-                self.module_combo.set_active_iter(row.iter)
-                return
-
-        # add selected module in the list
-        if self.modules_list_model.get(self.modules_list_model[-3].iter, 1)[0] is False:
-            # there is no user-added modules at the moment, add a separator row
-            self.modules_list_model.insert_before(
-                    self.modules_list_model[-2].iter, ('', True))
-        iter = self.modules_list_model.insert_before(
-                self.modules_list_model[-2].iter, (selected_module, False))
+        iter = self.add_extra_module_to_model(selected_module)
         self.module_combo.set_active_iter(iter)
-
 
     def is_build_paused(self):
         return False
