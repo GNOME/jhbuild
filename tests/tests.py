@@ -31,7 +31,11 @@ import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 __builtin__.__dict__['N_'] = lambda x: x
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+__builtin__.__dict__['PKGDATADIR'] = None
+__builtin__.__dict__['DATADIR'] = None
+__builtin__.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
+
+sys.path.insert(0, SRCDIR)
 
 from jhbuild.errors import DependencyCycleError, UsageError, CommandError
 from jhbuild.modtypes import Package
