@@ -254,8 +254,8 @@ class AutotoolsModTypeTestCase(BuildTestCase):
         def make_check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        make_check_error.next_state = self.modules[0].do_check.next_state
-        make_check_error.error_states = self.modules[0].do_check.error_states
+        make_check_error.depends = self.modules[0].do_check.depends
+        make_check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = make_check_error
 
@@ -306,8 +306,8 @@ class WafModTypeTestCase(BuildTestCase):
         def make_check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        make_check_error.next_state = self.modules[0].do_check.next_state
-        make_check_error.error_states = self.modules[0].do_check.error_states
+        make_check_error.depends = self.modules[0].do_check.depends
+        make_check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = make_check_error
 
@@ -405,8 +405,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -423,8 +423,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -438,8 +438,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -495,8 +495,8 @@ class TwoModulesTestCase(BuildTestCase):
         def check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        check_error.next_state = self.modules[0].do_check.next_state
-        check_error.error_states = self.modules[0].do_check.error_states
+        check_error.depends = self.modules[0].do_check.depends
+        check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = check_error
 
@@ -514,8 +514,8 @@ class TwoModulesTestCase(BuildTestCase):
                 self.modules[0].do_check_orig(buildscript, *args)
             finally:
                 buildscript.execute_is_failure = False
-        check_error.next_state = self.modules[0].do_check.next_state
-        check_error.error_states = self.modules[0].do_check.error_states
+        check_error.depends = self.modules[0].do_check.depends
+        check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = check_error
 
