@@ -349,9 +349,12 @@ class Config:
         if self.makeclean and not 'clean' in self.build_targets:
             self.build_targets.insert(0, 'clean')
         if self.nobuild:
+            # nobuild actually means "checkout"
+            for phase in ('configure', 'build', 'check', 'clean', 'install'):
+                if phase in self.build_targets:
+                    self.build_targets.remove(phase)
             self.build_targets.remove('install')
-            if len(self.build_targets) == 0:
-                self.build_targets = ['checkout']
+            self.build_targets.append('checkout')
         if self.makedist and not 'dist' in self.build_targets:
             self.build_targets.append('dist')
         if self.makedistcheck and not 'distcheck' in self.build_targets:
