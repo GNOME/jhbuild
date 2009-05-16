@@ -120,18 +120,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.progressbar.set_text(_('Build Progess'))
         app_vbox.pack_start(self.progressbar, fill=False, expand=False)
 
-        buttonbox = gtk.HButtonBox()
-        buttonbox.set_layout(gtk.BUTTONBOX_END)
-        app_vbox.pack_start(buttonbox, fill=False, expand=False)
-
-        self.build_button = gtk.Button(_('Build'))
-        self.build_button.connect('clicked', self.on_build_cb)
-        buttonbox.add(self.build_button)
-
-        button = gtk.Button(stock=gtk.STOCK_HELP)
-        buttonbox.add(button)
-        buttonbox.set_child_secondary(button, True)
-
         if vte:
             expander = gtk.Expander(_('Terminal'))
             expander.set_expanded(False)
@@ -143,6 +131,18 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             self.terminal.connect('eof', self.on_vte_eof_cb)
             self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
             sclwin.add(self.terminal)
+
+        buttonbox = gtk.HButtonBox()
+        buttonbox.set_layout(gtk.BUTTONBOX_END)
+        app_vbox.pack_start(buttonbox, fill=False, expand=False)
+
+        self.build_button = gtk.Button(_('Build'))
+        self.build_button.connect('clicked', self.on_build_cb)
+        buttonbox.add(self.build_button)
+
+        button = gtk.Button(stock=gtk.STOCK_HELP)
+        buttonbox.add(button)
+        buttonbox.set_child_secondary(button, True)
 
         app_vbox.show_all()
         self.add(app_vbox)
