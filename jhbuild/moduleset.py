@@ -410,7 +410,7 @@ def warn_local_modulesets(config):
     if config.use_local_modulesets:
         return
 
-    moduleset_local_path = os.path.join(os.path.dirname(__file__), '..', 'modulesets')
+    moduleset_local_path = os.path.join(SRCDIR, 'modulesets')
     if not os.path.exists(moduleset_local_path):
         # moduleset-less checkout
         return
