@@ -50,7 +50,7 @@ except ImportError:
     buildbot = None
 
 class cmd_bot(Command):
-    doc = _('Control buildbot')
+    doc = N_('Control buildbot')
 
     name = 'bot'
     usage_args = N_('[ options ... ]')

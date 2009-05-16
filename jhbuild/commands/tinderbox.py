@@ -25,7 +25,7 @@ import jhbuild.frontends
 
 
 class cmd_tinderbox(Command):
-    doc = _('Build modules non-interactively and store build logs')
+    doc = N_('Build modules non-interactively and store build logs')
 
     name = 'tinderbox'
     usage_args = N_('[ options ... ] [ modules ... ]')

@@ -41,7 +41,7 @@ def parse_relative_time(s):
 
 
 class cmd_update(Command):
-    doc = _('Update all modules from version control')
+    doc = N_('Update all modules from version control')
 
     name = 'update'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -97,7 +97,7 @@ register_command(cmd_update)
 
 
 class cmd_updateone(Command):
-    doc = _('Update one or more modules from version control')
+    doc = N_('Update one or more modules from version control')
 
     name = 'updateone'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -133,7 +133,7 @@ register_command(cmd_updateone)
 
 
 class cmd_cleanone(Command):
-    doc = _('Clean one or more modules')
+    doc = N_('Clean one or more modules')
 
     name = 'cleanone'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -214,7 +214,7 @@ def check_bootstrap_updateness(config):
 
 
 class cmd_build(Command):
-    doc = _('Update and compile all modules (the default)')
+    doc = N_('Update and compile all modules (the default)')
 
     name = 'build'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -337,7 +337,7 @@ register_command(cmd_build)
 
 
 class cmd_buildone(Command):
-    doc = _('Update and compile one or more modules')
+    doc = N_('Update and compile one or more modules')
 
     name = 'buildone'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -420,7 +420,7 @@ register_command(cmd_buildone)
 
 
 class cmd_run(Command):
-    doc = _('Run a command under the JHBuild environment')
+    doc = N_('Run a command under the JHBuild environment')
 
     name = 'run'
     usage_args = N_('[ options ... ] program [ arguments ... ]')
@@ -473,7 +473,7 @@ register_command(cmd_run)
 
 
 class cmd_shell(Command):
-    doc = _('Start a shell under the JHBuild environment')
+    doc = N_('Start a shell under the JHBuild environment')
 
     name = 'shell'
     usage_args = ''
@@ -488,7 +488,7 @@ register_command(cmd_shell)
 
 
 class cmd_list(Command):
-    doc = _('List the modules that would be built')
+    doc = N_('List the modules that would be built')
 
     name = 'list'
     usage_args = N_('[ options ... ] [ modules ... ]')
@@ -555,7 +555,7 @@ register_command(cmd_list)
 
 
 class cmd_dot(Command):
-    doc = _('Output a Graphviz dependency graph for one or more modules')
+    doc = N_('Output a Graphviz dependency graph for one or more modules')
 
     name = 'dot'
     usage_args = N_('[ modules ... ]')

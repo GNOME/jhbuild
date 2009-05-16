@@ -34,7 +34,7 @@ from jhbuild.versioncontrol.tarball import TarballBranch
 
 
 class cmd_info(Command):
-    doc = _('Display information about one or more modules')
+    doc = N_('Display information about one or more modules')
 
     name = 'info'
     usage_args = N_('[ modules ... ]')

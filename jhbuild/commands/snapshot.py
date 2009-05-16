@@ -31,7 +31,7 @@ from jhbuild.utils.sxml import sxml, sxml_to_string
 
 
 class cmd_snapshot(Command):
-    doc = _('Print out a moduleset for the exact versions that are checked out')
+    doc = N_('Print out a moduleset for the exact versions that are checked out')
     name = 'snapshot'
     
     def __init__(self):

@@ -46,7 +46,7 @@ class Command:
     def parse_args(self, args):
         self.parser = optparse.OptionParser(
             usage='%%prog %s %s' % (self.name, _(self.usage_args)),
-            description=self.doc)
+            description=_(self.doc))
         self.parser.add_options(self.options)
         return self.parser.parse_args(args)
 
