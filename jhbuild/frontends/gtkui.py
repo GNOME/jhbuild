@@ -228,7 +228,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         pass
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
-        return_code = -1
+        if not command:
+            raise CommandError(_('No command given'))
 
         if vte is None:
             # no vte widget, will just print to the parent terminal
@@ -298,7 +299,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
             rc = p.wait()
             self.child_pid = None
-            return rc
         else:
             # use the vte widget
             if isinstance(command, (str, unicode)):
@@ -318,7 +318,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             while self.vte_fork_running:
                 gtk.main_iteration()
             self.child_pid = None
-            return self.vte_child_exit_status
+            rc = self.vte_child_exit_status
+
+        if rc:
+            raise CommandError(_('Command returned: %s' % rc))
 
     def on_vte_eof_cb(self, terminal):
         self.vte_fork_running = False
