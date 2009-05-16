@@ -45,10 +45,12 @@ from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
 
 
-class AppWindow(gtk.Window):
+
+class AppWindow(gtk.Window, buildscript.BuildScript):
     default_module_iter = None
 
     def __init__(self, config):
+        buildscript.BuildScript.__init__(self, config)
         self.config = config
         gtk.Window.__init__(self)
         self.set_title('JHBuild')
@@ -66,18 +68,18 @@ class AppWindow(gtk.Window):
 
     def create_modules_list_model(self):
         # name, separator
-        self.modules_list = gtk.ListStore(str, bool)
+        self.modules_list_model = gtk.ListStore(str, bool)
         full_module_list = self.module_set.get_full_module_list()
         for module in full_module_list:
             if isinstance(module, MetaModule):
                 if module.name.endswith('-deprecations'):
                     # skip the deprecation meta modules, nobody want them
                     continue
-                iter = self.modules_list.append((module.name, False))
+                iter = self.modules_list_model.append((module.name, False))
                 if module.name == self.config.modules[0]:
                     self.default_module_iter = iter
-        self.modules_list.append(('', True))
-        self.modules_list.append((_('Others...'), False))
+        self.modules_list_model.append(('', True))
+        self.modules_list_model.append((_('Others...'), False))
 
     def on_delete_event(self, *args):
         gtk.main_quit()
@@ -86,31 +88,32 @@ class AppWindow(gtk.Window):
         self.set_border_width(5)
         app_vbox = gtk.VBox(spacing=5)
 
-        module_hbox = gtk.HBox(spacing=5)
-        app_vbox.pack_start(module_hbox, fill=False, expand=False)
+        self.module_hbox = gtk.HBox(spacing=5)
+        app_vbox.pack_start(self.module_hbox, fill=False, expand=False)
 
         label = gtk.Label()
         label.set_markup('<b>%s</b>' % _('Choose Module:'))
-        module_hbox.pack_start(label)
+        self.module_hbox.pack_start(label)
 
-        self.module_combo = gtk.ComboBox(self.modules_list)
+        self.module_combo = gtk.ComboBox(self.modules_list_model)
         cell = gtk.CellRendererText()
         self.module_combo.pack_start(cell, True)
         self.module_combo.add_attribute(cell, 'text', 0)
 
         self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
-        module_hbox.pack_start(self.module_combo, fill=True)
+        self.module_hbox.pack_start(self.module_combo, fill=True)
 
-        progressbar = gtk.ProgressBar()
-        progressbar.set_text(_('Build Progess'))
-        app_vbox.pack_start(progressbar)
+        self.progressbar = gtk.ProgressBar()
+        self.progressbar.set_text(_('Build Progess'))
+        app_vbox.pack_start(self.progressbar)
 
         buttonbox = gtk.HButtonBox()
         buttonbox.set_layout(gtk.BUTTONBOX_END)
         app_vbox.pack_start(buttonbox)
 
-        button = gtk.Button(_('Build'))
-        buttonbox.add(button)
+        self.build_button = gtk.Button(_('Build'))
+        self.build_button.connect('clicked', self.on_build_cb)
+        buttonbox.add(self.build_button)
 
         button = gtk.Button(stock=gtk.STOCK_HELP)
         buttonbox.add(button)
@@ -120,11 +123,107 @@ class AppWindow(gtk.Window):
         self.add(app_vbox)
 
 
-    def on_build_all_cb(self, *args):
+    def on_build_cb(self, *args):
+        modules = [self.modules_list_model.get(
+                self.module_combo.get_active_iter(), 0)[0]]
+
+        self.modulelist = self.module_set.get_module_list(modules,
+                self.config.skip, tags = self.config.tags,
+                ignore_suggests=self.config.ignore_suggests)
+        self.build()
+
+    def is_build_paused(self):
+        return False
+
+    def start_build(self):
+        self.build_button.set_sensitive(False)
+        self.module_hbox.set_sensitive(False)
+
+    def end_build(self):
+        self.build_button.set_sensitive(True)
+        self.module_hbox.set_sensitive(True)
+
+    def start_module(self, module):
+        idx = [x.name for x in self.modulelist].index(module)
+        self.progressbar.set_fraction((1.0+idx) / len(self.modulelist))
+
+    def set_action(self, action, module, module_num=-1, action_target=None):
+        self.progressbar.set_text('%s %s' % (action, action_target or module.name))
+
+    def message(self, msg, module_num=-1):
         pass
 
-    def on_build_one_cb(self, *args):
-        pass
+    def execute(self, command, hint=None, cwd=None, extra_env=None):
+        return_code = -1
+
+        print 'executing:', command
+
+        kws = {
+            'close_fds': True,
+            'shell': isinstance(command, (str,unicode)),
+            'stdin': subprocess.PIPE,
+            'stdout': subprocess.PIPE,
+            'stderr': subprocess.PIPE,
+            }
+
+        if cwd is not None:
+            kws['cwd'] = cwd
+
+        if extra_env is not None:
+            kws['env'] = os.environ.copy()
+            kws['env'].update(extra_env)
+
+        try:
+            p = subprocess.Popen(command, **kws)
+        except OSError, e:
+            raise CommandError(str(e))
+
+        p.stdin.close()
+
+        def make_non_blocking(fd):
+            fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+            fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
+
+        make_non_blocking(p.stdout)
+        make_non_blocking(p.stderr)
+
+        build_paused = False
+        read_set = [p.stdout, p.stderr]
+
+        while read_set:
+            # Allow the frontend to get a little time
+            while gtk.events_pending():
+                gtk.main_iteration()
+
+            rlist, wlist, xlist = select.select(read_set, [], [], 0)
+
+            if p.stdout in rlist:
+                chunk = p.stdout.read()
+                if chunk == '':
+                    p.stdout.close()
+                    read_set.remove(p.stdout)
+                # TODO: add chunk to a terminal widget
+                sys.stdout.write(chunk)
+
+            if p.stderr in rlist:
+                chunk = p.stderr.read()
+                if chunk == '':
+                    p.stderr.close()
+                    read_set.remove(p.stderr)
+                # TODO: add chunk to a terminal widget
+                sys.stderr.write(chunk)
+
+            # See if we should pause the current command
+            if not build_paused and self.is_build_paused():
+                os.kill(p.pid, signal.SIGSTOP)
+                build_paused = True
+            elif build_paused and not self.is_build_paused():
+                os.kill(p.pid, signal.SIGCONT)
+                build_paused = False
+
+            time.sleep(0.05)
+
+        return p.wait()
 
 
 
@@ -389,70 +488,6 @@ class GtkBuildScript(buildscript.BuildScript):
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
         
-
-    def execute(self, command, hint=None, cwd=None, extra_env=None):
-        return_code = -1
-
-        kws = {
-            'close_fds': True,
-            'shell': isinstance(command, (str,unicode)),
-            'stdin': subprocess.PIPE,
-            'stdout': subprocess.PIPE,
-            'stderr': subprocess.PIPE,
-            }
-
-        if cwd is not None:
-            kws['cwd'] = cwd
-
-        if extra_env is not None:
-            kws['env'] = os.environ.copy()
-            kws['env'].update(extra_env)
-
-        try:
-            p = subprocess.Popen(command, **kws)
-        except OSError, e:
-            raise CommandError(str(e))
-
-        p.stdin.close()
-        self._makeNonBlocking(p.stdout)
-        self._makeNonBlocking(p.stderr)
-
-        build_paused = False
-        read_set = [p.stdout, p.stderr]
-
-        while read_set:
-            # Allow the frontend to get a little time
-            self._runEventLoop()
-
-            rlist, wlist, xlist = select.select(read_set, [], [], 0)
-
-            if p.stdout in rlist:
-                chunk = p.stdout.read()
-                if chunk == '':
-                    p.stdout.close()
-                    read_set.remove(p.stdout)
-                self._printToBuildOutput(chunk)
-
-            if p.stderr in rlist:
-                chunk = p.stderr.read()
-                if chunk == '':
-                    p.stderr.close()
-                    read_set.remove(p.stderr)
-                self._printToWarningOutput(chunk)
-
-            # See if we should pause the current command
-            if not build_paused and self._pauseBuild():
-                print ("Pausing this guy, sending os.kill to %d", p.pid)
-                os.kill(p.pid, signal.SIGSTOP)
-                build_paused = True
-            elif build_paused and not self._pauseBuild():
-                print ("Continuing him")
-                os.kill(p.pid, signal.SIGCONT)
-                build_paused = False
-
-            time.sleep(0.05)
-
-        return p.wait()
 
     def start_build(self):
         self.window.show_all()
