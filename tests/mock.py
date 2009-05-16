@@ -48,10 +48,29 @@ class Config:
     module_extra_env = {}
     makeargs = ''
     module_makeargs = {}
+    build_targets = ['install']
 
     min_time = None
 
     prefix = '/tmp/'
+
+    def __setattr__(self, k, v):
+        self.__dict__[k] = v
+        if k in ('makeclean', 'makecheck', 'nobuild', 'makedist', 'makedistcheck'):
+            self.build_targets = ['install']
+            if self.makeclean and not 'clean' in self.build_targets:
+                self.build_targets.insert(0, 'clean')
+            if self.makecheck and not 'check' in self.build_targets:
+                self.build_targets.insert(0, 'check')
+            if self.nobuild:
+                self.build_targets.remove('install')
+                if len(self.build_targets) == 0:
+                    self.build_targets = ['checkout']
+            if self.makedist and not 'dist' in self.build_targets:
+                self.build_targets.append('dist')
+            if self.makedistcheck and not 'distcheck' in self.build_targets:
+                self.build_targets.append('distcheck')
+
 
 class PackageDB:
     time_delta = 0
