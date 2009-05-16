@@ -47,6 +47,7 @@ import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
 
+from terminal import t_bold, t_reset
 
 
 class AppWindow(gtk.Window, buildscript.BuildScript):
@@ -209,6 +210,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     def start_module(self, module):
         idx = [x.name for x in self.modulelist].index(module)
         self.progressbar.set_fraction((1.0+idx) / len(self.modulelist))
+        if vte:
+            self.terminal.feed('%s*** %s ***%s\n\r' % (t_bold, module, t_reset))
 
     def set_action(self, action, module, module_num=-1, action_target=None):
         self.progressbar.set_text('%s %s' % (action, action_target or module.name))
