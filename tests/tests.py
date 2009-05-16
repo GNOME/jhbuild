@@ -219,6 +219,7 @@ class AutotoolsModTypeTestCase(BuildTestCase):
     def setUp(self):
         BuildTestCase.setUp(self)
         self.modules = [AutogenModule('foo', self.branch)]
+        self.modules[0].config = self.config
 
     def test_build(self):
         '''Building a autotools module'''
@@ -330,6 +331,7 @@ class BuildPolicyTestCase(BuildTestCase):
     def setUp(self):
         BuildTestCase.setUp(self)
         self.modules = [AutogenModule('foo', self.branch)]
+        self.modules[0].config = self.config
 
     def test_policy_all(self):
         '''Building an uptodate module with build policy set to "all"'''
@@ -385,6 +387,8 @@ class TwoModulesTestCase(BuildTestCase):
         self.foo_branch = mock.Branch()
         self.modules = [AutogenModule('foo', self.foo_branch),
                         AutogenModule('bar', self.branch)]
+        self.modules[0].config = self.config
+        self.modules[1].config = self.config
 
     def test_build(self):
         '''Building two autotools module'''
@@ -571,6 +575,7 @@ def with_stdout_hidden(func):
 class EndToEndTest(unittest.TestCase):
 
     def setUp(self):
+        self.config = mock.Config()
         self._old_env = os.environ.copy()
         self._temp_dirs = []
 
@@ -607,6 +612,7 @@ class EndToEndTest(unittest.TestCase):
         config = self.make_config()
         module_list = [DistutilsModule('hello',
                                        self.make_branch(config, 'distutils'))]
+        module_list[0].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)
@@ -619,6 +625,7 @@ class EndToEndTest(unittest.TestCase):
         config = self.make_config()
         module_list = [AutogenModule('hello',
                                      self.make_branch(config, 'autotools'))]
+        module_list[0].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)
@@ -632,6 +639,8 @@ class EndToEndTest(unittest.TestCase):
         module_list = [
             AutogenModule('libhello', self.make_branch(config, 'libhello')),
             AutogenModule('hello', self.make_branch(config, 'hello'))]
+        module_list[0].config = self.config
+        module_list[1].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)
