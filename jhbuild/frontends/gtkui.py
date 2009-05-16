@@ -96,6 +96,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def on_delete_event(self, *args):
         gtk.main_quit()
+        sys.exit(0)
 
     def create_ui(self):
         self.set_border_width(5)
