@@ -198,20 +198,7 @@ class BuildTestCase(unittest.TestCase):
         self.config.build_targets = ['install', 'test']
         for k in kwargs:
             setattr(self.config, k, kwargs[k])
-
-        if self.config.makecheck and not 'check' in self.config.build_targets:
-            self.config.build_targets.insert(0, 'check')
-        if self.config.makeclean and not 'clean' in self.config.build_targets:
-            self.config.build_targets.insert(0, 'clean')
-        if self.config.nobuild:
-            for phase in ('configure', 'build', 'check', 'clean', 'install'):
-                if phase in self.config.build_targets:
-                    self.config.build_targets.remove(phase)
-            self.config.build_targets.append('checkout')
-        if self.config.makedist and not 'dist' in self.config.build_targets:
-            self.config.build_targets.append('dist')
-        if self.config.makedistcheck and not 'distcheck' in self.config.build_targets:
-            self.config.build_targets.append('distcheck')
+        self.config.update_build_targets()
 
         if not self.buildscript or packagedb_params:
             self.buildscript = mock.BuildScript(self.config, self.modules)

@@ -343,6 +343,9 @@ class Config:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
+        self.update_build_targets()
+
+    def update_build_targets(self):
         # update build targets according to old flags
         if self.makecheck and not 'check' in self.build_targets:
             self.build_targets.insert(0, 'check')
@@ -353,7 +356,6 @@ class Config:
             for phase in ('configure', 'build', 'check', 'clean', 'install'):
                 if phase in self.build_targets:
                     self.build_targets.remove(phase)
-            self.build_targets.remove('install')
             self.build_targets.append('checkout')
         if self.makedist and not 'dist' in self.build_targets:
             self.build_targets.append('dist')

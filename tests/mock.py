@@ -23,8 +23,9 @@ import time
 import jhbuild.frontends.buildscript
 import jhbuild.versioncontrol
 import jhbuild.errors
+import jhbuild.config
 
-class Config:
+class Config(jhbuild.config.Config):
     buildroot = '/tmp/'
     builddir_pattern = '%s'
     use_lib64 = False
@@ -53,6 +54,9 @@ class Config:
     min_time = None
 
     prefix = '/tmp/'
+
+    def __init__(self):
+        pass
 
 
 class PackageDB:
