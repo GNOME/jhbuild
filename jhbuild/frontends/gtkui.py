@@ -184,6 +184,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.module_hbox.set_sensitive(False)
 
     def end_build(self, failures):
+        self.progressbar.set_text(_('Build Completed'))
         self.build_button.set_sensitive(True)
         self.module_hbox.set_sensitive(True)
 
