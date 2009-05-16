@@ -54,6 +54,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buildscript.BuildScript.__init__(self, config)
         self.config = config
         gtk.Window.__init__(self)
+        self.set_resizable(False) # necessary for the expander to behave properly
         theme = gtk.icon_theme_get_default()
         gtk.window_set_default_icon_list(
                 theme.load_icon('applications-development', 16, ()),
@@ -115,11 +116,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
         self.progressbar = gtk.ProgressBar()
         self.progressbar.set_text(_('Build Progess'))
-        app_vbox.pack_start(self.progressbar)
+        app_vbox.pack_start(self.progressbar, fill=False, expand=False)
 
         buttonbox = gtk.HButtonBox()
         buttonbox.set_layout(gtk.BUTTONBOX_END)
-        app_vbox.pack_start(buttonbox)
+        app_vbox.pack_start(buttonbox, fill=False, expand=False)
 
         self.build_button = gtk.Button(_('Build'))
         self.build_button.connect('clicked', self.on_build_cb)
@@ -128,6 +129,12 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         button = gtk.Button(stock=gtk.STOCK_HELP)
         buttonbox.add(button)
         buttonbox.set_child_secondary(button, True)
+
+        expander = gtk.Expander(_('Terminal'))
+        expander.set_expanded(False)
+        app_vbox.pack_start(expander, fill=False, expand=False)
+        self.terminal = vte.Terminal()
+        expander.add(self.terminal)
 
         app_vbox.show_all()
         self.add(app_vbox)
