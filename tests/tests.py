@@ -195,7 +195,7 @@ class BuildTestCase(unittest.TestCase):
         self.buildscript = None
 
     def build(self, packagedb_params = {}, **kwargs):
-        self.config.build_targets = ['install']
+        self.config.build_targets = ['install', 'test']
         for k in kwargs:
             setattr(self.config, k, kwargs[k])
 
