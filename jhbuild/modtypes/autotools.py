@@ -207,6 +207,7 @@ class AutogenModule(Package):
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
+    do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
