@@ -44,7 +44,7 @@ class cmd_update(Command):
     doc = _('Update all modules from version control')
 
     name = 'update'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -100,7 +100,7 @@ class cmd_updateone(Command):
     doc = _('Update one or more modules from version control')
 
     name = 'updateone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -136,7 +136,7 @@ class cmd_cleanone(Command):
     doc = _('Clean one or more modules')
 
     name = 'cleanone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -217,7 +217,7 @@ class cmd_build(Command):
     doc = _('Update and compile all modules (the default)')
 
     name = 'build'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -340,7 +340,7 @@ class cmd_buildone(Command):
     doc = _('Update and compile one or more modules')
 
     name = 'buildone'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -423,7 +423,7 @@ class cmd_run(Command):
     doc = _('Run a command under the JHBuild environment')
 
     name = 'run'
-    usage_args = _('[ options ... ] program [ arguments ... ]')
+    usage_args = N_('[ options ... ] program [ arguments ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -491,7 +491,7 @@ class cmd_list(Command):
     doc = _('List the modules that would be built')
 
     name = 'list'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -558,7 +558,7 @@ class cmd_dot(Command):
     doc = _('Output a Graphviz dependency graph for one or more modules')
 
     name = 'dot'
-    usage_args = _('[ modules ... ]')
+    usage_args = N_('[ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [

@@ -53,7 +53,7 @@ class cmd_bot(Command):
     doc = _('Control buildbot')
 
     name = 'bot'
-    usage_args = '[ options ... ]'
+    usage_args = N_('[ options ... ]')
 
     def __init__(self):
         Command.__init__(self, [

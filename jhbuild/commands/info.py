@@ -37,7 +37,7 @@ class cmd_info(Command):
     doc = _('Display information about one or more modules')
 
     name = 'info'
-    usage_args = _('[ modules ... ]')
+    usage_args = N_('[ modules ... ]')
 
 
     def run(self, config, options, args):
