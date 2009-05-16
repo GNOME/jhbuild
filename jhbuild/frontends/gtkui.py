@@ -57,6 +57,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buildscript.BuildScript.__init__(self, config)
         self.config = config
         gtk.Window.__init__(self)
+        self.set_resizable(False)
         theme = gtk.icon_theme_get_default()
         gtk.window_set_default_icon_list(
                 theme.load_icon('applications-development', 16, ()),
@@ -105,7 +106,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
         label = gtk.Label()
         label.set_markup('<b>%s</b>' % _('Choose Module:'))
-        self.module_hbox.pack_start(label)
+        self.module_hbox.pack_start(label, fill=False, expand=False)
 
         self.module_combo = gtk.ComboBox(self.modules_list_model)
         cell = gtk.CellRendererText()
@@ -123,8 +124,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         if vte:
             expander = gtk.Expander(_('Terminal'))
             expander.set_expanded(False)
-            app_vbox.pack_start(expander, fill=True, expand=True)
+            app_vbox.pack_start(expander, fill=False, expand=False)
             sclwin = gtk.ScrolledWindow()
+            sclwin.set_size_request(-1, 300)
             sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
             expander.add(sclwin)
             self.terminal = vte.Terminal()
