@@ -204,9 +204,10 @@ class BuildTestCase(unittest.TestCase):
         if self.config.makeclean and not 'clean' in self.config.build_targets:
             self.config.build_targets.insert(0, 'clean')
         if self.config.nobuild:
-            self.config.build_targets.remove('install')
-            if len(self.config.build_targets) == 0:
-                self.config.build_targets = ['checkout']
+            for phase in ('configure', 'build', 'check', 'clean', 'install'):
+                if phase in self.config.build_targets:
+                    self.config.build_targets.remove(phase)
+            self.config.build_targets.append('checkout')
         if self.config.makedist and not 'dist' in self.config.build_targets:
             self.config.build_targets.append('dist')
         if self.config.makedistcheck and not 'distcheck' in self.config.build_targets:
