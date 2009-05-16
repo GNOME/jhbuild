@@ -23,8 +23,6 @@ import traceback
 import logging
 
 import gettext
-localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
-gettext.install('jhbuild', localedir=localedir, unicode=True)
 import __builtin__
 __builtin__.__dict__['N_'] = lambda x: x
 
@@ -100,6 +98,11 @@ def help_commands(option, opt_str, value, parser):
     parser.exit()
 
 def main(args):
+    localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
+    if not os.path.exists(localedir):
+        localedir = None
+    gettext.install('jhbuild', localedir=localedir, unicode=True)
+
     logging.getLogger().setLevel(logging.INFO)
     logging_handler = logging.StreamHandler()
     logging_handler.setFormatter(LoggingFormatter())
