@@ -195,8 +195,22 @@ class BuildTestCase(unittest.TestCase):
         self.buildscript = None
 
     def build(self, packagedb_params = {}, **kwargs):
+        self.config.build_targets = ['install']
         for k in kwargs:
             setattr(self.config, k, kwargs[k])
+
+        if self.config.makecheck and not 'check' in self.config.build_targets:
+            self.config.build_targets.insert(0, 'check')
+        if self.config.makeclean and not 'clean' in self.config.build_targets:
+            self.config.build_targets.insert(0, 'clean')
+        if self.config.nobuild:
+            self.config.build_targets.remove('install')
+            if len(self.config.build_targets) == 0:
+                self.config.build_targets = ['checkout']
+        if self.config.makedist and not 'dist' in self.config.build_targets:
+            self.config.build_targets.append('dist')
+        if self.config.makedistcheck and not 'distcheck' in self.config.build_targets:
+            self.config.build_targets.append('distcheck')
 
         if not self.buildscript or packagedb_params:
             self.buildscript = mock.BuildScript(self.config, self.modules)
@@ -220,6 +234,8 @@ class AutotoolsModTypeTestCase(BuildTestCase):
         BuildTestCase.setUp(self)
         self.modules = [AutogenModule('foo', self.branch)]
         self.modules[0].config = self.config
+        # replace clean method as it checks for Makefile existence
+        self.modules[0].skip_clean = lambda x,y: False
 
     def test_build(self):
         '''Building a autotools module'''
