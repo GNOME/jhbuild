@@ -83,12 +83,14 @@ class AppWindow(gtk.Window):
         gtk.main_quit()
 
     def create_ui(self):
-        app_vbox = gtk.VBox()
+        self.set_border_width(5)
+        app_vbox = gtk.VBox(spacing=5)
 
-        module_hbox = gtk.HBox()
+        module_hbox = gtk.HBox(spacing=5)
         app_vbox.pack_start(module_hbox, fill=False, expand=False)
 
-        label = gtk.Label(_('Module'))
+        label = gtk.Label()
+        label.set_markup('<b>%s</b>' % _('Choose Module:'))
         module_hbox.pack_start(label)
 
         self.module_combo = gtk.ComboBox(self.modules_list)
@@ -99,8 +101,20 @@ class AppWindow(gtk.Window):
         self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
         module_hbox.pack_start(self.module_combo, fill=True)
 
+        progressbar = gtk.ProgressBar()
+        progressbar.set_text(_('Build Progess'))
+        app_vbox.pack_start(progressbar)
+
+        buttonbox = gtk.HButtonBox()
+        buttonbox.set_layout(gtk.BUTTONBOX_END)
+        app_vbox.pack_start(buttonbox)
+
         button = gtk.Button(_('Build'))
-        module_hbox.pack_start(button)
+        buttonbox.add(button)
+
+        button = gtk.Button(stock=gtk.STOCK_HELP)
+        buttonbox.add(button)
+        buttonbox.set_child_secondary(button, True)
 
         app_vbox.show_all()
         self.add(app_vbox)
