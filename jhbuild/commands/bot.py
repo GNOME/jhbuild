@@ -672,9 +672,7 @@ class cmd_bot(Command):
         if buildbot_dir:
             basedir = buildbot_dir
         else:
-            basedir = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)),
-                    '../../buildbot/')
+            basedir = os.path.join(SRCDIR, 'buildbot')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
