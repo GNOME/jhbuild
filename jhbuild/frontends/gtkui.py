@@ -32,7 +32,10 @@ import subprocess
 import gobject
 import gtk
 import gtk.glade
-import vte
+try:
+    import vte
+except ImportError:
+    vte = None
 
 #FIXME: would be nice if we ran w/o GConf, do a try...except block around
 #       the import and then set have_gconf to false
@@ -54,7 +57,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buildscript.BuildScript.__init__(self, config)
         self.config = config
         gtk.Window.__init__(self)
-        self.set_resizable(False) # necessary for the expander to behave properly
         theme = gtk.icon_theme_get_default()
         gtk.window_set_default_icon_list(
                 theme.load_icon('applications-development', 16, ()),
@@ -130,11 +132,17 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buttonbox.add(button)
         buttonbox.set_child_secondary(button, True)
 
-        expander = gtk.Expander(_('Terminal'))
-        expander.set_expanded(False)
-        app_vbox.pack_start(expander, fill=False, expand=False)
-        self.terminal = vte.Terminal()
-        expander.add(self.terminal)
+        if vte:
+            expander = gtk.Expander(_('Terminal'))
+            expander.set_expanded(False)
+            app_vbox.pack_start(expander, fill=True, expand=True)
+            sclwin = gtk.ScrolledWindow()
+            sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+            expander.add(sclwin)
+            self.terminal = vte.Terminal()
+            self.terminal.connect('eof', self.on_vte_eof_cb)
+            self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
+            sclwin.add(self.terminal)
 
         app_vbox.show_all()
         self.add(app_vbox)
@@ -208,74 +216,99 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         return_code = -1
 
-        print 'executing:', command
+        if vte is None:
+            # no vte widget, will just print to the parent terminal
+            kws = {
+                'close_fds': True,
+                'shell': isinstance(command, (str,unicode)),
+                'stdin': subprocess.PIPE,
+                'stdout': subprocess.PIPE,
+                'stderr': subprocess.PIPE,
+                }
 
-        kws = {
-            'close_fds': True,
-            'shell': isinstance(command, (str,unicode)),
-            'stdin': subprocess.PIPE,
-            'stdout': subprocess.PIPE,
-            'stderr': subprocess.PIPE,
-            }
+            if cwd is not None:
+                kws['cwd'] = cwd
 
-        if cwd is not None:
-            kws['cwd'] = cwd
+            if extra_env is not None:
+                kws['env'] = os.environ.copy()
+                kws['env'].update(extra_env)
 
-        if extra_env is not None:
-            kws['env'] = os.environ.copy()
-            kws['env'].update(extra_env)
+            try:
+                p = subprocess.Popen(command, **kws)
+            except OSError, e:
+                raise CommandError(str(e))
 
-        try:
-            p = subprocess.Popen(command, **kws)
-        except OSError, e:
-            raise CommandError(str(e))
+            p.stdin.close()
 
-        p.stdin.close()
+            def make_non_blocking(fd):
+                fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+                fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
 
-        def make_non_blocking(fd):
-            fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-            fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NDELAY)
+            make_non_blocking(p.stdout)
+            make_non_blocking(p.stderr)
 
-        make_non_blocking(p.stdout)
-        make_non_blocking(p.stderr)
+            build_paused = False
+            read_set = [p.stdout, p.stderr]
 
-        build_paused = False
-        read_set = [p.stdout, p.stderr]
+            while read_set:
+                # Allow the frontend to get a little time
+                while gtk.events_pending():
+                    gtk.main_iteration()
 
-        while read_set:
-            # Allow the frontend to get a little time
-            while gtk.events_pending():
+                rlist, wlist, xlist = select.select(read_set, [], [], 0)
+
+                if p.stdout in rlist:
+                    chunk = p.stdout.read()
+                    if chunk == '':
+                        p.stdout.close()
+                        read_set.remove(p.stdout)
+                    sys.stdout.write(chunk)
+
+                if p.stderr in rlist:
+                    chunk = p.stderr.read()
+                    if chunk == '':
+                        p.stderr.close()
+                        read_set.remove(p.stderr)
+                    sys.stderr.write(chunk)
+
+                # See if we should pause the current command
+                if not build_paused and self.is_build_paused():
+                    os.kill(p.pid, signal.SIGSTOP)
+                    build_paused = True
+                elif build_paused and not self.is_build_paused():
+                    os.kill(p.pid, signal.SIGCONT)
+                    build_paused = False
+
+                time.sleep(0.05)
+
+            return p.wait()
+        else:
+            # use the vte widget
+            if isinstance(command, (str, unicode)):
+                self.terminal.feed(' $ ' + command + '\n\r')
+                command = [os.environ.get('SHELL', '/bin/sh'), '-c', command]
+            else:
+                self.terminal.feed(' $ ' + ' '.join(command) + '\n\r')
+
+            env = {}
+            if extra_env is not None:
+                env = os.environ.copy()
+                env.update(extra_env)
+
+            self.vte_fork_running = True
+            pid = self.terminal.fork_command(command=command[0], argv=command,
+                    envv=env.items(), directory=cwd)
+            while self.vte_fork_running:
                 gtk.main_iteration()
+            return self.vte_child_exit_status
 
-            rlist, wlist, xlist = select.select(read_set, [], [], 0)
+    def on_vte_eof_cb(self, terminal):
+        self.vte_fork_running = False
+        self.vte_child_exit_status = -1
 
-            if p.stdout in rlist:
-                chunk = p.stdout.read()
-                if chunk == '':
-                    p.stdout.close()
-                    read_set.remove(p.stdout)
-                # TODO: add chunk to a terminal widget
-                sys.stdout.write(chunk)
-
-            if p.stderr in rlist:
-                chunk = p.stderr.read()
-                if chunk == '':
-                    p.stderr.close()
-                    read_set.remove(p.stderr)
-                # TODO: add chunk to a terminal widget
-                sys.stderr.write(chunk)
-
-            # See if we should pause the current command
-            if not build_paused and self.is_build_paused():
-                os.kill(p.pid, signal.SIGSTOP)
-                build_paused = True
-            elif build_paused and not self.is_build_paused():
-                os.kill(p.pid, signal.SIGCONT)
-                build_paused = False
-
-            time.sleep(0.05)
-
-        return p.wait()
+    def on_vte_child_exit_cb(self, terminal):
+        self.vte_fork_running = False
+        self.vte_child_exit_status = self.terminal.get_child_exit_status()
 
 
 class SelectModuleDialog(gtk.Dialog):
