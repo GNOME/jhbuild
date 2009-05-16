@@ -101,6 +101,7 @@ class WafModule(Package):
         buildscript.set_action(_('Cleaning'), self)
         cmd = [self.waf_cmd, 'clean']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+    do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
