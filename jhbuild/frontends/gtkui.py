@@ -53,6 +53,7 @@ from terminal import t_bold, t_reset
 class AppWindow(gtk.Window, buildscript.BuildScript):
     default_module_iter = None
     active_iter = None
+    child_pid = None
 
     def __init__(self, config):
         buildscript.BuildScript.__init__(self, config)
@@ -97,6 +98,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def on_delete_event(self, *args):
         gtk.main_quit()
+        if self.child_pid:
+            os.kill(self.child_pid, signal.SIGKILL)
         sys.exit(0)
 
     def create_ui(self):
@@ -243,6 +246,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 p = subprocess.Popen(command, **kws)
             except OSError, e:
                 raise CommandError(str(e))
+            self.child_pid = p.pid
 
             p.stdin.close()
 
@@ -287,7 +291,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
                 time.sleep(0.05)
 
-            return p.wait()
+            rc = p.wait()
+            self.child_pid = None
+            return rc
         else:
             # use the vte widget
             if isinstance(command, (str, unicode)):
@@ -302,10 +308,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 env.update(extra_env)
 
             self.vte_fork_running = True
-            pid = self.terminal.fork_command(command=command[0], argv=command,
+            self.child_pid = self.terminal.fork_command(command=command[0], argv=command,
                     envv=env.items(), directory=cwd)
             while self.vte_fork_running:
                 gtk.main_iteration()
+            self.child_pid = None
             return self.vte_child_exit_status
 
     def on_vte_eof_cb(self, terminal):
