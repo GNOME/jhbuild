@@ -344,10 +344,10 @@ class Config:
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
         # update build targets according to old flags
-        if self.makeclean and not 'clean' in self.build_targets:
-            self.build_targets.insert(0, 'clean')
         if self.makecheck and not 'check' in self.build_targets:
             self.build_targets.insert(0, 'check')
+        if self.makeclean and not 'clean' in self.build_targets:
+            self.build_targets.insert(0, 'clean')
         if self.nobuild:
             self.build_targets.remove('install')
             if len(self.build_targets) == 0:
