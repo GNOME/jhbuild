@@ -24,7 +24,7 @@ from jhbuild.commands.base import Command, register_command
 import jhbuild.frontends
 
 class cmd_autobuild(Command):
-    doc = _('Build modules non-interactively and upload results to JhAutobuild')
+    doc = N_('Build modules non-interactively and upload results to JhAutobuild')
 
     name = 'autobuild'
 

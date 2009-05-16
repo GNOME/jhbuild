@@ -46,7 +46,7 @@ def inpath(filename, path):
 
 
 class cmd_sanitycheck(Command):
-    doc = _('Check that required support tools are available')
+    doc = N_('Check that required support tools are available')
 
     name = 'sanitycheck'
     usage_args = ''

@@ -1,0 +1,203 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
+  <repository type="git" name="git.kernel.org"
+      href="git://git.kernel.org/pub/scm/"/>
+
+  <repository type="cvs" name="cairo.freedesktop.org"
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
+      password=""/>
+  <repository type="cvs" name="gnokii.nongnu.org"
+      cvsroot=":pserver:anonymous@cvs.sv.nongnu.org:/sources/gnokii"
+      password=""/>
+
+  <repository type="bzr" name="bzr.burtonini.com"
+      href="http://burtonini.com/bzr/"/>
+
+  <repository type="svn" name="svn.berlios.de"
+      href="http://svn.berlios.de/svnroot/repos/"/>
+  <repository type="svn" name="svn.o-hand.com"
+      href="http://svn.o-hand.com/repos/"/>
+  <repository type="svn" name="svn.gna.org"
+      href="svn://svn.gna.org/svn/"/>
+
+  <repository type="hg" name="hg.gtk-vnc"
+    href="http://gtk-vnc.codemonkey.ws/hg/" />
+
+  <autotools id="goocanvas">
+    <branch repo="cairo.freedesktop.org"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pygoocanvas">
+    <branch repo="svn.berlios.de"/>
+    <dependencies>
+      <dep package="goocanvas"/>
+      <dep package="pygtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-vnc">
+    <branch repo="hg.gtk-vnc" module="outgoing.hg" checkoutdir="gtk-vnc"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gst">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gst"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-cairo">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-cairo"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtk">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gtk"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pyclutter">
+    <branch repo="svn.o-hand.com" module="clutter/trunk/pyclutter"/>
+    <dependencies>
+      <dep package="pycairo"/>
+      <dep package="pygtk"/>
+      <dep package="gst-python"/>
+      <dep package="clutter"/>
+      <dep package="clutter-gst"/>
+      <dep package="clutter-cairo"/>
+      <dep package="clutter-gtk"/>
+    </dependencies>
+  </autotools>
+
+  <distutils id="postr" autogen-sh="autoreconf">
+    <branch repo="bzr.burtonini.com" module="postr/postr.dev" checkoutdir="postr.dev"/>
+   <dependencies>
+     <dep package="pygtk"/>
+     <dep package="nautilus-python"/>
+     <dep package="gnome-python"/>
+   </dependencies>
+  </distutils>
+
+  <autotools id="gnokii">
+    <branch repo="gnokii.nongnu.org" module="gnokii"/>
+    <suggests>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="vala" autogenargs="--enable-vapigen">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="vala-tests">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="niepce" autogenargs="">
+    <branch repo="svn.gna.org" module="niepce/trunk/niepce"/>
+    <dependencies>
+      <dep package="gtkmm"/>
+      <dep package="libglademm"/>
+      <dep package="gconfmm"/>
+      <dep package="gnome-vfsmm"/>
+      <dep package="sqlite3"/>
+      <dep package="exempi"/>
+      <dep package="libxml2"/>
+      <dep package="babl"/>
+      <dep package="libopenraw"/>
+      <dep package="geglmm"/>
+      <dep package="goocanvasmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="bluez-gnome">
+    <branch repo="git.kernel.org" module="bluetooth/bluez-gnome.git" checkoutdir="bluez-gnome"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus-glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="libnotify"/>
+      <dep package="dbus"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-mount" autogenargs="--enable-nautilus-extension">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-keyring"/>
+      <dep package="libgnomeui"/>
+      <dep package="dbus"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="libglade"/>
+      <dep package="nautilus"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="tracker">
+    <branch revision="tracker-0.6"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gmime-2-2"/>
+      <dep package="dbus-glib"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libglade"/>
+      <dep package="poppler"/>
+      <dep package="libgsf"/>
+      <dep package="gstreamer"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="exempi"/>
+    </suggests>
+    <after>
+      <dep package="deskbar-applet"/>
+    </after>
+  </autotools>
+
+  <autotools id="libgee">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+</moduleset>

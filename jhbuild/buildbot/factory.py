@@ -40,7 +40,8 @@ class JHBuildFactory(factory.BuildFactory):
             self.addStep(JHBuildCheckCommand, moduleset=self.moduleset, module=self.module)
         if self.slave.run_coverage_report:
             self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset,
-                    module=self.module, action='module-reports.sh')
+                    module=self.module, action='module-reports.sh',
+                    actionName='Coverage')
         if self.slave.run_clean_afterwards:
             self.addStep(JHBuildCommand, stage='clean', moduleset=self.moduleset,
                     module=self.module)

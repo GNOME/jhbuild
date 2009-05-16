@@ -94,10 +94,12 @@
       <dep package="shared-mime-info"/>
       <dep package="gnome-mime-data"/>
       <dep package="avahi"/>
-      <dep package="hal"/>
       <dep package="gamin"/>
       <dep package="dbus-glib"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
   </autotools>
 
   <autotools id="gtk+">
@@ -661,10 +663,12 @@
       <dep package="dbus"/>
       <dep package="gconf"/>
       <dep package="gtk+"/>
-      <dep package="hal"/>
       <dep package="libgcrypt"/>
       <dep package="libtasn1"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
   </autotools>
 
   <autotools id="gnome-netstatus">
@@ -1030,10 +1034,10 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="libsoup"/>
-      <dep package="hal"/>
     </dependencies>
     <suggests>
       <dep package="gconf"/>
+      <dep package="hal"/>
       <dep package="gnome-disk-utility"/>
     </suggests>
   </autotools>
@@ -1591,6 +1595,7 @@
     </dependencies>
     <suggests>
       <dep package="devhelp"/>
+      <dep package="glade3"/>
     </suggests>
   </autotools>  
 
@@ -1700,6 +1705,15 @@
       <dep package="libunique"/>
       <dep package="libnotify"/>
       <!-- and libsexy, unapproved dependency -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgdata">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libsoup"/>
     </dependencies>
   </autotools>
 
@@ -1918,6 +1932,7 @@
   <metamodule id="meta-gnome-proposed">
     <dependencies>
       <dep package="gnome-disk-utility"/>
+      <dep package="libgdata"/>
     </dependencies>
   </metamodule>
 

@@ -43,6 +43,11 @@ class Config:
     makecheck_advisory = False
     module_makecheck = {}
     forcecheck = False
+    autogenargs = ''
+    module_autogenargs = {}
+    module_extra_env = {}
+    makeargs = ''
+    module_makeargs = {}
 
     min_time = None
 

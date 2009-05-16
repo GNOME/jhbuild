@@ -111,6 +111,11 @@ class Config:
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
 
+        try:
+            SRCDIR
+        except NameError:
+            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
+
         env_prepends.clear()
         try:
             execfile(_defaults_file, self._config)
@@ -195,6 +200,14 @@ class Config:
         if seen_copy_mode and not self.copy_dir:
             raise FatalError(_('copy mode requires copy_dir to be set'))
 
+        if not os.path.exists(self.modulesets_dir):
+            if self.use_local_modulesets:
+                logging.warning(
+                        _('modulesets directory (%s) not found, '
+                          'disabling use_local_modulesets') % self.modulesets_dir)
+                self.use_local_modulesets = False
+            self.modulesets_dir = None
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 
@@ -203,8 +216,6 @@ class Config:
                 os.makedirs(self.prefix)
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
-        if not os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('install prefix (%s) must be writable') % self.prefix)
 
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
 

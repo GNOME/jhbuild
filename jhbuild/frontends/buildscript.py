@@ -33,6 +33,10 @@ class BuildScript:
 
         self.config = config
 
+        # the existence of self.config.prefix is checked in config.py
+        if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('install prefix (%s) must be writable') % self.config.prefix)
+
         if not os.path.exists(self.config.checkoutroot):
             try:
                 os.makedirs(self.config.checkoutroot)

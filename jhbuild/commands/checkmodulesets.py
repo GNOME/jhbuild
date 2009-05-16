@@ -27,7 +27,7 @@ import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 
 class cmd_checkmodulesets(Command):
-    doc = _('Check modules in jhbuild have the correct definition')
+    doc = N_('Check modules in jhbuild have the correct definition')
     name = 'checkmodulesets'
 
     def run(self, config, options, args):
@@ -43,6 +43,6 @@ class cmd_checkmodulesets(Command):
                             'module': mod.name, 'href': mod.branch.module})
             except NotImplementedError:
                 logging.warning((_('Cannot check %(module)s (%(href)s)') % {
-                            'module': mod.name, 'href': mod.branch.module})
+                            'module': mod.name, 'href': mod.branch.module}))
 
 register_command(cmd_checkmodulesets)

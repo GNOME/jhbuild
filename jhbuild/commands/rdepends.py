@@ -25,10 +25,10 @@ from jhbuild.errors import UsageError, FatalError, CommandError
 
 
 class cmd_rdepends(Command):
-    doc = _('Display reverse-dependencies of a module')
+    doc = N_('Display reverse-dependencies of a module')
 
     name = 'rdepends'
-    usage_args = _('[ module ]')
+    usage_args = N_('[ module ]')
 
     def __init__(self):
         Command.__init__(self, [

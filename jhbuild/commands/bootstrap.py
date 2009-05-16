@@ -31,7 +31,7 @@ from jhbuild.commands.base import cmd_build
 from jhbuild.utils.cmds import check_version
 
 class cmd_bootstrap(cmd_build):
-    doc = _('Build required support tools')
+    doc = N_('Build required support tools')
 
     name = 'bootstrap'
 

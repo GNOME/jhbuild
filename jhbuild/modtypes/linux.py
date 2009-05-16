@@ -196,7 +196,7 @@ class LinuxModule(Package):
         for kconfig in self.kconfigs:
             cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(,
+                    self.get_makeargs(),
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)

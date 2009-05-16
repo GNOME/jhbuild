@@ -41,10 +41,10 @@ def parse_relative_time(s):
 
 
 class cmd_update(Command):
-    doc = _('Update all modules from version control')
+    doc = N_('Update all modules from version control')
 
     name = 'update'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -97,10 +97,10 @@ register_command(cmd_update)
 
 
 class cmd_updateone(Command):
-    doc = _('Update one or more modules from version control')
+    doc = N_('Update one or more modules from version control')
 
     name = 'updateone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -133,10 +133,10 @@ register_command(cmd_updateone)
 
 
 class cmd_cleanone(Command):
-    doc = _('Clean one or more modules')
+    doc = N_('Clean one or more modules')
 
     name = 'cleanone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -197,7 +197,7 @@ def check_bootstrap_updateness(config):
         if p_version != module.get_revision():
             updated_modules.append(module.name)
 
-    bootstrap_uri = os.path.join(os.path.dirname(__file__), '../../modulesets/bootstrap.modules')
+    bootstrap_uri = os.path.join(config.modulesets_dir, 'bootstrap.modules')
     bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
 
     if max_install_date <= bootstrap_mtime:
@@ -215,10 +215,10 @@ def check_bootstrap_updateness(config):
 
 
 class cmd_build(Command):
-    doc = _('Update and compile all modules (the default)')
+    doc = N_('Update and compile all modules (the default)')
 
     name = 'build'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -338,10 +338,10 @@ register_command(cmd_build)
 
 
 class cmd_buildone(Command):
-    doc = _('Update and compile one or more modules')
+    doc = N_('Update and compile one or more modules')
 
     name = 'buildone'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -421,10 +421,10 @@ register_command(cmd_buildone)
 
 
 class cmd_run(Command):
-    doc = _('Run a command under the JHBuild environment')
+    doc = N_('Run a command under the JHBuild environment')
 
     name = 'run'
-    usage_args = _('[ options ... ] program [ arguments ... ]')
+    usage_args = N_('[ options ... ] program [ arguments ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -474,7 +474,7 @@ register_command(cmd_run)
 
 
 class cmd_shell(Command):
-    doc = _('Start a shell under the JHBuild environment')
+    doc = N_('Start a shell under the JHBuild environment')
 
     name = 'shell'
     usage_args = ''
@@ -489,10 +489,10 @@ register_command(cmd_shell)
 
 
 class cmd_list(Command):
-    doc = _('List the modules that would be built')
+    doc = N_('List the modules that would be built')
 
     name = 'list'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -556,10 +556,10 @@ register_command(cmd_list)
 
 
 class cmd_dot(Command):
-    doc = _('Output a Graphviz dependency graph for one or more modules')
+    doc = N_('Output a Graphviz dependency graph for one or more modules')
 
     name = 'dot'
-    usage_args = _('[ modules ... ]')
+    usage_args = N_('[ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [

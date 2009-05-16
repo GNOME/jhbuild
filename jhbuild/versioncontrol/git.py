@@ -242,22 +242,11 @@ class GitBranch(Branch):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        current_branch = self.get_current_branch()
-        if current_branch != '(no branch)':
-            buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
-
-        if stashed:
-            # git stash pop was introduced in 1.5.5, 
-            if check_version(['git', '--version'],
-                         r'git version ([\d.]+)', '1.5.5'):
-                buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
-            else:
-                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'], cwd=cwd)
-
         would_be_branch = self.branch or 'master'
         if self.tag:
             buildscript.execute(['git', 'checkout', self.tag], cwd=cwd)
         else:
+            current_branch = self.get_current_branch()
             if current_branch != would_be_branch or current_branch == '(no branch)':
                 if current_branch == '(no branch)':
                     # if user was not on any branch, get back to a known track
@@ -270,6 +259,18 @@ class GitBranch(Branch):
                     else:
                         buildscript.execute(['git', 'checkout', '--track', '-b',
                             would_be_branch, 'origin/' + would_be_branch], cwd=cwd)
+
+        current_branch = self.get_current_branch()
+        if current_branch != '(no branch)':
+            buildscript.execute(['git', 'pull', '--rebase'], cwd=cwd)
+
+        if stashed:
+            # git stash pop was introduced in 1.5.5, 
+            if check_version(['git', '--version'],
+                         r'git version ([\d.]+)', '1.5.5'):
+                buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
+            else:
+                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'], cwd=cwd)
 
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
@@ -495,7 +496,7 @@ class GitCvsBranch(GitBranch):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], cwd=cwd)
 
-        self._checkout(buildscript, cwd=cwd)
+        self._checkout(buildscript, copydir=copydir)
 
         if stashed:
             buildscript.execute(['git', 'stash', 'pop'], cwd=cwd)
