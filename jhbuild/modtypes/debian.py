@@ -8,6 +8,18 @@ from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import Package
 from jhbuild.utils import debian
 
+try:
+    import apt_pkg
+except ImportError:
+    apt_pkg = None
+
+def lax_int(s):
+    try:
+        return int(s)
+    except ValueError:
+        return -1
+
+
 class DebianBasePackage:
     PHASE_APT_GET_UPDATE = 'deb_apt_get_update'
     PHASE_BUILD_DEPS     = 'deb_build_deps'
@@ -266,4 +278,79 @@ class DebianBasePackage:
 
     def get_version(self, buildscript):
         raise NotImplementedError
+
+    def get_builddebdir(self, buildscript):
+        return os.path.normpath(os.path.join(self.get_builddir(buildscript), '..', 'debian'))
+
+    def get_debian_name(self, buildscript):
+        debian_name = buildscript.config.debian_names.get(self.name)
+        if not debian_name:
+            debian_name = self.name
+        return debian_name
+
+    def get_one_binary_package_name(self, buildscript):
+        debian_name = self.get_debian_name(buildscript)
+        sources = apt_pkg.GetPkgSrcRecords()
+        sources.Restart()
+        t = []
+        while sources.Lookup(debian_name):
+            try:
+                t.append((sources.Package, sources.Binaries, sources.Version))
+            except AttributeError:
+                pass
+        if not t:
+            raise KeyError
+        t.sort(lambda x, y: apt_pkg.VersionCompare(x[-1],y[-1]))
+        return t[-1][1][0]
+
+    def get_available_debian_version(self, buildscript):
+        apt_cache = apt_pkg.GetCache()
+        binary_name = self.get_one_binary_package_name(buildscript)
+        for pkg in apt_cache.Packages:
+            if pkg.Name == binary_name:
+                t = list(pkg.VersionList)
+                t.sort(lambda x, y: apt_pkg.VersionCompare(x.VerStr, y.VerStr))
+                return t[-1].VerStr
+        return None
+
+    def get_installed_debian_version(self):
+        apt_cache = apt_pkg.GetCache()
+        for pkg in apt_cache.Packages:
+            if pkg.Name == self.name:
+                return pkg.CurrentVer.VerStr
+        return None
+
+    def create_a_debian_dir(self, buildscript):
+        buildscript.set_action('Getting a debian/ directory for', self)
+        builddir = self.get_builddir(buildscript)
+        deb_sources = os.path.expanduser('~/.jhdebuild/apt-get-sources/')
+        if not os.path.exists(deb_sources):
+            os.makedirs(deb_sources)
+
+        debian_name = self.get_debian_name(buildscript)
+
+        try:
+            buildscript.execute(['apt-get', 'source', debian_name], cwd = deb_sources)
+        except CommandError:
+            raise BuildStateError('No debian source package for %s' % self.name)
+
+        dir = [x for x in os.listdir(deb_sources) if (
+                x.startswith(debian_name) and os.path.isdir(os.path.join(deb_sources, x)))][0]
+        buildscript.execute(['rm', '-rf', 'debian/*'], cwd = builddir)
+        if not os.path.exists(os.path.join(builddir, 'debian')):
+            os.mkdir(os.path.join(builddir, 'debian'))
+        buildscript.execute('cp -R %s/* debian/' % os.path.join(deb_sources, dir, 'debian'),
+                cwd = builddir)
+        file(os.path.join(builddir, 'debian', 'APPROPRIATE_FOR_JHDEBUILD'), 'w').write('')
+
+    def get_makefile_var(self, buildscript, variable_name):
+        builddir = self.get_builddir(buildscript)
+        makefile = os.path.join(builddir, 'Makefile')
+        if not os.path.exists(makefile):
+            return None
+        v = re.findall(r'\b%s *= *(.*)' % variable_name, open(makefile).read())
+        if v:
+            return v[0]
+        else:
+            return None
 
