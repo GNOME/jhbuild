@@ -264,7 +264,7 @@ class cmd_debuild(Command):
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         debuild_init(config, build)
-        build.build()
+        build.build(phases=['build_package'])
 
 register_command(cmd_debuild)
 
@@ -310,7 +310,7 @@ class cmd_debuildone(Command):
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         debuild_init(config, build)
-        build.build()
+        build.build(phases=['build_package'])
 
 register_command(cmd_debuildone)
 
