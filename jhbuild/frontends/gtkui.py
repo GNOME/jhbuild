@@ -46,6 +46,7 @@ import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
+from jhbuild.utils import notify
 
 from terminal import t_bold, t_reset
 
@@ -76,6 +77,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
         self.create_modules_list_model()
         self.create_ui()
+        self.notify = notify.Notify(config)
 
         if self.default_module_iter:
             self.module_combo.set_active_iter(self.default_module_iter)
@@ -272,9 +274,19 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         pass
 
     def handle_error(self, module, state, nextstate, error, altstates):
-        self.error_label.set_markup('<b>%s</b>' % _(
-                    'error during stage %(stage)s of %(module)s') % {
-                        'stage':state, 'module':module.name})
+        summary = _('error during stage %(stage)s of %(module)s') % {
+            'stage':state, 'module':module.name}
+        try:
+            error_message = error.args[0]
+            self.message('%s: %s' % (summary, error_message))
+        except:
+            error_message = None
+            self.message(summary)
+
+        self.notify.notify(summary=summary, body=error_message,
+                icon=gtk.STOCK_DIALOG_ERROR, expire=5)
+
+        self.error_label.set_markup('<b>%s</b>' % _(summary))
         self.error_resolution_model.clear()
         iter = self.error_resolution_model.append(
                 ('<i>%s</i>' % _('Pick an Action'), ''))
