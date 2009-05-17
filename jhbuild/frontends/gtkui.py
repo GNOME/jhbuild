@@ -262,6 +262,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         if vte:
             self.terminal.feed('%s*** %s ***%s\n\r' % (t_bold, module, t_reset))
 
+    def end_module(self, module, failed):
+        self.error_hbox.hide()
+
     def set_action(self, action, module, module_num=-1, action_target=None):
         self.progressbar.set_text('%s %s' % (action, action_target or module.name))
 
@@ -287,12 +290,14 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     (_('Go to stage %s') % altstate, altstate))
 
         self.error_combo.set_active_iter(iter)
+        self.error_hbox.set_sensitive(True)
         self.error_hbox.show_all()
         self.error_resolution = None
         while not self.error_resolution:
             while gtk.events_pending():
                 gtk.main_iteration()
-        self.error_hbox.hide()
+        # keep the error hox visible during all of this module duration
+        self.error_hbox.set_sensitive(False)
         return self.error_resolution
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
