@@ -54,6 +54,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     default_module_iter = None
     active_iter = None
     child_pid = None
+    error_resolution = None
 
     def __init__(self, config):
         buildscript.BuildScript.__init__(self, config)
@@ -158,6 +159,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
             sclwin.add(self.terminal)
 
+        self.error_hbox = self.create_error_hbox()
+        app_vbox.pack_start(self.error_hbox, fill=False, expand=False)
+
         buttonbox = gtk.HButtonBox()
         buttonbox.set_layout(gtk.BUTTONBOX_END)
         app_vbox.pack_start(buttonbox, fill=False, expand=False)
@@ -171,7 +175,44 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buttonbox.set_child_secondary(button, True)
 
         app_vbox.show_all()
+        self.error_hbox.hide()
         self.add(app_vbox)
+
+
+    def create_error_hbox(self):
+        error_hbox = gtk.HBox(False, 8)
+        image = gtk.Image()
+        image.set_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_BUTTON)
+        error_hbox.pack_start(image, fill=False, expand=False)
+        image.set_alignment(0.5, 0.5)
+
+        vbox = gtk.VBox(False, 6)
+        error_hbox.pack_start (vbox, True, True, 0)
+
+        self.error_label = gtk.Label()
+        vbox.pack_start(self.error_label, fill=True, expand=True)
+        self.error_label.set_use_markup(True)
+        self.error_label.set_line_wrap(True)
+        self.error_label.set_alignment(0, 0.5)
+
+        # label, code
+        self.error_resolution_model = gtk.ListStore(str, str)
+        self.error_combo = gtk.ComboBox(self.error_resolution_model)
+        self.error_combo.connect('changed', self.on_error_resolution_changed_cb)
+        self.error_combo.set_row_separator_func(lambda x,y: (x.get(y, 0)[0] == ''))
+        cell = gtk.CellRendererText()
+        self.error_combo.pack_start(cell, True)
+        self.error_combo.add_attribute(cell, 'markup', 0)
+        #self.module_combo.connect('changed', self.on_module_selection_changed_cb)
+        vbox.pack_start(self.error_combo)
+
+        return error_hbox
+
+    def on_error_resolution_changed_cb(self, *args):
+        iter = self.error_combo.get_active_iter()
+        if not iter:
+            return
+        self.error_resolution = self.error_resolution_model.get(iter, 1)[0]
 
     def on_build_cb(self, *args):
         modules = [self.modules_list_model.get(
@@ -227,6 +268,33 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def message(self, msg, module_num=-1):
         pass
+
+    def handle_error(self, module, state, nextstate, error, altstates):
+        self.error_label.set_markup('<b>%s</b>' % _(
+                    'error during stage %(stage)s of %(module)s') % {
+                        'stage':state, 'module':module.name})
+        self.error_resolution_model.clear()
+        iter = self.error_resolution_model.append(
+                ('<i>%s</i>' % _('Pick an Action'), ''))
+        self.error_resolution_model.append(('', ''))
+        self.error_resolution_model.append(
+                (_('Rerun stage %s') % state, state))
+        self.error_resolution_model.append(
+                (_('Ignore error and continue to %s') % nextstate, nextstate))
+        self.error_resolution_model.append(
+                (_('Give up on module'), 'fail'))
+        for altstate in altstates:
+            self.error_resolution_model.append(
+                    (_('Go to stage %s') % altstate, altstate))
+
+        self.error_combo.set_active_iter(iter)
+        self.error_hbox.show_all()
+        self.error_resolution = None
+        while not self.error_resolution:
+            while gtk.events_pending():
+                gtk.main_iteration()
+        self.error_hbox.hide()
+        return self.error_resolution
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         if not command:
