@@ -102,6 +102,7 @@ def get_uri(filename):
 
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
+    code = 'svn'
 
     init_xml_attrs = ['href', 'trunk-template', 'branches-template', 'tags-template']
 

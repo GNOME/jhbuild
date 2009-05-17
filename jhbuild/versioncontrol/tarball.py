@@ -48,6 +48,7 @@ class TarballRepository(Repository):
     implementations.
     """
 
+    code = 'tarball'
     init_xml_attrs = ['href']
 
     def __init__(self, config, name, href):
