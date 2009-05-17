@@ -22,7 +22,7 @@ __metaclass__ = type
 import os
 import re
 
-from jhbuild.errors import BuildStateError, SkipToEnd
+from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 
@@ -53,10 +53,6 @@ class PerlModule(Package):
 
     def get_revision(self):
         return self.branch.branchname
-
-    def do_start(self, buildscript):
-        pass
-    do_start.error_phases = []
 
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
