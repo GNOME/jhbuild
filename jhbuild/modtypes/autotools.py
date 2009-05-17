@@ -256,10 +256,6 @@ class AutogenModule(Package, DebianBasePackage):
         return DebianBasePackage.do_deb_build_deps(self, buildscript)
     do_deb_build_deps.error_phases = []
 
-    def do_deb_build_package(self, buildscript):
-        DebianBasePackage.do_deb_build_package(self, buildscript)
-    do_deb_build_package.error_phases = [DebianBasePackage.PHASE_TAR_X, PHASE_DIST]
-
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
 
@@ -347,6 +343,7 @@ class AutogenModule(Package, DebianBasePackage):
         except:
             pass
     do_deb_dist.error_phases = []
+    do_deb_dist.depends = [PHASE_CHECKOUT]
 
     def get_distdir(self, buildscript):
         tarball_dir = self.get_tarball_dir(buildscript)
@@ -382,6 +379,7 @@ class AutogenModule(Package, DebianBasePackage):
 
         buildscript.execute(['tar', 'xzf', orig_filename], cwd = builddebdir)
     do_deb_tar_x.error_phases = []
+    do_deb_tar_x.depends = [DebianBasePackage.PHASE_DEB_DIST]
 
     def skip_force_clean(self, buildscript, last_state):
         return False

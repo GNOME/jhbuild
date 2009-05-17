@@ -10,6 +10,7 @@ from jhbuild.utils import debian
 
 class DebianBasePackage:
 
+    PHASE_DEB_DIST       = 'deb_dist'
     PHASE_TAR_X          = 'deb_tar_x'
     PHASE_DEBIAN_DIR     = 'deb_debian_dir'
     PHASE_BUILD_PACKAGE  = 'deb_build_package'
