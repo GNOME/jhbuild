@@ -182,6 +182,10 @@ class SubversionBranch(Branch):
         return self.revision
     branchname = property(branchname)
 
+    def revision_id(self):
+        return get_info(self.srcdir)['last changed rev']
+    revision_id = property(revision_id)
+
     def exists(self):
         try:
             get_output(['svn', 'ls', self.module], extra_env={

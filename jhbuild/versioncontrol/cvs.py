@@ -227,6 +227,14 @@ class CVSBranch(Branch):
         return self.revision
     branchname = property(branchname)
 
+    def revision_id(self):
+       from datetime import datetime
+       t = datetime.strftime(datetime.today(), '%Y%m%d%H%M')
+       if self.revision:
+           return '%s-%s' % (self.revision, t)
+       return t
+    revision_id = property(revision_id)
+
     def _export(self, buildscript):
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,
                'export']

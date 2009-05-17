@@ -108,6 +108,11 @@ class TarballBranch(Branch):
         self.quilt = None
         self.branch_id = branch_id
 
+    def revision_id(self):
+        return self.version
+    revision_id = property(revision_id)
+
+
     def _local_tarball(self):
         basename = os.path.basename(self.module)
         if not basename:
