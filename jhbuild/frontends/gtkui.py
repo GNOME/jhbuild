@@ -85,37 +85,38 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.connect('delete-event', self.on_delete_event)
 
     def create_modules_list_model(self):
-        # name, separator
-        self.modules_list_model = gtk.ListStore(str, bool)
+        # name, separator, startat
+        self.modules_list_model = gtk.ListStore(str, bool, str)
         full_module_list = self.module_set.get_full_module_list()
         for module in full_module_list:
             if isinstance(module, MetaModule):
                 if module.name.endswith('-deprecations'):
                     # skip the deprecation meta modules, nobody want them
                     continue
-                iter = self.modules_list_model.append((module.name, False))
-        self.modules_list_model.append(('', True))
-        self.modules_list_model.append((_('Others...'), False))
+                iter = self.modules_list_model.append((module.name, False, ''))
+        self.modules_list_model.append(('', True, ''))
+        self.modules_list_model.append((_('Others...'), False, ''))
 
         for module in self.config.modules:
             iter = self.add_extra_module_to_model(module)
             if not self.default_module_iter:
                 self.default_module_iter = iter
 
-    def add_extra_module_to_model(self, module):
+    def add_extra_module_to_model(self, module, startat=''):
         # lookup selected module in current modules list
         for row in self.modules_list_model:
             row_value = self.modules_list_model.get(row.iter, 0)[0]
             if row_value == module:
+                modules_list_model.set_value(row.iter, 2, startat)
                 return row.iter
 
         # add selected module in the list
         if self.modules_list_model.get(self.modules_list_model[-3].iter, 1)[0] is False:
             # there is no user-added modules at the moment, add a separator row
             self.modules_list_model.insert_before(
-                    self.modules_list_model[-2].iter, ('', True))
+                    self.modules_list_model[-2].iter, ('', True, ''))
         iter = self.modules_list_model.insert_before(
-                self.modules_list_model[-2].iter, (module, False))
+                self.modules_list_model[-2].iter, (module, False, startat))
         return iter
 
     def on_delete_event(self, *args):
@@ -139,7 +140,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         cell = gtk.CellRendererText()
         self.module_combo.pack_start(cell, True)
         self.module_combo.add_attribute(cell, 'text', 0)
-        self.module_combo.connect('changed', self.on_module_selection_changed_cb)
+        self.module_combo.changed_signal_id = self.module_combo.connect(
+                'changed', self.on_module_selection_changed_cb)
 
         self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
         self.module_hbox.pack_start(self.module_combo, fill=True)
@@ -204,7 +206,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         cell = gtk.CellRendererText()
         self.error_combo.pack_start(cell, True)
         self.error_combo.add_attribute(cell, 'markup', 0)
-        #self.module_combo.connect('changed', self.on_module_selection_changed_cb)
         vbox.pack_start(self.error_combo)
 
         return error_hbox
@@ -222,6 +223,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.modulelist = self.module_set.get_module_list(modules,
                 self.config.skip, tags = self.config.tags,
                 ignore_suggests=self.config.ignore_suggests)
+
+        startat = self.modules_list_model.get(self.module_combo.get_active_iter(), 2)[0]
+        if startat:
+            while self.modulelist and self.modulelist[0].name != startat:
+                del self.modulelist[0]
         self.build()
 
     def on_module_selection_changed_cb(self, *args):
@@ -233,16 +239,17 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             return
         # "Others..." got clicked, modal dialog to let the user select a
         # specific module
-        dlg = SelectModuleDialog(self)
+        dlg = SelectModulesDialog(self)
         response = dlg.run()
         if response != gtk.RESPONSE_OK:
             dlg.destroy()
             self.module_combo.set_active_iter(old_selected_iter)
             return
         selected_module = dlg.selected_module
+        startat = dlg.startat
         dlg.destroy()
 
-        iter = self.add_extra_module_to_model(selected_module)
+        iter = self.add_extra_module_to_model(selected_module, startat)
         self.module_combo.set_active_iter(iter)
 
     def is_build_paused(self):
@@ -413,9 +420,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.vte_child_exit_status = self.terminal.get_child_exit_status()
 
 
-class SelectModuleDialog(gtk.Dialog):
+class SelectModulesDialog(gtk.Dialog):
     def __init__(self, parent):
-        gtk.Dialog.__init__(self, _('Select a Module'), parent)
+        gtk.Dialog.__init__(self, '', parent)
         self.app = parent
         self.create_model()
         self.create_ui()
@@ -427,13 +434,33 @@ class SelectModuleDialog(gtk.Dialog):
         for module in sorted(modules, lambda x,y: cmp(x.lower(), y.lower())):
             self.modules_model.append((module,))
 
+    def create_frame(self, label, child):
+        frame = gtk.Frame('')
+        frame.set_border_width(3)
+        frame.set_shadow_type(gtk.SHADOW_NONE)
+        frame.get_label_widget().set_markup('<b>%s</b>' % label)
+
+        alignment = gtk.Alignment()
+        alignment.set_padding(0, 0, 12, 0)
+        frame.add(alignment)
+        alignment.add(child)
+
+        return frame
+
     def create_ui(self):
+        vbox = gtk.VBox()
+        self.vbox.add(vbox)
+
         sclwin = gtk.ScrolledWindow()
         sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-        self.vbox.add(sclwin)
+        sclwin.set_size_request(-1, 200)
+        vbox.pack_start(self.create_frame(_('Module'), sclwin))
+
         self.treeview = gtk.TreeView(self.modules_model)
         self.treeview.set_headers_visible(False)
         sclwin.add(self.treeview)
+        selection = self.treeview.get_selection()
+        selection.connect('changed', self.on_selection_changed_cb)
 
         renderer = gtk.CellRendererText()
         tv_col = gtk.TreeViewColumn('', renderer, text=0)
@@ -441,19 +468,51 @@ class SelectModuleDialog(gtk.Dialog):
         tv_col.set_min_width(200)
         self.treeview.append_column(tv_col)
 
+        self.startat_model = gtk.ListStore(str)
+        self.combo_startat = gtk.ComboBox(self.startat_model)
+        cell = gtk.CellRendererText()
+        self.combo_startat.pack_start(cell, True)
+        self.combo_startat.add_attribute(cell, 'text', 0)
+        vbox.pack_start(self.create_frame(_('Start At'), self.combo_startat))
+
         self.vbox.show_all()
 
         self.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
         self.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
 
-        self.set_default_size(-1, 300)
+    def on_selection_changed_cb(self, selection, *args):
+        iter = selection.get_selected()[1]
+        self.selected_module = self.modules_model.get(iter, 0)[0]
+
+        old_start_at = None
+        old_start_at_iter = self.combo_startat.get_active_iter()
+        new_active_iter = None
+        if old_start_at_iter:
+            old_start_at = self.startat_model.get(old_start_at_iter, 0)[0]
+
+        self.startat_model.clear()
+        modulelist = self.app.module_set.get_module_list([self.selected_module],
+                ignore_suggests=self.app.config.ignore_suggests)
+        for module in modulelist:
+            iter = self.startat_model.append((module.name,))
+            if module.name == old_start_at:
+                new_active_iter = iter
+
+        if new_active_iter:
+            self.combo_startat.set_active_iter(new_active_iter)
+        else:
+            self.combo_startat.set_active_iter(self.startat_model[0].iter)
 
     def on_response_cb(self, dlg, response_id, *args):
         if response_id != gtk.RESPONSE_OK:
             return
-        selection = self.treeview.get_selection()
-        iter = selection.get_selected()[1]
-        self.selected_module = self.modules_model.get(iter, 0)[0]
+
+        old_start_at_iter = self.combo_startat.get_active_iter()
+        self.startat = None
+        if old_start_at_iter:
+            self.startat = self.startat_model.get(old_start_at_iter, 0)[0]
+
+        return gtk.RESPONSE_OK
 
 
 def get_glade_filename():
