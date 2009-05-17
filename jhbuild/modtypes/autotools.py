@@ -212,7 +212,9 @@ class AutogenModule(Package):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
@@ -228,7 +230,9 @@ class AutogenModule(Package):
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -240,7 +244,9 @@ class AutogenModule(Package):
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
     do_dist.depends = [PHASE_CONFIGURE]
@@ -248,7 +254,9 @@ class AutogenModule(Package):
 
     def do_distcheck(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
     do_dist.depends = [PHASE_CONFIGURE]
@@ -268,7 +276,9 @@ class AutogenModule(Package):
 
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
-        cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
     do_distclean.depends = [PHASE_CONFIGURE]
