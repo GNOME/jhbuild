@@ -22,7 +22,7 @@ __metaclass__ = type
 import os
 import re
 
-from jhbuild.errors import BuildStateError
+from jhbuild.errors import BuildStateError, SkipToEnd
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 
@@ -82,11 +82,11 @@ class PerlModule(Package):
         ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
 
         if deb_available >= ext_recommended:
-            return (self.STATE_DONE, None, None)
+            raise SkipToEnd()
 
         if deb_available >= ext_minimum:
             # XXX: warn it would be better to have a newer version
-            raise SkipToState(self.STATE_DONE)
+            raise SkipToEnd()
     do_deb_start.error_phases = []
 
     def do_checkout(self, buildscript):

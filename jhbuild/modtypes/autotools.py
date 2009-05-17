@@ -26,7 +26,7 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type, SkipToState
+     Package, get_dependencies, get_branch, register_module_type, SkipToEnd
 from jhbuild.modtypes.debian import DebianBasePackage
 
 from jhbuild.utils.cache import get_cached_value, write_cached_value
@@ -371,7 +371,7 @@ class AutogenModule(Package, DebianBasePackage):
             available_version = self.get_available_debian_version(buildscript)
             if debian_version == available_version:
                 buildscript.message('Available Debian package is already this version')
-                raise SkipToState(self.STATE_DONE)
+                raise SkipToEnd()
         except:
             pass
     do_deb_dist.error_phases = []

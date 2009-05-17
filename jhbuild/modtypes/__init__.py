@@ -328,17 +328,17 @@ class Package:
             if deb_available >= ext_recommended:
                 buildscript.message('external dependency, available')
                 if not buildscript.config.build_external_deps == 'always':
-                    raise SkipToState(self.STATE_DONE)
+                    raise SkipToEnd()
 
             if deb_available >= ext_minimum:
                 buildscript.message(
                         'external dependency, available (but recommended version is not)')
                 if not buildscript.config.build_external_deps in ('always', 'recommended'):
-                    raise SkipToState(self.STATE_DONE)
+                    raise SkipToEnd()
             else:
                 buildscript.message('external dependency, no version high enough')
                 if buildscript.config.build_external_deps == 'never':
-                    raise SkipToState(self.STATE_DONE)
+                    raise SkipToEnd()
     do_deb_start.error_phases = []
 
     def skip_deb_apt_get_update(self, buildscript, last_state):

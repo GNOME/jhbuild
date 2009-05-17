@@ -5,7 +5,7 @@ import apt_pkg
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 
-from jhbuild.modtypes import Package, SkipToState
+from jhbuild.modtypes import Package
 from jhbuild.utils import debian
 
 class DebianBasePackage:
@@ -16,15 +16,11 @@ class DebianBasePackage:
     STATE_DINSTALL       = 'dinstall'
     STATE_UPGRADE        = 'upgrade'
 
-    def do_deb_build_deps(self, buildscript):
+    def skip_deb_tar_x(self, buildscript, last_state):
         if os.path.exists(self.get_tarball_dir(buildscript)):
             buildscript.message('%s already has a tarball' % self.name)
-            next_phase = self.STATE_TAR_X
-        else:
-            next_phase = self.STATE_CONFIGURE
-        Package.do_deb_build_deps(self, buildscript)
-        raise SkipToState(next_phase)
-
+            return True
+        return False
 
     def skip_deb_debian_dir(self, buildscript, last_state):
         return False
@@ -103,7 +99,7 @@ class DebianBasePackage:
     do_deb_debian_dir.error_phases = []
     do_deb_debian_dir.depends = [STATE_TAR_X]
 
-    def skip_deb_build_package(self, buildscript, next_state):
+    def skip_deb_build_package(self, buildscript, last_state):
         builddebdir = self.get_builddebdir(buildscript)
         changes_file = self.get_changes_file(buildscript)
         if changes_file and os.path.exists(os.path.join(builddebdir, changes_file)):
@@ -166,7 +162,7 @@ class DebianBasePackage:
             return None
         return changes_file[0]
 
-    def skip_deb_dinstall(self, buildscript, next_state):
+    def skip_deb_dinstall(self, buildscript, last_state):
         version = debian.get_version(buildscript, self.get_debian_name(buildscript))
         if version == self.get_debian_version(buildscript):
             return True
