@@ -59,6 +59,38 @@ class PerlModule(Package):
     do_start.next_state = STATE_CHECKOUT
     do_start.error_states = []
 
+    def do_deb_start(self, buildscript):
+        buildscript.set_action('Starting building', self)
+        buildscript.execute(['sudo', 'apt-get', 'update'])
+        ext_dep = buildscript.config.external_dependencies.get(self.name)
+        if not ext_dep:
+            raise BuildStateError('No external dep for %s' % self.name)
+
+        #print buildscript.config.external_dependencies
+
+        available = self.get_available_debian_version(buildscript).split('-')[0]
+        if ':' in available: # remove epoch
+            available = available.split(':')[-1]
+
+        def lax_int(s):
+            try:
+                return int(s)
+            except ValueError:
+                return -1
+
+        deb_available = [lax_int(x) for x in available.split('.')]
+        ext_minimum = [lax_int(x) for x in ext_dep.get('minimum').split('.')]
+        ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
+
+        if deb_available >= ext_recommended:
+            return (self.STATE_DONE, None, None)
+
+        if deb_available >= ext_minimum:
+            # XXX: warn it would be better to have a newer version
+            raise SkipToState(self.STATE_DONE)
+    do_deb_start.next_state = STATE_CHECKOUT
+    do_deb_start.error_states = []
+
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
     do_checkout.next_state = STATE_BUILD
