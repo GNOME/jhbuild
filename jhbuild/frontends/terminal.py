@@ -32,6 +32,7 @@ from jhbuild.errors import CommandError
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
+is_screen = (term == 'screen')
 del term
 
 try: t_bold = cmds.get_output(['tput', 'bold'])
@@ -97,6 +98,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         if is_xterm:
             sys.stdout.write('\033]0;jhbuild:%s%s\007' % (uencode(msg), progress))
             sys.stdout.flush()
+        elif is_screen:
+            print '\033kjhdebuild: %s%s\033\\' % (msg, progress)
         self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
     def set_action(self, action, module, module_num=-1, action_target=None):
