@@ -56,8 +56,7 @@ class PerlModule(Package):
 
     def do_start(self, buildscript):
         pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
+    do_start.error_phases = []
 
     def do_deb_start(self, buildscript):
         buildscript.set_action('Starting building', self)
@@ -88,8 +87,7 @@ class PerlModule(Package):
         if deb_available >= ext_minimum:
             # XXX: warn it would be better to have a newer version
             raise SkipToState(self.STATE_DONE)
-    do_deb_start.next_state = STATE_CHECKOUT
-    do_deb_start.error_states = []
+    do_deb_start.error_phases = []
 
     def do_checkout(self, buildscript):
         self.checkout(buildscript)

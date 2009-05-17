@@ -19,11 +19,11 @@ class DebianBasePackage:
     def do_deb_build_deps(self, buildscript):
         if os.path.exists(self.get_tarball_dir(buildscript)):
             buildscript.message('%s already has a tarball' % self.name)
-            next_state = self.STATE_TAR_X
+            next_phase = self.STATE_TAR_X
         else:
-            next_state = self.STATE_CONFIGURE
+            next_phase = self.STATE_CONFIGURE
         Package.do_deb_build_deps(self, buildscript)
-        raise SkipToState(next_state)
+        raise SkipToState(next_phase)
 
 
     def skip_deb_debian_dir(self, buildscript, last_state):
@@ -100,8 +100,7 @@ class DebianBasePackage:
                             [x for x in series if not filename in x]))
 
         os.chmod(os.path.join(builddebdir, distdir, 'debian', 'rules'), 0755)
-    do_deb_debian_dir.next_state = STATE_BUILD_PACKAGE
-    do_deb_debian_dir.error_states = []
+    do_deb_debian_dir.error_phases = []
 
     def skip_deb_build_package(self, buildscript, next_state):
         builddebdir = self.get_builddebdir(buildscript)
@@ -151,8 +150,7 @@ class DebianBasePackage:
 
         buildscript.execute(['dpkg-buildpackage','-rfakeroot', '-us', '-uc', '-D'],
                 cwd = builddebdir)
-    do_deb_build_package.next_state = STATE_DINSTALL
-    do_deb_build_package.error_states = [STATE_DEBIAN_DIR]
+    do_deb_build_package.error_phases = [STATE_DEBIAN_DIR]
 
     def get_changes_file(self, buildscript):
         debian_name = self.get_debian_name(buildscript)
@@ -195,8 +193,7 @@ class DebianBasePackage:
                 files.append(os.path.join(builddebdir, line.split()[-1]))
         for f in files:
             os.unlink(f)
-    do_deb_dinstall.next_state = STATE_UPGRADE
-    do_deb_dinstall.error_states = []
+    do_deb_dinstall.error_phases = []
 
     def skip_deb_upgrade(self, buildscript, last_state):
         return False
@@ -206,8 +203,7 @@ class DebianBasePackage:
         if not buildscript.config.nonetwork:
             buildscript.execute(['sudo', 'apt-get', 'update'])
             buildscript.execute(['sudo', 'apt-get', '--yes', 'upgrade'])
-    do_deb_upgrade.next_state = Package.STATE_DONE
-    do_deb_upgrade.error_states = []
+    do_deb_upgrade.error_phases = []
 
     def get_version(self, buildscript):
         raise NotImplementedError

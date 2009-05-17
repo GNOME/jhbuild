@@ -339,8 +339,7 @@ class Package:
                 buildscript.message('external dependency, no version high enough')
                 if buildscript.config.build_external_deps == 'never':
                     raise SkipToState(self.STATE_DONE)
-    do_deb_start.next_state = STATE_APT_GET_UPDATE
-    do_deb_start.error_states = []
+    do_deb_start.error_phases = []
 
     def skip_deb_apt_get_update(self, buildscript, last_state):
         return False
@@ -352,8 +351,7 @@ class Package:
                 buildscript.execute(['sudo', 'apt-get', 'update'])
             except CommandError:
                 pass
-    do_deb_apt_get_update.next_state = STATE_DONE
-    do_deb_apt_get_update.error_states = []
+    do_deb_apt_get_update.error_phases = []
 
     def skip_deb_build_deps(self, buildscript, last_state):
         return False
@@ -371,8 +369,7 @@ class Package:
                 buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
             except CommandError:
                 raise BuildStateError('Failed to install build deps')
-    do_deb_build_deps.next_state = STATE_DONE
-    do_deb_build_deps.error_states = []
+    do_deb_build_deps.error_phases = []
 
     def xml_tag_and_attrs(self):
         """Return a (tag, attrs) pair, describing how to serialize this
@@ -430,8 +427,7 @@ class MetaModule(Package):
 
     def do_deb_start(self, buildscript):
         pass
-    do_deb_start.next_state = Package.STATE_DONE
-    do_deb_start.error_states = []
+    do_deb_start.error_phases = []
 
 
 def parse_metamodule(node, config, url, repos, default_repo):

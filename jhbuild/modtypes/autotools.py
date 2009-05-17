@@ -86,8 +86,7 @@ class AutogenModule(Package, DebianBasePackage):
 
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_CONFIGURE
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_checkout.error_phases = [STATE_FORCE_CHECKOUT]
     do_deb_checkout = do_checkout
 
     def skip_force_checkout(self, buildscript, last_state):
@@ -258,13 +257,11 @@ class AutogenModule(Package, DebianBasePackage):
 
     def do_deb_build_deps(self, buildscript):
         return DebianBasePackage.do_deb_build_deps(self, buildscript)
-    do_deb_build_deps.next_state = STATE_CONFIGURE
-    do_deb_build_deps.error_states = []
+    do_deb_build_deps.error_phases = []
 
     def do_deb_build_package(self, buildscript):
         DebianBasePackage.do_deb_build_package(self, buildscript)
-    do_deb_build_package.next_state = DebianBasePackage.STATE_DINSTALL
-    do_deb_build_package.error_states = [DebianBasePackage.STATE_TAR_X, STATE_DIST]
+    do_deb_build_package.error_phases = [DebianBasePackage.STATE_TAR_X, STATE_DIST]
 
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
@@ -287,9 +284,7 @@ class AutogenModule(Package, DebianBasePackage):
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-<<<<<<< HEAD:jhbuild/modtypes/autotools.py
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.error_phases = []
     
     def get_version(self, buildscript):
         version = get_cached_value('version-%s-%s' % (self.name, self.branch.revision_id))
@@ -308,13 +303,11 @@ class AutogenModule(Package, DebianBasePackage):
     
     def do_deb_apt_get_update(self, buildscript):
         Package.do_deb_apt_get_update(self, buildscript)
-    do_deb_apt_get_update.next_state = STATE_CHECKOUT
-    do_deb_apt_get_update.error_states = []
+    do_deb_apt_get_update.error_phases = []
 
     def do_deb_checkout(self, buildscript):
         return self.do_checkout(buildscript)
-    do_deb_checkout.next_state = Package.STATE_BUILD_DEPS
-    do_deb_checkout.error_states = []
+    do_deb_checkout.error_phases = []
 
     skip_deb_force_checkout = skip_force_checkout
     do_deb_force_checkout = do_force_checkout
@@ -381,8 +374,7 @@ class AutogenModule(Package, DebianBasePackage):
                 raise SkipToState(self.STATE_DONE)
         except:
             pass
-    do_deb_dist.next_state = DebianBasePackage.STATE_TAR_X
-    do_deb_dist.error_states = []
+    do_deb_dist.error_phases = []
 
     def get_distdir(self, buildscript):
         tarball_dir = self.get_tarball_dir(buildscript)
@@ -417,16 +409,14 @@ class AutogenModule(Package, DebianBasePackage):
             buildscript.execute(['rm', '-rf', distdir], cwd = builddebdir)
 
         buildscript.execute(['tar', 'xzf', orig_filename], cwd = builddebdir)
-    do_deb_tar_x.next_state = DebianBasePackage.STATE_DEBIAN_DIR
-    do_deb_tar_x.error_states = []
+    do_deb_tar_x.error_phases = []
 
     def skip_force_clean(self, buildscript, last_state):
         return False
 
     def do_force_clean(self, buildscript):
         self.do_clean(buildscript)
-    do_force_clean.next_state = STATE_CONFIGURE
-    do_force_clean.error_states = []
+    do_force_clean.error_phases = []
 
     def skip_force_distclean(self, buildscript, last_state):
         return False
