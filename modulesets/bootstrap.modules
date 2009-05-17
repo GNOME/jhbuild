@@ -15,20 +15,31 @@
   <autotools id="gettext" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
 	    module="gettext/gettext-0.17.tar.gz" version="0.17"
-	    size="11640890" md5sum="58a2bc6d39c0ba57823034d55d65d606" />
+	    size="11640890" md5sum="58a2bc6d39c0ba57823034d55d65d606">
+      <patch file = "gettext-0.17-open.patch" strip="2"/>
+    </branch>
+  </autotools>
+
+  <autotools id="m4" autogen-sh="configure">
+    <branch  repo="ftp.gnu.org"
+             module="m4/m4-1.4.11.tar.bz2" version="1.4.11"
+             size="928910" md5sum="96ec473c2a6f203976c028e896a01b28" />
   </autotools>
 
   <autotools id="autoconf" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
-	    module="autoconf/autoconf-2.62.tar.bz2" version="2.62"
-	    size="1165951" md5sum="e1fb8fe0b22e651240afdfa2be537a3c" />
+	    module="autoconf/autoconf-2.63.tar.bz2" version="2.63"
+	    size="1195259" md5sum="7565809ed801bb5726da0631ceab3699" />
+    <dependencies>
+      <dep package="m4"/>
+    </dependencies>
   </autotools>
 
   <autotools id="libtool" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
-	    module="libtool/libtool-1.5.26.tar.gz" version="1.5.26"
-	    size="2961939" md5sum="aa9c5107f3ec9ef4200eb6556f3b3c29">
-      <patch file="libtool-1.5.24-multilib.patch" strip="1" />
+	    module="libtool/libtool-2.2.6a.tar.gz" version="2.2.6a"
+	    size="2870524" md5sum="8ca1ea241cd27ff9832e045fe9afe4fd"
+	    checkoutdir="libtool-2.2.6">
     </branch>
   </autotools>
 
@@ -67,9 +78,9 @@
 
   <autotools id="python" autogenargs="--enable-shared" autogen-sh="configure">
     <branch repo="python"
-	    module="2.4.5/Python-2.4.5.tar.bz2" version="2.4.5"
-	    size="8159705" md5sum="aade3958cb097cc1c69ae0074297d359">
-      <patch file="python-2.4.5-lib64.patch" strip="1" />
+	    module="2.5.2/Python-2.5.2.tar.bz2" version="2.5.2"
+	    size="9807597" md5sum="afb5451049eda91fbde10bd5a4b7fadc">
+      <patch file="python-2.5.2-lib64.patch" strip="1" />
     </branch>
   </autotools>
 

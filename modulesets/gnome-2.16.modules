@@ -5,7 +5,8 @@
 <moduleset>
   <repository type="svn" name="svn.gnome.org" default="yes"
       href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
+      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" 
+        trunk-template="%(module)s/trunk" branches-template="%(module)s/branches/%(branch)s"/>
       <mirror type="git" href="git://git-mirror.gnome.org/git/" />
   </repository>
   <repository type="cvs" name="cairo.freedesktop.org"
@@ -385,7 +386,7 @@
     </dependencies>
   </autotools>
   <autotools id="gnome-python-extras">
-    <branch/>
+    <branch revision="gnome-2-26"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
@@ -1522,11 +1523,12 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
-  <mozillamodule id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck" cvsroot="mozilla.org" revision="MOZILLA_1_8_BRANCH" projects="xulrunner">
+  <autotools id="mozilla" autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=xulrunner --disable-javaxpcom --enable-extensions=default,cookie,permissions,spellcheck">
+    <branch repo="mozilla.org" revision="MOZILLA_1_8_BRANCH"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
-  </mozillamodule>
+  </autotools>
   <autotools id="enchant">
     <branch repo="anoncvs.abisource.com"/>
     <dependencies>

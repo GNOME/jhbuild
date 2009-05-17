@@ -38,7 +38,11 @@ class JHBuildSource(steps.source.Source):
     def computeSourceRevision(self, changes):
         if not changes:
             return None
-        return max([int(c.revision) for c in changes])
+        try:
+            return max([int(c.revision) for c in changes])
+        except ValueError:
+            # in git, revisions are not integers, return last.
+            return changes[-1].revision
 
     def startVC(self, branch, revision, patch):
         command = ['jhbuild']

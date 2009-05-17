@@ -89,19 +89,17 @@ class HgBranch(Branch):
     def _update(self, buildscript):
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
-        hg_update = 'hg-update.py'
-        hg_update_path = os.path.join(os.path.dirname(__file__), '..',
-                                      '..', 'scripts', hg_update)
+        if os.path.exists(SRCDIR):
+            hg_update_path = os.path.join(SRCDIR, 'scripts', 'hg-update.py')
+        else:
+            hg_update_path = os.path.join(PKGDATADIR, 'hg-update.py')
         hg_update_path = os.path.normpath(hg_update_path)
         buildscript.execute([hg_update_path], hg_update, cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if not inpath('hg', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'hg')
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def get_revision_id(self):
         # Return the id of the tip, see bug #313997.

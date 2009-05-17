@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-13 09:50+0000\n"
+"POT-Creation-Date: 2009-02-09 10:25+0200\n"
 "PO-Revision-Date: 2008-11-13 09:53-0000\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -20,24 +20,24 @@ msgid "Build modules non-interactively and upload results to JhAutobuild"
 msgstr ""
 "Збирати модулі не-інтерактивно та вивантажувати результати до JhAutobuild"
 
-#: ../jhbuild/commands/autobuild.py:35 ../jhbuild/commands/base.py:169
-#: ../jhbuild/commands/base.py:277 ../jhbuild/commands/tinderbox.py:37
+#: ../jhbuild/commands/autobuild.py:35 ../jhbuild/commands/base.py:225
+#: ../jhbuild/commands/base.py:348 ../jhbuild/commands/tinderbox.py:37
 msgid "always run autogen.sh"
 msgstr "завжди запускати autogen.sh"
 
-#: ../jhbuild/commands/autobuild.py:38 ../jhbuild/commands/base.py:172
-#: ../jhbuild/commands/base.py:280 ../jhbuild/commands/tinderbox.py:40
+#: ../jhbuild/commands/autobuild.py:38 ../jhbuild/commands/base.py:228
+#: ../jhbuild/commands/base.py:351 ../jhbuild/commands/tinderbox.py:40
 msgid "run make clean before make"
 msgstr "запускати make clean перед make"
 
 #: ../jhbuild/commands/autobuild.py:41 ../jhbuild/commands/base.py:52
-#: ../jhbuild/commands/base.py:187 ../jhbuild/commands/base.py:428
+#: ../jhbuild/commands/base.py:246 ../jhbuild/commands/base.py:502
 #: ../jhbuild/commands/tinderbox.py:49
 msgid "treat the given modules as up to date"
 msgstr "вважати вказані модулі оновленими"
 
 #: ../jhbuild/commands/autobuild.py:44 ../jhbuild/commands/base.py:55
-#: ../jhbuild/commands/base.py:190 ../jhbuild/commands/tinderbox.py:52
+#: ../jhbuild/commands/base.py:249 ../jhbuild/commands/tinderbox.py:52
 msgid "start building at the given module"
 msgstr "запустити збирання певного модуля"
 
@@ -53,8 +53,9 @@ msgstr "докладний вивід"
 msgid "report url for autobuild not specified"
 msgstr "не вказано url звіту для автоматичного збирання"
 
-#: ../jhbuild/commands/autobuild.py:81 ../jhbuild/commands/base.py:80
-#: ../jhbuild/commands/base.py:259 ../jhbuild/commands/tinderbox.py:101
+#: ../jhbuild/commands/autobuild.py:81 ../jhbuild/commands/base.py:86
+#: ../jhbuild/commands/base.py:325 ../jhbuild/commands/base.py:541
+#: ../jhbuild/commands/tinderbox.py:101
 #, python-format
 msgid "%s not in module list"
 msgstr "%s немає у писку модулів"
@@ -68,33 +69,51 @@ msgstr "не вдається проаналізувати '%s' як відно�
 msgid "Update all modules from version control"
 msgstr "Оновити усі модулі з системи контролю версій"
 
-#: ../jhbuild/commands/base.py:58 ../jhbuild/commands/base.py:193
-#: ../jhbuild/commands/base.py:431
+#: ../jhbuild/commands/base.py:58 ../jhbuild/commands/base.py:252
+#: ../jhbuild/commands/base.py:508
 msgid "build only modules with the given tags"
 msgstr "зібрати лише модулі з певними тегами"
 
-#: ../jhbuild/commands/base.py:61 ../jhbuild/commands/base.py:102
-#: ../jhbuild/commands/base.py:196 ../jhbuild/commands/base.py:295
+#: ../jhbuild/commands/base.py:61 ../jhbuild/commands/base.py:108
+#: ../jhbuild/commands/base.py:255 ../jhbuild/commands/base.py:366
 #: ../jhbuild/commands/tinderbox.py:55
 msgid "set a sticky date when checking out modules"
 msgstr "встановити sticky-дату при отриманні модуля з системи контролю версій"
 
-#: ../jhbuild/commands/base.py:93
+#: ../jhbuild/commands/base.py:64 ../jhbuild/commands/base.py:237
+#: ../jhbuild/commands/base.py:511
+msgid "ignore all soft-dependencies"
+msgstr "ігнорувати усі м'які залежності"
+
+#: ../jhbuild/commands/base.py:99
 msgid "Update one or more modules from version control"
 msgstr "Оновити один або більше модулів з системи контролю версій"
 
-#: ../jhbuild/commands/base.py:113 ../jhbuild/commands/base.py:336
-#: ../jhbuild/commands/base.py:377 ../jhbuild/commands/rdepends.py:52
+#: ../jhbuild/commands/base.py:119 ../jhbuild/commands/base.py:154
+#: ../jhbuild/commands/base.py:410 ../jhbuild/commands/base.py:451
+#: ../jhbuild/commands/rdepends.py:52
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Модуль з назвою '%s' не знайдено."
 
-#: ../jhbuild/commands/base.py:116 ../jhbuild/commands/base.py:339
-#: ../jhbuild/commands/rdepends.py:47
+#: ../jhbuild/commands/base.py:122 ../jhbuild/commands/base.py:157
+#: ../jhbuild/commands/base.py:413 ../jhbuild/commands/rdepends.py:47
 msgid "This command requires a module parameter."
 msgstr "Команда має обов'язковий параметр. "
 
-#: ../jhbuild/commands/base.py:155
+#: ../jhbuild/commands/base.py:135
+msgid "Clean one or more modules"
+msgstr "Очистити один або більше модулів"
+
+#: ../jhbuild/commands/base.py:144
+msgid "honour the makeclean setting in config file"
+msgstr "звертатися до параметру makeclean у конфігураційному файлі"
+
+#: ../jhbuild/commands/base.py:161
+msgid "I: clean command called while makeclean is set to False, skipped."
+msgstr "I: виклик команди clean коли makeclean має значення False, пропущено."
+
+#: ../jhbuild/commands/base.py:204
 msgid ""
 "I: bootstrap moduleset has been updated since the last time you used it, "
 "perhaps you should run jhbuild bootstrap."
@@ -102,182 +121,203 @@ msgstr ""
 "I: bootstrap набору модулів було оновлено з моменту останнього використання, "
 "можливо, слід запустити jhbuild bootstrap."
 
-#: ../jhbuild/commands/base.py:160
+#: ../jhbuild/commands/base.py:210
+#, python-format
+msgid ""
+"I: some bootstrap modules have been updated, perhaps you should update them: "
+"%s."
+msgstr ""
+"I: деякі bootstrap-модулі було оновлено, можливо, слід оновити їх: "
+"%s."
+
+#: ../jhbuild/commands/base.py:216
 msgid "Update and compile all modules (the default)"
 msgstr "Оновити та скомпілювати усі модулі (типово)"
 
-#: ../jhbuild/commands/base.py:163 ../jhbuild/commands/base.py:271
-#: ../jhbuild/commands/base.py:419 ../jhbuild/commands/tinderbox.py:31
+#: ../jhbuild/commands/base.py:219 ../jhbuild/commands/base.py:342
+#: ../jhbuild/commands/base.py:493 ../jhbuild/commands/tinderbox.py:31
 msgid "[ options ... ] [ modules ... ]"
 msgstr "[ параметри ... ] [ модулі ... ]"
 
-#: ../jhbuild/commands/base.py:175 ../jhbuild/commands/base.py:283
+#: ../jhbuild/commands/base.py:231 ../jhbuild/commands/base.py:354
 msgid "run make dist after building"
 msgstr "після збирання запустити make dist"
 
-#: ../jhbuild/commands/base.py:178 ../jhbuild/commands/base.py:286
+#: ../jhbuild/commands/base.py:234 ../jhbuild/commands/base.py:357
 msgid "run make distcheck after building"
 msgstr "після збирання запустити make distcheck"
 
-#: ../jhbuild/commands/base.py:181 ../jhbuild/commands/base.py:289
+#: ../jhbuild/commands/base.py:240 ../jhbuild/commands/base.py:360
 #: ../jhbuild/commands/tinderbox.py:43
 msgid "skip version control update"
 msgstr "пропустити оновлення з системи контролю версій"
 
-#: ../jhbuild/commands/base.py:184 ../jhbuild/commands/base.py:292
+#: ../jhbuild/commands/base.py:243 ../jhbuild/commands/base.py:363
 msgid "quiet (no output)"
 msgstr "не виводити повідомлення"
 
-#: ../jhbuild/commands/base.py:199 ../jhbuild/commands/base.py:298
+#: ../jhbuild/commands/base.py:258 ../jhbuild/commands/base.py:369
 msgid "run tests in real X and not in Xvfb"
 msgstr "запускати тести у системі X, а не у Xvfb"
 
-#: ../jhbuild/commands/base.py:202 ../jhbuild/commands/tinderbox.py:58
+#: ../jhbuild/commands/base.py:261 ../jhbuild/commands/tinderbox.py:58
 msgid "try to force checkout and autogen on failure"
 msgstr ""
 "у разі помилки, виконати примусове отримання коду з системи контролю версій "
 "та запустити autogen"
 
-#: ../jhbuild/commands/base.py:205 ../jhbuild/commands/tinderbox.py:61
+#: ../jhbuild/commands/base.py:264 ../jhbuild/commands/tinderbox.py:61
 msgid "don't poison modules on failure"
 msgstr "не виконувати poison модулів у разі помилки"
 
-#: ../jhbuild/commands/base.py:208 ../jhbuild/commands/base.py:301
+#: ../jhbuild/commands/base.py:267 ../jhbuild/commands/base.py:372
 #: ../jhbuild/commands/tinderbox.py:64
 msgid "build even if policy says not to"
 msgstr "збирати навіть, якщо у політиці сказано не так"
 
-#: ../jhbuild/commands/base.py:211
+#: ../jhbuild/commands/base.py:270
 msgid "also build soft-dependencies that could be skipped"
 msgstr "також збирати м'які залежності, які б були пропущені"
 
-#: ../jhbuild/commands/base.py:214 ../jhbuild/commands/base.py:304
+#: ../jhbuild/commands/base.py:273 ../jhbuild/commands/base.py:375
 msgid "skip modules installed less than the given time ago"
 msgstr "пропускати модулі, встановлені менше ніж вказаний час тому"
 
-#: ../jhbuild/commands/base.py:268
+#: ../jhbuild/commands/base.py:309 ../jhbuild/commands/base.py:401
+msgid "Failed to parse relative time"
+msgstr "не вдається розібрати відносний час"
+
+#: ../jhbuild/commands/base.py:329
+msgid "I: requested module is in the ignore list, nothing to do."
+msgstr "I: запитаний модуль у списку, немає що робити."
+
+#: ../jhbuild/commands/base.py:339
 msgid "Update and compile one or more modules"
 msgstr "Оновити та скомпілювати один або більше модулів"
 
-#: ../jhbuild/commands/base.py:348
+#: ../jhbuild/commands/base.py:422
 msgid "Run a command under the JHBuild environment"
 msgstr "Запустити команду у оточенні JHBuild"
 
-#: ../jhbuild/commands/base.py:351
+#: ../jhbuild/commands/base.py:425
 msgid "[ options ... ] program [ arguments ... ]"
 msgstr "[ параметри ... ] програма [ аргументи ... ]"
 
-#: ../jhbuild/commands/base.py:357
+#: ../jhbuild/commands/base.py:431
 msgid "run command in build dir of the given module"
 msgstr "виконати команду у каталозі збирання одного з вказаних модулів"
 
-#: ../jhbuild/commands/base.py:367 ../jhbuild/commands/base.py:394
+#: ../jhbuild/commands/base.py:441 ../jhbuild/commands/base.py:468
 #, python-format
 msgid "Unable to execute the command '%(command)s': %(err)s"
 msgstr "Не вдається виконати команду '%(command)s': %(err)s"
 
-#: ../jhbuild/commands/base.py:385
+#: ../jhbuild/commands/base.py:459
 #, python-format
 msgid "Unable to execute the command '%s'"
 msgstr "Не вдається виконати команду '%s'"
 
-#: ../jhbuild/commands/base.py:392 ../jhbuild/frontends/terminal.py:138
+#: ../jhbuild/commands/base.py:466 ../jhbuild/frontends/terminal.py:141
 msgid "No command given"
 msgstr "Не вказано жодної команди"
 
-#: ../jhbuild/commands/base.py:401
+#: ../jhbuild/commands/base.py:475
 msgid "Start a shell under the JHBuild environment"
 msgstr "Запустити оболонку у оточенні JHBuild"
 
-#: ../jhbuild/commands/base.py:416
+#: ../jhbuild/commands/base.py:490
 msgid "List the modules that would be built"
 msgstr "Перелічити модулі, які були б побудовані"
 
-#: ../jhbuild/commands/base.py:425
+#: ../jhbuild/commands/base.py:499
 msgid "show which revision will be built"
 msgstr "показати яка версія буде побудована"
 
-#: ../jhbuild/commands/base.py:434
+#: ../jhbuild/commands/base.py:505
+msgid "start list at the given module"
+msgstr "запустити список з вказаної команди"
+
+#: ../jhbuild/commands/base.py:514
 msgid "also list soft-dependencies that could be skipped"
 msgstr "також перелічити м'які залежності, які були б пропущені"
 
-#: ../jhbuild/commands/base.py:437
+#: ../jhbuild/commands/base.py:517
 msgid "list all modules, not only those that would be built"
 msgstr "перелічити усі модулі, але лише ті, які були б зібрані"
 
-#: ../jhbuild/commands/base.py:467
+#: ../jhbuild/commands/base.py:557
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Вивід граф залежностей у Graphviz для одного або кількох модулів"
 
-#: ../jhbuild/commands/base.py:470 ../jhbuild/commands/info.py:42
+#: ../jhbuild/commands/base.py:560 ../jhbuild/commands/info.py:42
 msgid "[ modules ... ]"
 msgstr "[ модулі ... ]"
 
-#: ../jhbuild/commands/base.py:476
+#: ../jhbuild/commands/base.py:566
 msgid "add dotted lines to soft dependencies"
 msgstr "додати рядки з крапками до м'яких залежностей"
 
-#: ../jhbuild/commands/base.py:479
+#: ../jhbuild/commands/base.py:569
 msgid "group modules from metamodule together"
 msgstr "згрупувати разом модулі з метамодуля"
 
-#: ../jhbuild/commands/bootstrap.py:29
+#: ../jhbuild/commands/bootstrap.py:30
 msgid "Build required support tools"
 msgstr "Зібрати потрібні допоміжні утиліти"
 
-#: ../jhbuild/commands/bot.py:48
+#: ../jhbuild/commands/bot.py:53
 msgid "Control buildbot"
 msgstr "Керування buildbot"
 
-#: ../jhbuild/commands/bot.py:57
+#: ../jhbuild/commands/bot.py:62
 msgid "setup a buildbot environment"
 msgstr "встановити оточення buildbot"
 
-#: ../jhbuild/commands/bot.py:60
+#: ../jhbuild/commands/bot.py:65
 msgid "start a buildbot slave server"
 msgstr "запустити дочірній сервер buildbot"
 
-#: ../jhbuild/commands/bot.py:63
+#: ../jhbuild/commands/bot.py:68
 msgid "stop a buildbot slave server"
 msgstr "зупинити дочірній сервер buildbot"
 
-#: ../jhbuild/commands/bot.py:66
+#: ../jhbuild/commands/bot.py:71
 msgid "start a buildbot master server"
 msgstr "запустити головний сервер buildbot"
 
-#: ../jhbuild/commands/bot.py:69
+#: ../jhbuild/commands/bot.py:74
 msgid "stop a buildbot master server"
 msgstr "зупинити головний сервер buildbot"
 
-#: ../jhbuild/commands/bot.py:72
+#: ../jhbuild/commands/bot.py:77
 msgid "start as daemon"
 msgstr "запустити службу"
 
-#: ../jhbuild/commands/bot.py:75
+#: ../jhbuild/commands/bot.py:80
 msgid "pid file location"
 msgstr "розташування pid-файлу"
 
-#: ../jhbuild/commands/bot.py:78
+#: ../jhbuild/commands/bot.py:83
 msgid "log file location"
 msgstr "розташування файлу журналу"
 
-#: ../jhbuild/commands/bot.py:81
-msgid "slaves csv file location (only with --start-server)"
-msgstr "розташування slave-файлів csv (лише з --start-server)"
+#: ../jhbuild/commands/bot.py:86
+msgid "directory with slaves files (only with --start-server)"
+msgstr "каталог з slave-файлами (лише з --start-server)"
 
-#: ../jhbuild/commands/bot.py:84
+#: ../jhbuild/commands/bot.py:89
 msgid "master cfg file location (only with --start-server)"
 msgstr "розташування головного конфігураційного файлу (лише з --start-server)"
 
-#: ../jhbuild/commands/bot.py:87
+#: ../jhbuild/commands/bot.py:92
 msgid "exec a buildbot step (internal use only)"
 msgstr "виконати крок buildbot (лише внутрішнє використання)"
 
-#: ../jhbuild/commands/bot.py:106
+#: ../jhbuild/commands/bot.py:111
 msgid "buildbot and twisted not found, run jhbuild bot --setup"
 msgstr "buildbot та twisted не знайдено, запустіть jhbuild bot --setup"
 
-#: ../jhbuild/commands/bot.py:632
+#: ../jhbuild/commands/bot.py:664
 msgid "failed to get buildbot PID"
 msgstr "не вдається отримати buildbot PID"
 
@@ -437,10 +477,10 @@ msgstr "шлях з префіксом встановлення недоступ
 #: ../jhbuild/commands/sanitycheck.py:134
 #: ../jhbuild/commands/sanitycheck.py:138
 #: ../jhbuild/commands/sanitycheck.py:149
-#: ../jhbuild/versioncontrol/arch.py:155 ../jhbuild/versioncontrol/bzr.py:114
-#: ../jhbuild/versioncontrol/cvs.py:293 ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/git.py:220 ../jhbuild/versioncontrol/hg.py:100
-#: ../jhbuild/versioncontrol/mtn.py:139 ../jhbuild/versioncontrol/svn.py:286
+#: ../jhbuild/versioncontrol/arch.py:155 ../jhbuild/versioncontrol/bzr.py:138
+#: ../jhbuild/versioncontrol/cvs.py:297 ../jhbuild/versioncontrol/darcs.py:108
+#: ../jhbuild/versioncontrol/git.py:234 ../jhbuild/versioncontrol/hg.py:100
+#: ../jhbuild/versioncontrol/mtn.py:139 ../jhbuild/versioncontrol/svn.py:311
 #, python-format
 msgid "%s not found"
 msgstr "%s не знайдено"
@@ -626,17 +666,22 @@ msgstr "префікс встанвлення повинен бути досту
 msgid "could not create directory %s"
 msgstr "не вдається створити каталог %s"
 
-#: ../jhbuild/frontends/buildscript.py:80
+#: ../jhbuild/frontends/buildscript.py:83
+#, python-format
+msgid "Failed to clean %s"
+msgstr "Помилка при очищенні %s"
+
+#: ../jhbuild/frontends/buildscript.py:101
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "Пропуск %s (недавно встановлено)"
 
-#: ../jhbuild/frontends/buildscript.py:88
+#: ../jhbuild/frontends/buildscript.py:109
 #, python-format
 msgid "module %(mod)s will be build even though %(dep)s failed"
 msgstr "модуль %(mod)s буде зібраний навіть якщо %(dep)s зазнає помилки"
 
-#: ../jhbuild/frontends/buildscript.py:91
+#: ../jhbuild/frontends/buildscript.py:112
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "модуль %(mod)s не зібраний через неможливість зібрати %(dep)s"
@@ -664,7 +709,7 @@ msgstr "%d з %d модулів"
 msgid "[%(num)d/%(total)d] %(action)s %(module)s"
 msgstr "[%(num)d/%(total)d] %(action)s %(module)s"
 
-#: ../jhbuild/frontends/gtkui.py:376 ../jhbuild/frontends/terminal.py:239
+#: ../jhbuild/frontends/gtkui.py:376 ../jhbuild/frontends/terminal.py:242
 msgid "success"
 msgstr "виконано"
 
@@ -736,7 +781,7 @@ msgstr "Оновити з CVS"
 msgid "_Pause Build"
 msgstr "_Призупитити збирати"
 
-#: ../jhbuild/frontends/terminal.py:204
+#: ../jhbuild/frontends/terminal.py:207
 msgid ""
 "\n"
 "Conflicts during checkout:\n"
@@ -745,67 +790,67 @@ msgstr ""
 "Конфлікти під час збирання:\n"
 
 #. it could happen on a really badly-timed ctrl-c (see bug 551641)
-#: ../jhbuild/frontends/terminal.py:227 ../jhbuild/frontends/terminal.py:230
+#: ../jhbuild/frontends/terminal.py:230 ../jhbuild/frontends/terminal.py:233
 #, python-format
 msgid "########## Error running %s"
 msgstr "########## Помилка під час запуску %s"
 
-#: ../jhbuild/frontends/terminal.py:241
+#: ../jhbuild/frontends/terminal.py:244
 msgid "the following modules were not built"
 msgstr "наступні модулі не було зібрано"
 
-#: ../jhbuild/frontends/terminal.py:248
+#: ../jhbuild/frontends/terminal.py:251
 #, python-format
 msgid "error during stage %(stage)s of %(module)s"
 msgstr "помилка на стадії збирання %(stage)s модуля %(module)s"
 
-#: ../jhbuild/frontends/terminal.py:269
+#: ../jhbuild/frontends/terminal.py:272
 #, python-format
 msgid "  [1] rerun stage %s"
 msgstr "  [1] перезапуск стадії %s"
 
-#: ../jhbuild/frontends/terminal.py:270
+#: ../jhbuild/frontends/terminal.py:273
 #, python-format
 msgid "  [2] ignore error and continue to %s"
 msgstr "  [2] ігнорувати та продовжити з %s"
 
-#: ../jhbuild/frontends/terminal.py:271
+#: ../jhbuild/frontends/terminal.py:274
 msgid "  [3] give up on module"
 msgstr "  [3] залишити модуль"
 
-#: ../jhbuild/frontends/terminal.py:272
+#: ../jhbuild/frontends/terminal.py:275
 msgid "  [4] start shell"
 msgstr "  [4] запустити оболонку"
 
-#: ../jhbuild/frontends/terminal.py:275
+#: ../jhbuild/frontends/terminal.py:278
 #, python-format
 msgid "  [%d] go to stage %s"
 msgstr "  [%d] перейти до стадії %s"
 
-#: ../jhbuild/frontends/terminal.py:277
+#: ../jhbuild/frontends/terminal.py:280
 msgid "choice: "
 msgstr "вибір: "
 
-#: ../jhbuild/frontends/terminal.py:291
+#: ../jhbuild/frontends/terminal.py:294
 msgid "exit shell to continue with build"
 msgstr "вийти з оболонки та продовжити збирати"
 
-#: ../jhbuild/frontends/terminal.py:299
+#: ../jhbuild/frontends/terminal.py:302
 msgid "invalid choice"
 msgstr "неправильний вибір"
 
 #: ../jhbuild/modtypes/ant.py:80 ../jhbuild/modtypes/autotools.py:100
 #: ../jhbuild/modtypes/cmake.py:74 ../jhbuild/modtypes/distutils.py:75
-#: ../jhbuild/modtypes/__init__.py:220 ../jhbuild/modtypes/linux.py:75
-#: ../jhbuild/modtypes/linux.py:88 ../jhbuild/modtypes/mesa.py:89
+#: ../jhbuild/modtypes/__init__.py:221 ../jhbuild/modtypes/linux.py:92
+#: ../jhbuild/modtypes/linux.py:103 ../jhbuild/modtypes/mesa.py:89
 #: ../jhbuild/modtypes/mozillamodule.py:75 ../jhbuild/modtypes/perl.py:71
 #: ../jhbuild/modtypes/waf.py:76
 msgid "Checking out"
 msgstr "Триває checkout"
 
-#: ../jhbuild/modtypes/ant.py:89 ../jhbuild/modtypes/autotools.py:214
+#: ../jhbuild/modtypes/ant.py:89 ../jhbuild/modtypes/autotools.py:217
 #: ../jhbuild/modtypes/cmake.py:98 ../jhbuild/modtypes/distutils.py:84
-#: ../jhbuild/modtypes/linux.py:143 ../jhbuild/modtypes/mesa.py:98
+#: ../jhbuild/modtypes/linux.py:186 ../jhbuild/modtypes/mesa.py:98
 #: ../jhbuild/modtypes/perl.py:80 ../jhbuild/modtypes/waf.py:129
 msgid "Building"
 msgstr "Збирання"
@@ -818,59 +863,59 @@ msgstr "Відсутні інструменти для збирання"
 #. "It's not clear to me how to install a typical
 #. ant-based project, so I left that out."
 #. -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
-#: ../jhbuild/modtypes/ant.py:110 ../jhbuild/modtypes/autotools.py:263
+#: ../jhbuild/modtypes/ant.py:110 ../jhbuild/modtypes/autotools.py:266
 #: ../jhbuild/modtypes/cmake.py:120 ../jhbuild/modtypes/distutils.py:99
-#: ../jhbuild/modtypes/linux.py:159 ../jhbuild/modtypes/mesa.py:114
+#: ../jhbuild/modtypes/linux.py:202 ../jhbuild/modtypes/mesa.py:114
 #: ../jhbuild/modtypes/mozillamodule.py:147 ../jhbuild/modtypes/perl.py:95
 #: ../jhbuild/modtypes/waf.py:172
 msgid "Installing"
 msgstr "Встановлення"
 
-#: ../jhbuild/modtypes/autotools.py:132 ../jhbuild/modtypes/cmake.py:83
-#: ../jhbuild/modtypes/linux.py:97 ../jhbuild/modtypes/mozillamodule.py:121
+#: ../jhbuild/modtypes/autotools.py:135 ../jhbuild/modtypes/cmake.py:83
+#: ../jhbuild/modtypes/linux.py:133 ../jhbuild/modtypes/mozillamodule.py:121
 #: ../jhbuild/modtypes/waf.py:102
 msgid "Configuring"
 msgstr "Налаштовування"
 
-#: ../jhbuild/modtypes/autotools.py:203 ../jhbuild/modtypes/linux.py:126
+#: ../jhbuild/modtypes/autotools.py:206 ../jhbuild/modtypes/linux.py:169
 #: ../jhbuild/modtypes/waf.py:119
 msgid "Cleaning"
 msgstr "Очищення"
 
-#: ../jhbuild/modtypes/autotools.py:234 ../jhbuild/modtypes/waf.py:145
+#: ../jhbuild/modtypes/autotools.py:237 ../jhbuild/modtypes/waf.py:145
 msgid "Checking"
 msgstr "Перевірка"
 
-#: ../jhbuild/modtypes/autotools.py:249 ../jhbuild/modtypes/cmake.py:109
+#: ../jhbuild/modtypes/autotools.py:252 ../jhbuild/modtypes/cmake.py:109
 #: ../jhbuild/modtypes/waf.py:159
 msgid "Creating tarball for"
 msgstr "Створення tar-арзіву для"
 
-#: ../jhbuild/modtypes/autotools.py:287
+#: ../jhbuild/modtypes/autotools.py:290
 msgid "Distcleaning"
 msgstr "Distclean"
 
-#: ../jhbuild/modtypes/autotools.py:402 ../jhbuild/modtypes/__init__.py:100
+#: ../jhbuild/modtypes/autotools.py:424 ../jhbuild/modtypes/__init__.py:101
 #, python-format
 msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
 msgstr "Repository=%s не знайдено для модуля id=%s. Можливі репозиторії %s"
 
-#: ../jhbuild/modtypes/__init__.py:54
+#: ../jhbuild/modtypes/__init__.py:55
 #, python-format
 msgid "unknown module type %s"
 msgstr "невідомий тип модуля %s"
 
-#: ../jhbuild/modtypes/__init__.py:70
+#: ../jhbuild/modtypes/__init__.py:71
 #, python-format
 msgid "dep node for module %s is missing package attribute"
 msgstr "dep вузла для модуля %s відсутній атрибут пакету"
 
-#: ../jhbuild/modtypes/__init__.py:93
+#: ../jhbuild/modtypes/__init__.py:94
 #, python-format
 msgid "no <branch> element found for %s"
 msgstr "не знайдено елементу <branch> для %s"
 
-#: ../jhbuild/modtypes/__init__.py:106
+#: ../jhbuild/modtypes/__init__.py:107
 #, python-format
 msgid ""
 "Default Repository=%s not found for module id=%s. Possible repositories are %"
@@ -878,32 +923,40 @@ msgid ""
 msgstr ""
 "Типовий репозиторій=%s не знайдено для модуля id=%s. Можливі репозиторії %s"
 
-#: ../jhbuild/modtypes/__init__.py:203
+#: ../jhbuild/modtypes/__init__.py:204
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Пропуск %s (не оновлено)"
 
-#: ../jhbuild/modtypes/__init__.py:215
+#: ../jhbuild/modtypes/__init__.py:216
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Пропуск %s (пакет та залежності не оновлено)"
 
-#: ../jhbuild/modtypes/__init__.py:224
+#: ../jhbuild/modtypes/__init__.py:225
 #: ../jhbuild/modtypes/mozillamodule.py:106
 #, python-format
 msgid "source directory %s was not created"
 msgstr "первинний каталог %s не створено"
 
-#: ../jhbuild/modtypes/linux.py:80
+#: ../jhbuild/modtypes/linux.py:46
 #, python-format
 msgid "kconfig file %s was not created"
 msgstr "файл kconfig %s не було створено"
 
-#: ../jhbuild/modtypes/linux.py:177
+#: ../jhbuild/modtypes/linux.py:112
+msgid "make mrproper"
+msgstr "make mrproper"
+
+#: ../jhbuild/modtypes/linux.py:223
 msgid "Installing modules"
 msgstr "Встановлюються модулі"
 
-#: ../jhbuild/modtypes/linux.py:206
+#: ../jhbuild/modtypes/linux.py:241
+msgid "Installing kernel"
+msgstr "Встановлення ядра"
+
+#: ../jhbuild/modtypes/linux.py:275
 #, python-format
 msgid ""
 "Repository=%s not found for kconfig in linux id=%s. Possible repositories "
@@ -911,7 +964,7 @@ msgid ""
 msgstr ""
 "Repository=%s не знайдено для kconfig у linux id=%s. Можливі репозиторії %s"
 
-#: ../jhbuild/modtypes/linux.py:211
+#: ../jhbuild/modtypes/linux.py:280
 #, python-format
 msgid ""
 "Default Repository=%s not found for kconfig in module id=%s. Possible "
@@ -919,11 +972,6 @@ msgid ""
 msgstr ""
 "Типовий репозиторій=%s не знайдено для kconfig у модулі id=%s. Можливі "
 "репозиторії %s"
-
-#: ../jhbuild/modtypes/linux.py:225
-#, python-format
-msgid "No <kconfig> elements found for module %s"
-msgstr "Не знайдено елемент <kconfig> у модулі %s"
 
 #: ../jhbuild/modtypes/mozillamodule.py:72
 msgid "could not determine mozilla version"
@@ -967,39 +1015,39 @@ msgstr "не вдається зареєструвати архів %s"
 msgid "archive %s not registered"
 msgstr "архів %s не зареєстровано"
 
-#: ../jhbuild/versioncontrol/arch.py:92 ../jhbuild/versioncontrol/bzr.py:63
-#: ../jhbuild/versioncontrol/darcs.py:55 ../jhbuild/versioncontrol/git.py:76
+#: ../jhbuild/versioncontrol/arch.py:92 ../jhbuild/versioncontrol/bzr.py:62
+#: ../jhbuild/versioncontrol/darcs.py:55 ../jhbuild/versioncontrol/git.py:77
 #: ../jhbuild/versioncontrol/hg.py:53 ../jhbuild/versioncontrol/mtn.py:52
-#: ../jhbuild/versioncontrol/tarball.py:66
+#: ../jhbuild/versioncontrol/tarball.py:67
 #, python-format
 msgid "branch for %s has wrong override, check your .jhbuildrc"
 msgstr "гілка для %s має неправильне перевизначення, перевірте файл .jhbuildrc"
 
 #: ../jhbuild/versioncontrol/arch.py:128 ../jhbuild/versioncontrol/arch.py:141
-#: ../jhbuild/versioncontrol/bzr.py:99 ../jhbuild/versioncontrol/bzr.py:105
+#: ../jhbuild/versioncontrol/bzr.py:121 ../jhbuild/versioncontrol/bzr.py:127
 #: ../jhbuild/versioncontrol/darcs.py:84 ../jhbuild/versioncontrol/darcs.py:90
-#: ../jhbuild/versioncontrol/git.py:325 ../jhbuild/versioncontrol/git.py:361
-#: ../jhbuild/versioncontrol/git.py:420 ../jhbuild/versioncontrol/hg.py:85
+#: ../jhbuild/versioncontrol/git.py:348 ../jhbuild/versioncontrol/git.py:384
+#: ../jhbuild/versioncontrol/git.py:443 ../jhbuild/versioncontrol/hg.py:85
 #: ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
 msgstr "checkout оснований на даті ще не підтримується\n"
 
-#: ../jhbuild/versioncontrol/cvs.py:103
+#: ../jhbuild/versioncontrol/cvs.py:104
 #, python-format
 msgid "could not log into %s\n"
 msgstr "не вдається увійти у %s\n"
 
-#: ../jhbuild/versioncontrol/cvs.py:121
+#: ../jhbuild/versioncontrol/cvs.py:122
 #, python-format
 msgid "%s is not managed by CVS"
 msgstr "%s не керується CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:270
+#: ../jhbuild/versioncontrol/cvs.py:274
 #, python-format
 msgid "\"%s\" does not appear to be a CVS working copy"
 msgstr "\"%s\" не схожий на робочу копію CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:273
+#: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid ""
 "working copy points at the wrong repository (expected %(root1)s but got %"
@@ -1008,21 +1056,21 @@ msgstr ""
 "точки робочих копій у неправильному репозиторії (очікувалось %(root1)s але "
 "отримано %(root2)s). "
 
-#: ../jhbuild/versioncontrol/cvs.py:275
+#: ../jhbuild/versioncontrol/cvs.py:279
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Для виправлення скористайтесь сценарієм changecvsroot.py."
 
-#: ../jhbuild/versioncontrol/git.py:138
+#: ../jhbuild/versioncontrol/git.py:152
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Команда %s не повернула виводу"
 
-#: ../jhbuild/versioncontrol/git.py:143
+#: ../jhbuild/versioncontrol/git.py:157
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Команда %s не містить commit-рядок: %r"
 
-#: ../jhbuild/versioncontrol/git.py:292
+#: ../jhbuild/versioncontrol/git.py:315
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1030,17 +1078,17 @@ msgstr ""
 "Помилка у зовнішній обробці\n"
 " Якщо у Вас git версії < 1.5.6 рекомендується оновити її.\n"
 
-#: ../jhbuild/versioncontrol/git.py:337
+#: ../jhbuild/versioncontrol/git.py:360
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
 "Не вдається отримати останню версію з %s. Перевірте розташування модуля."
 
-#: ../jhbuild/versioncontrol/__init__.py:94
+#: ../jhbuild/versioncontrol/__init__.py:104
 msgid "force_checkout not implemented"
 msgstr "force_checkout не реалізовано"
 
-#: ../jhbuild/versioncontrol/__init__.py:123
+#: ../jhbuild/versioncontrol/__init__.py:137
 #, python-format
 msgid "unknown repository type %s"
 msgstr "невідомий тип репозиторію %s"
@@ -1070,82 +1118,82 @@ msgstr "Триває Checkout гілки '%(branch)s' у каталог '%(dir)s
 msgid "Updating working copy %s"
 msgstr "Оновлення робочої копії %s"
 
-#: ../jhbuild/versioncontrol/svn.py:70
+#: ../jhbuild/versioncontrol/svn.py:74
 msgid "Getting SVN subdirs: this operation might be long..."
 msgstr "Отримання підкаталогів SVN: ця операція може тривати довго..."
 
-#: ../jhbuild/versioncontrol/svn.py:101
+#: ../jhbuild/versioncontrol/svn.py:97
 #, python-format
 msgid "could not get Subversion URI for %s"
 msgstr "не вдається отримати Subversion URI для %s"
 
-#: ../jhbuild/versioncontrol/svn.py:104
+#: ../jhbuild/versioncontrol/svn.py:100
 #, python-format
 msgid "could not parse \"svn info\" output for %s"
 msgstr "не вдається розібрати вивід \"svn info\" для %s"
 
-#: ../jhbuild/versioncontrol/svn.py:282
+#: ../jhbuild/versioncontrol/svn.py:307
 msgid "Error checking for conflicts"
 msgstr "Помилка при перевірці конфліктів"
 
-#: ../jhbuild/versioncontrol/tarball.py:82
+#: ../jhbuild/versioncontrol/tarball.py:83
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "гілка %s не є коректною, перевірте файл moduleset."
 
-#: ../jhbuild/versioncontrol/tarball.py:114
+#: ../jhbuild/versioncontrol/tarball.py:119
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL не містить компоненту імені файлу: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:147
+#: ../jhbuild/versioncontrol/tarball.py:158
 msgid "file not downloaded"
 msgstr "файл не завантажено"
 
-#: ../jhbuild/versioncontrol/tarball.py:152
+#: ../jhbuild/versioncontrol/tarball.py:163
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "розмір завантаженого файлу є некоректним (очікувався %(size1)d, отримано %"
 "(size2)d)"
 
-#: ../jhbuild/versioncontrol/tarball.py:163
+#: ../jhbuild/versioncontrol/tarball.py:174
 #, python-format
 msgid "file MD5 sum is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "MD5-сума файл є некоректною (очікувалось %(sum1)s, отримано %(sum2)s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:181
+#: ../jhbuild/versioncontrol/tarball.py:192
 msgid "unable to find wget or curl"
 msgstr "не вдається знайти wget або curl"
 
-#: ../jhbuild/versioncontrol/tarball.py:189
+#: ../jhbuild/versioncontrol/tarball.py:200
 #, python-format
 msgid "failed to unpack %s"
 msgstr "помилка при розпаковуванні %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:192
+#: ../jhbuild/versioncontrol/tarball.py:203
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "не вдається розпакувати tar-архів (очікувався каталог %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:207
+#: ../jhbuild/versioncontrol/tarball.py:218
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "не вдається завантажити латку (помилка: %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:209
+#: ../jhbuild/versioncontrol/tarball.py:220
 msgid "could not download patch"
 msgstr "не вдається завершити латку"
 
-#: ../jhbuild/versioncontrol/tarball.py:230
+#: ../jhbuild/versioncontrol/tarball.py:241
 msgid "Applying patch"
 msgstr "Застосовується латка"
 
-#: ../jhbuild/versioncontrol/tarball.py:237
+#: ../jhbuild/versioncontrol/tarball.py:248
 msgid "unable to find quilt"
 msgstr "не вдається знайти quilt"
 
-#: ../jhbuild/versioncontrol/tarball.py:248
+#: ../jhbuild/versioncontrol/tarball.py:259
 msgid "could not checkout quilt patch set"
 msgstr "не вдається виконати checkout quilt набору латок"
 
@@ -1153,28 +1201,39 @@ msgstr "не вдається виконати checkout quilt набору ла�
 msgid "could not load config defaults"
 msgstr "не вдаєтьтся завантажити подробиці конфігурації"
 
-#: ../jhbuild/config.py:112
+#: ../jhbuild/config.py:109
+#, python-format
+msgid "could not load config file, %s is missing"
+msgstr "не вдається завантажити конфігураційний файл, відсутній %s"
+
+#: ../jhbuild/config.py:120
 msgid "could not load config file"
 msgstr "не вдається завантажити конфігураційний файл"
 
-#: ../jhbuild/config.py:126
+#: ../jhbuild/config.py:134
 #, python-format
 msgid "I: unknown keys defined in configuration file: %s"
 msgstr "I: у конфігураційному файлі визначено невідомі ключі: %s"
 
-#: ../jhbuild/config.py:154
+#: ../jhbuild/config.py:162
 msgid "invalid checkout mode"
 msgstr "неправильний режим checkout"
 
-#: ../jhbuild/config.py:157
+#: ../jhbuild/config.py:165
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "неправильний режим checkout (модуль: %s)"
 
-#: ../jhbuild/config.py:168 ../jhbuild/config.py:217
+#: ../jhbuild/config.py:174 ../jhbuild/config.py:235
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Не вдається створити каталог %s"
+
+#: ../jhbuild/config.py:294
+msgid ""
+"W: quiet mode has been disabled because the Python curses module is missing."
+msgstr ""
+"W: тихий режим вимкнено оскільки відсутній модуль curses для  Python."
 
 #: ../jhbuild/main.py:85
 msgid "JHBuild commands are:"
@@ -1226,38 +1285,39 @@ msgstr "EOF"
 msgid "I: fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "I: виправлено регістр модуля '%(orig)s' на '%(new)s'"
 
-#: ../jhbuild/moduleset.py:70
+#: ../jhbuild/moduleset.py:71
 #, python-format
 msgid "module \"%s\" not found"
 msgstr "не знайдено модуль \"%s\""
 
-#: ../jhbuild/moduleset.py:84
+#: ../jhbuild/moduleset.py:85
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s має залежність від невідомого модуля \"%(invalid)s\""
 
-#: ../jhbuild/moduleset.py:209
+#: ../jhbuild/moduleset.py:230
 msgid "W: Unknown module:"
 msgstr "W: Невідомий модуль:"
 
-#: ../jhbuild/moduleset.py:295
+#: ../jhbuild/moduleset.py:315
 #, python-format
 msgid "could not download %s: %s"
 msgstr "не вдається завантажити %s: %s"
 
-#: ../jhbuild/moduleset.py:300 ../jhbuild/moduleset.py:302
+#: ../jhbuild/moduleset.py:320 ../jhbuild/moduleset.py:322
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "помилка розбору %s: %s"
 
-#: ../jhbuild/moduleset.py:420
+#: ../jhbuild/moduleset.py:440
 msgid ""
 "I: modulesets were edited locally but jhbuild is configured to get them from "
 "subversion, perhaps you need to add use_local_modulesets = True to your ."
 "jhbuildrc."
 msgstr ""
-"I: набір модулів було відредаговано локально, але jhbuild налаштовано на отримання їх з "
-"subversion, можливо слід додати use_local_modulesets = True у Ваш файл .jhbuildrc."
+"I: набір модулів було відредаговано локально, але jhbuild налаштовано на "
+"отримання їх з subversion, можливо слід додати use_local_modulesets = True у "
+"Ваш файл .jhbuildrc."
 
 #: ../jhbuild/monkeypatch.py:144
 #, python-format
@@ -1272,4 +1332,5 @@ msgstr "Дуже багато позиційних аргументів"
 msgid "Unrecognized named group in pattern"
 msgstr "Невідома іменована група у шаблоні"
 
-
+#~ msgid "No <kconfig> elements found for module %s"
+#~ msgstr "Не знайдено елемент <kconfig> у модулі %s"

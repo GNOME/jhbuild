@@ -22,7 +22,7 @@ __all__ = []
 
 import os, sys
 
-from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
@@ -153,13 +153,7 @@ class ArchBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('arch', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'arch')
-        if os.path.exists(self.srcdir):
-            self._update(buildscript)
-        else:
-            self._checkout(buildscript)
-
-    def force_checkout(self, buildscript):
-        self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):

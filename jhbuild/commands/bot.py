@@ -32,6 +32,11 @@ import socket
 import __builtin__
 import csv
 
+try:
+    import elementtree.ElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
+
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
@@ -45,10 +50,10 @@ except ImportError:
     buildbot = None
 
 class cmd_bot(Command):
-    doc = _('Control buildbot')
+    doc = N_('Control buildbot')
 
     name = 'bot'
-    usage_args = '[ options ... ]'
+    usage_args = N_('[ options ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -64,6 +69,9 @@ class cmd_bot(Command):
             make_option('--start-server',
                         action='store_true', dest='start_server', default=False,
                         help=_('start a buildbot master server')),
+            make_option('--reload-server-config',
+                        action='store_true', dest='reload_server_config', default=False,
+                        help=_('reload a buildbot master server configuration')),
             make_option('--stop-server',
                         action='store_true', dest='stop_server', default=False,
                         help=_('stop a buildbot master server')),
@@ -76,9 +84,12 @@ class cmd_bot(Command):
             make_option('--logfile', metavar='LOGFILE',
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
-            make_option('--slvfile', metavar='SLAVESFILE',
-                        action='store', dest='slavesfile', default='slaves.csv',
-                        help=_('slaves csv file location (only with --start-server)')),
+            make_option('--slaves-dir', metavar='SLAVESDIR',
+                        action='store', dest='slaves_dir', default='.',
+                        help=_('directory with slaves files (only with --start-server)')),
+            make_option('--buildbot-dir', metavar='BUILDBOTDIR',
+                        action='store', dest='buildbot_dir', default=None,
+                        help=_('directory with buildbot work files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
                         action='store', dest='mastercfgfile', default='master.cfg',
                         help=_('master cfg file location (only with --start-server)')),
@@ -112,8 +123,9 @@ class cmd_bot(Command):
         daemonize = False
         pidfile = None
         logfile = None
-        slavesfile = None
+        slaves_dir = None
         mastercfgfile = None
+        buildbot_dir = None
 
         if options.daemon:
             daemonize = True
@@ -121,10 +133,12 @@ class cmd_bot(Command):
             pidfile = options.pidfile
         if options.logfile:
             logfile = options.logfile
-        if options.slavesfile:
-            slavesfile = options.slavesfile
+        if options.slaves_dir:
+            slaves_dir = options.slaves_dir
         if options.mastercfgfile:
             mastercfgfile = options.mastercfgfile
+        if options.buildbot_dir:
+            buildbot_dir = os.path.abspath(options.buildbot_dir)
 
         if options.start:
             return self.start(config, daemonize, pidfile, logfile)
@@ -137,29 +151,37 @@ class cmd_bot(Command):
             __builtin__.__dict__['_'] = lambda x: x
             config.interact = False
             config.nonetwork = True
-            if args[0] == 'update':
-                command = 'updateone'
-                config.nonetwork = False
-            elif args[0] == 'build':
-                command = 'buildone'
-                config.alwaysautogen = True
-            elif args[0] == 'check':
-                command = 'buildone'
-                config.nobuild = True
-                config.makecheck = True
-                config.forcecheck = True
-                config.build_policy = 'all'
+            os.environ['TERM'] = 'dumb'
+            if args[0] in ('update', 'build', 'check', 'clean'):
+                module_set = jhbuild.moduleset.load(config)
+                buildscript = jhbuild.frontends.get_buildscript(config,
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                phases = None
+                if args[0] == 'update':
+                    config.nonetwork = False
+                    phases = ['checkout']
+                elif args[0] == 'build':
+                    config.alwaysautogen = True
+                    config.build_targets = ['install']
+                elif args[0] == 'check':
+                    phases = ['check']
+                elif args[0] == 'clean':
+                    phases = ['clean']
+                rc = buildscript.build(phases=phases)
             else:
                 command = args[0]
-            os.environ['TERM'] = 'dumb'
-            rc = jhbuild.commands.run(command, config, args[1:])
+                rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile, logfile, slavesfile, mastercfgfile)
+            return self.start_server(config, daemonize, pidfile, logfile,
+                    slaves_dir, mastercfgfile, buildbot_dir)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
+
+        if options.reload_server_config:
+            return self.reload_server_config(config, pidfile)
 
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
@@ -214,7 +236,8 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile, logfile, slavesfile, mastercfgfile):
+    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir,
+            mastercfgfile, buildbot_dir):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -244,6 +267,51 @@ class cmd_bot(Command):
         from buildbot import interfaces
         from buildbot.process.properties import Properties
 
+        class JhBuildSlave(BuildSlave):
+            contact_name = None
+            contact_email = None
+            url = None
+            distribution = None
+            architecture = None
+            version = None
+
+            max_builds = 2
+
+            run_checks = True
+            run_coverage_report = False
+            run_clean_afterwards = False
+
+            def load_extra_configuration(self, slaves_dir):
+                slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
+                if not os.path.exists(slave_xml_file):
+                    return
+                try:
+                    cfg = ET.parse(slave_xml_file)
+                except: # parse error
+                    return
+
+                for attribute in ('config/max_builds', 'config/missing_timeout',
+                            'config/run_checks', 'config/run_coverage_report',
+                            'config/run_clean_afterwards',
+                            'info/contact_name', 'info/contact_email',
+                            'info/url', 'info/distribution', 'info/architecture',
+                            'info/version'):
+                    attr_name = attribute.split('/')[-1]
+                    try:
+                        value = cfg.find(attribute).text
+                    except AttributeError:
+                        continue
+
+                    if attr_name in ('max_builds', 'missing_timeout'): # int value
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            continue
+
+                    if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards'):
+                        value = (value == 'yes')
+
+                    setattr(self, attr_name, value)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
@@ -258,6 +326,8 @@ class cmd_bot(Command):
                 except:
                     log.msg("error while parsing config file")
                     raise
+
+                jhbuild_config.load()
 
                 try:
                     config = localDict['BuildmasterConfig']
@@ -281,28 +351,16 @@ class cmd_bot(Command):
                 # current directory (unless instructed different from command line) 
                 # it is a CSV file structured like this:
                 #   slavename,password
-                # it is also possible to define build slave options, for
-                # example:
-                #   slavename,password,max_builds=2
-                # (recognized build slave options are max_build and
-                # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists(slavesfile):
-                    for x in csv.reader(file(slavesfile)):
+                slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                if os.path.exists(slaves_csv_file):
+                    for x in csv.reader(file(slaves_csv_file)):
                         if not x or x[0].startswith('#'):
                             continue
                         kw = {}
-                        for option in x[2:]:
-                            if not '=' in option:
-                                continue
-                            k, v = option.split('=', 1)
-                            if k in ('max_builds', 'missing_timeout'):
-                                v = int(v)
-                            else:
-                                # unrecognized option
-                                continue
-                            kw[k] = v
-                        config['slaves'].append(BuildSlave(x[0], x[1], **kw))
+                        build_slave = JhBuildSlave(x[0], x[1])
+                        build_slave.load_extra_configuration(slaves_dir)
+                        config['slaves'].append(build_slave)
 
                 if len(config['slaves']) == 0:
                     log.msg('you must fill slaves.csv with slaves')
@@ -349,7 +407,7 @@ class cmd_bot(Command):
                 config['builders'] = []
                 for project in config['projects']:
                     for slave in config['slaves']:
-                        f = JHBuildFactory(project)
+                        f = JHBuildFactory(project, slave)
                         config['builders'].append({
                             'name' : "%s-%s" % (project, slave.slavename),
                             'slavename' : slave.slavename,
@@ -414,7 +472,7 @@ class cmd_bot(Command):
                     log.msg(m)
                     warnings.warn(m, DeprecationWarning)
                     for name, passwd in config['bots']:
-                        slaves.append(BuildSlave(name, passwd))
+                        slaves.append(JhBuildSlave(name, passwd))
 
                 if "bots" not in config and "slaves" not in config:
                     log.msg("config dictionary must have either 'bots' or 'slaves'")
@@ -439,7 +497,7 @@ class cmd_bot(Command):
 
                 # do some validation first
                 for s in slaves:
-                    assert isinstance(s, BuildSlave)
+                    assert isinstance(s, JhBuildSlave)
                     if s.slavename in ("debug", "change", "status"):
                         raise KeyError, "reserved name '%s' used for a bot" % s.slavename
                 if config.has_key('interlocks'):
@@ -612,9 +670,10 @@ class cmd_bot(Command):
                 d.addCallback(lambda res: self.botmaster.maybeStartAllBuilds())
                 return d
 
-        basedir = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '../../buildbot/')
+        if buildbot_dir:
+            basedir = buildbot_dir
+        else:
+            basedir = os.path.join(SRCDIR, 'buildbot')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
@@ -632,6 +691,14 @@ class cmd_bot(Command):
             raise FatalError(_('failed to get buildbot PID'))
 
         os.kill(pid, signal.SIGTERM)
+
+    def reload_server_config(self, config, pidfile):
+        try:
+            pid = int(file(pidfile).read())
+        except:
+            raise FatalError(_('failed to get buildbot PID'))
+
+        os.kill(pid, signal.SIGHUP)
 
 
 register_command(cmd_bot)

@@ -34,9 +34,7 @@ from jhbuild.utils.cmds import has_command, get_output
 from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache
-
-jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                 '..', '..'))
+from jhbuild.utils.sxml import sxml
 
 
 class TarballRepository(Repository):
@@ -57,10 +55,10 @@ class TarballRepository(Repository):
         self.href = config.repos.get(name, href)
 
     branch_xml_attrs = ['version', 'module', 'checkoutdir',
-                        'size', 'md5sum']
+                        'size', 'md5sum', 'source-subdir']
 
     def branch(self, name, version, module=None, checkoutdir=None,
-               size=None, md5sum=None, branch_id=None):
+               size=None, md5sum=None, branch_id=None, source_subdir=None):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
@@ -74,7 +72,7 @@ class TarballRepository(Repository):
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
                              source_size=size, source_md5=md5sum,
-                             branch_id=branch_id)
+                             branch_id=branch_id, source_subdir=source_subdir)
 
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
         try:
@@ -95,12 +93,15 @@ class TarballRepository(Repository):
                 branch.quilt = get_branch(childnode, repositories, default_repo)
         return branch
 
+    def to_sxml(self):
+        return [sxml.repository(type='tarball', name=self.name, href=self.href)]
+
 
 class TarballBranch(Branch):
     """A class representing a Tarball."""
 
     def __init__(self, repository, module, version, checkoutdir,
-                 source_size, source_md5, branch_id):
+                 source_size, source_md5, branch_id, source_subdir=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.version = version
         self.source_size = source_size
@@ -108,6 +109,7 @@ class TarballBranch(Branch):
         self.patches = []
         self.quilt = None
         self.branch_id = branch_id
+        self.source_subdir = source_subdir
 
     def revision_id(self):
         return self.version
@@ -122,7 +124,7 @@ class TarballBranch(Branch):
         return localfile
     _local_tarball = property(_local_tarball)
 
-    def srcdir(self):
+    def raw_srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
 
@@ -133,6 +135,8 @@ class TarballBranch(Branch):
             localdir = localdir[:-7]
         elif localdir.endswith('.tar.bz2'):
             localdir = localdir[:-8]
+        elif localdir.endswith('.tar.lzma'):
+            localdir = localdir[:-9]
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
         elif localdir.endswith('.zip'):
@@ -140,6 +144,12 @@ class TarballBranch(Branch):
         if localdir.endswith('.src'):
             localdir = localdir[:-4]
         return localdir
+    raw_srcdir = property(raw_srcdir)
+
+    def srcdir(self):
+        if self.source_subdir:
+            return os.path.join(self.raw_srcdir, self.source_subdir)
+        return self.raw_srcdir
     srcdir = property(srcdir)
 
     def branchname(self):
@@ -172,17 +182,23 @@ class TarballBranch(Branch):
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
         if not os.path.exists(self.config.tarballdir):
-            os.makedirs(self.config.tarballdir)
+            try:
+                os.makedirs(self.config.tarballdir)
+            except OSError:
+                raise FatalError(
+                        _('tarball dir (%s) can not be created') % self.config.tarballdir)
+        if not os.access(self.config.tarballdir, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('tarball dir (%s) must be writable') % self.config.tarballdir)
         try:
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
             if has_command('wget'):
                 res = buildscript.execute(
-                        ['wget', self.module, '-O', localfile])
+                        ['wget', '--continue', self.module, '-O', localfile])
             elif has_command('curl'):
                 res = buildscript.execute(
-                        ['curl', '-L', self.module, '-o', localfile])
+                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile])
             else:
                 raise FatalError(_("unable to find wget or curl"))
 
@@ -227,16 +243,25 @@ class TarballBranch(Branch):
                         continue
                     break
                 else:
-                    # not found, fallback to jhbuild provided patches
-                    patchfile = os.path.join(jhbuild_directory, 'patches', patch)
-            else:
-                # nothing else, use jbuild provided patches
-                patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+                    patchfile = ''
+
+            if not patchfile:
+                # nothing else, use jhbuild provided patches
+                for dirname in (
+                        os.path.join(self.config.modulesets_dir, 'patches'),
+                        os.path.join(self.config.modulesets_dir, '../patches'),
+                        os.path.join(PKGDATADIR, 'patches', patch),
+                        os.path.join(SRCDIR, 'patches', patch)):
+                    patchfile = os.path.join(dirname, patch)
+                    if os.path.exists(patchfile):
+                        break
+                else:
+                    raise CommandError(_('Failed to find patch: %s') % patch)
 
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
             buildscript.execute('patch -p%d < "%s"'
                                 % (patchstrip, patchfile),
-                                cwd=self.srcdir)
+                                cwd=self.raw_srcdir)
 
     def _quilt_checkout(self, buildscript):
         if not has_command('quilt'):
@@ -281,5 +306,15 @@ class TarballBranch(Branch):
                         cwd=self.srcdir,
                         extra_env={'QUILT_PATCHES' : self.quilt.srcdir}))
         return '%s-%s' % (self.version, md5sum.hexdigest())
+
+    def to_sxml(self):
+        return ([sxml.branch(module=self.module,
+                             repo=self.repository.name,
+                             version=self.version,
+                             size=str(self.source_size),
+                             md5sum=self.source_md5)]
+                + [[sxml.patch(file=patch, strip=str(strip))]
+                   for patch, strip in self.patches])
+
 
 register_repo_type('tarball', TarballRepository)

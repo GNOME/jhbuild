@@ -21,7 +21,9 @@ which gnome-autogen.sh || {
     exit 1
 }
 
+touch $srcdir/ChangeLog # required for automake
 
+export PKG_NAME
 REQUIRED_AUTOCONF_VERSION=2.57 \
 REQUIRED_AUTOMAKE_VERSION=1.8 \
 REQUIRED_INTLTOOL_VERSION=0.35.0 \

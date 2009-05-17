@@ -35,7 +35,8 @@ except ImportError:
 import os
 import re
 
-from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
+from jhbuild.utils.sxml import sxml
 
 def lax_int(s):
     try:
@@ -129,30 +130,26 @@ def get_branch(node, repositories, default_repo, config):
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
 
-class SkipToState(Exception):
-    def __init__(self, state):
-        Exception.__init__(self)
-        self.state = state
-
-
 class Package:
     type = 'base'
-    STATE_START = 'start'
-    STATE_APT_GET_UPDATE = 'apt_get_update'
-    STATE_BUILD_DEPS     = 'build_deps'
-    STATE_DONE  = 'done'
-    def __init__(self, name, dependencies = [], after = [], suggests = [],
-            extra_env = None):
+    PHASE_START = 'start'
+    PHASE_APT_GET_UPDATE = 'apt_get_update'
+    PHASE_BUILD_DEPS     = 'build_deps'
+    PHASE_DONE  = 'done'
+    def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
         self.tags = []
         self.moduleset_name = None
-        self.extra_env = extra_env
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
+
+    def get_extra_env(self):
+        return self.config.module_extra_env.get(self.name)
+    extra_env = property(get_extra_env)
 
     def get_srcdir(self, buildscript):
         raise NotImplementedError
@@ -238,65 +235,39 @@ class Package:
     def get_revision(self):
         return None
 
-    def _next_state(self, buildscript, last_state):
-        """Work out what state to go to next, possibly skipping some states.
-
-        This function executes skip_$state() to decide whether to run that
-        state or not.  If it returns True, go to do_$state.next_state and
-        repeat.  If it returns False, return that state.
-        """
-
+    def skip_phase(self, buildscript, phase, last_phase):
         if buildscript.config.debuild:
-            self.do_prefix = 'do_deb_'
-            self.skip_prefix = 'skip_deb_'
+            skip_prefix = 'skip_deb_'
         else:
-            self.do_prefix = 'do_'
-            self.skip_prefix = 'skip_'
+            skip_prefix = 'skip_'
 
-        seen_states = []
-        state = getattr(self, self.do_prefix + last_state).next_state
-        while True:
-            seen_states.append(state)
-            if state == self.STATE_DONE:
-                return state
+        try:
+            skip_phase_method = getattr(self, skip_prefix + phase)
+        except AttributeError:
+            return False
+        return skip_phase_method(buildscript, last_phase)
 
-            do_method = getattr(self, self.do_prefix + state)
-            skip_method = getattr(self, self.skip_prefix + state)
-            try:
-                if skip_method(buildscript, last_state):
-                    state = do_method.next_state
-                    assert state not in seen_states, (
-                        'state %s should not appear in list of '
-                        'skipped states: %r' % (state, seen_states))
-                else:
-                    return state
-            except SkipToState, e:
-                return e.state
-
-    def run_state(self, buildscript, state):
+    def run_phase(self, buildscript, phase):
         """run a particular part of the build for this package.
 
         Returns a tuple of the following form:
-          (next-state, error-flag, [other-states])
+          (error-flag, [other-phases])
         """
-
         if buildscript.config.debuild:
-            self.do_prefix = 'do_deb_'
-            self.skip_prefix = 'skip_deb_'
+            do_prefix = 'do_deb_'
         else:
-            self.do_prefix = 'do_'
-            self.skip_prefix = 'skip_'
+            do_prefix = 'do_'
 
-        method = getattr(self, self.do_prefix + state)
+        method = getattr(self, do_prefix + phase)
         try:
             method(buildscript)
-        except SkipToState, e:
-            return (e.state, None, None)
         except (CommandError, BuildStateError), e:
-            return (self._next_state(buildscript, state),
-                    e, method.error_states)
+            error_phases = None
+            if hasattr(method, 'error_phases'):
+                error_phases = method.error_phases
+            return (e, error_phases)
         else:
-            return (self._next_state(buildscript, state), None, None)
+            return (None, None)
 
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
@@ -308,7 +279,7 @@ class Package:
         # module has not been updated
         if buildscript.config.build_policy == 'updated':
             buildscript.message(_('Skipping %s (not updated)') % self.name)
-            return self.STATE_DONE
+            return self.PHASE_DONE
 
         if buildscript.config.build_policy == 'updated-deps':
             install_date = buildscript.packagedb.installdate(self.name)
@@ -320,7 +291,7 @@ class Package:
             else:
                 buildscript.message(
                         _('Skipping %s (package and dependencies not updated)') % self.name)
-                return self.STATE_DONE
+                return self.PHASE_DONE
 
     def checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
@@ -330,14 +301,14 @@ class Package:
         if not os.path.exists(srcdir):
             raise BuildStateError(_('source directory %s was not created') % srcdir)
 
-        if self.check_build_policy(buildscript) == self.STATE_DONE:
-            raise SkipToState(self.STATE_DONE)
+        if self.check_build_policy(buildscript) == self.PHASE_DONE:
+            raise SkipToEnd()
 
-    def skip_checkout(self, buildscript, last_state):
+    def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
         if buildscript.config.nonetwork:
-            if self.check_build_policy(buildscript) == self.STATE_DONE:
-                raise SkipToState(self.STATE_DONE)
+            if self.check_build_policy(buildscript) == self.PHASE_DONE:
+                raise SkipToEnd()
             return True
         return False
     skip_deb_checkout = skip_checkout
@@ -403,6 +374,44 @@ class Package:
     do_deb_build_deps.next_state = STATE_DONE
     do_deb_build_deps.error_states = []
 
+    def xml_tag_and_attrs(self):
+        """Return a (tag, attrs) pair, describing how to serialize this
+        module.
+
+        "attrs" is expected to be a list of (xmlattrname, pyattrname,
+        default) tuples. The xmlattr will be serialized iff
+        getattr(self, pyattrname) != default. See AutogenModule for an
+        example."""
+        raise NotImplementedError
+
+    def to_sxml(self):
+        """Serialize this module as sxml.
+
+        By default, calls sxml_tag_and_attrs() to get the tag name and
+        attributes, serializing those attribute values that are
+        different from their defaults, and embedding the dependencies
+        and checkout branch. You may however override this method to
+        implement a different behavior."""
+        tag, attrs = self.xml_tag_and_attrs()
+        xmlattrs = {}
+        for xmlattr, pyattr, default in attrs:
+            val = getattr(self, pyattr)
+            if val != default:
+                if type(val) == bool:
+                    val = val and 'true' or 'no'
+                xmlattrs[xmlattr] = val
+        return [getattr(sxml, tag)(**xmlattrs), self.deps_to_sxml(),
+                self.branch_to_sxml()]
+
+    def deps_to_sxml(self):
+        """Serialize this module's dependencies as sxml."""
+        return ([sxml.dependencies]
+                + [[sxml.dep(package=d)] for d in self.dependencies])
+
+    def branch_to_sxml(self):
+        """Serialize this module's checkout branch as sxml."""
+        return self.branch.to_sxml()
+
 
 class MetaModule(Package):
     """A simple module type that consists only of dependencies."""
@@ -413,11 +422,11 @@ class MetaModule(Package):
         return buildscript.config.buildroot or \
                self.get_srcdir(buildscript)
 
-    # nothing to actually build in a metamodule ...
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = Package.STATE_DONE
-    do_start.error_states = []
+    def to_sxml(self):
+        return [sxml.metamodule(id=self.name),
+                [sxml.dependencies]
+                + [[sxml.dep(package=d)] for d in self.dependencies]]
+
 
     def do_deb_start(self, buildscript):
         pass

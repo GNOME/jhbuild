@@ -28,6 +28,7 @@ from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 import bzr, git
 
@@ -100,6 +101,13 @@ def get_uri(filename):
                               % filename)
     return info['url']
 
+def call_with_info(proc, filename, *keys):
+    info = get_info(filename)
+    try:
+        return proc(*[info[k] for k in keys])
+    except KeyError:
+        return None
+
 class SubversionRepository(Repository):
     """A class used to work with a Subversion repository"""
     code = 'svn'
@@ -161,6 +169,9 @@ class SubversionRepository(Repository):
             return git.GitSvnBranch(self, module_href, checkoutdir, revision)
         else:
             return SubversionBranch(self, module_href, name, checkoutdir, revision)
+
+    def to_sxml(self):
+        return [sxml.repository(type='svn', name=self.name, href=self.href)]
 
 
 class SubversionBranch(Branch):
@@ -233,7 +244,7 @@ class SubversionBranch(Branch):
 
     def _update(self, buildscript, copydir=None):
         opt = []
-        if not copydir:
+        if copydir:
             outputdir = os.path.join(copydir, os.path.basename(self.srcdir))
         else:
             outputdir = self.srcdir
@@ -303,30 +314,7 @@ class SubversionBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'svn')
-        if self.checkout_mode in ('clobber', 'export'):
-            self._wipedir(buildscript)
-            if self.checkout_mode == 'clobber':
-                self._checkout(buildscript)
-            else:
-                self._export(buildscript)
-        elif self.checkout_mode in ('update', 'copy'):
-            if self.checkout_mode == 'copy' and self.config.copy_dir:
-                copydir = self.config.copy_dir
-                if os.path.exists(os.path.join(copydir,
-                                  os.path.basename(self.srcdir), '.svn')):
-                    self._update(buildscript, copydir)
-                else:
-                    self._wipedir(buildscript)
-                    self._checkout(buildscript, copydir)
-                self._copy(buildscript, copydir)
-            else:
-                if os.path.exists(self.srcdir):
-                    self._update(buildscript, copydir = self.config.checkoutroot)
-                else:
-                    self._checkout(buildscript, copydir = self.config.checkoutroot)
-
-    def force_checkout(self, buildscript):
-        self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):
@@ -350,6 +338,15 @@ class SubversionBranch(Branch):
             path = path[1:]
 
         return '%s,%s,%s' % (uuid.lower(), rev, path)
+
+    def to_sxml(self):
+        return (call_with_info(lambda rev:
+                                   [sxml.branch(repo=self.repository.name,
+                                                module=self.module,
+                                                revision=rev)],
+                               self.srcdir, 'last changed rev')
+                or [sxml.branch(repo=self.repository.name,
+                                module=self.module)])
 
 
 register_repo_type('svn', SubversionRepository)

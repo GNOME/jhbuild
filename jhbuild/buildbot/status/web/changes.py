@@ -41,7 +41,10 @@ class ChangeResource(HtmlResource):
     def getTitle(self, request):
         status = self.getStatus(request)
         p = status.getProjectName()
-        return '%s - %s - revision #%s' % (p, self.change.project, self.change.revision)
+        if len(self.change.revision) == 40:
+            return '%s - %s - commit %s' % (p, self.change.project, self.change.revision[:8])
+        else:
+            return '%s - %s - revision #%s' % (p, self.change.project, int(self.change.revision))
 
     def body(self, request):
         data = '<div class="changeset">\n'
@@ -66,10 +69,17 @@ class ChangeResource(HtmlResource):
             data += '</pre>\n'
 
         if self.change.revision:
-            link = 'http://svn.gnome.org/viewvc/%s?view=revision&revision=%s' % (
-                    self.change.project, self.change.revision)
-            data += '<p>View in GNOME ViewVC: <a href="%s">%s r%s</a></dd>\n' % (
-                    link, self.change.project, self.change.revision)
+            if len(self.change.revision) == 40:
+                # git commit
+                link = 'http://git.gnome.org/cgit/%s/commit/?id=%s' % (
+                        self.change.project, self.change.revision)
+                data += '<p>View in GNOME cgit: <a href="%s">%s commit %s</a></dd>\n' % (
+                        link, self.change.project, self.change.revision[:8])
+            else:
+                link = 'http://svn.gnome.org/viewvc/%s?view=revision&revision=%s' % (
+                        self.change.project, self.change.revision)
+                data += '<p>View in GNOME ViewVC: <a href="%s">%s r%s</a></dd>\n' % (
+                        link, self.change.project, self.change.revision)
 
         data += '</div>'
         return data

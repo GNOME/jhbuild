@@ -113,7 +113,7 @@
       should be run in the directory where JHBuild will be installed
       (for example, <filename>~/checkout/gnome2</filename>).</para>
 
-      <screen><prompt>$</prompt> <userinput>svn co http://svn.gnome.org/svn/jhbuild/trunk jhbuild</userinput>
+      <screen><prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>
 <computeroutput>...</computeroutput>
 <prompt>$</prompt></screen>
 
@@ -142,20 +142,20 @@
 <prompt>$</prompt></screen>
 
       <para>If these steps complete successfully, a small shell script
-      should be installed in <filename>~/bin</filename> to start
+      should be installed in <filename>~/.local/bin</filename> to start
       JHBuild.  If this directory is not in the <envar>PATH</envar>,
       it will need to be added.  This can be done with the command:</para>
 
-<screen><prompt>$</prompt> <userinput>PATH=$PATH:~/bin</userinput>
+<screen><prompt>$</prompt> <userinput>PATH=$PATH:~/.local/bin</userinput>
 <prompt>$</prompt></screen>
 
       <para>This command will need to be run every time you login and
       want to use JHBuild.  In order to permanently add
-      <filename>~/bin</filename> to your <envar>PATH</envar> variable,
+      <filename>~/.local/bin</filename> to your <envar>PATH</envar> variable,
       run the following command:</para>
 
 <screen>
-<prompt>$</prompt> <userinput>echo PATH=$PATH:~/bin >> ~/.bashrc</userinput>
+<prompt>$</prompt> <userinput>echo PATH=$PATH:~/.local/bin >> ~/.bashrc</userinput>
 <prompt>$</prompt></screen>
 
       <para>Before JHBuild can be run, it is necessary to set up a
@@ -186,12 +186,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
       <filename>~/checkout/gnome2</filename> and install all files to
       subdirectories of <filename>~/prefix</filename>.</para>
 
-      <para>Some of configuration variables available include:</para>
+      <para>Configuration variables are documented in <xref
+      linkend="config-reference"/>, here are some of the most commonly used
+      ones:</para>
 
       <variablelist>
 	<?dbhtml list-presentation="table"?>
 	<varlistentry>
-	  <term><varname>moduleset</varname></term>
+	  <term><link linkend="cfg-moduleset"><varname>moduleset</varname></link></term>
 	  <listitem>
 	    <simpara>A string or list of strings specifying the name(s) of
 	    the module set(s) to use.  If a module set name is a fully
@@ -202,7 +204,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>modules</varname></term>
+	  <term><link linkend="cfg-modules"><varname>modules</varname></link></term>
 	  <listitem>
 	    <simpara>A list of strings giving the modules you want to
 	    build.  The list of modules actually built will be
@@ -211,14 +213,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkoutroot</varname></term>
+	  <term><link linkend="cfg-checkoutroot"><varname>checkoutroot</varname></link></term>
 	  <listitem>
 	    <simpara>The base directory where all source modules
 	    are unpacked or checked out of revision control.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>prefix</varname></term>
+	  <term><link linkend="cfg-prefix"><varname>prefix</varname></link></term>
 	  <listitem>
 	    <simpara>The directory prefix to install modules
 	    to.  You must have write permissions to this directory, or
@@ -234,7 +236,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>skip</varname></term>
+	  <term><link linkend="cfg-skip"><varname>skip</varname></link></term>
 	  <listitem>
 	    <simpara>A list of module names to exclude when deciding
 	    what to build.  One use of this variable is to use the
@@ -243,7 +245,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>autogenargs</varname></term>
+	  <term><link linkend="cfg-autogenargs"><varname>autogenargs</varname></link></term>
 	  <listitem>
 	    <simpara>A string listing additional arguments to pass
 	    to the <command>autogen.sh</command> or
@@ -251,14 +253,14 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeargs</varname></term>
+	  <term><link linkend="cfg-makeargs"><varname>makeargs</varname></link></term>
 	  <listitem>
 	    <simpara>A string listing arguments to be pass
 	    to the <command>make</command> command.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>repos</varname></term>
+	  <term><link linkend="cfg-repos"><varname>repos</varname></link></term>
 	  <listitem>
 	    <simpara>By default, JHBuild will check out code from
 	    repositories using an anonymous repository location.  This
@@ -268,7 +270,8 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
 	    dictionary where the keys are short repository names (for
 	    example,
 	    <systemitem class="systemname">svn.gnome.org</systemitem>
-	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
+	    is used for the GNOME SVN repository), and the values are the
+	    alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
       </variablelist>
@@ -404,6 +407,84 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
       <screen><prompt>$</prompt> <userinput>jhbuild shell</userinput></screen>
 
     </section>
+  </section>
+
+  <section id="buildbot-integration">
+    <title>Buildbot Integration</title>
+
+    <para>
+      Coupled with the <ulink url="http://buildbot.net">Buildbot</ulink>
+      project, JHBuild can also help as a continuous integration tool.  Such a
+      configuration is used by the GNOME project at <ulink
+      url="http://build.gnome.org">build.gnome.org</ulink>.
+    </para>
+
+    <section id="buildbot-slave">
+      <title>Configuring a Buildbot Slave</title>
+
+      <para>
+        A Buildbot slave is just a variation of a normal JHBuild installation,
+	the difference is mostly it will serve the requests of the Buildbot
+	master instead of your own.  Thus it is generally advised to get
+	JHBuild running and performing correctly (a full run with most
+	modules building fine is a good test) before adding the few special
+	Buildbot bits.
+      </para>
+
+      <para>
+        All Buildbot-related commands are options of the
+	<command>bot</command>, downloading and installing the extra required
+	softwares is done like this:
+      </para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild bot --setup</userinput></screen>
+
+      <para>
+        Once this step has been run successfully, there are three new
+	configuration variables to define in <filename>~/.jhbuildrc</filename>.
+      </para>
+
+      <note>
+        <para>
+	  It is currently not possible to use an alternate configuration file,
+	  the <option>--file</option> will not get desired effects.
+	</para>
+      </note>
+
+      <programlisting>
+jhbuildbot_master = 'build.gnome.org:9070'
+jhbuildbot_slavename = 'slavename'
+jhbuildbot_password = 'password'
+</programlisting>
+
+      <para>
+	<varname>jhbuildbot_master</varname> is a string pointing to the
+	Buildbot master server; it defaults to
+	<literal>'build.gnome.org:9070'</literal>.
+	<varname>jhbuildbot_slavename</varname> and
+	<varname>jhbuildbot_password</varname> identify the slave on the
+	master server; you should contact the Buildbot master administrators to
+	get them.
+      </para>
+
+      <note>
+        <para>
+	  The administrators of <ulink
+	  url="http://build.gnome.org">build.gnome.org</ulink>
+	  can be reached on the <ulink
+	  url="mailto:build-brigade-list@gnome.org">Build Brigade mailing
+	  list</ulink>.
+	</para>
+      </note>
+
+    </section>
+
+    <!-- TODO: configuring a buildbot master
+    <section id="buildbot-master">
+      <title>Configuring a Buildbot Master</title>
+    </section>
+    -->
+
   </section>
 
   <section id="command-reference">
@@ -766,6 +847,26 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
     </section>
 
+    <section id="command-reference-clean">
+      <title>clean</title>
+
+      <para>The <command>clean</command> command is used to clean the build
+      directories of one or more modules.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild clean</command>
+        <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+        <arg>--start-at=<replaceable>module</replaceable></arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the module
+      list found in the configuration file will be used.</para>
+      
+      <para>Look at the <link linkend="command-reference-build">build</link>
+      command documentation for a description of available options.</para>
+
+    </section>
+
     <section id="command-reference-dot">
       <title>dot</title>
 
@@ -867,6 +968,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<arg>-a</arg>
 	<arg>-r</arg>
 	<arg>-s</arg>
+	<arg>--start-at=<replaceable>module</replaceable></arg>
 	<arg>--tags=<replaceable>tags</replaceable></arg>
 	<arg>--ignore-suggests</arg>
 	<arg>--list-optional-modules</arg>
@@ -902,6 +1004,15 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  <listitem>
 	    <simpara>Ignore the named modules when following
 	    dependencies to expand the list of modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>-t</option>,
+	  <option>--start-at</option>=<replaceable>module</replaceable></term>
+	  <listitem>
+	    <simpara>Show only the modules listed after the given
+            <replaceable>module</replaceable>.</simpara>
 	  </listitem>
 	</varlistentry>
 
@@ -1089,6 +1200,26 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
     </section>
 
+    <section id="command-reference-uninstall">
+      <title>uninstall</title>
+
+      <para>The <command>uninstall</command> command is used to uninstall
+      one or more modules.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild uninstall</command>
+        <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+        <arg>--start-at=<replaceable>module</replaceable></arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the module
+      list found in the configuration file will be used.</para>
+      
+      <para>Look at the <link linkend="command-reference-build">build</link>
+      command documentation for a description of available options.</para>
+
+    </section>
+
     <section id="command-reference-update">
       <title>update</title>
 
@@ -1151,7 +1282,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
       <variablelist>
 	<?dbhtml list-presentation="table"?>
 	<varlistentry>
-	  <term><varname>alwaysautogen</varname></term>
+	  <term id="cfg-alwaysautogen"><varname>alwaysautogen</varname></term>
 	  <listitem>
 	    <simpara>If set to <constant>True</constant>, then always
 	    run <command>autogen.sh</command> before
@@ -1162,7 +1293,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>autogenargs</varname></term>
+	  <term id="cfg-autogenargs"><varname>autogenargs</varname></term>
 	  <listitem>
 	    <simpara>A string containing arguments passed to the
 	    <command>autogen.sh</command> script of all modules.  Can
@@ -1172,7 +1303,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	</listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>branches</varname></term>
+	  <term id="cfg-branches"><varname>branches</varname></term>
 	  <listitem>
 	    <simpara>A dictionary that can be used to override the
 	    branch used for a particular module.  This is useful if
@@ -1182,7 +1313,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>builddir_pattern</varname></term>
+	  <term id="cfg-builddir-pattern"><varname>builddir_pattern</varname></term>
 	  <listitem>
 	    <simpara>A <function>printf</function> style formatting
 	    pattern used to generate build directory names.  This is
@@ -1193,7 +1324,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>buildroot</varname></term>
+	  <term id="cfg-buildroot"><varname>buildroot</varname></term>
 	  <listitem>
 	    <simpara>A string giving the parent directory to place
 	    build trees.  Defaults to <constant>None</constant>, which
@@ -1202,7 +1333,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>buildscript</varname></term>
+	  <term id="cfg-buildscript"><varname>buildscript</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which buildscript to use.
 	    This should probably be left as the default,
@@ -1211,7 +1342,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>build_policy</varname></term>
+	  <term id="cf-build-policy"><varname>build_policy</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which modules to build.
 	    The three possible options are <literal>all</literal>, to
@@ -1223,7 +1354,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkoutroot</varname></term>
+	  <term id="cfg-checkoutroot"><varname>checkoutroot</varname></term>
 	  <listitem>
 	    <simpara>A string giving the directory to unpack source
 	    trees to.  Unless <varname>buildroot</varname> is set,
@@ -1232,7 +1363,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>checkout_mode</varname></term>
+	  <term id="cfg-checkout-mode"><varname>checkout_mode</varname></term>
 	  <listitem>
 	    <simpara>A string specifying how the checkout is done for
 	    directories in version control.  Defaults to
@@ -1248,7 +1379,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>copy_dir</varname></term>
+	  <term id="cfg-copy-dir"><varname>copy_dir</varname></term>
 	  <listitem>
 	    <simpara>A string specifying the directory to copy to, if
 	    the copy checkout mode is in use.  Defaults to the
@@ -1256,7 +1387,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>cvsroots</varname></term>
+	  <term id="cfg-cvsroots"><varname>cvsroots</varname></term>
 	  <listitem>
 	    <simpara>A dictionary that can be used to change the CVS
 	    roots used to check out source code.  If you have a CVS
@@ -1268,14 +1399,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>cvs_program</varname></term>
+	  <term id="cfg-cvs-program"><varname>cvs_program</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use for
 	    CVS support.  Defaults to <literal>cvs</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>installprog</varname></term>
+	  <term id="cfg-installprog"><varname>installprog</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use as
 	    replacement for <literal>/usr/bin/install</literal>; if available
@@ -1286,7 +1417,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>ignore_suggests</varname></term>
+	  <term id="cfg-ignore-suggests"><varname>ignore_suggests</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to ignore
 	    soft dependencies when calculating the dependency tree.
@@ -1294,7 +1425,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>interact</varname></term>
+	  <term id="cfg-interact"><varname>interact</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to interact
 	    with the user.  Setting this value to
@@ -1304,7 +1435,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeargs</varname></term>
+	  <term id="cfg-makeargs"><varname>makeargs</varname></term>
 	  <listitem>
 	    <simpara>A string listing additional arguments to be
 	    passed to <command>make</command>.  Defaults to
@@ -1312,7 +1443,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makecheck</varname></term>
+	  <term id="cfg-makecheck"><varname>makecheck</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make check</command> after
@@ -1321,7 +1452,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makecheck_advisory</varname></term>
+	  <term id="cfg-makecheck-advistory"><varname>makecheck_advisory</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether failures when running
 	    <command>make check</command> should be advisory only and not cause
@@ -1329,7 +1460,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makeclean</varname></term>
+	  <term id="cfg-makeclean"><varname>makeclean</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make clean</command> before
@@ -1338,7 +1469,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makedist</varname></term>
+	  <term id="cfg-makedist"><varname>makedist</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make dist</command> after <command>make</command>.
@@ -1348,7 +1479,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>makedistcheck</varname></term>
+	  <term id="cfg-makedistcheck"><varname>makedistcheck</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to run
 	    <command>make distcheck</command> after
@@ -1358,7 +1489,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_autogenargs</varname></term>
+	  <term id="cfg-module-autogenargs"><varname>module_autogenargs</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to
@@ -1371,7 +1502,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_checkout_mode</varname></term>
+	  <term id="cfg-module-checkout-mode"><varname>module_checkout_mode</varname></term>
 	  <listitem>
 	    <simpara>A dictionary specifying which checkout mode to
 	    use for modules.  This overrides the global
@@ -1379,7 +1510,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_makeargs</varname></term>
+	  <term id="cfg-module-makeargs"><varname>module_makeargs</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to strings
 	    giving arguments to be passed to <command>make</command>.
@@ -1391,7 +1522,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>module_extra_env</varname></term>
+	  <term id="cfg-module-extra-env"><varname>module_extra_env</varname></term>
 	  <listitem>
 	    <simpara>A dictionary mapping module names to dictionaries
 	    with extra environment variables to pass when executing commands
@@ -1400,7 +1531,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>modules</varname></term>
+	  <term id="cfg-modules"><varname>modules</varname></term>
 	  <listitem>
 	    <simpara>A list of module names to build.  This list will
 	    be expanded using the dependency information found in the
@@ -1409,7 +1540,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>moduleset</varname></term>
+	  <term id="cfg-moduleset"><varname>moduleset</varname></term>
 	  <listitem>
 	    <simpara>A string giving the name of the module set to
 	    use.  This can either be the filename of a moduleset
@@ -1421,7 +1552,16 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nobuild</varname></term>
+	  <term id="cfg-modulesets-dir"><varname>modulesets_dir</varname></term>
+	  <listitem>
+	    <simpara>A string giving the directory containing the
+	    modulesets to use.  Defaults to the
+	    <filename>modulesets/</filename> directory in JHBuild sources.
+	    </simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term id="cfg-nobuild"><varname>nobuild</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to not actually
@@ -1430,7 +1570,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nonetwork</varname></term>
+	  <term id="cfg-nonetwork"><varname>nonetwork</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to access the
 	    network or not.  This affects checking out or updating CVS
@@ -1442,7 +1582,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nonotify</varname></term>
+	  <term id="cfg-nonotify"><varname>nonotify</varname></term>
 	  <listitem>
 	    <simpara>A boolean value specifying whether to emit
 	    notifications using the notification daemon.  If set to
@@ -1451,7 +1591,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>nopoison</varname></term>
+	  <term id="cfg-nopoison"><varname>nopoison</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to try to build
@@ -1462,7 +1602,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>noxvfb</varname></term>
+	  <term id="cfg-noxvfb"><varname>noxvfb</varname></term>
 	  <listitem>
 	    <simpara>A boolean value which, if set to
 	    <constant>True</constant> causes JHBuild to run any
@@ -1473,14 +1613,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>prefix</varname></term>
+	  <term id="cfg-prefix"><varname>prefix</varname></term>
 	  <listitem>
 	    <simpara>A string giving the prefix to install modules to.
 	    Defaults to <literal>'/opt/gnome2'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><varname>pretty_print</varname></term>
+	  <term id="cfg-pretty-print"><varname>pretty_print</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that can be used to disable
 	    pretty formatting of subprocess output.  Currently there is
@@ -1490,7 +1630,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
         <varlistentry>
-          <term><varname>progress_bar</varname></term>
+          <term id="cfg-progress-bar"><varname>progress_bar</varname></term>
           <listitem>
             <simpara>A boolean value that can be used to display a progress bar
             when running in quiet mode (see below).  Defaults to
@@ -1498,7 +1638,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term><varname>quiet_mode</varname></term>
+          <term id="cfg-quiet-mode"><varname>quiet_mode</varname></term>
           <listitem>
             <simpara>A boolean value that can be used to disable
             output of running commands.  Defaults to
@@ -1506,7 +1646,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           </listitem>
         </varlistentry>
 	<varlistentry>
-	  <term><varname>repos</varname></term>
+	  <term id="cfg-repos"><varname>repos</varname></term>
 	  <listitem>
 	    <simpara>By default, JHBuild will check out code from
 	    repositories using an anonymous repository location.  This
@@ -1519,7 +1659,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-skip">
 	  <term><varname>skip</varname></term>
 	  <listitem>
 	    <simpara>A list of modules to skip when expanding the list
@@ -1529,7 +1669,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    list is empty by default.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-sticky-date">
 	  <term><varname>sticky_date</varname></term>
 	  <listitem>
 	    <simpara>If set, JHBuild will attempt to check out modules
@@ -1539,14 +1679,20 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    Defaults to <constant>None</constant>.</simpara>
 	</listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-svnroots">
 	  <term><varname>svnroots</varname></term>
 	  <listitem>
 	    <simpara>Similar to <varname>cvsroots</varname> but for
-	    Subversion repositories.</simpara>
+	    Subversion repositories; a dictionary that can be used to
+	    change the Subversion roots used to check out source code.
+	    If you have a Subversion account for a particular project,
+	    you can set the associated key to use that account rather
+	    than the anonymous account.  For example, you might want to
+	    set <literal>'svn.gnome.org'</literal> to
+	    <literal>'svn+ssh://<replaceable>username</replaceable>@svn.gnome.org:/svn'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-svn-program">
 	  <term><varname>svn_program</varname></term>
 	  <listitem>
 	    <simpara>A string specifying which program to use for
@@ -1555,7 +1701,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <literal>svn</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-tarballdir">
 	  <term><varname>tarballdir</varname></term>
 	  <listitem>
 	    <simpara>If set, tarballs will be downloaded to this
@@ -1566,7 +1712,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    bandwidth usage.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-tinderbox-outputdir">
 	  <term><varname>tinderbox_outputdir</varname></term>
 	  <listitem>
 	    <simpara>A string giving the directory to store
@@ -1577,18 +1723,19 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    set in the configuration file.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-trycheckout">
 	  <term><varname>trycheckout</varname></term>
 	  <listitem>
 	    <simpara>A boolean option which if set to
-	    <constant>True</constant>, causes JHBuild to try checking
-	    out a newer version of a module from version control and
-	    running <command>autogen.sh</command>, if the module fails
-	    to build.  This option is equivalent to passing
+	    <constant>True</constant>, causes JHBuild to automatically
+	    try to solve failures by 1) running <command>autogen.sh</command>
+	    again, and 2) checking out a newer version of a module from version
+	    control (then running <command>autogen.sh</command>.
+	    This option is equivalent to passing
 	    <option>--try-checkout</option>.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-use-lib64">
 	  <term><varname>use_lib64</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that specifies whether to install
@@ -1602,7 +1749,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <constant>False</constant> on other systems.</simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-use-local-modulesets">
 	  <term><varname>use_local_modulesets</varname></term>
 	  <listitem>
 	    <simpara>A boolean value that specifies to use modulesets
@@ -1612,7 +1759,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    </simpara>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
+	<varlistentry id="cfg-xvfbargs">
 	  <term><varname>xvfbargs</varname></term>
 	  <listitem>
 	    <simpara>A string listing arguments to pass to
@@ -2031,7 +2178,9 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<command>configure</command>.
 
 	<sgmltag class="attribute">skip-autogen</sgmltag> chooses whether
-	or not to run autogen.sh.
+	or not to run autogen.sh, it is a boolean with an extra
+	<literal>never</literal> value to tell JHBuild to never skip running
+	<command>autogen.sh</command>.
 	<sgmltag class="attribute">makefile</sgmltag> specifies the
 	filename of the makefile to use.</para>
 
@@ -2417,162 +2566,13 @@ libgnomecanvas is missing branch definition for gnome-2-20
         </para>
         </warning>
   
-        <section id="moduleset-syntax-defs-cvsmodule">
-          <title>cvsmodule</title>
-  
-          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">cvsmodule</sgmltag> element
-          is used to define a module that is to be built from
-          CVS.</para>
-  
-          <programlisting>
-  &lt;cvsmodule module="<replaceable>modulename</replaceable>"
-             [ revision="<replaceable>branch-or-tag</replaceable>" ]
-             [ checkoutdir="<replaceable>directory</replaceable>" ]
-             [ root="<replaceable>rootname</replaceable>" ]
-             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-             [ makeargs="<replaceable>makeargs</replaceable>" ]
-             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &gt;
-  &lt;/cvsmodule&gt;
-</programlisting>
-  
-          <para>The <sgmltag class="attribute">module</sgmltag>,
-          <sgmltag class="attribute">revision</sgmltag> and <sgmltag
-          class="attribute">root</sgmltag> attributes identify the
-          module to check out from CVS.  The <sgmltag
-          class="attribute">checkoutdir</sgmltag> attribute can be used
-          to specify an alternative directory to check out to (by
-          default, the value of <sgmltag
-          class="attribute">module</sgmltag> is used).</para>
-  
-          <para>The <sgmltag class="attribute">autogenargs</sgmltag>,
-          <sgmltag class="attribute">makeargs</sgmltag> and <sgmltag
-          class="attribute">supports-non-srcdir-builds</sgmltag>
-          attributes are common to many different module types.  The
-          <sgmltag class="attribute">autogenargs</sgmltag> attribute
-          lists additional arguments to be passed to
-          <command>autogen.sh</command>, and <sgmltag
-          class="attribute">makeargs</sgmltag> lists additional
-          arguments to be passed to <command>make</command>.  The
-          <sgmltag
-          class="attribute">supports-non-srcdir-builds</sgmltag>
-          attribute is used to mark modules that can't be cleanly built
-          using a separate source directory.</para>
-  
-          <para>The <sgmltag class="element">dependencies</sgmltag>,
-          <sgmltag class="element">suggests</sgmltag> and
-          <sgmltag class="element">after</sgmltag> elements are processed
-          as for <link
-          linkend="moduleset-syntax-defs-autotools">autotools</link>.
-          </para>
-
-        </section>
-  
-        <section id="moduleset-syntax-defs-svnmodule">
-          <title>svnmodule</title>
-  
-          <para>The <sgmltag class="element">svnmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">svnmodule</sgmltag> element
-          is used to define a module that is to be built from
-          Subversion.</para>
-  
-          <programlisting>
-  &lt;svnmodule module="<replaceable>modulename</replaceable>"
-             [ checkoutdir="<replaceable>directory</replaceable>" ]
-             [ root="<replaceable>rootname</replaceable>" ]
-             [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-             [ makeargs="<replaceable>makeargs</replaceable>" ]
-             [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/after&gt;
-  &lt;/svnmodule&gt;
-</programlisting>
-          <para>The <sgmltag class="attribute">module</sgmltag>
-          attribute gives the path of the module relative to the
-          repository URI.  All other options for this element are
-          processed as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
-        </section>
-  
-        <section id="moduleset-syntax-defs-archmodule">
-          <title>archmodule</title>
-  
-          <para>The <sgmltag class="element">archmodule</sgmltag> element
-          is now deprecated.  The appropriate build system's module should
-          be used instead.</para>
-  
-          <para>The <sgmltag class="element">archmodule</sgmltag> element
-          is used to define a module that is to be built from
-          a GNU Arch archive.</para>
-  
-          <programlisting>
-  &lt;archmodule version="<replaceable>modulename</replaceable>"
-              [ checkoutdir="<replaceable>directory</replaceable>" ]
-              [ root="<replaceable>rootname</replaceable>" ]
-              [ autogenargs="<replaceable>autogenargs</replaceable>" ]
-              [ makeargs="<replaceable>makeargs</replaceable>" ]
-              [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
-    &lt;dependencies&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/dependencies&gt;
-    &lt;suggests&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/suggests&gt;
-    &lt;after&gt;
-      &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-      ...
-    &lt;/after&gt;
-  &lt;/archmodule&gt;
-</programlisting>
-          <para>The <sgmltag class="attribute">version</sgmltag>
-          attribute gives the version to be checked out from the archive
-          specified by <sgmltag class="attribute">root</sgmltag>.  All
-          other options for this element are processed as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
-        </section>
-  
         <section id="moduleset-syntax-defs-tarball">
           <title>tarball</title>
 
           <important>
-          <para>The <sgmltag class="element">tarball</sgmltag> element
-          is now deprecated.  The appropriate build type module should
-          be used instead.  As a transitive measure this element has
-          however been reimplemented as a thin wrapper around both <sgmltag
-          class="element">autotools</sgmltag> module type and <sgmltag
-          class="element">tarball</sgmltag> repository type.
+            <para>This deprecated element is just a thin wrapper
+            around both <sgmltag class="element">autotools</sgmltag> module type
+	    and <sgmltag class="element">tarball</sgmltag> repository type.
           </para>
           </important>
   
@@ -2633,13 +2633,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
           for the <sgmltag class="attribute">file</sgmltag> attribute to
           specify a URI, in which case it will be downloaded from that location.
           </para>
-          
-          <para>The other attributes and the <sgmltag
-          class="element">dependencies</sgmltag> and <sgmltag
-          class="element">suggests</sgmltag> sub-elements are processed
-          as for <link
-          linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-          class="element">cvsmodule</sgmltag></link>.</para>
+
+
+	  <para>
+	    The other attributes and the <sgmltag class="element">dependencies</sgmltag>,
+	    <sgmltag class="element">suggests</sgmltag> and <sgmltag
+	    class="element">after</sgmltag> elements are processed as for <link
+	    linkend="moduleset-syntax-defs-autotools">autotools</link>.
+	  </para>
         </section>
       </section> <!-- end of deprecated module types -->
     </section> <!-- end of deprecated elements -->

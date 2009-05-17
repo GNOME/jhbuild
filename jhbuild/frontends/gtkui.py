@@ -383,7 +383,7 @@ class GtkBuildScript(buildscript.BuildScript):
             client = gconf.client_get_default()
             client.set_string("/apps/jhbuild/start_at_module", module)
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''Ask the user what to do about an error.
 
         Returns one of ERR_RERUN, ERR_CONT or ERR_GIVEUP.''' #"
@@ -391,15 +391,15 @@ class GtkBuildScript(buildscript.BuildScript):
         if not self.config.interact:
             return 'fail'
 
-        dialog = gtk.Dialog(_('Error during %(state)s for module %(module)s') 
-                            % {'state':state, 'module':module.name})
-        dialog.add_button(_('_Try %s Again') % state, 1)
+        dialog = gtk.Dialog(_('Error during %(phase)s for module %(module)s') 
+                            % {'phase':phase, 'module':module.name})
+        dialog.add_button(_('_Try %s Again') % phase, 1)
         dialog.add_button(_('_Ignore Error'), 2)
         dialog.add_button(_('_Skip Module'), 3)
         dialog.add_button(_('_Terminal'), 4)
 
-        for i, altstate in enumerate(altstates):
-            dialog.add_button(_('Go to %s') % altstate, i + 5)
+        for i, altphase in enumerate(altphases):
+            dialog.add_button(_('Go to %s') % altphase, i + 5)
 
         text_view = gtk.TextView()
         text_view.set_buffer(self.build_text)
@@ -416,7 +416,7 @@ class GtkBuildScript(buildscript.BuildScript):
         
         while True:
 
-            #self.message('error during %s for module %s' % (state, module.name))
+            #self.message('error during %s for module %s' % (phase, module.name))
 
             text_view.scroll_to_iter(self.build_text.get_end_iter(), 0.0, True, 0.5, 0.5)
             dialog.show_all()
@@ -427,9 +427,9 @@ class GtkBuildScript(buildscript.BuildScript):
                 dialog.hide()
             # If the dialog was destroyed, interpret that as try again.
             if val in (1, gtk.RESPONSE_NONE, gtk.RESPONSE_DELETE_EVENT):
-                return state
+                return phase
             elif val == 2:
-                return nextstate
+                return nextphase
             elif val == 3:
                 return 'fail'
             elif val == 4:
@@ -437,7 +437,7 @@ class GtkBuildScript(buildscript.BuildScript):
                                          self.terminal_command)
                 os.system(command)
             else:
-                return altstates[val - 5]
+                return altphases[val - 5]
 
     def _createWindow(self):
 	glade_filename = get_glade_filename()

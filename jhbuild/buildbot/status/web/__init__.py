@@ -28,6 +28,7 @@ from buildbot.status.web.baseweb import WebStatus
 from waterfall import JhWaterfallStatusResource
 from changes import  ChangesResource
 from builder import JhBuildersResource
+from bot import JhBuildbotsResource
 
 
 def content(self, request):
@@ -86,7 +87,8 @@ class ProjectsSummary(HtmlResource):
                 title = 'Building %s' % ', '.join(modules)
             else:
                 title = klass
-            result += '<th class="%s" title="%s">%s</th>' % (klass, title, name)
+            result += '<th class="%s" title="%s"><a href="bots/%s">%s</a></th>' % (
+                    klass, title, name, name)
         result += '</tr>'
         thead = result
         # stop it here as a row with totals will be added here once every rows
@@ -117,19 +119,28 @@ class ProjectsSummary(HtmlResource):
 
                 if lastbuild == 'successful':
                     last_build = builder.getLastFinishedBuild()
-                    class_ = build_get_class(last_build)
-                    lastbuild_label = 'Success'
                     if last_build:
+                        class_ = build_get_class(last_build)
+                    else:
+                        class_ = 'success'
+                    lastbuild_label = 'Success'
+                    if last_build and class_:
                         # use a different class/label if make check failed
                         steps = last_build.getSteps()
-                        if steps and steps[2].results == WARNINGS:
-                            # make check failed
-                            class_ = 'failedchecks'
-                            lastbuild_label = 'Failed Checks'
+                        for step in reversed(steps):
+                            if step.name.split()[-1] == 'check':
+                                if step.results == WARNINGS:
+                                    # make check failed
+                                    class_ = 'failedchecks'
+                                    lastbuild_label = 'Failed Checks'
+                                break
                 elif lastbuild == 'failed':
                     lastbuild_label = 'Failed'
                     last_build = builder.getLastFinishedBuild()
-                    class_ = build_get_class(last_build)
+                    if last_build:
+                        class_ = build_get_class(last_build)
+                    else:
+                        class_ = 'failure'
                 else:
                     class_ = ''
                     lastbuild_label = lastbuild
@@ -181,6 +192,7 @@ class JHBuildWebStatus(WebStatus):
         # set custom changes pages
         self.putChild('changes', ChangesResource())
         self.putChild('builders', JhBuildersResource())
+        self.putChild('bots', JhBuildbotsResource())
 
     def setupSite(self):
         WebStatus.setupSite(self)

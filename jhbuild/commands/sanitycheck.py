@@ -46,7 +46,7 @@ def inpath(filename, path):
 
 
 class cmd_sanitycheck(Command):
-    doc = _('Check that required support tools are available')
+    doc = N_('Check that required support tools are available')
 
     name = 'sanitycheck'
     usage_args = ''
@@ -58,10 +58,10 @@ class cmd_sanitycheck(Command):
         # check whether the checkout root and install prefix are writable
         if not (os.path.isdir(config.checkoutroot) and
                 os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):
-            uprint(_('checkout root is not writable'))
+            uprint(_('checkout root (%s) is not writable') % config.checkoutroot)
         if not (os.path.isdir(config.prefix) and
                 os.access(config.prefix, os.R_OK|os.W_OK|os.X_OK)):
-            uprint(_('install prefix is not writable'))
+            uprint(_('install prefix (%s) is not writable') % config.prefix)
 
         # check whether various tools are installed
         if not check_version(['libtoolize', '--version'],
@@ -92,18 +92,23 @@ class cmd_sanitycheck(Command):
                              r'automake \([^)]*\) ([\d.]+)', '1.9'):
             uprint(_('%s not found') % 'automake-1.9')
 
+        not_in_path = []
         for amver in ('1.4', '1.7', '1.8', '1.9'):
             try:
                 path = get_aclocal_path(amver)
             except:
                 continue # exception raised if aclocal-ver not runnable
 
-            if not inpath('libtool.m4', path):
-                uprint(_("aclocal-%s can't see libtool macros") % amver)
-            if not inpath('gettext.m4', path):
-                uprint(_("aclocal-%s can't see gettext macros") % amver)
-            if not inpath('pkg.m4', path):
-                uprint(_("aclocal-%s can't see pkg-config macros") % amver)
+            macros = ['libtool.m4', 'gettext.m4', 'pkg.m4']
+            for macro in macros:
+                if not inpath (macro, path):
+                    uprint(_("aclocal-%s can't see %s macros") % (amver, macro.split('.m4')[0]))
+                    if not_in_path.count(macro) == 0:
+                        not_in_path.append(macro)
+
+        if len(not_in_path) > 0:
+            uprint(_("Please copy the lacking macros (%s) in one of the following paths: %s" 
+                     % (', '.join(not_in_path), ', '.join(path))))
 
         # XML catalog sanity checks
         if not os.access('/etc/xml/catalog', os.R_OK):
@@ -141,11 +146,11 @@ class cmd_sanitycheck(Command):
                 git_help = os.popen('git --help', 'r').read()
                 if not 'clone' in git_help:
                     uprint(_('Installed git program is not the right git'))
+                else:
+                    if not check_version(['git', '--version'],
+                                 r'git version ([\d.]+)', '1.5.6'):
+                         uprint(_('%s not found') % 'git >= 1.5.6')
             except:
                 uprint(_('Could not check git program'))
-
-        # check for svn:
-        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            uprint(_('%s not found') % 'svn')
 
 register_command(cmd_sanitycheck)

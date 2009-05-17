@@ -1,3 +1,1188 @@
+2009-04-16  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-2.28.modules: Glom no longer depends on bakery.
+
+2009-04-16  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/buildbot/changes.py:
+	* jhbuild/buildbot/status/web/changes.py:
+	* jhbuild/buildbot/steps.py: fixed handling of git commit emails, and
+	display of such in the web interface.
+
+2009-04-16  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/checkbranches.py: don't skip modules when checking
+	for branches.
+
+2009-04-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: ekiga, evolution,
+	evolution-data-server, evolution-exchange, evolution-mapi,
+	gnome-power-manager and gnome-themes branched for 2.26.
+
+2009-04-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-settings-daemon and
+	gtkhtml both branched for 2.26.
+
+2009-04-14  Dan Winship  <danw@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: branch libsoup. Also, add
+	explicit gconf dep. (It worked before because it was getting the
+	dep implicitly via libproxy, but it ought to be explicit.)
+
+	* modulesets/gnome-suites-2.28.modules: likewise, add gconf dep to
+	libsoup here
+
+2009-04-13  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/autobuild.py, jhbuild/commands/gui.py,
+	jhbuild/commands/tinderbox.py: return an error code on failure.
+	(closes: #578668)
+
+2009-04-13  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/sanitycheck.py: print prefix/checkoutroot if they
+	are not existing or writable.  (closes: #572305)
+
+2009-04-12  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.28.modules, modulesets/gnome-suites-2.28.modules:
+	marked pango, gnome-scan and conduit as having moved to git.
+
+2009-04-12  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/buildbot/changes.py: added support for git commit emails.
+
+2009-04-10  Jaap Haitsma  <jaap@haitsma.org>
+
+	* modulesets/gnome-2.28.modules: tracker moved to git
+
+2009-04-09  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/gnome-2.26.modules: gnome-python-extras: libgda, not gda.
+
+2009-04-09  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-2.28.modules: gnome-python-extras: Depend on libgda.
+	I am surprised that this was not the case before.
+
+2009-04-08  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Use new vala release (0.7.0).
+
+2009-04-07  Owen Taylor  <otaylor@redhat.com>
+
+	* install-check.c (main): Clean up my last commit by removing
+	and unused variable.
+
+2009-04-07  Owen Taylor  <otaylor@redhat.com>
+
+	Bug 571240 – Search for 'install' binary at run time
+
+	* install-check.c (main): Some systems (in particular Arch Linux)
+	use put the install executable somewhere other than
+	/usr/bin/install. So use execvp() rather than execv() to run the
+	system install.
+
+2009-04-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: evince and gnome-keyring opened
+	their 2.26 branches.
+
+2009-04-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.20.modules:
+	* modulesets/gnome-suites-2.22.modules:
+	* modulesets/gnome-suites-2.24.modules:
+	* modulesets/gnome-suites-2.26.modules:
+	* modulesets/gnome-suites-2.28.modules: switched glib and gtk+ to
+	git.gnome.org.
+
+2009-04-05  Felix Riemann  <friemann@svn.gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: Fix eog branch.
+
+2009-04-05  Felix Riemann  <friemann@svn.gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: eog branched for 2.26.
+
+2009-03-31  José Alburquerque  <jaalburqu@svn.gnome.org>
+
+	* modulesets/gnome-2.22.modules:
+	* modulesets/gnome-2.24.modules: Removed gstreamermm-plugins-good from
+	previous stable versions; sorry for including in previous commit.
+
+2009-03-31  José Alburquerque  <jaalburqu@svn.gnome.org>
+
+	* modulesets/gnome-2.22.modules:
+	* modulesets/gnome-2.24.modules:
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-2.28.modules: Added gstreamermm-plugins-good.
+
+2009-03-29  Fernando Herrera  <fherrera@onirica.com>
+
+	* modulesets/gnome-external-deps-2.28.modules: update
+	icon-naming-utils to 0.8.90.
+
+2009-03-21  Jaap A. Haitsma  <jaap@haitsma.org>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-2.28.modules:
+	gst-plugins-gl moved to git on freedesktop.org
+
+2009-03-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-2.28.modules:
+	Added moserial.
+
+2009-03-19  Christian Persch  <chpe@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: Use gnome-2-26 branch of
+	gnome-common.
+
+2009-03-19  Christian Persch  <chpe@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: Gnome Terminal and Gucharmap
+	branched for 2.26.
+
+2009-03-19  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/git.py: support for quiet mode for git version
+	control system.
+
+2009-03-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: gcalctool branched for 2.26.
+
+2009-03-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: atk branched for 2.26.
+
+2009-03-18  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated ptlib and opal
+	to their latest releases.
+
+2009-03-17  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: bug-buddy, gnome-applets,
+	gnome-games, gnome-nettool and anjuta branched for 2.26.
+
+2009-03-17  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-utils, gok, mousetweaks,
+	gdl branched for 2.26.
+
+2009-03-16  Philip Withnall  <philip@tecnocode.co.uk>
+
+	* modulesets/gnome-suites-2.26.modules: totem-pl-parser has branched
+	for 2.26.
+
+2009-03-16  Vivien Malerba <malerba@gnome-db.org>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: updated Libgda
+	to 4.0.0
+
+2009-03-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: tomboy branch for 2.26.
+
+2009-03-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-netstatus has also been
+	branched for 2.26.
+
+2009-03-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: brasero and orca branched for
+	2.26.
+
+2009-03-15  Vivien Malerba <malerba@gnome-db.org>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: updated Libgda
+	to 3.99.14
+
+2009-03-14  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/moduleset.py: allow moduleset config variable to be a tuple.
+	(closes: #575389)
+
+2009-03-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules, modulesets/gnome-2.28.modules:
+	epiphany trunk do not require --with-engine=webkit to build with WebKit
+	as engine.
+
+2009-03-12  Ali Sabil  <ali.sabil@gmail.com>
+
+	* jhbuild/versioncontrol/bzr.py: add support for bzr://, bzr+ssh:// and
+	lp: URIs
+
+2009-03-10  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: empathy branched for 2.26.
+
+2009-03-09  Vivien Malerba <malerba@gnome-db.org>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: updated Libgda to
+	3.99.13
+
+2009-03-07  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: fixed libnice download
+	URL.
+
+2009-03-07  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: updated libnice to latest
+	version, 0.0.5.
+
+2009-03-05  Andrés G. Aragoneses  <aaragoneses@novell.com>
+
+	* jhbuild/commands/sanitycheck.py: Be clearer about the macro
+	filenames and the paths in which they need to be.
+
+2009-03-04  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: update ptlib & opal, as
+	required by ekiga...
+
+2009-03-03  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-external-deps-2.24.modules:
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-external-deps-2.28.modules: download gtk-vnc from
+	download.gnome.org
+
+2009-03-03  Philip Withnall  <philip@tecnocode.co.uk>
+
+	* modulesets/gnome-suites-2.26.modules: Totem branched for 2.26.
+
+2009-03-02  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/freedesktop-2.28.modules:
+	* modulesets/gnome-2.28.modules:
+	* modulesets/gnome-external-deps-2.28.modules:
+	* modulesets/gnome-suites-2.28.modules:
+	* modulesets/mobile-2.28.modules: add 2.28 modulesets since some people
+	started working on 2.28.
+
+2009-03-01  Jaap Haitsma  <jaap@haitsma.org>
+
+	* modulesets/gnome-2.26.modules: add gpointing-device-settings
+
+2009-03-01  Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Add gupnp-media-renderer and libowl-av.
+
+2009-02-28  Vivien Malerba <malerba@gnome-db.org>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated Libgda to
+	3.99.12
+
+2009-02-27  Jaap Haitsma  <jaap@haitsma.org>
+
+	* modulesets/gnome-2.26.modules: vala-trunk moved to git
+
+2009-02-27  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: marked a few modules as moved to git
+	(seed, nemiver and pitivi)
+
+2009-02-25  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: turned back WebKit from a tarball
+	source to git, as it is not bound to the rules of (potential) external
+	deps.
+
+2009-02-25  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: bumped mozilla to
+	firefox 2.0.0.20 as .16 got removed from the mirrors.
+
+2009-02-21  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: bumped clutter and
+	clutter-gtk to the latest versions.
+
+2009-02-19  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: added DeviceKit and
+	DeviceKit-power tarballs to external deps.
+
+2009-02-18  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added missing gnome-panel
+	dependency to vinagre module.
+
+2009-02-18  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: Updated URL of dvb-daemon repository
+
+2009-02-18  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: disable python bindings
+	to farsight2 by default.
+
+2009-02-17  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: moved e-d-s from suggest to
+	dependency in ekiga.
+
+2009-02-17  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added missing e-d-s dependency
+	to cheese module.
+
+2009-02-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: fixed dependencies node name for
+	gtkspell module.
+
+2009-02-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: added wv and abiword modules.
+
+2009-02-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/moduleset.dtd: moved comments, as DTD comments can't be in
+	an element.
+
+2009-02-15  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/utils/httpcache.py: possibility to pass a age argument when
+	using httpcache, to have a different expiration age, also passing 0
+	will make it not using the cache.
+
+2009-02-15  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: sound-juicer now depends on
+	libcanberra.
+
+2009-02-15  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: anjuta now depends on
+	libunique.
+
+2009-02-15  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added libgweather to desktop
+	suite metamodule, and pangomm to c++ bindings metamodule.
+
+2009-02-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: updated NetworkManager and
+	network-manager-applet modules, also added libnl as required by
+	NetworkManager.
+
+2009-02-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: fixed libunique reference (it's
+	unique, not libunique)
+
+2009-02-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added libunique dependency to
+	gnome-media (used by the new volume control); moved esound to suggests
+	as it is only required for the disabled-by-default vumeter.
+
+2009-02-13  Vivien Malerba  <malerba@gnome-db.org>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	updated libgda to 3.99.11
+
+2009-02-13  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: hamster-applet branched for
+	2.26.
+
+2009-02-11  Johan Dahlin  <jdahlin@async.com.br>
+
+	* modulesets/gnome-2.26.modules:
+	gobject-introspection, gir-repository, gjs and gnome-shell
+	moved to git
+
+2009-02-10  William Jon McCann  <jmccann@redhat.com>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-screensaver
+	moved to svn.
+
+2009-02-10  William Jon McCann  <jmccann@redhat.com>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-screensaver
+	moved to git.
+
+2009-02-10  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/config.py: set MONO_PREFIX and MONO_GAC_PREFIX so the
+	jhbuilded mono environment is used.  (closes: #550671)
+
+2009-02-10  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: fixed sqlite module name in
+	libsoup dependencies (should have been "sqlite3").
+
+2009-02-10  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/git.py: hint user about the switch from svn to
+	git when a git module is missing .git.  (closes: #570858)
+
+2009-02-10  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: libsoup has now a (mostly) hard
+	dependency on libproxy and sqlite.  (closes: #571149)
+
+2009-02-10  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-suites-2.26.modules: updated to mono 2.2, which
+	provides monodoc.
+
+2009-02-09  Philip Withnall  <philip@tecnocode.co.uk>
+
+	* modulesets/gnome-suites-2.26.modules: Removed outdated gnome-common
+	dependency from Totem and added its GConf dependency.
+
+2009-02-05  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/modtypes/tarball.py: warn about invalid file sizes, instead
+	of aborting with a Python trace.
+
+2009-02-05  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: metacity branched for 2.26.
+
+2009-02-05  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated libcroco to
+	0.6.2.
+
+2009-02-05  Paolo Borelli  <pborelli@katamail.com>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	Bump libxml2 version to 2.7.3
+
+2009-02-04  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: Downgrade cairo to
+	version 1.8.4 (as 1.8.6 does not build with libtool 1.5)
+
+2009-02-04  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added gdm dependency on
+	gnome-panel (for the new user switch applet).
+
+2009-02-04  John Carr  <john.carr@unrouted.co.uk>
+
+	* jhbuild/modtypes/linux.py: Fix a bug that prevented jhbuild
+	calling make modules_install. Support doing make mrproper. Do
+	make install by hand (to avoid colliding with custom distro
+	Kbuild foo or installing to /boot). Install headers. Support
+	'make defconfig' if moduleset doesnt specificy a kconfig.
+
+2009-02-04  Christian Persch  <chpe@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Add quick-lounge-applet.
+
+2009-02-04  John Carr  <john.carr@unrouted.co.uk>
+
+	* jhbuild/modtypes/tarball.py: Forward tarball makeinstallargs on
+	to autotools code.
+
+2009-02-03  Claudio Saavedra  <csaavedra@igalia.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Update cairo to
+	version to 1.8.6
+
+2009-02-03  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: remove libgnomeprintui dep of
+	tomboy (see bug #512369).
+
+2009-02-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/gnome-2.26.modules: glom: Now uses libgdamm trunk, not 
+	libgdamm-3.0, and does not depend on libgnome.
+
+2009-02-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated telepathy-glib
+	to latest released tarball.
+
+2009-02-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added brasero dependency to
+	sound-juicer.
+
+2009-02-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: works around libnice
+	extracting to nice-0.0.4/.
+
+2009-02-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: marked the dependency of anjuta
+	on devhelp as optional.
+
+2009-02-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added telepathy-farsight
+	dependency to empathy.
+
+2009-02-03  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	More fix for Bug #569778.
+
+	* patches/samba.configure-for-libs.patch: Adjusted to allow
+	non-source-dir configuration via autogen.sh.
+	* modulesets/gnome-external-deps-2.26.modules: tdb, talloc and tevent
+	now support non-source-dir builds.
+
+2009-02-02  Vivien Malerba  <malerba@gnome-db.org>
+
+	* modulesets/gnome-suites-2.26.modules: updated libgda to 3.99.10
+
+2009-02-02  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* modulesets/freedesktop-2.26.modules:
+	* modulesets/gnome-external-deps-2.26.modules: Mark some modules as
+	not supporting non-source-dir builds. Partially fixes #569778.
+
+2009-02-02  Andy Wingo  <wingo@pobox.com>
+
+	* jhbuild/modtypes/__init__.py (Package.to_sxml): Whoops, fix some
+	indentation that broke attribute serialization for non-bool
+	values.
+
+2009-02-02  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/bot.py: declare bot attributes.
+
+2009-02-02  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/buildbot/status/web/bot.py:
+	* jhbuild/buildbot/status/web/__init__.py:
+	* jhbuild/commands/bot.py: replaced jhbuild bot --slvfile option by a
+	--slave-dir option, pointing to a directory with slaves.csv (csv with
+	slave names and passwords) and XML files describing each hosts
+	(options, contact informations, etc) ($slavename.xml); added pages in 
+	web view to get those informations.
+
+2009-02-02  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/bot.py:
+	* jhbuild/config.py: reload (parts of) jhbuild configuration file when
+	buildbot server is sent SIGHUP (everything but environment variables).
+
+2009-02-01  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: move brasero and
+	gnome-user-share where they belong in the file (they were below the
+	proposed module header)
+
+2009-01-31  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.24.modules: pessulus branched for 2.24.
+
+2009-01-31  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: kill gnome-build: it's been
+	integrated in anjuta.
+
+2009-01-28  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/cvs.py: revert the exception change
+	accidentally commited in last commit.
+
+2009-01-27  Callum McKenzie  <callum@spooky-possum.org>
+
+	* modulesets/gnome-suites-2.26.modules: Explicitly enable the
+	mixer applet.
+
+2009-01-26  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.24.modules: sabayon branched for 2.24.
+
+2009-01-26  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: anjuta removed its
+	libgnomeprint/ui dependency.
+
+2009-01-26  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated libmapi size and
+	md5sum, hooray for changing tarballs.
+
+2009-01-24  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules:
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-suites-2.26.modules: added mono-addins,
+	clutter-cairo and clutter-gtk to accepted external dependencies.
+
+2009-01-24  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-suites-2.26.modules: tomboy requires mono-addins
+	and suggest gtkspell
+
+2009-01-24  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: added --enable-fhs to
+	samba4 configure so headers are installed in .../include/samba-4.0/
+	instead of .../include/ (where ldap.h would then confuse lots of other
+	modules).
+
+2009-01-24  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: empathy and gedit have optional
+	dependencies on enchant and iso-codes.
+
+2009-01-23  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-suites-2.26.modules: empathy depends on 
+	enchant and iso-codes for spell checking.
+
+2009-01-23  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-external-deps-2.26.moduls: libnice, not nice
+
+2009-01-21  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* patches/samba.configure-for-libs.patch: added a patch to Samba 4 so
+	shipped libraries have a working autogen.sh; duplicate the module entry
+	for those libraries, and use the new source-subdir attribute to get
+	them built.
+
+2009-01-21  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/tarball.py:
+	* modulesets/moduleset.dtd: added a new source-subdir attribute (for
+	tarball "version control"), required by Samba4 and related libraries.
+
+2009-01-21  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* modulesets/{gnome-2.26.modules,gnome-suites-2.26.modules}:
+	GStreamer switched to git.  (closes: #551241)
+
+2009-01-21  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: added gnome-media dependency on
+	libcanberra.
+
+2009-01-20  Suman Manjunath  <msuman@novell.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Use samba4 alpha6 and
+	libmapi 0.8.
+
+2009-01-20  Suman Manjunath  <msuman@novell.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Use libical 0.43
+
+2009-01-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* modulesets/gnome-external-deps-2.26.modules: Fix
+	the md5sum of libical-0.42.tar.gz
+
+2009-01-19  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: Make brasero
+	depend on libxml2 not libxml.
+
+2009-01-19  Vivien Malerba  <malerba@gnome-db.org>
+
+	* modulesets/gnome-suites-2.26.modules: updated libgda to 3.99.9
+
+2009-01-19  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-suites-2.26.modules: clean brasero deps and
+	add brasero as suggest for totem to its plugin (to be honest not
+	needed at compile time... mayby just <after>?)
+
+2009-01-19  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-external-deps-2.26.modules: add some missing version
+	properties to make convert-to-tarballs.py happy
+
+2009-01-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules,
+	modulesets/gnome-2.26.modules: moved libnotify to external
+	dependencies.
+
+2009-01-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: added nautilus-cd-burner.
+
+2009-01-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: removed remaining references 
+	to nautilus-cd-burner.
+
+2009-01-19  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules, modulesets/gnome-suites-2.26.modules,
+	modulesets/gnome-external-deps-2.26.modules: updated according to
+	release-team module decisions; added with known issues for
+	evolution-mapi (libmapi and samba incompatible versions) and libnice
+	(unpacks to wrong directory).
+
+2009-01-19  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-external-deps-2.26.modules: Add gstreamer dep
+	to <after> group.
+
+2009-01-19  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/modtypes/autotools.py, modulesets/moduleset.dtd,
+	doc/C/jhbuild.xml: added support for a new skip-autogen value, "never",
+	so autogen.sh (or configure) is never skipped.  (closes: #566437)
+
+2009-01-17  Claudio Saavedra  <csaavedra@igalia.com>
+
+	* modulesets/gnome-suites-2.26.modules: Replace eog dependency on
+	libgnomeui with gnome-desktop.
+
+2009-01-13  Christian Persch  <chpe@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: Use the gnome-2-26 branch for
+	epiphany.
+
+2009-01-12  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/freedesktop-2.26.modules: Added dbus-glib and 
+	telepathy-glib from git so that telepathy-gabble has new-enough 
+	versions to build, instead of just using the tarball versions from 
+	the included gnome-external-deps modules. Revert this if it disturbs 
+	you somehow. 
+
+2009-01-12  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/freedesktop-2.26.modules:
+	Add libnice and telepathy-farsight modules; adjust farsight2 deps;
+	add telepathy-farsight to meta-telepathy-connection-managers.
+
+2009-01-12  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/gnome-2.26.modules: (re)add devhelp-webkit module
+	* modulesets/gnome-suites-2.26.modules: change devhelp (gecko) module
+	to use gnome-2-22 branch on svn insted tarball 
+
+2009-01-12  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: bumped telepathy-glib to
+	0.7.19.
+
+2009-01-12  Murray Cumming  <murrayc@murrayc.com>
+
+	* modulesets/freedesktop-2.26.modules: Copy the loudmouth module  
+	definition from gnome-2.26 modules (not included) because it was an  
+	undefined dependency of telepathy-gabble.
+
+2009-01-11  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Use new vala release (0.5.5).
+
+2009-01-09  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Use new vala release (0.5.4).
+
+2009-01-09  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/arch.py, jhbuild/versioncontrol/bzr.py,
+	jhbuild/versioncontrol/cvs.py: properly import CommandError exception
+	in arch, bzr and cvs modules.  (closes: #567107)
+
+2009-01-07  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: libcanberra and gstreamer
+	dependencies were removed from gnome-control-center (and esound too,
+	six months ago).
+
+2009-01-07  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* modulesets/gnome-suites-2.26.modules: gtk-sharp's bootstrap-2.12
+	renamed to bootstrap-2.14
+
+2009-01-07  Matthias Clasen  <mclasen@redhat.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Update poppler
+	version to 0.10.2
+
+2009-01-07  Matthias Clasen  <mclasen@redhat.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Update pixman
+	version to 0.13.2
+
+2009-01-07  Matthias Clasen  <mclasen@redhat.com>
+
+	* modulesets/gnome-external-deps-2.26.modules: Update iso-codes
+	version to 3.5.1
+
+2009-01-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: clutter is now an hard
+	dependency of gnome-games.
+
+2009-01-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: nautilus-sendto got optional empathy
+	support.
+
+2009-01-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: empathy now depends on
+	libcanberra.
+
+2009-01-06  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: GUPnP moved to git.
+
+2009-01-06  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: dvb-daemon depends on
+	gst-plugins-good, too	
+	
+2009-01-06  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: gst-rtsp-server depends on
+	gst-plugins-base not gst-plugins-bad
+	
+2009-01-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: updated ptlib and opal
+	to their newest versions, required by ekiga.
+
+2009-01-05  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-suites-2.26.modules: added pulseaudio and
+	requirements as external dependencies, and marked gnome-media as
+	depending on pulseaudio.
+
+2009-01-05  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.24.modules: file-roller branched for 2.24.
+
+2009-01-04  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/config.py, jhbuild/defaults.jhbuildrc, jhbuild/moduleset.py,
+	doc/C/jhbuild.xml: added a new modulesets_dir configuration variable,
+	so it is possible to define an alternate directory for moduleset files;
+	added an entry about this configuration variable to the documentation.
+	(closes: #566456, initial patch by David Farning)
+
+2009-01-04  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: dvb-daemon depends on gst-python
+
+2009-01-03  Gustavo J. A. M. Carneiro  <gjc@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-python and
+	gnome-python-desktop now use a builtin waf.
+
+	* modulesets/gnome-suites-2.24.modules,
+	* modulesets/gnome-suites-2.22.modules: gnome-python and gnome-python-desktop branched.
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: removed hard dependency of glib
+	on shared-mime-info, as shared-mime-info has a real build dependency on
+	glib, and it caused a dependency cycle; added shared-mime-info as
+	<after> for both glib and gtk+ to get back to the situation before glib
+	and gtk+ deps shuffleing.
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules:
+	* modulesets/gnome-suites-2.26.modules: updated libgda to 3.99.7 and
+	added it as a dependency of anjuta.
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: gnome-build has been
+	incorporated in anjuta source tree.
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/base.py: display an informative message when running
+	`jhbuild build $module' while $module is in the ignore list.
+	(closes: #564241)
+
+2009-01-03  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-external-deps-2.26.modules: added expat as
+	dependency of fontconfig (it could also use libxml2 but fontconfig
+	configure script prefers expat).  (closes: #565994)
+
+2009-01-02  Matthias Clasen  <mclasen@redhat.com>
+
+	* modulesets/gnome-suites-2.26.modules: Shuffle glib, gtk+ deps
+	around a little bit.
+
+2008-12-31  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: dvb-daemon no longer
+	depends on gconf
+
+2008-12-28  Luca Ferretti  <elle.uca@libero.it>
+
+	* modulesets/freedesktop-2.26.modules: add DeviceKit, DeviceKit-power
+	and DeviceKit-disks modules (need external unmanaged deps, see
+	comments to modules definitions)
+
+2008-12-26  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/commands/base.py: display updated bootstrap modules when
+	checking the bootstrap moduleset changes.  (closes: #565355)
+
+2008-12-23  Paolo Borelli  <pborelli@katamail.com>
+
+	* jhbuild/commands/base.py:
+	* doc/C/jhbuild.xml:
+	Add a "--start-at" option to the list command and document it.
+
+2008-12-23  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/bootstrap.modules, patches/python-2.5.2-lib64.patch:
+	reenabled python patch, after the removal of a Mandriva specific
+	part.
+
+2008-12-22  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.26.modules: updated GTK+ to use trunk.
+
+2008-12-22  Andy Wingo  <wingo@pobox.com>
+
+	* jhbuild/commands/snapshot.py: New file, implements the new
+	command, "jhbuild snapshot". (closes: #564873)
+
+	* jhbuild/utils/sxml.py: New helper lib for xml serialization.
+
+	* jhbuild/versioncontrol/svn.py (SubversionRepository.to_sxml)
+	(SubversionBranch.to_sxml):
+	* jhbuild/versioncontrol/git.py (GitRepository.to_sxml)
+	(GitBranch.to_sxml):
+	* jhbuild/versioncontrol/tarball.py (TarballRepository.to_sxml)
+	(TarballBranch.to_sxml):
+	* jhbuild/versioncontrol/__init__.py (Repository.to_sxml)
+	(Branch.to_sxml):
+	* jhbuild/versioncontrol/cvs.py (CVSRepository.to_sxml)
+	(CVSBranch.to_sxml):
+	* jhbuild/modtypes/__init__.py (Package.to_sxml)
+	(MetaModule.to_sxml): Plug in to_sxml() methods for serialization.
+
+	* jhbuild/modtypes/autotools.py (AutogenModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/mozillamodule.py (MozillaModule):
+	* jhbuild/modtypes/waf.py (WafModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/linux.py (LinuxModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/perl.py (PerlModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/ant.py (AntModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/distutils.py (DistutilsModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/mesa.py (MesaModule.xml_tag_and_attrs):
+	* jhbuild/modtypes/testmodule.py (TestModule.xml_tag_and_attrs):
+	Plug bits so we can serialize all the types of modules. There are
+	still some version control backends that aren't yet serialized
+	though.
+
+2008-12-22  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/bootstrap.modules: removed python patch for the time being
+	as it caused lots of problem recently; will have to be tested and
+	checked on multiple architectures before being reenabled.
+
+2008-12-20  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/tarball.py: added --continue-at flag to curl,
+	to match what has been done with wget.  (following-up: #562918)
+
+2008-12-20  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Add Sebastian's branch of
+	gst-rtsp-server package as dvb-daemon now depends on it.
+
+2008-12-18  Baptiste Mille-Mathias  <baptiste.millemathias@gmail.com>                                                   
+
+	* modulesets/gnome-2.26.modules: refresh dependencies for
+	nautilus-sendto.
+
+2008-12-18  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/versioncontrol/tarball.py: added --continue flag to wget, to
+	work a little bit better on unreliable connections.  (closes: #562918)
+
+2008-12-18  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/bootstrap.modules: added m4 as some systems lack it in a
+	sufficient version. Report and patch by Richard Hult. (closes: #561777)
+
+2008-12-18  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/config.py, jhbuild/frontends/terminal.py: do not fail on
+	missing standard python curses module (required only for quiet mode).
+	(closes: #564879)
+
+2008-12-18  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/config.py: display a better message on missing configuration
+	file.  (closes: #564878)
+
+2008-12-18  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: drop eel dependency in orca,
+	and kill eel.
+
+2008-12-18  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/defaults.jhbuildrc: switch jhbuildbot_master default to
+	build.gnome.org.
+
+2008-12-18  Jonh Wendell <jwendell@gnome.org>
+
+	* modulesets/gnome-external-deps-2.26.modules: Bump gtk-vnc dep to
+	0.3.8.
+
+2008-12-18  Zeeshan Ali (Khattak)  <zeeshanak@gnome.org>
+
+	* modulesets/gnome-2.26.modules: Add new (0.5.3) Vala release.
+
+2008-12-16  Dan Williams  <dcbw@redhat.com>
+
+	* modulesets/gnome-2.20.modules, modulesets/gnome-2.22.modules,
+	modulesets/gnome-2.24.modules, modulesets/gnome-2.26.modules: fix
+	NetworkManager module repo
+
+2008-12-16  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.24.modules: gnome-doc-utils,
+	gnome-user-docs and nautilus-cd-burner have been branched for 2.24.
+
+2008-12-15  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules, modulesets/gnome-suites-2.26.modules:
+	removed eel dependency from nautilus and gnome-mount.
+
+2008-12-15  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/moduleset.dtd: updated to current <mirror> support.
+
+2008-12-15  Daniel Elstner  <danielk@openismus.com>
+
+	* modulesets/gnome-2.26.modules (git.clutter-project.org): Add new
+	repository.
+	(clutter*-trunk): Switch over to new git repository.
+
+2008-12-15  Sebastian Pölsterl  <sebp@svn.gnome.org>
+
+	* modulesets/gnome-2.26.modules: Use Vala 0.5.2 tarball,
+	because vala trunk requires it
+
+2008-12-14  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: added seed module.
+
+2008-12-12  Wouter Bolsterlee  <wbolster@svn.gnome.org>
+
+	* modulesets/gnome-suites-2.24.modules: Use glibmm-2-18
+	branch.
+
+2008-12-11  Dan Williams  <dcbw@redhat.com>
+
+	* modulesets/gnome-2.20.modules, modulesets/gnome-2.22.modules,
+	modulesets/gnome-2.24.modules, modulesets/gnome-2.26.modules: update
+	location and repo of NetworkManager for the move to git.freedesktop.org
+
+2008-12-11  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/buildbot/factory.py, jhbuild/commands/base.py,
+	jhbuild/commands/bot.py, jhbuild/frontends/buildscript.py: added a new
+	cleanone command, called from buildbot, so local buildslave settings
+	(makeclean = False) are used.
+
+2008-12-11  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: remove duplicate intltool dep
+	for libwnck
+
+2008-12-11  Vincent Untz  <vuntz@gnome.org>
+
+	* modulesets/gnome-suites-2.26.modules: update gnome-session
+	dependencies (no more libgnomeui, gnome-keyring, gnome-control-center,
+	but added libglade)
+
+2008-12-08  John Carr  <john.carr@unrouted.co.uk>
+
+	* jhbuild/versioncontrol/bzr.py:
+	Update jhbuild Bazaar support for tags and branches. (closes: #563658)
+
+	* modulesets/gtk.modules:
+	* modulesets/gnome-2.16.modules:
+	* modulesets/gnome-2.18.modules:
+	* modulesets/online-desktop.modules:
+	* modulesets/gnome-suites-2.20.modules:
+	* modulesets/gnome-suites-2.22.modules:
+	* modulesets/gnome-suites-2.24.modules:
+	* modulesets/gnome-suites-2.26.modules:
+	* modulesets/gnome-2.20.modules:
+	* modulesets/gnome-2.22.modules:
+	* modulesets/gnome-2.24.modules:
+	* modulesets/gnome-2.26.modules:
+	Update the mirror definitions to take advantage of this.
+
+2008-12-08  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.22.modules:
+	* modulesets/gnome-suites-2.24.modules:
+	* modulesets/gnome-suites-2.26.modules: fixed markup for dependency of
+	gnome-python-desktop on nautilus.
+
+2008-12-08  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/moduleset.py, tests/tests.py: do not assume after/suggests
+	modules have a relationship of after/suggests with their dependencies.
+	nautilus after tracker, nautilus-cd-burner depends on nautilus, tracker
+	depends on nautilus-cd-burner, the <after> would be evaluated first and
+	would transform the dependency of nautilus-cd-burner into an <after>,
+	ignoring it as it would cycle, causing nautilus-cd-burner to be built
+	before nautilus.  (closes: #563597)
+
+2008-12-08  Frederic Peters  <fpeters@0d.be>
+
+	* jhbuild/moduleset.py, tests/tests.py: do not let <after> introduce
+	new dependencies unless explicitely pointing to a <metamodule>.
+	(closes: #563597)
+
+2008-12-06  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-suites-2.24.modules: gtksourceview, pygtksourceview,
+	gnome-netstatus and gnome-session have been branched for 2.24.
+
+2008-12-05  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/gnome-2.26.modules: removed gnopernicus from
+	meta-gnome-accessibility module, as it no longer exists.
+
+2008-12-04  Suman Manjunath  <msuman@novell.com>
+
+	* modulesets/gnome-suites-2.26.modules: Add libgweather as a 
+	dependency for evolution-data-server. 
+
+2008-12-04  Frederic Peters  <fpeters@0d.be>
+
+	* modulesets/bootstrap.modules, patches/python-2.5.2-lib64.patch: 
+	updated python to 2.5.  (closes: #562724)
+
 2008-12-03  Luca Ferretti  <elle.uca@libero.it>
 
 	* modulesets/gnome-suites-2.26.modules: libsoup needs sqlite3

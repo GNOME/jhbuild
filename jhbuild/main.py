@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # jhbuild - a build script for GNOME 1.x and 2.x
 # Copyright (C) 2001-2006  James Henstridge
 #
@@ -21,10 +20,9 @@
 import sys, os, errno
 import optparse
 import traceback
+import logging
 
 import gettext
-localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../mo'))
-gettext.install('jhbuild', localedir=localedir, unicode=True)
 import __builtin__
 __builtin__.__dict__['N_'] = lambda x: x
 
@@ -69,6 +67,14 @@ def uprint(*args):
 __builtin__.__dict__['uprint'] = uprint
 __builtin__.__dict__['uencode'] = uencode
 
+class LoggingFormatter(logging.Formatter):
+    def __init__(self):
+        logging.Formatter.__init__(self, '%(level_name_initial)s: %(message)s')
+
+    def format(self, record):
+        record.level_name_initial = record.levelname[0]
+        return logging.Formatter.format(self, record)
+
 def help_commands(option, opt_str, value, parser):
     thisdir = os.path.abspath(os.path.dirname(__file__))
     
@@ -92,6 +98,15 @@ def help_commands(option, opt_str, value, parser):
     parser.exit()
 
 def main(args):
+    localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
+    if not os.path.exists(localedir):
+        localedir = None
+    gettext.install('jhbuild', localedir=localedir, unicode=True)
+
+    logging.getLogger().setLevel(logging.INFO)
+    logging_handler = logging.StreamHandler()
+    logging_handler.setFormatter(LoggingFormatter())
+    logging.getLogger().addHandler(logging_handler)
     parser = optparse.OptionParser(
         usage=_('%prog [ -f config ] command [ options ... ]'),
         description=_('Build a set of modules from diverse repositories in correct dependency order (such as GNOME).'))

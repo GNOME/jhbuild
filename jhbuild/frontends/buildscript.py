@@ -21,7 +21,7 @@
 import os
 
 from jhbuild.utils import packagedb
-from jhbuild.errors import FatalError
+from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
     def __init__(self, config, module_list):
@@ -33,20 +33,27 @@ class BuildScript:
 
         self.config = config
 
+        # the existence of self.config.prefix is checked in config.py
+        if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('install prefix (%s) must be writable') % self.config.prefix)
+
         if not os.path.exists(self.config.checkoutroot):
             try:
                 os.makedirs(self.config.checkoutroot)
             except OSError:
-                raise FatalError(_('checkout root can not be created'))
+                raise FatalError(
+                        _('checkout root (%s) can not be created') % self.config.checkoutroot)
         if not os.access(self.config.checkoutroot, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('checkout root must be writable'))
-        if not os.path.exists(self.config.prefix):
+            raise FatalError(_('checkout root (%s) must be writable') % self.config.checkoutroot)
+
+        if self.config.copy_dir and not os.path.exists(self.config.copy_dir):
             try:
-                os.makedirs(self.config.prefix)
+                os.makedirs(self.config.copy_dir)
             except OSError:
-                raise FatalError(_('install prefix can not be created'))
-        if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('install prefix must be writable'))
+                raise FatalError(
+                        _('checkout copy dir (%s) can not be created') % self.config.copy_dir)
+            if not os.access(self.config.copy_dir, os.R_OK|os.W_OK|os.X_OK):
+                raise FatalError(_('checkout copy dir (%s) must be writable') % self.config.copy_dir)
 
         packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
         try:
@@ -65,7 +72,7 @@ class BuildScript:
         '''
         raise NotImplementedError
 
-    def build(self):
+    def build(self, phases=None):
         '''start the build of the current configuration'''
         self.start_build()
         
@@ -96,29 +103,111 @@ class BuildScript:
                 self.end_module(module.name, failed)
                 continue
 
-            state = module.STATE_START
-            while state != module.STATE_DONE:
-                self.start_phase(module.name, state)
-                nextstate, error, altstates = module.run_state(self, state)
-                self.end_phase(module.name, state, error)
+            if not phases:
+                phases = self.get_build_phases(module)
+            phase = None
+            num_phase = 0
+            while num_phase < len(phases):
+                last_phase, phase = phase, phases[num_phase]
+                try:
+                    if module.skip_phase(self, phase, last_phase):
+                        num_phase += 1
+                        continue
+                except SkipToEnd:
+                    break
+
+                self.start_phase(module.name, phase)
+                error = None
+                try:
+                    error, altphases = module.run_phase(self, phase)
+                except SkipToPhase, e:
+                    try:
+                        num_phase = phases.index(e.phase)
+                    except ValueError:
+                        break
+                    continue
+                except SkipToEnd:
+                    break
+                finally:
+                    self.end_phase(module.name, phase, error)
 
                 if error:
-                    newstate = self.handle_error(module, state,
-                                                 nextstate, error,
-                                                 altstates)
-                    if newstate == 'fail':
+                    try:
+                        nextphase = phases[num_phase+1]
+                    except IndexError:
+                        nextphase = None
+                    newphase = self.handle_error(module, phase,
+                                                 nextphase, error,
+                                                 altphases)
+                    if newphase == 'fail':
                         failures.append(module.name)
                         failed = True
-                        state = module.STATE_DONE
+                        break
+                    if newphase is None:
+                        break
+                    if newphase in phases:
+                        num_phase = phases.index(newphase)
                     else:
-                        state = newstate
+                        # requested phase is not part of the plan, we insert
+                        # it, then fill with necessary phases to get back to
+                        # the current one.
+                        filling_phases = self.get_build_phases(module, targets=[phase])
+                        canonical_new_phase = newphase
+                        if canonical_new_phase.startswith('force_'):
+                            # the force_ phases won't appear in normal build
+                            # phases, so get the non-forced phase
+                            canonical_new_phase = canonical_new_phase[6:]
+
+                        if canonical_new_phase in filling_phases:
+                            filling_phases = filling_phases[
+                                    filling_phases.index(canonical_new_phase)+1:-1]
+                        phases[num_phase:num_phase] = [newphase] + filling_phases
+
+                        if phases[num_phase+1] == canonical_new_phase:
+                            # remove next phase if it would just be a repeat of
+                            # the inserted one
+                            del phases[num_phase+1]
                 else:
-                    state = nextstate
+                    num_phase += 1
+
             self.end_module(module.name, failed)
         self.end_build(failures)
         if failures:
             return 1
         return 0
+
+    def get_build_phases(self, module, targets=None):
+        '''returns the list of required phases'''
+        if targets:
+            tmp_phases = targets[:]
+        else:
+            tmp_phases = self.config.build_targets[:]
+        i = 0
+        while i < len(tmp_phases):
+            phase = tmp_phases[i]
+            depadd = []
+            try:
+                phase_method = getattr(module, 'do_' + phase)
+            except AttributeError:
+                # unknown phase for this module type, simply skip
+                del tmp_phases[i]
+                continue
+            if hasattr(phase_method, 'depends'):
+                for subphase in phase_method.depends:
+                    if subphase not in tmp_phases[:i+1]:
+                        depadd.append(subphase)
+            if depadd:
+                tmp_phases[i:i] = depadd
+            else:
+                i += 1
+
+        # remove duplicates
+        phases = []
+        for phase in tmp_phases:
+            if not phase in phases:
+                phases.append(phase)
+
+        return phases
 
     def start_build(self):
         '''Hook to perform actions at start of build.'''
@@ -134,10 +223,10 @@ class BuildScript:
         '''Hook to perform actions after finishing a build of a module.
         The argument is true if the module failed to build.'''
         pass
-    def start_phase(self, module, state):
+    def start_phase(self, module, phase):
         '''Hook to perform actions before starting a particular build phase.'''
         pass
-    def end_phase(self, module, state, error):
+    def end_phase(self, module, phase, error):
         '''Hook to perform actions after finishing a particular build phase.
         The argument is a string containing the error text if something
         went wrong.'''
@@ -151,6 +240,6 @@ class BuildScript:
         '''inform the buildscript of a new stage of the build'''
         raise NotImplementedError
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
         raise NotImplementedError

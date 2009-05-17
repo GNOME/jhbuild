@@ -49,14 +49,21 @@ except: pass
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
 
-import curses
 try:
-    curses.setupterm()
-except:
-    pass
+    import curses
+except ImportError:
+    curses = None
+else:
+    try:
+        curses.setupterm()
+    except:
+        pass
 
 # tray icon stuff ...
-icondir = os.path.join(os.path.dirname(__file__), 'icons')
+if DATADIR:
+    icondir = os.path.join(DATADIR, 'jhbuild')
+else:
+    icondir = os.path.join(os.path.dirname(__file__), 'icons')
 phase_map = {
     'checkout':       'checkout.png',
     'force_checkout': 'checkout.png',
@@ -71,7 +78,7 @@ phase_map = {
     }
 
 class TerminalBuildScript(buildscript.BuildScript):
-    triedcheckout = False
+    triedcheckout = None
     is_end_of_build = False
 
     def __init__(self, config, module_list):
@@ -231,9 +238,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             # it could happen on a really badly-timed ctrl-c (see bug 551641)
             raise CommandError(_('########## Error running %s') % pretty_command)
 
-    def start_phase(self, module, state):
+    def start_phase(self, module, phase):
         self.trayicon.set_icon(os.path.join(icondir,
-                               phase_map.get(state, 'build.png')))
+                               phase_map.get(phase, 'build.png')))
 
     def end_build(self, failures):
         self.is_end_of_build = True
@@ -245,10 +252,10 @@ class TerminalBuildScript(buildscript.BuildScript):
                 print module,
             print
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
-        summary = _('error during stage %(stage)s of %(module)s') % {
-            'stage':state, 'module':module.name}
+        summary = _('error during phase %(phase)s of %(module)s') % {
+            'phase': phase, 'module':module.name}
         try:
             error_message = error.args[0]
             self.message('%s: %s' % (summary, error_message))
@@ -259,30 +266,40 @@ class TerminalBuildScript(buildscript.BuildScript):
         self.notify.notify(summary = summary, body = error_message,
                 icon = 'dialog-error', expire = 20)
 
-        if self.config.trycheckout and (not self.triedcheckout) and altstates.count('force_checkout'):
-            self.triedcheckout = True
-            return 'force_checkout'
-        self.triedcheckout = False
+        if self.config.trycheckout:
+            if self.triedcheckout is None and altphases.count('configure'):
+                self.triedcheckout = 'configure'
+                self.message(_('automatically retrying configure'))
+                return 'configure'
+            elif self.triedcheckout == 'configure' and altphases.count('force_checkout'):
+                self.triedcheckout = 'done'
+                self.message(_('automatically forcing a fresh checkout'))
+                return 'force_checkout'
+        self.triedcheckout = None
 
         if not self.config.interact:
             return 'fail'
         while True:
             print
-            uprint(_('  [1] rerun stage %s') % state)
-            uprint(_('  [2] ignore error and continue to %s') % nextstate)
+            uprint(_('  [1] rerun phase %s') % phase)
+            if nextphase:
+                uprint(_('  [2] ignore error and continue to %s') % nextphase)
+            else:
+                uprint(_('  [2] ignore error and continue to next module'))
             uprint(_('  [3] give up on module'))
             uprint(_('  [4] give up on module but fake success'))
             uprint(_('  [5] start shell'))
-            i = 6
-            for altstate in altstates:
-                uprint(_('  [%d] go to stage %s') % (i, altstate))
+            uprint(_('  [6] reload configuration'))
+            nb_options = i = 7
+            for altphase in (altphases or []):
+                uprint(_('  [%d] go to phase %s') % (i, altphase))
                 i = i + 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()
             if val == '1':
-                return state
+                return phase
             elif val == '2':
-                return nextstate
+                return nextphase
             elif val == '3':
                 return 'fail'
             elif val == '4':
@@ -296,10 +313,12 @@ class TerminalBuildScript(buildscript.BuildScript):
                 uprint(_('exit shell to continue with build'))
                 os.system(user_shell)
                 os.chdir(cwd) # restor working directory
+            elif val == '6':
+                self.config.reload()
             else:
                 try:
                     val = int(val)
-                    return altstates[val - 6]
+                    return altphases[val - nb_options]
                 except:
                     uprint(_('invalid choice'))
         assert False, 'not reached'

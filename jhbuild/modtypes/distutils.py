@@ -32,15 +32,15 @@ class DistutilsModule(Package):
     Distutils style setup.py."""
     type = 'distutils'
 
-    STATE_CHECKOUT = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_BUILD = 'build'
-    STATE_INSTALL = 'install'
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_BUILD = 'build'
+    PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch,
                  dependencies = [], after = [], suggests = [],
-                 supports_non_srcdir_builds = True, extra_env = None):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+                 supports_non_srcdir_builds = True):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
@@ -58,27 +58,14 @@ class DistutilsModule(Package):
     def get_revision(self):
         return self.branch.tree_id()
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_BUILD
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_BUILD
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_force_checkout.error_phase = [PHASE_FORCE_CHECKOUT]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
@@ -89,11 +76,8 @@ class DistutilsModule(Package):
         if srcdir != builddir:
             cmd.extend(['--build-base', builddir])
         buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phase = [PHASE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
@@ -106,8 +90,12 @@ class DistutilsModule(Package):
         cmd.extend(['install', '--prefix', buildscript.config.prefix])
         buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_BUILD]
+
+    def xml_tag_and_attrs(self):
+        return 'distutils', [('id', 'name', None),
+                             ('supports-non-srcdir-builds',
+                              'supports_non_srcdir_builds', True)]
 
     def do_deb_start(self, buildscript):
         buildscript.set_action('Starting building', self)
@@ -170,15 +158,11 @@ def parse_distutils(node, config, uri, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     dependencies, after, suggests = get_dependencies(node)
-    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo, config)
-    if config.module_checkout_mode.get(id):
-        branch.checkout_mode = config.module_checkout_mode[id]
 
     return DistutilsModule(id, branch,
             dependencies = dependencies, after = after,
             suggests = suggests,
-            supports_non_srcdir_builds = supports_non_srcdir_builds,
-            extra_env = extra_env)
+            supports_non_srcdir_builds = supports_non_srcdir_builds)
 register_module_type('distutils', parse_distutils)
 

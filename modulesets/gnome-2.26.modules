@@ -3,22 +3,16 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
-  <repository type="svn" name="svn.gnomemm"
-      href="http://svn.gnome.org/svn/gnomemm/"/>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
   <repository type="cvs" name="cvs.cairographics.org"
       cvsroot=":pserver:anonymous@cvs.cairographics.org:/cvs/cairo"
       password=""/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
-  <repository type="cvs" name="gstreamer.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
-      password=""/>
+  <repository type="git" name="gstreamer.freedesktop.org"
+      href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
@@ -35,9 +29,8 @@
       href="svn://svn.debian.org/"/>
   <repository type="svn" name="svn.navi.cx"
       href="http://svn.navi.cx/" />
-  <repository type="cvs" name="anoncvs.abisource.com"
-      cvsroot=":pserver:anoncvs@anoncvs.abisource.com:/cvsroot"
-      password="anoncvs" />
+  <repository type="svn" name="svn.abisource.com"
+      href="http://svn.abisource.com/"/>
   <repository type="svn" name="svn.gna.org"
       href="svn://svn.gna.org/svn/"/>
   <repository type="git" name="git.imendio.com"
@@ -50,6 +43,10 @@
     href="https://garage.maemo.org/svn/modest/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/"/>
+  <repository type="git" name="git.clutter-project.org"
+      href="git://git.clutter-project.org/"/>
+  <repository type="git" name="git.gupnp.org"
+      href="git://git.gupnp.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
@@ -106,7 +103,9 @@
   <repository type="git" name="git.collabora"
       href="git://git.collabora.co.uk/git/"/>
   <repository type="bzr" name="bzr.dvb-daemon.gnome.org"
-    href="http://www.gnome.org/~sebp/bzr/"/>
+    href="http://bzr-playground.gnome.org/~sebp/"/>
+  <repository type="tarball" name="people.suug.ch/~tgr/libnl/"
+      href="http://people.suug.ch/~tgr/libnl/"/>
 
   <include href="freedesktop-2.26.modules"/>
   <include href="gnome-suites-2.26.modules"/>
@@ -175,12 +174,13 @@
   </autotools>
 
   <autotools id="gnome-python-extras">
-    <branch/>
+    <branch revision="gnome-2-26"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
       <dep package="gtkhtml2"/>
       <dep package="gdl"/>
+      <dep package="libgda"/>
     </dependencies>
   </autotools>
 
@@ -201,10 +201,17 @@
   <autotools id="nautilus-sendto">
     <branch/>
     <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
       <dep package="nautilus"/>
     </dependencies>
     <suggests>
-      <dep package="gnome-bluetooth"/>
+      <dep package="evolution-data-server"/>
+      <dep package="dbus-glib"/>
+      <dep package="gupnp-av"/>
+      <dep package="empathy"/>
     </suggests>
   </autotools>      
 
@@ -354,7 +361,7 @@
   </autotools>
 
   <autotools id="gst-plugins-gl" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="diracvideo.org" module="gst-plugins-gl"/>
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-gl"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
@@ -438,27 +445,27 @@
   </autotools>
 
   <autotools id="libpanelappletmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
   <autotools id="libgdamm-3.0">
-    <branch repo="svn.gnomemm" module="libgdamm" revision="libgdamm-3-0"/>
+    <branch module="libgdamm" revision="libgdamm-3-0"/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgda-3-0"/>
     </dependencies>
   </autotools>
   <autotools id="libgdamm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgda"/>
     </dependencies>
   </autotools>
   <autotools id="libgnomedbmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libgdamm-3.0"/>
@@ -466,7 +473,7 @@
   </autotools>
 
   <autotools id="gtkmm_hello">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
     </dependencies>
@@ -481,7 +488,7 @@
   </autotools>
 
   <autotools id="goocanvasmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="goocanvas"/>
       <dep package="gtkmm"/>
@@ -497,7 +504,7 @@
   </autotools>
 
   <autotools id="cluttermm">
-    <branch repo="svn.gnomemm" module="cluttermm" revision="cluttermm-0.8"/>
+    <branch revision="cluttermm-0.8"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="pangomm"/>
@@ -505,7 +512,7 @@
   </autotools>
 
   <autotools id="clutter-cairomm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="clutter-cairo"/>
       <dep package="cairomm"/>
@@ -513,7 +520,7 @@
   </autotools>
 
   <autotools id="clutter-gtkmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="clutter-gtk"/>
       <dep package="gtkmm"/>
@@ -521,7 +528,7 @@
   </autotools>
 
   <autotools id="clutter-box2dmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="clutter-box2d"/>
       <dep package="cluttermm"/>
@@ -529,7 +536,7 @@
   </autotools>
 
   <autotools id="gstreamermm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="gstreamer"/>
@@ -543,8 +550,16 @@
     </suggests>
   </autotools>
 
+  <autotools id="gstreamermm-plugins-good">
+    <branch/>
+    <dependencies>
+      <dep package="gst-plugins-good"/>
+      <dep package="gstreamermm"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="geglmm">
-    <branch repo="svn.gnomemm" />
+    <branch/>
     <dependencies>
       <dep package="glibmm"/>
       <dep package="gegl"/>
@@ -603,16 +618,7 @@
       <dep package="gtk+"/>
       <dep package="intltool"/>
       <dep package="libglade"/>
-      <dep package="eel"/>
       <dep package="nautilus"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libnotify">
-    <branch repo="svn.galago-project.org" module="trunk/libnotify"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="dbus"/>
     </dependencies>
   </autotools>
 
@@ -691,7 +697,6 @@
       <dep package="gnome-mag"/>
       <dep package="gok"/>
       <dep package="gnome-speech"/>
-      <dep package="gnopernicus"/>
       <dep package="orca"/>
     </dependencies>
   </metamodule>
@@ -837,7 +842,6 @@
     <dependencies>
       <dep package="libxml++"/>
       <dep package="gtkmm"/>
-      <dep package="libglademm"/>
       <dep package="gconfmm"/>
     </dependencies>
   </autotools>
@@ -893,9 +897,9 @@
   <autotools id="glom">
     <branch/>
     <dependencies>
-      <dep package="libgdamm-3.0"/>
-      <dep package="bakery"/>
-      <dep package="libgnome"/>
+      <dep package="libxml++"/>
+      <dep package="gconfmm"/>
+      <dep package="libgdamm"/>
       <dep package="iso-codes"/>
       <dep package="pygtk"/>
       <dep package="gnome-python-extras"/>
@@ -1124,19 +1128,22 @@
     <branch/>
   </autotools>
 
+  <autotools id="libnl" skip-autogen="never" autogen-sh="configure">
+    <branch repo="people.suug.ch/~tgr/libnl/"
+            module="libnl-1.1.tar.gz" version="1.1"
+            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932"/>
+  </autotools>
+
   <autotools id="NetworkManager">
-    <branch/>
+    <branch repo="git.freedesktop.org"
+	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_7" checkoutdir="NetworkManager"/>
     <dependencies>
+      <dep package="libnl"/>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
       <dep package="hal"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libgnomeui"/>
       <dep package="libgcrypt"/>
+      <dep package="gtk-doc"/>
     </dependencies>
   </autotools>
 
@@ -1148,14 +1155,10 @@
       <dep package="gtk+"/>
       <dep package="libglade"/>
       <dep package="gconf"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="gnome-keyring"/>
       <dep package="NetworkManager"/>
-    </dependencies>
-    <suggests>
       <dep package="libnotify"/>
-    </suggests>
+    </dependencies>
   </autotools>
 
   <autotools id="xdg-user-dirs-gtk">
@@ -1185,9 +1188,9 @@
     </dependencies>
   </autotools>
 
-  <tarball id="vala" version="0.5.1" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.5/vala-0.5.1.tar.bz2"
-            md5sum="0051ae1f2ef967ce21e77889719daad1" size="1443688"/>
+  <tarball id="vala" version="0.7.2" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.2.tar.bz2"
+            md5sum="a1e35fe5a7ebeb6c208c1d379e445115" size="1828305"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1208,13 +1211,21 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgee">
+  <autotools id="libgee-trunk">
     <branch/>
     <dependencies>
       <dep package="vala"/>
       <dep package="glib"/>
     </dependencies>
   </autotools>
+
+  <tarball id="libgee" version="0.1.5">
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/libgee/0.1/libgee-0.1.5.tar.bz2"
+            md5sum="80102073421e4d7fb18a6aa9622f4de2" size="250782"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
 
   <autotools id="libepc">
     <branch/>
@@ -1236,11 +1247,12 @@
       <dep package="gconf"/>
       <dep package="dbus-glib"/>
       <dep package="gstreamer"/>
+      <dep package="libgee"/>
     </dependencies>
   </autotools>
 
   <autotools id="clutter-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter"/>
+    <branch repo="git.clutter-project.org" module="clutter"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
@@ -1249,7 +1261,7 @@
   </autotools>
 
   <autotools id="clutter-gst-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gst"/>
+    <branch repo="git.clutter-project.org" module="clutter-gst"/>
     <dependencies>
       <dep package="clutter-trunk"/>
       <dep package="gstreamer"/>
@@ -1267,46 +1279,30 @@
   </autotools>
 
   <autotools id="clutter-cairo-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-cairo"/>
+    <branch repo="git.clutter-project.org" module="clutter-cairo"/>
     <dependencies>
       <dep package="clutter-trunk"/>
-      <dep package="cairo"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="clutter-cairo">
-    <branch repo="svn.o-hand.com" module="clutter/branches/clutter-cairo-0-8"/>
-    <dependencies>
-      <dep package="clutter"/>
       <dep package="cairo"/>
     </dependencies>
   </autotools>
 
   <autotools id="clutter-gtk-trunk">
-    <branch repo="svn.o-hand.com"  module="clutter/trunk/clutter-gtk"/>
+    <branch repo="git.clutter-project.org" module="clutter-gtk"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="clutter-trunk"/>
     </dependencies>
   </autotools>
 
-  <autotools id="clutter-gtk">
-    <branch repo="svn.o-hand.com" module="clutter/branches/clutter-gtk-0-8"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="clutter"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="clutter-box2d-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-box2d"/>
+    <branch repo="git.clutter-project.org" module="clutter-box2d"/>
     <dependencies>
       <dep package="clutter-trunk"/>
     </dependencies>
   </autotools>
 
   <autotools id="pyclutter-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/bindings/pyclutter"/>
+    <branch repo="git.clutter-project.org" module="bindings/pyclutter"/>
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygtk"/>
@@ -1332,7 +1328,7 @@
   </autotools>
 
   <autotools id="clutter-vala-trunk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/bindings/clutter-vala"/>
+    <branch repo="git.clutter-project.org" module="bindings/clutter-vala"/>
     <dependencies>
       <dep package="clutter-trunk"/>
       <dep package="clutter-cairo-trunk"/>
@@ -1381,7 +1377,7 @@
   </metamodule>
 
   <autotools id="gssdp">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/gssdp"/>
+    <branch repo="git.gupnp.org" module="gssdp"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
@@ -1390,7 +1386,7 @@
   </autotools>
 
   <autotools id="gupnp">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp"/>
+    <branch repo="git.gupnp.org" module="gupnp"/>
     <dependencies>
       <dep package="gssdp"/>
       <dep package="glib"/>
@@ -1401,7 +1397,7 @@
   </autotools>
 
   <autotools id="gupnp-av">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-av"/>
+    <branch repo="git.gupnp.org" module="gupnp-av"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
@@ -1409,7 +1405,7 @@
   </autotools>
 
   <autotools id="gupnp-tools">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-tools"/>
+    <branch repo="git.gupnp.org" module="gupnp-tools"/>
     <dependencies>
       <dep package="gupnp"/>
       <dep package="gtk+"/>
@@ -1419,7 +1415,7 @@
   </autotools>
 
   <autotools id="gupnp-ui">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/gupnp-ui"/>
+    <branch repo="git.gupnp.org" module="gupnp-ui"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gupnp"/>
@@ -1427,7 +1423,7 @@
   </autotools>
 
   <autotools id="rhythmbox-gupnp" autogenargs="--with-rhythmbox=../rhythmbox">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/rhythmbox-gupnp"/>
+    <branch repo="git.gupnp.org" module="rhythmbox-gupnp"/>
     <dependencies>
       <dep package="rhythmbox"/>
       <dep package="gupnp-av"/>
@@ -1437,13 +1433,34 @@
   </autotools>
 
   <autotools id="gupnp-vala">
-    <branch repo="svn.o-hand.com" module="gupnp/trunk/bindings/gupnp-vala"/>
+    <branch repo="git.gupnp.org" module="bindings/gupnp-vala"/>
     <dependencies>
       <dep package="vala-trunk"/>
       <dep package="gssdp"/>
       <dep package="gupnp"/>
       <dep package="gupnp-av"/>
       <dep package="gupnp-ui"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libowl-av">
+    <branch repo="svn.o-hand.com" module="misc/trunk/libowl-av"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+    <suggests>
+      <dep package="vala-trunk"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gupnp-media-renderer">
+    <branch repo="git.gupnp.org" module="gupnp-media-renderer"/>
+    <dependencies>
+      <dep package="gupnp-vala"/>
+      <dep package="gupnp-av"/>
+      <dep package="libowl-av"/>
     </dependencies>
   </autotools>
 
@@ -1456,6 +1473,7 @@
       <dep package="gupnp-ui"/>
       <dep package="rhythmbox-gupnp"/>
       <dep package="gupnp-vala"/>
+      <dep package="gupnp-media-renderer"/>
     </dependencies>
   </metamodule>
 
@@ -1539,10 +1557,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="epiphany-webkit" autogenargs="--with-engine=webkit">
-    <branch repo="svn.gnome.org"
-            module="epiphany"
-            checkoutdir="epiphany-webkit" />
+  <autotools id="devhelp-webkit">
+    <branch module="devhelp" checkoutdir="devhelp-webkit" />
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="libwnck"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="epiphany-webkit">
+    <branch module="epiphany" checkoutdir="epiphany-webkit" />
     <dependencies>
       <dep package="intltool"/>
       <dep package="WebKit"/>
@@ -1559,19 +1587,14 @@
   </autotools>
 
   <autotools id="epiphany-extensions-webkit">
-    <branch repo="svn.gnome.org"
-            module="epiphany-extensions"
-            checkoutdir="epiphany-extensions-webkit" />
+    <branch module="epiphany-extensions" checkoutdir="epiphany-extensions-webkit" />
     <dependencies>
       <dep package="epiphany-webkit"/>
     </dependencies>
   </autotools>
 
   <autotools id="yelp-webkit">
-    <branch repo="svn.gnome.org"
-            module="yelp"
-            revision="webkit"
-            checkoutdir="yelp-webkit"/>
+    <branch module="yelp" revision="webkit" checkoutdir="yelp-webkit"/>
     <dependencies>
       <dep package="rarian"/>
       <dep package="libgnomeui"/>
@@ -1634,7 +1657,6 @@
     <branch repo="svn.mono-project.com" module="trunk/mono-tools"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gtk-sharp"/>
       <dep package="gnome-sharp"/>
       <!-- <dep package="gecko-sharp"/> -->
@@ -1646,7 +1668,6 @@
     <dependencies>
       <dep package="gtksourceview"/>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gnome-sharp"/>
     </dependencies>
   </autotools>
@@ -1656,7 +1677,6 @@
     <dependencies>
       <dep package="desktop-file-utils"/>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gtk-sharp"/>
       <dep package="gnome-sharp"/>
       <dep package="gtksourceview-sharp"/>
@@ -1668,14 +1688,6 @@
     <branch repo="svn.mono-project.com" module="trunk/gsf-sharp"/>
     <dependencies>
       <dep package="libgsf"/>
-      <dep package="gtk-sharp"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="mono-addins">
-    <branch repo="svn.mono-project.com" module="trunk/mono-addins"/>
-    <dependencies>
-      <dep package="mono"/>
       <dep package="gtk-sharp"/>
     </dependencies>
   </autotools>
@@ -1722,13 +1734,12 @@
         md5sum="aa2c344760c8f4d878957fd4600155a5" size="352463"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gnome-sharp"/>
     </dependencies>
   </autotools>
 
   <autotools id="banshee" autogenargs="--disable-daap --disable-boo --disable-ipod --disable-mtp">
-    <branch module="banshee/trunk/banshee" checkoutdir="banshee"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gconf"/>
@@ -1736,7 +1747,6 @@
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gtk-sharp"/>
       <dep package="taglib-sharp"/>
       <dep package="mono-addins"/>
@@ -1852,7 +1862,6 @@
     <branch repo="hg.circular-chaos.org"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="monodoc"/>
       <dep package="gtk-sharp"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
@@ -1884,11 +1893,11 @@
   <tarball id="gtkspell" version="2.0.11">
     <source href="http://gtkspell.sourceforge.net/download/gtkspell-2.0.11.tar.gz"
             size="347172" md5sum="494869f67146a12a3f17a958f51aeb05"/>
-    <depends>
+    <dependencies>
       <dep package="gtk+"/>
       <dep package="pango"/>
       <dep package="gtk-doc"/>
-    </depends>
+    </dependencies>
   </tarball>
 
   <autotools id="transmission">
@@ -2024,7 +2033,7 @@
             module="libfakekey/0.1/libfakekey-0.1.tar.bz2" version="0.1"
             size="203504" md5="83dbde4d77e8baf0176fe4291d8a2303"/>
   </autotools>
-     
+
   <autotools id="gobject-introspection">
     <branch/>
     <dependencies>
@@ -2201,6 +2210,17 @@
     </suggests>
   </autotools>
 
+  <autotools id="gst-rtsp-server">
+    <branch repo="git.capuchin.gnome.org"
+            module="gst-rtsp-server.git"
+            checkoutdir="gst-rtsp-server"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="dvb-daemon">
     <branch repo="bzr.dvb-daemon.gnome.org"
             module="dvb-daemon"
@@ -2208,13 +2228,124 @@
    <dependencies>
      <dep package="glib"/>
      <dep package="gstreamer"/>
+     <dep package="gst-rtsp-server"/>
      <dep package="vala-trunk"/>
+     <dep package="gst-plugins-good"/>
      <dep package="gst-plugins-bad"/>
+     <dep package="gst-python"/>
      <dep package="dbus-glib"/>
      <dep package="libgee"/>
-     <dep package="gconf"/>
      <dep package="sqlite3"/>
    </dependencies>
+  </autotools>
+
+  <autotools id="seed">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="nautilus-cd-burner">
+    <branch/>
+    <dependencies>
+      <dep package="nautilus"/>
+    </dependencies>
+  </autotools>
+
+  <!-- External deps that you MUST have installed in order -->
+  <!-- to compile WebKit (if not the build tree might be   -->
+  <!-- in in a bad state and might fail to compile even    -->
+  <!-- after you've installed the missing dependency.      -->
+  <!--                                                     -->
+  <!--   libicu-dev                                        -->
+  <!--   libjpeg62-dev                                     -->
+  <!--   libpng12-dev                                      -->
+  <!--   gperf                                             -->
+  <!--   bison                                             -->
+  <!--   flex >= 2.5.33                                    -->
+  <!--                                                     -->
+  <!-- To clean the build tree if you tried to compile     -->
+  <!-- without those deps, run the following command:      -->
+  <!--                                                     -->
+  <!--   make -f GNUMakefile maintainer-clean              -->
+  <!--                                                     -->
+  <!-- See also http://live.gnome.org/WebKitGtk            -->
+  <repository type="git" name="git.debian.org"
+      href="git://git.debian.org/"/>
+  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
+      makefile="GNUmakefile">
+    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
+      checkoutdir="WebKit" revision="filtered"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <dep package="libsoup"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="quick-lounge-applet">
+    <branch />
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gnome-panel"/>
+      <dep package="gnome-menus"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="wv" version="1.2.4">
+    <source href="http://downloads.sourceforge.net/wvware/wv-1.2.4.tar.gz"
+            size="629554" md5sum="c1861c560491f121e12917fa76970ac5"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libgsf"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="abiword">
+    <branch repo="svn.abisource.com"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="libgsf"/>
+      <dep package="wv"/>
+    </dependencies>
+    <suggests>
+      <dep package="enchant"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gucharmap"/>
+    </suggests>
+  </autotools>
+
+ <autotools id="gpointing-device-settings">
+    <branch />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="moserial">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gparted">
+    <branch tag="GPARTED_0_4_5"/>
+    <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
   </autotools>
 
 </moduleset>

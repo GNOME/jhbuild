@@ -3,11 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
@@ -44,6 +41,8 @@
     href="http://gtk-vnc.codemonkey.ws/hg/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/clutter/"/>
+  <repository type="git" name="git.freedesktop.org"
+      href="git://anongit.freedesktop.org/git/"/>
 
   <include href="freedesktop-2.20.modules"/>
   <include href="gnome-suites-2.20.modules"/>
@@ -1094,7 +1093,8 @@
   </autotools>
 
   <autotools id="NetworkManager">
-    <branch module="NetworkManager/branches/NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
+    <branch repo="git.freedesktop.org"
+	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_6_0_RELEASE" checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus-glib"/>

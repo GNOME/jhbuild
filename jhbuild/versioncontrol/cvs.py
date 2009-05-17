@@ -33,9 +33,10 @@ except ImportError:
 
 import git
 
-from jhbuild.errors import BuildStateError
+from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 
 # table used to scramble passwords in ~/.cvspass files
@@ -205,6 +206,9 @@ class CVSRepository(Repository):
                          update_new_dirs=update_new_dirs != 'no',
                          override_checkoutdir=override_checkoutdir != 'no')
 
+    def to_sxml(self):
+        return [sxml.repository(type='cvs', name=self.name, cvsroot=self.cvsroot)]
+
 
 class CVSBranch(Branch):
     """A class representing a CVS branch inside a CVS repository"""
@@ -299,30 +303,7 @@ class CVSBranch(Branch):
     def checkout(self, buildscript):
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cvs')
-        if self.checkout_mode in ('clobber', 'export'):
-            self._wipedir(buildscript)
-            if self.checkout_mode == 'clobber':
-                self._checkout(buildscript)
-            else:
-                self._export(buildscript)
-        elif self.checkout_mode in ('update', 'copy'):
-            if self.checkout_mode == 'copy' and self.config.copy_dir:
-                copydir = self.config.copy_dir
-                if os.path.exists(os.path.join(copydir, 
-                                  os.path.basename(self.srcdir), 'CVS')):
-                    self._update(buildscript, copydir)
-                else:
-                    self._wipedir(buildscript)
-                    self._checkout(buildscript, copydir)
-                self._copy(buildscript, copydir)
-            else:
-                if os.path.exists(self.srcdir):
-                    self._update(buildscript, copydir = self.config.checkoutroot)
-                else:
-                    self._checkout(buildscript, copydir = self.config.checkoutroot)
-
-    def force_checkout(self, buildscript):
-        self._checkout(buildscript)
+        Branch.checkout(self, buildscript)
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):
@@ -330,5 +311,11 @@ class CVSBranch(Branch):
         md5sum = hashlib.md5()
         _process_directory(self.srcdir, '', md5sum.update)
         return 'jhbuild-cvs-treeid:%s' % md5sum.hexdigest()
+
+    def to_sxml(self):
+        # FIXME: fix the current revision
+        return [sxml.branch(repo=self.repository.name,
+                            module=self.module)]
+
 
 register_repo_type('cvs', CVSRepository)

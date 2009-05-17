@@ -3,11 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
@@ -133,7 +130,7 @@
   </autotools>
 
   <autotools id="gnome-python-extras">
-    <branch/>
+    <branch revision="gnome-2-26"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
@@ -1126,7 +1123,8 @@
   </autotools>
 
   <autotools id="NetworkManager">
-    <branch/>
+    <branch repo="git.freedesktop.org"
+	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_7" checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
@@ -1543,7 +1541,7 @@
   </autotools>
 
  <autotools id="banshee" autogenargs="--disable-daap">
-    <branch module="banshee/trunk/banshee" checkoutdir="banshee"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gconf"/>

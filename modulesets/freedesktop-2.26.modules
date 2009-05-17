@@ -44,6 +44,9 @@
       cvsroot=":pserver:anonymous@lirc.cvs.sourceforge.net:/cvsroot/lirc"
       password=""/>
 
+  <repository type="git" name="github.com"
+    href="git://github.com/"/>
+
   <include href="gnome-suites-2.26.modules"/>
 
   <repository type="tarball" name="cpan" href="http://search.cpan.org/CPAN/" />
@@ -151,7 +154,7 @@
 	      href="http://poppler.freedesktop.org/"/>
   <autotools id="poppler-data" skip-autogen="true"
 	  makeargs=""  makeinstallargs="install prefix=${prefix}"
-	  check-target="false">
+	  check-target="false" supports-non-srcdir-builds="no">
     <branch repo="poppler.freedesktop.org"
 	    module="poppler-data-0.2.1.tar.gz" version="0.2.1"
             md5sum="bca78b8786746c7b48b324283992d658" size="4067562">
@@ -170,6 +173,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="dbus-glib">
+    <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="PackageKit">
     <branch repo="git.freedesktop.org"
 	    module="packagekit" checkoutdir="PackageKit" autogenargs="--disable-tests"/>
@@ -183,6 +195,44 @@
       <dep package="PolicyKit"/>
     </suggests>
   </autotools>
+
+  <!-- ################################################ -->
+  <!-- ################ DeviceKit Stuff ############### -->
+
+  <!-- deps non managed by jhbuild -->
+  <!--     * libudev >= 130        -->
+  <autotools id="DeviceKit">
+    <branch repo="git.freedesktop.org"
+	    module="DeviceKit/DeviceKit" checkoutdir="DeviceKit"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+  <autotools id="DeviceKit-power">
+    <branch repo="git.freedesktop.org"
+	    module="DeviceKit/DeviceKit-power" checkoutdir="DeviceKit-power"/>
+    <dependencies>
+      <dep package="DeviceKit"/>
+      <dep package="PolicyKit"/>
+    </dependencies>
+  </autotools>
+  
+  <!-- deps non managed by jhbuild -->
+  <!--     * libparted             -->
+  <!--     * devmapper             -->
+  <autotools id="DeviceKit-disks">
+    <branch repo="git.freedesktop.org"
+	    module="DeviceKit/DeviceKit-power" checkoutdir="DeviceKit-power"/>
+    <dependencies>
+      <dep package="DeviceKit"/>
+      <dep package="PolicyKit"/>
+      <dep package="sqlite2"/>
+    </dependencies>
+  </autotools>
+
+  <!-- ############## End DeviceKit Stuff ############# -->
+  <!-- ################################################ -->
 
   <autotools id="gypsy">
     <branch repo="git.freedesktop.org"
@@ -227,6 +277,17 @@
     </dependencies>
   </distutils>
 
+  <!-- Glib ICE library -->
+  <autotools id="libnice">
+    <branch repo="git.collabora.co.uk"
+            module="libnice"
+            checkoutdir="libnice"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gst-plugins-farsight">
     <branch repo="git.collabora.co.uk"
 	    module="gst-plugins-farsight" checkoutdir="gst-plugins-farsight" />
@@ -242,11 +303,32 @@
     <branch repo="git.collabora.co.uk"
 	    module="farsight2" checkoutdir="farsight2" />
     <dependencies>
-      <dep package="glib"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="libxml2"/>
+      <dep package="libnice"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-glib">
+    <branch repo="git.collabora.co.uk" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Telepathy Farsight2 -->
+  <autotools id="telepathy-farsight">
+    <branch repo="git.collabora.co.uk"
+            module="telepathy-farsight"
+            checkoutdir="telepathy-farsight"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farsight2"/>
+    </dependencies>
+    <suggests>
+      <dep package="gst-python"/>
+    </suggests>
   </autotools>
 
   <autotools id="telepathy-stream-engine">
@@ -258,6 +340,14 @@
       <dep package="dbus-glib"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="loudmouth">
+    <branch repo="github.com" module="hallski/loudmouth.git" checkoutdir="loudmouth" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnutls"/>
     </dependencies>
   </autotools>
 
@@ -338,6 +428,7 @@
       <dep package="telepathy-gabble"/>
       <dep package="telepathy-salut"/>
       <dep package="telepathy-idle"/>
+      <dep package="telepathy-farsight"/>
     </dependencies>
     <suggests>
       <!-- suggested 'cause under development -->

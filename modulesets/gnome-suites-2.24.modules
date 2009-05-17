@@ -3,15 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
-  <repository type="svn" name="svn.gnome.org/seahorse"
-      href="http://svn.gnome.org/svn/seahorse/"/>
   <repository type="cvs" name="gstreamer.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
       password=""/>
@@ -19,6 +12,7 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="svn://anonsvn.mono-project.com/source/"/>
+  <repository type="git" name="git.gnome.org" default="yes" href="git://git.gnome.org/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -439,7 +433,7 @@
   </autotools>
 
   <autotools id="file-roller">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="rarian"/>
       <dep package="gnome-doc-utils"/>
@@ -527,7 +521,7 @@
   </autotools>
 
   <autotools id="gnome-doc-utils">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="libxslt"/>
       <dep package="intltool"/>
@@ -569,7 +563,7 @@
   </autotools>
 
   <autotools id="gnome-netstatus">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="libgnomeui"/>
       <dep package="gnome-panel"/>
@@ -660,7 +654,7 @@
   </autotools>
 
   <waf id="gnome-python-desktop">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="gnome-python"/>
       <dep package="gnome-panel"/>
@@ -671,9 +665,7 @@
       <dep package="libgtop"/>
       <dep package="nautilus-cd-burner"/>
       <dep package="gnome-media"/>
-      <suggests>
-        <dep package="metacity"/>
-      </suggests>
+      <dep package="metacity"/>
       <dep package="evolution-data-server"/>
     </dependencies>
   </waf>
@@ -693,7 +685,7 @@
   </autotools>
 
   <autotools id="gnome-session">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="at-spi"/>
       <dep package="libgnomeui"/>
@@ -737,7 +729,7 @@
   </autotools>
 
   <autotools id="gnome-system-tools">
-    <branch/>
+    <branch revision="gnome-2-22" />
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -774,7 +766,7 @@
   </autotools>
 
   <autotools id="gnome-user-docs">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="rarian"/>
       <dep package="gnome-doc-utils"/>
@@ -857,7 +849,7 @@
   </autotools>
 
   <autotools id="gtksourceview" autogenargs="--enable-compile-warnings=maximum">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
@@ -997,7 +989,7 @@
   </autotools>
 
   <autotools id="nautilus-cd-burner">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="nautilus"/>
     </dependencies>
@@ -1025,7 +1017,7 @@
   </autotools>
 
   <autotools id="pygtksourceview">
-     <branch/>
+     <branch revision="gnome-2-24"/>
      <dependencies>
        <dep package="pygtk"/>
        <dep package="gtksourceview"/>
@@ -1054,7 +1046,7 @@
   </autotools>
 
   <autotools id="seahorse-plugins">
-    <branch repo="svn.gnome.org/seahorse" revision="gnome-2-24" />
+    <branch revision="gnome-2-24" />
     <dependencies>
       <dep package="libgnome"/>
       <dep package="libgnomeui"/>
@@ -1168,7 +1160,7 @@
   </autotools>
 
   <autotools id="yelp">
-    <branch/>
+    <branch revision="gnome-2-20"/>
     <dependencies>
       <dep package="rarian"/>
       <dep package="libgnomeui"/>
@@ -1216,7 +1208,7 @@
 <!-- Platform Bindings -->
 
   <autotools id="glibmm">
-    <branch/>
+    <branch revision="glibmm-2-18"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libsigc++2"/>
@@ -1331,7 +1323,7 @@
   </autotools>
 
   <waf id="gnome-python">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="pyorbit"/>
@@ -1343,7 +1335,7 @@
 <!-- Admin -->
 
   <autotools id="pessulus">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
@@ -1351,7 +1343,7 @@
   </autotools>
 
   <autotools id="sabayon">
-    <branch/>
+    <branch revision="gnome-2-24"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="pygtk"/>

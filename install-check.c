@@ -109,7 +109,7 @@ install:
   args = malloc (sizeof (char *) * (argc + 1));
 
 #ifndef WITH_INSTALL
-  args[0] = "/usr/bin/install";
+  args[0] = "install";
 #else
   args[0] = WITH_INSTALL;
 #endif
@@ -119,5 +119,8 @@ install:
 
   args[argc] = NULL;
 
-  return execv (args[0], args);
+  execvp (args[0], args);
+  perror("executing 'install' failed");
+
+  return 1;
 }

@@ -22,6 +22,7 @@ import os
 import sys
 import traceback
 import types
+import logging
 
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.utils.cmds import get_output
@@ -48,8 +49,9 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'quiet_mode', 'progress_bar', 'module_extra_env',
                 'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
                 'jhbuildbot_svn_commits_box',
-                'use_local_modulesets', 'ignore_suggests',
-                'mirror_policy', 'module_mirror_policy',
+                'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
+                'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
+                'build_targets',
                 ]
 
 env_prepends = {}
@@ -75,6 +77,12 @@ def addpath(envvar, path):
             else:
                 i += 1
         envval = ' '.join(parts)
+    elif envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
+        envval = os.environ.get(envvar)
+        if envval:
+            envval = path + ' ' + envval
+        else:
+            envval = path
     else:
         envval = os.environ.get(envvar, path)
         parts = envval.split(':')
@@ -93,22 +101,45 @@ def addpath(envvar, path):
     os.environ[envvar] = envval
 
 class Config:
+    _orig_environ = None
+
     def __init__(self, filename=_default_jhbuildrc):
-        config = {
+        self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
             'prependpath':  prependpath
             }
+
+        if not self._orig_environ:
+            self.__dict__['_orig_environ'] = os.environ.copy()
+
+        try:
+            SRCDIR
+        except NameError:
+            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
+
         env_prepends.clear()
         try:
-            execfile(_defaults_file, config)
+            execfile(_defaults_file, self._config)
         except:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
-        config['__file__'] = filename
+        self._config['__file__'] = filename
         self.filename = filename
+        if not os.path.exists(filename):
+            raise FatalError(_('could not load config file, %s is missing') % filename)
+
+        self.load()
+        self.setup_env()
+
+    def reload(self):
+        os.environ = self._orig_environ.copy()
+        self.__init__(filename=self._config.get('__file__'))
+
+    def load(self):
+        config = self._config
         try:
-            execfile(filename, config)
+            execfile(self.filename, config)
         except Exception:
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
@@ -124,17 +155,26 @@ class Config:
                     continue
                 unknown_keys.append(k)
             if unknown_keys:
-                print >> sys.stderr, uencode(
-                        _('I: unknown keys defined in configuration file: %s') % \
+                logging.info(
+                        _('unknown keys defined in configuration file: %s') % \
                         ', '.join(unknown_keys))
 
         # backward compatibility, from the days when jhbuild only
         # supported Gnome.org CVS.
-        if config.has_key('cvsroot'):
-            config['cvsroots']['gnome.org'] = config['cvsroot']
-        if config.has_key('cvsroots'):
+        if config.get('cvsroot'):
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
+                      'you should use "repos[\'gnome.org\']".') % 'cvsroot')
+            config['repos'].update({'gnome.org': config['cvsroot']})
+        if config.get('cvsroots'):
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
+                      'you should use "repos".') % 'cvsroots')
             config['repos'].update(config['cvsroots'])
-        if config.has_key('svnroots'):
+        if config.get('svnroots'):
+            logging.warning(
+                    _('the "%s" configuration variable is deprecated, '
+                      'you should use "repos".') % 'svnroots')
             config['repos'].update(config['svnroots'])
 
         # environment variables
@@ -151,14 +191,24 @@ class Config:
         if not self.tarballdir: self.tarballdir = self.checkoutroot
 
         # check possible checkout_mode values
+        seen_copy_mode = (self.checkout_mode == 'copy')
         possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
         if self.checkout_mode not in possible_checkout_modes:
             raise FatalError(_('invalid checkout mode'))
         for module, checkout_mode in self.module_checkout_mode.items():
+            seen_copy_mode = seen_copy_mode or (checkout_mode == 'copy')
             if checkout_mode not in possible_checkout_modes:
                 raise FatalError(_('invalid checkout mode (module: %s)') % module)
+        if seen_copy_mode and not self.copy_dir:
+            raise FatalError(_('copy mode requires copy_dir to be set'))
 
-        self.setup_env()
+        if not os.path.exists(self.modulesets_dir):
+            if self.use_local_modulesets:
+                logging.warning(
+                        _('modulesets directory (%s) not found, '
+                          'disabling use_local_modulesets') % self.modulesets_dir)
+                self.use_local_modulesets = False
+            self.modulesets_dir = None
 
     def setup_env(self):
         '''set environment variables for using prefix'''
@@ -167,7 +217,7 @@ class Config:
             try:
                 os.makedirs(self.prefix)
             except:
-                raise FatalError(_("Can't create %s directory") % self.prefix)
+                raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
 
@@ -248,14 +298,25 @@ class Config:
                 get_stderr = False).strip()
         except CommandError:
             pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
-        
+
+        # In Python 2.6, site-packages got replaced by dist-packages, get the
+        # actual value by asking distutils
+        # <http://bugzilla.gnome.org/show_bug.cgi?id=575426>
+        try:
+            python_packages_dir = get_output([python_bin, 'c',
+                'import os, distutils.sysconfig; '\
+                'print distutils.sysconfig.get_python_lib(prefix="").split(os.path.sep)[-1]'],
+                get_stderr=False).strip()
+        except CommandError:
+            python_packages_dir = 'site-packages'
+            
         if self.use_lib64:
-            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, 'site-packages')
+            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, python_packages_dir)
             addpath('PYTHONPATH', pythonpath)
             if not os.path.exists(pythonpath):
                 os.makedirs(pythonpath)
 
-        pythonpath = os.path.join(self.prefix, 'lib', pythonversion, 'site-packages')
+        pythonpath = os.path.join(self.prefix, 'lib', pythonversion, python_packages_dir)
         addpath('PYTHONPATH', pythonpath)
         if not os.path.exists(pythonpath):
             os.makedirs(pythonpath)
@@ -265,6 +326,10 @@ class Config:
         # <http://bugzilla.gnome.org/show_bug.cgi?id=560872>
         if os.path.exists(os.path.join(self.prefix, 'bin', 'python')):
             os.environ['PYTHON'] = os.path.join(self.prefix, 'bin', 'python')
+
+        # Mono Prefixes
+        os.environ['MONO_PREFIX'] = self.prefix
+        os.environ['MONO_GAC_PREFIX'] = self.prefix
 
         # handle environment prepends ...
         for envvar in env_prepends.keys():
@@ -279,4 +344,35 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
+        self.update_build_targets()
+
+    def update_build_targets(self):
+        # update build targets according to old flags
+        if self.makecheck and not 'check' in self.build_targets:
+            self.build_targets.insert(0, 'check')
+        if self.makeclean and not 'clean' in self.build_targets:
+            self.build_targets.insert(0, 'clean')
+        if self.nobuild:
+            # nobuild actually means "checkout"
+            for phase in ('configure', 'build', 'check', 'clean', 'install'):
+                if phase in self.build_targets:
+                    self.build_targets.remove(phase)
+            self.build_targets.append('checkout')
+        if self.makedist and not 'dist' in self.build_targets:
+            self.build_targets.append('dist')
+        if self.makedistcheck and not 'distcheck' in self.build_targets:
+            self.build_targets.append('distcheck')
+
+    def __setattr__(self, k, v):
+        '''Override __setattr__ for additional checks on some options.'''
+        if k == 'quiet_mode' and v:
+            try:
+                import curses
+            except ImportError:
+                logging.warning(
+                        _('quiet mode has been disabled because the Python curses module is missing.'))
+                v = False
+
+        self.__dict__[k] = v
 

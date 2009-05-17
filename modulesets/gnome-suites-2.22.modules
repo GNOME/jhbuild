@@ -3,11 +3,6 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="gstreamer.freedesktop.org"
@@ -17,8 +12,9 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="svn://anonsvn.mono-project.com/source/"/>
+  <repository type="git" name="git.gnome.org" default="yes" href="git://git.gnome.org/"/>
 
-<!-- This is a special module: it's needed to build from svn, but not
+<!-- This is a special module: it's needed to build from git, but not
      needed to build from tarballs, so it doesn't need to be in our suites
      and it doesn't need to be an external dependency -->
   <autotools id="gnome-common">
@@ -89,7 +85,7 @@
   </autotools>
 
   <autotools id="gnome-vfs">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="gconf"/>
       <dep package="desktop-file-utils"/>
@@ -666,9 +662,7 @@ g  <autotools id="gnome-netstatus">
       <dep package="libgtop"/>
       <dep package="nautilus-cd-burner"/>
       <dep package="gnome-media"/>
-      <suggests>
-        <dep package="metacity"/>
-      </suggests>
+      <dep package="metacity"/>
       <dep package="evolution-data-server"/>
     </dependencies>
   </waf>
@@ -731,7 +725,7 @@ g  <autotools id="gnome-netstatus">
   </autotools>
 
   <autotools id="gnome-system-tools">
-    <branch/>
+    <branch revision="gnome-2-22" />
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -1000,7 +994,7 @@ g  <autotools id="gnome-netstatus">
   </autotools>
 
   <autotools id="nautilus-cd-burner">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="nautilus"/>
     </dependencies>
@@ -1142,7 +1136,7 @@ g  <autotools id="gnome-netstatus">
   </autotools>
 
   <autotools id="yelp">
-    <branch/>
+    <branch revision="gnome-2-20"/>
     <dependencies>
       <dep package="rarian"/>
       <dep package="libgnomeui"/>
@@ -1296,7 +1290,7 @@ g  <autotools id="gnome-netstatus">
   </autotools>
 
   <waf id="gnome-python">
-    <branch/>
+    <branch revision="gnome-2-22"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="pyorbit"/>

@@ -19,10 +19,14 @@
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://dl.sourceforge.net/sourceforge/"/>
- <repository type="tarball" name="clutter-project.org"
-      href="http://www.clutter-project.org/sources/"/>
+<repository type="tarball" name="clutter-project.org"
+    href="http://www.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
     href="http://libproxy.googlecode.com/files/"/>
+<repository type="tarball" name="0pointer.de"
+    href="http://0pointer.de/lennart/projects/"/>
+<repository type="tarball" name="samba.org"
+    href="http://samba.org/samba/ftp/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -37,9 +41,9 @@
   </tarball>
 
   <autotools id="cairo">
-    <branch module="releases/cairo-1.8.2.tar.gz" version="1.8.2"
+    <branch module="releases/cairo-1.8.4.tar.gz" version="1.8.4"
             repo="cairo.org"
-            md5sum="44d406e199c338cb60f7db32ffb32bdb" size="7147742">
+            md5sum="a5067e355e78294db2485aa97afd1115" size="7070822">
     </branch>
     <dependencies>
       <dep package="fontconfig"/>
@@ -62,13 +66,34 @@
   </autotools>
 
   <autotools id="clutter">
-    <branch module="clutter/0.8/clutter-0.8.4.tar.bz2" version="0.8.4"
+    <branch module="clutter/0.8/clutter-0.8.8.tar.bz2" version="0.8.8"
 	    repo="clutter-project.org"
-	    size="1540426" md5sum="7992b48c5b3a86509903175c2fe0cf1c"/>
+	    size="1599546" md5sum="20f9ab406a9fa261a0a3379eb6f43625"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-cairo">
+    <branch module="clutter-cairo/0.8/clutter-cairo-0.8.2.tar.bz2" version="0.8.2"
+	    repo="clutter-project.org"
+	    size="245558" md5sum="e3cae14ffd1e375d63046352b505788f"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtk">
+    <branch module="clutter-gtk/0.8/clutter-gtk-0.8.3.tar.bz2" version="0.8.3"
+	    repo="clutter-project.org"
+	    size="279080" md5sum="0b924a2a5a8dbd83ad3762fada7c7eaf"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
     </dependencies>
   </autotools>
 
@@ -131,6 +156,9 @@
   <tarball id="fontconfig" version="2.6.0">
     <source href="http://www.fontconfig.org/release/fontconfig-2.6.0.tar.gz"
             md5sum="ab54ec1d4ddd836313fdbc0cd5299d6d" size="1403857"/>
+    <dependencies>
+      <dep package="expat"/>
+    </dependencies>
   </tarball>
 
   <tarball id="gamin" version="0.1.10">
@@ -160,6 +188,25 @@
     </dependencies>
   </tarball>
 
+  <tarball id="DeviceKit" version="002">
+    <source href="http://hal.freedesktop.org/releases/DeviceKit-002.tar.gz"
+	    md5sum="0049da1b9e1137ed18c4f68088f6dea7" size="432688"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="DeviceKit-power" version="006">
+    <source href="http://hal.freedesktop.org/releases/DeviceKit-power-002.tar.gz"
+	    md5sum="335efbead5fc8a4ee40401b8f6188606" size="476902"/>
+    
+    <dependencies>
+      <dep package="DeviceKit"/>
+      <dep package="PolicyKit"/>
+    </dependencies>
+  </tarball>
+
   <repository type="tarball" name="icon-theme.freedesktop.org"
 	  href="http://icon-theme.freedesktop.org/releases/"/>
   <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
@@ -177,9 +224,9 @@
     <branch repo="icon-theme.freedesktop.org"/>
   </tarball>
 
-  <tarball id="iso-codes" version="3.3">
-    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-3.3.tar.bz2"
-            md5sum="2fb4f5400f28923d679d7b98fd7f3ab8" size="5177202"/>
+  <tarball id="iso-codes" version="3.5.1">
+    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-3.5.1.tar.bz2"
+            md5sum="16d01d84888c0343304e84fc251bc07c" size="5220212"/>
   </tarball>
 
   <tarball id="libcolorblind" version="0.0.1">
@@ -187,17 +234,15 @@
             md5sum="e4eaef242ba880ac09f748d52999916c" size="288457"/>
   </tarball>
 
-  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
-    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
-            md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
+  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.2">
+    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.2.tar.bz2"
+            md5sum="1429c597aa4b75fc610ab3a542c99209" size="415492"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="pango"/>
     </dependencies>
   </tarball>
 
-  <repository type="tarball" name="0pointer.de"
-      href="http://0pointer.de/lennart/projects/"/>
   <autotools id="libdaemon" autogenargs="--disable-lynx">
     <branch repo="0pointer.de" module="libdaemon/libdaemon-0.13.tar.gz"
 	    version="0.13"
@@ -259,9 +304,9 @@
   </tarball>
 
   <autotools id="libxml2">
-    <branch module="libxml2/libxml2-2.7.2.tar.gz"
-            repo="xmlsoft.org" version="2.7.2"
-            md5sum="dc43ff7ae6aded45f578c87b7b0c8766" size="4790639"/>
+    <branch module="libxml2/libxml2-2.7.3.tar.gz"
+            repo="xmlsoft.org" version="2.7.3"
+            md5sum="8f4fda3969237c2a33bdb1583b5d06b2" size="4789450"/>
   </autotools>
 
   <autotools id="libxslt" check-target="false">
@@ -274,9 +319,9 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gtk-vnc" version="0.3.7">
-    <source href="http://dl.sourceforge.net/sourceforge/gtk-vnc/gtk-vnc-0.3.7.tar.gz"
-            md5sum="41c613be4b554b71d63d30f844d60add" size="431242"/>
+  <tarball id="gtk-vnc" version="0.3.8">
+    <source href="http://download.gnome.org/sources/gtk-vnc/0.3/gtk-vnc-0.3.8.tar.bz2"
+            md5sum="7c7b07a868568206acd3f6e9e4d18ba1" size="442950"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
@@ -299,10 +344,10 @@
   </tarball>
 
   <autotools id="opal" autogenargs="--disable-vpb"
-	  check-target="false">
-    <branch module="opal/3.4/opal-3.4.2.tar.bz2" repo="gnome.org"
-	    version="3.4.2"
-            md5sum="a1d11099fa00d77a79dcfe513872e8dc" size="8260545">
+	  check-target="false" supports-non-srcdir-builds="no">
+    <branch module="opal/3.6/opal-3.6.1.tar.bz2" repo="gnome.org"
+	    version="3.6.1"
+            md5sum="c2b4f12822cef2182267ea0d020bddf6" size="6993734">
     </branch>
     <dependencies>
       <dep package="ptlib"/>
@@ -310,15 +355,15 @@
   </autotools>
 
   <autotools id="pixman">
-    <branch module="releases/pixman-0.12.0.tar.gz" version="0.12.0"
+    <branch module="releases/pixman-0.13.2.tar.gz" version="0.13.2"
             repo="cairo.org" 
-            md5sum="09357cc74975b01714e00c5899ea1881" size="456304">
+            md5sum="837df4a02c61a60a880644393b57faed" size="464446">
     </branch>
   </autotools>
 
-  <tarball id="poppler" version="0.10.1">
-    <source href="http://poppler.freedesktop.org/poppler-0.10.1.tar.gz"
-            md5sum="f30dd49c74ee304c17ef6ef10a1d1a7c" size="1526091"/>
+  <tarball id="poppler" version="0.10.2">
+    <source href="http://poppler.freedesktop.org/poppler-0.10.2.tar.gz"
+            md5sum="a802a178d12f453f1d0176d67f923c7d" size="1527730"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
@@ -340,11 +385,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="ptlib" check-target="false">
-    <branch module="ptlib/2.4/ptlib-2.4.2.tar.bz2" repo="gnome.org"
+  <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
+    <branch module="ptlib/2.6/ptlib-2.6.1.tar.bz2" repo="gnome.org"
             autogen-sh="configure"
-            version="2.4.2"
-            md5sum="47ba7da2a339643d5f5406215d457d5a" size="3004289">
+            version="2.6.1"
+            md5sum="122ab96fcc44110ce05153f259b3285a" size="3296212">
     </branch>
   </autotools>
 
@@ -377,7 +422,8 @@
     </dependencies>
   </tarball>
 
-  <tarball id="system-tools-backends" version="2.6.0">
+  <tarball id="system-tools-backends" version="2.6.0"
+           supports-non-srcdir-builds="no">
     <source href="http://ftp.gnome.org/pub/GNOME/sources/system-tools-backends/2.6/system-tools-backends-2.6.0.tar.bz2" md5sum="faf321012e92b72305878cd684547c54" size="421806"/>
     <suggests>
       <dep package="dbus"/>
@@ -397,9 +443,9 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.7.17">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.17.tar.gz"
-            md5sum="793de65fecf10cbf463e0899adf786c2" size="2038612"/>
+  <tarball id="telepathy-glib" version="0.7.25">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.25.tar.gz"
+            md5sum="7a676676e902f0d73ec7ec407fbf04f1" size="2326926"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -434,7 +480,7 @@
     </branch>
   </autotools>
 
-  <autotools id="nss" autogen-sh="configure">
+  <autotools id="nss" autogen-sh="configure" supports-non-srcdir-builds="no">
     <branch repo="ftp.mozilla.org"
             module="security/nss/releases/NSS_3_12_RTM/src/nss-3.12.tar.gz"
 	    version="3.12"
@@ -454,9 +500,9 @@
              autogenargs="--enable-default-toolkit=gtk2 --disable-mailnews --disable-ldap --disable-debug --enable-optimize --disable-tests --enable-crypto --enable-xft --with-system-zlib --disable-freetype2 --enable-application=browser --disable-javaxpcom --enable-application=browser --enable-extensions=default,cookie,permissions --with-default-mozilla-five-home=${libdir}/firefox-2.0"
              makeinstallargs="install; mkdir ${prefix}/include/firefox-2.0/nss/; find security/nss/lib/ -name '*.h' -type f -exec /bin/cp {} ${prefix}/include/firefox-2.0/nss/ \;">
     <branch repo="mozilla.org"
-            module="firefox/releases/2.0.0.16/source/firefox-2.0.0.16-source.tar.bz2"
-            version="2.0.0.16"
-            size="40235443" md5sum="90e0b7996a14fdbe6d4e6e4d87980647"
+            module="firefox/releases/2.0.0.20/source/firefox-2.0.0.20-source.tar.bz2"
+            version="2.0.0.20"
+            size="40293412" md5sum="f3718fefd01c8edc007ec0b416a8a7b8"
             checkoutdir="mozilla" />
     <dependencies>
       <dep package="gtk+"/>
@@ -469,7 +515,7 @@
   <autotools id="libvolume_id" skip-autogen="true"
                  makeargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir}"
 		 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man"
-		 check-target="false">
+		 check-target="false" supports-non-srcdir-builds="no">
     <branch repo="kernel.org"
 	    module="utils/kernel/hotplug/udev-111.tar.bz2" version="111"
 	    size="190020" md5sum="bd2a94e3ed243e6a3d501a5c8afc4b54">
@@ -528,29 +574,27 @@
   </autotools>
 
   <autotools id="mono">
-    <branch module="mono/mono-1.2.6.tar.bz2" version="1.2.6"
+    <branch module="mono/mono-2.2.tar.bz2" version="2.2"
             repo="mono.net" 
-            md5sum="391f85b4f962269e044ceac2b5235310" size="18163130">
-      <patch file="mono.remove-arg_max-check.patch" strip="1"/>
-    </branch>
+            md5sum="da147e24d14a73d8ad52775dd4a3d165" size="24360722"/>
     <dependencies>
       <dep package="libgdiplus"/>
       <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
-  <autotools id="monodoc">
-    <branch module="monodoc/monodoc-1.2.6.zip" version="1.2.6"
-            repo="mono.net" 
-            md5sum="bd4c9619ebf3b41803b7ca9097be7fc1" size="14976182">
-    </branch>
+  <autotools id="mono-addins">
+    <branch module="mono-addins/mono-addins-0.4.tar.bz2" version="0.4"
+            repo="mono.net"
+            md5sum="3b7f3f6e55c95413df184d0e4c9233e4" size="304402"/>
     <dependencies>
       <dep package="mono"/>
+      <dep package="gtk-sharp"/>
     </dependencies>
   </autotools>
 
   <autotools id="sqlite3"
-	     autogenargs="--enable-threadsafe --disable-tcl" check-target="false">
+	     autogenargs="--enable-threadsafe --disable-tcl --enable-load-extension" check-target="false">
     <branch module="sqlite-3.5.9.tar.gz" version="3.5.9"
 	    repo="sqlite.org"
 	    md5sum="b58412904b42fe49e5a281e99da0fd72" size="2201083">
@@ -591,8 +635,6 @@
     </dependencies>
   </tarball>
 
-  <repository type="tarball" name="0pointer.de"
-              href="http://0pointer.de/lennart/projects/"/>
   <autotools id="libcanberra" autogen-sh="configure">
     <branch repo="0pointer.de" module="libcanberra/libcanberra-0.10.tar.gz"
             version="0.10" size="826222" md5sum="2623370bfcecaeecaeb85e5ec445f340"/>
@@ -602,10 +644,40 @@
     <after>
       <dep package="gtk+"/>
       <dep package="pulseaudio"/>
+      <dep package="gstreamer"/>
     </after>
   </autotools>
 
-  <!-- Proposed -->
+  <tarball id="speex" version="1.2rc1">
+    <source href="http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+            size="1061882" md5sum="c4438b22c08e5811ff10e2b06ee9b9ae"/>
+  </tarball>
+
+  <tarball id="libsndfile" version="1.0.17" supports-non-srcdir-builds="no"
+           autogenargs="--disable-flac">
+    <source href="http://www.mega-nerd.com/libsndfile/libsndfile-1.0.17.tar.gz"
+            size="819456" md5sum="2d126c35448503f6dbe33934d9581f6b"/>
+  </tarball>
+
+  <autotools id="pulseaudio">
+    <branch repo="0pointer.de" module="pulseaudio/pulseaudio-0.9.12.tar.gz"
+            version="0.9.12" size="1270635" md5sum="b8851d52152c5c3b65f4f31ee1ab7631"/>
+    <dependencies>
+      <dep package="libsndfile"/>
+      <dep package="liboil"/>
+      <dep package="glib"/>
+      <dep package="speex"/>
+    </dependencies>
+    <after>
+      <dep package="libsamplerate"/>
+      <dep package="gconf"/>
+      <dep package="avahi"/>
+      <dep package="hal"/>
+      <dep package="bluez"/>
+      <dep package="dbus"/>
+      <dep package="PolicyKit"/>
+    </after>
+  </autotools>
 
   <autotools id="libproxy" autogenargs="--without-networkmanager">
     <branch repo="libproxy.googlecode.com"
@@ -625,7 +697,6 @@
     </after>
   </autotools>
 
-
   <tarball id="unique" version="1.0.2">
     <source href="http://www.gnome.org/~ebassi/source/unique-1.0.2.tar.gz"
             size="448032" md5sum="3064930a9dd5f382641bbb2072d13563"/>
@@ -635,48 +706,126 @@
     </dependencies>
   </tarball>
 
-  <tarball id="libgda" version="3.99.6">
-    <source href="http://download.gnome.org/sources/libgda/3.99/libgda-3.99.6.tar.bz2"
-            size="7711734" md5sum="ac52401070288e90a9a33c32ba84f26c"/>
+  <tarball id="intltool" version="0.40.5">
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/intltool/0.40/intltool-0.40.5.tar.bz2"
+            size="141110" md5sum="3e7ded6f50d88cf8b8bb505eaf591775"/>
+    <dependencies>
+      <dep package="gnome-common"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libical" version="0.43">
+    <source href="http://downloads.sourceforge.net/freeassociation/libical-0.43.tar.gz"
+            size="1145724" md5sum="5f0a1feb60894d0be537aefea5647474"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
+             autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="source4">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="talloc"
+	    makeargs="tallocdir='$(srcdir)'"
+	    makeinstallargs="install tallocdir='$(srcdir)'">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/talloc">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tdb">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/tdb">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tevent">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
+            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+	    source-subdir="lib/tevent">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="libmapi" skip-autogen="never" autogen-sh="configure"
+             supports-non-srcdir-builds="no">
+    <branch repo="sourceforge.net"
+            module="openchange/libmapi-0.8-ROMULUS.tar.gz" version="0.8"
+            size="1404900" md5sum="ac194f9952803e24821f0e530fb87465"/>
+    <dependencies>
+      <dep package="tdb"/>
+      <dep package="talloc"/>
+      <dep package="tevent"/>
+      <dep package="samba4"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="gst-plugins-farsight" version="0.12.10">
+    <source href="http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.10.tar.gz"
+            size="600488" md5sum="6a75793f4ffb35c8de6e29e88275a0c4"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="farsight2" version="0.0.7" autogenargs="--disable-python">
+    <source href="http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.7.tar.gz"
+            size="934876" md5sum="b3aa7ae00354b122f47215576acfc2ca"/>
+    <dependencies>
+      <dep package="libnice"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libnice" version="0.0.5">
+    <source href="http://nice.freedesktop.org/releases/libnice-0.0.5.tar.gz"
+            size="605689" md5sum="e6341a8039b6bcdd6c5b885bdd8fa24c"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-farsight" version="0.0.4">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.4.tar.gz"
+            size="571617" md5sum="2862c3c07d150485b22b2614391c36e2"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farsight2"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libnotify" version="0.4.5">
+    <source href="http://galago-project.org/files/releases/source/libnotify/libnotify-0.4.5.tar.bz2"
+            size="289217" md5sum="6a8388f93309dbe336bbe5fc0677de6b"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus"/>
+    </dependencies>
+  </tarball>
+    
+  <tarball id="libgda" version="4.0.0">
+    <source href="http://download.gnome.org/sources/libgda/4.0/libgda-4.0.0.tar.bz2"
+            size="8379342" md5sum="c6fb003eb81263e9bfcfe546a048865e"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
     </dependencies>
   </tarball>
-
-  <!-- External deps that you MUST have installed in order -->
-  <!-- to compile WebKit (if not the build tree might be   -->
-  <!-- in in a bad state and might fail to compile even    -->
-  <!-- after you've installed the missing dependency.      -->
-  <!--                                                     -->
-  <!--   libicu-dev                                        -->
-  <!--   libjpeg62-dev                                     -->
-  <!--   libpng12-dev                                      -->
-  <!--   gperf                                             -->
-  <!--   bison                                             -->
-  <!--   flex >= 2.5.33                                    -->
-  <!--                                                     -->
-  <!-- To clean the build tree if you tried to compile     -->
-  <!-- without those deps, run the following command:      -->
-  <!--                                                     -->
-  <!--   make -f GNUMakefile maintainer-clean              -->
-  <!--                                                     -->
-  <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <repository type="git" name="git.debian.org"
-      href="git://git.debian.org/"/>
-  <autotools id="WebKit" autogenargs="--enable-video=yes"
-      makefile="GNUmakefile">
-    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
-      checkoutdir="WebKit" revision="filtered"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
-      <dep package="libsoup"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="sqlite3"/>
-    </dependencies>
-  </autotools>
 
 </moduleset>

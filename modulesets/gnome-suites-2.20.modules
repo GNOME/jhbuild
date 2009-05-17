@@ -3,18 +3,14 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <!-- vim:set ts=2 expandtab: -->
 <moduleset>
-  <repository type="svn" name="svn.gnome.org" default="yes"
-      href="http://svn.gnome.org/svn/">
-      <mirror type="bzr" href="http://bzr-mirror.gnome.org/bzr/" trunk-path="trunk" />
-      <mirror type="git" href="git://git-mirror.gnome.org/git/" />
-  </repository>
   <repository type="svn" name="svn.gnomemm"
       href="http://svn.gnome.org/svn/gnomemm/"/>
   <repository type="cvs" name="gstreamer.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/gstreamer"
       password=""/>
+  <repository type="git" name="git.gnome.org" default="yes" href="git://git.gnome.org/"/>
 
-<!-- This is a special module: it's needed to build from svn, but not
+<!-- This is a special module: it's needed to build from git, but not
      needed to build from tarballs, so it doesn't need to be in our suites
      and it doesn't need to be an external dependency -->
   <autotools id="gnome-common">

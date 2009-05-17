@@ -21,12 +21,13 @@
 
 import urllib2
 from optparse import make_option
+import logging
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 
 class cmd_checkmodulesets(Command):
-    doc = _('Check modules in jhbuild have the correct definition')
+    doc = N_('Check modules in jhbuild have the correct definition')
     name = 'checkmodulesets'
 
     def run(self, config, options, args):
@@ -38,9 +39,10 @@ class cmd_checkmodulesets(Command):
 
             try:
                 if not mod.branch.exists():
-                    uprint(_('E: %(module)s is unreachable (%(href)s)') % {'module': mod.name, 'href': mod.branch.module})
+                    logging.error(_('%(module)s is unreachable (%(href)s)') % {
+                            'module': mod.name, 'href': mod.branch.module})
             except NotImplementedError:
-                if False:
-                    uprint(_('W: Cannot check %(module)s (%(href)s)') % {'module': mod.name, 'href': mod.branch.module})
+                logging.warning((_('Cannot check %(module)s (%(href)s)') % {
+                            'module': mod.name, 'href': mod.branch.module}))
 
 register_command(cmd_checkmodulesets)

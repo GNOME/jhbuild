@@ -60,6 +60,10 @@ class Repository:
             kws['branch_id'] = branchnode.getAttribute('id')
         return self.branch(name, **kws)
 
+    def to_sxml(self):
+        """Return an sxml representation of this repository."""
+        raise NotImplementedError
+
 
 class Branch:
     """An abstract class representing a branch in a repository."""
@@ -70,7 +74,11 @@ class Branch:
         self.module = module
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
-        self.checkout_mode = self.config.checkout_mode
+
+    def get_checkout_mode(self):
+        checkout_mode = self.config.checkout_mode
+        return self.config.module_checkout_mode.get(self.module, checkout_mode)
+    checkout_mode = property(get_checkout_mode)
 
     def srcdir(self):
         """Return the directory where this branch is checked out."""
@@ -88,16 +96,49 @@ class Branch:
            May raise NotImplementedError if cannot check a given branch."""
         raise NotImplementedError
 
+    def get_checkoutdir(self):
+        if self.checkout_mode == 'copy' and self.config.copy_dir:
+            return os.path.join(self.config.copy_dir, os.path.basename(self.module))
+        if self.checkoutdir:
+            return os.path.join(self.checkoutroot, self.checkoutdir)
+        else:
+            return os.path.join(self.checkoutroot, os.path.basename(self.module))
+
+
     def checkout(self, buildscript):
         """Checkout or update the given source directory.
 
         May raise CommandError or BuildStateError if a problem occurrs.
         """
-        raise NotImplementedError
+        if self.checkout_mode in ('clobber', 'export'):
+            self._wipedir(buildscript)
+            if self.checkout_mode == 'export':
+                try:
+                    self._export(buildscript)
+                except NotImplementedError:
+                    pass
+                else:
+                    return
+            self._checkout(buildscript)
+        elif self.checkout_mode in ('update', 'copy'):
+            if self.checkout_mode == 'copy' and self.config.copy_dir:
+                copydir = self.config.copy_dir
+                if os.path.exists(self.get_checkoutdir()):
+                    self._update(buildscript, self.config.copy_dir)
+                else:
+                    self._wipedir(buildscript)
+                    self._checkout(buildscript, copydir)
+                self._copy(buildscript, copydir)
+            else:
+                if os.path.exists(self.get_checkoutdir()):
+                    self._update(buildscript)
+                else:
+                    self._checkout(buildscript)
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
-        raise BuildStateError(_('force_checkout not implemented'))
+        self._wipedir(buildscript)
+        self.checkout(buildscript)
 
     def tree_id(self):
         """A string identifier for the state of the working tree."""
@@ -107,13 +148,22 @@ class Branch:
         if os.path.exists(self.srcdir):
             buildscript.execute(['rm', '-rf', self.srcdir])
 
+    def _export(self, buildscript):
+        raise NotImplementedError
+
     def _copy(self, buildscript, copydir):
          module = self.module
          if self.checkoutdir:
              module = self.checkoutdir
          fromdir = os.path.join(copydir, os.path.basename(module))
          todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
+         if os.path.exists(todir):
+             self._wipedir(buildscript)
          buildscript.execute(['cp', '-R', fromdir, todir])
+
+    def to_sxml(self):
+        """Return an sxml representation of this checkout."""
+        raise NotImplementedError
 
 _repo_types = {}
 def register_repo_type(name, repo_class):

@@ -7,8 +7,11 @@ import os
 if 'GTK_PATH' in os.environ.keys():
     del os.environ['GTK_PATH']
 
+# module directory
+modulesets_dir = os.path.join(SRCDIR, 'modulesets')
+
 # what modules to build?
-moduleset = 'gnome-2.26'
+moduleset = 'gnome-2.28'
 modules = [ 'meta-gnome-desktop' ]
 
 # policy for modules to build, options are:
@@ -44,7 +47,10 @@ builddir_pattern = '%s'
 autogenargs = '--disable-static --disable-gtk-doc'
 makeargs = ''
 cflags = ''
-installprog = os.path.join(os.environ['HOME'], 'bin', 'install-check')
+
+# a alternative install program to use; the included install-check
+# program won't update timestamps if the header hasn't changed
+installprog = os.path.join(os.environ['HOME'], '.local/bin', 'install-check')
 if not os.path.exists(installprog):
     installprog = '/usr/bin/install-check'
 if not os.path.exists(installprog):
@@ -71,6 +77,8 @@ makedistcheck = False  # run make distcheck after building
 trycheckout   = False  # try to force checkout and autogen on failure
 nopoison      = False  # don't poison modules on failure
 forcecheck    = False  # run make check even when not building
+
+build_targets = ['install']
 
 makecheck_advisory = False # whether to pass over 'make check' failures
 
@@ -136,7 +144,7 @@ debian_checkout_modules = []
 build_external_deps = 'mininum'
 
 # options for jhbuildbot slaves
-jhbuildbot_master = 'localhost:9070'
+jhbuildbot_master = 'build.gnome.org:9070'
 jhbuildbot_slavename = None
 jhbuildbot_password = None
 
@@ -148,3 +156,6 @@ use_local_modulesets = False
 
 # whether to ignore soft dependencies
 ignore_suggests = False
+
+# local directory for DVCS mirror (git only atm)
+dvcs_mirror_dir = None

@@ -22,6 +22,7 @@ from __future__ import generators
 import os
 import sys
 import urlparse
+import logging
 
 from jhbuild.errors import UsageError, FatalError, DependencyCycleError, CommandError
 
@@ -52,8 +53,7 @@ class ModuleSet:
         for module in self.modules.keys():
             if module.lower() == module_name:
                 if self.config is None or not self.config.quiet_mode:
-                    print >> sys.stderr, uencode(
-                            _('I: fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
+                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
         raise KeyError(module_name)
@@ -102,12 +102,12 @@ class ModuleSet:
 
         # 2nd: order them, raise an exception on hard dependency cycle, ignore
         # them for soft dependencies
-        ordered = []
-        state = {}
+        self._ordered = []
+        self._state = {}
 
         for modname in skip:
             # mark skipped modules as already processed
-            state[self.modules.get(modname)] = 'processed'
+            self._state[self.modules.get(modname)] = 'processed'
 
         if tags:
             for modname in self.modules:
@@ -116,29 +116,34 @@ class ModuleSet:
                         break
                 else:
                     # no tag matched, mark module as processed
-                    state[self.modules[modname]] = 'processed'
+                    self._state[self.modules[modname]] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
-            if state.get(module, 'clean') == 'processed':
+            if self._state.get(module, 'clean') == 'processed':
                 # already seen
                 return
-            if state.get(module, 'clean') == 'in-progress':
+            if self._state.get(module, 'clean') == 'in-progress':
                 # dependency circle, abort when processing hard dependencies
-                if mode == 'dependencies' and not ignore_cycles:
+                if not ignore_cycles:
                     raise DependencyCycleError()
                 else:
-                    state[module] = 'in-progress'
+                    self._state[module] = 'in-progress'
                     return
-            state[module] = 'in-progress'
+            self._state[module] = 'in-progress'
             for modname in module.dependencies:
                 depmod = self.modules[modname]
-                order([self.modules[x] for x in depmod.dependencies], depmod, mode)
+                order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
             if not ignore_suggests:
                 for modname in module.suggests:
                     depmod = self.modules.get(modname)
                     if not depmod:
                         continue
-                    order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+                    save_state, save_ordered = self._state.copy(), self._ordered[:]
+                    try:
+                        order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
+                    except DependencyCycleError:
+                        self._state, self._ordered = save_state, save_ordered
+
             extra_afters = []
             for modname in module.after:
                 depmod = self.modules.get(modname)
@@ -158,22 +163,35 @@ class ModuleSet:
                     # full list of hard dependencies, getting it into
                     # extra_afters, so they are also evaluated.
                     # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
-                    dep_modules = self.get_module_list(seed=[depmod.name])
-                    for m in dep_modules:
+                    t_ms = ModuleSet(self.config)
+                    t_ms.modules = self.modules.copy()
+                    dep_modules = t_ms.get_module_list(seed=[depmod.name])
+                    for m in dep_modules[:-1]:
                         if m in all_modules:
                             extra_afters.append(m)
                     continue
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                save_state, save_ordered = self._state.copy(), self._ordered[:]
+                try:
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                except DependencyCycleError:
+                    self._state, self._ordered = save_state, save_ordered
             for depmod in extra_afters:
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
-            state[module] = 'processed'
-            ordered.append(module)
+                save_state, save_ordered = self._state.copy(), self._ordered[:]
+                try:
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
+                except DependencyCycleError:
+                    self._state, self._ordered = save_state, save_ordered
+            self._state[module] = 'processed'
+            self._ordered.append(module)
 
         for i, module in enumerate(all_modules):
             order([], module)
             if i+1 == len(asked_modules): 
                 break
 
+        ordered = self._ordered[:]
+        del self._ordered
+        del self._state
         return ordered
     
     def get_full_module_list(self, skip=[], ignore_cycles=False):
@@ -209,7 +227,7 @@ class ModuleSet:
             try:
                 mod = self.modules[modname]
             except KeyError:
-                print >> sys.stderr, _('W: Unknown module:'), modname
+                logging.warning(_('Unknown module:') + ' '+ modname)
                 del modules[0]
                 continue
             if isinstance(mod, MetaModule):
@@ -258,19 +276,21 @@ class ModuleSet:
 def load(config, uri=None):
     if uri is not None:
         modulesets = [ uri ]
-    elif type(config.moduleset) == type([]):
+    elif type(config.moduleset) in (list, tuple):
         modulesets = config.moduleset
     else:
         modulesets = [ config.moduleset ]
     ms = ModuleSet(config = config)
     for uri in modulesets:
         if '/' not in uri:
-            if config.nonetwork or config.use_local_modulesets:
-                uri = os.path.join(os.path.dirname(__file__), '..', 'modulesets',
-                                   uri + '.modules')
+            if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
+                uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
-                uri = 'http://svn.gnome.org/svn/jhbuild/trunk/modulesets/%s.modules' % uri
-        ms.modules.update(_parse_module_set(config, uri).modules)
+                uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
+        try:
+            ms.modules.update(_parse_module_set(config, uri).modules)
+        except xml.parsers.expat.ExpatError, e:
+            raise FatalError(_('failed to parse %s: %s') % (uri, e))
     return ms
 
 def load_tests (config, uri=None):
@@ -293,15 +313,13 @@ def _child_elements_matching(parent, names):
 
 def _parse_module_set(config, uri):
     try:
-        filename = httpcache.load(uri, nonetwork=config.nonetwork)
+        filename = httpcache.load(uri, nonetwork=config.nonetwork, age=0)
     except Exception, e:
         raise FatalError(_('could not download %s: %s') % (uri, e))
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
     except IOError, e:
-        raise FatalError(_('failed to parse %s: %s') % (filename, e))
-    except xml.parsers.expat.ExpatError, e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
 
     assert document.documentElement.nodeName == 'moduleset'
@@ -383,6 +401,7 @@ def _parse_module_set(config, uri):
             if moduleset_name:
                 module.tags.append(moduleset_name)
             module.moduleset_name = moduleset_name
+            module.config = config
             moduleset.add(module)
 
     return moduleset
@@ -391,13 +410,13 @@ def warn_local_modulesets(config):
     if config.use_local_modulesets:
         return
 
-    moduleset_local_path = os.path.join(os.path.dirname(__file__), '..', 'modulesets')
+    moduleset_local_path = os.path.join(SRCDIR, 'modulesets')
     if not os.path.exists(moduleset_local_path):
         # moduleset-less checkout
         return
 
-    if not os.path.exists(os.path.join(moduleset_local_path, '.svn')):
-        # checkout was not done via subversion
+    if not os.path.exists(os.path.join(moduleset_local_path, '..', '.git')):
+        # checkout was not done via git
         return
 
     if type(config.moduleset) == type([]):
@@ -410,17 +429,18 @@ def warn_local_modulesets(config):
         return
 
     try:
-        svn_status = get_output(['svn', 'status'], cwd=moduleset_local_path)
+        git_diff = get_output(['git', 'diff', 'origin/master', '--', '.'],
+                cwd=moduleset_local_path).strip()
     except CommandError:
-        # svn error, ignore
+        # git error, ignore
         return
 
-    if not [x for x in svn_status.splitlines() if x.startswith('M')]:
+    if not git_diff:
         # no locally modified moduleset
         return
 
-    print >> sys.stderr, uencode(
-            _('I: modulesets were edited locally but jhbuild is configured '\
+    logging.info(
+            _('modulesets were edited locally but jhbuild is configured '\
               'to get them from subversion, perhaps you need to add '\
               'use_local_modulesets = True to your .jhbuildrc.'))
 

@@ -31,7 +31,11 @@ import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 __builtin__.__dict__['N_'] = lambda x: x
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+__builtin__.__dict__['PKGDATADIR'] = None
+__builtin__.__dict__['DATADIR'] = None
+__builtin__.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
+
+sys.path.insert(0, SRCDIR)
 
 from jhbuild.errors import DependencyCycleError, UsageError, CommandError
 from jhbuild.modtypes import Package
@@ -166,9 +170,21 @@ class ModuleOrderingTestCase(unittest.TestCase):
         # see http://bugzilla.gnome.org/show_bug.cgi?id=546640
         self.moduleset.modules['foo'] # gtk-doc
         self.moduleset.modules['bar'].dependencies = ['foo'] # meta-bootstrap
+        self.moduleset.modules['bar'].type = 'meta'
         self.moduleset.modules['baz'].after = ['bar'] # cairo
         self.moduleset.modules['qux'].dependencies = ['baz'] # meta-stuff
         self.assertEqual(self.get_module_list(['qux', 'foo']), ['foo', 'baz', 'qux'])
+
+    def test_dependency_chain_recursive_after_dependencies(self):
+        '''A chain dependency with an <after> module depending on an inversed relation'''
+        # see http://bugzilla.gnome.org/show_bug.cgi?id=546640
+        self.moduleset.modules['foo'] # nautilus
+        self.moduleset.modules['bar'] # nautilus-cd-burner
+        self.moduleset.modules['baz'] # tracker
+        self.moduleset.modules['foo'].after = ['baz']
+        self.moduleset.modules['bar'].dependencies = ['foo']
+        self.moduleset.modules['baz'].dependencies = ['bar']
+        self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
 
 
 class BuildTestCase(unittest.TestCase):
@@ -179,8 +195,10 @@ class BuildTestCase(unittest.TestCase):
         self.buildscript = None
 
     def build(self, packagedb_params = {}, **kwargs):
+        self.config.build_targets = ['install', 'test']
         for k in kwargs:
             setattr(self.config, k, kwargs[k])
+        self.config.update_build_targets()
 
         if not self.buildscript or packagedb_params:
             self.buildscript = mock.BuildScript(self.config, self.modules)
@@ -203,6 +221,9 @@ class AutotoolsModTypeTestCase(BuildTestCase):
     def setUp(self):
         BuildTestCase.setUp(self)
         self.modules = [AutogenModule('foo', self.branch)]
+        self.modules[0].config = self.config
+        # replace clean method as it checks for Makefile existence
+        self.modules[0].skip_clean = lambda x,y: False
 
     def test_build(self):
         '''Building a autotools module'''
@@ -237,8 +258,8 @@ class AutotoolsModTypeTestCase(BuildTestCase):
         def make_check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        make_check_error.next_state = self.modules[0].do_check.next_state
-        make_check_error.error_states = self.modules[0].do_check.error_states
+        make_check_error.depends = self.modules[0].do_check.depends
+        make_check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = make_check_error
 
@@ -289,8 +310,8 @@ class WafModTypeTestCase(BuildTestCase):
         def make_check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        make_check_error.next_state = self.modules[0].do_check.next_state
-        make_check_error.error_states = self.modules[0].do_check.error_states
+        make_check_error.depends = self.modules[0].do_check.depends
+        make_check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = make_check_error
 
@@ -314,6 +335,7 @@ class BuildPolicyTestCase(BuildTestCase):
     def setUp(self):
         BuildTestCase.setUp(self)
         self.modules = [AutogenModule('foo', self.branch)]
+        self.modules[0].config = self.config
 
     def test_policy_all(self):
         '''Building an uptodate module with build policy set to "all"'''
@@ -369,6 +391,8 @@ class TwoModulesTestCase(BuildTestCase):
         self.foo_branch = mock.Branch()
         self.modules = [AutogenModule('foo', self.foo_branch),
                         AutogenModule('bar', self.branch)]
+        self.modules[0].config = self.config
+        self.modules[1].config = self.config
 
     def test_build(self):
         '''Building two autotools module'''
@@ -385,8 +409,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -403,8 +427,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -418,8 +442,8 @@ class TwoModulesTestCase(BuildTestCase):
         def build_error(buildscript, *args):
             self.modules[0].do_build_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        build_error.next_state = self.modules[0].do_build.next_state
-        build_error.error_states = self.modules[0].do_build.error_states
+        build_error.depends = self.modules[0].do_build.depends
+        build_error.error_phases = self.modules[0].do_build.error_phases
         self.modules[0].do_build_orig = self.modules[0].do_build
         self.modules[0].do_build = build_error
 
@@ -475,8 +499,8 @@ class TwoModulesTestCase(BuildTestCase):
         def check_error(buildscript, *args):
             self.modules[0].do_check_orig(buildscript, *args)
             raise CommandError('Mock Command Error Exception')
-        check_error.next_state = self.modules[0].do_check.next_state
-        check_error.error_states = self.modules[0].do_check.error_states
+        check_error.depends = self.modules[0].do_check.depends
+        check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = check_error
 
@@ -494,8 +518,8 @@ class TwoModulesTestCase(BuildTestCase):
                 self.modules[0].do_check_orig(buildscript, *args)
             finally:
                 buildscript.execute_is_failure = False
-        check_error.next_state = self.modules[0].do_check.next_state
-        check_error.error_states = self.modules[0].do_check.error_states
+        check_error.depends = self.modules[0].do_check.depends
+        check_error.error_phases = self.modules[0].do_check.error_phases
         self.modules[0].do_check_orig = self.modules[0].do_check
         self.modules[0].do_check = check_error
 
@@ -555,6 +579,7 @@ def with_stdout_hidden(func):
 class EndToEndTest(unittest.TestCase):
 
     def setUp(self):
+        self.config = mock.Config()
         self._old_env = os.environ.copy()
         self._temp_dirs = []
 
@@ -591,6 +616,7 @@ class EndToEndTest(unittest.TestCase):
         config = self.make_config()
         module_list = [DistutilsModule('hello',
                                        self.make_branch(config, 'distutils'))]
+        module_list[0].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)
@@ -603,6 +629,7 @@ class EndToEndTest(unittest.TestCase):
         config = self.make_config()
         module_list = [AutogenModule('hello',
                                      self.make_branch(config, 'autotools'))]
+        module_list[0].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)
@@ -616,6 +643,8 @@ class EndToEndTest(unittest.TestCase):
         module_list = [
             AutogenModule('libhello', self.make_branch(config, 'libhello')),
             AutogenModule('hello', self.make_branch(config, 'hello'))]
+        module_list[0].config = self.config
+        module_list[1].config = self.config
         build = jhbuild.frontends.terminal.TerminalBuildScript(
             config, module_list)
         with_stdout_hidden(build.build)

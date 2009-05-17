@@ -24,7 +24,7 @@ from jhbuild.commands.base import Command, register_command
 import jhbuild.frontends
 
 class cmd_autobuild(Command):
-    doc = _('Build modules non-interactively and upload results to JhAutobuild')
+    doc = N_('Build modules non-interactively and upload results to JhAutobuild')
 
     name = 'autobuild'
 
@@ -81,6 +81,6 @@ class cmd_autobuild(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
     
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        build.build()
+        return build.build()
 
 register_command(cmd_autobuild)

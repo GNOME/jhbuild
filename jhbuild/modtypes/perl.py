@@ -33,14 +33,14 @@ class PerlModule(Package):
     "Makefile.PL" Makefile."""
     type = 'perl'
 
-    STATE_CHECKOUT = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_BUILD = 'build'
-    STATE_INSTALL = 'install'
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_BUILD = 'build'
+    PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[], extra_env = None):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+                 dependencies=[], after=[], suggests=[]):
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -93,35 +93,26 @@ class PerlModule(Package):
 
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_BUILD
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_BUILD
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
         perl = os.environ.get('PERL', 'perl')
         make = os.environ.get('MAKE', 'make')
-        cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s Makefile.PL INSTALLDIRS=vendor PREFIX=%s %s' % (perl, buildscript.config.prefix, makeargs)
         buildscript.execute(cmd, cwd=builddir, extra_env = self.extra_env)
         buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir,
                 extra_env = self.extra_env)
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
@@ -131,8 +122,11 @@ class PerlModule(Package):
                 [make, 'install', 'PREFIX=%s' % buildscript.config.prefix],
                 cwd = builddir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_CHECKOUT]
+
+    def xml_tag_and_attrs(self):
+        return 'perl', [('id', 'name', None),
+                         ('makeargs', 'makeargs', '')]
 
 
 def parse_perl(node, config, uri, repositories, default_repo):
@@ -141,21 +135,15 @@ def parse_perl(node, config, uri, repositories, default_repo):
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
 
-    # override revision tag if requested.
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-
     # Make some substitutions; do special handling of '${prefix}'
     p = re.compile('(\${prefix})')
     makeargs = p.sub(config.prefix, makeargs)
     
     dependencies, after, suggests = get_dependencies(node)
-    extra_env = config.module_extra_env.get(id)
     branch = get_branch(node, repositories, default_repo, config)
-    if config.module_checkout_mode.get(id):
-        branch.checkout_mode = config.module_checkout_mode[id]
 
     return PerlModule(id, branch, makeargs,
             dependencies=dependencies, after=after,
-            suggests=suggests, extra_env = extra_env)
+            suggests=suggests)
 register_module_type('perl', parse_perl)
 

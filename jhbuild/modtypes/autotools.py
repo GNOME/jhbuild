@@ -39,16 +39,15 @@ class AutogenModule(Package, DebianBasePackage):
     responsible for downloading/updating the working copy.'''
     type = 'autogen'
 
-    STATE_CHECKOUT       = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_CLEAN          = 'clean'
-    STATE_FORCE_CLEAN    = 'force_clean'
-    STATE_FORCE_DISTCLEAN= 'force_distclean'
-    STATE_CONFIGURE      = 'configure'
-    STATE_BUILD          = 'build'
-    STATE_CHECK          = 'check'
-    STATE_DIST           = 'dist'
-    STATE_INSTALL        = 'install'
+    PHASE_CHECKOUT       = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CLEAN          = 'clean'
+    PHASE_DISTCLEAN      = 'distclean'
+    PHASE_CONFIGURE      = 'configure'
+    PHASE_BUILD          = 'build'
+    PHASE_CHECK          = 'check'
+    PHASE_DIST           = 'dist'
+    PHASE_INSTALL        = 'install'
 
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  makeinstallargs='',
@@ -57,10 +56,9 @@ class AutogenModule(Package, DebianBasePackage):
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
-                 extra_env = None,
                  autogen_template=None,
                  check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests, extra_env)
+        Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -86,11 +84,6 @@ class AutogenModule(Package, DebianBasePackage):
     def get_revision(self):
         return self.branch.tree_id()
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
     do_checkout.next_state = STATE_CONFIGURE
@@ -103,24 +96,22 @@ class AutogenModule(Package, DebianBasePackage):
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_CONFIGURE
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
-    def skip_configure(self, buildscript, last_state):
-        # skip if nobuild is set.
-        if buildscript.config.nobuild:
-            return True
-
+    def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
-        if self.skip_autogen:
+        if self.skip_autogen is True:
             return True
 
         # don't skip this stage if we got here from one of the
-        # following states:
-        if last_state in [self.STATE_FORCE_CHECKOUT,
-                          self.STATE_CLEAN,
-                          self.STATE_BUILD,
-                          self.STATE_INSTALL]:
+        # following phases:
+        if last_phase in [self.PHASE_FORCE_CHECKOUT,
+                          self.PHASE_CLEAN,
+                          self.PHASE_BUILD,
+                          self.PHASE_INSTALL]:
+            return False
+
+        if self.skip_autogen == 'never':
             return False
 
         # skip if the makefile exists and we don't have the
@@ -155,9 +146,12 @@ class AutogenModule(Package, DebianBasePackage):
             template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
                         " --libdir %(libdir)s %(autogenargs)s ")
 
+        autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
+                self.name, self.config.autogenargs)
+
         vars = {'prefix': buildscript.config.prefix,
                 'autogen-sh': self.autogen_sh,
-                'autogenargs': self.autogenargs}
+                'autogenargs': autogenargs}
                 
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             vars['srcdir'] = self.get_srcdir(buildscript)
@@ -190,49 +184,55 @@ class AutogenModule(Package, DebianBasePackage):
         else:
             # place --prefix and --libdir arguments after '-- '
             # (GStreamer weirdness)
-            if self.autogenargs.find('-- ') != -1:
+            if autogenargs.find('-- ') != -1:
                 p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
                        (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
                 cmd = p.sub(r'\1\4-- \2\3', cmd)
 
-        buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
-    do_configure.next_state = STATE_CLEAN
-    do_configure.error_states = [STATE_FORCE_CHECKOUT,
-            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
+        # If there is no --exec-prefix in the constructed autogen command, we
+        # can safely assume it will be the same as {prefix} and substitute it
+        # right now, so the printed command can be copy/pasted afterwards.
+        # (GNOME #580272)
+        if not '--exec-prefix' in template:
+            cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
 
-    def skip_clean(self, buildscript, last_state):
-        return (not buildscript.config.makeclean or
-                buildscript.config.nobuild)
+        buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
+    do_configure.depends = [PHASE_CHECKOUT]
+    do_configure.error_phases = [PHASE_FORCE_CHECKOUT,
+            PHASE_CLEAN, PHASE_DISTCLEAN]
+
+    def skip_clean(self, buildscript, last_phase):
+        srcdir = self.get_srcdir(buildscript)
+        if not os.path.exists(srcdir):
+            return True
+        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+            return True
+        return False
     skip_deb_clean = skip_clean
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
-    do_clean.next_state = STATE_BUILD
-    do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_clean.depends = [PHASE_CONFIGURE]
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
-    do_build.next_state = STATE_CHECK
-    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE,
-            STATE_FORCE_CLEAN, STATE_FORCE_DISTCLEAN]
+    do_build.depends = [PHASE_CONFIGURE]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
+            PHASE_CLEAN, PHASE_DISTCLEAN]
 
-    def skip_check(self, buildscript, last_state):
+    def skip_check(self, buildscript, last_phase):
         if not self.check_target:
             return True
         if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
-            return True
-        if buildscript.config.forcecheck:
-            return False
-        if buildscript.config.nobuild:
             return True
         return False
 
@@ -245,22 +245,16 @@ class AutogenModule(Package, DebianBasePackage):
         except CommandError:
             if not buildscript.config.makecheck_advisory:
                 raise
-    do_check.next_state = STATE_DIST
-    do_check.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_dist(self, buildscript, last_state):
-        return not (buildscript.config.makedist or buildscript.config.makedistcheck)
+    do_check.depends = [PHASE_BUILD]
+    do_check.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        if buildscript.config.makedistcheck:
-            cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
-        else:
-            cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_dist.next_state = STATE_INSTALL
-    do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
+    do_dist.depends = [PHASE_CONFIGURE]
+    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_deb_build_deps(self, buildscript):
         return DebianBasePackage.do_deb_build_deps(self, buildscript)
@@ -275,6 +269,14 @@ class AutogenModule(Package, DebianBasePackage):
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
 
+    def do_distcheck(self, buildscript):
+        buildscript.set_action(_('Creating tarball for'), self)
+        cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                    extra_env = self.extra_env)
+    do_dist.depends = [PHASE_CONFIGURE]
+    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         if self.makeinstallargs:
@@ -285,6 +287,7 @@ class AutogenModule(Package, DebianBasePackage):
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
+<<<<<<< HEAD:jhbuild/modtypes/autotools.py
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
     
@@ -428,13 +431,44 @@ class AutogenModule(Package, DebianBasePackage):
     def skip_force_distclean(self, buildscript, last_state):
         return False
 
-    def do_force_distclean(self, buildscript):
+    do_install.depends = [PHASE_BUILD]
+
+    def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), self.makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_force_distclean.next_state = STATE_CONFIGURE
-    do_force_distclean.error_states = []
+    do_distclean.depends = [PHASE_CONFIGURE]
+
+    def skip_uninstall(self, buildscript, last_phase):
+        srcdir = self.get_srcdir(buildscript)
+        if not os.path.exists(srcdir):
+            return True
+        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+            return True
+        return False
+
+    def do_uninstall(self, buildscript):
+        buildscript.set_action(_('Uninstalling'), self)
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+                self.name, self.config.makeargs)
+        cmd = '%s %s uninstall' % (os.environ.get('MAKE', 'make'), makeargs)
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                extra_env = self.extra_env)
+        buildscript.packagedb.remove(self.name)
+
+    def xml_tag_and_attrs(self):
+        return ('autotools',
+                [('autogenargs', 'autogenargs', ''),
+                 ('id', 'name', None),
+                 ('makeargs', 'makeargs', ''),
+                 ('makeinstallargs', 'makeinstallargs', ''),
+                 ('supports-non-srcdir-builds',
+                  'supports_non_srcdir_builds', True),
+                 ('skip-autogen', 'skip_autogen', False),
+                 ('autogen-sh', 'autogen_sh', 'autogen.sh'),
+                 ('makefile', 'makefile', 'Makefile'),
+                 ('autogen-template', 'autogen_template', None)])
 
 
 def parse_autotools(node, config, uri, repositories, default_repo):
@@ -458,7 +492,13 @@ def parse_autotools(node, config, uri, repositories, default_repo):
         supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('skip-autogen'):
-        skip_autogen = (node.getAttribute('skip-autogen') == 'true')
+        skip_autogen = node.getAttribute('skip-autogen')
+        if skip_autogen == 'true':
+            skip_autogen = True
+        elif skip_autogen == 'never':
+            skip_autogen = 'never'
+        else:
+            skip_autogen = False
     if node.hasAttribute('check-target'):
         check_target = (node.getAttribute('check-target') == 'true')
     if node.hasAttribute('autogen-sh'):
@@ -482,14 +522,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     makeargs        = p.sub(config.prefix + libsubdir, makeargs)
     makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
 
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
-    if config.module_checkout_mode.get(id):
-        branch.checkout_mode = config.module_checkout_mode[id]
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          makeinstallargs=makeinstallargs,
@@ -500,144 +534,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,
                          makefile=makefile,
-                         extra_env=extra_env,
                          autogen_template=autogen_template,
                          check_target=check_target)
 register_module_type('autotools', parse_autotools)
 
-
-# deprecated module types below:
-def parse_cvsmodule(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    module = None
-    revision = None
-    checkoutdir = None
-    autogenargs = ''
-    makeargs = ''
-    supports_non_srcdir_builds = True
-    if node.hasAttribute('module'):
-        module = node.getAttribute('module')
-    if node.hasAttribute('revision'):
-        revision = node.getAttribute('revision')
-    if node.hasAttribute('checkoutdir'):
-        checkoutdir = node.getAttribute('checkoutdir')
-    if node.hasAttribute('autogenargs'):
-        autogenargs = node.getAttribute('autogenargs')
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-    if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
-            (node.getAttribute('supports-non-srcdir-builds') != 'no')
-
-    if not id:
-        id = checkoutdir or module
-
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
-    dependencies, after, suggests = get_dependencies(node)
-
-    for attrname in ['cvsroot', 'root']:
-        if node.hasAttribute(attrname):
-            try:
-                repo = repositories[node.getAttribute(attrname)]
-                break
-            except KeyError:
-                raise FatalError(_('Repository=%s not found for module id=%s. '
-                                   'Possible repositories are %s')
-                                 % (node.getAttribute(attrname),
-                                    node.getAttribute('id'), repositories))
-    else:
-        repo = repositories.get(default_repo, None)
-    branch = repo.branch(id, module=module, checkoutdir=checkoutdir,
-                         revision=revision)
-
-    return AutogenModule(id, branch, autogenargs, makeargs,
-                         dependencies=dependencies,
-                         after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
-register_module_type('cvsmodule', parse_cvsmodule)
-
-def parse_svnmodule(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    module = None
-    checkoutdir = None
-    autogenargs = ''
-    makeargs = ''
-    supports_non_srcdir_builds = True
-    if node.hasAttribute('module'):
-        module = node.getAttribute('module')
-    if node.hasAttribute('checkoutdir'):
-        checkoutdir = node.getAttribute('checkoutdir')
-    if node.hasAttribute('autogenargs'):
-        autogenargs = node.getAttribute('autogenargs')
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-    if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
-            (node.getAttribute('supports-non-srcdir-builds') != 'no')
-
-    if not id:
-        id = checkoutdir or os.path.basename(module)
-
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, config.makeargs)
-    extra_env = config.module_extra_env.get(id)
-
-    dependencies, after, suggests = get_dependencies(node)
-
-    if node.hasAttribute('root'):
-        repo = repositories[node.getAttribute('root')]
-    else:
-        repo = repositories.get(default_repo, None)
-    branch = repo.branch(id, module=module, checkoutdir=checkoutdir)
-
-    return AutogenModule(id, branch, autogenargs, makeargs,
-                         dependencies=dependencies,
-                         after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
-register_module_type('svnmodule', parse_svnmodule)
-
-def parse_archmodule(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    version = None
-    checkoutdir = None
-    autogenargs = ''
-    makeargs = ''
-    supports_non_srcdir_builds = True
-    if node.hasAttribute('version'):
-        version = node.getAttribute('version')
-    if node.hasAttribute('checkoutdir'):
-        checkoutdir = node.getAttribute('checkoutdir')
-    if node.hasAttribute('autogenargs'):
-        autogenargs = node.getAttribute('autogenargs')
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-    if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
-            (node.getAttribute('supports-non-srcdir-builds') != 'no')
-
-    if not id:
-        id = checkoutdir or version
-
-    autogenargs += ' ' + config.module_autogenargs.get(id, config.autogenargs)
-    makeargs += ' ' + config.module_makeargs.get(id, makeargs)
-    extra_env = config.module_extra_env.get(id)
-
-    dependencies, after, suggests = get_dependencies(node)
-
-    if node.hasAttribute('root'):
-        repo = repositories[node.getAttribute('root')]
-    else:
-        repo = repositories.get(default_repo, None)
-    branch = repo.branch(id, module=version, checkoutdir=checkoutdir)
-
-    return AutogenModule(id, branch, autogenargs, makeargs,
-                         dependencies=dependencies,
-                         after=after, suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         extra_env=extra_env)
-register_module_type('archmodule', parse_archmodule)

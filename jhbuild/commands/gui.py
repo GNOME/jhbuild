@@ -24,7 +24,7 @@ from jhbuild.frontends.gtkui import Configuration
 
 
 class cmd_gui(Command):
-    doc = _('Build targets from a GUI app')
+    doc = N_('Build targets from a GUI app')
 
     name = 'gui'
     usage_args = ''
@@ -51,6 +51,6 @@ class cmd_gui(Command):
 
         if module_list != None:
             build = jhbuild.frontends.get_buildscript(config, module_list)
-            build.build()
+            return build.build()
 
 register_command(cmd_gui)
