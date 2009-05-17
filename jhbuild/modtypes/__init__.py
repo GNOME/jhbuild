@@ -27,9 +27,22 @@ __all__ = [
     'get_branch'
     ]
 
+try:
+    import apt_pkg
+except ImportError:
+    apt_pkg = None
+
 import os
+import re
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
+
+def lax_int(s):
+    try:
+        return int(s)
+    except ValueError:
+        return -1
+
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -125,6 +138,8 @@ class SkipToState(Exception):
 class Package:
     type = 'base'
     STATE_START = 'start'
+    STATE_APT_GET_UPDATE = 'apt_get_update'
+    STATE_BUILD_DEPS     = 'build_deps'
     STATE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = [],
             extra_env = None):
@@ -144,6 +159,82 @@ class Package:
     def get_builddir(self, buildscript):
         raise NotImplementedError
 
+    def get_builddebdir(self, buildscript):
+        return os.path.normpath(os.path.join(self.get_builddir(buildscript), '..', 'debian'))
+
+    def get_debian_name(self, buildscript):
+        debian_name = buildscript.config.debian_names.get(self.name)
+        if not debian_name:
+            debian_name = self.name
+        return debian_name
+
+    def get_one_binary_package_name(self, buildscript):
+        debian_name = self.get_debian_name(buildscript)
+        sources = apt_pkg.GetPkgSrcRecords()
+        sources.Restart()
+        t = []
+        while sources.Lookup(debian_name):
+            try:
+                t.append((sources.Package, sources.Binaries, sources.Version))
+            except AttributeError:
+                pass
+        if not t:
+            raise KeyError
+        t.sort(lambda x, y: apt_pkg.VersionCompare(x[-1],y[-1]))
+        return t[-1][1][0]
+
+    def get_available_debian_version(self, buildscript):
+        apt_cache = apt_pkg.GetCache()
+        binary_name = self.get_one_binary_package_name(buildscript)
+        for pkg in apt_cache.Packages:
+            if pkg.Name == binary_name:
+                t = list(pkg.VersionList)
+                t.sort(lambda x, y: apt_pkg.VersionCompare(x.VerStr, y.VerStr))
+                return t[-1].VerStr
+        return None
+
+    def get_installed_debian_version(self):
+        apt_cache = apt_pkg.GetCache()
+        for pkg in apt_cache.Packages:
+            if pkg.Name == self.name:
+                return pkg.CurrentVer.VerStr
+        return None
+
+    def create_a_debian_dir(self, buildscript):
+        buildscript.set_action('Getting a debian/ directory for', self)
+        builddir = self.get_builddir(buildscript)
+        deb_sources = os.path.expanduser('~/.jhdebuild/apt-get-sources/')
+        if not os.path.exists(deb_sources):
+            os.makedirs(deb_sources)
+
+        debian_name = self.get_debian_name(buildscript)
+
+        try:
+            buildscript.execute(['apt-get', 'source', debian_name], cwd = deb_sources)
+        except CommandError:
+            raise BuildStateError('No debian source package for %s' % self.name)
+
+        dir = [x for x in os.listdir(deb_sources) if (
+                x.startswith(debian_name) and os.path.isdir(os.path.join(deb_sources, x)))][0]
+        buildscript.execute(['rm', '-rf', 'debian/*'], cwd = builddir)
+        if not os.path.exists(os.path.join(builddir, 'debian')):
+            os.mkdir(os.path.join(builddir, 'debian'))
+        buildscript.execute('cp -R %s/* debian/' % os.path.join(deb_sources, dir, 'debian'),
+                cwd = builddir)
+        file(os.path.join(builddir, 'debian', 'APPROPRIATE_FOR_JHDEBUILD'), 'w').write('')
+
+    def get_makefile_var(self, buildscript, variable_name):
+        builddir = self.get_builddir(buildscript)
+        makefile = os.path.join(builddir, 'Makefile')
+        if not os.path.exists(makefile):
+            return None
+        v = re.findall(r'\b%s *= *(.*)' % variable_name, open(makefile).read())
+        if v:
+            return v[0]
+        else:
+            return None
+
+
     def get_revision(self):
         return None
 
@@ -154,15 +245,23 @@ class Package:
         state or not.  If it returns True, go to do_$state.next_state and
         repeat.  If it returns False, return that state.
         """
+
+        if buildscript.config.debuild:
+            self.do_prefix = 'do_deb_'
+            self.skip_prefix = 'skip_deb_'
+        else:
+            self.do_prefix = 'do_'
+            self.skip_prefix = 'skip_'
+
         seen_states = []
-        state = getattr(self, 'do_' + last_state).next_state
+        state = getattr(self, self.do_prefix + last_state).next_state
         while True:
             seen_states.append(state)
             if state == self.STATE_DONE:
                 return state
-            do_method = getattr(self, 'do_' + state)
 
-            skip_method = getattr(self, 'skip_' + state)
+            do_method = getattr(self, self.do_prefix + state)
+            skip_method = getattr(self, self.skip_prefix + state)
             try:
                 if skip_method(buildscript, last_state):
                     state = do_method.next_state
@@ -180,7 +279,15 @@ class Package:
         Returns a tuple of the following form:
           (next-state, error-flag, [other-states])
         """
-        method = getattr(self, 'do_' + state)
+
+        if buildscript.config.debuild:
+            self.do_prefix = 'do_deb_'
+            self.skip_prefix = 'skip_deb_'
+        else:
+            self.do_prefix = 'do_'
+            self.skip_prefix = 'skip_'
+
+        method = getattr(self, self.do_prefix + state)
         try:
             method(buildscript)
         except SkipToState, e:
@@ -233,6 +340,68 @@ class Package:
                 raise SkipToState(self.STATE_DONE)
             return True
         return False
+    skip_deb_checkout = skip_checkout
+
+    def do_deb_start(self, buildscript):
+        buildscript.set_action('Starting building', self)
+        ext_dep = buildscript.config.external_dependencies.get(self.name)
+        if ext_dep:
+            available = self.get_available_debian_version(buildscript).split('-')[0]
+            if ':' in available: # remove epoch
+                available = available.split(':')[-1]
+
+            deb_available = [lax_int(x) for x in available.split('.')]
+            ext_minimum = [lax_int(x) for x in ext_dep.get('minimum').split('.')]
+            ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
+
+            if deb_available >= ext_recommended:
+                buildscript.message('external dependency, available')
+                if not buildscript.config.build_external_deps == 'always':
+                    raise SkipToState(self.STATE_DONE)
+
+            if deb_available >= ext_minimum:
+                buildscript.message(
+                        'external dependency, available (but recommended version is not)')
+                if not buildscript.config.build_external_deps in ('always', 'recommended'):
+                    raise SkipToState(self.STATE_DONE)
+            else:
+                buildscript.message('external dependency, no version high enough')
+                if buildscript.config.build_external_deps == 'never':
+                    raise SkipToState(self.STATE_DONE)
+    do_deb_start.next_state = STATE_APT_GET_UPDATE
+    do_deb_start.error_states = []
+
+    def skip_deb_apt_get_update(self, buildscript, last_state):
+        return False
+
+    def do_deb_apt_get_update(self, buildscript):
+        if not buildscript.config.nonetwork:
+            buildscript.set_action('Updating packages database for', self)
+            try:
+                buildscript.execute(['sudo', 'apt-get', 'update'])
+            except CommandError:
+                pass
+    do_deb_apt_get_update.next_state = STATE_DONE
+    do_deb_apt_get_update.error_states = []
+
+    def skip_deb_build_deps(self, buildscript, last_state):
+        return False
+
+    def do_deb_build_deps(self, buildscript):
+        buildscript.set_action('Installing build deps for', self)
+        debian_name = self.get_debian_name(buildscript)
+        v = None
+        try:
+            v = self.get_available_debian_version(buildscript)
+        except KeyError:
+            pass
+        if v:
+            try:
+                buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
+            except CommandError:
+                raise BuildStateError('Failed to install build deps')
+    do_deb_build_deps.next_state = STATE_DONE
+    do_deb_build_deps.error_states = []
 
 
 class MetaModule(Package):
@@ -249,6 +418,12 @@ class MetaModule(Package):
         pass
     do_start.next_state = Package.STATE_DONE
     do_start.error_states = []
+
+    def do_deb_start(self, buildscript):
+        pass
+    do_deb_start.next_state = Package.STATE_DONE
+    do_deb_start.error_states = []
+
 
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
