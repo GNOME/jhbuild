@@ -109,6 +109,58 @@ class DistutilsModule(Package):
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
 
+    def do_deb_start(self, buildscript):
+        buildscript.set_action('Starting building', self)
+        buildscript.execute(['sudo', 'apt-get', 'update'])
+        ext_dep = buildscript.config.external_dependencies.get(self.name)
+        if not ext_dep:
+            raise BuildStateError('No external dep for %s' % self.name)
+
+        #print buildscript.config.external_dependencies
+
+        available = self.get_available_debian_version(buildscript).split('-')[0]
+        if ':' in available: # remove epoch
+            available = available.split(':')[-1]
+
+        def lax_int(s):
+            try:
+                return int(s)
+            except ValueError:
+                return -1
+
+        deb_available = [lax_int(x) for x in available.split('.')]
+        ext_minimum = [lax_int(x) for x in ext_dep.get('minimum').split('.')]
+        ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
+
+        if deb_available >= ext_recommended:
+            return (self.STATE_DONE, None, None)
+
+        if deb_available >= ext_minimum:
+            # XXX: warn it would be better to have a newer version
+            return (self.STATE_DONE, None, None)
+
+        return (self.STATE_DOWNLOAD, None, None)
+
+    
+    def do_deb_build(self, buildscript):
+        # gets a debian/ directory
+        builddir = self.get_builddir(buildscript)
+        if buildscript.config.buildroot and not os.path.exists(builddir):
+            os.makedirs(builddir)
+
+        if not os.path.exists(os.path.join(builddir, 'debian')):
+            self.create_a_debian_dir(buildscript)
+
+        try:
+            buildscript.execute('dpkg-checkbuilddeps', cwd = builddir)
+        except:
+            debian_name = self.get_debian_name(buildscript)
+            buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
+
+        self.deb_version = '%s-0' % self.get_revision()
+
+        return Package.do_deb_build(self, buildscript)
+
 
 def parse_distutils(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
