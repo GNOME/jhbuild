@@ -296,7 +296,6 @@ class AutogenModule(Package, DebianBasePackage):
 
     do_deb_clean = do_clean
     do_deb_build = do_build
-    skip_deb_build = skip_build
 
     skip_deb_check = skip_check
     do_deb_check = do_check
