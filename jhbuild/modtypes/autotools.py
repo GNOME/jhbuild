@@ -87,7 +87,6 @@ class AutogenModule(Package, DebianBasePackage):
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
     do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
-    do_deb_checkout = do_checkout
 
     def skip_force_checkout(self, buildscript, last_state):
         return False
@@ -118,7 +117,6 @@ class AutogenModule(Package, DebianBasePackage):
         builddir = self.get_builddir(buildscript)
         return (os.path.exists(os.path.join(builddir, self.makefile)) and
                 not buildscript.config.alwaysautogen)
-    skip_deb_configure = skip_configure
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -207,7 +205,6 @@ class AutogenModule(Package, DebianBasePackage):
         if not os.path.exists(os.path.join(srcdir, self.makefile)):
             return True
         return False
-    skip_deb_clean = skip_clean
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
@@ -294,36 +291,12 @@ class AutogenModule(Package, DebianBasePackage):
                 write_cached_value('version-%s-%s' % (self.name, self.branch.revision_id), version)
         return version
 
-    do_deb_clean = do_clean
-    do_deb_build = do_build
-
-    skip_deb_check = skip_check
-    do_deb_check = do_check
-    
     def do_deb_apt_get_update(self, buildscript):
         Package.do_deb_apt_get_update(self, buildscript)
     do_deb_apt_get_update.error_phases = []
 
-    def do_deb_checkout(self, buildscript):
-        return self.do_checkout(buildscript)
-    do_deb_checkout.error_phases = []
-
-    skip_deb_force_checkout = skip_force_checkout
-    do_deb_force_checkout = do_force_checkout
-
     def get_tarball_dir(self, buildscript):
         return os.path.join(buildscript.config.tarballs_dir, self.name, self.branch.revision_id)
-
-    do_deb_configure = do_configure
-
-    def skip_deb_clean(self, buildscript, last_state):
-        return False
-
-    do_deb_clean = do_clean
-    do_deb_build = do_build
-
-    def skip_deb_dist(self, buildscript, last_state):
-        return False
 
     def get_debian_version(self, buildscript):
         epoch = ''

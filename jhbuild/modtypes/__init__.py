@@ -301,7 +301,6 @@ class Package:
                 raise SkipToEnd()
             return True
         return False
-    skip_deb_checkout = skip_checkout
 
     def do_deb_start(self, buildscript):
         buildscript.set_action('Starting building', self)
