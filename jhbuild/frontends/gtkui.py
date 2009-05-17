@@ -239,7 +239,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             return
         # "Others..." got clicked, modal dialog to let the user select a
         # specific module
-        dlg = SelectModulesDialog(self)
+        current_module = self.modules_list_model.get(old_selected_iter, 0)[0]
+        dlg = SelectModulesDialog(self, current_module)
         response = dlg.run()
         if response != gtk.RESPONSE_OK:
             dlg.destroy()
@@ -427,11 +428,19 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
 
 class SelectModulesDialog(gtk.Dialog):
-    def __init__(self, parent):
+    def __init__(self, parent, default_module=None):
         gtk.Dialog.__init__(self, '', parent)
         self.app = parent
         self.create_model()
         self.create_ui()
+
+        if default_module:
+            for module_row in self.modules_model:
+                if self.modules_model.get(module_row.iter, 0)[0] == default_module:
+                    self.treeview.get_selection().select_iter(module_row.iter)
+                    self.treeview.scroll_to_cell(
+                            self.modules_model.get_path(module_row.iter))
+                    break
         self.connect('response', self.on_response_cb)
 
     def create_model(self):
