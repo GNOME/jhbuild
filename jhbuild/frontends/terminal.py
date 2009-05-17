@@ -271,8 +271,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             uprint(_('  [1] rerun stage %s') % state)
             uprint(_('  [2] ignore error and continue to %s') % nextstate)
             uprint(_('  [3] give up on module'))
-            uprint(_('  [4] start shell'))
-            i = 5
+            uprint(_('  [4] give up on module but fake success'))
+            uprint(_('  [5] start shell'))
+            i = 6
             for altstate in altstates:
                 uprint(_('  [%d] go to stage %s') % (i, altstate))
                 i = i + 1
@@ -285,6 +286,8 @@ class TerminalBuildScript(buildscript.BuildScript):
             elif val == '3':
                 return 'fail'
             elif val == '4':
+                return 'done'
+            elif val == '5':
                 cwd = os.getcwd()
                 try:
                     os.chdir(module.get_builddir(self))
@@ -296,7 +299,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             else:
                 try:
                     val = int(val)
-                    return altstates[val - 5]
+                    return altstates[val - 6]
                 except:
                     uprint(_('invalid choice'))
         assert False, 'not reached'
