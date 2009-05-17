@@ -188,6 +188,7 @@ def get_external_deps(gnome_version):
 def debuild_init(config, buildscript):
     # perform a deb build
     config.debuild = True
+    config.build_targets = ['deb_build_package']
 
     if type(config.moduleset) is list:
         moduleset = config.moduleset[0]
@@ -264,7 +265,7 @@ class cmd_debuild(Command):
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         debuild_init(config, build)
-        build.build(phases=['deb_build_package'])
+        build.build()
 
 register_command(cmd_debuild)
 
@@ -310,7 +311,7 @@ class cmd_debuildone(Command):
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         debuild_init(config, build)
-        build.build(phases=['deb_build_package'])
+        build.build()
 
 register_command(cmd_debuildone)
 
