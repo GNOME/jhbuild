@@ -197,7 +197,11 @@ def check_bootstrap_updateness(config):
         if p_version != module.get_revision():
             updated_modules.append(module.name)
 
+    if not config.modulesets_dir:
+        return
     bootstrap_uri = os.path.join(config.modulesets_dir, 'bootstrap.modules')
+    if not os.path.exists(bootstrap_uri):
+        return
     bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
 
     if max_install_date <= bootstrap_mtime:
