@@ -236,13 +236,8 @@ class Package:
         return None
 
     def skip_phase(self, buildscript, phase, last_phase):
-        if buildscript.config.debuild:
-            skip_prefix = 'skip_deb_'
-        else:
-            skip_prefix = 'skip_'
-
         try:
-            skip_phase_method = getattr(self, skip_prefix + phase)
+            skip_phase_method = getattr(self, 'skip_' + phase)
         except AttributeError:
             return False
         return skip_phase_method(buildscript, last_phase)
@@ -253,12 +248,7 @@ class Package:
         Returns a tuple of the following form:
           (error-flag, [other-phases])
         """
-        if buildscript.config.debuild:
-            do_prefix = 'do_deb_'
-        else:
-            do_prefix = 'do_'
-
-        method = getattr(self, do_prefix + phase)
+        method = getattr(self, 'do_' + phase)
         try:
             method(buildscript)
         except (CommandError, BuildStateError), e:
