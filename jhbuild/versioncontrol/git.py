@@ -61,7 +61,7 @@ class GitRepository(Repository):
     Note that this is just the parent directory for a bunch of git
     branches, making it easy to switch to a mirror URI.
     """
-
+    code = "git"
     init_xml_attrs = ['href']
 
     def __init__(self, config, name, href):
@@ -302,6 +302,11 @@ class GitBranch(Branch):
         except GitUnknownBranchNameError:
             return None
         return output.strip()
+
+    def revision_id(self):
+        """ Use 6 characters of sha1 to identify current revision """
+        return self.tree_id()[:6]
+    revision_id = property(revision_id)
 
     def to_sxml(self):
         attrs = {}
