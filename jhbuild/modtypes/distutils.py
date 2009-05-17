@@ -121,13 +121,13 @@ class DistutilsModule(Package):
         ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
 
         if deb_available >= ext_recommended:
-            return (self.STATE_DONE, None, None)
+            return (self.PHASE_DONE, None, None)
 
         if deb_available >= ext_minimum:
             # XXX: warn it would be better to have a newer version
-            return (self.STATE_DONE, None, None)
+            return (self.PHASE_DONE, None, None)
 
-        return (self.STATE_DOWNLOAD, None, None)
+        return (self.PHASE_DOWNLOAD, None, None)
 
     
     def do_deb_build(self, buildscript):

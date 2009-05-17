@@ -86,7 +86,7 @@ class AutogenModule(Package, DebianBasePackage):
 
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.error_phases = [STATE_FORCE_CHECKOUT]
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
     do_deb_checkout = do_checkout
 
     def skip_force_checkout(self, buildscript, last_state):
@@ -261,7 +261,7 @@ class AutogenModule(Package, DebianBasePackage):
 
     def do_deb_build_package(self, buildscript):
         DebianBasePackage.do_deb_build_package(self, buildscript)
-    do_deb_build_package.error_phases = [DebianBasePackage.STATE_TAR_X, STATE_DIST]
+    do_deb_build_package.error_phases = [DebianBasePackage.PHASE_TAR_X, PHASE_DIST]
 
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild

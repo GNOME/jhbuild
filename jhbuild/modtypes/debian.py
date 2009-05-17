@@ -10,11 +10,11 @@ from jhbuild.utils import debian
 
 class DebianBasePackage:
 
-    STATE_TAR_X          = 'tar_x'
-    STATE_DEBIAN_DIR     = 'debian_dir'
-    STATE_BUILD_PACKAGE  = 'build_package'
-    STATE_DINSTALL       = 'dinstall'
-    STATE_UPGRADE        = 'upgrade'
+    PHASE_TAR_X          = 'tar_x'
+    PHASE_DEBIAN_DIR     = 'debian_dir'
+    PHASE_BUILD_PACKAGE  = 'build_package'
+    PHASE_DINSTALL       = 'dinstall'
+    PHASE_UPGRADE        = 'upgrade'
 
     def skip_deb_tar_x(self, buildscript, last_state):
         if os.path.exists(self.get_tarball_dir(buildscript)):
@@ -97,7 +97,7 @@ class DebianBasePackage:
 
         os.chmod(os.path.join(builddebdir, distdir, 'debian', 'rules'), 0755)
     do_deb_debian_dir.error_phases = []
-    do_deb_debian_dir.depends = [STATE_TAR_X]
+    do_deb_debian_dir.depends = [PHASE_TAR_X]
 
     def skip_deb_build_package(self, buildscript, last_state):
         builddebdir = self.get_builddebdir(buildscript)
@@ -147,8 +147,8 @@ class DebianBasePackage:
 
         buildscript.execute(['dpkg-buildpackage','-rfakeroot', '-us', '-uc', '-D'],
                 cwd = builddebdir)
-    do_deb_build_package.error_phases = [STATE_DEBIAN_DIR]
-    do_deb_build_package.depends = [STATE_DEBIAN_DIR]
+    do_deb_build_package.error_phases = [PHASE_DEBIAN_DIR]
+    do_deb_build_package.depends = [PHASE_DEBIAN_DIR]
 
     def get_changes_file(self, buildscript):
         debian_name = self.get_debian_name(buildscript)
