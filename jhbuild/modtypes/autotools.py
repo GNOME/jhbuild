@@ -340,7 +340,7 @@ class AutogenModule(Package, DebianBasePackage):
         except:
             pass
     do_deb_dist.error_phases = []
-    do_deb_dist.depends = [PHASE_CHECKOUT]
+    do_deb_dist.depends = [PHASE_BUILD]
 
     def get_distdir(self, buildscript):
         tarball_dir = self.get_tarball_dir(buildscript)
