@@ -155,7 +155,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
             expander.add(sclwin)
             self.terminal = vte.Terminal()
-            self.terminal.connect('eof', self.on_vte_eof_cb)
             self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
             sclwin.add(self.terminal)
 
@@ -391,10 +390,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
         if rc:
             raise CommandError(_('Command returned: %s' % rc))
-
-    def on_vte_eof_cb(self, terminal):
-        self.vte_fork_running = False
-        self.vte_child_exit_status = -1
 
     def on_vte_child_exit_cb(self, terminal):
         self.vte_fork_running = False
