@@ -79,3 +79,5 @@ def run(command, config, args):
 
 
 from jhbuild.commands import base
+from jhbuild.commands import debuild
+
