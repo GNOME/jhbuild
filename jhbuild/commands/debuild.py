@@ -187,7 +187,6 @@ def get_external_deps(gnome_version):
 
 def debuild_init(config, buildscript):
     # perform a deb build
-    config.debuild = True
     config.build_targets = ['deb_build_package']
 
     if type(config.moduleset) is list:
