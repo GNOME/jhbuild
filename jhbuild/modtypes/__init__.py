@@ -300,34 +300,6 @@ class Package:
             return True
         return False
 
-    def do_deb_start(self, buildscript):
-        buildscript.set_action('Starting building', self)
-        ext_dep = buildscript.config.external_dependencies.get(self.name)
-        if ext_dep:
-            available = self.get_available_debian_version(buildscript).split('-')[0]
-            if ':' in available: # remove epoch
-                available = available.split(':')[-1]
-
-            deb_available = [lax_int(x) for x in available.split('.')]
-            ext_minimum = [lax_int(x) for x in ext_dep.get('minimum').split('.')]
-            ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
-
-            if deb_available >= ext_recommended:
-                buildscript.message('external dependency, available')
-                if not buildscript.config.build_external_deps == 'always':
-                    raise SkipToEnd()
-
-            if deb_available >= ext_minimum:
-                buildscript.message(
-                        'external dependency, available (but recommended version is not)')
-                if not buildscript.config.build_external_deps in ('always', 'recommended'):
-                    raise SkipToEnd()
-            else:
-                buildscript.message('external dependency, no version high enough')
-                if buildscript.config.build_external_deps == 'never':
-                    raise SkipToEnd()
-    do_deb_start.error_phases = []
-
     def xml_tag_and_attrs(self):
         """Return a (tag, attrs) pair, describing how to serialize this
         module.
