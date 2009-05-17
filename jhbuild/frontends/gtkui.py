@@ -323,6 +323,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         if not command:
             raise CommandError(_('No command given'))
 
+        if isinstance(command, (str, unicode)):
+            short_command = command.split()[0]
+        else:
+            short_command = command[0]
+
         if vte is None:
             # no vte widget, will just print to the parent terminal
             kws = {
@@ -413,7 +418,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             rc = self.vte_child_exit_status
 
         if rc:
-            raise CommandError(_('Command returned: %s' % rc))
+            raise CommandError(_('%(command)s returned with an error code (%(rc)s)') % {
+                    'command': short_command, 'rc': rc})
 
     def on_vte_child_exit_cb(self, terminal):
         self.vte_fork_running = False
