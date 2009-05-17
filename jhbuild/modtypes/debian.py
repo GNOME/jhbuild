@@ -58,9 +58,6 @@ class DebianBasePackage:
                     raise SkipToEnd()
     do_deb_start.error_phases = []
 
-    def skip_deb_apt_get_update(self, buildscript, last_state):
-        return False
-
     def do_deb_apt_get_update(self, buildscript):
         if not buildscript.config.nonetwork:
             buildscript.set_action('Updating packages database for', self)
@@ -69,9 +66,6 @@ class DebianBasePackage:
             except CommandError:
                 pass
     do_deb_apt_get_update.error_phases = []
-
-    def skip_deb_build_deps(self, buildscript, last_state):
-        return False
 
     def do_deb_build_deps(self, buildscript):
         buildscript.set_action('Installing build deps for', self)
@@ -93,9 +87,6 @@ class DebianBasePackage:
         if os.path.exists(self.get_tarball_dir(buildscript)):
             buildscript.message('%s already has a tarball' % self.name)
             return True
-        return False
-
-    def skip_deb_debian_dir(self, buildscript, last_state):
         return False
 
     def do_deb_debian_dir(self, buildscript):
@@ -265,9 +256,6 @@ class DebianBasePackage:
         for f in files:
             os.unlink(f)
     do_deb_dinstall.error_phases = []
-
-    def skip_deb_upgrade(self, buildscript, last_state):
-        return False
 
     def do_deb_upgrade(self, buildscript):
         buildscript.set_action('Upgrading packages', self)

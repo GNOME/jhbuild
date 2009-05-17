@@ -88,9 +88,6 @@ class AutogenModule(Package, DebianBasePackage):
         self.checkout(buildscript)
     do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
-
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
@@ -354,9 +351,6 @@ class AutogenModule(Package, DebianBasePackage):
 
         return filename[:-7] # removing .tar.gz
 
-    def skip_deb_tar_x(self, buildscript, last_state):
-        return False
-
     def do_deb_tar_x(self, buildscript):
         buildscript.set_action('Extracting tarball of', self)
         distdir = self.get_distdir(buildscript)
@@ -381,15 +375,9 @@ class AutogenModule(Package, DebianBasePackage):
     do_deb_tar_x.error_phases = []
     do_deb_tar_x.depends = [DebianBasePackage.PHASE_DEB_DIST]
 
-    def skip_force_clean(self, buildscript, last_state):
-        return False
-
     def do_force_clean(self, buildscript):
         self.do_clean(buildscript)
     do_force_clean.error_phases = []
-
-    def skip_force_distclean(self, buildscript, last_state):
-        return False
 
     do_install.depends = [PHASE_BUILD]
 
