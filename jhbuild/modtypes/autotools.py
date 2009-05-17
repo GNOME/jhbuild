@@ -26,11 +26,14 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, register_module_type, SkipToState
+from jhbuild.modtypes.debian import DebianBasePackage
+
+from jhbuild.utils.cache import get_cached_value, write_cached_value
 
 __all__ = [ 'AutogenModule' ]
 
-class AutogenModule(Package):
+class AutogenModule(Package, DebianBasePackage):
     '''Base type for modules that are distributed with a Gnome style
     "autogen.sh" script and the GNU build tools.  Subclasses are
     responsible for downloading/updating the working copy.'''
@@ -92,6 +95,7 @@ class AutogenModule(Package):
         self.checkout(buildscript)
     do_checkout.next_state = STATE_CONFIGURE
     do_checkout.error_states = [STATE_FORCE_CHECKOUT]
+    do_deb_checkout = do_checkout
 
     def skip_force_checkout(self, buildscript, last_state):
         return False
@@ -124,6 +128,7 @@ class AutogenModule(Package):
         builddir = self.get_builddir(buildscript)
         return (os.path.exists(os.path.join(builddir, self.makefile)) and
                 not buildscript.config.alwaysautogen)
+    skip_deb_configure = skip_configure
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -198,6 +203,7 @@ class AutogenModule(Package):
     def skip_clean(self, buildscript, last_state):
         return (not buildscript.config.makeclean or
                 buildscript.config.nobuild)
+    skip_deb_clean = skip_clean
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
@@ -256,6 +262,16 @@ class AutogenModule(Package):
     do_dist.next_state = STATE_INSTALL
     do_dist.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
 
+    def do_deb_build_deps(self, buildscript):
+        return DebianBasePackage.do_deb_build_deps(self, buildscript)
+    do_deb_build_deps.next_state = STATE_CONFIGURE
+    do_deb_build_deps.error_states = []
+
+    def do_deb_build_package(self, buildscript):
+        DebianBasePackage.do_deb_build_package(self, buildscript)
+    do_deb_build_package.next_state = DebianBasePackage.STATE_DINSTALL
+    do_deb_build_package.error_states = [DebianBasePackage.STATE_TAR_X, STATE_DIST]
+
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
 
@@ -271,6 +287,135 @@ class AutogenModule(Package):
         buildscript.packagedb.add(self.name, self.get_revision() or '')
     do_install.next_state = Package.STATE_DONE
     do_install.error_states = []
+    
+    def get_version(self, buildscript):
+        version = get_cached_value('version-%s-%s' % (self.name, self.branch.revision_id))
+        if not version:
+            version = self.get_makefile_var(buildscript, 'VERSION')
+            if version:
+                write_cached_value('version-%s-%s' % (self.name, self.branch.revision_id), version)
+        return version
+
+    do_deb_clean = do_clean
+    do_deb_build = do_build
+    skip_deb_build = skip_build
+
+    skip_deb_check = skip_check
+    do_deb_check = do_check
+    
+    def do_deb_apt_get_update(self, buildscript):
+        Package.do_deb_apt_get_update(self, buildscript)
+    do_deb_apt_get_update.next_state = STATE_CHECKOUT
+    do_deb_apt_get_update.error_states = []
+
+    def do_deb_checkout(self, buildscript):
+        return self.do_checkout(buildscript)
+    do_deb_checkout.next_state = Package.STATE_BUILD_DEPS
+    do_deb_checkout.error_states = []
+
+    skip_deb_force_checkout = skip_force_checkout
+    do_deb_force_checkout = do_force_checkout
+
+    def get_tarball_dir(self, buildscript):
+        return os.path.join(buildscript.config.tarballs_dir, self.name, self.branch.revision_id)
+
+    do_deb_configure = do_configure
+
+    def skip_deb_clean(self, buildscript, last_state):
+        return False
+
+    do_deb_clean = do_clean
+    do_deb_build = do_build
+
+    def skip_deb_dist(self, buildscript, last_state):
+        return False
+
+    def get_debian_version(self, buildscript):
+        epoch = ''
+        try:
+            available_version = self.get_available_debian_version(buildscript)
+            if available_version and ':' in available_version:
+                epoch = available_version.split(':')[0] + ':'
+        except KeyError:
+            pass
+        version = self.get_version(buildscript)
+        return '%s%s.%s.%s-0' % (epoch, version, self.branch.repository.code, self.branch.revision_id)
+
+
+
+    def do_deb_dist(self, buildscript):
+        buildscript.set_action('Creating tarball', self)
+        cmd = '%s %s dist-gzip' % (os.environ.get('MAKE', 'make'), self.makeargs)
+        try:
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        except CommandError:
+            raise BuildStateError('Failed to make dist')
+        builddir = self.get_builddir(buildscript)
+        version = self.get_version(buildscript)
+        if not version:
+            raise BuildStateError('Unable to get version number for %s' % self.name)
+
+        for v in ('PACKAGE_TARNAME', 'PACKAGE_NAME', 'PACKAGE'):
+            package_name = self.get_makefile_var(buildscript, v)
+            if package_name and package_name.strip():
+                break
+        else:
+            raise BuildStateError('failed to get package tarball name')
+
+        tarball_filename = '%s-%s.tar.gz' % (package_name, version)
+        tarball = os.path.join(builddir, tarball_filename)
+
+        tarball_dir = self.get_tarball_dir(buildscript)
+        if not os.path.exists(tarball_dir):
+            os.makedirs(tarball_dir)
+        buildscript.execute(['cp', tarball, tarball_dir])
+
+        try:
+            debian_version = self.get_debian_version(self, buildscript)
+            available_version = self.get_available_debian_version(buildscript)
+            if debian_version == available_version:
+                buildscript.message('Available Debian package is already this version')
+                raise SkipToState(self.STATE_DONE)
+        except:
+            pass
+    do_deb_dist.next_state = DebianBasePackage.STATE_TAR_X
+    do_deb_dist.error_states = []
+
+    def get_distdir(self, buildscript):
+        tarball_dir = self.get_tarball_dir(buildscript)
+        try:
+            filename = os.listdir(tarball_dir)[0]
+        except IndexError:
+            raise BuildStateError('failed to get tarball')
+
+        return filename[:-7] # removing .tar.gz
+
+    def skip_deb_tar_x(self, buildscript, last_state):
+        return False
+
+    def do_deb_tar_x(self, buildscript):
+        buildscript.set_action('Extracting tarball of', self)
+        distdir = self.get_distdir(buildscript)
+        v = distdir.rsplit('-')[-1]
+        v = '%s.%s.%s' % (v, self.branch.repository.code, self.branch.revision_id)
+        debian_name = self.get_debian_name(buildscript)
+        orig_filename = '%s_%s.orig.tar.gz' % (debian_name, v)
+
+        tarball_dir = self.get_tarball_dir(buildscript)
+        builddebdir = self.get_builddebdir(buildscript)
+        if not os.path.exists(builddebdir):
+            os.makedirs(builddebdir)
+        if os.path.exists(os.path.join(builddebdir, orig_filename)):
+            os.unlink(os.path.join(builddebdir, orig_filename))
+        os.symlink(os.path.join(tarball_dir, distdir + '.tar.gz'),
+                os.path.join(builddebdir, orig_filename))
+
+        if os.path.exists(os.path.join(builddebdir, distdir)):
+            buildscript.execute(['rm', '-rf', distdir], cwd = builddebdir)
+
+        buildscript.execute(['tar', 'xzf', orig_filename], cwd = builddebdir)
+    do_deb_tar_x.next_state = DebianBasePackage.STATE_DEBIAN_DIR
+    do_deb_tar_x.error_states = []
 
     def skip_force_clean(self, buildscript, last_state):
         return False
