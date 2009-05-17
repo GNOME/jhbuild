@@ -101,6 +101,7 @@ class DebianBasePackage:
 
         os.chmod(os.path.join(builddebdir, distdir, 'debian', 'rules'), 0755)
     do_deb_debian_dir.error_phases = []
+    do_deb_debian_dir.depends = [STATE_TAR_X]
 
     def skip_deb_build_package(self, buildscript, next_state):
         builddebdir = self.get_builddebdir(buildscript)
@@ -151,6 +152,7 @@ class DebianBasePackage:
         buildscript.execute(['dpkg-buildpackage','-rfakeroot', '-us', '-uc', '-D'],
                 cwd = builddebdir)
     do_deb_build_package.error_phases = [STATE_DEBIAN_DIR]
+    do_deb_build_package.depends = [STATE_DEBIAN_DIR]
 
     def get_changes_file(self, buildscript):
         debian_name = self.get_debian_name(buildscript)
