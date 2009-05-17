@@ -133,8 +133,8 @@ def get_branch(node, repositories, default_repo, config):
 class Package:
     type = 'base'
     PHASE_START = 'start'
-    PHASE_APT_GET_UPDATE = 'apt_get_update'
-    PHASE_BUILD_DEPS     = 'build_deps'
+    PHASE_APT_GET_UPDATE = 'deb_apt_get_update'
+    PHASE_BUILD_DEPS     = 'deb_build_deps'
     PHASE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name

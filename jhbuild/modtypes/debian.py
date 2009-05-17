@@ -10,11 +10,11 @@ from jhbuild.utils import debian
 
 class DebianBasePackage:
 
-    PHASE_TAR_X          = 'tar_x'
-    PHASE_DEBIAN_DIR     = 'debian_dir'
-    PHASE_BUILD_PACKAGE  = 'build_package'
-    PHASE_DINSTALL       = 'dinstall'
-    PHASE_UPGRADE        = 'upgrade'
+    PHASE_TAR_X          = 'deb_tar_x'
+    PHASE_DEBIAN_DIR     = 'deb_debian_dir'
+    PHASE_BUILD_PACKAGE  = 'deb_build_package'
+    PHASE_DINSTALL       = 'deb_dinstall'
+    PHASE_UPGRADE        = 'deb_upgrade'
 
     def skip_deb_tar_x(self, buildscript, last_state):
         if os.path.exists(self.get_tarball_dir(buildscript)):
