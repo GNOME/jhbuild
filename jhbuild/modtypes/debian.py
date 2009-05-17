@@ -9,13 +9,45 @@ from jhbuild.modtypes import Package
 from jhbuild.utils import debian
 
 class DebianBasePackage:
-
+    PHASE_APT_GET_UPDATE = 'deb_apt_get_update'
+    PHASE_BUILD_DEPS     = 'deb_build_deps'
     PHASE_DEB_DIST       = 'deb_dist'
     PHASE_TAR_X          = 'deb_tar_x'
     PHASE_DEBIAN_DIR     = 'deb_debian_dir'
     PHASE_BUILD_PACKAGE  = 'deb_build_package'
     PHASE_DINSTALL       = 'deb_dinstall'
     PHASE_UPGRADE        = 'deb_upgrade'
+
+    def skip_deb_apt_get_update(self, buildscript, last_state):
+        return False
+
+    def do_deb_apt_get_update(self, buildscript):
+        if not buildscript.config.nonetwork:
+            buildscript.set_action('Updating packages database for', self)
+            try:
+                buildscript.execute(['sudo', 'apt-get', 'update'])
+            except CommandError:
+                pass
+    do_deb_apt_get_update.error_phases = []
+
+    def skip_deb_build_deps(self, buildscript, last_state):
+        return False
+
+    def do_deb_build_deps(self, buildscript):
+        buildscript.set_action('Installing build deps for', self)
+        debian_name = self.get_debian_name(buildscript)
+        v = None
+        try:
+            v = self.get_available_debian_version(buildscript)
+        except KeyError:
+            pass
+        if v:
+            try:
+                buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
+            except CommandError:
+                raise BuildStateError('Failed to install build deps')
+    do_deb_build_deps.error_phases = []
+    do_deb_build_deps.depends = [PHASE_APT_GET_UPDATE]
 
     def skip_deb_tar_x(self, buildscript, last_state):
         if os.path.exists(self.get_tarball_dir(buildscript)):

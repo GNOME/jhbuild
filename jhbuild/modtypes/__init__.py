@@ -133,8 +133,6 @@ def get_branch(node, repositories, default_repo, config):
 class Package:
     type = 'base'
     PHASE_START = 'start'
-    PHASE_APT_GET_UPDATE = 'deb_apt_get_update'
-    PHASE_BUILD_DEPS     = 'deb_build_deps'
     PHASE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name
@@ -330,36 +328,6 @@ class Package:
                     raise SkipToEnd()
     do_deb_start.error_phases = []
 
-    def skip_deb_apt_get_update(self, buildscript, last_state):
-        return False
-
-    def do_deb_apt_get_update(self, buildscript):
-        if not buildscript.config.nonetwork:
-            buildscript.set_action('Updating packages database for', self)
-            try:
-                buildscript.execute(['sudo', 'apt-get', 'update'])
-            except CommandError:
-                pass
-    do_deb_apt_get_update.error_phases = []
-
-    def skip_deb_build_deps(self, buildscript, last_state):
-        return False
-
-    def do_deb_build_deps(self, buildscript):
-        buildscript.set_action('Installing build deps for', self)
-        debian_name = self.get_debian_name(buildscript)
-        v = None
-        try:
-            v = self.get_available_debian_version(buildscript)
-        except KeyError:
-            pass
-        if v:
-            try:
-                buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
-            except CommandError:
-                raise BuildStateError('Failed to install build deps')
-    do_deb_build_deps.error_phases = []
-
     def xml_tag_and_attrs(self):
         """Return a (tag, attrs) pair, describing how to serialize this
         module.
@@ -412,11 +380,6 @@ class MetaModule(Package):
         return [sxml.metamodule(id=self.name),
                 [sxml.dependencies]
                 + [[sxml.dep(package=d)] for d in self.dependencies]]
-
-
-    def do_deb_start(self, buildscript):
-        pass
-    do_deb_start.error_phases = []
 
 
 def parse_metamodule(node, config, url, repos, default_repo):

@@ -97,39 +97,6 @@ class DistutilsModule(Package):
                              ('supports-non-srcdir-builds',
                               'supports_non_srcdir_builds', True)]
 
-    def do_deb_start(self, buildscript):
-        buildscript.set_action('Starting building', self)
-        buildscript.execute(['sudo', 'apt-get', 'update'])
-        ext_dep = buildscript.config.external_dependencies.get(self.name)
-        if not ext_dep:
-            raise BuildStateError('No external dep for %s' % self.name)
-
-        #print buildscript.config.external_dependencies
-
-        available = self.get_available_debian_version(buildscript).split('-')[0]
-        if ':' in available: # remove epoch
-            available = available.split(':')[-1]
-
-        def lax_int(s):
-            try:
-                return int(s)
-            except ValueError:
-                return -1
-
-        deb_available = [lax_int(x) for x in available.split('.')]
-        ext_minimum = [lax_int(x) for x in ext_dep.get('minimum').split('.')]
-        ext_recommended = [lax_int(x) for x in ext_dep.get('recommended').split('.')]
-
-        if deb_available >= ext_recommended:
-            return (self.PHASE_DONE, None, None)
-
-        if deb_available >= ext_minimum:
-            # XXX: warn it would be better to have a newer version
-            return (self.PHASE_DONE, None, None)
-
-        return (self.PHASE_DOWNLOAD, None, None)
-
-    
     def do_deb_build(self, buildscript):
         # gets a debian/ directory
         builddir = self.get_builddir(buildscript)

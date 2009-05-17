@@ -252,10 +252,6 @@ class AutogenModule(Package, DebianBasePackage):
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
-    def do_deb_build_deps(self, buildscript):
-        return DebianBasePackage.do_deb_build_deps(self, buildscript)
-    do_deb_build_deps.error_phases = []
-
     def skip_install(self, buildscript, last_state):
         return buildscript.config.nobuild
 
@@ -286,10 +282,6 @@ class AutogenModule(Package, DebianBasePackage):
             if version:
                 write_cached_value('version-%s-%s' % (self.name, self.branch.revision_id), version)
         return version
-
-    def do_deb_apt_get_update(self, buildscript):
-        Package.do_deb_apt_get_update(self, buildscript)
-    do_deb_apt_get_update.error_phases = []
 
     def get_tarball_dir(self, buildscript):
         return os.path.join(buildscript.config.tarballs_dir, self.name, self.branch.revision_id)
