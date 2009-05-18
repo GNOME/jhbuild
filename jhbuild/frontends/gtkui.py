@@ -322,17 +322,31 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         for altstate in altstates:
             self.error_resolution_model.append(
                     (_('Go to stage %s') % altstate, altstate))
+        self.error_resolution_model.append(('', ''))
+        self.error_resolution_model.append(
+                (_('Open Terminal'), 'shell'))
 
         self.error_combo.set_active_iter(iter)
         self.error_hbox.set_sensitive(True)
         self.error_hbox.show_all()
         self.error_resolution = None
-        while not self.error_resolution:
+
+        while True:
             while gtk.events_pending():
                 gtk.main_iteration()
-        # keep the error hox visible during all of this module duration
-        self.error_hbox.set_sensitive(False)
-        return self.error_resolution
+            if not self.error_resolution:
+                continue
+            if self.error_resolution == 'shell':
+                # set back combobox to "Pick an action"
+                self.error_combo.set_active_iter(iter)
+                if os.fork() == 0:
+                    cmd = ['gnome-terminal', '--working-directory', module.get_builddir(self)]
+                    os.execvp('gnome-terminal', cmd)
+                    sys.exit(0)
+                continue
+            # keep the error hox visible during all of this module duration
+            self.error_hbox.set_sensitive(False)
+            return self.error_resolution
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         if not command:
