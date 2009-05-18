@@ -251,7 +251,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def handle_error(self, module, state, nextstate, error, altstates):
         '''handle error during build'''
-        summary = _('error during stage %(stage)s of %(module)s') % {
+        summary = _('Error during stage %(stage)s of %(module)s') % {
             'stage':state, 'module':module.name}
         try:
             error_message = error.args[0]
@@ -279,14 +279,14 @@ class TerminalBuildScript(buildscript.BuildScript):
             return 'fail'
         while True:
             print
-            uprint(_('  [1] rerun stage %s') % state)
-            uprint(_('  [2] ignore error and continue to %s') % nextstate)
-            uprint(_('  [3] give up on module'))
-            uprint(_('  [4] start shell'))
-            uprint(_('  [5] reload configuration'))
+            uprint('  [1] %s' % _('Rerun stage %s') % state)
+            uprint('  [2] %s' % _('Ignore error and continue to %s') % nextstate)
+            uprint('  [3] %s' % _('Give up on module'))
+            uprint('  [4] %s' % _('Start shell'))
+            uprint('  [5] %s' % _('Reload configuration'))
             nb_options = i = 6
             for altstate in altstates:
-                uprint(_('  [%d] go to stage %s') % (i, altstate))
+                uprint('  [%d] %s' % (i, _('Go to stage %s') % altstate))
                 i = i + 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()

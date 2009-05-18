@@ -296,7 +296,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         pass
 
     def handle_error(self, module, state, nextstate, error, altstates):
-        summary = _('error during stage %(stage)s of %(module)s') % {
+        summary = _('Error during stage %(stage)s of %(module)s') % {
             'stage':state, 'module':module.name}
         try:
             error_message = error.args[0]
