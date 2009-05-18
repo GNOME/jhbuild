@@ -108,7 +108,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         for row in self.modules_list_model:
             row_value = self.modules_list_model.get(row.iter, 0)[0]
             if row_value == module:
-                modules_list_model.set_value(row.iter, 2, startat)
+                self.modules_list_model.set_value(row.iter, 2, startat)
                 return row.iter
 
         # add selected module in the list
