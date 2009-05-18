@@ -97,25 +97,6 @@ class DistutilsModule(Package):
                              ('supports-non-srcdir-builds',
                               'supports_non_srcdir_builds', True)]
 
-    def do_deb_build(self, buildscript):
-        # gets a debian/ directory
-        builddir = self.get_builddir(buildscript)
-        if buildscript.config.buildroot and not os.path.exists(builddir):
-            os.makedirs(builddir)
-
-        if not os.path.exists(os.path.join(builddir, 'debian')):
-            self.create_a_debian_dir(buildscript)
-
-        try:
-            buildscript.execute('dpkg-checkbuilddeps', cwd = builddir)
-        except:
-            debian_name = self.get_debian_name(buildscript)
-            buildscript.execute(['sudo', 'apt-get', '--yes', 'build-dep', debian_name])
-
-        self.deb_version = '%s-0' % self.get_revision()
-
-        return Package.do_deb_build(self, buildscript)
-
 
 def parse_distutils(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
