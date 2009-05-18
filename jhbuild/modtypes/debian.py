@@ -5,7 +5,7 @@ import apt_pkg
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 
-from jhbuild.modtypes import Package
+from jhbuild.modtypes import Package, get_dependencies, get_branch, register_module_type
 from jhbuild.utils import debian
 
 try:
@@ -308,6 +308,13 @@ class DebianBasePackage:
                 return pkg.CurrentVer.VerStr
         return None
 
+    def get_changelog(self, buildscript):
+        from debian_bundle.changelog import Changelog
+        c = Changelog()
+        path = os.path.join(self.get_srcdir(buildscript), 'debian', 'changelog')
+        c.parse_changelog(open(path).read())
+        return c
+
     def create_a_debian_dir(self, buildscript):
         buildscript.set_action('Getting a debian/ directory for', self)
         builddir = self.get_builddir(buildscript)
@@ -341,4 +348,60 @@ class DebianBasePackage:
             return v[0]
         else:
             return None
+
+
+class DebianPackage(Package, DebianBasePackage):
+
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_BUILD = 'build'
+    PHASE_INSTALL = 'install'
+
+    def __init__(self, id, branch, dependencies, after, suggests):
+        Package.__init__(self, id, dependencies, after, suggests)
+        self.branch = branch
+
+    #FIXME: These are candidates for moving into Package (or at least for sharing
+    # between modtypes)
+    def get_srcdir(self, buildscript):
+        return self.branch.srcdir
+
+    def get_builddir(self, buildscript):
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
+            d = buildscript.config.builddir_pattern % (
+                os.path.basename(self.get_srcdir(buildscript)))
+            return os.path.join(buildscript.config.buildroot, d)
+        else:
+            return self.get_srcdir(buildscript)
+    #END FIXME
+
+    def get_version(self, buildscript):
+        c = self.get_changelog(buildscript)
+        return c.upstream_version
+
+    def get_debian_version(self, buildscript):
+        c = self.get_changelog(buildscript)
+        return c.version.full_version
+
+    def do_checkout(self, buildscript):
+        self.checkout(buildscript)
+    do_checkout.error_phases = []
+
+    def do_build(self, buildscript):
+        self.do_deb_build_package(buildscript)
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phases = []
+
+    def do_install(self, buildscript):
+        """ FIXME: Run a dinstall """
+        pass
+    do_install.depends = [PHASE_BUILD]
+
+
+def parse_debian(node, config, uri, repositories, default_repo):
+    id = node.getAttribute('id')
+    dependencies, after, suggests = get_dependencies(node)
+    branch = get_branch(node, repositories, default_repo, config)
+    return DebianPackage(id, branch, dependencies, after, suggests)
+
+register_module_type('debian', parse_debian)
 
