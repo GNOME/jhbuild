@@ -104,11 +104,13 @@ class BuildScript:
                 continue
 
             if not phases:
-                phases = self.get_build_phases(module)
+                build_phases = self.get_build_phases(module)
+            else:
+                build_phases = phases
             phase = None
             num_phase = 0
-            while num_phase < len(phases):
-                last_phase, phase = phase, phases[num_phase]
+            while num_phase < len(build_phases):
+                last_phase, phase = phase, build_phases[num_phase]
                 try:
                     if module.skip_phase(self, phase, last_phase):
                         num_phase += 1
@@ -122,7 +124,7 @@ class BuildScript:
                     error, altphases = module.run_phase(self, phase)
                 except SkipToPhase, e:
                     try:
-                        num_phase = phases.index(e.phase)
+                        num_phase = build_phases.index(e.phase)
                     except ValueError:
                         break
                     continue
@@ -133,7 +135,7 @@ class BuildScript:
 
                 if error:
                     try:
-                        nextphase = phases[num_phase+1]
+                        nextphase = build_phases[num_phase+1]
                     except IndexError:
                         nextphase = None
                     newphase = self.handle_error(module, phase,
@@ -145,8 +147,8 @@ class BuildScript:
                         break
                     if newphase is None:
                         break
-                    if newphase in phases:
-                        num_phase = phases.index(newphase)
+                    if newphase in build_phases:
+                        num_phase = build_phases.index(newphase)
                     else:
                         # requested phase is not part of the plan, we insert
                         # it, then fill with necessary phases to get back to
@@ -161,12 +163,12 @@ class BuildScript:
                         if canonical_new_phase in filling_phases:
                             filling_phases = filling_phases[
                                     filling_phases.index(canonical_new_phase)+1:-1]
-                        phases[num_phase:num_phase] = [newphase] + filling_phases
+                        build_phases[num_phase:num_phase] = [newphase] + filling_phases
 
-                        if phases[num_phase+1] == canonical_new_phase:
+                        if build_phases[num_phase+1] == canonical_new_phase:
                             # remove next phase if it would just be a repeat of
                             # the inserted one
-                            del phases[num_phase+1]
+                            del build_phases[num_phase+1]
                 else:
                     num_phase += 1
 
