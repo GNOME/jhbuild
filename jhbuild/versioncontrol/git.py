@@ -296,7 +296,7 @@ class GitBranch(Branch):
             return None
         try:
             output = get_output(['git', 'rev-parse', 'HEAD'],
-                    cwd = self.get_checkoutdir())
+                    cwd = self.get_checkoutdir(), get_stderr=False)
         except CommandError:
             return None
         except GitUnknownBranchNameError:
