@@ -171,7 +171,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buttonbox.set_layout(gtk.BUTTONBOX_END)
         app_vbox.pack_start(buttonbox, fill=False, expand=False)
 
-        self.build_button = gtk.Button(_('Build'))
+        self.build_button = gtk.Button(_('Start'))
         self.build_button.connect('clicked', self.on_build_cb)
         buttonbox.add(self.build_button)
 
