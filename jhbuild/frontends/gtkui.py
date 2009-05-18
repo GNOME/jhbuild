@@ -440,7 +440,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
             self.vte_fork_running = True
             self.child_pid = self.terminal.fork_command(command=command[0], argv=command,
-                    envv=env.items(), directory=cwd)
+                    envv=['%s=%s' % x for x in env.items()], directory=cwd)
             while self.vte_fork_running:
                 gtk.main_iteration()
             self.child_pid = None
