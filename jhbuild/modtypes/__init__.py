@@ -116,16 +116,31 @@ def get_branch(node, repositories, default_repo, config):
 
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
+def get_ldtp_helper(node):
+    app = node.getAttribute("id")
+
+    for child in node.childNodes:
+        if child.nodeType == child.ELEMENT_NODE and child.nodeName == 'ldtp':
+            break
+    else:
+        return None
+
+    if child.hasAttribute("application"):
+        app = ldtpnode.getAttribute("application")
+
+    return LDTPHelper(app)
+
 
 class Package:
     type = 'base'
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
-    def __init__(self, name, dependencies = [], after = [], suggests = []):
+    def __init__(self, name, dependencies = [], after = [], suggests = [], ldtp=None):
         self.name = name
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
+        self.ldtp = ldtp
         self.tags = []
         self.moduleset_name = None
 
@@ -211,6 +226,10 @@ class Package:
             return True
         return False
 
+    def do_ldtp_test(self, buildscript):
+        buildscript.set_action(_('Running %s UI tests') % self.name)
+        self.ldtp.execute(buildscript)
+
     def xml_tag_and_attrs(self):
         """Return a (tag, attrs) pair, describing how to serialize this
         module.
@@ -268,7 +287,8 @@ class MetaModule(Package):
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
     dependencies, after, suggests = get_dependencies(node)
-    return MetaModule(id, dependencies=dependencies, after=after, suggests=suggests)
+    ldtp = get_ltp_helper(node)
+    return MetaModule(id, dependencies=dependencies, after=after, suggests=suggests, ldtp=ldtp)
 register_module_type('metamodule', parse_metamodule)
 
 

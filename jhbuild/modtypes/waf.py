@@ -26,7 +26,8 @@ import re
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, register_module_type, \
+     get_ldtp_helper
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'WafModule' ]
@@ -45,8 +46,8 @@ class WafModule(Package):
     PHASE_INSTALL        = 'install'
 
     def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
-                 waf_cmd='waf'):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 waf_cmd='waf', ldtp=None):
+        Package.__init__(self, name, dependencies, after, suggests, ldtp)
         self.branch = branch
         self.waf_cmd = waf_cmd
 
@@ -165,8 +166,9 @@ def parse_waf(node, config, uri, repositories, default_repo):
     # override revision tag if requested.
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
+    ldtp = get_ldtp_helper(node)
 
     return WafModule(module_id, branch, dependencies=dependencies, after=after,
-            suggests=suggests, waf_cmd=waf_cmd)
+            suggests=suggests, waf_cmd=waf_cmd, ldtp=ldtp)
 
 register_module_type('waf', parse_waf)

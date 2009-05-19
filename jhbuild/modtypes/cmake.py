@@ -23,7 +23,7 @@ import os
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, get_ldtp_helper, register_module_type
 
 __all__ = [ 'CMakeModule' ]
 
@@ -38,8 +38,8 @@ class CMakeModule(Package):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+    def __init__(self, name, branch, dependencies=[], after=[], suggests=[], ldtp=None):
+        Package.__init__(self, name, dependencies, after, suggests, ldtp)
         self.branch = branch
 
     def get_srcdir(self, buildscript):
@@ -113,9 +113,10 @@ def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
+    ldtp = get_ldtp_helper(node)
 
     return CMakeModule(id, branch, dependencies = dependencies, after = after,
-            suggests = suggests)
+            suggests = suggests, ldtp = ldtp)
 
 register_module_type('cmake', parse_cmake)
 

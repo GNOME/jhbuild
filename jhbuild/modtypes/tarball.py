@@ -22,7 +22,7 @@ __metaclass__ = type
 import sys
 import logging
 
-from jhbuild.modtypes import register_module_type, get_dependencies
+from jhbuild.modtypes import register_module_type, get_dependencies, get_ldtp_helper
 
 def parse_tarball(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
@@ -79,6 +79,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
 
     dependencies, after, suggests = get_dependencies(node)
+    ldtp = get_ldtp_helper(node)
 
     from autotools import AutogenModule
     from jhbuild.versioncontrol.tarball import TarballBranch, TarballRepository
@@ -96,6 +97,6 @@ def parse_tarball(node, config, uri, repositories, default_repo):
             dependencies, after, suggests,
             supports_non_srcdir_builds = supports_non_srcdir_builds,
             skip_autogen = False, autogen_sh = 'configure',
-            makefile = makefile)
+            makefile = makefile, ldtp=ldtp)
 
 register_module_type('tarball', parse_tarball)

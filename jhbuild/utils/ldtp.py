@@ -42,17 +42,4 @@ class LDTPHelper(object):
         buildscript.execute(testargs)
 
 
-def get_ldtp_helper(node):
-    app = node.getAttribute("id")
-
-    for child in node.childNodes:
-        if child.nodeType == child.ELEMENT_NODE and child.nodeName == 'ldtp':
-            break
-    else:
-        return None
-
-    if child.hasAttribute("application"):
-        app = ldtpnode.getAttribute("application")
-
-    return LDTPHelper(app)
 

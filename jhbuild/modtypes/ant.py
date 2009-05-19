@@ -24,7 +24,7 @@ import os
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, get_ldtp_helper, register_module_type
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'AntModule' ]
@@ -40,8 +40,8 @@ class AntModule(Package):
 
     def __init__(self, name, branch,
                  dependencies=[], after=[],
-                 supports_non_srcdir_builds=False):
-        Package.__init__(self, name, dependencies, after)
+                 supports_non_srcdir_builds=False, ldtp=None):
+        Package.__init__(self, name, dependencies, after, ldtp)
         self.branch = branch
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
 
@@ -109,9 +109,11 @@ def parse_ant(node, config, uri, repositories, default_repo):
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo)
+    ldtp = get_ldtp_helper(node)
 
     return AntModule(id, branch,
                            dependencies=dependencies, after=after,
-                           supports_non_srcdir_builds=supports_non_srcdir_builds)
+                           supports_non_srcdir_builds=supports_non_srcdir_builds,
+                           ldtp=ldtp)
 
 register_module_type('ant', parse_ant)

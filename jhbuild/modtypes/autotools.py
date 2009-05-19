@@ -26,7 +26,7 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, get_dependencies, get_branch, get_ldtp_helper, register_module_type
 
 __all__ = [ 'AutogenModule' ]
 
@@ -54,8 +54,8 @@ class AutogenModule(Package):
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
-                 check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 check_target=True, ldtp=None):
+        Package.__init__(self, name, dependencies, after, suggests, ldtp)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -367,6 +367,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
 
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
+    ldtp = get_ldtp_helper(node)
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          makeinstallargs=makeinstallargs,
@@ -378,6 +379,6 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          autogen_sh=autogen_sh,
                          makefile=makefile,
                          autogen_template=autogen_template,
-                         check_target=check_target)
+                         check_target=check_target, ldtp=ldtp)
 register_module_type('autotools', parse_autotools)
 
