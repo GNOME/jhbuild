@@ -20,20 +20,36 @@
 #  Authors:
 #    John Carr <john.carr@unrouted.co.uk>
 
-__all__ = [
-    'get_ldtp_helper',
-]
+# The LDTP and Dogtail helpers are inspired by the work done in GSOC on
+# testmodule.py by Prashanth Mohan.
+
+class TestingHelper(object):
+
+    def execute(self, buildscript):
+        if not buildscript.config.noxvfb:
+            x = XvfbWrapper(buildscript.config.xvfbargs)
+            x.execute(self._execute, buildscript)
+        else:
+            self._execute(buildscript)
 
 
-class LDTPHelper(object):
+class GDTHelper(TestingHelper):
     """
     Helper object for running gnome-destop-testing tests
+
+    gnome-desktop-testing is different to LDTP and dogtail in that we can
+    do 'desktop-testing -a gedit' to run just the gedit tests. And because
+    the tests are installable, we can easily add additional tests seperately
+    to the g-d-t repository.
+
+    Eventually we might be able to move the tests to the applications
+    themselves and even go as far as distros packaging them.
     """
 
     def __init__(self, application=None):
         self.application = application
 
-    def execute(self, buildscript):
+    def _execute(self, buildscript):
         testargs = ['desktop-testing']
 
         if self.application:
@@ -41,5 +57,47 @@ class LDTPHelper(object):
 
         buildscript.execute(testargs)
 
+
+class LDTPHelper(TestingHelper):
+    """
+    Helper object for running ldtprunner
+
+    For running ldtp tests we expect a directory of tests with a run.xml
+    specifying which tests to run. They are executed with ldtprunner.
+    """
+
+    def __init__(self, directory):
+        self.directory = directory
+
+    def _start_ldtp(self):
+        ldtp = subprocess.Popen('ldtp', shell=False)
+        time.sleep(1)
+        if ldtp.poll() != None:
+            raise FatalError(_("Unable to start ldtp"))
+        return ldtp
+
+    def _execute(self, buildscript):
+        ldtp = self._start_ldtp()
+        try:
+            buildscript.execute("ldtprunner run.xml", cwd=self.directory)
+        finally:
+            os.kill(ldtp.pid, signal.SIGINT)
+
+
+class DogtailHelper(TestingHelper):
+    """
+    Helper object for running dogtail tests
+
+    For dogtail, we expect a directory of tests as .py files. We run them
+    directly with python.
+    """
+
+    def __init__(self, directory):
+        self.directory = directory
+
+    def _execute(self, buildscript):
+        testcases = [f for f in os.listdir(self.directory) if f.endswith('.py')]
+        for testcase in testcases:
+            buildscript.execute('python %s' % testcase, cwd=self.directory)
 
 

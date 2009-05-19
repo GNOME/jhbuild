@@ -23,15 +23,16 @@ __all__ = [
     'register_module_type',
     'parse_xml_node',
     'Package',
-    'get_dependencies'
-    'get_branch'
+    'get_dependencies',
+    'get_branch',
+    'get_ldtp_helper',
     ]
 
 import os
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils.ldtp import LDTPHelper
+from jhbuild.utils.ldtp import GDTHelper
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -129,7 +130,7 @@ def get_ldtp_helper(node):
     if child.hasAttribute("application"):
         app = ldtpnode.getAttribute("application")
 
-    return LDTPHelper(app)
+    return GDTHelper(app)
 
 
 class Package:
