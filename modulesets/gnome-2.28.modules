@@ -1962,8 +1962,15 @@
   </autotools>
 
   <autotools id="ldtp">
-    <branch repo="ldtp.freedesktop.org" module="ldtp"/>
+    <branch repo="ldtp.freedesktop.org" module="ldtp" />
   </autotools>
+
+  <distutils id="gnome-desktop-testing">
+    <branch />
+    <dependencies>
+      <dep package="ldtp" />
+    </dependencies>
+  </distutils>
 
   <distutils id="postr" autogen-sh="autoreconf">
     <branch repo="bzr.burtonini.com" module="postr/postr.stable" checkoutdir="postr"/>
