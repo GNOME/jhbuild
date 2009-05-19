@@ -96,8 +96,8 @@ class XvfbWrapper(object):
         old_xauth = os.environ.get('XAUTHORITY')
 
         try:
-            method(*args, **kwargs)
             self._start()
+            method(*args, **kwargs)
         finally:
             self._stop()
             if old_xauth:
