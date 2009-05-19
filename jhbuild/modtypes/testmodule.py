@@ -25,6 +25,7 @@ from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import \
      Package, get_dependencies, get_branch, register_module_type
 from jhbuild.modtypes.autotools import AutogenModule
+from jhbuild.utils.xvfb import XvfbWrapper
 
 import xml.dom.minidom
 
@@ -67,64 +68,14 @@ class TestModule(Package):
         self.branch.force_checkout(buildscript)
     do_force_checkout.error_phases = [STATE_FORCE_CHECKOUT]
 
-    def _get_display(self):
-        # get free display
-        servernum = 99
-        while True:
-            if not os.path.exists('/tmp/.X%s-lock' % servernum):
-                break
-            servernum += 1
-        return str(servernum)
-
-    def _set_xauth(self, servernum):
-        # create auth file
-        paths = os.environ.get('PATH').split(':')
-        flag = False
-        for path in paths:
-            if os.path.exists(os.path.join(path, 'xauth')):
-                flag = True
-                break
-        tmpdir = tempfile.gettempdir()
-        if not flag or os.path.exists(os.path.join(tmpdir,'jhbuild.%s' % os.getpid())):
-            return ''
-
-        try:
-            os.mkdir(os.path.join(tmpdir,'jhbuild.%s' % os.getpid()))
-            new_xauth = os.path.join(tmpdir, 'jhbuild.%s' % os.getpid(),'Xauthority')
-            open(new_xauth, 'w').close()
-            hexdigest = md5.md5(str(random.random())).hexdigest()
-            os.system('xauth -f "%s" add ":%s" "." "%s"' % (
-                        new_xauth, servernum, hexdigest))
-        except OSError:
-            return ''
-        return new_xauth
-    
     def do_test(self, buildscript):
         buildscript.set_action('Testing', self)
-        if not buildscript.config.noxvfb:
-            # start Xvfb
-            old_display = os.environ.get('DISPLAY')
-            old_xauth   = os.environ.get('XAUTHORITY')
-            xvfb_pid = self._start_xvfb(buildscript.config.xvfbargs)
-            if xvfb_pid == -1:
-                raise BuildStateError('Unable to start Xvfb')
-
-        # either do_ldtp_test or do_dogtail_test
         method = getattr(self, 'do_' + self.test_type + '_test')
-        try:
+        if not buildscript.config.noxvfb:
+            x = XvfbWrapper(buildscript.config.xvfbargs)
+            x.execute(method, buildscript)
+        else:
             method(buildscript)
-        finally:
-            if not buildscript.config.noxvfb:
-                # kill Xvfb if it has been started
-                self._stop_xvfb(xvfb_pid)
-                if old_display:
-                    os.environ['DISPLAY'] = old_display
-                else:
-                    os.unsetenv('DISPLAY')
-                if old_xauth:
-                    os.environ['XAUTHORITY'] = old_xauth
-                else:
-                    os.unsetenv('XAUTHORITY')
     do_test.depends = [STATE_CHECKOUT]
 
     def get_ldtp_log_file(self, filename):
@@ -234,32 +185,6 @@ class TestModule(Package):
         if status[0] != status[-1]:
             return True
         return False
-
-    def _start_xvfb(self, xvfbargs):
-        new_display = self._get_display()
-        new_xauth   = self._set_xauth(new_display)
-        if new_xauth == '':
-            return -1
-
-        os.environ['DISPLAY'] = ':' + new_display
-        os.environ['XAUTHORITY'] = new_xauth
-        try:
-            xvfb = subprocess.Popen(
-                    ['Xvfb',':'+new_display] + xvfbargs.split(), shell=False)
-            self.screennum = new_display
-            self.xauth = new_xauth
-        except OSError:
-            return -1
-        
-        time.sleep(2) #allow Xvfb to start
-        if xvfb.poll() != None:
-            return -1
-        return xvfb.pid
-
-    def _stop_xvfb(self, xvfb_pid):
-        os.kill(xvfb_pid, signal.SIGINT)
-        os.system('xauth remove ":%s"' % self.screennum)
-        os.system('rm -r %s' % os.path.split(self.xauth)[0])
             
     def _start_ldtp(self):
         try:

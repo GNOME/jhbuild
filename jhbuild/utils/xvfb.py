@@ -24,6 +24,8 @@
 
 import os, sys, subprocess, random, md5, tempfile
 
+from jhbuild.errors import FatalError
+
 class XvfbWrapper(object):
 
     def __init__(self, config=None):
@@ -40,14 +42,14 @@ class XvfbWrapper(object):
     def _set_xauth(self, servernum):
         paths = os.environ.get('PATH').split(':')
         for path in paths:
-            if os.path.exists(os.path.join(path, xauth)):
+            if os.path.exists(os.path.join(path, "xauth")):
                 break
         else:
-            raise Fail
+            raise FatalError(_("Unable to find xauth in PATH"))
 
         jhfolder = os.path.join(tempfile.gettempdir(), 'jhbuild.%d' % os.getpid())
         if os.path.exists(jhfolder):
-            raise Fail
+            raise FatalError(_("Jhbuild Xvfb folder already exists"))
 
         try:
             os.mkdir(jhfolder)
@@ -57,7 +59,7 @@ class XvfbWrapper(object):
             os.system('xauth -f "%s" add ":%s" "." "%s"' % (
                 new_xauth, servernum, hexdigest))
         except OSError:
-            raise Fail
+            raise FatalError(_("Unable to setup XAuth"))
 
         return new_xauth
 
