@@ -226,8 +226,12 @@ class Package:
             return True
         return False
 
+    def skip_ldtp_test(self, buildscript, last_phase):
+        # Skip running the ldtp tests if there arent any :P
+        return self.ldtp == None
+
     def do_ldtp_test(self, buildscript):
-        buildscript.set_action(_('Running %s UI tests') % self.name)
+        buildscript.set_action(_('Running UI tests'), self)
         self.ldtp.execute(buildscript)
 
     def xml_tag_and_attrs(self):
