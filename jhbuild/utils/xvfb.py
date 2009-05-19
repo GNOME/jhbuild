@@ -22,7 +22,7 @@
 
 # Heavily based on testmodule.py (FIXME: Proper attribution of GSOC student)
 
-import os, sys, subprocess, random, md5, tempfile
+import os, sys, subprocess, signal, random, md5, tempfile, time
 
 from jhbuild.errors import FatalError
 

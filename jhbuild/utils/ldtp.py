@@ -23,6 +23,8 @@
 # The LDTP and Dogtail helpers are inspired by the work done in GSOC on
 # testmodule.py by Prashanth Mohan.
 
+import os, sys, subprocess, signal, time
+
 from jhbuild.errors import FatalError
 from jhbuild.utils.xvfb import XvfbWrapper
 
