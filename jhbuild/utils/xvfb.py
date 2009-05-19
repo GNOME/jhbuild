@@ -30,6 +30,9 @@ class XvfbWrapper(object):
 
     def __init__(self, config=None):
         self.config = config or []
+        self.xvfb = None
+        self.new_display = None
+        self.new_xauth = None
 
     def _get_display(self):
         servernum = 99
@@ -64,15 +67,13 @@ class XvfbWrapper(object):
         return new_xauth
 
     def _start(self):
-        new_display = self._get_display()
-        new_xauth = self._set_xauth(new_display)
+        self.new_display = self._get_display()
+        self.new_xauth = self._set_xauth(self.new_display)
 
-        os.environ['DISPLAY'] = ':' + new_display
-        os.environ['XAUTHORITY'] = new_xauth
+        os.environ['DISPLAY'] = ':' + self.new_display
+        os.environ['XAUTHORITY'] = self.new_xauth
 
-        self.xvfb = subprocess.Popen(['Xvfb',':'+new_display] + self.config, shell=False)
-        self.new_display = new_display
-        self.new_xauth = new_xauth
+        self.xvfb = subprocess.Popen(['Xvfb',':'+self.new_display] + self.config, shell=False)
 
         #FIXME: Is there a better way??
         time.sleep(2)
@@ -81,9 +82,12 @@ class XvfbWrapper(object):
             raise Fail
 
     def _stop(self):
-        os.kill(self.xvfb.pid, signal.SIGINT)
-        os.system('xauth remove ":%s"' % self.new_display)
-        os.system('rm -r %s' % os.path.split(self.new_xauth)[0])
+        if self.xvfb:
+            os.kill(self.xvfb.pid, signal.SIGINT)
+        if self.new_display:
+            os.system('xauth remove ":%s"' % self.new_display)
+        if self.new_xauth:
+            os.system('rm -r %s' % os.path.split(self.new_xauth)[0])
         del os.environ['DISPLAY']
         del os.environ['XAUTHORITY']
 
