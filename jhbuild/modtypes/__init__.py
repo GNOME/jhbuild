@@ -31,6 +31,7 @@ import os
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
 from jhbuild.utils.sxml import sxml
+from jhbuild.utils.ldtp import LDTPHelper
 
 _module_types = {}
 def register_module_type(name, parse_func):
