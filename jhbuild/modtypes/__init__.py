@@ -287,7 +287,7 @@ class MetaModule(Package):
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
     dependencies, after, suggests = get_dependencies(node)
-    ldtp = get_ltp_helper(node)
+    ldtp = get_ldtp_helper(node)
     return MetaModule(id, dependencies=dependencies, after=after, suggests=suggests, ldtp=ldtp)
 register_module_type('metamodule', parse_metamodule)
 
