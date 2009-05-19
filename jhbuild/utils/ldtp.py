@@ -23,6 +23,10 @@
 # The LDTP and Dogtail helpers are inspired by the work done in GSOC on
 # testmodule.py by Prashanth Mohan.
 
+from jhbuild.errors import FatalError
+from jhbuild.utils.xvfb import XvfbWrapper
+
+
 class TestingHelper(object):
 
     def execute(self, buildscript):
