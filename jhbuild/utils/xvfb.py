@@ -22,7 +22,11 @@
 
 # Heavily based on testmodule.py (FIXME: Proper attribution of GSOC student)
 
-import os, sys, subprocess, signal, random, md5, tempfile, time
+import os, sys, subprocess, signal, random, tempfile, time
+try:
+    from hashlib import md5
+except ImportError:
+    import md5
 
 from jhbuild.errors import FatalError
 
