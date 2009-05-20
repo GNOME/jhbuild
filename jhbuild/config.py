@@ -105,7 +105,8 @@ class Config:
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
-            'prependpath':  prependpath
+            'prependpath':  prependpath,
+            'include': self.include,
             }
 
         if not self._orig_environ:
@@ -134,11 +135,24 @@ class Config:
         os.environ = self._orig_environ.copy()
         self.__init__(filename=self._config.get('__file__'))
 
+    def include(self, filename):
+        '''Read configuration variables from a file.'''
+        try:
+            execfile(filename, self._config)
+        except:
+            traceback.print_exc()
+            raise FatalError(_('Could not include config file (%s)') % filename)
+
     def load(self):
         config = self._config
         try:
             execfile(self.filename, config)
-        except Exception:
+        except Exception, e:
+            if isinstance(e, FatalError):
+                # raise FatalErrors back, as it means an error in include()
+                # and it will print a traceback, and provide a meaningful
+                # message.
+                raise e
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
 
@@ -149,7 +163,7 @@ class Config:
                     continue
                 if k[0] == '_':
                     continue
-                if type(config[k]) in (types.ModuleType, types.FunctionType):
+                if type(config[k]) in (types.ModuleType, types.FunctionType, types.MethodType):
                     continue
                 unknown_keys.append(k)
             if unknown_keys:
