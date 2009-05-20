@@ -166,7 +166,7 @@ class cmd_bot(Command):
                 elif args[0] == 'check':
                     phases = ['check']
                 elif args[0] == 'test':
-                    phases = 'ldtp_test'
+                    phases = ['ldtp_test']
                 elif args[0] == 'clean':
                     phases = ['clean']
                 rc = buildscript.build(phases=phases)
