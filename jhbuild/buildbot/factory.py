@@ -42,6 +42,9 @@ class JHBuildFactory(factory.BuildFactory):
             self.addStep(JHBuildModulePathCommand, moduleset=self.moduleset,
                     module=self.module, action='module-reports.sh',
                     actionName='Coverage')
+        if self.slave.run_ldtp_tests:
+            self.addStep(JHBuildCommand, stage='test', moduleset=self.moduleset,
+                    module=self.module)
         if self.slave.run_clean_afterwards:
             self.addStep(JHBuildCommand, stage='clean', moduleset=self.moduleset,
                     module=self.module)

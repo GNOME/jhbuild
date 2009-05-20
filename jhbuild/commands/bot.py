@@ -152,7 +152,7 @@ class cmd_bot(Command):
             config.interact = False
             config.nonetwork = True
             os.environ['TERM'] = 'dumb'
-            if args[0] in ('update', 'build', 'check', 'clean'):
+            if args[0] in ('update', 'build', 'check', 'test', 'clean'):
                 module_set = jhbuild.moduleset.load(config)
                 buildscript = jhbuild.frontends.get_buildscript(config,
                         [module_set.get_module(x, ignore_case=True) for x in args[1:]])
@@ -165,6 +165,8 @@ class cmd_bot(Command):
                     config.build_targets = ['install']
                 elif args[0] == 'check':
                     phases = ['check']
+                elif args[0] == 'test':
+                    phases = 'ldtp_test'
                 elif args[0] == 'clean':
                     phases = ['clean']
                 rc = buildscript.build(phases=phases)
@@ -279,6 +281,7 @@ class cmd_bot(Command):
 
             run_checks = True
             run_coverage_report = False
+            run_ldtp_tests = False
             run_clean_afterwards = False
 
             def load_extra_configuration(self, slaves_dir):
