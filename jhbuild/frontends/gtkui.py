@@ -449,6 +449,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 env.update(extra_env)
 
             self.vte_fork_running = True
+            self.vte_child_exit_status = None
             # environment must be passed as a sequence of strings (FOO=1, BAR=2)
             # this is not Pythonic, GNOME bug 583078 has been filed to support
             # passing of a dictionary.
