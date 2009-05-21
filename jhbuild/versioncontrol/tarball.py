@@ -241,11 +241,15 @@ class TarballBranch(Branch):
 
             if not patchfile:
                 # nothing else, use jhbuild provided patches
-                for dirname in (
-                        os.path.join(self.config.modulesets_dir, 'patches'),
-                        os.path.join(self.config.modulesets_dir, '../patches'),
-                        os.path.join(PKGDATADIR, 'patches', patch),
-                        os.path.join(SRCDIR, 'patches', patch)):
+                possible_locations = []
+                if self.config.modulesets_dir:
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, 'patches'))
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, '../patches'))
+                if PKGDATADIR:
+                    possible_locations.append(os.path.join(PKGDATADIR, 'patches'))
+                if SRCDIR:
+                    possible_locations.append(os.path.join(SRCDIR, 'patches'))
+                for dirname in possible_locations:
                     patchfile = os.path.join(dirname, patch)
                     if os.path.exists(patchfile):
                         break
