@@ -226,7 +226,7 @@ class TarballBranch(Branch):
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory
-                for patch_prefix in ('.', 'patches'):
+                for patch_prefix in ('.', 'patches', '../patches'):
                     uri = urlparse.urljoin(self.repository.moduleset_uri,
                             os.path.join(patch_prefix, patch))
                     try:
