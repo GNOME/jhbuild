@@ -120,12 +120,14 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 self.modules_list_model[-2].iter, (module, False, startat))
         return iter
 
+    quit = False
     def on_delete_event(self, *args):
+        self.quit = True
+        self.hide()
         if gtk.main_level():
             gtk.main_quit()
         if self.child_pid:
             os.kill(self.child_pid, signal.SIGKILL)
-        sys.exit(0)
 
     def create_ui(self):
         self.set_border_width(5)
@@ -269,7 +271,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             self.build_button.emit('clicked')
             while gtk.events_pending():
                 gtk.main_iteration()
-            return self.rc
+            try:
+                return self.rc
+            except AttributeError:
+                return 1
         self.rc = buildscript.BuildScript.build(self)
         return self.rc
 
@@ -337,6 +342,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         while True:
             while gtk.events_pending():
                 gtk.main_iteration()
+                if self.quit:
+                    return 'fail'
             if not self.error_resolution:
                 continue
             if self.error_resolution == 'shell':
@@ -449,6 +456,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     envv=['%s=%s' % x for x in env.items()], directory=cwd)
             while self.vte_fork_running:
                 gtk.main_iteration()
+                if self.quit:
+                    return
             self.child_pid = None
             rc = self.vte_child_exit_status
 
