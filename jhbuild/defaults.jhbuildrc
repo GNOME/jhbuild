@@ -98,11 +98,15 @@ copy_dir = None
 # whether to install to lib64 directories?  Currently this will default to
 # True on Linux AMD64, PPC64 or S390x systems, and False everywhere else.
 # Patches accepted to fix the default for other architectures.
-uname = os.uname()
-use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
-                                      ('Linux', 'ppc64'),
-                                      ('Linux', 's390x') ]
-del uname
+try:
+    uname = os.uname()
+    use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
+                                          ('Linux', 'ppc64'),
+                                          ('Linux', 's390x') ]
+    del uname
+except AttributeError:
+    # some platforms don't have os.uname (ie. Win32)
+    use_lib64 = False
 
 # default buildscript.  You should probably leave this as the default.
 # In particular, don't set it to 'gtk'.
