@@ -440,7 +440,7 @@ def warn_local_modulesets(config):
         return
 
     logging.info(
-            _('modulesets were edited locally but jhbuild is configured '\
-              'to get them from subversion, perhaps you need to add '\
+            _('Modulesets were edited locally but JHBuild is configured '\
+              'to get them from the network, perhaps you need to add '\
               'use_local_modulesets = True to your .jhbuildrc.'))
 
