@@ -178,6 +178,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buttonbox.add(self.build_button)
 
         button = gtk.Button(stock=gtk.STOCK_HELP)
+        button.connect('clicked', self.on_help_cb)
         buttonbox.add(button)
         buttonbox.set_child_secondary(button, True)
 
@@ -219,6 +220,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         if not iter:
             return
         self.error_resolution = self.error_resolution_model.get(iter, 1)[0]
+
+    def on_help_cb(self, *args):
+        gtk.show_uri(gtk.gdk.screen_get_default(),
+                'ghelp:jhbuild', gtk.get_current_event_time())
 
     def on_build_cb(self, *args):
         if not self.orig_modulelist:
