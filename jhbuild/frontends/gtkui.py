@@ -267,8 +267,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             self.modulelist = self.orig_modulelist
             self.show()
             self.build_button.emit('clicked')
-            gtk.main()
-        return buildscript.BuildScript.build(self)
+            while gtk.events_pending():
+                gtk.main_iteration()
+            return self.rc
+        self.rc = buildscript.BuildScript.build(self)
+        return self.rc
 
     def start_build(self):
         self.build_button.set_sensitive(False)
