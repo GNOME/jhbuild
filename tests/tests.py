@@ -565,8 +565,11 @@ def restore_environ(env):
 STDOUT_FILENO = 1
 
 def with_stdout_hidden(func):
+    null_device = '/dev/null'
+    if sys.platform.startswith('win'):
+        null_device = 'NUL'
     old_fd = os.dup(STDOUT_FILENO)
-    new_fd = os.open('/dev/null', os.O_WRONLY)
+    new_fd = os.open(null_device, os.O_WRONLY)
     os.dup2(new_fd, STDOUT_FILENO)
     os.close(new_fd)
     try:
