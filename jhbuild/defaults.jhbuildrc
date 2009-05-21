@@ -2,7 +2,7 @@
 # This file holds the default values for the ~/.jhbuildrc file.
 # Do not copy this to ~/.jhbuildrc
 
-import os
+import os, sys
 
 if 'GTK_PATH' in os.environ.keys():
     del os.environ['GTK_PATH']
@@ -131,8 +131,14 @@ cvs_program = 'cvs'
 mirror_policy = ""
 module_mirror_policy = {}
 
-# whether not to emit notifications through the notification daemon
-nonotify = False
+if sys.platform.startswith('win'):
+    notrayicon = True
+    nonotify = True
+else:
+    # Show a tray icon using zenity
+    notrayicon = False
+    # whether not to emit notifications through the notification daemon
+    nonotify = False
 
 # whether to run tests in real X and not in Xvfb
 noxvfb = False

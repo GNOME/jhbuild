@@ -82,7 +82,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
-        self.trayicon = trayicon.TrayIcon()
+        self.trayicon = trayicon.TrayIcon(config)
         self.notify = notify.Notify(config)
 
     def message(self, msg, module_num=-1):

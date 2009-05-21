@@ -98,7 +98,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                 os.environ[k] = 'C'
 
         if self.verbose:
-            self.trayicon = trayicon.TrayIcon()
+            self.trayicon = trayicon.TrayIcon(config)
 
     def message(self, msg, module_num=-1, skipfp = False):
         '''Display a message to the user'''
