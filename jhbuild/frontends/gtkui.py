@@ -318,6 +318,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             error_message = None
             self.message(summary)
 
+        if not self.is_active():
+            self.set_urgency_hint(True)
         self.notify.notify(summary=summary, body=error_message,
                 icon=gtk.STOCK_DIALOG_ERROR, expire=5)
 
@@ -351,6 +353,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     return 'fail'
             if not self.error_resolution:
                 continue
+            self.set_urgency_hint(False)
             if self.error_resolution == 'shell':
                 # set back combobox to "Pick an action"
                 self.error_combo.set_active_iter(iter)
