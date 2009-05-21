@@ -443,18 +443,25 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             else:
                 self.terminal.feed(' $ ' + ' '.join(command) + '\n\r')
 
-            env = {}
+            kws = {}
             if extra_env is not None:
                 env = os.environ.copy()
                 env.update(extra_env)
+                kws['envv'] = ['%s=%s' % x for x in env.items()]
+
+            if cwd:
+                kws['directory'] = cwd
 
             self.vte_fork_running = True
             self.vte_child_exit_status = None
-            # environment must be passed as a sequence of strings (FOO=1, BAR=2)
-            # this is not Pythonic, GNOME bug 583078 has been filed to support
-            # passing of a dictionary.
-            self.child_pid = self.terminal.fork_command(command=command[0], argv=command,
-                    envv=['%s=%s' % x for x in env.items()], directory=cwd)
+            # In earlier python-vte versions,
+            #  - the environment had to be passed as a sequence of strings
+            #    ("FOO=1", "BAR=2") (GNOME bug 583078)
+            #  - directory keyword could not be set to None (GNOME bug 583129)
+            # The bugs have been fixed, but for compatibility reasons the old
+            # compatibility code is still in place.
+            self.child_pid = self.terminal.fork_command(
+                    command=command[0], argv=command, **kws)
             while self.vte_fork_running:
                 gtk.main_iteration()
                 if self.quit:
