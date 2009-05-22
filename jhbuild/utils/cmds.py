@@ -209,9 +209,14 @@ def pprint_output(pipe, format_line):
     return pipe.wait()
 
 def has_command(cmd):
-    for path in os.environ['PATH'].split(':'): 
-        if os.path.exists(os.path.join(path, cmd)):
+    for path in os.environ['PATH'].split(os.pathsep):
+        prog = os.path.abspath(os.path.join(path, cmd))
+        if os.path.exists(prog):
             return True
+
+        # also check for cmd.exe on Windows
+        if sys.platform.startswith('win') and os.path.exists(prog + ".exe"):
+             return True
     return False
 
 def check_version(cmd, regexp, minver, extra_env=None):
