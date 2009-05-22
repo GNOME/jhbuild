@@ -42,8 +42,7 @@ class cmd_uninstall(Command):
             ])
 
     def run(self, config, options, args):
-        for item in options.skip:
-            config.skip += item.split(',')
+        config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules, config.skip)

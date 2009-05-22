@@ -65,26 +65,10 @@ class cmd_tinderbox(Command):
             ])
 
     def run(self, config, options, args):
-        config.buildscript = 'tinderbox'
-
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.nonetwork:
-            config.nonetwork = True
-        if options.outputdir is not None:
-            config.tinderbox_outputdir = options.outputdir
-        for item in options.skip:
-            config.skip += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.trycheckout:
-            config.trycheckout = True
-        if options.nopoison:
-            config.nopoison = True
+        extra_config = {'buildscript': 'tinderbox'}
         if options.force_policy:
-            config.build_policy = 'all'
+            extra_config = {'build_policy': 'all'}
+        config.set_from_cmdline_options(options)
 
         if not config.tinderbox_outputdir:
             raise UsageError(_('output directory for tinderbox build not specified'))

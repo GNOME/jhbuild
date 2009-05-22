@@ -98,6 +98,15 @@ def addpath(envvar, path):
 
     os.environ[envvar] = envval
 
+def parse_relative_time(s):
+    m = re.match(r'(\d+) *([smhdw])', s.lower())
+    if m:
+        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
+        return float(m.group(1)) * coeffs[m.group(2)]
+    else:
+        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+
+
 class Config:
     _orig_environ = None
 
@@ -134,6 +143,7 @@ class Config:
     def reload(self):
         os.environ = self._orig_environ.copy()
         self.__init__(filename=self._config.get('__file__'))
+        self.set_from_cmdline_options(options=None)
 
     def include(self, filename):
         '''Read configuration variables from a file.'''
@@ -375,6 +385,51 @@ class Config:
             self.build_targets.append('dist')
         if self.makedistcheck and not 'distcheck' in self.build_targets:
             self.build_targets.append('distcheck')
+
+    def set_from_cmdline_options(self, options=None):
+        if options is None:
+            options = self.cmdline_options
+        else:
+            self.cmdline_options = options
+        if hasattr(options, 'autogen') and options.autogen:
+            self.alwaysautogen = True
+        if hasattr(options, 'clean') and (
+                options.clean and not 'clean' in self.build_targets):
+            self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'dist') and (
+                options.dist and not 'dist' in self.build_targets):
+            self.build_targets.append('dist')
+        if hasattr(options, 'distcheck') and (
+                options.distcheck and not 'distcheck' in self.build_targets):
+            self.build_targets.append('distcheck')
+        if hasattr(options, 'ignore_suggests') and options.ignore_suggests:
+            self.ignore_suggests = True
+        if hasattr(options, 'nonetwork') and options.nonetwork:
+            self.nonetwork = True
+        if hasattr(options, 'skip'):
+            for item in options.skip:
+                self.skip += item.split(',')
+        if hasattr(options, 'tags'):
+            for item in options.tags:
+                self.tags += item.split(',')
+        if hasattr(options, 'sticky_date') and options.sticky_date is not None:
+                self.sticky_date = options.sticky_date
+        if hasattr(options, 'xvfb') and options.noxvfb is not None:
+                self.noxvfb = options.noxvfb
+        if hasattr(options, 'trycheckout') and  options.trycheckout:
+            self.trycheckout = True
+        if hasattr(options, 'nopoison') and options.nopoison:
+            self.nopoison = True
+        if hasattr(options, 'quiet') and options.quiet:
+            self.quiet_mode = True
+        if hasattr(options, 'force_policy') and options.force_policy:
+            self.build_policy = 'all'
+        if hasattr(options, 'min_age') and options.min_age:
+            try:
+                self.min_time = time.time() - parse_relative_time(options.min_age)
+            except ValueError:
+                raise FatalError(_('Failed to parse relative time'))
+
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''
