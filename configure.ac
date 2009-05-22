@@ -44,6 +44,6 @@ AC_CONFIG_FILES([
 	jhbuild/modtypes/Makefile
 	jhbuild/utils/Makefile
 	jhbuild/versioncontrol/Makefile
-
+	buildbot/Makefile
 ])
 AC_OUTPUT

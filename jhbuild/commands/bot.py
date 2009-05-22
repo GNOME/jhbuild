@@ -673,7 +673,10 @@ class cmd_bot(Command):
         if buildbot_dir:
             basedir = buildbot_dir
         else:
-            basedir = os.path.join(SRCDIR, 'buildbot')
+            if PKGDATADIR:
+                basedir = os.path.join(PKGDATADIR, 'buildbot')
+            else:
+                basedir = os.path.join(SRCDIR, 'buildbot')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))
