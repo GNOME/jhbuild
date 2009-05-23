@@ -37,4 +37,9 @@ install: install-check
 	@[ -f $(HOME)/.jhbuildrc ]||echo "Don't forget to create ~/.jhbuildrc"
 	install -m755 install-check $(bindir)/install-check
 
+	@if [ -e "$(HOME)/bin/jhbuild" ] && [ ! $(bindir) -ef $(HOME)/bin ]; then \
+		mv "$(HOME)/bin/jhbuild" "$(HOME)/bin/jhbuild.old" ; \
+		ln -s $(bindir)/jhbuild "$(HOME)/bin/jhbuild" ; \
+	fi
+
 .PHONY: all update install
