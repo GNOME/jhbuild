@@ -10,7 +10,8 @@ if USE_CHECKOUT_SRC:
     sys.path.insert(0, '@jhbuilddir@')
     pkgdatadir = None
     datadir = None
-    srcdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    import jhbuild
+    srcdir = os.path.abspath(os.path.join(os.path.dirname(jhbuild.__file__), '..'))
 else:
     pkgdatadir = "@pkgdatadir@"
     datadir = "@datadir@"
