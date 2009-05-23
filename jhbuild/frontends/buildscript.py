@@ -121,15 +121,16 @@ class BuildScript:
                 self.start_phase(module.name, phase)
                 error = None
                 try:
-                    error, altphases = module.run_phase(self, phase)
-                except SkipToPhase, e:
                     try:
-                        num_phase = build_phases.index(e.phase)
-                    except ValueError:
+                        error, altphases = module.run_phase(self, phase)
+                    except SkipToPhase, e:
+                        try:
+                            num_phase = build_phases.index(e.phase)
+                        except ValueError:
+                            break
+                        continue
+                    except SkipToEnd:
                         break
-                    continue
-                except SkipToEnd:
-                    break
                 finally:
                     self.end_phase(module.name, phase, error)
 
