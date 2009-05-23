@@ -168,6 +168,9 @@ class Package:
         else:
             return (None, None)
 
+    def has_phase(self, phase):
+        return hasattr(self, 'do_' + phase)
+
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
             return
