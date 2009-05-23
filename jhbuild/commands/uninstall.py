@@ -39,19 +39,25 @@ class cmd_uninstall(Command):
             make_option('-t', '--start-at', metavar='MODULE',
                         action='store', dest='startat', default=None,
                         help=_('start building at the given module')),
+            make_option('--one', metavar='MODULE',
+                        action='store_true', dest='one', default=False,
+                        help=_('uninstall modules passed on command line only')),
             ])
 
     def run(self, config, options, args):
         config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules, config.skip)
-        # remove modules up to startat
-        if options.startat:
-            while module_list and module_list[0].name != options.startat:
-                del module_list[0]
-            if not module_list:
-                raise FatalError(_('%s not in module list') % options.startat)
+        if options.one:
+            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
+        else:
+            module_list = module_set.get_module_list(args or config.modules, config.skip)
+            # remove modules up to startat
+            if options.startat:
+                while module_list and module_list[0].name != options.startat:
+                    del module_list[0]
+                if not module_list:
+                    raise FatalError(_('%s not in module list') % options.startat)
 
         # remove modules that are not marked as installed
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
