@@ -204,6 +204,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.error_label.set_alignment(0, 0.5)
 
         # label, code
+        second_hbox = gtk.HBox()
+        vbox.pack_start(second_hbox)
+
         self.error_resolution_model = gtk.ListStore(str, str)
         self.error_combo = gtk.ComboBox(self.error_resolution_model)
         self.error_combo.connect('changed', self.on_error_resolution_changed_cb)
@@ -211,11 +214,25 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         cell = gtk.CellRendererText()
         self.error_combo.pack_start(cell, True)
         self.error_combo.add_attribute(cell, 'markup', 0)
-        vbox.pack_start(self.error_combo)
+        second_hbox.pack_start(self.error_combo)
+
+        self.error_apply_button = gtk.Button(stock = gtk.STOCK_APPLY)
+        self.error_apply_button.set_sensitive(False)
+        self.error_apply_button.connect('clicked', self.on_resolution_apply_clicked)
+        second_hbox.pack_start(self.error_apply_button, fill=False, expand=False)
 
         return error_hbox
 
     def on_error_resolution_changed_cb(self, *args):
+        iter = self.error_combo.get_active_iter()
+        if not iter:
+            return
+        if not self.error_resolution_model.get(iter, 1)[0]:
+            return
+        self.error_apply_button.set_sensitive(True)
+
+    def on_resolution_apply_clicked(self, *args):
+        self.error_apply_button.set_sensitive(False)
         iter = self.error_combo.get_active_iter()
         if not iter:
             return
@@ -347,6 +364,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.error_resolution = None
 
         while True:
+            self.error_resolution = None
             while gtk.events_pending():
                 gtk.main_iteration()
                 if self.quit:
