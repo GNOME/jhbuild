@@ -31,7 +31,6 @@ import subprocess
 
 import gobject
 import gtk
-import gtk.glade
 try:
     import vte
 except ImportError:
