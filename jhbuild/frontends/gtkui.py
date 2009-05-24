@@ -37,11 +37,6 @@ try:
 except ImportError:
     vte = None
 
-#FIXME: would be nice if we ran w/o GConf, do a try...except block around
-#       the import and then set have_gconf to false
-import gconf
-have_gconf = True
-
 import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
