@@ -623,7 +623,7 @@ class SelectModulesDialog(gtk.Dialog):
 
 class PreferencesDialog(gtk.Dialog):
     def __init__(self, parent, default_module=None):
-        gtk.Dialog.__init__(self, '', parent)
+        gtk.Dialog.__init__(self, _('Preferences'), parent)
         self.app = parent
         self.create_ui()
         self.connect('response', self.on_response_cb)
