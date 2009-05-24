@@ -50,6 +50,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     active_iter = None
     child_pid = None
     error_resolution = None
+    preference_dialog = None
 
     def __init__(self, config, module_list=None):
         self.orig_modulelist = module_list
@@ -144,6 +145,12 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
         self.module_hbox.pack_start(self.module_combo, fill=True)
 
+        separator = gtk.VSeparator()
+        self.module_hbox.pack_start(separator)
+        preferences = gtk.Button(stock=gtk.STOCK_PREFERENCES)
+        preferences.connect('clicked', self.on_preferences_cb)
+        self.module_hbox.pack_start(preferences, fill=False, expand=False)
+
         self.progressbar = gtk.ProgressBar()
         self.progressbar.set_text(_('Build Progess'))
         app_vbox.pack_start(self.progressbar, fill=False, expand=False)
@@ -236,7 +243,15 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         gtk.show_uri(gtk.gdk.screen_get_default(),
                 'ghelp:jhbuild', gtk.get_current_event_time())
 
+    def on_preferences_cb(self, *args):
+        if not self.preference_dialog:
+            self.preference_dialog = PreferencesDialog(self)
+        self.preference_dialog.show()
+        self.preference_dialog.present()
+
     def on_build_cb(self, *args):
+        if self.preference_dialog:
+            self.preference_dialog.hide()
         if not self.orig_modulelist:
             modules = [self.modules_list_model.get(
                     self.module_combo.get_active_iter(), 0)[0]]
@@ -603,6 +618,39 @@ class SelectModulesDialog(gtk.Dialog):
             self.startat = self.startat_model.get(old_start_at_iter, 0)[0]
 
         return gtk.RESPONSE_OK
+
+
+class PreferencesDialog(gtk.Dialog):
+    def __init__(self, parent, default_module=None):
+        gtk.Dialog.__init__(self, '', parent)
+        self.app = parent
+        self.create_ui()
+        self.connect('response', self.on_response_cb)
+        self.connect('delete-event', self.on_response_cb)
+
+    def create_ui(self):
+        vbox = gtk.VBox(spacing=5)
+        vbox.set_border_width(5)
+        self.vbox.add(vbox)
+
+        for key, label in (
+                ('nonetwork', _('Disable network access')),
+                ('alwaysautogen', _('Always run autogen.sh')),
+                ('nopoison', _('Don\'t poison modules on failure'))):
+            checkbutton = gtk.CheckButton(label)
+            checkbutton.set_active(getattr(self.app.config, key))
+            checkbutton.connect('toggled', self.on_toggled_key, key)
+            vbox.pack_start(checkbutton)
+
+        self.vbox.show_all()
+        self.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
+
+    def on_toggled_key(self, checkbutton, key):
+        setattr(self.app.config, key, checkbutton.get_active())
+
+    def on_response_cb(self, *args):
+        self.destroy()
+        self.app.preference_dialog = None
 
 
 BUILD_SCRIPT = AppWindow
