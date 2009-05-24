@@ -119,10 +119,11 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     def on_delete_event(self, *args):
         self.quit = True
         self.hide()
-        if gtk.main_level():
-            gtk.main_quit()
         if self.child_pid:
             os.kill(self.child_pid, signal.SIGKILL)
+        if gtk.main_level():
+            gtk.main_quit()
+            sys.exit(0)
 
     def create_ui(self):
         self.set_border_width(5)
