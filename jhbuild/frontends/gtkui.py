@@ -147,7 +147,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.module_hbox.pack_start(self.module_combo, fill=True)
 
         separator = gtk.VSeparator()
-        self.module_hbox.pack_start(separator)
+        self.module_hbox.pack_start(separator, fill=False, expand=False)
         preferences = gtk.Button(stock=gtk.STOCK_PREFERENCES)
         preferences.connect('clicked', self.on_preferences_cb)
         self.module_hbox.pack_start(preferences, fill=False, expand=False)
