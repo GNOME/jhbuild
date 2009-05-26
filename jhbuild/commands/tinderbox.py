@@ -65,10 +65,11 @@ class cmd_tinderbox(Command):
             ])
 
     def run(self, config, options, args):
-        extra_config = {'buildscript': 'tinderbox'}
-        if options.force_policy:
-            extra_config = {'build_policy': 'all'}
         config.set_from_cmdline_options(options)
+        config.buildscript = 'tinderbox'
+
+        if options.outputdir is not None:
+            config.tinderbox_outputdir = options.outputdir
 
         if not config.tinderbox_outputdir:
             raise UsageError(_('output directory for tinderbox build not specified'))
