@@ -54,6 +54,25 @@ class PackageKitPackages(SystemPackages):
 
 class DebianPackages(SystemPackages):
 
+    def __init__(self):
+        import apt_pkg
+        apt_pkg.InitSystem()
+        self.apt_cache = apt_pkg.GetCache()
+
+    def is_installed(self, name, version=None):
+        for pkg in self.apt_cache.Packages:
+            if pkg.Name == name:
+                if not pkg.CurrentVer:
+                    return False
+                return True
+        return False
+
+    def is_available(self, name, version=None):
+        for pkg in self.apt_cache.Packages:
+            if pkg.Name == name:
+                return True
+        return False
+
     def install(self, names):
         buildscript.execute(['apt-get', 'install', ' '.join(name)])
 
@@ -61,14 +80,24 @@ class DebianPackages(SystemPackages):
         buildscript.execute(['apt-get', 'remove', ' '.join(name)])
 
     def supported(cls):
-        return True
+        try:
+            import apt_pkg
+            return True
+        except ImportError:
+            return False
     supported = classmethod(supported)
 
 
-def get_system_packages():
-    for c in SystemPackages.__subclasses__():
-        if c.supported():
-            return c()
-    return SystemPackages()
+system_packages = None
 
+def get_system_packages():
+    global system_packages
+    if not system_packages:
+        for c in SystemPackages.__subclasses__():
+            if c.supported():
+                system_packages = c()
+                break
+        else:
+            system_packages = SystemPackages()
+    return system_packages
 
