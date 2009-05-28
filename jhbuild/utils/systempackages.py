@@ -64,7 +64,7 @@ class DebianPackages(SystemPackages):
         pkg = self.apt_cache[name]
         if not pkg.isInstalled:
             return False
-        if version and apt_pkg.VersionCompare(version, pkg.installed.version) > 0:
+        if version and apt.VersionCompare(version, pkg.installed.version) > 0:
             return False
         return True
 
@@ -73,12 +73,11 @@ class DebianPackages(SystemPackages):
             return False
         if version:
             pkg = self.apt_cache[name]
-            if apt.candidate and apt_pkg.VersionCompare(version, apt.candidate.version) > 0:
+            if apt.candidate and apt.VersionCompare(version, apt.candidate.version) > 0:
                 return False
         return True
 
     def install(self, names):
-        import apt
         fetchprogress = apt.progress.TextFetchProgress()
         installprogress = apt.progress.InstallProgress()
         cache = apt.Cache()
@@ -93,7 +92,7 @@ class DebianPackages(SystemPackages):
 
     def supported(cls):
         try:
-            import apt, apt_pkg
+            import apt
             return True
         except ImportError:
             return False
