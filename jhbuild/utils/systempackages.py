@@ -55,31 +55,27 @@ class PackageKitPackages(SystemPackages):
 class DebianPackages(SystemPackages):
 
     def __init__(self):
-        import apt_pkg
-        apt_pkg.InitSystem()
-        self.apt_cache = apt_pkg.GetCache()
+        import apt
+        self.apt_cache = apt.Cache()
 
     def is_installed(self, name, version=None):
-        for pkg in self.apt_cache.Packages:
-            if pkg.Name == name:
-                if not pkg.CurrentVer:
-                    return False
-                if version and apt_pkg.VersionCompare(version, pkg.CurrentVer.VerStr) > 0:
-                    return False
-                return True
-        return False
+        if name not in self.apt_cache.keys():
+            return False
+        pkg = self.apt_cache[name]
+        if not pkg.isInstalled:
+            return False
+        if version and apt_pkg.VersionCompare(version, pkg.installed.version) > 0:
+            return False
+        return True
 
     def is_available(self, name, version=None):
-        for pkg in self.apt_cache.Packages:
-            if pkg.Name == name:
-                if version:
-                    versions = list(pkg.VersionList)
-                    versions.sort(lambda x,y: apt_pkg.VersionCompare(x.VersionStr, y.VersionStr))
-                    newest = versions[-1].VerStr
-                    if apt_pkg.VersionCompare(version, newest) > 0:
-                        return False
-                return True
-        return False
+        if name not in self.apt_cache.keys():
+            return False
+        if version:
+            pkg = self.apt_cache[name]
+            if apt.candidate and apt_pkg.VersionCompare(version, apt.candidate.version) > 0:
+                return False
+        return True
 
     def install(self, names):
         import apt
@@ -97,7 +93,7 @@ class DebianPackages(SystemPackages):
 
     def supported(cls):
         try:
-            import apt_pkg
+            import apt, apt_pkg
             return True
         except ImportError:
             return False
