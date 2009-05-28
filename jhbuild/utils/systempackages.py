@@ -87,8 +87,11 @@ class DebianPackages(SystemPackages):
         cache.open(apt.progress.OpProgress())
 
     def remove(self, names):
-        #buildscript.execute(['apt-get', 'remove', ' '.join(name)])
-        pass
+        cache = apt.Cache()
+        for name in names:
+            cache[name].markDelete()
+        cache.commit()
+        cache.open()
 
     def supported(cls):
         try:
