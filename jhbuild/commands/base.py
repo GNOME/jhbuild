@@ -32,6 +32,7 @@ from jhbuild.commands import Command, register_command
 
 from jhbuild.config import parse_relative_time
 
+from jhbuild.utils import systempackages
 
 class cmd_update(Command):
     doc = N_('Update all modules from version control')
@@ -60,10 +61,12 @@ class cmd_update(Command):
 
     def run(self, config, options, args):
         config.set_from_cmdline_options(options)
+        pkgs = systempackages.get_system_packages()
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags=config.tags,
-                ignore_suggests=config.ignore_suggests)
+                ignore_suggests=config.ignore_suggests,
+                should_skip=pkgs.satisfied)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -268,12 +271,14 @@ class cmd_build(Command):
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
 
+        pkgs = systempackages.get_system_packages()
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
         module_list = module_set.get_module_list(modules,
                 config.skip, tags = config.tags,
                 include_optional_modules=options.build_optional_modules,
-                ignore_suggests=config.ignore_suggests)
+                ignore_suggests=config.ignore_suggests,
+                should_skip=pkgs.satisfied)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -454,6 +459,7 @@ class cmd_list(Command):
 
     def run(self, config, options, args):
         config.set_from_cmdline_options(options)
+        pkgs = systempackages.get_system_packages()
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
             module_list = module_set.modules.values()
@@ -461,7 +467,8 @@ class cmd_list(Command):
             module_list = module_set.get_module_list(args or config.modules,
                                 config.skip, tags = config.tags,
                                 include_optional_modules = options.list_optional_modules,
-                                ignore_suggests=config.ignore_suggests)
+                                ignore_suggests=config.ignore_suggests,
+                                should_skip=pkgs.satisfied)
 
         # remove modules up to startat
         if options.startat:

@@ -119,7 +119,7 @@ class ModuleSet:
                     self._state[self.modules[modname]] = 'processed'
 
         if should_skip:
-            for name, module in self.modules:
+            for name, module in self.modules.iteritems():
                 if should_skip(name, module):
                     self._state[module] = 'processed'
 
