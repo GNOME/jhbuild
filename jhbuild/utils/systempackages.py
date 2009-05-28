@@ -64,12 +64,20 @@ class DebianPackages(SystemPackages):
             if pkg.Name == name:
                 if not pkg.CurrentVer:
                     return False
+                if version and apt_pkg.VersionCompare(version, pkg.CurrentVer.VerStr) > 0:
+                    return False
                 return True
         return False
 
     def is_available(self, name, version=None):
         for pkg in self.apt_cache.Packages:
             if pkg.Name == name:
+                if version:
+                    versions = list(pkg.VersionList)
+                    versions.sort(lambda x,y: apt_pkg.VersionCompare(x.VersionStr, y.VersionStr))
+                    newest = versions[-1].VerStr
+                    if apt_pkg.VersionCompare(version, newest) > 0:
+                        return False
                 return True
         return False
 
