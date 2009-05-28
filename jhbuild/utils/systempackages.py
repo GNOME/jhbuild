@@ -82,10 +82,18 @@ class DebianPackages(SystemPackages):
         return False
 
     def install(self, names):
-        buildscript.execute(['apt-get', 'install', ' '.join(name)])
+        import apt
+        fetchprogress = apt.progress.TextFetchProgress()
+        installprogress = apt.progress.InstallProgress()
+        cache = apt.Cache()
+        for name in names:
+            cache[name].markInstall()
+        cache.commit(fetchprogress, installprogress)
+        cache.open(apt.progress.OpProgress())
 
     def remove(self, names):
-        buildscript.execute(['apt-get', 'remove', ' '.join(name)])
+        #buildscript.execute(['apt-get', 'remove', ' '.join(name)])
+        pass
 
     def supported(cls):
         try:
