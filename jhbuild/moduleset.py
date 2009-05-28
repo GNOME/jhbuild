@@ -60,7 +60,7 @@ class ModuleSet:
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
-                ignore_missing=False):
+                ignore_missing=False, should_skip=None):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -117,6 +117,11 @@ class ModuleSet:
                 else:
                     # no tag matched, mark module as processed
                     self._state[self.modules[modname]] = 'processed'
+
+        if should_skip:
+            for name, module in self.modules:
+                if should_skip(name, module):
+                    self._state[module] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
             if self._state.get(module, 'clean') == 'processed':
