@@ -22,6 +22,9 @@
 
 import os
 
+from jhbuild.modtypes import MetaModule
+from jhbuild.versioncontrol.tarball import TarballBranch
+
 class SystemPackages(object):
 
     def __init__(self):
@@ -43,11 +46,19 @@ class SystemPackages(object):
 
     def satisfiable(self, name, module):
         """ Returns true if a module is satisfiable by installing a system package """
-        return self.is_available(self.get_pkgname(name))
+        if isinstance(module, MetaModule):
+            return False
+        if not isinstance(module.branch, TarballBranch):
+            return False
+        return self.is_available(self.get_pkgname(name), module.branch.version)
 
     def satisfied(self, name, module):
         """ Returns true if module is satisfied by an already installed system package """
-        return self.is_installed(self.get_pkgname(name))
+        if isinstance(module, MetaModule):
+            return False
+        if not isinstance(module.branch, TarballBranch):
+            return False
+        return self.is_installed(self.get_pkgname(name), module.branch.version)
 
     def is_installed(self, name, version=None):
         return False
@@ -70,6 +81,11 @@ class PackageKitPackages(SystemPackages):
     pass
 
 
+try:
+    import apt
+except ImportError:
+    pass
+
 class DebianPackages(SystemPackages):
 
     aliasesfile = "debian.aliases"
@@ -85,7 +101,7 @@ class DebianPackages(SystemPackages):
         pkg = self.apt_cache[name]
         if not pkg.isInstalled:
             return False
-        if version and apt.VersionCompare(version, pkg.installed.version) > 0:
+        if version and apt.VersionCompare(version, pkg.installedVersion) > 0:
             return False
         return True
 
@@ -94,7 +110,7 @@ class DebianPackages(SystemPackages):
             return False
         if version:
             pkg = self.apt_cache[name]
-            if apt.candidate and apt.VersionCompare(version, apt.candidate.version) > 0:
+            if pkg.candidateVersion and apt.VersionCompare(version, pkg.candidateVersion) > 0:
                 return False
         return True
 
