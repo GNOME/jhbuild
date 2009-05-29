@@ -6,14 +6,14 @@ endif
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
 MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
-
+ALIASES = $(wildcard $(top_srcdir)/aliases/*.aliases) $(wildcard $(top_srcdir)/aliases/*.aliases.generated)
 
 INTLTOOL = 			\
 	intltool-extract.in 	\
 	intltool-merge.in 	\
 	intltool-update.in
 
-EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
+EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) $(ALIASES) \
 	install-check.c \
 	jhbuild.desktop $(INTLTOOL)
 
