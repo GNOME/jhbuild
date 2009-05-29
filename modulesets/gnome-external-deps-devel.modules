@@ -41,8 +41,8 @@
       href="git://git.0pointer.de/"/>
   <repository type="git" name="git.kernel.org"
       href="git://git.kernel.org/"/>
-  <repository type="git" name="git.double.co.nz"
-      href="git://git.double.co.nz/git/"/>
+  <repository type="git" name="git.repo.or.cz"
+      href="git://repo.or.cz/"/>
   <repository type="git" name="git.ndesk.org"
       href="git://git.ndesk.org/pub/scm/"/>
   <repository type="git" name="git.collabora.co.uk"
@@ -56,6 +56,9 @@
       href="http://www.mega-nerd.com/Bzr/"/>
   <repository type="bzr" name="launchpad.net"
       href="http://bazaar.launchpad.net/"/>
+
+  <repository type="hg" name="hg.mozilla.org"
+      href="http://hg.mozilla.org/"/>
 
   <autotools id="ndesk-dbus" autogen-sh="autoreconf">
     <branch repo="git.ndesk.org" module="dbus-sharp" checkoutdir="ndesk-dbus"/>
@@ -396,9 +399,8 @@
     </branch>
   </autotools>
 
-  <autotools id="mozilla"
-	     skip-autogen="true">
-    <branch repo="git.double.co.nz" module="firefox.git" checkoutdir="mozilla"/>
+  <autotools id="mozilla" autogen-sh="autoreconf" autogenargs="--enable-application=browser">
+    <branch repo="hg.mozilla.org" module="mozilla-central" checkoutdir="mozilla"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
