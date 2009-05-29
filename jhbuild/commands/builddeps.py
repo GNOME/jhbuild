@@ -50,7 +50,7 @@ class cmd_builddeps(Command):
 
         for module in module_set.get_module_list(args or config.modules):
             if pkgs.satisfiable(module.name, module) and not pkgs.satisfied(module.name, module):
-                to_install.append(module.name)
+                to_install.append(pkgs.get_pkgname(module.name))
 
         if options.dryrun:
             print "Will install: %s" % " ".join(to_install)

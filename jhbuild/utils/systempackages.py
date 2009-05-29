@@ -20,16 +20,34 @@
 # Authors:
 #   John Carr <john.carr@unrouted.co.uk>
 
+import os
 
 class SystemPackages(object):
 
+    def __init__(self):
+        self.aliases = {}
+
+        af = os.path.join(".", "aliases", self.aliasesfile)
+        tmp = {}
+        if os.path.exists(af+'.generated'):
+            execfile(af+'.generated', tmp)
+            self.aliases.update(tmp['aliases'])
+        if os.path.exists(af):
+            execfile(af, tmp)
+            self.aliases.update(tmp['aliases'])
+
+    def get_pkgname(self, name):
+        if name in self.aliases:
+            return self.aliases[name]
+        return name
+
     def satisfiable(self, name, module):
         """ Returns true if a module is satisfiable by installing a system package """
-        return self.is_available(name)
+        return self.is_available(self.get_pkgname(name))
 
     def satisfied(self, name, module):
         """ Returns true if module is satisfied by an already installed system package """
-        return self.is_installed(name)
+        return self.is_installed(self.get_pkgname(name))
 
     def is_installed(self, name, version=None):
         return False
@@ -54,7 +72,10 @@ class PackageKitPackages(SystemPackages):
 
 class DebianPackages(SystemPackages):
 
+    aliasesfile = "debian.aliases"
+
     def __init__(self):
+        super(DebianPackages, self).__init__()
         import apt
         self.apt_cache = apt.Cache()
 
