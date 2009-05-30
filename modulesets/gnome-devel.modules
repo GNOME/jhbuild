@@ -7,6 +7,8 @@
       href="git://git.gnome.org/"/>
   <repository type="git" name="git.kernel.org"
       href="git://git.kernel.org/pub/scm/"/>
+  <repository type="git" name="git.clutter-project.org"
+      href="git://git.clutter-project.org/"/>
 
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
@@ -48,16 +50,17 @@
   </autotools>
 
   <autotools id="clutter">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter"/>
+    <branch repo="git.clutter-project.org"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
 
   <autotools id="clutter-gst">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gst"/>
+    <branch repo="git.clutter-project.org"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="gstreamer"/>
@@ -66,7 +69,7 @@
   </autotools>
 
   <autotools id="clutter-cairo">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-cairo"/>
+    <branch repo="git.clutter-project.org"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="cairo"/>
@@ -74,7 +77,7 @@
   </autotools>
 
   <autotools id="clutter-gtk">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/clutter-gtk"/>
+    <branch repo="git.clutter-project.org"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="clutter"/>
@@ -82,7 +85,7 @@
   </autotools>
 
   <autotools id="pyclutter">
-    <branch repo="svn.o-hand.com" module="clutter/trunk/pyclutter"/>
+    <branch repo="git.clutter-project.org" module="bindings/pyclutter" checkoutdir="pyclutter"/>
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygtk"/>
@@ -91,6 +94,16 @@
       <dep package="clutter-gst"/>
       <dep package="clutter-cairo"/>
       <dep package="clutter-gtk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-vala">
+    <branch repo="git.clutter-project.org" module="bindings/clutter-vala"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="clutter-cairo"/>
+      <dep package="clutter-gtk"/>
+      <dep package="vala"/>
     </dependencies>
   </autotools>
 
