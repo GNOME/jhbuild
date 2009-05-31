@@ -59,9 +59,9 @@ def parse_xml_node(node, config, uri, repositories, default_repo):
 
 def get_dependencies(node):
     """Scan for dependencies in <dependencies>, <suggests> and <after> elements."""
-    dependencies = []
-    after = []
-    suggests = []
+    dependencies = {}
+    after = {}
+    suggests = {}
 
     def add_to_list(list, childnode):
         for dep in childnode.childNodes:
@@ -70,7 +70,9 @@ def get_dependencies(node):
                 if not package:
                     raise FatalError(_('dep node for module %s is missing package attribute') % \
                             node.getAttribute('id'))
-                list.append(package)
+                min = dep.getAttribute('minimum')
+                rec = dep.getAttribute('recommended')
+                list[package] = (min, rec)
 
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
@@ -123,11 +125,15 @@ class Package:
     PHASE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name
-        self.dependencies = dependencies
-        self.after = after
-        self.suggests = suggests
+        self._dependencies = dependencies
+        self._after = after
+        self._suggests = suggests
         self.tags = []
         self.moduleset_name = None
+
+    dependencies = property(lambda self: self._dependencies.keys())
+    after = property(lambda self: self._after.keys())
+    suggests = property(lambda self: self._suggests.keys())
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
