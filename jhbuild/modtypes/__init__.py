@@ -135,6 +135,24 @@ class Package:
     after = property(lambda self: self._after.keys())
     suggests = property(lambda self: self._suggests.keys())
 
+    def get_reverse_dependencies(self, modules):
+        """ Given a list of modules, which of those modules have dependencies on us """
+        rdeps = []
+        for mod in modules:
+            if self in mod.dependencies:
+                rdeps.append(mod)
+        return rdeps
+
+    def get_minimum_version(self, modules):
+        """ Given a list of modules, find ones that depend on this module and return what
+            is the earliest version we need """
+        min_version = None
+        for rdep in self.get_reverse_dependencies(modules):
+            min, rec = rdep._dependencies[self.name]
+            if not min_version or min > min_version:
+                min_version = min
+        return min_version
+
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 

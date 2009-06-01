@@ -48,8 +48,10 @@ class cmd_builddeps(Command):
 
         to_install = []
 
-        for module in module_set.get_module_list(args or config.modules):
-            if pkgs.satisfiable(module.name, module) and not pkgs.satisfied(module.name, module):
+        modules = module_set.get_module_list(args or config.modules)
+        for module in modules:
+            min_version = module.get_minimum_version(modules)
+            if pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version):
                 to_install.append(pkgs.get_pkgname(module.name))
 
         if options.dryrun:

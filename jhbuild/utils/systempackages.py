@@ -44,21 +44,25 @@ class SystemPackages(object):
             return self.aliases[name]
         return name
 
-    def satisfiable(self, name, module):
+    def satisfiable(self, module, version=None):
         """ Returns true if a module is satisfiable by installing a system package """
         if isinstance(module, MetaModule):
             return False
+        if version:
+            return self.is_available(self.get_pkgname(module.name), version)
         if not isinstance(module.branch, TarballBranch):
             return False
-        return self.is_available(self.get_pkgname(name), module.branch.version)
+        return self.is_available(self.get_pkgname(module.name), module.branch.version)
 
-    def satisfied(self, name, module):
+    def satisfied(self, module, version=None):
         """ Returns true if module is satisfied by an already installed system package """
         if isinstance(module, MetaModule):
             return False
+        if version:
+            return self.is_available(self.get_pkgname(module.name), version)
         if not isinstance(module.branch, TarballBranch):
             return False
-        return self.is_installed(self.get_pkgname(name), module.branch.version)
+        return self.is_installed(self.get_pkgname(module.name), module.branch.version)
 
     def is_installed(self, name, version=None):
         return False

@@ -120,7 +120,8 @@ class ModuleSet:
 
         if should_skip:
             for name, module in self.modules.iteritems():
-                if should_skip(name, module):
+                min_version = module.get_minimum_version(all_modules)
+                if should_skip(module, min_version):
                     self._state[module] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
@@ -212,7 +213,7 @@ class ModuleSet:
                 if test_app in mod.tested_pkgs:
                     test_modules.append(mod)
         return test_modules
-    
+
     def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule
         from jhbuild.modtypes.autotools import AutogenModule
