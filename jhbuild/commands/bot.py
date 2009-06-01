@@ -85,13 +85,13 @@ class cmd_bot(Command):
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
             make_option('--slaves-dir', metavar='SLAVESDIR',
-                        action='store', dest='slaves_dir', default='.',
+                        action='store', dest='slaves_dir', default=None,
                         help=_('directory with slaves files (only with --start-server)')),
             make_option('--buildbot-dir', metavar='BUILDBOTDIR',
                         action='store', dest='buildbot_dir', default=None,
                         help=_('directory with buildbot work files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
-                        action='store', dest='mastercfgfile', default='master.cfg',
+                        action='store', dest='mastercfgfile', default=None,
                         help=_('master cfg file location (only with --start-server)')),
             make_option('--step',
                         action='store_true', dest='step', default=False,
@@ -123,9 +123,9 @@ class cmd_bot(Command):
         daemonize = False
         pidfile = None
         logfile = None
-        slaves_dir = None
-        mastercfgfile = None
-        buildbot_dir = None
+        slaves_dir = config.jhbuildbot_slaves_dir
+        mastercfgfile = config.jhbuildbot_mastercfg
+        buildbot_dir = config.jhbuildbot_dir
 
         if options.daemon:
             daemonize = True
