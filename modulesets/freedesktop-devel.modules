@@ -1,0 +1,61 @@
+<?xml version="1.0"?><!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <repository type="cvs" name="user-dirs.freedesktop.org"
+      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/user-dirs"
+      password=""/>
+
+  <repository type="git" name="git.freedesktop.org"
+      href="git://anongit.freedesktop.org/git/"/>
+  <repository type="git" name="git.0pointer.de"
+      href="git://git.0pointer.de/"/>
+
+  <autotools id="poppler-data" skip-autogen="true"
+	     makeargs="" makeinstallargs="install prefix=${prefix}">
+    <branch repo="git.freedesktop.org"
+	    module="poppler/poppler-data" checkoutdir="poppler-data" />
+  </autotools>
+
+  <autotools id="xdg-user-dirs">
+    <branch repo="user-dirs.freedesktop.org" />
+  </autotools>
+
+  <autotools id="DeviceKit">
+    <branch repo="git.freedesktop.org" module="DeviceKit/DeviceKit"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+    </dependencies>
+    <suggests>
+      <dep package="gtk-doc"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="DeviceKit-power">
+    <branch repo="git.freedesktop.org" module="DeviceKit/DeviceKit-power"/>
+    <dependencies>
+      <dep package="DeviceKit"/>
+      <dep package="PolicyKit"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="DeviceKit-disks">
+    <branch repo="git.freedesktop.org" module="DeviceKit/DeviceKit-disks"/>
+    <dependencies>
+      <dep package="DeviceKit"/>
+      <dep package="PolicyKit"/>
+      <dep package="libatasmart"/>
+<!--  <dep package="libparted"/> -->
+<!--  <dep package="libdevmapper"/> -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="libatasmart" autogen-sh="bootstrap.sh">
+    <branch repo="git.0pointer.de" module="libatasmart"/>
+    <dependencies>
+      <dep package="libvolume_id"/> <!-- FIXME: libudev in fact? -->
+    </dependencies>
+  </autotools>
+
+</moduleset>

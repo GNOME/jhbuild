@@ -84,7 +84,7 @@ class PackageDB:
         '''Check whether a particular module is installed.'''
         if not self.entries.has_key(package): return False
         p_version, p_installed = self.entries[package]
-        if version:
+        if version is not None:
             if version != p_version: return False
         return True
 

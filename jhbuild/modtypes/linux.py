@@ -51,15 +51,16 @@ class LinuxModule(Package):
     make config, make, make install and make modules_install.'''
     type = 'linux'
 
-    STATE_CHECKOUT        = 'checkout'
-    STATE_FORCE_CHECKOUT  = 'force_checkout'
-    STATE_CLEAN           = 'clean'
-    STATE_MRPROPER        = 'mrproper'
-    STATE_CONFIGURE       = 'configure'
-    STATE_BUILD           = 'build'
-    STATE_INSTALL         = 'install'
-    STATE_MODULES_INSTALL = 'modules_install'
-    STATE_HEADERS_INSTALL = 'headers_install'
+    PHASE_CHECKOUT        = 'checkout'
+    PHASE_FORCE_CHECKOUT  = 'force_checkout'
+    PHASE_CLEAN           = 'clean'
+    PHASE_MRPROPER        = 'mrproper'
+    PHASE_CONFIGURE       = 'configure'
+    PHASE_BUILD           = 'build'
+    PHASE_KERNEL_INSTALL  = 'kernel_install'
+    PHASE_MODULES_INSTALL = 'modules_install'
+    PHASE_HEADERS_INSTALL = 'headers_install'
+    PHASE_INSTALL         = 'install'
 
     def __init__(self, name, branch, kconfigs, makeargs,
             dependencies, after, suggests):
@@ -77,12 +78,7 @@ class LinuxModule(Package):
     def get_revision(self):
         return self.branch.branchname
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
-    def skip_checkout(self, buildscript, last_state):
+    def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
         # (can't just call Package.skip_checkout() as build policy won't work
         # with kconfigs)
@@ -93,20 +89,12 @@ class LinuxModule(Package):
         self.checkout(buildscript)
         for kconfig in self.kconfigs:
             kconfig.checkout(buildscript)
-    do_checkout.next_state = STATE_CONFIGURE
-    do_checkout.error_states = [STATE_MRPROPER]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_MRPROPER]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_CONFIGURE
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT, STATE_MRPROPER]
-
-    def skip_mrproper(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_MRPROPER]
 
     def get_makeargs(self):
         return self.makeargs + ' ' + self.config.module_makeargs.get(self.name, self.config.makeargs)
@@ -125,12 +113,7 @@ class LinuxModule(Package):
         cmd = '%s mrproper' % os.environ.get('MAKE', 'make')
         buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
-
-    do_mrproper.next_state = STATE_CONFIGURE
-    do_mrproper.error_states = []
-
-    def skip_configure(self, buildscript, last_state):
-        return False
+    do_mrproper.depends = [PHASE_CHECKOUT]
 
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)
@@ -161,12 +144,8 @@ class LinuxModule(Package):
             if kconfig.path:
                 os.remove(os.path.join(self.branch.srcdir, ".config"))
 
-    do_configure.next_state = STATE_CLEAN
-    do_configure.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_clean(self, buildscript, last_state):
-        return (not buildscript.config.makeclean or
-                buildscript.config.nobuild)
+    do_configure.depends = [PHASE_MRPROPER]
+    do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
@@ -179,11 +158,7 @@ class LinuxModule(Package):
             buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
 
-    do_clean.next_state = STATE_BUILD
-    do_clean.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
@@ -195,14 +170,11 @@ class LinuxModule(Package):
             buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
 
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = [STATE_FORCE_CHECKOUT, STATE_MRPROPER, STATE_CONFIGURE]
+    do_build.depends = [PHASE_CONFIGURE]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_MRPROPER, PHASE_CONFIGURE]
 
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
-
-    def do_install(self, buildscript):
-        buildscript.set_action(_('Installing'), self)
+    def do_kernel_install(self, buildscript):
+        buildscript.set_action(_('Installing kernel'), self)
         bootdir = os.path.join(buildscript.config.prefix, 'boot')
         if not os.path.isdir(bootdir):
             os.makedirs(bootdir)
@@ -216,32 +188,26 @@ class LinuxModule(Package):
                 buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
 
-    do_install.next_state = STATE_MODULES_INSTALL
-    do_install.error_states = [STATE_FORCE_CHECKOUT, STATE_CONFIGURE]
-
-    def skip_modules_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_kernel_install.depends = [PHASE_BUILD]
+    do_kernel_install.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_modules_install(self, buildscript):
         buildscript.set_action(_('Installing modules'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(,
+                    self.get_makeargs(),
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
 
-    do_modules_install.next_state = STATE_HEADERS_INSTALL
-    do_modules_install.error_states = []
-
-    def skip_headers_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_modules_install.depends = [PHASE_BUILD]
+    do_modules_install.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_headers_install(self, buildscript):
-        buildscript.set_action(_('Installing kernel'), self)
+        buildscript.set_action(_('Installing kernel headers'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s headers_install EXTRAVERSION=%s O=%s INSTALL_HDR_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
@@ -253,8 +219,12 @@ class LinuxModule(Package):
                     extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
 
-    do_headers_install.next_state = Package.STATE_DONE
-    do_headers_install.error_states = []
+    do_headers_install.depends = [PHASE_BUILD]
+    do_headers_install.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+
+    def do_install(self, buildscript):
+        pass
+    do_install.depends = [PHASE_KERNEL_INSTALL, PHASE_MODULES_INSTALL, PHASE_HEADERS_INSTALL]
 
     def xml_tag_and_attrs(self):
         return 'linux', [('id', 'name', None),

@@ -49,3 +49,12 @@ class BuildStateError(JhbuildException):
 class DependencyCycleError(JhbuildException):
     '''There is a dependency cycle in the module set'''
 
+
+class SkipToPhase(Exception):
+    def __init__(self, phase):
+        Exception.__init__(self)
+        self.phase = phase
+
+class SkipToEnd(SkipToPhase):
+    def __init__(self):
+        SkipToPhase.__init__(self, None)

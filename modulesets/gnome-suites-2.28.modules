@@ -94,10 +94,12 @@
       <dep package="shared-mime-info"/>
       <dep package="gnome-mime-data"/>
       <dep package="avahi"/>
-      <dep package="hal"/>
       <dep package="gamin"/>
       <dep package="dbus-glib"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
   </autotools>
 
   <autotools id="gtk+">
@@ -119,14 +121,6 @@
       <dep package="libxslt"/>
       <dep package="rarian"/>
       <dep package="gnome-doc-utils"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libglade">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -195,6 +189,14 @@
       <dep package="libbonobo"/>
       <dep package="libgnomecanvas"/>
       <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libglade">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -651,6 +653,7 @@
       <dep package="icon-naming-utils"/>
       <dep package="gnome-common"/>
       <dep package="intltool"/>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
@@ -661,10 +664,12 @@
       <dep package="dbus"/>
       <dep package="gconf"/>
       <dep package="gtk+"/>
-      <dep package="hal"/>
       <dep package="libgcrypt"/>
       <dep package="libtasn1"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
   </autotools>
 
   <autotools id="gnome-netstatus">
@@ -1030,11 +1035,11 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="libsoup"/>
-      <dep package="hal"/>
-      <dep package="gnome-disk-utility"/>
     </dependencies>
     <suggests>
       <dep package="gconf"/>
+      <dep package="hal"/>
+      <dep package="gnome-disk-utility"/>
     </suggests>
   </autotools>
 
@@ -1554,6 +1559,7 @@
       <dep package="intltool"/>
       <dep package="gtk+"/>
       <dep package="pygtk"/>
+      <dep package="pyxdg"/>
     </dependencies>
   </autotools>
 
@@ -1591,6 +1597,7 @@
     </dependencies>
     <suggests>
       <dep package="devhelp"/>
+      <dep package="glade3"/>
     </suggests>
   </autotools>  
 
@@ -1693,7 +1700,6 @@
   <autotools id="gnome-disk-utility">
     <branch/>
     <dependencies>
-      <dep package="DeviceKit-disks"/>
       <dep package="PolicyKit-gnome"/>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
@@ -1702,6 +1708,28 @@
       <dep package="libnotify"/>
       <!-- and libsexy, unapproved dependency -->
     </dependencies>
+  </autotools>
+
+  <autotools id="libgdata">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="krb5-auth-dialog">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
   </autotools>
 
 <!-- Meta Modules -->
@@ -1717,6 +1745,7 @@
       <dep package="libart_lgpl"/>
       <dep package="libbonobo"/>
       <dep package="libbonoboui"/>
+      <dep package="libglade"/>
       <dep package="libgnome"/>
       <dep package="libgnomecanvas"/>
       <dep package="libgnomeui"/>
@@ -1731,7 +1760,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
-      <dep package="libglade"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
       <dep package="pango"/>
@@ -1919,6 +1947,8 @@
   <metamodule id="meta-gnome-proposed">
     <dependencies>
       <dep package="gnome-disk-utility"/>
+      <dep package="libgdata"/>
+      <dep package="krb5-auth-dialog"/>
     </dependencies>
   </metamodule>
 

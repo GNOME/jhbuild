@@ -1038,6 +1038,15 @@
     </after>
   </autotools>
 
+  <tarball id="raptor" version="1.4.18">
+    <source href="http://download.librdf.org/source/raptor-1.4.18.tar.gz"
+            md5sum="284e768eeda0e2898b0d5bf7e26a016e" size="1657246"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </tarball>
+
   <autotools id="tracker">
     <branch revision="tracker-0.6"/>
     <dependencies>
@@ -1056,6 +1065,7 @@
     </dependencies>
     <suggests>
       <dep package="exempi"/>
+      <dep package="raptor"/>
     </suggests>
     <after>
       <dep package="deskbar-applet"/>
@@ -1186,9 +1196,9 @@
     </dependencies>
   </autotools>
 
-  <tarball id="vala" version="0.7.1" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.1.tar.bz2"
-            md5sum="109ebbd208be08f5d4927d4af6abf574" size="1822988"/>
+  <tarball id="vala" version="0.7.2" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.2.tar.bz2"
+            md5sum="a1e35fe5a7ebeb6c208c1d379e445115" size="1828305"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1210,9 +1220,9 @@
   </autotools>
 
   <autotools id="libgee-trunk">
-    <branch/>
+    <branch module="libgee"/>
     <dependencies>
-      <dep package="vala"/>
+      <dep package="vala-trunk"/>
       <dep package="glib"/>
     </dependencies>
   </autotools>
@@ -2353,6 +2363,41 @@
     <suggests>
       <dep package="libpanelappletmm"/>
     </suggests>
+  </autotools>
+
+  <autotools id="gparted">
+    <branch/>
+    <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-zeitgeist">
+    <branch repo="launchpad.net"
+            module="~gnome-zeitgeist/gnome-zeitgeist/gnome-zeitgeist"
+            checkoutdir="gnome-zeitgeist"/>
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="sqlite3"/>
+      <dep package="dbus-python"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="niepce">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+      <dep package="gconf"/>
+      <dep package="libgnomeui"/>
+      <dep package="exempi"/>
+      <dep package="sqlite3"/>
+      <dep package="gegl"/>
+      <dep package="geglmm"/>
+      <dep package="libxml2"/>
+      <dep package="libopenraw"/>
+      <dep package="babl"/>
+    </dependencies>
   </autotools>
 
 </moduleset>

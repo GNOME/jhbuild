@@ -50,10 +50,10 @@ except ImportError:
     buildbot = None
 
 class cmd_bot(Command):
-    doc = _('Control buildbot')
+    doc = N_('Control buildbot')
 
     name = 'bot'
-    usage_args = '[ options ... ]'
+    usage_args = N_('[ options ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -87,6 +87,9 @@ class cmd_bot(Command):
             make_option('--slaves-dir', metavar='SLAVESDIR',
                         action='store', dest='slaves_dir', default='.',
                         help=_('directory with slaves files (only with --start-server)')),
+            make_option('--buildbot-dir', metavar='BUILDBOTDIR',
+                        action='store', dest='buildbot_dir', default=None,
+                        help=_('directory with buildbot work files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
                         action='store', dest='mastercfgfile', default='master.cfg',
                         help=_('master cfg file location (only with --start-server)')),
@@ -122,6 +125,7 @@ class cmd_bot(Command):
         logfile = None
         slaves_dir = None
         mastercfgfile = None
+        buildbot_dir = None
 
         if options.daemon:
             daemonize = True
@@ -133,6 +137,8 @@ class cmd_bot(Command):
             slaves_dir = options.slaves_dir
         if options.mastercfgfile:
             mastercfgfile = options.mastercfgfile
+        if options.buildbot_dir:
+            buildbot_dir = os.path.abspath(options.buildbot_dir)
 
         if options.start:
             return self.start(config, daemonize, pidfile, logfile)
@@ -145,29 +151,31 @@ class cmd_bot(Command):
             __builtin__.__dict__['_'] = lambda x: x
             config.interact = False
             config.nonetwork = True
-            if args[0] == 'update':
-                command = 'updateone'
-                config.nonetwork = False
-            elif args[0] == 'build':
-                command = 'buildone'
-                config.alwaysautogen = True
-            elif args[0] == 'check':
-                command = 'buildone'
-                config.nobuild = True
-                config.makecheck = True
-                config.forcecheck = True
-                config.build_policy = 'all'
-            elif args[0] == 'clean':
-                command = 'cleanone'
-                args.append('--honour-config')
+            os.environ['TERM'] = 'dumb'
+            if args[0] in ('update', 'build', 'check', 'clean'):
+                module_set = jhbuild.moduleset.load(config)
+                buildscript = jhbuild.frontends.get_buildscript(config,
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                phases = None
+                if args[0] == 'update':
+                    config.nonetwork = False
+                    phases = ['checkout']
+                elif args[0] == 'build':
+                    config.alwaysautogen = True
+                    config.build_targets = ['install']
+                elif args[0] == 'check':
+                    phases = ['check']
+                elif args[0] == 'clean':
+                    phases = ['clean']
+                rc = buildscript.build(phases=phases)
             else:
                 command = args[0]
-            os.environ['TERM'] = 'dumb'
-            rc = jhbuild.commands.run(command, config, args[1:])
+                rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
 
         if options.start_server:
-            return self.start_server(config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile)
+            return self.start_server(config, daemonize, pidfile, logfile,
+                    slaves_dir, mastercfgfile, buildbot_dir)
 
         if options.stop or options.stop_server:
             return self.stop(config, pidfile)
@@ -228,7 +236,8 @@ class cmd_bot(Command):
         JhBuildbotApplicationRunner.application = application
         JhBuildbotApplicationRunner(options).run()
 
-    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir, mastercfgfile):
+    def start_server(self, config, daemonize, pidfile, logfile, slaves_dir,
+            mastercfgfile, buildbot_dir):
 
         from twisted.scripts._twistd_unix import UnixApplicationRunner, ServerOptions
 
@@ -266,6 +275,12 @@ class cmd_bot(Command):
             architecture = None
             version = None
 
+            max_builds = 2
+
+            run_checks = True
+            run_coverage_report = False
+            run_clean_afterwards = False
+
             def load_extra_configuration(self, slaves_dir):
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
                 if not os.path.exists(slave_xml_file):
@@ -275,18 +290,28 @@ class cmd_bot(Command):
                 except: # parse error
                     return
 
-                for int_attribute in ('max_builds', 'missing_timeout'):
+                for attribute in ('config/max_builds', 'config/missing_timeout',
+                            'config/run_checks', 'config/run_coverage_report',
+                            'config/run_clean_afterwards',
+                            'info/contact_name', 'info/contact_email',
+                            'info/url', 'info/distribution', 'info/architecture',
+                            'info/version'):
+                    attr_name = attribute.split('/')[-1]
                     try:
-                        setattr(self, int_attribute, int(cfg.find(int_attribute).text))
-                    except (AttributeError, ValueError):
-                        pass
+                        value = cfg.find(attribute).text
+                    except AttributeError:
+                        continue
 
-                for text_attribute in ('contact_name', 'contact_email', 'url',
-                        'distribution', 'architecture', 'version'):
-                    try:
-                        setattr(self, text_attribute, cfg.find(text_attribute).text)
-                    except (AttributeError, ValueError):
-                        pass
+                    if attr_name in ('max_builds', 'missing_timeout'): # int value
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            continue
+
+                    if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards'):
+                        value = (value == 'yes')
+
+                    setattr(self, attr_name, value)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
@@ -326,14 +351,9 @@ class cmd_bot(Command):
                 # current directory (unless instructed different from command line) 
                 # it is a CSV file structured like this:
                 #   slavename,password
-                # it is also possible to define build slave options, for
-                # example:
-                #   slavename,password,max_builds=2
-                # (recognized build slave options are max_build and
-                # missing_timeout)
                 config['slaves'] = []
-                if os.path.exists(slaves_dir):
-                    slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                slaves_csv_file = os.path.join(slaves_dir, 'slaves.csv')
+                if os.path.exists(slaves_csv_file):
                     for x in csv.reader(file(slaves_csv_file)):
                         if not x or x[0].startswith('#'):
                             continue
@@ -387,7 +407,7 @@ class cmd_bot(Command):
                 config['builders'] = []
                 for project in config['projects']:
                     for slave in config['slaves']:
-                        f = JHBuildFactory(project)
+                        f = JHBuildFactory(project, slave)
                         config['builders'].append({
                             'name' : "%s-%s" % (project, slave.slavename),
                             'slavename' : slave.slavename,
@@ -650,9 +670,13 @@ class cmd_bot(Command):
                 d.addCallback(lambda res: self.botmaster.maybeStartAllBuilds())
                 return d
 
-        basedir = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                '../../buildbot/')
+        if buildbot_dir:
+            basedir = buildbot_dir
+        else:
+            if PKGDATADIR:
+                basedir = os.path.join(PKGDATADIR, 'buildbot')
+            else:
+                basedir = os.path.join(SRCDIR, 'buildbot')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))

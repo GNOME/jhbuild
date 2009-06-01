@@ -42,11 +42,14 @@ def inpath(filename, path):
     for dir in path:
         if os.path.isfile(os.path.join(dir, filename)):
             return True
+        # also check for filename.exe on Windows
+        if sys.platform.startswith('win') and os.path.isfile(os.path.join(dir, filename + '.exe')):
+            return True
     return False
 
 
 class cmd_sanitycheck(Command):
-    doc = _('Check that required support tools are available')
+    doc = N_('Check that required support tools are available')
 
     name = 'sanitycheck'
     usage_args = ''

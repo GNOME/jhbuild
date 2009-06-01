@@ -40,7 +40,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
-                'makedistcheck', 'nonotify', 'cvs_program',
+                'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
                 'nopoison', 'forcecheck', 'makecheck_advisory',
@@ -49,6 +49,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_svn_commits_box',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
+                'build_targets',
                 ]
 
 env_prepends = {}
@@ -97,6 +98,15 @@ def addpath(envvar, path):
 
     os.environ[envvar] = envval
 
+def parse_relative_time(s):
+    m = re.match(r'(\d+) *([smhdw])', s.lower())
+    if m:
+        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
+        return float(m.group(1)) * coeffs[m.group(2)]
+    else:
+        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+
+
 class Config:
     _orig_environ = None
 
@@ -104,11 +114,17 @@ class Config:
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
-            'prependpath':  prependpath
+            'prependpath':  prependpath,
+            'include': self.include,
             }
 
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
+
+        try:
+            SRCDIR
+        except NameError:
+            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
 
         env_prepends.clear()
         try:
@@ -127,12 +143,26 @@ class Config:
     def reload(self):
         os.environ = self._orig_environ.copy()
         self.__init__(filename=self._config.get('__file__'))
+        self.set_from_cmdline_options(options=None)
+
+    def include(self, filename):
+        '''Read configuration variables from a file.'''
+        try:
+            execfile(filename, self._config)
+        except:
+            traceback.print_exc()
+            raise FatalError(_('Could not include config file (%s)') % filename)
 
     def load(self):
         config = self._config
         try:
             execfile(self.filename, config)
-        except Exception:
+        except Exception, e:
+            if isinstance(e, FatalError):
+                # raise FatalErrors back, as it means an error in include()
+                # and it will print a traceback, and provide a meaningful
+                # message.
+                raise e
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
 
@@ -143,7 +173,7 @@ class Config:
                     continue
                 if k[0] == '_':
                     continue
-                if type(config[k]) in (types.ModuleType, types.FunctionType):
+                if type(config[k]) in (types.ModuleType, types.FunctionType, types.MethodType):
                     continue
                 unknown_keys.append(k)
             if unknown_keys:
@@ -194,6 +224,14 @@ class Config:
         if seen_copy_mode and not self.copy_dir:
             raise FatalError(_('copy mode requires copy_dir to be set'))
 
+        if not os.path.exists(self.modulesets_dir):
+            if self.use_local_modulesets:
+                logging.warning(
+                        _('modulesets directory (%s) not found, '
+                          'disabling use_local_modulesets') % self.modulesets_dir)
+                self.use_local_modulesets = False
+            self.modulesets_dir = None
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 
@@ -202,8 +240,6 @@ class Config:
                 os.makedirs(self.prefix)
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
-        if not os.access(self.prefix, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('install prefix (%s) must be writable') % self.prefix)
 
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
 
@@ -330,6 +366,70 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
+        self.update_build_targets()
+
+    def update_build_targets(self):
+        # update build targets according to old flags
+        if self.makecheck and not 'check' in self.build_targets:
+            self.build_targets.insert(0, 'check')
+        if self.makeclean and not 'clean' in self.build_targets:
+            self.build_targets.insert(0, 'clean')
+        if self.nobuild:
+            # nobuild actually means "checkout"
+            for phase in ('configure', 'build', 'check', 'clean', 'install'):
+                if phase in self.build_targets:
+                    self.build_targets.remove(phase)
+            self.build_targets.append('checkout')
+        if self.makedist and not 'dist' in self.build_targets:
+            self.build_targets.append('dist')
+        if self.makedistcheck and not 'distcheck' in self.build_targets:
+            self.build_targets.append('distcheck')
+
+    def set_from_cmdline_options(self, options=None):
+        if options is None:
+            options = self.cmdline_options
+        else:
+            self.cmdline_options = options
+        if hasattr(options, 'autogen') and options.autogen:
+            self.alwaysautogen = True
+        if hasattr(options, 'clean') and (
+                options.clean and not 'clean' in self.build_targets):
+            self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'dist') and (
+                options.dist and not 'dist' in self.build_targets):
+            self.build_targets.append('dist')
+        if hasattr(options, 'distcheck') and (
+                options.distcheck and not 'distcheck' in self.build_targets):
+            self.build_targets.append('distcheck')
+        if hasattr(options, 'ignore_suggests') and options.ignore_suggests:
+            self.ignore_suggests = True
+        if hasattr(options, 'nonetwork') and options.nonetwork:
+            self.nonetwork = True
+        if hasattr(options, 'skip'):
+            for item in options.skip:
+                self.skip += item.split(',')
+        if hasattr(options, 'tags'):
+            for item in options.tags:
+                self.tags += item.split(',')
+        if hasattr(options, 'sticky_date') and options.sticky_date is not None:
+                self.sticky_date = options.sticky_date
+        if hasattr(options, 'xvfb') and options.noxvfb is not None:
+                self.noxvfb = options.noxvfb
+        if hasattr(options, 'trycheckout') and  options.trycheckout:
+            self.trycheckout = True
+        if hasattr(options, 'nopoison') and options.nopoison:
+            self.nopoison = True
+        if hasattr(options, 'quiet') and options.quiet:
+            self.quiet_mode = True
+        if hasattr(options, 'force_policy') and options.force_policy:
+            self.build_policy = 'all'
+        if hasattr(options, 'min_age') and options.min_age:
+            try:
+                self.min_time = time.time() - parse_relative_time(options.min_age)
+            except ValueError:
+                raise FatalError(_('Failed to parse relative time'))
+
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''

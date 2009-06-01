@@ -283,7 +283,7 @@ def load(config, uri=None):
     ms = ModuleSet(config = config)
     for uri in modulesets:
         if '/' not in uri:
-            if config.nonetwork or config.use_local_modulesets:
+            if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
                 uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
@@ -410,7 +410,7 @@ def warn_local_modulesets(config):
     if config.use_local_modulesets:
         return
 
-    moduleset_local_path = os.path.join(os.path.dirname(__file__), '..', 'modulesets')
+    moduleset_local_path = os.path.join(SRCDIR, 'modulesets')
     if not os.path.exists(moduleset_local_path):
         # moduleset-less checkout
         return
@@ -440,7 +440,7 @@ def warn_local_modulesets(config):
         return
 
     logging.info(
-            _('modulesets were edited locally but jhbuild is configured '\
-              'to get them from subversion, perhaps you need to add '\
+            _('Modulesets were edited locally but JHBuild is configured '\
+              'to get them from the network, perhaps you need to add '\
               'use_local_modulesets = True to your .jhbuildrc.'))
 

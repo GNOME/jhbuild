@@ -25,10 +25,10 @@ import jhbuild.frontends
 
 
 class cmd_tinderbox(Command):
-    doc = _('Build modules non-interactively and store build logs')
+    doc = N_('Build modules non-interactively and store build logs')
 
     name = 'tinderbox'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -65,26 +65,11 @@ class cmd_tinderbox(Command):
             ])
 
     def run(self, config, options, args):
+        config.set_from_cmdline_options(options)
         config.buildscript = 'tinderbox'
 
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.nonetwork:
-            config.nonetwork = True
         if options.outputdir is not None:
             config.tinderbox_outputdir = options.outputdir
-        for item in options.skip:
-            config.skip += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.trycheckout:
-            config.trycheckout = True
-        if options.nopoison:
-            config.nopoison = True
-        if options.force_policy:
-            config.build_policy = 'all'
 
         if not config.tinderbox_outputdir:
             raise UsageError(_('output directory for tinderbox build not specified'))

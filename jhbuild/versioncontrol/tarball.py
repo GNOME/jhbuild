@@ -36,9 +36,6 @@ from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache
 from jhbuild.utils.sxml import sxml
 
-jhbuild_directory = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                 '..', '..'))
-
 
 class TarballRepository(Repository):
     """A class representing a Tarball repository.
@@ -229,7 +226,7 @@ class TarballBranch(Branch):
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory
-                for patch_prefix in ('.', 'patches'):
+                for patch_prefix in ('.', 'patches', '../patches'):
                     uri = urlparse.urljoin(self.repository.moduleset_uri,
                             os.path.join(patch_prefix, patch))
                     try:
@@ -240,11 +237,24 @@ class TarballBranch(Branch):
                         continue
                     break
                 else:
-                    # not found, fallback to jhbuild provided patches
-                    patchfile = os.path.join(jhbuild_directory, 'patches', patch)
-            else:
-                # nothing else, use jbuild provided patches
-                patchfile = os.path.join(jhbuild_directory, 'patches', patch)
+                    patchfile = ''
+
+            if not patchfile:
+                # nothing else, use jhbuild provided patches
+                possible_locations = []
+                if self.config.modulesets_dir:
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, 'patches'))
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, '../patches'))
+                if PKGDATADIR:
+                    possible_locations.append(os.path.join(PKGDATADIR, 'patches'))
+                if SRCDIR:
+                    possible_locations.append(os.path.join(SRCDIR, 'patches'))
+                for dirname in possible_locations:
+                    patchfile = os.path.join(dirname, patch)
+                    if os.path.exists(patchfile):
+                        break
+                else:
+                    raise CommandError(_('Failed to find patch: %s') % patch)
 
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
             buildscript.execute('patch -p%d < "%s"'

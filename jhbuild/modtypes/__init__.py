@@ -29,7 +29,7 @@ __all__ = [
 
 import os
 
-from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
 from jhbuild.utils.sxml import sxml
 
 _module_types = {}
@@ -117,16 +117,10 @@ def get_branch(node, repositories, default_repo, config):
     return repo.branch_from_xml(name, childnode, repositories, default_repo)
 
 
-class SkipToState(Exception):
-    def __init__(self, state):
-        Exception.__init__(self)
-        self.state = state
-
-
 class Package:
     type = 'base'
-    STATE_START = 'start'
-    STATE_DONE  = 'done'
+    PHASE_START = 'start'
+    PHASE_DONE  = 'done'
     def __init__(self, name, dependencies = [], after = [], suggests = []):
         self.name = name
         self.dependencies = dependencies
@@ -150,49 +144,32 @@ class Package:
     def get_revision(self):
         return None
 
-    def _next_state(self, buildscript, last_state):
-        """Work out what state to go to next, possibly skipping some states.
+    def skip_phase(self, buildscript, phase, last_phase):
+        try:
+            skip_phase_method = getattr(self, 'skip_' + phase)
+        except AttributeError:
+            return False
+        return skip_phase_method(buildscript, last_phase)
 
-        This function executes skip_$state() to decide whether to run that
-        state or not.  If it returns True, go to do_$state.next_state and
-        repeat.  If it returns False, return that state.
-        """
-        seen_states = []
-        state = getattr(self, 'do_' + last_state).next_state
-        while True:
-            seen_states.append(state)
-            if state == self.STATE_DONE:
-                return state
-            do_method = getattr(self, 'do_' + state)
-
-            skip_method = getattr(self, 'skip_' + state)
-            try:
-                if skip_method(buildscript, last_state):
-                    state = do_method.next_state
-                    assert state not in seen_states, (
-                        'state %s should not appear in list of '
-                        'skipped states: %r' % (state, seen_states))
-                else:
-                    return state
-            except SkipToState, e:
-                return e.state
-
-    def run_state(self, buildscript, state):
+    def run_phase(self, buildscript, phase):
         """run a particular part of the build for this package.
 
         Returns a tuple of the following form:
-          (next-state, error-flag, [other-states])
+          (error-flag, [other-phases])
         """
-        method = getattr(self, 'do_' + state)
+        method = getattr(self, 'do_' + phase)
         try:
             method(buildscript)
-        except SkipToState, e:
-            return (e.state, None, None)
         except (CommandError, BuildStateError), e:
-            return (self._next_state(buildscript, state),
-                    e, method.error_states)
+            error_phases = None
+            if hasattr(method, 'error_phases'):
+                error_phases = method.error_phases
+            return (e, error_phases)
         else:
-            return (self._next_state(buildscript, state), None, None)
+            return (None, None)
+
+    def has_phase(self, phase):
+        return hasattr(self, 'do_' + phase)
 
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
@@ -204,7 +181,7 @@ class Package:
         # module has not been updated
         if buildscript.config.build_policy == 'updated':
             buildscript.message(_('Skipping %s (not updated)') % self.name)
-            return self.STATE_DONE
+            return self.PHASE_DONE
 
         if buildscript.config.build_policy == 'updated-deps':
             install_date = buildscript.packagedb.installdate(self.name)
@@ -216,7 +193,7 @@ class Package:
             else:
                 buildscript.message(
                         _('Skipping %s (package and dependencies not updated)') % self.name)
-                return self.STATE_DONE
+                return self.PHASE_DONE
 
     def checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
@@ -226,14 +203,14 @@ class Package:
         if not os.path.exists(srcdir):
             raise BuildStateError(_('source directory %s was not created') % srcdir)
 
-        if self.check_build_policy(buildscript) == self.STATE_DONE:
-            raise SkipToState(self.STATE_DONE)
+        if self.check_build_policy(buildscript) == self.PHASE_DONE:
+            raise SkipToEnd()
 
-    def skip_checkout(self, buildscript, last_state):
+    def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
         if buildscript.config.nonetwork:
-            if self.check_build_policy(buildscript) == self.STATE_DONE:
-                raise SkipToState(self.STATE_DONE)
+            if self.check_build_policy(buildscript) == self.PHASE_DONE:
+                raise SkipToEnd()
             return True
         return False
 
@@ -284,12 +261,6 @@ class MetaModule(Package):
     def get_builddir(self, buildscript):
         return buildscript.config.buildroot or \
                self.get_srcdir(buildscript)
-
-    # nothing to actually build in a metamodule ...
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = Package.STATE_DONE
-    do_start.error_states = []
 
     def to_sxml(self):
         return [sxml.metamodule(id=self.name),
