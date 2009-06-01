@@ -139,7 +139,7 @@ class Package:
         """ Given a list of modules, which of those modules have dependencies on us """
         rdeps = []
         for mod in modules:
-            if self in mod.dependencies:
+            if self.name in mod.dependencies:
                 rdeps.append(mod)
         return rdeps
 
