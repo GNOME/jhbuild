@@ -78,6 +78,8 @@ class ModuleSet:
         i = 0
         while i < len(all_modules):
             for modname in all_modules[i].dependencies:
+                if modname in skip:
+                    continue
                 depmod = self.modules.get(modname)
                 if not depmod:
                     if not ignore_missing:
@@ -93,6 +95,8 @@ class ModuleSet:
             if not ignore_suggests:
                 # suggests can be ignored if not in moduleset
                 for modname in all_modules[i].suggests:
+                    if modname in skip:
+                        continue
                     depmod = self.modules.get(modname)
                     if not depmod:
                         continue
