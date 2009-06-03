@@ -34,6 +34,9 @@ class JHBuildFactory(factory.BuildFactory):
         self.getSteps()
 
     def getSteps(self):
+        if self.slave.get_external_dependencies:
+            self.addStep(JHBuildCommand, stage='builddeps', moduleset=self.moduleset,
+                    module=self.module)
         self.addStep(JHBuildSource, moduleset=self.moduleset, module=self.module)
         self.addStep(JHBuildCommand, stage='build', moduleset=self.moduleset, module=self.module)
         if self.slave.run_checks:

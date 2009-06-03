@@ -280,6 +280,7 @@ class cmd_bot(Command):
             run_checks = True
             run_coverage_report = False
             run_clean_afterwards = False
+            get_external_dependencies = False
 
             def load_extra_configuration(self, slaves_dir):
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
@@ -292,7 +293,7 @@ class cmd_bot(Command):
 
                 for attribute in ('config/max_builds', 'config/missing_timeout',
                             'config/run_checks', 'config/run_coverage_report',
-                            'config/run_clean_afterwards',
+                            'config/run_clean_afterwards', 'config/get_external_dependencies',
                             'info/contact_name', 'info/contact_email',
                             'info/url', 'info/distribution', 'info/architecture',
                             'info/version'):
@@ -308,7 +309,8 @@ class cmd_bot(Command):
                         except ValueError:
                             continue
 
-                    if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards'):
+                    if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards',
+                                     'get_external_dependencies'):
                         value = (value == 'yes')
 
                     setattr(self, attr_name, value)
