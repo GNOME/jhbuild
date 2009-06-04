@@ -33,10 +33,10 @@ class PerlModule(Package):
     "Makefile.PL" Makefile."""
     type = 'perl'
 
-    STATE_CHECKOUT = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_BUILD = 'build'
-    STATE_INSTALL = 'install'
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_BUILD = 'build'
+    PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
                  dependencies=[], after=[], suggests=[]):
@@ -54,27 +54,14 @@ class PerlModule(Package):
     def get_revision(self):
         return self.branch.branchname
 
-    def do_start(self, buildscript):
-        pass
-    do_start.next_state = STATE_CHECKOUT
-    do_start.error_states = []
-
     def do_checkout(self, buildscript):
         self.checkout(buildscript)
-    do_checkout.next_state = STATE_BUILD
-    do_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_force_checkout(self, buildscript, last_state):
-        return False
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_force_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
-    do_force_checkout.next_state = STATE_BUILD
-    do_force_checkout.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_build(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
@@ -87,11 +74,8 @@ class PerlModule(Package):
         buildscript.execute(cmd, cwd=builddir, extra_env = self.extra_env)
         buildscript.execute([make, 'LD_RUN_PATH='], cwd=builddir,
                 extra_env = self.extra_env)
-    do_build.next_state = STATE_INSTALL
-    do_build.error_states = [STATE_FORCE_CHECKOUT]
-
-    def skip_install(self, buildscript, last_state):
-        return buildscript.config.nobuild
+    do_build.depends = [PHASE_CHECKOUT]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
@@ -101,8 +85,7 @@ class PerlModule(Package):
                 [make, 'install', 'PREFIX=%s' % buildscript.config.prefix],
                 cwd = builddir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.next_state = Package.STATE_DONE
-    do_install.error_states = []
+    do_install.depends = [PHASE_CHECKOUT]
 
     def xml_tag_and_attrs(self):
         return 'perl', [('id', 'name', None),

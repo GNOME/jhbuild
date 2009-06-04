@@ -34,7 +34,7 @@ class Command:
 
     doc = ''
     name = None
-    usage_args = _('[ options ... ]')
+    usage_args = N_('[ options ... ]')
 
     def __init__(self, options=[]):
         self.options = options
@@ -45,8 +45,8 @@ class Command:
 
     def parse_args(self, args):
         self.parser = optparse.OptionParser(
-            usage='%%prog %s %s' % (self.name, self.usage_args),
-            description=self.doc)
+            usage='%%prog %s %s' % (self.name, _(self.usage_args)),
+            description=_(self.doc))
         self.parser.add_options(self.options)
         return self.parser.parse_args(args)
 

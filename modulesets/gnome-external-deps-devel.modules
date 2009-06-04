@@ -28,8 +28,6 @@
       href="http://anonsvn.mono-project.com/source/"/>
   <repository type="svn" name="svn.musicbrainz.org"
       href="http://svn.musicbrainz.org"/>
-  <repository type="svn" name="mission-control.sf.net"
-      href="http://mission-control.svn.sourceforge.net/svnroot/mission-control/"/>
   <repository type="svn" name="libproxy.googlecode.com"
       href="http://libproxy.googlecode.com/svn/"/>
   <repository type="svn" name="svn.galago-project.org"
@@ -43,8 +41,8 @@
       href="git://git.0pointer.de/"/>
   <repository type="git" name="git.kernel.org"
       href="git://git.kernel.org/"/>
-  <repository type="git" name="git.double.co.nz"
-      href="git://git.double.co.nz/git/"/>
+  <repository type="git" name="git.repo.or.cz"
+      href="git://repo.or.cz/"/>
   <repository type="git" name="git.ndesk.org"
       href="git://git.ndesk.org/pub/scm/"/>
   <repository type="git" name="git.collabora.co.uk"
@@ -58,6 +56,9 @@
       href="http://www.mega-nerd.com/Bzr/"/>
   <repository type="bzr" name="launchpad.net"
       href="http://bazaar.launchpad.net/"/>
+
+  <repository type="hg" name="hg.mozilla.org"
+      href="http://hg.mozilla.org/"/>
 
   <autotools id="ndesk-dbus" autogen-sh="autoreconf">
     <branch repo="git.ndesk.org" module="dbus-sharp" checkoutdir="ndesk-dbus"/>
@@ -116,6 +117,12 @@
     </dependencies>
   </autotools>
 
+  <autotools id="util-linux-ng" autogen-sh="autoreconf">
+    <branch repo="git.kernel.org"
+            module="pub/scm/utils/util-linux-ng/util-linux-ng.git" checkoutdir="util-linux-ng"/>
+    <dependencies/>
+  </autotools>
+
   <autotools id="hal-info">
     <branch repo="git.freedesktop.org" module="hal-info"/>
   </autotools>
@@ -127,7 +134,7 @@
       <dep package="hal-info"/>
       <dep package="PolicyKit"/>
       <dep package="ConsoleKit"/>
-      <dep package="libvolume_id"/>
+      <dep package="util-linux-ng"/>
     </dependencies>
   </autotools>
 
@@ -391,31 +398,22 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libvolume_id" autogen-sh="autoreconf" autogenargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir} --exec-prefix=${prefix} --without-selinux --with-libdir-name=lib">
-    <branch repo="git.kernel.org"
-	    module="pub/scm/linux/hotplug/udev.git" checkoutdir="udev">
-      <patch file="udev118-libvolume_id_Makefile.patch" strip="1"/>
-    </branch>
-  </autotools>
-
-  <autotools id="mozilla"
-	     skip-autogen="true">
-    <branch repo="git.double.co.nz" module="firefox.git" checkoutdir="mozilla"/>
+  <autotools id="mozilla" autogen-sh="autoreconf" autogenargs="--enable-application=browser">
+    <branch repo="hg.mozilla.org" module="mozilla-central" checkoutdir="mozilla"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
   <autotools id="libnl"
-	     autogen-sh="configure">
+            autogen-sh="configure">
     <branch repo="git.kernel.org"
-	    module="pub/scm/libs/netlink/libnl.git" checkoutdir="libnl"/>
+            module="pub/scm/libs/netlink/libnl.git" checkoutdir="libnl"/>
     <dependencies/>
   </autotools>
 
   <autotools id="telepathy-mission-control">
-    <branch repo="mission-control.sf.net"
-            module="trunk" checkoutdir="telepathy-mission-control" />
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -427,8 +425,7 @@
   </autotools>
 
   <autotools id="telepathy-glib">
-    <branch repo="git.collabora.co.uk"
-	    module="telepathy-glib.git" checkoutdir="telepathy-glib"/>
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -439,18 +436,18 @@
 
   <autotools id="libtelepathy">
     <branch repo="git.collabora.co.uk"
-	    module="libtelepathy.git" checkoutdir="libtelepathy"/>
+            module="old/libtelepathy.git" checkoutdir="libtelepathy"/>
     <dep package="telepathy-glib"/>
   </autotools>
 
   <autotools id="sqlite3" autogen-sh="autoreconf"
-	     autogenargs="--enable-threadsafe" check-target="false">
+             autogenargs="--enable-threadsafe --enable-load-extension" check-target="false">
     <branch repo="www.sqlite.org" module="sqlite" />
   </autotools>
 
   <autotools id="libsndfile" supports-non-srcdir-builds="no" autogenargs="--enable-external-libs --disable-gcc-werror">
     <branch repo="mega-nerd.com"
-	    module="libsndfile-dev" checkoutdir="libsndfile"/>
+            module="libsndfile-dev" checkoutdir="libsndfile"/>
     <dependencies>
       <dep package="autogen"/>
     </dependencies>
@@ -482,8 +479,7 @@
   </autotools>
 
   <autotools id="gst-plugins-farsight">
-    <branch repo="git.collabora.co.uk"
-	    module="gst-plugins-farsight.git"/>
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gstreamer"/>
@@ -493,16 +489,14 @@
   </autotools>
 
   <autotools id="farsight2">
-    <branch repo="git.collabora.co.uk"
-	    module="farsight2.git"/>
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="libnice"/>
     </dependencies>
   </autotools>
 
   <autotools id="libnice">
-    <branch repo="git.collabora.co.uk"
-	    module="libnice.git"/>
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gst-plugins-base"/>
@@ -510,8 +504,7 @@
   </autotools>
 
   <autotools id="telepathy-farsight">
-    <branch repo="git.collabora.co.uk"
-	    module="telepathy-farsight.git"/>
+    <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="farsight2"/>

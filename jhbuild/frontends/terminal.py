@@ -82,7 +82,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
-        self.trayicon = trayicon.TrayIcon()
+        self.trayicon = trayicon.TrayIcon(config)
         self.notify = notify.Notify(config)
 
     def message(self, msg, module_num=-1):
@@ -235,9 +235,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             # it could happen on a really badly-timed ctrl-c (see bug 551641)
             raise CommandError(_('########## Error running %s') % pretty_command)
 
-    def start_phase(self, module, state):
+    def start_phase(self, module, phase):
         self.trayicon.set_icon(os.path.join(icondir,
-                               phase_map.get(state, 'build.png')))
+                               phase_map.get(phase, 'build.png')))
 
     def end_build(self, failures):
         self.is_end_of_build = True
@@ -249,10 +249,10 @@ class TerminalBuildScript(buildscript.BuildScript):
                 print module,
             print
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
-        summary = _('Error during stage %(stage)s of %(module)s') % {
-            'stage':state, 'module':module.name}
+        summary = _('Error during phase %(phase)s of %(module)s') % {
+            'phase': phase, 'module':module.name}
         try:
             error_message = error.args[0]
             self.message('%s: %s' % (summary, error_message))
@@ -264,12 +264,11 @@ class TerminalBuildScript(buildscript.BuildScript):
                 icon = 'dialog-error', expire = 20)
 
         if self.config.trycheckout:
-            if self.triedcheckout is None and \
-                    state not in ('checkout', 'configure'):
+            if self.triedcheckout is None and altphases.count('configure'):
                 self.triedcheckout = 'configure'
                 self.message(_('automatically retrying configure'))
                 return 'configure'
-            elif self.triedcheckout == 'configure':
+            elif self.triedcheckout == 'configure' and altphases.count('force_checkout'):
                 self.triedcheckout = 'done'
                 self.message(_('automatically forcing a fresh checkout'))
                 return 'force_checkout'
@@ -279,21 +278,24 @@ class TerminalBuildScript(buildscript.BuildScript):
             return 'fail'
         while True:
             print
-            uprint('  [1] %s' % _('Rerun stage %s') % state)
-            uprint('  [2] %s' % _('Ignore error and continue to %s') % nextstate)
+            uprint('  [1] %s' % _('Rerun phase %s') % phase)
+            if nextphase:
+                uprint('  [2] %s' % _('Ignore error and continue to %s') % nextphase)
+            else:
+                uprint('  [2] %s' % _('Ignore error and continue to next module'))
             uprint('  [3] %s' % _('Give up on module'))
             uprint('  [4] %s' % _('Start shell'))
             uprint('  [5] %s' % _('Reload configuration'))
             nb_options = i = 6
-            for altstate in altstates:
-                uprint('  [%d] %s' % (i, _('Go to stage %s') % altstate))
-                i = i + 1
+            for altphase in altphases:
+                uprint('  [%d] %s' % (i, _('Go to phase %s') % altphase))
+                i += 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()
             if val == '1':
-                return state
+                return phase
             elif val == '2':
-                return nextstate
+                return nextphase
             elif val == '3':
                 return 'fail'
             elif val == '4':
@@ -310,7 +312,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             else:
                 try:
                     val = int(val)
-                    return altstates[val - nb_options]
+                    return altphases[val - nb_options]
                 except:
                     uprint(_('invalid choice'))
         assert False, 'not reached'

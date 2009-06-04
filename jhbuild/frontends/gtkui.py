@@ -341,9 +341,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     def message(self, msg, module_num=-1):
         pass
 
-    def handle_error(self, module, state, nextstate, error, altstates):
-        summary = _('Error during stage %(stage)s of %(module)s') % {
-            'stage':state, 'module':module.name}
+    def handle_error(self, module, phase, nextphase, error, altphases):
+        summary = _('Error during phase %(phase)s of %(module)s') % {
+            'phase': phase, 'module':module.name}
         try:
             error_message = error.args[0]
             self.message('%s: %s' % (summary, error_message))
@@ -362,14 +362,18 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 ('<i>%s</i>' % _('Pick an Action'), ''))
         self.error_resolution_model.append(('', ''))
         self.error_resolution_model.append(
-                (_('Rerun stage %s') % state, state))
-        self.error_resolution_model.append(
-                (_('Ignore error and continue to %s') % nextstate, nextstate))
+                (_('Rerun phase %s') % phase, phase))
+        if nextphase:
+            self.error_resolution_model.append(
+                    (_('Ignore error and continue to %s') % nextphase, nextphase))
+        else:
+            self.error_resolution_model.append(
+                    (_('Ignore error and continue to next module'), '_done'))
         self.error_resolution_model.append(
                 (_('Give up on module'), 'fail'))
-        for altstate in altstates:
+        for altphase in altphases:
             self.error_resolution_model.append(
-                    (_('Go to stage %s') % altstate, altstate))
+                    (_('Go to stage %s') % altphase, altphase))
         self.error_resolution_model.append(('', ''))
         self.error_resolution_model.append(
                 (_('Open Terminal'), 'shell'))
@@ -396,6 +400,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     os.execvp('gnome-terminal', cmd)
                     sys.exit(0)
                 continue
+            if self.error_resolution == '_done':
+                self.error_resolution = None
             # keep the error hox visible during all of this module duration
             self.error_hbox.set_sensitive(False)
             return self.error_resolution
@@ -627,7 +633,6 @@ class SelectModulesDialog(gtk.Dialog):
             self.startat = self.startat_model.get(old_start_at_iter, 0)[0]
 
         return gtk.RESPONSE_OK
-
 
 class PreferencesDialog(gtk.Dialog):
     def __init__(self, parent, default_module=None):

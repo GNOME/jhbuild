@@ -327,20 +327,20 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.indexfp.write('</tr>\n\n')
         self.indexfp.flush()
 
-    def start_phase(self, module, state):
-        self.modulefp.write('<a name="%s"></a>\n' % state)
-    def end_phase(self, module, state, error):
+    def start_phase(self, module, phase):
+        self.modulefp.write('<a name="%s"></a>\n' % phase)
+    def end_phase(self, module, phase, error):
         if error:
             self.indexfp.write('<a class="failure" title="%s" href="%s#%s">%s</a>\n'
-                               % (error, self.modulefilename, state, state))
+                               % (error, self.modulefilename, phase, phase))
         else:
             self.indexfp.write('<a class="success" href="%s#%s">%s</a>\n'
-                               % (self.modulefilename, state, state))
+                               % (self.modulefilename, phase, phase))
         self.indexfp.flush()
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
-        self.message('error during stage %s of %s: %s' % (state, module.name,
+        self.message('error during stage %s of %s: %s' % (phase, module.name,
                                                           error))
         if self.config.trycheckout:
             if self.triedcheckout is None and \

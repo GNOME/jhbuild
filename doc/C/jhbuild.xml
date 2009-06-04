@@ -847,6 +847,26 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
     </section>
 
+    <section id="command-reference-clean">
+      <title>clean</title>
+
+      <para>The <command>clean</command> command is used to clean the build
+      directories of one or more modules.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild clean</command>
+        <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+        <arg>--start-at=<replaceable>module</replaceable></arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the module
+      list found in the configuration file will be used.</para>
+      
+      <para>Look at the <link linkend="command-reference-build">build</link>
+      command documentation for a description of available options.</para>
+
+    </section>
+
     <section id="command-reference-dot">
       <title>dot</title>
 
@@ -1177,6 +1197,26 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  </listitem>
 	</varlistentry>
       </variablelist>
+
+    </section>
+
+    <section id="command-reference-uninstall">
+      <title>uninstall</title>
+
+      <para>The <command>uninstall</command> command is used to uninstall
+      one or more modules.</para>
+
+      <cmdsynopsis>
+        <command>jhbuild uninstall</command>
+        <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
+        <arg>--start-at=<replaceable>module</replaceable></arg>
+      </cmdsynopsis>
+
+      <para>If no module names are given on the command line, then the module
+      list found in the configuration file will be used.</para>
+      
+      <para>Look at the <link linkend="command-reference-build">build</link>
+      command documentation for a description of available options.</para>
 
     </section>
 
@@ -1547,7 +1587,8 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <simpara>A boolean value specifying whether to emit
 	    notifications using the notification daemon.  If set to
 	    <constant>True</constant>, notifications are not emitted.
-	    Defaults to <constant>False</constant>.</simpara>
+	    Defaults to <constant>False</constant>, except on Win32
+		where it defaults to <constant>True</constant>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -1559,6 +1600,16 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    failed to build.  This option is equivalent to the
 	    <option>--no-poison</option> argument.  The default value is
 	    <constant>False</constant>.</simpara>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term id="cfg-notrayicon"><varname>notrayicon</varname></term>
+	  <listitem>
+	    <simpara>A boolean value specifying whether to show an icon
+	    in the system tray using Zenity. If set to
+	    <constant>True</constant>, notifications are not emitted.
+	    Defaults to <constant>False</constant> except from on Win32,
+		where it defaults to <constant>True</constant>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -2414,8 +2465,8 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <para>The <sgmltag class="attribute">id</sgmltag> attribute
         gives the name of the module.  The child elements are handled
         as for <link
-        linkend="moduleset-syntax-defs-cvsmodule"><sgmltag
-        class="element">cvsmodule</sgmltag></link>.</para>
+        linkend="moduleset-syntax-defs-autotools"><sgmltag
+        class="element">autotools</sgmltag></link>.</para>
       </section>
     </section>
 

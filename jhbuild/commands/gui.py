@@ -27,7 +27,7 @@ import jhbuild.frontends
 
 
 class cmd_gui(Command):
-    doc = _('Build targets from a GUI app')
+    doc = N_('Build targets from a GUI app')
 
     name = 'gui'
     usage_args = ''

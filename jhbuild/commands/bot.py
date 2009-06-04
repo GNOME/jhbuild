@@ -50,10 +50,10 @@ except ImportError:
     buildbot = None
 
 class cmd_bot(Command):
-    doc = _('Control buildbot')
+    doc = N_('Control buildbot')
 
     name = 'bot'
-    usage_args = '[ options ... ]'
+    usage_args = N_('[ options ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -85,13 +85,13 @@ class cmd_bot(Command):
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
             make_option('--slaves-dir', metavar='SLAVESDIR',
-                        action='store', dest='slaves_dir', default='.',
+                        action='store', dest='slaves_dir', default=None,
                         help=_('directory with slaves files (only with --start-server)')),
             make_option('--buildbot-dir', metavar='BUILDBOTDIR',
                         action='store', dest='buildbot_dir', default=None,
                         help=_('directory with buildbot work files (only with --start-server)')),
             make_option('--mastercfg', metavar='CFGFILE',
-                        action='store', dest='mastercfgfile', default='master.cfg',
+                        action='store', dest='mastercfgfile', default=None,
                         help=_('master cfg file location (only with --start-server)')),
             make_option('--step',
                         action='store_true', dest='step', default=False,
@@ -123,9 +123,9 @@ class cmd_bot(Command):
         daemonize = False
         pidfile = None
         logfile = None
-        slaves_dir = None
-        mastercfgfile = None
-        buildbot_dir = None
+        slaves_dir = config.jhbuildbot_slaves_dir
+        mastercfgfile = config.jhbuildbot_mastercfg
+        buildbot_dir = config.jhbuildbot_dir
 
         if options.daemon:
             daemonize = True
@@ -151,25 +151,26 @@ class cmd_bot(Command):
             __builtin__.__dict__['_'] = lambda x: x
             config.interact = False
             config.nonetwork = True
-            if args[0] == 'update':
-                command = 'updateone'
-                config.nonetwork = False
-            elif args[0] == 'build':
-                command = 'buildone'
-                config.alwaysautogen = True
-            elif args[0] == 'check':
-                command = 'buildone'
-                config.nobuild = True
-                config.makecheck = True
-                config.forcecheck = True
-                config.build_policy = 'all'
-            elif args[0] == 'clean':
-                command = 'cleanone'
-                args.append('--honour-config')
+            os.environ['TERM'] = 'dumb'
+            if args[0] in ('update', 'build', 'check', 'clean'):
+                module_set = jhbuild.moduleset.load(config)
+                buildscript = jhbuild.frontends.get_buildscript(config,
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                phases = None
+                if args[0] == 'update':
+                    config.nonetwork = False
+                    phases = ['checkout']
+                elif args[0] == 'build':
+                    config.alwaysautogen = True
+                    config.build_targets = ['install']
+                elif args[0] == 'check':
+                    phases = ['check']
+                elif args[0] == 'clean':
+                    phases = ['clean']
+                rc = buildscript.build(phases=phases)
             else:
                 command = args[0]
-            os.environ['TERM'] = 'dumb'
-            rc = jhbuild.commands.run(command, config, args[1:])
+                rc = jhbuild.commands.run(command, config, args[1:])
             sys.exit(rc)
 
         if options.start_server:
@@ -672,9 +673,10 @@ class cmd_bot(Command):
         if buildbot_dir:
             basedir = buildbot_dir
         else:
-            basedir = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)),
-                    '../../buildbot/')
+            if PKGDATADIR:
+                basedir = os.path.join(PKGDATADIR, 'buildbot')
+            else:
+                basedir = os.path.join(SRCDIR, 'buildbot')
         os.chdir(basedir)
         if not os.path.exists(os.path.join(basedir, 'builddir')):
             os.makedirs(os.path.join(basedir, 'builddir'))

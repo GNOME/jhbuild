@@ -98,7 +98,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                 os.environ[k] = 'C'
 
         if self.verbose:
-            self.trayicon = trayicon.TrayIcon()
+            self.trayicon = trayicon.TrayIcon(config)
 
     def message(self, msg, module_num=-1, skipfp = False):
         '''Display a message to the user'''
@@ -238,27 +238,27 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         self.modulefp = None
         self.server.end_module(self.build_id, module, compress_data(log), failed)
 
-    def start_phase(self, module, state):
-        self.server.start_phase(self.build_id, module, state)
+    def start_phase(self, module, phase):
+        self.server.start_phase(self.build_id, module, phase)
         if self.verbose:
-            TerminalBuildScript.start_phase(self, module, state)
+            TerminalBuildScript.start_phase(self, module, phase)
         self.phasefp = StringIO()
 
 
-    def end_phase(self, module, state, error):
+    def end_phase(self, module, phase, error):
         log = fix_encoding(self.phasefp.getvalue())
         self.phasefp = None
 
-        if state == 'test':
+        if phase == 'test':
             if self.modules == {}:
                 self.modules = jhbuild.moduleset.load_tests(self.config)
 
             if module in self.modules.modules.keys() \
                    and self.modules.modules[module].test_type == 'ldtp':
                 self._upload_logfile(module)
-        self.server.end_phase(self.build_id, module, state, compress_data(log), error)
+        self.server.end_phase(self.build_id, module, phase, compress_data(log), error)
 
-    def handle_error(self, module, state, nextstate, error, altstates):
+    def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
 	print 'FIXME: handle error! (failed build: %s: %s)' % (module, error)
         return 'fail'

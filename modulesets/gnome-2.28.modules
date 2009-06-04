@@ -992,6 +992,8 @@
       <dep package="gstreamer"/>
       <dep package="gst-python"/>
       <dep package="gnonlin"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
     </dependencies>
   </autotools>
 
@@ -1038,6 +1040,15 @@
     </after>
   </autotools>
 
+  <tarball id="raptor" version="1.4.18">
+    <source href="http://download.librdf.org/source/raptor-1.4.18.tar.gz"
+            md5sum="284e768eeda0e2898b0d5bf7e26a016e" size="1657246"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </tarball>
+
   <autotools id="tracker">
     <branch revision="tracker-0.6"/>
     <dependencies>
@@ -1056,6 +1067,7 @@
     </dependencies>
     <suggests>
       <dep package="exempi"/>
+      <dep package="raptor"/>
     </suggests>
     <after>
       <dep package="deskbar-applet"/>
@@ -1186,9 +1198,9 @@
     </dependencies>
   </autotools>
 
-  <tarball id="vala" version="0.7.2" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.2.tar.bz2"
-            md5sum="a1e35fe5a7ebeb6c208c1d379e445115" size="1828305"/>
+  <tarball id="vala" version="0.7.3" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.3.tar.bz2"
+            md5sum="8e8bb3d30a4f7ca3fab75db82beaa60e" size="1837255"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1210,9 +1222,9 @@
   </autotools>
 
   <autotools id="libgee-trunk">
-    <branch/>
+    <branch module="libgee"/>
     <dependencies>
-      <dep package="vala"/>
+      <dep package="vala-trunk"/>
       <dep package="glib"/>
     </dependencies>
   </autotools>
@@ -2353,6 +2365,41 @@
     <suggests>
       <dep package="libpanelappletmm"/>
     </suggests>
+  </autotools>
+
+  <autotools id="gparted">
+    <branch/>
+    <dependencies>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-zeitgeist">
+    <branch repo="launchpad.net"
+            module="~gnome-zeitgeist/gnome-zeitgeist/gnome-zeitgeist"
+            checkoutdir="gnome-zeitgeist"/>
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="sqlite3"/>
+      <dep package="dbus-python"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="niepce">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+      <dep package="gconf"/>
+      <dep package="libgnomeui"/>
+      <dep package="exempi"/>
+      <dep package="sqlite3"/>
+      <dep package="gegl"/>
+      <dep package="geglmm"/>
+      <dep package="libxml2"/>
+      <dep package="libopenraw"/>
+      <dep package="babl"/>
+    </dependencies>
   </autotools>
 
 </moduleset>

@@ -30,21 +30,14 @@ import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, register_command
 
-
-def parse_relative_time(s):
-    m = re.match(r'(\d+) *([smhdw])', s.lower())
-    if m:
-        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
-        return float(m.group(1)) * coeffs[m.group(2)]
-    else:
-        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+from jhbuild.config import parse_relative_time
 
 
 class cmd_update(Command):
-    doc = _('Update all modules from version control')
+    doc = N_('Update all modules from version control')
 
     name = 'update'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -66,15 +59,7 @@ class cmd_update(Command):
             ])
 
     def run(self, config, options, args):
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.ignore_suggests:
-            config.ignore_suggests = True
-
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags=config.tags,
@@ -87,7 +72,7 @@ class cmd_update(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         # don't actually perform build ...
-        config.nobuild = True
+        config.build_targets = ['checkout']
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
@@ -97,10 +82,10 @@ register_command(cmd_update)
 
 
 class cmd_updateone(Command):
-    doc = _('Update one or more modules from version control')
+    doc = N_('Update one or more modules from version control')
 
     name = 'updateone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -110,9 +95,7 @@ class cmd_updateone(Command):
             ])
 
     def run(self, config, options, args):
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
@@ -123,7 +106,7 @@ class cmd_updateone(Command):
             self.parser.error(_('This command requires a module parameter.'))
 
         # don't actually perform build ...
-        config.nobuild = True
+        config.build_targets = ['checkout']
         config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
@@ -133,10 +116,10 @@ register_command(cmd_updateone)
 
 
 class cmd_cleanone(Command):
-    doc = _('Clean one or more modules')
+    doc = N_('Clean one or more modules')
 
     name = 'cleanone'
-    usage_args = '[ options ... ] [ modules ... ]'
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -161,9 +144,10 @@ class cmd_cleanone(Command):
             logging.info(
                     _('clean command called while makeclean is set to False, skipped.'))
             return 0
+        config.build_targets = ['clean']
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.clean()
+        return build.build()
 
 register_command(cmd_cleanone)
 
@@ -196,7 +180,11 @@ def check_bootstrap_updateness(config):
         if p_version != module.get_revision():
             updated_modules.append(module.name)
 
-    bootstrap_uri = os.path.join(os.path.dirname(__file__), '../../modulesets/bootstrap.modules')
+    if not config.modulesets_dir:
+        return
+    bootstrap_uri = os.path.join(config.modulesets_dir, 'bootstrap.modules')
+    if not os.path.exists(bootstrap_uri):
+        return
     bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
 
     if max_install_date <= bootstrap_mtime:
@@ -214,10 +202,10 @@ def check_bootstrap_updateness(config):
 
 
 class cmd_build(Command):
-    doc = _('Update and compile all modules (the default)')
+    doc = N_('Update and compile all modules (the default)')
 
     name = 'build'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -275,39 +263,7 @@ class cmd_build(Command):
             ])
 
     def run(self, config, options, args):
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.dist:
-            config.makedist = True
-        if options.ignore_suggests:
-            config.ignore_suggests = True
-        if options.distcheck:
-            config.makedistcheck = True
-        if options.nonetwork:
-            config.nonetwork = True
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.noxvfb is not None:
-            config.noxvfb = options.noxvfb
-        if options.trycheckout:
-            config.trycheckout = True
-        if options.nopoison:
-            config.nopoison = True
-        if options.quiet:
-            config.quiet_mode = True
-        if options.force_policy:
-            config.build_policy = 'all'
-        if options.min_age:
-            try:
-                config.min_time = time.time() - parse_relative_time(options.min_age)
-            except ValueError:
-                raise FatalError(_('Failed to parse relative time'))
+        config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
@@ -337,10 +293,10 @@ register_command(cmd_build)
 
 
 class cmd_buildone(Command):
-    doc = _('Update and compile one or more modules')
+    doc = N_('Update and compile one or more modules')
 
     name = 'buildone'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -377,29 +333,7 @@ class cmd_buildone(Command):
             ])
 
     def run(self, config, options, args):
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
-        if options.dist:
-            config.makedist = True
-        if options.distcheck:
-            config.makedistcheck = True
-        if options.nonetwork:
-            config.nonetwork = True
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.noxvfb is not None:
-            config.noxvfb = options.noxvfb
-        if options.quiet:
-            config.quiet_mode = True
-        if options.force_policy:
-            config.build_policy = 'all'
-        if options.min_age:
-            try:
-                config.min_time = time.time() - parse_relative_time(options.min_age)
-            except ValueError:
-                raise FatalError(_('Failed to parse relative time'))
+        config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
@@ -420,10 +354,10 @@ register_command(cmd_buildone)
 
 
 class cmd_run(Command):
-    doc = _('Run a command under the JHBuild environment')
+    doc = N_('Run a command under the JHBuild environment')
 
     name = 'run'
-    usage_args = _('[ options ... ] program [ arguments ... ]')
+    usage_args = N_('[ options ... ] program [ arguments ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -473,7 +407,7 @@ register_command(cmd_run)
 
 
 class cmd_shell(Command):
-    doc = _('Start a shell under the JHBuild environment')
+    doc = N_('Start a shell under the JHBuild environment')
 
     name = 'shell'
     usage_args = ''
@@ -488,10 +422,10 @@ register_command(cmd_shell)
 
 
 class cmd_list(Command):
-    doc = _('List the modules that would be built')
+    doc = N_('List the modules that would be built')
 
     name = 'list'
-    usage_args = _('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [
@@ -519,12 +453,7 @@ class cmd_list(Command):
             ])
 
     def run(self, config, options, args):
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.ignore_suggests:
-            config.ignore_suggests = True
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
             module_list = module_set.modules.values()
@@ -555,10 +484,10 @@ register_command(cmd_list)
 
 
 class cmd_dot(Command):
-    doc = _('Output a Graphviz dependency graph for one or more modules')
+    doc = N_('Output a Graphviz dependency graph for one or more modules')
 
     name = 'dot'
-    usage_args = _('[ modules ... ]')
+    usage_args = N_('[ modules ... ]')
 
     def __init__(self):
         Command.__init__(self, [

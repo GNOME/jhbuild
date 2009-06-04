@@ -2,7 +2,7 @@
 # This file holds the default values for the ~/.jhbuildrc file.
 # Do not copy this to ~/.jhbuildrc
 
-import os
+import os, sys
 
 if 'GTK_PATH' in os.environ.keys():
     del os.environ['GTK_PATH']
@@ -78,6 +78,8 @@ trycheckout   = False  # try to force checkout and autogen on failure
 nopoison      = False  # don't poison modules on failure
 forcecheck    = False  # run make check even when not building
 
+build_targets = ['install']
+
 makecheck_advisory = False # whether to pass over 'make check' failures
 
 interact      = True   # whether to interact with the user.
@@ -96,11 +98,15 @@ copy_dir = None
 # whether to install to lib64 directories?  Currently this will default to
 # True on Linux AMD64, PPC64 or S390x systems, and False everywhere else.
 # Patches accepted to fix the default for other architectures.
-uname = os.uname()
-use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
-                                      ('Linux', 'ppc64'),
-                                      ('Linux', 's390x') ]
-del uname
+try:
+    uname = os.uname()
+    use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
+                                          ('Linux', 'ppc64'),
+                                          ('Linux', 's390x') ]
+    del uname
+except AttributeError:
+    # some platforms don't have os.uname (ie. Win32)
+    use_lib64 = False
 
 # default buildscript.  You should probably leave this as the default.
 # In particular, don't set it to 'gtk'.
@@ -125,8 +131,14 @@ cvs_program = 'cvs'
 mirror_policy = ""
 module_mirror_policy = {}
 
-# whether not to emit notifications through the notification daemon
-nonotify = False
+if sys.platform.startswith('win'):
+    notrayicon = True
+    nonotify = True
+else:
+    # Show a tray icon using zenity
+    notrayicon = False
+    # whether not to emit notifications through the notification daemon
+    nonotify = False
 
 # whether to run tests in real X and not in Xvfb
 noxvfb = False
@@ -141,6 +153,9 @@ jhbuildbot_password = None
 
 # options for jhbuildbot master
 jhbuildbot_svn_commits_box = None
+jhbuildbot_slaves_dir = os.path.abspath(".")
+jhbuildbot_dir = None
+jhbuildbot_mastercfg = "master.cfg"
 
 # whether to use a local copy of modulesets (instead of fetching them from svn)
 use_local_modulesets = False

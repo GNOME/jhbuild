@@ -23,9 +23,14 @@ import sys
 import traceback
 import types
 import logging
+import __builtin__
 
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.utils.cmds import get_output
+
+if sys.platform.startswith('win'):
+    # For munging paths for MSYS's benefit
+    import jhbuild.utils.subprocess_win32
 
 __all__ = [ 'Config' ]
 
@@ -40,15 +45,17 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'alwaysautogen', 'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
-                'makedistcheck', 'nonotify', 'cvs_program',
+                'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
                 'nopoison', 'forcecheck', 'makecheck_advisory',
                 'quiet_mode', 'progress_bar', 'module_extra_env',
                 'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
-                'jhbuildbot_svn_commits_box',
+                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
+                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
+                'build_targets',
                 ]
 
 env_prepends = {}
@@ -59,6 +66,9 @@ def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
     # special case ACLOCAL_FLAGS
     if envvar in [ 'ACLOCAL_FLAGS' ]:
+        if sys.platform.startswith('win'):
+            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
         envval = os.environ.get(envvar, '-I %s' % path)
         parts = ['-I', path] + envval.split()
         i = 2
@@ -75,14 +85,36 @@ def addpath(envvar, path):
                 i += 1
         envval = ' '.join(parts)
     elif envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
+        if sys.platform.startswith('win'):
+            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
         envval = os.environ.get(envvar)
         if envval:
             envval = path + ' ' + envval
         else:
             envval = path
     else:
+        if envvar == 'PATH':
+            # PATH is special cased on Windows to allow execution without
+            # sh.exe. The other env vars (like LD_LIBRARY_PATH) don't mean
+            # anything to native Windows so they stay in UNIX format, but
+            # PATH is kept in Windows format (; seperated, c:/ or c:\ format
+            # paths) so native Popen works.
+            pathsep = os.pathsep
+        else:
+            pathsep = ':'
+            if sys.platform.startswith('win'):
+                path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
+            if sys.platform.startswith('win') and path[1]==':':
+                # Windows: Don't allow c:/ style paths in :-seperated env vars
+                # for obvious reasons. /c/ style paths are valid - if a var is
+                # seperated by : it will only be of interest to programs inside
+                # MSYS anyway.
+                path='/'+path[0]+path[2:]
+
         envval = os.environ.get(envvar, path)
-        parts = envval.split(':')
+        parts = envval.split(pathsep)
         parts.insert(0, path)
         # remove duplicate entries:
         i = 1
@@ -93,9 +125,18 @@ def addpath(envvar, path):
                 del parts[i]
             else:
                 i += 1
-        envval = ':'.join(parts)
+        envval = pathsep.join(parts)
 
     os.environ[envvar] = envval
+
+def parse_relative_time(s):
+    m = re.match(r'(\d+) *([smhdw])', s.lower())
+    if m:
+        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
+        return float(m.group(1)) * coeffs[m.group(2)]
+    else:
+        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+
 
 class Config:
     _orig_environ = None
@@ -104,7 +145,8 @@ class Config:
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
-            'prependpath':  prependpath
+            'prependpath':  prependpath,
+            'include': self.include,
             }
 
         if not self._orig_environ:
@@ -113,7 +155,26 @@ class Config:
         try:
             SRCDIR
         except NameError:
-            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
+            # this happens when an old jhbuild script is called
+            if os.path.realpath(sys.argv[0]) == os.path.expanduser('~/bin/jhbuild'):
+                # if it was installed in ~/bin/, it may be because the new one
+                # is installed in ~/.local/bin/jhbuild
+                if os.path.exists(os.path.expanduser('~/.local/bin/jhbuild')):
+                    logging.warning(
+                            _('JHBuild start script has been installed in '
+                              '~/.local/bin/jhbuild, you should remove the '
+                              'old version that is still in ~/bin/ (or make '
+                              'it a symlink to ~/.local/bin/jhbuild'))
+            if os.path.exists(os.path.join(sys.path[0], 'jhbuild')):
+                # the old start script inserted its source directory in
+                # sys.path, use it now to set new variables
+                __builtin__.__dict__['SRCDIR'] = sys.path[0]
+                __builtin__.__dict__['PKGDATADIR'] = None
+                __builtin__.__dict__['DATADIR'] = None
+            else:
+                raise FatalError(
+                    _('Obsolete jhbuild start script, make sure it is removed '
+                      'then do run \'make install\''))
 
         env_prepends.clear()
         try:
@@ -132,12 +193,26 @@ class Config:
     def reload(self):
         os.environ = self._orig_environ.copy()
         self.__init__(filename=self._config.get('__file__'))
+        self.set_from_cmdline_options(options=None)
+
+    def include(self, filename):
+        '''Read configuration variables from a file.'''
+        try:
+            execfile(filename, self._config)
+        except:
+            traceback.print_exc()
+            raise FatalError(_('Could not include config file (%s)') % filename)
 
     def load(self):
         config = self._config
         try:
             execfile(self.filename, config)
-        except Exception:
+        except Exception, e:
+            if isinstance(e, FatalError):
+                # raise FatalErrors back, as it means an error in include()
+                # and it will print a traceback, and provide a meaningful
+                # message.
+                raise e
             traceback.print_exc()
             raise FatalError(_('could not load config file'))
 
@@ -148,7 +223,7 @@ class Config:
                     continue
                 if k[0] == '_':
                     continue
-                if type(config[k]) in (types.ModuleType, types.FunctionType):
+                if type(config[k]) in (types.ModuleType, types.FunctionType, types.MethodType):
                     continue
                 unknown_keys.append(k)
             if unknown_keys:
@@ -229,7 +304,12 @@ class Config:
         # scripts to find modules that do not use pkg-config (such as guile
         # looking for gmp, or wireless-tools for NetworkManager)
         # (see bug #377724 and bug #545018)
+
+        # This path doesn't always get passed to addpath so we fix it here
+        if sys.platform.startswith('win'):
+            libdir = jhbuild.utils.subprocess_win32.fix_path_for_msys(libdir)
         os.environ['LDFLAGS'] = ('-L%s ' % libdir) + os.environ.get('LDFLAGS', '')
+
         includedir = os.path.join(self.prefix, 'include')
         addpath('C_INCLUDE_PATH', includedir)
         addpath('CPLUS_INCLUDE_PATH', includedir)
@@ -341,6 +421,70 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
+        self.update_build_targets()
+
+    def update_build_targets(self):
+        # update build targets according to old flags
+        if self.makecheck and not 'check' in self.build_targets:
+            self.build_targets.insert(0, 'check')
+        if self.makeclean and not 'clean' in self.build_targets:
+            self.build_targets.insert(0, 'clean')
+        if self.nobuild:
+            # nobuild actually means "checkout"
+            for phase in ('configure', 'build', 'check', 'clean', 'install'):
+                if phase in self.build_targets:
+                    self.build_targets.remove(phase)
+            self.build_targets.append('checkout')
+        if self.makedist and not 'dist' in self.build_targets:
+            self.build_targets.append('dist')
+        if self.makedistcheck and not 'distcheck' in self.build_targets:
+            self.build_targets.append('distcheck')
+
+    def set_from_cmdline_options(self, options=None):
+        if options is None:
+            options = self.cmdline_options
+        else:
+            self.cmdline_options = options
+        if hasattr(options, 'autogen') and options.autogen:
+            self.alwaysautogen = True
+        if hasattr(options, 'clean') and (
+                options.clean and not 'clean' in self.build_targets):
+            self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'dist') and (
+                options.dist and not 'dist' in self.build_targets):
+            self.build_targets.append('dist')
+        if hasattr(options, 'distcheck') and (
+                options.distcheck and not 'distcheck' in self.build_targets):
+            self.build_targets.append('distcheck')
+        if hasattr(options, 'ignore_suggests') and options.ignore_suggests:
+            self.ignore_suggests = True
+        if hasattr(options, 'nonetwork') and options.nonetwork:
+            self.nonetwork = True
+        if hasattr(options, 'skip'):
+            for item in options.skip:
+                self.skip += item.split(',')
+        if hasattr(options, 'tags'):
+            for item in options.tags:
+                self.tags += item.split(',')
+        if hasattr(options, 'sticky_date') and options.sticky_date is not None:
+                self.sticky_date = options.sticky_date
+        if hasattr(options, 'xvfb') and options.noxvfb is not None:
+                self.noxvfb = options.noxvfb
+        if hasattr(options, 'trycheckout') and  options.trycheckout:
+            self.trycheckout = True
+        if hasattr(options, 'nopoison') and options.nopoison:
+            self.nopoison = True
+        if hasattr(options, 'quiet') and options.quiet:
+            self.quiet_mode = True
+        if hasattr(options, 'force_policy') and options.force_policy:
+            self.build_policy = 'all'
+        if hasattr(options, 'min_age') and options.min_age:
+            try:
+                self.min_time = time.time() - parse_relative_time(options.min_age)
+            except ValueError:
+                raise FatalError(_('Failed to parse relative time'))
+
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''

@@ -3,6 +3,8 @@ EXTRA_DIST = hg-update.py jhbuild.in
 bin_SCRIPTS = jhbuild
 CLEANFILES = jhbuild
 
+pkgdata_SCRIPTS = hg-update.py
+
 jhbuild: jhbuild.in
 	sed						\
 		-e s!\@srcdir\@!$(abs_top_srcdir)!	\

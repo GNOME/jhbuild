@@ -124,14 +124,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libglade">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="pango">
     <branch/>
     <dependencies>
@@ -197,6 +189,14 @@
       <dep package="libbonobo"/>
       <dep package="libgnomecanvas"/>
       <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libglade">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -653,6 +653,7 @@
       <dep package="icon-naming-utils"/>
       <dep package="gnome-common"/>
       <dep package="intltool"/>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
@@ -1558,6 +1559,7 @@
       <dep package="intltool"/>
       <dep package="gtk+"/>
       <dep package="pygtk"/>
+      <dep package="pyxdg"/>
     </dependencies>
   </autotools>
 
@@ -1595,6 +1597,7 @@
     </dependencies>
     <suggests>
       <dep package="devhelp"/>
+      <dep package="WebKit"/> <!-- required for the devhelp plugin -->
       <dep package="glade3"/>
     </suggests>
   </autotools>  
@@ -1717,6 +1720,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="krb5-auth-dialog">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
 <!-- Meta Modules -->
 
   <metamodule id="meta-gnome-devel-platform-upcoming-deprecations">
@@ -1730,6 +1746,7 @@
       <dep package="libart_lgpl"/>
       <dep package="libbonobo"/>
       <dep package="libbonoboui"/>
+      <dep package="libglade"/>
       <dep package="libgnome"/>
       <dep package="libgnomecanvas"/>
       <dep package="libgnomeui"/>
@@ -1744,7 +1761,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
-      <dep package="libglade"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
       <dep package="pango"/>
@@ -1933,6 +1949,7 @@
     <dependencies>
       <dep package="gnome-disk-utility"/>
       <dep package="libgdata"/>
+      <dep package="krb5-auth-dialog"/>
     </dependencies>
   </metamodule>
 
