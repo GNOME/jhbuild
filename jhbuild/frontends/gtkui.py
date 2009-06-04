@@ -45,6 +45,10 @@ from jhbuild.utils import notify
 from terminal import t_bold, t_reset
 
 
+class ExitRequestedException(Exception):
+    pass
+
+
 class AppWindow(gtk.Window, buildscript.BuildScript):
     default_module_iter = None
     active_iter = None
@@ -123,7 +127,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             os.kill(self.child_pid, signal.SIGKILL)
         if gtk.main_level():
             gtk.main_quit()
-            sys.exit(0)
 
     def create_ui(self):
         self.set_border_width(5)
@@ -307,7 +310,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 return self.rc
             except AttributeError:
                 return 1
-        self.rc = buildscript.BuildScript.build(self)
+        try:
+            self.rc = buildscript.BuildScript.build(self)
+        except ExitRequestedException:
+            self.rc = 1
         return self.rc
 
     def start_build(self):
@@ -501,7 +507,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             while self.vte_fork_running:
                 gtk.main_iteration()
                 if self.quit:
-                    return
+                    raise ExitRequestedException()
             self.child_pid = None
             if os.WIFEXITED(self.vte_child_exit_status):
                 rc = os.WEXITSTATUS(self.vte_child_exit_status)
