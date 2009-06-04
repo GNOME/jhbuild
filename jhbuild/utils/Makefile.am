@@ -8,5 +8,6 @@ app_PYTHON = \
 	packagedb.py \
 	sxml.py \
 	trayicon.py \
-	unpack.py
+	unpack.py \
+	systempackages.py
 

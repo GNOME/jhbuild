@@ -6,6 +6,7 @@ app_PYTHON = \
 	base.py \
 	bootstrap.py \
 	bot.py \
+	builddeps.py \
 	checkbranches.py \
 	checkmodulesets.py \
 	clean.py \
