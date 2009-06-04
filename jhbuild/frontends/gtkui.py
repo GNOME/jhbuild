@@ -448,6 +448,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 # Allow the frontend to get a little time
                 while gtk.events_pending():
                     gtk.main_iteration()
+                    if self.quit:
+                        raise ExitRequestedException()
 
                 rlist, wlist, xlist = select.select(read_set, [], [], 0)
 
