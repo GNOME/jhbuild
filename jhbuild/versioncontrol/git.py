@@ -288,7 +288,8 @@ class GitBranch(Branch):
         if stashed:
             # git stash pop was introduced in 1.5.5, 
             if check_version(['git', '--version'],
-                         r'git version ([\d.]+)', '1.5.5'):
+                         r'git version ([\d.]+)', '1.5.5',
+                         extra_env=get_git_extra_env()):
                 buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
             else:
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
