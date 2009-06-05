@@ -51,8 +51,8 @@ if 'ssh' not in urlparse.uses_relative:
     urlparse.uses_relative.append('ssh')
 
 def get_git_extra_env():
-    # we run git without the JHBuild LD_LIBRARY_PATH, as it can lead to
-    # errors if it picks up jhbuilded libraries, such as nss
+    # we run git without the JHBuild LD_LIBRARY_PATH and PATH, as it can
+    # lead to errors if it picks up jhbuilded libraries, such as nss
     return { 'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
              'PATH': os.environ.get('UNMANGLED_PATH')}
 
