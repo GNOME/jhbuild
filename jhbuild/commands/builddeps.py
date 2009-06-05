@@ -49,10 +49,21 @@ class cmd_builddeps(Command):
         to_install = []
 
         modules = module_set.get_module_list(args or config.modules)
-        for module in modules:
+
+        asked_modules = (args or config.modules)[:]
+        for modname in asked_modules:
+            module = module_set.get_module(modname)
             min_version = module.get_minimum_version(modules)
+
             if pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version):
                 to_install.append(pkgs.get_pkgname(module.name))
+            else:
+                for depmod in module.dependencies:
+                    if depmod not in asked_modules:
+                        asked_modules.append(depmod)
+                if not config.ignore_suggests:
+                    for depmod in module.suggests:
+                        asked_modules.append(depmod)
 
         if options.dryrun:
             print "Will install: %s" % " ".join(to_install)
