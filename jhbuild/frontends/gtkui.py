@@ -511,6 +511,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     textbuffer.insert_with_tags_by_name(
                             textbuffer.get_end_iter(), chunk, 'stderr')
 
+                if textbuffer.get_line_count() > 200:
+                    textbuffer.delete(0,
+                            textbuffer.get_iter_at_line_offset(200, 0).get_offset())
+
                 mark = textbuffer.get_mark('end')
                 if mark:
                     mark.move_mark(textbuffer.get_end_iter())
