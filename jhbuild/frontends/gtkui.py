@@ -517,7 +517,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
                 mark = textbuffer.get_mark('end')
                 if mark:
-                    mark.move_mark(textbuffer.get_end_iter())
+                    textbuffer.move_mark(mark, textbuffer.get_end_iter())
                 else:
                     mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
                 self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
