@@ -512,8 +512,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                             textbuffer.get_end_iter(), chunk, 'stderr')
 
                 if textbuffer.get_line_count() > 200:
-                    textbuffer.delete(0,
-                            textbuffer.get_iter_at_line_offset(200, 0).get_offset())
+                    textbuffer.delete(textbuffer.get_start_iter(),
+                            textbuffer.get_iter_at_line_offset(
+                                textbuffer.get_line_count()-200, 0))
 
                 mark = textbuffer.get_mark('end')
                 if mark:
