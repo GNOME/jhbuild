@@ -511,9 +511,12 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     textbuffer.insert_with_tags_by_name(
                             textbuffer.get_end_iter(), chunk, 'stderr')
 
-                mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
+                mark = textbuffer.get_mark('end')
+                if mark:
+                    mark.move_mark(textbuffer.get_end_iter())
+                else:
+                    mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
                 self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
-
 
                 # See if we should pause the current command
                 if not build_paused and self.is_build_paused():
