@@ -190,6 +190,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             self.terminal.set_editable(False)
             self.terminal.set_wrap_mode(gtk.WRAP_CHAR)
         sclwin.add(self.terminal)
+        self.terminal_sclwin = sclwin
 
         self.error_hbox = self.create_error_hbox()
         app_vbox.pack_start(self.error_hbox, fill=False, expand=False)
@@ -521,7 +522,13 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     textbuffer.move_mark(mark, textbuffer.get_end_iter())
                 else:
                     mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
-                self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
+
+                if self.terminal_sclwin.get_vadjustment().upper == \
+                        (self.terminal_sclwin.size_request()[1] + 
+                         self.terminal_sclwin.get_vadjustment().get_value()):
+                    # currently at the bottom of the textview, therefore scroll
+                    # automatically
+                    self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
 
                 # See if we should pause the current command
                 if not build_paused and self.is_build_paused():
