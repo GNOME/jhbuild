@@ -31,6 +31,7 @@ import subprocess
 
 import gobject
 import gtk
+import pango
 try:
     import vte
 except ImportError:
@@ -159,17 +160,36 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.progressbar.set_text(_('Build Progess'))
         app_vbox.pack_start(self.progressbar, fill=False, expand=False)
 
+        expander = gtk.Expander(_('Terminal'))
+        expander.set_expanded(False)
+        app_vbox.pack_start(expander, fill=False, expand=False)
+        sclwin = gtk.ScrolledWindow()
+        sclwin.set_size_request(-1, 300)
+        sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        expander.add(sclwin)
         if vte:
-            expander = gtk.Expander(_('Terminal'))
-            expander.set_expanded(False)
-            app_vbox.pack_start(expander, fill=False, expand=False)
-            sclwin = gtk.ScrolledWindow()
-            sclwin.set_size_request(-1, 300)
-            sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-            expander.add(sclwin)
             self.terminal = vte.Terminal()
             self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
-            sclwin.add(self.terminal)
+        else:
+            os.environ['TERM'] = 'dumb' # avoid commands printing vt sequences
+            self.terminal = gtk.TextView()
+            self.terminal.set_size_request(800, -1)
+            textbuffer = self.terminal.get_buffer()
+            terminal_bold_tag = textbuffer.create_tag('bold')
+            terminal_bold_tag.set_property('weight', pango.WEIGHT_BOLD)
+            terminal_mono_tag = textbuffer.create_tag('mono')
+            terminal_mono_tag.set_property('family', 'Monospace')
+            terminal_stdout_tag = textbuffer.create_tag('stdout')
+            terminal_stdout_tag.set_property('family', 'Monospace')
+            terminal_stderr_tag = textbuffer.create_tag('stderr')
+            terminal_stderr_tag.set_property('family', 'Monospace')
+            terminal_stderr_tag.set_property('foreground', 'red')
+            terminal_stdin_tag = textbuffer.create_tag('stdin')
+            terminal_stdin_tag.set_property('family', 'Monospace')
+            terminal_stdin_tag.set_property('style', pango.STYLE_ITALIC)
+            self.terminal.set_editable(False)
+            self.terminal.set_wrap_mode(gtk.WRAP_CHAR)
+        sclwin.add(self.terminal)
 
         self.error_hbox = self.create_error_hbox()
         app_vbox.pack_start(self.error_hbox, fill=False, expand=False)
@@ -331,6 +351,12 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.progressbar.set_fraction((1.0*idx) / len(self.modulelist))
         if vte:
             self.terminal.feed('%s*** %s ***%s\n\r' % (t_bold, module, t_reset))
+        else:
+            textbuffer = self.terminal.get_buffer()
+            textbuffer.insert_with_tags_by_name(
+                    textbuffer.get_end_iter(), '*** %s ***\n' % module, 'bold')
+            mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
+            self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
 
     def end_module(self, module, failed):
         self.error_hbox.hide()
@@ -416,7 +442,17 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             short_command = command[0]
 
         if vte is None:
-            # no vte widget, will just print to the parent terminal
+            textbuffer = self.terminal.get_buffer()
+
+            if isinstance(command, (str, unicode)):
+                self.terminal.get_buffer().insert_with_tags_by_name(
+                        textbuffer.get_end_iter(),
+                        ' $ ' + command + '\n', 'stdin')
+            else:
+                self.terminal.get_buffer().insert_with_tags_by_name(
+                        textbuffer.get_end_iter(),
+                        ' $ ' + ' '.join(command) + '\n', 'stdin')
+
             kws = {
                 'close_fds': True,
                 'shell': isinstance(command, (str,unicode)),
@@ -464,14 +500,20 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     if chunk == '':
                         p.stdout.close()
                         read_set.remove(p.stdout)
-                    sys.stdout.write(chunk)
+                    textbuffer.insert_with_tags_by_name(
+                            textbuffer.get_end_iter(), chunk, 'stdout')
 
                 if p.stderr in rlist:
                     chunk = p.stderr.read()
                     if chunk == '':
                         p.stderr.close()
                         read_set.remove(p.stderr)
-                    sys.stderr.write(chunk)
+                    textbuffer.insert_with_tags_by_name(
+                            textbuffer.get_end_iter(), chunk, 'stderr')
+
+                mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
+                self.terminal.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
+
 
                 # See if we should pause the current command
                 if not build_paused and self.is_build_paused():
