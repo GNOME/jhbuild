@@ -24,7 +24,7 @@ from jhbuild.utils import packagedb
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
-    def __init__(self, config, module_list):
+    def __init__(self, config, module_list=None):
         if self.__class__ is BuildScript:
             raise NotImplementedError('BuildScript is an abstract base class')
 
