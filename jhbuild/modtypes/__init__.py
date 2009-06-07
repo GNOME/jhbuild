@@ -185,7 +185,7 @@ class Package:
         try:
             method(buildscript)
         except (CommandError, BuildStateError), e:
-            error_phases = None
+            error_phases = []
             if hasattr(method, 'error_phases'):
                 error_phases = method.error_phases
             return (e, error_phases)

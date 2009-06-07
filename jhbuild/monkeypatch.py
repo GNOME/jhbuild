@@ -21,6 +21,11 @@ from __future__ import generators
 
 import sys
 
+# Windows lacks all sorts of subprocess features that we need to kludge around
+if sys.platform.startswith('win'):
+    from jhbuild.utils import subprocess_win32
+    sys.modules['subprocess'] = subprocess_win32
+
 # Python < 2.2.1 lacks  True and False constants
 import __builtin__
 if not hasattr(__builtin__, 'True'):
