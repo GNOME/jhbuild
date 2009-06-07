@@ -21,6 +21,7 @@
 #    John Carr <john.carr@unrouted.co.uk>
 
 from optparse import make_option
+import logging
 
 import jhbuild.moduleset
 import jhbuild.frontends
@@ -43,6 +44,10 @@ class cmd_builddeps(Command):
             ])
 
     def run(self, config, options, args):
+        if not config.reuse_system_packages:
+            logging.error(_("Command not available when reuse_system_packages is False. Check your jhbuildrc."))
+            return
+
         pkgs = systempackages.get_system_packages()
         module_set = jhbuild.moduleset.load(config)
 
