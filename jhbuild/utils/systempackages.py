@@ -27,10 +27,10 @@ from jhbuild.versioncontrol.tarball import TarballBranch
 
 class SystemPackages(object):
 
-    def __init__(self):
+    def __init__(self, config):
         self.aliases = {}
 
-        af = os.path.join(".", "aliases", self.aliasesfile)
+        af = os.path.join(config.aliases_dir, "aliases", self.aliasesfile)
         tmp = {}
         if os.path.exists(af+'.generated'):
             execfile(af+'.generated', tmp)
@@ -94,9 +94,8 @@ class DebianPackages(SystemPackages):
 
     aliasesfile = "debian.aliases"
 
-    def __init__(self):
-        super(DebianPackages, self).__init__()
-        import apt
+    def __init__(self, config):
+        super(DebianPackages, self).__init__(config)
         self.apt_cache = apt.Cache()
 
     def is_installed(self, name, version=None):
@@ -145,14 +144,14 @@ class DebianPackages(SystemPackages):
 
 system_packages = None
 
-def get_system_packages():
+def get_system_packages(config):
     global system_packages
     if not system_packages:
         for c in SystemPackages.__subclasses__():
             if c.supported():
-                system_packages = c()
+                system_packages = c(config)
                 break
         else:
-            system_packages = SystemPackages()
+            system_packages = SystemPackages(config)
     return system_packages
 

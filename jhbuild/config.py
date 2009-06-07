@@ -55,7 +55,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_dir', 'jhbuildbot_mastercfg',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
-                'build_targets',
+                'build_targets', 'aliases_dir',
                 ]
 
 env_prepends = {}
