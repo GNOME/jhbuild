@@ -711,7 +711,7 @@ class PreferencesDialog(gtk.Dialog):
             checkbutton = gtk.CheckButton(label)
             checkbutton.set_active(getattr(self.app.config, key))
             checkbutton.connect('toggled', self.on_toggled_key, key)
-            vbox.pack_start(checkbutton)
+            vbox.pack_start(checkbutton, expand=False, fill=False)
 
         self.vbox.show_all()
         self.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
