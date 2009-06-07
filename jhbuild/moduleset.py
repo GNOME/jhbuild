@@ -35,6 +35,7 @@ from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
 from jhbuild.utils.cmds import get_output
+from jhbuild.utils.systempackages import get_system_packages
 
 __all__ = ['load', 'load_tests']
 
@@ -60,7 +61,7 @@ class ModuleSet:
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
-                ignore_missing=False, should_skip=None):
+                ignore_missing=False, reuse_system_packages=False):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -121,12 +122,6 @@ class ModuleSet:
                 else:
                     # no tag matched, mark module as processed
                     self._state[self.modules[modname]] = 'processed'
-
-        if should_skip:
-            for name, module in self.modules.iteritems():
-                min_version = module.get_minimum_version(all_modules)
-                if should_skip(module, min_version):
-                    self._state[module] = 'processed'
 
         def order(modules, module, mode = 'dependencies'):
             if self._state.get(module, 'clean') == 'processed':
@@ -202,8 +197,19 @@ class ModuleSet:
         ordered = self._ordered[:]
         del self._ordered
         del self._state
+
+        if reuse_system_packages:
+            pkgs = get_system_packages()
+            for module in ordered:
+                min_version = module.get_minimum_version(ordered)
+                if pkgs.satisfied(module, min_version):
+                    skip.append(module.name)
+            return self.get_module_list(seed, skip=skip, tags=tags, ignore_cycles=ignore_cycles,
+                                        ignore_suggests=ignore_suggests, include_optional_modules=include_optional_modules,
+                                        ignore_missing=ignore_missing, reuse_system_packages=False)
+
         return ordered
-    
+
     def get_full_module_list(self, skip=[], ignore_cycles=False):
         return self.get_module_list(self.modules.keys(), skip=skip,
                 ignore_cycles=ignore_cycles, ignore_missing=True)
