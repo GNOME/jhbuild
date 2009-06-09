@@ -25,6 +25,8 @@ import os
 from jhbuild.modtypes import MetaModule
 from jhbuild.versioncontrol.tarball import TarballBranch
 
+from jhbuild.errors import FatalError
+
 class SystemPackages(object):
 
     def __init__(self, config):
@@ -123,7 +125,10 @@ class DebianPackages(SystemPackages):
         cache = apt.Cache()
         for name in names:
             cache[name].markInstall()
-        cache.commit(fetchprogress, installprogress)
+        try:
+            cache.commit(fetchprogress, installprogress)
+        except apt.cache.LockFailedException:
+            raise FatalError(_('Cannot install system packages, are you root?'))
         cache.open(apt.progress.OpProgress())
 
     def remove(self, names):
