@@ -199,7 +199,7 @@ class ModuleSet:
         del self._state
 
         if reuse_system_packages:
-            pkgs = get_system_packages()
+            pkgs = get_system_packages(self.config)
             for module in ordered:
                 min_version = module.get_minimum_version(ordered)
                 if pkgs.satisfied(module, min_version):
