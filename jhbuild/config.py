@@ -23,9 +23,14 @@ import sys
 import traceback
 import types
 import logging
+import __builtin__
 
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.utils.cmds import get_output
+
+if sys.platform.startswith('win'):
+    # For munging paths for MSYS's benefit
+    import jhbuild.utils.subprocess_win32
 
 __all__ = [ 'Config' ]
 
@@ -46,7 +51,8 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'nopoison', 'forcecheck', 'makecheck_advisory',
                 'quiet_mode', 'progress_bar', 'module_extra_env',
                 'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
-                'jhbuildbot_svn_commits_box',
+                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
+                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
                 'build_targets',
@@ -60,6 +66,9 @@ def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
     # special case ACLOCAL_FLAGS
     if envvar in [ 'ACLOCAL_FLAGS' ]:
+        if sys.platform.startswith('win'):
+            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
         envval = os.environ.get(envvar, '-I %s' % path)
         parts = ['-I', path] + envval.split()
         i = 2
@@ -76,14 +85,36 @@ def addpath(envvar, path):
                 i += 1
         envval = ' '.join(parts)
     elif envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
+        if sys.platform.startswith('win'):
+            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
         envval = os.environ.get(envvar)
         if envval:
             envval = path + ' ' + envval
         else:
             envval = path
     else:
+        if envvar == 'PATH':
+            # PATH is special cased on Windows to allow execution without
+            # sh.exe. The other env vars (like LD_LIBRARY_PATH) don't mean
+            # anything to native Windows so they stay in UNIX format, but
+            # PATH is kept in Windows format (; seperated, c:/ or c:\ format
+            # paths) so native Popen works.
+            pathsep = os.pathsep
+        else:
+            pathsep = ':'
+            if sys.platform.startswith('win'):
+                path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+
+            if sys.platform.startswith('win') and path[1]==':':
+                # Windows: Don't allow c:/ style paths in :-seperated env vars
+                # for obvious reasons. /c/ style paths are valid - if a var is
+                # seperated by : it will only be of interest to programs inside
+                # MSYS anyway.
+                path='/'+path[0]+path[2:]
+
         envval = os.environ.get(envvar, path)
-        parts = envval.split(':')
+        parts = envval.split(pathsep)
         parts.insert(0, path)
         # remove duplicate entries:
         i = 1
@@ -94,7 +125,7 @@ def addpath(envvar, path):
                 del parts[i]
             else:
                 i += 1
-        envval = ':'.join(parts)
+        envval = pathsep.join(parts)
 
     os.environ[envvar] = envval
 
@@ -120,11 +151,31 @@ class Config:
 
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
+            os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
 
         try:
             SRCDIR
         except NameError:
-            raise FatalError(_('Obsolete jhbuild start script, do run \'make install\''))
+            # this happens when an old jhbuild script is called
+            if os.path.realpath(sys.argv[0]) == os.path.expanduser('~/bin/jhbuild'):
+                # if it was installed in ~/bin/, it may be because the new one
+                # is installed in ~/.local/bin/jhbuild
+                if os.path.exists(os.path.expanduser('~/.local/bin/jhbuild')):
+                    logging.warning(
+                            _('JHBuild start script has been installed in '
+                              '~/.local/bin/jhbuild, you should remove the '
+                              'old version that is still in ~/bin/ (or make '
+                              'it a symlink to ~/.local/bin/jhbuild'))
+            if os.path.exists(os.path.join(sys.path[0], 'jhbuild')):
+                # the old start script inserted its source directory in
+                # sys.path, use it now to set new variables
+                __builtin__.__dict__['SRCDIR'] = sys.path[0]
+                __builtin__.__dict__['PKGDATADIR'] = None
+                __builtin__.__dict__['DATADIR'] = None
+            else:
+                raise FatalError(
+                    _('Obsolete jhbuild start script, make sure it is removed '
+                      'then do run \'make install\''))
 
         env_prepends.clear()
         try:
@@ -254,7 +305,12 @@ class Config:
         # scripts to find modules that do not use pkg-config (such as guile
         # looking for gmp, or wireless-tools for NetworkManager)
         # (see bug #377724 and bug #545018)
+
+        # This path doesn't always get passed to addpath so we fix it here
+        if sys.platform.startswith('win'):
+            libdir = jhbuild.utils.subprocess_win32.fix_path_for_msys(libdir)
         os.environ['LDFLAGS'] = ('-L%s ' % libdir) + os.environ.get('LDFLAGS', '')
+
         includedir = os.path.join(self.prefix, 'include')
         addpath('C_INCLUDE_PATH', includedir)
         addpath('CPLUS_INCLUDE_PATH', includedir)

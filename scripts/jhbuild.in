@@ -16,6 +16,8 @@ else:
     pkgdatadir = "@pkgdatadir@"
     datadir = "@datadir@"
     srcdir = "@srcdir@"
+    if '@pythondir@' not in sys.path:
+        sys.path.insert(0, '@pythondir@')
     try:
         import jhbuild
     except ImportError:

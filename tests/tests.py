@@ -64,6 +64,15 @@ __builtin__.__dict__['uencode'] = uencode
 
 import mock
 
+if sys.platform.startswith('win'):
+    import jhbuild.utils.subprocess_win32 as subprocess_win32
+    class WindowsTestCase(unittest.TestCase):
+        '''Tests for Windows kludges.'''
+        def testCmdline2List(self):
+            cmdline = 'test "no quotes" != \\"no\\ quotes\\"'
+            cmd_list = subprocess_win32.cmdline2list (cmdline)
+            self.assertEqual (cmd_list, ['test', 'no quotes', '!=', '"no\\ quotes"'])
+
 class ModuleOrderingTestCase(unittest.TestCase):
     '''Module Ordering'''
 
@@ -615,6 +624,7 @@ class EndToEndTest(unittest.TestCase):
                         branch_dir)
         return SimpleBranch(src_name, branch_dir)
 
+    # FIXME: broken under Win32
     def test_distutils(self):
         config = self.make_config()
         module_list = [DistutilsModule('hello',
@@ -625,7 +635,7 @@ class EndToEndTest(unittest.TestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout, 'Hello world (distutils)\n')
+        self.assertEquals(stdout.strip(), 'Hello world (distutils)')
         self.assertEquals(proc.wait(), 0)
 
     def test_autotools(self):
@@ -638,9 +648,12 @@ class EndToEndTest(unittest.TestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout, 'Hello world (autotools)\n')
+        self.assertEquals(stdout.strip(), 'Hello world (autotools)')
         self.assertEquals(proc.wait(), 0)
 
+    # Won't pass under stock MSYS because pkgconfig isn't installed in base
+    # path. Will work if you set ACLOCAL_FLAGS, PATH and PKG_CONFIG_PATH to
+    # a prefix where pkg-config is installed.
     def test_autotools_with_libtool(self):
         config = self.make_config()
         module_list = [
@@ -653,7 +666,7 @@ class EndToEndTest(unittest.TestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout, 'Hello world (library test)\n')
+        self.assertEquals(stdout.strip(), 'Hello world (library test)')
         self.assertEquals(proc.wait(), 0)
 
 
