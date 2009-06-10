@@ -106,6 +106,8 @@
     href="http://bzr-playground.gnome.org/~sebp/"/>
   <repository type="tarball" name="people.suug.ch/~tgr/libnl/"
       href="http://people.suug.ch/~tgr/libnl/"/>
+  <repository type="svn" name="liferea.svn.sourceforge.net"
+      href="http://liferea.svn.sourceforge.net/svnroot/"/>
 
   <include href="freedesktop-2.28.modules"/>
   <include href="gnome-suites-2.28.modules"/>
@@ -2401,5 +2403,29 @@
       <dep package="babl"/>
     </dependencies>
   </autotools>
+
+  <autotools id="liferea">
+    <branch repo="liferea.svn.sourceforge.net"
+            module="liferea/trunk/liferea"
+            checkoutdir="liferea"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="pango"/>
+      <dep package="gconf"/>
+      <dep package="libxml2"/>
+      <dep package="sqlite3"/>
+      <dep package="libglade"/>
+      <dep package="libsoup"/>
+      <dep package="libunique"/>
+      <dep package="WebKit"/>
+    </dependencies>
+    <suggests>
+      <dep package="dbus"/>
+      <dep package="NetworkManager"/>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools> 
 
 </moduleset>
