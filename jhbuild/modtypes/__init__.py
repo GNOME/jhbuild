@@ -208,7 +208,7 @@ class Package:
 
     def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
-        if buildscript.config.nonetwork:
+        if not self.branch.may_checkout(buildscript):
             if self.check_build_policy(buildscript) == self.PHASE_DONE:
                 raise SkipToEnd()
             return True
