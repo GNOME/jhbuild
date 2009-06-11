@@ -28,8 +28,8 @@ from goalreport import cmd_goalreport, ExcludedModuleException, \
 
 class LibBonobo(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libbonobo'",
-        FIND_C + " | xargs grep '#include <bonobo'",
+        FIND_C + " | xargs grep '^#include <libbonobo'",
+        FIND_C + " | xargs grep '^#include <bonobo'",
         FIND_C + " | xargs grep 'BonoboObject'",
         FIND_C + " | xargs grep 'BonoboApplication'",
         "find -name '*.py' | xargs grep 'import .*bonobo'",
@@ -37,16 +37,16 @@ class LibBonobo(ShellCheck):
 
 class LibGnome(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libgnome/' | "\
+        FIND_C + " | xargs grep '^#include <libgnome/' | "\
                         "egrep -v 'gnome-desktop-item.h|gnome-desktop-utils.h'",
                         # gnome-desktop installs stuff under libgnome/
-        FIND_C + " | xargs grep '#include <gnome.h>'",
+        FIND_C + " | xargs grep '^#include <gnome.h>'",
         "find -name '*.cs' | xargs grep 'Gnome.Url.'", # as 'using ...' is not mandatory
     )
 
 class LibGnomeUi(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libgnomeui/' | egrep -v '"\
+        FIND_C + " | xargs grep '^#include <libgnomeui/' | egrep -v '"\
                     "gnome-rr.h|"\
                     "gnome-rr-config.h|"\
                     "gnome-desktop-thumbnail.h|"\
@@ -57,43 +57,43 @@ class LibGnomeUi(ShellCheck):
 
 class LibGnomeCanvas(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libgnomecanvas/'",
+        FIND_C + " | xargs grep '^#include <libgnomecanvas/'",
         "find -name '*.py' | xargs grep 'import .*gnomecanvas'",
     )
 
 class LibArtLgpl(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libart_lgpl/'",
+        FIND_C + " | xargs grep '^#include <libart_lgpl/'",
         "find -name '*.cs' | xargs grep '^using Art;'",
     )
 
 class LibGnomeVfs(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libgnomevfs/'",
+        FIND_C + " | xargs grep '^#include <libgnomevfs/'",
         "find -name '*.py' | xargs grep 'import .*gnomevfs'",
         "find -name '*.cs' | xargs grep '^using Gnome.Vfs'",
     )
 
 class LibGnomePrint(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <libgnomeprint'",
+        FIND_C + " | xargs grep '^#include <libgnomeprint'",
         "find -name '*.py' | xargs grep 'import .*gnomeprint'",
     )
 
 
 class Esound(ShellCheck):
-    cmd = FIND_C + " | xargs grep '#include <esd.h>'"
+    cmd = FIND_C + " | xargs grep '^#include <esd.h>'"
 
 class Orbit(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '#include <orbit'",
+        FIND_C + " | xargs grep '^#include <orbit'",
         "find -name '*.py' | xargs grep 'import .*bonobo'",
     )
 
 class LibGlade(ShellCheck):
     excluded_modules = ('libglade',)
     cmds = (
-        FIND_C + " | xargs grep '#include <glade/'",
+        FIND_C + " | xargs grep '^#include <glade/'",
         "find -name '*.py' | xargs grep 'import .*glade'",
         "find -name '*.cs' | xargs grep '^using Glade'",
     )
@@ -102,7 +102,7 @@ class GConf(ShellCheck):
     header_note = '(not&nbsp;deprecated, still&nbsp;discussed)'
     excluded_modules = ('gconf',)
     cmds = (
-        FIND_C + " | xargs grep '#include <gconf/'",
+        FIND_C + " | xargs grep '^#include <gconf/'",
         "find -name '*.py' | xargs grep 'import .*gconf'",
         "find -name '*.cs' | xargs grep '^using GConf'",
     )
