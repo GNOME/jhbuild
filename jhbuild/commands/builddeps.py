@@ -48,27 +48,30 @@ class cmd_builddeps(Command):
             logging.error(_("Command not available when reuse_system_packages is False. Check your jhbuildrc."))
             return
 
+        asked_modules = (args or config.modules)[:]
+
         pkgs = systempackages.get_system_packages(config)
         module_set = jhbuild.moduleset.load(config)
 
         to_install = []
 
-        modules = module_set.get_module_list(args or config.modules)
+        all_modules = module_set.get_module_list(asked_modules)
 
-        asked_modules = (args or config.modules)[:]
-        for modname in asked_modules:
+        visited = asked_modules[:]
+        for modname in visited:
             module = module_set.get_module(modname)
-            min_version = module.get_minimum_version(modules)
+            min_version = module.get_minimum_version(all_modules)
 
-            if pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version):
+            if modname in asked_modules or (pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version)):
                 to_install.append(pkgs.get_pkgname(module.name))
             else:
                 for depmod in module.dependencies:
-                    if depmod not in asked_modules:
-                        asked_modules.append(depmod)
+                    if depmod not in visited:
+                        visited.append(depmod)
                 if not config.ignore_suggests:
                     for depmod in module.suggests:
-                        asked_modules.append(depmod)
+                        if depmod not in visited:
+                            visited.append(depmod)
 
         if options.dryrun:
             print "Will install: %s" % " ".join(to_install)
