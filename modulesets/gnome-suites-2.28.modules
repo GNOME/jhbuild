@@ -11,6 +11,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="svn://anonsvn.mono-project.com/source/"/>
+  <repository type="git" name="github.com" href="git://github.com/"/>
+  <repository type="git" name="o-hand.com" href="git://git.o-hand.com/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -1678,20 +1680,14 @@
 
 <!-- Mobile -->
 
-  <repository type="svn" name="o-hand.com"
-    href="http://svn.o-hand.com/repos/"/>
-
-  <repository type="svn" name="imendio.com"
-    href="http://developer.imendio.com/svn/"/>
-
   <autotools id="evolution-data-server-dbus" autogenargs="--with-libdb --with-dbus --enable-calendar --enable-nntp=no --without-libgnome --without-openldap --without-bug-buddy --without-soup --disable-groupwise --disable-smime --disable-nss">
-    <branch module="evolution-data-server" revision="dbus" checkoutdir="evolution-data-server-dbus"/>
+    <branch repo="o-hand.com" module="eds-dbus" checkoutdir="evolution-data-server-dbus"/>
     <dependencies>
     </dependencies>
   </autotools>
 
   <autotools id="gconf-dbus">
-    <branch repo="imendio.com" module="gconf-dbus/trunk" checkoutdir="gconf-dbus"/>
+    <branch repo="github.com" module="rhult/gconf-dbus.git" checkoutdir="gconf-dbus"/>
     <dependencies>
       <dep package="dbus-glib"/>
     </dependencies>
