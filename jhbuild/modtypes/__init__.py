@@ -146,10 +146,12 @@ class Package:
     def get_minimum_version(self, modules):
         """ Given a list of modules, find ones that depend on this module and return what
             is the earliest version we need """
-        min_version = None
+        min_version = 0
         for rdep in self.get_reverse_dependencies(modules):
             min, rec = rdep._dependencies[self.name]
-            if not min_version or min > min_version:
+            if min == "latest":
+                return None
+            if min and min > min_version:
                 min_version = min
         return min_version
 
