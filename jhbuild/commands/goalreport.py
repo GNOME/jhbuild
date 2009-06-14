@@ -398,6 +398,7 @@ class cmd_goalreport(Command):
             ('meta-gnome-devel-platform', 'Platform'),
             ('meta-gnome-admin', 'Admin'),
             ('meta-gnome-devtools-suite', 'Development Tools'),
+            ('meta-gnome-mobile-suite', 'Mobile'),
             ('meta-gnome-bindings-c++', 'Bindings (C++)'),
             ('meta-gnome-bindings-python', 'Bindings (Python)'),
             ('meta-gnome-bindings-mono', 'Bindings (Mono)'),
