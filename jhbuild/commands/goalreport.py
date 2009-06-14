@@ -422,6 +422,8 @@ class cmd_goalreport(Command):
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
                     1+len(self.checks)+self.repeat_row_header, suite_label)
             for module_name in module_names:
+                if module_name in not_other_module_names:
+                    continue
                 r = results[module_name].get('results')
                 print >> output, self.get_mod_line(module_name, r)
                 processed_modules[module_name] = True
