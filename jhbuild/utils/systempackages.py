@@ -50,7 +50,7 @@ class SystemPackages(object):
         """ Returns true if a module is satisfiable by installing a system package """
         if isinstance(module, MetaModule):
             return False
-        if version:
+        if not version is None:
             return self.is_available(self.get_pkgname(module.name), version)
         if not isinstance(module.branch, TarballBranch):
             return False
@@ -60,7 +60,7 @@ class SystemPackages(object):
         """ Returns true if module is satisfied by an already installed system package """
         if isinstance(module, MetaModule):
             return False
-        if version:
+        if not version is None:
             return self.is_available(self.get_pkgname(module.name), version)
         if not isinstance(module.branch, TarballBranch):
             return False
