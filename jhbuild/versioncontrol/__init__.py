@@ -104,6 +104,10 @@ class Branch:
         else:
             return os.path.join(self.checkoutroot, os.path.basename(self.module))
 
+    def may_checkout(self, buildscript):
+        if buildscript.config.nonetwork:
+            return False
+        return True
 
     def checkout(self, buildscript):
         """Checkout or update the given source directory.

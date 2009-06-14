@@ -203,6 +203,8 @@ class GitBranch(Branch):
     def update_dvcs_mirror(self, buildscript):
         if not self.config.dvcs_mirror_dir:
             return
+        if self.config.nonetwork:
+            return
 
         mirror_dir = os.path.join(self.config.dvcs_mirror_dir,
                 os.path.basename(self.module) + '.git')
@@ -308,6 +310,10 @@ class GitBranch(Branch):
 
         self._update_submodules(buildscript)
 
+    def may_checkout(self, buildscript):
+        if buildscript.config.nonetwork and not buildscript.config.dvcs_mirror_dir:
+            return False
+        return True
 
     def checkout(self, buildscript):
         if not inpath('git', os.environ['PATH'].split(os.pathsep)):
@@ -341,6 +347,9 @@ class GitSvnBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
         GitBranch.__init__(self, repository, module, "", checkoutdir, branch="git-svn")
         self.revision = revision
+
+    def may_checkout(self, buildscript):
+        return Branch.may_checkout(self, buildscript)
 
     def _get_externals(self, buildscript, branch="git-svn"):
         cwd = self.get_checkoutdir()
@@ -492,6 +501,9 @@ class GitCvsBranch(GitBranch):
     def __init__(self, repository, module, checkoutdir, revision=None):
         GitBranch.__init__(self, repository, module, "", checkoutdir)
         self.revision = revision
+
+    def may_checkout(self, buildscript):
+        return Branch.may_checkout(self, buildscript)
 
     def branchname(self):
         for b in ['remotes/' + str(self.branch), self.branch, 'trunk', 'master']:
