@@ -61,7 +61,7 @@ class SystemPackages(object):
         if isinstance(module, MetaModule):
             return False
         if not version is None:
-            return self.is_available(self.get_pkgname(module.name), version)
+            return self.is_installed(self.get_pkgname(module.name), version)
         if not isinstance(module.branch, TarballBranch):
             return False
         return self.is_installed(self.get_pkgname(module.name), module.branch.version)
