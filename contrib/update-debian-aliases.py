@@ -67,5 +67,6 @@ for pkg in pkgs:
 
 print "aliases = {"
 for k, v in aliases.iteritems():
-    print "    '%s':'%s'," % (k, v)
+    if not v is None:
+        print "    '%s':'%s'," % (k, v)
 print "}"
