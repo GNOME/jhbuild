@@ -62,7 +62,7 @@ class cmd_builddeps(Command):
             module = module_set.get_module(modname)
             min_version = module.get_minimum_version(all_modules)
 
-            if modname in asked_modules or (pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version)):
+            if not modname in asked_modules and (pkgs.satisfiable(module, min_version) and not pkgs.satisfied(module, min_version)):
                 to_install.append(pkgs.get_pkgname(module.name))
             else:
                 for depmod in module.dependencies:
