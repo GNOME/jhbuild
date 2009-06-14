@@ -32,7 +32,7 @@ class SystemPackages(object):
     def __init__(self, config):
         self.aliases = {}
 
-        af = os.path.join(config.aliases_dir, "aliases", self.aliasesfile)
+        af = os.path.join(config.aliases_dir, self.aliasesfile)
         tmp = {}
         if os.path.exists(af+'.generated'):
             execfile(af+'.generated', tmp)
