@@ -269,7 +269,7 @@ class GitBranch(Branch):
         else:
             current_branch = self.get_current_branch()
             if current_branch != would_be_branch or current_branch == '(no branch)':
-                if current_branch == '(no branch)':
+                if current_branch in ('(no branch)', None):
                     # if user was not on any branch, get back to a known track
                     current_branch = 'master'
                 # if current branch doesn't exist as origin/$branch it is assumed
@@ -284,7 +284,7 @@ class GitBranch(Branch):
                             **git_extra_args)
 
         current_branch = self.get_current_branch()
-        if current_branch != '(no branch)':
+        if current_branch not in ('(no branch)', None):
             buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
 
         if stashed:
