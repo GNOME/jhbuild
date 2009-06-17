@@ -46,4 +46,6 @@ AC_CONFIG_FILES([
 	jhbuild/versioncontrol/Makefile
 	buildbot/Makefile
 ])
-AC_OUTPUT
+AC_OUTPUT([
+	jhbuild.desktop.in
+])
