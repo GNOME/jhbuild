@@ -98,7 +98,7 @@ def addpath(envvar, path):
             # PATH is special cased on Windows to allow execution without
             # sh.exe. The other env vars (like LD_LIBRARY_PATH) don't mean
             # anything to native Windows so they stay in UNIX format, but
-            # PATH is kept in Windows format (; seperated, c:/ or c:\ format
+            # PATH is kept in Windows format (; separated, c:/ or c:\ format
             # paths) so native Popen works.
             pathsep = os.pathsep
         else:
@@ -107,9 +107,9 @@ def addpath(envvar, path):
                 path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
 
             if sys.platform.startswith('win') and path[1]==':':
-                # Windows: Don't allow c:/ style paths in :-seperated env vars
+                # Windows: Don't allow c:/ style paths in :-separated env vars
                 # for obvious reasons. /c/ style paths are valid - if a var is
-                # seperated by : it will only be of interest to programs inside
+                # separated by : it will only be of interest to programs inside
                 # MSYS anyway.
                 path='/'+path[0]+path[2:]
 
