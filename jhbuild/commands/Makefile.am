@@ -8,10 +8,12 @@ app_PYTHON = \
 	bot.py \
 	checkbranches.py \
 	checkmodulesets.py \
+	clean.py \
 	gui.py \
 	info.py \
 	rdepends.py \
 	sanitycheck.py \
 	snapshot.py \
-	tinderbox.py
+	tinderbox.py \
+	uninstall.py
 

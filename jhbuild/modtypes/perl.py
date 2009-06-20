@@ -85,7 +85,7 @@ class PerlModule(Package):
                 [make, 'install', 'PREFIX=%s' % buildscript.config.prefix],
                 cwd = builddir, extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.depends = [PHASE_CHECKOUT]
+    do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
         return 'perl', [('id', 'name', None),

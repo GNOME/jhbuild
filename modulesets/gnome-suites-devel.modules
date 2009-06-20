@@ -131,8 +131,6 @@
     <branch/>
     <dependencies>
       <dep package="PolicyKit-gnome"/>
-      <dep package="DeviceKit"/>
-      <dep package="DeviceKit-disks"/>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
       <dep package="gnome-keyring"/>
@@ -141,4 +139,17 @@
       <!-- and libsexy, unapproved dependency -->
     </dependencies>
   </autotools>
+
+  <autotools id="libgnome" autogenargs="--disable-esd">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <dep package="libbonobo"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
 </moduleset>

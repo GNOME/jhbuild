@@ -82,7 +82,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def __init__(self, config, module_list):
         buildscript.BuildScript.__init__(self, config, module_list)
-        self.trayicon = trayicon.TrayIcon()
+        self.trayicon = trayicon.TrayIcon(config)
         self.notify = notify.Notify(config)
 
     def message(self, msg, module_num=-1):
@@ -251,7 +251,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
     def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
-        summary = _('error during phase %(phase)s of %(module)s') % {
+        summary = _('Error during phase %(phase)s of %(module)s') % {
             'phase': phase, 'module':module.name}
         try:
             error_message = error.args[0]
@@ -278,18 +278,18 @@ class TerminalBuildScript(buildscript.BuildScript):
             return 'fail'
         while True:
             print
-            uprint(_('  [1] rerun phase %s') % phase)
+            uprint('  [1] %s' % _('Rerun phase %s') % phase)
             if nextphase:
-                uprint(_('  [2] ignore error and continue to %s') % nextphase)
+                uprint('  [2] %s' % _('Ignore error and continue to %s') % nextphase)
             else:
-                uprint(_('  [2] ignore error and continue to next module'))
-            uprint(_('  [3] give up on module'))
-            uprint(_('  [4] start shell'))
-            uprint(_('  [5] reload configuration'))
+                uprint('  [2] %s' % _('Ignore error and continue to next module'))
+            uprint('  [3] %s' % _('Give up on module'))
+            uprint('  [4] %s' % _('Start shell'))
+            uprint('  [5] %s' % _('Reload configuration'))
             nb_options = i = 6
-            for altphase in (altphases or []):
-                uprint(_('  [%d] go to phase %s') % (i, altphase))
-                i = i + 1
+            for altphase in altphases:
+                uprint('  [%d] %s' % (i, _('Go to phase %s') % altphase))
+                i += 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()
             if val == '1':

@@ -18,7 +18,7 @@
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
-    href="http://dl.sourceforge.net/sourceforge/"/>
+    href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="clutter-project.org"
     href="http://www.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
@@ -202,9 +202,9 @@
     </suggests>
   </tarball>
 
-  <tarball id="DeviceKit-power" version="007">
-    <source href="http://hal.freedesktop.org/releases/DeviceKit-power-007.tar.gz"
-	    md5sum="4b1159374f36e23fe7d920f934076269" size="475442"/>
+  <tarball id="DeviceKit-power" version="008">
+    <source href="http://hal.freedesktop.org/releases/DeviceKit-power-008.tar.gz"
+	    md5sum="37ae30623524d4f476790079930049c8" size="480110"/>
     
     <dependencies>
       <dep package="DeviceKit"/>
@@ -261,9 +261,9 @@
   </autotools>
 
   <autotools id="libgcrypt" autogen-sh="configure" check-target="false">
-    <branch module="libgcrypt/libgcrypt-1.4.3.tar.bz2"
-            repo="gnupg.org" version="1.4.3"
-            size="1087215" md5sum="46e50e811ed51f1e0e8dd677dded967d" />
+    <branch module="libgcrypt/libgcrypt-1.4.4.tar.bz2"
+            repo="gnupg.org" version="1.4.4"
+            size="1143139" md5sum="34105aa927e23c217741966496b97e67" />
     <dependencies>
       <dep package="libgpg-error" />
     </dependencies>
@@ -350,16 +350,16 @@
 
   <autotools id="opal" autogenargs="--disable-vpb"
 	  check-target="false" supports-non-srcdir-builds="no">
-    <branch module="opal/3.6/opal-3.6.1.tar.bz2" repo="gnome.org"
-	    version="3.6.1"
-            md5sum="c2b4f12822cef2182267ea0d020bddf6" size="6993734">
+    <branch module="opal/3.6/opal-3.6.2.tar.bz2" repo="gnome.org"
+	    version="3.6.2"
+            md5sum="88076eeadee1351704afb2aeb3532c17" size="7064340">
     </branch>
     <dependencies>
       <dep package="ptlib"/>
     </dependencies>
   </autotools>
 
-  <autotools id="pixman">
+  <autotools id="pixman" autogenargs="--disable-gtk">
     <branch module="releases/pixman-0.14.0.tar.gz" version="0.14.0"
             repo="cairo.org" 
             md5sum="da330524bbd975271974378b1c5e7b5d" size="468269">
@@ -392,10 +392,10 @@
   </autotools>
 
   <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
-    <branch module="ptlib/2.6/ptlib-2.6.1.tar.bz2" repo="gnome.org"
+    <branch module="ptlib/2.6/ptlib-2.6.2.tar.bz2" repo="gnome.org"
             autogen-sh="configure"
-            version="2.6.1"
-            md5sum="122ab96fcc44110ce05153f259b3285a" size="3296212">
+            version="2.6.2"
+            md5sum="d478121cfc82da7c0f0ce0e53fc7c2fd" size="3309489">
     </branch>
   </autotools>
 
@@ -449,9 +449,9 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.7.29">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.29.tar.gz"
-            md5sum="ae67d4fe42c7e337813754cb5927b6cc" size="5009792"/>
+  <tarball id="telepathy-glib" version="0.7.31">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.31.tar.gz"
+            md5sum="42ceb70aacbe918e64c8f3196afc5c81" size="2574808"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -461,7 +461,7 @@
   </tarball>
 
   <tarball id="telepathy-mission-control" version="4.67">
-    <source href="http://dl.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
+    <source href="http://prdownloads.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
             md5sum="0a547e7af4a33355bac3638dd2e40859" size="659444"/>
     <dependencies>
       <dep package="libtelepathy"/>
@@ -741,8 +741,8 @@
   <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
              autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
-            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+            module="samba4/samba-4.0.0alpha7.tar.gz" version="4.0.0alpha7"
+            size="11927771" md5sum="0c25dced4dc64a6581a09917ec05dab2"
 	    source-subdir="source4">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -752,8 +752,8 @@
 	    makeargs="tallocdir='$(srcdir)'"
 	    makeinstallargs="install tallocdir='$(srcdir)'">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
-            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+            module="samba4/samba-4.0.0alpha7.tar.gz" version="4.0.0alpha7"
+            size="11927771" md5sum="0c25dced4dc64a6581a09917ec05dab2"
 	    source-subdir="lib/talloc">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -761,8 +761,8 @@
 
   <autotools id="tdb">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
-            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+            module="samba4/samba-4.0.0alpha7.tar.gz" version="4.0.0alpha7"
+            size="11927771" md5sum="0c25dced4dc64a6581a09917ec05dab2"
 	    source-subdir="lib/tdb">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -770,8 +770,8 @@
 
   <autotools id="tevent">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha6.tar.gz" version="4.0.0alpha6"
-            size="11797312" md5sum="2f6e52349eebabe83ed3cf207a8739f3"
+            module="samba4/samba-4.0.0alpha7.tar.gz" version="4.0.0alpha7"
+            size="11927771" md5sum="0c25dced4dc64a6581a09917ec05dab2"
 	    source-subdir="lib/tevent">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -780,8 +780,8 @@
   <autotools id="libmapi" skip-autogen="never" autogen-sh="configure"
              supports-non-srcdir-builds="no">
     <branch repo="sourceforge.net"
-            module="openchange/libmapi-0.8-ROMULUS.tar.gz" version="0.8"
-            size="1404900" md5sum="ac194f9952803e24821f0e530fb87465"/>
+            module="openchange/libmapi-0.8.2-ROMULUS.tar.gz" version="0.8.2"
+            size="1529269" md5sum="b956870860cd786a0793bd89783df185"/>
     <dependencies>
       <dep package="tdb"/>
       <dep package="talloc"/>
@@ -850,17 +850,23 @@
   <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
       makefile="GNUmakefile">
     <branch repo="webkitgtk.org"
-            module="webkit-1.1.6.tar.gz" version="1.1.6"
-	    size="6068467" md5sum="b311337561507b485fc2172cec7c2266"/>
+            module="webkit-1.1.10.tar.gz" version="1.1.10"
+	    size="6343872" md5sum="b852753b3e21f010f565312132f88311"/>
     <dependencies>
-      <dep package="gtk+"/>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
       <dep package="libxml2"/>
-      <dep package="libxslt"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
       <dep package="libsoup"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="sqlite3"/>
     </dependencies>
+    <suggests>
+      <dep package="libxslt"/>
+      <dep package="sqlite3"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="enchant"/>
+      <dep package="gnome-keyring"/>
+    </suggests>
   </autotools>
 
   <tarball id="libchamplain" version="0.3.0">
@@ -878,5 +884,12 @@
       <dep package="gtk+"/>
     </suggests>
   </tarball>
+
+  <repository type="tarball" name="pyxdg"
+      href="http://www.freedesktop.org/~lanius/"/>
+  <distutils id="pyxdg">
+    <branch repo="pyxdg" module="pyxdg-0.17.tar.gz" version="0.17"
+            md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
+  </distutils>
 
 </moduleset>

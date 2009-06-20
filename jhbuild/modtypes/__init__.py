@@ -178,12 +178,15 @@ class Package:
         try:
             method(buildscript)
         except (CommandError, BuildStateError), e:
-            error_phases = None
+            error_phases = []
             if hasattr(method, 'error_phases'):
                 error_phases = method.error_phases
             return (e, error_phases)
         else:
             return (None, None)
+
+    def has_phase(self, phase):
+        return hasattr(self, 'do_' + phase)
 
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
@@ -222,7 +225,7 @@ class Package:
 
     def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
-        if buildscript.config.nonetwork:
+        if not self.branch.may_checkout(buildscript):
             if self.check_build_policy(buildscript) == self.PHASE_DONE:
                 raise SkipToEnd()
             return True

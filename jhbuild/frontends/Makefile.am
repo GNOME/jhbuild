@@ -5,7 +5,7 @@ ICONS = \
 	icons/error.png \
 	icons/install.png
 
-pkgdata_DATA = jhbuild.glade $(ICONS)
+pkgdata_DATA = $(ICONS)
 
 EXTRA_DIST = $(pkgdata_DATA)
 

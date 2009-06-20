@@ -25,7 +25,7 @@ from jhbuild.utils.cmds import get_output
 from jhbuild.errors import CommandError
 
 class cmd_checkbranches(Command):
-    doc = N_('Check modules in GNOME subversion have the correct branch definition')
+    doc = N_('Check modules in GNOME Git repository have the correct branch definition')
     name = 'checkbranches'
     
     def __init__(self):

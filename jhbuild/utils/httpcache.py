@@ -29,6 +29,7 @@ and draws ideas from feedparser.py.  Strategies include:
 '''
 
 import os
+import sys
 import urllib2
 import urlparse
 import time
@@ -166,6 +167,9 @@ class Cache:
         parts = urlparse.urlparse(uri)
         if parts[0] in ('', 'file'):
             return parts[2]
+        if sys.platform.startswith('win') and uri[1] == ':':
+            # On Windows, path like c:... are local
+            return uri
 
         now = time.time()
 

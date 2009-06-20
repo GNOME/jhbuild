@@ -24,7 +24,7 @@ from jhbuild.utils import packagedb
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
-    def __init__(self, config, module_list):
+    def __init__(self, config, module_list=None):
         if self.__class__ is BuildScript:
             raise NotImplementedError('BuildScript is an abstract base class')
 
@@ -118,18 +118,25 @@ class BuildScript:
                 except SkipToEnd:
                     break
 
+                if not module.has_phase(phase):
+                    # skip phases that do not exist, this can happen when
+                    # phases were explicitely passed to this method.
+                    num_phase += 1
+                    continue
+
                 self.start_phase(module.name, phase)
                 error = None
                 try:
-                    error, altphases = module.run_phase(self, phase)
-                except SkipToPhase, e:
                     try:
-                        num_phase = build_phases.index(e.phase)
-                    except ValueError:
+                        error, altphases = module.run_phase(self, phase)
+                    except SkipToPhase, e:
+                        try:
+                            num_phase = build_phases.index(e.phase)
+                        except ValueError:
+                            break
+                        continue
+                    except SkipToEnd:
                         break
-                    continue
-                except SkipToEnd:
-                    break
                 finally:
                     self.end_phase(module.name, phase, error)
 

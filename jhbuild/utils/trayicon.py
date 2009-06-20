@@ -25,7 +25,9 @@ import signal
 class TrayIcon:
     proc = None
 
-    def __init__(self):
+    def __init__(self, config):
+        if config and config.notrayicon:
+            return
         if not os.environ.get('DISPLAY'):
             return
         try:

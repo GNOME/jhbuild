@@ -60,8 +60,8 @@ def parse_tarball(node, config, uri, repositories, default_repo):
                     source_size = int(childnode.getAttribute('size'))
                 except ValueError:
                     logging.warning(
-                            _('module \'%s\' has invalid size attribute (\'%s\')') % (
-                                name, childnode.getAttribute('size')))
+                            _('module \'%(module)s\' has invalid size attribute (\'%(size)s\')') % {
+                                'module': name, 'size': childnode.getAttribute('size')})
             if childnode.hasAttribute('md5sum'):
                 source_md5 = childnode.getAttribute('md5sum')
         elif childnode.nodeName == 'patches':
