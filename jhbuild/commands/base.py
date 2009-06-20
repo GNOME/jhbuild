@@ -30,14 +30,7 @@ import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, register_command
 
-
-def parse_relative_time(s):
-    m = re.match(r'(\d+) *([smhdw])', s.lower())
-    if m:
-        coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
-        return float(m.group(1)) * coeffs[m.group(2)]
-    else:
-        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+from jhbuild.config import parse_relative_time
 
 
 class cmd_update(Command):
@@ -66,15 +59,7 @@ class cmd_update(Command):
             ])
 
     def run(self, config, options, args):
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.ignore_suggests:
-            config.ignore_suggests = True
-
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags=config.tags,
@@ -110,9 +95,7 @@ class cmd_updateone(Command):
             ])
 
     def run(self, config, options, args):
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
@@ -280,39 +263,7 @@ class cmd_build(Command):
             ])
 
     def run(self, config, options, args):
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean and not 'clean' in config.build_targets:
-            config.build_targets.insert(0, 'clean')
-        if options.dist and not 'dist' in config.build_targets:
-            config.build_targets.append('dist')
-        if options.distcheck and not 'distcheck' in config.build_targets:
-            config.build_targets.append('distcheck')
-        if options.ignore_suggests:
-            config.ignore_suggests = True
-        if options.nonetwork:
-            config.nonetwork = True
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.noxvfb is not None:
-            config.noxvfb = options.noxvfb
-        if options.trycheckout:
-            config.trycheckout = True
-        if options.nopoison:
-            config.nopoison = True
-        if options.quiet:
-            config.quiet_mode = True
-        if options.force_policy:
-            config.build_policy = 'all'
-        if options.min_age:
-            try:
-                config.min_time = time.time() - parse_relative_time(options.min_age)
-            except ValueError:
-                raise FatalError(_('Failed to parse relative time'))
+        config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
@@ -382,29 +333,7 @@ class cmd_buildone(Command):
             ])
 
     def run(self, config, options, args):
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean and not 'clean' in config.build_targets:
-            config.build_targets.insert(0, 'clean')
-        if options.dist and not 'dist' in config.build_targets:
-            config.build_targets.append('dist')
-        if options.distcheck and not 'distcheck' in config.build_targets:
-            config.build_targets.append('distcheck')
-        if options.nonetwork:
-            config.nonetwork = True
-        if options.sticky_date is not None:
-            config.sticky_date = options.sticky_date
-        if options.noxvfb is not None:
-            config.noxvfb = options.noxvfb
-        if options.quiet:
-            config.quiet_mode = True
-        if options.force_policy:
-            config.build_policy = 'all'
-        if options.min_age:
-            try:
-                config.min_time = time.time() - parse_relative_time(options.min_age)
-            except ValueError:
-                raise FatalError(_('Failed to parse relative time'))
+        config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
             check_bootstrap_updateness(config)
@@ -524,12 +453,7 @@ class cmd_list(Command):
             ])
 
     def run(self, config, options, args):
-        for item in options.skip:
-            config.skip += item.split(',')
-        for item in options.tags:
-            config.tags += item.split(',')
-        if options.ignore_suggests:
-            config.ignore_suggests = True
+        config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
             module_list = module_set.modules.values()

@@ -1,4 +1,4 @@
-AC_INIT([jhbuild], [2.27.1],
+AC_INIT([jhbuild], [2.27.4],
 		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE
@@ -44,6 +44,6 @@ AC_CONFIG_FILES([
 	jhbuild/modtypes/Makefile
 	jhbuild/utils/Makefile
 	jhbuild/versioncontrol/Makefile
-
+	buildbot/Makefile
 ])
 AC_OUTPUT

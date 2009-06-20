@@ -18,7 +18,7 @@
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
-    href="http://dl.sourceforge.net/sourceforge/"/>
+    href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="clutter-project.org"
     href="http://www.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
@@ -345,9 +345,9 @@
 
   <autotools id="opal" autogenargs="--disable-vpb"
 	  check-target="false" supports-non-srcdir-builds="no">
-    <branch module="opal/3.6/opal-3.6.1.tar.bz2" repo="gnome.org"
-	    version="3.6.1"
-            md5sum="c2b4f12822cef2182267ea0d020bddf6" size="6993734">
+    <branch module="opal/3.6/opal-3.6.2.tar.bz2" repo="gnome.org"
+	    version="3.6.2"
+            md5sum="88076eeadee1351704afb2aeb3532c17" size="7064340">
     </branch>
     <dependencies>
       <dep package="ptlib"/>
@@ -386,10 +386,10 @@
   </autotools>
 
   <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
-    <branch module="ptlib/2.6/ptlib-2.6.1.tar.bz2" repo="gnome.org"
+    <branch module="ptlib/2.6/ptlib-2.6.2.tar.bz2" repo="gnome.org"
             autogen-sh="configure"
-            version="2.6.1"
-            md5sum="122ab96fcc44110ce05153f259b3285a" size="3296212">
+            version="2.6.2"
+            md5sum="d478121cfc82da7c0f0ce0e53fc7c2fd" size="3309489">
     </branch>
   </autotools>
 
@@ -455,7 +455,7 @@
   </tarball>
 
   <tarball id="telepathy-mission-control" version="4.67">
-    <source href="http://dl.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
+    <source href="http://prdownloads.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
             md5sum="0a547e7af4a33355bac3638dd2e40859" size="659444"/>
     <dependencies>
       <dep package="libtelepathy"/>
@@ -697,9 +697,9 @@
     </after>
   </autotools>
 
-  <tarball id="unique" version="1.0.2">
-    <source href="http://www.gnome.org/~ebassi/source/unique-1.0.2.tar.gz"
-            size="448032" md5sum="3064930a9dd5f382641bbb2072d13563"/>
+  <tarball id="libunique" version="1.0.8">
+    <source href="http://download.gnome.org/sources/libunique/1.0/libunique-1.0.8.tar.gz"
+            size="457465" md5sum="8ea35a7d8da7ef2952cd79f9e1324053"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
@@ -827,5 +827,12 @@
       <dep package="libxml2"/>
     </dependencies>
   </tarball>
+
+  <repository type="tarball" name="pyxdg"
+      href="http://www.freedesktop.org/~lanius/"/>
+  <distutils id="pyxdg">
+    <branch repo="pyxdg" module="pyxdg-0.17.tar.gz" version="0.17"
+            md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
+  </distutils>
 
 </moduleset>

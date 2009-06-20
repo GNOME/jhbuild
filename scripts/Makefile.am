@@ -13,6 +13,7 @@ jhbuild: jhbuild.in
 		-e s!\@pkgdatadir\@!$(pkgdatadir)!	\
 		-e s!\@libexecdir\@!$(libexecdir)!	\
 		-e s!\@libdir\@!$(libdir)!		\
+		-e s!\@pythondir\@!$(pythondir)!	\
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
 		< $< > $@

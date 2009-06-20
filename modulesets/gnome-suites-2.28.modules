@@ -11,6 +11,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="svn" name="svn.mono-project.com"
       href="svn://anonsvn.mono-project.com/source/"/>
+  <repository type="git" name="github.com" href="git://github.com/"/>
+  <repository type="git" name="o-hand.com" href="git://git.o-hand.com/"/>
 
 <!-- This is a special module: it's needed to build from svn, but not
      needed to build from tarballs, so it doesn't need to be in our suites
@@ -124,14 +126,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libglade">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="pango">
     <branch/>
     <dependencies>
@@ -197,6 +191,14 @@
       <dep package="libbonobo"/>
       <dep package="libgnomecanvas"/>
       <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libglade">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -376,6 +378,8 @@
     <suggests>
       <dep package="enchant"/>
       <dep package="iso-codes"/>
+      <dep package="libchamplain"/>
+      <dep package="WebKit"/>
     </suggests>
   </autotools>
 
@@ -653,6 +657,7 @@
       <dep package="icon-naming-utils"/>
       <dep package="gnome-common"/>
       <dep package="intltool"/>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
@@ -1549,6 +1554,7 @@
       <dep package="intltool"/>
       <dep package="pygtk"/>
       <dep package="gnome-python"/>
+      <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
 
@@ -1558,6 +1564,7 @@
       <dep package="intltool"/>
       <dep package="gtk+"/>
       <dep package="pygtk"/>
+      <dep package="pyxdg"/>
     </dependencies>
   </autotools>
 
@@ -1595,6 +1602,7 @@
     </dependencies>
     <suggests>
       <dep package="devhelp"/>
+      <dep package="WebKit"/> <!-- required for the devhelp plugin -->
       <dep package="glade3"/>
     </suggests>
   </autotools>  
@@ -1674,20 +1682,14 @@
 
 <!-- Mobile -->
 
-  <repository type="svn" name="o-hand.com"
-    href="http://svn.o-hand.com/repos/"/>
-
-  <repository type="svn" name="imendio.com"
-    href="http://developer.imendio.com/svn/"/>
-
   <autotools id="evolution-data-server-dbus" autogenargs="--with-libdb --with-dbus --enable-calendar --enable-nntp=no --without-libgnome --without-openldap --without-bug-buddy --without-soup --disable-groupwise --disable-smime --disable-nss">
-    <branch repo="o-hand.com" module="eds-dbus/trunk" checkoutdir="eds-dbus"/>
+    <branch repo="o-hand.com" module="eds-dbus" checkoutdir="evolution-data-server-dbus"/>
     <dependencies>
     </dependencies>
   </autotools>
 
   <autotools id="gconf-dbus">
-    <branch repo="imendio.com" module="gconf-dbus/trunk" checkoutdir="gconf-dbus"/>
+    <branch repo="github.com" module="rhult/gconf-dbus.git" checkoutdir="gconf-dbus"/>
     <dependencies>
       <dep package="dbus-glib"/>
     </dependencies>
@@ -1717,6 +1719,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="krb5-auth-dialog">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
 <!-- Meta Modules -->
 
   <metamodule id="meta-gnome-devel-platform-upcoming-deprecations">
@@ -1730,6 +1745,7 @@
       <dep package="libart_lgpl"/>
       <dep package="libbonobo"/>
       <dep package="libbonoboui"/>
+      <dep package="libglade"/>
       <dep package="libgnome"/>
       <dep package="libgnomecanvas"/>
       <dep package="libgnomeui"/>
@@ -1744,9 +1760,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gtk-doc"/>
-      <dep package="libglade"/>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
       <dep package="pango"/>
       <dep package="meta-gnome-devel-platform-upcoming-deprecations"/>
     </dependencies>
@@ -1933,6 +1946,7 @@
     <dependencies>
       <dep package="gnome-disk-utility"/>
       <dep package="libgdata"/>
+      <dep package="krb5-auth-dialog"/>
     </dependencies>
   </metamodule>
 

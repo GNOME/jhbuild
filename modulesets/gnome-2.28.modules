@@ -106,6 +106,8 @@
     href="http://bzr-playground.gnome.org/~sebp/"/>
   <repository type="tarball" name="people.suug.ch/~tgr/libnl/"
       href="http://people.suug.ch/~tgr/libnl/"/>
+  <repository type="svn" name="liferea.svn.sourceforge.net"
+      href="http://liferea.svn.sourceforge.net/svnroot/"/>
 
   <include href="freedesktop-2.28.modules"/>
   <include href="gnome-suites-2.28.modules"/>
@@ -992,6 +994,8 @@
       <dep package="gstreamer"/>
       <dep package="gst-python"/>
       <dep package="gnonlin"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
     </dependencies>
   </autotools>
 
@@ -1196,9 +1200,9 @@
     </dependencies>
   </autotools>
 
-  <tarball id="vala" version="0.7.2" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.2.tar.bz2"
-            md5sum="a1e35fe5a7ebeb6c208c1d379e445115" size="1828305"/>
+  <tarball id="vala" version="0.7.3" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.3.tar.bz2"
+            md5sum="8e8bb3d30a4f7ca3fab75db82beaa60e" size="1837255"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1220,9 +1224,9 @@
   </autotools>
 
   <autotools id="libgee-trunk">
-    <branch/>
+    <branch module="libgee"/>
     <dependencies>
-      <dep package="vala"/>
+      <dep package="vala-trunk"/>
       <dep package="glib"/>
     </dependencies>
   </autotools>
@@ -2371,5 +2375,57 @@
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
+
+  <autotools id="gnome-zeitgeist">
+    <branch repo="launchpad.net"
+            module="~gnome-zeitgeist/gnome-zeitgeist/gnome-zeitgeist"
+            checkoutdir="gnome-zeitgeist"/>
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="sqlite3"/>
+      <dep package="dbus-python"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="niepce">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+      <dep package="gconf"/>
+      <dep package="libgnomeui"/>
+      <dep package="exempi"/>
+      <dep package="sqlite3"/>
+      <dep package="gegl"/>
+      <dep package="geglmm"/>
+      <dep package="libxml2"/>
+      <dep package="libopenraw"/>
+      <dep package="babl"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="liferea">
+    <branch repo="liferea.svn.sourceforge.net"
+            module="liferea/trunk/liferea"
+            checkoutdir="liferea"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="pango"/>
+      <dep package="gconf"/>
+      <dep package="libxml2"/>
+      <dep package="sqlite3"/>
+      <dep package="libglade"/>
+      <dep package="libsoup"/>
+      <dep package="libunique"/>
+      <dep package="WebKit"/>
+    </dependencies>
+    <suggests>
+      <dep package="dbus"/>
+      <dep package="NetworkManager"/>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools> 
 
 </moduleset>
