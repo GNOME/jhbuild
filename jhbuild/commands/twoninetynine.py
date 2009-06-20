@@ -129,7 +129,7 @@ class GObjectIntrospectionSupport(Check):
                     # if there is no .gir, we may simply be in an unbuilt module,
                     # let's look up for a .gir target in the Makefile.am
                     makefile_am = file(os.path.join(base, 'Makefile.am')).read()
-                    if re.findall(r'^[A-Za-z0-9.\-]+\.gir:', makefile_am, re.MULTILINE):
+                    if re.findall(r'^[A-Za-z0-9.\-\$\(\)_]+\.gir:', makefile_am, re.MULTILINE):
                         gir_file = True
                 if pkg_config and gir_file:
                     break
