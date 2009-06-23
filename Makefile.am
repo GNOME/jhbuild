@@ -7,6 +7,11 @@ endif
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
 MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
 
+desktopdir = $(datadir)/applications
+desktop_in_files = jhbuild.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+
+@INTLTOOL_DESKTOP_RULE@
 
 INTLTOOL = 			\
 	intltool-extract.in 	\
@@ -15,7 +20,7 @@ INTLTOOL = 			\
 
 EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
 	install-check.c \
-	jhbuild.desktop $(INTLTOOL)
+	$(desktop_in_files) $(INTLTOOL)
 
 DISTCLEANFILES = 		\
 	intltool-extract 	\

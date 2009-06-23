@@ -18,7 +18,7 @@
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
-    href="http://dl.sourceforge.net/sourceforge/"/>
+    href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="clutter-project.org"
     href="http://www.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
@@ -359,7 +359,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pixman">
+  <autotools id="pixman" autogenargs="--disable-gtk">
     <branch module="releases/pixman-0.14.0.tar.gz" version="0.14.0"
             repo="cairo.org" 
             md5sum="da330524bbd975271974378b1c5e7b5d" size="468269">
@@ -461,7 +461,7 @@
   </tarball>
 
   <tarball id="telepathy-mission-control" version="4.67">
-    <source href="http://dl.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
+    <source href="http://prdownloads.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
             md5sum="0a547e7af4a33355bac3638dd2e40859" size="659444"/>
     <dependencies>
       <dep package="libtelepathy"/>
@@ -850,18 +850,18 @@
   <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
       makefile="GNUmakefile">
     <branch repo="webkitgtk.org"
-            module="webkit-1.1.7.tar.gz" version="1.1.7"
-	    size="6205024" md5sum="f681773e29898509741cd3bc293816f4"/>
+            module="webkit-1.1.10.tar.gz" version="1.1.10"
+	    size="6343872" md5sum="b852753b3e21f010f565312132f88311"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="fontconfig"/>
       <dep package="libxml2"/>
       <dep package="gtk+"/>
       <dep package="pango"/>
+      <dep package="libsoup"/>
     </dependencies>
     <suggests>
       <dep package="libxslt"/>
-      <dep package="libsoup"/>
       <dep package="sqlite3"/>
       <dep package="gst-plugins-base"/>
       <dep package="enchant"/>
