@@ -94,7 +94,7 @@ class HgBranch(Branch):
         else:
             hg_update_path = os.path.join(PKGDATADIR, 'hg-update.py')
         hg_update_path = os.path.normpath(hg_update_path)
-        buildscript.execute([hg_update_path], hg_update, cwd=self.srcdir)
+        buildscript.execute([hg_update_path], 'hg', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if not inpath('hg', os.environ['PATH'].split(os.pathsep)):
