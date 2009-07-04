@@ -425,8 +425,14 @@ class Config:
         gconfpath = os.path.join(gconfpathdir, 'path.jhbuild')
         if not os.path.exists(gconfpath) and os.path.exists('/etc/gconf/2/path'):
             try:
-                file(gconfpath, 'w').write(
-                        file('/etc/gconf/2/path').read().replace('/etc/gconf', gconfdir))
+                inp = open('/etc/gconf/2/path')
+                out = open(gconfpath, 'w')
+                for line in inp.readlines():
+                    if '/etc/gconf' in line:
+                        out.write(line.replace('/etc/gconf', gconfdir))
+                    out.write(line)
+                out.close()
+                inp.close()
             except:
                 traceback.print_exc()
                 raise FatalError(_('Could not create GConf config (%s)') % gconfpath)
