@@ -157,7 +157,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.module_hbox.pack_start(preferences, fill=False, expand=False)
 
         self.progressbar = gtk.ProgressBar()
-        self.progressbar.set_text(_('Build Progess'))
+        self.progressbar.set_text(_('Build Progress'))
         app_vbox.pack_start(self.progressbar, fill=False, expand=False)
 
         expander = gtk.Expander(_('Terminal'))
@@ -199,6 +199,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         buttonbox.set_layout(gtk.BUTTONBOX_END)
         app_vbox.pack_start(buttonbox, fill=False, expand=False)
 
+        # Translators: This is a button label (to start build)
         self.build_button = gtk.Button(_('Start'))
         self.build_button.connect('clicked', self.on_build_cb)
         buttonbox.add(self.build_button)

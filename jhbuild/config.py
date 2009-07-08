@@ -165,7 +165,7 @@ class Config:
                             _('JHBuild start script has been installed in '
                               '~/.local/bin/jhbuild, you should remove the '
                               'old version that is still in ~/bin/ (or make '
-                              'it a symlink to ~/.local/bin/jhbuild'))
+                              'it a symlink to ~/.local/bin/jhbuild)'))
             if os.path.exists(os.path.join(sys.path[0], 'jhbuild')):
                 # the old start script inserted its source directory in
                 # sys.path, use it now to set new variables
@@ -174,7 +174,7 @@ class Config:
                 __builtin__.__dict__['DATADIR'] = None
             else:
                 raise FatalError(
-                    _('Obsolete jhbuild start script, make sure it is removed '
+                    _('Obsolete JHBuild start script, make sure it is removed '
                       'then do run \'make install\''))
 
         env_prepends.clear()
