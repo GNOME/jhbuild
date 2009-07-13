@@ -2054,8 +2054,9 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	module version.</para>
 
         <para>The <sgmltag class="attribute">size</sgmltag> and <sgmltag
-        class="attribute">md5sum</sgmltag> attributes are optional.
-        If these two attributes are present, they are used to check
+        class="attribute">hash</sgmltag>, as well as the obsolete
+	<sgmltag class="attribte">md5sum</sgmltag>, attributes are optional.
+        If these attributes are present, they are used to check
         that the source package was downloaded correctly.</para>
 
         <para>The <sgmltag class="element">patches</sgmltag> element
@@ -2078,7 +2079,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 &lt;branch module="dbus-python-0.80.2.tar.gz" version="0.80.2"
     repo="dbus/dbus-python"
-    md5sum="2807bc85215c995bd595e01edd9d2077" size="453499"&gt;
+    hash="md5:2807bc85215c995bd595e01edd9d2077" size="453499"&gt;
   &lt;patches&gt;
     &lt;patch file="dbus-glib-build.patch" strip="1" /&gt;
   &lt;/patches&gt;
@@ -2601,6 +2602,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
               [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
     &lt;source href="<replaceable>source-url</replaceable>"
             [ size="<replaceable>source-size</replaceable>" ]
+            [ hash="<replaceable>source-algo:source-hash</replaceable>" ]
             [ md5sum="<replaceable>source-md5sum</replaceable>" ]/&gt;
     &lt;patches&gt;
       &lt;patch file="<replaceable>filename</replaceable>" strip="<replaceable>level</replaceable>"/&gt;
@@ -2624,7 +2626,8 @@ libgnomecanvas is missing branch definition for gnome-2-20
           specifies the file to download and compile.  The <sgmltag
           class="attribute">href</sgmltag> attribute is mandatory, while
           the <sgmltag class="attribute">size</sgmltag> and <sgmltag
-          class="attribute">md5sum</sgmltag> attributes are optional.
+          class="attribute">hash</sgmltag>, as well as the obsolete
+          <sgmltag class="attribte">md5sum</sgmltag>, attributes are optional.
           If these last two attributes are present, they are used to check
           that the source package was downloaded correctly.</para>
   

@@ -54,10 +54,12 @@ class TarballRepository(Repository):
         self.href = config.repos.get(name, href)
 
     branch_xml_attrs = ['version', 'module', 'checkoutdir',
-                        'size', 'md5sum', 'source-subdir']
+                        'size', 'md5sum', 'source-subdir',
+                        'hash']
 
     def branch(self, name, version, module=None, checkoutdir=None,
-               size=None, md5sum=None, branch_id=None, source_subdir=None):
+               size=None, md5sum=None, hash=None, branch_id=None,
+               source_subdir=None):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
@@ -68,9 +70,11 @@ class TarballRepository(Repository):
             module = urlparse.urljoin(self.href, module)
         if size is not None:
             size = int(size)
+        if md5sum:
+            hash = 'md5:' + md5sum
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
-                             source_size=size, source_md5=md5sum,
+                             source_size=size, source_hash=hash,
                              branch_id=branch_id, source_subdir=source_subdir)
 
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
@@ -100,11 +104,11 @@ class TarballBranch(Branch):
     """A class representing a Tarball."""
 
     def __init__(self, repository, module, version, checkoutdir,
-                 source_size, source_md5, branch_id, source_subdir=None):
+                 source_size, source_hash, branch_id, source_subdir=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.version = version
         self.source_size = source_size
-        self.source_md5 = source_md5
+        self.source_hash = source_hash
         self.patches = []
         self.quilt = None
         self.branch_id = branch_id
@@ -161,17 +165,18 @@ class TarballBranch(Branch):
                 raise BuildStateError(
                         _('downloaded file size is incorrect (expected %(size1)d, got %(size2)d)')
                                       % {'size1':self.source_size, 'size2':local_size})
-        if self.source_md5 is not None:
-            local_md5 = hashlib.md5()
+        if self.source_hash is not None:
+            algo, hash = self.source_hash.split(':')
+            local_hash = getattr(hashlib, algo)()
             fp = open(localfile, 'rb')
             data = fp.read(32768)
             while data:
-                local_md5.update(data)
+                local_hash.update(data)
                 data = fp.read(32768)
             fp.close()
-            if local_md5.hexdigest() != self.source_md5:
-                raise BuildStateError(_('file MD5 sum is incorrect (expected %(sum1)s, got %(sum2)s)')
-                                      % {'sum1':self.source_md5, 'sum2':local_md5.hexdigest()})
+            if local_hash.hexdigest() != hash:
+                raise BuildStateError(_('file hash is incorrect (expected %(sum1)s, got %(sum2)s)')
+                                      % {'sum1':hash, 'sum2':local_hash.hexdigest()})
 
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
@@ -310,7 +315,7 @@ class TarballBranch(Branch):
                              repo=self.repository.name,
                              version=self.version,
                              size=str(self.source_size),
-                             md5sum=self.source_md5)]
+                             hash=self.source_hash)]
                 + [[sxml.patch(file=patch, strip=str(strip))]
                    for patch, strip in self.patches])
 

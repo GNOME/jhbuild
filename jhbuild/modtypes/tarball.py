@@ -29,7 +29,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     version = node.getAttribute('version')
     source_url = None
     source_size = None
-    source_md5 = None
+    source_hash = None
     patches = []
     checkoutdir = None
     autogenargs = ''
@@ -63,7 +63,9 @@ def parse_tarball(node, config, uri, repositories, default_repo):
                             _('module \'%(module)s\' has invalid size attribute (\'%(size)s\')') % {
                                 'module': name, 'size': childnode.getAttribute('size')})
             if childnode.hasAttribute('md5sum'):
-                source_md5 = childnode.getAttribute('md5sum')
+                source_hash = 'md5:' + childnode.getAttribute('md5sum')
+            if childnode.hasAttribute('hash'):
+                source_hash = childnode.getAttribute('hash')
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
                 if patch.nodeType != patch.ELEMENT_NODE: continue
@@ -88,7 +90,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     repo.moduleset_uri = uri
 
     branch = TarballBranch(repo, source_url, version, checkoutdir,
-            source_size, source_md5, None)
+            source_size, source_hash, None)
     branch.patches = patches
 
     return AutogenModule(name, branch,
