@@ -21,12 +21,14 @@ __all__ = []
 __metaclass__ = type
 
 import os
+import md5
 try:
     import hashlib
 except ImportError:
     import md5 as hashlib
 import urlparse
 import urllib2
+import logging
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -70,7 +72,7 @@ class TarballRepository(Repository):
             module = urlparse.urljoin(self.href, module)
         if size is not None:
             size = int(size)
-        if md5sum:
+        if md5sum and (not hash or hashlib is md5):
             hash = 'md5:' + md5sum
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
@@ -167,16 +169,21 @@ class TarballBranch(Branch):
                                       % {'size1':self.source_size, 'size2':local_size})
         if self.source_hash is not None:
             algo, hash = self.source_hash.split(':')
-            local_hash = getattr(hashlib, algo)()
-            fp = open(localfile, 'rb')
-            data = fp.read(32768)
-            while data:
-                local_hash.update(data)
+            if hasattr(hashlib, algo):
+                local_hash = getattr(hashlib, algo)()
+
+                fp = open(localfile, 'rb')
                 data = fp.read(32768)
-            fp.close()
-            if local_hash.hexdigest() != hash:
-                raise BuildStateError(_('file hash is incorrect (expected %(sum1)s, got %(sum2)s)')
-                                      % {'sum1':hash, 'sum2':local_hash.hexdigest()})
+                while data:
+                    local_hash.update(data)
+                    data = fp.read(32768)
+                fp.close()
+                if local_hash.hexdigest() != hash:
+                    raise BuildStateError(
+                            _('file hash is incorrect (expected %(sum1)s, got %(sum2)s)')
+                            % {'sum1':hash, 'sum2':local_hash.hexdigest()})
+            else:
+                logging.warning(_('skipped hash check (missing support for %s)') % algo)
 
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball

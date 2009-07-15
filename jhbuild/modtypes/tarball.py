@@ -22,6 +22,11 @@ __metaclass__ = type
 import sys
 import logging
 
+try:
+    import hashlib
+except ImportError:
+    hashlib = None
+
 from jhbuild.modtypes import register_module_type, get_dependencies
 
 def parse_tarball(node, config, uri, repositories, default_repo):
@@ -64,7 +69,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
                                 'module': name, 'size': childnode.getAttribute('size')})
             if childnode.hasAttribute('md5sum'):
                 source_hash = 'md5:' + childnode.getAttribute('md5sum')
-            if childnode.hasAttribute('hash'):
+            if childnode.hasAttribute('hash') and hashlib:
                 source_hash = childnode.getAttribute('hash')
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
