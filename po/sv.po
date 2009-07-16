@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-08 10:20+0200\n"
-"PO-Revision-Date: 2009-07-08 10:21+0100\n"
+"POT-Creation-Date: 2009-07-16 02:47+0200\n"
+"PO-Revision-Date: 2009-07-16 02:48+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -995,7 +995,7 @@ msgstr "Repository=%s hittades inte för kconfig i linux id=%s. Möjliga förrå
 msgid "Default Repository=%s not found for kconfig in module id=%s. Possible repositories are %s"
 msgstr "Default Repository=%s hittades inte för kconfig i modul med id=%s. Möjliga förråd är %s"
 
-#: ../jhbuild/modtypes/tarball.py:63
+#: ../jhbuild/modtypes/tarball.py:68
 #, python-format
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "modulen \"%(module)s\" har ett ogiltigt storleksattribut (\"%(size)s\")"
@@ -1040,7 +1040,7 @@ msgstr "arkivet %s är inte registrerat"
 #: ../jhbuild/versioncontrol/darcs.py:55
 #: ../jhbuild/versioncontrol/hg.py:53
 #: ../jhbuild/versioncontrol/mtn.py:52
-#: ../jhbuild/versioncontrol/tarball.py:64
+#: ../jhbuild/versioncontrol/tarball.py:68
 #, python-format
 msgid "branch for %s has wrong override, check your .jhbuildrc"
 msgstr "gren för %s har felaktig override, kontrollera din .jhbuildrc"
@@ -1166,77 +1166,82 @@ msgstr "kunde inte tolka utdata från \"svn info\" för %s"
 msgid "Error checking for conflicts"
 msgstr "Fel vid kontroll efter konflikter"
 
-#: ../jhbuild/versioncontrol/tarball.py:80
+#: ../jhbuild/versioncontrol/tarball.py:86
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "gren för %s är inte korrekt, kontrollera filen moduleset."
 
-#: ../jhbuild/versioncontrol/tarball.py:116
+#: ../jhbuild/versioncontrol/tarball.py:122
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL:en har ingen filename-komponent: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:157
+#: ../jhbuild/versioncontrol/tarball.py:163
 msgid "file not downloaded"
 msgstr "filen inte hämtad"
 
-#: ../jhbuild/versioncontrol/tarball.py:162
+#: ../jhbuild/versioncontrol/tarball.py:168
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr "hämtad filstorlek är felaktig (förväntade %(size1)d, fick %(size2)d)"
 
-#: ../jhbuild/versioncontrol/tarball.py:173
-#, python-format
-msgid "file MD5 sum is incorrect (expected %(sum1)s, got %(sum2)s)"
-msgstr "filens MD5-kontrollsumma är felaktig (förväntade %(sum1)s, fick %(sum2)s)"
-
 #: ../jhbuild/versioncontrol/tarball.py:183
+#, python-format
+msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
+msgstr "filens kontrollsumma är felaktig (förväntade %(sum1)s, fick %(sum2)s)"
+
+#: ../jhbuild/versioncontrol/tarball.py:186
+#, python-format
+msgid "skipped hash check (missing support for %s)"
+msgstr "hoppade över kontrollsumma (saknar stöd för %s)"
+
+#: ../jhbuild/versioncontrol/tarball.py:195
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "katalog för tar-arkiv (%s) kan inte skapas"
 
-#: ../jhbuild/versioncontrol/tarball.py:185
+#: ../jhbuild/versioncontrol/tarball.py:197
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "katalog för tar-arkiv (%s) måste vara skrivbar"
 
-#: ../jhbuild/versioncontrol/tarball.py:197
+#: ../jhbuild/versioncontrol/tarball.py:209
 msgid "unable to find wget or curl"
 msgstr "kunde inte hitta wget eller curl"
 
-#: ../jhbuild/versioncontrol/tarball.py:205
+#: ../jhbuild/versioncontrol/tarball.py:217
 #, python-format
 msgid "failed to unpack %s"
 msgstr "misslyckades med att packa upp %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:208
+#: ../jhbuild/versioncontrol/tarball.py:220
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "kunde inte packa upp tar-arkiv (förväntade katalogen %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:223
+#: ../jhbuild/versioncontrol/tarball.py:235
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "kunde inte hämta programfix (fel: %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:225
+#: ../jhbuild/versioncontrol/tarball.py:237
 msgid "could not download patch"
 msgstr "kunde inte hämta programfix"
 
-#: ../jhbuild/versioncontrol/tarball.py:257
+#: ../jhbuild/versioncontrol/tarball.py:269
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Misslyckades med att hitta patch: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:259
+#: ../jhbuild/versioncontrol/tarball.py:271
 msgid "Applying patch"
 msgstr "Tillämpar programfix"
 
-#: ../jhbuild/versioncontrol/tarball.py:266
+#: ../jhbuild/versioncontrol/tarball.py:278
 msgid "unable to find quilt"
 msgstr "kunde inte hitta quilt"
 
-#: ../jhbuild/versioncontrol/tarball.py:277
+#: ../jhbuild/versioncontrol/tarball.py:289
 msgid "could not checkout quilt patch set"
 msgstr "kunde inte checka ut quilt-programfixuppsättning"
 
