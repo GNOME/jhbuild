@@ -166,6 +166,13 @@ class ShellCheck(Check):
             self.status = 'todo'
             self.complexity = 'complex'
 
+    def create_from_args(cls, arg):
+        new_class = types.ClassType('ShellCheck (%s)' % arg.split('/')[-1],
+                (cls,), {'cmd': arg})
+        return new_class
+    create_from_args = classmethod(create_from_args)
+
+
 FIND_C = "find -name '*.[ch]' -or -name '*.cpp' -or -name '*.cc'"
 
 
