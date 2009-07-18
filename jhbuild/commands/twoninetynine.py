@@ -49,6 +49,7 @@ class LibGnomeUi(ShellCheck):
         FIND_C + " | xargs grep '^#include <libgnomeui/' | egrep -v '"\
                     "gnome-rr.h|"\
                     "gnome-rr-config.h|"\
+                    "gnome-rr-labeler.h|"\
                     "gnome-desktop-thumbnail.h|"\
                     "gnome-bg-crossfade.h|"\
                     "gnome-bg.h'", # gnome-desktop installs stuff under libgnomeui/
