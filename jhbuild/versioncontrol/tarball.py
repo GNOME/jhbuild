@@ -21,7 +21,6 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import md5
 try:
     import hashlib
 except ImportError:
