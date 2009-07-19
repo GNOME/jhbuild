@@ -26,17 +26,17 @@ import re
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'WafModule' ]
 
-class WafModule(Package):
+class WafModule(Package, DownloadableModule):
     '''Base type for modules that are distributed with a WAF script.'''
     type = 'waf'
 
-    PHASE_CHECKOUT       = 'checkout'
-    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
+    PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_CLEAN          = 'clean'
     PHASE_CONFIGURE      = 'configure'
     PHASE_BUILD          = 'build'
@@ -58,15 +58,6 @@ class WafModule(Package):
 
     def get_revision(self):
         return self.branch.tree_id()
-
-    def do_checkout(self, buildscript):
-        self.checkout(buildscript)
-    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
-
-    def do_force_checkout(self, buildscript):
-        buildscript.set_action(_('Checking out'), self)
-        self.branch.force_checkout(buildscript)
-    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def skip_configure(self, buildscript, last_phase):
         # don't skip this stage if we got here from one of the

@@ -23,17 +23,17 @@ import os
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
 
 __all__ = [ 'DistutilsModule' ]
 
-class DistutilsModule(Package):
+class DistutilsModule(Package, DownloadableModule):
     """Base type for modules that are distributed with a Python
     Distutils style setup.py."""
     type = 'distutils'
 
-    PHASE_CHECKOUT = 'checkout'
-    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
+    PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_BUILD = 'build'
     PHASE_INSTALL = 'install'
 
@@ -57,15 +57,6 @@ class DistutilsModule(Package):
 
     def get_revision(self):
         return self.branch.tree_id()
-
-    def do_checkout(self, buildscript):
-        self.checkout(buildscript)
-    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
-
-    def do_force_checkout(self, buildscript):
-        buildscript.set_action(_('Checking out'), self)
-        self.branch.force_checkout(buildscript)
-    do_force_checkout.error_phase = [PHASE_FORCE_CHECKOUT]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)

@@ -26,18 +26,18 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
 
 __all__ = [ 'AutogenModule' ]
 
-class AutogenModule(Package):
+class AutogenModule(Package, DownloadableModule):
     '''Base type for modules that are distributed with a Gnome style
     "autogen.sh" script and the GNU build tools.  Subclasses are
     responsible for downloading/updating the working copy.'''
     type = 'autogen'
 
-    PHASE_CHECKOUT       = 'checkout'
-    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
+    PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_CLEAN          = 'clean'
     PHASE_DISTCLEAN      = 'distclean'
     PHASE_CONFIGURE      = 'configure'
@@ -80,15 +80,6 @@ class AutogenModule(Package):
 
     def get_revision(self):
         return self.branch.tree_id()
-
-    def do_checkout(self, buildscript):
-        self.checkout(buildscript)
-    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
-
-    def do_force_checkout(self, buildscript):
-        buildscript.set_action(_('Checking out'), self)
-        self.branch.force_checkout(buildscript)
-    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so

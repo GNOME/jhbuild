@@ -400,8 +400,12 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.error_resolution_model.append(
                 (_('Give up on module'), 'fail'))
         for altphase in altphases:
+            try:
+                altphase_label = _(getattr(getattr(module, 'do_' + altphase), 'label'))
+            except AttributeError:
+                altphase_label = altphase
             self.error_resolution_model.append(
-                    (_('Go to stage %s') % altphase, altphase))
+                    (_('Go to phase "%s"') % altphase_label, altphase))
         self.error_resolution_model.append(('', ''))
         self.error_resolution_model.append(
                 (_('Open Terminal'), 'shell'))

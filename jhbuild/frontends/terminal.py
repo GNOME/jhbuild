@@ -288,7 +288,11 @@ class TerminalBuildScript(buildscript.BuildScript):
             uprint('  [5] %s' % _('Reload configuration'))
             nb_options = i = 6
             for altphase in altphases:
-                uprint('  [%d] %s' % (i, _('Go to phase %s') % altphase))
+                try:
+                    altphase_label = _(getattr(getattr(module, 'do_' + altphase), 'label'))
+                except AttributeError:
+                    altphase_label = altphase
+                uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()
