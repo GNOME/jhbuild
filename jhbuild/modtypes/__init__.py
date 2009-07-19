@@ -266,6 +266,7 @@ class DownloadableModule():
         self.branch.force_checkout(buildscript)
     do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
     do_force_checkout.label = N_('wipe directory and start over')
+    do_force_checkout.needs_confirmation = True
 
 
 class MetaModule(Package):
