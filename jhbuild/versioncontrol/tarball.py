@@ -299,12 +299,6 @@ class TarballBranch(Branch):
         if self.quilt:
             self._quilt_checkout(buildscript)
 
-    def force_checkout(self, buildscript):
-        self._wipedir(buildscript)
-        self._download_and_unpack(buildscript)
-        if self.quilt:
-            self._quilt_checkout(buildscript)
-
     def tree_id(self):
         md5sum = hashlib.md5()
         if self.patches:
