@@ -610,6 +610,17 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-bluetooth">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+      <dep package="libunique"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
     <branch/>
     <dependencies>
@@ -622,6 +633,17 @@
       <dep package="rarian"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-disk-utility">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-keyring"/>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
     </dependencies>
   </autotools>
 
@@ -1545,6 +1567,30 @@
     </dependencies>
   </waf>
 
+  <autotools id="gobject-introspection">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-js-common">
+    <branch/>
+    <suggests>
+      <dep package="seed"/>
+      <dep package="gjs"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="seed">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="WebKit"/>
+      <dep package="gnome-js-common"/>
+    </dependencies>
+  </autotools>
+
 <!-- Admin -->
 
   <autotools id="pessulus">
@@ -1695,41 +1741,6 @@
   </autotools>
 
 <!-- Proposed Modules -->
-
-  <autotools id="gnome-disk-utility">
-    <branch/>
-    <dependencies>
-      <dep package="PolicyKit-gnome"/>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libunique"/>
-      <dep package="libnotify"/>
-      <!-- and libsexy, unapproved dependency -->
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgdata">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libxml2"/>
-      <dep package="libsoup"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="krb5-auth-dialog">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="glib"/>
-      <dep package="gconf"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
 
 <!-- Meta Modules -->
 
@@ -1943,9 +1954,6 @@
 
   <metamodule id="meta-gnome-proposed">
     <dependencies>
-      <dep package="gnome-disk-utility"/>
-      <dep package="libgdata"/>
-      <dep package="krb5-auth-dialog"/>
     </dependencies>
   </metamodule>
 

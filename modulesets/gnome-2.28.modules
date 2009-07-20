@@ -129,19 +129,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-bluetooth">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="glib"/>
-      <dep package="libbtctl"/>
-      <dep package="libglade"/>
-      <dep package="libgnomeui"/>
-      <dep package="gconf"/>
-      <dep package="gob2"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="phonemgr">
     <branch/>
     <dependencies>
@@ -2053,13 +2040,6 @@
             size="203504" md5="83dbde4d77e8baf0176fe4291d8a2303"/>
   </autotools>
 
-  <autotools id="gobject-introspection">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gir-repository">
     <branch/>
     <dependencies>
@@ -2256,23 +2236,6 @@
    </dependencies>
   </autotools>
 
-  <autotools id="gnome-js-common">
-    <branch/>
-    <suggests>
-      <dep package="seed"/>
-      <dep package="gjs"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="seed">
-    <branch/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-      <dep package="WebKit"/>
-      <dep package="gnome-js-common"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="nautilus-cd-burner">
     <branch/>
     <dependencies>
@@ -2438,6 +2401,19 @@
       <dep package="NetworkManager"/>
       <dep package="libnotify"/>
     </suggests>
-  </autotools> 
+  </autotools>
+
+  <autotools id="krb5-auth-dialog">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
 
 </moduleset>
