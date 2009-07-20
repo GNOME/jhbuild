@@ -71,7 +71,7 @@ class TarballRepository(Repository):
             module = urlparse.urljoin(self.href, module)
         if size is not None:
             size = int(size)
-        if md5sum and (not hash or hashlib is md5):
+        if md5sum and (not hash or hashlib.__name__ == 'md5'):
             hash = 'md5:' + md5sum
         return TarballBranch(self, module=module, version=version,
                              checkoutdir=checkoutdir,
