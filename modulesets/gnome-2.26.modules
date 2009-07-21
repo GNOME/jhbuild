@@ -2351,4 +2351,45 @@
     </dependencies>
   </autotools>
 
+  <!-- ########## Pimplico Modules ########## -->
+
+  <autotools id="contacts">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="dates">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="tasks">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+    <suggests>
+      <dep package="libunique"/>
+    </suggests>
+  </autotools>
+
+  <metamodule id="meta-pimlico">
+    <dependencies>
+     <dep package="contacts"/>
+     <dep package="dates"/>
+     <dep package="tasks"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- ########## End of Pimplico Modules ########## -->
+
 </moduleset>
