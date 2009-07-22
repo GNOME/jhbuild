@@ -234,7 +234,7 @@ class Package:
         return self.branch.to_sxml()
 
 
-class DownloadableModule():
+class DownloadableModule:
     PHASE_CHECKOUT = 'checkout'
     PHASE_FORCE_CHECKOUT = 'force_checkout'
 
