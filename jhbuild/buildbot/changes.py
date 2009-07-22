@@ -41,11 +41,11 @@ class GnomeMaildirSource(MaildirSource):
         else:
             from_email = m['from']
 
-        # From is svnuser@svn.gnome.org
+        # From is account@src.gnome.org
         name, domain = from_email.split("@")
 
         # If this e-mail is valid, it will come from an svn/src.gnome.org email
-        if domain not in ('svn.gnome.org', 'src.gnome.org'):
+        if domain != 'src.gnome.org':
             return None
 
         # we take the time of receipt as the time of checkin. Not correct, but it
@@ -61,94 +61,64 @@ class GnomeMaildirSource(MaildirSource):
 
         subject = m['subject']
 
-        if subject.startswith('['):
-            # git message
-            revision = m.get('X-Git-Newrev')
-            if not revision:
-                # not a new git revision, may be a new tag, a new branch, etc.
-                return None
+        if not subject.startswith('['):
+            # not a git message, abort
+            return None
 
-            if m.get('X-Git-Refname', '').startswith('refs/tags/'):
-                # ignore tags
-                return None
+        # git message
+        revision = m.get('X-Git-Newrev')
+        if not revision:
+            # not a new git revision, may be a new tag, a new branch, etc.
+            return None
 
-            try:
-                project = subject[1:subject.index(']')]
-            except ValueError:
-                return None # old git commit message; ignored
+        if m.get('X-Git-Refname', '').startswith('refs/tags/'):
+            # ignore tags
+            return None
 
-            if '/' in project:
-                # remove the branch part (ex: [anjal/inline-composer-quotes])
-                project = project.split('/')[0]
+        try:
+            project = subject[1:subject.index(']')]
+        except ValueError:
+            return None # old git commit message format; ignored
 
-            if ':' in project:
-                # remove the patch number part (ex: [anjal: 3/3])
-                project = project.split(':')[0]
+        if '/' in project:
+            # remove the branch part (ex: [anjal/inline-composer-quotes])
+            project = project.split('/')[0]
 
-            if 'Merge branch' in subject:
-                comments = subject[subject.index('Merge branch'):]
-            elif 'Created branch' in subject:
-                comments = subject[subject.index('Created branch'):]
-            else:
-                lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
-                after_date = False
-                while lines:
-                    line = lines.pop(0)
-                    if line.startswith('Date:'):
-                        after_date = True
-                        continue
-                    if not after_date:
-                        continue
-                    if line.startswith('---'):
-                        after_date = False
-                        break
-                    comments += line[4:] + '\n'
-                comments = comments.strip()
+        if ':' in project:
+            # remove the patch number part (ex: [anjal: 3/3])
+            project = project.split(':')[0]
 
-                comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
+        if 'Created branch' in subject:
+            # new branches don't have to trigger rebuilds
+            return None
 
-                lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
-                after_dash = False
-                while lines:
-                    line = lines.pop(0)
-                    if line.startswith('---'):
-                        after_dash = True
-                        continue
-                    if not after_dash:
-                        continue
+        if 'Merge branch' in subject:
+            comments = subject[subject.index('Merge branch'):]
+        elif 'Merge commit' in subject:
+            comments = subject[subject.index('Merge commit'):]
+        else:
+            lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
+            after_date = False
+            in_files = False
+            while lines:
+                line = lines.pop(0)
+                if line.startswith('Date:'):
+                    after_date = True
+                    continue
+                if not after_date:
+                    continue
+                if len(line) > 3 and line[0] == ' ' and line[1] != ' ' and '|' in line:
+                    in_files = True
+                if line.startswith('---'):
+                    break
+                if in_files:
                     if not '|' in line:
                         break
                     files.append(line.split()[0])
+                else:
+                    comments += line[4:] + '\n'
 
-        else:
-            # Subject is project revision - etc.
-            project = m['subject'].split(' ', 1)[0]
-
-            lines = list(body_line_iterator(m, m['Content-Transfer-Encoding']))
-            changeType = ''
-            while lines:
-                line = lines.pop(0)
-
-                if line.startswith('New Revision: '):
-                    revision = line.split(':', 1)[1].strip()
-
-                if line.startswith('URL: '):
-                    links.append(line.split(':', 1)[1].strip())
-
-                if line[:-1] == 'Log:':
-                    while lines and not (lines[0].startswith('Added:') or 
-                            lines[0].startswith('Modified:') or 
-                            lines[0].startswith('Removed:')):
-                        comments += lines.pop(0)
-                    comments = comments.rstrip()
-
-                if line[:-1] in ("Added:", "Modified:", "Removed:"):
-                    while not (lines[0] == "\n" or lines[0].startswith('______')):
-                        l = lines.pop(0)
-                        if l[:-1] not in ("Added:", "Modified:", "Removed:"):
-                            files.append(l[3:-1])
-
-            comments = unicode(comments, m.get_content_charset() or 'ascii', 'ignore')
+            comments = unicode(comments.strip(), m.get_content_charset() or 'ascii', 'ignore')
 
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
         c.project = project # custom attribute
