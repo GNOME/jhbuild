@@ -108,6 +108,10 @@
       href="http://people.suug.ch/~tgr/libnl/"/>
   <repository type="svn" name="liferea.svn.sourceforge.net"
       href="http://liferea.svn.sourceforge.net/svnroot/"/>
+  <repository type="cvs" name="cvs.claws-mail"
+      cvsroot=":ext:cvs@scm.dotsrc.org:/srv/cvs/claws-mail"
+      password=""/>
+
 
   <include href="freedesktop-2.28.modules"/>
   <include href="gnome-suites-2.28.modules"/>
@@ -2432,5 +2436,21 @@
   </metamodule>
 
   <!-- ########## End of Pimplico Modules ########## -->
+
+  <autotools id="claws-mail"
+             autogenargs="--disable-libetpan">
+    <branch repo="cvs.claws-mail" revision="gtk2" module="claws" checkoutdir="claws-mail"/>
+    <dependencies>
+      <dep package="pkg-config"/>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="enchant"/>
+    </dependencies>
+    <suggests>
+      <dep package="startup-notification"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </suggests>
+  </autotools>
 
 </moduleset>
