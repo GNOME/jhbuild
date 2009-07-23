@@ -23,16 +23,16 @@ import os
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
 
 __all__ = [ 'CMakeModule' ]
 
-class CMakeModule(Package):
+class CMakeModule(Package, DownloadableModule):
     """Base type for modules that use CMake build system."""
     type = 'cmake'
 
-    PHASE_CHECKOUT = 'checkout'
-    PHASE_FORCE_CHECKOUT = 'force_checkout'
+    PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
+    PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_CONFIGURE = 'configure'
     PHASE_BUILD = 'build'
     PHASE_DIST = 'dist'
@@ -55,15 +55,6 @@ class CMakeModule(Package):
 
     def get_revision(self):
         return self.branch.tree_id()
-
-    def do_checkout(self, buildscript):
-        self.checkout(buildscript)
-    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
-
-    def do_force_checkout(self, buildscript):
-        buildscript.set_action(_('Checking out'), self)
-        self.branch.force_checkout(buildscript)
-    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def skip_configure(self, buildscript, last_phase):
         return buildscript.config.nobuild

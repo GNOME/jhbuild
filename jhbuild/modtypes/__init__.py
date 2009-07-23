@@ -195,25 +195,6 @@ class Package:
                         _('Skipping %s (package and dependencies not updated)') % self.name)
                 return self.PHASE_DONE
 
-    def checkout(self, buildscript):
-        srcdir = self.get_srcdir(buildscript)
-        buildscript.set_action(_('Checking out'), self)
-        self.branch.checkout(buildscript)
-        # did the checkout succeed?
-        if not os.path.exists(srcdir):
-            raise BuildStateError(_('source directory %s was not created') % srcdir)
-
-        if self.check_build_policy(buildscript) == self.PHASE_DONE:
-            raise SkipToEnd()
-
-    def skip_checkout(self, buildscript, last_phase):
-        # skip the checkout stage if the nonetwork flag is set
-        if not self.branch.may_checkout(buildscript):
-            if self.check_build_policy(buildscript) == self.PHASE_DONE:
-                raise SkipToEnd()
-            return True
-        return False
-
     def xml_tag_and_attrs(self):
         """Return a (tag, attrs) pair, describing how to serialize this
         module.
@@ -251,6 +232,41 @@ class Package:
     def branch_to_sxml(self):
         """Serialize this module's checkout branch as sxml."""
         return self.branch.to_sxml()
+
+
+class DownloadableModule:
+    PHASE_CHECKOUT = 'checkout'
+    PHASE_FORCE_CHECKOUT = 'force_checkout'
+
+    def do_checkout(self, buildscript):
+        self.checkout(buildscript)
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
+
+    def checkout(self, buildscript):
+        srcdir = self.get_srcdir(buildscript)
+        buildscript.set_action(_('Checking out'), self)
+        self.branch.checkout(buildscript)
+        # did the checkout succeed?
+        if not os.path.exists(srcdir):
+            raise BuildStateError(_('source directory %s was not created') % srcdir)
+
+        if self.check_build_policy(buildscript) == self.PHASE_DONE:
+            raise SkipToEnd()
+
+    def skip_checkout(self, buildscript, last_phase):
+        # skip the checkout stage if the nonetwork flag is set
+        if not self.branch.may_checkout(buildscript):
+            if self.check_build_policy(buildscript) == self.PHASE_DONE:
+                raise SkipToEnd()
+            return True
+        return False
+
+    def do_force_checkout(self, buildscript):
+        buildscript.set_action(_('Checking out'), self)
+        self.branch.force_checkout(buildscript)
+    do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
+    do_force_checkout.label = N_('wipe directory and start over')
+    do_force_checkout.needs_confirmation = True
 
 
 class MetaModule(Package):

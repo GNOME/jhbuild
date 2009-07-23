@@ -17,60 +17,13 @@
 
 # extras not found in old versions of Python
 
-from __future__ import generators
-
 import sys
+import __builtin__
 
 # Windows lacks all sorts of subprocess features that we need to kludge around
 if sys.platform.startswith('win'):
     from jhbuild.utils import subprocess_win32
     sys.modules['subprocess'] = subprocess_win32
-
-# Python < 2.2.1 lacks  True and False constants
-import __builtin__
-if not hasattr(__builtin__, 'True'):
-    __builtin__.True = (1 == 1)
-    __builtin__.False = (1 != 1)
-
-# Python < 2.3 lacks enumerate() builtin
-if not hasattr(__builtin__, 'enumerate'):
-    def enumerate(iterable):
-        index = 0
-        for item in iterable:
-            yield (index, item)
-            index += 1
-    __builtin__.enumerate = enumerate
-
-# Python < 2.3 lacks optparse module
-try:
-    import optparse
-except ImportError:
-    from jhbuild.cut_n_paste import optparse
-    sys.modules['optparse'] = optparse
-
-# Python < 2.3 lacks locale.getpreferredencoding() function
-import locale
-if not hasattr(locale, 'getpreferredencoding'):
-    try:
-        locale.CODESET
-    except NameError:
-        # Fall back to parsing environment variables :-(
-        def getpreferredencoding(do_setlocale = True):
-            """Return the charset that the user is likely using,
-            by looking at environment variables."""
-            return locale.getdefaultlocale()[1]
-    else:
-        def getpreferredencoding(do_setlocale = True):
-            """Return the charset that the user is likely using,
-            according to the system configuration."""
-            if do_setlocale:
-                oldloc = locale.setlocale(locale.LC_CTYPE)
-                locale.setlocale(locale.LC_CTYPE, "")
-                result = locale.nl_langinfo(locale.CODESET)
-                locale.setlocale(locale.LC_CTYPE, oldloc)
-                return result
-            else:
-                return locale.nl_langinfo(locale.CODESET)
 
 # Python < 2.4 lacks reversed() builtin
 if not hasattr(__builtin__, 'reversed'):

@@ -27,6 +27,9 @@ DISTCLEANFILES = 		\
 	intltool-merge 		\
 	intltool-update
 
+CLEANFILES = \
+	$(desktop_DATA)
+
 bin_PROGRAMS = install-check
 
 install_check_SOURCES = install-check.c

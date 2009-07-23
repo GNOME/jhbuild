@@ -71,6 +71,7 @@ branch_tarball = attribute module { xsd:anyURI },
                  attribute version { text },
                  attribute size { text }?,
                  attribute md5sum { text }?,
+                 attribute hash { text }?,
                  element patch {
                    attribute file { text },
                    attribute strip { text }?
@@ -121,7 +122,8 @@ tarball = element tarball {
   (element source {
      attribute href { text },
      attribute size { text }?,
-     attribute md5sum { text }? } &
+     attribute md5sum { text }?,
+     attribute hash { text }? } &
    element patches {
      element patch {
        attribute file { text },

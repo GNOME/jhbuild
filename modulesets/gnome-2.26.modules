@@ -39,8 +39,8 @@
     href="git://github.com/"/>
   <repository type="svn" name="svn.tinymail.org"
     href="https://svn.tinymail.org/svn/tinymail/" />
-  <repository type="svn" name="svn.modest"
-    href="https://garage.maemo.org/svn/modest/" />
+  <repository type="git" name="git.maemo.org"
+    href="https://git.maemo.org/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/"/>
   <repository type="git" name="git.clutter-project.org"
@@ -431,7 +431,7 @@
   </autotools>
 
   <autotools id="modest" autogenargs="--with-platform=gnome">
-    <branch repo="svn.modest" />
+    <branch repo="git.maemo.org" branch="projects/modest" />
     <dependencies>
       <dep package="tinymail"/>
     </dependencies>
@@ -783,7 +783,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgda">
+  <autotools id="libgda" autogenargs="--with-java=no">
     <branch />
     <dependencies>
       <dep package="glib"/>
@@ -1951,6 +1951,9 @@
 
   <autotools id="ldtp">
     <branch repo="ldtp.freedesktop.org" module="ldtp"/>
+    <dependencies>
+      <dep package="at-spi"/>
+    </dependencies>
   </autotools>
 
   <distutils id="postr" autogen-sh="autoreconf">
@@ -2347,5 +2350,46 @@
       <dep package="gtkmm"/>
     </dependencies>
   </autotools>
+
+  <!-- ########## Pimplico Modules ########## -->
+
+  <autotools id="contacts">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="dates">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="tasks">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+    <suggests>
+      <dep package="libunique"/>
+    </suggests>
+  </autotools>
+
+  <metamodule id="meta-pimlico">
+    <dependencies>
+     <dep package="contacts"/>
+     <dep package="dates"/>
+     <dep package="tasks"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- ########## End of Pimplico Modules ########## -->
 
 </moduleset>

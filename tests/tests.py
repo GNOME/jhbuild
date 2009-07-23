@@ -559,6 +559,9 @@ class SimpleBranch(object):
     def checkout(self, buildscript):
         pass
 
+    def may_checkout(self, buildscript):
+        return True
+
     def tree_id(self):
         return 'made-up-tree-id'
 

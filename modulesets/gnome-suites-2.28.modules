@@ -150,7 +150,8 @@
 
   <tarball id="audiofile" version="0.2.6" supports-non-srcdir-builds="no">
     <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.6.tar.gz"
-            size="374688" md5sum="9c1049876cd51c0f1b12c2886cce4d42"/>
+            hash="sha256:4b6167b56e21556fb07c9ef06962fe32817064c62181ba47afd3322e0d0f22a9"
+            md5sum="9c1049876cd51c0f1b12c2886cce4d42" size="374688"/>
   </tarball>
 
   <autotools id="esound">
@@ -338,7 +339,7 @@
   </autotools>
 
   <autotools id="ekiga">
-    <branch/>
+    <branch revision="gnome-2-26"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -408,11 +409,11 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="iso-codes"/>
-      <dep package="libgnomeui"/>
-      <dep package="pygtk"/>
-      <dep package="gnome-python"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="dbus-glib"/>
       <dep package="gnome-doc-utils"/>
-      <dep package="gnome-desktop"/>
+      <dep package="startup-notification"/>
       <dep package="WebKit"/>
     </dependencies>
     <suggests>
@@ -610,6 +611,17 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-bluetooth">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+      <dep package="libunique"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
     <branch/>
     <dependencies>
@@ -622,6 +634,17 @@
       <dep package="rarian"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-disk-utility">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-keyring"/>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
     </dependencies>
   </autotools>
 
@@ -645,7 +668,6 @@
       <dep package="libggz"/>
       <dep package="ggz-client-libs"/>
       <dep package="clutter"/>
-      <dep package="clutter-cairo"/>
       <dep package="clutter-gtk"/>
     </dependencies>
   </autotools>
@@ -692,7 +714,6 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="libglade"/>
       <dep package="gnome-doc-utils"/>
     </dependencies>
   </autotools>
@@ -821,7 +842,6 @@
       <dep package="at-spi"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="libglade"/>
       <dep package="dbus-glib"/>
       <dep package="startup-notification"/>
     </dependencies>
@@ -838,7 +858,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="libglade"/>
       <dep package="gnome-desktop"/>
       <dep package="libgnomekbd"/>
       <dep package="gnome-doc-utils"/>
@@ -928,8 +947,9 @@
     <dependencies>
       <dep package="avahi"/>
       <dep package="gtk+"/>
-      <dep package="libglade"/>
+      <dep package="libnotify"/>
       <dep package="gconf"/>
+      <dep package="gnome-bluetooth"/>
     </dependencies>
   </autotools>
 
@@ -986,6 +1006,9 @@
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
     </dependencies>
+    <suggests>
+      <dep package="pulseaudio"/>
+    </suggests>
   </autotools>
 
   <autotools id="gtk-engines">
@@ -1212,7 +1235,6 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="libglade"/>
       <dep package="gconf"/>
       <dep package="gtk+"/>
       <dep package="glib"/>
@@ -1366,7 +1388,7 @@
   </autotools>
 
   <autotools id="yelp">
-    <branch revision="webkit"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -1546,6 +1568,30 @@
     </dependencies>
   </waf>
 
+  <autotools id="gobject-introspection">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-js-common">
+    <branch/>
+    <suggests>
+      <dep package="seed"/>
+      <dep package="gjs"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="seed">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="WebKit"/>
+      <dep package="gnome-js-common"/>
+    </dependencies>
+  </autotools>
+
 <!-- Admin -->
 
   <autotools id="pessulus">
@@ -1696,41 +1742,6 @@
   </autotools>
 
 <!-- Proposed Modules -->
-
-  <autotools id="gnome-disk-utility">
-    <branch/>
-    <dependencies>
-      <dep package="PolicyKit-gnome"/>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="libunique"/>
-      <dep package="libnotify"/>
-      <!-- and libsexy, unapproved dependency -->
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgdata">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libxml2"/>
-      <dep package="libsoup"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="krb5-auth-dialog">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="glib"/>
-      <dep package="gconf"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
 
 <!-- Meta Modules -->
 
@@ -1944,9 +1955,6 @@
 
   <metamodule id="meta-gnome-proposed">
     <dependencies>
-      <dep package="gnome-disk-utility"/>
-      <dep package="libgdata"/>
-      <dep package="krb5-auth-dialog"/>
     </dependencies>
   </metamodule>
 

@@ -23,7 +23,7 @@ import os, time, signal, sys, subprocess, random, md5, tempfile
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
 from jhbuild.modtypes.autotools import AutogenModule
 
 import xml.dom.minidom
@@ -31,12 +31,12 @@ import xml.dom.minidom
 __all__ = ['TestModule']
 __test_types__ = ['ldtp' , 'dogtail']
 
-class TestModule(Package):
+class TestModule(Package, DownloadableModule):
     type = 'test'
     
-    STATE_CHECKOUT       = 'checkout'
-    STATE_FORCE_CHECKOUT = 'force_checkout'
-    STATE_TEST           = 'test'
+    PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
+    PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
+    PHASE_TEST           = 'test'
     
     def __init__(self, name, branch, test_type, dependencies=[], after=[], tested_pkgs=[]):
         Package.__init__(self, name)
@@ -57,15 +57,6 @@ class TestModule(Package):
 
     def get_revision(self):
         return self.branch.branchname
-
-    def do_checkout(self, buildscript):
-        self.checkout(buildscript)
-    do_checkout.error_phases = [STATE_FORCE_CHECKOUT]
-        
-    def do_force_checkout(self, buildscript):
-        buildscript.set_action('Checking out', self)
-        self.branch.force_checkout(buildscript)
-    do_force_checkout.error_phases = [STATE_FORCE_CHECKOUT]
 
     def _get_display(self):
         # get free display
@@ -125,7 +116,7 @@ class TestModule(Package):
                     os.environ['XAUTHORITY'] = old_xauth
                 else:
                     os.unsetenv('XAUTHORITY')
-    do_test.depends = [STATE_CHECKOUT]
+    do_test.depends = [PHASE_CHECKOUT]
 
     def get_ldtp_log_file(self, filename):
         # <ldtp>

@@ -288,7 +288,11 @@ class TerminalBuildScript(buildscript.BuildScript):
             uprint('  [5] %s' % _('Reload configuration'))
             nb_options = i = 6
             for altphase in altphases:
-                uprint('  [%d] %s' % (i, _('Go to phase %s') % altphase))
+                try:
+                    altphase_label = _(getattr(getattr(module, 'do_' + altphase), 'label'))
+                except AttributeError:
+                    altphase_label = altphase
+                uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
             val = raw_input(uencode(_('choice: ')))
             val = val.strip()
@@ -312,9 +316,22 @@ class TerminalBuildScript(buildscript.BuildScript):
             else:
                 try:
                     val = int(val)
-                    return altphases[val - nb_options]
+                    selected_phase = altphases[val - nb_options]
                 except:
                     uprint(_('invalid choice'))
+                    continue
+                try:
+                    needs_confirmation = getattr(
+                            getattr(module, 'do_' + selected_phase), 'needs_confirmation')
+                except AttributeError:
+                    needs_confirmation = False
+                if needs_confirmation:
+                    val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
+                    val = val.strip()
+                    if val.lower() in ('yes', _('Yes')):
+                        return selected_phase
+                    continue
+                return selected_phase
         assert False, 'not reached'
 
 BUILD_SCRIPT = TerminalBuildScript

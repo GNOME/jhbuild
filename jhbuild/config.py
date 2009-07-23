@@ -98,7 +98,7 @@ def addpath(envvar, path):
             # PATH is special cased on Windows to allow execution without
             # sh.exe. The other env vars (like LD_LIBRARY_PATH) don't mean
             # anything to native Windows so they stay in UNIX format, but
-            # PATH is kept in Windows format (; seperated, c:/ or c:\ format
+            # PATH is kept in Windows format (; separated, c:/ or c:\ format
             # paths) so native Popen works.
             pathsep = os.pathsep
         else:
@@ -107,9 +107,9 @@ def addpath(envvar, path):
                 path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
 
             if sys.platform.startswith('win') and path[1]==':':
-                # Windows: Don't allow c:/ style paths in :-seperated env vars
+                # Windows: Don't allow c:/ style paths in :-separated env vars
                 # for obvious reasons. /c/ style paths are valid - if a var is
-                # seperated by : it will only be of interest to programs inside
+                # separated by : it will only be of interest to programs inside
                 # MSYS anyway.
                 path='/'+path[0]+path[2:]
 
@@ -165,7 +165,7 @@ class Config:
                             _('JHBuild start script has been installed in '
                               '~/.local/bin/jhbuild, you should remove the '
                               'old version that is still in ~/bin/ (or make '
-                              'it a symlink to ~/.local/bin/jhbuild'))
+                              'it a symlink to ~/.local/bin/jhbuild)'))
             if os.path.exists(os.path.join(sys.path[0], 'jhbuild')):
                 # the old start script inserted its source directory in
                 # sys.path, use it now to set new variables
@@ -174,7 +174,7 @@ class Config:
                 __builtin__.__dict__['DATADIR'] = None
             else:
                 raise FatalError(
-                    _('Obsolete jhbuild start script, make sure it is removed '
+                    _('Obsolete JHBuild start script, make sure it is removed '
                       'then do run \'make install\''))
 
         env_prepends.clear()
@@ -412,6 +412,37 @@ class Config:
         # Mono Prefixes
         os.environ['MONO_PREFIX'] = self.prefix
         os.environ['MONO_GAC_PREFIX'] = self.prefix
+
+        # GConf:
+        # Create a GConf source path file that tells GConf to use the data in
+        # the jhbuild prefix (in addition to the data in the system prefix),
+        # and point to it with GCONF_DEFAULT_SOURCE_PATH so modules will be read
+        # the right data (assuming a new enough libgconf).
+        gconfdir = os.path.join(self.prefix, 'etc', 'gconf')
+        gconfpathdir = os.path.join(gconfdir, '2')
+        if not os.path.exists(gconfpathdir):
+            os.makedirs(gconfpathdir)
+        gconfpath = os.path.join(gconfpathdir, 'path.jhbuild')
+        if not os.path.exists(gconfpath) and os.path.exists('/etc/gconf/2/path'):
+            try:
+                inp = open('/etc/gconf/2/path')
+                out = open(gconfpath, 'w')
+                for line in inp.readlines():
+                    if '/etc/gconf' in line:
+                        out.write(line.replace('/etc/gconf', gconfdir))
+                    out.write(line)
+                out.close()
+                inp.close()
+            except:
+                traceback.print_exc()
+                raise FatalError(_('Could not create GConf config (%s)') % gconfpath)
+        os.environ['GCONF_DEFAULT_SOURCE_PATH'] = gconfpath
+
+        # Set GCONF_SCHEMA_INSTALL_SOURCE to point into the jhbuild prefix so
+        # modules will install their schemas there (rather than failing to
+        # install them into /etc).
+        os.environ['GCONF_SCHEMA_INSTALL_SOURCE'] = 'xml:merged:' + os.path.join(
+                gconfdir, 'gconf.xml.defaults')
 
         # handle environment prepends ...
         for envvar in env_prepends.keys():

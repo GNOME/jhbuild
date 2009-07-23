@@ -39,8 +39,8 @@
     href="git://github.com/"/>
   <repository type="svn" name="svn.tinymail.org"
     href="https://svn.tinymail.org/svn/tinymail/" />
-  <repository type="svn" name="svn.modest"
-    href="https://garage.maemo.org/svn/modest/" />
+  <repository type="git" name="git.maemo.org"
+    href="https://git.maemo.org/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/"/>
   <repository type="git" name="git.clutter-project.org"
@@ -108,6 +108,10 @@
       href="http://people.suug.ch/~tgr/libnl/"/>
   <repository type="svn" name="liferea.svn.sourceforge.net"
       href="http://liferea.svn.sourceforge.net/svnroot/"/>
+  <repository type="cvs" name="cvs.claws-mail"
+      cvsroot=":ext:cvs@scm.dotsrc.org:/srv/cvs/claws-mail"
+      password=""/>
+
 
   <include href="freedesktop-2.28.modules"/>
   <include href="gnome-suites-2.28.modules"/>
@@ -126,19 +130,6 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-bluetooth">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="glib"/>
-      <dep package="libbtctl"/>
-      <dep package="libglade"/>
-      <dep package="libgnomeui"/>
-      <dep package="gconf"/>
-      <dep package="gob2"/>
     </dependencies>
   </autotools>
 
@@ -431,7 +422,7 @@
   </autotools>
 
   <autotools id="modest" autogenargs="--with-platform=gnome">
-    <branch repo="svn.modest" />
+    <branch repo="git.maemo.org" module="projects/modest" />
     <dependencies>
       <dep package="tinymail"/>
     </dependencies>
@@ -598,7 +589,9 @@
   <autotools id="at-poke">
     <branch/>
     <dependencies>
-      <dep package="libgail-gnome"/>
+      <dep package="libglade"/>
+      <dep package="gtk+"/>
+      <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
 
@@ -718,6 +711,7 @@
 
   <tarball id="gob2" version="2.0.15">
     <source href="http://ftp.5z.com/pub/gob/gob2-2.0.15.tar.gz"
+            hash="sha256:8d51dba71308e0fdff24c95f9e5551faec0eac334f6256d802035c6d64e5cd40"
             md5sum="0c5ab18305fc37902d202a253fdb28b1" size="257582"/>
     <dependencies>
       <dep package="glib"/>
@@ -757,7 +751,8 @@
 
   <tarball id="xchat" version="2.8.2">
     <source href="http://xchat.org/files/source/2.8/xchat-2.8.2.tar.bz2"
-            size="1331148" md5sum="d87a93bcd39d96ff3a3d0f8199efcf12"/>
+            hash="sha256:9f6c22e7116afea4c00d90346b0522069f1c2197e8d0ad2f1545da01329750fe"
+            md5sum="d87a93bcd39d96ff3a3d0f8199efcf12" size="1331148"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
@@ -855,7 +850,7 @@
   </autotools>
 
   <autotools id="loudmouth">
-    <branch repo="github.com" module="hallski/loudmouth.git" checkoutdir="loudmouth" />
+    <branch repo="github.com" module="m5h/loudmouth.git" checkoutdir="loudmouth" />
     <dependencies>
       <dep package="glib"/>
       <dep package="gnutls"/>
@@ -1044,6 +1039,7 @@
 
   <tarball id="raptor" version="1.4.18">
     <source href="http://download.librdf.org/source/raptor-1.4.18.tar.gz"
+            hash="sha256:edfdb0734fb7120bf1cbb60e45a07864db2daaadf5c3591ccf7357f244d82a40"
             md5sum="284e768eeda0e2898b0d5bf7e26a016e" size="1657246"/>
     <dependencies>
       <dep package="libxml2"/>
@@ -1202,6 +1198,7 @@
 
   <tarball id="vala" version="0.7.3" autogenargs="--enable-vapigen">
     <source href="http://download.gnome.org/sources/vala/0.7/vala-0.7.3.tar.bz2"
+            hash="sha256:790729166a031da8258eea1ad82f4a5632818d3707a918a0238af64a8d543303"
             md5sum="8e8bb3d30a4f7ca3fab75db82beaa60e" size="1837255"/>
     <dependencies>
       <dep package="glib"/>
@@ -1232,7 +1229,8 @@
   </autotools>
 
   <tarball id="libgee" version="0.1.5">
-    <source href="http://ftp.gnome.org/pub/GNOME/sources/libgee/0.1/libgee-0.1.5.tar.bz2"
+    <source href="http://download.gnome.org/sources/libgee/0.1/libgee-0.1.5.tar.bz2"
+            hash="sha256:94ff1f721e2cdc243a6c0aba98ae7d7f968a1baa18baeb249580dfd02556029f"
             md5sum="80102073421e4d7fb18a6aa9622f4de2" size="250782"/>
     <dependencies>
       <dep package="glib"/>
@@ -1899,7 +1897,7 @@
 
   <tarball id="gnokii" version="0.6.26">
     <source href="http://www.gnokii.org/download/gnokii/gnokii-0.6.26.tar.bz2"
-            size="2059415" md5sum="dcb81aa203f9ae4167b5045b7b8177e1"/>
+            md5sum="dcb81aa203f9ae4167b5045b7b8177e1" size="2059415"/>
     <suggests>
       <dep package="glib"/>
       <dep package="gtk+"/>
@@ -1908,7 +1906,8 @@
 
   <tarball id="gtkspell" version="2.0.11">
     <source href="http://gtkspell.sourceforge.net/download/gtkspell-2.0.11.tar.gz"
-            size="347172" md5sum="494869f67146a12a3f17a958f51aeb05"/>
+            hash="sha256:521d6be1e1236706cd491305b10f01d989bf47787ca97242c56c0d2b038e6a12"
+            md5sum="494869f67146a12a3f17a958f51aeb05" size="347172"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="pango"/>
@@ -1940,6 +1939,7 @@
   <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
   <tarball id="pygoocanvas" version="0.9">
     <source href="http://download.berlios.de/pygoocanvas/pygoocanvas-0.9.0.tar.gz"
+            hash="sha256:3fa0944b57253b9981a1ea1baa92fc03a0d746a49d779b9c5f51080959c7e011"
             md5sum="1988b7572d553d954ffd159e7e61cb17" size="430723"/>
     <dependencies>
       <dep package="goocanvas"/>
@@ -1951,8 +1951,9 @@
   <repository type="tarball" name="skyhouseconsulting.com"
       href="http://vobject.skyhouseconsulting.com/"/>
   <distutils id="python-vobject">
-    <branch repo="skyhouseconsulting.com" module="vobject-0.4.9.tar.gz"
-      version="0.4.9" size="51765" md5sum="55ab1fc3797b90eb556a6b0d2054cfd4" />
+    <branch repo="skyhouseconsulting.com" module="vobject-0.4.9.tar.gz" version="0.4.9"
+      hash="sha256:48741afdd8d7f98e2d1d1240764afaa2e38828df5f41e33e969370ab837de358"
+      md5sum="55ab1fc3797b90eb556a6b0d2054cfd4" size="51765" />
     <dependencies/>
   </distutils>
 
@@ -1967,6 +1968,9 @@
 
   <autotools id="ldtp">
     <branch repo="ldtp.freedesktop.org" module="ldtp"/>
+    <dependencies>
+      <dep package="at-spi"/>
+    </dependencies>
   </autotools>
 
   <distutils id="postr" autogen-sh="autoreconf">
@@ -2048,13 +2052,6 @@
     <branch repo="matchbox-project.org"
             module="libfakekey/0.1/libfakekey-0.1.tar.bz2" version="0.1"
             size="203504" md5="83dbde4d77e8baf0176fe4291d8a2303"/>
-  </autotools>
-
-  <autotools id="gobject-introspection">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
   </autotools>
 
   <autotools id="gir-repository">
@@ -2253,53 +2250,10 @@
    </dependencies>
   </autotools>
 
-  <autotools id="seed">
-    <branch/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-      <dep package="WebKit"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="nautilus-cd-burner">
     <branch/>
     <dependencies>
       <dep package="nautilus"/>
-    </dependencies>
-  </autotools>
-
-  <!-- External deps that you MUST have installed in order -->
-  <!-- to compile WebKit (if not the build tree might be   -->
-  <!-- in in a bad state and might fail to compile even    -->
-  <!-- after you've installed the missing dependency.      -->
-  <!--                                                     -->
-  <!--   libicu-dev                                        -->
-  <!--   libjpeg62-dev                                     -->
-  <!--   libpng12-dev                                      -->
-  <!--   gperf                                             -->
-  <!--   bison                                             -->
-  <!--   flex >= 2.5.33                                    -->
-  <!--                                                     -->
-  <!-- To clean the build tree if you tried to compile     -->
-  <!-- without those deps, run the following command:      -->
-  <!--                                                     -->
-  <!--   make -f GNUMakefile maintainer-clean              -->
-  <!--                                                     -->
-  <!-- See also http://live.gnome.org/WebKitGtk            -->
-  <repository type="git" name="git.debian.org"
-      href="git://git.debian.org/"/>
-  <autotools id="WebKit" autogenargs="--enable-video=yes --with-http-backend=soup"
-      makefile="GNUmakefile">
-    <branch repo="git.debian.org" module="git/pkg-webkit/upstream.git"
-      checkoutdir="WebKit" revision="filtered"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
-      <dep package="libsoup"/>
-      <dep package="gnome-vfs"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
@@ -2314,7 +2268,8 @@
 
   <tarball id="wv" version="1.2.4">
     <source href="http://downloads.sourceforge.net/wvware/wv-1.2.4.tar.gz"
-            size="629554" md5sum="c1861c560491f121e12917fa76970ac5"/>
+            hash="sha256:673109910e22d4cf94cc8be4dcb9a0c41b5fbdb1736d4b7bdc7778894d57c2d6"
+            md5sum="c1861c560491f121e12917fa76970ac5" size="629554"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libgsf"/>
@@ -2426,6 +2381,76 @@
       <dep package="NetworkManager"/>
       <dep package="libnotify"/>
     </suggests>
-  </autotools> 
+  </autotools>
+
+  <autotools id="krb5-auth-dialog">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
+  <!-- ########## Pimplico Modules ########## -->
+
+  <autotools id="contacts">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="dates">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gconf"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="tasks">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+    <suggests>
+      <dep package="libunique"/>
+    </suggests>
+  </autotools>
+
+  <metamodule id="meta-pimlico">
+    <dependencies>
+     <dep package="contacts"/>
+     <dep package="dates"/>
+     <dep package="tasks"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- ########## End of Pimplico Modules ########## -->
+
+  <autotools id="claws-mail"
+             autogenargs="--disable-libetpan">
+    <branch repo="cvs.claws-mail" revision="gtk2" module="claws" checkoutdir="claws-mail"/>
+    <dependencies>
+      <dep package="pkg-config"/>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="enchant"/>
+    </dependencies>
+    <suggests>
+      <dep package="startup-notification"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </suggests>
+  </autotools>
 
 </moduleset>
