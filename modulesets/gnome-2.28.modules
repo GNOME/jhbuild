@@ -111,6 +111,8 @@
   <repository type="cvs" name="cvs.claws-mail"
       cvsroot=":ext:cvs@scm.dotsrc.org:/srv/cvs/claws-mail"
       password=""/>
+  <repository type="git" name="git.xfce.org"
+      href="git://git.xfce.org"/>
 
 
   <include href="freedesktop-2.28.modules"/>
@@ -387,9 +389,15 @@
   </autotools>
 
   <autotools id="balsa">
-    <branch revision="BALSA_2"/>
+    <branch/>
     <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gmime"/>
+      <dep package="libgnome"/>
       <dep package="libgnomeui"/>
+      <dep package="gnome-keyring"/>
+      <dep pacakge="gconf"/>
     </dependencies>
   </autotools>
 
@@ -1012,17 +1020,6 @@
       <dep package="libsexy" />
       <dep package="gnome-doc-utils"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="gmime">
-    <branch/>
-    <dependencies>
-      <dep package="gtk-doc"/>
-      <dep package="glib"/>
-    </dependencies>
-    <after>
-      <dep package="gtk-sharp"/>
-    </after>
   </autotools>
 
   <autotools id="gmime-2-2">
@@ -2452,5 +2449,21 @@
       <dep package="dbus-glib"/>
     </suggests>
   </autotools>
+
+  <autotools id="midori">
+    <branch repo="git.xfce.org" branch="kalikiana/midori"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="WebKit"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+    </dependencies>
+    <suggests>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
+      <dep package="sqlite3"/>
+    </suggests>
+  </autotools>
+
 
 </moduleset>
