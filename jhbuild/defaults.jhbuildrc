@@ -153,7 +153,10 @@ jhbuildbot_password = None
 
 # options for jhbuildbot master
 jhbuildbot_svn_commits_box = None
-jhbuildbot_slaves_dir = os.path.abspath(".")
+try:
+    jhbuildbot_slaves_dir = os.path.abspath(".")
+except OSError:
+    jhbuildbot_slaves_dir = '.'
 jhbuildbot_dir = None
 jhbuildbot_mastercfg = "master.cfg"
 
