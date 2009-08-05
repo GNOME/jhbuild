@@ -95,6 +95,7 @@ class LibGlade(ShellCheck):
     excluded_modules = ('libglade',)
     cmds = (
         FIND_C + " | xargs grep '^#include <glade/'",
+        FIND_C + " | xargs grep '^#include <libglademm.h>'",
         "find -name '*.py' | xargs grep 'import .*glade'",
         "find -name '*.cs' | xargs grep '^using Glade'",
     )
