@@ -73,6 +73,7 @@ class LibGnomeVfs(ShellCheck):
         FIND_C + " | xargs grep '^#include <libgnomevfs/'",
         "find -name '*.py' | xargs grep 'import .*gnomevfs'",
         "find -name '*.cs' | xargs grep '^using Gnome.Vfs'",
+        "find -name '*.cs' | xargs grep 'Gnome.Vfs.Initialize'",
     )
 
 class LibGnomePrint(ShellCheck):
