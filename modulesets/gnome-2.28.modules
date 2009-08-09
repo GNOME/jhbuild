@@ -50,7 +50,7 @@
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
-      href="http://bazaar.launchpad.net/"/>
+      href="http://code.launchpad.net/"/>
   <repository type="bzr" name="bzr.burtonini.com"
       href="http://burtonini.com/bzr/"/>
   <repository type="svn" name="elisa.code.fluendo.com"
@@ -511,7 +511,7 @@
   </autotools>
 
   <autotools id="cluttermm">
-    <branch revision="cluttermm-0.8"/>
+    <branch/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="pangomm"/>
@@ -1253,27 +1253,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="clutter-trunk">
-    <branch repo="git.clutter-project.org" module="clutter"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="gtk-doc"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="clutter-gst-trunk">
-    <branch repo="git.clutter-project.org" module="clutter-gst"/>
-    <dependencies>
-      <dep package="clutter-trunk"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="clutter-gst">
-    <branch repo="svn.o-hand.com" module="clutter/branches/clutter-gst-0-8"/>
+    <branch repo="git.clutter-project.org" module="clutter-gst"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="gstreamer"/>
@@ -1281,35 +1262,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="clutter-gtk-trunk">
-    <branch repo="git.clutter-project.org" module="clutter-gtk"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="clutter-trunk"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="clutter-box2d-trunk">
+  <autotools id="clutter-box2d">
     <branch repo="git.clutter-project.org" module="clutter-box2d"/>
     <dependencies>
-      <dep package="clutter-trunk"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="pyclutter-trunk">
-    <branch repo="git.clutter-project.org" module="bindings/pyclutter"/>
-    <dependencies>
-      <dep package="pycairo"/>
-      <dep package="pygtk"/>
-      <dep package="gst-python"/>
-      <dep package="clutter-trunk"/>
-      <dep package="clutter-gst-trunk"/>
-      <dep package="clutter-gtk-trunk"/>
+      <dep package="clutter"/>
     </dependencies>
   </autotools>
 
   <autotools id="pyclutter">
-    <branch repo="svn.o-hand.com" module="clutter/branches/pyclutter-0-8"/>
+    <branch repo="git.clutter-project.org" module="bindings/pyclutter" checkoutdir="pyclutter"/>
     <dependencies>
       <dep package="pycairo"/>
       <dep package="pygtk"/>
@@ -1320,17 +1281,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="clutter-vala-trunk">
-    <branch repo="git.clutter-project.org" module="bindings/clutter-vala"/>
-    <dependencies>
-      <dep package="clutter-trunk"/>
-      <dep package="clutter-gtk-trunk"/>
-      <dep package="vala"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="clutter-vala">
-    <branch repo="svn.o-hand.com" module="clutter/branches/clutter-vala-0-8"/>
+    <branch repo="git.clutter-project.org" module="bindings/clutter-vala"/>
     <dependencies>
       <dep package="clutter"/>
       <dep package="clutter-gtk"/>
@@ -1349,13 +1301,6 @@
       <dep package="meta-clutter-core"/>
       <dep package="clutter-gst"/>
       <dep package="clutter-gtk"/>
-    </dependencies>
-  </metamodule>
-
-  <metamodule id="meta-clutter-python">
-    <dependencies>
-      <dep package="meta-clutter-suite"/>
-      <dep package="pyclutter"/>
     </dependencies>
   </metamodule>
 
@@ -2110,7 +2055,7 @@
 
  <autotools id="netbook-remix-launcher">
     <branch repo="launchpad.net"
-            module="~netbook-remix-team/netbook-remix-launcher/clutter-0-8-intrepid"
+            module="~netbook-remix-team/netbook-remix-launcher/trunk"
             checkoutdir="netbook-remix-launcher"/>
     <dependencies>
       <dep package="clutter-gtk"/>
@@ -2175,7 +2120,7 @@
       <dep package="gconf"/>
       <dep package="intltool"/>
       <dep package="zenity"/>
-      <dep package="clutter-trunk"/>
+      <dep package="clutter"/>
       <dep package="gobject-introspection"/>
       <dep package="gir-repository"/>
     </dependencies>

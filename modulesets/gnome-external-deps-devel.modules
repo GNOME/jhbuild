@@ -51,6 +51,8 @@
       href="git://git.gitorious.org/"/>
   <repository type="git" name="git.debian.org"
       href="git://git.debian.org/"/>
+  <repository type="git" name="git.clutter-project.org"
+      href="git://git.clutter-project.org/"/>
 
   <repository type="bzr" name="mega-nerd.com"
       href="http://www.mega-nerd.com/Bzr/"/>
@@ -532,7 +534,6 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="clutter"/>
-      <dep package="clutter-cairo"/>
       <dep package="cairo"/>
       <dep package="sqlite3"/>
     </dependencies>
@@ -547,6 +548,24 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter">
+    <branch repo="git.clutter-project.org"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtk">
+    <branch repo="git.clutter-project.org"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
     </dependencies>
   </autotools>
 
