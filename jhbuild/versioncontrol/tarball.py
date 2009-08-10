@@ -167,7 +167,11 @@ class TarballBranch(Branch):
                         _('downloaded file size is incorrect (expected %(size1)d, got %(size2)d)')
                                       % {'size1':self.source_size, 'size2':local_size})
         if self.source_hash is not None:
-            algo, hash = self.source_hash.split(':')
+            try:
+                algo, hash = self.source_hash.split(':')
+            except ValueError:
+                logging.warning(_('invalid hash attribute on module %s') % self.module)
+                return
             if hasattr(hashlib, algo):
                 local_hash = getattr(hashlib, algo)()
 

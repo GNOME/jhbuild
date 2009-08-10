@@ -457,13 +457,14 @@
       <dep package="libsoup"/>
       <dep package="libxml2"/>
       <dep package="gconf"/>
-      <dep package="gnome-vfs"/>
-      <dep package="nspr"/>
-      <dep package="nss"/>
       <dep package="sqlite3"/>
       <dep package="libgweather"/>
       <dep package="libical"/>
     </dependencies>
+    <suggests>
+      <dep package="nspr"/>
+      <dep package="nss"/>
+    </suggests>
     <after>
       <dep package="gnome-keyring"/>
     </after>
@@ -1208,7 +1209,6 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="gnome-python"/>
-      <dep package="libgail-gnome"/>
       <dep package="gnome-mag"/>
       <dep package="gnome-speech"/>
     </dependencies>
@@ -1454,8 +1454,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mm-common">
+    <branch/>
+  </autotools>
+
   <autotools id="libsigc++2">
     <branch/>
+    <dependencies>
+      <dep package="mm-common"/>
+    </dependencies>
   </autotools>
 
   <autotools id="pangomm">
@@ -1570,21 +1577,6 @@
       <dep package="libgnomeui"/>
     </dependencies>
   </waf>
-
-  <autotools id="gobject-introspection">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-js-common">
-    <branch/>
-    <suggests>
-      <dep package="seed"/>
-      <dep package="gjs"/>
-    </suggests>
-  </autotools>
 
   <autotools id="seed">
     <branch/>
@@ -1784,6 +1776,7 @@
     <dependencies>
       <dep package="libgnomeprint"/>
       <dep package="libgnomeprintui"/>
+      <dep package="libgail-gnome"/>
     </dependencies>
   </metamodule>
 
@@ -1813,8 +1806,10 @@
       <dep package="gedit"/>
       <dep package="gnome-applets"/>
       <dep package="gnome-backgrounds"/>
+      <dep package="gnome-bluetooth"/>
       <dep package="gnome-desktop"/>
       <dep package="gnome-desktop-sharp"/>
+      <dep package="gnome-disk-utility"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gnome-games"/>
       <dep package="gnome-icon-theme"/>
@@ -1847,7 +1842,6 @@
       <dep package="gtksourceview"/>
       <dep package="gucharmap"/>
       <dep package="gvfs"/>
-      <dep package="libgail-gnome"/>
       <dep package="libgnomekbd"/>
       <dep package="libgtop"/>
       <dep package="libgweather"/>
@@ -1908,11 +1902,18 @@
     </dependencies>
   </metamodule>
 
+  <metamodule id="meta-gnome-bindings-js">
+    <dependencies>
+      <dep package="seed"/>
+    </dependencies>
+  </metamodule>
+
   <metamodule id="meta-gnome-bindings">
     <dependencies>
       <dep package="meta-gnome-bindings-c++"/>
       <dep package="meta-gnome-bindings-python"/>
       <dep package="meta-gnome-bindings-mono"/>
+      <dep package="meta-gnome-bindings-js"/>
     </dependencies>
   </metamodule>
 
