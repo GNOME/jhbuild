@@ -284,6 +284,14 @@ class GitBranch(Branch):
                             **git_extra_args)
 
         current_branch = self.get_current_branch()
+        if current_branch is None:
+            # things are getting out of hand, check the git repository is
+            # correct
+            try:
+                get_output(['git', 'show'], **git_extra_args)
+            except CommandError:
+                raise CommandError(_('Failed to update module (corrupt .git?)'))
+
         if current_branch not in ('(no branch)', None):
             buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
 
