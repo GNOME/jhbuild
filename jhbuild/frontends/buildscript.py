@@ -109,10 +109,17 @@ class BuildScript:
                 build_phases = phases
             phase = None
             num_phase = 0
+
+            # if there is an error and a new phase is selected (be it by the
+            # user or an automatic system), the chosen phase must absolutely
+            # be executed, it should in no condition be skipped automatically.
+            # The force_phase variable flags that condition.
+            force_phase = False
+
             while num_phase < len(build_phases):
                 last_phase, phase = phase, build_phases[num_phase]
                 try:
-                    if module.skip_phase(self, phase, last_phase):
+                    if not force_phase and module.skip_phase(self, phase, last_phase):
                         num_phase += 1
                         continue
                 except SkipToEnd:
@@ -148,6 +155,7 @@ class BuildScript:
                     newphase = self.handle_error(module, phase,
                                                  nextphase, error,
                                                  altphases)
+                    force_phase = True
                     if newphase == 'fail':
                         failures.append(module.name)
                         failed = True
@@ -177,6 +185,7 @@ class BuildScript:
                             # the inserted one
                             del build_phases[num_phase+1]
                 else:
+                    force_phase = False
                     num_phase += 1
 
             self.end_module(module.name, failed)
