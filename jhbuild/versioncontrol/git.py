@@ -263,6 +263,18 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
 
+        current_branch = self.get_current_branch()
+        if current_branch is None:
+            # things are getting out of hand, check the git repository is
+            # correct
+            try:
+                get_output(['git', 'show'], **git_extra_args)
+            except CommandError:
+                raise CommandError(_('Failed to update module (corrupt .git?)'))
+
+        if current_branch not in ('(no branch)', None):
+            buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
+
         would_be_branch = self.branch or 'master'
         if self.tag:
             buildscript.execute(['git', 'checkout', self.tag], **git_extra_args)
@@ -282,18 +294,6 @@ class GitBranch(Branch):
                         buildscript.execute(['git', 'checkout', '--track', '-b',
                             would_be_branch, 'origin/' + would_be_branch],
                             **git_extra_args)
-
-        current_branch = self.get_current_branch()
-        if current_branch is None:
-            # things are getting out of hand, check the git repository is
-            # correct
-            try:
-                get_output(['git', 'show'], **git_extra_args)
-            except CommandError:
-                raise CommandError(_('Failed to update module (corrupt .git?)'))
-
-        if current_branch not in ('(no branch)', None):
-            buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
 
         if stashed:
             # git stash pop was introduced in 1.5.5, 
