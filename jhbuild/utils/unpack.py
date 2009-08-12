@@ -32,21 +32,44 @@ def unpack_tar_file(localfile, target_directory):
 
 
 def unpack_zip_file(localfile, target_directory):
-    def attr_check_symlink(attr):
+    # Attributes are stored in ZIP files in a host-dependent way.
+    # The zipinfo.create_system value describes the host OS.
+    # Known values:
+    #   * 3 (UNIX)
+    #   * 11 (undefined, seems to be UNIX)
+    #   * 0 (MSDOS)
+    # Reference: http://www.opennet.ru/docs/formats/zip.txt
+
+    def attr_check_symlink(host, attr):
+        if host == 0:
+            return False
         return attr == 0xA1ED0000
 
-    def attr_to_file_perm(attr):
-        perm = attr
-        perm &= 0x08FF0000
-        perm >>= 16
-        perm |= 0x00000100
+    def attr_to_file_perm(host, attr):
+        if host == 0:
+            if attr & 1:
+                perm = 0444
+            else:
+                perm = 0666
+        else:
+            perm = attr
+            perm &= 0x08FF0000
+            perm >>= 16
+            perm |= 0x00000100
         return perm
 
-    def attr_to_dir_perm(attr):
-        perm = attr
-        perm &= 0xFFFF0000
-        perm >>= 16
-        perm |= 0x00000100
+    def attr_to_dir_perm(host, attr):
+        if host==0:
+            # attr & 16 should be true (this is directory bit)
+            if attr & 1:
+                perm = 0444
+            else:
+                perm = 0666
+        else:
+            perm = attr
+            perm &= 0xFFFF0000
+            perm >>= 16
+            perm |= 0x00000100
         return perm
 
     def makedirs(dir):
@@ -55,11 +78,12 @@ def unpack_zip_file(localfile, target_directory):
 
     pkg = zipfile.ZipFile(localfile, 'r')
     for pkg_fileinfo in pkg.filelist:
-	pkg_file = pkg_fileinfo.filename
+        pkg_file = pkg_fileinfo.filename
         attr = pkg_fileinfo.external_attr
+        chost = pkg_fileinfo.create_system
 
         # symbolic link
-        if attr_check_symlink(attr):
+        if attr_check_symlink(chost, attr):
             # TODO: support symlinks in zipfiles
             continue
 
@@ -67,7 +91,7 @@ def unpack_zip_file(localfile, target_directory):
         if pkg_file.endswith('/'):
             dir = os.path.join(target_directory, pkg_file)
             makedirs(dir)
-            os.chmod(dir, attr_to_dir_perm(attr))
+            os.chmod(dir, attr_to_dir_perm(chost, attr))
             continue
 
         # file
@@ -75,14 +99,14 @@ def unpack_zip_file(localfile, target_directory):
             dir = os.path.dirname(pkg_file)
             dir = os.path.join(target_directory, dir)
             makedirs(dir)
-            
+
         data = pkg.read(pkg_file)
         file = open(os.path.join(target_directory, pkg_file), 'wb')
         file.write(data)
         file.close()
 
-        os.chmod(os.path.join(target_directory, pkg_file), attr_to_file_perm(attr))
-        
+        os.chmod(os.path.join(target_directory, pkg_file), attr_to_file_perm(chost, attr))
+
 
 def unpack_archive(buildscript, localfile, target_directory):
     ext = os.path.splitext(localfile)[-1]
