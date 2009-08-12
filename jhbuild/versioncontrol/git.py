@@ -119,6 +119,12 @@ class GitBranch(Branch):
         self.tag = tag
         self.unmirrored_module = unmirrored_module
 
+    def get_module_basename(self):
+        name = os.path.basename(self.module)
+        if name.endswith('.git'):
+            name = name[:-4]
+        return name
+ 
     def srcdir(self):
         path_elements = [self.checkoutroot]
         if self.checkoutdir:
