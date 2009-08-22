@@ -622,7 +622,6 @@ class cmd_goalreport(Command):
             else:
                 continue
             self.bugs[(module_name, check)] = bugnumber
-            print 'self.bugs:', self.bugs
 
         self.bug_status = {}
 
