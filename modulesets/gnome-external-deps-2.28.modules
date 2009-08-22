@@ -544,9 +544,11 @@
              autogenargs="--with-x --with-system-jpeg --with-system-zlib --with-system-bz2
 	     --enable-application=xulrunner --enable-default-toolkit=cairo-gtk2
 	     --enable-startup-notification --disable-mailnews --disable-ldap
-	     --disable-gnomevfs --disable-gnomeui 
+	     --disable-gnomevfs --disable-gnomeui
 	     --with-default-mozilla-five-home=${libdir}/mozilla
 	     --enable-system-cairo
+	     --with-system-nspr --with-system-nss
+	     --disable-mochitest
 	     --disable-debug --enable-optimize=-O2 --disable-tests
 	     --disable-javaxpcom
 	     --enable-extensions=xml-rpc,venkman,inspector,cview,tasks,reporter,python/xpcom
@@ -554,14 +556,19 @@
 	     "
              makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
-            module="xulrunner/releases/1.9.0.7/source/xulrunner-1.9.0.7-source.tar.bz2"
-            version="1.9.0.7"
-            hash="sha256:300749986499629fdab5b271c35eb53f42753a3586ef474500d52bd3386cad9b"
-            md5sum="9875c9237b532009df8e91c3785539a3" size="37066129"
+            module="xulrunner/releases/1.9.0.13/source/xulrunner-1.9.0.13-source.tar.bz2"
+            version="1.9.0.13"
+            hash="sha256:07afeb577038812b97169cdf6bb41938072d3b12f2e9194041c7c31382047be3"
+            md5sum="040d01a1e22a1ec1b28188479df06007" size="37318606"
             checkoutdir="mozilla" />
     <dependencies>
       <dep package="gtk+"/>
       <dep package="sqlite3"/>
+      <dep package="nss"/>
+      <dep package="nspr"/>
+      <dep package="dbus"/>
+      <dep package="gconf"/>
+      <dep package="cairo"/>
     </dependencies>
   </autotools>
 
