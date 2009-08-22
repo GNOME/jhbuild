@@ -328,7 +328,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 if needs_confirmation:
                     val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
                     val = val.strip()
-                    if val.lower() in ('yes', _('Yes')):
+                    if val.lower() in ('yes', _('yes').lower()):
                         return selected_phase
                     continue
                 return selected_phase
