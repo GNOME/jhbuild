@@ -589,6 +589,9 @@ class cmd_goalreport(Command):
         # Sample bug file:
         #  evolution/LibGnomeCanvas 571742
         #
+        # Alternatively, the $(checkname) can be replaced by a column number,
+        # like: evolution/col:2 543234
+        #
         # also, if there is only a single check, the /$(checkname) part
         # can be skipped.
         self.bugs = {}
@@ -611,12 +614,15 @@ class cmd_goalreport(Command):
             part, bugnumber = line.split()
             if '/' in part:
                 module_name, check = part.split('/')
+                if check.startswith('col:'):
+                    check = self.checks[int(check[4:])-1].__name__
             elif len(self.checks) == 1:
                 module_name = part
                 check = self.checks[0].__name__
             else:
                 continue
             self.bugs[(module_name, check)] = bugnumber
+            print 'self.bugs:', self.bugs
 
         self.bug_status = {}
 
@@ -660,6 +666,8 @@ class cmd_goalreport(Command):
 
             if '/' in part:
                 module_name, check = part.split('/')
+                if check.startswith('col:'):
+                    check = self.checks[int(check[4:])-1].__name__
             elif len(self.checks) == 1:
                 module_name = part
                 check = self.checks[0].__name__
