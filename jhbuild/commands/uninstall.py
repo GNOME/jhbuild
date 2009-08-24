@@ -29,7 +29,7 @@ class cmd_uninstall(Command):
     doc = _('Uninstall all modules')
 
     name = 'uninstall'
-    usage_args = N_('[ options ... ] [ modules ... ]')
+    usage_args = N_('[ modules ... ]')
 
     def run(self, config, options, args):
         config.set_from_cmdline_options(options)
