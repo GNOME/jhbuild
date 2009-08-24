@@ -385,7 +385,7 @@ class Config:
         # actual value by asking distutils
         # <http://bugzilla.gnome.org/show_bug.cgi?id=575426>
         try:
-            python_packages_dir = get_output([python_bin, 'c',
+            python_packages_dir = get_output([python_bin, '-c',
                 'import os, distutils.sysconfig; '\
                 'print distutils.sysconfig.get_python_lib(prefix="").split(os.path.sep)[-1]'],
                 get_stderr=False).strip()

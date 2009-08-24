@@ -36,6 +36,9 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
     Raises CommandError if the command exited abnormally or had a non-zero
     error code.
     '''
+    if cmd is None:
+        raise CommandError(_('Call to undefined command'))
+
     kws = {}
     if isinstance(cmd, (str, unicode)):
         kws['shell'] = True

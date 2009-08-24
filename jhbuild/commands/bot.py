@@ -162,8 +162,11 @@ class cmd_bot(Command):
                     phases = ['checkout']
                 elif args[0] == 'build':
                     config.alwaysautogen = True
+                    # make check will be run in another step
+                    config.makecheck = False
                     config.build_targets = ['install']
                 elif args[0] == 'check':
+                    config.makecheck = True
                     phases = ['check']
                 elif args[0] == 'clean':
                     phases = ['clean']

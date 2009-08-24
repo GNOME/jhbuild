@@ -96,13 +96,16 @@ class Branch:
            May raise NotImplementedError if cannot check a given branch."""
         raise NotImplementedError
 
+    def get_module_basename(self):
+        return os.path.basename(self.module)
+
     def get_checkoutdir(self):
         if self.checkout_mode == 'copy' and self.config.copy_dir:
-            return os.path.join(self.config.copy_dir, os.path.basename(self.module))
+            return os.path.join(self.config.copy_dir, self.get_module_basename())
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
-            return os.path.join(self.checkoutroot, os.path.basename(self.module))
+            return os.path.join(self.checkoutroot, self.get_module_basename())
 
     def may_checkout(self, buildscript):
         if buildscript.config.nonetwork:

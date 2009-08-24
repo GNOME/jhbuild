@@ -99,10 +99,10 @@
   </autotools>
 
   <autotools id="dbus" supports-non-srcdir-builds="no">
-    <branch module="dbus/dbus-1.2.12.tar.gz" version="1.2.12"
+    <branch module="dbus/dbus-1.2.16.tar.gz" version="1.2.16"
 	    repo="dbus"
-	    hash="sha256:b2ec81e7d9fa5e24f67baccfd9af2755a7797a65cb4c3cad10d023867f2bd220"
-	    md5sum="39bd582c3b06a261cac44d4cab6fd60b" size="1574756">
+	    hash="sha256:968a31c16a6c4bbbdb603cbaa3d60d6d19bc8ae30c0ed55d7f8c2e254413e4c8"
+	    md5sum="c7a47b851ebe02f6726b65b78d1b730b" size="1576209">
     </branch>
     <dependencies>
       <dep package="expat"/>
@@ -114,10 +114,10 @@
   </autotools>
 
   <autotools id="dbus-glib">
-    <branch module="dbus-glib/dbus-glib-0.80.tar.gz" version="0.80"
+    <branch module="dbus-glib/dbus-glib-0.82.tar.gz" version="0.82"
 	    repo="dbus"
-	    hash="sha256:b5330b91b3131757103da2b3147e211e71214475f5d77640022ea9bb587f645b"
-	    md5sum="86ea60ba2118a1b9deafe8257f6a6a1a" size="688789">
+	    hash="sha256:ddfb062797341b5c5a22555ffe80138953cc61a67ba805647b2746f519bfbde1"
+	    md5sum="aa2a4517de0e9144be3bce2cf8cdd924" size="674953">
     </branch>
     <dependencies>
       <dep package="libxml2"/>
@@ -159,10 +159,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="fontconfig" version="2.6.0">
-    <source href="http://www.fontconfig.org/release/fontconfig-2.6.0.tar.gz"
-            hash="sha256:a9a639eaa0e5666606a4657cc1494eb6df820fac7e5a2aa0c3f7e703b7c8d8a5"
-            md5sum="ab54ec1d4ddd836313fdbc0cd5299d6d" size="1403857"/>
+  <tarball id="fontconfig" version="2.7.1">
+    <source href="http://www.fontconfig.org/release/fontconfig-2.7.1.tar.gz"
+            hash="sha256:08502404aa451ddc5f9ca4bf45cc3b3f1e86e3f0779ff273c72e1c48e0c25b94"
+            md5sum="41024d11765acdd7520d1f5458e751db" size="1539165"/>
     <dependencies>
       <dep package="expat"/>
     </dependencies>
@@ -198,27 +198,23 @@
     </dependencies>
   </tarball>
 
-  <tarball id="DeviceKit" version="002">
-    <source href="http://hal.freedesktop.org/releases/DeviceKit-002.tar.gz"
-	    hash="sha256:a9d21facbab3598d43d3a0a9c5c849118f25afe6ef2e2212821735f63f3d6202"
-	    md5sum="0049da1b9e1137ed18c4f68088f6dea7" size="432688"/>
+  <tarball id="DeviceKit" version="003">
+    <source href="http://hal.freedesktop.org/releases/DeviceKit-003.tar.gz"
+            hash="sha256:d2d21f995d1a152ca2d8beea6d37f31e48cca034b82ceb7322f39422e849e9cf"
+            md5sum="8b311547f4a2c8c6b6598e3318d66cd7" size="384408"/>
     <dependencies>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
+      <dep package="glib"/>
     </dependencies>
-    <suggests>
-      <dep package="gtk-doc"/>
-    </suggests>
   </tarball>
 
   <tarball id="DeviceKit-power" version="008">
     <source href="http://hal.freedesktop.org/releases/DeviceKit-power-008.tar.gz"
-	    hash="sha256:9093246baf049fb2b8992bd5c1ceaadf5d4c3616a3bb77efa8f24f23f81731ee"
-	    md5sum="37ae30623524d4f476790079930049c8" size="480110"/>
-    
+            hash="sha256:9093246baf049fb2b8992bd5c1ceaadf5d4c3616a3bb77efa8f24f23f81731ee"
+            md5sum="37ae30623524d4f476790079930049c8" size="480110"/>
     <dependencies>
       <dep package="DeviceKit"/>
-      <dep package="PolicyKit"/>
+      <dep package="polkit"/>
+      <dep package="glib"/>
     </dependencies>
   </tarball>
 
@@ -350,10 +346,10 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gtk-vnc" version="0.3.8">
-    <source href="http://download.gnome.org/sources/gtk-vnc/0.3/gtk-vnc-0.3.8.tar.bz2"
-            hash="sha256:f56159d6e85ce2c039992bd3b32de968f64af2f625a8f1d3d008beeeab2032f5"
-            md5sum="7c7b07a868568206acd3f6e9e4d18ba1" size="442950"/>
+  <tarball id="gtk-vnc" version="0.3.9">
+    <source href="http://download.gnome.org/sources/gtk-vnc/0.3/gtk-vnc-0.3.9.tar.bz2"
+            hash="sha256:ab84ccc04d15c4fb4409a689f9afd6e71ea49f0fff704dd10a648bdce11b56e9"
+            md5sum="18cbf50b393fea57b691987e5ea62259" size="460629"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
@@ -463,11 +459,11 @@
     </dependencies>
   </tarball>
 
-  <tarball id="system-tools-backends" version="2.6.1"
+  <tarball id="system-tools-backends" version="2.8.1"
            supports-non-srcdir-builds="no">
-    <source href="http://download.gnome.org/sources/system-tools-backends/2.6/system-tools-backends-2.6.1.tar.bz2"
-            hash="sha256:7f56dd08cf5425218b697d5db82e6ce03aff4f7b57f58d3053f0a7af632b3747"
-            md5sum="c82a9d305c3a1bf924bba6b1bced3e86" size="441586"/>
+    <source href="http://download.gnome.org/sources/system-tools-backends/2.8/system-tools-backends-2.8.1.tar.bz2"
+            hash="sha256:c1f5746d22ef439ee47c9b012273ccbefbb2621075f05876bdb6ad5cfe4e1bbe"
+            md5sum="2aecff382af4d8ba7fcd69298cc79413" size="455050"/>
     <suggests>
       <dep package="dbus"/>
       <dep package="perl-net-dbus"/>
@@ -487,10 +483,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.7.31">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.31.tar.gz"
-            hash="sha256:8b344d944c36ed9022c1516e0972a8de697eba275e34ff3e59af310d2167ebd9"
-            md5sum="42ceb70aacbe918e64c8f3196afc5c81" size="2574808"/>
+  <tarball id="telepathy-glib" version="0.7.34">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.34.tar.gz"
+            hash="sha256:c1a43208ea717bae4aa88de865a24005add928e772868024ba43290a0b4fdc94"
+            md5sum="a655531426dabd8cf453590069497d04" size="2759604"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -548,9 +544,11 @@
              autogenargs="--with-x --with-system-jpeg --with-system-zlib --with-system-bz2
 	     --enable-application=xulrunner --enable-default-toolkit=cairo-gtk2
 	     --enable-startup-notification --disable-mailnews --disable-ldap
-	     --disable-gnomevfs --disable-gnomeui 
+	     --disable-gnomevfs --disable-gnomeui
 	     --with-default-mozilla-five-home=${libdir}/mozilla
 	     --enable-system-cairo
+	     --with-system-nspr --with-system-nss
+	     --disable-mochitest
 	     --disable-debug --enable-optimize=-O2 --disable-tests
 	     --disable-javaxpcom
 	     --enable-extensions=xml-rpc,venkman,inspector,cview,tasks,reporter,python/xpcom
@@ -558,14 +556,19 @@
 	     "
              makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
-            module="xulrunner/releases/1.9.0.7/source/xulrunner-1.9.0.7-source.tar.bz2"
-            version="1.9.0.7"
-            hash="sha256:300749986499629fdab5b271c35eb53f42753a3586ef474500d52bd3386cad9b"
-            md5sum="9875c9237b532009df8e91c3785539a3" size="37066129"
+            module="xulrunner/releases/1.9.0.13/source/xulrunner-1.9.0.13-source.tar.bz2"
+            version="1.9.0.13"
+            hash="sha256:07afeb577038812b97169cdf6bb41938072d3b12f2e9194041c7c31382047be3"
+            md5sum="040d01a1e22a1ec1b28188479df06007" size="37318606"
             checkoutdir="mozilla" />
     <dependencies>
       <dep package="gtk+"/>
       <dep package="sqlite3"/>
+      <dep package="nss"/>
+      <dep package="nspr"/>
+      <dep package="dbus"/>
+      <dep package="gconf"/>
+      <dep package="cairo"/>
     </dependencies>
   </autotools>
 
@@ -613,7 +616,7 @@
   </tarball>
 
   <tarball id="expat" version="1.95.8">
-    <source href="http://sourceforge.net/projects/expat/files/expat/1.95.8/expat-1.95.8.tar.gz"
+    <source href="http://downloads.sourceforge.net/project/expat/expat/1.95.8/expat-1.95.8.tar.gz"
             hash="sha256:c6aaa0b427e775a0fd5a956a75ae41e5110f22760723d9bda316100010e891ca"
             md5sum="aff487543845a82fe262e6e2922b4c8e" size="318349"/>
   </tarball>
@@ -705,6 +708,45 @@
       <dep package="PolicyKit"/>
       <dep package="gnome-doc-utils"/>
       <dep package="intltool"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="polkit" version="0.94">
+    <source href="http://hal.freedesktop.org/releases/polkit-0.94.tar.gz"
+            hash="sha256:8fd1dc321a700d78b43a62b1987f321b428bd2d8065468982069cb86bc8ef44f"
+            md5sum="5abc9f858e7b614ef41161db36d53915" size="1009990"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="eggdbus"/>
+      <dep package="expat"/>
+      <dep package="intltool"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </tarball>
+
+  <tarball id="polkit-gnome" version="0.94">
+    <source href="http://hal.freedesktop.org/releases/polkit-gnome-0.94.tar.bz2"
+            hash="sha256:60441f4fad12dab3ff196db9d43d6499ab5d5462bd729f45a4c3f050f7b91525"
+            md5sum="eebab8363a7b7c0516aca4f7b7cd7f7a" size="365379"/>
+    <dependencies>
+      <dep package="polkit"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </tarball>
+
+
+  <tarball id="eggdbus" version="0.5">
+    <source href="http://hal.freedesktop.org/releases/eggdbus-0.5.tar.gz"
+            hash="sha256:3261d543ab7cfcf9388ca1c4e1e5258c40af7e1c947e4876b5d04befbe4d3a3c"
+            md5sum="44f1f6387c49e8198d7aa755aeee46c6" size="790432"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
     </dependencies>
   </tarball>
 
@@ -920,7 +962,7 @@
     </dependencies>
   </tarball>
 
-  <autotools id="WebKit" autogenargs="--enable-video=yes --enable-gnomekeyring=yes"
+  <autotools id="WebKit" autogenargs="--enable-gnomekeyring=yes"
       makefile="GNUmakefile">
     <branch repo="webkitgtk.org"
             module="webkit-1.1.12.tar.gz" version="1.1.12"
