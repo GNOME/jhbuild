@@ -29,35 +29,16 @@ class cmd_uninstall(Command):
     doc = _('Uninstall all modules')
 
     name = 'uninstall'
-    usage_args = '[ options ... ] [ modules ... ]'
-
-    def __init__(self):
-        Command.__init__(self, [
-            make_option('-s', '--skip', metavar='MODULES',
-                        action='append', dest='skip', default=[],
-                        help=_('treat the given modules as up to date')),
-            make_option('-t', '--start-at', metavar='MODULE',
-                        action='store', dest='startat', default=None,
-                        help=_('start building at the given module')),
-            make_option('--one', metavar='MODULE',
-                        action='store_true', dest='one', default=False,
-                        help=_('uninstall modules passed on command line only')),
-            ])
+    usage_args = N_('[ options ... ] [ modules ... ]')
 
     def run(self, config, options, args):
         config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)
-        if options.one:
-            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
-        else:
-            module_list = module_set.get_module_list(args or config.modules, config.skip)
-            # remove modules up to startat
-            if options.startat:
-                while module_list and module_list[0].name != options.startat:
-                    del module_list[0]
-                if not module_list:
-                    raise FatalError(_('%s not in module list') % options.startat)
+        module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
+
+        if not module_list:
+            self.parser.error(_('This command requires a module parameter.'))
 
         # remove modules that are not marked as installed
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
