@@ -387,7 +387,7 @@ class Config:
         try:
             python_packages_dir = get_output([python_bin, '-c',
                 'import os, distutils.sysconfig; '\
-                'print distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1]'] % self.prefix,
+                'print distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1]' % self.prefix],
                 get_stderr=False).strip()
         except CommandError:
             python_packages_dir = 'site-packages'
