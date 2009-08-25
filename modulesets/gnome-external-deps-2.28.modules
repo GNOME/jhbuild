@@ -473,16 +473,6 @@
     </suggests>
   </tarball>
 
-  <!-- Note: libtelepathy is deprecated in favour of Telepathy GLib -->
-  <tarball id="libtelepathy" version="0.3.3">
-    <source href="http://telepathy.freedesktop.org/releases/libtelepathy/libtelepathy-0.3.3.tar.gz"
-            hash="sha256:e0d230be855125163579743418203c6f6be2f10f98c4f065735c1dc9ed115878"
-            md5sum="490ca1a0c614d4466394b72d43bf7370" size="439764"/>
-    <dependencies>
-      <dep package="telepathy-glib"/>
-    </dependencies>
-  </tarball>
-
   <tarball id="telepathy-glib" version="0.7.34">
     <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.7.34.tar.gz"
             hash="sha256:c1a43208ea717bae4aa88de865a24005add928e772868024ba43290a0b4fdc94"
@@ -495,12 +485,13 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-mission-control" version="4.67">
-    <source href="http://prdownloads.sourceforge.net/sourceforge/mission-control/telepathy-mission-control-4.67.tar.gz"
-            hash="sha256:326b82519a49a238a476c028097bde5820c4b58af500dbb5b715cdfd6fe0bfcd"
-            md5sum="0a547e7af4a33355bac3638dd2e40859" size="659444"/>
+  <tarball id="telepathy-mission-control" version="5.20">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.2.0.tar.gz"
+            hash="sha256:db7d0094df3083ea5d3e945f017d9582febdd396fa1cc03d6f205447f7f540da"
+            md5sum="dc7ce2105d1f569a1a6f7db06be4bc68" size="1029481"/>
     <dependencies>
-      <dep package="libtelepathy"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
       <dep package="telepathy-glib"/>
       <dep package="gnome-keyring"/>
       <dep package="gconf"/>
