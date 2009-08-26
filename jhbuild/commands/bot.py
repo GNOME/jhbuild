@@ -86,7 +86,7 @@ class cmd_bot(Command):
                         help=_('log file location')),
             make_option('--slaves-dir', metavar='SLAVESDIR',
                         action='store', dest='slaves_dir', default=None,
-                        help=_('directory with slaves files (only with --start-server)')),
+                        help=_('directory with slave files (only with --start-server)')),
             make_option('--buildbot-dir', metavar='BUILDBOTDIR',
                         action='store', dest='buildbot_dir', default=None,
                         help=_('directory with buildbot work files (only with --start-server)')),

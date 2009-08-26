@@ -63,10 +63,10 @@ class cmd_info(Command):
         uprint(_('Type:'), module.type)
 
         if installdate is not None:
-            uprint(_('Install-date:'), time.strftime('%Y-%m-%d %H:%M:%S',
+            uprint(_('Install date:'), time.strftime('%Y-%m-%d %H:%M:%S',
                                                  time.localtime(installdate)))
         else:
-            uprint(_('Install-date:'), _('not installed'))
+            uprint(_('Install date:'), _('not installed'))
 
         if isinstance(module, MetaModule):
             pass
