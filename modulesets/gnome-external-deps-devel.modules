@@ -119,7 +119,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="util-linux-ng" autogen-sh="autoreconf">
+  <autotools id="util-linux-ng" autogen-sh="autoreconf" autogenargs="--disable-makeinstall-chown">
     <branch repo="git.kernel.org"
             module="pub/scm/utils/util-linux-ng/util-linux-ng.git" checkoutdir="util-linux-ng"/>
     <dependencies/>
@@ -566,6 +566,13 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gobject-introspection">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
