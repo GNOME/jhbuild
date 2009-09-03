@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the jhbuild package.
 # Mario Blättermann <mariobl@gnome.org>, 2009.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&component=general\n"
-"POT-Creation-Date: 2009-08-23 12:02+0000\n"
-"PO-Revision-Date: 2009-08-23 14:27+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2009-08-26 21:25+0000\n"
+"PO-Revision-Date: 2009-09-03 20:01+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,13 +47,12 @@ msgstr "»make clean« vor »make« ausführen"
 #: ../jhbuild/commands/autobuild.py:41 ../jhbuild/commands/base.py:46
 #: ../jhbuild/commands/base.py:235 ../jhbuild/commands/base.py:437
 #: ../jhbuild/commands/clean.py:38 ../jhbuild/commands/tinderbox.py:49
-#: ../jhbuild/commands/uninstall.py:38
 msgid "treat the given modules as up to date"
 msgstr "Vorliegendes Modul als aktuell annehmen"
 
 #: ../jhbuild/commands/autobuild.py:44 ../jhbuild/commands/base.py:49
 #: ../jhbuild/commands/base.py:238 ../jhbuild/commands/clean.py:41
-#: ../jhbuild/commands/tinderbox.py:52 ../jhbuild/commands/uninstall.py:41
+#: ../jhbuild/commands/tinderbox.py:52
 msgid "start building at the given module"
 msgstr "Erstellung beim angegebenen Modul beginnen"
 
@@ -71,7 +71,6 @@ msgstr "Berichtsadresse für »autobuild« nicht angegeben"
 #: ../jhbuild/commands/autobuild.py:81 ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:282 ../jhbuild/commands/base.py:471
 #: ../jhbuild/commands/clean.py:55 ../jhbuild/commands/tinderbox.py:86
-#: ../jhbuild/commands/uninstall.py:60
 #, python-format
 msgid "%s not in module list"
 msgstr "%s ist nicht in der Modulliste"
@@ -116,6 +115,7 @@ msgstr "Ein Modul namens »%s« konnte nicht gefunden werden."
 
 #: ../jhbuild/commands/base.py:106 ../jhbuild/commands/base.py:141
 #: ../jhbuild/commands/base.py:348 ../jhbuild/commands/rdepends.py:47
+#: ../jhbuild/commands/uninstall.py:41
 msgid "This command requires a module parameter."
 msgstr "Dieser Befehl benötigt einen Modulparameter."
 
@@ -135,8 +135,8 @@ msgstr ""
 
 #: ../jhbuild/commands/base.py:193
 msgid ""
-"bootstrap moduleset has been updated since the last time you used it, "
-"perhaps you should run jhbuild bootstrap."
+"bootstrap moduleset has been updated since the last time you used it, perhaps "
+"you should run jhbuild bootstrap."
 msgstr ""
 "Bootstrap-Modulsatz wurde seit der letzten Verwendung aktualisiert, Sie "
 "sollten »jhbuild bootstrap« ausführen."
@@ -261,6 +261,7 @@ msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Graphviz-Abhängigkeitsdiagramm für ein oder mehrere Module ausgeben"
 
 #: ../jhbuild/commands/base.py:490 ../jhbuild/commands/info.py:40
+#: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ Module ... ]"
 
@@ -295,7 +296,7 @@ msgstr ""
 msgid "Control buildbot"
 msgstr "Buildbot steuern"
 
-#: ../jhbuild/commands/bot.py:56 ../jhbuild/commands/__init__.py:37
+#: ../jhbuild/commands/bot.py:56 ../jhbuild/commands/__init__.py:45
 msgid "[ options ... ]"
 msgstr "[ Optionen ... ]"
 
@@ -336,7 +337,8 @@ msgid "log file location"
 msgstr "Ort der Protokolldatei"
 
 #: ../jhbuild/commands/bot.py:89
-msgid "directory with slaves files (only with --start-server)"
+#| msgid "directory with slaves files (only with --start-server)"
+msgid "directory with slave files (only with --start-server)"
 msgstr "Ordner mit Slave-Dateien (nur mit »--start-server«)"
 
 #: ../jhbuild/commands/bot.py:92
@@ -361,8 +363,7 @@ msgid "failed to get buildbot PID"
 msgstr "Buildbot-PID konnte nicht bestimmt werden"
 
 #: ../jhbuild/commands/checkbranches.py:28
-msgid ""
-"Check modules in GNOME Git repository have the correct branch definition"
+msgid "Check modules in GNOME Git repository have the correct branch definition"
 msgstr ""
 "Module im GNOME Git-Softwarebestand auf korrekte Zweigdefinition überprüfen"
 
@@ -372,7 +373,8 @@ msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "In %(module)s fehlt die Zweigdefinition für %(branch)s"
 
 #: ../jhbuild/commands/checkmodulesets.py:30
-msgid "Check modules in jhbuild have the correct definition"
+#| msgid "Check modules in jhbuild have the correct definition"
+msgid "Check if modules in jhbuild have the correct definition"
 msgstr "Module in JHBuild auf korrekte Definition überprüfen"
 
 #: ../jhbuild/commands/checkmodulesets.py:42
@@ -415,7 +417,8 @@ msgid "Type:"
 msgstr "Typ:"
 
 #: ../jhbuild/commands/info.py:66 ../jhbuild/commands/info.py:69
-msgid "Install-date:"
+#| msgid "Install-date:"
+msgid "Install date:"
 msgstr "Installationsdatum:"
 
 #: ../jhbuild/commands/info.py:69
@@ -482,7 +485,7 @@ msgstr "Nach:"
 msgid "Before:"
 msgstr "Vor:"
 
-#: ../jhbuild/commands/__init__.py:74
+#: ../jhbuild/commands/__init__.py:82
 msgid "command not found"
 msgstr "Befehl nicht gefunden"
 
@@ -524,15 +527,14 @@ msgstr "Installationspräfix (%s) ist nicht schreibbar"
 #: ../jhbuild/commands/sanitycheck.py:78 ../jhbuild/commands/sanitycheck.py:81
 #: ../jhbuild/commands/sanitycheck.py:84 ../jhbuild/commands/sanitycheck.py:87
 #: ../jhbuild/commands/sanitycheck.py:90 ../jhbuild/commands/sanitycheck.py:93
-#: ../jhbuild/commands/sanitycheck.py:96
-#: ../jhbuild/commands/sanitycheck.py:138
+#: ../jhbuild/commands/sanitycheck.py:96 ../jhbuild/commands/sanitycheck.py:138
 #: ../jhbuild/commands/sanitycheck.py:142
 #: ../jhbuild/commands/sanitycheck.py:146
-#: ../jhbuild/commands/sanitycheck.py:155
-#: ../jhbuild/versioncontrol/arch.py:155 ../jhbuild/versioncontrol/bzr.py:148
-#: ../jhbuild/versioncontrol/cvs.py:297 ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/git.py:334 ../jhbuild/versioncontrol/hg.py:101
-#: ../jhbuild/versioncontrol/mtn.py:140 ../jhbuild/versioncontrol/svn.py:311
+#: ../jhbuild/commands/sanitycheck.py:155 ../jhbuild/versioncontrol/arch.py:155
+#: ../jhbuild/versioncontrol/bzr.py:148 ../jhbuild/versioncontrol/cvs.py:297
+#: ../jhbuild/versioncontrol/darcs.py:108 ../jhbuild/versioncontrol/git.py:334
+#: ../jhbuild/versioncontrol/hg.py:101 ../jhbuild/versioncontrol/mtn.py:140
+#: ../jhbuild/versioncontrol/svn.py:311
 #, python-format
 msgid "%s not found"
 msgstr "»%s« nicht gefunden"
@@ -589,10 +591,6 @@ msgstr "Ausgabeordner für Tinderbox-Erstellung wurde nicht angegeben"
 #: ../jhbuild/commands/uninstall.py:29
 msgid "Uninstall all modules"
 msgstr "Alle Module deinstallieren"
-
-#: ../jhbuild/commands/uninstall.py:44
-msgid "uninstall modules passed on command line only"
-msgstr "Nur in Befehlszeile übergebene Module deinstallieren"
 
 #: ../jhbuild/frontends/autobuild.py:72
 #, python-format
@@ -894,15 +892,14 @@ msgstr "Kein <branch>-Element für %s gefunden"
 #, python-format
 msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
 msgstr ""
-"Repository=%s nicht gefunden für Modul id=%s. Mögliche Softwarebestände sind "
-"%s"
+"Repository=%s nicht gefunden für Modul id=%s. Mögliche Softwarebestände sind %"
+"s"
 
 # CHECK
 #: ../jhbuild/modtypes/__init__.py:107
 #, python-format
 msgid ""
-"Default Repository=%s not found for module id=%s. Possible repositories are %"
-"s"
+"Default Repository=%s not found for module id=%s. Possible repositories are %s"
 msgstr ""
 "Default Repository=%s nicht gefunden für Modul id=%s. Mögliche "
 "Softwarebestände sind %s"
@@ -955,8 +952,8 @@ msgstr "Kernel-Header werden installiert"
 #: ../jhbuild/modtypes/linux.py:248
 #, python-format
 msgid ""
-"Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-"are %s"
+"Repository=%s not found for kconfig in linux id=%s. Possible repositories are "
+"%s"
 msgstr ""
 "Repository=%s nicht gefunden für kconfig in linux id=%s. Mögliche "
 "Softwarebestände sind %s"
@@ -1056,8 +1053,7 @@ msgstr ""
 
 #: ../jhbuild/versioncontrol/cvs.py:279
 msgid "Consider using the changecvsroot.py script to fix this."
-msgstr ""
-"Sie sollten das Skript »changecvsroot.py« verwenden, um dies zu beheben."
+msgstr "Sie sollten das Skript »changecvsroot.py« verwenden, um dies zu beheben."
 
 #: ../jhbuild/versioncontrol/git.py:94
 msgid "ignored bad branch redefinition for module:"
@@ -1100,15 +1096,14 @@ msgid ""
 " If you are running git version < 1.5.6 it is recommended you update.\n"
 msgstr ""
 "Externe Verarbeitung ist gescheitert.\n"
-"Aktualisieren Sie Ihre Git-Version, falls diese älter als Version 1.5.6 "
-"ist.\n"
+"Aktualisieren Sie Ihre Git-Version, falls diese älter als Version 1.5.6 ist.\n"
 
 #: ../jhbuild/versioncontrol/git.py:445
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
-"Letzte Revision von %s kann nicht erhalten werden. Überprüfen Sie den Ort "
-"des Moduls."
+"Letzte Revision von %s kann nicht erhalten werden. Überprüfen Sie den Ort des "
+"Moduls."
 
 #: ../jhbuild/versioncontrol/__init__.py:186
 #, python-format
@@ -1428,8 +1423,8 @@ msgstr "%s kann nicht heruntergeladen werden: %s"
 
 #: ../jhbuild/moduleset.py:443
 msgid ""
-"Modulesets were edited locally but JHBuild is configured to get them from "
-"the network, perhaps you need to add use_local_modulesets = True to your ."
+"Modulesets were edited locally but JHBuild is configured to get them from the "
+"network, perhaps you need to add use_local_modulesets = True to your ."
 "jhbuildrc."
 msgstr ""
 "Modulsätze wurden lokal verändert. JHBuild ist so konfiguriert, dass die "
