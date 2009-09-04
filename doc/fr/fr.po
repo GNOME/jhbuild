@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild doc fr\n"
-"POT-Creation-Date: 2009-05-21 17:50+0000\n"
-"PO-Revision-Date: 2009-05-27 21:29+0200\n"
+"POT-Creation-Date: 2009-07-13 15:12+0000\n"
+"PO-Revision-Date: 2009-09-04 22:19+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -329,8 +329,8 @@ msgid ""
 "your <envar>PATH</envar> variable, run the following command:"
 msgstr ""
 "Cette commande doit alors être lancée lors de chaque connexion pour utiliser "
-"JHBuild. Pour ajouter <filename>~/.local/bin</filename> de façon permanente à la "
-"variable <envar>PATH</envar>, exécutez la commande suivante :"
+"JHBuild. Pour ajouter <filename>~/.local/bin</filename> de façon permanente "
+"à la variable <envar>PATH</envar>, exécutez la commande suivante :"
 
 #: C/jhbuild.xml:158(userinput)
 #, no-wrap
@@ -1964,8 +1964,8 @@ msgid ""
 "The <command>uninstall</command> command is used to uninstall one or more "
 "modules."
 msgstr ""
-"La commande <command>uninstall</command> permet de désinstaller "
-"un ou plusieurs modules."
+"La commande <command>uninstall</command> permet de désinstaller un ou "
+"plusieurs modules."
 
 #: C/jhbuild.xml:1210(command)
 msgid "jhbuild uninstall"
@@ -2512,7 +2512,8 @@ msgstr ""
 "Une valeur booléenne indiquant s'il faut émettre des notifications au moyen "
 "du démon de notification. Si la valeur vaut <constant>True</constant>, les "
 "notifications ne sont pas émises. La valeur par défaut est <constant>False</"
-"constant>, sauf sur Win32 où la valeur par défaut est <constant>True</constant>."
+"constant>, sauf sur Win32 où la valeur par défaut est <constant>True</"
+"constant>."
 
 #: C/jhbuild.xml:1595(varname)
 msgid "nopoison"
@@ -2545,7 +2546,8 @@ msgstr ""
 "Une valeur booléenne indiquant s'il faut afficher une icône dans la zone de "
 "notifications via Zenity. Si la valeur vaut <constant>True</constant>, les "
 "notifications ne sont pas émises. La valeur par défaut est <constant>False</"
-"constant>, sauf sur Win32 où la valeur par défaut est <constant>True</constant>."
+"constant>, sauf sur Win32 où la valeur par défaut est <constant>True</"
+"constant>."
 
 #: C/jhbuild.xml:1616(varname)
 msgid "noxvfb"
@@ -2901,7 +2903,7 @@ msgstr ""
 "éléments sous le premier niveau sont de trois types : sources de module, "
 "commandes d'inclusion et définitions de module."
 
-#: C/jhbuild.xml:1855(title) C/jhbuild.xml:2477(title)
+#: C/jhbuild.xml:1855(title) C/jhbuild.xml:2478(title)
 msgid "Module Sources"
 msgstr "Sources de module"
 
@@ -3299,16 +3301,18 @@ msgstr ""
 #: C/jhbuild.xml:2056(para)
 msgid ""
 "The <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class="
-"\"attribute\">md5sum</sgmltag> attributes are optional. If these two "
-"attributes are present, they are used to check that the source package was "
-"downloaded correctly."
+"\"attribute\">hash</sgmltag>, as well as the obsolete <sgmltag class="
+"\"attribte\">md5sum</sgmltag>, attributes are optional. If these attributes "
+"are present, they are used to check that the source package was downloaded "
+"correctly."
 msgstr ""
 "Les attributs <sgmltag class=\"attribute\">size</sgmltag> et <sgmltag class="
-"\"attribute\">md5sum</sgmltag> sont facultatifs. Si ces deux attributs "
+"\"attribute\">hash</sgmltag>, ainsi que l'ancien attribut <sgmltag class="
+"\"attribute\">md5sum</sgmltag> sont facultatifs. Si ces attributs "
 "existent, ils sont utilisés pour vérifier que le paquet source a été "
 "correctement téléchargé."
 
-#: C/jhbuild.xml:2061(para) C/jhbuild.xml:2631(para)
+#: C/jhbuild.xml:2062(para) C/jhbuild.xml:2634(para)
 msgid ""
 "The <sgmltag class=\"element\">patches</sgmltag> element is used to specify "
 "one or more patches to apply to the source tree after unpacking, the "
@@ -3323,7 +3327,7 @@ msgstr ""
 "\"attribute\">strip</sgmltag> précise le nombre de niveaux de répertoires à "
 "retirer dans les chemins en appliquant le correctif."
 
-#: C/jhbuild.xml:2069(para) C/jhbuild.xml:2639(para)
+#: C/jhbuild.xml:2070(para) C/jhbuild.xml:2642(para)
 msgid ""
 "For module sets shipped with JHbuild, the patch files are looked up in the "
 "<filename>jhbuild/patches/</filename> directory; for module sets referred by "
@@ -3340,13 +3344,22 @@ msgstr ""
 "l'attribut <sgmltag class=\"attribute\">file</sgmltag> indique un URI, "
 "auquel cas il sera téléchargé à cet emplacement."
 
-#: C/jhbuild.xml:2078(programlisting)
-#, no-wrap
+#: C/jhbuild.xml:2079(programlisting)
+#, fuzzy, no-wrap
+#| msgid ""
+#| "\n"
+#| "&lt;branch module=\"dbus-python-0.80.2.tar.gz\" version=\"0.80.2\"\n"
+#| "    repo=\"dbus/dbus-python\"\n"
+#| "    md5sum=\"2807bc85215c995bd595e01edd9d2077\" size=\"453499\"&gt;\n"
+#| "  &lt;patches&gt;\n"
+#| "    &lt;patch file=\"dbus-glib-build.patch\" strip=\"1\" /&gt;\n"
+#| "  &lt;/patches&gt;\n"
+#| "&lt;branch&gt;\n"
 msgid ""
 "\n"
 "&lt;branch module=\"dbus-python-0.80.2.tar.gz\" version=\"0.80.2\"\n"
 "    repo=\"dbus/dbus-python\"\n"
-"    md5sum=\"2807bc85215c995bd595e01edd9d2077\" size=\"453499\"&gt;\n"
+"    hash=\"md5:2807bc85215c995bd595e01edd9d2077\" size=\"453499\"&gt;\n"
 "  &lt;patches&gt;\n"
 "    &lt;patch file=\"dbus-glib-build.patch\" strip=\"1\" /&gt;\n"
 "  &lt;/patches&gt;\n"
@@ -3361,11 +3374,11 @@ msgstr ""
 "  &lt;/patches&gt;\n"
 "&lt;branch&gt;\n"
 
-#: C/jhbuild.xml:2093(title)
+#: C/jhbuild.xml:2094(title)
 msgid "Including Other Module Sets"
 msgstr "Inclusion d'autres jeux de modules"
 
-#: C/jhbuild.xml:2095(para)
+#: C/jhbuild.xml:2096(para)
 msgid ""
 "JHBuild allows one module set to include the contents of another by "
 "reference using the <sgmltag class=\"element\">include</sgmltag> element."
@@ -3374,7 +3387,7 @@ msgstr ""
 "modules en le référençant au moyen de l'élément <sgmltag class=\"element"
 "\">include</sgmltag>."
 
-#: C/jhbuild.xml:2099(programlisting)
+#: C/jhbuild.xml:2100(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3383,7 +3396,7 @@ msgstr ""
 "\n"
 "&lt;include href=\"<replaceable>uri</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2103(para)
+#: C/jhbuild.xml:2104(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> is a URI reference to the "
 "module set to be included, relative to the file containing the <sgmltag "
@@ -3393,7 +3406,7 @@ msgstr ""
 "sous forme d'URI vers le jeu de modules à inclure, relatif au fichier "
 "contenant l'élément <sgmltag class=\"element\">include</sgmltag>."
 
-#: C/jhbuild.xml:2108(para)
+#: C/jhbuild.xml:2109(para)
 msgid ""
 "Only module definitions are imported from the referenced module set - module "
 "sources are not. Multiple levels of includes are allowed, but include loops "
@@ -3404,11 +3417,11 @@ msgstr ""
 "d'imbrication sont autorisés, mais pas les inclusions en boucle (il n'y a "
 "pas de code de détection de boucle pour l'instant)."
 
-#: C/jhbuild.xml:2115(title)
+#: C/jhbuild.xml:2116(title)
 msgid "Module Definitions"
 msgstr "Définitions de modules"
 
-#: C/jhbuild.xml:2117(para)
+#: C/jhbuild.xml:2118(para)
 msgid ""
 "There are various types of module definitions that can be used in a module "
 "set file, and the list can easily be extended. Only the most common ones "
@@ -3418,7 +3431,7 @@ msgstr ""
 "fichier de jeu de modules, et la liste peut facilement être augmentée. Seuls "
 "les types les plus courants sont mentionnés ici."
 
-#: C/jhbuild.xml:2121(para)
+#: C/jhbuild.xml:2122(para)
 msgid ""
 "They are all basically composed of a <sgmltag class=\"element\">branch</"
 "sgmltag> element describing how to get the module and <sgmltag class="
@@ -3432,7 +3445,7 @@ msgstr ""
 "\">suggests</sgmltag> et <sgmltag class=\"element\">after</sgmltag> pour "
 "déclarer les dépendances du module."
 
-#: C/jhbuild.xml:2128(para)
+#: C/jhbuild.xml:2129(para)
 msgid ""
 "Any modules listed in the <sgmltag class=\"element\">dependencies</sgmltag> "
 "element will be added to the module list for <command>jhbuild build</"
@@ -3444,7 +3457,7 @@ msgstr ""
 "commande <command>jhbuild build</command> (s'il n'y est pas déjà) ; JHBuild "
 "s'assure que les modules dépendants soient construits en premier."
 
-#: C/jhbuild.xml:2134(para)
+#: C/jhbuild.xml:2135(para)
 msgid ""
 "After generating the modules list, the modules listed in the <sgmltag class="
 "\"element\">suggests</sgmltag> element will be used to further sort the "
@@ -3458,11 +3471,11 @@ msgstr ""
 "est prévu pour les cas où un module possède une dépendance facultative sur "
 "un autre module."
 
-#: C/jhbuild.xml:2142(title)
+#: C/jhbuild.xml:2143(title)
 msgid "autotools"
 msgstr "autotools"
 
-#: C/jhbuild.xml:2144(para)
+#: C/jhbuild.xml:2145(para)
 msgid ""
 "The <sgmltag class=\"element\">autotools</sgmltag> element is used to define "
 "a module which is compiled using the GNU Autotools build system."
@@ -3471,7 +3484,7 @@ msgstr ""
 "module qui doit être compilé à l'aide du système de construction GNU "
 "Autotools."
 
-#: C/jhbuild.xml:2148(programlisting)
+#: C/jhbuild.xml:2149(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3528,7 +3541,7 @@ msgstr ""
 "\n"
 "&lt;/autotools&gt;\n"
 
-#: C/jhbuild.xml:2176(para)
+#: C/jhbuild.xml:2177(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class="
 "\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
@@ -3542,7 +3555,7 @@ msgstr ""
 "supplémentaires à transmettre respectivement à <command>autogen.sh</"
 "command>, <command>make</command> et <command>make install</command>."
 
-#: C/jhbuild.xml:2183(para)
+#: C/jhbuild.xml:2184(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies "
 "the name of the autogen.sh script to run. The value <literal>autoreconf</"
@@ -3567,7 +3580,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">makefile</sgmltag> indique le nom du "
 "fichier makefile à utiliser."
 
-#: C/jhbuild.xml:2198(para)
+#: C/jhbuild.xml:2199(para)
 msgid ""
 "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
 "attribute is used to mark modules that can't be cleanly built using a "
@@ -3577,7 +3590,7 @@ msgstr ""
 "sert à marquer les modules qui ne peuvent être proprement construits en "
 "utilisant un répertoire source séparé."
 
-#: C/jhbuild.xml:2203(para)
+#: C/jhbuild.xml:2204(para)
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be "
 "used if you need finer control over the autogen command line. It is a python "
@@ -3594,7 +3607,7 @@ msgstr ""
 "<varname>autogenargs</varname>. Par exemple, voici la valeur par défaut de "
 "autogen-template :"
 
-#: C/jhbuild.xml:2212(programlisting)
+#: C/jhbuild.xml:2213(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3603,7 +3616,7 @@ msgstr ""
 "\n"
 "%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
 
-#: C/jhbuild.xml:2216(para)
+#: C/jhbuild.xml:2217(para)
 msgid ""
 "The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
 "specified (with false as value) for modules that do not have a <command>make "
@@ -3613,11 +3626,11 @@ msgstr ""
 "indiqué (avec la valeur « false ») pour les modules qui n'ont pas de cible "
 "<command>make check</command>."
 
-#: C/jhbuild.xml:2223(title)
+#: C/jhbuild.xml:2224(title)
 msgid "cmake"
 msgstr "cmake"
 
-#: C/jhbuild.xml:2225(para)
+#: C/jhbuild.xml:2226(para)
 msgid ""
 "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
 "module which is built using the CMake build system."
@@ -3625,7 +3638,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">cmake</sgmltag> permet de définir un "
 "module construit à l'aide du système de construction CMake."
 
-#: C/jhbuild.xml:2228(programlisting)
+#: C/jhbuild.xml:2229(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3660,11 +3673,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/cmake&gt;\n"
 
-#: C/jhbuild.xml:2248(title)
+#: C/jhbuild.xml:2249(title)
 msgid "distutils"
 msgstr "distutils"
 
-#: C/jhbuild.xml:2250(para)
+#: C/jhbuild.xml:2251(para)
 msgid ""
 "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
 "a module which is built using python's distutils"
@@ -3672,7 +3685,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">distutils</sgmltag> permet de définir "
 "un module construit à l'aide de Python distutils."
 
-#: C/jhbuild.xml:2254(programlisting)
+#: C/jhbuild.xml:2255(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3709,11 +3722,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/distutils&gt;\n"
 
-#: C/jhbuild.xml:2275(title)
+#: C/jhbuild.xml:2276(title)
 msgid "linux"
 msgstr "linux"
 
-#: C/jhbuild.xml:2277(para)
+#: C/jhbuild.xml:2278(para)
 msgid ""
 "The <sgmltag class=\"element\">linux</sgmltag> element defines a module used "
 "to build a linux kernel. In addition, a separate kernel configuration can be "
@@ -3724,7 +3737,7 @@ msgstr ""
 "noyau séparée peut être choisie en utilisant le sous-élément <sgmltag class="
 "\"element\">kconfig</sgmltag>."
 
-#: C/jhbuild.xml:2283(programlisting)
+#: C/jhbuild.xml:2284(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3775,11 +3788,11 @@ msgstr ""
 "\n"
 "&lt;/linux&gt;\n"
 
-#: C/jhbuild.xml:2311(title)
+#: C/jhbuild.xml:2312(title)
 msgid "perl"
 msgstr "perl"
 
-#: C/jhbuild.xml:2313(para)
+#: C/jhbuild.xml:2314(para)
 msgid ""
 "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
 "modules."
@@ -3787,7 +3800,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">perl</sgmltag> permet de construire des "
 "modules Perl."
 
-#: C/jhbuild.xml:2316(para)
+#: C/jhbuild.xml:2317(para)
 msgid ""
 "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>make</command>."
@@ -3795,7 +3808,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">makeargs</sgmltag> permet de définir "
 "des paramètres supplémentaires à passer à <command>make</command>."
 
-#: C/jhbuild.xml:2320(programlisting)
+#: C/jhbuild.xml:2321(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3836,11 +3849,11 @@ msgstr ""
 "\n"
 "&lt;/perl&gt;\n"
 
-#: C/jhbuild.xml:2342(title)
+#: C/jhbuild.xml:2343(title)
 msgid "waf"
 msgstr "waf"
 
-#: C/jhbuild.xml:2344(para)
+#: C/jhbuild.xml:2345(para)
 msgid ""
 "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
 "module which is built using the Waf build system."
@@ -3848,7 +3861,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">waf</sgmltag> permet de définir un "
 "module construit à l'aide du système de construction Waf."
 
-#: C/jhbuild.xml:2347(para)
+#: C/jhbuild.xml:2348(para)
 msgid ""
 "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
 "specify the waf command script to use; it defaults to <command>waf</command>."
@@ -3857,7 +3870,7 @@ msgstr ""
 "définir le script de commande waf à utiliser ; la valeur par défaut est "
 "<command>waf</command>."
 
-#: C/jhbuild.xml:2351(programlisting)
+#: C/jhbuild.xml:2352(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3894,11 +3907,11 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/waf&gt;\n"
 
-#: C/jhbuild.xml:2372(title)
+#: C/jhbuild.xml:2373(title)
 msgid "Ant"
 msgstr "Ant"
 
-#: C/jhbuild.xml:2374(para)
+#: C/jhbuild.xml:2375(para)
 msgid ""
 "The <sgmltag class=\"element\">ant</sgmltag> element is used to define a "
 "module which is built using Ant, the Java based build tool."
@@ -3906,7 +3919,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">ant</sgmltag> permet de définir un "
 "module construit à l'aide de Ant, l'outil de construction basé sur Java."
 
-#: C/jhbuild.xml:2377(programlisting)
+#: C/jhbuild.xml:2378(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -3941,15 +3954,15 @@ msgstr ""
 "  &lt;/after&gt;\n"
 "&lt;/ant&gt;\n"
 
-#: C/jhbuild.xml:2395(title)
+#: C/jhbuild.xml:2396(title)
 msgid "Example of a module built with ant"
 msgstr "Exemple d'un module construit avec ant"
 
-#: C/jhbuild.xml:2409(title)
+#: C/jhbuild.xml:2410(title)
 msgid "testmodule"
 msgstr "testmodule"
 
-#: C/jhbuild.xml:2411(para)
+#: C/jhbuild.xml:2412(para)
 msgid ""
 "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
 "create a module which runs a suite of tests using LDTP or Dogtail."
@@ -3957,7 +3970,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">testmodule</sgmltag> permet de créer un "
 "module qui exécute une suite de tests en utilisant LDTP ou Dogtail."
 
-#: C/jhbuild.xml:2415(programlisting)
+#: C/jhbuild.xml:2416(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4006,11 +4019,11 @@ msgstr ""
 "\n"
 "&lt;/testmodule&gt;\n"
 
-#: C/jhbuild.xml:2442(title)
+#: C/jhbuild.xml:2443(title)
 msgid "metamodule"
 msgstr "metamodule"
 
-#: C/jhbuild.xml:2444(para)
+#: C/jhbuild.xml:2445(para)
 msgid ""
 "The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module "
 "that doesn't actually do anything. The only purpose of a module of this type "
@@ -4020,7 +4033,7 @@ msgstr ""
 "un module qui ne fait vraiment rien. Le seul but d'un tel module est de "
 "définir des dépendances."
 
-#: C/jhbuild.xml:2449(para)
+#: C/jhbuild.xml:2450(para)
 msgid ""
 "For example, meta-gnome-desktop depends on all the key components of the "
 "GNOME desktop, therefore telling JHBuild to install it actually installs the "
@@ -4030,7 +4043,7 @@ msgstr ""
 "GNOME. En conséquence, demander à JHBuild de l'installer revient à installer "
 "le bureau complet."
 
-#: C/jhbuild.xml:2453(programlisting)
+#: C/jhbuild.xml:2454(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4057,7 +4070,7 @@ msgstr ""
 "  &lt;/suggests&gt;\n"
 "&lt;/metamodule&gt;\n"
 
-#: C/jhbuild.xml:2465(para)
+#: C/jhbuild.xml:2466(para)
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of "
 "the module. The child elements are handled as for <link linkend=\"moduleset-"
@@ -4069,15 +4082,15 @@ msgstr ""
 "\"moduleset-syntax-defs-autotools\"><sgmltag class=\"element\">autotools</"
 "sgmltag></link>."
 
-#: C/jhbuild.xml:2474(title)
+#: C/jhbuild.xml:2475(title)
 msgid "Deprecated Elements"
 msgstr "Éléments désapprouvés"
 
-#: C/jhbuild.xml:2480(title)
+#: C/jhbuild.xml:2481(title)
 msgid "cvsroot"
 msgstr "cvsroot"
 
-#: C/jhbuild.xml:2482(para)
+#: C/jhbuild.xml:2483(para)
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -4087,7 +4100,7 @@ msgstr ""
 "désapprouvé. Il faut utiliser l'élément <sgmltag class=\"element"
 "\">repository</sgmltag> à la place."
 
-#: C/jhbuild.xml:2487(para)
+#: C/jhbuild.xml:2488(para)
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
 "a CVS repository."
@@ -4095,7 +4108,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">cvsroot</sgmltag> permet de décrire un "
 "dépôt CVS."
 
-#: C/jhbuild.xml:2490(programlisting)
+#: C/jhbuild.xml:2491(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4110,7 +4123,7 @@ msgstr ""
 "           root=\"<replaceable>cvsroot_anon</replaceable>\"\n"
 "           password=\"<replaceable>mot_de_passe_anon</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2497(para)
+#: C/jhbuild.xml:2498(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the CVS repository."
@@ -4118,7 +4131,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">name</sgmltag> doit être un "
 "identifiant unique pour le dépôt CVS."
 
-#: C/jhbuild.xml:2500(para)
+#: C/jhbuild.xml:2501(para)
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -4126,7 +4139,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">default</sgmltag> indique si cette "
 "source de module est la source par défaut pour ce fichier de jeu de modules."
 
-#: C/jhbuild.xml:2504(para)
+#: C/jhbuild.xml:2505(para)
 msgid ""
 "The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root "
 "used for anonymous access to this repository, and the <sgmltag class="
@@ -4138,11 +4151,11 @@ msgstr ""
 "\"attribute\">password</sgmltag> précise le mot de passe utilisé pour "
 "l'accès anonyme."
 
-#: C/jhbuild.xml:2512(title)
+#: C/jhbuild.xml:2513(title)
 msgid "svnroot"
 msgstr "svnroot"
 
-#: C/jhbuild.xml:2514(para)
+#: C/jhbuild.xml:2515(para)
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -4152,7 +4165,7 @@ msgstr ""
 "désapprouvé. Il faut utiliser l'élément <sgmltag class=\"element"
 "\">repository</sgmltag> à la place."
 
-#: C/jhbuild.xml:2519(para)
+#: C/jhbuild.xml:2520(para)
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
 "a Subversion repository."
@@ -4160,7 +4173,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">svnroot</sgmltag> permet de décrire un "
 "dépôt Subversion."
 
-#: C/jhbuild.xml:2522(programlisting)
+#: C/jhbuild.xml:2523(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4173,7 +4186,7 @@ msgstr ""
 "           [ default=\"<replaceable>yes|no</replaceable>\" ]\n"
 "           href=\"<replaceable>svnroot_anonyme</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2528(para)
+#: C/jhbuild.xml:2529(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the Subversion repository."
@@ -4181,7 +4194,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">name</sgmltag> doit être un "
 "identifiant unique pour le dépôt Subversion."
 
-#: C/jhbuild.xml:2532(para) C/jhbuild.xml:2562(para)
+#: C/jhbuild.xml:2533(para) C/jhbuild.xml:2563(para)
 msgid ""
 "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -4189,7 +4202,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">default</sgmltag> indique si cette "
 "source de module est la source par défaut pour ce fichier de jeu de modules."
 
-#: C/jhbuild.xml:2536(para)
+#: C/jhbuild.xml:2537(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL "
 "for the repository. This will probably be either a <literal>http</literal>, "
@@ -4199,11 +4212,11 @@ msgstr ""
 "base du dépôt. En général, c'est un URL <literal>http</literal>, "
 "<literal>https</literal> ou <literal>svn</literal>."
 
-#: C/jhbuild.xml:2543(title)
+#: C/jhbuild.xml:2544(title)
 msgid "arch-archive"
 msgstr "arch-archive"
 
-#: C/jhbuild.xml:2545(para)
+#: C/jhbuild.xml:2546(para)
 msgid ""
 "The <sgmltag class=\"element\">arch-archive</sgmltag> element is now "
 "deprecated - the <sgmltag class=\"element\">repository</sgmltag> element "
@@ -4213,7 +4226,7 @@ msgstr ""
 "désapprouvé. Il faut utiliser l'élément <sgmltag class=\"element"
 "\">repository</sgmltag> à la place."
 
-#: C/jhbuild.xml:2550(para)
+#: C/jhbuild.xml:2551(para)
 msgid ""
 "The <sgmltag class=\"element\">arch-archive</sgmltag> element is used to "
 "describe a GNU Arch archive."
@@ -4221,7 +4234,7 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">arch-archive</sgmltag> permet de "
 "décrire une archive GNU Arch."
 
-#: C/jhbuild.xml:2553(programlisting)
+#: C/jhbuild.xml:2554(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4234,7 +4247,7 @@ msgstr ""
 "                [ default=\"<replaceable>yes|no</replaceable>\" ]\n"
 "                href=\"<replaceable>url_miroir</replaceable>\"/&gt;\n"
 
-#: C/jhbuild.xml:2559(para)
+#: C/jhbuild.xml:2560(para)
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be the Arch "
 "archive name."
@@ -4242,7 +4255,7 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">name</sgmltag> doit correspondre au "
 "nom de l'archive Arch."
 
-#: C/jhbuild.xml:2566(para)
+#: C/jhbuild.xml:2567(para)
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists a public "
 "mirror URL for the archive."
@@ -4250,11 +4263,11 @@ msgstr ""
 "L'attribut <sgmltag class=\"attribute\">href</sgmltag> contient l'URL d'un "
 "miroir public de l'archive."
 
-#: C/jhbuild.xml:2572(title)
+#: C/jhbuild.xml:2573(title)
 msgid "Deprecated Module Types"
 msgstr "Types de modules désapprouvés"
 
-#: C/jhbuild.xml:2575(para)
+#: C/jhbuild.xml:2576(para)
 msgid ""
 "This section describes deprecated elements, they may still be used in "
 "existing module sets but it is advised not to use them anymore."
@@ -4263,21 +4276,21 @@ msgstr ""
 "encore utilisés dans des jeux de modules existants, mais il est conseillé de "
 "ne plus les utiliser."
 
-#: C/jhbuild.xml:2581(title)
+#: C/jhbuild.xml:2582(title)
 msgid "tarball"
 msgstr "tarball"
 
-#: C/jhbuild.xml:2584(para)
+#: C/jhbuild.xml:2585(para)
 msgid ""
 "This deprecated element is just a thin wrapper around both <sgmltag class="
 "\"element\">autotools</sgmltag> module type and <sgmltag class=\"element"
 "\">tarball</sgmltag> repository type."
 msgstr ""
 "Cet élément désapprouvé est une simple couche fine autour du type de module "
-"<sgmltag class=\"element\">autotools</sgmltag> et du type de dépôt <sgmltag class=\"element"
-"\">tarball</sgmltag>."
+"<sgmltag class=\"element\">autotools</sgmltag> et du type de dépôt <sgmltag "
+"class=\"element\">tarball</sgmltag>."
 
-#: C/jhbuild.xml:2590(para)
+#: C/jhbuild.xml:2591(para)
 msgid ""
 "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
 "module that is to be built from a tarball."
@@ -4285,8 +4298,33 @@ msgstr ""
 "L'élément <sgmltag class=\"element\">tarball</sgmltag> permet de définir un "
 "module à construire à partir d'une archive tar."
 
-#: C/jhbuild.xml:2594(programlisting)
-#, no-wrap
+#: C/jhbuild.xml:2595(programlisting)
+#, fuzzy, no-wrap
+#| msgid ""
+#| "\n"
+#| "  &lt;tarball id=\"<replaceable>modulename</replaceable>\"\n"
+#| "              [ version=\"<replaceable>version</replaceable>\" ]\n"
+#| "              [ checkourdir=\"<replaceable>checkoutdir</replaceable>\" ]\n"
+#| "              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+#| "              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+#| "              [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n"
+#| "              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+#| "    &lt;source href=\"<replaceable>source-url</replaceable>\"\n"
+#| "            [ size=\"<replaceable>source-size</replaceable>\" ]\n"
+#| "            [ md5sum=\"<replaceable>source-md5sum</replaceable>\" ]/&gt;\n"
+#| "    &lt;patches&gt;\n"
+#| "      &lt;patch file=\"<replaceable>filename</replaceable>\" strip=\"<replaceable>level</replaceable>\"/&gt;\n"
+#| "      ...\n"
+#| "    &lt;/patches&gt;\n"
+#| "    &lt;dependencies&gt;\n"
+#| "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#| "      ...\n"
+#| "    &lt;/dependencies&gt;\n"
+#| "    &lt;suggests&gt;\n"
+#| "      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+#| "      ...\n"
+#| "    &lt;/suggests&gt;\n"
+#| "  &lt;/tarball&gt;\n"
 msgid ""
 "\n"
 "  &lt;tarball id=\"<replaceable>modulename</replaceable>\"\n"
@@ -4298,6 +4336,7 @@ msgid ""
 "              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
 "    &lt;source href=\"<replaceable>source-url</replaceable>\"\n"
 "            [ size=\"<replaceable>source-size</replaceable>\" ]\n"
+"            [ hash=\"<replaceable>source-algo:source-hash</replaceable>\" ]\n"
 "            [ md5sum=\"<replaceable>source-md5sum</replaceable>\" ]/&gt;\n"
 "    &lt;patches&gt;\n"
 "      &lt;patch file=\"<replaceable>filename</replaceable>\" strip=\"<replaceable>level</replaceable>\"/&gt;\n"
@@ -4338,7 +4377,7 @@ msgstr ""
 "    &lt;/suggests&gt;\n"
 "  &lt;/tarball&gt;\n"
 
-#: C/jhbuild.xml:2619(para)
+#: C/jhbuild.xml:2621(para)
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
 "\">version</sgmltag> attributes are used to identify the module."
@@ -4346,12 +4385,21 @@ msgstr ""
 "Les attributs <sgmltag class=\"attribute\">id</sgmltag> et <sgmltag class="
 "\"attribute\">version</sgmltag> sont utilisés pour identifier le module."
 
-#: C/jhbuild.xml:2623(para)
+#: C/jhbuild.xml:2625(para)
+#, fuzzy
+#| msgid ""
+#| "The <sgmltag class=\"element\">source</sgmltag> element specifies the "
+#| "file to download and compile. The <sgmltag class=\"attribute\">href</"
+#| "sgmltag> attribute is mandatory, while the <sgmltag class=\"attribute"
+#| "\">size</sgmltag> and <sgmltag class=\"attribute\">md5sum</sgmltag> "
+#| "attributes are optional. If these last two attributes are present, they "
+#| "are used to check that the source package was downloaded correctly."
 msgid ""
 "The <sgmltag class=\"element\">source</sgmltag> element specifies the file "
 "to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> "
 "attribute is mandatory, while the <sgmltag class=\"attribute\">size</"
-"sgmltag> and <sgmltag class=\"attribute\">md5sum</sgmltag> attributes are "
+"sgmltag> and <sgmltag class=\"attribute\">hash</sgmltag>, as well as the "
+"obsolete <sgmltag class=\"attribte\">md5sum</sgmltag>, attributes are "
 "optional. If these last two attributes are present, they are used to check "
 "that the source package was downloaded correctly."
 msgstr ""
@@ -4362,27 +4410,27 @@ msgstr ""
 "facultatifs. Si ces deux derniers attributs sont présents, ils sont utilisés "
 "pour vérifier que le paquet source a été correctement téléchargé."
 
-#: C/jhbuild.xml:2649(para)
+#: C/jhbuild.xml:2652(para)
 msgid ""
 "The other attributes and the <sgmltag class=\"element\">dependencies</"
 "sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class="
 "\"element\">after</sgmltag> elements are processed as for <link linkend="
 "\"moduleset-syntax-defs-autotools\">autotools</link>."
 msgstr ""
-"Les autres attributs et les éléments <sgmltag class=\"element\">dependencies</sgmltag>, <sgmltag "
-"class=\"element\">suggests</sgmltag> et <sgmltag class=\"element\">after</"
-"sgmltag> sont traités de la même manière que pour <link linkend=\"moduleset-"
-"syntax-defs-autotools\">autotools</link>."
+"Les autres attributs et les éléments <sgmltag class=\"element"
+"\">dependencies</sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> et "
+"<sgmltag class=\"element\">after</sgmltag> sont traités de la même manière "
+"que pour <link linkend=\"moduleset-syntax-defs-autotools\">autotools</link>."
 
-#: C/jhbuild.xml:2661(title)
+#: C/jhbuild.xml:2664(title)
 msgid "Frequently Asked Questions"
 msgstr "Foire aux questions"
 
-#: C/jhbuild.xml:2665(title)
+#: C/jhbuild.xml:2668(title)
 msgid "General JHBuild Questions"
 msgstr "Questions générales sur JHBuild"
 
-#: C/jhbuild.xml:2668(simpara)
+#: C/jhbuild.xml:2671(simpara)
 msgid ""
 "The <command>wget</command> command can't download any tarballs. How do I "
 "get it to work with my firewall?"
@@ -4390,7 +4438,7 @@ msgstr ""
 "La commande <command>wget</command> ne peut pas télécharger de paquets "
 "source. Comment peut-on lui faire traverser un pare-feu ?"
 
-#: C/jhbuild.xml:2673(para)
+#: C/jhbuild.xml:2676(para)
 msgid ""
 "This can be fixed by creating or editing a <filename>~/.wgetrc</filename> "
 "file. If you need to go through an HTTP proxy to access FTP sites, add a "
@@ -4401,12 +4449,12 @@ msgstr ""
 "accéder à des sites FTP, ajoutez dans le fichier une ligne semblable à celle-"
 "ci :"
 
-#: C/jhbuild.xml:2677(programlisting)
+#: C/jhbuild.xml:2680(programlisting)
 #, no-wrap
 msgid "ftp_proxy = http://<replaceable>hostname</replaceable>:<replaceable>port</replaceable>/"
 msgstr "ftp_proxy = http://<replaceable>nom_hôte</replaceable>:<replaceable>port</replaceable>/"
 
-#: C/jhbuild.xml:2678(para)
+#: C/jhbuild.xml:2681(para)
 msgid ""
 "If you just need to use passive FTP connections (sometimes needed with NAT "
 "firewalls), add the following line:"
@@ -4414,23 +4462,23 @@ msgstr ""
 "Si vous devez uniquement utiliser des connexions FTP passives (nécessaire "
 "parfois avec des pare-feu NAT), ajoutez la ligne suivante :"
 
-#: C/jhbuild.xml:2681(programlisting)
+#: C/jhbuild.xml:2684(programlisting)
 #, no-wrap
 msgid "passive_ftp = on"
 msgstr "passive_ftp = on"
 
-#: C/jhbuild.xml:2682(para)
+#: C/jhbuild.xml:2685(para)
 msgid "This will fix all uses of the <command>wget</command> command."
 msgstr ""
 "Cela réglera les problèmes d'utilisation de la commande <command>wget</"
 "command>."
 
-#: C/jhbuild.xml:2688(simpara)
+#: C/jhbuild.xml:2691(simpara)
 msgid "Building stuff is slow. Is there any way I can speed it up?"
 msgstr ""
 "La construction semble vraiment lente. Existe-t-il un moyen de l'accélérer ?"
 
-#: C/jhbuild.xml:2692(para)
+#: C/jhbuild.xml:2695(para)
 msgid ""
 "Other than buying a faster CPU, hard disk or getting more memory, you might "
 "want to install <ulink url=\"http://ccache.samba.org/\">CCache</ulink>, "
@@ -4442,18 +4490,18 @@ msgstr ""
 "org/\">CCache</ulink>, qui est capable de mettre en cache les résultats des "
 "compilations. Il est disponible pour la plupart des distributions."
 
-#: C/jhbuild.xml:2697(para)
+#: C/jhbuild.xml:2700(para)
 msgid "After installing CCache, set the cache size with the following command:"
 msgstr ""
 "Après l'installation de CCache, définissez la taille du cache à l'aide de la "
 "commande suivante :"
 
-#: C/jhbuild.xml:2699(programlisting)
+#: C/jhbuild.xml:2702(programlisting)
 #, no-wrap
 msgid "ccache -M 2G"
 msgstr "ccache -M 2G"
 
-#: C/jhbuild.xml:2700(para)
+#: C/jhbuild.xml:2703(para)
 msgid ""
 "(replace <literal>2G</literal> with the size you want for your cache). Then "
 "create symlinks to CCache for your compiler in <filename>~/bin</filename>:"
@@ -4462,7 +4510,7 @@ msgstr ""
 "créez un lien symbolique vers CCache pour votre compilateur dans <filename>~/"
 "bin</filename> :"
 
-#: C/jhbuild.xml:2703(programlisting)
+#: C/jhbuild.xml:2706(programlisting)
 #, no-wrap
 msgid ""
 "cd ~/bin\n"
@@ -4475,7 +4523,7 @@ msgstr ""
 "  ln -s /usr/bin/ccache $cmd\n"
 "done"
 
-#: C/jhbuild.xml:2707(para)
+#: C/jhbuild.xml:2710(para)
 msgid ""
 "You can check the status of your cache (such as cache hit rates) with the "
 "following command:"
@@ -4483,12 +4531,12 @@ msgstr ""
 "Vous pouivez contrôler l'état de votre cache (comme le taux d'accès du "
 "cache) avec la commandes suivante :"
 
-#: C/jhbuild.xml:2709(programlisting)
+#: C/jhbuild.xml:2712(programlisting)
 #, no-wrap
 msgid "ccache -s"
 msgstr "ccache -s"
 
-#: C/jhbuild.xml:2714(simpara)
+#: C/jhbuild.xml:2717(simpara)
 msgid ""
 "Is there a better way to monitor the status of the build than looking at "
 "terminal window?"
@@ -4496,7 +4544,7 @@ msgstr ""
 "Existe-t-il un meilleur moyen de surveiller l'état des constructions que de "
 "regarder la fenêtre du terminal ?"
 
-#: C/jhbuild.xml:2718(para)
+#: C/jhbuild.xml:2721(para)
 msgid ""
 "If you have Zenity &gt;= 2.9 installed on your system, JHBuild will display "
 "an icon in the system tray. The icon will display the current build stage, "
@@ -4506,25 +4554,25 @@ msgstr ""
 "icône dans la zone de notification. L'icône affiche l'état actuel de la "
 "construction et l'infobulle affiche le dernier message de JHBuild."
 
-#: C/jhbuild.xml:2722(para)
+#: C/jhbuild.xml:2725(para)
 msgid "The icon will also pop up a balloon on error."
 msgstr "En cas d'erreur, l'icône fera apparaître une fenêtre de notification."
 
-#: C/jhbuild.xml:2727(title)
+#: C/jhbuild.xml:2730(title)
 msgid "Building GNOME"
 msgstr "Construction de GNOME"
 
-#: C/jhbuild.xml:2730(simpara)
+#: C/jhbuild.xml:2733(simpara)
 msgid "What other prerequisites are needed to build GNOME with JHBuild?"
 msgstr ""
 "Quels sont les autres prérequis nécessaires pour construire GNOME avec "
 "JHBuild ?"
 
-#: C/jhbuild.xml:2734(para)
+#: C/jhbuild.xml:2737(para)
 msgid "Some of the packages you will need on your system include:"
 msgstr "Voici quelques paquets qui doivent être installés :"
 
-#: C/jhbuild.xml:2738(simpara)
+#: C/jhbuild.xml:2741(simpara)
 msgid ""
 "DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML "
 "catalog (<filename>/etc/xml/catalog</filename>)."
@@ -4532,16 +4580,16 @@ msgstr ""
 "La DTD DocBook XML et les feuilles de styles XSLT. Elles doivent être "
 "enregistrées dans le catalogue XML (<filename>/etc/xml/catalog</filename>)."
 
-#: C/jhbuild.xml:2743(simpara)
+#: C/jhbuild.xml:2746(simpara)
 msgid "X libraries"
 msgstr "Les bibliothèques X"
 
-#: C/jhbuild.xml:2746(simpara)
+#: C/jhbuild.xml:2749(simpara)
 msgid "fam or gamin (used by gnome-vfs for file monitoring)."
 msgstr ""
 "fam ou gamin (utilisés par gnome-vfs pour la surveillance des fichiers)."
 
-#: C/jhbuild.xml:2750(simpara)
+#: C/jhbuild.xml:2753(simpara)
 msgid ""
 "<filename>libsmbclient</filename> from Samba (used for browsing Windows "
 "networks)."
@@ -4549,11 +4597,11 @@ msgstr ""
 "<filename>libsmbclient</filename> de Samba (utilisé pour parcourir les "
 "réseaux Windows)."
 
-#: C/jhbuild.xml:2754(simpara)
+#: C/jhbuild.xml:2757(simpara)
 msgid "<filename>libbz2</filename> from bzip2."
 msgstr "<filename>libbz2</filename> de bzip2."
 
-#: C/jhbuild.xml:2758(simpara)
+#: C/jhbuild.xml:2761(simpara)
 msgid ""
 "<filename>libpng</filename>, <filename>libjpeg</filename> and "
 "<filename>libtiff</filename> (used for image loading)."
@@ -4561,7 +4609,7 @@ msgstr ""
 "<filename>libpng</filename>, <filename>libjpeg</filename> et "
 "<filename>libtiff</filename> (utilisés pour le chargement d'images)."
 
-#: C/jhbuild.xml:2764(para)
+#: C/jhbuild.xml:2767(para)
 msgid ""
 "If you are installing distro packages, you may need to install corresponding "
 "\"dev\" or \"devel\" packages. Note that this list is just a starting point "
@@ -4571,12 +4619,12 @@ msgstr ""
 "deviez installer les paquets « dev » ou « devel » correspondants. Cette liste "
 "n'est pas exhaustive, c'est un point de départ."
 
-#: C/jhbuild.xml:2772(simpara)
+#: C/jhbuild.xml:2775(simpara)
 msgid "I've built GNOME with JHBuild. How do I run it?"
 msgstr ""
 "J'ai construit GNOME avec JHBuild. Comment puis-je le faire fonctionner ?"
 
-#: C/jhbuild.xml:2776(para)
+#: C/jhbuild.xml:2779(para)
 msgid ""
 "(a) You will want to create a <filename>~/.xsession</filename> file, which "
 "is run by the display manager when you log in. This file should look "
@@ -4586,7 +4634,7 @@ msgstr ""
 "exécuté par le gestionnaire d'affichage au moment de votre connexion. Ce "
 "fichier devrait ressembler à ceci :"
 
-#: C/jhbuild.xml:2780(programlisting)
+#: C/jhbuild.xml:2783(programlisting)
 #, no-wrap
 msgid ""
 "#!/bin/sh\n"
@@ -4595,7 +4643,7 @@ msgstr ""
 "#!/bin/sh\n"
 "exec jhbuild run gnome-session"
 
-#: C/jhbuild.xml:2782(para)
+#: C/jhbuild.xml:2785(para)
 msgid ""
 "Finally, you should make sure that the <filename>~/.xsession</filename> file "
 "is executable."
@@ -4603,7 +4651,7 @@ msgstr ""
 "Pour terminer, assurez-vous que le fichier <filename>~/.xsession</filename> "
 "est exécutable."
 
-#: C/jhbuild.xml:2784(para)
+#: C/jhbuild.xml:2787(para)
 msgid ""
 "(b) Use a more sophisticated session script that is run when you log in "
 "using a graphical login manager (gdm /kdm/xdm). The problem with D-Bus and "
@@ -4626,7 +4674,7 @@ msgstr ""
 "filename> et prenez soin d'ajuster <userinput>GNOME</userinput> selon vos "
 "paramètres locaux :"
 
-#: C/jhbuild.xml:2797(programlisting)
+#: C/jhbuild.xml:2800(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4657,7 +4705,7 @@ msgstr ""
 " \n"
 "jhbuild run $DBUS_LAUNCH gnome-session"
 
-#: C/jhbuild.xml:2810(para)
+#: C/jhbuild.xml:2813(para)
 msgid ""
 "Uncomment the XDG_ lines if you want the system-wide program menus from your "
 "distribution in addition to the entries from the jhbuild GNOME. Make sure "
@@ -4667,12 +4715,12 @@ msgstr ""
 "livrés avec votre distribution s'ajoutent aux menus des programmes GNOME "
 "construits avec JHBuild. Attention, le fichier doit être exécutable :"
 
-#: C/jhbuild.xml:2815(programlisting)
+#: C/jhbuild.xml:2818(programlisting)
 #, no-wrap
 msgid "chmod a+x /usr/bin/gnomesvn-session"
 msgstr "chmod a+x /usr/bin/gnomesvn-session"
 
-#: C/jhbuild.xml:2816(para)
+#: C/jhbuild.xml:2819(para)
 msgid ""
 "Because you need to start system daemons, you will need root privileges "
 "which are obtained by sudo. Note that you need to configure sudo so that it "
@@ -4685,7 +4733,7 @@ msgstr ""
 "<userinput>visudo</userinput> en tant que root et saisissez ceci (sans "
 "oublier de changer le nom d'utilisateur et les chemins) :"
 
-#: C/jhbuild.xml:2824(programlisting)
+#: C/jhbuild.xml:2827(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4704,7 +4752,7 @@ msgstr ""
 "# User privilege specification\n"
 "gnometester  ALL = NOPASSWD: GNOME"
 
-#: C/jhbuild.xml:2831(para)
+#: C/jhbuild.xml:2834(para)
 msgid ""
 "In order to get a new session entry in the login manager, create <filename>/"
 "usr/share/xsessions/gnomesvn.desktop</filename> and put this or something "
@@ -4714,7 +4762,7 @@ msgstr ""
 "connexion, créez le fichier <filename>/usr/share/xsessions/gnomesvn.desktop</"
 "filename> avec un contenu semblable à ceci :"
 
-#: C/jhbuild.xml:2835(programlisting)
+#: C/jhbuild.xml:2838(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4735,7 +4783,7 @@ msgstr ""
 "Icon=\n"
 "Type=Application"
 
-#: C/jhbuild.xml:2843(para)
+#: C/jhbuild.xml:2846(para)
 msgid ""
 "Now you can restart gdm and log into your jhbuild GNOME. Make sure you "
 "select the jhbuild session before entering the login credentials. Advice: "
@@ -4746,7 +4794,7 @@ msgstr ""
 "coordonnées d'accès. Un conseil : utilisez un compte utilisateur différent "
 "pour les tests !"
 
-#: C/jhbuild.xml:2852(simpara)
+#: C/jhbuild.xml:2855(simpara)
 msgid ""
 "I built GNOME using JHBuild with <varname>prefix</varname> set to <filename>/"
 "usr</filename>, and now my system is broken. What should I do?"
@@ -4755,13 +4803,13 @@ msgstr ""
 "<varname>prefix</varname> à <filename>/usr</filename>, et maintenant mon "
 "système est cassé. Que dois-je faire ?"
 
-#: C/jhbuild.xml:2857(para)
+#: C/jhbuild.xml:2860(para)
 msgid "Don't set <varname>prefix</varname> to <filename>/usr</filename>."
 msgstr ""
 "Ne définissez pas la variable <varname>prefix</varname> à <filename>/usr</"
 "filename>."
 
-#: C/jhbuild.xml:2863(simpara)
+#: C/jhbuild.xml:2866(simpara)
 msgid ""
 "How do I get <command>gnome-volume-manager</command> to work when running in "
 "a prefix?"
@@ -4769,7 +4817,7 @@ msgstr ""
 "Comment faire fonctionner <command>gnome-volume-manager</command> lorsqu'il "
 "est installé dans un préfixe ?"
 
-#: C/jhbuild.xml:2868(para)
+#: C/jhbuild.xml:2871(para)
 msgid ""
 "The <command>gnome-volume-manager</command> program reacts to messages from "
 "<command>hald</command> over the system message bus, which must be running "
@@ -4783,7 +4831,7 @@ msgstr ""
 "acronym>, le problème principal est de faire communiquer <command>gnome-"
 "volume-manager</command> avec le bus de messages système."
 
-#: C/jhbuild.xml:2875(para)
+#: C/jhbuild.xml:2878(para)
 msgid ""
 "Since communication is done over a UNIX domain socket, the easiest way to do "
 "this is to create a symlink from <filename>/var/run/dbus</filename> to "
@@ -4794,7 +4842,7 @@ msgstr ""
 "symbolique de <filename>/var/run/dbus</filename> vers <filename>$prefix/var/"
 "run/dbus</filename> :"
 
-#: C/jhbuild.xml:2879(programlisting)
+#: C/jhbuild.xml:2882(programlisting)
 #, no-wrap
 msgid ""
 "mkdir -p $prefix/var/run\n"
@@ -4805,7 +4853,7 @@ msgstr ""
 "cd $prefix/var/run\n"
 "ln -s /var/run/dbus dbus"
 
-#: C/jhbuild.xml:2882(para)
+#: C/jhbuild.xml:2885(para)
 msgid ""
 "You may also have trouble building HAL with JHBuild, since it tries to "
 "install some things outside of its build root. Running <userinput>make -k "
