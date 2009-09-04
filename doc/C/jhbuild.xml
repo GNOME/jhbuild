@@ -434,7 +434,7 @@ prefix = os.path.join(os.environ['HOME'], 'prefix')
       <para>
         All Buildbot-related commands are options of the
 	<command>bot</command>, downloading and installing the extra required
-	softwares is done like this:
+	software is done like this:
       </para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild bot --setup</userinput></screen>
@@ -1269,6 +1269,22 @@ libgnomecanvas is missing branch definition for gnome-2-20
     set of default values are inserted into the namespace before
     running the user's configuration file.</para>
 
+	<para>Boolean configuration variables are set using syntax as
+	demonstrated in the following example:</para>
+	<programlisting>use_local_modulesets = True</programlisting>
+
+	<para>String configuration variables are set using syntax as
+	demonstrated in the following example:</para>
+	<programlisting>autogenargs = '--disable-static --disable-gtk-doc'</programlisting>
+
+	<para>List configuration variables are set using syntax as
+	demonstrated in the following example:</para>
+	<programlisting>skip = ['mozilla', 'pulseaudio']</programlisting>
+
+	<para>Dictionary configuration variables are set using syntax as
+	demonstrated in the following example:</para>
+	<programlisting>repos['git.gnome.org'] = 'ssh://cskeogh@git.gnome.org/git/'</programlisting>
+
     <section id="config-reference-variables">
       <title>Configuration Variables</title>
 
@@ -1277,7 +1293,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry>
 	  <term id="cfg-alwaysautogen"><varname>alwaysautogen</varname></term>
 	  <listitem>
-	    <simpara>If set to <constant>True</constant>, then always
+	    <simpara>A boolean value if set to <constant>True</constant>, always
 	    run <command>autogen.sh</command> before
 	    <command>make</command>, even if a makefile exists.  This
 	    is equivalent to passing <option>--always-autogen</option>
@@ -1290,7 +1306,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  <listitem>
 	    <simpara>A string containing arguments passed to the
 	    <command>autogen.sh</command> script of all modules.  Can
-	    be overriden for particular modules using the
+	    be overridden for particular modules using the
 	    <varname>module_autogenargs</varname>
 	    dictionary.</simpara>
 	</listitem>
@@ -1377,18 +1393,6 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <simpara>A string specifying the directory to copy to, if
 	    the copy checkout mode is in use.  Defaults to the
 	    checkout directory.</simpara>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term id="cfg-cvsroots"><varname>cvsroots</varname></term>
-	  <listitem>
-	    <simpara>A dictionary that can be used to change the CVS
-	    roots used to check out source code.  If you have a CVS
-	    account for a particular project, you can set the
-	    associated key to use that account rather than the
-	    anonymous account.  For example, you might want to set
-	    <literal>'gnome.org'</literal> to
-	    <literal>':ext:<replaceable>username</replaceable>@cvs.gnome.org:/cvs/gnome'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -1535,7 +1539,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry>
 	  <term id="cfg-moduleset"><varname>moduleset</varname></term>
 	  <listitem>
-	    <simpara>A string giving the name of the module set to
+	    <simpara>A string or list giving the name of the module set(s) to
 	    use.  This can either be the filename of a moduleset
 	    included with JHBuild (excluding the path and extension),
 	    or a full HTTP URL to refer to an externally managed
@@ -1652,15 +1656,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry>
 	  <term id="cfg-repos"><varname>repos</varname></term>
 	  <listitem>
-	    <simpara>By default, JHBuild will check out code from
-	    repositories using an anonymous repository location.  This
-	    dictionary is used to tell JHBuild to use an alternative
-	    repository location for a particular repository (a developer
-	    would probably want to do this).  This variable is a
-	    dictionary where the keys are short repository names (for
-	    example,
-	    <systemitem class="systemname">svn.gnome.org</systemitem>
-	    is used for the GNOME SVN repository), and the values are the             alternative repository location strings.</simpara>
+		<simpara>A dictionary that can be used to specify an alternative
+		repository location for a particular repository. This configuration
+		variable is useful to a module developer. By default, JHBuild will
+		check out code from repositories using an anonymous repository
+		location. The dictionary keys are short repository names and the
+		values are the alternative repository location strings. For example:
+		</simpara>
+        <programlisting>repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'</programlisting>
 	  </listitem>
 	</varlistentry>
 	<varlistentry id="cfg-skip">
@@ -1676,25 +1679,12 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry id="cfg-sticky-date">
 	  <term><varname>sticky_date</varname></term>
 	  <listitem>
-	    <simpara>If set, JHBuild will attempt to check out modules
+	    <simpara>A string if set, JHBuild will attempt to check out modules
 	    as they existed at the given date.  The date should be
 	    given in the form
 	    <literal>'<replaceable>yyyy</replaceable>-<replaceable>mm</replaceable>-<replaceable>dd</replaceable>'</literal>.
 	    Defaults to <constant>None</constant>.</simpara>
 	</listitem>
-	</varlistentry>
-	<varlistentry id="cfg-svnroots">
-	  <term><varname>svnroots</varname></term>
-	  <listitem>
-	    <simpara>Similar to <varname>cvsroots</varname> but for
-	    Subversion repositories; a dictionary that can be used to
-	    change the Subversion roots used to check out source code.
-	    If you have a Subversion account for a particular project,
-	    you can set the associated key to use that account rather
-	    than the anonymous account.  For example, you might want to
-	    set <literal>'svn.gnome.org'</literal> to
-	    <literal>'svn+ssh://<replaceable>username</replaceable>@svn.gnome.org:/svn'</literal>.</simpara>
-	  </listitem>
 	</varlistentry>
 	<varlistentry id="cfg-svn-program">
 	  <term><varname>svn_program</varname></term>
@@ -1708,7 +1698,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry id="cfg-tarballdir">
 	  <term><varname>tarballdir</varname></term>
 	  <listitem>
-	    <simpara>If set, tarballs will be downloaded to this
+	    <simpara>A string if set, tarballs will be downloaded to this
 	    directory instead of <varname>checkoutroot</varname>.
 	    This is useful if you have multiple JHBuild environments
 	    or regularly clear out your
@@ -1730,7 +1720,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry id="cfg-trycheckout">
 	  <term><varname>trycheckout</varname></term>
 	  <listitem>
-	    <simpara>A boolean option which if set to
+	    <simpara>A boolean value which if set to
 	    <constant>True</constant>, causes JHBuild to automatically
 	    try to solve failures by 1) running <command>autogen.sh</command>
 	    again, and 2) checking out a newer version of a module from version
@@ -2048,7 +2038,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
         <para>The <sgmltag class="attribute">size</sgmltag> and <sgmltag
         class="attribute">hash</sgmltag>, as well as the obsolete
-	<sgmltag class="attribte">md5sum</sgmltag>, attributes are optional.
+	<sgmltag class="attribute">md5sum</sgmltag>, attributes are optional.
         If these attributes are present, they are used to check
         that the source package was downloaded correctly.</para>
 
@@ -2060,7 +2050,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
         many levels of directories to prune when applying the
         patch.</para>
 
-        <para>For module sets shipped with JHbuild, the patch files are
+        <para>For module sets shipped with JHuild, the patch files are
         looked up in the <filename>jhbuild/patches/</filename> directory;
         for module sets referred by URI, the patch files are looked for
         in the same directory as the moduleset file, or in its
@@ -2620,7 +2610,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           class="attribute">href</sgmltag> attribute is mandatory, while
           the <sgmltag class="attribute">size</sgmltag> and <sgmltag
           class="attribute">hash</sgmltag>, as well as the obsolete
-          <sgmltag class="attribte">md5sum</sgmltag>, attributes are optional.
+          <sgmltag class="attribute">md5sum</sgmltag>, attributes are optional.
           If these last two attributes are present, they are used to check
           that the source package was downloaded correctly.</para>
   
@@ -2632,7 +2622,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
           many levels of directories to prune when applying the
           patch.</para>
   
-          <para>For module sets shipped with JHbuild, the patch files are
+          <para>For module sets shipped with JHBuild, the patch files are
           looked up in the <filename>jhbuild/patches/</filename> directory;
           for module sets referred by URI, the patch files are looked for
           in the same directory as the moduleset file, or in its
