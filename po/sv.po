@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-23 14:02+0200\n"
-"PO-Revision-Date: 2009-08-23 14:02+0100\n"
+"POT-Creation-Date: 2009-09-07 17:12+0200\n"
+"PO-Revision-Date: 2009-09-07 17:13+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,6 @@ msgstr "kör make clean innan make"
 #: ../jhbuild/commands/base.py:437
 #: ../jhbuild/commands/clean.py:38
 #: ../jhbuild/commands/tinderbox.py:49
-#: ../jhbuild/commands/uninstall.py:38
 msgid "treat the given modules as up to date"
 msgstr "behandla angivna moduler som uppdaterade"
 
@@ -56,7 +55,6 @@ msgstr "behandla angivna moduler som uppdaterade"
 #: ../jhbuild/commands/base.py:238
 #: ../jhbuild/commands/clean.py:41
 #: ../jhbuild/commands/tinderbox.py:52
-#: ../jhbuild/commands/uninstall.py:41
 msgid "start building at the given module"
 msgstr "starta bygge vid angiven modul"
 
@@ -78,7 +76,6 @@ msgstr "rapport-url för autobuild har inte angivits"
 #: ../jhbuild/commands/base.py:471
 #: ../jhbuild/commands/clean.py:55
 #: ../jhbuild/commands/tinderbox.py:86
-#: ../jhbuild/commands/uninstall.py:60
 #, python-format
 msgid "%s not in module list"
 msgstr "%s är inte i modullistan"
@@ -134,6 +131,7 @@ msgstr "En modul med namnet \"%s\" kunde inte hittas."
 #: ../jhbuild/commands/base.py:141
 #: ../jhbuild/commands/base.py:348
 #: ../jhbuild/commands/rdepends.py:47
+#: ../jhbuild/commands/uninstall.py:41
 msgid "This command requires a module parameter."
 msgstr "Detta kommando kräver en modulparameter."
 
@@ -280,6 +278,7 @@ msgstr "Skriv ut ett Graphviz-beroendediagram för en eller flera moduler"
 
 #: ../jhbuild/commands/base.py:490
 #: ../jhbuild/commands/info.py:40
+#: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ moduler ... ]"
 
@@ -309,7 +308,7 @@ msgid "Control buildbot"
 msgstr "Kontrollera buildbot"
 
 #: ../jhbuild/commands/bot.py:56
-#: ../jhbuild/commands/__init__.py:37
+#: ../jhbuild/commands/__init__.py:45
 msgid "[ options ... ]"
 msgstr "[ flaggor ... ]"
 
@@ -350,8 +349,8 @@ msgid "log file location"
 msgstr "plats för loggfil"
 
 #: ../jhbuild/commands/bot.py:89
-msgid "directory with slaves files (only with --start-server)"
-msgstr "katalog med slavens filer (endast med --start-server)"
+msgid "directory with slave files (only with --start-server)"
+msgstr "katalog med slavfiler (endast med --start-server)"
 
 #: ../jhbuild/commands/bot.py:92
 msgid "directory with buildbot work files (only with --start-server)"
@@ -384,8 +383,8 @@ msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "%(module)s saknar grendefinition för %(branch)s"
 
 #: ../jhbuild/commands/checkmodulesets.py:30
-msgid "Check modules in jhbuild have the correct definition"
-msgstr "Kontrollera att moduler i jhbuild har korrekt definition"
+msgid "Check if modules in jhbuild have the correct definition"
+msgstr "Kontrollera om moduler i jhbuild har den korrekta definitionen"
 
 #: ../jhbuild/commands/checkmodulesets.py:42
 #, python-format
@@ -428,8 +427,8 @@ msgstr "Typ:"
 
 #: ../jhbuild/commands/info.py:66
 #: ../jhbuild/commands/info.py:69
-msgid "Install-date:"
-msgstr "Install-date:"
+msgid "Install date:"
+msgstr "Installationsdatum:"
 
 #: ../jhbuild/commands/info.py:69
 msgid "not installed"
@@ -495,7 +494,7 @@ msgstr "Efter:"
 msgid "Before:"
 msgstr "Före:"
 
-#: ../jhbuild/commands/__init__.py:74
+#: ../jhbuild/commands/__init__.py:82
 msgid "command not found"
 msgstr "kommandot hittades inte"
 
@@ -609,10 +608,6 @@ msgstr "utdatakatalog för tinderbox build inte angiven"
 #: ../jhbuild/commands/uninstall.py:29
 msgid "Uninstall all modules"
 msgstr "Avinstallera alla moduler"
-
-#: ../jhbuild/commands/uninstall.py:44
-msgid "uninstall modules passed on command line only"
-msgstr "avinstallera endast moduler som angivits på kommandoraden"
 
 #: ../jhbuild/frontends/autobuild.py:72
 #, python-format
@@ -1438,6 +1433,8 @@ msgstr "För många positionella argument"
 msgid "Unrecognized named group in pattern"
 msgstr "Okänd namngiven grupp i mönster"
 
+#~ msgid "uninstall modules passed on command line only"
+#~ msgstr "avinstallera endast moduler som angivits på kommandoraden"
 #~ msgid "Go to stage %s"
 #~ msgstr "Gå till steg %s"
 #~ msgid "no such option: %s"
