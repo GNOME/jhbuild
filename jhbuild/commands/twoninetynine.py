@@ -28,10 +28,10 @@ from goalreport import cmd_goalreport, ExcludedModuleException, \
 
 class LibBonobo(ShellCheck):
     cmds = (
-        FIND_C + " | xargs grep '^#include <libbonobo'",
-        FIND_C + " | xargs grep '^#include <bonobo'",
-        FIND_C + " | xargs grep 'BonoboObject'",
-        FIND_C + " | xargs grep 'BonoboApplication'",
+        FIND_C + " | grep -v .dead.c | xargs grep '^#include <libbonobo'",
+        FIND_C + " | grep -v .dead.c | xargs grep '^#include <bonobo'",
+        FIND_C + " | grep -v .dead.c | xargs grep 'BonoboObject'",
+        FIND_C + " | grep -v .dead.c | xargs grep 'BonoboApplication'",
         "find -name '*.py' | xargs grep 'import .*bonobo'",
     )
 
