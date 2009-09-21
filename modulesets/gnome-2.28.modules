@@ -2427,4 +2427,23 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.7/vala-0.7.6.tar.bz2"
     </suggests>
   </autotools>
 
+  <tarball id="qt" version="4.5.2" autogenargs="-opensource -confirm-license">
+    <source href="http://get.qt.nokia.com/qt/source/qt-x11-opensource-src-4.5.2.tar.gz"
+            hash="sha256:4e4c8619335cac14ba0c52d1555fab549a562fb774c1c08dcbd2be9de38120a2"
+            md5sum="d8bcc070a58db25c228b7729ffad4550" size="125803421" />
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <!-- qlom is a Qt-based viewer for Glom databases, using libglom. -->
+  <autotools id="qlom">
+    <branch repo="github.com" module="amigadave/qlom.git" checkoutdir="qlom" />
+    <dependencies>
+      <dep package="qt"/>
+      <dep package="glom"/>
+    </dependencies>
+  </autotools>
+
+
 </moduleset>
