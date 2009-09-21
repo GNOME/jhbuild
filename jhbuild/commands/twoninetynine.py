@@ -42,6 +42,7 @@ class LibGnome(ShellCheck):
                         # gnome-desktop installs stuff under libgnome/
         FIND_C + " | xargs grep '^#include <gnome.h>'",
         "find -name '*.cs' | xargs grep 'Gnome.Url.'", # as 'using ...' is not mandatory
+        "find -name '*.cs' | xargs grep 'Gnome.Program.'",
     )
 
 class LibGnomeUi(ShellCheck):
