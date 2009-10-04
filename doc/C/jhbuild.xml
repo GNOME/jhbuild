@@ -616,6 +616,7 @@ jhbuildbot_password = 'password'
 	<command>jhbuild build</command>
 	<arg>--autogen</arg>
 	<arg>--clean</arg>
+	<arg>--check</arg>
 	<arg>--dist</arg>
 	<arg>--distcheck</arg>
 	<arg>--ignore-suggests</arg>
@@ -654,6 +655,14 @@ jhbuildbot_password = 'password'
 	  <term><option>-c</option>, <option>--clean</option></term>
 	  <listitem>
 	    <simpara>Run <command>make clean</command> before building
+	    modules.</simpara>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><option>--check</option></term>
+	  <listitem>
+	    <simpara>Run <command>make check</command> after building
 	    modules.</simpara>
 	  </listitem>
 	</varlistentry>
@@ -805,6 +814,7 @@ jhbuildbot_password = 'password'
 	<command>jhbuild buildone</command>
 	<arg>--autogen</arg>
 	<arg>--clean</arg>
+	<arg>--check</arg>
 	<arg>--distcheck</arg>
 	<arg>--no-network</arg>
 	<arg>-D <replaceable>date</replaceable></arg>
@@ -814,10 +824,11 @@ jhbuildbot_password = 'password'
 	<arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--autogen</option>, <option>--clean</option>,
-      <option>-d</option>, <option>--distcheck</option>, 
-      <option>--no-network</option>, <option>-D</option> and
-      <option>-x</option> options are processed as per the
+      <para>The <option>--autogen</option>, <option>--check</option>,
+      <option>--clean</option>, <option>-d</option>,
+      <option>--distcheck</option>, <option>--no-network</option>,
+      <option>-D</option> and <option>-x</option> options are processed
+      as per the
       <link linkend="command-reference-build"><command>build</command></link>
       command.</para>
 

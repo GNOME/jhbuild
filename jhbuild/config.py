@@ -487,6 +487,9 @@ class Config:
         if hasattr(options, 'clean') and (
                 options.clean and not 'clean' in self.build_targets):
             self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'check') and (
+                options.check and not 'check' in self.build_targets):
+            self.build_targets.insert(0, 'check')
         if hasattr(options, 'dist') and (
                 options.dist and not 'dist' in self.build_targets):
             self.build_targets.append('dist')

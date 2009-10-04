@@ -223,7 +223,9 @@ class AutogenModule(Package, DownloadableModule):
     def skip_check(self, buildscript, last_phase):
         if not self.check_target:
             return True
-        if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
+        if self.name in buildscript.config.module_makecheck:
+            return not buildscript.config.module_makecheck[self.name]
+        if 'check' not in buildscript.config.build_targets:
             return True
         return False
 
