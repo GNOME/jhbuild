@@ -367,7 +367,7 @@ class cmd_run(Command):
             ])
 
     def execute(self, config, args):
-        if not args or args[0] in ('--', '--in-builddir', '--help'):
+        if not args or args[0] in ('--', '--help') or args[0].startswith('--in-builddir'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
         try:
