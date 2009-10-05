@@ -364,10 +364,16 @@ class cmd_run(Command):
             make_option('--in-builddir', metavar='MODULE',
                         action='store', dest='in_builddir', default = None,
                         help=_('run command in build dir of the given module')),
+            make_option('--in-checkoutdir', metavar='MODULE',
+                        action='store', dest='in_checkoutdir', default = None,
+                        help=_('run command in checkout dir of the given module')),
             ])
 
     def execute(self, config, args):
-        if not args or args[0] in ('--', '--help') or args[0].startswith('--in-builddir'):
+        # Do a shallow check of the arguments list
+        # so that '--' isn't always required when command has arguments, 
+        # only if some of them look like they might be for us
+        if not args or args[0] in ('--', '--help') or args[0].startswith('--in-builddir') or args[0].startswith('--in-checkoutdir'):
             options, args = self.parse_args(args)
             return self.run(config, options, args)
         try:
@@ -389,6 +395,23 @@ class cmd_run(Command):
             builddir = module_list[0].get_builddir(build)
             try:
                 build.execute(args, cwd=builddir)
+            except CommandError, exc:
+                if args:
+                    raise FatalError(_("Unable to execute the command '%s'") % args[0])
+                else:
+                    raise FatalError(str(exc))
+        elif options.in_checkoutdir:
+            module_set = jhbuild.moduleset.load(config)
+            try:
+                module_list = [module_set.get_module(options.in_checkoutdir, ignore_case = True)
+                               for modname in args]
+            except KeyError, e:
+                raise FatalError(_("A module called '%s' could not be found.") % e)
+
+            build = jhbuild.frontends.get_buildscript(config, module_list)
+            checkoutdir = module_list[0].get_srcdir(build)
+            try:
+                build.execute(args, cwd=checkoutdir)
             except CommandError, exc:
                 if args:
                     raise FatalError(_("Unable to execute the command '%s'") % args[0])
