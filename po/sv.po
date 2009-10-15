@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-07 17:12+0200\n"
-"PO-Revision-Date: 2009-09-07 17:13+0100\n"
+"POT-Creation-Date: 2009-10-15 09:55+0200\n"
+"PO-Revision-Date: 2009-10-15 09:55+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "kör make clean innan make"
 #: ../jhbuild/commands/autobuild.py:41
 #: ../jhbuild/commands/base.py:46
 #: ../jhbuild/commands/base.py:235
-#: ../jhbuild/commands/base.py:437
+#: ../jhbuild/commands/base.py:460
 #: ../jhbuild/commands/clean.py:38
 #: ../jhbuild/commands/tinderbox.py:49
 msgid "treat the given modules as up to date"
@@ -73,7 +73,7 @@ msgstr "rapport-url för autobuild har inte angivits"
 #: ../jhbuild/commands/autobuild.py:81
 #: ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:282
-#: ../jhbuild/commands/base.py:471
+#: ../jhbuild/commands/base.py:494
 #: ../jhbuild/commands/clean.py:55
 #: ../jhbuild/commands/tinderbox.py:86
 #, python-format
@@ -89,14 +89,14 @@ msgstr "Uppdatera alla moduler från versionshantering"
 #: ../jhbuild/commands/base.py:122
 #: ../jhbuild/commands/base.py:208
 #: ../jhbuild/commands/base.py:299
-#: ../jhbuild/commands/base.py:428
+#: ../jhbuild/commands/base.py:451
 #: ../jhbuild/commands/tinderbox.py:31
 msgid "[ options ... ] [ modules ... ]"
 msgstr "[ flaggor ... ] [ moduler ... ]"
 
 #: ../jhbuild/commands/base.py:52
 #: ../jhbuild/commands/base.py:241
-#: ../jhbuild/commands/base.py:443
+#: ../jhbuild/commands/base.py:466
 msgid "build only modules with the given tags"
 msgstr "bygg endast moduler med angivna taggar"
 
@@ -110,7 +110,7 @@ msgstr "ställ in ett klistrigt datum när moduler checkas ut"
 
 #: ../jhbuild/commands/base.py:58
 #: ../jhbuild/commands/base.py:226
-#: ../jhbuild/commands/base.py:446
+#: ../jhbuild/commands/base.py:469
 msgid "ignore all soft-dependencies"
 msgstr "ignorera alla mjuka beroenden"
 
@@ -121,7 +121,8 @@ msgstr "Uppdatera en eller flera moduler från versionshantering"
 #: ../jhbuild/commands/base.py:103
 #: ../jhbuild/commands/base.py:138
 #: ../jhbuild/commands/base.py:345
-#: ../jhbuild/commands/base.py:386
+#: ../jhbuild/commands/base.py:392
+#: ../jhbuild/commands/base.py:409
 #: ../jhbuild/commands/rdepends.py:52
 #, python-format
 msgid "A module called '%s' could not be found."
@@ -231,62 +232,67 @@ msgstr "[ flaggor ... ] program [ argument ... ]"
 msgid "run command in build dir of the given module"
 msgstr "kör kommando i byggkatalog för angiven modul"
 
-#: ../jhbuild/commands/base.py:376
-#: ../jhbuild/commands/base.py:403
+#: ../jhbuild/commands/base.py:369
+msgid "run command in checkout dir of the given module"
+msgstr "kör kommando i utcheckningskatalog för angiven modul"
+
+#: ../jhbuild/commands/base.py:382
+#: ../jhbuild/commands/base.py:426
 #, python-format
 msgid "Unable to execute the command '%(command)s': %(err)s"
 msgstr "Kunde inte köra kommandot \"%(command)s\": %(err)s"
 
-#: ../jhbuild/commands/base.py:394
+#: ../jhbuild/commands/base.py:400
+#: ../jhbuild/commands/base.py:417
 #, python-format
 msgid "Unable to execute the command '%s'"
 msgstr "Kunde inte köra kommandot \"%s\""
 
-#: ../jhbuild/commands/base.py:401
+#: ../jhbuild/commands/base.py:424
 #: ../jhbuild/frontends/gtkui.py:443
 #: ../jhbuild/frontends/terminal.py:144
 msgid "No command given"
 msgstr "Inget kommando angivet"
 
-#: ../jhbuild/commands/base.py:410
+#: ../jhbuild/commands/base.py:433
 msgid "Start a shell under the JHBuild environment"
 msgstr "Starta ett skal i JHBuild-miljön"
 
-#: ../jhbuild/commands/base.py:425
+#: ../jhbuild/commands/base.py:448
 msgid "List the modules that would be built"
 msgstr "Lista modulerna som kommer att byggas"
 
-#: ../jhbuild/commands/base.py:434
+#: ../jhbuild/commands/base.py:457
 msgid "show which revision will be built"
 msgstr "visa vilken revision som kommer att byggas"
 
-#: ../jhbuild/commands/base.py:440
+#: ../jhbuild/commands/base.py:463
 msgid "start list at the given module"
 msgstr "starta lista vid angiven modul"
 
-#: ../jhbuild/commands/base.py:449
+#: ../jhbuild/commands/base.py:472
 msgid "also list soft-dependencies that could be skipped"
 msgstr "lista även mjuka beroenden som kan hoppas över"
 
-#: ../jhbuild/commands/base.py:452
+#: ../jhbuild/commands/base.py:475
 msgid "list all modules, not only those that would be built"
 msgstr "lista alla moduler, inte bara de som kommer att byggas"
 
-#: ../jhbuild/commands/base.py:487
+#: ../jhbuild/commands/base.py:510
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Skriv ut ett Graphviz-beroendediagram för en eller flera moduler"
 
-#: ../jhbuild/commands/base.py:490
+#: ../jhbuild/commands/base.py:513
 #: ../jhbuild/commands/info.py:40
 #: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ moduler ... ]"
 
-#: ../jhbuild/commands/base.py:496
+#: ../jhbuild/commands/base.py:519
 msgid "add dotted lines to soft dependencies"
 msgstr "lägg till punktlinjer till mjuka beroenden"
 
-#: ../jhbuild/commands/base.py:499
+#: ../jhbuild/commands/base.py:522
 msgid "group modules from metamodule together"
 msgstr "gruppera samman moduler från metamodule"
 
