@@ -173,6 +173,8 @@ def pprint_output(pipe, format_line):
         read_set.append(pipe.stdout)
     if pipe.stderr:
         read_set.append(pipe.stderr)
+    if sys.stdin:
+        read_set.append(sys.stdin)
 
     out_data = err_data = ''
     try:
@@ -184,11 +186,20 @@ def pprint_output(pipe, format_line):
                 if out_chunk == '':
                     pipe.stdout.close()
                     read_set.remove(pipe.stdout)
+                    if sys.stdin in read_set:
+                        read_set.remove(sys.stdin)
                 out_data += out_chunk
                 while '\n' in out_data:
                     pos = out_data.find('\n')
                     format_line(out_data[:pos+1], False)
                     out_data = out_data[pos+1:]
+                # FIXME: A bug here: If the last out_chunk is exactly 1024
+                # and there is no final newline, the last line will not be
+                # shown. Due to the '1024 chunk to line with no lookahead'
+                # algorithm used here. I can't see a solution.
+                if len(out_chunk) < 1024 and out_data:
+                    format_line(out_data, False)
+                    out_data = ''
         
             if pipe.stderr in rlist:
                 err_chunk = os.read(pipe.stderr.fileno(), 1024)
@@ -200,6 +211,12 @@ def pprint_output(pipe, format_line):
                     pos = err_data.find('\n')
                     format_line(err_data[:pos+1], True)
                     err_data = err_data[pos+1:]
+
+            # safeguard against tinderbox that close 0 (stdin)
+            if sys.stdin in rlist and os.isatty(0):
+                in_chunk = os.read(sys.stdin.fileno(), 1024)
+                if pipe.stdin:
+                    os.write(pipe.stdin.fileno(), in_chunk)
         
             select.select([],[],[],.1) # give a little time for buffers to fill
     except KeyboardInterrupt:
