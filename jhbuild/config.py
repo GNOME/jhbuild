@@ -48,15 +48,14 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
-                'nopoison', 'forcecheck', 'makecheck_advisory',
-                'quiet_mode', 'progress_bar', 'module_extra_env',
-                'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
-                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
-                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
-                'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
-                'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
-                'build_targets',
-                ]
+                'nopoison', 'module_nopoison', 'forcecheck',
+                'makecheck_advisory', 'quiet_mode', 'progress_bar',
+                'module_extra_env', 'jhbuildbot_master', 'jhbuildbot_slavename',
+                'jhbuildbot_password', 'jhbuildbot_svn_commits_box',
+                'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
+                'jhbuildbot_mastercfg', 'use_local_modulesets',
+                'ignore_suggests', 'modulesets_dir', 'mirror_policy',
+                'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets' ]
 
 env_prepends = {}
 def prependpath(envvar, path):

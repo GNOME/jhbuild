@@ -91,7 +91,8 @@ class BuildScript:
             failed = False
             for dep in module.dependencies:
                 if dep in failures:
-                    if self.config.nopoison:
+                    if self.config.module_nopoison.get(dep,
+                                                       self.config.nopoison):
                         self.message(_('module %(mod)s will be build even though %(dep)s failed')
                                      % { 'mod':module.name, 'dep':dep })
                     else:
