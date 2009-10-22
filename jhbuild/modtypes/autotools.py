@@ -193,10 +193,10 @@ class AutogenModule(Package, DownloadableModule):
             PHASE_CLEAN, PHASE_DISTCLEAN]
 
     def skip_clean(self, buildscript, last_phase):
-        srcdir = self.get_srcdir(buildscript)
-        if not os.path.exists(srcdir):
+        builddir = self.get_builddir(buildscript)
+        if not os.path.exists(builddir):
             return True
-        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+        if not os.path.exists(os.path.join(builddir, self.makefile)):
             return True
         return False
 
