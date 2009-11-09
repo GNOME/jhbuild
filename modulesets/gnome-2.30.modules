@@ -194,23 +194,6 @@
     </dependencies>
   </autotools>      
 
-  <autotools id="nautilus-sendto">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="nautilus"/>
-    </dependencies>
-    <suggests>
-      <dep package="evolution-data-server"/>
-      <dep package="dbus-glib"/>
-      <dep package="gupnp-av"/>
-      <dep package="empathy"/>
-    </suggests>
-  </autotools>      
-
   <autotools id="nautilus-vcs">
     <branch/>
     <dependencies>
@@ -1026,53 +1009,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gmime-2-2">
-    <branch module="gmime"
-            revision="gmime-2-2" />
-    <dependencies>
-      <dep package="gtk-doc"/>
-      <dep package="glib"/>
-    </dependencies>
-    <after>
-      <dep package="gtk-sharp"/>
-    </after>
-  </autotools>
-
-  <tarball id="raptor" version="1.4.18">
-    <source href="http://download.librdf.org/source/raptor-1.4.18.tar.gz"
-            hash="sha256:edfdb0734fb7120bf1cbb60e45a07864db2daaadf5c3591ccf7357f244d82a40"
-            md5sum="284e768eeda0e2898b0d5bf7e26a016e" size="1657246"/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </tarball>
-
-  <autotools id="tracker">
-    <branch revision="tracker-0.6"/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gmime-2-2"/>
-      <dep package="dbus-glib"/>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libglade"/>
-      <dep package="gnome-vfs"/>
-      <dep package="poppler"/>
-      <dep package="libgsf"/>
-      <dep package="gstreamer"/>
-      <dep package="sqlite3"/>
-      <dep package="vala"/>
-    </dependencies>
-    <suggests>
-      <dep package="exempi"/>
-      <dep package="raptor"/>
-    </suggests>
-    <after>
-      <dep package="deskbar-applet"/>
-    </after>
-  </autotools>
-
  <autotools id="nemiver">
     <branch/>
     <dependencies>
@@ -1256,16 +1192,6 @@
       <dep package="libart_lgpl"/>
     </dependencies>
   </autotools>
-
-  <tarball id="vala" version="0.7.6" autogenargs="--enable-vapigen">
-    <source
-href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.7/vala-0.7.6.tar.bz2"
-            hash="sha256:2c33ca0aa2646ba9f73b114c2a83fbea6a97e9b77cec94ecff3a5d68c340f083"
-            md5sum="1453b2ce04bc83685505f33a025ba5a4" size="1880130"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
 
   <!-- External deps that you MUST have installed in order -->
   <!-- to compile vala from trunk                          -->
@@ -1616,17 +1542,6 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.7/vala-0.7.6.tar.bz2"
       <dep package="gnome-keyring"/>
       <dep package="gconf"/>
       <dep package="gnome-doc-utils"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-packagekit">
-    <branch/>
-    <dependencies>
-      <dep package="PackageKit"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="libglade"/>
-      <dep package="libnotify"/>
     </dependencies>
   </autotools>
 

@@ -752,6 +752,17 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-packagekit">
+    <branch/>
+    <dependencies>
+      <dep package="PackageKit"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="libglade"/>
+      <dep package="libnotify"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-panel">
     <branch/>
     <dependencies>
@@ -1186,6 +1197,23 @@
       <dep package="beagle"/>
       <dep package="tracker"/>
     </after>
+  </autotools>
+
+  <autotools id="nautilus-sendto">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libglade"/>
+      <dep package="gconf"/>
+      <dep package="nautilus"/>
+    </dependencies>
+    <suggests>
+      <dep package="evolution-data-server"/>
+      <dep package="dbus-glib"/>
+      <dep package="gupnp-av"/>
+      <dep package="empathy"/>
+    </suggests>
   </autotools>
 
   <autotools id="orca">
@@ -1794,6 +1822,7 @@
       <dep package="gnome-mag"/>
       <dep package="gnome-media"/>
       <dep package="gnome-menus"/>
+      <dep package="gnome-packagekit"/>
       <dep package="gnome-panel"/>
       <dep package="gnome-power-manager"/>
       <dep package="gnome-python-desktop"/>
@@ -1827,6 +1856,7 @@
       <dep package="metacity"/>
       <dep package="mousetweaks"/>
       <dep package="nautilus"/>
+      <dep package="nautilus-sendto"/>
       <dep package="orca"/>
       <dep package="hamster-applet"/>
       <dep package="pygtksourceview"/>
