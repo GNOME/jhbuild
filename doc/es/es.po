@@ -2,12 +2,14 @@
 #
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2008, 2009.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2009.
+# Jorge González <jorgegonz@svn.gnome.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-06 08:53+0000\n"
-"PO-Revision-Date: 2009-11-08 12:53+0100\n"
+"POT-Creation-Date: 2009-11-11 19:52+0000\n"
+"PO-Revision-Date: 2009-11-13 18:59+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,17 +131,6 @@ msgstr ""
 "JHBuild."
 
 #: C/jhbuild.xml:65(para)
-#, fuzzy
-#| msgid ""
-#| "JHBuild can build modules from a variety of sources, including <ulink url="
-#| "\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://subversion."
-#| "tigris.org/\">Subversion</ulink><ulink url=\"http://wiki.gnuarch.org/"
-#| "\">Arch</ulink>, <ulink url=\"http://www.bazaar-vcs.org/\">Bazaar</"
-#| "ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, <ulink url="
-#| "\"http://git.or.cz/\">Git</ulink> and <ulink url=\"http://www.selenic.com/"
-#| "mercurial/\">Mercurial</ulink> repositories, as well as Tar archives "
-#| "hosted on web or FTP sites; and using a variety of build systems, "
-#| "including Autotools, CMake, WAF, Ant, Python Distutils and Perl Makefiles."
 msgid ""
 "JHBuild can build modules from a variety of sources, including <ulink url="
 "\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://subversion."
@@ -158,10 +149,10 @@ msgstr ""
 "\"http://wiki.gnuarch.org/\">Arch</ulink>, <ulink url=\"http://www.bazaar-"
 "vcs.org/\">Bazaar</ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, "
 "<ulink url=\"http://git.or.cz/\">Git</ulink> y <ulink url=\"http://www."
-"selenic.com/mercurial/\">Mercurial</ulink>, así como archivos Tar "
-"almacenados en una web o un sitio FTP; y usando varios sistemas de "
-"construcción, incluyendo Autotools, CMake, WAF, Ant, Python Distutils y "
-"Makefiles de Perl."
+"selenic.com/mercurial/\">Mercurial</ulink>, así como archivos Zip y Tar "
+"almacenados en una web o un sitio FTP. JHBuild puede construir módulos "
+"usando varios sistemas de construcción, incluyendo Autotools, CMake, WAF, "
+"Ant, Python Distutils y Makefiles de Perl."
 
 #: C/jhbuild.xml:79(para)
 #, fuzzy
@@ -213,7 +204,7 @@ msgid ""
 msgstr ""
 "Antes de descargar JHBuild, verifique que tiene instalada en su sistema una "
 "copia de Python &gt;= 2.0. También es imprescindible tener instalada la "
-"extensión Expat XML parser. Expat XML se proporciona con Python &gt;= 2.3.  "
+"extensión Expat XML parser. Expat XML se proporciona con Python &gt;= 2.3. "
 "Para verificar que Expat XML está instalado ejecute los siguientes comandos:"
 
 #: C/jhbuild.xml:103(prompt)
@@ -258,7 +249,8 @@ msgstr ""
 msgid ""
 "If the above completes without an exception, then Expat XML is installed "
 "correctly."
-msgstr "Si esto se completa sin ninguna excepción, se habrá instalado correctamente."
+msgstr ""
+"Si esto se completa sin ninguna excepción, se habrá instalado correctamente."
 
 #: C/jhbuild.xml:113(para)
 #, fuzzy
@@ -487,10 +479,9 @@ msgstr ""
 "ejemplo:"
 
 #: C/jhbuild.xml:203(programlisting)
-#, fuzzy, no-wrap
-#| msgid "repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'"
+#, no-wrap
 msgid "repos['git.gnome.org'] = 'ssh://<replaceable>username</replaceable>@git.gnome.org/git/'"
-msgstr "repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'"
+msgstr "repos['git.gnome.org'] = 'ssh://<replaceable>nombre_de_usuario</replaceable>@git.gnome.org/git/'"
 
 #: C/jhbuild.xml:207(varname) C/jhbuild.xml:1582(varname)
 msgid "moduleset"
@@ -569,16 +560,13 @@ msgid "prefix"
 msgstr "prefix"
 
 #: C/jhbuild.xml:246(simpara) C/jhbuild.xml:1667(simpara)
-#, fuzzy
-#| msgid ""
-#| "A string giving the prefix to install modules to. Defaults to <literal>'/"
-#| "opt/gnome2'</literal>."
 msgid ""
 "A string specifying the prefix to install modules to. This directory must be "
 "writable. Defaults to <literal>'/opt/gnome2'</literal>."
 msgstr ""
-"Una cadena que indica el prefijo donde instalar módulos. De forma "
-"predeterminada o es <literal>«/opt/gnome2»</literal>."
+"Una cadena que indica el prefijo donde instalar módulos. Este directorio "
+"debe ser escribible. De forma predeterminada es <literal>«/opt/gnome2»</"
+"literal>."
 
 #: C/jhbuild.xml:252(varname) C/jhbuild.xml:1300(varname)
 msgid "autogenargs"
@@ -636,16 +624,12 @@ msgstr ""
 "módulos se construirán."
 
 #: C/jhbuild.xml:287(para)
-#, fuzzy
-#| msgid ""
-#| "JHBuild can check if your system has these tools installed using the "
-#| "<command>sanitycheck</command> command:"
 msgid ""
 "JHBuild can check the tools are installed using the <command>sanitycheck</"
 "command> command:"
 msgstr ""
-"JHBuild puede comprobar si su sistema tiene instaladas estas herramientas "
-"usando el comando <command>sanitycheck</command>:"
+"JHBuild puede comprobarlas herramientas están instaladas usando el comando "
+"<command>sanitycheck</command>:"
 
 #: C/jhbuild.xml:290(userinput) C/jhbuild.xml:1110(command)
 #, no-wrap
@@ -661,13 +645,6 @@ msgstr ""
 "formas:"
 
 #: C/jhbuild.xml:297(simpara)
-#, fuzzy
-#| msgid ""
-#| "Install the required package from your distribution's repository. A list "
-#| "of <ulink url=\"http://live.gnome.org/JhbuildDependencies\">package "
-#| "names</ulink> for different distributions is maintained on the GNOME "
-#| "wiki. The <command>sanitycheck</command> command should be run again "
-#| "afterwards to make sure required tools are present."
 msgid ""
 "Install the required package from your distribution's repository. A list of "
 "<ulink url=\"http://live.gnome.org/JhbuildDependencies\">package names</"
@@ -678,8 +655,8 @@ msgstr ""
 "Instale el paquete requerido desde el repositorio de su distribución. El "
 "wiki de GNOME mantiene una lista de <ulink url=\"http://live.gnome.org/"
 "JhbuildDependencies\">nombres de paquetes</ulink> para diferentes "
-"distribuciones. Debería ejecutar nuevamente el comando <command>sanitycheck</"
-"command> para asegurarse de que las herramientas necesarias están instaladas."
+"distribuciones. Ejecute otra vez el comando <command>sanitycheck</command> "
+"para asegurarse de que las herramientas necesarias están instaladas."
 
 #: C/jhbuild.xml:306(simpara)
 msgid ""
@@ -785,7 +762,8 @@ msgstr ""
 "o ignorar el error y continuar."
 
 #: C/jhbuild.xml:346(simpara)
-msgid "Giving up on a module will cause any modules depending on the module to fail."
+msgid ""
+"Giving up on a module will cause any modules depending on the module to fail."
 msgstr ""
 "Desistir de cargar un módulo causará que todos los módulos que dependan de "
 "él fallen."
@@ -844,10 +822,6 @@ msgid "jhbuild build gtk+"
 msgstr "jhbuild build gtk+"
 
 #: C/jhbuild.xml:368(para)
-#| msgid ""
-#| "If you exit JHBuild part way through a build for some reason, it is "
-#| "possible to pick up a build at a particular module using the <option>--"
-#| "start-at</option> option:"
 msgid ""
 "If JHBuild is cancelled part way through a build, it is possible to resume "
 "the build at a particular module using the <option>--start-at</option> "
@@ -886,16 +860,11 @@ msgid "jhbuild buildone gtk+"
 msgstr "jhbuild buildone gtk+"
 
 #: C/jhbuild.xml:382(para)
-#, fuzzy
-#| msgid ""
-#| "To get a list of the modules and dependencies jhbuild will build, and the "
-#| "order in which they will be built, use the <command>list</command> "
-#| "command:"
 msgid ""
 "To get a list of the modules and dependencies JHBuild will build, and the "
 "order they will be built, use the <command>list</command> command:"
 msgstr ""
-"Para obtener una lista de los módulos y las dependencias que jhbuild "
+"Para obtener una lista de los módulos y las dependencias que JHBuild "
 "construirá, y el orden en que se construirán, use el comando <command>list</"
 "command>:"
 
@@ -939,16 +908,12 @@ msgid "jhbuild update"
 msgstr "jhbuild update"
 
 #: C/jhbuild.xml:401(para)
-#, fuzzy
-#| msgid ""
-#| "Later on, you can tell JHBuild to build everything without downloading or "
-#| "updating the sources:"
 msgid ""
 "Later, JHBuild can build everything without downloading or updating the "
 "sources:"
 msgstr ""
-"Posteriormente puede decirle a JHBuild que construya todo sin descargar o "
-"actualizar la fuentes:"
+"Posteriormente JHBuild puede construir todo sin descargar ni actualizar los "
+"fuentes:"
 
 #: C/jhbuild.xml:404(userinput)
 #, no-wrap
@@ -977,16 +942,12 @@ msgid "jhbuild run <placeholder-1/>"
 msgstr "jhbuild run <placeholder-1/>"
 
 #: C/jhbuild.xml:411(para)
-#, fuzzy
-#| msgid ""
-#| "To start a shell with the environment used by JHBuild, use the "
-#| "<command>shell</command> command:"
 msgid ""
 "To start a shell with the same environment used by JHBuild, use the "
 "<command>shell</command> command:"
 msgstr ""
-"Para iniciar una consola con el entorno usado por JHBuild use el comando "
-"<command>shell</command>:"
+"Para iniciar una consola con el mismo entorno usado por JHBuild use el "
+"comando <command>shell</command>:"
 
 #: C/jhbuild.xml:414(userinput) C/jhbuild.xml:1145(command)
 #, no-wrap
@@ -1035,16 +996,13 @@ msgstr ""
 "añadir el poco espacio de Buildbot necesita."
 
 #: C/jhbuild.xml:439(para)
-#, fuzzy
-#| msgid ""
-#| "All Buildbot-related commands are options of the <command>bot</command>, "
-#| "downloading and installing the extra required software is done like this:"
 msgid ""
 "Buildbot commands are options to the <command>bot</command> command. To "
 "download and install the extra required software, run the following command:"
 msgstr ""
-"Los comandos relativos a Buildbot son opciones de <command>bot</command>, "
-"descargar e instalar el software adicional requerido se hace así:"
+"Los comandos de Buildbot son opciones del comando <command>bot</command>. "
+"Para descargar e instalar el software adicional requerido ejecute el "
+"siguiente comando:"
 
 #: C/jhbuild.xml:445(userinput)
 #, no-wrap
@@ -1052,10 +1010,6 @@ msgid "jhbuild bot --setup"
 msgstr "jhbuild bot --setup"
 
 #: C/jhbuild.xml:447(para)
-#, fuzzy
-#| msgid ""
-#| "Once this step has been run successfully, there are three new "
-#| "configuration variables to define in <filename>~/.jhbuildrc</filename>."
 msgid ""
 "Once this step has completed successfully, three new configuration variables "
 "are required in <filename>~/.jhbuildrc</filename>."
@@ -1064,16 +1018,13 @@ msgstr ""
 "de configuración para definir en <filename>~/.jhbuildrc</filename>."
 
 #: C/jhbuild.xml:453(para)
-#, fuzzy
-#| msgid ""
-#| "It is currently not possible to use an alternate configuration file, the "
-#| "<option>--file</option> will not get desired effects."
 msgid ""
 "It is not possible to use an alternate configuration file, the <link linkend="
 "\"option-file\"><option>--file</option></link> will not get desired effects."
 msgstr ""
-"Actualmente no se puede usar un archivo alternativo de configuración. La "
-"opción <option>--file</option> no tendrá los efectos deseados."
+"No se puede usar un archivo alternativo de configuración. La opción <link "
+"linkend=\"option-file\"><option>--file</option></link> no tendrá los efectos "
+"deseados."
 
 #: C/jhbuild.xml:460(programlisting)
 #, no-wrap
@@ -1150,8 +1101,10 @@ msgid "The global JHBuild options are:"
 msgstr "Las opciones globales de JHBuild son:"
 
 #: C/jhbuild.xml:512(term)
-msgid "<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
-msgstr "<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
+msgid ""
+"<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
+msgstr ""
+"<option>-f</option>, <option>--file</option><replaceable>config</replaceable>"
 
 #: C/jhbuild.xml:515(simpara)
 msgid ""
@@ -1190,16 +1143,12 @@ msgid "--no-interact"
 msgstr "--no-interact"
 
 #: C/jhbuild.xml:534(simpara)
-#, fuzzy
-#| msgid ""
-#| "Do not prompt the user for any input. This is useful when leaving a build "
-#| "unattended, in order to ensure it is not interrupted."
 msgid ""
 "Do not prompt the user for any input. This option is useful if leaving a "
 "build unattended, in order to ensure the build is not interrupted."
 msgstr ""
-"No solicitar al usuario ninguna entrada. Esto es útil cuando se deja una "
-"construcción sin atender, para asegurarse de que no se interrumpe."
+"No solicitar al usuario ninguna entrada. Esta opción es útil cuando se deja "
+"una construcción sin atender, para asegurarse de que no se interrumpe."
 
 #: C/jhbuild.xml:541(para)
 msgid "Command specific options are listed below."
@@ -1275,11 +1224,6 @@ msgid "--verbose"
 msgstr "--verbose"
 
 #: C/jhbuild.xml:560(para)
-#, fuzzy
-#| msgid ""
-#| "The <option>--autogen</option>, <option>--clean</option>, <option>--skip</"
-#| "option> and <option>--start-at</option> options are processed in the same "
-#| "way as for the <command>build</command> command."
 msgid ""
 "The <option>--autogen</option>, <option>--clean</option>, <option>--skip</"
 "option> and <option>--start-at</option> options are processed as per the "
@@ -1288,7 +1232,8 @@ msgid ""
 msgstr ""
 "Las opciones <option>--autogen</option>, <option>--clean</option>, <option>--"
 "skip</option> y <option>--start-at</option> se procesan de la misma manera "
-"que para el comando <command>build</command>."
+"que para el comando <link linkend=\"command-reference-build"
+"\"><command>build</command></link>."
 
 #: C/jhbuild.xml:568(term)
 msgid ""
@@ -1299,11 +1244,9 @@ msgstr ""
 "r <replaceable>reporturl</replaceable></option>"
 
 #: C/jhbuild.xml:571(simpara)
-#, fuzzy
-#| msgid ""
-#| "This option specifies the JhAutobuild URL which JHBuild should report to"
 msgid "This option specifies the JhAutobuild URL to report to."
-msgstr "Esta opción especifica el URL de JhAutobuild a la que JHBuild debe informar"
+msgstr ""
+"Esta opción especifica el URL de JhAutobuild a la que se  debe informar"
 
 #: C/jhbuild.xml:577(term)
 msgid "<option>--verbose</option>, <option>-v</option>"
@@ -1348,16 +1291,12 @@ msgstr ""
 "<filename>bootstrap.modules</filename>."
 
 #: C/jhbuild.xml:603(para)
-#, fuzzy
-#| msgid ""
-#| "Look at the <link linkend=\"command-reference-build\">build</link> "
-#| "command documentation for available options."
 msgid ""
 "See the <link linkend=\"command-reference-build\"><command>build</command></"
 "link> command documentation for available options."
 msgstr ""
-"Consulte las opciones disponibles en la documentación del comando <link "
-"linkend=\"command-reference-build\">build</link>"
+"Consulte la documentación del comando <link linkend=\"command-reference-build"
+"\"><command>build</command></link> para ver las opciones disponibles."
 
 #: C/jhbuild.xml:610(title)
 msgid "build"
@@ -1446,16 +1385,13 @@ msgstr "--min-age=<placeholder-1/>"
 
 #: C/jhbuild.xml:637(para) C/jhbuild.xml:879(para) C/jhbuild.xml:905(para)
 #: C/jhbuild.xml:993(para)
-#, fuzzy
-#| msgid ""
-#| "If no module names are given on the command line, then the module list "
-#| "found in the configuration file will be used."
 msgid ""
 "If no module names are provided on the command line, the <link linkend=\"cfg-"
 "modules\">modules</link> list from the configuration file will be used."
 msgstr ""
 "Si no se indican nombres de módulos en la línea de comandos, se usará la "
-"lista de módulos encontrada en el archivo de configuración."
+"lista de <link linkend=\"cfg-modules\">módulos</link> del archivo de "
+"configuración."
 
 #: C/jhbuild.xml:643(term)
 msgid "<option>-a</option>, <option>--autogen</option>"
@@ -1489,10 +1425,9 @@ msgid "Run <command>make clean</command> before building modules."
 msgstr "Ejecute <command>make clean</command> antes de construir los módulos."
 
 #: C/jhbuild.xml:665(simpara)
-#, fuzzy
-#| msgid "Run <command>make distcheck</command> after building modules."
 msgid "Run <command>make check</command> after building modules."
-msgstr "Ejecute <command>make distcheck</command> después de construir los módulos."
+msgstr ""
+"Ejecute <command>make check</command> después de construir los módulos."
 
 #: C/jhbuild.xml:671(term)
 msgid "<option>-d</option>, <option>--dist</option>"
@@ -1504,7 +1439,8 @@ msgstr "Ejecute <command>make dist</command> después de construir los módulos.
 
 #: C/jhbuild.xml:681(simpara)
 msgid "Run <command>make distcheck</command> after building modules."
-msgstr "Ejecute <command>make distcheck</command> después de construir los módulos."
+msgstr ""
+"Ejecute <command>make distcheck</command> después de construir los módulos."
 
 #: C/jhbuild.xml:689(simpara)
 msgid "Do not build soft dependencies."
@@ -1515,11 +1451,6 @@ msgid "<option>-n</option>, <option>--no-network</option>"
 msgstr "<option>-n</option>, <option>--no-network</option>"
 
 #: C/jhbuild.xml:696(simpara)
-#, fuzzy
-#| msgid ""
-#| "Do not access the network when building modules. This will skip download "
-#| "or update stages in a build. If a module can't be built without network "
-#| "access, it will fail."
 msgid ""
 "Do not access the network when building modules. This will skip download or "
 "update stages in a build. If a module can't be built without network access, "
@@ -1611,7 +1542,8 @@ msgstr "<option>-x</option>, <option>--no-xvfb</option>"
 #, fuzzy
 #| msgid ""
 #| "Run graphical tests on the actual X server rather than in a simulated Xvfb"
-msgid "Run graphical tests on the actual X server rather than in a simulated Xvfb."
+msgid ""
+"Run graphical tests on the actual X server rather than in a simulated Xvfb."
 msgstr ""
 "Ejecutar comprobaciones gráficas en el servidor X actual en lugar de en un "
 "Xvfb simulado"
@@ -2054,7 +1986,8 @@ msgstr "<option>-r</option>, <option>--show-revision</option>"
 #| msgid ""
 #| "If a particular module is being checked out on a branch, show the branch "
 #| "tag name with the module name."
-msgid "If a module is set to a branch, show the branch name with the module name."
+msgid ""
+"If a module is set to a branch, show the branch name with the module name."
 msgstr ""
 "Si se va descargar un módulo concreto de una rama, muestra el nombre de la "
 "etiqueta de la rama con el nombre del módulo."
@@ -2099,7 +2032,8 @@ msgstr "--direct"
 #, fuzzy
 #| msgid "Limit display to modules directly depending on given module."
 msgid "Limit display to modules directly depending on specified module."
-msgstr "Limitar la muestra a los módulos directamente dependientes del módulo dado."
+msgstr ""
+"Limitar la muestra a los módulos directamente dependientes del módulo dado."
 
 #: C/jhbuild.xml:1064(title)
 msgid "run"
@@ -2147,7 +2081,8 @@ msgstr "<option>--in-builddir</option>=<replaceable>módulo</replaceable>"
 
 #: C/jhbuild.xml:1085(simpara)
 msgid "Run the command in the build directory of the specified module."
-msgstr "Ejecute el comando en el directorio de construcción del módulo especificado."
+msgstr ""
+"Ejecute el comando en el directorio de construcción del módulo especificado."
 
 #: C/jhbuild.xml:1093(term)
 msgid "<option>--in-checkoutdir</option>=<replaceable>module</replaceable>"
@@ -2157,7 +2092,8 @@ msgstr "<option>--in-checkoutdir</option>=<replaceable>módulo</replaceable>"
 #, fuzzy
 #| msgid "Run the command in the build directory of the specified module."
 msgid "Run the command in the source directory of the specified module."
-msgstr "Ejecute el comando en el directorio de construcción del módulo especificado."
+msgstr ""
+"Ejecute el comando en el directorio de construcción del módulo especificado."
 
 #: C/jhbuild.xml:1104(title)
 msgid "sanitycheck"
@@ -2308,7 +2244,8 @@ msgstr "uninstall"
 #| msgid ""
 #| "The <command>uninstall</command> command is used to uninstall one or more "
 #| "modules."
-msgid "The <command>uninstall</command> command uninstalls one or more modules."
+msgid ""
+"The <command>uninstall</command> command uninstalls one or more modules."
 msgstr ""
 "El comando <command>uninstall</command> se usa para desinstalar uno o más "
 "módulos."
@@ -3361,10 +3298,6 @@ msgid "Other Configuration File Structures"
 msgstr "Otras estructuras de los archivos de configuración"
 
 #: C/jhbuild.xml:1806(para)
-#, fuzzy
-#| msgid ""
-#| "In addition to the above variables, there are some other things that can "
-#| "be set in the configuration file:"
 msgid ""
 "In addition to the above variables, there are other settings that can be set "
 "in the configuration file:"
@@ -3879,7 +3812,8 @@ msgstr "Archivos tar"
 
 #: C/jhbuild.xml:2058(para)
 msgid "This repository type is used to define a tarball repository."
-msgstr "El tipo de repositorio se usa para definir un repositorio de archivos tar."
+msgstr ""
+"El tipo de repositorio se usa para definir un repositorio de archivos tar."
 
 #: C/jhbuild.xml:2060(programlisting)
 #, no-wrap
@@ -5068,17 +5002,12 @@ msgid "ccache -M 2G"
 msgstr "ccache -M 2G"
 
 #: C/jhbuild.xml:2715(para)
-#, fuzzy
-#| msgid ""
-#| "(replace <literal>2G</literal> with the size you want for your cache). "
-#| "Then create symlinks to CCache for your compiler in <filename>~/bin</"
-#| "filename>:"
 msgid ""
 "(where <literal>2G</literal> is the size the cache). Create symlinks to "
 "<command>CCache</command> for the compiler in <filename>~/bin</filename>:"
 msgstr ""
-"(reemplace <literal>2G</literal> con el tamaño que quiere para su caché.) "
-"Entonces cree enlaces simbólicos a CCache para su compilador en <filename>~/"
+"(donde <literal>2G</literal> es el tamaño de la caché.) Cree enlaces "
+"simbólicos a <command>CCache</command> para el compilador en <filename>~/"
 "bin</filename>:"
 
 #: C/jhbuild.xml:2718(programlisting)
@@ -5135,7 +5064,8 @@ msgstr "Construir GNOME"
 
 #: C/jhbuild.xml:2745(simpara)
 msgid "What other prerequisites are needed to build GNOME with JHBuild?"
-msgstr "¿Qué otros prerrequisitos son necesarios para construir GNOME con JHBuild?"
+msgstr ""
+"¿Qué otros prerrequisitos son necesarios para construir GNOME con JHBuild?"
 
 #: C/jhbuild.xml:2749(para)
 msgid "Some of the packages required include:"
@@ -5458,4 +5388,3 @@ msgstr ""
 #: C/jhbuild.xml:0(None)
 msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008."
-
