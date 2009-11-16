@@ -2921,6 +2921,31 @@ ln -s /var/run/dbus dbus</programlisting>
         the hal directory might help here.</para>
 	  </answer>
 	</qandaentry>
+	<qandaentry>
+	  <question>
+	    <simpara>Why doesn't Foobar (activatable D-Bus service)
+	    start?</simpara>
+	  </question>
+	  <answer>
+	    <para>In order to activate a D-Bus service installed within the
+	    JHBuild root, while using the system D-Bus, you have to modify the
+	    <filename>/etc/dbus-1/session.conf</filename> file by adding the
+	    following line:</para>
+	    <programlisting><![CDATA[
+<servicedir>@PREFIX@/moblin2/install/share/dbus-1/services</servicedir>]]></programlisting>
+
+	    <para>
+	      Where @PREFIX@ is the prefix used by JHBuild -- the user's home
+	      directory by default.
+	    </para>
+
+	    <para>
+	      You will have to restart D-Bus, which usually means logging out
+	      or a complete reboot.
+	    </para>
+	  </answer>
+	</qandaentry>
+
       </qandadiv>
     </qandaset>
   </section>
