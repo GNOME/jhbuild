@@ -150,7 +150,7 @@ class Config:
 
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
-            os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
+        os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
 
         try:
             SRCDIR
