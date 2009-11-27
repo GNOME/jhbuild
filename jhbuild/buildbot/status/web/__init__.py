@@ -78,7 +78,11 @@ class ProjectsSummary(HtmlResource):
                 if not slave in slave_status:
                     slave_status[slave] = ('idle', None)
 
-        result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + parent.moduleset + '</td>'
+        if type(parent.moduleset) is list:
+            moduleset = ', '.join(parent.moduleset)
+        else:
+            moduleset = parent.moduleset
+        result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + moduleset + '</td>'
         for name in parent.slaves:
             if len(name) > 25:
                 name = name[:25] + '(...)'
