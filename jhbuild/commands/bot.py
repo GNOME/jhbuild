@@ -279,6 +279,7 @@ class cmd_bot(Command):
             version = None
 
             max_builds = 2
+            scheduler = None
 
             run_checks = True
             run_coverage_report = False
@@ -296,6 +297,12 @@ class cmd_bot(Command):
                 for attribute in ('config/max_builds', 'config/missing_timeout',
                             'config/run_checks', 'config/run_coverage_report',
                             'config/run_clean_afterwards',
+                            'config/scheduler',
+                            'nightly_scheduler/minute',
+                            'nightly_scheduler/hour',
+                            'nightly_scheduler/dayOfMonth',
+                            'nightly_scheduler/month',
+                            'nightly_scheduler/dayOfWeek',
                             'info/contact_name', 'info/contact_email',
                             'info/url', 'info/distribution', 'info/architecture',
                             'info/version'):
@@ -303,6 +310,7 @@ class cmd_bot(Command):
                     try:
                         value = cfg.find(attribute).text
                     except AttributeError:
+                        print 'FAILED 1'
                         continue
 
                     if attr_name in ('max_builds', 'missing_timeout'): # int value
@@ -314,7 +322,19 @@ class cmd_bot(Command):
                     if attr_name in ('run_checks', 'run_coverage_report', 'run_clean_afterwards'):
                         value = (value == 'yes')
 
+                    if attr_name in ('minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'):
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            value = '*'
+
                     setattr(self, attr_name, value)
+
+                if self.scheduler == 'nightly':
+                    self.nightly_kwargs = {}
+                    for attr_name in ('minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'):
+                        if hasattr(self, attr_name):
+                            self.nightly_kwargs[attr_name] = getattr(self, attr_name)
 
         class JhBuildMaster(BuildMaster):
             jhbuild_config = config
@@ -389,14 +409,21 @@ class cmd_bot(Command):
                     config['change_source'] = PBChangeSource()
 
                 # Schedulers
-                from jhbuild.buildbot.scheduler import SerialScheduler, OnCommitScheduler
+                from jhbuild.buildbot.scheduler import SerialScheduler, NightlySerialScheduler, OnCommitScheduler
                 config['schedulers'] = []
                 for slave in config['slaves']:
                     s = None
                     for project in config['projects']:
                         buildername = str('%s-%s' % (project, slave.slavename))
-                        s = SerialScheduler(buildername, project, upstream=s,
-                                            builderNames=[buildername])
+                        scheduler_kwargs = {}
+                        if slave.scheduler == 'nightly':
+                            scheduler_class = NightlySerialScheduler
+                            scheduler_kwargs = slave.nightly_kwargs
+                        else:
+                            scheduler_class = SerialScheduler
+                        s = scheduler_class(buildername, project, upstream=s,
+                                            builderNames=[buildername],
+                                            **scheduler_kwargs)
                         config['schedulers'].append(s)
                         if self.jhbuild_config.jhbuildbot_svn_commits_box:
                             # schedulers that will launch job when receiving
