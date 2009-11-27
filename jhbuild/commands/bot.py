@@ -310,7 +310,6 @@ class cmd_bot(Command):
                     try:
                         value = cfg.find(attribute).text
                     except AttributeError:
-                        print 'FAILED 1'
                         continue
 
                     if attr_name in ('max_builds', 'missing_timeout'): # int value
