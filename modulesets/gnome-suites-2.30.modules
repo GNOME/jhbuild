@@ -259,7 +259,7 @@
       <dep package="libbonoboui"/>
       <dep package="libglade"/>
       <dep package="gnome-icon-theme"/>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
     </dependencies>
   </autotools>
 
@@ -456,7 +456,7 @@
       <dep package="gnome-doc-utils"/>
     </dependencies>
     <suggests>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
     </suggests>
     <after>
       <dep package="nautilus"/>
@@ -481,7 +481,7 @@
       <dep package="nss"/>
     </suggests>
     <after>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
     </after>
   </autotools>
 
@@ -661,7 +661,7 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
       <dep package="libunique"/>
       <dep package="libnotify"/>
     </dependencies>
@@ -702,11 +702,25 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libgnome-keyring">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="dbus"/>
+      <dep package="eggdbus"/>
+      <dep package="libgcrypt"/>
+    </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
+  </autotools>
+
   <autotools id="gnome-keyring">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="dbus"/>
+      <dep package="eggdbus"/>
       <dep package="gconf"/>
       <dep package="gtk+"/>
       <dep package="libgcrypt"/>
@@ -816,7 +830,7 @@
       <dep package="libwnck"/>
       <dep package="gtk+"/>
       <dep package="gnome-panel"/>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
       <dep package="gconf"/>
       <dep package="intltool"/>
       <dep package="gnome-doc-utils"/>
@@ -1278,6 +1292,7 @@
     </dependencies>
     <suggests>
       <dep package="libsoup"/>
+      <dep package="libgnome-keyring"/>
       <dep package="gnome-keyring"/>
       <dep package="avahi"/>
       <dep package="dbus-glib"/>
@@ -1390,7 +1405,7 @@
       <dep package="gconf"/>
       <dep package="gnutls"/>
       <dep package="dbus-glib"/>
-      <dep package="gnome-keyring"/>
+      <dep package="libgnome-keyring"/>
     </dependencies>
     <suggests>
       <dep package="libnotify"/>
@@ -1868,6 +1883,7 @@
       <dep package="gtksourceview"/>
       <dep package="gucharmap"/>
       <dep package="gvfs"/>
+      <dep package="libgnome-keyring"/>
       <dep package="libgnomekbd"/>
       <dep package="libgtop"/>
       <dep package="libgweather"/>
