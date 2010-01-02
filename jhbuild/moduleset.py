@@ -56,7 +56,8 @@ class ModuleSet:
                     logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
-        raise KeyError(module_name)
+        print "Couldn't find the specified module: %s" % module_name
+        sys.exit(2)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
