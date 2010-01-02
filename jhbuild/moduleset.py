@@ -286,7 +286,7 @@ def load(config, uri=None):
             if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
-                uri = 'http://git.gnome.org/cgit/jhbuild/plain/modulesets/%s.modules' % uri
+                uri = 'http://git.gnome.org/browse/jhbuild/plain/modulesets/%s.modules' % uri
         try:
             ms.modules.update(_parse_module_set(config, uri).modules)
         except xml.parsers.expat.ExpatError, e:
