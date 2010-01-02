@@ -49,12 +49,12 @@ class ModuleSet:
     def get_module(self, module_name, ignore_case = False):
         if self.modules.has_key(module_name) or not ignore_case:
             return self.modules[module_name]
-        module_name = module_name.lower()
+        module_name_lower = module_name.lower()
         for module in self.modules.keys():
-            if module.lower() == module_name:
+            if module.lower() == module_name_lower:
                 if self.config is None or not self.config.quiet_mode:
-                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
-                            'orig': module_name, 'new': module})
+                    logging.info(_('fixed case of module \'%s\' to \'%s\'')
+                            % (module_name, module))
                 return self.modules[module]
         print "Couldn't find the specified module: %s" % module_name
         sys.exit(2)
