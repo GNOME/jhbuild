@@ -13,8 +13,6 @@
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification/"/>
   <repository type="cvs" name="cvs.freedesktop.org/xklavier" password=""
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier/"/>
-  <repository type="cvs" name="cairo.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo" password=""/>
   <repository type="cvs" name="www.sqlite.org"
       cvsroot=":pserver:anonymous@www.sqlite.org:/sqlite" password="anonymous"/>
 
@@ -51,6 +49,8 @@
       href="git://git.debian.org/"/>
   <repository type="git" name="git.clutter-project.org"
       href="git://git.clutter-project.org/"/>
+  <repository type="git" name="git.cairographics.org"
+      href="git://git.cairographics.org/git/" password=""/>
 
   <repository type="bzr" name="mega-nerd.com"
       href="http://www.mega-nerd.com/Bzr/"/>
@@ -152,7 +152,7 @@
   </autotools>
 
   <autotools id="pycairo">
-    <branch repo="cairo.freedesktop.org"/>
+    <branch repo="git.cairographics.org" module="py2cairo"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
