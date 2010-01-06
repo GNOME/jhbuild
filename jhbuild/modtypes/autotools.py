@@ -158,6 +158,7 @@ class AutogenModule(Package, DownloadableModule):
                 extra_env.get('ACLOCAL_FLAGS', os.environ.get('ACLOCAL_FLAGS', ''))))
             buildscript.execute(['autoreconf', '-i'], cwd=builddir,
                     extra_env=extra_env)
+            os.chmod(os.path.join(srcdir, 'configure'), 0755)
             cmd = cmd.replace('autoreconf', 'configure')
             cmd = cmd.replace('--enable-maintainer-mode', '')
 
