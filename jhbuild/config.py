@@ -48,15 +48,14 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
                 'build_policy', 'trycheckout', 'min_time',
-                'nopoison', 'forcecheck', 'makecheck_advisory',
-                'quiet_mode', 'progress_bar', 'module_extra_env',
-                'jhbuildbot_master', 'jhbuildbot_slavename', 'jhbuildbot_password',
-                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
-                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
-                'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
-                'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
-                'build_targets',
-                ]
+                'nopoison', 'module_nopoison', 'forcecheck',
+                'makecheck_advisory', 'quiet_mode', 'progress_bar',
+                'module_extra_env', 'jhbuildbot_master', 'jhbuildbot_slavename',
+                'jhbuildbot_password', 'jhbuildbot_svn_commits_box',
+                'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
+                'jhbuildbot_mastercfg', 'use_local_modulesets',
+                'ignore_suggests', 'modulesets_dir', 'mirror_policy',
+                'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets' ]
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -151,7 +150,7 @@ class Config:
 
         if not self._orig_environ:
             self.__dict__['_orig_environ'] = os.environ.copy()
-            os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
+        os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
 
         try:
             SRCDIR
@@ -387,7 +386,7 @@ class Config:
         try:
             python_packages_dir = get_output([python_bin, '-c',
                 'import os, distutils.sysconfig; '\
-                'print distutils.sysconfig.get_python_lib(prefix="").split(os.path.sep)[-1]'],
+                'print distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1]' % self.prefix],
                 get_stderr=False).strip()
         except CommandError:
             python_packages_dir = 'site-packages'
@@ -487,6 +486,9 @@ class Config:
         if hasattr(options, 'clean') and (
                 options.clean and not 'clean' in self.build_targets):
             self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'check') and (
+                options.check and not 'check' in self.build_targets):
+            self.build_targets.insert(0, 'check')
         if hasattr(options, 'dist') and (
                 options.dist and not 'dist' in self.build_targets):
             self.build_targets.append('dist')

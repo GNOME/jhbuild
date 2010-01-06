@@ -91,6 +91,7 @@ class JhStatusResourceBuildStep(StatusResourceBuildStep):
                     data += ('<li><a href="%s">%s</a></li>\n' % 
                              (logurl, html.escape(logname)))
                 else:
+                    logname = logfile.getName()
                     data += '<li>%s</li>\n' % html.escape(logname)
             data += "</ul>\n"
 

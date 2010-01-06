@@ -103,7 +103,9 @@ class WafModule(Package, DownloadableModule):
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def skip_check(self, buildscript, last_phase):
-        if not buildscript.config.module_makecheck.get(self.name, buildscript.config.makecheck):
+        if self.name in buildscript.config.module_makecheck:
+            return not buildscript.config.module_makecheck[self.name]
+        if 'check' not in buildscript.config.build_targets:
             return True
         return False
 

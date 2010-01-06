@@ -141,6 +141,10 @@ class cmd_sanitycheck(Command):
         if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'svn')
 
+        if not (inpath('curl', os.environ['PATH'].split(os.pathsep)) or
+                inpath('wget', os.environ['PATH'].split(os.pathsep))):
+            uprint(_('%s or %s not found') % ('curl', 'wget'))
+
         # check for git:
         if not inpath('git', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'git')

@@ -25,8 +25,16 @@ __all__ = [
     ]
 
 import optparse
+import sys
 
 from jhbuild.errors import UsageError, FatalError
+
+
+class OptionParser(optparse.OptionParser):
+    def exit(self, status=0, msg=None):
+        if msg:
+            sys.stderr.write(uencode(msg))
+        sys.exit(status)
 
 
 class Command:
@@ -44,7 +52,7 @@ class Command:
         return self.run(config, options, args)
 
     def parse_args(self, args):
-        self.parser = optparse.OptionParser(
+        self.parser = OptionParser(
             usage='%%prog %s %s' % (self.name, _(self.usage_args)),
             description=_(self.doc))
         self.parser.add_options(self.options)

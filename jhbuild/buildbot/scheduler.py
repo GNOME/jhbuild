@@ -23,7 +23,7 @@ from twisted.application import service, internet
 from twisted.python import log
 
 from twisted.internet import reactor
-from buildbot.scheduler import Periodic, BaseUpstreamScheduler, Scheduler
+from buildbot.scheduler import Periodic, BaseUpstreamScheduler, Scheduler, Nightly
 from buildbot.sourcestamp import SourceStamp
 from buildbot import buildset, util
 
@@ -31,6 +31,14 @@ def SerialScheduler(name, project, builderNames, periodicBuildTimer=60*60*12,
         upstream=None, branch=None):
     if not upstream:
         return StartSerial(name, project, builderNames, periodicBuildTimer, branch)
+    return Serial(name, project, upstream, builderNames, branch)
+
+def NightlySerialScheduler(name, project, builderNames,
+        minute=0, hour='*', dayOfMonth='*', month='*', dayOfWeek='*',
+        upstream=None, branch=None):
+    if not upstream:
+        return NightlyStartSerial(name, project, builderNames,
+                minute, hour, dayOfMonth, month, dayOfWeek, branch)
     return Serial(name, project, upstream, builderNames, branch)
 
 
@@ -69,7 +77,6 @@ class OnCommitScheduler(Scheduler):
             self.addImportantChange(change)
         else:
             self.addUnimportantChange(change)
-
 
 class StartSerial(Periodic):
 
@@ -139,4 +146,28 @@ class Serial(BaseUpstreamScheduler):
     def upstreamBuilt(self, ss):
         bs = buildset.BuildSet(self.builderNames, SourceStamp(branch=self.branch))
         self.submitBuildSet(bs)
+
+
+class NightlyStartSerial(Nightly):
+    def __init__(self, name, project, builderNames,
+                 minute=0, hour='*', dayOfMonth='*', month='*', dayOfWeek='*',
+                 branch=None):
+        Nightly.__init__(self, name, builderNames, minute, hour, dayOfMonth,
+                         month, dayOfWeek, branch)
+        self.project = project
+        self.finishedWatchers = []
+
+    def subscribeToFinishedBuilds(self, watcher):
+        self.finishedWatchers.append(watcher)
+
+    def unsubscribeToFinishedBuilds(self, watcher):
+        self.finishedWatchers.remove(watcher)
+
+    def buildSetFinished(self, bss):
+        if not self.running:
+            return
+        ss = bss.getSourceStamp()
+        for w in self.finishedWatchers:
+            w(ss)
+        Nightly.buildSetFinished(self,bss)
 
