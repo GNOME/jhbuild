@@ -230,6 +230,30 @@ class SymbolsCheck(Check):
     create_from_args = classmethod(create_from_args)
 
 
+class FilenamesCheck(Check):
+    def run(self):
+        for base, dirnames, filenames in os.walk(self.module.branch.srcdir):
+            for f in self.filenames:
+                if f in filenames:
+                    self.found = True
+                    self.compute_status()
+                    return
+        self.found = False
+        self.compute_status()
+
+    def compute_status(self):
+        self.status = 'ok'
+        if self.found:
+            self.status = 'todo'
+            self.complexity = 'average'
+
+    def create_from_args(cls, *args):
+        new_class = types.ClassType('FilenamesCheck (%s)' % ', '.join(args),
+                (cls,), {'filenames': args})
+        return new_class
+    create_from_args = classmethod(create_from_args)
+
+
 class DeprecatedSymbolsCheck(SymbolsCheck):
     cached_symbols = {}
 
