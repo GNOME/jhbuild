@@ -1,13 +1,13 @@
 # translation of jhbuild-help.master.po to Español
 #
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
-# Jorge González <jorgegonz@svn.gnome.org>, 2008, 2008, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 18:36+0000\n"
-"PO-Revision-Date: 2010-01-09 10:34+0100\n"
+"POT-Creation-Date: 2010-01-09 09:36+0000\n"
+"PO-Revision-Date: 2010-01-11 05:30+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -168,20 +168,15 @@ msgid "Getting Started"
 msgstr "Inicio"
 
 #: C/jhbuild.xml:89(para)
-#, fuzzy
-#| msgid ""
-#| "JHBuild takes a bit of work to set up on a system. As well as installing "
-#| "JHBuild's prerequisites, it is necessary to install the prerequisite "
-#| "tools needed to obtain and build the software sources."
 msgid ""
 "JHBuild requires a few set up steps to be run before building software. "
 "JHBuild requires some prerequisite software, and it is necessary to install "
 "prerequisite tools needed to obtain and build the software modules."
 msgstr ""
-"JHBuild requiere un poco de esfuerzo para configurarlo en un sistema. Al "
-"igual que instalar los prerrequisitos de JHBuild, es necesario instalar las "
-"herramientas de prerrequisitos necesarias para obtener y construir las "
-"fuentes de software."
+"JHBuild requiere unos pocos pasos para configurarlo antes de construir "
+"software. JHBuild requiere algunos prerrequisitos software, y es necesario "
+"instalar las herramientas de prerrequisitos necesarias para obtener y "
+"construir los módulos de software."
 
 #: C/jhbuild.xml:95(title)
 msgid "Installing JHBuild"
@@ -333,21 +328,14 @@ msgid "make -f Makefile.plain install"
 msgstr "make -f Makefile.plain install"
 
 #: C/jhbuild.xml:146(para)
-#, fuzzy
-#| msgid ""
-#| "If these steps complete successfully, a small shell script should be "
-#| "installed in <filename>~/.local/bin</filename> to start JHBuild. If this "
-#| "directory is not in the <envar>PATH</envar>, it will need to be added. "
-#| "This can be done with the command:"
 msgid ""
 "If the above steps complete successfully, a small shell script will be "
 "installed in <filename>~/.local/bin</filename> to start JHBuild. Add "
 "<filename>~/.local/bin</filename> to the <envar>PATH</envar>:"
 msgstr ""
-"Si estos pasos se completan correctamente se debería haber instalado una "
-"línea de comandos en <filename>~/.local/bin</filename> para iniciar JHBuild. "
-"Si este directorio no está en el <envar>PATH</envar>, deberá añadirse. Esto "
-"se puede hacer con el comando:"
+"Si estos pasos se completan correctamente se instalará una pequeña línea de "
+"comandos en <filename>~/.local/bin</filename> para iniciar JHBuild. Añada "
+"<filename>~/.local/bin</filename> a la variable <envar>PATH</envar>:"
 
 #: C/jhbuild.xml:151(userinput)
 #, no-wrap
@@ -546,11 +534,6 @@ msgid "autogenargs"
 msgstr "autogenargs"
 
 #: C/jhbuild.xml:254(simpara)
-#, fuzzy
-#| msgid ""
-#| "A string containing arguments passed to the <command>autogen.sh</command> "
-#| "script of all modules. Can be overridden for particular modules using the "
-#| "<varname>module_autogenargs</varname> dictionary."
 msgid ""
 "A string containing arguments passed to the <command>autogen.sh</command> "
 "script of all modules. Can be overridden for particular modules using the "
@@ -559,7 +542,8 @@ msgid ""
 msgstr ""
 "Una cadena que contiene los argumentos pasados al script <command>autogen."
 "sh</command> de todos los módulos. Se pueden omitir para algunos módulos "
-"concretos usando el diccionario <varname>module_autogenargs</varname>."
+"concretos usando el diccionario <link linkend=\"cfg-module-autogenargs"
+"\"><varname>module_autogenargs</varname></link>."
 
 #: C/jhbuild.xml:263(varname) C/jhbuild.xml:1450(varname)
 msgid "makeargs"
@@ -791,22 +775,17 @@ msgid "jhbuild build --start-at=pango"
 msgstr "jhbuild build --start-at=pango"
 
 #: C/jhbuild.xml:374(para)
-#, fuzzy
-#| msgid ""
-#| "To build one or more modules, ignoring their dependencies, the "
-#| "<command>buildone</command> command can be used. This command should only "
-#| "be used if you have manually installed all dependencies, else the build "
-#| "will fail."
 msgid ""
 "To build one or more modules, ignoring their dependencies, JHBuild provides "
 "the <command>buildone</command> command. For the <command>buildone</command> "
 "command to complete successfully, all dependencies must be previously built "
 "and installed or provided by distribution packages."
 msgstr ""
-"Para construir uno o más módulos, ignorando sus dependencias, puede usar el "
-"comando <command>buildone</command>. Sólo debería usar este comando si ha "
-"instalado todas las dependencias manualmente, de lo contrario fallará la "
-"construcción."
+"Para construir uno o más módulos, ignorando sus dependencias, JHbuild "
+"proporciona el comando <command>buildone</command>. Para que el comando "
+"<command>buildone</command> funcione correctamente, previamente debe "
+"construir e instalar todas las dependencias, manualmente o desde los "
+"paquetes de la distribución."
 
 #: C/jhbuild.xml:380(userinput)
 #, no-wrap
@@ -921,25 +900,17 @@ msgid "Configuring a Buildbot Slave"
 msgstr "Configurar un Buildbot esclavo"
 
 #: C/jhbuild.xml:432(para)
-#, fuzzy
-#| msgid ""
-#| "A Buildbot slave is just a variation of a normal JHBuild installation, "
-#| "the difference is mostly it will serve the requests of the Buildbot "
-#| "master instead of your own. Thus it is generally advised to get JHBuild "
-#| "running and performing correctly (a full run with most modules building "
-#| "fine is a good test) before adding the few special Buildbot bits."
 msgid ""
 "A Buildbot slave is a variation of a normal JHBuild installation that serves "
 "the requests of a Buildbot master. It is recommended to set up JHBuild and "
 "complete a build with most modules building successfully before adding the "
 "Buildbot customizations."
 msgstr ""
-"Un Buildbot esclavo es sólo una variación de una instalación normal de "
-"JHBuild. La diferencia es que principalmente servirá las peticiones al "
-"Buildbot maestro en lugar de las suyas. Generalmente esto se avisa para "
-"ejecutar y hacer funcionar JHBuild correctamente (una ejecución completa con "
-"la mayoría de los módulos construyéndose bien es un buen test) antes de "
-"añadir el poco espacio de Buildbot necesita."
+"Un Buildbot esclavo es una variación de una instalación normal de JHBuild "
+"que sirve las peticiones a un Buildbot maestro. Se recomienda configurar "
+"JHBuild y completar una ejecución con la mayoría de los módulos "
+"construyéndose bien antes de añadir las configuraciones personalizadas de "
+"Buildbot."
 
 #: C/jhbuild.xml:439(para)
 msgid ""
@@ -1196,34 +1167,25 @@ msgid "bootstrap"
 msgstr "bootstrap"
 
 #: C/jhbuild.xml:590(para)
-#, fuzzy
-#| msgid ""
-#| "The <command>bootstrap</command> command is used to install a set of "
-#| "build utilities required to build most modules (eg. autoconf, automake, "
-#| "etc)."
 msgid ""
 "The <command>bootstrap</command> command installs a set of build utilities "
 "required to build most modules (e.g. <application>autoconf</application>, "
 "<application>automake</application>, etc)."
 msgstr ""
-"El comando <command>bootstrap</command> se usa para instalar un conjunto de "
-"utilidades de construcción requeridas para construir la mayoría de módulos "
-"(ej. autoconf, automake, etc)."
+"El comando <command>bootstrap</command> instala un conjunto de utilidades de "
+"construcción requeridas para construir la mayoría de módulos (ej. "
+"<application>autoconf</application>, <application>automake</application>, "
+"etc)."
 
 #: C/jhbuild.xml:599(para)
-#, fuzzy
-#| msgid ""
-#| "Internally, <command>bootstrap</command> is implemented using the same "
-#| "code as <command>build</command>, using the <filename>bootstrap.modules</"
-#| "filename> moduleset."
 msgid ""
 "The <command>bootstrap</command> command builds modules using the same "
 "method as the <command>build</command> command, but uses the "
 "<filename>bootstrap.modules</filename> moduleset."
 msgstr ""
-"Internamente, <command>bootstrap</command> está implementado usando el mismo "
-"código que <command>build</command>, usando el conjunto de módulos "
-"<filename>bootstrap.modules</filename>."
+"El comando, <command>bootstrap</command> construye módulos usando el mismo "
+"método que el comando <command>build</command>, pero usa el conjunto de "
+"módulos <filename>bootstrap.modules</filename>."
 
 #: C/jhbuild.xml:603(para)
 msgid ""
@@ -1329,12 +1291,6 @@ msgid "<option>-a</option>, <option>--autogen</option>"
 msgstr "<option>-a</option>, <option>--autogen</option>"
 
 #: C/jhbuild.xml:645(simpara)
-#, fuzzy
-#| msgid ""
-#| "Always run <command>autogen.sh</command> before building modules. By "
-#| "default, <command>autogen.sh</command> will only be called if the "
-#| "toplevel makefile is missing. Otherwise, it relies on the package's "
-#| "makefiles to detect if configure needs to be rebuilt or rerun."
 msgid ""
 "Always run <command>autogen.sh</command> before building modules. By "
 "default, <command>autogen.sh</command> will only be called if the top-level "
@@ -1481,10 +1437,6 @@ msgid "<option>-C</option>, <option>--try-checkout</option>"
 msgstr "<option>-C</option>, <option>--try-checkout</option>"
 
 #: C/jhbuild.xml:756(simpara)
-#, fuzzy
-#| msgid ""
-#| "If the build fails, and the version control system supports it, force a "
-#| "checkout and run <command>autogen.sh</command> before retrying the build."
 msgid ""
 "If the build fails, and if supported by the version control system, force a "
 "checkout and run <command>autogen.sh</command> before retrying the build."
@@ -1550,19 +1502,14 @@ msgid "buildone"
 msgstr "buildone"
 
 #: C/jhbuild.xml:809(para)
-#, fuzzy
-#| msgid ""
-#| "The <command>buildone</command> command is similar to <command>build</"
-#| "command>, but it does not use dependency information to expand the module "
-#| "list. It is useful for quickly rebuilding one or more modules."
 msgid ""
 "The <command>buildone</command> command is similar to <command>build</"
 "command>, but it does not build the dependent modules. It is useful for "
 "rebuilding one or more modules."
 msgstr ""
 "El comando <command>buildone</command> es similar a <command>build</"
-"command>, pero no usa información de las dependencias para expandir la lista "
-"de módulos. Es útil para reconstruir rápidamente uno o más módulos."
+"command>, pero no construye los módulos dependientes. Es útil para "
+"reconstruir uno o más módulos."
 
 #: C/jhbuild.xml:814(command)
 msgid "jhbuild buildone"
@@ -1649,24 +1596,21 @@ msgid ""
 "The <command>clean</command> command cleans the build directories of one or "
 "more modules."
 msgstr ""
-"El comando <command>clean</command> se limpia los directorios de "
-"construcción de uno o más módulos."
+"El comando <command>clean</command> limpia las carpetas de construcción de "
+"uno o más módulos."
 
 #: C/jhbuild.xml:874(command)
 msgid "jhbuild clean"
 msgstr "jhbuild clean"
 
 #: C/jhbuild.xml:883(para)
-#, fuzzy
-#| msgid ""
-#| "Look at the <link linkend=\"command-reference-build\">build</link> "
-#| "command documentation for a description of available options."
 msgid ""
 "See the <link linkend=\"command-reference-build\"><command>build</command></"
 "link> command documentation for a description of available options."
 msgstr ""
-"Consulte las opciones disponibles en la documentación del comando <link "
-"linkend=\"command-reference-build\">build</link>."
+"Consulte la documentación del comando <link linkend=\"command-reference-build"
+"\"><command>build</command></link> para obtener una descripción de las "
+"opciones disponibles."
 
 #: C/jhbuild.xml:890(title)
 msgid "dot"
@@ -1709,16 +1653,12 @@ msgstr ""
 "metamodule\">metamódulos</link> juntos."
 
 #: C/jhbuild.xml:915(para)
-#, fuzzy
-#| msgid ""
-#| "The output of this command can easily be piped to the <command>dot</"
-#| "command> utility to generate a PostScript file:"
 msgid ""
 "The output of the dot command can be piped to the dot utility to generate a "
 "PostScript file:"
 msgstr ""
-"La salida de este comando puede ser fácilmente redirigida a la utilidad "
-"<command>dot</command> para generar un archivo PostScript:"
+"La salida del comando «dot» se puede redirigir a la utilidad «dot» para "
+"generar un archivo PostScript:"
 
 #: C/jhbuild.xml:918(userinput)
 #, no-wrap
@@ -1797,15 +1737,11 @@ msgstr ""
 "repositorio CVS o el URL de descarga."
 
 #: C/jhbuild.xml:969(para)
-#, fuzzy
-#| msgid ""
-#| "If there is no module specified the command will print information about "
-#| "all the modules defined in the module set."
 msgid ""
 "If there is no module specified the command will display information about "
 "all the modules defined in the module set."
 msgstr ""
-"Si no se especifica ningún módulo el comando imprimirá información acerca de "
+"Si no se especifica ningún módulo el comando mostrará información acerca de "
 "todos los módulos definidos en el conjunto de módulos."
 
 #: C/jhbuild.xml:975(title)
@@ -2437,17 +2373,14 @@ msgid "copy_dir"
 msgstr "copy_dir"
 
 #: C/jhbuild.xml:1406(simpara)
-#, fuzzy
-#| msgid ""
-#| "A string specifying the directory to copy to, if the copy checkout mode "
-#| "is in use. Defaults to the checkout directory."
 msgid ""
 "A string specifying the directory to copy to, if the copy <link linkend="
 "\"cfg-checkout-mode\"><varname>checkout_mode</varname></link> is in use. "
 "Defaults to the checkout directory."
 msgstr ""
-"Una cadena que especifica el directorio a copiar, si el modo de descarga de "
-"la copia está en uso. El predeterminado es el directorio de descarga."
+"Una cadena que especifica la carpeta que copiar, si el modo de copia <link "
+"linkend=\"cfg-checkout-mode\"><varname>checkout_mode</varname></link> está "
+"en uso. El predeterminado es la carpeta de descarga."
 
 #: C/jhbuild.xml:1413(varname)
 msgid "cvs_program"
@@ -2881,17 +2814,13 @@ msgid "progress_bar"
 msgstr "progress_bar"
 
 #: C/jhbuild.xml:1684(simpara)
-#, fuzzy
-#| msgid ""
-#| "A boolean value that can be used to display a progress bar when running "
-#| "in quiet mode (see below). Defaults to <literal>True</literal>."
 msgid ""
 "A boolean value specifying whether to display a progress bar during <link "
 "linkend=\"cfg-quiet-mode\">quiet mode </link>. Defaults to <literal>True</"
 "literal>."
 msgstr ""
-"Un valor booleano que se puede usar para mostrar una barra de progreso "
-"cuando se ejecuta en modo silencioso (ver más abajo). El valor "
+"Un valor booleano que especifica dónde mostrar una barra de progreso durante "
+"el <link linkend=\"cfg-quiet-mode\">modo silencioso </link>. El valor "
 "predeterminado es <literal>True</literal>."
 
 #: C/jhbuild.xml:1690(varname)
@@ -2899,16 +2828,13 @@ msgid "quiet_mode"
 msgstr "quiet_mode"
 
 #: C/jhbuild.xml:1692(simpara)
-#, fuzzy
-#| msgid ""
-#| "A boolean value that can be used to disable output of running commands. "
-#| "Defaults to <literal>False</literal>."
 msgid ""
 "A boolean value, if set to <constant>True</constant> disables the output of "
 "running commands. Defaults to <literal>False</literal>."
 msgstr ""
-"Un valor booleano que se puede usar para deshabilitar la salida de los "
-"comandos en ejecución. Su valor predeterminado es <constant>False</constant>."
+"Un valor booleano que si vale <constant>True</constant> desactiva la salida "
+"de los comandos en ejecución. Su valor predeterminado es <constant>False</"
+"constant>."
 
 #: C/jhbuild.xml:1700(simpara)
 #, fuzzy
@@ -3118,16 +3044,12 @@ msgid "xvfbargs"
 msgstr "xvfbargs"
 
 #: C/jhbuild.xml:1796(simpara)
-#, fuzzy
-#| msgid ""
-#| "A string listing arguments to pass to <command>Xvfb</command> if running "
-#| "graphical tests using it."
 msgid ""
 "A string listing arguments to pass to <command>Xvfb</command> if running "
 "graphical tests."
 msgstr ""
-"Una cadena que lista los argumentos para pasar a <command>Xvfb</command> si "
-"las comprobaciones gráficas lo usan."
+"Una cadena que lista los argumentos que pasar a <command>Xvfb</command> si "
+"se ejecutan comprobaciones gráficas."
 
 #: C/jhbuild.xml:1804(title)
 msgid "Other Configuration File Structures"
@@ -3177,12 +3099,6 @@ msgstr ""
 "<parameter>pathname</parameter>)"
 
 #: C/jhbuild.xml:1826(para)
-#, fuzzy
-#| msgid ""
-#| "This will add a directory to a <envar>PATH</envar>-style environment "
-#| "variable. It will correctly handle the case when the environment variable "
-#| "is initially empty (having a stray colon at the beginning or end of an "
-#| "environment variable can have unexpected consequences)."
 msgid ""
 "This will add a directory to the <envar>PATH</envar> environment variable. "
 "<function>addpath</function> will correctly handle the case when the "
@@ -3190,10 +3106,10 @@ msgid ""
 "beginning or end of an environment variable can have unexpected "
 "consequences)."
 msgstr ""
-"Esto añadirá un directorio a la variable de entorno <envar>PATH</envar>. "
-"Esto manejará correctamente el caso en que la variable de entorno está vacía "
-"(tener una comilla al principio o al final de una variable de entorno puede "
-"tener consecuencias inesperadas)."
+"Esto añadirá una carpeta a la variable de entorno <envar>PATH</envar>. "
+"<function>addpath</function> manejará correctamente el caso en que la "
+"variable de entorno está vacía inicialmente (tener una comilla al principio "
+"o al final de una variable de entorno puede tener consecuencias inesperadas)."
 
 #: C/jhbuild.xml:1832(para)
 msgid ""
@@ -3215,11 +3131,6 @@ msgstr ""
 "<parameter>pathname</parameter>)"
 
 #: C/jhbuild.xml:1842(para)
-#, fuzzy
-#| msgid ""
-#| "After processing the configuration file, JHBuild will alter some paths "
-#| "based on variables such as <varname>prefix</varname> (eg. adding <literal>"
-#| "$prefix/bin</literal> to the start of <envar>PATH</envar>)."
 msgid ""
 "After processing the configuration file, JHBuild will alter some paths based "
 "on variables such as <varname>prefix</varname> (e.g. adding <literal>$prefix/"
@@ -4782,16 +4693,12 @@ msgid "ftp_proxy = http://<replaceable>hostname</replaceable>:<replaceable>port<
 msgstr "ftp_proxy = http://<replaceable>nombre del servidor</replaceable>:<replaceable>puerto</replaceable>/"
 
 #: C/jhbuild.xml:2697(para)
-#, fuzzy
-#| msgid ""
-#| "If you just need to use passive FTP connections (sometimes needed with "
-#| "NAT firewalls), add the following line:"
 msgid ""
 "If passive FTP connections are required (sometimes needed with NAT "
 "firewalls), add the following line:"
 msgstr ""
-"Si solamente necesita usar conexiones de FTP pasivas (requerido algunas "
-"veces con cortafuegos NAT), añada la siguiente línea:"
+"Si se necesitan conexiones de FTP pasivas (requerido algunas veces con "
+"cortafuegos NAT), añada la siguiente línea:"
 
 #: C/jhbuild.xml:2700(programlisting)
 #, no-wrap
