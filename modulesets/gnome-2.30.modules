@@ -113,6 +113,8 @@
       href="git://git.dronelabs.com"/>
   <repository type="git" name="git.moblin.org"
       href="git://git.moblin.org"/>
+  <repository type="svn" name="svn.ardour.org"
+      href="http://subversion.ardour.org/svn/"/>
 
   <include href="freedesktop-2.30.modules"/>
   <include href="gnome-suites-2.30.modules"/>
@@ -2409,6 +2411,16 @@
       <dep package="pygobject"/>
     </dependencies>
   </autotools>
+
+  <waf id="ardour" waf-command="./waf">
+    <branch repo="svn.ardour.org" module="ardour2/3.0" checkoutdir="ardour-3.0"/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+      <dep package="libgnomecanvasmm"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </waf>
 
 
 </moduleset>
