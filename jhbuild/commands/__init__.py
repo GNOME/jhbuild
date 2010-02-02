@@ -47,9 +47,9 @@ class Command:
     def __init__(self, options=[]):
         self.options = options
 
-    def execute(self, config, args):
+    def execute(self, config, args, help):
         options, args = self.parse_args(args)
-        return self.run(config, options, args)
+        return self.run(config, options, args, help)
 
     def parse_args(self, args):
         self.parser = OptionParser(
@@ -58,20 +58,56 @@ class Command:
         self.parser.add_options(self.options)
         return self.parser.parse_args(args)
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         """The body of the command"""
         raise NotImplementedError
 
+
+def print_help():
+    import os
+    thisdir = os.path.abspath(os.path.dirname(__file__))
+
+    # import all available commands
+    for fname in os.listdir(os.path.join(thisdir)):
+        name, ext = os.path.splitext(fname)
+        if not ext == '.py':
+            continue
+        try:
+            __import__('jhbuild.commands.%s' % name)
+        except ImportError:
+            pass
+
+    uprint(_('JHBuild commands are:'))
+    commands = [(x.name, x.doc) for x in get_commands().values()]
+    commands.sort()
+    for name, description in commands:
+        uprint('  %-15s %s' % (name, description))
+    print
+    uprint(_('For more information run "jhbuild <command> --help"'))
 
 # handle registration of new commands
 _commands = {}
 def register_command(command_class):
     _commands[command_class.name] = command_class
 
+# special help command, never run
+class cmd_help(Command):
+    doc = N_('Information about available jhbuild commands')
+
+    name = 'help'
+    usage_args = ''
+
+    def run(self, config, options, args, help=None):
+        if help:
+            return help()
+
+register_command(cmd_help)
+
+
 def get_commands():
     return _commands
 
-def run(command, config, args):
+def run(command, config, args, help):
     # if the command hasn't been registered, load a module by the same name
     if command not in _commands:
         try:
@@ -82,8 +118,9 @@ def run(command, config, args):
         raise FatalError(_('command not found'))
 
     command_class = _commands[command]
+
     cmd = command_class()
-    return cmd.execute(config, args)
+    return cmd.execute(config, args, help)
 
 
 from jhbuild.commands import base

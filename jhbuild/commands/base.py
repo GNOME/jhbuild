@@ -376,7 +376,7 @@ class cmd_run(Command):
                         help=_('run command in checkout dir of the given module')),
             ])
 
-    def execute(self, config, args):
+    def execute(self, config, args, help=None):
         # Do a shallow check of the arguments list
         # so that '--' isn't always required when command has arguments, 
         # only if some of them look like they might be for us
@@ -442,7 +442,7 @@ class cmd_shell(Command):
     name = 'shell'
     usage_args = ''
 
-    def execute(self, config, args):
+    def execute(self, config, args, help=None):
         if "--help" in args:
             self.parse_args(args) # This doesn't return
         user_shell = os.environ.get('SHELL', '/bin/sh')
