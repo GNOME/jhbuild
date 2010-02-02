@@ -31,6 +31,7 @@ from optparse import make_option
 import socket
 import __builtin__
 import csv
+import logging
 
 try:
     import elementtree.ElementTree as ET
@@ -286,12 +287,15 @@ class cmd_bot(Command):
             run_clean_afterwards = False
 
             def load_extra_configuration(self, slaves_dir):
+                from twisted.python import log
                 slave_xml_file = os.path.join(slaves_dir, self.slavename + '.xml')
                 if not os.path.exists(slave_xml_file):
+                    log.msg(_('No description for slave %s.') % self.slavename)
                     return
                 try:
                     cfg = ET.parse(slave_xml_file)
                 except: # parse error
+                    log.msg(_('Failed to parse slave config for %s.') % self.slavename)
                     return
 
                 for attribute in ('config/max_builds', 'config/missing_timeout',
