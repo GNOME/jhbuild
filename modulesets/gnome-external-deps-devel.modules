@@ -52,6 +52,8 @@
       href="git://git.clutter-project.org/"/>
   <repository type="git" name="git.cairographics.org"
       href="git://git.cairographics.org/git/" password=""/>
+  <repository type="git" name="git.webkit.org"
+      href="git://git.webkit.org/" password=""/>
 
   <repository type="bzr" name="mega-nerd.com"
       href="http://www.mega-nerd.com/Bzr/"/>
@@ -574,6 +576,24 @@
     <dependencies>
       <dep package="glib"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="WebKit" makefile="GNUmakefile">
+    <branch repo="git.webkit.org" module="WebKit.git" checkoutdir="WebKit"/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+      <dep package="libxml2"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="libxslt"/>
+      <dep package="sqlite3"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="enchant"/>
+    </suggests>
   </autotools>
 
 </moduleset>
