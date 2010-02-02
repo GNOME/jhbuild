@@ -145,6 +145,7 @@ class cmd_cleanone(Command):
                     _('clean command called while makeclean is set to False, skipped.'))
             return 0
         config.build_targets = ['clean']
+        config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
         return build.build()
