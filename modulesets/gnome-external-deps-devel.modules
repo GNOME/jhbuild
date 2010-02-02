@@ -13,8 +13,9 @@
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification/"/>
   <repository type="cvs" name="cvs.freedesktop.org/xklavier" password=""
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier/"/>
-  <repository type="cvs" name="www.sqlite.org"
-      cvsroot=":pserver:anonymous@www.sqlite.org:/sqlite" password="anonymous"/>
+
+  <repository type="fossil" name="www.sqlite.org"
+      href="http://www.sqlite.org"/>
 
   <repository type="svn" name="svn.freedesktop.org"
       href="http://anonsvn.freedesktop.org/svn/"/>
@@ -442,7 +443,7 @@
 
   <autotools id="sqlite3" autogen-sh="autoreconf"
              autogenargs="--enable-threadsafe --enable-load-extension" check-target="false">
-    <branch repo="www.sqlite.org" module="sqlite" />
+    <branch repo="www.sqlite.org" module="src" checkoutdir="sqlite"/>
   </autotools>
 
   <autotools id="libsndfile" supports-non-srcdir-builds="no" autogenargs="--enable-external-libs --disable-gcc-werror">
