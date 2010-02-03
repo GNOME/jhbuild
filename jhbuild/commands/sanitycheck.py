@@ -54,7 +54,7 @@ class cmd_sanitycheck(Command):
     name = 'sanitycheck'
     usage_args = ''
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if args:
             raise UsageError(_('no extra arguments expected'))
     

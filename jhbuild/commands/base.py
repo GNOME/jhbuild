@@ -58,7 +58,7 @@ class cmd_update(Command):
                         help=_('ignore all soft-dependencies')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
@@ -94,7 +94,7 @@ class cmd_updateone(Command):
                         help=_('set a sticky date when checking out modules')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         try:
@@ -128,7 +128,7 @@ class cmd_cleanone(Command):
                         help=_('honour the makeclean setting in config file')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if options.honour_config is False:
             config.makeclean = True
         module_set = jhbuild.moduleset.load(config)
@@ -266,7 +266,7 @@ class cmd_build(Command):
                         help=_('skip modules installed less than the given time ago')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
@@ -339,7 +339,7 @@ class cmd_buildone(Command):
                         help=_('skip modules installed less than the given time ago')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
 
         if not config.quiet_mode:
@@ -389,7 +389,7 @@ class cmd_run(Command):
             raise FatalError(_("Unable to execute the command '%(command)s': %(err)s") % {
                     'command':args[0], 'err':str(exc)})
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if options.in_builddir:
             module_set = jhbuild.moduleset.load(config)
             try:
@@ -482,7 +482,7 @@ class cmd_list(Command):
                         help=_('list all modules, not only those that would be built')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
@@ -529,7 +529,7 @@ class cmd_dot(Command):
                         help=_('group modules from metamodule together')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         module_set = jhbuild.moduleset.load(config)
         if args:
             modules = args

@@ -30,7 +30,7 @@ class cmd_checkmodulesets(Command):
     doc = N_('Check if modules in jhbuild have the correct definition')
     name = 'checkmodulesets'
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_full_module_list()
         for mod in module_list:

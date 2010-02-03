@@ -37,7 +37,7 @@ class cmd_snapshot(Command):
     def __init__(self):
         Command.__init__(self)
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                                                  config.skip)

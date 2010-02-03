@@ -64,7 +64,7 @@ class cmd_tinderbox(Command):
                         help=_('build even if policy says not to'))
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         config.buildscript = 'tinderbox'
 

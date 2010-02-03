@@ -99,7 +99,7 @@ class cmd_bot(Command):
                         help=_('exec a buildbot step (internal use only)')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if options.setup:
             return self.setup(config)
 

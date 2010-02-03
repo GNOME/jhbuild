@@ -40,7 +40,7 @@ class cmd_rdepends(Command):
                         help=_('limit display to modules directly depending on given module'))
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         module_set = jhbuild.moduleset.load(config)
 
         if not args:

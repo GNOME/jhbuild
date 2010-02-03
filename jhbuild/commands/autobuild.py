@@ -49,8 +49,8 @@ class cmd_autobuild(Command):
                         action='store_true', dest='verbose', default=False,
                         help=_('verbose mode')),
             ])
-    
-    def run(self, config, options, args):
+
+    def run(self, config, options, args, help=None):
         config.buildscript = 'autobuild'
 
         config.autobuild_report_url = None
