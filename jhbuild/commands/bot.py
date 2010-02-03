@@ -174,7 +174,7 @@ class cmd_bot(Command):
                 rc = buildscript.build(phases=phases)
             else:
                 command = args[0]
-                rc = jhbuild.commands.run(command, config, args[1:])
+                rc = jhbuild.commands.run(command, config, args[1:], help=None)
             sys.exit(rc)
 
         if options.start_server:
