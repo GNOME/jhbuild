@@ -29,6 +29,8 @@
       href="http://svn.musicbrainz.org/"/>
   <repository type="svn" name="libproxy.googlecode.com"
       href="http://libproxy.googlecode.com/svn/"/>
+  <repository type="svn" name="svn.openstreetmap.ch"
+      href="https://svn.openstreetmap.ch/svn/"/>
 
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
@@ -531,6 +533,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="memphis">
+    <branch repo="svn.openstreetmap.ch"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="expat"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libchamplain">
     <branch repo="git.gitorious.org" module="libchamplain/mainline.git" checkoutdir="libchamplain"/>
     <dependencies>
@@ -539,6 +550,7 @@
       <dep package="clutter-gtk"/>
       <dep package="cairo"/>
       <dep package="sqlite3"/>
+      <dep package="memphis"/>
     </dependencies>
     <suggests>
       <dep package="libsoup"/>
