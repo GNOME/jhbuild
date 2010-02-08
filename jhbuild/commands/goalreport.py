@@ -314,7 +314,7 @@ class cmd_goalreport(Command):
             self.checks.append(check)
 
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if options.output:
             output = StringIO()
             global curses

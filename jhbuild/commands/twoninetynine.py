@@ -190,7 +190,7 @@ relative to the number of deprecated symbols in use (&lt;5/&lt;20/&gt;=20).
                         action='store_true', dest='list_all_modules', default=False),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         options.cache = 'twoninetynine.pck'
         if options.nocache:
             options.cache = None
