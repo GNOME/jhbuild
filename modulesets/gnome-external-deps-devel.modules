@@ -13,10 +13,9 @@
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/startup-notification/"/>
   <repository type="cvs" name="cvs.freedesktop.org/xklavier" password=""
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier/"/>
-  <repository type="cvs" name="cairo.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo" password=""/>
-  <repository type="cvs" name="www.sqlite.org"
-      cvsroot=":pserver:anonymous@www.sqlite.org:/sqlite" password="anonymous"/>
+
+  <repository type="fossil" name="www.sqlite.org"
+      href="http://www.sqlite.org"/>
 
   <repository type="svn" name="svn.freedesktop.org"
       href="http://anonsvn.freedesktop.org/svn/"/>
@@ -27,11 +26,11 @@
   <repository type="svn" name="svn.mono-project.com"
       href="http://anonsvn.mono-project.com/source/"/>
   <repository type="svn" name="svn.musicbrainz.org"
-      href="http://svn.musicbrainz.org"/>
+      href="http://svn.musicbrainz.org/"/>
   <repository type="svn" name="libproxy.googlecode.com"
       href="http://libproxy.googlecode.com/svn/"/>
-  <repository type="svn" name="svn.galago-project.org"
-      href="http://svn.galago-project.org/"/>
+  <repository type="svn" name="svn.openstreetmap.ch"
+      href="https://svn.openstreetmap.ch/svn/"/>
 
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
@@ -53,6 +52,10 @@
       href="git://git.debian.org/"/>
   <repository type="git" name="git.clutter-project.org"
       href="git://git.clutter-project.org/"/>
+  <repository type="git" name="git.cairographics.org"
+      href="git://git.cairographics.org/git/" password=""/>
+  <repository type="git" name="git.webkit.org"
+      href="git://git.webkit.org/" password=""/>
 
   <repository type="bzr" name="mega-nerd.com"
       href="http://www.mega-nerd.com/Bzr/"/>
@@ -154,7 +157,7 @@
   </autotools>
 
   <autotools id="pycairo">
-    <branch repo="cairo.freedesktop.org"/>
+    <branch repo="git.cairographics.org" module="py2cairo"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
@@ -444,7 +447,7 @@
 
   <autotools id="sqlite3" autogen-sh="autoreconf"
              autogenargs="--enable-threadsafe --enable-load-extension" check-target="false">
-    <branch repo="www.sqlite.org" module="sqlite" />
+    <branch repo="www.sqlite.org" module="src" checkoutdir="sqlite"/>
   </autotools>
 
   <autotools id="libsndfile" supports-non-srcdir-builds="no" autogenargs="--enable-external-libs --disable-gcc-werror">
@@ -455,7 +458,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libproxy" autogenargs="--without-networkmanager">
+  <cmake id="libproxy">
     <branch repo="libproxy.googlecode.com" module="trunk" />
     <dependencies>
       <dep package="gconf"/>
@@ -469,7 +472,7 @@
       <dep package="mozilla"/>
       <dep package="WebKit"/>
     </after>
-  </autotools>
+  </cmake>
 
   <autotools id="intltool">
     <branch repo="launchpad.net"
@@ -494,6 +497,7 @@
     <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="libnice"/>
+      <dep package="gst-python"/>
     </dependencies>
   </autotools>
 
@@ -514,7 +518,7 @@
   </autotools>
 
   <autotools id="libnotify">
-    <branch repo="svn.galago-project.org" module="trunk/libnotify" checkoutdir="libnotify"/>
+    <branch/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus"/>
@@ -529,13 +533,24 @@
     </dependencies>
   </autotools>
 
+  <autotools id="memphis">
+    <branch repo="svn.openstreetmap.ch"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="expat"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libchamplain">
     <branch repo="git.gitorious.org" module="libchamplain/mainline.git" checkoutdir="libchamplain"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="clutter"/>
+      <dep package="clutter-gtk"/>
       <dep package="cairo"/>
       <dep package="sqlite3"/>
+      <dep package="memphis"/>
     </dependencies>
     <suggests>
       <dep package="libsoup"/>
@@ -574,6 +589,35 @@
     <dependencies>
       <dep package="glib"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="gmime">
+    <branch/>
+    <dependencies>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk-sharp"/>
+    </after>
+  </autotools>>
+
+  <autotools id="WebKit" makefile="GNUmakefile">
+    <branch repo="git.webkit.org" module="WebKit.git" checkoutdir="WebKit"/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+      <dep package="libxml2"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="libxslt"/>
+      <dep package="sqlite3"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="enchant"/>
+    </suggests>
   </autotools>
 
 </moduleset>

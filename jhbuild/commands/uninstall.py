@@ -31,7 +31,7 @@ class cmd_uninstall(Command):
     name = 'uninstall'
     usage_args = N_('[ modules ... ]')
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)

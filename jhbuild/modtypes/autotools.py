@@ -158,6 +158,7 @@ class AutogenModule(Package, DownloadableModule):
                 extra_env.get('ACLOCAL_FLAGS', os.environ.get('ACLOCAL_FLAGS', ''))))
             buildscript.execute(['autoreconf', '-i'], cwd=builddir,
                     extra_env=extra_env)
+            os.chmod(os.path.join(srcdir, 'configure'), 0755)
             cmd = cmd.replace('autoreconf', 'configure')
             cmd = cmd.replace('--enable-maintainer-mode', '')
 
@@ -192,10 +193,10 @@ class AutogenModule(Package, DownloadableModule):
             PHASE_CLEAN, PHASE_DISTCLEAN]
 
     def skip_clean(self, buildscript, last_phase):
-        srcdir = self.get_srcdir(buildscript)
-        if not os.path.exists(srcdir):
+        builddir = self.get_builddir(buildscript)
+        if not os.path.exists(builddir):
             return True
-        if not os.path.exists(os.path.join(srcdir, self.makefile)):
+        if not os.path.exists(os.path.join(builddir, self.makefile)):
             return True
         return False
 

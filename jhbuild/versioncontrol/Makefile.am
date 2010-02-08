@@ -6,6 +6,7 @@ app_PYTHON = \
 	bzr.py \
 	cvs.py \
 	darcs.py \
+	fossil.py \
 	git.py \
 	hg.py \
 	mtn.py \

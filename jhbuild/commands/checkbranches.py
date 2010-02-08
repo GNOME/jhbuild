@@ -33,7 +33,7 @@ class cmd_checkbranches(Command):
             make_option('-b', '--branch', metavar = 'BRANCH',
                     action = 'store', dest = 'branch', default = None)])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         if options.branch:
             branch = options.branch
         else:

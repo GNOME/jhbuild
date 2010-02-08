@@ -190,19 +190,10 @@
 
   <!-- deps non managed by jhbuild -->
   <!--     * libudev >= 130        -->
-  <autotools id="DeviceKit">
-    <branch repo="git.freedesktop.org"
-	    module="DeviceKit/DeviceKit" checkoutdir="DeviceKit"/>
-    <dependencies>
-      <dep package="dbus-glib"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
   <autotools id="DeviceKit-power">
     <branch repo="git.freedesktop.org"
 	    module="DeviceKit/DeviceKit-power" checkoutdir="DeviceKit-power"/>
     <dependencies>
-      <dep package="DeviceKit"/>
       <dep package="PolicyKit"/>
     </dependencies>
   </autotools>
@@ -334,7 +325,6 @@
 	    module="telepathy-gabble" checkoutdir="telepathy-gabble" />
     <dependencies>
       <dep package="telepathy-glib"/>
-      <dep package="loudmouth"/>
     </dependencies>
   </autotools>
 

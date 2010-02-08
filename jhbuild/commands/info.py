@@ -40,7 +40,7 @@ class cmd_info(Command):
     usage_args = N_('[ modules ... ]')
 
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
         module_set = jhbuild.moduleset.load(config)
 

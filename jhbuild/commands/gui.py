@@ -32,7 +32,7 @@ class cmd_gui(Command):
     name = 'gui'
     usage_args = ''
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         # request GTK build script.
         config.buildscript = 'gtkui'
 

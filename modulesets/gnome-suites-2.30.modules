@@ -282,7 +282,6 @@
       <dep package="gst-plugins-base"/>
       <dep package="libcanberra"/>
       <dep package="libxml2"/>
-      <dep package="hal"/>
     </dependencies>
     <suggests>
       <dep package="libnotify"/>
@@ -309,7 +308,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="hal"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
@@ -367,8 +365,6 @@
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="libsigc++2"/>
       <dep package="opal" />
       <dep package="evolution-data-server"/>
@@ -467,8 +463,6 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="libbonobo"/>
-      <dep package="libglade"/>
       <dep package="libsoup"/>
       <dep package="libxml2"/>
       <dep package="gconf"/>
@@ -485,16 +479,12 @@
     </after>
   </autotools>
 
-  <autotools id="evolution" autogenargs="--disable-image-inline --disable-pst-import">
+  <autotools id="evolution" autogenargs="--disable-image-inline --disable-pst-import --disable-nm">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="evolution-data-server"/>
       <dep package="gtkhtml"/>
-      <dep package="libglade"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
-      <dep package="libbonoboui"/>
       <dep package="gnome-doc-utils"/>
       <dep package="libical"/>
     </dependencies>
@@ -710,9 +700,6 @@
       <dep package="eggdbus"/>
       <dep package="libgcrypt"/>
     </dependencies>
-    <suggests>
-      <dep package="hal"/>
-    </suggests>
   </autotools>
 
   <autotools id="gnome-keyring">
@@ -726,9 +713,6 @@
       <dep package="libgcrypt"/>
       <dep package="libtasn1"/>
     </dependencies>
-    <suggests>
-      <dep package="hal"/>
-    </suggests>
   </autotools>
 
   <autotools id="gnome-netstatus">
@@ -794,7 +778,6 @@
       <dep package="PackageKit"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="libglade"/>
       <dep package="libnotify"/>
     </dependencies>
   </autotools>
@@ -804,16 +787,16 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="rarian"/>
-      <dep package="libgnomeui"/>
       <dep package="gnome-desktop"/>
+      <dep package="libbonoboui"/>
       <dep package="libwnck"/>
       <dep package="evolution-data-server"/>
       <dep package="gnome-menus"/>
-      <dep package="libglade"/>
       <dep package="gnome-doc-utils"/>
       <dep package="dbus-glib"/>
       <dep package="librsvg"/>
       <dep package="libgweather"/>
+      <dep package="libcanberra"/>
     </dependencies>
     <suggests>
       <dep package="polkit"/>
@@ -825,7 +808,6 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
-      <dep package="hal"/>
       <dep package="dbus-glib"/>
       <dep package="libwnck"/>
       <dep package="gtk+"/>
@@ -839,6 +821,9 @@
       <dep package="libcanberra"/>
       <dep package="libunique"/>
     </dependencies>
+    <suggests>
+      <dep package="hal"/>
+    </suggests>
   </autotools>
 
   <waf id="gnome-python-desktop" waf-command="./waf">
@@ -1010,10 +995,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="at-spi"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="gtk+"/>
-      <dep package="libglade"/>
       <dep package="libwnck"/>
       <dep package="libcanberra"/>
       <dep package="rarian"/>
@@ -1224,7 +1206,6 @@
       <dep package="libxml2"/>
       <dep package="gnome-desktop"/>
       <dep package="libunique"/>
-      <dep package="libgnomeui"/> <!-- still necessary for libbackground -->
     </dependencies>
     <suggests>
       <dep package="exempi"/>
@@ -1240,7 +1221,6 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="libglade"/>
       <dep package="gconf"/>
       <dep package="nautilus"/>
     </dependencies>
@@ -1269,7 +1249,6 @@
       <dep package="pygtk"/>
       <dep package="pycairo"/>
       <dep package="gnome-python"/>
-      <dep package="pysqlite2"/>
     </dependencies>
   </autotools>
 
@@ -1304,7 +1283,6 @@
   <autotools id="seahorse-plugins" autogenargs="--disable-epiphany">
     <branch/>
     <dependencies>
-      <dep package="libglade"/>
       <dep package="gconf"/>
       <dep package="gtk+"/>
       <dep package="glib"/>
@@ -1352,6 +1330,7 @@
       <dep package="intltool"/>
       <dep package="gtk-sharp"/>
       <dep package="gnome-sharp"/>
+      <dep package="gnome-desktop-sharp"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
       <dep package="gnome-doc-utils"/>
@@ -1431,6 +1410,15 @@
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="yelp-xsl">
+    <branch/>
+    <dependencies>
+      <dep package="libxslt"/>
+      <dep package="libxml"/>
+      <dep package="intltool"/>
     </dependencies>
   </autotools>
 
@@ -1761,6 +1749,7 @@
     <dependencies>
       <dep package="mono"/>
       <dep package="gtk-sharp"/>
+      <dep package="gnome-sharp"/>
       <dep package="librsvg"/>
       <dep package="libwnck"/>
       <dep package="gtkhtml"/>
@@ -1981,7 +1970,7 @@
     <dependencies>
       <dep package="gconf-dbus"/>
       <dep package="atk"/>
-      <dep package="evolution-data-server-dbus"/>
+      <dep package="evolution-data-server"/>
       <dep package="glib"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>

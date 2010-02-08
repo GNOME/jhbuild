@@ -21,8 +21,6 @@
       password=""/>
   <repository type="svn" name="inkscape.sf.net"
       href="https://inkscape.svn.sourceforge.net/svnroot/inkscape/"/>
-  <repository type="svn" name="svn.galago-project.org"
-      href="http://svn.galago-project.org/"/>
   <repository type="svn" name="osiris.chipx86.com"
       href="http://osiris.chipx86.com/svn/osiris-misc/"/>
   <repository type="svn" name="svn.debian.org"
@@ -115,6 +113,8 @@
       href="git://git.dronelabs.com"/>
   <repository type="git" name="git.moblin.org"
       href="git://git.moblin.org"/>
+  <repository type="svn" name="svn.ardour.org"
+      href="http://subversion.ardour.org/svn/"/>
 
   <include href="freedesktop-2.30.modules"/>
   <include href="gnome-suites-2.30.modules"/>
@@ -144,8 +144,6 @@
       <dep package="libbtctl"/>
       <dep package="gnome-bluetooth"/>
       <dep package="libglade"/>
-      <dep package="libgnomeui"/>
-      <dep package="libgnome"/>
       <dep package="gconf"/>
       <dep package="gnokii"/>
       <dep package="gtkspell"/>
@@ -209,11 +207,26 @@
     </dependencies>
   </autotools>
 
-  <autotools id="memprof">
+  <autotools id="giggle">
     <branch/>
     <dependencies>
-      <dep package="libgnomeui"/>
+      <dep package="gtksourceview"/>
     </dependencies>
+    <suggests>
+      <dep package="evolution-data-server"/>
+      <dep package="vte"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gitg">
+    <branch/>
+    <dependencies>
+      <dep package="gtksourceview"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="memprof">
+    <branch/>
   </autotools>
 
   <autotools id="goffice">
@@ -223,10 +236,6 @@
       <dep package="libgsf"/>
       <dep package="libxml2"/>
       <dep package="pango"/>
-      <dep package="libglade"/>
-      <dep package="libgnomeprint"/>
-      <dep package="libgnomeprintui"/>
-      <dep package="libart_lgpl"/>
     </dependencies>
   </autotools>
 
@@ -236,7 +245,6 @@
       <dep package="goffice"/>
       <dep package="libgsf"/>
       <dep package="pygtk"/>
-      <dep package="libgnomeprintui"/>
     </dependencies>
   </autotools>
 
@@ -245,7 +253,6 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="intltool"/>
-      <dep package="libart_lgpl"/>
       <dep package="gegl"/>
     </dependencies>
     <suggests>
@@ -254,7 +261,6 @@
       <dep package="librsvg"/>
       <dep package="poppler"/>
       <dep package="gnome-keyring"/>
-      <dep package="libgnomeui"/>
       <dep package="dbus-glib"/>
       <dep package="hal"/>
       <dep package="pygtk"/>
@@ -294,7 +300,6 @@
     <branch/>
     <dependencies>
       <dep package="dbus-glib"/>
-      <dep package="libglade"/>
       <dep package="gst-plugins-base"/>
       <dep package="gnome-media"/>
       <dep package="totem-pl-parser"/>
@@ -367,7 +372,6 @@
       <dep package="glib"/>
       <dep package="libxml2"/>
       <dep package="libgnomeui"/>
-      <dep package="libgnomeprintui"/>
       <dep package="libgsf"/>
     </dependencies>
   </autotools>
@@ -379,7 +383,6 @@
       <dep package="gtk+"/>
       <dep package="gmime"/>
       <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="gnome-keyring"/>
       <dep package="gconf"/>
     </dependencies>
@@ -593,11 +596,7 @@
   <autotools id="gthumb">
     <branch/>
     <dependencies>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-vfs"/>
-      <dep package="libglade"/>
-      <dep package="libbonoboui"/>
-      <dep package="libgnomeprintui"/>
+      <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
@@ -625,7 +624,7 @@
   </autotools>
 
   <autotools id="notification-daemon">
-    <branch repo="svn.galago-project.org" module="trunk/notification-daemon"/>
+    <branch/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus"/>
@@ -805,7 +804,6 @@
   <autotools id="gtranslator">
     <branch/>
     <dependencies>
-      <dep package="libgnomeui"/>
       <dep package="gdl"/>
     </dependencies>
   </autotools>
@@ -840,8 +838,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
+      <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
@@ -942,7 +939,6 @@
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libgnome"/>
-      <dep package="libgnomeui"/>
       <dep package="libxml2"/>
       <dep package="libgnomecanvas"/>
       <dep package="libbonoboui"/>
@@ -1002,9 +998,7 @@
     <dependencies>
       <dep package="gtk+" />
       <dep package="gconf" />
-      <dep package="libgnomeui" />
       <dep package="libglade" />
-      <dep package="gnome-vfs" />
       <dep package="libsexy" />
       <dep package="gnome-doc-utils"/>
     </dependencies>
@@ -1039,7 +1033,6 @@
       <dep package="gconf"/>
       <dep package="gegl"/>
       <dep package="gimp"/>
-      <dep package="libglade"/>
     </dependencies>
   </autotools>
 
@@ -1087,7 +1080,6 @@
       <dep package="libnl"/>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
-      <dep package="hal"/>
       <dep package="libgcrypt"/>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -1190,7 +1182,6 @@
       <dep package="gtk+"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
-      <dep package="libart_lgpl"/>
     </dependencies>
   </autotools>
 
@@ -1312,7 +1303,6 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
-      <dep package="libglade"/>
     </dependencies>
   </autotools>
 
@@ -1340,7 +1330,6 @@
     <dependencies>
       <dep package="gupnp"/>
       <dep package="gtk+"/>
-      <dep package="libglade"/>
       <dep package="gnome-icon-theme"/>
     </dependencies>
   </autotools>
@@ -1488,48 +1477,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="devhelp-webkit">
-    <branch module="devhelp" checkoutdir="devhelp-webkit" />
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="libwnck"/>
-      <dep package="WebKit"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="epiphany-webkit">
-    <branch module="epiphany" checkoutdir="epiphany-webkit" />
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="WebKit"/>
-      <dep package="iso-codes"/>
-      <dep package="pygtk"/>
-      <dep package="gnome-python"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="gnome-desktop"/>
-    </dependencies>
-    <suggests>
-      <dep package="avahi"/>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="epiphany-extensions-webkit">
-    <branch module="epiphany-extensions" checkoutdir="epiphany-extensions-webkit" />
-    <dependencies>
-      <dep package="epiphany-webkit"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="yelp-webkit">
     <branch module="yelp" revision="webkit" checkoutdir="yelp-webkit"/>
     <dependencies>
       <dep package="rarian"/>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-vfs"/>
       <dep package="gnome-doc-utils"/>
       <dep package="startup-notification"/>
       <dep package="WebKit"/>
@@ -2078,25 +2029,6 @@
 
   <!-- ########## End of Ubuntu Netbook Remix Modules ########## -->
 
-  <autotools id="empathy-webkit">
-    <branch repo="git.collabora"
-            module="user/xclaesse/empathy.git"
-            revision="adium"
-            checkoutdir="empathy-webkit"/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libglade"/>
-      <dep package="gconf"/>
-      <dep package="telepathy-glib"/>
-      <dep package="telepathy-mission-control"/>
-      <dep package="evolution-data-server"/>
-      <dep package="gnome-panel"/>
-      <dep package="WebKit"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="mutter" autogenargs="--with-clutter">
     <branch />
     <dependencies>
@@ -2280,7 +2212,6 @@
       <dep package="gconf"/>
       <dep package="libxml2"/>
       <dep package="sqlite3"/>
-      <dep package="libglade"/>
       <dep package="libsoup"/>
       <dep package="libunique"/>
       <dep package="WebKit"/>
@@ -2391,9 +2322,7 @@
     <branch/>
     <dependencies>
       <dep package="libxml2"/>
-      <dep package="libgnomeui"/>
       <dep package="libgnome"/>
-      <dep package="libglade"/>
       <dep package="ORBit2"/>
       <dep package="libbonobo"/>
       <dep package="gnome-panel"/>
@@ -2401,7 +2330,6 @@
     </dependencies>
     <suggests>
       <dep package="hal"/>
-      <dep package="gnome-vfs"/>
     </suggests>
   </autotools>
 
@@ -2482,6 +2410,16 @@
       <dep package="pygobject"/>
     </dependencies>
   </autotools>
+
+  <waf id="ardour" waf-command="./waf">
+    <branch repo="svn.ardour.org" module="ardour2/3.0" checkoutdir="ardour-3.0"/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+      <dep package="libgnomecanvasmm"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </waf>
 
 
 </moduleset>

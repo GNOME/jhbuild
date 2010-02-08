@@ -53,8 +53,8 @@ class ModuleSet:
         for module in self.modules.keys():
             if module.lower() == module_name_lower:
                 if self.config is None or not self.config.quiet_mode:
-                    logging.info(_('fixed case of module \'%s\' to \'%s\'')
-                            % (module_name, module))
+                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
+                            'orig': module_name, 'new': module})
                 return self.modules[module]
         print "Couldn't find the specified module: %s" % module_name
         sys.exit(2)

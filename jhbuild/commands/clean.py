@@ -41,7 +41,7 @@ class cmd_clean(Command):
                         help=_('start building at the given module')),
             ])
 
-    def run(self, config, options, args):
+    def run(self, config, options, args, help=None):
         for item in options.skip:
             config.skip += item.split(',')
 

@@ -323,6 +323,7 @@ class Config:
 
         # MANPATH
         manpathdir = os.path.join(self.prefix, 'share', 'man')
+        addpath('MANPATH', '')
         addpath('MANPATH', manpathdir)
 
         # PKG_CONFIG_PATH
