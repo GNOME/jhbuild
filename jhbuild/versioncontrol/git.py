@@ -263,8 +263,18 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
+        if check_version(['git', '--version'],
+                     r'git version ([\d.]+)', '1.7.0',
+                     extra_env=get_git_extra_env()):
+            git_diff_submodule = ['--submodule']
+        else:
+            git_diff_submodule = []
+
         stashed = False
-        if get_output(['git', 'diff'], **git_extra_args):
+        git_diff_output = get_output(['git', 'diff'] + git_diff_submodule, **git_extra_args)
+        git_diff_output = '\n'.join([x for x in git_diff_output.splitlines() \
+                                     if not x.startswith('Submodule ')])
+        if git_diff_output:
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
