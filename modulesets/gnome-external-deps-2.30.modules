@@ -29,6 +29,8 @@
     href="http://samba.org/samba/ftp/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="http://webkitgtk.org/"/>
+<repository type="tarball" name="launchpad.net"
+    href="https://launchpad.net/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -1072,5 +1074,16 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.7/vala-0.7.8.tar.bz2"
       <dep package="glib"/>
     </dependencies>
   </tarball>
+
+  <!-- External dependency for proposed GNOME 3.0 application deja-dup. -->
+  <distutils id="duplicity">
+    <branch repo="launchpad.net"
+            module="duplicity/0.6-series/0.6.07/+download/duplicity-0.6.07.tar.gz"
+            version="0.6.07"
+            hash="sha256:5a66ec622c273aef12f0c8ae1635b44f2de920c50395854715c5e4c70ec93c87"
+            md5sum="08efd239362f601b946f4dc2450fc840" size="280311">
+      <dep package="pygobject"/>
+    </branch>
+  </distutils>
 
 </moduleset>
