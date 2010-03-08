@@ -76,9 +76,6 @@ class cmd_sanitycheck(Command):
         if not check_version(['pkg-config', '--version'],
                              r'^([\d.]+)', '0.14.0'):
             uprint(_('%s not found') % 'pkg-config >= 0.14.0')
-        if not check_version(['db2html', '--version'],
-                             r'.* ([\d.]+)', '0.0'):
-            uprint(_('%s not found') % 'db2html')
         if not check_version(['autoconf', '--version'],
                              r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
             uprint(_('%s not found') % 'autoconf >= 2.53')
