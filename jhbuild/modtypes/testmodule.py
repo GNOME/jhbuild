@@ -344,6 +344,6 @@ def parse_testmodule(node, config, uri, repositories, default_repo):
     branch = get_branch(node, repositories, default_repo, config)
     tested_pkgs = get_tested_packages(node)
     return TestModule(id, branch, test_type, dependencies=dependencies,
-            after=after, suggests=suggests, tested_pkgs=tested_pkgs)
+            after=after, tested_pkgs=tested_pkgs)
                                    
 register_module_type('testmodule', parse_testmodule)
