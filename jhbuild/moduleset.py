@@ -35,6 +35,7 @@ from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
 from jhbuild.utils.cmds import get_output
+from jhbuild.modtypes.testmodule import TestModule
 
 __all__ = ['load', 'load_tests']
 
@@ -298,7 +299,7 @@ def load_tests (config, uri=None):
     ms = load (config, uri)
     ms_tests = ModuleSet(config = config)
     for app, module in ms.modules.iteritems():
-        if module.__class__ == testmodule.TestModule:
+        if module.__class__ == TestModule:
             ms_tests.modules[app] = module
     return ms_tests
 
