@@ -79,7 +79,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus-glib">
+  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt">
+    <branch repo="git.freedesktop.org" module="packagekit/PackageKit"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="NetworkManager"/>
+      <dep package="polkit"/>
+    </suggests>
+  </autotools>
+
+   <autotools id="dbus-glib">
     <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
     <dependencies>
       <dep package="libxml2"/>
