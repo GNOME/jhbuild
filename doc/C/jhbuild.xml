@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?><!--*- mode: nxml -*-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- process to HTML with: xmlto xhtml-nochunks -m custom.xsl jhbuild.xml -->
+<!-- process to HTML with: xmlto xhtml-nochunks -m custom.xsl C/jhbuild.xml -->
 <article id="index">
   <articleinfo>
     <title>JHBuild Manual</title>
@@ -413,6 +413,269 @@ Type "help", "copyright", "credits" or "license" for more information.
 
       <screen><prompt>$</prompt> <userinput>jhbuild shell</userinput></screen>
 
+    </section>
+  </section>
+
+  <section id="jhbuild-and-gnome">
+    <title>JHBuild and GNOME</title>
+
+    <para>This section provides guidance on building, installing and
+    running GNOME.</para>
+    <section id="building-gnome">
+      <title>Building GNOME</title>
+
+      <para> To build GNOME some development packages are
+      required. This includes:</para>
+      <itemizedlist>
+	<listitem>
+	  <simpara>DocBook XML DTD and XSLT stylesheets.  These need
+	  to be registered in the XML catalog
+	  (<filename>/etc/xml/catalog</filename>).</simpara>
+	</listitem>
+	<listitem>
+	  <simpara>X libraries</simpara>
+	</listitem>
+	<listitem>
+	  <simpara><filename>libsmbclient</filename> from Samba (used
+	  for browsing Windows networks).</simpara>
+	</listitem>
+	<listitem>
+	  <simpara><filename>libbz2</filename> from bzip2.</simpara>
+	</listitem>
+	<listitem>
+	  <simpara><filename>libpng</filename>,
+	  <filename>libjpeg</filename> and
+	  <filename>libtiff</filename> (used for image
+	  loading).</simpara>
+	</listitem>
+      </itemizedlist>
+      <para>If installing distribution packages, and if applicable for
+      your distribution, install the corresponding <quote>dev</quote>
+      or <quote>devel</quote> packages.  A list of <ulink
+      url="http://live.gnome.org/JhbuildDependencies">package
+      names</ulink> for different distributions is maintained on the
+      GNOME wiki.</para>
+    </section>
+
+    <section id="running-gnome">
+      <title>Running GNOME</title>
+
+      <para>Create a new user account to run the JHBuild GNOME.
+	Running JHBuild GNOME using different user account is
+	recommended to avoid problems caused by user settings stored
+	in the home directory. This manual refers to the new account
+	as <systemitem class="username">gnomedev</systemitem>.</para>
+
+      <para>Setup JHBuild on the new <systemitem
+	  class="username">gnomedev</systemitem> account. Copy or
+	soft-link <filename>~/.jhbuildrc</filename> and
+	<filename>~/.local/bin/jhbuild</filename> to <systemitem
+	  class="username">gnomedev</systemitem> home
+	directory.</para> <para>Open a terminal as the user
+	<systemitem class="username">gnomedev</systemitem>.
+	Permanently add <filename>~/.local/bin</filename> to the
+	<envar>PATH</envar> variable, run the following command:
+      </para>
+
+      <screen><prompt>$</prompt> <userinput>echo PATH=$PATH:~/.local/bin &gt;&gt; ~/.bashrc</userinput></screen>
+
+      <para>Test JHBuild works:</para>
+
+      <screen><prompt>$</prompt> <userinput>jhbuild run pkg-config gtk+-2.0 --modversion</userinput>
+2.20.1</screen>
+      
+      <para>There are three different methods to run JHBuild
+	GNOME:</para>
+      <orderedlist>
+	<listitem>
+	  <para>Nested window
+	    <emphasis>(recommended)</emphasis>.</para>
+	</listitem>
+	<listitem>
+	  <para>Display manager.</para>
+	</listitem>
+      </orderedlist>
+
+      <section>
+	<title>Setup GNOME to run in a nested window</title>
+
+	<para>Build and install JHBuild GNOME. Then build and install
+	  <application>ConsoleKit</application>:</para>
+
+	<screen><prompt>$ </prompt><userinput>jhbuild -m gnome-external-deps-devel buildone ConsoleKit</userinput></screen>
+
+	<para>Install the <application>Xephyr</application>
+	  application. On Fedora the system package is called
+	  <filename>xorg-x11-server-Xephyr</filename>, on Ubuntu and
+	  Debian the system package is called
+	  <filename>xserver-xephyr</filename>.
+	</para>
+	<para>Test <application>Xephyr</application> works:</para>
+
+	<screen><prompt>$ </prompt><userinput>Xephyr -ac -screen 800x600 :1 2&gt; /dev/null &amp;</userinput></screen>
+
+	<para>If successful, a window with black background will be
+	  displayed. Close the <application>Xephyr</application>
+	  window.
+	</para>
+	<para>Install the <application>sudo</application> application
+	  if not installed. Setup a <filename>/etc/sudoers</filename>
+	  file by running as <systemitem
+	    class="username">root</systemitem>:</para>
+
+	<screen><prompt># </prompt><userinput>visudo</userinput></screen>
+
+	<para>Allow the <systemitem
+	    class="username">gnomedev</systemitem> user to run the
+	  following commands as root without a password. Add the
+	  following lines replacing <filename>/opt/gnome2</filename>
+	  with GNOME install <varname>prefix</varname>:</para>
+
+	<programlisting>Cmnd_Alias  GNOME =  <replaceable>/opt/gnome2</replaceable>/bin/dbus-daemon, \
+                     <replaceable>/opt/gnome2</replaceable>/sbin/console-kit-daemon, \
+                     /usr/bin/killall <replaceable>/opt/gnome2</replaceable>/bin/dbus-daemon, \
+                     /usr/bin/killall <replaceable>/opt/gnome2</replaceable>/sbin/console-kit-daemon, \
+                     /bin/rm -f <replaceable>/opt/gnome2</replaceable>/var/run/messagebus.pid
+
+# User privilege specification
+<replaceable>gnomedev</replaceable> ALL = NOPASSWD: GNOME
+</programlisting>
+
+	<para>Create a GNOME startup script at
+	  <filename>~/.local/bin/gnome-jhbuild-xephyr-session</filename> 
+	  with the following, replacing
+	  <filename>/opt/gnome2</filename> with GNOME install
+	  <varname>prefix</varname>:</para>
+
+	<programlisting>#!/bin/sh
+
+GNOME=<replaceable>/opt/gnome2</replaceable>
+ 
+GDK_USE_XFT=1
+XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
+XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg
+
+sudo /bin/rm -f /opt/gnome2/var/run/messagebus.pid
+sudo $GNOME/bin/dbus-daemon --system
+sudo $GNOME/sbin/console-kit-daemon
+
+jhbuild run gnome-session
+
+sudo /usr/bin/killall $GNOME/sbin/console-kit-daemon
+sudo /usr/bin/killall $GNOME/bin/dbus-daemon</programlisting>
+
+	<para>Make the file
+	  <filename>~/.local/bin/gnome-jhbuild-xephyr-session</filename> 
+	  executable:</para>
+
+	<screen><prompt>$ </prompt><userinput>chmod u+x ~/.local/bin/gnome-jhbuild-xephyr-session</userinput></screen>
+
+      </section>
+      <section><title>Running GNOME in a nested window</title>
+	<para>Open a terminal as the user
+	<systemitem class="username">gnomedev</systemitem>.</para>
+	<para>Run <application>Xephyr</application>:</para>
+	<screen><prompt># </prompt><userinput>Xephyr -ac -screen 800x600 :1 2&gt; /dev/null &amp;</userinput></screen>
+	<para>Set the <varname>DISPLAY</varname> environment variable:</para>
+	<screen><prompt># </prompt><userinput>export DISPLAY=:1</userinput></screen>
+	<para>Start GNOME:</para>
+	<screen><prompt># </prompt><userinput>gnome-jhbuild-xephyr-session</userinput></screen>
+
+	<para>If successful, JHBuild GNOME will be displayed in Xephyr window. If unsuccessful, check the output of the terminal window.</para>
+      </section>
+      <section><title>Setup GNOME to run from the display manager</title>
+
+	<para>Build and install JHBuild GNOME. Then build and install
+	  <application>ConsoleKit</application>:</para>
+
+	<screen><prompt>$ </prompt><userinput>jhbuild -m gnome-external-deps-devel buildone ConsoleKit</userinput></screen>
+
+	<para>Install the <application>sudo</application> application
+	  if not installed. Setup a <filename>/etc/sudoers</filename>
+	  file by running as <systemitem
+	    class="username">root</systemitem>:</para>
+
+	<screen><prompt># </prompt><userinput>visudo</userinput></screen>
+
+	<para>Allow the <systemitem
+	    class="username">gnomedev</systemitem> user to run the
+	  following commands as root without a password. Ensure
+	  <varname>requiretty</varname> is not set or commented out,
+	  otherwise <command>sudo</command> will fail at login. Add
+	  the following lines replacing
+	  <filename>/opt/gnome2</filename> with GNOME install
+	  <varname>prefix</varname>:</para>
+
+	<programlisting>Cmnd_Alias  GNOME =  <replaceable>/opt/gnome2</replaceable>/bin/dbus-daemon, \
+                     <replaceable>/opt/gnome2</replaceable>/sbin/console-kit-daemon, \
+                     /usr/bin/killall <replaceable>/opt/gnome2</replaceable>/bin/dbus-daemon, \
+                     /usr/bin/killall <replaceable>/opt/gnome2</replaceable>/sbin/console-kit-daemon, \
+                     /bin/rm -f <replaceable>/opt/gnome2</replaceable>/var/run/messagebus.pid
+
+# Defaults specification
+# Defaults    requiretty
+
+# User privilege specification
+<replaceable>gnomedev</replaceable> ALL = NOPASSWD: GNOME
+</programlisting>
+
+	<para>Create a GNOME startup script at
+	  <filename>/usr/bin/gnome-jhbuild-session</filename> 
+	  with the following, replacing
+	  <filename>/opt/gnome2</filename> with GNOME install
+	  <varname>prefix</varname>:</para>
+
+	<programlisting>#!/bin/sh
+
+GNOME=<replaceable>/opt/gnome2</replaceable>
+ 
+GDK_USE_XFT=1
+XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
+XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg
+
+sudo /bin/rm -f /opt/gnome2/var/run/messagebus.pid
+sudo $GNOME/bin/dbus-daemon --system
+sudo $GNOME/sbin/console-kit-daemon
+
+jhbuild run gnome-session
+
+sudo /usr/bin/killall $GNOME/sbin/console-kit-daemon
+sudo /usr/bin/killall $GNOME/bin/dbus-daemon</programlisting>
+
+	<para>Make the file
+	  <filename>/usr/bin/gnome-jhbuild-session</filename> 
+	  executable:</para>
+
+	<screen><prompt>$ </prompt><userinput>chmod a+x /usr/bin/gnome-jhbuild-session</userinput></screen>
+
+	<para>To add a new session entry in the display manager,
+	  create
+	  <filename>/usr/share/xsessions/gnome-jhbuild.desktop</filename> 
+	  and enter:</para>
+
+            <programlisting>[Desktop Entry]
+Name=GNOME (JHBuild)
+Comment=This session logs you into GNOME testing session
+TryExec=/usr/bin/gnome-jhbuild-session
+Exec=/usr/bin/gnome-jhbuild-session
+Icon=
+Type=Application</programlisting>
+
+	<para>Restart <command>gdm</command>.</para>
+
+	<para></para>
+      </section>
+      <section>
+	<title>Running GNOME from the display manager</title>
+
+	<para>To run the JHBuild GNOME, select the GNOME (JHBuild)
+	  session at the display manager before entering <systemitem
+	    class="username">gnomedev</systemitem> login credentials.
+	  If successful, JHBuild GNOME will be displayed. If
+	  unsuccessful, check the log within the
+	  <filename>~gnomedev/.xsession-errors</filename> file.</para>
+
+      </section>
     </section>
   </section>
 
@@ -2785,106 +3048,6 @@ done</programlisting>
 	</qandaentry>
 	<qandaentry>
 	  <question>
-	    <simpara>I've built GNOME with JHBuild.  How do I run
-	    it?</simpara>
-	  </question>
-	  <answer>
-        <para>Two options:</para>
-	    <orderedlist>
-		  <listitem>
-			<para>Without JHBuild <application>HAL</application>
-            and <application>D-Bus</application>. This method requires
-            support from the display manager (e.g.
-            <application>GDM</application>,
-            <application>KDM</application>,
-            <application>XDM</application>).
-            Create a <filename>~/.xsession</filename> file, with the
-            following contents:</para>
-			<programlisting>#!/bin/sh
-exec jhbuild run gnome-session</programlisting>
-			<para>Set the <filename>~/.xsession</filename> file to be
-            executable. At log in, set the session to 
-            <guilabel>custom</guilabel>.
-            If the display manager does not have a
-            <guilabel>custom</guilabel> option, refer to answer 
-            <xref linkend="faq-built-hal"/> below.
-            </para>
-		  </listitem>
-          <listitem id="faq-built-hal">
-            <para>With JHBuild <application>HAL</application> and
-            <application>D-Bus</application>.
-            <application>HAL</application> and 
-            <application>D-Bus</application> are 
-            daemons provided with your distribution. They are
-	        most likely already running, but may be unusable by the
-            GNOME development version as they are too old or
-            incompatible.</para>
-            <para>Create a session script that is run
-            when you log in using a display manager
-            (e.g. <application>GDM</application>,
-            <application>KDM</application>,
-            <application>XDM</application>).
-            The session script starts <command>hal</command> and
-            <command>d-bus</command>
-            from the JHBuild installation in addition to the
-            system-wide versions.</para>
-            <programlisting>
-GNOME=/opt/gnome2
- 
-GDK_USE_XFT=1
-#XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
-#XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg
-
-DBUS_LAUNCH="$GNOME/bin/dbus-launch --exit-with-session"
- 
-sudo su -c "$GNOME/bin/dbus-daemon --system; \
-                   $GNOME/sbin/hald"
- 
-jhbuild run $DBUS_LAUNCH gnome-session</programlisting>
-            <para> Adjust the variable <varname>GNOME</varname>
-            to your local settings. Uncomment the
-            <varname>XDG_</varname> lines for system-wide
-            program menus in addition to the menus from the JHBuild
-            GNOME. Save the script as
-            <filename>/usr/bin/gnome-jhbuild-session</filename> or
-            any other name of your choosing. Set the
-            file to be executable.</para>
-            <para>As the script starts system daemons, root privileges
-            are required obtained via <command>sudo</command>. The
-            script requires <command>sudo</command> to be configured
-            so it doesn't prompt for a password. Run 
-            <command>visudo</command> as root and enter the
-            following, changing username and paths as appropriate:
-            </para>
-            <programlisting>
-# Cmnd alias specification
-Cmnd_Alias  GNOME =  /opt/gnome2/bin/dbus-daemon, \
-                     /opt/gnome2/sbin/hald
-
-# User privilege specification
-gnometester  ALL = NOPASSWD: GNOME</programlisting>
-            <para>To add a new session entry in the display
-            manager, create
-            <filename>/usr/share/xsessions/gnome-jhbuild.desktop</filename>
-            and enter:</para>
-            <programlisting>
-[Desktop Entry]
-Name=GNOME (JHBuild)
-Comment=This session logs you into GNOME testing session
-TryExec=/usr/bin/gnome-jhbuild-session
-Exec=/usr/bin/gnome-jhbuild-session
-Icon=
-Type=Application</programlisting>
-            <para>Restart <command>gdm</command> and log into your
-            JHBuild GNOME. Select the JHBuild session before
-            entering the login credentials. Using separate user
-            account is recommended for testing.</para>
-          </listitem>
-        </orderedlist>
-	  </answer>
-	</qandaentry>
-	<qandaentry>
-	  <question>
 	    <simpara>I built GNOME using JHBuild with
 	    <varname>prefix</varname> set to <filename>/usr</filename>,
 	    and now my system is broken.  What should I do?</simpara>
@@ -2921,31 +3084,6 @@ ln -s /var/run/dbus dbus</programlisting>
         the hal directory might help here.</para>
 	  </answer>
 	</qandaentry>
-	<qandaentry>
-	  <question>
-	    <simpara>Why doesn't Foobar (activatable D-Bus service)
-	    start?</simpara>
-	  </question>
-	  <answer>
-	    <para>In order to activate a D-Bus service installed within the
-	    JHBuild root, while using the system D-Bus, you have to modify the
-	    <filename>/etc/dbus-1/session.conf</filename> file by adding the
-	    following line:</para>
-	    <programlisting><![CDATA[
-<servicedir>@PREFIX@/moblin2/install/share/dbus-1/services</servicedir>]]></programlisting>
-
-	    <para>
-	      Where @PREFIX@ is the prefix used by JHBuild -- the user's home
-	      directory by default.
-	    </para>
-
-	    <para>
-	      You will have to restart D-Bus, which usually means logging out
-	      or a complete reboot.
-	    </para>
-	  </answer>
-	</qandaentry>
-
       </qandadiv>
     </qandaset>
   </section>
