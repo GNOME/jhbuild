@@ -7,8 +7,6 @@
       href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python"
       href="http://www.python.org/ftp/python/"/>
-  <repository type="tarball" name="waf"
-      href="http://waf.googlecode.com/files/"/>
   <repository type="tarball" name="sourceforge"
       href="http://dfn.dl.sourceforge.net/sourceforge/"/>
 
@@ -78,16 +76,6 @@
     </branch>
   </autotools>
 
-  <autotools id="waf" autogen-sh="utils/autogen.sh">
-    <branch repo="waf" module="waf-1.4.4.tar.bz2" version="1.4.4"
-            size="473192" md5sum="6a809e446497b710592579772c8b22bd">
-      <patch file="waf-install.patch" strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="python"/>
-    </dependencies>
-  </autotools>
-
   <tarball id="gmp" version="4.3.1">
     <source href="ftp://ftp.gnu.org/gnu/gmp/gmp-4.3.1.tar.bz2"
             size="1881090" md5sum="26cec15a90885042dd4a15c4003b08ae"/>
@@ -116,7 +104,6 @@
       <dep package="pkg-config" />
       <dep package="python" />
       <dep package="guile" />
-      <dep package="waf" />
     </dependencies>
   </metamodule>
 
