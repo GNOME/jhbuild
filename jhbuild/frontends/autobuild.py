@@ -188,7 +188,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
             self.server.verbose_timeout = True
 
         # close stdin
-        os.close(0)
+        sys.stdin.close()
 
         info = {}
         import socket

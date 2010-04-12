@@ -252,7 +252,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
         assert self.outputdir
 
         # close stdin
-        os.close(0)
+        sys.stdin.close()
 
         info = []
         import socket
