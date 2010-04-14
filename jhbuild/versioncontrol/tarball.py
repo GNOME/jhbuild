@@ -136,6 +136,8 @@ class TarballBranch(Branch):
             localdir = localdir[:-8]
         elif localdir.endswith('.tar.lzma'):
             localdir = localdir[:-9]
+        elif localdir.endswith('.tar.xz'):
+            localdir = localdir[:-7]
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
         elif localdir.endswith('.zip'):
