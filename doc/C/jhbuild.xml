@@ -1625,8 +1625,10 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry>
 	  <term id="cfg-cvs-program"><varname>cvs_program</varname></term>
 	  <listitem>
-	    <simpara>A string specifying which program to use for
-	    CVS support.  Defaults to <literal>cvs</literal>.</simpara>
+	    <simpara>A string specifying which program to use for CVS
+	    support. This can be <literal>git-cvsimport</literal>, or
+	    <literal>cvs</literal>. Defaults to
+	    <literal>cvs</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -1942,9 +1944,9 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	<varlistentry id="cfg-svn-program">
 	  <term><varname>svn_program</varname></term>
 	  <listitem>
-	    <simpara>A string specifying which program to use for
-	    subversion support.  This can be <literal>svn</literal>
-	    or <literal>bzr</literal>.  Defaults to
+	    <simpara>A string specifying which program to use for subversion
+	    support.  This can be <literal>svn</literal>,
+	    <literal>git-svn</literal> or <literal>bzr</literal>.  Defaults to
 	    <literal>svn</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
@@ -2093,8 +2095,10 @@ libgnomecanvas is missing branch definition for gnome-2-20
       developers and users to use different repository access
       methods).</para>
 
-      <para>The <sgmltag class="element">repository</sgmltag>
-      element is used to describe all types of repository.</para>
+      <para>The <sgmltag class="element">repository</sgmltag> element is used to
+      describe all types of repository.  The <sgmltag
+      class="element">branch</sgmltag> element is used inside module definition
+      to specify additional settings.</para>
 
 <programlisting>
 &lt;repository name="<replaceable>name</replaceable>"
@@ -2107,6 +2111,9 @@ libgnomecanvas is missing branch definition for gnome-2-20
   [ server="<replaceable>server</replaceable>" ]
   [ database="<replaceable>database</replaceable>" ]
   [ defbranch="<replaceable>defbranch</replaceable>" ]
+  [ trunk-template="<replaceable>trunk-template</replaceable>" ]
+  [ branches-template="<replaceable>branches-template</replaceable>" ]
+  [ tags-template="<replaceable>tags-template</replaceable>" ]
   [ developer-href-example="<replaceable>developer-href-example</replaceable>" ] /&gt;
 </programlisting>
 
@@ -2120,17 +2127,52 @@ libgnomecanvas is missing branch definition for gnome-2-20
       <para>The <sgmltag class="attribute">type</sgmltag> attribute
       specifies the type of repository.  It can be one of:
       <literal>arch</literal>, <literal>bzr</literal>,
-      <literal>cvs</literal>, <literal>darcs</literal>,
+      <literal>cvs</literal>, <literal>darcs</literal>, <literal>fossil</literal>,
       <literal>git</literal>, <literal>hg</literal>,
-      <literal>mtr</literal>, <literal>svn</literal>,
-      <literal>tarball</literal>.  Other attributes depends on the
+      <literal>mnt</literal>, <literal>svn</literal>,
+      <literal>tarball</literal>.  Other attributes depend on the
       <sgmltag class="attribute">type</sgmltag>, as well as the <sgmltag
       class="element">branch</sgmltag> used inside module definitions.
-      Those are described below.</para>
+      Those are described below in the repository type sub-sections.</para>
 
       <para>The <sgmltag class="attribute">developer-href-example</sgmltag>
       attribute is used to specify the format of the URL for
       the repository used by developers.  This is informational only.</para>
+
+      <para>The <sgmltag class="element">branch</sgmltag> element is used inside
+      module definitions.</para>
+
+<programlisting>
+&lt;branch
+  [ repo="<replaceable>repository</replaceable>" ]
+  [ module="<replaceable>module name</replaceable>" ]
+  [ checkoutdir="<replaceable>checkoutdir</replaceable>" ]
+  [ revision="<replaceable>revision</replaceable>" ]
+  [ tag="<replaceable>tag</replaceable>" ]
+  [ update-new-dirs="<replaceable>update-new-dirs</replaceable>" ]
+  [ override-checkoutdir="<replaceable>override-checkoutdir</replaceable>" ]
+  [ subdir="<replaceable>subdir</replaceable>" ]
+  [ branch="<replaceable>branch</replaceable>" ]
+  [ version="<replaceable>version</replaceable>" ]
+  [ size="<replaceable>size</replaceable>" ]
+  [ source-subdir="<replaceable>source-subdir</replaceable>" ]
+  [ hash="<replaceable>hash</replaceable>" ]/&gt;
+</programlisting>
+
+      <para>All atributes have sensible defaults and depend on the module and
+      repository definitions. Common attributes are described here.</para>
+
+      <para>The <sgmltag class="attribute">repo</sgmltag>
+      attribute is used to specify non-default repository name.</para>
+
+      <para>The <sgmltag class="attribute">module</sgmltag> attribute is used to
+      specify module name to checkout from the repository. Defaults to module
+      id.</para>
+
+      <para>The <sgmltag class="attribute">checkoutdir</sgmltag> attribute is
+      used to specify the checkout directory name. Defaults to module id.</para>
+
+      <para>Other attributes are described below</para>
 
       <section id="moduleset-syntax-sources-arch">
         <title>Arch</title>
@@ -2158,7 +2200,40 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 &lt;repository type="bzr" name="launchpad.net"
       href="http://bazaar.launchpad.net/"/&gt;
-</programlisting>
+        </programlisting>
+
+        <para>Additional attributes are: <sgmltag
+        class="attribute">trunk-template</sgmltag> (defaults to "%(module)s")
+        and <sgmltag class="attribute">branches-template</sgmltag> (defaults to
+        empty string). These attributes are used to specify templates for constructing
+        URL. If <sgmltag class="element">branch</sgmltag> element has <sgmltag
+        class="attribute">revision</sgmltag> attribute defined <sgmltag
+        class="attribute">branches-template</sgmltag> is used, otherwise
+        <sgmltag class="attribute">trunk-template</sgmltag> is used.</para>
+
+        <para> For example repository with <sgmltag
+        class="attribute">template</sgmltag> attributes defined:</para>
+        <programlisting>
+&lt;repository type="bzr" name="launchpad.net"
+      href="lp:"
+      trunk-template="~bzr-pqm/%(module)s/bzr.dev"
+      branches-template="~bzr-pqm/%(module)s/%(revision)s"/&gt;
+        </programlisting>
+
+        <para> Example <sgmltag class="element">branch</sgmltag> elements for
+        the above repository:</para>
+
+        <programlisting>
+&lt;branch repo="launchpad.net"
+      module="bzr"
+      checkoutdir="bzr-next"/&gt;
+        </programlisting>
+        <programlisting>
+&lt;branch repo="launchpad.net"
+      module="bzr"
+      revision="2.2"
+      checkoutdir="bzr-beta"/&gt;
+        </programlisting>
       </section>
 
       <section id="moduleset-syntax-sources-cvs">
@@ -2177,7 +2252,13 @@ libgnomecanvas is missing branch definition for gnome-2-20
 &lt;repository type="cvs" name="tango.freedesktop.org"
     cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
     password=""/&gt;
-</programlisting>
+        </programlisting>
+
+        <!-- TODO describe these attributes -->
+        <para>Additional attributes are: <sgmltag
+        class="attribute">revision</sgmltag>, <sgmltag
+        class="attribute">update-new-dirs</sgmltag> and <sgmltag
+        class="attribute">override-checkoutdir</sgmltag>.</para>
 
       </section>
 
@@ -2198,14 +2279,19 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 &lt;repository type="git" name="git.freedesktop.org"
     href="git://anongit.freedesktop.org/git/"/&gt;
-</programlisting>
+        </programlisting>
 
         <programlisting>
 &lt;branch repo="git.freedesktop.org" module="swfdec/swfdec"
-    checkoutdir="swfdec"/&gt;
-</programlisting>
+        checkoutdir="swfdec"
+        tag="tree-ish"/&gt;
+        </programlisting>
 
-
+        <!-- FIXME revision attribute, verity I don't use it -->
+        <programlisting>
+&lt;branch repo="git.gcc.gnu.org" module="gcc.git"
+        revision="git-svn revision"/&gt;
+        </programlisting>
       </section>
 
       <section id="moduleset-syntax-sources-hg">
@@ -2253,8 +2339,9 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 &lt;repository type="svn" name="svn.gnome.org" default="yes"
     href="http://svn.gnome.org/svn/"/&gt;
-</programlisting>
+        </programlisting>
 
+        <!-- So how do I checkut out branch at a specific revision? -->
         <para>It allows a <sgmltag class="attribute">revision</sgmltag>
         on the <sgmltag class="element">branch</sgmltag> element.  This
         attribute defines the branch to checkout or, if it is a number,
@@ -2262,7 +2349,15 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
         <programlisting>
 &lt;branch revision="gnome-2-20"/&gt;
-</programlisting>
+        </programlisting>
+
+        <para>It is possible to specify custom <literal>svn</literal> layout
+        using <sgmltag class="attribute">trunk-template</sgmltag> (defaults to
+        "%(module)s/trunk"), <sgmltag
+        class="attribute">branches-template</sgmltag> (defaults to
+        "%(module)s/branches/%(branch)s") and <sgmltag
+        class="attribute">tags-template</sgmltag> (defaults to
+        "%(module)s/tags/%(tag)s")</para>
 
       </section>
 
