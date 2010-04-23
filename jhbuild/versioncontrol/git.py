@@ -213,7 +213,7 @@ class GitBranch(Branch):
             return
 
         mirror_dir = os.path.join(self.config.dvcs_mirror_dir,
-                os.path.basename(self.module) + '.git')
+                self.get_module_basename() + '.git')
 
         if os.path.exists(mirror_dir):
             buildscript.execute(['git', 'fetch'], cwd=mirror_dir,
