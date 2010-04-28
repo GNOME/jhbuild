@@ -19,7 +19,12 @@
 
 __metaclass__ = type
 
-import os, time, signal, sys, subprocess, random, md5, tempfile
+import os, time, signal, sys, subprocess, random, tempfile
+
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import \
@@ -83,7 +88,7 @@ class TestModule(Package, DownloadableModule):
             os.mkdir(os.path.join(tmpdir,'jhbuild.%s' % os.getpid()))
             new_xauth = os.path.join(tmpdir, 'jhbuild.%s' % os.getpid(),'Xauthority')
             open(new_xauth, 'w').close()
-            hexdigest = md5.md5(str(random.random())).hexdigest()
+            hexdigest = hashlib.md5(str(random.random())).hexdigest()
             os.system('xauth -f "%s" add ":%s" "." "%s"' % (
                         new_xauth, servernum, hexdigest))
         except OSError:
