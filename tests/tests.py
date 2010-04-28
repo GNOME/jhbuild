@@ -328,15 +328,6 @@ class WafModTypeTestCase(BuildTestCase):
                 ['foo:Checking out', 'foo:Configuring', 'foo:Building',
                  'foo:Checking [error]'])
 
-    def test_build_missing_waf_command(self):
-        '''Building a waf module, on a system missing the waf command'''
-        self.modules[0].waf_cmd = 'foo bar'
-        self.assertEqual(self.build(),
-                ['foo:Checking out', 'foo:Configuring [error]'])
-
-
-
-
 
 class BuildPolicyTestCase(BuildTestCase):
     '''Build Policy'''
