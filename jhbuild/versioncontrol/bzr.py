@@ -29,6 +29,7 @@ from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils.sxml import sxml
 
 # Make sure that the urlparse module considers bzr://, bzr+ssh://, sftp:// and lp:
 # scheme to be netloc aware and set to allow relative URIs.
@@ -93,6 +94,10 @@ class BzrRepository(Repository):
             checkoutdir = name
 
         return BzrBranch(self, module_href, checkoutdir, tag, revspec)
+
+    def to_sxml(self):
+        return [sxml.repository(type='bzr', name=self.name, href=self.href,
+                    trunk=self.trunk_template, branches=self.branches_template)]
 
 class BzrBranch(Branch):
     """A class representing a Bazaar branch."""
@@ -203,5 +208,14 @@ Remove it or change your dvcs_mirror_dir settings.""") % self.srcdir)
         else:
             cmd = ['bzr', 'revision-info', '--tree', '-d', self.srcdir]
             return get_output(cmd).strip()
+
+    def to_sxml(self):
+        attrs = {}
+        if self.revspec:
+            attrs = self.revspec()[0]
+        return [sxml.branch(repo=self.repository.name,
+                            module=self.module,
+                            revid=self.tree_id(),
+                            **attrs)]
 
 register_repo_type('bzr', BzrRepository)
