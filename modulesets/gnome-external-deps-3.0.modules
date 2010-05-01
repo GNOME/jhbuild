@@ -539,7 +539,7 @@
 	     --disable-gnomevfs --disable-gnomeui
 	     --with-default-mozilla-five-home=${libdir}/mozilla
 	     --enable-system-cairo
-	     --with-system-nspr --with-system-nss
+	     --with-system-nss
 	     --disable-mochitest
 	     --disable-debug --enable-optimize=-O2 --disable-tests
 	     --disable-javaxpcom
@@ -553,7 +553,9 @@
             version="1.9.1.7"
             hash="sha256:a0876896c66cbf06d8bb929687248ac28b99388068e4b5bd29f16366c38e0185"
             md5sum="82e6f568ddeaae52e85aa089277f5d14" size="46919155"
-            checkoutdir="mozilla-1.9.1" />
+            checkoutdir="mozilla-1.9.1">
+      <patch file="mozilla.automationutils.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="sqlite3"/>
