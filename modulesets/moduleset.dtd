@@ -5,7 +5,7 @@
 <!ELEMENT repository (mirror*)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
-	type	 (bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
+	type	 (arch|bzr|cvs|darcs|fossil|git|hg|svn|tarball)  #REQUIRED
 	default  (yes|no)  "no"
 	password CDATA  #IMPLIED
 	cvsroot	 CDATA  #IMPLIED
@@ -26,7 +26,7 @@
 
 <!ELEMENT mirror EMPTY>
 <!ATTLIST mirror
-	type	(bzr|cvs|darcs|git|hg|svn|tarball|arch|mtn)  #REQUIRED
+	type	(arch|bzr|cvs|darcs|fossil|git|hg|svn|tarball)  #REQUIRED
 	trunk-template CDATA #IMPLIED
 	branches-template CDATA #IMPLIED
 	href	CDATA  #IMPLIED>
@@ -163,6 +163,9 @@
 	source-subdir   CDATA   #IMPLIED
 	revision	CDATA	#IMPLIED
 	tag             CDATA   #IMPLIED
+        user            CDATA   #IMPLIED
+        revspec         CDATA   #IMPLIED
+        branch          CDATA   #IMPLIED
 	version		CDATA	#IMPLIED
 	size		CDATA	#IMPLIED
 	md5sum		CDATA	#IMPLIED
