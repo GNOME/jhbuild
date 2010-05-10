@@ -128,7 +128,20 @@
   </autotools>
 
   <autotools id="gtk+">
-    <branch/>
+    <branch revision="gtk-2-22"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+    </dependencies>
+    <after>
+      <dep package="shared-mime-info"/>
+    </after>
+  </autotools>
+
+  <autotools id="gtk+-3">
+    <branch checkoutdir="gtk+-3" module="gtk+"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -1900,6 +1913,7 @@
       <dep package="atk"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="gtk-doc"/>
       <dep package="pango"/>
       <dep package="meta-gnome-devel-platform-upcoming-deprecations"/>
