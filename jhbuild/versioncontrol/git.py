@@ -179,6 +179,16 @@ class GitBranch(Branch):
         return self._execute_git_predicate(
                 ['git', 'config', '--get', current_branch_remote_config])
 
+    def is_dirty(self, ignore_submodules=True):
+        submodule_options = []
+        if ignore_submodules:
+            if not self._check_version_git('1.5.6'):
+                raise CommandError(_('Need at least git-1.5.6 from June/08 '
+                        'to operate'))
+            submodule_options = ['--ignore-submodules']
+        return not self._execute_git_predicate(
+                ['git', 'diff', '--exit-code', '--quiet'] + submodule_options)
+
     def _check_version_git(self, version_spec):
         return check_version(['git', '--version'], r'git version ([\d.]+)',
                 version_spec, extra_env=get_git_extra_env())
@@ -299,16 +309,8 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
-        if self._check_version_git('1.7.0'):
-            git_diff_submodule = ['--submodule']
-        else:
-            git_diff_submodule = []
-
         stashed = False
-        git_diff_output = get_output(['git', 'diff'] + git_diff_submodule, **git_extra_args)
-        git_diff_output = '\n'.join([x for x in git_diff_output.splitlines() \
-                                     if not x.startswith('Submodule ')])
-        if git_diff_output:
+        if self.is_dirty(ignore_submodules=True):
             stashed = True
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
