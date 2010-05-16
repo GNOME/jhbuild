@@ -326,23 +326,23 @@ class GitBranch(Branch):
             except CommandError:
                 raise CommandError(_('Failed to update module (corrupt .git?)'))
 
-        would_be_branch = self.branch or 'master'
+        wanted_branch = self.branch or 'master'
         if self.tag:
             buildscript.execute(['git', 'checkout', self.tag], **git_extra_args)
         else:
-            if not current_branch or current_branch != would_be_branch:
+            if not current_branch or current_branch != wanted_branch:
                 if not current_branch:
                     # if user was not on any branch, get back to a known track
                     current_branch = 'master'
                 # if current branch doesn't exist as origin/$branch it is assumed
                 # a local work branch, and it won't be changed
                 if self._is_tracking_a_remote_branch(current_branch):
-                    if self.local_branch_exist(would_be_branch, buildscript):
-                        buildscript.execute(['git', 'checkout', would_be_branch],
+                    if self.local_branch_exist(wanted_branch, buildscript):
+                        buildscript.execute(['git', 'checkout', wanted_branch],
                                 **git_extra_args)
                     else:
                         buildscript.execute(['git', 'checkout', '--track', '-b',
-                            would_be_branch, 'origin/' + would_be_branch],
+                            wanted_branch, 'origin/' + wanted_branch],
                             **git_extra_args)
 
         if stashed:
