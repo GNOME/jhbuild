@@ -172,12 +172,18 @@ class GitBranch(Branch):
         return self._execute_git_predicate(
                 ['git', 'rev-parse', '--is-inside-work-tree'])
 
-    def get_current_branch(self):
-        for line in get_output(['git', 'branch'],
-                cwd=self.get_checkoutdir(), extra_env=get_git_extra_env()).splitlines():
-            if line[0] == '*':
-                return line[2:]
-        return None
+    def _get_current_branch(self):
+        """Returns either a branchname or None if head is detached"""
+        if not self._is_inside_work_tree():
+            raise CommandError(_('Unexpected: Checkoutdir is not a git '
+                    'repository:' + self.get_checkoutdir()))
+        try:
+            return os.path.basename(
+                    get_output(['git', 'symbolic-ref', '-q', 'HEAD'],
+                            cwd=self.get_checkoutdir(),
+                            extra_env=get_git_extra_env()).strip())
+        except CommandError:
+            return None
 
     def get_remote_branches_list(self):
         return [x.strip() for x in get_output(['git', 'branch', '-r'],
@@ -298,8 +304,10 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
 
-        current_branch = self.get_current_branch()
-        if current_branch is None:
+        current_branch = self._get_current_branch()
+        if current_branch:
+            buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
+        else:
             # things are getting out of hand, check the git repository is
             # correct
             try:
@@ -307,16 +315,12 @@ class GitBranch(Branch):
             except CommandError:
                 raise CommandError(_('Failed to update module (corrupt .git?)'))
 
-        if current_branch not in ('(no branch)', None):
-            buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
-
         would_be_branch = self.branch or 'master'
         if self.tag:
             buildscript.execute(['git', 'checkout', self.tag], **git_extra_args)
         else:
-            current_branch = self.get_current_branch()
-            if current_branch != would_be_branch or current_branch == '(no branch)':
-                if current_branch in ('(no branch)', None):
+            if not current_branch or current_branch != would_be_branch:
+                if not current_branch:
                     # if user was not on any branch, get back to a known track
                     current_branch = 'master'
                 # if current branch doesn't exist as origin/$branch it is assumed
