@@ -172,6 +172,13 @@ class GitBranch(Branch):
         return self._execute_git_predicate(
                 ['git', 'rev-parse', '--is-inside-work-tree'])
 
+    def _is_tracking_a_remote_branch(self, local_branch):
+        if not local_branch:
+            return False
+        current_branch_remote_config = 'branch.%s.remote' % local_branch
+        return self._execute_git_predicate(
+                ['git', 'config', '--get', current_branch_remote_config])
+
     def _check_version_git(self, version_spec):
         return check_version(['git', '--version'], r'git version ([\d.]+)',
                 version_spec, extra_env=get_git_extra_env())
@@ -327,7 +334,7 @@ class GitBranch(Branch):
                     current_branch = 'master'
                 # if current branch doesn't exist as origin/$branch it is assumed
                 # a local work branch, and it won't be changed
-                if ('origin/' + current_branch) in self.get_remote_branches_list():
+                if self._is_tracking_a_remote_branch(current_branch):
                     if self.local_branch_exist(would_be_branch, buildscript):
                         buildscript.execute(['git', 'checkout', would_be_branch],
                                 **git_extra_args)
