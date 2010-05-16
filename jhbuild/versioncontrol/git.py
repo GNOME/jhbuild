@@ -172,6 +172,10 @@ class GitBranch(Branch):
         return self._execute_git_predicate(
                 ['git', 'rev-parse', '--is-inside-work-tree'])
 
+    def _check_version_git(self, version_spec):
+        return check_version(['git', '--version'], r'git version ([\d.]+)',
+                version_spec, extra_env=get_git_extra_env())
+
     def _get_current_branch(self):
         """Returns either a branchname or None if head is detached"""
         if not self._is_inside_work_tree():
@@ -288,9 +292,7 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
-        if check_version(['git', '--version'],
-                     r'git version ([\d.]+)', '1.7.0',
-                     extra_env=get_git_extra_env()):
+        if self._check_version_git('1.7.0'):
             git_diff_submodule = ['--submodule']
         else:
             git_diff_submodule = []
@@ -336,9 +338,7 @@ class GitBranch(Branch):
 
         if stashed:
             # git stash pop was introduced in 1.5.5, 
-            if check_version(['git', '--version'],
-                         r'git version ([\d.]+)', '1.5.5',
-                         extra_env=get_git_extra_env()):
+            if self._check_version_git('1.5.5'):
                 buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
             else:
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
