@@ -157,6 +157,21 @@ class GitBranch(Branch):
         return self.branch
     branchname = property(branchname)
 
+    def _execute_git_predicate(self, predicate):
+        """A git command wrapper for the cases, where only the boolean outcome
+        is of interest.
+        """
+        try:
+            get_output(predicate, cwd=self.get_checkoutdir(),
+                    extra_env=get_git_extra_env())
+        except CommandError:
+            return False
+        return True
+
+    def _is_inside_work_tree(self):
+        return self._execute_git_predicate(
+                ['git', 'rev-parse', '--is-inside-work-tree'])
+
     def get_current_branch(self):
         for line in get_output(['git', 'branch'],
                 cwd=self.get_checkoutdir(), extra_env=get_git_extra_env()).splitlines():
