@@ -374,11 +374,6 @@ class GitBranch(Branch):
                 raise CommandError(_('Failed to update module as it switched to git (you should check for changes then remove the directory).'))
             raise CommandError(_('Failed to update module (missing .git) (you should check for changes then remove the directory).'))
 
-        if self.config.quiet_mode:
-            quiet = ['-q']
-        else:
-            quiet = []
-
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
@@ -387,6 +382,7 @@ class GitBranch(Branch):
         self._pull_current_branch(buildscript)
 
         if self.config.sticky_date:
+            quiet = ['-q'] if self.config.quiet_mode else []
             commit = self._get_commit_from_date()
             branch = 'jhbuild-date-branch'
             branch_cmd = ['git', 'checkout'] + quiet + [branch]
