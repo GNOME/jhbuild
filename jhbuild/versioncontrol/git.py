@@ -255,6 +255,30 @@ class GitBranch(Branch):
             buildscript.execute(switch_command, cwd=self.get_checkoutdir(),
                     extra_env=get_git_extra_env())
 
+    def _pull_current_branch(self, buildscript):
+        """Pull the current branch if it is tracking a remote branch."""
+        if not self._is_tracking_a_remote_branch(self._get_current_branch()):
+            return
+
+        git_extra_args = {'cwd': self.get_checkoutdir(),
+                'extra_env': get_git_extra_env()}
+
+        stashed = False
+        if self.is_dirty(ignore_submodules=True):
+            stashed = True
+            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
+                    **git_extra_args)
+
+        buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
+
+        if stashed:
+            # git stash pop was introduced in 1.5.5,
+            if self._check_version_git('1.5.5'):
+                buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
+            else:
+                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
+                        **git_extra_args)
+
     def get_remote_branches_list(self):
         return [x.strip() for x in get_output(['git', 'branch', '-r'],
                 cwd=self.get_checkoutdir(),
@@ -360,30 +384,7 @@ class GitBranch(Branch):
 
         self._switch_branch_if_necessary(buildscript)
 
-        stashed = False
-        if self.is_dirty(ignore_submodules=True):
-            stashed = True
-            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
-                    **git_extra_args)
-
-        current_branch = self._get_current_branch()
-        if current_branch:
-            buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
-        else:
-            # things are getting out of hand, check the git repository is
-            # correct
-            try:
-                get_output(['git', 'show'], **git_extra_args)
-            except CommandError:
-                raise CommandError(_('Failed to update module (corrupt .git?)'))
-
-        if stashed:
-            # git stash pop was introduced in 1.5.5, 
-            if self._check_version_git('1.5.5'):
-                buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
-            else:
-                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
-                        **git_extra_args)
+        self._pull_current_branch(buildscript)
 
         if self.config.sticky_date:
             commit = self._get_commit_from_date()
