@@ -206,6 +206,17 @@ class GitBranch(Branch):
         except CommandError:
             return None
 
+    def _find_remote_branch_online_if_necessary(self, buildscript,
+            remote_name, branch_name):
+        """Try to find the given branch first, locally, then remotely, and state
+        the availability in the return value."""
+        wanted_ref = remote_name + '/' + branch_name
+        if self._execute_git_predicate( ['git', 'show-ref', wanted_ref]):
+            return True
+        buildscript.execute(['git', 'fetch'], cwd=self.get_checkoutdir(),
+                extra_env=get_git_extra_env())
+        return self._execute_git_predicate( ['git', 'show-ref', wanted_ref])
+
     def _switch_branch_if_necessary(self, buildscript):
         """
         The switch depends on the requested tag, the requested branch, and the
@@ -231,6 +242,11 @@ class GitBranch(Branch):
                 if self.local_branch_exist(wanted_branch, buildscript):
                     switch_command = ['git', 'checkout', wanted_branch]
                 else:
+                    if not self._find_remote_branch_online_if_necessary(
+                            buildscript, 'origin', wanted_branch):
+                        raise CommandError(_('The requested branch "%s" is '
+                                'not available. Neither locally, nor remotely '
+                                'in the origin remote.' % wanted_branch))
                     switch_command = ['git', 'checkout', '--track', '-b',
                             wanted_branch, 'origin/' + wanted_branch]
         if switch_command:
