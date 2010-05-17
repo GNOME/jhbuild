@@ -279,6 +279,20 @@ class GitBranch(Branch):
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
                         **git_extra_args)
 
+    def _rewind_to_sticky_date(self, buildscript):
+        quiet = ['-q'] if self.config.quiet_mode else []
+        commit = self._get_commit_from_date()
+        branch = 'jhbuild-date-branch'
+        branch_cmd = ['git', 'checkout'] + quiet + [branch]
+        git_extra_args = {'cwd': self.get_checkoutdir(),
+                'extra_env': get_git_extra_env()}
+        try:
+            buildscript.execute(branch_cmd, **git_extra_args)
+        except CommandError:
+            branch_cmd = ['git', 'checkout'] + quiet + ['-b', branch]
+            buildscript.execute(branch_cmd, **git_extra_args)
+        buildscript.execute(['git', 'reset', '--hard', commit], **git_extra_args)
+
     def get_remote_branches_list(self):
         return [x.strip() for x in get_output(['git', 'branch', '-r'],
                 cwd=self.get_checkoutdir(),
@@ -382,16 +396,7 @@ class GitBranch(Branch):
         self._pull_current_branch(buildscript)
 
         if self.config.sticky_date:
-            quiet = ['-q'] if self.config.quiet_mode else []
-            commit = self._get_commit_from_date()
-            branch = 'jhbuild-date-branch'
-            branch_cmd = ['git', 'checkout'] + quiet + [branch]
-            try:
-                buildscript.execute(branch_cmd, **git_extra_args)
-            except CommandError:
-                branch_cmd = ['git', 'checkout'] + quiet + ['-b', branch]
-                buildscript.execute(branch_cmd, **git_extra_args)
-            buildscript.execute(['git', 'reset', '--hard', commit], **git_extra_args)
+            self._rewind_to_sticky_date(buildscript)
 
         self._update_submodules(buildscript)
 
