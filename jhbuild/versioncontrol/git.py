@@ -206,6 +206,39 @@ class GitBranch(Branch):
         except CommandError:
             return None
 
+    def _switch_branch_if_necessary(self, buildscript):
+        """
+        The switch depends on the requested tag, the requested branch, and the
+        state and type of the current branch.
+
+        Unless other destinations are requested, a detached head will be
+        switched to master.
+        An imminent branch switch generates an error if there are uncommited
+        changes.
+        """
+        current_branch = self._get_current_branch()
+        wanted_branch = self.branch or 'master'
+        switch_command = []
+        if self.tag:
+            switch_command= ['git', 'checkout', self.tag]
+        elif not current_branch or current_branch != wanted_branch:
+            if not current_branch:
+                # if user was not on any branch, get back to a known track
+                current_branch = 'master'
+            # If the current branch is not tracking a remote branch it is
+            # assumed to be a local work branch, and it won't be changed.
+            if self._is_tracking_a_remote_branch(current_branch):
+                if self.local_branch_exist(wanted_branch, buildscript):
+                    switch_command = ['git', 'checkout', wanted_branch]
+                else:
+                    switch_command = ['git', 'checkout', '--track', '-b',
+                            wanted_branch, 'origin/' + wanted_branch]
+        if switch_command:
+            if self.is_dirty():
+                raise CommandError(_('Refusing to switch a dirty tree.'))
+            buildscript.execute(switch_command, cwd=self.get_checkoutdir(),
+                    extra_env=get_git_extra_env())
+
     def get_remote_branches_list(self):
         return [x.strip() for x in get_output(['git', 'branch', '-r'],
                 cwd=self.get_checkoutdir(),
@@ -326,24 +359,7 @@ class GitBranch(Branch):
             except CommandError:
                 raise CommandError(_('Failed to update module (corrupt .git?)'))
 
-        wanted_branch = self.branch or 'master'
-        if self.tag:
-            buildscript.execute(['git', 'checkout', self.tag], **git_extra_args)
-        else:
-            if not current_branch or current_branch != wanted_branch:
-                if not current_branch:
-                    # if user was not on any branch, get back to a known track
-                    current_branch = 'master'
-                # if current branch doesn't exist as origin/$branch it is assumed
-                # a local work branch, and it won't be changed
-                if self._is_tracking_a_remote_branch(current_branch):
-                    if self.local_branch_exist(wanted_branch, buildscript):
-                        buildscript.execute(['git', 'checkout', wanted_branch],
-                                **git_extra_args)
-                    else:
-                        buildscript.execute(['git', 'checkout', '--track', '-b',
-                            wanted_branch, 'origin/' + wanted_branch],
-                            **git_extra_args)
+        self._switch_branch_if_necessary(buildscript)
 
         if stashed:
             # git stash pop was introduced in 1.5.5, 
