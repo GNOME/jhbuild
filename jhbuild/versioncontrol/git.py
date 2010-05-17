@@ -140,19 +140,6 @@ class GitBranch(Branch):
         return os.path.join(*path_elements)
     srcdir = property(srcdir)
 
-    def local_branch_exist(self, branch, buildscript=None):
-        try:
-            cmd = ['git', 'show-ref', '--quiet', '--verify', 'refs/heads/' + branch]
-            if buildscript:
-                buildscript.execute(cmd, cwd=self.get_checkoutdir(),
-                        extra_env=get_git_extra_env())
-            else:
-                get_output(cmd, cwd=self.get_checkoutdir(),
-                        extra_env=get_git_extra_env())
-        except CommandError:
-            return False
-        return True
-
     def branchname(self):
         return self.branch
     branchname = property(branchname)
@@ -167,6 +154,10 @@ class GitBranch(Branch):
         except CommandError:
             return False
         return True
+
+    def _is_local_branch(self, branch):
+        return self._execute_git_predicate( ['git', 'show-ref', '--quiet',
+                '--verify', 'refs/heads/' + branch])
 
     def _is_inside_work_tree(self):
         return self._execute_git_predicate(
@@ -239,7 +230,7 @@ class GitBranch(Branch):
             # If the current branch is not tracking a remote branch it is
             # assumed to be a local work branch, and it won't be changed.
             if self._is_tracking_a_remote_branch(current_branch):
-                if self.local_branch_exist(wanted_branch, buildscript):
+                if self._is_local_branch(wanted_branch):
                     switch_command = ['git', 'checkout', wanted_branch]
                 else:
                     if not self._find_remote_branch_online_if_necessary(
