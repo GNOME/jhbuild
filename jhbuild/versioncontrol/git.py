@@ -358,6 +358,8 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
+        self._switch_branch_if_necessary(buildscript)
+
         stashed = False
         if self.is_dirty(ignore_submodules=True):
             stashed = True
@@ -374,8 +376,6 @@ class GitBranch(Branch):
                 get_output(['git', 'show'], **git_extra_args)
             except CommandError:
                 raise CommandError(_('Failed to update module (corrupt .git?)'))
-
-        self._switch_branch_if_necessary(buildscript)
 
         if stashed:
             # git stash pop was introduced in 1.5.5, 
