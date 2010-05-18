@@ -208,38 +208,47 @@ class GitBranch(Branch):
                 extra_env=get_git_extra_env())
         return self._execute_git_predicate( ['git', 'show-ref', wanted_ref])
 
+    def _get_branch_switch_destination(self):
+        current_branch = self._get_current_branch()
+        wanted_branch = self.branch or 'master'
+
+        # Always switch away from a detached head.
+        if not current_branch:
+            return wanted_branch
+
+        assert(current_branch and wanted_branch)
+        # If the current branch is not tracking a remote branch it is assumed to
+        # be a local work branch, and it won't be considered for a change.
+        if current_branch != wanted_branch \
+                and self._is_tracking_a_remote_branch(current_branch):
+            return wanted_branch
+
+        return None
+
     def _switch_branch_if_necessary(self, buildscript):
         """
         The switch depends on the requested tag, the requested branch, and the
         state and type of the current branch.
 
-        Unless other destinations are requested, a detached head will be
-        switched to master.
         An imminent branch switch generates an error if there are uncommited
         changes.
         """
-        current_branch = self._get_current_branch()
-        wanted_branch = self.branch or 'master'
+        wanted_branch = self._get_branch_switch_destination()
         switch_command = []
         if self.tag:
             switch_command= ['git', 'checkout', self.tag]
-        elif not current_branch or current_branch != wanted_branch:
-            if not current_branch:
-                # if user was not on any branch, get back to a known track
-                current_branch = 'master'
-            # If the current branch is not tracking a remote branch it is
-            # assumed to be a local work branch, and it won't be changed.
-            if self._is_tracking_a_remote_branch(current_branch):
-                if self._is_local_branch(wanted_branch):
-                    switch_command = ['git', 'checkout', wanted_branch]
-                else:
-                    if not self._find_remote_branch_online_if_necessary(
-                            buildscript, 'origin', wanted_branch):
-                        raise CommandError(_('The requested branch "%s" is '
-                                'not available. Neither locally, nor remotely '
-                                'in the origin remote.' % wanted_branch))
-                    switch_command = ['git', 'checkout', '--track', '-b',
-                            wanted_branch, 'origin/' + wanted_branch]
+        elif wanted_branch:
+            if self._is_local_branch(wanted_branch):
+                switch_command = ['git', 'checkout', wanted_branch]
+            else:
+                if not self._find_remote_branch_online_if_necessary(
+                        buildscript, 'origin', wanted_branch):
+                    raise CommandError(_('The requested branch "%s" is '
+                            'not available. Neither locally, nor remotely '
+                            'in the origin remote.' % wanted_branch))
+                switch_command = ['git', 'checkout', '--track', '-b',
+                        wanted_branch, 'origin/' + wanted_branch]
+
         if switch_command:
             if self.is_dirty():
                 raise CommandError(_('Refusing to switch a dirty tree.'))
