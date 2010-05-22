@@ -178,7 +178,8 @@ class GitBranch(Branch):
                         'to operate'))
             submodule_options = ['--ignore-submodules']
         return not self._execute_git_predicate(
-                ['git', 'diff', '--exit-code', '--quiet'] + submodule_options)
+                ['git', 'diff', '--exit-code', '--quiet'] + submodule_options
+                + ['HEAD'])
 
     def _check_version_git(self, version_spec):
         return check_version(['git', '--version'], r'git version ([\d.]+)',
