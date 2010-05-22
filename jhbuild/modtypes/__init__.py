@@ -31,6 +31,7 @@ import os
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
 from jhbuild.utils.sxml import sxml
+from jhbuild.versioncontrol.git import GitBranch
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -174,6 +175,11 @@ class Package:
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
             return
+
+        # Always trigger a build for dirty git branches.
+        if isinstance(self.branch, GitBranch) and self.branch.is_dirty():
+            return
+
         if not buildscript.packagedb.check(self.name, self.get_revision() or ''):
             # package has not been updated
             return
