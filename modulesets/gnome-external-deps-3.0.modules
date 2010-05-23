@@ -29,6 +29,8 @@
     href="http://samba.org/samba/ftp/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="http://webkitgtk.org/"/>
+<repository type="tarball" name="ftp.musicbrainz.org"
+    href="http://ftp.musicbrainz.org/pub/musicbrainz/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -299,14 +301,12 @@
     </dependencies>
   </tarball>
 
-  <tarball id="libmusicbrainz" version="2.1.5">
-    <source href="http://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.5.tar.gz"
-            hash="sha256:c6629c4bed428f9df3f89efc065b2d96f05eba36286532ebe8b8e404022371a0"
-            md5sum="d5e19bb77edd6ea798ce206bd05ccc5f" size="524243"/>
-    <patches>
-      <patch file="libmusicbrainz-missing-includes.patch" strip="1"/>
-    </patches>
-  </tarball>
+  <cmake id="libmusicbrainz">
+    <branch module="libmusicbrainz-3.0.2.tar.gz" version="3.0.2"
+            repo="ftp.musicbrainz.org"
+            hash="sha256:b9a35e56826239add731cf083108cbc313d4a2d1770e6f5006966daa66a21eda"
+            md5sum="648ecd43f7b80852419aaf73702bc23f" size="98537"/>
+  </cmake>
 
   <tarball id="liboil" version="0.3.17">
     <source href="http://liboil.freedesktop.org/download/liboil-0.3.17.tar.gz"
