@@ -144,7 +144,7 @@ class GitBranch(Branch):
         return self.branch
     branchname = property(branchname)
 
-    def _execute_git_predicate(self, predicate):
+    def execute_git_predicate(self, predicate):
         """A git command wrapper for the cases, where only the boolean outcome
         is of interest.
         """
@@ -155,39 +155,39 @@ class GitBranch(Branch):
             return False
         return True
 
-    def _is_local_branch(self, branch):
-        return self._execute_git_predicate( ['git', 'show-ref', '--quiet',
+    def is_local_branch(self, branch):
+        return self.execute_git_predicate( ['git', 'show-ref', '--quiet',
                 '--verify', 'refs/heads/' + branch])
 
-    def _is_inside_work_tree(self):
-        return self._execute_git_predicate(
+    def is_inside_work_tree(self):
+        return self.execute_git_predicate(
                 ['git', 'rev-parse', '--is-inside-work-tree'])
 
-    def _is_tracking_a_remote_branch(self, local_branch):
+    def is_tracking_a_remote_branch(self, local_branch):
         if not local_branch:
             return False
         current_branch_remote_config = 'branch.%s.remote' % local_branch
-        return self._execute_git_predicate(
+        return self.execute_git_predicate(
                 ['git', 'config', '--get', current_branch_remote_config])
 
     def is_dirty(self, ignore_submodules=True):
         submodule_options = []
         if ignore_submodules:
-            if not self._check_version_git('1.5.6'):
+            if not self.check_version_git('1.5.6'):
                 raise CommandError(_('Need at least git-1.5.6 from June/08 '
                         'to operate'))
             submodule_options = ['--ignore-submodules']
-        return not self._execute_git_predicate(
+        return not self.execute_git_predicate(
                 ['git', 'diff', '--exit-code', '--quiet'] + submodule_options
                 + ['HEAD'])
 
-    def _check_version_git(self, version_spec):
+    def check_version_git(self, version_spec):
         return check_version(['git', '--version'], r'git version ([\d.]+)',
                 version_spec, extra_env=get_git_extra_env())
 
-    def _get_current_branch(self):
+    def get_current_branch(self):
         """Returns either a branchname or None if head is detached"""
-        if not self._is_inside_work_tree():
+        if not self.is_inside_work_tree():
             raise CommandError(_('Unexpected: Checkoutdir is not a git '
                     'repository:' + self.get_checkoutdir()))
         try:
@@ -198,19 +198,19 @@ class GitBranch(Branch):
         except CommandError:
             return None
 
-    def _find_remote_branch_online_if_necessary(self, buildscript,
+    def find_remote_branch_online_if_necessary(self, buildscript,
             remote_name, branch_name):
         """Try to find the given branch first, locally, then remotely, and state
         the availability in the return value."""
         wanted_ref = remote_name + '/' + branch_name
-        if self._execute_git_predicate( ['git', 'show-ref', wanted_ref]):
+        if self.execute_git_predicate( ['git', 'show-ref', wanted_ref]):
             return True
         buildscript.execute(['git', 'fetch'], cwd=self.get_checkoutdir(),
                 extra_env=get_git_extra_env())
-        return self._execute_git_predicate( ['git', 'show-ref', wanted_ref])
+        return self.execute_git_predicate( ['git', 'show-ref', wanted_ref])
 
-    def _get_branch_switch_destination(self):
-        current_branch = self._get_current_branch()
+    def get_branch_switch_destination(self):
+        current_branch = self.get_current_branch()
         wanted_branch = self.branch or 'master'
 
         # Always switch away from a detached head.
@@ -221,12 +221,12 @@ class GitBranch(Branch):
         # If the current branch is not tracking a remote branch it is assumed to
         # be a local work branch, and it won't be considered for a change.
         if current_branch != wanted_branch \
-                and self._is_tracking_a_remote_branch(current_branch):
+                and self.is_tracking_a_remote_branch(current_branch):
             return wanted_branch
 
         return None
 
-    def _switch_branch_if_necessary(self, buildscript):
+    def switch_branch_if_necessary(self, buildscript):
         """
         The switch depends on the requested tag, the requested branch, and the
         state and type of the current branch.
@@ -234,15 +234,15 @@ class GitBranch(Branch):
         An imminent branch switch generates an error if there are uncommited
         changes.
         """
-        wanted_branch = self._get_branch_switch_destination()
+        wanted_branch = self.get_branch_switch_destination()
         switch_command = []
         if self.tag:
             switch_command= ['git', 'checkout', self.tag]
         elif wanted_branch:
-            if self._is_local_branch(wanted_branch):
+            if self.is_local_branch(wanted_branch):
                 switch_command = ['git', 'checkout', wanted_branch]
             else:
-                if not self._find_remote_branch_online_if_necessary(
+                if not self.find_remote_branch_online_if_necessary(
                         buildscript, 'origin', wanted_branch):
                     raise CommandError(_('The requested branch "%s" is '
                             'not available. Neither locally, nor remotely '
@@ -256,9 +256,9 @@ class GitBranch(Branch):
             buildscript.execute(switch_command, cwd=self.get_checkoutdir(),
                     extra_env=get_git_extra_env())
 
-    def _pull_current_branch(self, buildscript):
+    def pull_current_branch(self, buildscript):
         """Pull the current branch if it is tracking a remote branch."""
-        if not self._is_tracking_a_remote_branch(self._get_current_branch()):
+        if not self.is_tracking_a_remote_branch(self.get_current_branch()):
             return
 
         git_extra_args = {'cwd': self.get_checkoutdir(),
@@ -274,13 +274,13 @@ class GitBranch(Branch):
 
         if stashed:
             # git stash pop was introduced in 1.5.5,
-            if self._check_version_git('1.5.5'):
+            if self.check_version_git('1.5.5'):
                 buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
             else:
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
                         **git_extra_args)
 
-    def _rewind_to_sticky_date(self, buildscript):
+    def rewind_to_sticky_date(self, buildscript):
         if self.config.quiet_mode:
             quiet = ['-q']
         else:
@@ -395,12 +395,12 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
-        self._switch_branch_if_necessary(buildscript)
+        self.switch_branch_if_necessary(buildscript)
 
-        self._pull_current_branch(buildscript)
+        self.pull_current_branch(buildscript)
 
         if self.config.sticky_date:
-            self._rewind_to_sticky_date(buildscript)
+            self.rewind_to_sticky_date(buildscript)
 
         self._update_submodules(buildscript)
 
