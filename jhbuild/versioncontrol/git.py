@@ -281,7 +281,10 @@ class GitBranch(Branch):
                         **git_extra_args)
 
     def _rewind_to_sticky_date(self, buildscript):
-        quiet = ['-q'] if self.config.quiet_mode else []
+        if self.config.quiet_mode:
+            quiet = ['-q']
+        else:
+            quiet = []
         commit = self._get_commit_from_date()
         branch = 'jhbuild-date-branch'
         branch_cmd = ['git', 'checkout'] + quiet + [branch]
