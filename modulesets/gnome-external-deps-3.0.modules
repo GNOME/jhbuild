@@ -301,6 +301,12 @@
     </dependencies>
   </tarball>
 
+  <tarball id="libdiscid" version="0.2.2">
+    <source href="http://users.musicbrainz.org/~matt/libdiscid-0.2.2.tar.gz"
+            hash="sha256:974b5d5ab23fb45910a4fe171045a22a749cd8cb9833168f7178839993a58402"
+            md5sum="ee21ddbe696a3c60e14827a75f3bcf5b" size="347907"/>
+  </tarball>
+
   <cmake id="libmusicbrainz">
     <branch module="libmusicbrainz-3.0.2.tar.gz" version="3.0.2"
             repo="ftp.musicbrainz.org"
@@ -308,6 +314,9 @@
             md5sum="648ecd43f7b80852419aaf73702bc23f" size="98537">
       <patch file="libmusicbrainz-3.0.2-gcc-4.4-fix.patch"/>
     </branch>
+    <dependencies>
+      <dep package="libdiscid"/>
+    </dependencies>
   </cmake>
 
   <tarball id="liboil" version="0.3.17">
