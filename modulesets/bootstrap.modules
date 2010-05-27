@@ -7,8 +7,6 @@
       href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python"
       href="http://www.python.org/ftp/python/"/>
-  <repository type="tarball" name="waf"
-      href="http://waf.googlecode.com/files/"/>
   <repository type="tarball" name="sourceforge"
       href="http://dfn.dl.sourceforge.net/sourceforge/"/>
 
@@ -28,8 +26,8 @@
 
   <autotools id="autoconf" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
-            module="autoconf/autoconf-2.63.tar.bz2" version="2.63"
-            size="1195259" md5sum="7565809ed801bb5726da0631ceab3699" />
+            module="autoconf/autoconf-2.65.tar.bz2" version="2.65"
+            size="1332522" md5sum="a6de1cc6434cd64038b0a0ae4e252b33" />
     <dependencies>
       <dep package="m4"/>
     </dependencies>
@@ -43,16 +41,6 @@
     </branch>
   </autotools>
 
-  <autotools id="automake-1.4" autogen-sh="configure">
-    <branch repo="ftp.gnu.org"
-            module="automake/automake-1.4-p6.tar.gz" version="1.4-p6"
-            size="375060" md5sum="24872b81b95d78d05834c39af2cfcf05" />
-  </autotools>
-  <autotools id="automake-1.7" autogen-sh="configure">
-    <branch repo="ftp.gnu.org"
-            module="automake/automake-1.7.9.tar.bz2" version="1.7.9"
-            size="577705" md5sum="571fd0b0598eb2a27dcf68adcfddfacb" />
-  </autotools>
   <autotools id="automake-1.8" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
             module="automake/automake-1.8.5.tar.bz2" version="1.8.5"
@@ -65,13 +53,13 @@
   </autotools>
   <autotools id="automake-1.10" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
-            module="automake/automake-1.10.1.tar.bz2" version="1.10.1"
-            size="918341" md5sum="4510391e6b3edaa4cffb3ced87c9560c" />
+            module="automake/automake-1.10.3.tar.bz2" version="1.10.3"
+            size="957505" md5sum="b8e67fb458da396bc35555af7ef2b49f" />
   </autotools>
   <autotools id="automake-1.11" autogen-sh="configure">
     <branch repo="ftp.gnu.org" 	 
-	    module="automake/automake-1.11.tar.bz2" version="1.11"
-	    size="1058759" md5sum="4db4efe027e26b33930a7e151de19d0f" />
+	    module="automake/automake-1.11.1.tar.bz2" version="1.11.1"
+	    size="1066685" md5sum="c2972c4d9b3e29c03d5f2af86249876f" />
   </autotools> 	 
 	 
   <autotools id="pkg-config" autogen-sh="configure">
@@ -86,16 +74,6 @@
             size="9807597" md5sum="afb5451049eda91fbde10bd5a4b7fadc">
       <patch file="python-2.5.2-lib64.patch" strip="1" />
     </branch>
-  </autotools>
-
-  <autotools id="waf" autogen-sh="utils/autogen.sh">
-    <branch repo="waf" module="waf-1.4.4.tar.bz2" version="1.4.4"
-            size="473192" md5sum="6a809e446497b710592579772c8b22bd">
-      <patch file="waf-install.patch" strip="1" />
-    </branch>
-    <dependencies>
-      <dep package="python"/>
-    </dependencies>
   </autotools>
 
   <tarball id="gmp" version="4.3.1">
@@ -119,8 +97,6 @@
       <dep package="gettext" />
       <dep package="autoconf" />
       <dep package="libtool" />
-      <dep package="automake-1.4" />
-      <dep package="automake-1.7" />
       <dep package="automake-1.8" />
       <dep package="automake-1.9" />
       <dep package="automake-1.10" />
@@ -128,7 +104,6 @@
       <dep package="pkg-config" />
       <dep package="python" />
       <dep package="guile" />
-      <dep package="waf" />
     </dependencies>
   </metamodule>
 

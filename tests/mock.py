@@ -43,6 +43,7 @@ class Config(jhbuild.config.Config):
     nopoison = False
     makecheck_advisory = False
     module_makecheck = {}
+    module_nopoison = {}
     forcecheck = False
     autogenargs = ''
     module_autogenargs = {}

@@ -79,7 +79,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus-glib">
+  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt">
+    <branch repo="git.freedesktop.org" module="packagekit/PackageKit"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="NetworkManager"/>
+      <dep package="polkit"/>
+    </suggests>
+  </autotools>
+
+   <autotools id="dbus-glib">
     <branch repo="git.freedesktop.org" module="dbus/dbus-glib"/>
     <dependencies>
       <dep package="libxml2"/>
@@ -126,6 +139,14 @@
     <branch repo="git.kernel.org"
             module="pub/scm/utils/util-linux-ng/util-linux-ng.git" checkoutdir="util-linux-ng"/>
     <dependencies/>
+  </autotools>
+
+  <autotools id="UPower">
+    <branch repo="git.freedesktop.org" module="upower"/>
+    <dependencies>
+      <dep package="polkit"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
   </autotools>
 
   <autotools id="hal-info">
@@ -212,7 +233,7 @@
   </autotools>
 
   <autotools id="desktop-file-utils">
-    <branch repo="cvs.freedesktop.org/menus" module="desktop-file-utils"/>
+    <branch repo="git.freedesktop.org" module="xdg/desktop-file-utils"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="intltool"/>
@@ -423,7 +444,6 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
-      <dep package="libtelepathy"/>
       <dep package="gconf"/>
       <dep package="libxslt"/>
     </dependencies>
@@ -618,6 +638,15 @@
       <dep package="gst-plugins-base"/>
       <dep package="enchant"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libgdata">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libsoup"/>
+    </dependencies>
   </autotools>
 
 </moduleset>

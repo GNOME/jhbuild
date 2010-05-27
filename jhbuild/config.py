@@ -298,6 +298,7 @@ class Config:
             libdir = os.path.join(self.prefix, 'lib64')
         else:
             libdir = os.path.join(self.prefix, 'lib')
+        self.libdir = libdir
         addpath('LD_LIBRARY_PATH', libdir)
 
         # LDFLAGS and C_INCLUDE_PATH are required for autoconf configure
@@ -361,6 +362,10 @@ class Config:
                 os.makedirs(aclocaldir)
             except:
                 raise FatalError(_("Can't create %s directory") % aclocaldir)
+        if os.path.exists('/usr/share/aclocal'):
+            addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
+        if os.path.exists('/usr/local/share/aclocal'):
+            addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         # PERL5LIB

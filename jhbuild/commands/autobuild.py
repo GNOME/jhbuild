@@ -51,16 +51,13 @@ class cmd_autobuild(Command):
             ])
 
     def run(self, config, options, args, help=None):
+        config.set_from_cmdline_options(options)
         config.buildscript = 'autobuild'
 
         config.autobuild_report_url = None
         config.verbose = False
         config.interact = False
 
-        if options.autogen:
-            config.alwaysautogen = True
-        if options.clean:
-            config.makeclean = True
         if options.reporturl is not None:
             config.autobuild_report_url = options.reporturl
         if options.verbose:

@@ -1,215 +1,158 @@
-Yet Another Gnome 2 Build Script
+JHBuild README
 ================================
 
-This is another set of scripts for building GNOME 2.  They are still a
-little rough around the edges, but may still be useful to you.
+JHBuild is a tool designed to ease building collections of source
+packages, called “modules”.
 
-They don't enforce any particular checkout, build or install
-directories for your gnome2 setup (this is deduced from the config
-file).
+JHBuild was originally written for building GNOME, but has since been
+extended to be usable with other projects.
 
-You must have python >= 2.3 installed for jhbuild to run.
+JHBuild requires Python >= 2.3
 
-Note that the included module sets build most software from CVS (or
-equivalent), so you may encounter occasional build failures.
-
-If you want to build from released tarballs instead, some options
-include:
-
- * use a jhbuild module set comprised of tarball releases:
-     http://blogs.gnome.org/view/newren/2005/10/04/0
-
- * use GARNOME: a GAR configuration for building Gnome from tarballs:
-     http://www.gnome.org/projects/garnome/
-
-
-Why use jhbuild?
-----------------
-
-I wrote jhbuild because there were a few features missing from
-vicious-build-scripts that I wanted.  The main one is dependency
-handling.
-
-With vicious-build-scripts, there is a list of modules that get built
-in order.  In contrast, jhbuild stores a list of modules along with
-their dependencies.  In the config file, you specify what modules you
-want to end up with, and it will work out what dependencies need to be
-built.
-
-The other main feature of jhbuild is its error handling.  If an error
-occurs while building a module, you are given a number of options:
-rerun the build stage, start a shell, give up on the module, or ignore
-the error.  If you give up on the module, then jhbuild will not
-attempt to build any module that depends on it (taking into account
-transitive dependencies, as needed).  At the end of the build, a list
-of unbuilt modules is printed.
-
-If you wish to run a non interactive build, you can pass the
---no-interact option.
-
-
-Configuring
+Installing JHBuild
 -----------
 
-To install the scripts run "make -f Makefile.plain install", and then copy
-sample.jhbuildrc to you home directory, rename it to .jhbuildrc 
-and edit to match your setup.  My rc file is provided for reference as 
-jamesh.jhbuildrc.
+Refer to the 'Getting Started' section of the JHBuild manual:
 
-For people using vicious-build-scripts to build gnome 2.0, the
-vbs-head.jhbuildrc sample configuration file might be a good one to
-start with.
+  gnome-help ghelp:/jhbuild-source-dir/doc/C/jhbuild.xml
 
-Before you can build packages from CVS, you will need to have various
-build tools installed.  Currently, these include:
-  gettext >= 0.10.40
-  libtool >= 1.5
-  autoconf >= 2.58
-  automake 1.4-p6
-  automake 1.6.x
-  automake 1.7.x
-  automake 1.8.x
-  pkg-config >= 0.14
-  python >= 2.2
-  audiofile
+where 'jhbuild-source-dir' is the full path to the JHBuild source
+directory.
 
-Some modules may be managed with Subversion or GNU Arch, so you will
-need those tools to build affected modules:
-  subversion  http://subversion.tigris.org/
-  bazaar      http://bazaar.canonical.com/ (an Arch implementation)
+Or refer to the on-line JHBuild manual at:
 
-You can check whether the tools are available by running the following
-command:
-  jhbuild sanitycheck
+  http://library.gnome.org/devel/jhbuild/stable/getting-started.html.en
 
-If any problems are reported, you have two options:
-
-1) install packages from your distribution to satisfy the
-   requirements.  You may need to pull some packages from the
-   development branch of your distro (eg. for Red Hat 9 or Fedora Core
-   1 you would need updated automake packages from
-   rawhide/development).
-
-2) Run jhbuild's bootstrap procedure to install all the build tools to
-   your jhbuild installroot.  This can be done by running the
-   following command:
-     jhbuild bootstrap
-
-   Note that if you depend on m4 macros or pkg-config files in /usr,
-   you might need to adjust ACLOCAL_FLAGS and PKG_CONFIG_PATH after
-   running bootstrap.  This can be done by adding the following lines
-   to your ~/.jhbuildrc file:
-     addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
-     addpath('PKG_CONFIG_PATH', '/usr/lib/pkgconfig')
-
-After installing the required build tools, rerun sanitycheck to make
-sure everything is okay.
-
-Bootstrapping should only need to be done once (unless the
-requirements of some package change).
-
-
-Using jhbuild
+Using JHBuild
 -------------
 
-To build everything, just type 'jhbuild build', or just 'jhbuild'.
-Some useful options that this command takes include:
+JHBuild uses a command line syntax similar to tools like CVS:
 
-  --autogen          always run autogen.sh
-  --clean            run "make clean" before make when building
-  --no-network       don't update source from cvs
-  --skip=MODULES     skip building the given modules
-  --start-at=MODULE  start building at the given module
+  jhbuild [global-options] command [command-arguments]
 
-If you just want to checkout the latest versions of everything, run:
-  jhbuild update
+The global JHBuild options are:
 
-If you want to build everything without updating from CVS (for
-instance, when disconnected from the internet), use the following
-command:
-  jhbuild build --no-network
+  -f, --file config
+  Use an alternative configuration file instead of the default ~/.jhbuildrc.
 
-(this command takes the same options as 'jhbuild build').
+  -m, --moduleset moduleset
+  Use a module set other than the module set listed in the
+  configuration file. This option can be a relative path if the module
+  set is located in the JHBuild moduleset folder, or an absolute path
+  if located elsewhere.
 
-If you want to run a command in the build environment (PATH,
-LD_LIBRARY_PATH, etc all configured), use the following command:
-  jhbuild run program
+  --no-interact
+  Do not prompt the user for any input. This option is useful if
+  leaving a build unattended, in order to ensure the build is not
+  interrupted.
 
-For example, to start a shell in the build environment:
-  jhbuild run bash
+Refer to the JHBuild manual for a complete list of JHBuild commands
+and options. The common ones are:
 
-To build a single module with no dependencies, use the following
-command:
-  jhbuild buildone modulename
+jhbuild bootstrap
 
-(this command takes the same extra options as 'jhbuild build').
+  The bootstrap command installs a set of build utilities required to
+  build most modules (e.g. autoconf, automake, etc).
 
-To run an unattended build and create a status page showing the
-results of building each package:
-  jhbuild tinderbox --output=/dir/to/store/build/logs
+jhbuild build [--autogen] [--clean] [--dist] [--distcheck]
+  [--ignore-suggests] [--no-network] [--skip=module...]
+  [--start-at=module] [--tags=tags] [-D date] [--no-xvfb]
+  [--try-checkout] [--no-poison] [--force] [--build-optional-modules]
+  [--min-age=time] [module...]
 
-(this command takes the same extra options as 'jhbuild build').
+  The build command builds one or more packages, including their
+  dependencies.
+
+  If no module names are provided on the command line, the modules
+  list from the configuration file will be used.
+
+  -a, --autogen
+  Always run autogen.sh before building modules. By default,
+  autogen.sh will only be called if the top-level makefile is
+  missing. Otherwise, JHBuild relies on the package's makefiles to
+  detect if configure needs to be rebuilt or rerun.
+
+  -c, --clean
+  Run make clean before building modules.
+
+  -d, --dist
+  Run make dist after building modules.
+
+  --distcheck
+  Run make distcheck after building modules.
+
+  --ignore-suggests
+  Do not build soft dependencies.
+
+  -n, --no-network
+  Do not access the network when building modules. This will skip
+  download or update stages in a build. If a module can't be built
+  without network access, the module build will fail.
+
+  -s, --skip=module,...
+  Do not build the listed modules. Used to skip the building of
+  specified dependencies.
+
+  --tags=tag,...
+  Ignore modules that do not match tag. Modules are automatically
+  attributed a tag matching the name of the module's module set.
+
+  -t, --start-at=module
+  Start at the named module rather than at the beginning of the
+  list. This option is useful if the build was interrupted.
+
+  -D date
+  If supported by the underlying version control system, update the
+  source tree to the specified date before building. An ISO date
+  format is required, e.g. "2009-09-18 02:32Z".
+
+  -x, --no-xvfb
+  Run graphical tests on the actual X server rather than in a
+  simulated Xvfb.
+
+  -C, --try-checkout
+  If the build fails, and if supported by the version control system,
+  force a checkout and run autogen.sh before retrying the build.
+
+  -N, --no-poison
+  If one or more of a module's dependencies failed, this option forces
+  JHBuild to try to build the module anyway.
+
+  -f, --force
+  Build the modules even if policy states it is not required.
+
+  --build-optional-modules
+  Modules listed as optional dependencies, may not be required to
+  build the module. This option forces JHBuild to build optional
+  dependencies.
+
+  --min-time=time
+  Skip modules installed more recently than the specified relative
+  time. The time string format is a number followed by a unit. The
+  following units are supported: seconds (s), minutes (m), hours (h)
+  and days (d). For example, --min-time=2h will skip modules built
+  less than two hours ago.
+
+jhbuild buildone [--autogen] [--clean] [--distcheck] [--no-network]
+  [-D date] [--no-xvfb] [--force] [--min-age=time] module...
+
+  The buildone command is similar to build, but it does not build the
+  dependent modules. It is useful for rebuilding one or more modules.
+
+jhbuild sanitycheck
+
+  The sanitycheck command performs a number of checks to verify the
+  build environment is okay.
 
 For details of all jbhuild's command line options:
   jhbuild --help
 
-
-Error handling
---------------
-
-When an error is encountered while building, you will be given a
-chance to fix the problem.  You can choose to rerun that part of the
-build, start a shell to give you a chance to fix things, give up on
-the module all together, or ignore the error (useful for certain cvs
-errors).
-
-If you give up on building a module, all modules that depend on it
-will be skipped.  If you would prefer the build not to ask questions
-on errors, you can pass the --no-interact switch, which is equivalent
-to always choosing give up.
-
-
-Module info
------------
-
-Information about how to build the modules is contained in the
-moduleinfo.py file.  This file needs to be modified when dependencies
-between modules change (usually, no change to the ~/.jhbuildrc will be
-needed).
-
-
-Running Gnome
---------------
-
-Once you have built Gnome with jhbuild you need a way to start it:
-
-If you use GDM to log into Gnome you need to create a session file in
-/usr/share/xsessions/ (directory may be different on non-redhat systems). 
-Call it 'jhbuild.desktop' and make it executable. Then add the lines:
-
-[Desktop Entry]
-Encoding=UTF-8
-Name=Gnome-cvs
-Comment=This session logs you into Gnome-cvs
-Exec=jhbuild run gnome-session
-Type=Application
-
-In order to have the name & comment show up in your native language, you will
-have to add lines similar to the following:
-
-Name[es]=Gnome-cvs
-Comment[es]=Con esta sesiÃ³n accede a gnome-cvs
-
-If you use startx to run gnome just add 'exec jhbuild run gnome-session'
-to your ~/.xinitrc
-
-
 Reporting Bugs
 --------------
 
-If you find any bugs in jhbuild, or have feature requests (or
+If you find any bugs in JHBuild, or have feature requests (or
 implementations :), please file them in bugzilla at:
 
   http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild
 
-This will make sure I don't lose your request.
+This will ensure your request is not lost.

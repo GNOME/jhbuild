@@ -260,7 +260,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
 
     def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
-	print 'FIXME: handle error! (failed build: %s: %s)' % (module, error)
+        print 'FIXME: handle error! (failed build: %s: %s)' % (module, error)
         return 'fail'
 
     def _upload_ldtp_logfile (self, module):

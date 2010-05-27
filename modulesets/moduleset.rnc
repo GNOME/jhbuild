@@ -11,7 +11,10 @@ repository_cvs     = attribute type { "cvs" },
                      attribute cvsroot { text },
                      attribute password { text }?
 repository_svn     = attribute type { "svn" },
-                     attribute href { xsd:anyURI }
+                     attribute href { xsd:anyURI },
+                     attribute trunk-template { text }?,
+                     attribute branches-template { text }?,
+                     attribute tags-template { text }?
 repository_arch    = attribute type { "arch" },
                      attribute archive { text },
                      attribute href { xsd:anyURI }?

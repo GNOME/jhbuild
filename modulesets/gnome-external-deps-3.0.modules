@@ -29,6 +29,8 @@
     href="http://samba.org/samba/ftp/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="http://webkitgtk.org/"/>
+<repository type="tarball" name="ftp.musicbrainz.org"
+    href="http://ftp.musicbrainz.org/pub/musicbrainz/"/>
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -44,10 +46,10 @@
   </tarball>
 
   <autotools id="cairo">
-    <branch module="releases/cairo-1.8.6.tar.gz" version="1.8.6"
+    <branch module="releases/cairo-1.8.10.tar.gz" version="1.8.10"
             repo="cairo.org"
-            hash="sha256:93a347af0cecf258be8fb54265b16a0fb16317df4a32896141d2987c30773535"
-            md5sum="4e64139ef6f668df24450f3b81dd0771" size="6616544">
+            hash="sha256:572bada15596ec8708392db1af8b93a1af75ca47690348154e2841f3a6f08439"
+            md5sum="b60a82f405f9400bbfdcf850b1728d25" size="7102657">
     </branch>
     <dependencies>
       <dep package="fontconfig"/>
@@ -60,10 +62,10 @@
   </autotools>
 
   <autotools id="cairomm">
-    <branch module="releases/cairomm-1.6.2.tar.gz" version="1.6.2"
-            repo="cairo.org" 
-            hash="sha256:068edc1743d92ff1d102141ba7597ba02a47379f9cb97799b0c3310848b56eff"
-            md5sum="eac5d159e4cba98e32ea174483dee24e" size="668258">
+    <branch module="releases/cairomm-1.8.4.tar.gz" version="1.8.4"
+            repo="cairo.org"
+            hash="sha256:a28ec6d9af8f93d09076f32cd77de35f9d74a517def5dea12cb8cc2ce3a6c8f1"
+            md5sum="559afbc47484ba3fad265e38a3dafe90" size="906632">
     </branch>
     <dependencies>
       <dep package="cairo"/>
@@ -71,10 +73,10 @@
   </autotools>
 
   <autotools id="clutter">
-    <branch module="clutter/1.2/clutter-1.2.4.tar.bz2" version="1.2.4"
+    <branch module="clutter/1.2/clutter-1.2.8.tar.bz2" version="1.2.8"
 	    repo="clutter-project.org"
-	    hash="sha256:14528674af19eca4f6638c6e1e0ac07e40d047a6a31bac2f8cbb6ee0349ccb65"
-	    md5sum="3800dcc825e25d58e7ef93de26cd9759" size="2398791"/>
+	    hash="sha256:bdc1583572546bf1d5497fcb36b1affaf868af6213d04c720274ab96c3996179"
+	    md5sum="a94f5492465cb048115e066ebb9cbd58" size="2388895"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -98,11 +100,23 @@
     </dependencies>
   </autotools>
 
+  <autotools id="pyclutter">
+    <branch module="pyclutter/1.0/pyclutter-1.0.2.tar.gz" version="1.0.2"
+            repo="clutter-project.org"
+            hash="sha256:46c305bc231e76a51261705ae003ac2a8d5711110538319165ba53ccf85f8037"
+            md5sum="4aa01573c8900587702e8102e02c14e6" size="628308"/>
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="pycairo"/>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="dbus" supports-non-srcdir-builds="no">
-    <branch module="dbus/dbus-1.2.16.tar.gz" version="1.2.16"
+    <branch module="dbus/dbus-1.2.24.tar.gz" version="1.2.24"
 	    repo="dbus"
-	    hash="sha256:968a31c16a6c4bbbdb603cbaa3d60d6d19bc8ae30c0ed55d7f8c2e254413e4c8"
-	    md5sum="c7a47b851ebe02f6726b65b78d1b730b" size="1576209">
+	    hash="sha256:f12c748f4a703655e3d4c3db94cdf5a752a0cd0b36958c715804373bd3595c48"
+	    md5sum="565346cecd9cfecf1463540c6086cc2c" size="1673774">
     </branch>
     <dependencies>
       <dep package="expat"/>
@@ -127,10 +141,10 @@
   </autotools>
 
   <autotools id="dbus-python">
-    <branch module="dbus-python/dbus-python-0.83.0.tar.gz" version="0.83.0"
+    <branch module="dbus-python/dbus-python-0.83.1.tar.gz" version="0.83.1"
             repo="dbus"
-	    hash="sha256:89dd1d5aa5c2ba04677d1aa2616caa50274d8c08f3d6bc164e6f7b9930776191"
-	    md5sum="562c78876219bf458d79a041af18293d" size="494281"/>
+	    hash="sha256:ce283806f1af4f2322e183a276528a880b503c74972932bd09f06bdb7fcc1b99"
+	    md5sum="5fdf3970aa0c00020289de7ba8f3be18" size="533391"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -140,20 +154,20 @@
     </suggests>
   </autotools>
 
-  <tarball id="desktop-file-utils" version="0.15">
-    <source href="http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.15.tar.gz"
-            hash="sha256:c463d851fb057acd53800cfc4f8ae39dcbcad7f03b4bd547288e95b6de53b022"
-            md5sum="2fe8ebe222fc33cd4a959415495b7eed" size="348871"/>
+  <tarball id="desktop-file-utils" version="0.16">
+    <source href="http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.16.tar.bz2"
+            hash="sha256:7960be4bf7aa4b4698e8ea333cfa0bbfa7a169029e85d6a8b5390f625155c9a3"
+            md5sum="6811712bced796d025d1a8a0f728d941" size="282640"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="intltool"/>
     </dependencies>
   </tarball>
 
-  <tarball id="enchant" version="1.4.2">
-    <source href="http://www.abisource.com/downloads/enchant/1.4.2/enchant-1.4.2.tar.gz"
-	    hash="sha256:95c8dd998c8fb436329d204e0edde4400b889e4e26d3f8cb888c408c9a9acc6a"
-	    md5sum="fe4558269ff59f569ab9581c907d58cb" size="595192"/>
+  <tarball id="enchant" version="1.6.0">
+    <source href="http://www.abisource.com/downloads/enchant/1.6.0/enchant-1.6.0.tar.gz"
+	    hash="sha256:2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03f7097f"
+	    md5sum="de11011aff801dc61042828041fb59c7" size="607018"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -198,20 +212,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="DeviceKit-power" version="009">
-    <source href="http://upower.freedesktop.org/releases/DeviceKit-power-009.tar.gz"
-            hash="sha256:438ac7f22533e04f5b44e0cf23d8b51a5cb69906ea2bbdef0581dc3c7cf19e55"
-            size="496455"/>
-    <dependencies>
-      <dep package="polkit"/>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
-
  <tarball id="UPower" version="">
-    <source href="http://upower.freedesktop.org/releases/UPower-0.9.1.tar.gz"
-            hash="sha256:f81b82e419fa2296995d610bb0b2585ee42cd9e45e198451f95f72f272abd714"
-            size="596206"/>
+    <source href="http://upower.freedesktop.org/releases/upower-0.9.4.tar.bz2"
+            hash="sha256:39dd138781b2a2d820f1a2bde4ca60dbf99e6def0e0010d4c3d3f4707954a57c"
+            size="468727"/>
     <dependencies>
       <dep package="polkit"/>
       <dep package="dbus-glib"/>
@@ -237,10 +241,10 @@
     <branch repo="icon-theme.freedesktop.org"/>
   </tarball>
 
-  <tarball id="iso-codes" version="3.8">
-    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-3.8.tar.bz2"
-            hash="sha256:4cc4c3791f8f569af41b40835080b4b8b0c9305efd1ffebacebb576c518007a0"
-            md5sum="7b219078203a710b7510ba54c161097c" size="5323027"/>
+  <tarball id="iso-codes" version="3.16">
+    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-3.16.tar.bz2"
+            hash="sha256:52409951afd10a3539f015ba59099cd6b5f7fc034e6ee326ef5922503fb2f6cb"
+            md5sum="fe87d95d81cd1426a2170b10deb6974c" size="5868730"/>
   </tarball>
 
   <tarball id="libcolorblind" version="0.0.1">
@@ -260,33 +264,35 @@
   </tarball>
 
   <autotools id="libdaemon" autogenargs="--disable-lynx">
-    <branch repo="0pointer.de" module="libdaemon/libdaemon-0.13.tar.gz"
-	    version="0.13"
-            hash="sha256:bd949d459d2da54f1cdfbd1f4592e32541e8a195aca56fa7a8329ed79836d709"
-            md5sum="ae9113fcd825d5a7f07e5ddccb3c3102" size="368119"/>
+    <branch repo="0pointer.de" module="libdaemon/libdaemon-0.14.tar.gz"
+	    version="0.14"
+            hash="sha256:fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"
+            md5sum="509dc27107c21bcd9fbf2f95f5669563" size="340474"/>
   </autotools>
 
   <autotools id="libgpg-error" autogen-sh="configure" check-target="false">
-    <branch module="libgpg-error/libgpg-error-1.6.tar.bz2"
-            repo="gnupg.org" version="1.6"
-            hash="sha256:aa7df632134dfd3d4e65f5a98edd6bb9a97b498db911f4287bbaeb5ae83a1bad"
-            md5sum="f3e9870e213518b407a959f8d29cd554" size="382110" />
+    <branch module="libgpg-error/libgpg-error-1.8.tar.bz2"
+            repo="gnupg.org" version="1.8"
+            hash="sha256:bdfbf2677147239d2d26d4e37f44635d9fd97c133c9ef9fd9793a12a059508c5"
+            md5sum="1d2005268a2f096db28cf9cf77b3229a" size="435341" />
   </autotools>
 
   <autotools id="libgcrypt" autogen-sh="configure" check-target="false">
-    <branch module="libgcrypt/libgcrypt-1.4.4.tar.bz2"
-            repo="gnupg.org" version="1.4.4"
-            hash="sha256:3212b88080cf8fa006164d38fc176fafa5c29591c8384f284ab880db0dbf306f"
-            md5sum="34105aa927e23c217741966496b97e67" size="1143139" />
+    <branch module="libgcrypt/libgcrypt-1.4.5.tar.bz2"
+            repo="gnupg.org" version="1.4.5"
+            hash="sha256:496f907c5324de75367ec61c63bfeed1309ef0bc64845dc20b3597731abd9e40"
+            md5sum="cc2017ad09b4543f8b3b5e9a53cfd89d" size="1148382">
+      <patch file="libgcrypt-1.4.5-ImplicitDSOLinking.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="libgpg-error" />
     </dependencies>
   </autotools>
 
-  <tarball id="libgsf" version="1.14.11">
-    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.16.tar.bz2"
-            hash="sha256:11fd8fca1bdbcfa426276a124ad083cca9632f03cf766523bcdfb2fca0b08908"
-            md5sum="8478d83fda0b6e57f36550c11a693ee1" size="599091"/>
+  <tarball id="libgsf" version="1.14.18">
+    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.18.tar.bz2"
+            hash="sha256:16d29e82f7eba68f919f2588ea5328973490fe6d4a7a5f160e8af89b387c9a95"
+            md5sum="2c15d875b1931c40c7e7a2368f3ed948" size="611584"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -295,25 +301,25 @@
     </dependencies>
   </tarball>
 
-  <tarball id="libmusicbrainz" version="2.1.5">
-    <source href="http://ftp.musicbrainz.org/pub/musicbrainz/libmusicbrainz-2.1.5.tar.gz"
-            hash="sha256:c6629c4bed428f9df3f89efc065b2d96f05eba36286532ebe8b8e404022371a0"
-            md5sum="d5e19bb77edd6ea798ce206bd05ccc5f" size="524243"/>
-    <patches>
-      <patch file="libmusicbrainz-missing-includes.patch" strip="1"/>
-    </patches>
+  <cmake id="libmusicbrainz">
+    <branch module="libmusicbrainz-3.0.2.tar.gz" version="3.0.2"
+            repo="ftp.musicbrainz.org"
+            hash="sha256:b9a35e56826239add731cf083108cbc313d4a2d1770e6f5006966daa66a21eda"
+            md5sum="648ecd43f7b80852419aaf73702bc23f" size="98537">
+      <patch file="libmusicbrainz-3.0.2-gcc-4.4-fix.patch"/>
+    </branch>
+  </cmake>
+
+  <tarball id="liboil" version="0.3.17">
+    <source href="http://liboil.freedesktop.org/download/liboil-0.3.17.tar.gz"
+            hash="sha256:105f02079b0b50034c759db34b473ecb5704ffa20a5486b60a8b7698128bfc69"
+            md5sum="47dc734f82faeb2964d97771cfd2e701" size="912563"/>
   </tarball>
 
-  <tarball id="liboil" version="0.3.16">
-    <source href="http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz"
-            hash="sha256:009115b0fc888dfe28903fecfe806707c544ccad6554ebabdeb3a1d88ec1e9d1"
-            md5sum="febb1d9f9bc4c440fcf622dc90f8b6b7" size="855765"/>
-  </tarball>
-
-  <tarball id="libtasn1" version="1.8" supports-non-srcdir-builds="no">
-    <source href="ftp://ftp.gnu.org/gnu/gnutls/libtasn1-1.8.tar.gz"
-            hash="sha256:2c81cd1d5488e6efdc67b1e8a381e70a33dc75d9c439f23220ba730bc405ee07"
-            md5sum="6b87c159e7dcb6e58204cce1edb0fecc" size="1608176" />
+  <tarball id="libtasn1" version="2.2" supports-non-srcdir-builds="no">
+    <source href="ftp://ftp.gnu.org/gnu/gnutls/libtasn1-2.2.tar.gz"
+            hash="sha256:5dd7956d62a351bb657f18d228c5d5b9e9455355543f59ff36484a9d389e36b9"
+            md5sum="14cc361500d2e768a8a6ec538ce3fecb" size="1641693" />
   </tarball>
 
   <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.0">
@@ -329,10 +335,10 @@
   </tarball>
 
   <autotools id="libxml2">
-    <branch module="libxml2/libxml2-2.7.6.tar.gz"
-            repo="xmlsoft.org" version="2.7.6"
-            hash="sha256:238c4f0203c012e5776522640c0fb3ac532c4064981c1ce3e74c00b75501d761"
-            md5sum="7740a8ec23878a2f50120e1faa2730f2" size="4854591"/>
+    <branch module="libxml2/libxml2-2.7.7.tar.gz"
+            repo="xmlsoft.org" version="2.7.7"
+            hash="sha256:af5b781418ba4fff556fa43c50086658ea8a2f31909c2b625c2ce913a1d9eb68"
+            md5sum="9abc9959823ca9ff904f1fbcf21df066" size="4868502"/>
   </autotools>
 
   <autotools id="libxslt" check-target="false">
@@ -385,17 +391,17 @@
   </autotools>
 
   <autotools id="pixman" autogenargs="--disable-gtk">
-    <branch module="releases/pixman-0.14.0.tar.gz" version="0.14.0"
+    <branch module="releases/pixman-0.18.2.tar.gz" version="0.18.2"
             repo="cairo.org" 
-            hash="sha256:f0c28f4d512b6c199838dc558746e751763d3e298785af098554a8dcafc53bb4"
-            md5sum="da330524bbd975271974378b1c5e7b5d" size="468269">
+            hash="sha256:80aee833b429d105d2c7593ef96993da04441b3b747084f1f3bfd7be594e1c45"
+            md5sum="5d1378fa61610dd5d3c7e0111b2c5253" size="510704">
     </branch>
   </autotools>
 
-  <tarball id="poppler" version="0.12.0">
-    <source href="http://poppler.freedesktop.org/poppler-0.12.0.tar.gz"
-            hash="sha256:a95d4a61b1220f60bc40a921766f02d6d18e8276b70291723d6cf77a9c7369ae"
-            md5sum="399b25d9d71ad22bc9a2a9281769c49c" size="1595424"/>
+  <tarball id="poppler" version="0.12.4">
+    <source href="http://poppler.freedesktop.org/poppler-0.12.4.tar.gz"
+            hash="sha256:2afa2a54bd4ccb09e92f82b64bcafa95d39a404a3b3db9d6a5fcad0e0229857a"
+            md5sum="4155346f9369b192569ce9184ff73e43" size="1674400"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
@@ -409,10 +415,10 @@
   </tarball>
 
   <autotools id="pycairo">
-    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
+    <branch module="releases/pycairo-1.8.8.tar.gz" version="1.8.8"
             repo="cairo.org" 
-            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
-            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064">
+            hash="sha256:2f52599943ca03c8ff336a0e84b1c8b74f30e2a3de9cb6a9a42a93a848832860"
+            md5sum="054da6c125cb427a003f5fd6c54f853e" size="475651">
     </branch>
     <dependencies>
       <dep package="cairo"/>
@@ -426,10 +432,10 @@
             hash="sha256:78e290d3cf78d4dc15c7397b0edd138b4d29cf2ad0a7311bfc1c4dfb88f2a400"/>
   </autotools>
 
-  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.70">
-    <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.70.tar.bz2"
-            hash="sha256:0f9a3a6af30c43611db7b7873b91e96197ffc0c89b8e1ee16bc9f893e12c0ca0"
-            md5sum="9032d98f14b8e13e0fea4bf45ca23401" size="497575"/>
+  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.71">
+    <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.71.tar.bz2"
+            hash="sha256:1d8f97f17de77ae0d8a3a4ef357280ef444da87f4ce19170392712d0c2f6d04f"
+            md5sum="0a90508234d415f761a79fbffdff74f4" size="493216"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="libxml2"/>
@@ -458,11 +464,11 @@
     </dependencies>
   </tarball>
 
-  <tarball id="system-tools-backends" version="2.9.4"
+  <tarball id="system-tools-backends" version="2.10.0"
            supports-non-srcdir-builds="no">
-    <source href="http://ftp.gnome.org/pub/GNOME/sources/system-tools-backends/2.9/system-tools-backends-2.9.4.tar.bz2"
-            hash="sha256:b2dc6f82622c1ef4ca02b81d010fb283e32aeb069c27c62e46ee65c3b77e7430"
-            md5sum="d12f83b03d0b9c2ed31557ed0193997b" size="461257"/>
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/system-tools-backends/2.10/system-tools-backends-2.10.0.tar.bz2"
+            hash="sha256:5afea48c0c195dd3b6e0b87a586c08bf614942d4bcb60449fd9f65d95418b60d"
+            md5sum="01fd8fcfbe5f68492186404c96af915a" size="461621"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
@@ -474,10 +480,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.9.2">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.9.2.tar.gz"
-            hash="sha256:a05a5cf870de7f7ef2ed9b838849bff218e994e05b14b9750a70f1a3e83c6757"
-            md5sum="83be89144539472eac4ee4a4487f68c4" size="2548558"/>
+  <tarball id="telepathy-glib" version="0.11.5">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.11.5.tar.gz"
+            hash="sha256:04b4dbb0671715c2d2ac5fc869dabebf90f823a3ae36a97d7e0769802cf48446"
+            md5sum="731e2c9ea0a60684c6c3c297c1c152f3" size="2179106"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -486,10 +492,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-mission-control" version="5.20">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.2.0.tar.gz"
-            hash="sha256:db7d0094df3083ea5d3e945f017d9582febdd396fa1cc03d6f205447f7f540da"
-            md5sum="dc7ce2105d1f569a1a6f7db06be4bc68" size="1029481"/>
+  <tarball id="telepathy-mission-control" version="5.4.0">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.4.0.tar.gz"
+            hash="sha256:5dbb6bdb0ece28018317ff81c13f1b5bd850897416599d2fa1435c34786857ac"
+            md5sum="f40d7a451e97fb3b3a08e441dfab40b3" size="1090498"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -504,24 +510,21 @@
   <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
   	autogenargs="--enable-ipv6 --with-mozilla">
     <branch repo="ftp.mozilla.org"
-            module="nspr/releases/v4.7.3/src/nspr-4.7.3.tar.gz"
-	    version="4.7.3"
-	    hash="sha256:b1d2419ef1807c38944fc746fff14fda8506589e5462dc31194a9d1b494b9f49"
-	    md5sum="3496d6656f3e02dddc7e29f1b122b744" size="1254585">
+            module="nspr/releases/v4.8.4/src/nspr-4.8.4.tar.gz"
+	    version="4.8.4"
+	    hash="sha256:8c119a1702acf7568e5de887e84b34470a929639ee5a89271df2ba57a31f6746"
+	    md5sum="a85bdbe1eb646aa32c785a37d8e3a2f5" size="1196103">
       <patch file="nspr.config_64bits.patch" strip="1" />
       <patch file="nspr.pkgconfig.patch" strip="1"/>
-      <patch file="nspr.sonames.patch" strip="1"/>
-      <patch file="nspr.configure.patch" strip="1"/>
     </branch>
   </autotools>
 
   <autotools id="nss" autogen-sh="configure" supports-non-srcdir-builds="no">
     <branch repo="ftp.mozilla.org"
-            module="security/nss/releases/NSS_3_12_RTM/src/nss-3.12.tar.gz"
-	    version="3.12"
-	    hash="sha256:d30a7470b82a73ed442525b365afaf00427204e3771edfeab05743acca97122b"
-	    md5sum="917f4e05f3982bd7fceaede197f0e1d4" size="5163155">
-      <patch file="nss.sonames.patch" strip="1"/>
+            module="security/nss/releases/NSS_3_12_6_RTM/src/nss-3.12.6.tar.gz"
+	    version="3.12.6"
+	    hash="sha256:8f9759be1ce928e82830923fde62a66e270c4645f10a4c176acfccb6021a9795"
+	    md5sum="da42596665f226de5eb3ecfc1ec57cd1" size="5947630">
       <patch file="nss.pkgconfig-and-configure.patch"/>
     </branch>
     <dependencies>
@@ -539,21 +542,22 @@
 	     --disable-gnomevfs --disable-gnomeui
 	     --with-default-mozilla-five-home=${libdir}/mozilla
 	     --enable-system-cairo
-	     --with-system-nspr --with-system-nss
 	     --disable-mochitest
 	     --disable-debug --enable-optimize=-O2 --disable-tests
 	     --disable-javaxpcom
-	     --enable-extensions=xml-rpc,venkman,inspector,cview,tasks,reporter,python/xpcom
+	     --enable-extensions=python/xpcom
 	     --enable-system-sqlite
 	     --disable-crashreporter
 	     "
              makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
-            module="xulrunner/releases/1.9.0.13/source/xulrunner-1.9.0.13-source.tar.bz2"
-            version="1.9.0.13"
-            hash="sha256:07afeb577038812b97169cdf6bb41938072d3b12f2e9194041c7c31382047be3"
-            md5sum="040d01a1e22a1ec1b28188479df06007" size="37318606"
-            checkoutdir="mozilla" />
+            module="xulrunner/releases/1.9.1.7/source/xulrunner-1.9.1.7.source.tar.bz2"
+            version="1.9.1.7"
+            hash="sha256:a0876896c66cbf06d8bb929687248ac28b99388068e4b5bd29f16366c38e0185"
+            md5sum="82e6f568ddeaae52e85aa089277f5d14" size="46919155"
+            checkoutdir="mozilla-1.9.1">
+      <patch file="mozilla.automationutils.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="sqlite3"/>
@@ -586,25 +590,6 @@
     <dependencies>
       <dep package="libxslt"/>
       <dep package="intltool"/>
-    </dependencies>
-  </tarball>
-
-  <tarball id="libggz" version="0.0.14" supports-non-srcdir-builds="no">
-    <source href="http://ftp.belnet.be/packages/ggzgamingzone/ggz/0.0.14/libggz-0.0.14.tar.gz"
-            hash="sha256:d66834894dbc6b55c1da18b10fe8f9a6248bb5d3410b9dc1af955c6befdd0a43"
-            md5sum="dfd0039042e1bc6c899faaa63d56dad1" size="469811"/>
-    <dependencies>
-      <dep package="libgcrypt" />
-    </dependencies>
-  </tarball>
-
-  <tarball id="ggz-client-libs" version="0.0.14" supports-non-srcdir-builds="no">
-    <source href="http://ftp.belnet.be/packages/ggzgamingzone/ggz/0.0.14/ggz-client-libs-0.0.14.tar.gz"
-            hash="sha256:a2ad93d5158bbe687275cc3ded1379bd2ae6f0463e4fe785cda0fdcf01af8a04"
-            md5sum="efe325665fc745efe34d59dd9dea4284" size="578903"/>
-    <dependencies>
-      <dep package="libggz"/>
-      <dep package="expat"/>
     </dependencies>
   </tarball>
 
@@ -659,10 +644,10 @@
 
   <autotools id="sqlite3"
 	     autogenargs="--enable-threadsafe --disable-tcl --enable-load-extension" check-target="false">
-    <branch module="sqlite-3.6.16.tar.gz" version="3.6.16"
+    <branch module="sqlite-3.6.23.1.tar.gz" version="3.6.23.1"
 	    repo="sqlite.org"
-	    hash="sha256:0c6f3889da54767900bd5d434700ab5a289407ebd831d0f689a30bc44afb4dcd"
-	    md5sum="d7c57e91fbeb630c19f82eec3ef73dae" size="2822505">
+	    hash="sha256:1a0517438a573a68ab73e8ed75d194086d55d75883542ab1d5ae1080bbddd492"
+	    md5sum="d99f1b31da0eb33271464bee15cec701" size="3086807">
     </branch>
   </autotools>
 
@@ -709,10 +694,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="polkit-gnome" version="0.94">
-    <source href="http://hal.freedesktop.org/releases/polkit-gnome-0.94.tar.bz2"
-            hash="sha256:60441f4fad12dab3ff196db9d43d6499ab5d5462bd729f45a4c3f050f7b91525"
-            md5sum="eebab8363a7b7c0516aca4f7b7cd7f7a" size="365379"/>
+  <tarball id="polkit-gnome" version="0.96">
+    <source href="http://hal.freedesktop.org/releases/polkit-gnome-0.96.tar.bz2"
+            hash="sha256:0d96c8032d658a2e1eef8adfbeafff0f569ef0cf68b35915423acc00873c8a92"
+            md5sum="611cf39fba2945320fc7a9ec49087e69" size="362723"/>
     <dependencies>
       <dep package="polkit"/>
       <dep package="gtk+"/>
@@ -734,9 +719,9 @@
   </tarball>
 
   <autotools id="libcanberra" autogen-sh="configure">
-    <branch repo="0pointer.de" module="libcanberra/libcanberra-0.12.tar.gz" version="0.12"
-            hash="sha256:04a70135de89ec7971a7ffa6516cf7699329cc01056595d524a6250a9d049709"
-            md5sum="01a1952e861defa6de9d193558f2a732" size="459174"/>
+    <branch repo="0pointer.de" module="libcanberra/libcanberra-0.24.tar.gz" version="0.13"
+            hash="sha256:902f075cc9065d042cd4b027ffe7891ea718565f22dbafa43fd9dccfd63a95fa"
+            md5sum="23de3d11abd4920c6c9560e3a566e04d" size="460860"/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
@@ -753,17 +738,17 @@
             md5sum="c4438b22c08e5811ff10e2b06ee9b9ae" size="1061882"/>
   </tarball>
 
-  <tarball id="libsndfile" version="1.0.17" supports-non-srcdir-builds="no"
+  <tarball id="libsndfile" version="1.0.20" supports-non-srcdir-builds="no"
            autogenargs="--disable-flac">
-    <source href="http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.17.tar.gz"
-            hash="sha256:1792e4e60386b450ef8ec07c756e8f3ecfe96ebda7d0b09148da5f436d065ef2"
-            md5sum="2d126c35448503f6dbe33934d9581f6b" size="819456"/>
+    <source href="http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.20.tar.gz"
+            hash="sha256:7517eb966579f8814b5efe307cb919c5b4e7b5c6729209ba1da95f31e8368dc7"
+            md5sum="e0553e12c7a467af44693e95e2eac668" size="927422"/>
   </tarball>
 
   <autotools id="pulseaudio">
-    <branch repo="0pointer.de" module="pulseaudio/pulseaudio-0.9.15.tar.gz" version="0.9.15"
-            hash="sha256:1e8ad5b7c5cf3485bd0738c296274ff2c99d26d12a25a225dc250eddea25b9f1"
-            md5sum="4510364eeab219fd100bd1b373b1a002" size="1704374"/>
+    <branch repo="0pointer.de" module="pulseaudio/pulseaudio-0.9.21.tar.gz" version="0.9.21"
+            hash="sha256:94e22356ac70ee95388ae58da90d88c6b3186d1938618d21671627ff56cee254"
+            md5sum="76e623c4c72e2258bc8bdeb1599bad74" size="2056896"/>
     <dependencies>
       <dep package="libsndfile"/>
       <dep package="liboil"/>
@@ -781,29 +766,27 @@
     </after>
   </autotools>
 
-  <autotools id="libproxy" autogenargs="--without-networkmanager">
+  <cmake id="libproxy">
     <branch repo="libproxy.googlecode.com"
-            module="libproxy-0.2.3.tar.gz" version="0.2.3"
-            hash="sha256:59ded160b3547d29e37cc9d06359f7f37d94112214e4532430cd65e704c1339a"
-            md5sum="86b635e1eb2d665cfbef4c6134fe6604" size="378773"/>
+            module="libproxy-0.4.0.tar.gz" version="0.4.0"
+            hash="sha256:17cb515cc6b3bc37f1e5d268068f5220fb1b4398044d9e23cc11e8b36cad470c"
+            md5sum="b22c95df70a40949e99add5171fc3084" size="64610"/>
     <dependencies>
       <dep package="gconf"/>
     </dependencies>
     <suggests>
-      <!-- NetworkManager doesn't build correctly in 0.2.3
       <dep package="NetworkManager"/>
-      -->
     </suggests>
     <after>
       <dep package="mozilla"/>
       <dep package="WebKit"/>
     </after>
-  </autotools>
+  </cmake>
 
-  <tarball id="libunique" version="1.1.2">
-    <source href="http://download.gnome.org/sources/libunique/1.1/libunique-1.1.2.tar.bz2"
-            hash="sha256:73fb130295fc42b237aa3d808905f65ead9f979acbe49434eca830c6085f0c6e"
-            md5sum="f33749109768d43ef69ca7e8ffa7cfb7" size="335774"/>
+  <tarball id="libunique" version="1.1.6">
+    <source href="http://download.gnome.org/sources/libunique/1.1/libunique-1.1.6.tar.bz2"
+            hash="sha256:e5c8041cef8e33c55732f06a292381cb345db946cf792a4ae18aa5c66cdd4fbb"
+            md5sum="7955769ef31f1bc4f83446dbb3625e6d" size="335534"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
@@ -829,9 +812,9 @@
   <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
              autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha10.tar.gz" version="4.0.0alpha10"
-            hash="sha256:8cb46b9baeb9246d01aa0d239ec0df451733b06a83879cf7b995a720009677b7"
-            md5sum="e6b9e0fa90ddffd381790948c77d2152" size="13765425"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="source4">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -904,10 +887,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="libnice" version="0.0.8">
-    <source href="http://nice.freedesktop.org/releases/libnice-0.0.8.tar.gz"
-            hash="sha256:72fd1dec0f2fd841dfffeedb1a39a2272b94174b7e09e03bb47f8c648de1a65e"
-            md5sum="53ef2dea810d5b9e0cde5a55640a1f42" size="624517"/>
+  <tarball id="libnice" version="0.0.11">
+    <source href="http://nice.freedesktop.org/releases/libnice-0.0.11.tar.gz"
+            hash="sha256:a331a2cf4ec868a0d79175dc233f55e5a07c097a56643e8c1449505d83c32ece"
+            md5sum="9e6f6b0b781b747e49df2160cbb29f83" size="636299"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gst-plugins-base"/>
@@ -934,10 +917,10 @@
     </dependencies>
   </tarball>
     
-  <tarball id="libgda" version="4.0.7" autogenargs="--with-java=no">
-    <source href="http://download.gnome.org/sources/libgda/4.0/libgda-4.0.7.tar.bz2"
-            hash="sha256:dffffc6524ecac05a4c891a9c3fca99abce9fb1bc368933a542d6afaf3ba8240"
-            md5sum="875e41166eecde04b075fa451a6773ad" size="8198052"/>
+  <tarball id="libgda" version="4.0.8" autogenargs="--with-java=no">
+    <source href="http://download.gnome.org/sources/libgda/4.0/libgda-4.0.8.tar.bz2"
+            hash="sha256:c731cd8015f63a3bff37341cb8ffc4d8086a535d960af098194968ac87555788"
+            md5sum="3e4a55f370805cda9ac415211da4aacc" size="8229914"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -965,10 +948,10 @@
     </suggests>
   </autotools>
 
-  <tarball id="libchamplain" version="0.4.0">
-    <source href="http://download.gnome.org/sources/libchamplain/0.4/libchamplain-0.4.0.tar.bz2"
-            hash="sha256:43675f381cef04fbf1ec89bc632e50c3edd967be6b476a62a2c400a387e94965"
-            md5sum="159f8befb4b7ef616227977cda61e08d" size="537485"/>
+  <tarball id="libchamplain" version="0.4.5">
+    <source href="http://download.gnome.org/sources/libchamplain/0.4/libchamplain-0.4.5.tar.bz2"
+            hash="sha256:bb7923ac76e63d9fb2e096c323d6b1502cd523f402d22e369ee9e4e31e6ab10d"
+            md5sum="e9bdecaadb9196694a299951389ec935" size="540497"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -990,10 +973,10 @@
             md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
   </distutils>
 
-  <tarball id="libgdata" version="0.4.0">
-    <source href="http://download.gnome.org/sources/libgdata/0.4/libgdata-0.4.0.tar.bz2"
-            hash="sha256:55c616b0761faaa9fb028434de97b02d5145dfc52b1db632671ebc6cc6905575"
-            md5sum="06b14f1cd96432b0717ed03fe013ca4d" size="813608"/>
+  <tarball id="libgdata" version="0.6.4">
+    <source href="http://download.gnome.org/sources/libgdata/0.6/libgdata-0.6.4.tar.bz2"
+            hash="sha256:56c3f3cbd0bf8c410ebdff2d8a57eeb1db7dbc1bb342bf6f43f89700ef517d9d"
+            md5sum="7efdef75d1b59177d119f689522d00ba" size="1003963"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -1001,10 +984,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="gmime" version="2.4.7">
-    <source href="http://download.gnome.org/sources/gmime/2.4/gmime-2.4.7.tar.bz2"
-            hash="sha256:bf75214018bb1ae82c797e79d52db2c37a8d3d9f002a737f12960fa2b1022dbd"
-            md5sum="0fb23dbb1ed6934ab577e90269cd901f" size="836189"/>
+  <tarball id="gmime" version="2.4.15">
+    <source href="http://download.gnome.org/sources/gmime/2.4/gmime-2.4.15.tar.bz2"
+            hash="sha256:a0a6c9413b057ab5d8a2a2902cbaa5b3a17871af3f94dc8431978c9e0e5f53e1"
+            md5sum="604ec62e1ce4d149d724f5d3ee69c110" size="859146"/>
     <dependencies>
       <dep package="gtk-doc"/>
       <dep package="glib"/>
@@ -1024,19 +1007,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="gobject-introspection" version="0.6.7">
-    <source href="http://download.gnome.org/sources/gobject-introspection/0.6/gobject-introspection-0.6.7.tar.bz2"
-            hash="sha256:c97ca4e978b0583999775640e9e9f97b64a5880ad2a6adc3ce903207b616f24a"
-            md5sum="41205c14cbd86632806578448e29bd30" size="579956"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
-
-  <tarball id="PackageKit" version="0.6.2" autogenargs="--disable-tests --disable-qt">
-    <source href="http://www.packagekit.org/releases/PackageKit-0.6.2.tar.bz2"
-            hash="sha256:4502d04adb53ea087f3d7c6b7d393f3e3f2735fdde818144c6c0c140d2e39816"
-            md5sum="c5a07b023054882750bb273381000194" size="8472178"/>
+  <tarball id="PackageKit" version="0.6.3" autogenargs="--disable-tests --disable-qt">
+    <source href="http://www.packagekit.org/releases/PackageKit-0.6.3.tar.bz2"
+            hash="sha256:8da8be09c30f9a2839e5109f5617b26e548b6aa2e466be85efe2dda34a40aec3"
+            md5sum="b6eb8f09d319a02158a1bcac25468a63" size="8525989"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -1048,10 +1022,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="tracker" version="0.7.18">
-    <source href="http://download.gnome.org/sources/tracker/0.7/tracker-0.7.18.tar.bz2"
-            hash="sha256:9cd00076e20229707c09aea47fd226c55c9aed547c48d052c89ffcd4db3691b9"
-            md5sum="c3e07ac5b2f48164a4788e272982688b" size="4093896"/>
+  <tarball id="tracker" version="0.8.6">
+    <source href="http://download.gnome.org/sources/tracker/0.8/tracker-0.8.6.tar.bz2"
+            hash="sha256:e7888c3cfc8db672c8a21f312ba5148b1487a8024bfa0c8e5e733e47e46f7494"
+            md5sum="aca9a0569e6da274dbb2fd1d8e434d3b" size="5212541"/>
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gnome-desktop"/>
@@ -1080,6 +1054,17 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.8/vala-0.8.1.tar.bz2"
             md5sum="3e105d7f39e55925299a3e6e82c32de7" size="2122657"/>
     <dependencies>
       <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <!-- new external dependencies -->
+  <tarball id="raptor" version="1.4.21">
+    <source href="http://download.librdf.org/source/raptor-1.4.21.tar.gz"
+            hash="sha256:db3172d6f3c432623ed87d7d609161973d2f7098e3d2233d0702fbcc22cfd8ca"
+            md5sum="992061488af7a9e2d933df6b694bb876" size="1651843"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
     </dependencies>
   </tarball>
 

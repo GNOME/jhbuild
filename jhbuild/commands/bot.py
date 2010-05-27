@@ -168,6 +168,7 @@ class cmd_bot(Command):
                     config.build_targets = ['install']
                 elif args[0] == 'check':
                     config.makecheck = True
+                    config.build_targets = ['check']
                     phases = ['check']
                 elif args[0] == 'clean':
                     phases = ['clean']

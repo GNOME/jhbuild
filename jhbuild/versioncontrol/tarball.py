@@ -136,6 +136,8 @@ class TarballBranch(Branch):
             localdir = localdir[:-8]
         elif localdir.endswith('.tar.lzma'):
             localdir = localdir[:-9]
+        elif localdir.endswith('.tar.xz'):
+            localdir = localdir[:-7]
         elif localdir.endswith('.tgz'):
             localdir = localdir[:-4]
         elif localdir.endswith('.zip'):
@@ -204,10 +206,16 @@ class TarballBranch(Branch):
             # don't have the tarball, try downloading it and check again
             if has_command('wget'):
                 res = buildscript.execute(
-                        ['wget', '--continue', self.module, '-O', localfile])
+                        ['wget', '--continue', self.module, '-O', localfile],
+                        extra_env={
+                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
+                          'PATH': os.environ.get('UNMANGLED_PATH')})
             elif has_command('curl'):
                 res = buildscript.execute(
-                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile])
+                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile],
+                        extra_env={
+                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
+                          'PATH': os.environ.get('UNMANGLED_PATH')})
             else:
                 raise FatalError(_("unable to find wget or curl"))
 

@@ -118,8 +118,8 @@
   <repository type="tarball" name="launchpad.net/tarball"
       href="https://launchpad.net/"/>
 
-  <include href="freedesktop-2.30.modules"/>
-  <include href="gnome-suites-2.30.modules"/>
+  <include href="freedesktop-3.0.modules"/>
+  <include href="gnome-suites-3.0.modules"/>
   <include href="hildon.modules"/>
 
   <autotools id="cairo-gtk-engine">
@@ -1267,18 +1267,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pyclutter">
-    <branch repo="git.clutter-project.org" module="bindings/pyclutter" checkoutdir="pyclutter"/>
-    <dependencies>
-      <dep package="pycairo"/>
-      <dep package="pygtk"/>
-      <dep package="gst-python"/>
-      <dep package="clutter"/>
-      <dep package="clutter-gst"/>
-      <dep package="clutter-gtk"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="clutter-vala">
     <branch repo="git.clutter-project.org" module="bindings/clutter-vala"/>
     <dependencies>
@@ -1928,16 +1916,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="gjs">
-    <branch/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-    <after>
-      <dep package="gir-repository"/>
-    </after>
-  </autotools>
-
   <!-- ########## Ubuntu Netbook Remix Modules ########## -->
 
   <autotools id="maximus">
@@ -2017,28 +1995,6 @@
   </metamodule>
 
   <!-- ########## End of Ubuntu Netbook Remix Modules ########## -->
-
-  <autotools id="mutter" autogenargs="--with-clutter">
-    <branch />
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="intltool"/>
-      <dep package="zenity"/>
-      <dep package="clutter"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gir-repository"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-shell">
-    <branch/>
-    <dependencies>
-      <dep package="mutter"/>
-      <dep package="gjs"/>
-    </dependencies>
-  </autotools>
 
   <autotools id="almanah">
     <branch/>
@@ -2158,17 +2114,6 @@
     <branch/>
     <dependencies>
       <dep package="gtkmm"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-zeitgeist">
-    <branch repo="launchpad.net"
-            module="~gnome-zeitgeist/gnome-zeitgeist/gnome-zeitgeist"
-            checkoutdir="gnome-zeitgeist"/>
-    <dependencies>
-      <dep package="pygtk"/>
-      <dep package="sqlite3"/>
-      <dep package="dbus-python"/>
     </dependencies>
   </autotools>
 
@@ -2392,14 +2337,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-color-manager">
-    <branch/>
-    <dependencies>
-      <dep package="libunique"/>
-      <dep package="vte"/>
-    </dependencies>
-  </autotools>
-
   <waf id="ardour" waf-command="./waf">
     <branch repo="svn.ardour.org" module="ardour2/branches/3.0" checkoutdir="ardour-3.0"/>
     <dependencies>
@@ -2481,35 +2418,14 @@
     </dependencies>
   </autotools>
 
-  <autotools id="grilo">
+  <autotools id="telegnome">
     <branch/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="vala"/>
-      <dep package="gtk-doc"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="grilo-plugins">
-    <branch/>
-    <dependencies>
-      <dep package="grilo"/>
-      <dep package="libxml2"/>
-      <dep package="gupnp"/>
-      <dep package="gupnp-av"/>
-      <dep package="sqlite3"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="rygel-grilo">
-    <branch/>
-    <dependencies>
-      <dep package="grilo"/>
-      <dep package="glib"/>
-      <dep package="dbus-glib"/>
+      <dep package="gnome-vfs"/>
+      <dep package="gtk+"/>
+      <dep package="libgnomeui"/>
     </dependencies>
   </autotools>
 
 </moduleset>
-

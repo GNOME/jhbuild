@@ -76,18 +76,9 @@ class cmd_sanitycheck(Command):
         if not check_version(['pkg-config', '--version'],
                              r'^([\d.]+)', '0.14.0'):
             uprint(_('%s not found') % 'pkg-config >= 0.14.0')
-        if not check_version(['db2html', '--version'],
-                             r'.* ([\d.]+)', '0.0'):
-            uprint(_('%s not found') % 'db2html')
         if not check_version(['autoconf', '--version'],
                              r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
             uprint(_('%s not found') % 'autoconf >= 2.53')
-        if not check_version(['automake-1.4', '--version'],
-                             r'automake \([^)]*\) ([\d.]+)', '1.4'):
-            uprint(_('%s not found') % 'automake-1.4')
-        if not check_version(['automake-1.7', '--version'],
-                             r'automake \([^)]*\) ([\d.]+)', '1.7'):
-            uprint(_('%s not found') % 'automake-1.7')
         if not check_version(['automake-1.8', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.8'):
             uprint(_('%s not found') % 'automake-1.8')
@@ -96,7 +87,7 @@ class cmd_sanitycheck(Command):
             uprint(_('%s not found') % 'automake-1.9')
 
         not_in_path = []
-        for amver in ('1.4', '1.7', '1.8', '1.9'):
+        for amver in ('1.8', '1.9'):
             try:
                 path = get_aclocal_path(amver)
             except:
