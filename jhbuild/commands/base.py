@@ -144,11 +144,9 @@ class cmd_cleanone(Command):
             logging.info(
                     _('clean command called while makeclean is set to False, skipped.'))
             return 0
-        config.build_targets = ['clean']
-        config.nonetwork = False
 
         build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.build()
+        return build.build(phases=['clean'])
 
 register_command(cmd_cleanone)
 
