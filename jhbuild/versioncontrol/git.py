@@ -96,7 +96,11 @@ class GitRepository(Repository):
                 if new_module:
                     module = new_module
         if not (urlparse.urlparse(module)[0] or module[0] == '/'):
-            module = urlparse.urljoin(self.href, module)
+            if self.href.endswith('/'):
+                base_href = self.href
+            else:
+                base_href = self.href + '/'
+            module = base_href + module
 
         if mirror_module:
             return GitBranch(self, mirror_module, subdir, checkoutdir,
