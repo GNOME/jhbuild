@@ -1007,19 +1007,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gok">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="at-spi"/>
-      <dep package="gtk+"/>
-      <dep package="libwnck"/>
-      <dep package="libcanberra"/>
-      <dep package="rarian"/>
-      <dep package="gnome-speech"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gstreamer" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
     <dependencies>
@@ -1928,6 +1915,7 @@
       <dep package="alacarte"/>
       <dep package="brasero"/>
       <dep package="bug-buddy"/>
+      <dep package="caribou"/>
       <dep package="cheese"/>
       <dep package="gnome-control-center"/>
       <dep package="dasher"/>
@@ -1950,12 +1938,14 @@
       <dep package="gnome-applets"/>
       <dep package="gnome-backgrounds"/>
       <dep package="gnome-bluetooth"/>
+      <dep package="gnome-color-manager"/>
       <dep package="gnome-desktop"/>
       <dep package="gnome-desktop-sharp"/>
       <dep package="gnome-disk-utility"/>
       <dep package="gnome-doc-utils"/>
       <dep package="gnome-games"/>
       <dep package="gnome-icon-theme"/>
+      <dep package="gnome-icon-theme-symbolic"/>
       <dep package="gnome-keyring"/>
       <dep package="gnome-netstatus"/>
       <dep package="gnome-nettool"/>
@@ -1969,6 +1959,8 @@
       <dep package="gnome-screensaver"/>
       <dep package="gnome-session"/>
       <dep package="gnome-settings-daemon"/>
+      <dep package="gnome-shell"/>
+      <!--FIXME: should be removed, but might be needed by orca right now -->
       <dep package="gnome-speech"/>
       <dep package="gnome-system-monitor"/>
       <dep package="gnome-system-tools"/>
@@ -1977,7 +1969,7 @@
       <dep package="gnome-user-docs"/>
       <dep package="gnome-user-share"/>
       <dep package="gnome-utils"/>
-      <dep package="gok"/>
+      <dep package="gobject-introspection"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
@@ -1996,11 +1988,15 @@
       <dep package="libwnck"/>
       <dep package="metacity"/>
       <dep package="mousetweaks"/>
+      <dep package="mutter"/>
       <dep package="nautilus"/>
       <dep package="nautilus-sendto"/>
       <dep package="orca"/>
       <dep package="hamster-applet"/>
       <dep package="pygtksourceview"/>
+      <!--FIXME: should be uncommented
+      <dep package="rygel"/>
+      -->
       <dep package="seahorse"/>
       <dep package="seahorse-plugins"/>
       <dep package="sound-juicer"/>
@@ -2049,6 +2045,7 @@
 
   <metamodule id="meta-gnome-bindings-js">
     <dependencies>
+      <dep package="gjs"/>
       <dep package="seed"/>
     </dependencies>
   </metamodule>
@@ -2105,21 +2102,6 @@
 
   <metamodule id="meta-gnome-proposed">
     <dependencies>
-      <dep package="gnome-shell"/>
-      <dep package="mutter"/>
-      <dep package="gjs"/>
-      <dep package="gobject-introspection"/>
-      <dep package="mousetrap"/>
-      <dep package="gnome-color-manager"/>
-      <dep package="zeitgeist"/>
-      <dep package="gnome-icon-theme-symbolic"/>
-      <dep package="caribou"/>
-      <!-- also proposed, not yet enabled:
-      <dep package="rygel"/>
-      <dep package="pdfmod"/>
-      <dep package="deja-dup"/>
-      <dep package="simple-scan"/>
-      -->
     </dependencies>
   </metamodule>
 
