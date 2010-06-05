@@ -91,6 +91,11 @@ class cmd_info(Command):
             uprint(_('Tree-ID:'), tree_id)
         except (NotImplementedError, AttributeError):
             pass
+        try:
+            source_dir = module.branch.srcdir
+            uprint(_('Sourcedir:'), source_dir)
+        except (NotImplementedError, AttributeError):
+            pass
 
         # dependencies
         if module.dependencies:
