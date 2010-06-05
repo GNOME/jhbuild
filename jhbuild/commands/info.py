@@ -83,6 +83,12 @@ class cmd_info(Command):
             uprint(_('Darcs-Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):
             uprint(_('Git-Module:'), module.branch.module)
+            git_branch = module.branch.branch
+            if not git_branch:
+                git_branch = 'master'
+            uprint(_('Git-Branch:'), git_branch)
+            if module.branch.tag:
+                uprint(_('Git-Tag:'), module.branch.tag)
         elif isinstance(module.branch, TarballBranch):
             uprint(_('URL:'), module.branch.module)
             uprint(_('Version:'), module.branch.version)
