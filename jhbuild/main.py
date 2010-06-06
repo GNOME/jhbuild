@@ -57,6 +57,12 @@ def uencode(s):
     else:
         return s
 
+def udecode(s):
+    if type(s) is not unicode:
+        return s.decode(_encoding, 'replace')
+    else:
+        return s
+
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
@@ -66,6 +72,7 @@ def uprint(*args):
 
 __builtin__.__dict__['uprint'] = uprint
 __builtin__.__dict__['uencode'] = uencode
+__builtin__.__dict__['udecode'] = udecode
 
 class LoggingFormatter(logging.Formatter):
     def __init__(self):
