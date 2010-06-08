@@ -2281,16 +2281,32 @@ libgnomecanvas is missing branch definition for gnome-2-20
     href="git://anongit.freedesktop.org/git/"/&gt;
         </programlisting>
 
+        <para>It allows the following attributes on the <sgmltag
+        class="element">branch</sgmltag> element:</para>
+
+        <para>The <sgmltag class="attribute">revision</sgmltag>
+        attribute is used to specify a local or remote-tracking branch
+        to switch to in the update phase. It defaults to 'master'. It is
+        possible to override this attribute with the
+        <varname>branches</varname> configuration variable. The switch
+        will only be performed, if the current branch is tracking a
+        remote branch, to not disturb your own work.</para>
+
+        <para>The <sgmltag class="attribute">tag</sgmltag>
+        attribute is used to specify a revision to unconditionally check
+        out in the update phase. It overrides the <sgmltag
+        class="attribute">revision</sgmltag> attribute.</para>
+
+        <!-- TODO I can't say much about the subdir attribute. In the
+        end it will just be appended to checkoutdir.
+        https://bugzilla.gnome.org/show_bug.cgi?id=342846
+        -->
+
         <programlisting>
 &lt;branch repo="git.freedesktop.org" module="swfdec/swfdec"
         checkoutdir="swfdec"
-        tag="tree-ish"/&gt;
-        </programlisting>
-
-        <!-- FIXME revision attribute, verity I don't use it -->
-        <programlisting>
-&lt;branch repo="git.gcc.gnu.org" module="gcc.git"
-        revision="git-svn revision"/&gt;
+        revision="<replaceable>local-or-remote-branch</replaceable>"
+        tag="<replaceable>tree-ish</replaceable>"/&gt;
         </programlisting>
       </section>
 
