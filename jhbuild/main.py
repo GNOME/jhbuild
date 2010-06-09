@@ -94,7 +94,7 @@ def main(args):
         localedir = None
     gettext.install('jhbuild', localedir=localedir, unicode=True)
 
-    if hasattr(os, 'getuid'):
+    if hasattr(os, 'getuid') and os.getuid() == 0:
         sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
         sys.exit(1)
 
