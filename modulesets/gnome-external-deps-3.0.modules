@@ -1081,4 +1081,52 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.8/vala-0.8.1.tar.bz2"
     </dependencies>
   </tarball>
 
+  <tarball id="gssdp" version="0.7.2">
+    <source href="http://gupnp.org/sources/gssdp/gssdp-0.7.2.tar.gz"
+            hash="sha256:c071f09cd47f2d274c34b2d083e83586339ffea27e8efac2c057d160833b44b7"
+            md5sum="4e03a1320294aaab2c514d01401b031a" size="367062"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp" version="0.13.3">
+    <source href="http://gupnp.org/sources/gupnp/gupnp-0.13.3.tar.gz"
+            hash="sha256:555740facf2ae8054d3864514192f16fb4ab62dd3eb5a18aafbbe1cd454e37f6"
+            md5sum="27709a61ad23227a87afed17f5b1c397" size="529546"/>
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp-av" version="0.5.5">
+    <source href="http://gupnp.org/sources/gupnp-av/gupnp-av-0.5.5.tar.gz"
+            hash="sha256:ad743dd99b27f432f31b77af01d97a44b3d38c8ff4bbe52502573e2ba67c96c9"
+            md5sum="df60eba4b18b16f834dff1f3d3f4426c" size="406871"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp-vala" version="0.6.6">
+    <source href="http://gupnp.org/sources/bindings/gupnp-vala-0.6.6.tar.gz"
+            hash="sha256:61ce8e91a93a1b9146d51a79ce305cf02d600377bb191844cbfc5d8a3bf2d8f0"
+            md5sum="4c7344dfe526f7eb186dab806eeabe9f" size="111423"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+    </dependencies>
+    <suggests>
+      <dep package="gupnp-ui"/>
+    </suggests>
+  </tarball>
+
 </moduleset>
