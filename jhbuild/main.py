@@ -94,6 +94,10 @@ def main(args):
         localedir = None
     gettext.install('jhbuild', localedir=localedir, unicode=True)
 
+    if hasattr(os, 'getuid'):
+        sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
+        sys.exit(1)
+
     logging.getLogger().setLevel(logging.INFO)
     logging_handler = logging.StreamHandler()
     logging_handler.setFormatter(LoggingFormatter())
