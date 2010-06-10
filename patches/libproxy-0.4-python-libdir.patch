@@ -1,0 +1,17 @@
+diff -upr libproxy-0.4.0.old/bindings/CMakeLists.txt libproxy-0.4.0/bindings/CMakeLists.txt
+--- libproxy-0.4.0.old/bindings/CMakeLists.txt	2010-02-26 06:59:54.000000000 +1030
++++ libproxy-0.4.0/bindings/CMakeLists.txt	2010-06-10 21:10:42.797521284 +0930
+@@ -3,10 +3,10 @@ find_package(PythonInterp)
+ if(PYTHONINTERP_FOUND)
+   execute_process(COMMAND
+                   ${PYTHON_EXECUTABLE}
+-                  -c "import distutils.sysconfig ; print distutils.sysconfig.get_python_lib(plat_specific=1)"
+-                  OUTPUT_VARIABLE pysitepkgdir
++                  -c "import distutils.sysconfig ; print distutils.sysconfig.get_python_version()"
++                  OUTPUT_VARIABLE pyversion
+                   OUTPUT_STRIP_TRAILING_WHITESPACE)
+-  install(FILES libproxy.py DESTINATION ${pysitepkgdir})
++  install(FILES libproxy.py DESTINATION ${libdir}/python${pyversion}/site-packages)
+ endif()
+ 
+ #TODO c-sharp bindings
