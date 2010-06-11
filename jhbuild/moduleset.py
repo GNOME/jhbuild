@@ -284,7 +284,7 @@ def load(config, uri=None):
         modulesets = [ config.moduleset ]
     ms = ModuleSet(config = config)
     for uri in modulesets:
-        if '/' not in uri and not os.path.exists(uri):
+        if '/' not in uri and not os.path.isfile(uri):
             if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             else:
