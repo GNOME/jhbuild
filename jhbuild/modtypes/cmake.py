@@ -68,6 +68,7 @@ class CMakeModule(Package, DownloadableModule):
         prefix = os.path.expanduser(buildscript.config.prefix)
         cmd = ['cmake', '-DCMAKE_INSTALL_PREFIX=%s' % prefix,
                '-DLIB_INSTALL_DIR=%s' % buildscript.config.libdir,
+               '-Dlibdir=%s' % buildscript.config.libdir,
                srcdir]
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
