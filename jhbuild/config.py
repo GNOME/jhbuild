@@ -343,6 +343,17 @@ class Config:
         addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
         addpath('PKG_CONFIG_PATH', pkgconfigdir)
 
+        # GI_TYPELIB_PATH
+        if not 'GI_TYPELIB_PATH' in os.environ:
+            if self.use_lib64:
+                full_name = '/usr/lib64/girepository-1.0'
+            else:
+                full_name = '/usr/lib/girepository-1.0'
+            if os.path.exists(full_name):
+                addpath('GI_TYPELIB_PATH', full_name)
+        typelibpath = os.path.join(self.libdir, 'girepository-1.0')
+        addpath('GI_TYPELIB_PATH', typelibpath)
+
         # XDG_DATA_DIRS
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
