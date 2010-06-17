@@ -383,6 +383,11 @@ class Config:
         perl5lib = os.path.join(self.prefix, 'lib', 'perl5')
         addpath('PERL5LIB', perl5lib)
 
+        # These two variables are so that people who use "jhbuild shell"
+        # can tweak their shell prompts and such to show "I'm under jhbuild".
+        # The first variable is the obvious one to look for; the second
+        # one is for historical reasons.
+        os.environ['UNDER_JHBUILD'] = 'true'
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
         # PYTHONPATH
