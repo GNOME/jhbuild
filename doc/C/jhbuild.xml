@@ -1361,6 +1361,23 @@ libgnomecanvas is missing branch definition for gnome-2-20
       <para>This command is equivalent to the following:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild run $SHELL</userinput></screen>
+
+      <para>The <envar>UNDER_JHBUILD</envar> environment variable will
+      be set to "true" when this shell is active.  You can use the
+      presence of that variable to customize your shell's prompt to
+      indicate that you indeed are under a jhbuild-controlled shell.
+      For example, you may want to put this in your <filename>.bashrc</filename>:</para>
+
+      <screen>
+	if [ -n "$UNDER_JHBUILD" ]; then
+	    PS1="[jhbuild] $PS1"
+	fi
+      </screen>
+
+      <para>This will make your bash shell display
+      <literal>[jhbuild]</literal> before your normal prompt, making
+      it easier to see which shells are under a jhbuild
+      environment.</para>
     </section>
 
     <section id="command-reference-tinderbox">
