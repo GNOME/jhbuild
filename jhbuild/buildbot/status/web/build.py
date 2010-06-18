@@ -64,7 +64,7 @@ class JhStatusResourceBuild(StatusResourceBuild):
 
             if self.build_control is not None:
                 stopURL = urllib.quote(req.childLink("stop"))
-                data += make_stop_form(stopURL)
+                data += make_stop_form(stopURL, self.isUsingUserPasswd(req))
 
         if b.isFinished():
             results = b.getResults()
@@ -165,10 +165,11 @@ class JhStatusResourceBuild(StatusResourceBuild):
                          "after this build was started <b>will</b> be \n"
                          "included in a rebuild.</p>\n")
             rebuildURL = urllib.quote(req.childLink("rebuild"))
-            data += '<form action="%s" class="command rebuild">\n' % rebuildURL
-            data += '<label>Your name: <input type="text" name="username"/></label> '
-            data += '<label>Reason for re-running build: '\
-                    '<input size="50" type="text" name="comments"/></label> '
+            data += ('<form method="post" action="%s" class="command rebuild">\n'
+                     % rebuildURL)
+            data += make_name_user_passwd_form(self.isUsingUserPasswd(req))
+            data += make_row("Reason for re-running build:",
+                             "<input type='text' name='comments' />")
             data += '<input type="submit" value="Rebuild" />\n'
             data += '</form>\n'
 
