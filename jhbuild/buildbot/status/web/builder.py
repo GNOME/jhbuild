@@ -23,7 +23,8 @@ from twisted.web import html
 from twisted.web.util import Redirect
 
 from buildbot.status.web.builder import BuildersResource, StatusResourceBuilder
-from buildbot.status.web.base import make_row, make_force_build_form
+from buildbot.status.web.base import make_row, make_force_build_form, \
+             path_to_slave, path_to_builder
 
 from build import JhBuildsResource
 
@@ -74,29 +75,34 @@ class JhStatusResourceBuilder(StatusResourceBuilder):
 
         data += "<h2>Recent Builds</h2>\n"
         data += "<ul>\n"
-        for i,build in enumerate(b.generateFinishedBuilds(num_builds=5)):
+        numbuilds = int(req.args.get('numbuilds', ['5'])[0])
+        for i,build in enumerate(b.generateFinishedBuilds(num_builds=int(numbuilds))):
             data += " <li>" + self.make_line(req, build, False) + "</li>\n"
+            if i == 0:
+                data += "<br />\n" # separator
+                # TODO: or empty list?
         data += "</ul>\n"
 
         data += "<h2>Buildslaves:</h2>\n"
-        data += "<ul>\n"
+        data += "<ol>\n"
         for slave in slaves:
-            data += "<li><b>%s</b>: " % html.escape(slave.getName())
+            slaveurl = path_to_slave(req, slave)
+            data += "<li><b><a href=\"%s\">%s</a></b>: " % (html.escape(slaveurl), html.escape(slave.getName()))
             if slave.isConnected():
                 data += "CONNECTED\n"
                 if slave.getAdmin():
                     data += make_row("Admin:", html.escape(slave.getAdmin()))
                 if slave.getHost():
                     data += "<span class='label'>Host info:</span>\n"
-                    data += html.PRE(slave.getHost())
+                    data += html.PRE(html.escape(slave.getHost()))
             else:
                 data += ("NOT CONNECTED\n")
             data += "</li>\n"
-        data += "</ul>\n"
+        data += "</ol>\n"
 
         if control is not None and connected_slaves:
-            forceURL = urllib.quote(req.childLink("force"))
-            data += make_force_build_form(forceURL)
+            forceURL = path_to_builder(req, b) + '/force'
+            data += make_force_build_form(forceURL, self.isUsingUserPasswd(req))
         elif control is not None:
             data += """
             <p>All buildslaves appear to be offline, so it's not possible
@@ -104,9 +110,9 @@ class JhStatusResourceBuilder(StatusResourceBuilder):
             """
 
         if control is not None:
-            pingURL = urllib.quote(req.childLink("ping"))
+            pingURL = path_to_builder(req, b) + '/ping'
             data += """
-            <form action="%s" class='command pingbuilder'>
+            <form method="post" action="%s" class='command pingbuilder'>
             <p>To ping the buildslave(s), push the 'Ping' button</p>
 
             <input type="submit" value="Ping Builder" />
