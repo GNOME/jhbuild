@@ -23,7 +23,8 @@ from twisted.web import html
 from twisted.web.util import Redirect
 
 from buildbot.status.web.build import BuildsResource, StatusResourceBuild
-from buildbot.status.web.base import HtmlResource, make_row, make_stop_form, css_classes
+from buildbot.status.web.base import HtmlResource, make_row, make_stop_form,
+     css_classes, make_name_user_passwd_form
 
 from step import JhStepsResource
 
