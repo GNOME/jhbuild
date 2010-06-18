@@ -1239,10 +1239,19 @@
   <autotools id="orca">
     <branch/>
     <dependencies>
+      <dep package="dbus-python"/>
+      <dep package="gconf"/>
       <dep package="intltool"/>
-      <dep package="gnome-python"/>
-      <dep package="gnome-mag"/>
+      <dep package="libbonobo"/>
+      <dep package="libwnck"/>
+      <dep package="pyatspi2"/>
+      <dep package="pycairo"/>
+      <dep package="pygtk"/>
+      <dep package="pyorbit"/>
     </dependencies>
+    <suggests>
+      <dep package="gnome-mag"/>
+    </suggests>
   </autotools>
 
   <waf id="hamster-applet">
@@ -1940,7 +1949,6 @@
       <dep package="gnome-session"/>
       <dep package="gnome-settings-daemon"/>
       <dep package="gnome-shell"/>
-      <!--FIXME: should be removed, but might be needed by orca right now -->
       <dep package="gnome-system-monitor"/>
       <dep package="gnome-system-tools"/>
       <dep package="gnome-terminal"/>
