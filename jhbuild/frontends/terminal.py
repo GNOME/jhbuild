@@ -295,6 +295,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
             val = raw_input(uencode(_('choice: ')))
+            val = udecode(val)
             val = val.strip()
             if val == '1':
                 return phase
@@ -327,6 +328,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     needs_confirmation = False
                 if needs_confirmation:
                     val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
+                    val = udecode(val)
                     val = val.strip()
                     if val.lower() in ('yes', _('yes').lower()):
                         return selected_phase

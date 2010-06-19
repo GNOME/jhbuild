@@ -117,6 +117,8 @@
       href="http://subversion.ardour.org/svn/"/>
   <repository type="tarball" name="launchpad.net/tarball"
       href="https://launchpad.net/"/>
+  <repository type="git" name="gitorious.org"
+      href="git://gitorious.org/"/>
 
   <include href="freedesktop-3.0.modules"/>
   <include href="gnome-suites-3.0.modules"/>
@@ -694,7 +696,6 @@
       <dep package="dasher"/>
       <dep package="gnome-mag"/>
       <dep package="gok"/>
-      <dep package="gnome-speech"/>
       <dep package="orca"/>
     </dependencies>
   </metamodule>
@@ -1082,7 +1083,9 @@
   <autotools id="libnl" skip-autogen="never" autogen-sh="configure">
     <branch repo="people.suug.ch/~tgr/libnl/"
             module="libnl-1.1.tar.gz" version="1.1"
-            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932"/>
+            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932">
+      <patch file="libnl-include-fix.patch" strip="1"/>
+    </branch>
   </autotools>
 
   <autotools id="NetworkManager">
@@ -1219,15 +1222,6 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libgee" version="0.5.0">
-    <source href="http://ftp.acc.umu.se/pub/GNOME/sources/libgee/0.5/libgee-0.5.0.tar.bz2"
-            hash="sha256:aa6a2563867d3e3d56921bd1f7a7869d24599e1b5beb70e83f55b718fdddff51"
-            md5sum="45e3e069dc3488e4bfe0c8411b85b987" size="466334"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </tarball>
-
   <autotools id="libepc">
     <branch/>
     <dependencies>
@@ -1235,19 +1229,6 @@
       <dep package="libsoup"/>
       <dep package="avahi"/>
       <dep package="gnutls"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="rygel">
-    <branch/>
-    <dependencies>
-      <dep package="vala"/>
-      <dep package="gupnp-vala"/>
-      <dep package="gupnp"/>
-      <dep package="gupnp-av"/>
-      <dep package="dbus-glib"/>
-      <dep package="gstreamer"/>
-      <dep package="libgee"/>
     </dependencies>
   </autotools>
 
@@ -1297,33 +1278,6 @@
     </dependencies>
   </metamodule>
 
-  <autotools id="gssdp">
-    <branch repo="git.gupnp.org" module="gssdp"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gupnp">
-    <branch repo="git.gupnp.org" module="gupnp"/>
-    <dependencies>
-      <dep package="gssdp"/>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-      <dep package="libxml2"/>
-      <dep package="shared-mime-info"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gupnp-av">
-    <branch repo="git.gupnp.org" module="gupnp-av"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gupnp"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gupnp-tools">
     <branch repo="git.gupnp.org" module="gupnp-tools"/>
     <dependencies>
@@ -1348,17 +1302,6 @@
       <dep package="gupnp-av"/>
       <dep package="gtk+"/>
       <dep package="gnome-vfs"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gupnp-vala">
-    <branch repo="git.gupnp.org" module="bindings/gupnp-vala"/>
-    <dependencies>
-      <dep package="vala"/>
-      <dep package="gssdp"/>
-      <dep package="gupnp"/>
-      <dep package="gupnp-av"/>
-      <dep package="gupnp-ui"/>
     </dependencies>
   </autotools>
 
@@ -1769,7 +1712,7 @@
   <autotools id="goocanvas">
     <branch/>
     <dependencies>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
     </dependencies>
   </autotools>
 
@@ -2294,7 +2237,7 @@
   </autotools>
 
   <autotools id="librest">
-    <branch repo="git.moblin.org" />
+    <branch repo="gitorious.org" module="meego-middleware/librest.git" checkoutdir="librest" />
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
@@ -2401,13 +2344,6 @@
     <branch/>
   </autotools>
 
-  <autotools id="json-glib">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="couchdb-glib">
     <branch/>
     <dependencies>
@@ -2425,6 +2361,49 @@
       <dep package="gnome-vfs"/>
       <dep package="gtk+"/>
       <dep package="libgnomeui"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Desktop: deprecated libraries -->
+
+  <autotools id="libgail-gnome">
+    <branch/>
+    <dependencies>
+      <dep package="at-spi"/>
+      <dep package="libgnomeui"/>
+      <dep package="gnome-panel"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgnomecups">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gnome-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgnomeprint">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libart_lgpl"/>
+      <dep package="glib"/>
+      <dep package="gnome-common"/>
+      <dep package="pango"/>
+      <dep package="libgnomecups"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgnomeprintui">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libgnomeprint"/>
+      <dep package="gtk+"/>
+      <dep package="libgnomecanvas"/>
+      <dep package="gnome-icon-theme"/>
     </dependencies>
   </autotools>
 

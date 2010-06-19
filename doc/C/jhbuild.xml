@@ -1174,8 +1174,8 @@ libgnomecanvas is missing branch definition for gnome-2-20
       </cmdsynopsis>
 
       <para>The command displays the module name, type, dependencies,
-      dependent packages, and the time it was last installed with
-      JHBuild.  If available, information specific to the
+      dependent packages, the source directory, and the time it was last
+      installed with JHBuild.  If available, information specific to the
       module type such as the CVS repository or download URL will also
       be displayed.</para>
 
@@ -1361,6 +1361,23 @@ libgnomecanvas is missing branch definition for gnome-2-20
       <para>This command is equivalent to the following:</para>
 
       <screen><prompt>$</prompt> <userinput>jhbuild run $SHELL</userinput></screen>
+
+      <para>The <envar>UNDER_JHBUILD</envar> environment variable will
+      be set to "true" when this shell is active.  You can use the
+      presence of that variable to customize your shell's prompt to
+      indicate that you indeed are under a jhbuild-controlled shell.
+      For example, you may want to put this in your <filename>.bashrc</filename>:</para>
+
+      <screen>
+	if [ -n "$UNDER_JHBUILD" ]; then
+	    PS1="[jhbuild] $PS1"
+	fi
+      </screen>
+
+      <para>This will make your bash shell display
+      <literal>[jhbuild]</literal> before your normal prompt, making
+      it easier to see which shells are under a jhbuild
+      environment.</para>
     </section>
 
     <section id="command-reference-tinderbox">
@@ -2195,29 +2212,46 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
       <section id="moduleset-syntax-sources-bzr">
         <title>Bazaar</title>
-        <para>This repository type is used to define a Bazaar repository.</para>
+        <para>This repository type is used to define a Bazaar repository. It is
+        recommended to have Bazaar 1.16 or higher.</para>
 
         <programlisting>
 &lt;repository type="bzr" name="launchpad.net"
-      href="http://bazaar.launchpad.net/"/&gt;
+      href="lp:"/&gt;
         </programlisting>
 
         <para>Additional attributes are: <sgmltag
-        class="attribute">trunk-template</sgmltag> (defaults to "%(module)s")
-        and <sgmltag class="attribute">branches-template</sgmltag> (defaults to
-        empty string). These attributes are used to specify templates for constructing
-        URL. If <sgmltag class="element">branch</sgmltag> element has <sgmltag
-        class="attribute">revision</sgmltag> attribute defined <sgmltag
+        class="attribute">trunk-template</sgmltag> (defaults to
+        <literal>"%(module)s"</literal>) and <sgmltag
+        class="attribute">branches-template</sgmltag> (defaults to
+        <literal>"%(module)s/%(branch)s</literal>"). These attributes are used
+        to specify templates for constructing URL.  A <sgmltag
+        class="element">branch</sgmltag> element in the module definitions can
+        specify <sgmltag class="attribute">branch</sgmltag> and <sgmltag
+        class="attribute">user</sgmltag> attributes. These values will be
+        substitued in the templates. If either of those are defined <sgmltag
         class="attribute">branches-template</sgmltag> is used, otherwise
-        <sgmltag class="attribute">trunk-template</sgmltag> is used.</para>
+        <sgmltag class="attribute">trunk-template</sgmltag> is used. This way
+        you can ovveride repository to build modules from your personal branch
+        or build many modules fron a repository with non-standard layout.</para>
+
+        <para> An addition <sgmltag class="element">branch</sgmltag> element
+        accepts <sgmltag class="attribute">revspec</sgmltag> attibute to anchor
+        on a particular revision. Any valid <literal>bzr revspec</literal> is
+        accepted, for example <literal>date:yesterday, -5, tag:0.1</literal> to
+        get first revision since yesterday, 5 commits behind the tip or tag
+        "0.1". See <literal>bzr help revisionspec</literal> for all possible
+        values.
+        </para>
 
         <para> For example repository with <sgmltag
         class="attribute">template</sgmltag> attributes defined:</para>
+
         <programlisting>
 &lt;repository type="bzr" name="launchpad.net"
       href="lp:"
       trunk-template="~bzr-pqm/%(module)s/bzr.dev"
-      branches-template="~bzr-pqm/%(module)s/%(revision)s"/&gt;
+      branches-template="~bzr-pqm/%(module)s/%(branch)s"/&gt;
         </programlisting>
 
         <para> Example <sgmltag class="element">branch</sgmltag> elements for
@@ -2231,9 +2265,10 @@ libgnomecanvas is missing branch definition for gnome-2-20
         <programlisting>
 &lt;branch repo="launchpad.net"
       module="bzr"
-      revision="2.2"
+      branch="2.2"
       checkoutdir="bzr-beta"/&gt;
         </programlisting>
+
       </section>
 
       <section id="moduleset-syntax-sources-cvs">
@@ -2281,16 +2316,32 @@ libgnomecanvas is missing branch definition for gnome-2-20
     href="git://anongit.freedesktop.org/git/"/&gt;
         </programlisting>
 
+        <para>It allows the following attributes on the <sgmltag
+        class="element">branch</sgmltag> element:</para>
+
+        <para>The <sgmltag class="attribute">revision</sgmltag>
+        attribute is used to specify a local or remote-tracking branch
+        to switch to in the update phase. It defaults to 'master'. It is
+        possible to override this attribute with the
+        <varname>branches</varname> configuration variable. The switch
+        will only be performed, if the current branch is tracking a
+        remote branch, to not disturb your own work.</para>
+
+        <para>The <sgmltag class="attribute">tag</sgmltag>
+        attribute is used to specify a revision to unconditionally check
+        out in the update phase. It overrides the <sgmltag
+        class="attribute">revision</sgmltag> attribute.</para>
+
+        <!-- TODO I can't say much about the subdir attribute. In the
+        end it will just be appended to checkoutdir.
+        https://bugzilla.gnome.org/show_bug.cgi?id=342846
+        -->
+
         <programlisting>
 &lt;branch repo="git.freedesktop.org" module="swfdec/swfdec"
         checkoutdir="swfdec"
-        tag="tree-ish"/&gt;
-        </programlisting>
-
-        <!-- FIXME revision attribute, verity I don't use it -->
-        <programlisting>
-&lt;branch repo="git.gcc.gnu.org" module="gcc.git"
-        revision="git-svn revision"/&gt;
+        revision="<replaceable>local-or-remote-branch</replaceable>"
+        tag="<replaceable>tree-ish</replaceable>"/&gt;
         </programlisting>
       </section>
 

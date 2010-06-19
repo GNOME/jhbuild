@@ -72,6 +72,15 @@
     </dependencies>
   </autotools>
 
+  <tarball id="json-glib" version="0.10.4">
+    <source href="http://download.gnome.org/sources/json-glib/0.10/json-glib-0.10.4.tar.bz2"
+            hash="sha256:efd8b341d3f9e03cc35b7e2eb353b8336cf7a5560ad273b07e85f7a7a46d5ed9"
+            md5sum="cb207a673438d1bc833eca6fc93f80e1" size="389457"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
   <autotools id="clutter">
     <branch module="clutter/1.2/clutter-1.2.8.tar.bz2" version="1.2.8"
 	    repo="clutter-project.org"
@@ -82,6 +91,7 @@
       <dep package="cairo"/>
       <dep package="pango"/>
       <dep package="gtk-doc"/>
+      <dep package="json-glib"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
@@ -212,7 +222,7 @@
     </dependencies>
   </tarball>
 
- <tarball id="UPower" version="">
+ <tarball id="upower" version="">
     <source href="http://upower.freedesktop.org/releases/upower-0.9.4.tar.bz2"
             hash="sha256:39dd138781b2a2d820f1a2bde4ca60dbf99e6def0e0010d4c3d3f4707954a57c"
             size="468727"/>
@@ -301,6 +311,12 @@
     </dependencies>
   </tarball>
 
+  <tarball id="libdiscid" version="0.2.2">
+    <source href="http://users.musicbrainz.org/~matt/libdiscid-0.2.2.tar.gz"
+            hash="sha256:974b5d5ab23fb45910a4fe171045a22a749cd8cb9833168f7178839993a58402"
+            md5sum="ee21ddbe696a3c60e14827a75f3bcf5b" size="347907"/>
+  </tarball>
+
   <cmake id="libmusicbrainz">
     <branch module="libmusicbrainz-3.0.2.tar.gz" version="3.0.2"
             repo="ftp.musicbrainz.org"
@@ -308,6 +324,9 @@
             md5sum="648ecd43f7b80852419aaf73702bc23f" size="98537">
       <patch file="libmusicbrainz-3.0.2-gcc-4.4-fix.patch"/>
     </branch>
+    <dependencies>
+      <dep package="libdiscid"/>
+    </dependencies>
   </cmake>
 
   <tarball id="liboil" version="0.3.17">
@@ -398,10 +417,10 @@
     </branch>
   </autotools>
 
-  <tarball id="poppler" version="0.12.4">
-    <source href="http://poppler.freedesktop.org/poppler-0.12.4.tar.gz"
-            hash="sha256:2afa2a54bd4ccb09e92f82b64bcafa95d39a404a3b3db9d6a5fcad0e0229857a"
-            md5sum="4155346f9369b192569ce9184ff73e43" size="1674400"/>
+  <tarball id="poppler" version="0.14.0">
+    <source href="http://poppler.freedesktop.org/poppler-0.14.0.tar.gz"
+            hash="sha256:aba6fff01a90b44ac6f4ed570d52a43c9790e0445ceaab59abe23d0c7c87bcaf"
+            md5sum="76f003b8fa2b905674088c306aa857c5" size="1782119"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
@@ -415,10 +434,10 @@
   </tarball>
 
   <autotools id="pycairo">
-    <branch module="releases/pycairo-1.8.8.tar.gz" version="1.8.8"
+    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
             repo="cairo.org" 
-            hash="sha256:2f52599943ca03c8ff336a0e84b1c8b74f30e2a3de9cb6a9a42a93a848832860"
-            md5sum="054da6c125cb427a003f5fd6c54f853e" size="475651">
+            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
+            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064">
     </branch>
     <dependencies>
       <dep package="cairo"/>
@@ -480,10 +499,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.11.5">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.11.5.tar.gz"
-            hash="sha256:04b4dbb0671715c2d2ac5fc869dabebf90f823a3ae36a97d7e0769802cf48446"
-            md5sum="731e2c9ea0a60684c6c3c297c1c152f3" size="2179106"/>
+  <tarball id="telepathy-glib" version="0.11.7">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.11.7.tar.gz"
+            hash="sha256:fb2fe5074e7d7566d5567d5d15b9fa7b73955be1092e1991d3fc976ca5d0c85d"
+            md5sum="fa271fb5fa8680894b11a29328245127" size="2333948"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -492,10 +511,21 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-mission-control" version="5.4.0">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.4.0.tar.gz"
-            hash="sha256:5dbb6bdb0ece28018317ff81c13f1b5bd850897416599d2fa1435c34786857ac"
-            md5sum="f40d7a451e97fb3b3a08e441dfab40b3" size="1090498"/>
+  <tarball id="telepathy-logger" version="0.1.2">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-logger/telepathy-logger-0.1.2.tar.bz2"
+            hash="sha256:3b1cd01f818f33a0e12b3beccd63afd99756921c5b58cdb52e673872ebe1151a"
+            md5sum="b3a3f96624065bf6bf37398d8acc5558" size="439920"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-mission-control" version="5.5.1">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.5.1.tar.gz"
+            hash="sha256:efa033f018066987edaa80d7e6a58e50788e4466a6cfd7fb7493e955f3b38a79"
+            md5sum="97b0d0af8670a6a9a4510995eebce1c6" size="1217791"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -508,7 +538,7 @@
   <repository type="tarball" name="ftp.mozilla.org"
       href="https://ftp.mozilla.org/pub/mozilla.org/"/>
   <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
-  	autogenargs="--enable-ipv6 --with-mozilla">
+             autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
     <branch repo="ftp.mozilla.org"
             module="nspr/releases/v4.8.4/src/nspr-4.8.4.tar.gz"
 	    version="4.8.4"
@@ -548,6 +578,8 @@
 	     --enable-extensions=python/xpcom
 	     --enable-system-sqlite
 	     --disable-crashreporter
+	     --with-system-nss
+	     --with-system-nspr
 	     "
              makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
@@ -648,6 +680,7 @@
 	    repo="sqlite.org"
 	    hash="sha256:1a0517438a573a68ab73e8ed75d194086d55d75883542ab1d5ae1080bbddd492"
 	    md5sum="d99f1b31da0eb33271464bee15cec701" size="3086807">
+      <patch file="sqlite-3.6.22.dlsym.patch" strip="1"/>
     </branch>
   </autotools>
 
@@ -679,10 +712,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="polkit" version="0.94">
-    <source href="http://hal.freedesktop.org/releases/polkit-0.94.tar.gz"
-            hash="sha256:8fd1dc321a700d78b43a62b1987f321b428bd2d8065468982069cb86bc8ef44f"
-            md5sum="5abc9f858e7b614ef41161db36d53915" size="1009990"/>
+  <tarball id="polkit" version="0.96">
+    <source href="http://hal.freedesktop.org/releases/polkit-0.96.tar.gz"
+            hash="sha256:3426ca917210b2a5525732559368c18f983a4c39a6a55c5dddba26071bd8054a"
+            md5sum="e0a06da501b04ed3bab986a9df5b5aa2" size="1034210"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="eggdbus"/>
@@ -706,10 +739,10 @@
   </tarball>
 
 
-  <tarball id="eggdbus" version="0.5">
-    <source href="http://hal.freedesktop.org/releases/eggdbus-0.5.tar.gz"
-            hash="sha256:3261d543ab7cfcf9388ca1c4e1e5258c40af7e1c947e4876b5d04befbe4d3a3c"
-            md5sum="44f1f6387c49e8198d7aa755aeee46c6" size="790432"/>
+  <tarball id="eggdbus" version="0.6">
+    <source href="http://hal.freedesktop.org/releases/eggdbus-0.6.tar.gz"
+            hash="sha256:045b1904c90a5acb2ddc93504cdbc5e1317c8021bbf919cea3bf18a686911085"
+            md5sum="b43d2a6c523fcb8b9d0b0300c4222386" size="801596"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -747,6 +780,7 @@
 
   <autotools id="pulseaudio">
     <branch repo="0pointer.de" module="pulseaudio/pulseaudio-0.9.21.tar.gz" version="0.9.21"
+            autogenargs="--disable-udev"
             hash="sha256:94e22356ac70ee95388ae58da90d88c6b3186d1938618d21671627ff56cee254"
             md5sum="76e623c4c72e2258bc8bdeb1599bad74" size="2056896"/>
     <dependencies>
@@ -768,9 +802,12 @@
 
   <cmake id="libproxy">
     <branch repo="libproxy.googlecode.com"
-            module="libproxy-0.4.0.tar.gz" version="0.4.0"
-            hash="sha256:17cb515cc6b3bc37f1e5d268068f5220fb1b4398044d9e23cc11e8b36cad470c"
-            md5sum="b22c95df70a40949e99add5171fc3084" size="64610"/>
+            module="libproxy-0.4.3.tar.gz" version="0.4.3"
+            hash="sha1:d770dcc63bc5e361948c6d3dcc74c5db81e2200c"
+            size="71967">
+      <patch file="libproxy-0.4-python-libdir.patch" strip="1"/>
+    </branch>
+
     <dependencies>
       <dep package="gconf"/>
     </dependencies>
@@ -824,9 +861,9 @@
 	    makeargs="tallocdir='$(srcdir)'"
 	    makeinstallargs="install tallocdir='$(srcdir)'">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha10.tar.gz" version="4.0.0alpha10"
-            hash="sha256:8cb46b9baeb9246d01aa0d239ec0df451733b06a83879cf7b995a720009677b7"
-            md5sum="e6b9e0fa90ddffd381790948c77d2152" size="13765425"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/talloc">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -834,9 +871,9 @@
 
   <autotools id="tdb">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha10.tar.gz" version="4.0.0alpha10"
-            hash="sha256:8cb46b9baeb9246d01aa0d239ec0df451733b06a83879cf7b995a720009677b7"
-            md5sum="0c25dced4dc64a6581a09917ec05dab2" size="13765425"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/tdb">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -844,9 +881,9 @@
 
   <autotools id="tevent">
     <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha10.tar.gz" version="4.0.0alpha10"
-            hash="sha256:8cb46b9baeb9246d01aa0d239ec0df451733b06a83879cf7b995a720009677b7"
-            md5sum="0c25dced4dc64a6581a09917ec05dab2" size="13765425"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/tevent">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
     </branch>
@@ -878,10 +915,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="farsight2" version="0.0.12" autogenargs="--disable-python">
-    <source href="http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.12.tar.gz"
-            hash="sha256:c003fad534d95a5cd979973b08cc116986b4d82542611167aead4d60c1fc6615"
-            md5sum="cd4cb116947dd8ce2c837ba398e27c4e" size="1003103"/>
+  <tarball id="farsight2" version="0.0.19" autogenargs="--disable-python">
+    <source href="http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.19.tar.gz"
+            hash="sha256:71e6f487bf7434c424234c136c2a8233ddecf3178acbe4fd9295b742b59ea04c"
+            md5sum="0ce00833b1baaab2b9d8b6dbba56fbfd" size="1067517"/>
     <dependencies>
       <dep package="libnice"/>
     </dependencies>
@@ -897,10 +934,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-farsight" version="0.0.4" autogenargs="--disable-python">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.4.tar.gz"
-            hash="sha256:4fc1b56648449f8aad72df347947672771007263b2a2f5ee0b8485eedf13c8e5"
-            md5sum="2862c3c07d150485b22b2614391c36e2" size="571617"/>
+  <tarball id="telepathy-farsight" version="0.0.14" autogenargs="--disable-python">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.14.tar.gz"
+            hash="sha256:3074d40b33ecd08d7fc0168dfb4a4dd4f98ef3fd5c4708074b9669b3f39457b5"
+            md5sum="1e6af31be4d5cdfc72a3f06542de96c0" size="547695"/>
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="farsight2"/>
@@ -917,10 +954,10 @@
     </dependencies>
   </tarball>
     
-  <tarball id="libgda" version="4.0.8" autogenargs="--with-java=no">
-    <source href="http://download.gnome.org/sources/libgda/4.0/libgda-4.0.8.tar.bz2"
-            hash="sha256:c731cd8015f63a3bff37341cb8ffc4d8086a535d960af098194968ac87555788"
-            md5sum="3e4a55f370805cda9ac415211da4aacc" size="8229914"/>
+  <tarball id="libgda" version="4.1.6" autogenargs="--with-java=no">
+    <source href="http://download.gnome.org/sources/libgda/4.1/libgda-4.1.6.tar.bz2"
+            hash="sha256:1e1c7ec56662c5463ffad28030ae1017d4af6add6cccb92ec4e3b45dcb5f3c59"
+            md5sum="353dbf284ca7b43935a8fb8863b8391b" size="12583049"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -929,9 +966,9 @@
 
   <autotools id="WebKit" makefile="GNUmakefile">
     <branch repo="webkitgtk.org"
-            module="webkit-1.2.0.tar.gz" version="1.2.0"
-            hash="sha256:0ce49278970857db374d31fd1831bf42ffb1dca4797ef39911a96d01d8c5e1f7"
-            md5sum="b2bfcbc4bbf1d0a51f848cb54c21ee66" size="7554632"/>
+            module="webkit-1.3.1.tar.gz" version="1.3.1"
+            hash="sha256:982e2dcc73c1f68f2bf88f5e4f2f88ad2e9e9eea3c12cc7019f081cab28bcbe9"
+            md5sum="14839906068ae173c0f89b44779f18e1" size="7463827"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="fontconfig"/>
@@ -1067,5 +1104,84 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.8/vala-0.8.1.tar.bz2"
       <dep package="libxslt"/>
     </dependencies>
   </tarball>
+
+  <tarball id="gssdp" version="0.7.2">
+    <source href="http://gupnp.org/sources/gssdp/gssdp-0.7.2.tar.gz"
+            hash="sha256:c071f09cd47f2d274c34b2d083e83586339ffea27e8efac2c057d160833b44b7"
+            md5sum="4e03a1320294aaab2c514d01401b031a" size="367062"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp" version="0.13.3">
+    <source href="http://gupnp.org/sources/gupnp/gupnp-0.13.3.tar.gz"
+            hash="sha256:555740facf2ae8054d3864514192f16fb4ab62dd3eb5a18aafbbe1cd454e37f6"
+            md5sum="27709a61ad23227a87afed17f5b1c397" size="529546"/>
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp-av" version="0.5.5">
+    <source href="http://gupnp.org/sources/gupnp-av/gupnp-av-0.5.5.tar.gz"
+            hash="sha256:ad743dd99b27f432f31b77af01d97a44b3d38c8ff4bbe52502573e2ba67c96c9"
+            md5sum="df60eba4b18b16f834dff1f3d3f4426c" size="406871"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gupnp-vala" version="0.6.6">
+    <source href="http://gupnp.org/sources/bindings/gupnp-vala-0.6.6.tar.gz"
+            hash="sha256:61ce8e91a93a1b9146d51a79ce305cf02d600377bb191844cbfc5d8a3bf2d8f0"
+            md5sum="4c7344dfe526f7eb186dab806eeabe9f" size="111423"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+    </dependencies>
+    <suggests>
+      <dep package="gupnp-ui"/>
+    </suggests>
+  </tarball>
+
+  <tarball id="libgee" version="0.5.1">
+    <source href="http://download.gnome.org/sources/libgee/0.5/libgee-0.5.1.tar.bz2"
+            hash="sha256:cedb8dbd9f0670034298deb416c8f510b3d88c901046a904b908e8ca8718af6b"
+            md5sum="59789b5b266beadfb8b51bf2c96211b3" size="450890"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <repository type="git" name="git.gnome.org"
+      href="git://git.gnome.org/"/>
+  <autotools id="libunique-3">
+    <branch repo="git.gnome.org" module="unique" checkoutdir="libunique-3"/>
+    <dependencies>
+      <dep package="gtk+-3"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libpeas">
+    <branch repo="git.gnome.org"/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+      <dep package="seed"/>
+    </suggests>
+  </autotools>
 
 </moduleset>

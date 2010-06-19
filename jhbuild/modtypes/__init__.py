@@ -174,6 +174,12 @@ class Package:
     def check_build_policy(self, buildscript):
         if not buildscript.config.build_policy in ('updated', 'updated-deps'):
             return
+
+        # Always trigger a build for dirty branches if supported by the version
+        # control module.
+        if hasattr(self.branch, 'is_dirty') and self.branch.is_dirty():
+            return
+
         if not buildscript.packagedb.check(self.name, self.get_revision() or ''):
             # package has not been updated
             return

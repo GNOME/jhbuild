@@ -343,6 +343,17 @@ class Config:
         addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
         addpath('PKG_CONFIG_PATH', pkgconfigdir)
 
+        # GI_TYPELIB_PATH
+        if not 'GI_TYPELIB_PATH' in os.environ:
+            if self.use_lib64:
+                full_name = '/usr/lib64/girepository-1.0'
+            else:
+                full_name = '/usr/lib/girepository-1.0'
+            if os.path.exists(full_name):
+                addpath('GI_TYPELIB_PATH', full_name)
+        typelibpath = os.path.join(self.libdir, 'girepository-1.0')
+        addpath('GI_TYPELIB_PATH', typelibpath)
+
         # XDG_DATA_DIRS
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
@@ -372,6 +383,11 @@ class Config:
         perl5lib = os.path.join(self.prefix, 'lib', 'perl5')
         addpath('PERL5LIB', perl5lib)
 
+        # These two variables are so that people who use "jhbuild shell"
+        # can tweak their shell prompts and such to show "I'm under jhbuild".
+        # The first variable is the obvious one to look for; the second
+        # one is for historical reasons.
+        os.environ['UNDER_JHBUILD'] = 'true'
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
         # PYTHONPATH
