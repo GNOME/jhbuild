@@ -346,6 +346,8 @@ def _parse_module_set(config, uri):
             for attr in repo_class.init_xml_attrs:
                 if node.hasAttribute(attr):
                     kws[attr.replace('-', '_')] = node.getAttribute(attr)
+            if name in repositories:
+                logging.warning(_('Duplicate repository:') + ' '+ name)
             repositories[name] = repo_class(config, name, **kws)
             repositories[name].moduleset_uri = uri
             mirrors = {}
