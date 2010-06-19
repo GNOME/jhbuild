@@ -483,6 +483,11 @@ class cmd_list(Command):
     def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
+        if options.startat and options.list_all_modules:
+            raise UsageError(_('Conflicting options specified '
+                               '(\'%s\' and \'%s\')') % \
+                               ('--start-at', '--all-modules'))
+
         if options.list_all_modules:
             module_list = module_set.modules.values()
         else:
