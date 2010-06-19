@@ -538,7 +538,7 @@
   <repository type="tarball" name="ftp.mozilla.org"
       href="https://ftp.mozilla.org/pub/mozilla.org/"/>
   <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
-  	autogenargs="--enable-ipv6 --with-mozilla">
+             autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
     <branch repo="ftp.mozilla.org"
             module="nspr/releases/v4.8.4/src/nspr-4.8.4.tar.gz"
 	    version="4.8.4"
@@ -578,6 +578,8 @@
 	     --enable-extensions=python/xpcom
 	     --enable-system-sqlite
 	     --disable-crashreporter
+	     --with-system-nss
+	     --with-system-nspr
 	     "
              makeinstallargs="install SKIP_GRE_REGISTRATION=1">
     <branch repo="mozilla.org"
