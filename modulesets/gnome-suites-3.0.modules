@@ -957,9 +957,9 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="gconf"/>
-      <dep package="vte"/>
+      <dep package="vte-3"/>
       <dep package="startup-notification"/>
       <dep package="gnome-doc-utils"/>
     </dependencies>
@@ -1448,8 +1448,17 @@
     </dependencies>
   </autotools>
 
-  <autotools id="vte">
+  <autotools id="vte" autogenargs="--with-gtk=2.0">
     <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="vte-3" autogenargs="--with-gtk=3.0">
+    <branch checkoutdir="vte-3" module="vte"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
