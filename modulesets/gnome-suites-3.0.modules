@@ -651,6 +651,21 @@
   </autotools>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
+    <branch revision="gnome-2-30"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="startup-notification"/>
+      <dep package="gnome-themes"/>
+      <dep package="rarian"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-desktop-3" autogenargs="--with-gnome-distributor=JHBuild">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
