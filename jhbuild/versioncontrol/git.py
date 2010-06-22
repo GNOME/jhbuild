@@ -86,15 +86,23 @@ class GitRepository(Repository):
         if self.config.dvcs_mirror_dir:
             mirror_module = os.path.join(self.config.dvcs_mirror_dir, module)
 
-        # allow remapping of branch for module
+        # allow remapping of branch for module, it supports two modes of
+        # operation
         if name in self.config.branches:
-            try:
-                new_module, revision = self.config.branches.get(name)
-            except (ValueError, TypeError):
-                logging.warning(_('ignored bad branch redefinition for module:') + ' ' + name)
+            branch_mapping = self.config.branches.get(name)
+            if type(branch_mapping) is str:
+                # passing a single string will override the branch name
+                revision = branch_mapping
             else:
-                if new_module:
-                    module = new_module
+                # otherwise it is assumed it is a pair, redefining both
+                # git URI and the branch to use
+                try:
+                    new_module, revision = self.config.branches.get(name)
+                except (ValueError, TypeError):
+                    logging.warning(_('ignored bad branch redefinition for module:') + ' ' + name)
+                else:
+                    if new_module:
+                        module = new_module
         if not (urlparse.urlparse(module)[0] or module[0] == '/'):
             if self.href.endswith('/'):
                 base_href = self.href
