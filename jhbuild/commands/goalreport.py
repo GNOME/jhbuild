@@ -440,7 +440,10 @@ class cmd_goalreport(Command):
         # mark deprecated modules as processed, so they don't show in "Others"
         for meta_key in ('meta-gnome-devel-platform-upcoming-deprecations',
                          'meta-gnome-desktop-upcoming-deprecations'):
-            metamodule = module_set.get_module(meta_key)
+            try:
+                metamodule = module_set.get_module(meta_key)
+            except KeyError:
+                continue
             for module_name in metamodule.dependencies:
                 processed_modules[module_name] = True
 
