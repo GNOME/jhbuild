@@ -116,6 +116,13 @@
     </suggests>
   </autotools>
 
+  <autotools id="gdk-pixbuf">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gtk+">
     <branch revision="gtk-2-22"/>
     <dependencies>
@@ -123,6 +130,7 @@
       <dep package="cairo"/>
       <dep package="pango"/>
       <dep package="atk"/>
+      <dep package="gdk-pixbuf"/>
     </dependencies>
     <after>
       <dep package="shared-mime-info"/>
@@ -136,6 +144,7 @@
       <dep package="cairo"/>
       <dep package="pango"/>
       <dep package="atk"/>
+      <dep package="gdk-pixbuf"/>
     </dependencies>
     <after>
       <dep package="shared-mime-info"/>
@@ -176,19 +185,6 @@
     </dependencies>
   </autotools>
 
-  <tarball id="audiofile" version="0.2.7" supports-non-srcdir-builds="no">
-    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.7.tar.gz"
-            hash="sha256:a61c4036c2600a645843f16bec4be166093a9df5f15b02c85291213aa9cf15a2"
-            md5sum="a39be317a7b1971b408805dc5e371862" size="502448"/>
-  </tarball>
-
-  <autotools id="esound">
-    <branch/>
-    <dependencies>
-      <dep package="audiofile"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libIDL">
     <branch/>
     <dependencies>
@@ -216,6 +212,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="libgnome"/>
       <dep package="libbonobo"/>
       <dep package="libgnomecanvas"/>
@@ -238,9 +235,9 @@
       <dep package="libxml2"/>
       <dep package="libxslt"/>
       <dep package="libbonobo"/>
+      <dep package="libcanberra"/>
       <dep package="gnome-vfs"/>
       <dep package="gconf"/>
-      <dep package="esound"/>
     </dependencies>
   </autotools>
 
@@ -263,6 +260,7 @@
       <dep package="libglade"/>
       <dep package="gnome-icon-theme"/>
       <dep package="libgnome-keyring"/>
+      <dep package="gdk-pixbuf"/>
     </dependencies>
   </autotools>
 
@@ -298,6 +296,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="evolution-data-server"/>
       <dep package="libsoup"/>
       <dep package="libgtop"/>
@@ -326,7 +325,11 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="iso-codes"/>
-      <dep package="gnome-desktop"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop-3"/>
+      <dep package="libxml2"/>
+      <dep package="gnome-menus"/>
       <dep package="metacity"/>
       <dep package="libgnomekbd"/>
       <dep package="gnome-doc-utils"/>
@@ -334,6 +337,7 @@
     </dependencies>
     <suggests>
       <dep package="dbus-glib"/>
+      <dep package="libcanberra"/>
     </suggests>
   </autotools>
 
@@ -345,14 +349,16 @@
       <dep package="gnome-doc-utils"/>
     </dependencies>
   </autotools>
-  
+
   <autotools id="dconf">
     <branch/>
     <dependencies>
+      <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gobject-introspection"/>
       <dep package="vala"/>
       <dep package="libgee"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -590,13 +596,9 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="rarian"/>
       <dep package="libpeas"/>
       <dep package="gnome-doc-utils"/>
-      <dep package="startup-notification"/>
-      <dep package="gconf"/>
       <dep package="gtksourceview-3"/>
-      <dep package="pygtksourceview"/>
     </dependencies>
     <suggests>
       <dep package="iso-codes"/>
@@ -617,6 +619,7 @@
       <dep package="system-tools-backends"/>
       <dep package="pygtk"/>
       <dep package="libgweather"/>
+      <dep package="gdk-pixbuf"/>
     </dependencies>
     <suggests>
       <dep package="polkit"/>
@@ -651,7 +654,22 @@
   </autotools>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
-    <branch/>
+    <branch revision="gnome-2-30"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="startup-notification"/>
+      <dep package="gnome-themes"/>
+      <dep package="rarian"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-desktop-3" autogenargs="--with-gnome-distributor=JHBuild">
+    <branch checkoutdir="gnome-desktop-3" module="gnome-desktop"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -736,6 +754,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
       <dep package="gnome-panel"/>
       <dep package="gnome-doc-utils"/>
@@ -757,6 +776,7 @@
       <dep package="at-spi"/>
       <dep package="dbus-glib"/>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="libbonobo"/>
       <dep package="libcolorblind"/>
       <dep package="gnome-python"/>
@@ -807,7 +827,6 @@
       <dep package="intltool"/>
       <dep package="rarian"/>
       <dep package="gnome-desktop"/>
-      <dep package="libbonoboui"/>
       <dep package="libwnck"/>
       <dep package="evolution-data-server"/>
       <dep package="gnome-menus"/>
@@ -819,6 +838,7 @@
     </dependencies>
     <suggests>
       <dep package="polkit"/>
+      <dep package="libbonoboui"/>
     </suggests>
   </autotools>
 
@@ -851,6 +871,7 @@
       <dep package="gnome-media"/>
       <dep package="metacity"/>
       <dep package="evolution-data-server"/>
+      <dep package="bug-buddy"/>
     </dependencies>
   </waf>
 
@@ -942,10 +963,9 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="gconf"/>
-      <dep package="dbus-glib"/>
-      <dep package="vte"/>
+      <dep package="vte-3"/>
       <dep package="startup-notification"/>
       <dep package="gnome-doc-utils"/>
     </dependencies>
@@ -955,6 +975,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk-engines"/>
       <dep package="gtk-engines-3"/>
       <dep package="icon-naming-utils"/>
@@ -1019,6 +1040,7 @@
     </dependencies>
     <suggests>
       <dep package="pulseaudio"/>
+      <dep package="gdk-pixbuf"/>
     </suggests>
   </autotools>
 
@@ -1141,6 +1163,7 @@
     <branch/>
     <dependencies>
       <dep package="libxml2"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
       <dep package="gnome-common"/>
       <dep package="libgsf"/>
@@ -1152,6 +1175,7 @@
     <branch checkoutdir="librsvg-3" module="librsvg"/>
     <dependencies>
       <dep package="libxml2"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+-3"/>
       <dep package="gnome-common"/>
       <dep package="libcroco"/>
@@ -1184,6 +1208,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
       <dep package="intltool"/>
@@ -1209,11 +1234,10 @@
       <dep package="intltool"/>
       <dep package="rarian"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="pango"/>
       <dep package="libxml2"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libunique"/>
+      <dep package="gnome-desktop-3"/>
     </dependencies>
     <suggests>
       <dep package="exempi"/>
@@ -1264,8 +1288,10 @@
       <dep package="intltool"/>
       <dep package="pygtk"/>
       <dep package="pycairo"/>
-      <dep package="gnome-python-desktop"/>
     </dependencies>
+    <suggests>
+      <dep package="gnome-python-desktop"/>
+    </suggests>
   </waf>
 
   <autotools id="pygtksourceview">
@@ -1327,7 +1353,7 @@
       <dep package="libnotify"/>
     </suggests>
   </autotools>
-  
+
   <autotools id="sound-juicer">
     <branch/>
     <dependencies>
@@ -1358,8 +1384,6 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk-sharp"/>
-      <dep package="gnome-sharp"/>
-      <dep package="gnome-desktop-sharp"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
       <dep package="gnome-doc-utils"/>
@@ -1385,7 +1409,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="totem" autogenargs="--enable-gstreamer">
+  <autotools id="totem">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
@@ -1396,7 +1420,6 @@
       <dep package="libmusicbrainz"/>
       <dep package="iso-codes"/>
       <dep package="totem-pl-parser"/>
-      <dep package="libunique-3"/>
       <dep package="libpeas"/>
     </dependencies>
     <suggests>
@@ -1435,8 +1458,17 @@
     </dependencies>
   </autotools>
 
-  <autotools id="vte">
+  <autotools id="vte" autogenargs="--with-gtk=2.0">
     <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="vte-3" autogenargs="--with-gtk=3.0">
+    <branch checkoutdir="vte-3" module="vte"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -1459,14 +1491,11 @@
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="rarian"/>
       <dep package="libxml2"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="startup-notification"/>
+      <dep package="libxslt"/>
       <dep package="WebKit"/>
       <dep package="dbus-glib"/>
       <dep package="yelp-xsl"/>
-      <dep package="libunique"/>
     </dependencies>
   </autotools>
 
@@ -1510,10 +1539,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="atkmm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gtkmm">
     <branch/>
     <dependencies>
       <dep package="pangomm"/>
+      <dep package="atkmm"/>
       <dep package="gtk+-3"/>
     </dependencies>
   </autotools>
@@ -1592,6 +1630,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="pycairo"/>
     </dependencies>
   </autotools>
 
@@ -1644,7 +1683,6 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="pygtk"/>
-      <dep package="gnome-python-desktop"/>
     </dependencies>
   </autotools>
 
@@ -1665,7 +1703,6 @@
     <branch/>
     <dependencies>
       <dep package="gconf"/>
-      <dep package="gnome-python-desktop"/>
       <dep package="intltool"/>
       <dep package="pygtk"/>
       <dep package="pyatspi2"/>
@@ -1678,6 +1715,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
       <dep package="vte"/>
@@ -1793,6 +1831,7 @@
     <branch />
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
       <dep package="intltool"/>
@@ -1829,14 +1868,12 @@
   <autotools id="gnome-color-manager">
     <branch/>
     <dependencies>
-      <dep package="gtk+"/>
-      <dep package="gnome-desktop"/>
-      <dep package="gconf"/>
-      <dep package="libunique"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop-3"/>
       <dep package="vte"/>
-      <dep package="dbus-glib"/>
       <dep package="libnotify"/>
-      <!-- and gudev, and lcms -->
+      <dep package="lcms2"/>
+      <!-- and gudev -->
     </dependencies>
   </autotools>
 
@@ -1873,8 +1910,6 @@
   <metamodule id="meta-gnome-devel-platform-upcoming-deprecations">
     <dependencies>
       <dep package="ORBit2"/>
-      <dep package="audiofile"/>
-      <dep package="esound"/>
       <dep package="gnome-mime-data"/>
       <dep package="gnome-vfs"/>
       <dep package="libIDL"/>

@@ -43,8 +43,6 @@
       href="http://svn.o-hand.com/repos/"/>
   <repository type="git" name="git.clutter-project.org"
       href="git://git.clutter-project.org/"/>
-  <repository type="git" name="git.gupnp.org"
-      href="git://git.gupnp.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
@@ -300,6 +298,16 @@
     <branch/>
   </autotools>
 
+  <autotools id="libdmapsharing">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="avahi"/>
+      <dep package="libsoup"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="rhythmbox">
     <branch/>
     <dependencies>
@@ -319,6 +327,7 @@
       <dep package="libnotify"/>
       <dep package="libmusicbrainz"/>
       <dep package="brasero"/>
+      <dep package="libdmapsharing"/>
     </suggests>
   </autotools>
 
@@ -1279,7 +1288,7 @@
   </metamodule>
 
   <autotools id="gupnp-tools">
-    <branch repo="git.gupnp.org" module="gupnp-tools"/>
+    <branch repo="gitorious.org" module="gupnp/gupnp-tools"/>
     <dependencies>
       <dep package="gupnp"/>
       <dep package="gtk+"/>
@@ -1288,7 +1297,7 @@
   </autotools>
 
   <autotools id="gupnp-ui">
-    <branch repo="git.gupnp.org" module="gupnp-ui"/>
+    <branch repo="gitorious.org" module="gupnp/gupnp-ui"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gupnp"/>
@@ -1296,7 +1305,7 @@
   </autotools>
 
   <autotools id="rhythmbox-gupnp" autogenargs="--with-rhythmbox=../rhythmbox">
-    <branch repo="git.gupnp.org" module="rhythmbox-gupnp"/>
+    <branch repo="gitorious.org" module="gupnp/rhythmbox-gupnp"/>
     <dependencies>
       <dep package="rhythmbox"/>
       <dep package="gupnp-av"/>
@@ -2404,6 +2413,34 @@
       <dep package="gtk+"/>
       <dep package="libgnomecanvas"/>
       <dep package="gnome-icon-theme"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="ease">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="libgee"/>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+      <dep package="clutter-gtk"/>
+      <dep package="libxml2"/>
+      <dep package="clutter-gst"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Platform: deprecated libraries -->
+
+  <tarball id="audiofile" version="0.2.7" supports-non-srcdir-builds="no">
+    <source href="http://www.68k.org/~michael/audiofile/audiofile-0.2.7.tar.gz"
+            hash="sha256:a61c4036c2600a645843f16bec4be166093a9df5f15b02c85291213aa9cf15a2"
+            md5sum="a39be317a7b1971b408805dc5e371862" size="502448"/>
+  </tarball>
+
+  <autotools id="esound">
+    <branch/>
+    <dependencies>
+      <dep package="audiofile"/>
     </dependencies>
   </autotools>
 

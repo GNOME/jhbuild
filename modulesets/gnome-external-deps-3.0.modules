@@ -20,7 +20,7 @@
 <repository type="tarball" name="sourceforge.net"
     href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="clutter-project.org"
-    href="http://www.clutter-project.org/sources/"/>
+    href="http://source.clutter-project.org/sources/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
     href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
@@ -95,7 +95,7 @@
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
-      <dep package="gtk+"/>
+      <dep package="gdk-pixbuf"/>
     </suggests>
   </autotools>
 
@@ -113,8 +113,8 @@
   <autotools id="pyclutter">
     <branch module="pyclutter/1.0/pyclutter-1.0.2.tar.gz" version="1.0.2"
             repo="clutter-project.org"
-            hash="sha256:46c305bc231e76a51261705ae003ac2a8d5711110538319165ba53ccf85f8037"
-            md5sum="4aa01573c8900587702e8102e02c14e6" size="628308"/>
+            hash="sha256:9a396f55fa28eb4beeeb6d11fa64d785f7ae428717e3cb02f08c2dbc008bd0c9"
+            md5sum="9bd6a73bba4a40e5dc79003ccb6bc6a7" size="633912"/>
     <dependencies>
       <dep package="pygtk"/>
       <dep package="pycairo"/>
@@ -232,6 +232,12 @@
     </dependencies>
   </tarball>
 
+  <tarball id="lcms2" version="2.0a" checkoutdir="lcms-2.0">
+    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.0a.tar.gz"
+            hash="sha256:6deaf78611f5978ff58aa85efc37cf070b6ffb7106486b894914c4fc548d054f"
+            md5sum="c4f115462a7a5b306c247d018d7a8982" size="3449841"/>
+  </tarball>
+
   <repository type="tarball" name="icon-theme.freedesktop.org"
 	  href="http://icon-theme.freedesktop.org/releases/"/>
   <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
@@ -306,9 +312,12 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
+    </dependencies>
+    <suggests>
       <dep package="gnome-vfs"/>
       <dep package="libbonobo"/>
-    </dependencies>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
   </tarball>
 
   <tarball id="libdiscid" version="0.2.2">
@@ -400,10 +409,10 @@
 
   <autotools id="opal" autogenargs="--disable-vpb"
              check-target="false" supports-non-srcdir-builds="no">
-    <branch module="opal/3.6/opal-3.6.6.tar.bz2" repo="gnome.org"
-            version="3.6.6"
-            hash="sha256:60c9d75703bedfeca7140cb76b23fae7179ce1f86e7e8b0026b72d66acd75c82"
-            md5sum="43b363c860780e7f1a0361cfee8f9f4a" size="7062422"/>
+    <branch module="opal/3.8/opal-3.8.1.tar.bz2" repo="gnome.org"
+            version="3.8.1"
+            hash="sha256:2ba01932ffd0d0f7bb464daf552b2cb286859fa9ecdd86abf106703d26d66c81"
+            md5sum="19e9fd97695dbe9974dbf5a3354495a0" size="7444010"/>
     <dependencies>
       <dep package="ptlib"/>
     </dependencies>
@@ -430,6 +439,7 @@
     </suggests>
     <after>
       <dep package="gtk+"/>
+      <dep package="gdk-pixbuf"/>
     </after>
   </tarball>
 
@@ -445,10 +455,10 @@
   </autotools>
 
   <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
-    <branch module="ptlib/2.6/ptlib-2.6.5.tar.bz2" repo="gnome.org"
+    <branch module="ptlib/2.8/ptlib-2.8.1.tar.bz2" repo="gnome.org"
             autogen-sh="configure"
-            version="2.6.5"
-            hash="sha256:78e290d3cf78d4dc15c7397b0edd138b4d29cf2ad0a7311bfc1c4dfb88f2a400"/>
+            version="2.8.1"
+            hash="sha256:cb35473fe004b443d42c704f11151285951532593f41cc7f8e96c90ac09ef700"/>
   </autotools>
 
   <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.71">
@@ -752,14 +762,15 @@
   </tarball>
 
   <autotools id="libcanberra" autogen-sh="configure">
-    <branch repo="0pointer.de" module="libcanberra/libcanberra-0.24.tar.gz" version="0.13"
-            hash="sha256:902f075cc9065d042cd4b027ffe7891ea718565f22dbafa43fd9dccfd63a95fa"
-            md5sum="23de3d11abd4920c6c9560e3a566e04d" size="460860"/>
+    <branch repo="0pointer.de" module="libcanberra/libcanberra-0.25.tar.gz" version="0.25"
+            hash="sha256:46329eda4c877206232d4c906e8f5f401518cec52859395cde3a9e39ea97553c"
+            md5sum="d7a158d22d0b44fb2a67aadae74e28ab" size="463014"/>
     <dependencies>
       <dep package="gtk-doc"/>
     </dependencies>
     <after>
       <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="pulseaudio"/>
       <dep package="gstreamer"/>
     </after>
@@ -1078,17 +1089,17 @@
       <dep package="exempi"/>
       <dep package="DeviceKit-power"/>
       <dep package="libgsf"/>
+      <dep package="gdk-pixbuf"/>
     </suggests>
     <after>
       <dep package="deskbar-applet"/>
     </after>
   </tarball>
 
-  <tarball id="vala" version="0.8.1" autogenargs="--enable-vapigen">
-    <source
-href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.8/vala-0.8.1.tar.bz2"
-            hash="sha256:d805853ac87234ec0942e536e3381609eb9da596e32928996103b4342737ea85"
-            md5sum="3e105d7f39e55925299a3e6e82c32de7" size="2122657"/>
+  <tarball id="vala" version="0.9.2" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.9/vala-0.9.2.tar.bz2"
+            hash="sha256:22e1e224790663929f5df8b0611bd4928c065a8354ee7cdd2c97b6b37ed33c1d"
+            md5sum="583f2c46da49f54e4f639eb706475abe" size="2358061"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1128,20 +1139,20 @@ href="http://ftp.gnome.org/pub/GNOME/sources/vala/0.8/vala-0.8.1.tar.bz2"
     </dependencies>
   </tarball>
 
-  <tarball id="gupnp-av" version="0.5.5">
-    <source href="http://gupnp.org/sources/gupnp-av/gupnp-av-0.5.5.tar.gz"
-            hash="sha256:ad743dd99b27f432f31b77af01d97a44b3d38c8ff4bbe52502573e2ba67c96c9"
-            md5sum="df60eba4b18b16f834dff1f3d3f4426c" size="406871"/>
+  <tarball id="gupnp-av" version="0.5.7">
+    <source href="http://gupnp.org/sources/gupnp-av/gupnp-av-0.5.7.tar.gz"
+            hash="sha256:fd0db94789c2bf386b7b75b6af1351296a58b44f518f24f4982757a78654d067"
+            md5sum="f7cedfced624f0190e52ca97ef01673d" size="408293"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
     </dependencies>
   </tarball>
 
-  <tarball id="gupnp-vala" version="0.6.6">
-    <source href="http://gupnp.org/sources/bindings/gupnp-vala-0.6.6.tar.gz"
-            hash="sha256:61ce8e91a93a1b9146d51a79ce305cf02d600377bb191844cbfc5d8a3bf2d8f0"
-            md5sum="4c7344dfe526f7eb186dab806eeabe9f" size="111423"/>
+  <tarball id="gupnp-vala" version="0.6.7">
+    <source href="http://gupnp.org/sources/bindings/gupnp-vala-0.6.7.tar.gz"
+            hash="sha256:9eff644379dcd31dd8cf9311954938f40e0849c6f0e21f7e5fdf262cb4486076"
+            md5sum="b772567d1896161833095033c0e27b54" size="114336"/>
     <dependencies>
       <dep package="vala"/>
       <dep package="gssdp"/>
