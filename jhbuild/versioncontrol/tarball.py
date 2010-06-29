@@ -223,7 +223,7 @@ class TarballBranch(Branch):
 
         # now to unpack it
         try:
-            unpack_archive(buildscript, localfile, self.checkoutroot)
+            unpack_archive(buildscript, localfile, self.checkoutroot, self.checkoutdir)
         except CommandError:
             raise FatalError(_('failed to unpack %s') % localfile)
 

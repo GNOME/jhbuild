@@ -20,6 +20,7 @@
 import tarfile
 import zipfile
 import os.path
+import tempfile
 
 from jhbuild.utils.cmds import has_command
 from jhbuild.errors import CommandError
@@ -108,30 +109,52 @@ def unpack_zip_file(localfile, target_directory):
         os.chmod(os.path.join(target_directory, pkg_file), attr_to_file_perm(chost, attr))
 
 
-def unpack_archive(buildscript, localfile, target_directory):
+def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
+    """
+    Unpack @localfile to @target_directory; if @checkoutdir is specified make
+    sure the unpacked content gets into a directory by that name
+    """
+    if checkoutdir:
+        final_target_directory = target_directory
+        target_directory = tempfile.mkdtemp(dir=final_target_directory)
+
     ext = os.path.splitext(localfile)[-1]
     if ext == '.lzma' and has_command('lzcat') and has_command('tar'):
         buildscript.execute('lzcat -d "%s" | tar xf -' % localfile,
-                cwd = target_directory)
+                cwd=target_directory)
     elif ext == '.xz' and has_command('xzcat') and has_command('tar'):
         buildscript.execute('xzcat -d "%s" | tar xf -' % localfile,
-                cwd = target_directory)
+                cwd=target_directory)
     elif ext == '.bz2' and has_command('bunzip2') and has_command('tar'):
         buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
-                cwd = target_directory)
+                cwd=target_directory)
     elif ext in ('.gz', '.tgz') and has_command('gunzip') and has_command('tar'):
         buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
-                cwd = target_directory)
+                cwd=target_directory)
     elif ext == '.zip' and has_command('unzip'):
         buildscript.execute('unzip "%s"' % localfile,
-                cwd = target_directory)
+                cwd=target_directory)
     else:
         try:
             if tarfile.is_tarfile(localfile):
                 unpack_tar_file(localfile, target_directory)
             elif zipfile.is_zipfile(localfile):
-                unpack_zip_file(localfile, target_directory)    
+                unpack_zip_file(localfile, target_directory)
             else:
                 raise CommandError(_('Failed to unpack %s (unknown archive type)') % localfile)
         except:
             raise CommandError(_('Failed to unpack %s') % localfile)
+
+    if checkoutdir:
+        # tarball has been extracted in $destdir/$tmp/, check, then move the
+        # content of that directory
+        if len(os.listdir(target_directory)) == 0:
+            raise CommandError(_('Failed to unpack %s (empty file?)') % localfile)
+        if len(os.listdir(target_directory)) == 1:
+            # a single directory, just move it
+            tmpdirname = os.path.join(target_directory, os.listdir(target_directory)[0])
+            os.rename(tmpdirname, os.path.join(final_target_directory, checkoutdir))
+            os.rmdir(target_directory)
+        else:
+            # more files, just rename the temporary directory to the final name
+            os.rename(target_directory, os.path.join(final_target_directory, checkoutdir))
