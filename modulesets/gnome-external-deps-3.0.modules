@@ -34,11 +34,13 @@
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <tarball autogenargs="--disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.22">
-    <source href="http://avahi.org/download/avahi-0.6.25.tar.gz"
-            hash="sha256:9220d974f5515b8ccfa3900cd72cedcac0fa4cc87ca3c64405f7c55346cbba59"
-            md5sum="a83155a6e29e3988f07e5eea3287b21e" size="1103653"/>
+  <tarball autogenargs="--enable-gtk --enable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.26">
+    <source href="http://avahi.org/download/avahi-0.6.26.tar.gz"
+            hash="sha256:699b450f5c630719789b261a4423c7731103ed96d2e333901627956d6016660f"
+            md5sum="2b2b1899fcec5ae74e92f111598913a1" size="1205318"/>
     <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="libdaemon"/>
       <dep package="dbus-python"/>
       <dep package="pygtk"/>
