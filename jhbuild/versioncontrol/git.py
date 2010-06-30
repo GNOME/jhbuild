@@ -438,7 +438,11 @@ class GitBranch(Branch):
     def to_sxml(self):
         attrs = {}
         if self.branch:
-            attrs['branch'] = self.branch
+            attrs['revision'] = self.branch
+        if self.checkoutdir:
+            attrs['checkoutdir'] = self.checkoutdir
+        if self.subdir:
+            attrs['subdir'] = self.subdir
         return [sxml.branch(repo=self.repository.name,
                             module=self.module,
                             tag=self.tree_id(),
