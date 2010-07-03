@@ -58,7 +58,7 @@ class CMakeModule(Package, DownloadableModule):
 
     def skip_configure(self, buildscript, last_phase):
         return buildscript.config.nobuild
-    
+
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
@@ -70,6 +70,11 @@ class CMakeModule(Package, DownloadableModule):
                '-DLIB_INSTALL_DIR=%s' % buildscript.config.libdir,
                '-Dlibdir=%s' % buildscript.config.libdir,
                srcdir]
+        if os.path.exists(os.path.join(builddir, 'CMakeCache.txt')):
+            # remove that file, as it holds the result of a previous cmake
+            # configure run, and would be reused unconditionnaly
+            # (cf https://bugzilla.gnome.org/show_bug.cgi?id=621194)
+            os.unlink(os.path.join(builddir, 'CMakeCache.txt'))
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
