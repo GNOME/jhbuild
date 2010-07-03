@@ -256,6 +256,9 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
             if module in self.modules.modules.keys() \
                    and self.modules.modules[module].test_type == 'ldtp':
                 self._upload_logfile(module)
+
+        if isinstance(error, Exception):
+            error = unicode(error)
         self.server.end_phase(self.build_id, module, phase, compress_data(log), error)
 
     def handle_error(self, module, phase, nextphase, error, altphases):

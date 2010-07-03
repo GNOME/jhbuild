@@ -164,7 +164,7 @@ class Package:
             error_phases = []
             if hasattr(method, 'error_phases'):
                 error_phases = method.error_phases
-            return (str(e), error_phases)
+            return (e, error_phases)
         else:
             return (None, None)
 
