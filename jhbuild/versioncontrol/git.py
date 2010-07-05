@@ -123,6 +123,8 @@ class GitRepository(Repository):
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
+    dirty_branch_suffix = '-dirty'
+
     def __init__(self, repository, module, subdir, checkoutdir=None,
                  branch=None, tag=None, unmirrored_module=None):
         Branch.__init__(self, repository, module, checkoutdir)
@@ -439,7 +441,10 @@ class GitBranch(Branch):
             return None
         except GitUnknownBranchNameError:
             return None
-        return output.strip()
+        id_suffix = ''
+        if self.is_dirty():
+            id_suffix = self.dirty_branch_suffix
+        return output.strip() + id_suffix
 
     def to_sxml(self):
         attrs = {}
