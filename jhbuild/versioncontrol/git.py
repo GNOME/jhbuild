@@ -288,7 +288,7 @@ class GitBranch(Branch):
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
                         **git_extra_args)
 
-    def rewind_to_sticky_date(self, buildscript):
+    def move_to_sticky_date(self, buildscript):
         if self.config.quiet_mode:
             quiet = ['-q']
         else:
@@ -322,8 +322,8 @@ class GitBranch(Branch):
         return True
 
     def _get_commit_from_date(self):
-        cmd = ['git', 'log', '--max-count=1',
-               '--until=%s' % self.config.sticky_date]
+        cmd = ['git', 'log', '--max-count=1', '--first-parent',
+                '--until=%s' % self.config.sticky_date, 'master']
         cmd_desc = ' '.join(cmd)
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                 cwd=self.get_checkoutdir(),
@@ -408,7 +408,7 @@ class GitBranch(Branch):
         self.pull_current_branch(buildscript)
 
         if self.config.sticky_date:
-            self.rewind_to_sticky_date(buildscript)
+            self.move_to_sticky_date(buildscript)
 
         self._update_submodules(buildscript)
 
