@@ -298,6 +298,12 @@ class GitBranch(Branch):
         branch_cmd = ['git', 'checkout'] + quiet + [branch]
         git_extra_args = {'cwd': self.get_checkoutdir(),
                 'extra_env': get_git_extra_env()}
+        if self.config.sticky_date == 'none':
+            current_branch = self.get_current_branch()
+            if current_branch and current_branch == branch:
+                buildscript.execute(['git', 'checkout'] + quiet + ['master'],
+                        **git_extra_args)
+            return
         try:
             buildscript.execute(branch_cmd, **git_extra_args)
         except CommandError:
@@ -403,12 +409,12 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
+        if self.config.sticky_date:
+            self.move_to_sticky_date(buildscript)
+
         self.switch_branch_if_necessary(buildscript)
 
         self.pull_current_branch(buildscript)
-
-        if self.config.sticky_date:
-            self.move_to_sticky_date(buildscript)
 
         self._update_submodules(buildscript)
 
