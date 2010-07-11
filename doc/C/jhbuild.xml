@@ -445,8 +445,37 @@
       GNOME wiki.</para>
     </section>
 
+    <section id="running-single-application">
+      <title>Running a Single GNOME Application</title>
+
+      <para>This section details how to run a single GNOME
+      application. The application will run within the current desktop
+      environment. To run the application within the complete JHBuild
+      GNOME see <xref linkend="running-gnome"/>.</para>
+
+      <para>Launch a JHBuild shell. The JHBuild shell has all the
+      necessary environment variables set.</para>
+
+      <screen><prompt>$ </prompt><userinput>jhbuild shell</userinput></screen>
+
+      <para>Verify the correct application will be run. For
+      example:</para>
+
+      <screen><prompt>$ </prompt><userinput>which gedit</userinput>
+/opt/gnome2/bin/gedit</screen>
+
+      <para>Run the application:</para>
+
+      <screen><prompt>$ </prompt><userinput>gedit &amp;</userinput></screen>
+
+      <para>Alternatively, run the application using the
+      <command>run</command> command:</para>
+
+      <screen><prompt>$ </prompt><userinput>jhbuild run gedit</userinput></screen>
+    </section>
+
     <section id="running-gnome">
-      <title>Running GNOME</title>
+      <title>Running the GNOME Desktop Environment</title>
 
       <para>Create a new user account to run the JHBuild GNOME.
 	Running JHBuild GNOME using different user account is
