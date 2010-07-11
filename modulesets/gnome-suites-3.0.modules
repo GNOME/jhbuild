@@ -475,15 +475,17 @@
     </after>
   </autotools>
 
-  <autotools id="evolution-data-server" supports-non-srcdir-builds="no">
+  <autotools id="evolution-data-server" supports-non-srcdir-builds="no"
+             autogenargs="--enable-gtk3">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="libsoup"/>
       <dep package="libxml2"/>
+      <dep package="gtk+-3"/>
       <dep package="gconf"/>
       <dep package="sqlite3"/>
-      <dep package="libgweather"/>
+      <dep package="libgweather-3"/>
       <dep package="libical"/>
       <dep package="libgdata"/>
     </dependencies>
@@ -496,10 +498,11 @@
     </after>
   </autotools>
 
-  <autotools id="evolution" autogenargs="--disable-image-inline --disable-pst-import --disable-nm">
+  <autotools id="evolution" autogenargs="--disable-image-inline --disable-pst-import --disable-nm --enable-gtk3">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
+      <dep package="gtk+-3"/>
       <dep package="evolution-data-server"/>
       <dep package="gtkhtml"/>
       <dep package="gnome-desktop"/>
@@ -518,7 +521,7 @@
     </after>
   </autotools>
 
-  <autotools id="evolution-exchange">
+  <autotools id="evolution-exchange" autogenargs="--enable-gtk3">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
@@ -528,7 +531,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="evolution-mapi">
+  <autotools id="evolution-mapi" autogenargs="--enable-gtk3">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
@@ -1062,11 +1065,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gtkhtml">
+  <autotools id="gtkhtml" autogenargs="--enable-gtk3">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="enchant"/>
       <dep package="iso-codes"/>
       <dep package="libsoup"/>
