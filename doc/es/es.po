@@ -2,14 +2,15 @@
 #
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 17:16+0000\n"
-"PO-Revision-Date: 2010-06-23 08:18+0200\n"
+"POT-Creation-Date: 2010-06-26 07:58+0000\n"
+"PO-Revision-Date: 2010-06-28 04:48+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2227,6 +2228,11 @@ msgid ""
 "jhbuild-controlled shell. For example, you may want to put this in your "
 "<filename>.bashrc</filename>:"
 msgstr ""
+"La variable de entorno <envar>UNDER_JHBUILD</envar> se establecerá a «true» "
+"cuando esta consola esté activa. Puede usar la presencia de esta variable "
+"para personalizar el «prompt» de su consola para indicar que, efectivamente, "
+"se encuentra en una consola controlada por jhbuild. Por ejemplo, puede "
+"querer incluir esto en su <filename>.bashrc</filename>:"
 
 #: C/jhbuild.xml:1371(screen)
 #, no-wrap
@@ -2237,6 +2243,11 @@ msgid ""
 "\tfi\n"
 "      "
 msgstr ""
+"\n"
+"\tif [ -n \"$UNDER_JHBUILD\" ]; then\n"
+"\t    PS1=\"[jhbuild] $PS1\"\n"
+"\tfi\n"
+"      "
 
 #: C/jhbuild.xml:1377(para)
 msgid ""
@@ -2244,6 +2255,9 @@ msgid ""
 "your normal prompt, making it easier to see which shells are under a jhbuild "
 "environment."
 msgstr ""
+"Esto hará que su consola bash muestre <literal>[jhbuild]</literal> antes de "
+"su «prompt» normal, haciendo más fácil ver que consolas están bajo un entorno "
+"jhbuild."
 
 #: C/jhbuild.xml:1384(title)
 msgid "tinderbox"
@@ -3552,20 +3566,15 @@ msgid "Bazaar"
 msgstr "Bazaar"
 
 #: C/jhbuild.xml:2215(para)
-#, fuzzy
-#| msgid "This repository type is used to define a Bazaar repository."
 msgid ""
 "This repository type is used to define a Bazaar repository. It is "
 "recommended to have Bazaar 1.16 or higher."
-msgstr "El tipo de repositorio se usa para definir un repositorio Bazaar."
+msgstr ""
+"El tipo de repositorio se usa para definir un repositorio Bazaar. Se "
+"recomienda tener Bazaar 1.16 o superior."
 
 #: C/jhbuild.xml:2218(programlisting)
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
-#| "      href=\"http://bazaar.launchpad.net/\"/&gt;\n"
-#| "        "
 msgid ""
 "\n"
 "&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
@@ -3578,16 +3587,6 @@ msgstr ""
 "        "
 
 #: C/jhbuild.xml:2223(para)
-#, fuzzy
-#| msgid ""
-#| "Additional attributes are: <sgmltag class=\"attribute\">trunk-template</"
-#| "sgmltag> (defaults to \"%(module)s\") and <sgmltag class=\"attribute"
-#| "\">branches-template</sgmltag> (defaults to empty string). These "
-#| "attributes are used to specify templates for constructing URL. If "
-#| "<sgmltag class=\"element\">branch</sgmltag> element has <sgmltag class="
-#| "\"attribute\">revision</sgmltag> attribute defined <sgmltag class="
-#| "\"attribute\">branches-template</sgmltag> is used, otherwise <sgmltag "
-#| "class=\"attribute\">trunk-template</sgmltag> is used."
 msgid ""
 "Additional attributes are: <sgmltag class=\"attribute\">trunk-template</"
 "sgmltag> (defaults to <literal>\"%(module)s\"</literal>) and <sgmltag class="
@@ -3603,13 +3602,18 @@ msgid ""
 "many modules fron a repository with non-standard layout."
 msgstr ""
 "Los atributos adicionales son <sgmltag class=\"attribute\">trunk-template</"
-"sgmltag> (el predeterminado es «%(module)s») y <sgmltag class=\"attribute"
-"\">branches-template</sgmltag> (el predeterminado es una cadena vacía). "
-"Estos atributos se usan para especificar plantillas para construir URL. Si "
-"el elemento <sgmltag class=\"element\">branch</sgmltag> tiene definido el "
-"atributo <sgmltag class=\"attribute\">revision</sgmltag> se usa <sgmltag "
-"class=\"attribute\">branches-template</sgmltag>, si no se usa <sgmltag class="
-"\"attribute\">trunk-template</sgmltag>."
+"sgmltag> (el predeterminado es <literal>«%(module)s»</literal>») y <sgmltag "
+"class=\"attribute\">branches-template</sgmltag> (el predeterminado es "
+"<literal>«%(module)s/%(branch)s»</literal>). Estos atributos se usan para "
+"especificar plantillas para construir URL. El elemento <sgmltag class="
+"\"element\">branch</sgmltag> en la definición del módulo puede especificar "
+"los atributos <sgmltag class=\"attribute\">branch</sgmltag> y <sgmltag class="
+"\"attribute\">user</sgmltag>. Estos valores se sustituirán en las "
+"plantillas. Si algún otro está definido se usa <sgmltag class=\"attribute"
+"\">branches-template</sgmltag>, de lo contrario se usa <sgmltag class="
+"\"attribute\">trunk-template</sgmltag>. De este modo puede omitir el "
+"repositorio para construir módulos de su rama personal o construir varios "
+"módulos desde un repositorio con una disposición no estándar."
 
 #: C/jhbuild.xml:2238(para)
 msgid ""
@@ -3620,6 +3624,13 @@ msgid ""
 "revision since yesterday, 5 commits behind the tip or tag \"0.1\". See "
 "<literal>bzr help revisionspec</literal> for all possible values."
 msgstr ""
+"Además de un elemento <sgmltag class=\"element\">branch</sgmltag> acepta "
+"atributos <sgmltag class=\"attribute\">revspec</sgmltag> para anclarse en "
+"una revisión en particular. Se acepta cualquier <literal>bzr revspec</"
+"literal> válido, por ejemplo, <literal>date:yesterday, -5, tag:0.1</literal> "
+"para obtener la primera revisión desde ayer, 5 commits después de la "
+"etiqueta «0.1». Consulte <literal>bzr help revisionspec</literal> para ver "
+"todos los valores posibles."
 
 #: C/jhbuild.xml:2247(para)
 msgid ""
@@ -3631,13 +3642,6 @@ msgstr ""
 
 #: C/jhbuild.xml:2250(programlisting)
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
-#| "      href=\"lp:\"\n"
-#| "      trunk-template=\"~bzr-pqm/%(module)s/bzr.dev\"\n"
-#| "      branches-template=\"~bzr-pqm/%(module)s/%(revision)s\"/&gt;\n"
-#| "        "
 msgid ""
 "\n"
 "&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
@@ -3678,13 +3682,6 @@ msgstr ""
 
 #: C/jhbuild.xml:2265(programlisting)
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;branch repo=\"launchpad.net\"\n"
-#| "      module=\"bzr\"\n"
-#| "      revision=\"2.2\"\n"
-#| "      checkoutdir=\"bzr-beta\"/&gt;\n"
-#| "        "
 msgid ""
 "\n"
 "&lt;branch repo=\"launchpad.net\"\n"
@@ -3807,33 +3804,28 @@ msgid ""
 "performed, if the current branch is tracking a remote branch, to not disturb "
 "your own work."
 msgstr ""
+"El atributo <sgmltag class=\"attribute\">revision</sgmltag> se usa para "
+"especificar una rama de control local o remota a la que cambiar en la fase "
+"de actualización. La predeterminada es «master». Es posible anular este "
+"atributo con la variable de configuración <varname>branches</varname>. El "
+"cambio sólo se realizará si la rama actual está controlando una rama remota, "
+"para no interferir en su trabajo."
 
 #: C/jhbuild.xml:2330(para)
-#, fuzzy
-#| msgid ""
-#| "The <sgmltag class=\"attribute\">module</sgmltag> attribute specifies the "
-#| "file to download and compile, the <sgmltag class=\"attribute\">version</"
-#| "sgmltag> attribute specifies the module version."
 msgid ""
 "The <sgmltag class=\"attribute\">tag</sgmltag> attribute is used to specify "
 "a revision to unconditionally check out in the update phase. It overrides "
 "the <sgmltag class=\"attribute\">revision</sgmltag> attribute."
 msgstr ""
-"El atributo <sgmltag class=\"attribute\">module</sgmltag> especifica el "
-"archivo que se descargará y compilará; el atributo <sgmltag class=\"attribute"
-"\">version</sgmltag> especifica la versión del módulo."
+"El atributo <sgmltag class=\"attribute\">tag</sgmltag> se usa para "
+"especificar una revisión que descargar siempre en la fase de actualización. "
+"Omite el atributo <sgmltag class=\"attribute\">revision</sgmltag>."
 
 #. TODO I can't say much about the subdir attribute. In the
 #.         end it will just be appended to checkoutdir.
 #.         https://bugzilla.gnome.org/show_bug.cgi?id=342846
 #: C/jhbuild.xml:2340(programlisting)
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;branch repo=\"git.freedesktop.org\" module=\"swfdec/swfdec\"\n"
-#| "        checkoutdir=\"swfdec\"\n"
-#| "        tag=\"tree-ish\"/&gt;\n"
-#| "        "
 msgid ""
 "\n"
 "&lt;branch repo=\"git.freedesktop.org\" module=\"swfdec/swfdec\"\n"

@@ -123,6 +123,8 @@ class GitRepository(Repository):
 class GitBranch(Branch):
     """A class representing a GIT branch."""
 
+    dirty_branch_suffix = '-dirty'
+
     def __init__(self, repository, module, subdir, checkoutdir=None,
                  branch=None, tag=None, unmirrored_module=None):
         Branch.__init__(self, repository, module, checkoutdir)
@@ -288,7 +290,7 @@ class GitBranch(Branch):
                 buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
                         **git_extra_args)
 
-    def rewind_to_sticky_date(self, buildscript):
+    def move_to_sticky_date(self, buildscript):
         if self.config.quiet_mode:
             quiet = ['-q']
         else:
@@ -298,6 +300,12 @@ class GitBranch(Branch):
         branch_cmd = ['git', 'checkout'] + quiet + [branch]
         git_extra_args = {'cwd': self.get_checkoutdir(),
                 'extra_env': get_git_extra_env()}
+        if self.config.sticky_date == 'none':
+            current_branch = self.get_current_branch()
+            if current_branch and current_branch == branch:
+                buildscript.execute(['git', 'checkout'] + quiet + ['master'],
+                        **git_extra_args)
+            return
         try:
             buildscript.execute(branch_cmd, **git_extra_args)
         except CommandError:
@@ -322,8 +330,8 @@ class GitBranch(Branch):
         return True
 
     def _get_commit_from_date(self):
-        cmd = ['git', 'log', '--max-count=1',
-               '--until=%s' % self.config.sticky_date]
+        cmd = ['git', 'log', '--max-count=1', '--first-parent',
+                '--until=%s' % self.config.sticky_date, 'master']
         cmd_desc = ' '.join(cmd)
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                 cwd=self.get_checkoutdir(),
@@ -403,12 +411,12 @@ class GitBranch(Branch):
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
+        if self.config.sticky_date:
+            self.move_to_sticky_date(buildscript)
+
         self.switch_branch_if_necessary(buildscript)
 
         self.pull_current_branch(buildscript)
-
-        if self.config.sticky_date:
-            self.rewind_to_sticky_date(buildscript)
 
         self._update_submodules(buildscript)
 
@@ -433,12 +441,19 @@ class GitBranch(Branch):
             return None
         except GitUnknownBranchNameError:
             return None
-        return output.strip()
+        id_suffix = ''
+        if self.is_dirty():
+            id_suffix = self.dirty_branch_suffix
+        return output.strip() + id_suffix
 
     def to_sxml(self):
         attrs = {}
         if self.branch:
-            attrs['branch'] = self.branch
+            attrs['revision'] = self.branch
+        if self.checkoutdir:
+            attrs['checkoutdir'] = self.checkoutdir
+        if self.subdir:
+            attrs['subdir'] = self.subdir
         return [sxml.branch(repo=self.repository.name,
                             module=self.module,
                             tag=self.tree_id(),

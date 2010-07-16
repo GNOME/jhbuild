@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild&component=general\n"
-"POT-Creation-Date: 2010-06-20 17:53+0000\n"
-"PO-Revision-Date: 2010-06-20 20:08+0100\n"
+"POT-Creation-Date: 2010-06-29 19:09+0000\n"
+"PO-Revision-Date: 2010-06-30 08:04+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "naslov url za poročila autobuild ni določen"
 #: ../jhbuild/commands/autobuild.py:78
 #: ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:284
-#: ../jhbuild/commands/base.py:499
+#: ../jhbuild/commands/base.py:504
 #: ../jhbuild/commands/clean.py:55
 #: ../jhbuild/commands/tinderbox.py:86
 #, python-format
@@ -288,21 +288,26 @@ msgstr "izpiši mehke-odvisnosti, ki bi jih bilo mogoče izpustiti"
 msgid "list all modules, not only those that would be built"
 msgstr "izpiši vse module in ne le tistih, ki so pripravljeni za izgradnjo"
 
-#: ../jhbuild/commands/base.py:515
+#: ../jhbuild/commands/base.py:487
+#, python-format
+msgid "Conflicting options specified ('%s' and '%s')"
+msgstr "Določene so nasprotujoče si možnosti ('%s' in '%s')"
+
+#: ../jhbuild/commands/base.py:520
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Izpiši Graphviz diagram odvisnosti za enega ali več modulov"
 
-#: ../jhbuild/commands/base.py:518
+#: ../jhbuild/commands/base.py:523
 #: ../jhbuild/commands/info.py:40
 #: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ moduli ... ]"
 
-#: ../jhbuild/commands/base.py:524
+#: ../jhbuild/commands/base.py:529
 msgid "add dotted lines to soft dependencies"
 msgstr "dodaj točkaste črte mehkim odvisnostim"
 
-#: ../jhbuild/commands/base.py:527
+#: ../jhbuild/commands/base.py:532
 msgid "group modules from metamodule together"
 msgstr "postavi module preko metamodula v skupino"
 
@@ -598,7 +603,7 @@ msgstr "predpona namestitve (%s) ni zapisljiva."
 #: ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
 #: ../jhbuild/versioncontrol/fossil.py:105
-#: ../jhbuild/versioncontrol/git.py:414
+#: ../jhbuild/versioncontrol/git.py:422
 #: ../jhbuild/versioncontrol/hg.py:101
 #: ../jhbuild/versioncontrol/mtn.py:140
 #: ../jhbuild/versioncontrol/svn.py:311
@@ -1066,15 +1071,20 @@ msgstr "Zahtevani so paketi python XML, vendar jih ni mogoče najti"
 msgid "file not in cache, but not allowed to check network"
 msgstr "datoteke ni v predpomnilniku, omrežja pa ni dovoljeno preiskati "
 
-#: ../jhbuild/utils/unpack.py:135
+#: ../jhbuild/utils/unpack.py:144
 #, python-format
 msgid "Failed to unpack %s (unknown archive type)"
 msgstr "Napaka med razširjanjem %s (neznana vrsta arhiva)"
 
-#: ../jhbuild/utils/unpack.py:137
+#: ../jhbuild/utils/unpack.py:146
 #, python-format
 msgid "Failed to unpack %s"
 msgstr "Napaka med odpiranjem paketa %s"
+
+#: ../jhbuild/utils/unpack.py:152
+#, python-format
+msgid "Failed to unpack %s (empty file?)"
+msgstr "Napaka med razširjanjem %s (ali je datoteka prazna?)."
 
 #: ../jhbuild/versioncontrol/arch.py:40
 #: ../jhbuild/versioncontrol/arch.py:83
@@ -1104,9 +1114,9 @@ msgstr "veja za %s ima napačne vrednosti za prepisovanje; preverite nastavitven
 #: ../jhbuild/versioncontrol/darcs.py:90
 #: ../jhbuild/versioncontrol/fossil.py:82
 #: ../jhbuild/versioncontrol/fossil.py:95
-#: ../jhbuild/versioncontrol/git.py:513
-#: ../jhbuild/versioncontrol/git.py:553
-#: ../jhbuild/versioncontrol/git.py:629
+#: ../jhbuild/versioncontrol/git.py:521
+#: ../jhbuild/versioncontrol/git.py:561
+#: ../jhbuild/versioncontrol/git.py:637
 #: ../jhbuild/versioncontrol/hg.py:85
 #: ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
@@ -1151,46 +1161,46 @@ msgstr "delovna kopija kaže na napačno skladišče (pričakovano je %(root1)s,
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Uporabite skript changecvsroot.py za odpravo napake."
 
-#: ../jhbuild/versioncontrol/git.py:94
+#: ../jhbuild/versioncontrol/git.py:102
 msgid "ignored bad branch redefinition for module:"
 msgstr "prezrta slaba ponovna določitev veje za modul:"
 
-#: ../jhbuild/versioncontrol/git.py:177
+#: ../jhbuild/versioncontrol/git.py:185
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Za delovanje je zahtevana vsaj različica git-1.5.6, objavljena junija 2008"
 
-#: ../jhbuild/versioncontrol/git.py:191
+#: ../jhbuild/versioncontrol/git.py:199
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Nepričakovana napaka: odjavna mapa checkoutdir ni pravo skladišče git:"
 
-#: ../jhbuild/versioncontrol/git.py:247
+#: ../jhbuild/versioncontrol/git.py:255
 #, python-format
 msgid "The requested branch \"%s\" is not available. Neither locally, nor remotely in the origin remote."
 msgstr "Zahtevana veja \"%s\" ni na voljo niti krajevno, niti oddaljeno v izvoru."
 
-#: ../jhbuild/versioncontrol/git.py:255
+#: ../jhbuild/versioncontrol/git.py:263
 msgid "Refusing to switch a dirty tree."
 msgstr "Zavrnjen preklop na nepravilno drevo."
 
-#: ../jhbuild/versioncontrol/git.py:325
+#: ../jhbuild/versioncontrol/git.py:333
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Ukaz %s ni vrnil odvoda"
 
-#: ../jhbuild/versioncontrol/git.py:330
+#: ../jhbuild/versioncontrol/git.py:338
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Ukaz %s ne vključuje vrstice uveljavitve: %r"
 
-#: ../jhbuild/versioncontrol/git.py:392
+#: ../jhbuild/versioncontrol/git.py:400
 msgid "Failed to update module as it switched to git (you should check for changes then remove the directory)."
 msgstr "Napaka med posodabljanjem modula pri prehodu na git (preveriti je treba spremembe in nato odstraniti mapo)."
 
-#: ../jhbuild/versioncontrol/git.py:393
+#: ../jhbuild/versioncontrol/git.py:401
 msgid "Failed to update module (missing .git) (you should check for changes then remove the directory)."
 msgstr "Napaka med posodabljanjem modula (manjka .git) (pregledati je treba spremembe, nato pa odstraniti mapo)."
 
-#: ../jhbuild/versioncontrol/git.py:480
+#: ../jhbuild/versioncontrol/git.py:488
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1198,7 +1208,7 @@ msgstr ""
 "Zunanje upravljanje je spodletelo\n"
 " V kolikor je v uporabi različica git < 1.5.6, je priporočeno pakete posodobiti.\n"
 
-#: ../jhbuild/versioncontrol/git.py:525
+#: ../jhbuild/versioncontrol/git.py:533
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Ni mogoče pridobiti zadnje predelave iz %s. Preverite mesto modula."
@@ -1500,7 +1510,7 @@ msgstr "Moduli so bili urejeni krajevno, JHBuild pa je nastavljen za prevzemanje
 #: ../jhbuild/monkeypatch.py:102
 #, python-format
 msgid "Invalid placeholder in string: line %d, col %d"
-msgstr "Neveljavno držalo v nizu: vrstica %d, stolpec %d"
+msgstr "Neveljaven vsebnik v nizu: vrstica %d, stolpec %d"
 
 #: ../jhbuild/monkeypatch.py:107
 #: ../jhbuild/monkeypatch.py:133
@@ -1514,6 +1524,6 @@ msgstr "Neprepoznano ime skupine v vzorcu"
 
 #~ msgid "Failed to update module (corrupt .git?)"
 #~ msgstr "Napaka med posodabljanjem modula (je morda pokvarjen .git?)"
+
 #~ msgid "Missing waf, try jhbuild -m bootstrap buildone waf"
 #~ msgstr "Manjka waf, poskusite izvesti jhbuild -m bootstrap buildone waf"
-

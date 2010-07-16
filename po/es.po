@@ -5,22 +5,21 @@
 #
 # Gabriel Felipe Cornejo Salas <gnomeusr@gmail.com>, 2008.
 # Claudio Saavedra <csaavedra@igalia.com>, 2009.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&component=general\n"
-"POT-Creation-Date: 2010-06-22 17:58+0000\n"
-"PO-Revision-Date: 2010-06-23 08:19+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2010-07-03 07:53+0000\n"
+"PO-Revision-Date: 2010-07-01 12:54+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../jhbuild.desktop.in.in.h:1
@@ -72,7 +71,7 @@ msgid "report url for autobuild not specified"
 msgstr "url de informe de autobuild no especificado"
 
 #: ../jhbuild/commands/autobuild.py:78 ../jhbuild/commands/base.py:72
-#: ../jhbuild/commands/base.py:284 ../jhbuild/commands/base.py:499
+#: ../jhbuild/commands/base.py:284 ../jhbuild/commands/base.py:504
 #: ../jhbuild/commands/clean.py:55 ../jhbuild/commands/tinderbox.py:86
 #, python-format
 msgid "%s not in module list"
@@ -264,21 +263,26 @@ msgstr "listar también todas las dependencias débiles que pudieran omitirse"
 msgid "list all modules, not only those that would be built"
 msgstr "listar todos los módulos, no sólo los que se deberían construir"
 
-#: ../jhbuild/commands/base.py:515
+#: ../jhbuild/commands/base.py:487
+#, python-format
+msgid "Conflicting options specified ('%s' and '%s')"
+msgstr "Conflicto en las opciones especificadas («%s» y «%s»)"
+
+#: ../jhbuild/commands/base.py:520
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr ""
 "Mostrar un gráfico de Graphviz con las dependencias de uno o más módulos"
 
-#: ../jhbuild/commands/base.py:518 ../jhbuild/commands/info.py:40
+#: ../jhbuild/commands/base.py:523 ../jhbuild/commands/info.py:40
 #: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ módulos … ]"
 
-#: ../jhbuild/commands/base.py:524
+#: ../jhbuild/commands/base.py:529
 msgid "add dotted lines to soft dependencies"
 msgstr "añadir líneas punteadas a las dependencias suaves"
 
-#: ../jhbuild/commands/base.py:527
+#: ../jhbuild/commands/base.py:532
 msgid "group modules from metamodule together"
 msgstr "agrupar los módulos de un metamódulo juntos"
 
@@ -879,7 +883,7 @@ msgid "yes"
 msgstr "sí"
 
 #: ../jhbuild/modtypes/ant.py:63 ../jhbuild/modtypes/autotools.py:214
-#: ../jhbuild/modtypes/cmake.py:78 ../jhbuild/modtypes/distutils.py:62
+#: ../jhbuild/modtypes/cmake.py:83 ../jhbuild/modtypes/distutils.py:62
 #: ../jhbuild/modtypes/linux.py:164 ../jhbuild/modtypes/perl.py:58
 #: ../jhbuild/modtypes/waf.py:97
 msgid "Building"
@@ -894,7 +898,7 @@ msgstr "No se encuentra la herramienta de construcción ant"
 #. ant-based project, so I left that out."
 #. -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
 #: ../jhbuild/modtypes/ant.py:81 ../jhbuild/modtypes/autotools.py:268
-#: ../jhbuild/modtypes/cmake.py:94 ../jhbuild/modtypes/distutils.py:74
+#: ../jhbuild/modtypes/cmake.py:99 ../jhbuild/modtypes/distutils.py:74
 #: ../jhbuild/modtypes/perl.py:72 ../jhbuild/modtypes/waf.py:132
 msgid "Installing"
 msgstr "Instalando"
@@ -914,7 +918,7 @@ msgid "Checking"
 msgstr "Comprobando"
 
 #: ../jhbuild/modtypes/autotools.py:248 ../jhbuild/modtypes/autotools.py:258
-#: ../jhbuild/modtypes/cmake.py:86 ../jhbuild/modtypes/waf.py:122
+#: ../jhbuild/modtypes/cmake.py:91 ../jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Creando archivo tar para"
 
@@ -1040,15 +1044,20 @@ msgstr "Se necesitan los paquetes xml de Python pero no se han encontrado"
 msgid "file not in cache, but not allowed to check network"
 msgstr "el archivo no está en la caché, pero no se permite comprobar la red"
 
-#: ../jhbuild/utils/unpack.py:135
+#: ../jhbuild/utils/unpack.py:144
 #, python-format
 msgid "Failed to unpack %s (unknown archive type)"
 msgstr "Falló al descomprimir %s (tipo de archivo desconocido)"
 
-#: ../jhbuild/utils/unpack.py:137
+#: ../jhbuild/utils/unpack.py:146
 #, python-format
 msgid "Failed to unpack %s"
 msgstr "Falló al descomprimir %s"
+
+#: ../jhbuild/utils/unpack.py:152
+#, python-format
+msgid "Failed to unpack %s (empty file?)"
+msgstr "Falló al descomprimir %s (¿archivo vacío?)"
 
 #: ../jhbuild/versioncontrol/arch.py:40 ../jhbuild/versioncontrol/arch.py:83
 #, python-format
@@ -1071,15 +1080,15 @@ msgstr "la rama de %s tiene una anulación incorrecta. Compruebe su .jhbuildrc"
 #: ../jhbuild/versioncontrol/arch.py:128 ../jhbuild/versioncontrol/arch.py:141
 #: ../jhbuild/versioncontrol/darcs.py:84 ../jhbuild/versioncontrol/darcs.py:90
 #: ../jhbuild/versioncontrol/fossil.py:82
-#: ../jhbuild/versioncontrol/fossil.py:95 ../jhbuild/versioncontrol/git.py:521
-#: ../jhbuild/versioncontrol/git.py:561 ../jhbuild/versioncontrol/git.py:637
+#: ../jhbuild/versioncontrol/fossil.py:95 ../jhbuild/versioncontrol/git.py:525
+#: ../jhbuild/versioncontrol/git.py:565 ../jhbuild/versioncontrol/git.py:641
 #: ../jhbuild/versioncontrol/hg.py:85 ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
 msgstr "aún no se soporta la comprobación basada en fechas\n"
 
 #: ../jhbuild/versioncontrol/bzr.py:117
 msgid "attribute is deprecated. Use revspec instead."
-msgstr ""
+msgstr "el atributo está obsoleto. Use revspec en su lugar."
 
 #: ../jhbuild/versioncontrol/bzr.py:171
 #, python-format
@@ -1088,6 +1097,9 @@ msgid ""
 "Path %s does not seem to be a checkout from dvcs_mirror_dir.\n"
 "Remove it or change your dvcs_mirror_dir settings."
 msgstr ""
+"\n"
+"La ruta %s no parece ser una descarga de dvcs_mirror_dir.\n"
+"Quite o modifique su configuración de dvcs_mirror_dir."
 
 #: ../jhbuild/versioncontrol/cvs.py:104
 #, python-format
@@ -1123,11 +1135,11 @@ msgstr "ignorada la rama de redefinición no válida del módulo:"
 
 #: ../jhbuild/versioncontrol/git.py:185
 msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr ""
+msgstr "Para funcionar necesita al menos git-1.5.6 de junio/08"
 
 #: ../jhbuild/versioncontrol/git.py:199
 msgid "Unexpected: Checkoutdir is not a git repository:"
-msgstr ""
+msgstr "No esperado: La carpeta de descarga no es un repositorio git:"
 
 #: ../jhbuild/versioncontrol/git.py:255
 #, python-format
@@ -1135,10 +1147,12 @@ msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
 "in the origin remote."
 msgstr ""
+"La rama «%s» solicitada no está disponible. Ni local, ni remotamente en el "
+"origen remoto."
 
 #: ../jhbuild/versioncontrol/git.py:263
 msgid "Refusing to switch a dirty tree."
-msgstr ""
+msgstr "Rechazado el cambio a un árbol sucio."
 
 #: ../jhbuild/versioncontrol/git.py:333
 #, python-format
@@ -1166,7 +1180,7 @@ msgstr ""
 "Falló al actualizar el módulo (no se ha encontrado .git) (debería comprobar "
 "si hay cambios y eliminar la carpeta)."
 
-#: ../jhbuild/versioncontrol/git.py:488
+#: ../jhbuild/versioncontrol/git.py:492
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1175,7 +1189,7 @@ msgstr ""
 " Si está ejecutando una versión de git < 1.5.6 se recomienda que la "
 "actualice.\n"
 
-#: ../jhbuild/versioncontrol/git.py:533
+#: ../jhbuild/versioncontrol/git.py:537
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
