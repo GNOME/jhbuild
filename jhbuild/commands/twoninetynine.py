@@ -103,7 +103,6 @@ class LibGlade(ShellCheck):
     )
 
 class GConf(ShellCheck):
-    header_note = '(not&nbsp;deprecated, still&nbsp;discussed)'
     excluded_modules = ('gconf',)
     cmds = (
         FIND_C + " | xargs grep '^#include <gconf/'",
