@@ -37,7 +37,11 @@ from jhbuild.utils import httpcache
 from jhbuild.utils.cmds import get_output
 from jhbuild.modtypes.testmodule import TestModule
 
-__all__ = ['load', 'load_tests']
+__all__ = ['load', 'load_tests', 'get_default_repo']
+
+_default_repo = None
+def get_default_repo():
+    return _default_repo
 
 class ModuleSet:
     def __init__(self, config = None):
@@ -57,8 +61,7 @@ class ModuleSet:
                     logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
-        print "Couldn't find the specified module: %s" % module_name
-        sys.exit(2)
+        raise KeyError(module_name)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
@@ -407,6 +410,11 @@ def _parse_module_set(config, uri):
             module.moduleset_name = moduleset_name
             module.config = config
             moduleset.add(module)
+
+    # keep default repository around, used when creating automatic modules
+    global _default_repo
+    if default_repo:
+        _default_repo = repositories[default_repo]
 
     return moduleset
 

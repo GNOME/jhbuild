@@ -344,10 +344,20 @@ class cmd_buildone(Command):
             check_bootstrap_updateness(config)
 
         module_set = jhbuild.moduleset.load(config)
-        try:
-            module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
-        except KeyError, e:
-            raise FatalError(_("A module called '%s' could not be found.") % e)
+        module_list = []
+        for modname in args:
+            try:
+                module = module_set.get_module(modname, ignore_case=True)
+            except KeyError, e:
+                default_repo = jhbuild.moduleset.get_default_repo()
+                if not default_repo:
+                    continue
+                from jhbuild.modtypes.autotools import AutogenModule
+                module = AutogenModule(modname, default_repo.branch(modname))
+                module.config = config
+                logging.info(_('module "%s" does not exist, created automatically using repository "%s"') % \
+                                (modname, default_repo.name))
+            module_list.append(module)
 
         if not module_list:
             self.parser.error(_('This command requires a module parameter.'))
