@@ -799,6 +799,7 @@
       <dep package="libcanberra"/>
       <dep package="gtk+-3"/>
       <dep package="libunique-3"/>
+      <dep package="gnome-control-center"/>
     </dependencies>
     <after>
       <dep package="glade3"/>
@@ -1476,12 +1477,13 @@
     </dependencies>
   </autotools>
 
-  <autotools id="vte-3" autogenargs="--with-gtk=3.0">
+  <autotools id="vte-3" autogenargs="--with-gtk=3.0 --enable-introspection=yes">
     <branch checkoutdir="vte-3" module="vte"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+-3"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
 
