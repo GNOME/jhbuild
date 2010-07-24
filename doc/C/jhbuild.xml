@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?><!--*- mode: nxml -*-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- process to HTML with: xmlto xhtml-nochunks -m custom.xsl C/jhbuild.xml -->
+<!-- process to HTML with: xmlto xhtml-nochunks -m ../custom.xsl jhbuild.xml -->
 <article id="index">
   <articleinfo>
     <title>JHBuild Manual</title>
@@ -102,7 +102,7 @@
       with the following command.  It is recommended to run the
       command from a new directory where all source code will be
       installed, for example,
-      <filename>~/checkout/gnome2</filename>.</para>
+      <filename>~/checkout/gnome</filename>.</para>
 
       <screen><prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>
 <computeroutput>...</computeroutput>
@@ -168,8 +168,8 @@
       <application>meta-gnome-desktop</application> module and its
       dependencies from the <systemitem>gnome-2.30</systemitem> module
       set.  JHBuild will unpack source trees to
-      <filename>~/checkout/gnome2</filename> and install all files to
-      subdirectories of <filename>/opt/gnome2</filename>. The two
+      <filename>~/checkout/gnome</filename> and install all files to
+      subdirectories of <filename>/opt/gnome</filename>. The two
       directories must be writable.</para>
 
       <para>Configuration variables are documented in <xref
@@ -225,7 +225,7 @@
 	    trees to.  Unless <link linkend="cfg-buildroot">
         <varname>buildroot</varname></link> is set, builds will occur
         in this directory too.  Defaults to
-	    <filename>~/checkout/gnome2</filename>.</simpara>
+	    <filename>~/checkout/gnome</filename>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -233,7 +233,7 @@
 	  <listitem>
 	    <simpara>A string specifying the prefix to install modules to.
 	    This directory must be writable.   Defaults to 
-	    <literal>'/opt/gnome2'</literal>.</simpara>
+	    <literal>'/opt/gnome'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -462,7 +462,7 @@
       example:</para>
 
       <screen><prompt>$ </prompt><userinput>which gedit</userinput>
-/opt/gnome2/bin/gedit</screen>
+/opt/gnome/bin/gedit</screen>
 
       <para>Run the application:</para>
 
@@ -541,22 +541,22 @@
 	GNOME will use the JHBuild session
 	<application>D-Bus</application> daemon and the services
 	within
-	<filename><replaceable>/opt/gnome2</replaceable>/share/dbus-1/services/</filename>.
-	Replace <filename>/opt/gnome2</filename> with GNOME install
+	<filename><replaceable>/opt/gnome</replaceable>/share/dbus-1/services/</filename>.
+	Replace <filename>/opt/gnome</filename> with GNOME install
 	<varname>prefix</varname> in the command below:</para>
 
-	<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome2</replaceable>/var/run/dbus</userinput>
-<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome2</replaceable>/var/run</userinput></screen>
+	<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>
+<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome</replaceable>/var/run</userinput></screen>
 
 	<para>Create a GNOME startup script at
 	  <filename>~/.local/bin/gnome-jhbuild-xephyr-session</filename> 
 	  with the following, replacing
-	  <filename>/opt/gnome2</filename> with GNOME install
+	  <filename>/opt/gnome</filename> with GNOME install
 	  <varname>prefix</varname>:</para>
 
 	<programlisting>#!/bin/sh
 
-GNOME=<replaceable>/opt/gnome2</replaceable>
+GNOME=<replaceable>/opt/gnome</replaceable>
  
 GDK_USE_XFT=1
 XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
@@ -597,22 +597,22 @@ jhbuild run gnome-session
 	GNOME will use the JHBuild session
 	<application>D-Bus</application> daemon and the services
 	within
-	<filename><replaceable>/opt/gnome2</replaceable>/share/dbus-1/services/</filename>.
-	Replace <filename>/opt/gnome2</filename> with GNOME install
+	<filename><replaceable>/opt/gnome</replaceable>/share/dbus-1/services/</filename>.
+	Replace <filename>/opt/gnome</filename> with GNOME install
 	<varname>prefix</varname> in the command below:</para>
 
-	<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome2</replaceable>/var/run/dbus</userinput>
-<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome2</replaceable>/var/run</userinput></screen>
+	<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>
+<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome</replaceable>/var/run</userinput></screen>
 
 	<para>Create a GNOME startup script at
 	  <filename>/usr/bin/gnome-jhbuild-session</filename> 
 	  with the following, replacing
-	  <filename>/opt/gnome2</filename> with GNOME install
+	  <filename>/opt/gnome</filename> with GNOME install
 	  <varname>prefix</varname>:</para>
 
 	<programlisting>#!/bin/sh
 
-GNOME=<replaceable>/opt/gnome2</replaceable>
+GNOME=<replaceable>/opt/gnome</replaceable>
  
 GDK_USE_XFT=1
 XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
@@ -1640,7 +1640,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	    <simpara>A string specifying the directory to unpack source
 	    trees to.  Unless <varname>buildroot</varname> is set,
 	    builds will occur in this directory too.  Defaults to
-	    <filename>~/checkout/gnome2</filename>.</simpara>
+	    <filename>~/checkout/gnome</filename>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -1927,7 +1927,7 @@ libgnomecanvas is missing branch definition for gnome-2-20
 	  <listitem>
 	    <simpara>A string specifying the prefix to install modules to.
 	    This directory must be writable.  Defaults to 
-	    <literal>'/opt/gnome2'</literal>.</simpara>
+	    <literal>'/opt/gnome'</literal>.</simpara>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
