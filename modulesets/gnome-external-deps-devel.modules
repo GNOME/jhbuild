@@ -56,6 +56,8 @@
       href="git://git.cairographics.org/git/" password=""/>
   <repository type="git" name="git.webkit.org"
       href="git://git.webkit.org/" password=""/>
+  <repository type="git" name="github.com"
+      href="git://github.com/" password=""/>
 
   <repository type="bzr" name="mega-nerd.com"
       href="http://www.mega-nerd.com/Bzr/"/>
@@ -402,7 +404,7 @@
   </autotools>
 
   <autotools id="libgdiplus">
-    <branch module="trunk/libgdiplus" repo="svn.mono-project.com"/>
+    <branch module="mono/libgdiplus" repo="github.com" checkoutdir="libgdiplus"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -411,14 +413,14 @@
   </autotools>
 
   <autotools id="mono">
-    <branch module="trunk/mono" repo="svn.mono-project.com"/>
+    <branch module="mono/mono" repo="github.com" checkoutdir="mono"/>
     <dependencies>
       <dep package="libgdiplus"/>
     </dependencies>
   </autotools>
 
   <autotools id="monodoc">
-    <branch module="trunk/monodoc" repo="svn.mono-project.com"/>
+    <branch module="mono/monodoc" repo="github.com" checkoutdir="monodoc"/>
     <dependencies>
       <dep package="mono"/>
     </dependencies>
@@ -449,13 +451,23 @@
     </dependencies>
   </autotools>
 
-  <autotools id="telepathy-glib">
+  <autotools id="telepathy-glib" autogenargs="--enable-vala-bindings">
     <branch repo="git.collabora.co.uk"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
       <dep package="libxslt"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-logger">
+    <branch repo="git.collabora.co.uk"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="telepathy-glib"/>
     </dependencies>
   </autotools>
 
@@ -647,6 +659,69 @@
       <dep package="libxml2"/>
       <dep package="libsoup"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="libpeas">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+      <dep package="seed"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="libunique-3">
+    <branch module="unique"/>
+    <dependencies>
+      <dep package="gtk+-3"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="folks">
+    <branch/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libgee"/>
+      <dep package="vala"/>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-js-common">
+    <branch/>
+    <suggests>
+      <dep package="seed"/>
+      <dep package="gjs"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="tracker">
+    <branch/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gstreamer"/>
+      <dep package="hal"/>
+      <dep package="intltool"/>
+      <dep package="poppler"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="evolution"/>
+      <dep package="exempi"/>
+      <dep package="upower"/>
+      <dep package="libgsf"/>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
+    <after>
+      <dep package="deskbar-applet"/>
+    </after>
   </autotools>
 
 </moduleset>

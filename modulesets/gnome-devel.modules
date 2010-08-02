@@ -9,6 +9,10 @@
       href="git://git.kernel.org/pub/scm/"/>
   <repository type="git" name="git.clutter-project.org"
       href="git://git.clutter-project.org/"/>
+  <repository type="git" name="git.gupnp.org"
+      href="git://git.gupnp.org/"/>
+  <repository type="git" name="gitorious.org"
+      href="git://gitorious.org/"/>
 
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
@@ -66,7 +70,6 @@
       <dep package="gst-python"/>
       <dep package="clutter"/>
       <dep package="clutter-gst"/>
-      <dep package="clutter-cairo"/>
       <dep package="clutter-gtk"/>
     </dependencies>
   </autotools>
@@ -153,34 +156,104 @@
     </dependencies>
   </autotools>
 
-  <autotools id="tracker">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gmime"/>
-      <dep package="dbus-glib"/>
-      <dep package="libgnomeui"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libglade"/>
-      <dep package="poppler"/>
-      <dep package="libgsf"/>
-      <dep package="gstreamer"/>
-      <dep package="sqlite3"/>
-      <dep package="vala"/>
-      <dep package="libgee"/>
-    </dependencies>
-    <suggests>
-      <dep package="exempi"/>
-    </suggests>
-    <after>
-      <dep package="deskbar-applet"/>
-    </after>
-  </autotools>
-
   <autotools id="libgee">
     <branch/>
     <dependencies>
       <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-dlna">
+    <branch repo="gitorious.org" module="gupnp/gupnp-dlna"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gssdp">
+    <branch repo="gitorious.org" module="gupnp/gssdp"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp">
+    <branch repo="gitorious.org" module="gupnp/gupnp"/>
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-av">
+    <branch repo="gitorious.org" module="gupnp/gupnp-av"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-tools">
+    <branch repo="gitorious.org" module="gupnp/gupnp-tools"/>
+    <dependencies>
+      <dep package="gupnp"/>
+      <dep package="gtk+"/>
+      <dep package="gnome-icon-theme"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-ui">
+    <branch repo="gitorious.org" module="gupnp/gupnp-ui"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gupnp-vala">
+    <branch repo="gitorious.org" module="gupnp/gupnp-vala"/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gupnp-dlna"/>
+    </dependencies>
+    <suggests>
+      <dep package="gupnp-ui"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="mx">
+    <branch repo="git.clutter-project.org" module="mx"/>
+    <dependencies>
+      <dep package="clutter"/>
+    </dependencies>
+    <after>
+      <dep package="startup-notification"/>
+      <dep package="dbus-glib"/>
+      <dep package="glade3"/>
+      <dep package="gtk+"/>
+    </after>
+  </autotools>
+
+  <autotools id="gnome-video-effects">
+    <branch/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-vala">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
     </dependencies>
   </autotools>
 

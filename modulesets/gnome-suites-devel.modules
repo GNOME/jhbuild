@@ -14,19 +14,24 @@
     <branch/>
   </autotools>
 
-  <autotools id="gtk+">
-    <branch/>
+  <autotools id="gtk+-3">
+    <branch checkoutdir="gtk+-3" module="gtk+"/>
     <dependencies>
+      <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="pango"/>
       <dep package="atk"/>
-      <dep package="shared-mime-info"/>
+      <dep package="gdk-pixbuf"/>
     </dependencies>
+    <after>
+      <dep package="shared-mime-info"/>
+    </after>
   </autotools>
 
   <autotools id="gtkmm">
     <branch/>
     <dependencies>
+      <dep package="atkmm"/>
       <dep package="pangomm"/>
       <dep package="gtk+"/>
     </dependencies>
@@ -105,9 +110,13 @@
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
+      <dep package="clutter-gst" />
       <dep package="librsvg"/>
       <dep package="gnome-desktop"/>
       <dep package="evolution-data-server"/>
+      <dep package="clutter-gtk"/>
+      <dep package="gnome-video-effects"/>
+      <dep package="mx"/>
     </dependencies>
   </autotools>
 
@@ -145,6 +154,7 @@
       <dep package="libxml2"/>
       <dep package="libxslt"/>
       <dep package="libbonobo"/>
+      <dep package="libcanberra"/>
       <dep package="gnome-vfs"/>
       <dep package="gconf"/>
     </dependencies>
