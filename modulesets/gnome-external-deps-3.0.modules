@@ -3,6 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
 
+<repository type="git" name="git.gnome.org" default="yes"
+    href="git://git.gnome.org/"/>
 <repository type="tarball" name="cairo.org"
     href="http://cairographics.org/"/>
 <repository type="tarball" name="mono.net"
@@ -1236,6 +1238,19 @@
       <dep package="pygobject"/>
       <dep package="seed"/>
     </suggests>
+  </autotools>
+
+  <!-- folks is temporary set to use git, this will be changed once the API is
+       stabilized -->
+  <autotools id="folks">
+    <branch repo="git.gnome.org"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libgee"/>
+      <dep package="vala"/>
+      <dep package="telepathy-glib"/>
+    </dependencies>
   </autotools>
 
 </moduleset>
