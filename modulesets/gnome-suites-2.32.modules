@@ -303,6 +303,14 @@
     </dependencies>
   </autotools>
 
+  <autotools id="caribou">
+    <branch/>
+    <dependencies>
+      <dep package="pygtk"/>
+      <dep package="pyclutter"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="cheese">
     <branch/>
     <dependencies>
@@ -662,6 +670,22 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-color-manager">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop-3"/>
+      <dep package="vte-3"/>
+      <dep package="libnotify"/>
+      <dep package="lcms2"/>
+      <dep package="libcanberra"/>
+      <dep package="gnome-control-center"/>
+      <!-- and gudev -->
+      <!-- and libtiff -->
+      <!-- nad cups -->
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
     <branch revision="gnome-2-32"/>
     <dependencies>
@@ -733,6 +757,14 @@
       <dep package="gnome-common"/>
       <dep package="intltool"/>
       <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-icon-theme-symbolic">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-common"/>
+      <dep package="icon-naming-utils"/>
     </dependencies>
   </autotools>
 
@@ -1027,6 +1059,13 @@
       <dep package="gnome-doc-utils"/>
       <dep package="libgtop"/>
       <dep package="rarian"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gobject-introspection">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
@@ -1662,6 +1701,14 @@
     </dependencies>
   </waf>
 
+  <autotools id="gjs">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="mozilla"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="seed">
     <branch/>
     <dependencies>
@@ -1806,77 +1853,6 @@
 
 <!-- Proposed Modules -->
 
-  <autotools id="gobject-introspection">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="mutter" autogenargs="--with-gtk=3.0">
-    <branch />
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+-3"/>
-      <dep package="gconf"/>
-      <dep package="intltool"/>
-      <dep package="zenity"/>
-      <dep package="clutter"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-shell">
-    <branch/>
-    <dependencies>
-      <dep package="mutter"/>
-      <dep package="gjs"/>
-      <dep package="librsvg"/>
-      <dep package="dconf"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gjs">
-    <branch/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-      <dep package="mozilla"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-color-manager">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+-3"/>
-      <dep package="gnome-desktop-3"/>
-      <dep package="vte-3"/>
-      <dep package="libnotify"/>
-      <dep package="lcms2"/>
-      <dep package="libcanberra"/>
-      <dep package="gnome-control-center"/>
-      <!-- and gudev -->
-      <!-- and libtiff -->
-      <!-- nad cups -->
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-icon-theme-symbolic">
-    <branch/>
-    <dependencies>
-      <dep package="gnome-common"/>
-      <dep package="icon-naming-utils"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="caribou">
-    <branch/>
-    <dependencies>
-      <dep package="pygtk"/>
-      <dep package="pyclutter"/>
-    </dependencies>
-  </autotools>
-
 <!-- Meta Modules -->
 
   <metamodule id="meta-gnome-devel-platform-upcoming-deprecations">
@@ -1961,7 +1937,6 @@
       <dep package="gnome-screensaver"/>
       <dep package="gnome-session"/>
       <dep package="gnome-settings-daemon"/>
-      <dep package="gnome-shell"/>
       <dep package="gnome-system-monitor"/>
       <dep package="gnome-system-tools"/>
       <dep package="gnome-terminal"/>
@@ -1990,7 +1965,6 @@
       <dep package="libwnck"/>
       <dep package="metacity"/>
       <dep package="mousetweaks"/>
-      <dep package="mutter"/>
       <dep package="nautilus"/>
       <dep package="nautilus-sendto"/>
       <dep package="orca"/>

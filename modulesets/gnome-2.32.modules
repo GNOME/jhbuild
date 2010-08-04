@@ -2493,4 +2493,28 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mutter" autogenargs="--with-gtk=3.0">
+    <branch />
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-3"/>
+      <dep package="gconf"/>
+      <dep package="intltool"/>
+      <dep package="zenity"/>
+      <dep package="clutter"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-shell">
+    <branch/>
+    <dependencies>
+      <dep package="mutter"/>
+      <dep package="gjs"/>
+      <dep package="librsvg"/>
+      <dep package="dconf"/>
+    </dependencies>
+  </autotools>
+
 </moduleset>
