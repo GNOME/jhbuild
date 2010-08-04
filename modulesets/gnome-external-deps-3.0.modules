@@ -1212,8 +1212,6 @@
     </dependencies>
   </tarball>
 
-  <repository type="git" name="git.gnome.org"
-      href="git://git.gnome.org/"/>
   <autotools id="libunique-3">
     <branch module="libunique/2.90/libunique-2.90.1.tar.bz2" repo="gnome.org"
             version="2.90.1" checkoutdir="libunique-2.90.1"
@@ -1240,10 +1238,10 @@
     </suggests>
   </autotools>
 
-  <!-- folks is temporary set to use git, this will be changed once the API is
-       stabilized -->
-  <autotools id="folks">
-    <branch repo="git.gnome.org"/>
+  <tarball id="folks" version="0.1.12">
+    <source href="http://download.gnome.org/sources/folks/0.1/folks-0.1.12.tar.bz2"
+            hash="sha256:4ec70d4810bc1ad894997f2ea7b114f161cb1c50b6b11ee38592e880a4e477d9"
+            md5sum="105b15222eed2e1c0521f2c826c824b8" size="348262"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -1251,6 +1249,6 @@
       <dep package="vala"/>
       <dep package="telepathy-glib"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
 </moduleset>
