@@ -110,7 +110,7 @@
   </autotools>
 
   <autotools id="polkit-gnome">
-    <branch/>
+    <branch module="PolicyKit-gnome"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -661,26 +661,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libpeas">
-    <branch/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+-3"/>
-    </dependencies>
-    <suggests>
-      <dep package="pygobject"/>
-      <dep package="seed"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="libunique-3">
-    <branch module="unique"/>
-    <dependencies>
-      <dep package="gtk+-3"/>
-      <dep package="dbus-glib"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gnome-js-common">
     <branch/>
     <suggests>
@@ -710,6 +690,13 @@
     <after>
       <dep package="deskbar-applet"/>
     </after>
+  </autotools>
+
+  <autotools id="json-glib">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
   </autotools>
 
 </moduleset>
