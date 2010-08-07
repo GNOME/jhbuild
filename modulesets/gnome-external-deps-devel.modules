@@ -103,28 +103,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="eggdbus">
-    <branch repo="git.freedesktop.org" module="~david/eggdbus"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="PolicyKit" autogenargs="--disable-tests">
+  <autotools id="polkit" autogenargs="--disable-tests">
     <branch repo="git.freedesktop.org" module="PolicyKit"/>
     <dependencies>
-      <dep package="eggdbus"/>
     </dependencies>
   </autotools>
 
-  <autotools id="PolicyKit-gnome">
+  <autotools id="polkit-gnome">
     <branch/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
-      <dep package="PolicyKit"/>
+      <dep package="polkit"/>
       <dep package="gnome-doc-utils"/>
       <dep package="intltool"/>
     </dependencies>
@@ -155,12 +147,12 @@
     <branch repo="git.freedesktop.org" module="hal-info"/>
   </autotools>
 
-  <autotools id="hal" autogenargs="--disable-policy-kit">
+  <autotools id="hal">
     <branch repo="git.freedesktop.org"/>
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="hal-info"/>
-      <dep package="PolicyKit"/>
+      <dep package="polkit"/>
       <dep package="ConsoleKit"/>
       <dep package="util-linux-ng"/>
     </dependencies>
@@ -381,18 +373,15 @@
     <branch repo="git.0pointer.de" module="pulseaudio"/>
     <dependencies>
       <dep package="libsndfile"/>
-      <dep package="liboil"/>
-      <dep package="glib"/>
       <dep package="speex"/>
     </dependencies>
     <after>
+      <dep package="glib"/>
       <dep package="libsamplerate"/>
       <dep package="gconf"/>
       <dep package="avahi"/>
-      <dep package="hal"/>
       <dep package="bluez"/>
       <dep package="dbus"/>
-      <dep package="PolicyKit"/>
     </after>
   </autotools>
 
@@ -706,7 +695,6 @@
       <dep package="dbus-glib"/>
       <dep package="gnome-desktop"/>
       <dep package="gstreamer"/>
-      <dep package="hal"/>
       <dep package="intltool"/>
       <dep package="poppler"/>
       <dep package="sqlite3"/>
