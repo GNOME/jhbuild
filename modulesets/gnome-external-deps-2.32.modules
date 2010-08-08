@@ -36,13 +36,12 @@
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <tarball autogenargs="--enable-gtk --enable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.26">
+  <tarball autogenargs="--enable-gtk --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd" id="avahi" version="0.6.26">
     <source href="http://avahi.org/download/avahi-0.6.26.tar.gz"
             hash="sha256:699b450f5c630719789b261a4423c7731103ed96d2e333901627956d6016660f"
             md5sum="2b2b1899fcec5ae74e92f111598913a1" size="1205318"/>
     <dependencies>
       <dep package="gtk+"/>
-      <dep package="gtk+-3"/>
       <dep package="libdaemon"/>
       <dep package="dbus-python"/>
       <dep package="pygtk"/>
@@ -786,7 +785,6 @@
     </dependencies>
     <after>
       <dep package="gtk+"/>
-      <dep package="gtk+-3"/>
       <dep package="pulseaudio"/>
       <dep package="gstreamer"/>
     </after>
@@ -976,7 +974,6 @@
             md5sum="9aa027e78d3c0141600c659f02740100" size="309886"/>
     <dependencies>
       <dep package="gtk+"/>
-      <dep package="gtk+-3"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
     </dependencies>
@@ -1232,32 +1229,6 @@
       <dep package="glib"/>
     </dependencies>
   </tarball>
-
-  <autotools id="libunique-3">
-    <branch module="libunique/2.90/libunique-2.90.1.tar.bz2" repo="gnome.org"
-            version="2.90.1" checkoutdir="libunique-2.90.1"
-            hash="sha256:94c46006557b9f981b801f90c1ce324dcd5385aa6ded5058cb06f39e32119993"
-            md5sum="7778865473d8c81084ad5959a0d9853c" size="344813"/>
-    <dependencies>
-      <dep package="gtk+-3"/>
-      <dep package="dbus-glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libpeas">
-    <branch module="libpeas/0.5/libpeas-0.5.4.tar.bz2" repo="gnome.org"
-            version="0.5.4"
-            hash="sha256:ec8e465627c8e683cce11f15c79c58bd49357a3c7be95afb885c9734ca4af50d"
-            md5sum="39650c59f04d22c200b51da3156e45f4" size="429107"/>
-    <dependencies>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+-3"/>
-    </dependencies>
-    <suggests>
-      <dep package="pygobject"/>
-      <dep package="seed"/>
-    </suggests>
-  </autotools>
 
   <tarball id="folks" version="0.1.12">
     <source href="http://download.gnome.org/sources/folks/0.1/folks-0.1.12.tar.bz2"
