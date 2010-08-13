@@ -701,21 +701,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-desktop-3" autogenargs="--with-gnome-distributor=JHBuild">
-    <branch checkoutdir="gnome-desktop-3" module="gnome-desktop"/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+-3"/>
-      <dep package="gconf"/>
-      <dep package="startup-notification"/>
-      <dep package="gnome-themes"/>
-      <dep package="rarian"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
-    </dependencies>
-  </autotools>
-
   <autotools id="gnome-disk-utility">
     <branch/>
     <dependencies>
@@ -1103,14 +1088,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gtk-engines-3" autogenargs="--enable-deprecated">
-    <branch checkoutdir="gtk-engines-3" module="gtk-engines"/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+-3"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gtkhtml">
     <branch/>
     <dependencies>
@@ -1259,15 +1236,15 @@
   </autotools>
 
   <autotools id="nautilus">
-    <branch/>
+    <branch revision="gnome-2-32"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="rarian"/>
       <dep package="glib"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="pango"/>
       <dep package="libxml2"/>
-      <dep package="gnome-desktop-3"/>
+      <dep package="gnome-desktop"/>
     </dependencies>
     <suggests>
       <dep package="exempi"/>
@@ -1859,7 +1836,6 @@
       <dep package="atk"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="gtk+-3"/>
       <dep package="gtk-doc"/>
       <dep package="pango"/>
       <dep package="meta-gnome-devel-platform-upcoming-deprecations"/>
@@ -1928,7 +1904,6 @@
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
       <dep package="gtk-engines"/>
-      <dep package="gtk-engines-3"/>
       <dep package="gtkhtml"/>
       <dep package="gtksourceview"/>
       <dep package="gucharmap"/>
