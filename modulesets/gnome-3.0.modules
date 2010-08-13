@@ -1088,6 +1088,10 @@
     </branch>
   </autotools>
 
+  <autotools id="mobile-broadband-provider-info">
+    <branch/>
+  </autotools>
+
   <autotools id="NetworkManager" autogenargs="--with-udev-dir=${libdir}/udev">
     <branch repo="git.freedesktop.org"
 	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_7" checkoutdir="NetworkManager"/>
@@ -1112,6 +1116,9 @@
       <dep package="NetworkManager"/>
       <dep package="libnotify"/>
     </dependencies>
+    <suggests>
+      <dep package="mobile-broadband-provider-info"/>
+    </suggests>
   </autotools>
 
   <autotools id="network-manager-pptp">
