@@ -55,7 +55,8 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
                 'jhbuildbot_mastercfg', 'use_local_modulesets',
                 'ignore_suggests', 'modulesets_dir', 'mirror_policy',
-                'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets' ]
+                'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets',
+                'cmakeargs', 'module_cmakeargs' ]
 
 env_prepends = {}
 def prependpath(envvar, path):
