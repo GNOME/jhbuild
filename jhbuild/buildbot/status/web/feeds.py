@@ -141,8 +141,6 @@ class FeedResource(XmlResource):
                 source = "[src unknown]"
             else:
                 branch, revision, patch = ss.branch, ss.revision, ss.patch
-                if build.getChanges():
-                    revision = max([int(c.revision) for c in build.getChanges()])
                 source = ""
                 if branch:
                     source += "Branch %s " % branch
