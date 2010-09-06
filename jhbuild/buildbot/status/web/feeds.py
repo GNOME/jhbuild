@@ -154,6 +154,7 @@ class FeedResource(XmlResource):
             title = projectName + ' ' + source + " failed on '" + builder_name + "'"
 
             # get name of the failed step and the last 30 lines of its log.
+            lastlog = ''
             if build.getLogs():
                 log = build.getLogs()[-1]
                 laststep = log.getStep().getName()
@@ -164,7 +165,6 @@ class FeedResource(XmlResource):
                     lastlog='<b>log file not available</b>'
 
             lines = re.split('\n', lastlog)
-            lastlog = ''
             for logline in lines[max(0, len(lines)-30):]:
                 lastlog = lastlog + logline
 
