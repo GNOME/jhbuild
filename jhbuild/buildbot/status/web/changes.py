@@ -21,7 +21,7 @@ import time
 
 from buildbot.status.web.base import HtmlResource
 from twisted.web.util import Redirect
-
+from twisted.web.error import NoResource
 
 class ChangesResource(HtmlResource):
     def getChild(self, path, req):
