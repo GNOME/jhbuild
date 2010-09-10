@@ -104,7 +104,8 @@ class CMakeModule(Package, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
+        builddir = self.get_builddir(buildscript)
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.get_makeargs())
         buildscript.execute(cmd, cwd = builddir,
                 extra_env = self.extra_env)
     do_clean.depends = [PHASE_CONFIGURE]
