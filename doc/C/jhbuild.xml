@@ -2464,13 +2464,14 @@ libgnomecanvas is missing branch definition for gnome-2-20
         If these attributes are present, they are used to check
         that the source package was downloaded correctly.</para>
 
-        <para>The <sgmltag class="element">patches</sgmltag> element
-        is used to specify one or more patches to apply to the source
-        tree after unpacking, the <sgmltag class="attribute">file</sgmltag>
+        <para>Any number of <sgmltag class="element">patch</sgmltag> elements
+        may be nested inside the <sgmltag class="element">branch</sgmltag>
+        element. These patches are applied, in order, to the source
+        tree after unpacking. The <sgmltag class="attribute">file</sgmltag>
         attribute gives the patch filename, and the <sgmltag
         class="attribute">strip</sgmltag> attribute says how
         many levels of directories to prune when applying the
-        patch.</para>
+        patch.</para>        
 
         <para>For module sets shipped with JHBuild, the patch files are
         looked up in the <filename>jhbuild/patches/</filename> directory;
@@ -2488,6 +2489,11 @@ libgnomecanvas is missing branch definition for gnome-2-20
   &lt;patch file="dbus-glib-build.patch" strip="1" /&gt;
 &lt;branch&gt;
 </programlisting>
+
+        <para>A tarball <sgmltag class="element">branch</sgmltag> element
+        may also contain <sgmltag class="element">quilt</sgmltag> elements
+        which specify nested <sgmltag class="element">branch</sgmltag> to
+        import.</para>
           
       </section>
 
