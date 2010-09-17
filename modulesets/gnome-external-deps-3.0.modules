@@ -36,10 +36,11 @@
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <tarball autogenargs="--enable-gtk --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --enable-gtk3" id="avahi" version="0.6.27">
+  <tarball autogenargs="--enable-gtk --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --enable-gtk3 --with-systemdsystemunitdir=/home/mclasen/releases/gnome3/systemunitdir" id="avahi"  version="0.6.27">
     <source href="http://avahi.org/download/avahi-0.6.27.tar.gz"
             hash="sha256:c22df5e0b0d695bfe3cc52545bf0affc1c52060818a5a65d70055e320bc45e84"
             md5sum="74b40f87aeab07fc77af25f725b32f04" size="1217974"/>
+    <patch file="avahi-build-fix.patch" strip="1"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gtk+-3"/>
@@ -613,7 +614,6 @@
             hash="sha256:383a3b5fd7f50bd48c96c34950478059c89c5ddad37c9c35a772b80b7c173c66"
             md5sum="284bcdd0411594ba461a21ff7ed481e7" size="47461712"
             checkoutdir="mozilla-1.9.1.11">
-      <patch file="mozilla.automationutils.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="gtk+"/>
@@ -812,7 +812,7 @@
   </autotools>
 
   <cmake id="libproxy"
-         cmakeargs="-DCMAKE_BUILD_TYPE=None -DWITH_PERL=OFF -DWITH_VALA=ON -DWITH_DOTNET=ON -DGAC_DIR=${prefix}/lib/mono">
+         cmakeargs="-DCMAKE_BUILD_TYPE=None -DWITH_PERL=OFF -DWITH_VALA=ON -DWITH_DOTNET=OFF -DGAC_DIR=${prefix}/lib/mono">
     <branch repo="libproxy.googlecode.com"
             module="libproxy-0.4.6.tar.gz" version="0.4.6"
             hash="sha256:9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
@@ -1079,6 +1079,7 @@
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gnome-desktop"/>
+      <dep package="nautilus"/>
       <dep package="gstreamer"/>
       <dep package="intltool"/>
       <dep package="poppler"/>
