@@ -9,8 +9,6 @@
       href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
-  <repository type="svn" name="svn.mono-project.com"
-      href="svn://anonsvn.mono-project.com/source/"/>
   <repository type="git" name="github.com" href="git://github.com/"/>
   <repository type="git" name="o-hand.com" href="git://git.o-hand.com/"/>
   <repository type="git" name="moblin.org" href="git://git.moblin.org/"/>
@@ -1755,8 +1753,8 @@
   </autotools>
 
   <autotools id="gtk-sharp" autogen-sh="bootstrap-2.12">
-    <branch repo="svn.mono-project.com" module="branches/gtk-sharp-2-12-branch"
-            checkoutdir="gtk-sharp"/>
+    <branch repo="github.com" module="mono/gtk-sharp.git" checkoutdir="gtk-sharp"
+            branch="gtk-sharp-2-12-branch"/>
     <dependencies>
       <dep package="mono"/>
       <dep package="gtk+"/>
@@ -1765,7 +1763,7 @@
   </autotools>
 
   <autotools id="gnome-sharp" autogen-sh="bootstrap-2.24">
-    <branch repo="svn.mono-project.com" module="trunk/gnome-sharp"/>
+    <branch repo="github.com" module="mono/gnome-sharp.git" checkoutdir="gnome-sharp"/>
     <dependencies>
       <dep package="mono"/>
       <dep package="gtk-sharp"/>
@@ -1777,7 +1775,7 @@
   </autotools>
 
    <autotools id="gnome-desktop-sharp">
-    <branch repo="svn.mono-project.com" module="trunk/gnome-desktop-sharp"/>
+    <branch repo="github.com" module="mono/gnome-desktop-sharp.git" checkoutdir="gnome-desktop-sharp"/>
     <dependencies>
       <dep package="mono"/>
       <dep package="gtk-sharp"/>

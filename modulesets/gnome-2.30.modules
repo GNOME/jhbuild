@@ -62,8 +62,6 @@
       defbranch="im.pidgin.pidgin"/>
   <repository type="git" name="git.savannah.nongnu.org"
       href="git://git.savannah.nongnu.org/"/>
-  <repository type="svn" name="svn.mono-project.com"
-      href="svn://anonsvn.mono-project.com/source/"/>
   <repository type="svn" name="svn.fluendo.com"
       href="https://core.fluendo.com/gstreamer/svn/"
       trunk-template="trunk/%(module)s"
@@ -1514,7 +1512,7 @@
   </autotools>
 
   <autotools id="mono-tools">
-    <branch repo="svn.mono-project.com" module="trunk/mono-tools"/>
+    <branch repo="github.com" module="mono/mono-tools.git" checkoutdir="mono-tools"/>
     <dependencies>
       <dep package="mono"/>
       <dep package="gtk-sharp"/>
@@ -1524,7 +1522,7 @@
   </autotools>
 
   <autotools id="gtksourceview-sharp">
-    <branch repo="svn.mono-project.com" module="trunk/gtksourceview2-sharp"/>
+    <branch repo="github.com" module="mono/gtksourceview2-sharp.git" checkoutdir="gtksourceview2-sharp"/>
     <dependencies>
       <dep package="gtksourceview"/>
       <dep package="mono"/>
@@ -1533,7 +1531,7 @@
   </autotools>
 
   <autotools id="monodevelop">
-    <branch repo="svn.mono-project.com" module="trunk/monodevelop"/>
+    <branch repo="github.com" module="mono/monodevelop.git" checkoutdir="monodevelop"/>
     <dependencies>
       <dep package="desktop-file-utils"/>
       <dep package="mono"/>
@@ -1545,7 +1543,7 @@
   </autotools>
 
   <autotools id="gsf-sharp">
-    <branch repo="svn.mono-project.com" module="trunk/gsf-sharp"/>
+    <branch repo="github.com" module="mono/gsf-sharp.git" checkoutdir="gsf-sharp"/>
     <dependencies>
       <dep package="libgsf"/>
       <dep package="gtk-sharp"/>
