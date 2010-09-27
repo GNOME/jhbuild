@@ -51,7 +51,7 @@ class CMakeModule(Package, DownloadableModule):
     def get_builddir(self, buildscript):
         if buildscript.config.buildroot:
             d = buildscript.config.builddir_pattern % (
-                os.path.basename(self.get_srcdir(buildscript)))
+                self.branch.checkoutdir or self.branch.get_module_basename())
             return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
