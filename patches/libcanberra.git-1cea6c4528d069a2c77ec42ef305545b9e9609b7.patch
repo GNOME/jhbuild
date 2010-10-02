@@ -1,0 +1,27 @@
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Mon, 27 Sep 2010 20:43:37 +0000 (-0400)
+Subject: gtk: Fix the build with current GTK+
+X-Git-Url: http://git.0pointer.de/?p=libcanberra.git;a=commitdiff_plain;h=1cea6c4528d069a2c77ec42ef305545b9e9609b7;hp=3f3b8de37b3018c9f5780598dbf8242be2d4f2a1
+
+gtk: Fix the build with current GTK+
+
+gdk_drawable_get_screen has been removed in GTK3. Instead, use
+gdk_window_get_screen.
+---
+
+diff --git a/src/canberra-gtk.c b/src/canberra-gtk.c
+index fffcfef..34446f5 100644
+--- a/src/canberra-gtk.c
++++ b/src/canberra-gtk.c
+@@ -505,7 +505,11 @@ int ca_gtk_play_for_event(GdkEvent *e, uint32_t id, ...) {
+                 goto fail;
+ 
+         if (e->any.window)
++#if GTK_CHECK_VERSION (2, 90, 7)
++                s = gdk_window_get_screen(e->any.window);
++#else
+                 s = gdk_drawable_get_screen(GDK_DRAWABLE(e->any.window));
++#endif
+         else
+                 s = gdk_screen_get_default();
+ 
