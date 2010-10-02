@@ -12,6 +12,7 @@
   <repository type="git" name="github.com" href="git://github.com/"/>
   <repository type="git" name="o-hand.com" href="git://git.o-hand.com/"/>
   <repository type="git" name="moblin.org" href="git://git.moblin.org/"/>
+  <repository type="git" name="clutter-project.org" href="git://git.clutter-project.org/"/>
   <repository type="bzr" name="launchpad.net" href=""/>
 
 <!-- This is a special module: it's needed to build from svn, but not
@@ -150,6 +151,21 @@
     <after>
       <dep package="shared-mime-info"/>
     </after>
+  </autotools>
+
+  <autotools id="clutter">
+    <branch repo="clutter-project.org"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="gtk-doc"/>
+      <dep package="json-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
   </autotools>
 
   <autotools id="gtk-doc">
