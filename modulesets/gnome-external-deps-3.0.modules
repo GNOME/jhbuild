@@ -23,6 +23,8 @@
     href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="clutter-project.org"
     href="http://source.clutter-project.org/sources/"/>
+<repository type="git" name="git.clutter-project.org"
+    href="git://git.clutter-project.org/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
     href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
@@ -106,6 +108,20 @@
       <dep package="clutter"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mx">
+    <branch repo="git.clutter-project.org"/>
+    <dependencies>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-video-effects">
+    <branch/>
+    <dependencies>
+      <dep package="gstreamer"/>
     </dependencies>
   </autotools>
 
