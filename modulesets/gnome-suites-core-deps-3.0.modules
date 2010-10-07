@@ -35,6 +35,9 @@
     href="http://webkitgtk.org/"/>
 <repository type="tarball" name="ftp.musicbrainz.org"
     href="http://ftp.musicbrainz.org/pub/musicbrainz/"/>
+<repository type="tarball" name="people.suug.ch/~tgr/libnl/"
+    href="http://www.gnome.org/~fpeters/libnl/"/>
+
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
@@ -1204,5 +1207,197 @@
       <dep package="telepathy-glib"/>
     </dependencies>
   </tarball>
+
+  <autotools id="ORBit2">
+    <branch/>
+    <dependencies>
+      <dep package="libIDL"/>
+      <dep package="gnome-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libIDL">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="nautilus-sendto">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gconf"/>
+      <dep package="nautilus"/>
+    </dependencies>
+    <suggests>
+      <dep package="evolution-data-server"/>
+      <dep package="dbus-glib"/>
+      <dep package="gupnp-av"/>
+      <dep package="empathy"/>
+    </suggests>
+  </autotools>
+
+ <autotools id="vte-3" autogenargs="--with-gtk=3.0 --enable-introspection=yes">
+    <branch checkoutdir="vte-3" module="vte"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libglade">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-keyring" autogenargs="--with-gtk=2.0">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="dbus"/>
+      <dep package="gconf"/>
+      <dep package="gtk+"/>
+      <dep package="libgcrypt"/>
+      <dep package="libtasn1"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgtop">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
+    <branch revision="gnome-2-32"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="startup-notification"/>
+      <dep package="gnome-themes"/>
+      <dep package="rarian"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gvfs"/> <!-- gvfs-copy used in autogen.sh -->
+    </dependencies>
+  </autotools>
+
+  <autotools id="mm-common">
+    <branch/>
+  </autotools>
+
+  <autotools id="libsigc++2">
+    <branch/>
+    <dependencies>
+      <dep package="mm-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glibmm">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsigc++2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="cairomm" autogen-sh="configure">
+    <branch module="releases/cairomm-1.9.2.tar.gz" version="1.9.2"
+            repo="cairo.org"
+            hash="sha256:06be135a638be9e279905cc6287c066da93ab62f273a4a66858af379621288f6"
+            md5sum="24b0d35de4154195b8b78cf1f48b85e7" size="856678">
+    </branch>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pangomm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="cairomm"/>
+      <dep package="pango"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="atkmm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtkmm">
+    <branch/>
+    <dependencies>
+      <dep package="pangomm"/>
+      <dep package="atkmm"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pycairo">
+    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
+            repo="cairo.org" 
+            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
+            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064">
+    </branch>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="pygobject">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="pycairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pygtk">
+    <branch/>
+    <dependencies>
+      <dep package="pygobject"/>
+      <dep package="gtk+"/>
+      <dep package="pycairo"/>
+      <dep package="libglade"/>
+    </dependencies>
+  </autotools>
+
+ <autotools id="libnl" skip-autogen="never" autogen-sh="configure">
+    <branch repo="people.suug.ch/~tgr/libnl/"
+            module="libnl-1.1.tar.gz" version="1.1"
+            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932">
+      <patch file="libnl-include-fix.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="libgweather">
+    n<branch revision="gnome-2-30"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="gconf"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+    </suggests>
+  </autotools>
 
 </moduleset>
