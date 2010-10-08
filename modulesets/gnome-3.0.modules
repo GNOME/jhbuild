@@ -1092,13 +1092,14 @@
 
   <autotools id="NetworkManager" autogenargs="--with-udev-dir=${libdir}/udev">
     <branch repo="git.freedesktop.org"
-	    module="NetworkManager/NetworkManager.git" revision="NETWORKMANAGER_0_7" checkoutdir="NetworkManager"/>
+	    module="NetworkManager/NetworkManager.git" checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="libnl"/>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
       <dep package="libgcrypt"/>
       <dep package="gtk-doc"/>
+      <dep package="polkit"/>
     </dependencies>
   </autotools>
 
@@ -1113,6 +1114,7 @@
       <dep package="gnome-keyring"/>
       <dep package="NetworkManager"/>
       <dep package="libnotify"/>
+      <dep package="polkit-gnome"/>
     </dependencies>
     <suggests>
       <dep package="mobile-broadband-provider-info"/>
