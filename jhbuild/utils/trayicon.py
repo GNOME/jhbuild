@@ -21,6 +21,7 @@ import sys
 import os
 import subprocess
 import signal
+import dbus
 
 class TrayIcon:
     proc = None
@@ -30,6 +31,17 @@ class TrayIcon:
             return
         if not os.environ.get('DISPLAY'):
             return
+        try:
+            bus = dbus.SessionBus()
+            proxy = bus.get_object('org.freedesktop.Notifications',
+                                   '/org/freedesktop/Notifications')
+            caps = proxy.GetCapabilities()
+            for item in caps:
+                if item == "persistence":
+                    return
+        except:
+            pass
+
         try:
             self._run_zenity()
         except AttributeError:
