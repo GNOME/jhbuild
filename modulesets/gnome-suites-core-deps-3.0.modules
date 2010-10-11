@@ -32,8 +32,6 @@
     href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
     href="http://0pointer.de/lennart/projects/"/>
-<repository type="tarball" name="samba.org"
-    href="http://samba.org/samba/ftp/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="http://webkitgtk.org/"/>
 <repository type="tarball" name="ftp.musicbrainz.org"
@@ -413,15 +411,6 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gtk-vnc" version="0.4.1" autogenargs="--with-gtk=3.0">
-    <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.1.tar.bz2"
-            hash="sha256:095ae7c98ddba0db39845b516b49651a134c7ed8b45ccd02ed1ba3fd66645b57"
-            md5sum="61033a0b0130e1e04a8bc2546567ed8c" size="536411"/>
-    <dependencies>
-      <dep package="gtk+-3"/>
-    </dependencies>
-  </tarball>
-
   <tarball id="gupnp" version="0.14.0" autogenargs="--with-context-manager=network-manager">
     <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-0.14.0.tar.gz"
             hash="sha256:6ac13efe46c6f1e5d05e48e1041bf37dfa702839ce5fbb01e0f314f3904b6a16"
@@ -446,40 +435,6 @@
       <dep package="glib"/>
       <dep package="gupnp"/>
     </dependencies>
-  </tarball>
-
-  <tarball id="gupnp-dlna" version="0.4.0">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-dlna-0.4.0.tar.gz"
-            hash="sha256:f0968686d88c101f6b9457896cbcde388649d1dda37b16330a08662a2c88650b"
-            md5sum="8e0913fa62da959d98a5417b06b909fa" size="429117"/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="glib"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-    <suggests>
-      <dep package="gst-plugins-good"/>
-      <dep package="gst-plugins-bad"/>
-      <dep package="gst-plugins-ugly"/>
-      <dep package="gst-ffmpeg"/>
-    </suggests>
-  </tarball>
-
-  <tarball id="gupnp-vala" version="0.6.12">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-vala-0.6.12.tar.gz"
-            hash="sha256:a28d00b7c2952871dcdeaf15f879a33fecba942bdf6cd15e00323e2cfa1d06c0"
-            md5sum="065397f2eeee8356b94bdf469f1a12cd" size="115668"/>
-    <dependencies>
-      <dep package="vala"/>
-      <dep package="gssdp"/>
-      <dep package="gupnp"/>
-      <dep package="gupnp-av"/>
-      <dep package="gupnp-dlna"/>
-    </dependencies>
-    <suggests>
-      <dep package="gupnp-ui"/>
-    </suggests>
   </tarball>
 
   <repository type="tarball" name="icon-theme.freedesktop.org"
@@ -553,12 +508,6 @@
       <dep package="libsoup"/>
       <dep package="clutter-gtk"/>
     </suggests>
-  </tarball>
-
-  <tarball id="libcolorblind" version="0.0.1">
-    <source href="http://alioth.debian.org/frs/download.php/1952/colorblind-0.0.1.tar.gz"
-            hash="sha256:02d606fa7ba809454ff58990cb12e3de4fa1118305d4139395b54d79eb6d88cd"
-            md5sum="e4eaef242ba880ac09f748d52999916c" size="288457"/>
   </tarball>
 
   <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.2">
@@ -938,24 +887,6 @@
     </after>
   </tarball>
 
-  <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
-    <branch module="ptlib/2.8/ptlib-2.8.1.tar.bz2" repo="gnome.org"
-            autogen-sh="configure"
-            version="2.8.1"
-            hash="sha256:cb35473fe004b443d42c704f11151285951532593f41cc7f8e96c90ac09ef700"/>
-  </autotools>
-
-  <autotools id="pycairo">
-    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
-            repo="cairo.org"
-            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
-            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064">
-    </branch>
-    <dependencies>
-      <dep package="cairo"/>
-    </dependencies>
-  </autotools>
-
   <tarball id="rarian" version="0.8.1" supports-non-srcdir-builds="no">
     <source href="http://download.gnome.org/sources/rarian/0.8/rarian-0.8.1.tar.bz2"
             hash="sha256:aafe886d46e467eb3414e91fa9e42955bd4b618c3e19c42c773026b205a84577"
@@ -965,17 +896,6 @@
       <dep package="intltool"/>
     </dependencies>
   </tarball>
-
-  <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
-             autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
-    <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
-            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
-            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
-	    source-subdir="source4">
-      <patch file="samba.configure-for-libs.patch" strip="1"/>
-    </branch>
-  </autotools>
 
   <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.71">
     <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.71.tar.bz2"
@@ -1010,20 +930,6 @@
             md5sum="624b42f1fac5a12c543a079e2cd3b366" size="226231"/>
   </tarball>
 
-  <tarball id="swfdec" version="0.8.0">
-    <source href="http://swfdec.freedesktop.org/download/swfdec/0.8/swfdec-0.8.0.tar.gz"
-            hash="sha256:a19f0abc57ef6f367cc21002082efe18fa893d8af872cc2825a4536d509e8182"
-            md5sum="ce3002fc5d8ace9ce34ce960c0cc3c06" size="9986340"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="pango"/>
-      <dep package="gtk+"/>
-      <dep package="cairo"/>
-      <dep package="liboil"/>
-      <dep package="libsoup"/>
-    </dependencies>
-  </tarball>
-
   <tarball id="telepathy-glib" version="0.13.1" autogenargs="--enable-vala-bindings">
     <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.13.1.tar.gz"
             hash="sha256:29ff30175109364f397636b3f7c6dc33ca9a225f6938de6b7c13599bd89c7f0c"
@@ -1049,41 +955,6 @@
     </dependencies>
   </tarball>
 
-  <tarball id="telepathy-mission-control" version="5.5.1">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.5.1.tar.gz"
-            hash="sha256:efa033f018066987edaa80d7e6a58e50788e4466a6cfd7fb7493e955f3b38a79"
-            md5sum="97b0d0af8670a6a9a4510995eebce1c6" size="1217791"/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="telepathy-glib"/>
-      <dep package="gnome-keyring"/>
-      <dep package="gconf"/>
-    </dependencies>
-  </tarball>
-
-  <autotools id="talloc"
-	    makeargs="tallocdir='$(srcdir)'"
-	    makeinstallargs="install tallocdir='$(srcdir)'">
-    <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
-            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
-            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
-	    source-subdir="lib/talloc">
-      <patch file="samba.configure-for-libs.patch" strip="1"/>
-    </branch>
-  </autotools>
-
-  <autotools id="tdb">
-    <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
-            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
-            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
-	    source-subdir="lib/tdb">
-      <patch file="samba.configure-for-libs.patch" strip="1"/>
-    </branch>
-  </autotools>
-
   <tarball id="telepathy-farsight" version="0.0.14" autogenargs="--disable-python">
     <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.14.tar.gz"
             hash="sha256:3074d40b33ecd08d7fc0168dfb4a4dd4f98ef3fd5c4708074b9669b3f39457b5"
@@ -1093,16 +964,6 @@
       <dep package="farsight2"/>
     </dependencies>
   </tarball>
-
-  <autotools id="tevent">
-    <branch repo="samba.org"
-            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
-            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
-            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
-	    source-subdir="lib/tevent">
-      <patch file="samba.configure-for-libs.patch" strip="1"/>
-    </branch>
-  </autotools>
 
   <autotools id="totem-pl-parser">
     <branch/>
@@ -1175,8 +1036,6 @@
       <dep package="enchant"/>
     </suggests>
   </autotools>
-
-  <!-- new external dependencies -->
 
  <autotools id="vte-3" autogenargs="--with-gtk=3.0 --enable-introspection=yes">
     <branch checkoutdir="vte-3" module="vte"/>
