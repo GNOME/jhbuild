@@ -382,6 +382,37 @@
     </dependencies>
   </tarball>
 
+  <autotools id="cairomm" autogen-sh="configure">
+    <branch module="releases/cairomm-1.9.2.tar.gz" version="1.9.2"
+            repo="cairo.org"
+            hash="sha256:06be135a638be9e279905cc6287c066da93ab62f273a4a66858af379621288f6"
+            md5sum="24b0d35de4154195b8b78cf1f48b85e7" size="856678">
+    </branch>
+    <dependencies>
+       <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pangomm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="cairomm"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtkmm">
+    <branch/>
+    <dependencies>
+      <dep package="pangomm"/>
+      <dep package="atkmm"/>
+      <dep package="gtk+-3"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <tarball id="gtk-vnc" version="0.4.1" autogenargs="--with-gtk=3.0">
     <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.1.tar.bz2"
             hash="sha256:095ae7c98ddba0db39845b516b49651a134c7ed8b45ccd02ed1ba3fd66645b57"
@@ -1113,7 +1144,6 @@
     </after>
   </tarball>
 
-
   <tarball id="vala" version="0.10.0" autogenargs="--enable-vapigen">
     <source href="http://download.gnome.org/sources/vala/0.10/vala-0.10.0.tar.bz2"
             hash="sha256:f5655a3cdc21c4c8d94d4af55a4c0a0418bad7a5ebf60ccdf471c4e16c5c9235"
@@ -1155,6 +1185,15 @@
       <dep package="glib"/>
       <dep package="gtk+-3"/>
       <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="yelp-xsl">
+    <branch/>
+    <dependencies>
+      <dep package="libxslt"/>
+      <dep package="libxml2"/>
+      <dep package="intltool"/>
     </dependencies>
   </autotools>
 
