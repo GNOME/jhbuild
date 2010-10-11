@@ -69,7 +69,24 @@
       <dep package="pygtk"/>
       <dep package="gst-python"/>
       <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pyclutter-gst">
+    <branch repo="git.clutter-project.org" module="bindings/pyclutter-gst" checkoutdir="pyclutter-gst"/>
+    <dependencies>
+      <dep package="pyclutter"/>
+      <dep package="gst-python"/>
       <dep package="clutter-gst"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pyclutter-gtk">
+    <branch repo="git.clutter-project.org" module="bindings/pyclutter-gtk" checkoutdir="pyclutter-gtk"/>
+    <dependencies>
+      <dep package="pycairo"/>
+      <dep package="pygtk"/>
+      <dep package="pyclutter"/>
       <dep package="clutter-gtk"/>
     </dependencies>
   </autotools>
