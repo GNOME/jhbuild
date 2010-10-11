@@ -690,12 +690,13 @@
   </autotools>
 
   <autotools id="sqlite3"
-	     autogenargs="--enable-threadsafe --disable-tcl --enable-load-extension" check-target="false">
-    <branch module="sqlite-3.6.23.1.tar.gz" version="3.6.23.1"
+            autogenargs="--disable-tcl --enable-threadsafe --enable-readline --enable-static --enable-load-extension" check-target="false">
+    <branch module="sqlite-3.7.1.tar.gz" version="3.7.1"
 	    repo="sqlite.org"
-	    hash="sha256:1a0517438a573a68ab73e8ed75d194086d55d75883542ab1d5ae1080bbddd492"
-	    md5sum="d99f1b31da0eb33271464bee15cec701" size="3086807">
-      <patch file="sqlite-3.6.22.dlsym.patch" strip="1"/>
+	    hash="sha256:4a6656f765305399d67c84ad2f0725cb18594805926cdd71013370cc8216268d"
+	    md5sum="96bebad5f9009f0437d9878b8728dab6" size="3309303">
+    <patch file="sqlite-3.7.1.dlsym1.patch" strip="1"/>
+    <patch file="sqlite-3.7.1.dlsym2.patch" strip="1"/>
     </branch>
   </autotools>
 
