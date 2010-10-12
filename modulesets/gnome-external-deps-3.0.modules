@@ -129,7 +129,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dbus" supports-non-srcdir-builds="no">
+  <autotools id="dbus" supports-non-srcdir-builds="no" autogenargs="--with-systemdsystemunitdir=no">
     <branch module="dbus/dbus-1.4.0.tar.gz" version="1.4"
 	    repo="dbus"
 	    hash="sha256:c96d2f86d40e158e2bf405925a0a42cce0533a8466098e2f2238aa1614926652"
@@ -869,6 +869,7 @@
             md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/talloc">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
+      <patch file="talloc-pkg-config-removal.patch" strip="1"/>
     </branch>
   </autotools>
 
@@ -879,6 +880,7 @@
             md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/tdb">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
+      <patch file="tdb-pkg-config-removal.patch" strip="1"/>
     </branch>
   </autotools>
 
@@ -889,6 +891,7 @@
             md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
 	    source-subdir="lib/tevent">
       <patch file="samba.configure-for-libs.patch" strip="1"/>
+      <patch file="tevent-pkg-config-removal.patch" strip="1"/>
     </branch>
   </autotools>
 
