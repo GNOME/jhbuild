@@ -18,6 +18,8 @@
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
     href="ftp://ftp.gnu.org/pub/gnu/"/>
+<repository type="tarball" name="gupnp.org"
+    href="http://www.gupnp.org/sites/all/files/sources"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
@@ -337,15 +339,19 @@
     </after>
   </tarball>
 
-  <tarball id="gssdp" version="0.8.0">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gssdp-0.8.0.tar.gz"
+  <autotools id="gssdp" version="0.8.0">
+    <branch module="gssdp-0.8.0.tar.gz" version="0.8.0"
+	    repo="gupnp.org"
             hash="sha256:c6ca4f084109487255aa847b2b1d27cf29b19aafb85f9d67a9a38f36a9b58506"
-            md5sum="a4cf85650decaec7a12382a8a002bc83" size="368212"/>
+            size="368212">
+      <!-- Build fix for explicit linking  -->
+      <patch file="gssdp-0.8.0-fixdso.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="gstreamer" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
