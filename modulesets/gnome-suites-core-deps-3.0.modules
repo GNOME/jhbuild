@@ -16,6 +16,8 @@
     href="git://anongit.freedesktop.org/gstreamer/"/>
 
 <!-- tarball repos -->
+<repository type="tarball" name="ftp.gnu.org"
+    href="ftp://ftp.gnu.org/pub/gnu/"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
@@ -306,15 +308,21 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gnutls" version="2.10.2" autogenargs="--enable-guile=no">
-    <source href="ftp://ftp.gnu.org/pub/gnu/gnutls/gnutls-2.10.2.tar.bz2"
+  <autotools id="gnutls" version="2.10.2" autogenargs="--enable-guile=no">
+    <branch module="gnutls/gnutls-2.10.2.tar.bz2" version="2.10.2"
+	    repo="ftp.gnu.org"
             hash="sha256:e82e7a3fc69b02cc06c291a1652789d73e45bc0732e139817838248f814f8724"
-            size="7458438" />
+            size="7458438">
+      <!-- Build fix for rpath?  -->
+      <patch file="gnutls-2.10.2-rpath.patch" strip="1"/>
+      <!-- Backport from upstream git -->
+      <patch file="gnutls-2.10.1-handshake-errors.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="libgcrypt" />
       <dep package="libtasn1" />
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="gmime" version="2.4.15">
     <source href="http://download.gnome.org/sources/gmime/2.4/gmime-2.4.15.tar.bz2"
