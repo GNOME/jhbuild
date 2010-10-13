@@ -75,6 +75,33 @@
     </dependencies>
   </autotools>
 
+  <tarball id="intltool" version="0.41.1">
+    <source href="http://launchpad.net/intltool/trunk/0.41.1/+download/intltool-0.41.1.tar.gz"
+            hash="sha256:06d02133a85b9d6f29cd763050dc9267a6d73ef3008993f5b917cafc7ece96c0"
+            md5sum="d6c91bf06681919ccfdf3624035b75dc" size="139287"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libical" version="0.43">
+    <source href="http://downloads.sourceforge.net/freeassociation/libical-0.43.tar.gz"
+            hash="sha256:099f3e29a864de324477983eefaf17a4ef3b4ec8f075f95384db1ac67b6663a6"
+            md5sum="5f0a1feb60894d0be537aefea5647474" size="1145724"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libgdata" version="0.6.5">
+    <source href="http://download.gnome.org/sources/libgdata/0.6/libgdata-0.6.5.tar.bz2"
+            hash="sha256:dcb82f7162d69549512444376da2cdea65650ee4dae4d00eed7fbbd3387ddf2c"
+            md5sum="e12f52a3d25c25016856c64ca0331221" size="1015870"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </tarball>
+
 
 <!-- OS Core API/ABI stable dependencies -->
 
@@ -403,12 +430,39 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mm-common">
+    <branch/>
+  </autotools>
+
+  <autotools id="libsigc++2">
+    <branch/>
+    <dependencies>
+      <dep package="mm-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glibmm">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsigc++2"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="pangomm">
     <branch/>
     <dependencies>
       <dep package="glibmm"/>
       <dep package="cairomm"/>
       <dep package="pango"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="atkmm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
       <dep package="atk"/>
     </dependencies>
   </autotools>
