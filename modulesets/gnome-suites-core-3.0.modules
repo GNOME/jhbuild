@@ -19,6 +19,7 @@
 
 <!-- Please try to keep organized alphabetically by section -->
 
+
 <!-- Core User Shell -->
 
   <autotools id="at-spi2-core">
@@ -426,19 +427,6 @@
 
 <!-- Fallback Shell -->
 
-  <autotools id="notification-daemon">
-    <branch/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="gconf"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libcanberra"/>
-      <dep package="libwnck"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gconf" autogenargs="--enable-gtk --with-gtk=3.0">
     <branch/>
     <dependencies>
@@ -452,28 +440,6 @@
     <suggests>
       <dep package="polkit"/>
     </suggests>
-  </autotools>
-
-  <autotools id="libwnck">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="startup-notification"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="metacity">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="intltool"/>
-      <dep package="libcanberra"/>
-      <dep package="zenity"/>
-    </dependencies>
   </autotools>
 
   <autotools id="gnome-panel">
@@ -495,6 +461,31 @@
       <dep package="polkit"/>
       <dep package="libbonoboui"/>
     </suggests>
+  </autotools>
+
+  <autotools id="metacity">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="intltool"/>
+      <dep package="libcanberra"/>
+      <dep package="zenity"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="notification-daemon">
+    <branch/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="gconf"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="libcanberra"/>
+    </dependencies>
   </autotools>
 
 

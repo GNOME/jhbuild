@@ -1129,6 +1129,7 @@
     </dependencies>
   </autotools>
 
+
   <!-- OS Core Services dependencies -->
 
   <autotools id="libnl" skip-autogen="never" autogen-sh="configure">
@@ -1139,38 +1140,8 @@
     </branch>
   </autotools>
 
+
   <!-- Deprecated dependencies -->
-
-  <autotools id="libglade">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgnome-keyring">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="dbus"/>
-      <dep package="libgcrypt"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgweather">
-    <branch revision="gnome-2-30"/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="libxml2"/>
-      <dep package="gconf"/>
-      <dep package="gtk+"/>
-      <dep package="libsoup"/>
-    </dependencies>
-    <suggests>
-      <dep package="pygobject"/>
-    </suggests>
-  </autotools>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
     <branch revision="gnome-2-32"/>
@@ -1223,6 +1194,37 @@
     </dependencies>
   </tarball>
 
+  <autotools id="libglade">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgnome-keyring">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="dbus"/>
+      <dep package="libgcrypt"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgweather">
+    <branch revision="gnome-2-30"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="gconf"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+    </suggests>
+  </autotools>
+
   <autotools id="libIDL">
     <branch/>
     <dependencies>
@@ -1239,6 +1241,15 @@
       <dep package="dbus-glib"/>
     </dependencies>
   </tarball>
+
+  <autotools id="libwnck">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="startup-notification"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="ORBit2">
     <branch/>
