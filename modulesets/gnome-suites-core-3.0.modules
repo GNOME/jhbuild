@@ -746,6 +746,13 @@
 
 <!-- Core OS Services -->
 
+  <autotools id="accountsservice">
+    <branch repo="git.freedesktop.org" module="accountsservice"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
   <tarball id="avahi" version="0.6.28" autogenargs="--enable-gtk --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --enable-gtk3 --with-systemdsystemunitdir=no">
@@ -993,6 +1000,7 @@
   -->
   <metamodule id="meta-gnome-core-os-services">
     <dependencies>
+      <dep package="accountsservice"/>
       <dep package="avahi"/>
       <dep package="bluez"/>
       <dep package="ConsoleKit"/>
