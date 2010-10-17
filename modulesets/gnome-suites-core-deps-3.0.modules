@@ -694,9 +694,8 @@
   <autotools id="libnotify">
     <branch/>
     <dependencies>
+      <dep package="glib"/>
       <dep package="gtk+-3"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
@@ -1066,14 +1065,12 @@
     </after>
   </tarball>
 
-  <tarball id="vala" version="0.10.0" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.10/vala-0.10.0.tar.bz2"
-            hash="sha256:f5655a3cdc21c4c8d94d4af55a4c0a0418bad7a5ebf60ccdf471c4e16c5c9235"
-            md5sum="1e38cdc951d2b43e49084a6d5ad19e9d" size="2403942"/>
+  <autotools id="vala" autogenargs="--enable-vapigen">
+    <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="WebKit" makefile="GNUmakefile"
              autogenargs="--with-gtk=3.0 --enable-introspection">
