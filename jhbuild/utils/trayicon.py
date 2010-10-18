@@ -21,12 +21,17 @@ import sys
 import os
 import subprocess
 import signal
-import dbus
+try:
+    import dbus
+except ImportError:
+    dbus = None
 
 class TrayIcon:
     proc = None
 
     def __init__(self, config):
+        if dbus is None:
+            return
         if config and config.notrayicon:
             return
         if not os.environ.get('DISPLAY'):
