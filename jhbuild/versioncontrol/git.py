@@ -144,7 +144,7 @@ class GitBranch(Branch):
         if self.checkoutdir:
             path_elements.append(self.checkoutdir)
         else:
-            path_elements.append(os.path.basename(self.module))
+            path_elements.append(self.get_module_basename())
         if self.subdir:
             path_elements.append(self.subdir)
         return os.path.join(*path_elements)
