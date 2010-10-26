@@ -757,6 +757,25 @@
             md5sum="e0553e12c7a467af44693e95e2eac668" size="927422"/>
   </tarball>
 
+  <autotools id="libsocialweb" autogenargs="--enable-all-services=yes --with-online=networkmanager">
+    <branch module="libsocialweb/0.25/libsocialweb-0.25.7.tar.bz2" repo="gnome.org"
+            version="0.25.7" checkoutdir="libsocialweb-0.25.7"
+            md5sum="608bb973e4480c93d07b97496172f15c" size="479059"
+            hash="sha256:d54758b8725cbdab02431f3c6993a7fdc69694ac6728a50e017028ca2d9d48ac"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+      <dep package="libsoup"/>
+      <dep package="dbus-glib"/>
+      <!-- <dep package="librest"/> (not proposed yet) -->
+      <dep package="gnome-keyring"/>
+      <dep package="json-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="NetworkManager"/>
+    </suggests>
+  </autotools>
+
   <autotools id="libsoup">
     <branch/>
     <dependencies>
