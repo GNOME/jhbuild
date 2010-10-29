@@ -99,14 +99,6 @@
     </after>
   </autotools>
 
-  <autotools id="gnome-backgrounds">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gnome-bluetooth" autogenargs="--enable-introspection=no">
     <branch/>
     <dependencies>
@@ -732,6 +724,16 @@
     </dependencies>
   </autotools>
 
+<!-- Core Extras -->
+
+  <autotools id="gnome-backgrounds">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
 
 <!-- Core OS Services -->
 
@@ -942,7 +944,6 @@
     <dependencies>
       <dep package="dconf"/>
       <dep package="evolution-data-server"/>
-      <dep package="gnome-backgrounds"/>
       <dep package="gnome-bluetooth"/>
       <dep package="gnome-control-center"/>
       <dep package="gnome-desktop-3"/>
@@ -968,6 +969,12 @@
       <dep package="network-manager-applet"/>
       <dep package="pulseaudio"/>
       <dep package="telepathy-mission-control"/>
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-core-extras">
+    <dependencies>
+      <dep package="gnome-backgrounds"/>
       <dep package="vino"/>
     </dependencies>
   </metamodule>
@@ -1010,6 +1017,7 @@
   <metamodule id="meta-gnome-core">
     <dependencies>
       <dep package="meta-gnome-core-shell"/>
+      <dep package="meta-gnome-core-extras"/>
       <dep package="meta-gnome-core-utilities"/>
     </dependencies>
   </metamodule>
