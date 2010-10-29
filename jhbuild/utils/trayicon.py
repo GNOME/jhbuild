@@ -31,11 +31,13 @@ class TrayIcon:
             return
         if not os.environ.get('DISPLAY'):
             return
+
         try:
             bus = dbus.SessionBus()
             proxy = bus.get_object('org.freedesktop.Notifications',
                                    '/org/freedesktop/Notifications')
-            caps = proxy.GetCapabilities()
+            notify_iface = dbus.Interface(proxy, dbus_interface='org.freedesktop.Notifications')
+            caps = notify_iface.GetCapabilities()
             for item in caps:
                 if item == "persistence":
                     return
