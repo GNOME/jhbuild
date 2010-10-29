@@ -618,7 +618,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="gnome-desktop"/>
       <dep package="gnome-panel"/>
       <dep package="gnome-doc-utils"/>
@@ -746,13 +746,12 @@
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <tarball id="avahi" version="0.6.28" autogenargs="--enable-gtk --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --enable-gtk3 --with-systemdsystemunitdir=no">
+  <tarball id="avahi" version="0.6.28" autogenargs="--disable-gtk --enable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --with-systemdsystemunitdir=no">
     <source href="http://avahi.org/download/avahi-0.6.28.tar.gz"
             hash="sha256:a0d80aac88212b9f9d5331c248091d3c9c9209f0e41985421636ebd14230fc91"
             md5sum="d0143a5aa3265019072e53ab497818d0" size="1238660"/>
     <patch file="avahi-build-fix.patch" strip="1"/>
     <dependencies>
-      <dep package="gtk+"/>
       <dep package="gtk+-3"/>
       <dep package="libdaemon"/>
     </dependencies>
@@ -781,9 +780,6 @@
       <dep package="expat"/>
       <dep package="glib"/>
     </dependencies>
-    <after>
-      <dep package="gtk+"/>
-    </after>
   </autotools>
 
   <autotools id="gdm">
