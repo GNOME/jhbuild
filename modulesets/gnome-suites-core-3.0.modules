@@ -280,17 +280,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-user-share">
-    <branch/>
-    <dependencies>
-      <dep package="avahi"/>
-      <dep package="gtk+"/>
-      <dep package="libnotify"/>
-      <dep package="gconf"/>
-      <dep package="gnome-bluetooth"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gsettings-desktop-schemas">
     <branch/>
     <dependencies>
@@ -386,23 +375,6 @@
       <dep package="gconf"/>
     </dependencies>
   </tarball>
-
-  <autotools id="vino">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="gnutls"/>
-      <dep package="dbus-glib"/>
-      <dep package="libgnome-keyring"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-      <dep package="avahi"/>
-    </suggests>
-  </autotools>
 
   <autotools id="zenity">
     <branch/>
@@ -734,6 +706,34 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-user-share">
+    <branch/>
+    <dependencies>
+      <dep package="avahi"/>
+      <dep package="gtk+"/>
+      <dep package="libnotify"/>
+      <dep package="gconf"/>
+      <dep package="gnome-bluetooth"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="vino">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gconf"/>
+      <dep package="gnutls"/>
+      <dep package="dbus-glib"/>
+      <dep package="libgnome-keyring"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+      <dep package="avahi"/>
+    </suggests>
+  </autotools>
+
 
 <!-- Core OS Services -->
 
@@ -948,7 +948,6 @@
       <dep package="gnome-control-center"/>
       <dep package="gnome-desktop-3"/>
       <dep package="gnome-disk-utility"/>
-      <dep package="gnome-doc-utils"/>
       <dep package="gnome-icon-theme"/>
       <dep package="gnome-icon-theme-symbolic"/>
       <dep package="gnome-keyring-3"/>
@@ -961,7 +960,6 @@
       <dep package="gnome-settings-daemon"/>
       <dep package="gnome-shell"/>
       <dep package="gnome-themes-standard"/>
-      <dep package="gnome-user-share"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gtk-theme-engine-clearlooks"/>
       <dep package="gvfs"/>
@@ -975,6 +973,7 @@
   <metamodule id="meta-gnome-core-extras">
     <dependencies>
       <dep package="gnome-backgrounds"/>
+      <dep package="gnome-user-share"/>
       <dep package="vino"/>
     </dependencies>
   </metamodule>
