@@ -856,23 +856,32 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libgnome-media-profiles">
+    <branch/>
+   <dependencies>
+      <dep package="gtk+-3"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="gconf"/>
+   </dependencies>
+    <after>
+      <dep package="glade3"/>
+    </after>
+  </autotools>
+
   <autotools id="gnome-media">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="rarian"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="gst-plugins-good"/>
       <dep package="pulseaudio"/>
       <dep package="libcanberra"/>
+      <dep package="libgnome-media-profiles"/>
       <dep package="gtk+-3"/>
       <dep package="libunique-3"/>
       <dep package="gnome-control-center"/>
     </dependencies>
-    <after>
-      <dep package="glade3"/>
-    </after>
   </autotools>
 
   <autotools id="gnome-menus">
