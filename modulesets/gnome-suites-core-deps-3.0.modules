@@ -938,14 +938,16 @@
     </branch>
   </autotools>
 
-  <autotools id="polkit-gnome">
-    <branch module="PolicyKit-gnome"/>
+  <tarball id="polkit-gnome" version="0.99">
+    <source href="http://hal.freedesktop.org/releases/polkit-gnome-0.99.tar.bz2"
+            hash="sha256:73c4d04aa89d9a9687f3650327c0ec1cba704e9d5b7fc193958fa81d621208ba"
+            md5sum="f1a2565083266bc8c05c60aa7d8a0f6a" size="388069"/>
     <dependencies>
       <dep package="polkit"/>
       <dep package="gtk+"/>
       <dep package="intltool"/>
     </dependencies>
-  </autotools>
+  </tarball>
 
   <tarball id="poppler" version="0.14.1" autogenargs="--enable-xpdf-headers">
     <source href="http://poppler.freedesktop.org/poppler-0.14.1.tar.gz"
@@ -1259,33 +1261,5 @@
       <dep package="gnome-common"/>
     </dependencies>
   </autotools>
-
-  <tarball id="PolicyKit" version="0.9" autogenargs="--enable-tests=no">
-    <source href="http://hal.freedesktop.org/releases/PolicyKit-0.9.tar.gz"
-            hash="sha256:f40c7c6bec19d7dba2335bddcffd0457494409a0dfce11d888c748dc892e80b7"
-            md5sum="802fd13ae41f73d79359e5ecb0a98716" size="1254318"/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="glib"/>
-      <dep package="expat"/>
-      <dep package="intltool"/>
-    </dependencies>
-  </tarball>
-
-  <tarball id="PolicyKit-gnome" version="0.9.2">
-    <source href="http://hal.freedesktop.org/releases/PolicyKit-gnome-0.9.2.tar.bz2"
-            hash="sha256:ecf4ce303a90a4580c54ee7b932ffaf01b7f115f40b17d75634c5bbfba085c8a"
-            md5sum="fc478b168d0c926a9766b0b415ff4bbf" size="1223691"/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="PolicyKit"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="intltool"/>
-    </dependencies>
-  </tarball>
 
 </moduleset>
