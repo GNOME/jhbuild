@@ -22,6 +22,7 @@ import time
 import subprocess
 import locale
 import codecs
+import sys
 
 from jhbuild.main import _encoding
 from jhbuild.utils import cmds
