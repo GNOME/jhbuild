@@ -22,6 +22,22 @@
 
   <include href="gnome-suites-core-3.0.modules"/>
 
+  <!-- NOTE: gnome-suites-core-3.0 and gnome-suites-core-deps-3.0
+       are supposed to remain self-contained. If apps have dependencies
+       that are not covered there, add them in here
+    -->
+
+  <autotools id="pygtk">
+    <branch/>
+    <dependencies>
+      <dep package="pygobject"/>
+      <dep package="gtk+"/>
+      <dep package="pycairo"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Apps start here -->
+
   <autotools id="abiword">
     <branch repo="svn.abisource.com"/>
     <dependencies>
