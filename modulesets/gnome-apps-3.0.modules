@@ -19,6 +19,14 @@
       href="git://git.kernel.org/pub/scm/"/>
   <repository type="git" name="git.fedoraproject.org"
     href="git://git.fedoraproject.org/git/hosted/"/>
+  <repository type="tarball" name="gnome.org"
+    href="http://download.gnome.org/sources/"/>
+  <repository type="tarball" name="cairo.org"
+    href="http://cairographics.org/"/>
+  <repository type="git" name="github.com"
+    href="git://github.com/"/>
+  <repository type="tarball" name="mono.net"
+    href="http://go-mono.com/sources/"/>
 
   <include href="gnome-suites-core-3.0.modules"/>
 
@@ -26,6 +34,140 @@
        are supposed to remain self-contained. If apps have dependencies
        that are not covered there, add them in here
     -->
+
+  <autotools id="gtkhtml" autogenargs="--enable-gtk3">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+-3"/>
+      <dep package="enchant"/>
+      <dep package="iso-codes"/>
+      <dep package="libsoup"/>
+      <dep package="gnome-icon-theme"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-sharp" autogen-sh="bootstrap-2.12">
+    <branch repo="github.com" module="mono/gtk-sharp.git" checkoutdir="gtk-sharp"
+            revision="gtk-sharp-2-12-branch"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="gtk+"/>
+    </dependencies>
+    <suggests>
+      <dep package="libglade"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gtksourceview-3" autogenargs="--enable-compile-warnings=maximum">
+    <branch checkoutdir="gtksourceview-3" module="gtksourceview"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="gtk-vnc" version="0.4.2" autogenargs="--with-gtk=3.0">
+    <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.2.tar.bz2"
+            hash="sha256:96e948b62984a1a3a32fd83793fb645c493c1bc93b303eb831ecafee01a956d2"
+            md5sum="68fdeb71844c49d5d5ab4f32cbc8bddb" size="438062"/>
+    <dependencies>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="libgdiplus">
+    <branch module="libgdiplus/libgdiplus-1.2.6.tar.bz2" version="1.2.6"
+            repo="mono.net" 
+            hash="sha256:5eb1a7a8d3b75c751eac6075239469059238082aee1963bc6a172b3073046cfe"
+            md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675" size="2897855">
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mono">
+    <branch module="mono/mono-2.4.2.2.tar.bz2" version="2.4.2.2"
+            repo="mono.net" 
+            hash="sha256:e3b965c56a669c3012856dcc17b7400d28505dd4bb8a3c6eb3e653bb41b5e6ba"
+            md5sum="54aac9b914c5a4dc81c2bfd058df1c93" size="24813167"/>
+    <dependencies>
+      <dep package="libgdiplus"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mono-addins">
+    <branch module="mono-addins/mono-addins-0.4.tar.bz2" version="0.4"
+            repo="mono.net"
+            hash="sha256:d0fa0eec4e95c8cdfefc8961d7666d6137064df1b599a6489acf17e22fbc3e2e"
+            md5sum="3b7f3f6e55c95413df184d0e4c9233e4" size="304402"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="gtk-sharp"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="ndesk-dbus" version="0.6.0">
+    <source href="http://www.ndesk.org/archive/dbus-sharp/ndesk-dbus-0.6.0.tar.gz"
+            hash="sha256:252322f18e906ba7e64cecd0baec08d1a0109206777a5507a713e12def126424"
+            md5sum="5157ba105c9ac491f6e900bc78d1791f" size="122303"/>
+    <dependencies>
+      <dep package="mono"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="ndesk-dbus-glib" version="0.4.1">
+    <source href="http://www.ndesk.org/archive/dbus-sharp/ndesk-dbus-glib-0.4.1.tar.gz"
+            hash="sha256:0a6d5fe7be55b6301615d71b89507b712f287b4ba498b798301333ffabe06769"
+            md5sum="7faf8770b214956fa9de009def550826" size="85471"/>
+    <dependencies>
+      <dep package="ndesk-dbus"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="opal" autogenargs="--disable-vpb"
+             check-target="false" supports-non-srcdir-builds="no">
+    <branch module="opal/3.8/opal-3.8.1.tar.bz2" repo="gnome.org"
+            version="3.8.1"
+            hash="sha256:2ba01932ffd0d0f7bb464daf552b2cb286859fa9ecdd86abf106703d26d66c81"
+            md5sum="19e9fd97695dbe9974dbf5a3354495a0" size="7444010"/>
+    <dependencies>
+      <dep package="ptlib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="ptlib" check-target="false" supports-non-srcdir-builds="no">
+    <branch module="ptlib/2.8/ptlib-2.8.1.tar.bz2" repo="gnome.org"
+            autogen-sh="configure"
+            version="2.8.1"
+            hash="sha256:cb35473fe004b443d42c704f11151285951532593f41cc7f8e96c90ac09ef700"/>
+  </autotools>
+
+ <autotools id="pycairo">
+    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
+            repo="cairo.org" 
+            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
+            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064">
+    </branch>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pygobject">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="pycairo"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="pygtk">
     <branch/>
