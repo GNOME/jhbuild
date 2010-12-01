@@ -563,7 +563,7 @@
 
   <repository type="tarball" name="ftp.mozilla.org"
       href="https://ftp.mozilla.org/pub/mozilla.org/"/>
-  <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
+  <autotools id="nspr" autogen-sh="autogen.sh"
              autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
     <branch repo="ftp.mozilla.org"
             module="nspr/releases/v4.8.4/src/nspr-4.8.4.tar.gz"
@@ -572,16 +572,18 @@
 	    md5sum="a85bdbe1eb646aa32c785a37d8e3a2f5" size="1196103">
       <patch file="nspr.config_64bits.patch" strip="1" />
       <patch file="nspr.pkgconfig.patch" strip="1"/>
+      <patch file="nspr.autogen.patch" strip="1"/>
+      <patch file="nspr.hostcompiler.patch" strip="1"/>
     </branch>
   </autotools>
 
-  <autotools id="nss" autogen-sh="configure" supports-non-srcdir-builds="no">
+  <autotools id="nss" autogen-sh="autogen.sh" supports-non-srcdir-builds="no">
     <branch repo="ftp.mozilla.org"
             module="security/nss/releases/NSS_3_12_6_RTM/src/nss-3.12.6.tar.gz"
 	    version="3.12.6"
 	    hash="sha256:8f9759be1ce928e82830923fde62a66e270c4645f10a4c176acfccb6021a9795"
 	    md5sum="da42596665f226de5eb3ecfc1ec57cd1" size="5947630">
-      <patch file="nss.pkgconfig-and-configure.patch"/>
+      <patch file="nss.pkgconfig-and-configure.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="nspr"/>
