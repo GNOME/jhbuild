@@ -21,10 +21,10 @@ modules = [ 'meta-gnome-core' ]
 #    have changed.
 build_policy = 'updated-deps'
 
-# skip modules installed before $min_time (in seconds since epoch)
-# for example: min_time = time.time() - 3600 will skip modules that
-# have been installed less than one hour ago.
-min_time = None
+# Skip modules installed more recently than the specified relative time.
+# min_age can only be specified via the command-line. Setting min_age within
+# the configuration file has no effect.
+min_age = None
 
 # modules to skip during dependency expansion
 skip = []

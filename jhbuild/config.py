@@ -19,8 +19,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import re
 import sys
 import traceback
+import time
 import types
 import logging
 import __builtin__
@@ -47,7 +49,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
                 'checkout_mode', 'copy_dir', 'module_checkout_mode',
-                'build_policy', 'trycheckout', 'min_time',
+                'build_policy', 'trycheckout', 'min_age',
                 'nopoison', 'module_nopoison', 'forcecheck',
                 'makecheck_advisory', 'quiet_mode', 'progress_bar',
                 'module_extra_env', 'jhbuildbot_master', 'jhbuildbot_slavename',
@@ -135,7 +137,7 @@ def parse_relative_time(s):
         coeffs = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w':7*86400}
         return float(m.group(1)) * coeffs[m.group(2)]
     else:
-        raise ValueError(_('unable to parse \'%s\' as relative time.') % s)
+        raise ValueError
 
 
 class Config:
@@ -542,10 +544,10 @@ class Config:
             self.build_policy = 'all'
         if hasattr(options, 'min_age') and options.min_age:
             try:
-                self.min_time = time.time() - parse_relative_time(options.min_age)
+                self.min_age = time.time() - parse_relative_time(options.min_age)
             except ValueError:
-                raise FatalError(_('Failed to parse relative time'))
-
+                raise FatalError(_('Failed to parse \'min_age\' relative '
+                                   'time'))
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''
