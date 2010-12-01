@@ -178,6 +178,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gdl">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="librsvg"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
   <!-- Apps start here -->
 
   <autotools id="abiword">
@@ -526,6 +535,56 @@
     </dependencies>
   </autotools>
 
+<!-- Apps from old Gnome Devtools which need to be decided upon -->
+<autotools id="anjuta">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-3"/>
+      <dep package="vte-3"/>
+      <dep package="gdl"/>
+      <dep package="libgda"/>
+      <dep package="libunique-3"/>
+      <dep package="gtksourceview-3"/>
+    </dependencies>
+    <suggests>
+      <dep package="glade3"/>
+      <dep package="devhelp"/>
+      <dep package="vala"/>
+      <dep package="autogen"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="devhelp">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+-3"/>
+      <dep package="gconf"/>
+      <dep package="WebKit"/>
+      <dep package="libunique-3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gdl">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="librsvg"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glade3" autogenargs="--with-gtk=3.0">
+    <branch revision="offscreen-gtk3"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+-3"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
 
 <!-- Meta Modules -->
 
