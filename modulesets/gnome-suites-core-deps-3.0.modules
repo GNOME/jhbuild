@@ -168,15 +168,30 @@
     <after>
       <dep package="shared-mime-info"/>
     </after>
+    <suggests>
+      <!-- these provide gnome implementations of glib
+           extension points -->
+      <dep package="gvfs"/>
+      <dep package="glib-networking"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="glib-networking">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="intltool"/>
+      <dep package="libproxy"/>
+    </dependencies>
   </autotools>
 
   <autotools id="gtk+-3">
     <branch checkoutdir="gtk+-3" module="gtk+"/>
     <dependencies>
+      <dep package="atk"/>
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="pango"/>
-      <dep package="atk"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gtk-doc"/>
     </dependencies>
