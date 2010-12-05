@@ -1162,7 +1162,11 @@
     <branch repo="webkitgtk.org"
             module="webkit-1.3.7.tar.gz" version="1.3.7"
             hash="sha256:937c75610108d09f9ac35aa120937cb193bc78a409c5fbfc439930a65a054652"
-            md5sum="134a799199d633899f4bb54b11e966e6" size="9797065"/>
+            md5sum="134a799199d633899f4bb54b11e966e6" size="9797065">
+      <!-- patch needed to build with gtk3, remove when 1.3.8 released -->
+      <!-- see http://trac.webkit.org/changeset/73330 -->
+      <patch file="WebKit-1.3.7-changeset_r73330.diff" strip="2"/>
+    </branch>
     <dependencies>
       <dep package="cairo"/>
       <dep package="fontconfig"/>
