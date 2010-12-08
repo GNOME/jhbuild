@@ -149,6 +149,7 @@
     <suggests>
       <dep package="gobject-introspection"/>
       <dep package="gdk-pixbuf"/>
+      <dep package="gudev"/>
     </suggests>
   </autotools>
 
@@ -434,6 +435,9 @@
       <dep package="gtk+"/>
       <dep package="liboil"/>
     </dependencies>
+    <suggests>
+      <dep package="gudev"/>
+    </suggests>
   </autotools>
 
   <autotools id="gst-plugins-good" autogenargs="-- --disable-tests --disable-examples" supports-non-srcdir-builds="no">
@@ -445,6 +449,7 @@
     <suggests>
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
+      <dep package="gudev"/>
     </suggests>
   </autotools>
 
@@ -516,6 +521,13 @@
       <dep package="gtk+-3"/>
       <dep package="glib"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no">
+    <branch checkoutdir="gudev-145" repo="kernel.org"
+            module="utils/kernel/hotplug/udev-145.tar.bz2" version="145">
+      <patch file="gudev-145.patch" strip="1"/>
+    </branch>
   </autotools>
 
   <tarball id="gupnp" version="0.15.0" autogenargs="--with-context-manager=network-manager">
