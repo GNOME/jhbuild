@@ -43,6 +43,21 @@ def content(self, request):
     return data
 HtmlResource.content = content
 
+
+class ListOfModules(resource.Resource):
+    def render(self, request):
+        data = self.content(request)
+        request.setHeader('content-type', 'text/plain')
+        if request.method == 'HEAD':
+            request.setHeader('content-length', len(data))
+            return ''
+        return str(data)
+
+    def content(self, request):
+        parent = request.site.buildbot_service
+        return '\n'.join(parent.modules)
+
+
 class ProjectsSummary(HtmlResource):
 
     MAX_PROJECT_NAME = 25
@@ -197,6 +212,9 @@ class JHBuildWebStatus(WebStatus):
         self.putChild('changes', ChangesResource())
         self.putChild('builders', JhBuildersResource())
         self.putChild('bots', JhBuildbotsResource())
+
+        # and more pages
+        self.putChild('modules.txt', ListOfModules())
 
     def setupSite(self):
         WebStatus.setupSite(self)
