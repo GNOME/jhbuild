@@ -123,9 +123,7 @@ class ProjectsSummary(HtmlResource):
         for module in parent.modules:
             result += '<tr>'
             result += '<td class="feed"><a href="%s/atom">' % module
-            result += '<img src="/feed-atom.png" alt="Atom"></a></td>'
-            result += '<td class="feed"><a href="%s/rss">' % module
-            result += '<img src="/feed.png" alt="RSS"></a></td>\n'
+            result += '<img src="/feed.png" alt="Atom"></a></td>\n'
             result += '<th><a href="%s">%s</a></td>' % (module, module)
 
             for slave in parent.slaves:
