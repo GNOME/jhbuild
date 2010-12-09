@@ -83,7 +83,7 @@ class FeedResource(XmlResource):
             if lastbuild is None:
                 continue
 
-#	    if b.category != "prod":
+#           if b.category != "prod":
 #                continue
             lastnr = lastbuild.getNumber()
 
@@ -122,7 +122,7 @@ class FeedResource(XmlResource):
 
     def body (self, request):
         data = ''
-	self.status = self.getStatus(request)
+        self.status = self.getStatus(request)
         self.link = str(self.status.getBuildbotURL())
         projectName = str(self.categories[0])
         self.title = 'Build status of %s' % projectName

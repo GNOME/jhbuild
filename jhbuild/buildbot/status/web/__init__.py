@@ -114,7 +114,7 @@ class ProjectsSummary(HtmlResource):
         # have been handled
 
         # Contents
-	result = '<tbody>'
+        result = '<tbody>'
 
         slave_results = {}
         for slave in parent.slaves:
@@ -178,7 +178,7 @@ class ProjectsSummary(HtmlResource):
                         slave_results[slave][1] += 1
 
             result += '</tr>\n'
-	result += '</tbody>\n'
+        result += '</tbody>\n'
         result += '<tfoot><tr class="totals"><td colspan="3"></td>'
         thead += '<tr class="totals"><td colspan="3"></td>'
         for slave in parent.slaves:
@@ -197,9 +197,9 @@ class JHBuildWebStatus(WebStatus):
 
     def __init__(self, moduleset, modules, slaves, *args, **kwargs):
         WebStatus.__init__(self, *args, **kwargs)
-	self.moduleset = moduleset
-	self.modules = modules
-	self.slaves = slaves
+        self.moduleset = moduleset
+        self.modules = modules
+        self.slaves = slaves
 
         # set up the per-module waterfalls
         for module in self.modules:
