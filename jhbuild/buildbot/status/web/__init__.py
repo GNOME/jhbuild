@@ -97,7 +97,7 @@ class ProjectsSummary(HtmlResource):
             moduleset = ', '.join(parent.moduleset)
         else:
             moduleset = parent.moduleset
-        result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + moduleset + '</td>'
+        result += '<thead><tr><td>&nbsp;</td><th>' + moduleset + '</td>'
         for name in parent.slaves:
             if len(name) > 25:
                 name = name[:25] + '(...)'
@@ -177,8 +177,8 @@ class ProjectsSummary(HtmlResource):
 
             result += '</tr>\n'
         result += '</tbody>\n'
-        result += '<tfoot><tr class="totals"><td colspan="3"></td>'
-        thead += '<tr class="totals"><td colspan="3"></td>'
+        result += '<tfoot><tr class="totals"><td colspan="2"></td>'
+        thead += '<tr class="totals"><td colspan="2"></td>'
         for slave in parent.slaves:
             td = '<td><span title="Successful builds">%s</span> '\
                       '<span title="(ignoring test suites failures)">(%s)</span> / '\
