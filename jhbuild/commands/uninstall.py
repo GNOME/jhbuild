@@ -35,7 +35,11 @@ class cmd_uninstall(Command):
         config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)
-        module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
+        try:
+            module_list = [module_set.get_module(modname, ignore_case = True) \
+                           for modname in args]
+        except KeyError:
+            raise FatalError(_('unknown module %s') % modname)
 
         if not module_list:
             self.parser.error(_('This command requires a module parameter.'))
