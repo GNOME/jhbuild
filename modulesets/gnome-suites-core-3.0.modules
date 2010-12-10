@@ -754,7 +754,10 @@
     </dependencies>
   </tarball>
 
-  <autotools id="bluez" autogen-sh="bootstrap-configure">
+  <!-- hack around the lack of autogen.sh; bootstrap-configure doesn't
+       quite work since it doesn't pass arguments to configure
+    --> 
+  <autotools id="bluez" autogen-sh="bootstrap &amp;&amp; ./configure">
     <branch repo="git.kernel.org" module="bluetooth/bluez.git" checkoutdir="bluez" />
     <dependencies>
     </dependencies>
