@@ -82,10 +82,16 @@
   </tarball>
 
   <autotools id="guile" autogenargs="--enable-error-on-warning=no">
-    <branch repo="ftp.gnu.org" module="guile/guile-1.8.5.tar.gz"
-            version="1.8.5"
-            size="3933369" md5sum="a3f8216544509a74a4441f689a0410d2">
-      <patch file="guile-1.8.5-libtool2.patch" strip="1"/>
+    <branch repo="ftp.gnu.org" module="guile/guile-1.8.7.tar.gz"
+            version="1.8.7"
+            hash="sha1:24cd2f06439c76d41d982a7384fe8a0fe5313b54"
+            md5sum="991b5b3efcbbc3f7507d05bc42f80a5e"
+            size="4026804">
+      <!-- Patch to build with gcc 4.5. http://savannah.gnu.org/bugs/?29583
+           Remove when 1.8.8 released. Patch from:
+           http://git.savannah.gnu.org/cgit/guile.git/commit/?id=445f31fc06d338f0cafda188d0287f935c2edc3c
+        -->
+      <patch file="guile-1.8.7-445f31fc06.patch" strip="2"/>
     </branch>
     <dependencies>
       <dep package="gmp"/>

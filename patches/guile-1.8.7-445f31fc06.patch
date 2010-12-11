@@ -1,0 +1,35 @@
+From 445f31fc06d338f0cafda188d0287f935c2edc3c Mon Sep 17 00:00:00 2001
+From: Andy Wingo <wingo@oblong.net>
+Date: Sun, 17 Jan 2010 17:22:51 +0000
+Subject: fix doc snarfing with fedora 12
+
+* module/scripts/snarf-check-and-output-texi.scm
+  (process-multiline-directive): Be more accepting of source location
+  markers in the preprocessed source, by adding a couple cases in which
+  they can appear. Not foolproof, but it does adapt to what new GCCs are
+  putting out (e.g. cpp (GCC) 4.4.2 20091222 (Red Hat 4.4.2-20)).
+---
+diff --git a/module/scripts/snarf-check-and-output-texi b/module/scripts/snarf-check-and-output-texi
+index 0e7efae..f92c833 100644
+--- a/module/scripts/snarf-check-and-output-texi
++++ b/module/scripts/snarf-check-and-output-texi
+@@ -262,6 +262,17 @@
+       (set! *file* file)
+       (set! *line* line))
+ 
++     ;; newer gccs like to throw around more location markers into the
++     ;; preprocessed source; these (hash . hash) bits are what they translate to
++     ;; in snarfy terms.
++     (('location ('string . file) ('int . line) ('hash . 'hash))
++      (set! *file* file)
++      (set! *line* line))
++
++     (('location ('hash . 'hash) ('string . file) ('int . line) ('hash . 'hash))
++      (set! *file* file)
++      (set! *line* line))
++
+      (('arglist rest ...)
+       (set! *args* (do-arglist rest)))
+ 
+--
+cgit v0.8.3.2
