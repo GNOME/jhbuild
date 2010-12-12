@@ -1,46 +1,49 @@
-The jhbuild module consists of a package build framework, and a number
-of configuration files for building various Gnome releases.  The rules
+The JHBuild module consists of a package build framework, and a number
+of configuration files for building various GNOME releases.  The rules
 for checkins differ for each.
 
-Modifications to the build framework should be submitted as bug
-reports at http://bugzilla.gnome.org/ where they can be reviewed
-before being committed.  The exception to this is build sheriff style
-commits for small errors that prevent people from using jhbuild.  When
-in doubt, submit a bug report.
+Modifications to the build framework should be submitted as bug reports
+at http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild where they
+can be reviewed before being committed.  The exception to this is build
+sheriff style commits for small errors that prevent people from using
+JHBuild.  When in doubt, submit a bug report.
 
 The modulesets/ directory contains configuration files that describe
-how to build various versions of Gnome.  The file gnomeXY.modules
-contains rules needed to build the stable version X.Y of Gnome or the
+how to build various versions of GNOME.  The file gnome-*-XY.modules
+contains rules needed to build the stable version X.Y of GNOME or the
 development branch leading up to that version.  Changes of the
 following types can be committed without approval:
 
   - Updating the branch tag for a module if it is incorrect for that
-    Gnome release.
+    GNOME release.
 
   - Updating to a new version of a tarball for tarball type
-    defintions, provided the new version is appropriate for that Gnome
-    release.
+    definitions, provided the new version is appropriate for that GNOME
+    release. If updating an external dependency of GNOME, read the
+    rules at http://live.gnome.org/_version_/ExternalDependencies
+    where _version_ is the applicable GNOME version. Update the wiki
+    page if required.
 
-  - Adding a definition for a module that is part of the Gnome desktop,
+  - Adding a definition for a module that is part of the GNOME desktop,
     developer platform, 5th toe or bindings release, etc, but is
     missing from the module set.
 
   - Removal of module definitions where the associated module has been
-    removed/obsoleted from the particular Gnome version (eg. acme was
+    removed/obsoleted from the particular GNOME version (eg. acme was
     removed from gnome26 when it got integrated into control-center).
 
-A number of modules that fall outside of a Gnome release but are
-related to Gnome are also included in the module set.  This includes
+A number of modules that fall outside of a GNOME release but are
+related to GNOME are also included in the module set.  This includes
 software that may be under development and not ready for general use.
 
 If you would like to add a module to one of the standard module sets,
-submit a bug report as detailed above.  If it is Gnome related, it
-will probably get accepted.
+submit a bug report as detailed above.  If it is GNOME related, it
+will probably get accepted in the gnome-world modules.
 
-If your module is not Gnome related, it may get rejected.  Keep in
-mind that jhbuild supports external module sets that are identified by
-a full URI, which allows third parties to maintain module sets
-independently.
+Modules that are not GNOME related are to be entered into the modules
+within the 'other' directory.  Keep in mind that JHBuild supports
+external module sets that are identified by a full URI, which allows
+third parties to maintain module sets independently.
 
 
 James Henstridge.
