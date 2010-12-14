@@ -762,7 +762,7 @@
   <!-- hack around the lack of autogen.sh; bootstrap-configure doesn't
        quite work since it doesn't pass arguments to configure
     --> 
-  <autotools id="bluez" autogen-sh="bootstrap &amp;&amp; ./configure --enable-udevrules=no">
+  <autotools id="bluez" autogen-template="%(srcdir)s/bootstrap &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s" autogenargs="--enable-udevrules=no">
     <branch repo="git.kernel.org" module="bluetooth/bluez.git" checkoutdir="bluez" />
     <dependencies>
     </dependencies>
