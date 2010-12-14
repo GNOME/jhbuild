@@ -55,6 +55,7 @@ class JHBuildSource(steps.source.Source):
         #kwargs = properties.render(self.remote_kwargs)
         kwargs['command'] = properties.render(command)
         kwargs['env'] = {}
+        kwargs['timeout'] = 60*60
         cmd = buildstep.RemoteShellCommand(**kwargs)
         self.startCommand(cmd)
 
