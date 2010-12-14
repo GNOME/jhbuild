@@ -293,7 +293,7 @@ def load(config, uri=None):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
                 uri = os.path.join(config.modulesets_dir, uri)
-        elif not urlparse.urlparse(uri).scheme:
+        elif not urlparse.urlparse(uri)[0]:
             uri = 'http://git.gnome.org/browse/jhbuild/plain/modulesets' \
                   '/%s.modules' % uri
         try:
