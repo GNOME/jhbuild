@@ -83,6 +83,8 @@ class cmd_info(Command):
             uprint(_('Darcs-Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):
             uprint(_('Git-Module:'), module.branch.module)
+            if module.branch.unmirrored_module:
+                uprint(_('Git-Mirror-Module:'), module.branch.unmirrored_module)
             git_branch = module.branch.branch
             if not git_branch:
                 git_branch = 'master'
