@@ -5,15 +5,22 @@
 # if you have a GNOME git account, uncomment this line
 # repos['git.gnome.org'] = 'ssh://user@git.gnome.org/git/'
 
-# what module set should be used.  The default at the moment can be
-# found in jhbuild/defaults.jhbuildrc, but it can be any of the files
-# in the modulesets directory, or even the URL of a module set file
-# on a web server.
+# what module set should be used.  The default can be found in
+# jhbuild/defaults.jhbuildrc, but can be any of the files in the
+# modulesets directory, or even the URL of a module set file on a web
+# server.
 # moduleset = 'gnome-suites-core-3.0'
+#
+# A list of the modules to build.  Defaults to the GNOME core:
+# modules = [ 'meta-gnome-core' ]
 
-# A list of the modules to build.  Defaults to the Gnome Desktop and
-# developer platform.
-# modules = [ 'meta-gnome-desktop' ]
+# Or to build GNOME and the GNOME featured apps set:
+# moduleset = ['gnome-suites-core-3.0', 'gnome-apps-3.0']
+# modules = ['meta-gnome-core', 'meta-gnome-apps-featured']
+
+# Or to build the old GNOME 2.32:
+# moduleset = 'gnome2/gnome-2.32'
+# modules = ['meta-gnome-desktop']
 
 # what directory should the source be checked out to?
 checkoutroot = os.path.expanduser('~/checkout/gnome')
