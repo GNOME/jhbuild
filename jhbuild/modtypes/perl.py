@@ -51,9 +51,6 @@ class PerlModule(Package, DownloadableModule):
         # does not support non-srcdir builds
         return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.branchname
-
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)

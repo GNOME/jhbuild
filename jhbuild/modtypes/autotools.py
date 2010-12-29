@@ -78,9 +78,6 @@ class AutogenModule(Package, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.tree_id()
-
     def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
         if self.skip_autogen is True:

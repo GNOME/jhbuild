@@ -75,9 +75,6 @@ class LinuxModule(Package):
     def get_builddir(self, buildscript):
         return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.branchname
-
     def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
         # (can't just call Package.skip_checkout() as build policy won't work

@@ -145,7 +145,7 @@ class Package:
         raise NotImplementedError
 
     def get_revision(self):
-        return None
+        return self.branch.tree_id()
 
     def skip_phase(self, buildscript, phase, last_phase):
         try:
@@ -286,6 +286,8 @@ class MetaModule(Package):
     def get_builddir(self, buildscript):
         return buildscript.config.buildroot or \
                self.get_srcdir(buildscript)
+    def get_revision(self):
+        return None
 
     def to_sxml(self):
         return [sxml.metamodule(id=self.name),

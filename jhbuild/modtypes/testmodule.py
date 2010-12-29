@@ -60,9 +60,6 @@ class TestModule(Package, DownloadableModule):
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
-    def get_revision(self):
-        return self.branch.branchname
-
     def _get_display(self):
         # get free display
         servernum = 99

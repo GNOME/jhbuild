@@ -55,9 +55,6 @@ class DistutilsModule(Package, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.tree_id()
-
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         srcdir = self.get_srcdir(buildscript)

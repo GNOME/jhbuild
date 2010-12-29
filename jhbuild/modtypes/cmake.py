@@ -56,9 +56,6 @@ class CMakeModule(Package, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.tree_id()
-
     def eval_args(self, args):
         args = args.replace('${prefix}', self.config.prefix)
         libsubdir = 'lib'

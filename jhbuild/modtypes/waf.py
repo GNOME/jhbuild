@@ -56,9 +56,6 @@ class WafModule(Package, DownloadableModule):
     def get_builddir(self, buildscript):
         return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.tree_id()
-
     def skip_configure(self, buildscript, last_phase):
         # don't skip this stage if we got here from one of the
         # following phases:
