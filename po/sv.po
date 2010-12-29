@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-10 18:39+0200\n"
-"PO-Revision-Date: 2010-08-10 18:42+0100\n"
+"POT-Creation-Date: 2010-12-29 14:58+0100\n"
+"PO-Revision-Date: 2010-12-29 16:02+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,6 +43,12 @@ msgid "run make clean before make"
 msgstr "kör make clean innan make"
 
 #: ../jhbuild/commands/autobuild.py:41
+#: ../jhbuild/commands/base.py:225
+#: ../jhbuild/commands/base.py:319
+msgid "run make distcheck after building"
+msgstr "kör make distcheck efter bygge"
+
+#: ../jhbuild/commands/autobuild.py:44
 #: ../jhbuild/commands/base.py:46
 #: ../jhbuild/commands/base.py:237
 #: ../jhbuild/commands/base.py:475
@@ -50,7 +57,7 @@ msgstr "kör make clean innan make"
 msgid "treat the given modules as up to date"
 msgstr "behandla angivna moduler som uppdaterade"
 
-#: ../jhbuild/commands/autobuild.py:44
+#: ../jhbuild/commands/autobuild.py:47
 #: ../jhbuild/commands/base.py:49
 #: ../jhbuild/commands/base.py:240
 #: ../jhbuild/commands/clean.py:41
@@ -58,19 +65,19 @@ msgstr "behandla angivna moduler som uppdaterade"
 msgid "start building at the given module"
 msgstr "starta bygge vid angiven modul"
 
-#: ../jhbuild/commands/autobuild.py:47
+#: ../jhbuild/commands/autobuild.py:50
 msgid "jhautobuild report URL"
 msgstr "URL för jhautobuild-rapport"
 
-#: ../jhbuild/commands/autobuild.py:50
+#: ../jhbuild/commands/autobuild.py:53
 msgid "verbose mode"
 msgstr "informativt läge"
 
-#: ../jhbuild/commands/autobuild.py:67
+#: ../jhbuild/commands/autobuild.py:70
 msgid "report url for autobuild not specified"
 msgstr "rapport-url för autobuild har inte angivits"
 
-#: ../jhbuild/commands/autobuild.py:78
+#: ../jhbuild/commands/autobuild.py:81
 #: ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:284
 #: ../jhbuild/commands/base.py:514
@@ -131,7 +138,7 @@ msgstr "En modul med namnet \"%s\" kunde inte hittas."
 #: ../jhbuild/commands/base.py:141
 #: ../jhbuild/commands/base.py:363
 #: ../jhbuild/commands/rdepends.py:47
-#: ../jhbuild/commands/uninstall.py:41
+#: ../jhbuild/commands/uninstall.py:45
 msgid "This command requires a module parameter."
 msgstr "Detta kommando kräver en modulparameter."
 
@@ -169,11 +176,6 @@ msgstr "kör make check efter bygge"
 #: ../jhbuild/commands/base.py:316
 msgid "run make dist after building"
 msgstr "kör make dist efter bygge"
-
-#: ../jhbuild/commands/base.py:225
-#: ../jhbuild/commands/base.py:319
-msgid "run make distcheck after building"
-msgstr "kör make distcheck efter bygge"
 
 #: ../jhbuild/commands/base.py:231
 #: ../jhbuild/commands/base.py:322
@@ -258,8 +260,8 @@ msgid "Unable to execute the command '%s'"
 msgstr "Kunde inte köra kommandot \"%s\""
 
 #: ../jhbuild/commands/base.py:439
-#: ../jhbuild/frontends/gtkui.py:443
-#: ../jhbuild/frontends/terminal.py:144
+#: ../jhbuild/frontends/gtkui.py:444
+#: ../jhbuild/frontends/terminal.py:145
 msgid "No command given"
 msgstr "Inget kommando angivet"
 
@@ -440,6 +442,7 @@ msgid "Display information about one or more modules"
 msgstr "Visa information om en eller flera moduler"
 
 #: ../jhbuild/commands/info.py:52
+#: ../jhbuild/commands/uninstall.py:42
 #, python-format
 msgid "unknown module %s"
 msgstr "okänd modul %s"
@@ -598,7 +601,7 @@ msgstr "installationsprefixet (%s) är inte skrivbart"
 #: ../jhbuild/commands/sanitycheck.py:141
 #: ../jhbuild/commands/sanitycheck.py:150
 #: ../jhbuild/versioncontrol/arch.py:155
-#: ../jhbuild/versioncontrol/bzr.py:202
+#: ../jhbuild/versioncontrol/bzr.py:204
 #: ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
 #: ../jhbuild/versioncontrol/fossil.py:105
@@ -746,108 +749,108 @@ msgstr "modulen %(mod)s kommer att byggas även om %(dep)s misslyckades"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modulen %(mod)s byggdes inte på grund av icke-byggbar %(dep)s"
 
-#: ../jhbuild/frontends/gtkui.py:99
+#: ../jhbuild/frontends/gtkui.py:100
 msgid "Others..."
 msgstr "Andra..."
 
-#: ../jhbuild/frontends/gtkui.py:140
+#: ../jhbuild/frontends/gtkui.py:141
 msgid "Choose Module:"
 msgstr "Välj modul:"
 
-#: ../jhbuild/frontends/gtkui.py:160
+#: ../jhbuild/frontends/gtkui.py:161
 msgid "Build Progress"
 msgstr "Byggförlopp"
 
-#: ../jhbuild/frontends/gtkui.py:163
+#: ../jhbuild/frontends/gtkui.py:164
 msgid "Terminal"
 msgstr "Terminal"
 
 #. Translators: This is a button label (to start build)
-#: ../jhbuild/frontends/gtkui.py:203
+#: ../jhbuild/frontends/gtkui.py:204
 msgid "Start"
 msgstr "Starta"
 
-#: ../jhbuild/frontends/gtkui.py:347
+#: ../jhbuild/frontends/gtkui.py:348
 msgid "Build Completed"
 msgstr "Bygget är färdigt"
 
-#: ../jhbuild/frontends/gtkui.py:373
-#: ../jhbuild/frontends/terminal.py:254
+#: ../jhbuild/frontends/gtkui.py:374
+#: ../jhbuild/frontends/terminal.py:255
 #, python-format
 msgid "Error during phase %(phase)s of %(module)s"
 msgstr "Fel under fas %(phase)s för %(module)s"
 
-#: ../jhbuild/frontends/gtkui.py:390
+#: ../jhbuild/frontends/gtkui.py:391
 msgid "Pick an Action"
 msgstr "Välj en åtgärd"
 
-#: ../jhbuild/frontends/gtkui.py:393
-#: ../jhbuild/frontends/terminal.py:281
+#: ../jhbuild/frontends/gtkui.py:394
+#: ../jhbuild/frontends/terminal.py:282
 #, python-format
 msgid "Rerun phase %s"
 msgstr "Kör om fas %s"
 
-#: ../jhbuild/frontends/gtkui.py:396
-#: ../jhbuild/frontends/terminal.py:283
+#: ../jhbuild/frontends/gtkui.py:397
+#: ../jhbuild/frontends/terminal.py:284
 #, python-format
 msgid "Ignore error and continue to %s"
 msgstr "Ignorera fel och fortsätt till %s"
 
-#: ../jhbuild/frontends/gtkui.py:399
-#: ../jhbuild/frontends/terminal.py:285
+#: ../jhbuild/frontends/gtkui.py:400
+#: ../jhbuild/frontends/terminal.py:286
 msgid "Ignore error and continue to next module"
 msgstr "Ignorera fel och fortsätt till nästa modul"
 
-#: ../jhbuild/frontends/gtkui.py:401
-#: ../jhbuild/frontends/terminal.py:286
+#: ../jhbuild/frontends/gtkui.py:402
+#: ../jhbuild/frontends/terminal.py:287
 msgid "Give up on module"
 msgstr "Hoppa över modulen"
 
-#: ../jhbuild/frontends/gtkui.py:408
-#: ../jhbuild/frontends/terminal.py:295
+#: ../jhbuild/frontends/gtkui.py:409
+#: ../jhbuild/frontends/terminal.py:296
 #, python-format
 msgid "Go to phase \"%s\""
 msgstr "Gå till fas \"%s\""
 
-#: ../jhbuild/frontends/gtkui.py:411
+#: ../jhbuild/frontends/gtkui.py:412
 msgid "Open Terminal"
 msgstr "Öppna terminal"
 
-#: ../jhbuild/frontends/gtkui.py:585
+#: ../jhbuild/frontends/gtkui.py:586
 #, python-format
 msgid "%(command)s died with signal %(rc)s"
 msgstr "%(command)s dog med signal %(rc)s"
 
-#: ../jhbuild/frontends/gtkui.py:589
+#: ../jhbuild/frontends/gtkui.py:590
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s returnerade en felkod (%(rc)s)"
 
-#: ../jhbuild/frontends/gtkui.py:639
+#: ../jhbuild/frontends/gtkui.py:640
 msgid "Module"
 msgstr "Modul"
 
-#: ../jhbuild/frontends/gtkui.py:658
+#: ../jhbuild/frontends/gtkui.py:659
 msgid "Start At"
 msgstr "Starta på"
 
-#: ../jhbuild/frontends/gtkui.py:701
+#: ../jhbuild/frontends/gtkui.py:702
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../jhbuild/frontends/gtkui.py:713
+#: ../jhbuild/frontends/gtkui.py:714
 msgid "Disable network access"
 msgstr "Inaktivera nätverksåtkomst"
 
-#: ../jhbuild/frontends/gtkui.py:714
+#: ../jhbuild/frontends/gtkui.py:715
 msgid "Always run autogen.sh"
 msgstr "Kör alltid autogen.sh"
 
-#: ../jhbuild/frontends/gtkui.py:715
+#: ../jhbuild/frontends/gtkui.py:716
 msgid "Don't poison modules on failure"
 msgstr "Förgifta inte moduler vid problem"
 
-#: ../jhbuild/frontends/terminal.py:210
+#: ../jhbuild/frontends/terminal.py:211
 msgid ""
 "\n"
 "Conflicts during checkout:\n"
@@ -856,61 +859,61 @@ msgstr ""
 "Konflikter under utcheckning:\n"
 
 #. it could happen on a really badly-timed ctrl-c (see bug 551641)
-#: ../jhbuild/frontends/terminal.py:233
-#: ../jhbuild/frontends/terminal.py:236
+#: ../jhbuild/frontends/terminal.py:234
+#: ../jhbuild/frontends/terminal.py:237
 #, python-format
 msgid "########## Error running %s"
 msgstr "########## Fel vid körning av %s"
 
-#: ../jhbuild/frontends/terminal.py:245
+#: ../jhbuild/frontends/terminal.py:246
 msgid "success"
 msgstr "lyckades"
 
-#: ../jhbuild/frontends/terminal.py:247
+#: ../jhbuild/frontends/terminal.py:248
 msgid "the following modules were not built"
 msgstr "följande moduler blev inte byggda"
 
-#: ../jhbuild/frontends/terminal.py:269
-#: ../jhbuild/frontends/tinderbox.py:349
+#: ../jhbuild/frontends/terminal.py:270
+#: ../jhbuild/frontends/tinderbox.py:350
 msgid "automatically retrying configure"
 msgstr "försök köra configure igen automatiskt"
 
-#: ../jhbuild/frontends/terminal.py:273
-#: ../jhbuild/frontends/tinderbox.py:353
+#: ../jhbuild/frontends/terminal.py:274
+#: ../jhbuild/frontends/tinderbox.py:354
 msgid "automatically forcing a fresh checkout"
 msgstr "tvinga automatiskt en färsk utcheckning"
 
-#: ../jhbuild/frontends/terminal.py:287
+#: ../jhbuild/frontends/terminal.py:288
 msgid "Start shell"
 msgstr "Starta skal"
 
-#: ../jhbuild/frontends/terminal.py:288
+#: ../jhbuild/frontends/terminal.py:289
 msgid "Reload configuration"
 msgstr "Läs om konfigurationen"
 
-#: ../jhbuild/frontends/terminal.py:297
+#: ../jhbuild/frontends/terminal.py:298
 msgid "choice: "
 msgstr "val: "
 
-#: ../jhbuild/frontends/terminal.py:312
+#: ../jhbuild/frontends/terminal.py:313
 msgid "exit shell to continue with build"
 msgstr "avsluta skalet för att fortsätta bygga"
 
-#: ../jhbuild/frontends/terminal.py:322
+#: ../jhbuild/frontends/terminal.py:323
 msgid "invalid choice"
 msgstr "ogiltigt val"
 
-#: ../jhbuild/frontends/terminal.py:330
+#: ../jhbuild/frontends/terminal.py:331
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Skriv \"ja\" för att bekräfta åtgärden: "
 
-#: ../jhbuild/frontends/terminal.py:333
+#: ../jhbuild/frontends/terminal.py:334
 msgid "yes"
 msgstr "ja"
 
 #: ../jhbuild/modtypes/ant.py:63
-#: ../jhbuild/modtypes/autotools.py:214
-#: ../jhbuild/modtypes/cmake.py:83
+#: ../jhbuild/modtypes/autotools.py:213
+#: ../jhbuild/modtypes/cmake.py:115
 #: ../jhbuild/modtypes/distutils.py:62
 #: ../jhbuild/modtypes/linux.py:164
 #: ../jhbuild/modtypes/perl.py:58
@@ -927,8 +930,8 @@ msgstr "Saknar ant build-verktyg"
 #. ant-based project, so I left that out."
 #. -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
 #: ../jhbuild/modtypes/ant.py:81
-#: ../jhbuild/modtypes/autotools.py:268
-#: ../jhbuild/modtypes/cmake.py:99
+#: ../jhbuild/modtypes/autotools.py:267
+#: ../jhbuild/modtypes/cmake.py:133
 #: ../jhbuild/modtypes/distutils.py:74
 #: ../jhbuild/modtypes/perl.py:72
 #: ../jhbuild/modtypes/waf.py:132
@@ -936,35 +939,36 @@ msgid "Installing"
 msgstr "Installerar"
 
 #: ../jhbuild/modtypes/autotools.py:110
-#: ../jhbuild/modtypes/cmake.py:63
+#: ../jhbuild/modtypes/cmake.py:87
 #: ../jhbuild/modtypes/linux.py:119
 #: ../jhbuild/modtypes/waf.py:79
 msgid "Configuring"
 msgstr "Konfigurerar"
 
-#: ../jhbuild/modtypes/autotools.py:204
+#: ../jhbuild/modtypes/autotools.py:203
+#: ../jhbuild/modtypes/cmake.py:106
 #: ../jhbuild/modtypes/linux.py:151
 #: ../jhbuild/modtypes/waf.py:90
 msgid "Cleaning"
 msgstr "Rensar"
 
-#: ../jhbuild/modtypes/autotools.py:234
+#: ../jhbuild/modtypes/autotools.py:233
 #: ../jhbuild/modtypes/waf.py:111
 msgid "Checking"
 msgstr "Kontrollerar"
 
-#: ../jhbuild/modtypes/autotools.py:248
-#: ../jhbuild/modtypes/autotools.py:258
-#: ../jhbuild/modtypes/cmake.py:91
+#: ../jhbuild/modtypes/autotools.py:247
+#: ../jhbuild/modtypes/autotools.py:257
+#: ../jhbuild/modtypes/cmake.py:124
 #: ../jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Skapar tar-arkiv för"
 
-#: ../jhbuild/modtypes/autotools.py:280
+#: ../jhbuild/modtypes/autotools.py:279
 msgid "Distcleaning"
 msgstr "Dist-rensning"
 
-#: ../jhbuild/modtypes/autotools.py:297
+#: ../jhbuild/modtypes/autotools.py:296
 #: ../jhbuild/modtypes/waf.py:139
 msgid "Uninstalling"
 msgstr "Avinstallerar"
@@ -1125,7 +1129,7 @@ msgstr "datumbaserad utcheckning stöds ännu inte\n"
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "attribute är föråldrat. Använd revspec istället."
 
-#: ../jhbuild/versioncontrol/bzr.py:171
+#: ../jhbuild/versioncontrol/bzr.py:173
 #, python-format
 msgid ""
 "\n"
@@ -1344,91 +1348,86 @@ msgstr "kunde inte hitta quilt"
 msgid "could not checkout quilt patch set"
 msgstr "kunde inte checka ut quilt-programfixuppsättning"
 
-#: ../jhbuild/config.py:137
-#, python-format
-msgid "unable to parse '%s' as relative time."
-msgstr "kunde inte tolka \"%s\" som relativ tid."
-
-#: ../jhbuild/config.py:164
+#: ../jhbuild/config.py:167
 msgid "JHBuild start script has been installed in ~/.local/bin/jhbuild, you should remove the old version that is still in ~/bin/ (or make it a symlink to ~/.local/bin/jhbuild)"
 msgstr "JHBuilds startskript har installerats i ~/.local/bin/jhbuild. Du bör ta bort den gamla versionen som fortfarande finns i ~/bin/ (eller gör den till en symbolisk länk till ~/.local/bin/jhbuild)"
 
-#: ../jhbuild/config.py:176
+#: ../jhbuild/config.py:179
 msgid "Obsolete JHBuild start script, make sure it is removed then do run 'make install'"
 msgstr "Föråldrat JHBuild-startskript, försäkra dig om att det tas bort och kör sedan \"make install\""
 
-#: ../jhbuild/config.py:184
+#: ../jhbuild/config.py:187
 msgid "could not load config defaults"
 msgstr "kunde inte läsa in standardvärden för konfiguration"
 
-#: ../jhbuild/config.py:188
+#: ../jhbuild/config.py:191
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "kunde inte läsa in konfigurationsfilen, %s saknas"
 
-#: ../jhbuild/config.py:204
+#: ../jhbuild/config.py:207
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Kunde inte inkludera konfigurationsfilen (%s)"
 
-#: ../jhbuild/config.py:217
+#: ../jhbuild/config.py:220
 msgid "could not load config file"
 msgstr "kunde inte läsa in konfigurationsfilen"
 
-#: ../jhbuild/config.py:231
+#: ../jhbuild/config.py:234
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "okända nycklar definierade i konfigurationsfil: %s"
 
-#: ../jhbuild/config.py:238
+#: ../jhbuild/config.py:241
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos['gnome.org']\"."
 msgstr "konfigurationsvariabeln \"%s\" är föråldrad, du bör använda \"repos['gnome.org']\"."
 
-#: ../jhbuild/config.py:243
-#: ../jhbuild/config.py:248
+#: ../jhbuild/config.py:246
+#: ../jhbuild/config.py:251
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr "konfigurationsvariabeln \"%s\" är föråldrad, du bör använda \"repos\"."
 
-#: ../jhbuild/config.py:269
+#: ../jhbuild/config.py:272
 msgid "invalid checkout mode"
 msgstr "ogiltigt utcheckningsläge"
 
-#: ../jhbuild/config.py:273
+#: ../jhbuild/config.py:276
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "ogiltigt utcheckningsläge (modul: %s)"
 
-#: ../jhbuild/config.py:275
+#: ../jhbuild/config.py:278
 msgid "copy mode requires copy_dir to be set"
 msgstr "kopieringsläge kräver att copy_dir är angivet"
 
-#: ../jhbuild/config.py:280
+#: ../jhbuild/config.py:283
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr "katalog för moduleuppsättningar (%s) hittades inte, inaktiverar use_local_modulesets"
 
-#: ../jhbuild/config.py:292
+#: ../jhbuild/config.py:295
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "installationsprefix (%s) kan inte skapas"
 
-#: ../jhbuild/config.py:375
+#: ../jhbuild/config.py:378
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Kan inte skapa katalogen %s"
 
-#: ../jhbuild/config.py:459
+#: ../jhbuild/config.py:462
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Kunde inte skapa GConf-konfiguration (%s)"
 
-#: ../jhbuild/config.py:546
-msgid "Failed to parse relative time"
-msgstr "Misslyckades med att tolka relativ tid"
+#: ../jhbuild/config.py:549
+msgid "Failed to parse 'min_age' relative time"
+msgstr "Misslyckades med att tolka \"min_age\" relativ tid"
 
-#: ../jhbuild/config.py:556
+#: ../jhbuild/config.py:559
 msgid "quiet mode has been disabled because the Python curses module is missing."
 msgstr "tyst läge har inaktiverats därför att Python curses-modulen saknas."
 
@@ -1487,22 +1486,22 @@ msgstr "%(module)s har ett beroende av okända modulen \"%(invalid)s\""
 msgid "Unknown module:"
 msgstr "Okänd modul:"
 
-#: ../jhbuild/moduleset.py:298
-#: ../jhbuild/moduleset.py:328
+#: ../jhbuild/moduleset.py:304
+#: ../jhbuild/moduleset.py:334
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "misslyckades med att tolka %s: %s"
 
-#: ../jhbuild/moduleset.py:323
+#: ../jhbuild/moduleset.py:329
 #, python-format
 msgid "could not download %s: %s"
 msgstr "kunde inte hämta %s: %s"
 
-#: ../jhbuild/moduleset.py:353
+#: ../jhbuild/moduleset.py:359
 msgid "Duplicate repository:"
 msgstr "Dubblett förråd:"
 
-#: ../jhbuild/moduleset.py:455
+#: ../jhbuild/moduleset.py:461
 msgid "Modulesets were edited locally but JHBuild is configured to get them from the network, perhaps you need to add use_local_modulesets = True to your .jhbuildrc."
 msgstr "Moduluppsättningar blev redigerade lokalt men JHBuild är konfigurerad att hämta dem från nätverket, kanske behöver du lägga till use_local_modulesets = True till din .jhbuildrc."
 
@@ -1521,6 +1520,8 @@ msgstr "För många positionella argument"
 msgid "Unrecognized named group in pattern"
 msgstr "Okänd namngiven grupp i mönster"
 
+#~ msgid "unable to parse '%s' as relative time."
+#~ msgstr "kunde inte tolka \"%s\" som relativ tid."
 #~ msgid "Missing waf, try jhbuild -m bootstrap buildone waf"
 #~ msgstr "Saknad waf, prova jhbuild -m bootstrap buildone waf"
 #~ msgid "Failed to update module (corrupt .git?)"
