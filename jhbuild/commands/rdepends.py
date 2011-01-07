@@ -67,7 +67,9 @@ class cmd_rdepends(Command):
                 if modname in module.dependencies:
                     uprint(module.name)
             else:
-                module_list = module_set.get_module_list([module.name], ignore_cycles=True)
+                module_list = module_set.get_module_list([module.name],
+                                                         ignore_cycles=True,
+                                                         ignore_missing=True)
                 if modname in [x.name for x in module_list]:
                     seen_modules.append(module.name)
                     deps = ''

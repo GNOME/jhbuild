@@ -82,6 +82,7 @@ class ModuleSet:
         # otherwise be built
         i = 0
         while i < len(all_modules):
+            dep_missing = False
             for modname in all_modules[i].dependencies:
                 depmod = self.modules.get(modname)
                 if not depmod:
@@ -90,7 +91,11 @@ class ModuleSet:
                                 '%(module)s has a dependency on unknown "%(invalid)s" module') % {
                                     'module': all_modules[i].name,
                                     'invalid': modname})
-                    del all_modules[i]
+                    logging.info(_(
+                                '%(module)s has a dependency on unknown "%(invalid)s" module') % {
+                                    'module': all_modules[i].name,
+                                    'invalid': modname})
+                    dep_missing = True
                     continue
                 if not depmod in all_modules:
                     all_modules.append(depmod)
@@ -103,6 +108,10 @@ class ModuleSet:
                         continue
                     if not depmod in all_modules:
                         all_modules.append(depmod)
+
+            if dep_missing:
+                del all_modules[i]
+
             i += 1
 
         # 2nd: order them, raise an exception on hard dependency cycle, ignore
@@ -136,8 +145,11 @@ class ModuleSet:
                     return
             self._state[module] = 'in-progress'
             for modname in module.dependencies:
-                depmod = self.modules[modname]
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
+                try:
+                    depmod = self.modules[modname]
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
+                except KeyError:
+                    pass # user already notified via logging.info above
             if not ignore_suggests:
                 for modname in module.suggests:
                     depmod = self.modules.get(modname)
@@ -148,6 +160,8 @@ class ModuleSet:
                         order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
                     except DependencyCycleError:
                         self._state, self._ordered = save_state, save_ordered
+                    except KeyError:
+                        pass # user already notified via logging.info above
 
             extra_afters = []
             for modname in module.after:
