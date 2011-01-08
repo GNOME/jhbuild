@@ -72,9 +72,9 @@ class ChangeResource(HtmlResource):
             if len(self.change.revision) == 40:
                 # git commit
                 link = 'http://git.gnome.org/browse/%s/commit/?id=%s' % (
-                        self.change.project, self.change.revision)
+                        self.change.git_module_name, self.change.revision)
                 data += '<p>View in GNOME cgit: <a href="%s">%s commit %s</a></dd>\n' % (
-                        link, self.change.project, self.change.revision[:8])
+                        link, self.change.git_module_name, self.change.revision[:8])
             else:
                 link = 'http://svn.gnome.org/viewvc/%s?view=revision&revision=%s' % (
                         self.change.project, self.change.revision)

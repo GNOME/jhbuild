@@ -409,6 +409,7 @@ class cmd_bot(Command):
                     from jhbuild.buildbot.changes import GnomeMaildirSource
                     config['change_source'] = GnomeMaildirSource(
                             self.jhbuild_config.jhbuildbot_svn_commits_box,
+                            modules=module_list,
                             prefix=None)
                 else:
                     # support injection (use 'buildbot sendchange')

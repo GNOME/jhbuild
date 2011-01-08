@@ -26,9 +26,14 @@ from email.Iterators import body_line_iterator
 
 import base64
 
-class GnomeMaildirSource(MaildirSource):
+from jhbuild.versioncontrol.git import GitBranch
 
-    name = "Gnome svn-commits-list"
+class GnomeMaildirSource(MaildirSource):
+    name = "GNOME commits-list"
+
+    def __init__(self, mailbox, modules, prefix):
+        MaildirSource.__init__(self, mailbox, prefix=prefix)
+        self.modules = modules
 
     def parse(self, m, prefix=None):
         if m is None:
@@ -121,6 +126,19 @@ class GnomeMaildirSource(MaildirSource):
             comments = unicode(comments.strip(), m.get_content_charset() or 'ascii', 'ignore')
 
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
-        c.project = project # custom attribute
-        return c
+        c.project = project
+        c.git_module_name = project
 
+        # some modules may have alternate checkouts under different names, look
+        # for those, and create appropriate Change objects
+        for module in self.modules:
+            if isinstance(module.branch, GitBranch):
+                git_module_name = module.branch.module.rsplit('/', 1)[-1]
+                if module.name != project and git_module_name == project:
+                    change = changes.Change(name, files, comments, isdir,
+                                    revision=revision, links=links, when=when)
+                    change.project = module.name
+                    change.git_module_name = git_module_name
+                    self.parent.addChange(change)
+
+        return c
