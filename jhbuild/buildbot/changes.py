@@ -132,7 +132,7 @@ class GnomeMaildirSource(MaildirSource):
         # some modules may have alternate checkouts under different names, look
         # for those, and create appropriate Change objects
         for module in self.modules:
-            if isinstance(module.branch, GitBranch):
+            if hasattr(module, 'branch') and isinstance(module.branch, GitBranch):
                 git_module_name = module.branch.module.rsplit('/', 1)[-1]
                 if module.name != project and git_module_name == project:
                     change = changes.Change(name, files, comments, isdir,
