@@ -1,0 +1,28 @@
+Index: /trunk/WebKit/gtk/WebCoreSupport/FullscreenVideoController.cpp
+===================================================================
+--- /trunk/WebKit/gtk/WebCoreSupport/FullscreenVideoController.cpp	(revision 70133)
++++ /trunk/WebKit/gtk/WebCoreSupport/FullscreenVideoController.cpp	(revision 75081)
+@@ -546,5 +546,4 @@
+     gtk_scale_set_draw_value(GTK_SCALE(m_timeHScale), FALSE);
+     gtk_range_set_show_fill_level(GTK_RANGE(m_timeHScale), TRUE);
+-    gtk_range_set_update_policy(GTK_RANGE(m_timeHScale), GTK_UPDATE_CONTINUOUS);
+     g_signal_connect(m_timeHScale, "button-press-event", G_CALLBACK(timeScaleButtonPressed), this);
+     g_signal_connect(m_timeHScale, "button-release-event", G_CALLBACK(timeScaleButtonReleased), this);
+Index: /trunk/WebKit/gtk/ChangeLog
+===================================================================
+--- /trunk/WebKit/gtk/ChangeLog	(revision 75072)
++++ /trunk/WebKit/gtk/ChangeLog	(revision 75081)
+@@ -1,2 +1,13 @@
++2011-01-05  Martin Robinson  <mrobinson@igalia.com>
++
++        Reviewed by Gustavo Noronha.
++
++        Build fix for GTK+ 3.x. Remove the call to gtk_range_set_update_policy.
++        GTK+ 3.x has removed this method and the default in GTK+ 2.x is continuous,
++        so this call is unnecessary.
++
++        * WebCoreSupport/FullscreenVideoController.cpp:
++        (FullscreenVideoController::createHud): Remove call to gtk_range_set_update_policy().
++
+ 2011-01-04  Chris Fleizach  <cfleizach@apple.com>
+ 
