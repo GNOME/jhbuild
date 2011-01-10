@@ -76,6 +76,10 @@ class GnomeMaildirSource(MaildirSource):
             # not a new git revision, may be a new tag, a new branch, etc.
             return None
 
+        if revision == '0000000000000000000000000000000000000000':
+            # probably a deleted branch, ignore
+            return None
+
         if m.get('X-Git-Refname', '').startswith('refs/tags/'):
             # ignore tags
             return None
