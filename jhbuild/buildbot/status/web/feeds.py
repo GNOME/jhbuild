@@ -155,6 +155,7 @@ class FeedResource(XmlResource):
 
             # get name of the failed step and the last 30 lines of its log.
             lastlog = ''
+            laststep = None
             if build.getLogs():
                 log = build.getLogs()[-1]
                 laststep = log.getStep().getName()
@@ -174,7 +175,8 @@ class FeedResource(XmlResource):
             description += '<dt>Build details</dt><dd><a href="%s">%s</a></dd>' % (link, link)
             if build.getResponsibleUsers():
                 description += '<dt>Author list</dt><dd>' + ', '.join(build.getResponsibleUsers()) + '</dd>\n'
-            description += '<dt>Failed step</dt><dd><b>%s</b></dd>\n' % laststep
+            if laststep:
+                description += '<dt>Failed step</dt><dd><b>%s</b></dd>\n' % laststep
             description += '</dl>\n'
             description += '<p>Last lines of the build log:</p>\n'
             description += '<pre>%s</pre>' % twhtml.escape(lastlog)
