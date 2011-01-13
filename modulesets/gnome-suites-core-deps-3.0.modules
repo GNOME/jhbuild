@@ -550,10 +550,15 @@
     </suggests>
   </tarball>
 
-  <tarball id="gupnp-av" version="0.7.1">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-av-0.7.1.tar.gz"
+  <autotools id="gupnp-av">
+    <branch module="gupnp-av-0.7.1.tar.gz" version="0.7.1" repo="gupnp.org"
             hash="sha256:70a23a7dd1e33b08e87a2f005bd8e1aa4e231524dd41b6a8eff9dc03112e6f19"
-            size="410605"/>
+            size="410605">
+      <!-- patch fixes following build failure:
+           ld: test-search-criteria-parser.o: undefined reference to symbol 'g_signal_connect_data'
+        -->
+      <patch file="gupnp-av-0.7.1-link.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
@@ -561,7 +566,7 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <tarball id="gupnp-dlna" version="0.4.2">
     <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-dlna-0.4.2.tar.gz"

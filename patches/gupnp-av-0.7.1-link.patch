@@ -1,0 +1,12 @@
+# Fixes:
+# /usr/bin/ld: test-search-criteria-parser.o: undefined reference to symbol 'g_signal_connect_data'
+diff -urN gupnp-av-0.7.1.orig/tests/Makefile.am gupnp-av-0.7.1/tests/Makefile.am
+--- gupnp-av-0.7.1.orig/tests/Makefile.am	2010-07-21 00:50:06.000000000 +0930
++++ gupnp-av-0.7.1/tests/Makefile.am	2011-01-13 20:39:13.315829003 +1030
+@@ -1,5 +1,5 @@
+ AM_CFLAGS = $(LIBGUPNP_CFLAGS) -I$(top_srcdir)
+-AM_LDFLAGS = $(top_builddir)/libgupnp-av/libgupnp-av-1.0.la
++AM_LDFLAGS = $(LIBGUPNP_LIBS) $(top_builddir)/libgupnp-av/libgupnp-av-1.0.la
+ 
+ noinst_PROGRAMS = test-search-criteria-parser
+ test_search_criteria_parser_SOURCES = test-search-criteria-parser.c
