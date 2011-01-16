@@ -163,6 +163,13 @@
             hash="sha256:076afde4e53e5fd0989adc344c3741aea8342b105c3e879e2f4f9a42ef36793e"/>
   </autotools>
 
+  <autotools id="pyatspi2">
+    <branch/>
+    <dependencies>
+      <dep package="pygobject"/>
+    </dependencies>
+  </autotools>
+
  <autotools id="pycairo">
     <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2"
             repo="cairo.org" 
@@ -505,6 +512,18 @@
     </suggests>
   </waf>
 
+  <autotools id="orca">
+    <branch/>
+    <dependencies>
+      <dep package="dbus-python"/>
+      <dep package="gconf"/>
+      <dep package="intltool"/>
+      <dep package="libwnck"/>
+      <dep package="pyatspi2"/>
+      <dep package="pycairo"/>
+      <dep package="pygtk"/>
+  </dependencies>
+
   <autotools id="seahorse">
     <branch/>
     <dependencies>
@@ -627,6 +646,7 @@
       <dep package="gnome-games"/>
       <dep package="gnome-nettool"/>
       <dep package="hamster-applet"/>
+      <dep package="orca"/>
       <dep package="seahorse"/>
       <dep package="tomboy"/>
       <dep package="vinagre"/>
