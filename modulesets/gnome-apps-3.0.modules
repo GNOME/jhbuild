@@ -27,6 +27,8 @@
     href="git://github.com/"/>
   <repository type="tarball" name="mono.net"
     href="http://go-mono.com/sources/"/>
+  <repository type="tarball" name="gupnp.org"
+    href="http://www.gupnp.org/sites/all/files/sources/"/>
 
   <include href="gnome-suites-core-3.0.modules"/>
 
@@ -82,6 +84,29 @@
     </patches>
   </tarball>
 
+  <autotools id="gupnp-dlna" autogen-sh="autogen.sh">
+    <branch module="gupnp-dlna-0.5.0.tar.gz" version="0.5.0" repo="gupnp.org"
+            hash="sha256:35e18e21cd6f0031673c323aaeab340aa301d0bee4bedc0b889a76d661cb90e9"
+            md5sum="c97ffbada5cb9f700d910995fab6ab46" size="403182">
+      <!-- patch fixes following build failure:
+           ld: gupnp-dlna-info.o: undefined reference to symbol 'gst_discoverer_audio_info_get_sample_rate'
+        -->
+      <patch file="gupnp-dlna-0.5.0-link.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+    <suggests>
+      <dep package="gst-plugins-good"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-ugly"/>
+      <dep package="gst-ffmpeg"/>
+    </suggests>
+  </autotools>
+
   <tarball id="libgda" version="4.2.0" autogenargs="--with-java=no --disable-introspection">
     <source href="http://download.gnome.org/sources/libgda/4.2/libgda-4.2.0.tar.bz2"
             hash="sha256:2e639957f50719957cea5326b0d95511794322a54f9ef8547d3241f409765441"
@@ -94,7 +119,7 @@
 
   <autotools id="libgdiplus">
     <branch module="libgdiplus/libgdiplus-1.2.6.tar.bz2" version="1.2.6"
-            repo="mono.net" 
+            repo="mono.net"
             hash="sha256:5eb1a7a8d3b75c751eac6075239469059238082aee1963bc6a172b3073046cfe"
             md5sum="dfe8e43a49b4aa40ab5b7cf53bf83675" size="2897855">
     </branch>
@@ -631,6 +656,21 @@
     </dependencies>
   </autotools>
 
+  <autotools id="rygel">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gupnp-vala"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gupnp-dlna"/>
+      <dep package="dbus-glib"/>
+      <dep package="gstreamer"/>
+      <dep package="libgee"/>
+    </dependencies>
+  </autotools>
+
+
 <!-- Meta Modules -->
 
   <metamodule id="meta-gnome-apps-featured">
@@ -658,6 +698,7 @@
   <metamodule id="meta-gnome-apps-tested">
     <dependencies>
        <dep package="meta-gnome-apps-featured"/>
+       <dep package="rygel"/>
     </dependencies>
   </metamodule>
 
