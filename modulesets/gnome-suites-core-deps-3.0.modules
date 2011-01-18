@@ -1185,28 +1185,35 @@
     </suggests>
   </autotools>
 
-  <autotools id="tracker" autogenargs="--enable-miner-evolution=no --disable-unit-tests">
-    <branch repo="git.gnome.org"/>
+  <tarball id="tracker" version="0.9.24"
+           autogenargs="--enable-miner-evolution=no --disable-unit-tests">
+    <!-- unit tests are broken:
+    ld: tracker-sparql-test.o: undefined reference to symbol 'g_object_unref'
+    -->
+    <source href="http://download.gnome.org/sources/tracker/0.9/tracker-0.9.24.tar.bz2"
+            hash="sha256:ddf82925ebe3f309839f55db65c631650831b1f5aff8a115f512f81ab2dbf50a"
+            md5sum="97f419e9dbefc8d72017eb95e10b1fc6" size="7146237"/>
     <dependencies>
-      <dep package="automake-1.11"/>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="dbus"/>
       <dep package="dbus-glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="nautilus"/>
       <dep package="gstreamer"/>
+      <dep package="intltool"/>
+      <dep package="poppler"/>
       <dep package="sqlite3"/>
       <dep package="vala"/>
     </dependencies>
     <suggests>
-      <dep package="nautilus"/>
       <dep package="evolution"/>
       <dep package="exempi"/>
       <dep package="upower"/>
       <dep package="libgsf"/>
-      <dep package="poppler"/>
       <dep package="gdk-pixbuf"/>
     </suggests>
-  </autotools>
+    <after>
+      <dep package="deskbar-applet"/>
+    </after>
+  </tarball>
 
   <tarball id="vala" version="0.11.4" autogenargs="--enable-vapigen">
     <source href="http://download.gnome.org/sources/vala/0.11/vala-0.11.4.tar.bz2"
