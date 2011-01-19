@@ -14,8 +14,6 @@
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
     href="ftp://ftp.gnu.org/pub/gnu/"/>
-<repository type="tarball" name="gupnp.org"
-    href="http://www.gupnp.org/sites/all/files/sources/"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
@@ -405,21 +403,6 @@
     </after>
   </tarball>
 
-  <autotools id="gssdp" version="0.9.1">
-    <branch module="gssdp-0.9.1.tar.gz" version="0.9.1"
-	    repo="gupnp.org"
-            hash="sha256:03938f6171945a8e47fc7538a9568c3119c11aeeda760cd2773aee42ee6b5752"
-            size="373416">
-    </branch>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-    </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
-  </autotools>
-
   <autotools id="gstreamer" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
     <dependencies>
@@ -531,64 +514,6 @@
             module="utils/kernel/hotplug/udev-145.tar.bz2" version="145">
       <patch file="gudev-145.patch" strip="1"/>
     </branch>
-  </autotools>
-
-  <tarball id="gupnp" version="0.15.0" autogenargs="--with-context-manager=network-manager">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-0.15.0.tar.gz"
-            hash="sha256:7b81df4b0e810b608e29dae8aed79cd1b1e71002db387de7fdb884c2ca1e77eb"
-            md5sum="42ec93968e77d91efe2f77a56c6b3f33" size="532303"/>
-    <dependencies>
-      <dep package="gssdp"/>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-      <dep package="libxml2"/>
-      <dep package="shared-mime-info"/>
-    </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-      <dep package="NetworkManager"/>
-    </suggests>
-  </tarball>
-
-  <autotools id="gupnp-av">
-    <branch module="gupnp-av-0.7.1.tar.gz" version="0.7.1" repo="gupnp.org"
-            hash="sha256:70a23a7dd1e33b08e87a2f005bd8e1aa4e231524dd41b6a8eff9dc03112e6f19"
-            size="410605">
-      <!-- patch fixes following build failure:
-           ld: test-search-criteria-parser.o: undefined reference to symbol 'g_signal_connect_data'
-        -->
-      <patch file="gupnp-av-0.7.1-link.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gupnp"/>
-    </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="gupnp-dlna" autogen-sh="autogen.sh">
-    <branch module="gupnp-dlna-0.5.0.tar.gz" version="0.5.0" repo="gupnp.org"
-            hash="sha256:35e18e21cd6f0031673c323aaeab340aa301d0bee4bedc0b889a76d661cb90e9"
-            md5sum="c97ffbada5cb9f700d910995fab6ab46" size="403182">
-      <!-- patch fixes following build failure:
-           ld: gupnp-dlna-info.o: undefined reference to symbol 'gst_discoverer_audio_info_get_sample_rate'
-        -->
-      <patch file="gupnp-dlna-0.5.0-link.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="glib"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-    <suggests>
-      <dep package="gst-plugins-good"/>
-      <dep package="gst-plugins-bad"/>
-      <dep package="gst-plugins-ugly"/>
-      <dep package="gst-ffmpeg"/>
-    </suggests>
   </autotools>
 
   <repository type="tarball" name="icon-theme.freedesktop.org"
