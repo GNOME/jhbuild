@@ -29,6 +29,8 @@
     href="http://go-mono.com/sources/"/>
   <repository type="tarball" name="gupnp.org"
     href="http://www.gupnp.org/sites/all/files/sources/"/>
+  <repository type="git" name="gstreamer.freedesktop.org"
+      href="git://anongit.freedesktop.org/gstreamer/"/>
 
   <include href="gnome-suites-core-3.0.modules"/>
 
@@ -68,6 +70,14 @@
       <dep package="libgsf"/>
       <dep package="libxml2"/>
       <dep package="pango"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-python" autogenargs="--" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-python"/>
+    <dependencies>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 

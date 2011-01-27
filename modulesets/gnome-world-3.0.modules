@@ -11,8 +11,6 @@
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
-  <repository type="git" name="gstreamer.freedesktop.org"
-      href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
@@ -292,14 +290,6 @@
 
   <autotools id="gst-ffmpeg" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-ffmpeg"/>
-    <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-python" autogenargs="--" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-python"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
