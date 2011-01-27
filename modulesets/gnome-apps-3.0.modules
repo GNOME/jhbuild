@@ -37,6 +37,30 @@
        that are not covered there, add them in here
     -->
 
+  <autotools id="babl">
+    <branch/>
+  </autotools>
+
+  <!-- Other useful deps that you can install are:  -->
+  <!--   libjpeg                                    -->
+  <!--   libpng                                     -->
+  <!--   OpenEXR (see http://www.openexr.com/)      -->
+  <!--   libsdl                                     -->
+  <!--   enscript                                   -->
+  <!--   libavcodec                                 -->
+  <!-- Those are not managed by jhbuild             -->
+  <autotools id="gegl">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="gtk+"/>
+      <dep package="librsvg"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="goffice">
     <branch/>
     <dependencies>
