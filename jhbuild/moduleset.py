@@ -24,7 +24,8 @@ import sys
 import urlparse
 import logging
 
-from jhbuild.errors import UsageError, FatalError, DependencyCycleError, CommandError
+from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
+             CommandError, UndefinedRepositoryError
 
 try:
     import xml.dom.minidom
@@ -410,6 +411,8 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             try:
                 inc_moduleset = _parse_module_set(config, inc_uri)
+            except UndefinedRepositoryError:
+                raise
             except FatalError, e:
                 if inc_uri[0] == '/':
                     raise e

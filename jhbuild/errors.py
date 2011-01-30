@@ -49,6 +49,8 @@ class BuildStateError(JhbuildException):
 class DependencyCycleError(JhbuildException):
     '''There is a dependency cycle in the module set'''
 
+class UndefinedRepositoryError(FatalError):
+    '''There is a module depending on an undefined repository'''
 
 class SkipToPhase(Exception):
     def __init__(self, phase):

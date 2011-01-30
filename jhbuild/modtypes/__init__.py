@@ -29,7 +29,8 @@ __all__ = [
 
 import os
 
-from jhbuild.errors import FatalError, CommandError, BuildStateError, SkipToEnd
+from jhbuild.errors import FatalError, CommandError, BuildStateError, \
+             SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
 
 _module_types = {}
@@ -98,14 +99,16 @@ def get_branch(node, repositories, default_repo, config):
         try:
             repo = repositories[childnode.getAttribute('repo')]
         except KeyError:
-            raise FatalError(_('Repository=%s not found for module id=%s. Possible repositories are %s' )
-                             % (childnode.getAttribute('repo'), name, repositories))
+            raise UndefinedRepositoryError(
+                _('Repository=%s not found for module id=%s. Possible repositories are %s')
+                  % (childnode.getAttribute('repo'), name, repositories))
     else:
         try:
             repo = repositories[default_repo]
         except KeyError:
-            raise FatalError(_('Default Repository=%s not found for module id=%s. Possible repositories are %s')
-                             % (default_repo, name, repositories))
+            raise UndefinedRepositoryError(
+                _('Default Repository=%s not found for module id=%s. Possible repositories are %s')
+                % (default_repo, name, repositories))
 
     if repo.mirrors:
         mirror_type = config.mirror_policy
