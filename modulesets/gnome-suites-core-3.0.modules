@@ -14,6 +14,8 @@
       href="http://dbus.freedesktop.org/releases/"/>
   <repository type="tarball" name="0pointer.de"
       href="http://0pointer.de/lennart/projects/"/>
+  <repository type="tarball" name="kernel.org"
+      href="http://www.kernel.org"/>
 
 <include href="gnome-suites-core-deps-3.0.modules"/>
 
@@ -768,8 +770,10 @@
   <!-- hack around the lack of autogen.sh; bootstrap-configure doesn't
        quite work since it doesn't pass arguments to configure
     --> 
-  <autotools id="bluez" autogen-template="%(srcdir)s/bootstrap &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s" autogenargs="--enable-udevrules=no">
-    <branch repo="git.kernel.org" module="bluetooth/bluez.git" checkoutdir="bluez" />
+  <autotools id="bluez" autogenargs="--enable-udevrules=no">
+    <branch repo="kernel.org" module="pub/linux/bluetooth/bluez-4.87.tar.gz" version="4.87"
+            hash="sha256:86afb988935e5385fb22ea0893f269f870d6f78b18aaccea6d4d0e253e2f241b"
+            md5sum="8e615a4e3a05e3b44259e8c51881d48d" size="1114526"/>
     <dependencies>
     </dependencies>
   </autotools>
