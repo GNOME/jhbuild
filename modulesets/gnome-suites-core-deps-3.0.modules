@@ -414,11 +414,11 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-plugins-base" autogenargs="-- --disable-tests --disable-gnome_vfs" supports-non-srcdir-builds="no">
+  <autotools id="gst-plugins-base" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
     <dependencies>
       <dep package="gstreamer"/>
-      <dep package="gtk+"/>
+      <dep package="gtk+-3"/>
       <dep package="liboil"/>
     </dependencies>
     <suggests>
