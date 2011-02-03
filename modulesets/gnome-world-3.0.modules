@@ -111,6 +111,10 @@
       href="http://subversion.ardour.org/svn/"/>
   <repository type="git" name="gitorious.org"
       href="git://gitorious.org/"/>
+  <repository type="tarball" name="samba.org"
+      href="http://samba.org/samba/ftp/"/>
+  <repository type="tarball" name="sourceforge.net"
+      href="http://prdownloads.sourceforge.net/sourceforge/"/>
 
   <include href="gnome-apps-3.0.modules"/>
   <include href="gnome-suites-core-3.0.modules"/>
@@ -2053,6 +2057,75 @@
     <suggests>
       <dep package="gtksourceview"/>
     </suggests>
+  </autotools>
+
+  <autotools id="samba4" skip-autogen="never" autogen-sh="configure"
+             autogenargs="--enable-fhs" supports-non-srcdir-builds="no">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
+	    source-subdir="source4">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="talloc"
+	    makeargs="tallocdir='$(srcdir)'"
+	    makeinstallargs="install tallocdir='$(srcdir)'">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
+	    source-subdir="lib/talloc">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tdb">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
+	    source-subdir="lib/tdb">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="tevent">
+    <branch repo="samba.org"
+            module="samba4/samba-4.0.0alpha11.tar.gz" version="4.0.0alpha11"
+            hash="sha256:ec9f4a9153b9e2c233420642ee98a8b944322e8b39a9b6912430fb24e88b81b9"
+            md5sum="dac98184a01e7e0c171302e3b78bf507" size="13917363"
+	    source-subdir="lib/tevent">
+      <patch file="samba.configure-for-libs.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="libmapi" skip-autogen="never" autogen-sh="configure"
+             supports-non-srcdir-builds="no">
+    <branch repo="sourceforge.net"
+            module="openchange/openchange-0.9-COCHRANE.tar.gz" version="0.9"
+            hash="sha256:b8467d1fa9fd025323a2ddc2d4b4a29a78fee1b6cb1f4373725e45f7769b5402"
+            md5sum="9dc6c91ea5d4afce4a5aa81215835b8b" size="1601358"/>
+    <dependencies>
+      <dep package="tdb"/>
+      <dep package="talloc"/>
+      <dep package="tevent"/>
+      <dep package="samba4"/>
+    </dependencies>
+  </autotools>
+
+
+
+  <autotools id="evolution-mapi">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="evolution-data-server"/>
+      <dep package="evolution"/>
+      <dep package="libmapi"/>
+    </dependencies>
   </autotools>
 
 </moduleset>
