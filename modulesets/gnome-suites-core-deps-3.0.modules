@@ -10,6 +10,9 @@
     href="git://git.clutter-project.org/"/>
 <repository type="git" name="gstreamer.freedesktop.org"
     href="git://anongit.freedesktop.org/gstreamer/"/>
+<repository type="cvs" name="libxklavier.freedesktop.org"
+    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
+    password=""/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
@@ -839,6 +842,7 @@
     </branch>
   </autotools>
 
+<!--
   <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.0">
     <source href="http://download.gnome.org/sources/libxklavier/5.0/libxklavier-5.0.tar.bz2"
             hash="sha256:dfd94b17a752b2839281764f0a16af2b338024c8867c10fba7015f276dec4db0"
@@ -849,11 +853,20 @@
       <dep package="glib"/>
       <dep package="iso-codes"/>
     </dependencies>
-    <patches>
-      <!-- http://bugs.freedesktop.org/show_bug.cgi?id=32100 -->
-      <patch file="libxklavier-5.0.xlibs.patch" strip="1"/>
-    </patches>
   </tarball>
+-->
+
+<autotools id="libxklavier">
+  <branch module="libxklavier"
+	  repo="libxklavier.freedesktop.org"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+      <dep package="iso-codes"/>
+    </dependencies>
+</autotools>
+
 
   <autotools id="libxml2">
     <branch module="libxml2/libxml2-2.7.7.tar.gz"
