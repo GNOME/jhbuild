@@ -1,0 +1,40 @@
+From 440f7d72677ec1949af22afe273acf4dd43cac13 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Wed, 23 Feb 2011 11:44:32 -0500
+Subject: [PATCH 2/5] nautilus-extension: don't implement _get_toolbar_items()
+
+It got removed from nautilus 2.91.90, and that code does nothing anyway.
+---
+ src/plugins/nautilus/tracker-tags-extension.c |    9 ---------
+ 1 files changed, 0 insertions(+), 9 deletions(-)
+
+diff --git a/src/plugins/nautilus/tracker-tags-extension.c b/src/plugins/nautilus/tracker-tags-extension.c
+index 6331667..e505f77 100644
+--- a/src/plugins/nautilus/tracker-tags-extension.c
++++ b/src/plugins/nautilus/tracker-tags-extension.c
+@@ -206,14 +206,6 @@ extension_get_file_items (NautilusMenuProvider *provider,
+ }
+ 
+ static GList *
+-extension_get_toolbar_items (NautilusMenuProvider *provider,
+-                             GtkWidget            *window,
+-                             NautilusFileInfo     *current_folder)
+-{
+-	return NULL;
+-}
+-
+-static GList *
+ extension_get_pages (NautilusPropertyPageProvider *provider,
+                      GList                        *files)
+ {
+@@ -238,7 +230,6 @@ static void
+ tracker_tags_extension_menu_provider_iface_init (NautilusMenuProviderIface *iface)
+ {
+ 	iface->get_file_items = extension_get_file_items;
+-	iface->get_toolbar_items = extension_get_toolbar_items;
+ 
+ 	if (0) {
+ 		iface->get_background_items = extension_get_background_items;
+-- 
+1.7.1
+

@@ -1104,14 +1104,17 @@
     </suggests>
   </autotools>
 
-  <tarball id="tracker" version="0.9.36"
-           autogenargs="--enable-miner-evolution=no --disable-unit-tests">
+  <autotools id="tracker" skip-autogen="never" autogen-sh="configure" autogenargs="--enable-miner-evolution=no --disable-unit-tests" check-target="false">
+    <branch module="tracker/0.10/tracker-0.10.0.tar.bz2" version="1.10.0" repo="gnome.org"
+            hash="sha256:f50724501204801ffcc4916b873edac07ef7c7bc7666cddb381ecb2edd61a9cd"
+            md5sum="03084485bdc91af0924121950e3f20db" size="8014824">
+
+      <patch file="tracker-nautilus-extension-dont-implement-get_toolbar_item.patch" strip="1" />
+    </branch>
+
     <!-- unit tests are broken:
     ld: tracker-sparql-test.o: undefined reference to symbol 'g_object_unref'
     -->
-    <source href="http://download.gnome.org/sources/tracker/0.9/tracker-0.9.36.tar.bz2"
-            hash="sha256:705b848f8e21f0ca37b1a181575ac82ae98bb17a8fd206dfd48d7e1d2919ce60"
-            md5sum="74d9cda375aae6ec528f911369ef4ccb" size="7178213"/>
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="nautilus"/>
@@ -1128,10 +1131,7 @@
       <dep package="libgsf"/>
       <dep package="gdk-pixbuf"/>
     </suggests>
-    <after>
-      <dep package="deskbar-applet"/>
-    </after>
-  </tarball>
+  </autotools>
 
   <tarball id="vala" version="0.11.6" autogenargs="--enable-vapigen">
     <source href="http://download.gnome.org/sources/vala/0.11/vala-0.11.6.tar.bz2"
