@@ -456,48 +456,6 @@
 
 <!-- Core Utilities -->
 
-  <autotools id="brasero" autogenargs="--with-gtk=3.0">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+-3"/>
-      <dep package="gconf"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="libcanberra"/>
-      <dep package="libxml2"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-      <dep package="nautilus"/>
-      <dep package="totem-pl-parser"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="empathy">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+-3"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="libunique-3"/>
-      <dep package="telepathy-glib"/>
-      <dep package="folks"/>
-      <dep package="telepathy-logger"/>
-      <dep package="telepathy-mission-control"/>
-      <dep package="evolution-data-server"/>
-      <dep package="libcanberra"/>
-      <dep package="telepathy-farsight"/>
-      <dep package="gnome-keyring-3"/>
-      <dep package="libnotify"/>
-    </dependencies>
-    <suggests>
-      <dep package="enchant"/>
-      <dep package="iso-codes"/>
-      <dep package="libchamplain"/>
-      <dep package="WebKit"/>
-    </suggests>
-  </autotools>
-
   <autotools id="eog">
     <branch/>
     <dependencies>
@@ -534,25 +492,6 @@
       <dep package="libcanberra"/>
       <dep package="nss"/>
     </suggests>
-  </autotools>
-
-  <autotools id="evince" autogenargs="--with-gtk=3.0">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+-3"/>
-      <dep package="libxml2"/>
-      <dep package="gnome-icon-theme"/>
-      <dep package="poppler"/>
-      <dep package="gnome-doc-utils"/>
-    </dependencies>
-    <suggests>
-      <dep package="libgnome-keyring"/>
-    </suggests>
-    <after>
-      <dep package="nautilus"/>
-    </after>
   </autotools>
 
   <autotools id="gcalctool" supports-non-srcdir-builds="no" autogenargs="--with-gtk=3.0">
@@ -920,16 +859,12 @@
   -->
   <metamodule id="meta-gnome-core-utilities">
     <dependencies>
-      <dep package="brasero"/>
-      <dep package="empathy"/>
       <dep package="epiphany"/>
       <dep package="eog"/>
-      <dep package="evince"/>
       <dep package="gcalctool"/>
       <dep package="gnome-disk-utility"/>
       <dep package="gnome-system-monitor"/>
       <dep package="gnome-terminal"/>
-      <dep package="gnome-user-docs"/>
       <dep package="gnome-utils"/>
       <dep package="gucharmap"/>
       <dep package="nautilus"/>
@@ -976,6 +911,7 @@
       <dep package="gnome-backgrounds"/>
       <dep package="gnome-user-share"/>
       <dep package="vino"/>
+      <dep package="gnome-user-docs"/>
     </dependencies>
   </metamodule>
 

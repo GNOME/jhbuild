@@ -531,28 +531,58 @@
     </dependencies>
   </autotools>
 
-  <autotools id="rhythmbox">
+  <autotools id="devhelp">
     <branch/>
     <dependencies>
-      <dep package="dbus-glib"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="libgnome-media-profiles"/>
-      <dep package="totem-pl-parser"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="gst-python"/>
-      <dep package="pygtk"/>
-      <dep package="libsoup"/>
-      <dep package="libnotify"/>
+      <dep package="intltool"/>
+      <dep package="gtk+-3"/>
+      <dep package="gconf"/>
+      <dep package="WebKit"/>
+      <dep package="libunique-3"/>
     </dependencies>
-    <suggests>
-      <dep package="gnome-keyring"/>
-      <dep package="avahi"/>
-      <dep package="libmusicbrainz"/>
-      <dep package="brasero"/>
-      <dep package="libdmapsharing"/>
-    </suggests>
   </autotools>
 
+  <autotools id="gdl">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="librsvg"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glade">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gnome-common"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gtk-doc" />
+      <dep package="gtk+-3"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-devel-docs">
+    <branch revision="gnome-2-32"/>
+    <dependencies>
+      <dep package="gnome-doc-utils"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="rygel">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gupnp-vala"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="gupnp-dlna"/>
+      <dep package="dbus-glib"/>
+      <dep package="gstreamer"/>
+      <dep package="libgee"/>
+    </dependencies>
+  </autotools>
 
 <!-- Featured Apps -->
 
@@ -563,6 +593,42 @@
       <dep package="gnome-menus"/>
       <dep package="pygtk"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="anjuta">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-3"/>
+      <dep package="vte-3"/>
+      <dep package="gdl"/>
+      <dep package="libgda"/>
+      <dep package="gtksourceview-3"/>
+    </dependencies>
+    <suggests>
+      <dep package="glade"/>
+      <dep package="devhelp"/>
+      <dep package="vala"/>
+      <dep package="autogen"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="brasero" autogenargs="--with-gtk=3.0">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+-3"/>
+      <dep package="gconf"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libcanberra"/>
+      <dep package="libxml2"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+      <dep package="nautilus"/>
+      <dep package="totem-pl-parser"/>
+    </suggests>
   </autotools>
 
   <autotools id="cheese">
@@ -591,7 +657,6 @@
     </suggests>
   </autotools>
 
-
   <autotools id="ekiga">
     <branch/>
     <dependencies>
@@ -611,6 +676,51 @@
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
     </suggests>
+  </autotools>
+
+  <autotools id="empathy">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="libunique-3"/>
+      <dep package="telepathy-glib"/>
+      <dep package="folks"/>
+      <dep package="telepathy-logger"/>
+      <dep package="telepathy-mission-control"/>
+      <dep package="evolution-data-server"/>
+      <dep package="libcanberra"/>
+      <dep package="telepathy-farsight"/>
+      <dep package="gnome-keyring-3"/>
+      <dep package="libnotify"/>
+    </dependencies>
+    <suggests>
+      <dep package="enchant"/>
+      <dep package="iso-codes"/>
+      <dep package="libchamplain"/>
+      <dep package="WebKit"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="evince" autogenargs="--with-gtk=3.0">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="libxml2"/>
+      <dep package="gnome-icon-theme"/>
+      <dep package="poppler"/>
+      <dep package="gnome-doc-utils"/>
+    </dependencies>
+    <suggests>
+      <dep package="libgnome-keyring"/>
+    </suggests>
+    <after>
+      <dep package="nautilus"/>
+    </after>
   </autotools>
 
   <autotools id="evolution" autogenargs="--disable-image-inline --disable-pst-import --disable-nm">
@@ -723,6 +833,28 @@
     </dependencies>
   </autotools>
 
+  <autotools id="rhythmbox">
+    <branch/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libgnome-media-profiles"/>
+      <dep package="totem-pl-parser"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gst-python"/>
+      <dep package="pygtk"/>
+      <dep package="libsoup"/>
+      <dep package="libnotify"/>
+    </dependencies>
+    <suggests>
+      <dep package="gnome-keyring"/>
+      <dep package="avahi"/>
+      <dep package="libmusicbrainz"/>
+      <dep package="brasero"/>
+      <dep package="libdmapsharing"/>
+    </suggests>
+  </autotools>
+
   <autotools id="seahorse" autogenargs="--with-gtk=3.0">
     <branch/>
     <dependencies>
@@ -768,80 +900,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="anjuta">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+-3"/>
-      <dep package="vte-3"/>
-      <dep package="gdl"/>
-      <dep package="libgda"/>
-      <dep package="gtksourceview-3"/>
-    </dependencies>
-    <suggests>
-      <dep package="glade"/>
-      <dep package="devhelp"/>
-      <dep package="vala"/>
-      <dep package="autogen"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="devhelp">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+-3"/>
-      <dep package="gconf"/>
-      <dep package="WebKit"/>
-      <dep package="libunique-3"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gdl">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="librsvg"/>
-      <dep package="gtk+-3"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="glade">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-common"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="gtk-doc" />
-      <dep package="gtk+-3"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-devel-docs">
-    <branch revision="gnome-2-32"/>
-    <dependencies>
-      <dep package="gnome-doc-utils"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="rygel">
-    <branch/>
-    <dependencies>
-      <dep package="vala"/>
-      <dep package="gupnp-vala"/>
-      <dep package="gupnp"/>
-      <dep package="gupnp-av"/>
-      <dep package="gupnp-dlna"/>
-      <dep package="dbus-glib"/>
-      <dep package="gstreamer"/>
-      <dep package="libgee"/>
-    </dependencies>
-  </autotools>
-
-
 <!-- Meta Modules -->
 
   <!-- Featured applications: these may change from release to release
@@ -851,9 +909,12 @@
     <dependencies>
       <dep package="alacarte"/>
       <dep package="anjuta"/>
+      <dep package="brasero"/>
       <dep package="cheese"/>
       <dep package="devhelp"/>
       <dep package="ekiga"/>
+      <dep package="empathy"/>
+      <dep package="evince"/>
       <dep package="evolution"/>
       <dep package="file-roller"/>
       <dep package="gedit"/>
@@ -861,6 +922,7 @@
       <dep package="gnome-games"/>
       <dep package="gnome-nettool"/>
       <dep package="hamster-applet"/>
+      <dep package="rhythmbox"/>
       <dep package="seahorse"/>
       <dep package="tomboy"/>
       <dep package="vinagre"/>
