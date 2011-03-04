@@ -7,6 +7,8 @@
       href="git://git.gnome.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
+  <repository type="git" name="packagekit.gitorious.org"
+      href="git://gitorious.org/packagekit"/>
   <repository type="git" name="clutter-project.org" href="git://git.clutter-project.org/"/>
   <repository type="git" name="git.kernel.org"
       href="git://git.kernel.org/pub/scm/"/>
@@ -809,10 +811,8 @@
     </dependencies>
   </autotools>
 
-  <tarball id="PackageKit" version="0.6.10" autogenargs="--disable-tests --disable-qt --disable-browser-plugin">
-    <source href="http://www.packagekit.org/releases/PackageKit-0.6.12.tar.bz2"
-            hash="sha256:29c2f1dab00d10ca97a782bc0632edcc4d8517221fe82176248718b3432e5fab"
-            md5sum="9ffcda702aba3334d5799e7698e29abb" size="8414442"/>
+  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin">
+    <branch repo="packagekit.gitorious.org" checkoutdir="PackageKit" module="packagekit"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk+-3"/>
@@ -824,12 +824,10 @@
       <dep package="NetworkManager"/>
       <dep package="polkit"/>
     </suggests>
-  </tarball>
+  </autotools>
 
-  <tarball id="polkit" version="0.100">
-    <source href="http://hal.freedesktop.org/releases/polkit-0.100.tar.gz"
-            hash="sha256:afe63bec81b7f49e884ea4f2671ec76db121d84d05f36e75cde9b4ca4c828186"
-            md5sum="9f957bf046ff5a32b0fa0ffe1e35c09c" size="1050355"/>
+  <autotools id="polkit">
+    <branch repo="git.freedesktop.org" checkoutdir="polkit" module="PolicyKit"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="expat"/>
@@ -838,12 +836,10 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </tarball>
+  </autotools>
 
-  <tarball id="upower" version="0.9.8">
-    <source href="http://upower.freedesktop.org/releases/upower-0.9.8.tar.bz2"
-            hash="sha256:7afaec3cb10ebbc898308c7abd250c27fd58e10379a42e80444d7a4b32f2eb91"
-            size="462754"/>
+  <autotools id="upower">
+    <branch repo="git.freedesktop.org" />
     <dependencies>
       <dep package="polkit"/>
       <dep package="dbus-glib"/>
@@ -852,7 +848,7 @@
       <dep package="gobject-introspection"/>
       <dep package="gudev"/>
     </suggests>
-  </tarball>
+  </autotools>
 
 
 <!-- Meta Modules -->
