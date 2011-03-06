@@ -1,0 +1,18 @@
+#!/bin/sh
+
+GNOME=/opt/gnome
+
+PATH=${GNOME}/bin:${GNOME}/sbin:${PATH}
+LD_LIBRARY_PATH=${GNOME}/lib:${LD_LIBRARY_PATH}
+PYTHONPATH=${GNOME}/lib/python2.6/site-packages:/usr/lib/python2.6/site-packages
+PKG_CONFIG_PATH=${GNOME}/lib/pkgconfig:${GNOME}/share/pkgconfig:/usr/lib/pkgconfig
+XDG_DATA_DIRS=${GNOME}/share:/usr/share
+XDG_CONFIG_DIRS=${GNOME}/etc/xdg
+
+unset DBUS_SESSION_BUS_ADDRESS
+
+export PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH GDK_USE_XFT XDG_DATA_DIRS XDG_CONFIG_DIRS
+
+#exec valgrind --tool=memcheck --log-file=/tmp/session-grind.log ${GNOME}/bin/gnome-session
+exec ${GNOME}/bin/gnome-session --debug
+

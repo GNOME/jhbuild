@@ -47,5 +47,6 @@ AC_CONFIG_FILES([
 	buildbot/Makefile
 ])
 AC_OUTPUT([
+        examples/jhbuild.desktop
 	jhbuild.desktop.in
 ])
