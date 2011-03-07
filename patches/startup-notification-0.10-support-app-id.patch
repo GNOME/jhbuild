@@ -1,0 +1,173 @@
+From 1b14d72976741afc33d9f7fac22e20b831e47e1f Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Thu, 25 Feb 2010 20:33:54 +0000
+Subject: Support APPLICATION_ID key
+
+For moving GNOME to an application-based system, it's useful if
+launcher systems say which .desktop file they're launching, so
+that we can show it as the current focus even while a launch is
+in progress.
+
+Signed-off-by: Julien Danjou <julien@danjou.info>
+---
+diff --git a/doc/startup-notification.txt b/doc/startup-notification.txt
+index cf5b250..dd1ccc2 100644
+--- a/doc/startup-notification.txt
++++ b/doc/startup-notification.txt
+@@ -300,6 +300,16 @@ The following keys may be provided optionally in either a "new" or a
+           have their window mapped on the desktop specified by
+           the value of DESKTOP.
+ 
++  APPLICATION_ID
++
++          When launching an application using a .desktop file from
++          the normal application paths (see desktop file specification),
++          this should be basename of the .desktop file.
++          For example: "foo.desktop".
++
++          When launching a .desktop file NOT in the paths, this should
++          be an absolute path to the .desktop file.
++
+ Some details of the startup sequence:
+ 
+  - "new" and "change" messages are sent by the launcher code
+diff --git a/libsn/sn-launcher.c b/libsn/sn-launcher.c
+index 21344cd..089b5c2 100644
+--- a/libsn/sn-launcher.c
++++ b/libsn/sn-launcher.c
+@@ -44,6 +44,7 @@ struct SnLauncherContext
+   char               *wmclass;
+   char               *binary_name;
+   char               *icon_name;
++  char               *application_id;
+   struct timeval      initiation_time;
+   unsigned int        completed : 1;
+   unsigned int        canceled : 1;
+@@ -121,6 +122,7 @@ sn_launcher_context_unref (SnLauncherContext *context)
+       sn_free (context->wmclass);
+       sn_free (context->binary_name);
+       sn_free (context->icon_name);
++      sn_free (context->application_id);
+ 
+       sn_display_unref (context->display);
+       sn_free (context);
+@@ -266,9 +268,16 @@ sn_launcher_context_initiate (SnLauncherContext *context,
+       values[i] = context->icon_name;
+       ++i;
+     }
+-  
++
++  if (context->application_id != NULL)
++    {
++      names[i] = "APPLICATION_ID";
++      values[i] = context->application_id;
++      ++i;
++    }
++
+   assert (i < MAX_PROPS);
+-  
++
+   names[i] = NULL;
+   values[i] = NULL;
+ 
+@@ -433,6 +442,16 @@ sn_launcher_context_set_icon_name (SnLauncherContext *context,
+ }
+ 
+ void
++sn_launcher_set_application_id (SnLauncherContext *context,
++                                const char        *desktop_file)
++{
++  WARN_ALREADY_INITIATED (context);
++
++  sn_free (context->application_id);
++  context->application_id = sn_internal_strdup (desktop_file);
++}
++
++void
+ sn_launcher_context_set_extra_property (SnLauncherContext *context,
+                                         const char        *name,
+                                         const char        *value)
+diff --git a/libsn/sn-launcher.h b/libsn/sn-launcher.h
+index f88f11c..9cd34fd 100644
+--- a/libsn/sn-launcher.h
++++ b/libsn/sn-launcher.h
+@@ -61,6 +61,8 @@ void sn_launcher_context_set_binary_name (SnLauncherContext *context,
+                                           const char        *name);
+ void sn_launcher_context_set_icon_name   (SnLauncherContext *context,
+                                           const char        *name);
++void sn_launcher_context_set_application_id (SnLauncherContext *context,
++                                             const char        *desktop_file);
+ 
+ void sn_launcher_context_set_extra_property (SnLauncherContext *context,
+                                              const char        *name,
+diff --git a/libsn/sn-monitor.c b/libsn/sn-monitor.c
+index 223473a..035d523 100644
+--- a/libsn/sn-monitor.c
++++ b/libsn/sn-monitor.c
+@@ -66,7 +66,8 @@ struct SnStartupSequence
+   Time timestamp;
+ 
+   char *binary_name;
+-  char *icon_name;  
++  char *icon_name;
++  char *application_id;
+ 
+   unsigned int completed : 1;
+   unsigned int canceled : 1;
+@@ -269,7 +270,8 @@ sn_startup_sequence_unref (SnStartupSequence *sequence)
+       sn_free (sequence->wmclass);
+       sn_free (sequence->binary_name);
+       sn_free (sequence->icon_name);
+-      
++      sn_free (sequence->application_id);
++
+       sn_display_unref (sequence->display);
+       sn_free (sequence);
+     }
+@@ -337,6 +339,12 @@ sn_startup_sequence_get_icon_name (SnStartupSequence *sequence)
+   return sequence->icon_name;
+ }
+ 
++const char*
++sn_startup_sequence_get_application_id (SnStartupSequence *sequence)
++{
++  return sequence->application_id;
++}
++
+ int
+ sn_startup_sequence_get_screen (SnStartupSequence *sequence)
+ {
+@@ -805,10 +813,18 @@ xmessage_func (SnDisplay  *display,
+                   changed = TRUE;
+                 }
+             }
++          else if (strcmp (names[i], "APPLICATION_ID") == 0)
++            {
++              if (sequence->application_id == NULL)
++                {
++                  sequence->application_id = sn_internal_strdup (values[i]);
++                  changed = TRUE;
++                }
++            }
+           else if (strcmp (names[i], "DESKTOP") == 0)
+             {
+               int workspace;
+-              
++
+               workspace = sn_internal_string_to_ulong (values[i]);
+ 
+               sequence->workspace = workspace;
+diff --git a/libsn/sn-monitor.h b/libsn/sn-monitor.h
+index 15a38d7..b58581f 100644
+--- a/libsn/sn-monitor.h
++++ b/libsn/sn-monitor.h
+@@ -73,6 +73,7 @@ Time        sn_startup_sequence_get_timestamp             (SnStartupSequence *se
+ const char* sn_startup_sequence_get_wmclass               (SnStartupSequence *sequence);
+ const char* sn_startup_sequence_get_binary_name           (SnStartupSequence *sequence);
+ const char* sn_startup_sequence_get_icon_name             (SnStartupSequence *sequence);
++const char* sn_startup_sequence_get_application_id        (SnStartupSequence *sequence);
+ int         sn_startup_sequence_get_screen                (SnStartupSequence *sequence);
+ 
+ void        sn_startup_sequence_get_initiated_time        (SnStartupSequence *sequence,
+--
+cgit v0.8.3-6-g21f6
