@@ -115,6 +115,11 @@
       href="http://samba.org/samba/ftp/"/>
   <repository type="tarball" name="sourceforge.net"
       href="http://prdownloads.sourceforge.net/sourceforge/"/>
+  <repository type="svn" name="xchat.sf.net"
+      href="https://xchat.svn.sourceforge.net/svnroot/"
+      trunk-template="%(module)s"
+      branches-template="%(branch)s"
+      tags-template="%(tag)s"/>
 
   <include href="gnome-apps-3.0.modules"/>
   <include href="gnome-suites-core-3.0.modules"/>
@@ -585,15 +590,13 @@
     </dependencies>
   </autotools>
 
-  <tarball id="xchat" version="2.8.2">
-    <source href="http://xchat.org/files/source/2.8/xchat-2.8.2.tar.bz2"
-            hash="sha256:9f6c22e7116afea4c00d90346b0522069f1c2197e8d0ad2f1545da01329750fe"
-            md5sum="d87a93bcd39d96ff3a3d0f8199efcf12" size="1331148"/>
+  <autotools id="xchat">
+    <branch repo="xchat.sf.net" module="xchat" />
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libxml2"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="camorama">
     <branch/>
