@@ -900,15 +900,23 @@
     </suggests>
   </autotools>
 
-  <autotools id="vinagre" autogenargs="--without-panelapplet">
+  <autotools id="vinagre">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="avahi"/>
+      <dep package="libxml2"/>
       <dep package="gtk+-3"/>
       <dep package="gtk-vnc"/>
-      <dep package="telepathy-glib"/>
+      <dep package="libpeas"/>
+      <dep package="libgnome-keyring"/>
     </dependencies>
+    <suggests>
+      <dep package="avahi"/>
+      <dep package="gnome-panel"/>
+      <dep package="gobject-introspection"/>
+      <dep package="telepathy-glib"/>
+      <dep package="vte-3"/>
+    </suggests>
   </autotools>
 
 <!-- Meta Modules -->
