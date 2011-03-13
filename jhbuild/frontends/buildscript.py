@@ -93,7 +93,7 @@ class BuildScript:
                 if dep in failures:
                     if self.config.module_nopoison.get(dep,
                                                        self.config.nopoison):
-                        self.message(_('module %(mod)s will be build even though %(dep)s failed')
+                        self.message(_('module %(mod)s will be built even though %(dep)s failed')
                                      % { 'mod':module.name, 'dep':dep })
                     else:
                         self.message(_('module %(mod)s not built due to non buildable %(dep)s')
