@@ -108,7 +108,8 @@ def addpath(envvar, path):
             if sys.platform.startswith('win'):
                 path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
 
-            if sys.platform.startswith('win') and path[1]==':':
+            if sys.platform.startswith('win') and len(path) > 1 and \
+               path[1] == ':':
                 # Windows: Don't allow c:/ style paths in :-separated env vars
                 # for obvious reasons. /c/ style paths are valid - if a var is
                 # separated by : it will only be of interest to programs inside
