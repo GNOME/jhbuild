@@ -191,8 +191,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gtk+-3">
-    <branch checkoutdir="gtk+-3" module="gtk+" revision="gtk-3-0"/>
+  <autotools id="gtk+">
+    <branch revision="gtk-3-0"/>
     <dependencies>
       <dep package="atk"/>
       <dep package="glib"/>
@@ -234,7 +234,7 @@
   <autotools id="clutter-gtk">
     <branch repo="git.clutter-project.org"/>
     <dependencies>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="clutter"/>
     </dependencies>
   </autotools>
@@ -424,7 +424,7 @@
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
     <dependencies>
       <dep package="gstreamer"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="liboil"/>
     </dependencies>
     <suggests>
@@ -510,7 +510,7 @@
     <dependencies>
       <dep package="pangomm"/>
       <dep package="atkmm"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="glib"/>
     </dependencies>
   </autotools>
@@ -574,7 +574,7 @@
     </dependencies>
     <after>
       <dep package="gtk+"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+-2"/>
       <dep package="pulseaudio"/>
       <dep package="gstreamer"/>
     </after>
@@ -586,7 +586,7 @@
      <dep package="glib"/>
      <dep package="cairo"/>
      <dep package="clutter"/>
-     <dep package="gtk+-3"/>
+     <dep package="gtk+"/>
      <dep package="sqlite3"/>
    </dependencies>
    <suggests>
@@ -653,7 +653,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk+-3" />
+      <dep package="gtk+" />
       <dep package="libxklavier" />
     </dependencies>
   </autotools>
@@ -664,7 +664,7 @@
       <dep package="intltool"/>
       <dep package="libxml2"/>
       <dep package="gconf"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="libsoup"/>
     </dependencies>
   </autotools>
@@ -716,7 +716,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
@@ -731,7 +731,7 @@
     <branch/>
     <dependencies>
       <dep package="gobject-introspection"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
     </dependencies>
     <suggests>
       <dep package="pygobject"/>
@@ -804,7 +804,7 @@
             hash="sha256:6e30bc877c5c683e7f1bb67a96d396ceaa0501730555881d9678e8061f4639db"
             md5sum="b9d27909765ccdb0e9941cb484bc2137" size="366601"/>
     <dependencies>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
@@ -923,7 +923,7 @@
             checkoutdir="mozilla-1.9.2.15">
     </branch>
     <dependencies>
-      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
       <dep package="nss"/>
       <dep package="nspr"/>
       <dep package="dbus"/>
@@ -943,7 +943,7 @@
     </branch>
   </autotools>
 
-  <autotools id="polkit-gnome">
+  <autotools id="polkit-gnome" autogenargs="--with-gtk=3.0">
     <branch checkoutdir="polkit-gnome" module="PolicyKit-gnome"/>
     <dependencies>
       <dep package="polkit"/>
@@ -964,7 +964,7 @@
       <dep package="poppler-data"/>
     </suggests>
     <after>
-      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
       <dep package="gdk-pixbuf"/>
     </after>
   </tarball>
@@ -1135,7 +1135,7 @@
       <dep package="cairo"/>
       <dep package="fontconfig"/>
       <dep package="libxml2"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="pango"/>
       <dep package="libsoup"/>
       <dep package="gobject-introspection"/>
@@ -1153,7 +1153,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
@@ -1170,7 +1170,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="gnome-doc-utils"/>
     </dependencies>
   </autotools>
@@ -1189,8 +1189,8 @@
 
   <!-- Deprecated dependencies -->
 
-  <autotools id="gtk+">
-    <branch revision="gtk-2-24"/>
+  <autotools id="gtk+-2">
+    <branch checkoutdir="gtk+-2" module="gtk+" revision="gtk-2-24"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -1207,7 +1207,7 @@
   <autotools id="gtk-engines">
     <branch revision="gtk-engines-2-22"/>
     <dependencies>
-      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
     </dependencies>
   </autotools>
 
@@ -1231,7 +1231,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk+-3"/>
+      <dep package="gtk+"/>
       <dep package="startup-notification"/>
     </dependencies>
   </autotools>
