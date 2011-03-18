@@ -33,6 +33,8 @@
       href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="tarball" name="launchpad.net/tarball"
       href="https://launchpad.net/"/>
+  <repository type="svn" name="svn.yorba.org"
+      href="svn://svn.yorba.org/"/>
 
   <include href="gnome-suites-core-3.0.modules"/>
 
@@ -273,7 +275,6 @@
     </dependencies>
   </autotools>
 
-
   <autotools id="libxml++">
     <branch/>
     <dependencies>
@@ -284,7 +285,7 @@
 
   <autotools id="mono">
     <branch module="mono/mono-2.4.2.2.tar.bz2" version="2.4.2.2"
-            repo="mono.net" 
+            repo="mono.net"
             hash="sha256:e3b965c56a669c3012856dcc17b7400d28505dd4bb8a3c6eb3e653bb41b5e6ba"
             md5sum="54aac9b914c5a4dc81c2bfd058df1c93" size="24813167"/>
     <dependencies>
@@ -905,6 +906,13 @@
       <dep package="libxml2"/>
       <dep package="libnotify"/>
     </suggests>
+  </autotools>
+
+  <autotools id="shotwell">
+    <branch repo="svn.yorba.org" module="shotwell"/>
+    <dependencies>
+      <dep package="gtk+"/>
+    </dependencies>
   </autotools>
 
   <autotools id="tomboy">
