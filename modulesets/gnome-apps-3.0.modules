@@ -75,6 +75,18 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-keyring-2" autogenargs="--with-gtk=2.0">
+    <branch checkoutdir="gnome-keyring-2" module="gnome-keyring" revision="gnome-3-0"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libgcrypt"/>
+      <dep package="libtasn1"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="goffice">
     <branch/>
     <dependencies>
@@ -435,7 +447,7 @@
       <dep package="dbus-glib"/>
       <dep package="gconf"/>
       <dep package="glib"/>
-      <dep package="gnome-keyring"/>
+      <dep package="gnome-keyring-2"/>
       <dep package="gtk+"/>
       <dep package="libnotify"/>
       <dep package="libunique-1"/>
@@ -471,7 +483,7 @@
       <dep package="gtkhtml2"/>
       <dep package="librsvg"/>
       <dep package="poppler"/>
-      <dep package="gnome-keyring"/>
+      <dep package="gnome-keyring-2"/>
       <dep package="dbus-glib"/>
       <dep package="pygtk"/>
     </suggests>
@@ -710,7 +722,7 @@
       <dep package="evolution-data-server"/>
       <dep package="libcanberra"/>
       <dep package="telepathy-farsight"/>
-      <dep package="gnome-keyring-3"/>
+      <dep package="gnome-keyring"/>
       <dep package="libnotify"/>
     </dependencies>
     <suggests>
