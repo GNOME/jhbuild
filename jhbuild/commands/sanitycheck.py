@@ -151,4 +151,10 @@ class cmd_sanitycheck(Command):
             except:
                 uprint(_('Could not check git program'))
 
+        # check for flex/bison:
+        if not inpath('flex', os.environ['PATH'].split(os.pathsep)):
+            uprint(_('%s not found') % 'flex')
+        if not inpath('bison', os.environ['PATH'].split(os.pathsep)):
+            uprint(_('%s not found') % 'bison')
+
 register_command(cmd_sanitycheck)
