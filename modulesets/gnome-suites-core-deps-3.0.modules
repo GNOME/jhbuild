@@ -10,8 +10,6 @@
     href="http://git.clutter-project.org/"/>
 <repository type="git" name="gstreamer.freedesktop.org"
     href="git://anongit.freedesktop.org/gstreamer/"/>
-<repository type="git" name="colord.gitorious.org"
-    href="git://gitorious.org/colord/master.git"/>
 <repository type="cvs" name="libxklavier.freedesktop.org"
     cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
     password=""/>
@@ -528,21 +526,6 @@
             module="utils/kernel/hotplug/udev-147.tar.bz2" version="147">
       <patch file="gudev-147.patch" strip="1"/>
     </branch>
-  </autotools>
-
-  <autotools id="colord" autogenargs="--disable-examples">
-    <branch repo="colord.gitorious.org" checkoutdir="colord" module="master"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="gudev"/>
-      <dep package="sqlite3"/>
-      <!-- and cups -->
-      <!-- and sane -->
-    </dependencies>
-    <suggests>
-      <dep package="polkit"/>
-    </suggests>
   </autotools>
 
   <repository type="tarball" name="icon-theme.freedesktop.org"
@@ -1143,12 +1126,6 @@
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
-
-  <tarball id="lcms2" version="2.0a" checkoutdir="lcms-2.0">
-    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.1.tar.gz"
-            hash="sha256:8b367bd60add7806c9aac970594dae636c24ba28dc774c00f8067644994e9c30"
-            md5sum="08036edb115ad74456dfa20b1998b5f4" size="3752136"/>
   </tarball>
 
   <autotools id="WebKit" makefile="GNUmakefile"

@@ -35,6 +35,8 @@
       href="https://launchpad.net/"/>
   <repository type="svn" name="svn.yorba.org"
       href="svn://svn.yorba.org/"/>
+<repository type="git" name="colord.gitorious.org"
+    href="git://gitorious.org/colord/master.git"/>
 
   <include href="gnome-suites-core-3.0.modules"/>
 
@@ -580,6 +582,47 @@
       <dep package="gtk+"/>
       <dep package="libxml2"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="colord" autogenargs="--disable-examples">
+    <branch repo="colord.gitorious.org" checkoutdir="colord" module="master"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="gudev"/>
+      <dep package="sqlite3"/>
+      <!-- and cups -->
+      <!-- and sane -->
+    </dependencies>
+    <suggests>
+      <dep package="polkit"/>
+    </suggests>
+  </autotools>
+
+ <tarball id="lcms2" version="2.0a" checkoutdir="lcms-2.0">
+    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.1.tar.gz"
+            hash="sha256:8b367bd60add7806c9aac970594dae636c24ba28dc774c00f8067644994e9c30"
+            md5sum="08036edb115ad74456dfa20b1998b5f4" size="3752136"/>
+  </tarball>
+
+  <autotools id="gnome-color-manager">
+    <branch revision="gnome-3-0"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnome-control-center"/>
+      <dep package="gnome-desktop-3"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="lcms2"/>
+      <dep package="libcanberra"/>
+      <dep package="libnotify"/>
+      <dep package="vte-3"/>
+      <!-- and libtiff -->
+    </dependencies>
+    <suggests>
+      <dep package="colord"/>
+    </suggests>
   </autotools>
 
   <autotools id="gnome-devel-docs">
