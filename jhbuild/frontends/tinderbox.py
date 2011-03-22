@@ -344,12 +344,12 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.message('error during stage %s of %s: %s' % (phase, module.name,
                                                           error))
         if self.config.trycheckout:
-            if self.triedcheckout is None and \
-                    state not in ('checkout', 'configure'):
+            if self.triedcheckout is None and altphases.count('configure'):
                 self.triedcheckout = 'configure'
                 self.message(_('automatically retrying configure'))
                 return 'configure'
-            elif self.triedcheckout == 'configure':
+            elif self.triedcheckout == 'configure' and \
+            altphases.count('force_checkout'):
                 self.triedcheckout = 'done'
                 self.message(_('automatically forcing a fresh checkout'))
                 return 'force_checkout'
