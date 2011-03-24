@@ -1,6 +1,6 @@
-diff -u udev-147.orig/configure.ac udev-147/configure.ac
---- udev-147.orig/configure.ac	2009-11-10 06:49:47.000000000 +0100
-+++ udev-147/configure.ac	2011-03-11 14:11:42.000000000 +0100
+diff -ur udev-147.orig/configure.ac udev-147/configure.ac
+--- udev-147.orig/configure.ac	2009-11-10 16:19:47.000000000 +1030
++++ udev-147/configure.ac	2011-03-24 21:09:00.837846011 +1030
 @@ -62,6 +62,10 @@
  	AC_CHECK_LIB([acl], [acl_init], [:], AC_MSG_ERROR([libacl not found]))
  	AC_CHECK_HEADER([acl/libacl.h], [:], AC_MSG_ERROR([libacl header not found]))
@@ -12,14 +12,9 @@ diff -u udev-147.orig/configure.ac udev-147/configure.ac
  	PKG_CHECK_MODULES(LIBUSB, libusb >= 0.1.12)
  	AC_SUBST(LIBUSB_CFLAGS)
  	AC_SUBST(LIBUSB_LIBS)
-Only in udev-147: configure.ac~
-Common subdirectories: udev-147.orig/docs and udev-147/docs
-Common subdirectories: udev-147.orig/extras and udev-147/extras
-Common subdirectories: udev-147.orig/libudev and udev-147/libudev
-Common subdirectories: udev-147.orig/m4 and udev-147/m4
-diff -u udev-147.orig/Makefile.am udev-147/Makefile.am
---- udev-147.orig/Makefile.am	2009-11-10 15:09:27.000000000 +0100
-+++ udev-147/Makefile.am	2011-03-11 14:43:44.000000000 +0100
+diff -ur udev-147.orig/Makefile.am udev-147/Makefile.am
+--- udev-147.orig/Makefile.am	2009-11-11 00:39:27.000000000 +1030
++++ udev-147/Makefile.am	2011-03-24 21:10:03.459845387 +1030
 @@ -25,267 +25,9 @@
  
  CLEANFILES =
@@ -301,6 +296,15 @@ diff -u udev-147.orig/Makefile.am udev-147/Makefile.am
  
  extras_gudev_libgudev_1_0_la_LDFLAGS = \
  	-version-info $(LIBGUDEV_CURRENT):$(LIBGUDEV_REVISION):$(LIBGUDEV_AGE) \
+@@ -366,7 +108,7 @@
+ if ENABLE_INTROSPECTION
+ extras/gudev/GUdev-1.0.gir: extras/gudev/libgudev-1.0.la $(G_IR_SCANNER) Makefile.am
+ 	$(AM_V_GEN)PKG_CONFIG_PATH=$(top_builddir)/data:$$PKG_CONFIG_PATH \
+-	LD_LIBRARY_PATH=$(top_builddir)/extras/gudev \
++	LD_LIBRARY_PATH=$(top_builddir)/extras/gudev:$$LD_LIBRARY_PATH \
+ 	$(G_IR_SCANNER) -v \
+ 		--namespace GUdev \
+ 		--nsversion=1.0 \
 @@ -401,151 +143,6 @@
  endif # ENABLE_INTROSPECTION
  
@@ -453,9 +457,3 @@ diff -u udev-147.orig/Makefile.am udev-147/Makefile.am
  # install, uninstall, clean hooks
  # ------------------------------------------------------------------------------
  clean-local:
-Only in udev-147: Makefile.am~
-Only in udev-147: Makefile.am.orig
-Only in udev-147: Makefile.am.rej
-Common subdirectories: udev-147.orig/rules and udev-147/rules
-Common subdirectories: udev-147.orig/test and udev-147/test
-Common subdirectories: udev-147.orig/udev and udev-147/udev
