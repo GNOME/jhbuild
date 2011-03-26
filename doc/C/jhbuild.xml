@@ -147,15 +147,16 @@
       <title>Configuring JHBuild</title>
 
       <para>The <filename>~/.jhbuildrc</filename> file uses Python syntax to
-        set configuration variables for JHBuild. An example is provided within
-        the jhbuild directory, see <filename>sample.jhbuildrc</filename>. Copy
-        <filename>sample.jhbuildrc</filename> to
+        set configuration variables for JHBuild. An example is provided with
+        JHBuild, see <filename>examples/sample.jhbuildrc</filename>. Copy
+        <filename>examples/sample.jhbuildrc</filename> to
         <filename>~/.jhbuildrc</filename> and customize as required.</para>
 
       <para>The sample configuration will make JHBuild build the
-        <application>meta-gnome-desktop</application> module and its
-        dependencies from the <systemitem>gnome-suites-core-3.0</systemitem>
-        module set. JHBuild will unpack source trees to
+        <application>meta-gnome-core</application> and
+        <application>meta-gnome-apps-tested</application> modules and
+        dependencies from the <systemitem>gnome-apps-3.0</systemitem> module
+        set. JHBuild will unpack source trees to
         <filename>~/checkout/gnome</filename> and install all files to
         subdirectories of <filename>/opt/gnome</filename>. The two directories
         must be writable.</para>
@@ -1569,12 +1570,13 @@ libgnomecanvas is missing branch definition for gnome-2-20
                   repository (or the None value) and the second part the name of
                   the branch. E.g. <literal>('git://git.example.net/project',
                   'gnome-2-28')</literal></simpara>
-		<example>
-		  <title>Simple example</title>
-		  <programlisting>
+
+                <example>
+                  <title>Simple example</title>
+<programlisting>
 		    branches['modulename'] = (None, 'branchname')
 		  </programlisting>
-		</example>
+                </example>
               </listitem>
               <listitem>
                 <simpara>Subversion: URI of module branch E.g.
