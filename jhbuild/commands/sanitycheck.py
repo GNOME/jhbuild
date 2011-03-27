@@ -153,5 +153,7 @@ class cmd_sanitycheck(Command):
             uprint(_('%s not found') % 'flex')
         if not inpath('bison', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'bison')
+        if not inpath('xzcat', os.environ['PATH'].split(os.pathsep)):
+            uprint(_('%s not found') % 'xzcat')
 
 register_command(cmd_sanitycheck)
