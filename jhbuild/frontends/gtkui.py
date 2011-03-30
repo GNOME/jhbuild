@@ -64,14 +64,15 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         gtk.Window.__init__(self)
         self.set_resizable(False)
         theme = gtk.icon_theme_get_default()
-        gtk.window_set_default_icon_list(
-                theme.load_icon('applications-development', 16, ()),
-                theme.load_icon('applications-development', 24, ()),
-                theme.load_icon('applications-development', 32, ()),
-                theme.load_icon('applications-development', 48, ()),
-                theme.load_icon('applications-development', 64, ()),
-                theme.load_icon('applications-development', 128, ())
-                )
+        if theme.has_icon('applications-development'):
+            gtk.window_set_default_icon_list(
+                    theme.load_icon('applications-development', 16, ()),
+                    theme.load_icon('applications-development', 24, ()),
+                    theme.load_icon('applications-development', 32, ()),
+                    theme.load_icon('applications-development', 48, ()),
+                    theme.load_icon('applications-development', 64, ()),
+                    theme.load_icon('applications-development', 128, ())
+                    )
         self.set_title('JHBuild')
 
         self.module_set = jhbuild.moduleset.load(config)

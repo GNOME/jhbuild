@@ -173,7 +173,7 @@ def pprint_output(pipe, format_line):
         read_set.append(pipe.stdout)
     if pipe.stderr:
         read_set.append(pipe.stderr)
-    if sys.stdin:
+    if not sys.stdin.closed:
         read_set.append(sys.stdin)
 
     out_data = err_data = ''
@@ -212,8 +212,8 @@ def pprint_output(pipe, format_line):
                     format_line(err_data[:pos+1], True)
                     err_data = err_data[pos+1:]
 
-            # safeguard against tinderbox that close 0 (stdin)
-            if sys.stdin in rlist and os.isatty(0):
+            # safeguard against tinderbox that close stdin
+            if sys.stdin in rlist and sys.stdin.isatty():
                 in_chunk = os.read(sys.stdin.fileno(), 1024)
                 if pipe.stdin:
                     os.write(pipe.stdin.fileno(), in_chunk)

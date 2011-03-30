@@ -73,7 +73,7 @@ class AutogenModule(Package, DownloadableModule):
     def get_builddir(self, buildscript):
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern % (
-                os.path.basename(self.get_srcdir(buildscript)))
+                self.branch.checkoutdir or self.branch.get_module_basename())
             return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
@@ -110,10 +110,9 @@ class AutogenModule(Package, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
 
         srcdir = self.get_srcdir(buildscript)
-        if self.autogen_sh == 'autogen.sh':
+        if not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
             # if there is no autogen.sh, automatically fallback to configure
-            if not os.path.exists(os.path.join(srcdir, 'autogen.sh')) and \
-                    os.path.exists(os.path.join(srcdir, 'configure')):
+            if os.path.exists(os.path.join(srcdir, 'configure')):
                 self.autogen_sh = 'configure'
 
         try:
@@ -322,7 +321,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     makeargs = ''
     makeinstallargs = ''
     supports_non_srcdir_builds = True
-    autogen_sh = 'autogen.sh'
+    autogen_sh = None
     skip_autogen = False
     check_target = True
     makefile = 'Makefile'
@@ -369,6 +368,15 @@ def parse_autotools(node, config, uri, repositories, default_repo):
 
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
+
+    from jhbuild.versioncontrol.tarball import TarballBranch
+    if isinstance(branch, TarballBranch):
+        # in tarballs, force autogen-sh to be configure, unless autogen-sh is
+        # already set
+        if autogen_sh is None:
+            autogen_sh = 'configure'
+    elif not autogen_sh:
+        autogen_sh = 'autogen.sh'
 
     return AutogenModule(id, branch, autogenargs, makeargs,
                          makeinstallargs=makeinstallargs,

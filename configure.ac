@@ -1,4 +1,4 @@
-AC_INIT([jhbuild], [2.31.4],
+AC_INIT([jhbuild], [2.32.4],
 		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE([-Wno-portability])
@@ -47,5 +47,6 @@ AC_CONFIG_FILES([
 	buildbot/Makefile
 ])
 AC_OUTPUT([
+        examples/jhbuild.desktop
 	jhbuild.desktop.in
 ])

@@ -71,24 +71,26 @@ class cmd_info(Command):
         if isinstance(module, MetaModule):
             pass
         elif isinstance(module.branch, CVSBranch):
-            uprint(_('CVS-Root:'), module.branch.repository.cvsroot)
-            uprint(_('CVS-Module:'), module.branch.module)
+            uprint(_('CVS Root:'), module.branch.repository.cvsroot)
+            uprint(_('CVS Module:'), module.branch.module)
             if module.branch.revision:
-                uprint(_('CVS-Revision:'), module.branch.revision)
+                uprint(_('CVS Revision:'), module.branch.revision)
         elif isinstance(module.branch, SubversionBranch):
-            uprint(_('Subversion-Module:'), module.branch.module)
+            uprint(_('Subversion Module:'), module.branch.module)
         elif isinstance(module.branch, ArchBranch):
-            uprint(_('Arch-Version:'), module.branch.module)
+            uprint(_('Arch Version:'), module.branch.module)
         elif isinstance(module.branch, DarcsBranch):
-            uprint(_('Darcs-Archive:'), module.branch.module)
+            uprint(_('Darcs Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):
-            uprint(_('Git-Module:'), module.branch.module)
+            uprint(_('Git Module:'), module.branch.module)
+            if module.branch.unmirrored_module:
+                uprint(_('Git Origin Module:'), module.branch.unmirrored_module)
             git_branch = module.branch.branch
             if not git_branch:
                 git_branch = 'master'
-            uprint(_('Git-Branch:'), git_branch)
+            uprint(_('Git Branch:'), git_branch)
             if module.branch.tag:
-                uprint(_('Git-Tag:'), module.branch.tag)
+                uprint(_('Git Tag:'), module.branch.tag)
         elif isinstance(module.branch, TarballBranch):
             uprint(_('URL:'), module.branch.module)
             uprint(_('Version:'), module.branch.version)
@@ -109,7 +111,7 @@ class cmd_info(Command):
         requiredby = [ mod.name for mod in module_set.modules.values()
                        if module.name in mod.dependencies ]
         if requiredby:
-            uprint(_('Required-by:'), ', '.join(requiredby))
+            uprint(_('Required by:'), ', '.join(requiredby))
         if module.suggests:
             uprint(_('Suggests:'), ', '.join(module.suggests))
         if module.after:

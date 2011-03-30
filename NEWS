@@ -1,4 +1,142 @@
 ==============
+Version 2.32.4
+==============
+
+Fixed bugs:
+
+ - #560237, Can't download from svn servers with validation error
+ - #599212, Add support for distcheck to jhbuild autobuild command
+ - #602682, Python 2.5.2 doesn't build on OSX 10.6 with gcc-4.2.1
+ - #610054, autobuild crashes when build fails
+ - #610943, Please add anjuta-extras
+ - #616659, failure in phase "build" cannot be ignored
+ - #618499, building nss in default moduleset breaks jhbuild
+ - #618992, Remove obsolete gconf-dbus module
+ - #619659, Need to integrate at-spi2 modules
+ - #621152, -a and -t parameters are incompatible in "jhbuild list"
+ - #621194, cmake doesn't configure (reconfigure) when --autogen
+ - #622287, [3.0] Remove deprecated esound and audiofile libraries
+ - #622316, jhbuild cannot find pyclutter source
+ - #622542, gnome-doc-utils doesn´t compile
+ - #622859, poppler 0.14.0 fails to build: parseargs.o: undefined reference
+            to symbol 'gatof'
+ - #623230, [git] Add optional branch attributes to snapshot
+ - #623425, Remove --enable-gstreamer argument from gnome-control-center
+ - #623439, DeviceKit-power is now UPower and Jhbuild fails
+ - #623500, Error during phase build of gtk+ with Jhbuild: Cairo was not
+            compiled with support fot the xlib backend
+ - #623662, [git] Add '-dirty' suffix to tree_id if dirty
+ - #623668, [PATCH] build: Suppress the 195 lines of warnings from Automake
+ - #623768, libproxy build fail: "jsapi.h not found"
+ - #623930, [git] Let sticky date move back and forth along master
+ - #623931, [git] Make it possible to leave the sticky-date branch
+ - #624077, Manual should detail running a Single GNOME Application
+ - #624079, Manual shouldn't have Frequently Asked Questions (FAQ)
+ - #624436, docs for the 'patch' feature are incorrect
+ - #624969, gnome-media depends on gnome-control-center
+ - #626039, Remove PolicyKit/PolicyKit-gnome from external deps modulesets
+ - #626042, [2.32] Make sure we only build GNOME 2.32 against GTK+ 2
+ - #626288, network-manager-applet should suggest mobile-broadband-
+            provider-info
+ - #626369, autogen fails to download
+ - #626808, gnome-disk-utility depends on avahi-ui
+ - #626839, Mozilla version is outdated
+ - #627576, totem requires libpeas 0.5.5
+ - #628339, Review CMake support enhancement
+ - #628368, Deprecate glade?
+ - #628556, Add glib-networking to jhbuild
+ - #628560, Bump libproxy to version 0.4.6
+ - #628738, D-Bus misconfigured in jhbuild
+ - #629240, Fix docs for <patch> and <quilt> in tarball <branch>es
+ - #629316, [Review] Fixed crash in CMake clean
+ - #630079, gnome-suites-3.0: Evolution seems to require gnome-desktop-3
+ - #630726, Replicate checkoutdir directory trees below buildroot
+ - #631108, libtasn1 URL changed
+ - #631354, Broken dependencies in gnome-suites-3.0 moduleset
+ - #631583, gnome-menu build error (jhbuild)
+ - #632265, Fix status line in quiet mode
+ - #632435, turn the hard dependency on dbus into a soft dependency
+ - #632843, farlight2 needs a patch
+ - #632859, [bzr] Never generate copydir location with srcdir property
+ - #632863, [git] Account for '.git' suffix removal in srcdir
+ - #633740, gnome 3 module-set: gnome-shell needs gnome-desktop-3
+ - #633751, gnome 3 module set: gnome-shell needs gsettings-desktop-schemas
+ - #633794, evolution-exchange and evolution-mapi are wrongly picked from
+            master with evolution 2-32
+ - #633850, [3.0]  Suggest accountsservice for gnome-control-center
+ - #634373, fail to build due jhbuild error
+ - #634382, gnome-desktop dependency error on gnome-themes
+ - #634866, documentation says min-time, actual name is min-age
+ - #634867, min-age option is broken
+ - #634953, Use xulrunner 1.9.2.x in 3.0 moduleset
+ - #635081, Modulesets with dependencies on trunk versions are wrong
+ - #635498, jhbuild gui: add check for icon
+ - #635551, default moduleset is not as claimed
+ - #635862, autotools modtype should prefer configure over autogen.sh for
+            tarballs
+ - #636032, add '2.32.x' and '3.0.x' to Bugzilla versions
+ - #636169, Fixes for building empathy in 3.0 module sets
+ - #636196, [PATCH] Update pulseaudio.modules
+ - #636199, [PATCH] Update libsndfile to 1.0.23 in gnome-suites-core-
+            deps-3.0.modules
+ - #636205, Closing tag missing in documentation example
+ - #636253, Fix build issues building empathy
+ - #636359, support directory in moduleset config option
+ - #636595, [PATCH] Adapt WebKit to API change in gdk_window_get_geometry
+ - #636618, add cairo dependency to gobject-introspection
+ - #636772, shared-mime-info is not built for Evince
+ - #636823, nss should be built before NetworkManager
+ - #636877, jhbuild uninstall automake-1.8 leads to an error
+ - #636921, Error compiling guile with jhbuild bootstrap
+ - #637098, mozilla should depend on libnotify
+ - #637119, Document configuration option dvcs_mirror_dir in Manual
+ - #637218, error in moduleset.py
+ - #637488, jhbuild not building Gnome 2.32, error messages
+ - #637513, the number of methods to run JHBuild GNOME in JHBuild Manual is
+            wrong
+ - #637550, gnome-user-share: missing dep on libunique
+ - #637728, Restore support for absolute moduleset paths
+
+Translators:
+
+- Mario Blättermann (de)
+- Daniel Mustieles, Jorge González (es)
+- Bruno Brouard, Claude Paroz (fr)
+- Fran Diéguez (gl)
+- Takayuki KUSANO (ja)
+- Djavan Fagundes (pt_BR)
+- Matej Urbančič (sl)
+- Daniel Nylander (sv)
+- Maxim V. Dziumanenko (uk)
+- Aron Xu (zh_CN)
+
+Documentation translators:
+
+- Mario Blättermann (de)
+- Daniel Mustieles, Jorge González (es)
+- Claude Paroz (fr)
+- Jiro Matsuzawa, Hiroyuki Sekihara (ja)
+
+Many thanks to all contributors: Emmanuele Bassi, Gil Forcada, Djavan
+Fagundes, Zeeshan Ali (Khattak), William Jon McCann, Víctor Manuel Jáquez
+Leal, Federico Mena Quintero, Mario Blättermann, Richard Hughes, Philip
+Withnall, Cosimo Cecchi, Filippo Argiolas, Jiro Matsuzawa, Kjartan Maraas,
+Javier Jardón, Travis Reitter, Nicolas Dufresne, Sven Herzberg, Jiří
+Techet, Bastien Nocera, Maxim V. Dziumanenko, Owen W. Taylor, Takayuki
+KUSANO, Juan A. Suarez Romero, Paolo Borelli, Luca Ferretti, Xan Lopez,
+Vincent Untz, Ignacio Casal Quinteiro, Jorge González, Fran Diéguez,
+Mikkel Kamstrup Erlandsen, Tshepang Lekhonkhobe, Thomas Wood, Vivien
+Malerba, Claude Paroz, Andre Klapper, Ray Strode, Lucas Rocha, Torsten
+Schönfeld, Matthias Clasen, Martyn Russell, Aron Xu, Hiroyuki Sekihara, Dan
+Williams, Guillaume Desmottes, Murray Cumming, Craig Keogh, Bruno Brouard,
+Daniel Nylander, Chris Kühl, Stef Walter, Andika Triwidada, Jonh Wendell,
+Colin Walters, Benjamin Otte, Damien Lespiau, Florian Gawrilowicz, Guido
+Günther, Johannes Schmid, Dirk Wallenstein, Krzesimir Nowak, Milan Bouchet-
+Valat, Danielle Madeley, Matej Urbančič, Dan Ziemba, Christian Kirbach,
+Olav Vitters, Daniel Mustieles, Łukasz Jernaś, Michael Meeks, Pablo
+Castellano, Jon TURNEY, Marc-André Lureau
+
+==============
 Version 2.30.2
 ==============
 

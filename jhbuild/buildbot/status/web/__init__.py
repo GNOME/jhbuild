@@ -43,6 +43,21 @@ def content(self, request):
     return data
 HtmlResource.content = content
 
+
+class ListOfModules(resource.Resource):
+    def render(self, request):
+        data = self.content(request)
+        request.setHeader('content-type', 'text/plain')
+        if request.method == 'HEAD':
+            request.setHeader('content-length', len(data))
+            return ''
+        return str(data)
+
+    def content(self, request):
+        parent = request.site.buildbot_service
+        return '\n'.join(parent.modules)
+
+
 class ProjectsSummary(HtmlResource):
 
     MAX_PROJECT_NAME = 25
@@ -82,7 +97,7 @@ class ProjectsSummary(HtmlResource):
             moduleset = ', '.join(parent.moduleset)
         else:
             moduleset = parent.moduleset
-        result += '<thead><tr><td>&nbsp;</td><td>&nbsp;</td><th>' + moduleset + '</td>'
+        result += '<thead><tr><td>&nbsp;</td><th>' + moduleset + '</td>'
         for name in parent.slaves:
             if len(name) > 25:
                 name = name[:25] + '(...)'
@@ -99,7 +114,7 @@ class ProjectsSummary(HtmlResource):
         # have been handled
 
         # Contents
-	result = '<tbody>'
+        result = '<tbody>'
 
         slave_results = {}
         for slave in parent.slaves:
@@ -108,9 +123,7 @@ class ProjectsSummary(HtmlResource):
         for module in parent.modules:
             result += '<tr>'
             result += '<td class="feed"><a href="%s/atom">' % module
-            result += '<img src="/feed-atom.png" alt="Atom"></a></td>'
-            result += '<td class="feed"><a href="%s/rss">' % module
-            result += '<img src="/feed.png" alt="RSS"></a></td>\n'
+            result += '<img src="/feed.png" alt="Atom"></a></td>\n'
             result += '<th><a href="%s">%s</a></td>' % (module, module)
 
             for slave in parent.slaves:
@@ -163,9 +176,9 @@ class ProjectsSummary(HtmlResource):
                         slave_results[slave][1] += 1
 
             result += '</tr>\n'
-	result += '</tbody>\n'
-        result += '<tfoot><tr class="totals"><td colspan="3"></td>'
-        thead += '<tr class="totals"><td colspan="3"></td>'
+        result += '</tbody>\n'
+        result += '<tfoot><tr class="totals"><td colspan="2"></td>'
+        thead += '<tr class="totals"><td colspan="2"></td>'
         for slave in parent.slaves:
             td = '<td><span title="Successful builds">%s</span> '\
                       '<span title="(ignoring test suites failures)">(%s)</span> / '\
@@ -182,9 +195,9 @@ class JHBuildWebStatus(WebStatus):
 
     def __init__(self, moduleset, modules, slaves, *args, **kwargs):
         WebStatus.__init__(self, *args, **kwargs)
-	self.moduleset = moduleset
-	self.modules = modules
-	self.slaves = slaves
+        self.moduleset = moduleset
+        self.modules = modules
+        self.slaves = slaves
 
         # set up the per-module waterfalls
         for module in self.modules:
@@ -197,6 +210,9 @@ class JHBuildWebStatus(WebStatus):
         self.putChild('changes', ChangesResource())
         self.putChild('builders', JhBuildersResource())
         self.putChild('bots', JhBuildbotsResource())
+
+        # and more pages
+        self.putChild('modules.txt', ListOfModules())
 
     def setupSite(self):
         WebStatus.setupSite(self)

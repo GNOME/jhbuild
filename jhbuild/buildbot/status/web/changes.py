@@ -21,7 +21,7 @@ import time
 
 from buildbot.status.web.base import HtmlResource
 from twisted.web.util import Redirect
-
+from twisted.web.error import NoResource
 
 class ChangesResource(HtmlResource):
     def getChild(self, path, req):
@@ -71,10 +71,14 @@ class ChangeResource(HtmlResource):
         if self.change.revision:
             if len(self.change.revision) == 40:
                 # git commit
+                if hasattr(self.change, 'git_module_name'):
+                    git_module_name = self.change.git_module_name
+                else:
+                    git_module_name = self.change.project
                 link = 'http://git.gnome.org/browse/%s/commit/?id=%s' % (
-                        self.change.project, self.change.revision)
+                        git_module_name, self.change.revision)
                 data += '<p>View in GNOME cgit: <a href="%s">%s commit %s</a></dd>\n' % (
-                        link, self.change.project, self.change.revision[:8])
+                        link, git_module_name, self.change.revision[:8])
             else:
                 link = 'http://svn.gnome.org/viewvc/%s?view=revision&revision=%s' % (
                         self.change.project, self.change.revision)

@@ -83,7 +83,7 @@ class FeedResource(XmlResource):
             if lastbuild is None:
                 continue
 
-#	    if b.category != "prod":
+#           if b.category != "prod":
 #                continue
             lastnr = lastbuild.getNumber()
 
@@ -122,7 +122,7 @@ class FeedResource(XmlResource):
 
     def body (self, request):
         data = ''
-	self.status = self.getStatus(request)
+        self.status = self.getStatus(request)
         self.link = str(self.status.getBuildbotURL())
         projectName = str(self.categories[0])
         self.title = 'Build status of %s' % projectName
@@ -141,8 +141,6 @@ class FeedResource(XmlResource):
                 source = "[src unknown]"
             else:
                 branch, revision, patch = ss.branch, ss.revision, ss.patch
-                if build.getChanges():
-                    revision = max([int(c.revision) for c in build.getChanges()])
                 source = ""
                 if branch:
                     source += "Branch %s " % branch
@@ -156,6 +154,8 @@ class FeedResource(XmlResource):
             title = projectName + ' ' + source + " failed on '" + builder_name + "'"
 
             # get name of the failed step and the last 30 lines of its log.
+            lastlog = ''
+            laststep = None
             if build.getLogs():
                 log = build.getLogs()[-1]
                 laststep = log.getStep().getName()
@@ -166,7 +166,6 @@ class FeedResource(XmlResource):
                     lastlog='<b>log file not available</b>'
 
             lines = re.split('\n', lastlog)
-            lastlog = ''
             for logline in lines[max(0, len(lines)-30):]:
                 lastlog = lastlog + logline
 
@@ -176,7 +175,8 @@ class FeedResource(XmlResource):
             description += '<dt>Build details</dt><dd><a href="%s">%s</a></dd>' % (link, link)
             if build.getResponsibleUsers():
                 description += '<dt>Author list</dt><dd>' + ', '.join(build.getResponsibleUsers()) + '</dd>\n'
-            description += '<dt>Failed step</dt><dd><b>%s</b></dd>\n' % laststep
+            if laststep:
+                description += '<dt>Failed step</dt><dd><b>%s</b></dd>\n' % laststep
             description += '</dl>\n'
             description += '<p>Last lines of the build log:</p>\n'
             description += '<pre>%s</pre>' % twhtml.escape(lastlog)

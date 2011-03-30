@@ -123,8 +123,10 @@ class BzrBranch(Branch):
     revspec = property(get_revspec, set_revspec)
 
     def srcdir(self):
-        return Branch.get_checkoutdir(self)
-
+        if self.checkoutdir:
+            return os.path.join(self.checkoutroot, self.checkoutdir)
+        else:
+            return os.path.join(self.checkoutroot, self.get_module_basename())
     srcdir = property(srcdir)
 
     def get_module_basename(self):

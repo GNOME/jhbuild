@@ -24,7 +24,8 @@ import sys
 import urlparse
 import logging
 
-from jhbuild.errors import UsageError, FatalError, DependencyCycleError, CommandError
+from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
+             CommandError, UndefinedRepositoryError
 
 try:
     import xml.dom.minidom
@@ -37,7 +38,11 @@ from jhbuild.utils import httpcache
 from jhbuild.utils.cmds import get_output
 from jhbuild.modtypes.testmodule import TestModule
 
-__all__ = ['load', 'load_tests']
+__all__ = ['load', 'load_tests', 'get_default_repo']
+
+_default_repo = None
+def get_default_repo():
+    return _default_repo
 
 class ModuleSet:
     def __init__(self, config = None):
@@ -57,8 +62,7 @@ class ModuleSet:
                     logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
                             'orig': module_name, 'new': module})
                 return self.modules[module]
-        print "Couldn't find the specified module: %s" % module_name
-        sys.exit(2)
+        raise KeyError(module_name)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
@@ -79,6 +83,7 @@ class ModuleSet:
         # otherwise be built
         i = 0
         while i < len(all_modules):
+            dep_missing = False
             for modname in all_modules[i].dependencies:
                 depmod = self.modules.get(modname)
                 if not depmod:
@@ -87,7 +92,11 @@ class ModuleSet:
                                 '%(module)s has a dependency on unknown "%(invalid)s" module') % {
                                     'module': all_modules[i].name,
                                     'invalid': modname})
-                    del all_modules[i]
+                    logging.info(_(
+                                '%(module)s has a dependency on unknown "%(invalid)s" module') % {
+                                    'module': all_modules[i].name,
+                                    'invalid': modname})
+                    dep_missing = True
                     continue
                 if not depmod in all_modules:
                     all_modules.append(depmod)
@@ -100,6 +109,10 @@ class ModuleSet:
                         continue
                     if not depmod in all_modules:
                         all_modules.append(depmod)
+
+            if dep_missing:
+                del all_modules[i]
+
             i += 1
 
         # 2nd: order them, raise an exception on hard dependency cycle, ignore
@@ -133,8 +146,11 @@ class ModuleSet:
                     return
             self._state[module] = 'in-progress'
             for modname in module.dependencies:
-                depmod = self.modules[modname]
-                order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
+                try:
+                    depmod = self.modules[modname]
+                    order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
+                except KeyError:
+                    pass # user already notified via logging.info above
             if not ignore_suggests:
                 for modname in module.suggests:
                     depmod = self.modules.get(modname)
@@ -145,6 +161,8 @@ class ModuleSet:
                         order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
                     except DependencyCycleError:
                         self._state, self._ordered = save_state, save_ordered
+                    except KeyError:
+                        pass # user already notified via logging.info above
 
             extra_afters = []
             for modname in module.after:
@@ -284,11 +302,17 @@ def load(config, uri=None):
         modulesets = [ config.moduleset ]
     ms = ModuleSet(config = config)
     for uri in modulesets:
-        if '/' not in uri and not os.path.isfile(uri):
-            if config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
+        if os.path.isabs(uri):
+            pass
+        elif config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
+            if os.path.isfile(os.path.join(config.modulesets_dir,
+                                           uri + '.modules')):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
-            else:
-                uri = 'http://git.gnome.org/browse/jhbuild/plain/modulesets/%s.modules' % uri
+            elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
+                uri = os.path.join(config.modulesets_dir, uri)
+        elif not urlparse.urlparse(uri)[0]:
+            uri = 'http://git.gnome.org/browse/jhbuild/plain/modulesets' \
+                  '/%s.modules' % uri
         try:
             ms.modules.update(_parse_module_set(config, uri).modules)
         except xml.parsers.expat.ExpatError, e:
@@ -387,6 +411,8 @@ def _parse_module_set(config, uri):
             inc_uri = urlparse.urljoin(uri, href)
             try:
                 inc_moduleset = _parse_module_set(config, inc_uri)
+            except UndefinedRepositoryError:
+                raise
             except FatalError, e:
                 if inc_uri[0] == '/':
                     raise e
@@ -407,6 +433,11 @@ def _parse_module_set(config, uri):
             module.moduleset_name = moduleset_name
             module.config = config
             moduleset.add(module)
+
+    # keep default repository around, used when creating automatic modules
+    global _default_repo
+    if default_repo:
+        _default_repo = repositories[default_repo]
 
     return moduleset
 

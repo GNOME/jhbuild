@@ -11,20 +11,20 @@ if 'GTK_PATH' in os.environ.keys():
 modulesets_dir = os.path.join(SRCDIR, 'modulesets')
 
 # what modules to build?
-moduleset = 'gnome-3.0'
-modules = [ 'meta-gnome-desktop' ]
+moduleset = 'gnome-apps-3.0'
+modules = [ 'meta-gnome-core', 'meta-gnome-apps-tested' ]
 
 # policy for modules to build, options are:
-#  - all: build everything requested (default behaviour)
+#  - all: build everything requested
 #  - updated: build only modules that have changed
 #  - updated-deps: build modules that have changed, or their dependencies
 #    have changed.
-build_policy = 'all'
+build_policy = 'updated-deps'
 
-# skip modules installed before $min_time (in seconds since epoch)
-# for example: min_time = time.time() - 3600 will skip modules that
-# have been installed less than one hour ago.
-min_time = None
+# Skip modules installed more recently than the specified relative time.
+# min_age can only be specified via the command-line. Setting min_age within
+# the configuration file has no effect.
+min_age = None
 
 # modules to skip during dependency expansion
 skip = []
@@ -32,10 +32,10 @@ skip = []
 tags = []
 
 # directories
-prefix = '/opt/gnome2'
-checkoutroot = os.path.join(os.environ['HOME'], 'cvs', 'gnome2')
+prefix = '/opt/gnome'
+checkoutroot = os.path.expanduser('~/checkout/gnome')
 tarballdir = None    # will default to checkoutroot
-buildroot = None     # if set, packages will be build with srcdir!=builddir
+buildroot = None     # if set, packages will be built with srcdir!=builddir
 
 # When using srcdir!=builddir builds, this key allows you to use a
 # different builddir name.  Some people like this because it reduces
@@ -45,6 +45,7 @@ builddir_pattern = '%s'
 
 # override environment variables, command line arguments, etc
 autogenargs = '--disable-static --disable-gtk-doc'
+cmakeargs = ''
 makeargs = ''
 cflags = ''
 
@@ -62,6 +63,7 @@ cvsroots = {}
 svnroots = {}
 branches = {}
 module_autogenargs = {}
+module_cmakeargs = {}
 module_makeargs = {}
 module_extra_env = {}
 module_makecheck = {}

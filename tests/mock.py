@@ -52,7 +52,7 @@ class Config(jhbuild.config.Config):
     module_makeargs = {}
     build_targets = ['install']
 
-    min_time = None
+    min_age = None
 
     prefix = '/tmp/'
 

@@ -38,9 +38,12 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[]):
+    def __init__(self, name, branch, cmakeargs='', makeargs='',
+                 dependencies=[], after=[], suggests=[]):
         Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
+        self.cmakeargs = cmakeargs
+        self.makeargs  = makeargs
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -48,13 +51,34 @@ class CMakeModule(Package, DownloadableModule):
     def get_builddir(self, buildscript):
         if buildscript.config.buildroot:
             d = buildscript.config.builddir_pattern % (
-                os.path.basename(self.get_srcdir(buildscript)))
+                self.branch.checkoutdir or self.branch.get_module_basename())
             return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
 
     def get_revision(self):
         return self.branch.tree_id()
+
+    def eval_args(self, args):
+        args = args.replace('${prefix}', self.config.prefix)
+        libsubdir = 'lib'
+        if self.config.use_lib64:
+            libsubdir = 'lib64'
+        libdir = os.path.join(self.config.prefix, libsubdir)
+        args = args.replace('${libdir}', libdir)
+        return args
+
+    def get_cmakeargs(self):
+        args = '%s %s' % (self.cmakeargs,
+                          self.config.module_cmakeargs.get(
+                              self.name, self.config.cmakeargs))
+        return self.eval_args(args)
+
+    def get_makeargs(self):
+        args = '%s %s' % (self.makeargs,
+                          self.config.module_makeargs.get(
+                              self.name, self.config.makeargs))
+        return self.eval_args(args)
 
     def skip_configure(self, buildscript, last_phase):
         return buildscript.config.nobuild
@@ -66,10 +90,9 @@ class CMakeModule(Package, DownloadableModule):
         if not os.path.exists(builddir):
             os.mkdir(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
-        cmd = ['cmake', '-DCMAKE_INSTALL_PREFIX=%s' % prefix,
-               '-DLIB_INSTALL_DIR=%s' % buildscript.config.libdir,
-               '-Dlibdir=%s' % buildscript.config.libdir,
-               srcdir]
+        baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DLIB_INSTALL_DIR=%s -Dlibdir=%s' % (
+                        prefix, buildscript.config.libdir, buildscript.config.libdir)
+        cmd = 'cmake %s %s %s' % (baseargs, self.get_cmakeargs(), srcdir)
         if os.path.exists(os.path.join(builddir, 'CMakeCache.txt')):
             # remove that file, as it holds the result of a previous cmake
             # configure run, and would be reused unconditionnaly
@@ -79,17 +102,28 @@ class CMakeModule(Package, DownloadableModule):
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
 
+    def do_clean(self, buildscript):
+        buildscript.set_action(_('Cleaning'), self)
+        builddir = self.get_builddir(buildscript)
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.get_makeargs())
+        buildscript.execute(cmd, cwd = builddir,
+                extra_env = self.extra_env)
+    do_clean.depends = [PHASE_CONFIGURE]
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
-        buildscript.execute(os.environ.get('MAKE', 'make'), cwd = builddir,
+        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.get_makeargs())
+        buildscript.execute(cmd, cwd = builddir,
                 extra_env = self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        cmd = '%s package_source' % os.environ.get('MAKE', 'make')
+        cmd = '%s %s package_source' % (os.environ.get('MAKE', 'make'),
+                self.get_makeargs())
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_dist.depends = [PHASE_CONFIGURE]
@@ -98,7 +132,9 @@ class CMakeModule(Package, DownloadableModule):
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
-        buildscript.execute([os.environ.get('MAKE', 'make'), 'install'],
+        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'),
+                self.get_makeargs())
+        buildscript.execute(cmd,
                 cwd = builddir,
                 extra_env = self.extra_env)
         buildscript.packagedb.add(self.name, self.get_revision() or '')
@@ -110,11 +146,19 @@ class CMakeModule(Package, DownloadableModule):
 
 def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
+    cmakeargs = ''
+    makeargs = ''
+    if node.hasAttribute('cmakeargs'):
+        cmakeargs = node.getAttribute('cmakeargs')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
 
-    return CMakeModule(id, branch, dependencies = dependencies, after = after,
-            suggests = suggests)
+    return CMakeModule(id, branch, cmakeargs, makeargs,
+                       dependencies = dependencies, after = after,
+                       suggests = suggests)
 
 register_module_type('cmake', parse_cmake)
 

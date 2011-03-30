@@ -128,12 +128,13 @@ class TerminalBuildScript(buildscript.BuildScript):
         module_pos = '[' + format_str % module_num + '/' + format_str % len(self.modulelist) + ']'
 
         output = '%s %s %s%s%s' % (progress_bar, module_pos, t_bold, message, t_reset)
-        if len(output) > columns:
-            output = output[:columns]
+        text_width = len(output) - (len(t_bold) + len(t_reset))
+        if text_width > columns:
+            output = output[:columns+len(t_bold)] + t_reset
         else:
-            output += ' ' * (columns-len(output))
+            output += ' ' * (columns-text_width)
 
-        sys.stdout.write(output + '\r')
+        sys.stdout.write('\r'+output)
         if self.is_end_of_build:
             sys.stdout.write('\n')
         sys.stdout.flush()

@@ -81,9 +81,9 @@ class BuildScript:
         for module in self.modulelist:
             self.module_num = self.module_num + 1
 
-            if self.config.min_time is not None:
+            if self.config.min_age is not None:
                 installdate = self.packagedb.installdate(module.name)
-                if installdate > self.config.min_time:
+                if installdate > self.config.min_age:
                     self.message(_('Skipping %s (installed recently)') % module.name)
                     continue
 
@@ -93,7 +93,7 @@ class BuildScript:
                 if dep in failures:
                     if self.config.module_nopoison.get(dep,
                                                        self.config.nopoison):
-                        self.message(_('module %(mod)s will be build even though %(dep)s failed')
+                        self.message(_('module %(mod)s will be built even though %(dep)s failed')
                                      % { 'mod':module.name, 'dep':dep })
                     else:
                         self.message(_('module %(mod)s not built due to non buildable %(dep)s')

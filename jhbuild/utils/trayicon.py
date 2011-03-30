@@ -21,15 +21,34 @@ import sys
 import os
 import subprocess
 import signal
+try:
+    import dbus
+except ImportError:
+    dbus = None
 
 class TrayIcon:
     proc = None
 
     def __init__(self, config):
+        if dbus is None:
+            return
         if config and config.notrayicon:
             return
         if not os.environ.get('DISPLAY'):
             return
+
+        try:
+            bus = dbus.SessionBus()
+            proxy = bus.get_object('org.freedesktop.Notifications',
+                                   '/org/freedesktop/Notifications')
+            notify_iface = dbus.Interface(proxy, dbus_interface='org.freedesktop.Notifications')
+            caps = notify_iface.GetCapabilities()
+            for item in caps:
+                if item == "persistence":
+                    return
+        except:
+            pass
+
         try:
             self._run_zenity()
         except AttributeError:

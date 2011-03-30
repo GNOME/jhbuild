@@ -7,14 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild&component=general\n"
-"POT-Creation-Date: 2010-06-29 19:09+0000\n"
-"PO-Revision-Date: 2010-06-30 08:04+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-03-21 09:07+0000\n"
+"PO-Revision-Date: 2011-03-21 15:04+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
@@ -47,15 +48,21 @@ msgid "run make clean before make"
 msgstr "zaženi ukaz make clean pred make"
 
 #: ../jhbuild/commands/autobuild.py:41
+#: ../jhbuild/commands/base.py:225
+#: ../jhbuild/commands/base.py:319
+msgid "run make distcheck after building"
+msgstr "izvedi make distcheck po izgradnji"
+
+#: ../jhbuild/commands/autobuild.py:44
 #: ../jhbuild/commands/base.py:46
 #: ../jhbuild/commands/base.py:237
-#: ../jhbuild/commands/base.py:465
+#: ../jhbuild/commands/base.py:475
 #: ../jhbuild/commands/clean.py:38
 #: ../jhbuild/commands/tinderbox.py:49
 msgid "treat the given modules as up to date"
 msgstr "obravnavaj podane module kot posodobljene"
 
-#: ../jhbuild/commands/autobuild.py:44
+#: ../jhbuild/commands/autobuild.py:47
 #: ../jhbuild/commands/base.py:49
 #: ../jhbuild/commands/base.py:240
 #: ../jhbuild/commands/clean.py:41
@@ -63,22 +70,22 @@ msgstr "obravnavaj podane module kot posodobljene"
 msgid "start building at the given module"
 msgstr "začni izgradnjo pri podanem modulu"
 
-#: ../jhbuild/commands/autobuild.py:47
+#: ../jhbuild/commands/autobuild.py:50
 msgid "jhautobuild report URL"
 msgstr "jhautobuild URL poročila"
 
-#: ../jhbuild/commands/autobuild.py:50
+#: ../jhbuild/commands/autobuild.py:53
 msgid "verbose mode"
 msgstr "podrobni izpis"
 
-#: ../jhbuild/commands/autobuild.py:67
+#: ../jhbuild/commands/autobuild.py:70
 msgid "report url for autobuild not specified"
 msgstr "naslov url za poročila autobuild ni določen"
 
-#: ../jhbuild/commands/autobuild.py:78
+#: ../jhbuild/commands/autobuild.py:81
 #: ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:284
-#: ../jhbuild/commands/base.py:504
+#: ../jhbuild/commands/base.py:514
 #: ../jhbuild/commands/clean.py:55
 #: ../jhbuild/commands/tinderbox.py:86
 #, python-format
@@ -94,14 +101,14 @@ msgstr "Posodobi vse module preko nadzora različic"
 #: ../jhbuild/commands/base.py:122
 #: ../jhbuild/commands/base.py:207
 #: ../jhbuild/commands/base.py:301
-#: ../jhbuild/commands/base.py:456
+#: ../jhbuild/commands/base.py:466
 #: ../jhbuild/commands/tinderbox.py:31
 msgid "[ options ... ] [ modules ... ]"
 msgstr "[ možnosti ... ] [ moduli ... ]"
 
 #: ../jhbuild/commands/base.py:52
 #: ../jhbuild/commands/base.py:243
-#: ../jhbuild/commands/base.py:471
+#: ../jhbuild/commands/base.py:481
 msgid "build only modules with the given tags"
 msgstr "izgradi le module s podanimi oznakami"
 
@@ -115,7 +122,7 @@ msgstr "določi lepljivi datum "
 
 #: ../jhbuild/commands/base.py:58
 #: ../jhbuild/commands/base.py:228
-#: ../jhbuild/commands/base.py:474
+#: ../jhbuild/commands/base.py:484
 msgid "ignore all soft-dependencies"
 msgstr "prezri vse mehke-odvisnosti"
 
@@ -125,9 +132,8 @@ msgstr "Posodobi enega ali več modulov preko nadzora različic"
 
 #: ../jhbuild/commands/base.py:103
 #: ../jhbuild/commands/base.py:138
-#: ../jhbuild/commands/base.py:350
-#: ../jhbuild/commands/base.py:397
-#: ../jhbuild/commands/base.py:414
+#: ../jhbuild/commands/base.py:407
+#: ../jhbuild/commands/base.py:424
 #: ../jhbuild/commands/rdepends.py:52
 #, python-format
 msgid "A module called '%s' could not be found."
@@ -135,9 +141,9 @@ msgstr "Modula '%s' ni mogoče najti."
 
 #: ../jhbuild/commands/base.py:106
 #: ../jhbuild/commands/base.py:141
-#: ../jhbuild/commands/base.py:353
+#: ../jhbuild/commands/base.py:363
 #: ../jhbuild/commands/rdepends.py:47
-#: ../jhbuild/commands/uninstall.py:41
+#: ../jhbuild/commands/uninstall.py:45
 msgid "This command requires a module parameter."
 msgstr "Ukaz zahteva parametre modula"
 
@@ -175,11 +181,6 @@ msgstr "izvedi make check po izgradnji"
 #: ../jhbuild/commands/base.py:316
 msgid "run make dist after building"
 msgstr "izvedi make dist po izgradnji"
-
-#: ../jhbuild/commands/base.py:225
-#: ../jhbuild/commands/base.py:319
-msgid "run make distcheck after building"
-msgstr "izvedi make distcheck po izgradnji"
 
 #: ../jhbuild/commands/base.py:231
 #: ../jhbuild/commands/base.py:322
@@ -230,84 +231,89 @@ msgstr "zahtevani modul je na seznamu izpuščenih paketov."
 msgid "Update and compile one or more modules"
 msgstr "Posodobi in kodno pretvori enega ali več modulov"
 
-#: ../jhbuild/commands/base.py:362
+#: ../jhbuild/commands/base.py:358
+#, python-format
+msgid "module \"%s\" does not exist, created automatically using repository \"%s\""
+msgstr "modula \"%s\" ni mogoče najti; ustvarjen je samodejno v odložišču \"%s\""
+
+#: ../jhbuild/commands/base.py:372
 msgid "Run a command under the JHBuild environment"
 msgstr "Zaženi ukaz v okolju JHBuild"
 
-#: ../jhbuild/commands/base.py:365
+#: ../jhbuild/commands/base.py:375
 msgid "[ options ... ] program [ arguments ... ]"
 msgstr "[ možnosti ... ] program [ argumenti ... ]"
 
-#: ../jhbuild/commands/base.py:371
+#: ../jhbuild/commands/base.py:381
 msgid "run command in build dir of the given module"
 msgstr "zaženi ukaz v mapi za izgradnjo podanega modula"
 
-#: ../jhbuild/commands/base.py:374
+#: ../jhbuild/commands/base.py:384
 msgid "run command in checkout dir of the given module"
 msgstr "zaženi ukaz v mapi prevzema podanega modula"
 
-#: ../jhbuild/commands/base.py:387
-#: ../jhbuild/commands/base.py:431
+#: ../jhbuild/commands/base.py:397
+#: ../jhbuild/commands/base.py:441
 #, python-format
 msgid "Unable to execute the command '%(command)s': %(err)s"
 msgstr "Ni mogoče izvesti ukaza '%(command)s': %(err)s"
 
-#: ../jhbuild/commands/base.py:405
-#: ../jhbuild/commands/base.py:422
+#: ../jhbuild/commands/base.py:415
+#: ../jhbuild/commands/base.py:432
 #, python-format
 msgid "Unable to execute the command '%s'"
 msgstr "Ni mogoče izvesti ukaza '%s'"
 
-#: ../jhbuild/commands/base.py:429
-#: ../jhbuild/frontends/gtkui.py:443
-#: ../jhbuild/frontends/terminal.py:144
+#: ../jhbuild/commands/base.py:439
+#: ../jhbuild/frontends/gtkui.py:444
+#: ../jhbuild/frontends/terminal.py:145
 msgid "No command given"
 msgstr "Ni podanega ukaza"
 
-#: ../jhbuild/commands/base.py:438
+#: ../jhbuild/commands/base.py:448
 msgid "Start a shell under the JHBuild environment"
 msgstr "Zaženi lupino v okolju JHBuild"
 
-#: ../jhbuild/commands/base.py:453
+#: ../jhbuild/commands/base.py:463
 msgid "List the modules that would be built"
 msgstr "Izpiši module, ki naj bi bili izgrajeni"
 
-#: ../jhbuild/commands/base.py:462
+#: ../jhbuild/commands/base.py:472
 msgid "show which revision will be built"
 msgstr "pokaži katera objava bo izgrajena"
 
-#: ../jhbuild/commands/base.py:468
+#: ../jhbuild/commands/base.py:478
 msgid "start list at the given module"
 msgstr "začni seznam pri podanem modulu"
 
-#: ../jhbuild/commands/base.py:477
+#: ../jhbuild/commands/base.py:487
 msgid "also list soft-dependencies that could be skipped"
 msgstr "izpiši mehke-odvisnosti, ki bi jih bilo mogoče izpustiti"
 
-#: ../jhbuild/commands/base.py:480
+#: ../jhbuild/commands/base.py:490
 msgid "list all modules, not only those that would be built"
 msgstr "izpiši vse module in ne le tistih, ki so pripravljeni za izgradnjo"
 
-#: ../jhbuild/commands/base.py:487
+#: ../jhbuild/commands/base.py:497
 #, python-format
 msgid "Conflicting options specified ('%s' and '%s')"
 msgstr "Določene so nasprotujoče si možnosti ('%s' in '%s')"
 
-#: ../jhbuild/commands/base.py:520
+#: ../jhbuild/commands/base.py:530
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Izpiši Graphviz diagram odvisnosti za enega ali več modulov"
 
-#: ../jhbuild/commands/base.py:523
+#: ../jhbuild/commands/base.py:533
 #: ../jhbuild/commands/info.py:40
 #: ../jhbuild/commands/uninstall.py:32
 msgid "[ modules ... ]"
 msgstr "[ moduli ... ]"
 
-#: ../jhbuild/commands/base.py:529
+#: ../jhbuild/commands/base.py:539
 msgid "add dotted lines to soft dependencies"
 msgstr "dodaj točkaste črte mehkim odvisnostim"
 
-#: ../jhbuild/commands/base.py:532
+#: ../jhbuild/commands/base.py:542
 msgid "group modules from metamodule together"
 msgstr "postavi module preko metamodula v skupino"
 
@@ -400,14 +406,14 @@ msgstr "Ni opisa podrejenega strežnika %s."
 msgid "Failed to parse slave config for %s."
 msgstr "Napaka med razčlenjevanjem podrejenih nastavitev za %s."
 
-#: ../jhbuild/commands/bot.py:805
-#: ../jhbuild/commands/bot.py:813
+#: ../jhbuild/commands/bot.py:806
+#: ../jhbuild/commands/bot.py:814
 msgid "failed to get buildbot PID"
 msgstr "napaka med pridobivanjem buildbot PID"
 
 #: ../jhbuild/commands/checkbranches.py:28
 msgid "Check modules in GNOME Git repository have the correct branch definition"
-msgstr "Preveri ustreznost določi vej modulov GNOME Git skladišča"
+msgstr "Preveri ustreznost določi vej modulov GNOME Git odložišča"
 
 #: ../jhbuild/commands/checkbranches.py:63
 #, python-format
@@ -441,6 +447,7 @@ msgid "Display information about one or more modules"
 msgstr "Prikaži podrobnosti o enem ali več modulih"
 
 #: ../jhbuild/commands/info.py:52
+#: ../jhbuild/commands/uninstall.py:42
 #, python-format
 msgid "unknown module %s"
 msgstr "neznani modul %s"
@@ -467,74 +474,78 @@ msgid "not installed"
 msgstr "ni nameščeno"
 
 #: ../jhbuild/commands/info.py:74
-msgid "CVS-Root:"
-msgstr "CVS-Koren:"
+msgid "CVS Root:"
+msgstr "Koren CVS:"
 
 #: ../jhbuild/commands/info.py:75
-msgid "CVS-Module:"
-msgstr "CVS-Modul:"
+msgid "CVS Module:"
+msgstr "Modul CVS:"
 
 #: ../jhbuild/commands/info.py:77
-msgid "CVS-Revision:"
-msgstr "CVS-Različica:"
+msgid "CVS Revision:"
+msgstr "Predelava CVS:"
 
 #: ../jhbuild/commands/info.py:79
-msgid "Subversion-Module:"
-msgstr "Subversion-Modul:"
+msgid "Subversion Module:"
+msgstr "Modul Subversion:"
 
 #: ../jhbuild/commands/info.py:81
-msgid "Arch-Version:"
-msgstr "Arch različica:"
+msgid "Arch Version:"
+msgstr "Različica arhiva:"
 
 #: ../jhbuild/commands/info.py:83
-msgid "Darcs-Archive:"
-msgstr "DArcs arhiv:"
+msgid "Darcs Archive:"
+msgstr "Arhiv DArcs:"
 
 #: ../jhbuild/commands/info.py:85
-msgid "Git-Module:"
-msgstr "Git-Modul:"
+msgid "Git Module:"
+msgstr "Modul Git:"
 
-#: ../jhbuild/commands/info.py:89
-msgid "Git-Branch:"
-msgstr "Git-veja:"
+#: ../jhbuild/commands/info.py:87
+msgid "Git Origin Module:"
+msgstr "Izvorni modul Git:"
 
 #: ../jhbuild/commands/info.py:91
-msgid "Git-Tag:"
-msgstr "Git-oznaka:"
+msgid "Git Branch:"
+msgstr "Veja Git:"
 
 #: ../jhbuild/commands/info.py:93
-msgid "URL:"
-msgstr "URL:"
+msgid "Git Tag:"
+msgstr "Oznaka Git:"
 
-#: ../jhbuild/commands/info.py:94
+#: ../jhbuild/commands/info.py:95
+msgid "URL:"
+msgstr "Naslov URL:"
+
+#: ../jhbuild/commands/info.py:96
 msgid "Version:"
 msgstr "Različica:"
 
-#: ../jhbuild/commands/info.py:97
+#: ../jhbuild/commands/info.py:99
 msgid "Tree-ID:"
-msgstr "_ID drevesa:"
+msgstr "ID drevesa:"
 
-#: ../jhbuild/commands/info.py:102
+#: ../jhbuild/commands/info.py:104
 msgid "Sourcedir:"
 msgstr "Izvorna mapa:"
 
-#: ../jhbuild/commands/info.py:108
+#: ../jhbuild/commands/info.py:110
 msgid "Requires:"
 msgstr "Zahteva:"
 
-#: ../jhbuild/commands/info.py:112
-msgid "Required-by:"
+#: ../jhbuild/commands/info.py:114
+msgid "Required by:"
 msgstr "Zahteva ga:"
 
-#: ../jhbuild/commands/info.py:114
+#: ../jhbuild/commands/info.py:116
 msgid "Suggests:"
 msgstr "Priporočeno:"
 
-#: ../jhbuild/commands/info.py:116
+#: ../jhbuild/commands/info.py:118
 msgid "After:"
 msgstr "Po:"
 
-#: ../jhbuild/commands/info.py:120
+#: ../jhbuild/commands/info.py:122
 msgid "Before:"
 msgstr "Pred:"
 
@@ -593,17 +604,18 @@ msgstr "predpona namestitve (%s) ni zapisljiva."
 #: ../jhbuild/commands/sanitycheck.py:78
 #: ../jhbuild/commands/sanitycheck.py:81
 #: ../jhbuild/commands/sanitycheck.py:84
-#: ../jhbuild/commands/sanitycheck.py:87
-#: ../jhbuild/commands/sanitycheck.py:129
-#: ../jhbuild/commands/sanitycheck.py:133
-#: ../jhbuild/commands/sanitycheck.py:141
-#: ../jhbuild/commands/sanitycheck.py:150
+#: ../jhbuild/commands/sanitycheck.py:126
+#: ../jhbuild/commands/sanitycheck.py:130
+#: ../jhbuild/commands/sanitycheck.py:138
+#: ../jhbuild/commands/sanitycheck.py:147
+#: ../jhbuild/commands/sanitycheck.py:153
+#: ../jhbuild/commands/sanitycheck.py:155
 #: ../jhbuild/versioncontrol/arch.py:155
-#: ../jhbuild/versioncontrol/bzr.py:202
+#: ../jhbuild/versioncontrol/bzr.py:204
 #: ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
 #: ../jhbuild/versioncontrol/fossil.py:105
-#: ../jhbuild/versioncontrol/git.py:422
+#: ../jhbuild/versioncontrol/git.py:444
 #: ../jhbuild/versioncontrol/hg.py:101
 #: ../jhbuild/versioncontrol/mtn.py:140
 #: ../jhbuild/versioncontrol/svn.py:311
@@ -611,40 +623,40 @@ msgstr "predpona namestitve (%s) ni zapisljiva."
 msgid "%s not found"
 msgstr "%s ni mogoče najti"
 
-#: ../jhbuild/commands/sanitycheck.py:99
+#: ../jhbuild/commands/sanitycheck.py:93
 #, python-format
-msgid "aclocal-%s can't see %s macros"
-msgstr "aclocal-%s ne zazna %s makrojev"
+msgid "aclocal can't see %s macros"
+msgstr "aclocal ne zazna %s makrojev"
 
-#: ../jhbuild/commands/sanitycheck.py:104
+#: ../jhbuild/commands/sanitycheck.py:98
 #, python-format
 msgid "Please copy the lacking macros (%s) in one of the following paths: %s"
 msgstr "Kopiraj manjkajoče makroje (%s) na eno izmed navedenih poti: %s"
 
-#: ../jhbuild/commands/sanitycheck.py:109
+#: ../jhbuild/commands/sanitycheck.py:106
 msgid "Could not find XML catalog"
 msgstr "Ni mogoče najti XML kataloga"
 
-#: ../jhbuild/commands/sanitycheck.py:118
+#: ../jhbuild/commands/sanitycheck.py:115
 #, python-format
 msgid "Could not find %s in XML catalog"
 msgstr "Ni mogoče najti %s v XML katalogu"
 
-#: ../jhbuild/commands/sanitycheck.py:125
+#: ../jhbuild/commands/sanitycheck.py:122
 #, python-format
 msgid "Could not find the perl module %s"
 msgstr "Ni mogoče najti perl modula %s"
 
-#: ../jhbuild/commands/sanitycheck.py:137
+#: ../jhbuild/commands/sanitycheck.py:134
 #, python-format
 msgid "%s or %s not found"
 msgstr "%s ali %s ni mogoče najti"
 
-#: ../jhbuild/commands/sanitycheck.py:146
+#: ../jhbuild/commands/sanitycheck.py:143
 msgid "Installed git program is not the right git"
 msgstr "Nameščeni git program ni pravi git"
 
-#: ../jhbuild/commands/sanitycheck.py:152
+#: ../jhbuild/commands/sanitycheck.py:149
 msgid "Could not check git program"
 msgstr "Ni mogoče preveriti programa git"
 
@@ -739,7 +751,7 @@ msgstr "Izpuščanje %s (nameščeno nedavno)"
 
 #: ../jhbuild/frontends/buildscript.py:96
 #, python-format
-msgid "module %(mod)s will be build even though %(dep)s failed"
+msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "modul %(mod)s bo izgrajen kljub napaki odvisnosti %(dep)s"
 
 #: ../jhbuild/frontends/buildscript.py:99
@@ -747,108 +759,108 @@ msgstr "modul %(mod)s bo izgrajen kljub napaki odvisnosti %(dep)s"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modula %(mod)s ni mogoče izgraditi zaradi nezmožnosti izgradnje %(dep)s"
 
-#: ../jhbuild/frontends/gtkui.py:99
+#: ../jhbuild/frontends/gtkui.py:100
 msgid "Others..."
 msgstr "Drugi ..."
 
-#: ../jhbuild/frontends/gtkui.py:140
+#: ../jhbuild/frontends/gtkui.py:141
 msgid "Choose Module:"
 msgstr "Izbor modula:"
 
-#: ../jhbuild/frontends/gtkui.py:160
+#: ../jhbuild/frontends/gtkui.py:161
 msgid "Build Progress"
 msgstr "Postopek izgradnje"
 
-#: ../jhbuild/frontends/gtkui.py:163
+#: ../jhbuild/frontends/gtkui.py:164
 msgid "Terminal"
 msgstr "Terminal"
 
 #. Translators: This is a button label (to start build)
-#: ../jhbuild/frontends/gtkui.py:203
+#: ../jhbuild/frontends/gtkui.py:204
 msgid "Start"
 msgstr "Začetek"
 
-#: ../jhbuild/frontends/gtkui.py:347
+#: ../jhbuild/frontends/gtkui.py:348
 msgid "Build Completed"
 msgstr "Izgradnja je končana"
 
-#: ../jhbuild/frontends/gtkui.py:373
-#: ../jhbuild/frontends/terminal.py:254
+#: ../jhbuild/frontends/gtkui.py:374
+#: ../jhbuild/frontends/terminal.py:255
 #, python-format
 msgid "Error during phase %(phase)s of %(module)s"
 msgstr "Napaka med %(phase)s modula %(module)s"
 
-#: ../jhbuild/frontends/gtkui.py:390
+#: ../jhbuild/frontends/gtkui.py:391
 msgid "Pick an Action"
 msgstr "Izbor dejanja"
 
-#: ../jhbuild/frontends/gtkui.py:393
-#: ../jhbuild/frontends/terminal.py:281
+#: ../jhbuild/frontends/gtkui.py:394
+#: ../jhbuild/frontends/terminal.py:282
 #, python-format
 msgid "Rerun phase %s"
 msgstr "Ponovno zaženi fazo %s"
 
-#: ../jhbuild/frontends/gtkui.py:396
-#: ../jhbuild/frontends/terminal.py:283
+#: ../jhbuild/frontends/gtkui.py:397
+#: ../jhbuild/frontends/terminal.py:284
 #, python-format
 msgid "Ignore error and continue to %s"
 msgstr "Prezri napako in nadaljuj na %s"
 
-#: ../jhbuild/frontends/gtkui.py:399
-#: ../jhbuild/frontends/terminal.py:285
+#: ../jhbuild/frontends/gtkui.py:400
+#: ../jhbuild/frontends/terminal.py:286
 msgid "Ignore error and continue to next module"
 msgstr "Prezri napako in nadaljuj na naslednji modul"
 
-#: ../jhbuild/frontends/gtkui.py:401
-#: ../jhbuild/frontends/terminal.py:286
+#: ../jhbuild/frontends/gtkui.py:402
+#: ../jhbuild/frontends/terminal.py:287
 msgid "Give up on module"
 msgstr "Opusti modul"
 
-#: ../jhbuild/frontends/gtkui.py:408
-#: ../jhbuild/frontends/terminal.py:295
+#: ../jhbuild/frontends/gtkui.py:409
+#: ../jhbuild/frontends/terminal.py:296
 #, python-format
 msgid "Go to phase \"%s\""
 msgstr "Pojdi na fazo \"%s\""
 
-#: ../jhbuild/frontends/gtkui.py:411
+#: ../jhbuild/frontends/gtkui.py:412
 msgid "Open Terminal"
 msgstr "Odpri terminal"
 
-#: ../jhbuild/frontends/gtkui.py:585
+#: ../jhbuild/frontends/gtkui.py:586
 #, python-format
 msgid "%(command)s died with signal %(rc)s"
 msgstr "%(command)s je končan s signalom %(rc)s"
 
-#: ../jhbuild/frontends/gtkui.py:589
+#: ../jhbuild/frontends/gtkui.py:590
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s je vrnil napako kode (%(rc)s)"
 
-#: ../jhbuild/frontends/gtkui.py:639
+#: ../jhbuild/frontends/gtkui.py:640
 msgid "Module"
 msgstr "Modul"
 
-#: ../jhbuild/frontends/gtkui.py:658
+#: ../jhbuild/frontends/gtkui.py:659
 msgid "Start At"
 msgstr "Začni pri"
 
-#: ../jhbuild/frontends/gtkui.py:701
+#: ../jhbuild/frontends/gtkui.py:702
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: ../jhbuild/frontends/gtkui.py:713
+#: ../jhbuild/frontends/gtkui.py:714
 msgid "Disable network access"
 msgstr "Onemogoči dostop do omrežja"
 
-#: ../jhbuild/frontends/gtkui.py:714
+#: ../jhbuild/frontends/gtkui.py:715
 msgid "Always run autogen.sh"
 msgstr "vedno zaženi autogen.sh"
 
-#: ../jhbuild/frontends/gtkui.py:715
+#: ../jhbuild/frontends/gtkui.py:716
 msgid "Don't poison modules on failure"
 msgstr "Ne spridi modulov ob napaki"
 
-#: ../jhbuild/frontends/terminal.py:210
+#: ../jhbuild/frontends/terminal.py:211
 msgid ""
 "\n"
 "Conflicts during checkout:\n"
@@ -857,61 +869,61 @@ msgstr ""
 "Spori med prevzemom kode:\n"
 
 #. it could happen on a really badly-timed ctrl-c (see bug 551641)
-#: ../jhbuild/frontends/terminal.py:233
-#: ../jhbuild/frontends/terminal.py:236
+#: ../jhbuild/frontends/terminal.py:234
+#: ../jhbuild/frontends/terminal.py:237
 #, python-format
 msgid "########## Error running %s"
 msgstr "########## Napaka med zaganjanjem %s"
 
-#: ../jhbuild/frontends/terminal.py:245
+#: ../jhbuild/frontends/terminal.py:246
 msgid "success"
 msgstr "uspešno"
 
-#: ../jhbuild/frontends/terminal.py:247
+#: ../jhbuild/frontends/terminal.py:248
 msgid "the following modules were not built"
 msgstr "naslednji moduli niso izgrajeni"
 
-#: ../jhbuild/frontends/terminal.py:269
-#: ../jhbuild/frontends/tinderbox.py:349
+#: ../jhbuild/frontends/terminal.py:270
+#: ../jhbuild/frontends/tinderbox.py:350
 msgid "automatically retrying configure"
 msgstr "samodejni ponovni poskus nastavitve"
 
-#: ../jhbuild/frontends/terminal.py:273
-#: ../jhbuild/frontends/tinderbox.py:353
+#: ../jhbuild/frontends/terminal.py:274
+#: ../jhbuild/frontends/tinderbox.py:354
 msgid "automatically forcing a fresh checkout"
 msgstr "samodejno vsili sveži prevzem kode"
 
-#: ../jhbuild/frontends/terminal.py:287
+#: ../jhbuild/frontends/terminal.py:288
 msgid "Start shell"
 msgstr "zagon lupine"
 
-#: ../jhbuild/frontends/terminal.py:288
+#: ../jhbuild/frontends/terminal.py:289
 msgid "Reload configuration"
 msgstr "Ponovno naloži nastavitve"
 
-#: ../jhbuild/frontends/terminal.py:297
+#: ../jhbuild/frontends/terminal.py:298
 msgid "choice: "
 msgstr "izbira:"
 
-#: ../jhbuild/frontends/terminal.py:312
+#: ../jhbuild/frontends/terminal.py:313
 msgid "exit shell to continue with build"
 msgstr "zapusti lupino za nadaljevanje izgradnje"
 
-#: ../jhbuild/frontends/terminal.py:322
+#: ../jhbuild/frontends/terminal.py:323
 msgid "invalid choice"
 msgstr "neveljavna izbira"
 
-#: ../jhbuild/frontends/terminal.py:330
+#: ../jhbuild/frontends/terminal.py:331
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Vpišite \"da\" za potrditev dejanja: "
 
-#: ../jhbuild/frontends/terminal.py:333
+#: ../jhbuild/frontends/terminal.py:334
 msgid "yes"
 msgstr "da"
 
 #: ../jhbuild/modtypes/ant.py:63
-#: ../jhbuild/modtypes/autotools.py:214
-#: ../jhbuild/modtypes/cmake.py:78
+#: ../jhbuild/modtypes/autotools.py:213
+#: ../jhbuild/modtypes/cmake.py:115
 #: ../jhbuild/modtypes/distutils.py:62
 #: ../jhbuild/modtypes/linux.py:164
 #: ../jhbuild/modtypes/perl.py:58
@@ -928,8 +940,8 @@ msgstr "Manjka orodje za izgradnjo ant"
 #. ant-based project, so I left that out."
 #. -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
 #: ../jhbuild/modtypes/ant.py:81
-#: ../jhbuild/modtypes/autotools.py:268
-#: ../jhbuild/modtypes/cmake.py:94
+#: ../jhbuild/modtypes/autotools.py:267
+#: ../jhbuild/modtypes/cmake.py:133
 #: ../jhbuild/modtypes/distutils.py:74
 #: ../jhbuild/modtypes/perl.py:72
 #: ../jhbuild/modtypes/waf.py:132
@@ -937,87 +949,88 @@ msgid "Installing"
 msgstr "Nameščanje"
 
 #: ../jhbuild/modtypes/autotools.py:110
-#: ../jhbuild/modtypes/cmake.py:63
+#: ../jhbuild/modtypes/cmake.py:87
 #: ../jhbuild/modtypes/linux.py:119
 #: ../jhbuild/modtypes/waf.py:79
 msgid "Configuring"
 msgstr "Nastavljanje"
 
-#: ../jhbuild/modtypes/autotools.py:204
+#: ../jhbuild/modtypes/autotools.py:203
+#: ../jhbuild/modtypes/cmake.py:106
 #: ../jhbuild/modtypes/linux.py:151
 #: ../jhbuild/modtypes/waf.py:90
 msgid "Cleaning"
 msgstr "Čiščenje"
 
-#: ../jhbuild/modtypes/autotools.py:234
+#: ../jhbuild/modtypes/autotools.py:233
 #: ../jhbuild/modtypes/waf.py:111
 msgid "Checking"
 msgstr "Preverjanje"
 
-#: ../jhbuild/modtypes/autotools.py:248
-#: ../jhbuild/modtypes/autotools.py:258
-#: ../jhbuild/modtypes/cmake.py:86
+#: ../jhbuild/modtypes/autotools.py:247
+#: ../jhbuild/modtypes/autotools.py:257
+#: ../jhbuild/modtypes/cmake.py:124
 #: ../jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Ustvarjanje tar paketa za"
 
-#: ../jhbuild/modtypes/autotools.py:280
+#: ../jhbuild/modtypes/autotools.py:279
 msgid "Distcleaning"
 msgstr "Čiščenje distribucije"
 
-#: ../jhbuild/modtypes/autotools.py:297
+#: ../jhbuild/modtypes/autotools.py:296
 #: ../jhbuild/modtypes/waf.py:139
 msgid "Uninstalling"
 msgstr "Odstranjevanje namestitve"
 
-#: ../jhbuild/modtypes/__init__.py:55
+#: ../jhbuild/modtypes/__init__.py:56
 #, python-format
 msgid "unknown module type %s"
 msgstr "neznana vrsta modula %s"
 
-#: ../jhbuild/modtypes/__init__.py:71
+#: ../jhbuild/modtypes/__init__.py:72
 #, python-format
 msgid "dep node for module %s is missing package attribute"
 msgstr "vozlišče odvisnosti %s je brez ustreznih atributov paketa"
 
-#: ../jhbuild/modtypes/__init__.py:94
+#: ../jhbuild/modtypes/__init__.py:95
 #, python-format
 msgid "no <branch> element found for %s"
 msgstr "ni mogoče najti predmeta <veja> za %s"
 
-#: ../jhbuild/modtypes/__init__.py:101
+#: ../jhbuild/modtypes/__init__.py:103
 #, python-format
 msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
-msgstr "Skladišča=%s ni mogoče najti za modul ID=%s. Mogoča skladišča so %s"
+msgstr "Odložišča=%s ni mogoče najti za modul ID=%s. Mogoča odložišča so %s"
 
-#: ../jhbuild/modtypes/__init__.py:107
+#: ../jhbuild/modtypes/__init__.py:110
 #, python-format
 msgid "Default Repository=%s not found for module id=%s. Possible repositories are %s"
-msgstr "Privzetega skladišča=%s ni mogoče najti za modul ID=%s. Mogoča skladišča so %s"
+msgstr "Privzetega odložišča=%s ni mogoče najti za modul ID=%s. Mogoča odložišča so %s"
 
-#: ../jhbuild/modtypes/__init__.py:189
+#: ../jhbuild/modtypes/__init__.py:192
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Izpuščanje %s (ni posodobljen)"
 
-#: ../jhbuild/modtypes/__init__.py:201
+#: ../jhbuild/modtypes/__init__.py:204
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Izpuščanje %s (paket in odvisnosti ne bodo posodobljeni)"
 
-#: ../jhbuild/modtypes/__init__.py:253
-#: ../jhbuild/modtypes/__init__.py:271
+#: ../jhbuild/modtypes/__init__.py:256
+#: ../jhbuild/modtypes/__init__.py:274
 #: ../jhbuild/modtypes/linux.py:88
 #: ../jhbuild/modtypes/linux.py:95
 msgid "Checking out"
 msgstr "Odjavljanje"
 
-#: ../jhbuild/modtypes/__init__.py:257
+#: ../jhbuild/modtypes/__init__.py:260
 #, python-format
 msgid "source directory %s was not created"
 msgstr "izvorne mape %s ni mogoče ustvariti"
 
-#: ../jhbuild/modtypes/__init__.py:274
+#: ../jhbuild/modtypes/__init__.py:277
 msgid "wipe directory and start over"
 msgstr "počisti mapo in začni znova"
 
@@ -1045,12 +1058,12 @@ msgstr "Nameščanje glav jedra"
 #: ../jhbuild/modtypes/linux.py:248
 #, python-format
 msgid "Repository=%s not found for kconfig in linux id=%s. Possible repositories are %s"
-msgstr "Skladišča=%s ni mogoče najti za kconfig in linux ID=%s. Mogoča skladišča so %s"
+msgstr "Odložišče=%s ni mogoče najti za kconfig in linux ID=%s. Mogoča odložišča so %s"
 
 #: ../jhbuild/modtypes/linux.py:253
 #, python-format
 msgid "Default Repository=%s not found for kconfig in module id=%s. Possible repositories are %s"
-msgstr "Privzetega skladišča=%s ni mogoče najti za kconfig in linux ID=%s. Mogoča skladišča so %s"
+msgstr "Privzetega odložišča=%s ni mogoče najti za kconfig in linux ID=%s. Mogoča odložišča so %s"
 
 #: ../jhbuild/modtypes/tarball.py:68
 #, python-format
@@ -1063,7 +1076,7 @@ msgstr "Klic do nedoločenega ukaza"
 
 #: ../jhbuild/utils/httpcache.py:46
 #: ../jhbuild/utils/packagedb.py:24
-#: ../jhbuild/moduleset.py:32
+#: ../jhbuild/moduleset.py:33
 msgid "Python xml packages are required but could not be found"
 msgstr "Zahtevani so paketi python XML, vendar jih ni mogoče najti"
 
@@ -1114,9 +1127,9 @@ msgstr "veja za %s ima napačne vrednosti za prepisovanje; preverite nastavitven
 #: ../jhbuild/versioncontrol/darcs.py:90
 #: ../jhbuild/versioncontrol/fossil.py:82
 #: ../jhbuild/versioncontrol/fossil.py:95
-#: ../jhbuild/versioncontrol/git.py:521
-#: ../jhbuild/versioncontrol/git.py:561
-#: ../jhbuild/versioncontrol/git.py:637
+#: ../jhbuild/versioncontrol/git.py:550
+#: ../jhbuild/versioncontrol/git.py:590
+#: ../jhbuild/versioncontrol/git.py:666
 #: ../jhbuild/versioncontrol/hg.py:85
 #: ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
@@ -1124,9 +1137,9 @@ msgstr "datumsko določen prevzem še ni podprt\n"
 
 #: ../jhbuild/versioncontrol/bzr.py:117
 msgid "attribute is deprecated. Use revspec instead."
-msgstr "atribut je zastarel. Uporabite raje atribut revspec."
+msgstr "atribut je opuščen. Uporabite raje atribut revspec."
 
-#: ../jhbuild/versioncontrol/bzr.py:171
+#: ../jhbuild/versioncontrol/bzr.py:173
 #, python-format
 msgid ""
 "\n"
@@ -1155,52 +1168,52 @@ msgstr "\"%s\" ni videti kot delovna CVS kopija"
 #: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid "working copy points at the wrong repository (expected %(root1)s but got %(root2)s). "
-msgstr "delovna kopija kaže na napačno skladišče (pričakovano je %(root1)s, dobljeno pa %(root2)s). "
+msgstr "delovna kopija kaže na napačno odložišče (pričakovano je %(root1)s, dobljeno pa %(root2)s). "
 
 #: ../jhbuild/versioncontrol/cvs.py:279
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Uporabite skript changecvsroot.py za odpravo napake."
 
-#: ../jhbuild/versioncontrol/git.py:102
+#: ../jhbuild/versioncontrol/git.py:111
 msgid "ignored bad branch redefinition for module:"
 msgstr "prezrta slaba ponovna določitev veje za modul:"
 
-#: ../jhbuild/versioncontrol/git.py:185
+#: ../jhbuild/versioncontrol/git.py:196
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Za delovanje je zahtevana vsaj različica git-1.5.6, objavljena junija 2008"
 
-#: ../jhbuild/versioncontrol/git.py:199
+#: ../jhbuild/versioncontrol/git.py:210
 msgid "Unexpected: Checkoutdir is not a git repository:"
-msgstr "Nepričakovana napaka: odjavna mapa checkoutdir ni pravo skladišče git:"
+msgstr "Nepričakovana napaka: odjavna mapa checkoutdir ni pravo odložišče git:"
 
-#: ../jhbuild/versioncontrol/git.py:255
+#: ../jhbuild/versioncontrol/git.py:266
 #, python-format
 msgid "The requested branch \"%s\" is not available. Neither locally, nor remotely in the origin remote."
 msgstr "Zahtevana veja \"%s\" ni na voljo niti krajevno, niti oddaljeno v izvoru."
 
-#: ../jhbuild/versioncontrol/git.py:263
+#: ../jhbuild/versioncontrol/git.py:274
 msgid "Refusing to switch a dirty tree."
 msgstr "Zavrnjen preklop na nepravilno drevo."
 
-#: ../jhbuild/versioncontrol/git.py:333
+#: ../jhbuild/versioncontrol/git.py:353
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Ukaz %s ni vrnil odvoda"
 
-#: ../jhbuild/versioncontrol/git.py:338
+#: ../jhbuild/versioncontrol/git.py:358
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Ukaz %s ne vključuje vrstice uveljavitve: %r"
 
-#: ../jhbuild/versioncontrol/git.py:400
+#: ../jhbuild/versioncontrol/git.py:422
 msgid "Failed to update module as it switched to git (you should check for changes then remove the directory)."
 msgstr "Napaka med posodabljanjem modula pri prehodu na git (preveriti je treba spremembe in nato odstraniti mapo)."
 
-#: ../jhbuild/versioncontrol/git.py:401
+#: ../jhbuild/versioncontrol/git.py:423
 msgid "Failed to update module (missing .git) (you should check for changes then remove the directory)."
 msgstr "Napaka med posodabljanjem modula (manjka .git) (pregledati je treba spremembe, nato pa odstraniti mapo)."
 
-#: ../jhbuild/versioncontrol/git.py:488
+#: ../jhbuild/versioncontrol/git.py:517
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1208,7 +1221,7 @@ msgstr ""
 "Zunanje upravljanje je spodletelo\n"
 " V kolikor je v uporabi različica git < 1.5.6, je priporočeno pakete posodobiti.\n"
 
-#: ../jhbuild/versioncontrol/git.py:533
+#: ../jhbuild/versioncontrol/git.py:562
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Ni mogoče pridobiti zadnje predelave iz %s. Preverite mesto modula."
@@ -1216,7 +1229,7 @@ msgstr "Ni mogoče pridobiti zadnje predelave iz %s. Preverite mesto modula."
 #: ../jhbuild/versioncontrol/__init__.py:186
 #, python-format
 msgid "unknown repository type %s"
-msgstr "neznana vrsta skladišča %s"
+msgstr "neznana vrsta odložišča %s"
 
 #: ../jhbuild/versioncontrol/mtn.py:91
 #, python-format
@@ -1345,91 +1358,86 @@ msgstr "ni mogoče najti programa quilt"
 msgid "could not checkout quilt patch set"
 msgstr "ni mogoče prevzeti nabora popravkov quilt"
 
-#: ../jhbuild/config.py:137
-#, python-format
-msgid "unable to parse '%s' as relative time."
-msgstr "ni mogoče razčleniti '%s' kot relativni čas."
-
-#: ../jhbuild/config.py:164
+#: ../jhbuild/config.py:167
 msgid "JHBuild start script has been installed in ~/.local/bin/jhbuild, you should remove the old version that is still in ~/bin/ (or make it a symlink to ~/.local/bin/jhbuild)"
 msgstr "Zagonski skript JHBuild je nameščen v ~/.local/bin/jhbuild, zato bi morali odstraniti starejšo različico, še vedno nameščeno v ~/bin/ (ali pa ustvariti simbolno povezavo z ~/.local/bin/jhbuild)"
 
-#: ../jhbuild/config.py:176
+#: ../jhbuild/config.py:179
 msgid "Obsolete JHBuild start script, make sure it is removed then do run 'make install'"
 msgstr "Zastarel JHBuild zagonski skript, ki ga je treba odstraniti in šele nato zagnati 'make install'"
 
-#: ../jhbuild/config.py:184
+#: ../jhbuild/config.py:187
 msgid "could not load config defaults"
 msgstr "ni mogoče naložiti privzetih nastavitev"
 
-#: ../jhbuild/config.py:188
+#: ../jhbuild/config.py:191
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "ni mogoče naložiti datoteke  nastavitev; manjka %s"
 
-#: ../jhbuild/config.py:204
+#: ../jhbuild/config.py:207
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Ni mogoče vključiti namestitvene datoteke (%s)"
 
-#: ../jhbuild/config.py:217
+#: ../jhbuild/config.py:220
 msgid "could not load config file"
 msgstr "Ni mogoče naložiti nastavitvene datoteke"
 
-#: ../jhbuild/config.py:231
+#: ../jhbuild/config.py:234
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "neznan ključ določen v nastavitveni datoteki: %s"
 
-#: ../jhbuild/config.py:238
+#: ../jhbuild/config.py:241
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos['gnome.org']\"."
-msgstr "nastavitvena spremenljivka \"%s\" je zastarela, zato bi morala biti uporabljena \"repos['gnome.org']\"."
+msgstr "nastavitvena spremenljivka \"%s\" je opuščena, zato bi morala biti uporabljena \"repos['gnome.org']\"."
 
-#: ../jhbuild/config.py:243
-#: ../jhbuild/config.py:248
+#: ../jhbuild/config.py:246
+#: ../jhbuild/config.py:251
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
-msgstr "nastavitvena spremenljivka \"%s\" je zastarela, zato bi morala biti uporabljena \"repos\"."
+msgstr "nastavitvena spremenljivka \"%s\" je opuščena, zato bi morala biti uporabljena \"repos\"."
 
-#: ../jhbuild/config.py:269
+#: ../jhbuild/config.py:272
 msgid "invalid checkout mode"
 msgstr "Neveljaven način prevzema"
 
-#: ../jhbuild/config.py:273
+#: ../jhbuild/config.py:276
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "neveljavni način prevzema (modul: %s)"
 
-#: ../jhbuild/config.py:275
+#: ../jhbuild/config.py:278
 msgid "copy mode requires copy_dir to be set"
 msgstr "način kopiranja zahteva določitev mape za kopiranje"
 
-#: ../jhbuild/config.py:280
+#: ../jhbuild/config.py:283
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr "mape modulov (%s) ni mogoče najti; onemogočena je možnost use_local_modulesets"
 
-#: ../jhbuild/config.py:292
+#: ../jhbuild/config.py:295
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "namestitvene predpone (%s) ni mogoče ustvariti"
 
-#: ../jhbuild/config.py:375
+#: ../jhbuild/config.py:378
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Ni mogoče ustvariti mape %s"
 
-#: ../jhbuild/config.py:459
+#: ../jhbuild/config.py:462
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Ni mogoče ustvariti GConf nastavitev (%s)"
 
-#: ../jhbuild/config.py:546
-msgid "Failed to parse relative time"
-msgstr "Napaka med razčlenjevanjem relativnega časa"
+#: ../jhbuild/config.py:549
+msgid "Failed to parse 'min_age' relative time"
+msgstr "Napaka med razčlenjevanjem relativnega časa 'min_age'"
 
-#: ../jhbuild/config.py:556
+#: ../jhbuild/config.py:559
 msgid "quiet mode has been disabled because the Python curses module is missing."
 msgstr "tihi način izpisa je onemogočen, saj Python curses modul ni nameščen."
 
@@ -1443,7 +1451,7 @@ msgstr "%prog [ -f nastavitev ] ukaz [ možnosti ... ]"
 
 #: ../jhbuild/main.py:108
 msgid "Build a set of modules from diverse repositories in correct dependency order (such as GNOME)."
-msgstr "Izgradi nabor modulov iz različnih skladišč v pravilnem zaporedju odvisnosti (kot je GNOME)"
+msgstr "Izgradi nabor modulov iz različnih odložišč v pravilnem zaporedju odvisnosti (kot je GNOME)"
 
 #: ../jhbuild/main.py:112
 msgid "Display this help and exit"
@@ -1469,41 +1477,42 @@ msgstr "Prekinjeno"
 msgid "EOF"
 msgstr "EOF"
 
-#: ../jhbuild/moduleset.py:57
+#: ../jhbuild/moduleset.py:62
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "popravljen primer modula '%(orig)s' v '%(new)s'"
 
-#: ../jhbuild/moduleset.py:73
+#: ../jhbuild/moduleset.py:77
 #, python-format
 msgid "module \"%s\" not found"
 msgstr "modula \"%s\" ni mogoče najti"
 
-#: ../jhbuild/moduleset.py:87
+#: ../jhbuild/moduleset.py:92
+#: ../jhbuild/moduleset.py:96
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s ima odvisnosti do neznanega \"%(invalid)s\" modula"
 
-#: ../jhbuild/moduleset.py:232
+#: ../jhbuild/moduleset.py:250
 msgid "Unknown module:"
 msgstr "Neznani modul:"
 
-#: ../jhbuild/moduleset.py:295
-#: ../jhbuild/moduleset.py:325
+#: ../jhbuild/moduleset.py:319
+#: ../jhbuild/moduleset.py:349
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "napaka med razčlenjevanjem %s: %s"
 
-#: ../jhbuild/moduleset.py:320
+#: ../jhbuild/moduleset.py:344
 #, python-format
 msgid "could not download %s: %s"
 msgstr "ni mogoče prejeti %s: %s"
 
-#: ../jhbuild/moduleset.py:350
+#: ../jhbuild/moduleset.py:374
 msgid "Duplicate repository:"
-msgstr "Podvojeno skladišče:"
+msgstr "Podvojeno odložišče:"
 
-#: ../jhbuild/moduleset.py:447
+#: ../jhbuild/moduleset.py:478
 msgid "Modulesets were edited locally but JHBuild is configured to get them from the network, perhaps you need to add use_local_modulesets = True to your .jhbuildrc."
 msgstr "Moduli so bili urejeni krajevno, JHBuild pa je nastavljen za prevzemanje modulov preko omrežja. Najverjetneje je treba uporabiti možnost use_local_modulesets = True v nastavitveni datoteki .jhbuildrc."
 
@@ -1521,6 +1530,12 @@ msgstr "Preveč argumentov"
 #: ../jhbuild/monkeypatch.py:160
 msgid "Unrecognized named group in pattern"
 msgstr "Neprepoznano ime skupine v vzorcu"
+
+#~ msgid "Git-Mirror-Module:"
+#~ msgstr "Modul Git-Mirror:"
+
+#~ msgid "unable to parse '%s' as relative time."
+#~ msgstr "ni mogoče razčleniti '%s' kot relativni čas."
 
 #~ msgid "Failed to update module (corrupt .git?)"
 #~ msgstr "Napaka med posodabljanjem modula (je morda pokvarjen .git?)"
