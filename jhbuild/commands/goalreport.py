@@ -230,6 +230,44 @@ class SymbolsCheck(Check):
     create_from_args = classmethod(create_from_args)
 
 
+class GrepCheck(Check):
+    def run(self):
+        self.nb_occurences = 0
+        try:
+            for base, dirnames, filenames in os.walk(self.module.branch.srcdir):
+                filenames = [x for x in filenames if \
+                             os.path.splitext(x)[-1] in ('.c', '.cc', '.cpp', '.h', '.glade')]
+                for filename in filenames:
+                    if self.grep in file(os.path.join(base, filename)).read():
+                        self.nb_occurences += 1
+        except UnicodeDecodeError:
+            raise ExcludedModuleException()
+        self.compute_status()
+
+    def compute_status(self):
+        if self.nb_occurences == 0:
+            self.status = 'ok'
+        elif self.nb_occurences <= 5:
+            self.status = 'todo'
+            self.complexity = 'low'
+        elif self.nb_occurences <= 20:
+            self.status = 'todo'
+            self.complexity = 'average'
+        else:
+            self.status = 'todo'
+            self.complexity = 'complex'
+        if self.status == 'todo':
+            self.result_comment = self.nb_occurences
+        else:
+            self.result_comment = None
+
+    def create_from_args(cls, *args):
+        new_class = types.ClassType('GrepCheck (%s)' % ', '.join(args),
+                (cls,), {'grep': args[0]})
+        return new_class
+    create_from_args = classmethod(create_from_args)
+
+
 class FilenamesCheck(Check):
     def run(self):
         for base, dirnames, filenames in os.walk(self.module.branch.srcdir):
