@@ -472,6 +472,7 @@ class cmd_goalreport(Command):
             ('meta-gnome-bindings-python', 'Bindings (Python)'),
             ('meta-gnome-bindings-mono', 'Bindings (Mono)'),
         ]
+        suites = []
 
         processed_modules = {'gnome-common': True}
 
