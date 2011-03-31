@@ -362,6 +362,14 @@
     </dependencies>
   </autotools>
 
+  <repository type="tarball" name="pyxdg"
+      href="http://www.gnome.org/~fpeters/pyxdg/"/>
+  <distutils id="pyxdg">
+    <branch repo="pyxdg" module="pyxdg-0.17.tar.gz" version="0.17"
+            hash="sha256:fbc87711922b2dd6ceb23ee041f1f96da9b7dbb6971df03a3081b439def069ce"
+            md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
+  </distutils>
+
   <autotools id="gnome-python" autogenargs="--disable-allbindings --enable-gconf">
     <branch/>
     <dependencies>
@@ -879,6 +887,7 @@
       <dep package="pygtk"/>
       <dep package="gnome-python"/> <!-- for gconf module -->
       <dep package="gnome-python-desktop"/> <!-- for wnck -->
+      <dep package="pyxdg"/>
     </dependencies>
   </autotools>
 
