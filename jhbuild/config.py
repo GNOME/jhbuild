@@ -37,12 +37,7 @@ if sys.platform.startswith('win'):
 __all__ = [ 'Config' ]
 
 _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.jhbuildrc')
-if os.environ.has_key('XDG_CONFIG_HOME'):
-    _default_jhbuildrc = os.path.join(os.environ['XDG_CONFIG_HOME'], '.jhbuildrc')
-else:
-    _default_jhbuildrc = os.path.join(os.environ['HOME'], '.config', 'jhbuildrc')
-
-_old_default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
+_default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
@@ -193,8 +188,6 @@ class Config:
         self._config['__file__'] = filename
         self.filename = filename
         if not os.path.exists(filename):
-            if os.path.exists(_old_default_jhbuildrc):
-                logging.warning(_('You may wish to move %s to %s'), _old_default_jhbuildrc, filename)
             raise FatalError(_('could not load config file, %s is missing') % filename)
 
         self.load()
