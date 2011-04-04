@@ -11,6 +11,8 @@
       href="http://svn.abisource.com/"/>
   <repository type="git" name="git.clutter-project.org"
       href="http://git.clutter-project.org/"/>
+  <repository type="tarball" name="clutter-project.org"
+    href="http://source.clutter-project.org/sources/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
@@ -717,6 +719,22 @@
     </suggests>
   </autotools>
 
+ <autotools id="mx">
+    <branch module="mx/1.1/mx-1.1.9.tar.gz" version="1.1.9"
+            repo="clutter-project.org"
+            hash="sha256:7c10e93c46e2e441e634ab91dbb1cbef49ad6a332b3d747fb133a68372356f97"
+            md5sum="15441f53f8fb850d4485cc453a777e06" size="1614247"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="dbus"/>
+      <dep package="startup-notification"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-2"/>
+    </dependencies>
+  </autotools>
+
+
   <autotools id="cheese">
     <branch/>
     <dependencies>
@@ -736,6 +754,7 @@
       <dep package="gnome-video-effects"/>
       <dep package="librsvg"/>
       <dep package="gnome-desktop"/>
+      <dep package="mx"/>
     </dependencies>
     <suggests>
       <!-- this is not an approved dependency, it is left as a suggest so a
