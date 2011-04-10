@@ -352,8 +352,10 @@ def _parse_module_set(config, uri):
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet(config = config)
     moduleset_name = document.documentElement.getAttribute('name')
-    if not moduleset_name and uri.endswith('.modules'):
-        moduleset_name = os.path.basename(uri)[:-len('.modules')]    
+    if not moduleset_name:
+        moduleset_name = os.path.basename(uri)
+        if moduleset_name.endswith('.modules'):
+            moduleset_name = moduleset_name[:-len('.modules')]
 
     # load up list of repositories
     repositories = {}
