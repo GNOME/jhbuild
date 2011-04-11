@@ -29,6 +29,7 @@ from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
 
 try:
     import xml.dom.minidom
+    import xml.parsers.expat
 except ImportError:
     raise FatalError(_('Python xml packages are required but could not be found'))
 
