@@ -151,11 +151,11 @@
     </dependencies>
   </tarball>
 
-  <autotools id="gssdp" version="0.9.2">
-    <branch module="gssdp-0.9.2.tar.gz" version="0.9.2"
+  <autotools id="gssdp" version="0.10.0">
+    <branch module="gssdp-0.10.0.tar.gz" version="0.10.0"
             repo="gupnp.org"
-            hash="sha256:eaa080e86bc7d1204c5bf96980aaca055d823b0d12b0e1485bb15322b361c9c0"
-            size="375734">
+            hash="sha256:94de92bb4f7906ed2f047b0146a3b21d53d09908fe1f0149484f61c6afc598ea"
+            size="370461">
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -166,10 +166,10 @@
     </suggests>
   </autotools>
 
-  <tarball id="gupnp" version="0.15.1" autogenargs="--with-context-manager=network-manager">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-0.15.1.tar.gz"
-            hash="sha256:a0a736f9eb1bf9a260ed915063ac02c33c8300bf7c7b54f6db841935913464b3"
-            md5sum="f6f8448e6c81fb87f72b1907407311af" size="532987"/>
+  <tarball id="gupnp" version="0.16.0" autogenargs="--with-context-manager=network-manager">
+    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-0.16.0.tar.gz"
+            hash="sha256:1b77201866b7632fb68bc2a3bdea22ef8ead34ba850b3ee367797432cfc0f04a"
+            md5sum="61b240c1a9fdf8ca82c5c3adde0d6757" size="513152"/>
     <dependencies>
       <dep package="gssdp"/>
       <dep package="glib"/>
@@ -184,13 +184,9 @@
   </tarball>
 
   <autotools id="gupnp-av">
-    <branch module="gupnp-av-0.7.1.tar.gz" version="0.7.1" repo="gupnp.org"
-            hash="sha256:70a23a7dd1e33b08e87a2f005bd8e1aa4e231524dd41b6a8eff9dc03112e6f19"
-            size="410605">
-      <!-- patch fixes following build failure:
-           ld: test-search-criteria-parser.o: undefined reference to symbol 'g_signal_connect_data'
-        -->
-      <patch file="gupnp-av-0.7.1-link.patch" strip="1"/>
+    <branch module="gupnp-av-0.8.0.tar.gz" version="0.8.0" repo="gupnp.org"
+            hash="sha256:e6aa032377488cedc4e347519bd30701c583780b7c54f00bab083f2316a93dc9"
+            size="407464">
     </branch>
     <dependencies>
       <dep package="glib"/>
@@ -202,9 +198,9 @@
   </autotools>
 
   <autotools id="gupnp-dlna" autogen-sh="autogen.sh">
-    <branch module="gupnp-dlna-0.5.1.tar.gz" version="0.5.1" repo="gupnp.org"
-            hash="sha256:9888386ac3fd142a7a09229171201c12f46a122383cbeafd9a3eb77f1a182c52"
-            md5sum="be4d6ab220d29e1c09f0ca9aef7caaae" size="383660">
+    <branch module="gupnp-dlna-0.6.1.tar.gz" version="0.6.1" repo="gupnp.org"
+            hash="sha256:b87a5949602a57ab47d1a3210ff199b4b64fd6109476749bcd711db5d7c19e1c"
+            md5sum="0265d8864edcddc3367dcfe431c3bb53" size="388881">
     </branch>
     <dependencies>
       <dep package="libxml2"/>
@@ -220,10 +216,10 @@
     </suggests>
  </autotools>
 
-  <tarball id="gupnp-vala" version="0.7.5">
-    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-vala-0.7.5.tar.gz"
-            hash="sha256:e42e39a7338fddb7d50f4542cb1fd2a65e5df2e82ad3fa88806567f5c2c5f817"
-            size="117081"/>
+  <tarball id="gupnp-vala" version="0.8.0">
+    <source href="http://www.gupnp.org/sites/all/files/sources/gupnp-vala-0.8.0.tar.gz"
+            hash="sha256:052771ca166bceb7b57ab89169235d204b923b205956b96cedc2b8b7f6ba5544"
+            size="114750"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gssdp"/>
