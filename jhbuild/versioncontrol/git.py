@@ -289,9 +289,6 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
 
-        if not self.config.dvcs_mirror_dir:
-            buildscript.execute(['git', 'remote', 'set-url', 'origin',
-                self.module], **git_extra_args)
         buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
 
         if stashed:
@@ -382,8 +379,6 @@ class GitBranch(Branch):
                 self.checkoutdir, self.unmirrored_module)
 
         if os.path.exists(mirror_dir):
-            buildscript.execute(['git', 'remote', 'set-url', 'origin',
-                self.unmirrored_module], cwd=mirror_dir, **git_extra_args)
             buildscript.execute(['git', 'fetch'], cwd=mirror_dir,
                     extra_env=get_git_extra_env())
         else:
@@ -421,6 +416,9 @@ class GitBranch(Branch):
             if os.path.exists(os.path.join(cwd, '.svn')):
                 raise CommandError(_('Failed to update module as it switched to git (you should check for changes then remove the directory).'))
             raise CommandError(_('Failed to update module (missing .git) (you should check for changes then remove the directory).'))
+
+        buildscript.execute(['git', 'remote', 'set-url', 'origin',
+                self.module], **git_extra_args)
 
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
