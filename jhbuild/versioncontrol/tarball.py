@@ -280,8 +280,9 @@ class TarballBranch(Branch):
                     raise CommandError(_('Failed to find patch: %s') % patch)
 
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
+            # patchfile can be a relative file
             buildscript.execute('patch -p%d < "%s"'
-                                % (patchstrip, patchfile),
+                                % (patchstrip, os.path.abspath(patchfile)),
                                 cwd=self.raw_srcdir)
 
     def _quilt_checkout(self, buildscript):
