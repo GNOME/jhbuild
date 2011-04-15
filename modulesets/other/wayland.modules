@@ -17,11 +17,12 @@
       href="git://anongit.freedesktop.org/git/xorg/lib"/>
   <repository type="git" name="xorg-doc" default="yes"
       href="git://anongit.freedesktop.org/git/xorg/doc"/>
+
   <autotools id="pixman">
     <branch repo="freedesktop"/>
   </autotools>
   
-  <autotools id="cairo" autogenargs="--enable-gl --enable-xcb --enable-egl">
+  <autotools id="cairo">
     <branch repo="freedesktop"/>
     <dependencies>
       <dep package="pixman"/>
@@ -29,11 +30,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="drm" autogenargs="--enable-nouveau-experimental-api ">
+  <autotools id="drm">
     <branch repo="mesa"/>
   </autotools>
   
-  <autotools id="mesa" autogenargs="--enable-gles2 --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 --with-egl-platforms=x11,wayland,drm">
+  <autotools id="mesa">
     <branch repo="mesa"/>
     <dependencies>
       <dep package="drm"/>
@@ -41,9 +42,11 @@
     </dependencies>
   </autotools>
   
-  <autotools id="wayland" autogenargs="--with-egl-platforms=wayland,drm ">
+  <autotools id="wayland">
     <branch repo="wayland"/>
-    <!-- just depends on ffi -->
+    <dependencies>
+      <dep package="gdk-pixbuf"/>
+    </dependencies>
   </autotools>
 
   <autotools id="wayland-demos">
