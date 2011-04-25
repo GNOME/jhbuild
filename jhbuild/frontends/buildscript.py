@@ -37,6 +37,15 @@ class BuildScript:
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError(_('install prefix (%s) must be writable') % self.config.prefix)
 
+        if not os.path.isabs(self.config.top_builddir):
+            self.config.top_builddir = os.path.join(self.config.prefix, self.config.top_builddir)
+        if not os.path.exists(self.config.top_builddir):
+            try:
+                os.makedirs(self.config.top_builddir)
+            except OSError:
+                raise FatalError(
+                        _('working directory (%s) can not be created') % self.config.top_builddir)
+
         if not os.path.exists(self.config.checkoutroot):
             try:
                 os.makedirs(self.config.checkoutroot)
@@ -55,14 +64,12 @@ class BuildScript:
             if not os.access(self.config.copy_dir, os.R_OK|os.W_OK|os.X_OK):
                 raise FatalError(_('checkout copy dir (%s) must be writable') % self.config.copy_dir)
 
-        packagedbdir = os.path.join(self.config.prefix, 'share', 'jhbuild')
-        try:
-            if not os.path.isdir(packagedbdir):
-                os.makedirs(packagedbdir)
-        except OSError:
-            raise FatalError(_('could not create directory %s') % packagedbdir)
-        self.packagedb = packagedb.PackageDB(os.path.join(packagedbdir,
-                                                          'packagedb.xml'))
+        legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
+        new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
+        if os.path.isfile(legacy_pkgdb_path):
+            os.rename(legacy_pkgdb_path, new_pkgdb_path)
+
+        self.packagedb = packagedb.PackageDB(new_pkgdb_path)
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''Executes the given command.
