@@ -66,6 +66,7 @@ class AutogenModule(Package, DownloadableModule):
         self.makefile = makefile
         self.autogen_template = autogen_template
         self.check_target = check_target
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -262,14 +263,18 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
+        destdir = self.prepare_installroot(buildscript)
         if self.makeinstallargs:
-            cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeinstallargs)
+            cmd = '%s %s DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                                        self.makeinstallargs,
+                                        destdir)
         else:
-            cmd = '%s install' % os.environ.get('MAKE', 'make')
-
+            cmd = '%s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                                             destdir)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
+
     do_install.depends = [PHASE_BUILD]
 
     def do_distclean(self, buildscript):
@@ -291,12 +296,8 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_uninstall(self, buildscript):
         buildscript.set_action(_('Uninstalling'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
-        cmd = '%s %s uninstall' % (os.environ.get('MAKE', 'make'), makeargs)
-        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
-                extra_env = self.extra_env)
-        buildscript.packagedb.remove(self.name)
+        # Since we are supports_install_destdir = True, just delegate to packagedb
+        buildscript.packagedb.uninstall(self.name, buildscript)
 
     def xml_tag_and_attrs(self):
         return ('autotools',

@@ -28,6 +28,7 @@ __all__ = [
     ]
 
 import os
+import shutil
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
@@ -131,6 +132,7 @@ class Package:
         self.suggests = suggests
         self.tags = []
         self.moduleset_name = None
+        self.supports_install_destdir = False
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
@@ -143,6 +145,55 @@ class Package:
         raise NotImplementedError
     def get_builddir(self, buildscript):
         raise NotImplementedError
+
+    def _get_destdir(self, buildscript):
+        return os.path.join(buildscript.config.top_builddir, 'root-%s' % (self.name, ))
+
+    def prepare_installroot(self, buildscript):
+        assert self.supports_install_destdir
+        """Return a directory suitable for use as e.g. DESTDIR with "make install"."""
+        destdir = self._get_destdir(buildscript)
+        if os.path.exists(destdir):
+            shutil.rmtree(destdir)
+        os.makedirs(destdir)
+        return destdir
+
+    def _process_install_files(self, installroot, curdir, prefix):
+        """Strip the prefix from all files in the install root, and move
+them into the prefix."""
+        assert os.path.isdir(installroot) and os.path.isabs(installroot)
+        assert os.path.isdir(curdir) and os.path.isabs(curdir)
+        assert os.path.isdir(prefix) and os.path.isabs(prefix)
+
+        if prefix.endswith('/'):
+            prefix = prefix[:-1]
+
+        names = os.listdir(curdir)
+        for filename in names:
+            src_path = os.path.join(curdir, filename)
+            assert src_path.startswith(installroot)
+            dest_path = src_path[len(installroot):]
+            if os.path.isdir(src_path):
+                if os.path.exists(dest_path):
+                    if not os.path.isdir(dest_path):
+                        os.unlink(dest_path)
+                        os.mkdir(dest_path)
+                else:
+                    os.mkdir(dest_path)
+                self._process_install_files(installroot, src_path, prefix)
+                os.rmdir(src_path)
+            else:
+                os.rename(src_path, dest_path)
+
+    def process_install(self, buildscript, revision):
+        assert self.supports_install_destdir
+        destdir = self._get_destdir(buildscript)
+        buildscript.packagedb.add(self.name, revision or '', destdir)
+        self._process_install_files(destdir, destdir, buildscript.config.prefix)
+        try:
+            os.rmdir(destdir)
+        except:
+            pass
 
     def get_revision(self):
         return self.branch.tree_id()
