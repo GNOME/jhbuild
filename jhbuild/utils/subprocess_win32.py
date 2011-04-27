@@ -111,10 +111,10 @@ class Popen(real_subprocess.Popen):
         for i in range(0,len(command)):
             command[i] = fix_path_for_msys(command[i])
 
-        # 'shell' flag will execute 'command' using cmd.exe, which is a waste
-        # of time.  We shall use sh.exe to execute programs which look like
-        # shell scripts.
-        if 'shell' in kws and kws['shell']:
+        # 'shell' flag will execute 'command' using cmd.exe. Don't use cmd.exe
+        # when running shell scripts.
+        if 'shell' in kws and kws['shell'] and len(command) > 0 \
+        and command[0] == 'sh':
             kws['shell'] = False
 
         # default Windows implementation of close_fds is useless, we have to
