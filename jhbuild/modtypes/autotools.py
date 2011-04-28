@@ -54,7 +54,8 @@ class AutogenModule(Package, DownloadableModule):
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
-                 check_target=True):
+                 check_target=True,
+                 supports_static_analyzer=True):
         Package.__init__(self, name, branch=branch)
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -66,6 +67,7 @@ class AutogenModule(Package, DownloadableModule):
         self.autogen_template = autogen_template
         self.check_target = check_target
         self.supports_install_destdir = True
+        self.supports_static_analyzer = supports_static_analyzer
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -141,7 +143,7 @@ class AutogenModule(Package, DownloadableModule):
         else:
             vars['libdir'] = "'${exec_prefix}/lib'"
 
-        cmd = template % vars
+        cmd = self.static_analyzer_pre_cmd(buildscript) + template % vars
 
         if self.autogen_sh == 'autoreconf':
             # autoreconf doesn't honour ACLOCAL_FLAGS, therefore we pass
@@ -210,12 +212,27 @@ class AutogenModule(Package, DownloadableModule):
         buildscript.set_action(_('Building'), self)
         makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
                 self.name, self.config.makeargs)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), makeargs)
+        cmd = '%s%s %s' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
             PHASE_CLEAN, PHASE_DISTCLEAN]
+
+    def static_analyzer_pre_cmd(self, buildscript):
+        if self.supports_static_analyzer and buildscript.config.module_static_analyzer.get(self.name, buildscript.config.static_analyzer):
+            template = buildscript.config.static_analyzer_template + ' '
+            outputdir = buildscript.config.static_analyzer_outputdir
+
+            if not os.path.exists(outputdir):
+                os.makedirs(outputdir)
+
+            vars = {'outputdir': outputdir,
+                    'module': self.name
+                   }
+
+            return template % vars
+        return ''
 
     def skip_check(self, buildscript, last_phase):
         if not self.check_target:
@@ -230,7 +247,7 @@ class AutogenModule(Package, DownloadableModule):
         buildscript.set_action(_('Checking'), self)
         makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
                 self.name, self.config.makeargs)
-        cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), makeargs)
+        cmd = '%s%s %s check' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -296,6 +313,7 @@ class AutogenModule(Package, DownloadableModule):
                  ('skip-autogen', 'skip_autogen', False),
                  ('autogen-sh', 'autogen_sh', 'autogen.sh'),
                  ('makefile', 'makefile', 'Makefile'),
+                 ('supports-static-analyzer', 'supports_static_analyzer', True),
                  ('autogen-template', 'autogen_template', None)])
 
 
@@ -337,6 +355,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
 
     if node.hasAttribute('check-target'):
         instance.check_target = (node.getAttribute('check-target') == 'true')
+    if node.hasAttribute('static-analyzer'):
+        instance.supports_static_analyzer = (node.getAttribute('static-analyzer') == 'true')
 
     from jhbuild.versioncontrol.tarball import TarballBranch
     if node.hasAttribute('autogen-sh'):

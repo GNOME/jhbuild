@@ -2,7 +2,7 @@
 # This file holds the default values for the ~/.jhbuildrc file.
 # Do not copy this to ~/.jhbuildrc
 
-import os, sys
+import os, sys, tempfile
 
 if 'GTK_PATH' in os.environ.keys():
     del os.environ['GTK_PATH']
@@ -92,6 +92,13 @@ makecheck_advisory = False # whether to pass over 'make check' failures
 interact      = True   # whether to interact with the user.
 quiet_mode    = False  # whether to display running commands output
 progress_bar  = True   # whether to display a progress bar when running in quiet mode
+
+# Run a static analyzer by prepending the command to the configure and build command lines.
+# Defaults to the Clang Static Analyzer (scan-build)
+static_analyzer = False
+module_static_analyzer = {}
+static_analyzer_template = 'scan-build -v -o %(outputdir)s/%(module)s'
+static_analyzer_outputdir = os.path.join(tempfile.gettempdir(), 'jhbuild_static_analyzer')
 
 # checkout modes. For VCS directories, it specifies how the checkout
 # is done. We can also specify checkout modes for specific modules
