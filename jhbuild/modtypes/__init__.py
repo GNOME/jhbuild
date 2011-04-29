@@ -158,6 +158,17 @@ class Package:
         os.makedirs(destdir)
         return destdir
 
+    def _clean_la_files(self, installroot):
+        assert os.path.isabs(installroot)
+        files = os.listdir(installroot)
+        for name in files:
+            path = os.path.join(installroot, name)
+            if name.endswith('.la'):
+                print "Deleting %r" % (path, )
+                os.unlink(path)
+            elif os.path.isdir(path):
+                self._clean_la_files(path)
+
     def _process_install_files(self, installroot, curdir, prefix):
         """Strip the prefix from all files in the install root, and move
 them into the prefix."""
@@ -188,6 +199,7 @@ them into the prefix."""
     def process_install(self, buildscript, revision):
         assert self.supports_install_destdir
         destdir = self._get_destdir(buildscript)
+        self._clean_la_files(destdir)
         buildscript.packagedb.add(self.name, revision or '', destdir)
         self._process_install_files(destdir, destdir, buildscript.config.prefix)
         try:
