@@ -336,6 +336,10 @@ class Config:
         addpath('MANPATH', '')
         addpath('MANPATH', manpathdir)
 
+        # INFOPATH
+        infopathdir = os.path.join(self.prefix, 'share', 'info')
+        addpath('INFOPATH', infopathdir)
+
         # PKG_CONFIG_PATH
         if os.environ.get('PKG_CONFIG_PATH') is None:
             # add system pkgconfig lookup-directories by default, as pkg-config
