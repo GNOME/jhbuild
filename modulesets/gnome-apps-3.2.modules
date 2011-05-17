@@ -51,14 +51,22 @@
     <branch/>
   </autotools>
 
+  <tarball id="librsync" version="0.9.7" checkoutdir="librsync-0.9.7">
+    <source href="http://downloads.sourceforge.net/librsync/librsync-0.9.7.tar.gz"
+            hash="sha256:6633e4605662763a03bb6388529cbdfd3b11a9ec55b8845351c1bd9a92bc41d6"
+            md5sum="24cdb6b78f45e0e83766903fd4f6bc84" size="453802"/>
+  </tarball>
+
   <distutils id="duplicity">
     <branch repo="launchpad.net/tarball"
-            module="duplicity/0.6-series/0.6.07/+download/duplicity-0.6.07.tar.gz"
-            version="0.6.07"
-            hash="sha256:5a66ec622c273aef12f0c8ae1635b44f2de920c50395854715c5e4c70ec93c87"
-            md5sum="08efd239362f601b946f4dc2450fc840" size="280311">
+            module="duplicity/0.6-series/0.6.13/+download/duplicity-0.6.13.tar.gz"
+            version="0.6.13"
+            hash="sha256:381aa8d7a07541d81457c3eac0ab5b37f05272023e3af04cbebab831732ff41f"
+            md5sum="b3d627f35fc527b00121925840d5cca7" size="296955" />
+    <dependencies>
       <dep package="pygobject"/>
-    </branch>
+      <dep package="librsync"/>
+    </dependencies>
   </distutils>
 
   <!-- Other useful deps that you can install are:  -->
@@ -464,17 +472,15 @@
 
   <autotools id="deja-dup">
     <branch repo="launchpad.net"
-            module="~deja-dup-team/deja-dup/trunk"
+            module="~deja-dup-team/deja-dup/20"
             checkoutdir="deja-dup/"/>
     <dependencies>
-      <dep package="dbus-glib"/>
-      <dep package="gconf"/>
       <dep package="glib"/>
-      <dep package="gnome-keyring-2"/>
-      <dep package="gtk+-2"/>
+      <dep package="gtk+"/>
+      <dep package="libgnome-keyring"/>
       <dep package="libnotify"/>
-      <dep package="libunique-1"/>
       <dep package="nautilus"/>
+      <dep package="gnome-control-center"/>
       <dep package="vala"/>
       <dep package="duplicity"/>
     </dependencies>
