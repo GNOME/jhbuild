@@ -134,14 +134,11 @@ cvs_program = 'cvs'
 mirror_policy = ""
 module_mirror_policy = {}
 
-if sys.platform.startswith('win'):
-    notrayicon = True
-    nonotify = True
-else:
-    # Show a tray icon using zenity
-    notrayicon = False
-    # whether not to emit notifications through the notification daemon
-    nonotify = False
+# whether not to emit notifications through the notification daemon
+# notifications are persistent in GNOME 3, therefore off by default
+nonotify = True
+# Show a tray icon using zenity
+notrayicon = True
 
 # whether to run tests in real X and not in Xvfb
 noxvfb = False
