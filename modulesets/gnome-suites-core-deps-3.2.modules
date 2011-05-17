@@ -375,7 +375,7 @@
     <branch/>
     <dependencies>
       <dep package="gobject-introspection"/>
-      <dep package="mozilla"/>
+      <dep package="js185"/>
     </dependencies>
   </autotools>
 
@@ -867,8 +867,10 @@
   </autotools>
 
 <!-- Begin Mozilla stuff subsection -->
+
   <repository type="tarball" name="ftp.mozilla.org"
       href="https://ftp.mozilla.org/pub/mozilla.org/"/>
+
   <autotools id="nspr" autogen-sh="autogen.sh"
              autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
     <branch repo="ftp.mozilla.org"
@@ -881,6 +883,20 @@
       <patch file="nspr.autogen.patch" strip="1"/>
       <patch file="nspr.hostcompiler.patch" strip="1"/>
     </branch>
+  </autotools>
+
+  <autotools id="js185" check-target="false"
+	     autogenargs="--enable-threadsafe --with-system-nspr">
+    <branch repo="ftp.mozilla.org"
+	    module="js/js185-1.0.0.tar.gz"
+            version="1.0.0"
+	    checkoutdir="js185-1.0.0"
+	    source-subdir="js/src"
+	    md5sum="a4574365938222adca0a6bd33329cb32" size="6164605">
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
+    </dependencies>
   </autotools>
 
   <autotools id="nss" autogen-sh="autogen.sh" supports-non-srcdir-builds="no"
