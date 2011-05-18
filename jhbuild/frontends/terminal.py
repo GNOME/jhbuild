@@ -260,6 +260,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                                % print_args['command'])
 
     def start_phase(self, module, phase):
+        self.notify.clear()
         self.trayicon.set_icon(os.path.join(icondir,
                                phase_map.get(phase, 'build.png')))
 

@@ -349,6 +349,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.build_button.set_sensitive(True)
         self.module_hbox.set_sensitive(True)
 
+    def start_phase(self):
+        self.notify.clear()
+
     def start_module(self, module):
         idx = [x.name for x in self.modulelist].index(module)
         self.progressbar.set_fraction((1.0*idx) / len(self.modulelist))
