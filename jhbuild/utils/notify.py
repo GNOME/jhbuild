@@ -17,34 +17,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys
-import os
-import subprocess
+try:
+    import dbus
+except ImportError:
+    dbus = None
 
 class Notify:
 
-    LOW = 'low'
-    NORMAL = 'normal'
-    CRITICAL = 'critical'
-
     def __init__(self, config = None):
         self.disabled = False
-        if config and config.nonotify:
+        self.notif_id = 0
+        self.iface = self.get_iface()
+        if (config and config.nonotify) or self.iface is None:
             self.disabled = True
 
-    def notify(self, summary, body, urgency = NORMAL, icon = None, expire = 0):
+    def get_iface(self):
+        if dbus is None:
+            return None
+
+        try:
+            bus = dbus.SessionBus()
+            proxy = bus.get_object('org.freedesktop.Notifications',
+                                   '/org/freedesktop/Notifications')
+            return dbus.Interface(proxy, dbus_interface='org.freedesktop.Notifications')
+        except dbus.exceptions.DBusException:
+            return None
+
+    def notify(self, summary, body, icon = "", expire = 0):
         '''emit a notification'''
         if self.disabled:
             return
-        cmd = ['notify-send', '--urgency=%s' % urgency]
-        if icon:
-            cmd.append('--icon=%s' % icon)
-        if expire:
-            cmd.append('--expire-time=%d' % (1000 * expire))
-        cmd.extend([summary.encode('utf-8'), body.encode('utf-8')])
-        try:
-            retcode = subprocess.call(cmd, stderr = open('/dev/null', 'a'))
-            if retcode:
-                self.disabled = True
-        except OSError, e:
-            self.disabled = True
+
+        self.notif_id = self.iface.Notify("jhbuild", self.notif_id, icon,
+                                          summary, body, [], {}, 1000*expire)
+
+    def clear(self):
+        if self.notif_id != 0:
+            self.iface.CloseNotification(self.notif_id)
+            self.notif_id = 0
+
+if __name__ == "__main__":
+    n = Notify()
+    n.notify("A summary", "A body text")
