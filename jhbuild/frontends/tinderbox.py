@@ -26,7 +26,7 @@ import sys
 
 from jhbuild.main import _encoding
 from jhbuild.utils import cmds
-from jhbuild.errors import CommandError
+from jhbuild.errors import CommandError, FatalError
 import buildscript
 import commands
 
@@ -201,14 +201,33 @@ class TinderboxBuildScript(buildscript.BuildScript):
         kws = {
             'close_fds': True
             }
+        print_args = {}
+        if cwd:
+            print_args['cwd'] = cwd
+        else:
+            print_args['cwd'] = os.getcwd()
+
         self.modulefp.write('<pre>')
         if isinstance(command, (str, unicode)):
-            self.modulefp.write('<span class="command">%s</span>\n'
-                                % escape(command))
             kws['shell'] = True
+            print_args['command'] = command
         else:
-            self.modulefp.write('<span class="command">%s</span>\n'
-                                % escape(' '.join(command)))
+            print_args['command'] = ' '.join(command)
+
+        if self.config.print_command_pattern:
+            try:
+                commandstr = self.config.print_command_pattern % print_args
+                self.modulefp.write('<span class="command">%s</span>\n'
+                                    % escape(commandstr))
+            except TypeError, e:
+                raise FatalError('\'print_command_pattern\' %s' % e)
+            except KeyError, e:
+                raise FatalError(_('%(configuration_variable)s invalid key'
+                                   ' %(key)s' % \
+                                   {'configuration_variable' :
+                                        '\'print_command_pattern\'',
+                                    'key' : e}))
+
         kws['stdin'] = subprocess.PIPE
         kws['stdout'] = subprocess.PIPE
         kws['stderr'] = subprocess.PIPE
@@ -247,7 +266,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp.write('</pre>\n')
         self.modulefp.flush()
         if p.returncode != 0:
-            raise CommandError('Error running %s' % command, p.returncode)
+            raise CommandError('Error running %s' % print_args['command'],
+                               p.returncode)
 
     def start_build(self):
         assert self.outputdir

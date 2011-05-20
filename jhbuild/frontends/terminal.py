@@ -28,7 +28,7 @@ from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
 from jhbuild.utils import notify
-from jhbuild.errors import CommandError
+from jhbuild.errors import CommandError, FatalError
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -147,14 +147,30 @@ class TerminalBuildScript(buildscript.BuildScript):
         kws = {
             'close_fds': True
             }
+        print_args = {}
+        if cwd:
+            print_args['cwd'] = cwd
+        else:
+            print_args['cwd'] = os.getcwd()
+
         if isinstance(command, (str, unicode)):
             kws['shell'] = True
-            pretty_command = command
+            print_args['command'] = command
         else:
-            pretty_command = ' '.join(command)
+            print_args['command'] = ' '.join(command)
 
         if not self.config.quiet_mode:
-            print pretty_command
+            if self.config.print_command_pattern:
+                try:
+                    print self.config.print_command_pattern % print_args
+                except TypeError, e:
+                    raise FatalError('\'print_command_pattern\' %s' % e)
+                except KeyError, e:
+                    raise FatalError(_('%(configuration_variable)s invalid key'
+                                       ' %(key)s' % \
+                                       {'configuration_variable' :
+                                            '\'print_command_pattern\'',
+                                        'key' : e}))
 
         kws['stdin'] = subprocess.PIPE
         if hint in ('cvs', 'svn', 'hg-update.py'):
@@ -231,10 +247,12 @@ class TerminalBuildScript(buildscript.BuildScript):
             if p.wait() != 0:
                 if self.config.quiet_mode:
                     print ''.join(output)
-                raise CommandError(_('########## Error running %s') % pretty_command)
+                raise CommandError(_('########## Error running %s')
+                                   % print_args['command'])
         except OSError:
             # it could happen on a really badly-timed ctrl-c (see bug 551641)
-            raise CommandError(_('########## Error running %s') % pretty_command)
+            raise CommandError(_('########## Error running %s')
+                               % print_args['command'])
 
     def start_phase(self, module, phase):
         self.trayicon.set_icon(os.path.join(icondir,
