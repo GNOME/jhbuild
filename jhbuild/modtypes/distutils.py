@@ -43,6 +43,7 @@ class DistutilsModule(Package, DownloadableModule):
         Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -71,13 +72,16 @@ class DistutilsModule(Package, DownloadableModule):
         buildscript.set_action(_('Installing'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
+        destdir = self.prepare_installroot(buildscript)
         python = os.environ.get('PYTHON', 'python')
         cmd = [python, 'setup.py']
         if srcdir != builddir:
             cmd.extend(['build', '--build-base', builddir])
-        cmd.extend(['install', '--prefix', buildscript.config.prefix])
+        cmd.extend(['install', 
+                    '--prefix', buildscript.config.prefix,
+                    '--root', destdir])
         buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
