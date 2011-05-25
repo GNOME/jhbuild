@@ -2,7 +2,6 @@ appdir = $(pythondir)/jhbuild/modtypes/
 
 app_PYTHON = \
 	__init__.py \
-	ant.py \
 	autotools.py \
 	cmake.py \
 	distutils.py \
