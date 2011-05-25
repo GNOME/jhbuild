@@ -49,6 +49,7 @@ class WafModule(Package, DownloadableModule):
         Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
         self.waf_cmd = waf_cmd
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -127,9 +128,10 @@ class WafModule(Package, DownloadableModule):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
-        cmd = [self.waf_cmd, 'install']
+        destdir = self.prepare_installroot(buildscript)
+        cmd = [self.waf_cmd, 'install', '--destdir', destdir]
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def do_uninstall(self, buildscript):
