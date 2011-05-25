@@ -44,6 +44,7 @@ class CMakeModule(Package, DownloadableModule):
         self.branch = branch
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -129,12 +130,13 @@ class CMakeModule(Package, DownloadableModule):
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs())
+        destdir = self.prepare_installroot(buildscript)
+        cmd = '%s %s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                self.get_makeargs(), destdir)
         buildscript.execute(cmd,
                 cwd = builddir,
                 extra_env = self.extra_env)
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
