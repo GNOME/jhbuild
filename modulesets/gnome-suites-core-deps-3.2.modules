@@ -13,6 +13,8 @@
 <repository type="cvs" name="libxklavier.freedesktop.org"
     cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
     password=""/>
+<repository type="git" name="git.debian.org"
+    href="git://git.debian.org/git"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
@@ -551,11 +553,9 @@
     <branch repo="icon-theme.freedesktop.org"/>
   </tarball>
 
-  <tarball id="iso-codes" version="3.20">
-    <source href="ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/iso-codes-3.20.tar.bz2"
-            hash="sha256:d58d8e414dd1a6c23ead5b8e94192d309e6342d21cbc1ebd0f6d5a505211803f"
-            md5sum="90472da66aa4460b04f39c324208f8f2" size="6105567"/>
-  </tarball>
+  <autotools id="iso-codes">
+    <branch repo="git.debian.org" module="iso-codes/iso-codes"/>
+  </autotools>>
 
   <tarball id="itstool" version="1.0.1">
     <source href="http://files.itstool.org/itstool/itstool-1.0.1.tar.bz2"
