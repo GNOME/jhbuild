@@ -18,11 +18,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import sys 
 import time
-try:
-    import xml.dom.minidom
-except ImportError:
-    raise SystemExit, _('Python xml packages are required but could not be found')
+import xml.etree.ElementTree as ET
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -32,35 +30,6 @@ def _parse_isotime(string):
 
 def _format_isotime(tm):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
-
-def _get_text_content(node):
-    content = ''
-    for child in node.childNodes:
-        if (child.nodeType == child.TEXT_NODE):
-            content += child.nodeValue
-    return content
-
-def _list_from_xml(node, child_name):
-    """Parse XML like:
-        <foolist>
-            <item>content</item>
-            <item>more content</item>
-            ...
-        </foolist>."""
-    result = []
-    for child in node.childNodes:
-        if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == child_name):
-            continue
-        result.append(_get_text_content(child))
-    return result
-
-def _find_node(node, child_name):
-    """Get the first child node named @child_name"""
-    for child in node.childNodes:
-        if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == child_name):
-            continue
-        return child
-    return None
 
 class PackageEntry:
     def __init__(self, package, version, manifest,
@@ -72,40 +41,36 @@ class PackageEntry:
 
     @classmethod
     def from_xml(cls, node):
-        package = node.getAttribute('package')
-        version = node.getAttribute('version')
+        package = node.attrib['package']
+        version = node.attrib['version']
         metadata = {}
 
-        installed_string = node.getAttribute('installed')
+        installed_string = node.attrib['installed']
         if installed_string:
             metadata['installed-date'] = _parse_isotime(installed_string)
-
-        manifestNode = _find_node(node, 'manifest')
-        if manifestNode:
-            manifest = _list_from_xml(manifestNode, 'file')
+         
+        manifestNode = node.find('manifest')
+        if manifestNode is not None:
+            manifest = []
+            for manifest_child in manifestNode:
+                if manifest_child.tag != 'file':
+                    continue
+                manifest.append(manifest_child.text)
         else:
             manifest = None
         return cls(package, version, manifest, metadata)
 
-    def to_xml(self, document):
-        entryNode = document.createElement('entry')
-        entryNode.setAttribute('package', self.package)
-        entryNode.setAttribute('version', self.version)
+    def to_xml(self, doc):
+        entry_node = ET.Element('entry', {'package': self.package,
+                                          'version': self.version})
         if 'installed-date' in self.metadata:
-            entryNode.setAttribute('installed', _format_isotime(self.metadata['installed-date']))
-        entryNode.appendChild(document.createTextNode('\n'))
+            entry_node.attrib['installed'] = _format_isotime(self.metadata['installed-date'])
         if self.manifest is not None:
-            manifestNode = document.createElement('manifest')
-            entryNode.appendChild(manifestNode)
-            manifestNode.appendChild(document.createTextNode('\n'))
+            manifest_node = ET.SubElement(entry_node, 'manifest')
             for filename in self.manifest:
-                node = document.createElement('file')
-                node.appendChild(document.createTextNode(filename))
-                manifestNode.appendChild(document.createTextNode('  '))
-                manifestNode.appendChild(node)
-                manifestNode.appendChild(document.createTextNode('\n'))
-            entryNode.appendChild(document.createTextNode('\n'))
-        return entryNode
+                file_node = ET.SubElement(manifest_node, 'file')
+                file_node.text = filename
+        return entry_node
 
 class PackageDB:
     def __init__(self, dbfile):
@@ -115,42 +80,36 @@ class PackageDB:
     def _read_cache(self):
         self.entries = {}
         try:
-            document = xml.dom.minidom.parse(self.dbfile)
-        except:
+            f = open(self.dbfile)
+        except OSError, e:
             return # treat as empty cache
-        if document.documentElement.nodeName != 'packagedb':
-            document.unlink()
+        doc = ET.parse(f)
+        root = doc.getroot()
+        if root.tag != 'packagedb':
             return # doesn't look like a cache
-        for node in document.documentElement.childNodes:
-            if node.nodeType != node.ELEMENT_NODE: continue
-            if node.nodeName != 'entry': continue
-            
+        for node in root:
+            if node.tag != 'entry':
+                continue
             entry = PackageEntry.from_xml(node)
             self.entries[entry.package] = entry
-        document.unlink()
 
     def _write_cache(self):
-        document = xml.dom.minidom.Document()
-        document.appendChild(document.createElement('packagedb'))
-        node = document.createTextNode('\n')
-        document.documentElement.appendChild(node)
+        pkgdb_node = ET.Element('packagedb')
+        doc = ET.ElementTree(pkgdb_node)
         for package,entry in self.entries.iteritems():
-            node = entry.to_xml(document)
-            document.documentElement.appendChild(node)
-            node = document.createTextNode('\n')
-            document.documentElement.appendChild(node)
+            node = entry.to_xml(doc)
+            pkgdb_node.append(node)
 
         tmp_dbfile_path = self.dbfile + '.tmp'
         tmp_dbfile = open(tmp_dbfile_path, 'w')
         try:
-            document.writexml(tmp_dbfile)
+            doc.write(tmp_dbfile, encoding='UTF-8')
         except:
             tmp_dbfile.close()
             os.unlink(tmp_dbfile_path)
             raise
         tmp_dbfile.close()
         os.rename(tmp_dbfile_path, self.dbfile)
-        document.unlink()
 
     def _accumulate_dirtree_contents_recurse(self, path, contents):
         assert os.path.isdir(path)
@@ -229,3 +188,7 @@ class PackageDB:
             self._write_cache()
         else:
             buildscript.message("warning: no package known for '%s'")
+
+if __name__ == '__main__':
+    db = PackageDB(sys.argv[1])
+    print "%r" % (db.entries, )
