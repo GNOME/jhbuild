@@ -37,8 +37,6 @@
       href="https://launchpad.net/"/>
   <repository type="git" name="yorba.org"
       href="git://yorba.org/"/>
-<repository type="git" name="colord.gitorious.org"
-    href="git://gitorious.org/colord/master.git"/>
 
   <include href="gnome-suites-core-3.2.modules"/>
 
@@ -623,28 +621,6 @@
       <dep package="libxml2"/>
     </dependencies>
   </autotools>
-
-  <autotools id="colord" autogenargs="--disable-examples">
-    <branch repo="colord.gitorious.org" checkoutdir="colord" module="master"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus"/>
-      <dep package="gudev"/>
-      <dep package="sqlite3"/>
-      <dep package="lcms2"/>
-      <!-- and cups -->
-      <!-- and sane -->
-    </dependencies>
-    <suggests>
-      <dep package="polkit"/>
-    </suggests>
-  </autotools>
-
- <tarball id="lcms2" version="2.2" checkoutdir="lcms-2.2">
-    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.2.tar.gz"
-            hash="sha256:b6f2a1be1a2b7ca54bfab69b32242d383a176637f161eeeaef451bd9fc1195cc"
-            md5sum="aaf33c7c25675e6163189ba488ae20f5" size="4193353"/>
-  </tarball>
 
   <autotools id="gnome-color-manager">
     <branch/>
