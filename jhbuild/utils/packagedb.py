@@ -83,6 +83,8 @@ class PackageDB:
             f = open(self.dbfile)
         except OSError, e:
             return # treat as empty cache
+        except IOError, e:
+            return
         doc = ET.parse(f)
         root = doc.getroot()
         if root.tag != 'packagedb':
