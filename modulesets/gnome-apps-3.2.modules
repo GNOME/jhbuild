@@ -37,6 +37,8 @@
       href="https://launchpad.net/"/>
   <repository type="git" name="yorba.org"
       href="git://yorba.org/"/>
+  <repository type="tarball" name="monogithub"
+    href="https://github.com/downloads/mono/dbus-sharp/"/>
 
   <include href="gnome-suites-core-3.2.modules"/>
 
@@ -318,6 +320,24 @@
     </dependencies>
   </autotools>
 
+  <tarball id="dbus-sharp" version="0.7.0">
+    <source href="https://github.com/downloads/mono/dbus-sharp/dbus-sharp-0.7.0.tar.gz"
+            hash="sha256:92529aef9063f477d1975947c6388c63d03234018f45d007c07716dd3e21dd41"
+            md5sum="1964fc341dcbaeda859c53cee295d042" size="127651"/>
+    <dependencies>
+      <dep package="dbus"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="dbus-sharp-glib" version="0.5.0">
+    <source href="https://github.com/downloads/mono/dbus-sharp/dbus-sharp-glib-0.5.0.tar.gz"
+            hash="256:f4fd663957f06ac5f0322beab264c5498bf6408f7435d0387950b4cb7996180e"
+            md5sum="2284293316eb3a89f0f78798b8a24418" size="95405"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
   <tarball id="ndesk-dbus" version="0.6.0">
     <source href="http://www.ndesk.org/archive/dbus-sharp/ndesk-dbus-0.6.0.tar.gz"
             hash="sha256:252322f18e906ba7e64cecd0baec08d1a0109206777a5507a713e12def126424"
@@ -333,6 +353,15 @@
             md5sum="7faf8770b214956fa9de009def550826" size="85471"/>
     <dependencies>
       <dep package="ndesk-dbus"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gnome-sharp" version="2.24.2">
+    <source href="http://download.gnome.org/pub/gnome/sources/gnome-sharp/gnome-sharp-2.24.2.tar.bz2"
+            hash="sha256:122b1e03966d63ec3389decf5440fb94285907d1b6be48352dcf6aca292cf7b0"
+            md5sum="3b38f53960c736d4afb8f04204efe98b" size="421281"/>
+    <dependencies>
+      <dep package="mono"/>
     </dependencies>
   </tarball>
 
@@ -975,9 +1004,10 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk-sharp"/>
-      <dep package="ndesk-dbus"/>
-      <dep package="ndesk-dbus-glib"/>
+      <dep package="dbus-sharp"/>
+      <dep package="dbus-sharp-glib"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="gnome-sharp"/>
       <dep package="mono-addins"/>
     </dependencies>
     <suggests>
