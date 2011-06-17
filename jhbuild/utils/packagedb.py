@@ -20,7 +20,9 @@
 import os
 import sys 
 import time
+import xml.dom.minidom as DOM
 import xml.etree.ElementTree as ET
+from StringIO import StringIO
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -55,7 +57,11 @@ class PackageEntry:
             for manifest_child in manifestNode:
                 if manifest_child.tag != 'file':
                     continue
-                manifest.append(manifest_child.text)
+                # The strip here is important since presently we
+                # "pretty print" which adds whitespace around <file>.
+                # Since we don't handle files with whitespace in their
+                # names anyways, it's a fine hack.
+                manifest.append(manifest_child.text.strip())
         else:
             manifest = None
         return cls(package, version, manifest, metadata)
@@ -104,8 +110,16 @@ class PackageDB:
 
         tmp_dbfile_path = self.dbfile + '.tmp'
         tmp_dbfile = open(tmp_dbfile_path, 'w')
+        
+        # Because ElementTree can't pretty-print, we convert it to a string
+        # and then read it back with DOM, then write it out again.  Yes, this
+        # is lame.
+        # http://renesd.blogspot.com/2007/05/pretty-print-xml-with-python.html
+        buf = StringIO()
+        doc.write(buf, encoding='UTF-8')
+        dom_doc = DOM.parseString(buf.getvalue())
         try:
-            doc.write(tmp_dbfile, encoding='UTF-8')
+            dom_doc.writexml(tmp_dbfile, addindent='  ', newl='\n', encoding='UTF-8')
         except:
             tmp_dbfile.close()
             os.unlink(tmp_dbfile_path)
@@ -170,19 +184,20 @@ class PackageDB:
                 directories = []
                 for path in entry.manifest:
                     assert os.path.isabs(path)
-                    print "Deleting %r" % (path, )
                     if os.path.isdir(path):
                         directories.append(path)
                     else:
                         os.unlink(path)
+                        print "Deleted %r" % (path, )
                 for directory in directories:
-                    if not directory.startswith(buildscript.prefix):
+                    if not directory.startswith(buildscript.config.prefix):
                         # Skip non-prefix directories; otherwise we
                         # may try to remove the user's ~ or something
                         # (presumably we'd fail, but better not to try)
                         continue
                     try:
                         os.rmdir(directory)
+                        print "Deleted %r" % (path, )
                     except OSError, e:
                         # Allow multiple components to use directories
                         pass
