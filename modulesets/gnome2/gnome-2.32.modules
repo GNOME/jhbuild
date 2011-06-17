@@ -456,13 +456,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgdamm-3.0">
-    <branch module="libgdamm" revision="libgdamm-3-0"/>
-    <dependencies>
-      <dep package="gtkmm"/>
-      <dep package="libgda-3-0"/>
-    </dependencies>
-  </autotools>
   <autotools id="libgdamm">
     <branch/>
     <dependencies>
@@ -793,27 +786,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgda-3-0">
-    <branch module="libgda" revision="release-3-0-branch"
-            checkoutdir="libgda-3-0"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgnomedb" autogenargs="--enable-gnome=yes">
-    <branch/>
-    <dependencies>
-      <dep package="libgda-3-0"/>
-      <dep package="libgnomeui"/>
-      <dep package="libbonoboui"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="mergeant">
     <branch/>
     <dependencies>
-      <dep package="libgnomedb"/> <!-- TODO: Doesn't this use just libgda >4.1 now? murrayc. -->
+      <dep package="libgda"/>
     </dependencies>
   </autotools>
 
