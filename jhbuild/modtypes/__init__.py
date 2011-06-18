@@ -164,8 +164,10 @@ class Package:
         for name in files:
             path = os.path.join(installroot, name)
             if name.endswith('.la'):
-                print "Deleting %r" % (path, )
-                os.unlink(path)
+                try:
+                    os.unlink(path)
+                except OSError:
+                    pass
             elif os.path.isdir(path):
                 self._clean_la_files(path)
 
