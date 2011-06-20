@@ -296,6 +296,8 @@ class Config:
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
+        os.environ['JHBUILD_PREFIX'] = self.prefix
+
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
 
         if not os.environ.get('DBUS_SYSTEM_BUS_ADDRESS'):
