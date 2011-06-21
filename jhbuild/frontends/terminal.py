@@ -84,7 +84,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         buildscript.BuildScript.__init__(self, config, module_list)
         self.trayicon = trayicon.TrayIcon(config)
         self.notify = notify.Notify(config)
-
+        
     def message(self, msg, module_num=-1):
         '''Display a message to the user'''
         
@@ -190,6 +190,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         if extra_env is not None:
             kws['env'] = os.environ.copy()
             kws['env'].update(extra_env)
+
+        command = self._prepare_execute(command)
 
         try:
             p = subprocess.Popen(command, **kws)

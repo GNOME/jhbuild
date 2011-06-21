@@ -23,6 +23,7 @@ import logging
 
 from jhbuild.utils import packagedb
 from jhbuild.utils import trigger
+from jhbuild.utils import cmds
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
@@ -72,6 +73,24 @@ class BuildScript:
             os.rename(legacy_pkgdb_path, new_pkgdb_path)
 
         self.packagedb = packagedb.PackageDB(new_pkgdb_path)
+
+        self.subprocess_nice_args = []
+        if config.nice_build:
+            if cmds.has_command('chrt'):
+                self.subprocess_nice_args.extend(['chrt', '--idle', '0'])
+            elif cmds.has_command('nice'):
+                self.subprocess_nice_args.append('nice')
+                
+            if cmds.has_command('ionice'):
+                self.subprocess_nice_args.extend(['ionice', '-c', '3', '-t'])
+
+    def _prepare_execute(self, command):
+        if self.subprocess_nice_args:
+            if isinstance(command, (str, unicode)):
+                command = ' '.join(self.subprocess_nice_args) + ' ' + command
+            else:
+                command = self.subprocess_nice_args + command
+        return command
 
     def execute(self, command, hint=None, cwd=None, extra_env=None):
         '''Executes the given command.

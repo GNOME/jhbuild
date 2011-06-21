@@ -475,6 +475,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 kws['env'] = os.environ.copy()
                 kws['env'].update(extra_env)
 
+            command = self._prepare_execute(command)
+
             try:
                 p = subprocess.Popen(command, **kws)
             except OSError, e:
