@@ -173,9 +173,10 @@ def check_bootstrap_updateness(config):
 
     updated_modules = []
     for module in module_set.modules.values():
-        if not packagedb.entries.has_key(module.name):
+        pkg = packagedb.entries.get(module.name)
+        if pkg is None:
             continue
-        p_version = packagedb.entries.get(module.name)[0]
+        p_version = pkg.version
         if p_version != module.get_revision():
             updated_modules.append(module.name)
 
