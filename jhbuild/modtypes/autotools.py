@@ -252,14 +252,14 @@ class AutogenModule(Package, DownloadableModule):
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_distcheck(self, buildscript):
-        buildscript.set_action(_('Creating tarball for'), self)
+        buildscript.set_action(_('Dist checking'), self)
         makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
                 self.name, self.config.makeargs)
         cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_dist.depends = [PHASE_CONFIGURE]
-    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+    do_distcheck.depends = [PHASE_DIST]
+    do_distcheck.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
