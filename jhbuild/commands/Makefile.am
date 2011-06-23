@@ -14,6 +14,7 @@ app_PYTHON = \
 	rdepends.py \
 	sanitycheck.py \
 	snapshot.py \
+	sysdeps.py \
 	tinderbox.py \
 	uninstall.py
 
