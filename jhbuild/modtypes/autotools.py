@@ -49,13 +49,14 @@ class AutogenModule(Package, DownloadableModule):
     def __init__(self, name, branch, autogenargs='', makeargs='',
                  makeinstallargs='',
                  dependencies=[], after=[], suggests=[],
+                 pkg_config=None,
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
                  check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests)
+        Package.__init__(self, name, dependencies, after, suggests, pkg_config)
         self.branch = branch
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
@@ -315,6 +316,7 @@ class AutogenModule(Package, DownloadableModule):
 
 def parse_autotools(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
+    pkg_config = node.getAttribute('pkg-config')
     autogenargs = ''
     makeargs = ''
     makeinstallargs = ''
@@ -381,6 +383,7 @@ def parse_autotools(node, config, uri, repositories, default_repo):
                          dependencies=dependencies,
                          after=after,
                          suggests=suggests,
+                         pkg_config=pkg_config,
                          supports_non_srcdir_builds=supports_non_srcdir_builds,
                          skip_autogen=skip_autogen,
                          autogen_sh=autogen_sh,

@@ -39,8 +39,8 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch, cmakeargs='', makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 dependencies=[], after=[], suggests=[], pkg_config=None):
+        Package.__init__(self, name, dependencies, after, suggests, pkg_config)
         self.branch = branch
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
@@ -145,6 +145,7 @@ class CMakeModule(Package, DownloadableModule):
 
 def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
+    pkg_config = node.getAttribute('pkg-config')
     cmakeargs = ''
     makeargs = ''
     if node.hasAttribute('cmakeargs'):
@@ -157,7 +158,7 @@ def parse_cmake(node, config, uri, repositories, default_repo):
 
     return CMakeModule(id, branch, cmakeargs, makeargs,
                        dependencies = dependencies, after = after,
-                       suggests = suggests)
+                       suggests = suggests, pkg_config=pkg_config)
 
 register_module_type('cmake', parse_cmake)
 

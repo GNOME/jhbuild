@@ -125,8 +125,9 @@ class Package:
     type = 'base'
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
-    def __init__(self, name, dependencies = [], after = [], suggests = []):
+    def __init__(self, name, dependencies = [], after = [], suggests = [], pkg_config=None):
         self.name = name
+        self.pkg_config = pkg_config
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests

@@ -44,9 +44,9 @@ class WafModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
+    def __init__(self, name, branch, dependencies=[], after=[], suggests=[], pkg_config=None,
                  waf_cmd='./waf'):
-        Package.__init__(self, name, dependencies, after, suggests)
+        Package.__init__(self, name, dependencies, after, suggests, pkg_config)
         self.branch = branch
         self.waf_cmd = waf_cmd
         self.supports_install_destdir = True
@@ -148,6 +148,7 @@ class WafModule(Package, DownloadableModule):
 
 def parse_waf(node, config, uri, repositories, default_repo):
     module_id = node.getAttribute('id')
+    pkg_config = node.getAttribute('pkg-config')
     waf_cmd = './waf'
     if node.hasAttribute('waf-command'):
         waf_cmd = node.getAttribute('waf-command')
@@ -157,6 +158,6 @@ def parse_waf(node, config, uri, repositories, default_repo):
     branch = get_branch(node, repositories, default_repo, config)
 
     return WafModule(module_id, branch, dependencies=dependencies, after=after,
-            suggests=suggests, waf_cmd=waf_cmd)
+            suggests=suggests, pkg_config=pkg_config, waf_cmd=waf_cmd)
 
 register_module_type('waf', parse_waf)

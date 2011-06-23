@@ -39,8 +39,8 @@ class PerlModule(Package, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
+                 dependencies=[], after=[], suggests=[], pkg_config=None):
+        Package.__init__(self, name, dependencies, after, suggests, pkg_config)
         self.branch = branch
         self.makeargs = makeargs
 
@@ -82,6 +82,7 @@ class PerlModule(Package, DownloadableModule):
 
 def parse_perl(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
+    pkg_config = node.getAttribute('pkg-config')
     makeargs = ''
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
@@ -95,6 +96,6 @@ def parse_perl(node, config, uri, repositories, default_repo):
 
     return PerlModule(id, branch, makeargs,
             dependencies=dependencies, after=after,
-            suggests=suggests)
+            suggests=suggests, pkg_config=pkg_config)
 register_module_type('perl', parse_perl)
 

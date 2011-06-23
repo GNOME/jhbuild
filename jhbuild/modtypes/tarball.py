@@ -31,6 +31,7 @@ from jhbuild.modtypes import register_module_type, get_dependencies
 
 def parse_tarball(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
+    pkg_config = node.getAttribute('pkg-config')
     version = node.getAttribute('version')
     source_url = None
     source_size = None
@@ -100,7 +101,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
 
     return AutogenModule(name, branch,
             autogenargs, makeargs, makeinstallargs,
-            dependencies, after, suggests,
+            dependencies, after, suggests, pkg_config,
             supports_non_srcdir_builds = supports_non_srcdir_builds,
             skip_autogen = False, autogen_sh = 'configure',
             makefile = makefile)
