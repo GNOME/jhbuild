@@ -15,6 +15,8 @@
     password=""/>
 <repository type="git" name="colord.gitorious.org"
     href="git://gitorious.org/colord/master.git"/>
+<repository type="bzr" name="research.operationaldynamics.com"
+    href="http://research.operationaldynamics.com/bzr"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
@@ -615,6 +617,23 @@
             hash="sha256:4c4f1488d0fe3e6531f41725deebae77d4f2f5c5415d95bb9837054c0d0356dd"
             size="73238"/>
   </tarball>
+
+  <autotools id="java-gnome" autogen-sh="configure" skip-autogen="never">
+    <branch repo="research.operationaldynamics.com"
+            module="bzr/java-gnome/mainline"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+      <dep package="gtk+"/>
+      <dep package="gtksourceview"/>
+      <dep package="librsvg"/>
+      <dep package="enchant"/>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="json-glib">
     <branch/>
