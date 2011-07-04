@@ -89,6 +89,40 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-applets" autogenargs="--without-hal --enable-mixer-applet --enable-mini-commander">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gnome-panel"/>
+      <dep package="libgtop"/>
+      <dep package="libgnomekbd"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gucharmap"/>
+      <dep package="pygobject"/>
+      <dep package="libgweather"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="gconf"/>
+      <dep package="libxklavier" />
+      <dep package="libwnck"/>
+      <dep package="libnotify"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="pygobject"/>
+      <dep package="gnome-python"/>
+      <dep package="gnome-icon-theme"/>
+      <dep package="libxml2"/>
+      <dep package="polkit"/>
+      <dep package="NetworkManager"/>
+    </dependencies>
+    <after>
+      <dep package="gnome-control-center"/>
+      <dep package="gnome-python-desktop"/>
+    </after>
+  </autotools>
+
   <autotools id="gnome-keyring-2" autogenargs="--with-gtk=2.0">
     <branch checkoutdir="gnome-keyring-2" module="gnome-keyring"/>
     <dependencies>
