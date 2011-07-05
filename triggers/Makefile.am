@@ -1,2 +1,5 @@
 triggerdir = $(datadir)/jhbuild/triggers
-trigger_DATA = pango.trigger gdk-pixbuf.trigger
+trigger_DATA = \
+	gdk-pixbuf.trigger \
+	glib.trigger \
+	pango.trigger
