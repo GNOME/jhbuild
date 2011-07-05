@@ -37,6 +37,7 @@ AC_CONFIG_FILES([
 	doc/Makefile
 	po/Makefile.in
 	scripts/Makefile
+	triggers/Makefile
 	jhbuild/Makefile
 	jhbuild/buildbot/Makefile
 	jhbuild/buildbot/status/web/Makefile

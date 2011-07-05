@@ -1,0 +1,23 @@
+This directory contains GNOME post-installation trigger scripts (in
+theory these could go with the modules, but there aren't many of them,
+so eh).
+
+A .trigger file is a set of regular expressions (or literal matches)
+which are evaluated against files installed after any "make install
+DESTDIR=", combined with a shell script to run if any of them match.
+In the future, these may also be matched against deleted files.
+
+The contents of a .trigger file are just /bin/sh shell script, with a
+few magic comments.  During the run of a .trigger file, the
+environment variable JHBUILD_PREFIX is guaranteed to be set.
+
+Currently recognized comments:
+
+# IfExecutable: STRING
+  Only run if the given executable is available in $PATH
+# LiteralMatch: STRING
+  Match against installed/removed manifest if the given STRING is a substring of a file or directory.
+# REMatch: REGEXP
+  Match against installed/removed manifest using the given REGEXP in Python syntax.
+  
+ 

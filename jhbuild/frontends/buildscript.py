@@ -19,8 +19,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import logging
 
 from jhbuild.utils import packagedb
+from jhbuild.utils import trigger
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
@@ -84,6 +86,7 @@ class BuildScript:
         self.start_build()
         
         failures = [] # list of modules that couldn't be built
+        successes = []
         self.module_num = 0
         for module in self.modulelist:
             self.module_num = self.module_num + 1
@@ -197,10 +200,27 @@ class BuildScript:
                     num_phase += 1
 
             self.end_module(module.name, failed)
+            if not failed:
+                self.run_triggers(module.name)
         self.end_build(failures)
         if failures:
             return 1
         return 0
+
+    def run_triggers(self, module_name):
+        """See triggers/README."""
+        all_triggers = trigger.load_all(os.path.join(PKGDATADIR, 'triggers'))
+        triggers_to_run = []
+        for trig in all_triggers:
+            # Skip if somehow the module isn't really installed
+            if self.packagedb.installdate(module_name) is None:
+                continue
+            pkg = self.packagedb.entries[module_name]
+            if trig.matches(pkg.manifest):
+                triggers_to_run.append(trig)
+        for trig in triggers_to_run:
+            logging.info(_('Running post-installation trigger script: %r') % (trig.name, ))
+            trig.run()
 
     def get_build_phases(self, module, targets=None):
         '''returns the list of required phases'''
