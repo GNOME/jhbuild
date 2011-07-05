@@ -1,6 +1,6 @@
 diff -ur udev-147.orig/configure.ac udev-147/configure.ac
 --- udev-147.orig/configure.ac	2009-11-10 16:19:47.000000000 +1030
-+++ udev-147/configure.ac	2011-03-24 21:09:00.837846011 +1030
++++ udev-147/configure.ac	2011-07-19 11:42:50.023008370 +0930
 @@ -62,6 +62,10 @@
  	AC_CHECK_LIB([acl], [acl_init], [:], AC_MSG_ERROR([libacl not found]))
  	AC_CHECK_HEADER([acl/libacl.h], [:], AC_MSG_ERROR([libacl header not found]))
@@ -14,7 +14,16 @@ diff -ur udev-147.orig/configure.ac udev-147/configure.ac
  	AC_SUBST(LIBUSB_LIBS)
 diff -ur udev-147.orig/Makefile.am udev-147/Makefile.am
 --- udev-147.orig/Makefile.am	2009-11-11 00:39:27.000000000 +1030
-+++ udev-147/Makefile.am	2011-03-24 21:10:03.459845387 +1030
++++ udev-147/Makefile.am	2011-07-19 11:43:14.515425790 +0930
+@@ -7,7 +7,7 @@
+ 
+ EXTRA_DIST = autogen.sh
+ 
+-ACLOCAL_AMFLAGS = -I m4
++ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ 
+ AM_MAKEFLAGS = --no-print-directory
+ 
 @@ -25,267 +25,9 @@
  
  CLEANFILES =
