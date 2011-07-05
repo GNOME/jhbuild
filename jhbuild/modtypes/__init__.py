@@ -160,17 +160,24 @@ class Package:
         return destdir
 
     def _clean_la_files(self, installroot):
+        """This method removes .la files from the toplevel lib*/
+        directories.  See bug 654013."""
         assert os.path.isabs(installroot)
-        files = os.listdir(installroot)
-        for name in files:
-            path = os.path.join(installroot, name)
-            if name.endswith('.la'):
-                try:
-                    os.unlink(path)
-                except OSError:
-                    pass
-            elif os.path.isdir(path):
-                self._clean_la_files(path)
+        assert os.path.isabs(self.config.prefix)
+        prefixdir = os.path.join(installroot, self.config.prefix[1:])
+        assert os.path.isdir(prefixdir)
+        for name in os.listdir(prefixdir):
+            namepath = os.path.join(prefixdir, name)
+            if not (name.startswith('lib') and os.path.isdir(namepath)):
+                continue
+            for subname in os.listdir(namepath):
+                subpath = os.path.join(namepath, subname)
+                if subname.endswith('.la'):
+                    try:
+                        logging.info(_('Deleting toplevel .la file: %r') % (subpath, ))
+                        os.unlink(subpath)
+                    except OSError:
+                        pass
 
     def _process_install_files(self, installroot, curdir, prefix):
         """Strip the prefix from all files in the install root, and move
