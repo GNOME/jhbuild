@@ -1179,14 +1179,25 @@
     </suggests>
   </autotools>
 
-  <tarball id="vala" version="0.12.0" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.12/vala-0.12.0.tar.bz2"
-            hash="sha256:9a398e16fba2c78c9bcadb05e489c9bc318e34901d43451ac5d2ce4bc46b1225"
-            md5sum="b11fafaa705085342156312e356b6ff2" size="2852200"/>
+<!--
+  <tarball id="vala" version="0.13.0" autogenargs="-enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.13/vala-0.13.0.tar.bz2"
+            hash="sha256:76a1cf33d9b5aae60a609c82c45dd17b19e3dd7fcb94fd3be2671ea896ed7563"
+            md5sum="e7aaa7502d7731c8423b9229e09a76cb" size="2749488"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
   </tarball>
+-->
+  <autotools id="vala"
+             autogenargs="--enable-vapigen --disable-shared --enable-static">
+    <branch module="vala"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+
 
   <autotools id="WebKit" makefile="GNUmakefile"
              autogenargs="--with-gtk=3.0 --enable-introspection">
