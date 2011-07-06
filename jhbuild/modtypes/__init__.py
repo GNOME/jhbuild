@@ -29,6 +29,7 @@ __all__ = [
 
 import os
 import shutil
+import logging
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
@@ -181,6 +182,7 @@ them into the prefix."""
         if prefix.endswith('/'):
             prefix = prefix[:-1]
 
+        num_copied = 0
         names = os.listdir(curdir)
         for filename in names:
             src_path = os.path.join(curdir, filename)
@@ -193,17 +195,21 @@ them into the prefix."""
                         os.mkdir(dest_path)
                 else:
                     os.mkdir(dest_path)
-                self._process_install_files(installroot, src_path, prefix)
+                num_copied += self._process_install_files(installroot, src_path, prefix)
                 os.rmdir(src_path)
             else:
+                num_copied += 1
                 os.rename(src_path, dest_path)
+        return num_copied
 
     def process_install(self, buildscript, revision):
         assert self.supports_install_destdir
         destdir = self._get_destdir(buildscript)
         self._clean_la_files(destdir)
         buildscript.packagedb.add(self.name, revision or '', destdir)
-        self._process_install_files(destdir, destdir, buildscript.config.prefix)
+        logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
+        num_copied = self._process_install_files(destdir, destdir, buildscript.config.prefix)
+        logging.info(_('Install complete: %d files copied') % (num_copied, ))
         try:
             os.rmdir(destdir)
         except:
