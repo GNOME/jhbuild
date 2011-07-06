@@ -206,14 +206,43 @@ them into the prefix."""
         assert self.supports_install_destdir
         destdir = self._get_destdir(buildscript)
         self._clean_la_files(destdir)
+
+        stripped_prefix = buildscript.config.prefix[1:]
+
         buildscript.packagedb.add(self.name, revision or '', destdir)
+
         logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
-        num_copied = self._process_install_files(destdir, destdir, buildscript.config.prefix)
+        destdir_prefix = os.path.join(destdir, stripped_prefix)
+        num_copied = self._process_install_files(destdir, destdir_prefix, buildscript.config.prefix)
         logging.info(_('Install complete: %d files copied') % (num_copied, ))
-        try:
+        
+        # Now the destdir should have a series of empty directories:
+        # $JHBUILD_PREFIX/_jhbuild/root-foo/$JHBUILD_PREFIX
+        # Remove them one by one to clean the tree to the state we expect,
+        # so we can better spot leftovers or broken things.
+        prefix_dirs = filter(lambda x: x != '', stripped_prefix.split(os.sep))
+        while len(prefix_dirs) > 0:
+            dirname = prefix_dirs.pop()
+            subprefix = os.path.join(*([destdir] + prefix_dirs))
+            target = os.path.join(subprefix, dirname)
+            assert target.startswith(buildscript.config.prefix)
+            try:
+                os.rmdir(target)
+            except OSError, e:
+                pass
+
+        remaining_files = os.listdir(destdir)
+        if len(remaining_files) > 0:
+            broken_name = destdir + '-broken'
+            if os.path.exists(broken_name):
+                assert broken_name.startswith(buildscript.config.prefix)
+                shutil.rmtree(broken_name)
+            os.rename(destdir, broken_name)
+            logging.warn(_("Files remaining in DESTDIR %(dest)r; module may have installed files outside of prefix.") % {'num': len(remaining_files),
+                                                                                                                         'dest': broken_name})
+        else:
+            assert destdir.startswith(buildscript.config.prefix)
             os.rmdir(destdir)
-        except:
-            pass
 
     def get_revision(self):
         return self.branch.tree_id()
