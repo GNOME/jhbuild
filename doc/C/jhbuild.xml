@@ -70,7 +70,7 @@
       <ulink url="http://www.selenic.com/mercurial/">Mercurial</ulink>
       repositories, as well as Tar and Zip archives hosted on web or FTP sites.
       JHBuild can build modules using a variety of build systems, including
-      Autotools, CMake, WAF, Ant, Python Distutils and Perl Makefiles.</para>
+      Autotools, CMake, WAF, Python Distutils and Perl Makefiles.</para>
 
     <para>JHBuild is not intended as a replacement for the distribution's
       package management system. Instead, it makes it easy to build software
@@ -2869,43 +2869,6 @@ libgnomecanvas is missing branch definition for gnome-2-20
   &lt;/after&gt;
 &lt;/waf&gt;
 </programlisting>
-      </section>
-
-      <section id="moduleset-syntax-defs-ant">
-        <title>Ant</title>
-
-        <para>The <sgmltag class="element">ant</sgmltag> element is used to
-          define a module which is built using Ant, the Java based build tool.
-        </para>
-
-<programlisting>
-&lt;ant id="<replaceable>modulename</replaceable>"&gt;
-  &lt;branch [ ... ] &gt;
-    [...]
-  &lt;/branch&gt;
-
-  &lt;dependencies&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/dependencies&gt;
-  &lt;after&gt;
-    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
-    ...
-  &lt;/after&gt;
-&lt;/ant&gt;
-</programlisting>
-
-        <example id="example-ant-module">
-          <title>Example of a module built with ant</title>
-<programlisting><![CDATA[
-<repository type="svn" name="wikimedia"
-  href="http://svn.wikimedia.org/svnroot/"/>
-
-<ant id="cortado">
-  <branch repo="wikimedia" module="mediawiki/trunk/cortado"
-      checkoutdir="cortado"/>
-</ant>]]></programlisting>
-        </example>
       </section>
 
       <section id="moduleset-syntax-defs-testmodule">
