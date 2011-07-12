@@ -3,4 +3,7 @@ trigger_DATA = \
 	gdk-pixbuf.trigger \
 	glib.trigger \
 	gtk+.trigger \
-	pango.trigger
+	pango.trigger \
+	desktop-database.trigger \
+	mime-database.trigger \
+	immodules.trigger
