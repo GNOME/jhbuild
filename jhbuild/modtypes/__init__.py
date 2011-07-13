@@ -126,8 +126,9 @@ class Package:
     type = 'base'
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
-    def __init__(self, name, dependencies = [], after = [], suggests = []):
+    def __init__(self, name, branch=None, dependencies = [], after = [], suggests = []):
         self.name = name
+        self.branch = branch
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
@@ -363,6 +364,14 @@ them into the prefix."""
         """Serialize this module's checkout branch as sxml."""
         return self.branch.to_sxml()
 
+    @classmethod
+    def parse_from_xml(cls, node, config, uri, repositories, default_repo):
+        """Create a new Package instance from a DOM XML node."""
+        name = node.getAttribute('id')
+        instance = cls(name)
+        instance.branch = get_branch(node, repositories, default_repo, config)
+        instance.dependencies, instance.after, instance.suggests = get_dependencies(node)
+        return instance
 
 class DownloadableModule:
     PHASE_CHECKOUT = 'checkout'
