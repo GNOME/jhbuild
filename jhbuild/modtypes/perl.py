@@ -24,7 +24,7 @@ import re
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 
 __all__ = [ 'PerlModule' ]
 
@@ -38,10 +38,8 @@ class PerlModule(Package, DownloadableModule):
     PHASE_BUILD = 'build'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, makeargs=''):
+        Package.__init__(self, name)
         self.makeargs = makeargs
 
     def get_srcdir(self, buildscript):
@@ -81,20 +79,15 @@ class PerlModule(Package, DownloadableModule):
 
 
 def parse_perl(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    makeargs = ''
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
+    instance = PerlModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
     # Make some substitutions; do special handling of '${prefix}'
-    p = re.compile('(\${prefix})')
-    makeargs = p.sub(config.prefix, makeargs)
-    
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
+    prefix_re = re.compile('(\${prefix})')
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+        makeargs = prefix_re.sub(config.prefix, makeargs)
+        instance.makeargs = makeargs
 
-    return PerlModule(id, branch, makeargs,
-            dependencies=dependencies, after=after,
-            suggests=suggests)
+    return instance
 register_module_type('perl', parse_perl)
 

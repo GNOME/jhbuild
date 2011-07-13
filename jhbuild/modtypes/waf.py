@@ -26,7 +26,7 @@ import re
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'WafModule' ]
@@ -44,10 +44,8 @@ class WafModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
-                 waf_cmd='./waf'):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, waf_cmd='./waf'):
+        Package.__init__(self, name)
         self.waf_cmd = waf_cmd
         self.supports_install_destdir = True
 
@@ -147,16 +145,11 @@ class WafModule(Package, DownloadableModule):
 
 
 def parse_waf(node, config, uri, repositories, default_repo):
-    module_id = node.getAttribute('id')
-    waf_cmd = './waf'
+    instance = WafModule.parse_from_xml(node, config, uri, repositories, default_repo)
+
     if node.hasAttribute('waf-command'):
-        waf_cmd = node.getAttribute('waf-command')
+        instance.waf_cmd = node.getAttribute('waf-command')
 
-    # override revision tag if requested.
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
-
-    return WafModule(module_id, branch, dependencies=dependencies, after=after,
-            suggests=suggests, waf_cmd=waf_cmd)
+    return instance
 
 register_module_type('waf', parse_waf)

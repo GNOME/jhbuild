@@ -23,7 +23,7 @@ import os
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 
 __all__ = [ 'DistutilsModule' ]
 
@@ -37,11 +37,8 @@ class DistutilsModule(Package, DownloadableModule):
     PHASE_BUILD = 'build'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch,
-                 dependencies = [], after = [], suggests = [],
-                 supports_non_srcdir_builds = True):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, supports_non_srcdir_builds = True):
+        Package.__init__(self, name)
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.supports_install_destdir = True
 
@@ -91,18 +88,13 @@ class DistutilsModule(Package, DownloadableModule):
 
 
 def parse_distutils(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    supports_non_srcdir_builds = True
+    instance = DistutilsModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
     if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
+        instance.supports_non_srcdir_builds = \
             (node.getAttribute('supports-non-srcdir-builds') != 'no')
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
 
-    return DistutilsModule(id, branch,
-            dependencies = dependencies, after = after,
-            suggests = suggests,
-            supports_non_srcdir_builds = supports_non_srcdir_builds)
+    return instance
+
 register_module_type('distutils', parse_distutils)
 

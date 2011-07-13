@@ -23,7 +23,7 @@ import os
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 
 __all__ = [ 'CMakeModule' ]
 
@@ -38,10 +38,9 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, cmakeargs='', makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name,
+                 cmakeargs='', makeargs='',):
+        Package.__init__(self, name)
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
         self.supports_install_destdir = True
@@ -144,20 +143,12 @@ class CMakeModule(Package, DownloadableModule):
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    cmakeargs = ''
-    makeargs = ''
+    instance = CMakeModule.parse_from_xml(node, config, uri, repositories, default_repo)
     if node.hasAttribute('cmakeargs'):
-        cmakeargs = node.getAttribute('cmakeargs')
+        instance.cmakeargs = node.getAttribute('cmakeargs')
     if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
-
-    return CMakeModule(id, branch, cmakeargs, makeargs,
-                       dependencies = dependencies, after = after,
-                       suggests = suggests)
+        instance.makeargs = node.getAttribute('makeargs')
+    return instance
 
 register_module_type('cmake', parse_cmake)
 

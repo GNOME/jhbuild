@@ -26,7 +26,7 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 
 __all__ = [ 'AutogenModule' ]
 
@@ -46,17 +46,16 @@ class AutogenModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, autogenargs='', makeargs='',
+    def __init__(self, name,
+                 autogenargs='', makeargs='',
                  makeinstallargs='',
-                 dependencies=[], after=[], suggests=[],
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
                  check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+        Package.__init__(self, name)
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
         self.makeinstallargs = makeinstallargs
@@ -314,78 +313,59 @@ class AutogenModule(Package, DownloadableModule):
 
 
 def parse_autotools(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    autogenargs = ''
-    makeargs = ''
-    makeinstallargs = ''
-    supports_non_srcdir_builds = True
-    autogen_sh = None
-    skip_autogen = False
-    check_target = True
-    makefile = 'Makefile'
-    autogen_template = None
-    if node.hasAttribute('autogenargs'):
-        autogenargs = node.getAttribute('autogenargs')
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-    if node.hasAttribute('makeinstallargs'):
-        makeinstallargs = node.getAttribute('makeinstallargs')
-    if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
-            (node.getAttribute('supports-non-srcdir-builds') != 'no')
-    if node.hasAttribute('skip-autogen'):
-        skip_autogen = node.getAttribute('skip-autogen')
-        if skip_autogen == 'true':
-            skip_autogen = True
-        elif skip_autogen == 'never':
-            skip_autogen = 'never'
-        else:
-            skip_autogen = False
-    if node.hasAttribute('check-target'):
-        check_target = (node.getAttribute('check-target') == 'true')
-    if node.hasAttribute('autogen-sh'):
-        autogen_sh = node.getAttribute('autogen-sh')
-    if node.hasAttribute('makefile'):
-        makefile = node.getAttribute('makefile')
-    if node.hasAttribute('autogen-template'):
-        autogen_template = node.getAttribute('autogen-template')
+    instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
     # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
-    p = re.compile('(\${prefix})')
-    autogenargs     = p.sub(config.prefix, autogenargs)
-    makeargs        = p.sub(config.prefix, makeargs)
-    makeinstallargs = p.sub(config.prefix, makeinstallargs)
+    prefix_re = re.compile('(\${prefix})')
     # I'm not sure the replacement of ${libdir} is necessary for firefox...
-    p = re.compile('(\${libdir})')
+    libdir_re = re.compile('(\${libdir})')
     libsubdir = '/lib'
     if config.use_lib64:
         libsubdir = '/lib64'
-    autogenargs     = p.sub(config.prefix + libsubdir, autogenargs)
-    makeargs        = p.sub(config.prefix + libsubdir, makeargs)
-    makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
 
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
+    if node.hasAttribute('autogenargs'):
+        autogenargs = node.getAttribute('autogenargs')
+        autogenargs = prefix_re.sub(config.prefix, autogenargs)
+        autogenargs = libdir_re.sub(config.prefix + libsubdir, autogenargs)        
+        instance.autogenargs = autogenargs
+    if node.hasAttribute('makeargs'):
+        makeargs = node.getAttribute('makeargs')
+        makeargs = prefix_re.sub(config.prefix, makeargs)
+        makeargs = libdir_re.sub(config.prefix + libsubdir, makeargs)
+        instance.makeargs = makeargs
+    if node.hasAttribute('makeinstallargs'):
+        makeinstallargs = node.getAttribute('makeinstallargs')
+        makeinstallargs = prefix_re.sub(config.prefix, makeinstallargs)
+        makeinstallargs = libdir_re.sub(config.prefix + libsubdir, makeinstallargs)
+        instance.makeinstallargs = makeinstallargs
+
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        supports_non_srcdir_builds = (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('skip-autogen'):
+        skip_autogen = node.getAttribute('skip-autogen')
+        if skip_autogen == 'true':
+            instance.skip_autogen = True
+        elif skip_autogen == 'never':
+            instance.skip_autogen = 'never'
+
+    if node.hasAttribute('check-target'):
+        instance.check_target = (node.getAttribute('check-target') == 'true')
 
     from jhbuild.versioncontrol.tarball import TarballBranch
-    if isinstance(branch, TarballBranch):
-        # in tarballs, force autogen-sh to be configure, unless autogen-sh is
-        # already set
-        if autogen_sh is None:
-            autogen_sh = 'configure'
-    elif not autogen_sh:
-        autogen_sh = 'autogen.sh'
+    if node.hasAttribute('autogen-sh'):
+        autogen_sh = node.getAttribute('autogen-sh')
+        if autogen_sh is not None:
+            instance.autogen_sh = autogen_sh
+        elif isinstance(instance.branch, TarballBranch):
+            # in tarballs, force autogen-sh to be configure, unless autogen-sh is
+            # already set
+            instance.autogen_sh = 'configure'
 
-    return AutogenModule(id, branch, autogenargs, makeargs,
-                         makeinstallargs=makeinstallargs,
-                         dependencies=dependencies,
-                         after=after,
-                         suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         skip_autogen=skip_autogen,
-                         autogen_sh=autogen_sh,
-                         makefile=makefile,
-                         autogen_template=autogen_template,
-                         check_target=check_target)
+    if node.hasAttribute('makefile'):
+        instance.makefile = node.getAttribute('makefile')
+    if node.hasAttribute('autogen-template'):
+        instance.autogen_template = node.getAttribute('autogen-template')
+
+    return instance
 register_module_type('autotools', parse_autotools)
 
