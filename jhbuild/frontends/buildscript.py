@@ -219,7 +219,7 @@ class BuildScript:
 
             # Skip this if the packagedb doesn't have a manifest; this
             # can happen with old packagedb.xml files.
-            if pkg.manifiest is None:
+            if pkg.manifest is None:
                 continue
 
             if trig.matches(pkg.manifest):
