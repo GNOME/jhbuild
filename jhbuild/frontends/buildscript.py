@@ -216,6 +216,12 @@ class BuildScript:
             if self.packagedb.installdate(module_name) is None:
                 continue
             pkg = self.packagedb.entries[module_name]
+
+            # Skip this if the packagedb doesn't have a manifest; this
+            # can happen with old packagedb.xml files.
+            if pkg.manifiest is None:
+                continue
+
             if trig.matches(pkg.manifest):
                 triggers_to_run.append(trig)
         for trig in triggers_to_run:
