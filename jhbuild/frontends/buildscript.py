@@ -209,7 +209,11 @@ class BuildScript:
 
     def run_triggers(self, module_name):
         """See triggers/README."""
-        all_triggers = trigger.load_all(os.path.join(PKGDATADIR, 'triggers'))
+        if PKGDATADIR is not None:
+            trigger_path = os.path.join(PKGDATADIR, 'triggers')
+        else:
+            trigger_path = os.path.join(SRCDIR, 'triggers')
+        all_triggers = trigger.load_all(trigger_path)
         triggers_to_run = []
         for trig in all_triggers:
             # Skip if somehow the module isn't really installed
