@@ -218,10 +218,14 @@ them into the prefix."""
 
         buildscript.packagedb.add(self.name, revision or '', destdir)
 
-        logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
         destdir_prefix = os.path.join(destdir, stripped_prefix)
-        num_copied = self._process_install_files(destdir, destdir_prefix, buildscript.config.prefix)
-        logging.info(_('Install complete: %d files copied') % (num_copied, ))
+        if os.path.isdir(destdir_prefix):
+            logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
+            num_copied = self._process_install_files(destdir, destdir_prefix, buildscript.config.prefix)
+            logging.info(_('Install complete: %d files copied') % (num_copied, ))
+        else:
+            logging.warning(_('Module \'%(module_name)s\' does not support '
+                            'DESTDIR') % {'module_name': self.name})
         
         # Now the destdir should have a series of empty directories:
         # $JHBUILD_PREFIX/_jhbuild/root-foo/$JHBUILD_PREFIX
