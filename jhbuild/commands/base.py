@@ -368,7 +368,6 @@ class cmd_buildone(Command):
 
 register_command(cmd_buildone)
 
-
 class cmd_run(Command):
     doc = N_('Run a command under the JHBuild environment')
 
