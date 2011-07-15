@@ -263,7 +263,7 @@ them into the prefix."""
             os.rmdir(destdir)
 
         if not install_succeeded:
-            logging.warn(_("Module failed to install into DESTDIR %(dest)r") % {'dest': broken_name})
+            raise CommandError(_("Module failed to install into DESTDIR %(dest)r") % {'dest': broken_name})
 
     def get_revision(self):
         return self.branch.tree_id()
