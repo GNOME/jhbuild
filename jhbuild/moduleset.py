@@ -36,8 +36,10 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
-from jhbuild.utils.cmds import get_output
+from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
+from jhbuild.versioncontrol.tarball import TarballBranch
+from jhbuild.utils.systeminstall import SystemInstall
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -67,7 +69,7 @@ class ModuleSet:
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
-                ignore_missing=False):
+                ignore_missing=False, process_sysdeps=True):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -99,6 +101,7 @@ class ModuleSet:
                                     'invalid': modname})
                     dep_missing = True
                     continue
+
                 if not depmod in all_modules:
                     all_modules.append(depmod)
 
@@ -124,6 +127,14 @@ class ModuleSet:
         for modname in skip:
             # mark skipped modules as already processed
             self._state[self.modules.get(modname)] = 'processed'
+
+        # process_sysdeps lets us avoid repeatedly checking system module state when
+        # handling recursive dependencies.
+        if self.config.partial_build and process_sysdeps:
+            system_module_state = self.get_system_modules(all_modules)
+            for pkg_config,(module, req_version, installed_version, new_enough) in system_module_state.iteritems():
+                if new_enough:
+                    self._state[module] = 'processed'
 
         if tags:
             for modname in self.modules:
@@ -186,7 +197,7 @@ class ModuleSet:
                     # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
                     t_ms = ModuleSet(self.config)
                     t_ms.modules = self.modules.copy()
-                    dep_modules = t_ms.get_module_list(seed=[depmod.name])
+                    dep_modules = t_ms.get_module_list(seed=[depmod.name], process_sysdeps=False)
                     for m in dep_modules[:-1]:
                         if m in all_modules:
                             extra_afters.append(m)
@@ -228,6 +239,29 @@ class ModuleSet:
                 if test_app in mod.tested_pkgs:
                     test_modules.append(mod)
         return test_modules
+
+    def get_system_modules(self, modules):
+        assert self.config.partial_build
+
+        installed_pkgconfig = SystemInstall.get_installed_pkgconfigs()
+        
+        # pkgconfig -> (required_version, installed_verison)
+        module_state = {}
+        for module in modules:
+            if module.pkg_config is None:
+                continue
+            if not isinstance(module.branch, TarballBranch):
+                continue
+            # Strip off the .pc
+            module_pkg = module.pkg_config[:-3]
+            required_version = module.branch.version
+            if not module_pkg in installed_pkgconfig:
+                module_state[module_pkg] = (module, required_version, None, False)
+            else:
+                installed_version = installed_pkgconfig[module_pkg]
+                new_enough = compare_version(installed_version, required_version)
+                module_state[module_pkg] = (module, required_version, installed_version, new_enough)
+        return module_state
     
     def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule

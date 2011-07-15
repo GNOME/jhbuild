@@ -86,14 +86,32 @@ def get_dependencies(node):
 
     return dependencies, after, suggests
 
+def get_node_content(node):
+    node.normalize()
+    value = ''
+    for child in node.childNodes:
+        if child.nodeType == child.TEXT_NODE:
+            value += child.nodeValue
+    return value
+
+def find_first_child_node(node, name):
+    for childnode in node.childNodes:
+        if (childnode.nodeType == childnode.ELEMENT_NODE and
+            childnode.nodeName == name):
+            return childnode
+    return None
+
+def find_first_child_node_content(node, name):
+    childnode = find_first_child_node(node, name)
+    if childnode is None:
+        return None
+    return get_node_content(childnode)
+
 def get_branch(node, repositories, default_repo, config):
     """Scan for a <branch> element and create a corresponding Branch object."""
     name = node.getAttribute('id')
-    for childnode in node.childNodes:
-        if (childnode.nodeType == childnode.ELEMENT_NODE and
-            childnode.nodeName == 'branch'):
-            break
-    else:
+    childnode = find_first_child_node(node, 'branch')
+    if childnode is None:
         raise FatalError(_('no <branch> element found for %s') % name)
 
     # look up the repository for this branch ...
@@ -126,11 +144,13 @@ class Package:
     type = 'base'
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
-    def __init__(self, name, dependencies = [], after = [], suggests = []):
+    def __init__(self, name, branch=None, dependencies = [], after = [], suggests = [], pkg_config=None):
         self.name = name
+        self.branch = branch
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
+        self.pkg_config = pkg_config
         self.tags = []
         self.moduleset_name = None
         self.supports_install_destdir = False
@@ -363,6 +383,17 @@ them into the prefix."""
         """Serialize this module's checkout branch as sxml."""
         return self.branch.to_sxml()
 
+    @classmethod
+    def parse_from_xml(cls, node, config, uri, repositories, default_repo):
+        """Create a new Package instance from a DOM XML node."""
+        name = node.getAttribute('id')
+        instance = cls(name)
+        instance.branch = get_branch(node, repositories, default_repo, config)
+        instance.dependencies, instance.after, instance.suggests = get_dependencies(node)
+        pkg_config = find_first_child_node_content(node, 'pkg-config')
+        if pkg_config != '':
+            instance.pkg_config = pkg_config
+        return instance
 
 class DownloadableModule:
     PHASE_CHECKOUT = 'checkout'

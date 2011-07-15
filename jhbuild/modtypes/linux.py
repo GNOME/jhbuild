@@ -27,7 +27,7 @@ import errno
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
-     Package, get_dependencies, get_branch, register_module_type
+     Package, register_module_type
 
 __all__ = [ 'LinuxModule' ]
 
@@ -62,10 +62,8 @@ class LinuxModule(Package):
     PHASE_HEADERS_INSTALL = 'headers_install'
     PHASE_INSTALL         = 'install'
 
-    def __init__(self, name, branch, kconfigs, makeargs,
-            dependencies, after, suggests):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, kconfigs=None, makeargs=None):
+        Package.__init__(self, name)
         self.kconfigs = kconfigs
         self.makeargs = makeargs
 
@@ -281,7 +279,6 @@ def parse_linux(node, config, uri, repositories, default_repo):
     branch = get_branch(node, repositories, default_repo, config)
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
-    return LinuxModule(id, branch, kconfigs,
-                       makeargs, dependencies, after, suggests)
+    return LinuxModule(id, branch, dependencies, after, suggests, kconfigs, makeargs)
 
 register_module_type('linux', parse_linux)

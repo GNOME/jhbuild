@@ -98,11 +98,16 @@ def parse_tarball(node, config, uri, repositories, default_repo):
             source_size, source_hash, None)
     branch.patches = patches
 
-    return AutogenModule(name, branch,
-            autogenargs, makeargs, makeinstallargs,
-            dependencies, after, suggests,
-            supports_non_srcdir_builds = supports_non_srcdir_builds,
-            skip_autogen = False, autogen_sh = 'configure',
-            makefile = makefile)
+    instance = AutogenModule(name,
+                             autogenargs, makeargs, makeinstallargs,
+                             supports_non_srcdir_builds = supports_non_srcdir_builds,
+                             skip_autogen = False, autogen_sh = 'configure',
+                             makefile = makefile)
+    instance.branch = branch
+    instance.dependencies = dependencies
+    instance.after = after
+    instance.suggests = suggests
+
+    return instance
 
 register_module_type('tarball', parse_tarball)

@@ -240,16 +240,7 @@ def has_command(cmd):
              return True
     return False
 
-def check_version(cmd, regexp, minver, extra_env=None):
-    try:
-        data = get_output(cmd, extra_env=extra_env)
-    except:
-        return False
-    match = re.match(regexp, data, re.MULTILINE)
-    if not match:
-        return False
-    version = match.group(1)
-
+def compare_version(version, minver):
     version = version.split('.')
     for i, ver in enumerate(version):
         part = re.sub(r'^[^\d]*(\d+).*$', r'\1', ver)
@@ -265,3 +256,14 @@ def check_version(cmd, regexp, minver, extra_env=None):
         else:
             minver[i] = int(part)
     return version >= minver
+
+def check_version(cmd, regexp, minver, extra_env=None):
+    try:
+        data = get_output(cmd, extra_env=extra_env)
+    except:
+        return False
+    match = re.match(regexp, data, re.MULTILINE)
+    if not match:
+        return False
+    version = match.group(1)
+    return compare_version(version, minver)

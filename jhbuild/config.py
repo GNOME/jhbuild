@@ -40,7 +40,7 @@ _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.jhbuildrc')
 _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
-                'checkoutroot', 'buildroot', 'top_builddir',
+                'partial_build', 'checkoutroot', 'buildroot', 'top_builddir',
                 'autogenargs', 'makeargs',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
@@ -344,12 +344,7 @@ class Config:
         addpath('INFOPATH', infopathdir)
 
         # PKG_CONFIG_PATH
-        if os.environ.get('PKG_CONFIG_PATH') is None:
-            # add system pkgconfig lookup-directories by default, as pkg-config
-            # usage spread and is now used by libraries that are out of jhbuild
-            # realm; this also helps when building a single module with
-            # jhbuild.  It is possible to avoid this by setting PKG_CONFIG_PATH
-            # to the empty string.
+        if os.environ.get('PKG_CONFIG_PATH') is None and self.partial_build:
             for dirname in ('share', 'lib', 'lib64'):
                 full_name = '/usr/%s/pkgconfig' % dirname
                 if os.path.exists(full_name):
@@ -373,10 +368,14 @@ class Config:
         # XDG_DATA_DIRS
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
+        if self.partial_build:
+            addpath('XDG_DATA_DIRS', '/usr/share')
 
         # XDG_CONFIG_DIRS
         xdgconfigdir = os.path.join(self.prefix, 'etc', 'xdg')
         addpath('XDG_CONFIG_DIRS', xdgconfigdir)
+        if self.partial_build:
+            addpath('XDG_DATA_DIRS', '/etc')
 
         # XCURSOR_PATH
         xcursordir = os.path.join(self.prefix, 'share', 'icons')
@@ -389,10 +388,11 @@ class Config:
                 os.makedirs(aclocaldir)
             except:
                 raise FatalError(_("Can't create %s directory") % aclocaldir)
-        if os.path.exists('/usr/share/aclocal'):
-            addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
-        if os.path.exists('/usr/local/share/aclocal'):
-            addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
+        if self.partial_build:
+            if os.path.exists('/usr/share/aclocal'):
+                addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
+                if os.path.exists('/usr/local/share/aclocal'):
+                    addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         # PERL5LIB
@@ -402,7 +402,7 @@ class Config:
         # These two variables are so that people who use "jhbuild shell"
         # can tweak their shell prompts and such to show "I'm under jhbuild".
         # The first variable is the obvious one to look for; the second
-        # one is for historical reasons.
+        # one is for historical reasons. 
         os.environ['UNDER_JHBUILD'] = 'true'
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
