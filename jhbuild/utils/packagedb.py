@@ -20,6 +20,7 @@
 import os
 import sys 
 import time
+import logging
 import xml.dom.minidom as DOM
 import xml.etree.ElementTree as ET
 from StringIO import StringIO
@@ -187,8 +188,13 @@ class PackageDB:
                     if os.path.isdir(path):
                         directories.append(path)
                     else:
-                        os.unlink(path)
-                        print "Deleted %r" % (path, )
+                        try:
+                            os.unlink(path)
+                            logging.info(_("Deleted: %s" % (path, )))
+                        except OSError, e:
+                            logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
+                                                                                     'msg': e.strerror})
+                        
                 for directory in directories:
                     if not directory.startswith(buildscript.config.prefix):
                         # Skip non-prefix directories; otherwise we
@@ -197,7 +203,7 @@ class PackageDB:
                         continue
                     try:
                         os.rmdir(directory)
-                        print "Deleted %r" % (path, )
+                        logging.info(_("Deleted: %s" % (path, )))
                     except OSError, e:
                         # Allow multiple components to use directories
                         pass
