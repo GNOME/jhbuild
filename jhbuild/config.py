@@ -41,7 +41,7 @@ _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'partial_build', 'checkoutroot', 'buildroot', 'top_builddir',
-                'autogenargs', 'makeargs', 'nice_build'
+                'autogenargs', 'makeargs', 'nice_build',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
