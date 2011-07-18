@@ -33,6 +33,8 @@ except ImportError:
 
 from StringIO import StringIO
 
+from . import fileutils
+
 def _parse_isotime(string):
     if string[-1] != 'Z':
         return time.mktime(time.strptime(string, '%Y-%m-%dT%H:%M:%S'))
@@ -198,29 +200,6 @@ class PackageDB:
         # Ensure we don't reread what we already have cached
         self._entries_stat = os.stat(self.dbfile)
 
-    def _accumulate_dirtree_contents_recurse(self, path, contents):
-        assert os.path.isdir(path)
-        names = os.listdir(path)
-        for name in names:
-            subpath = os.path.join(path, name)
-            if os.path.isdir(subpath):
-                contents.append(subpath + '/')
-                self._accumulate_dirtree_contents_recurse(subpath, contents)
-            else:
-                contents.append(subpath)
-
-    def _accumulate_dirtree_contents(self, path):
-        contents = []
-        self._accumulate_dirtree_contents_recurse(path, contents)
-        if not path.endswith('/'):
-            path = path + '/'
-        pathlen = len(path)
-        for i,subpath in enumerate(contents):
-            assert subpath.startswith(path)
-            # Strip the temporary prefix, then make it absolute again for our target
-            contents[i] = '/' + subpath[pathlen:]
-        return contents
-
     def _locked(function):
         def decorate(self, *args, **kwargs):
             self._lock.lock()
@@ -237,12 +216,12 @@ class PackageDB:
 
     @_ensure_cache
     @_locked
-    def add(self, package, version, destdir):
+    def add(self, package, version, contents):
         '''Add a module to the install cache.'''
         now = time.time()
         metadata = {'installed-date': now}
         self._entries[package] = PackageEntry(package, version, metadata, self.manifests_dir)
-        self._entries[package].manifest = self._accumulate_dirtree_contents(destdir)
+        self._entries[package].manifest = contents
         self._write_cache()
 
     def check(self, package, version=None):
@@ -273,31 +252,23 @@ class PackageDB:
             logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling.") % (package_name,))
             return
 
-        directories = []
-        for path in entry.manifest:
-            assert os.path.isabs(path)
-            if os.path.isdir(path):
-                directories.append(path)
-            else:
-                try:
-                    os.unlink(path)
-                    logging.info(_("Deleted: %s" % (path, )))
-                except OSError, e:
-                    logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
-                                                                             'msg': e.strerror})
-                        
-        for directory in directories:
-            if not directory.startswith(self.config.prefix):
-                # Skip non-prefix directories; otherwise we
-                # may try to remove the user's ~ or something
-                # (presumably we'd fail, but better not to try)
-                continue
-            try:
-                os.rmdir(directory)
-                logging.info(_("Deleted: %s" % (directory, )))
-            except OSError, e:
-                # Allow multiple components to use directories
+        # Skip files that aren't in the prefix; otherwise we
+        # may try to remove the user's ~ or something
+        # (presumably we'd fail, but better not to try)
+        to_delete = fileutils.filter_files_by_prefix(self.config, entry.manifest)
+
+        # Don't warn on non-empty directories; we want to allow multiple
+        # modules to share the same directory.  We could improve this by
+        # reference-counting directories.
+        for (path, was_deleted, error_string) in fileutils.remove_files_and_dirs(to_delete, allow_nonempty_dirs=True):
+            if was_deleted:
+                logging.info(_("Deleted: %(file)r") % {'file': path})
+            elif error_string is None:
                 pass
+            else:
+                logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
+                                                                         'msg': error_string})
+
         del self._entries[package_name]
         self._write_cache()
 

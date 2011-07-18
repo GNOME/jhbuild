@@ -34,6 +34,7 @@ import logging
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
+import jhbuild.utils.fileutils as fileutils
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -236,7 +237,13 @@ them into the prefix."""
 
         stripped_prefix = buildscript.config.prefix[1:]
 
-        buildscript.moduleset.packagedb.add(self.name, revision or '', destdir)
+        previous_entry = buildscript.moduleset.packagedb.get(self.name)
+        if previous_entry:
+            previous_contents = previous_entry.get_manifest()
+        else:
+            previous_contents = None
+
+        new_contents = fileutils.accumulate_dirtree_contents(destdir)
 
         install_succeeded = False
         save_broken_tree = False
@@ -284,6 +291,27 @@ them into the prefix."""
 
         if not install_succeeded:
             raise CommandError(_("Module failed to install into DESTDIR %(dest)r") % {'dest': broken_name})
+        else:
+            absolute_new_contents = map(lambda x: '/' + x, new_contents)
+            to_delete = []
+            if previous_contents is not None:
+                for path in previous_contents:
+                    if path not in absolute_new_contents:
+                        to_delete.append(path)
+                # Ensure we're only attempting to delete files in the prefix
+                to_delete = fileutils.filter_files_by_prefix(self.config, to_delete)
+                logging.info(_('%d files remaining from previous build') % (len(to_delete),))
+                for (path, was_deleted, error_string) in fileutils.remove_files_and_dirs(to_delete, allow_nonempty_dirs=True):
+                    if was_deleted:
+                        logging.info(_('Deleted: %(file)r') % { 'file': path, })
+                    elif error_string is None:
+                        # We don't warn on not-empty directories
+                        pass
+                    else:
+                        logging.warn(_("Failed to delete no longer installed file %(file)r: %(msg)s") % { 'file': path,
+                                                                                                          'msg': error_string})
+
+            buildscript.moduleset.packagedb.add(self.name, revision or '', absolute_new_contents)
 
     def get_revision(self):
         return self.branch.tree_id()
