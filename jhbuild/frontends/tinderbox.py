@@ -159,8 +159,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
     help_url = 'http://live.gnome.org/JhbuildIssues/'
     triedcheckout = None
 
-    def __init__(self, config, module_list):
-        buildscript.BuildScript.__init__(self, config, module_list)
+    def __init__(self, config, module_list, module_set=None):
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.indexfp = None
         self.modulefp = None
 

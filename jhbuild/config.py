@@ -296,6 +296,15 @@ class Config:
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
+        if not os.path.isabs(self.top_builddir):
+            self.top_builddir = os.path.join(self.prefix, self.top_builddir)
+        if not os.path.exists(self.top_builddir):
+            try:
+                os.makedirs(self.top_builddir)
+            except OSError:
+                raise FatalError(
+                        _('working directory (%s) can not be created') % self.top_builddir)
+
         os.environ['JHBUILD_PREFIX'] = self.prefix
 
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')

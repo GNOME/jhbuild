@@ -57,9 +57,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     error_resolution = None
     preference_dialog = None
 
-    def __init__(self, config, module_list=None):
+    def __init__(self, config, module_list=None, module_set=None):
         self.orig_modulelist = module_list
-        buildscript.BuildScript.__init__(self, config)
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.config = config
         gtk.Window.__init__(self)
         self.set_resizable(False)

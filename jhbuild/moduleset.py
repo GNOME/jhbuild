@@ -36,6 +36,7 @@ except ImportError:
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
+from jhbuild.utils import packagedb
 from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.versioncontrol.tarball import TarballBranch
@@ -51,6 +52,14 @@ class ModuleSet:
     def __init__(self, config = None):
         self.config = config
         self.modules = {}
+
+        legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
+        new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
+        if os.path.isfile(legacy_pkgdb_path):
+            os.rename(legacy_pkgdb_path, new_pkgdb_path)
+
+        self.packagedb = packagedb.PackageDB(new_pkgdb_path)
+
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module

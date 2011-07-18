@@ -19,8 +19,8 @@
 
 import sys
 
-def get_buildscript(config, module_list=None):
+def get_buildscript(config, module_list=None, module_set=None):
     modname = 'jhbuild.frontends.%s' % config.buildscript
     __import__(modname)
     BuildScript = sys.modules[modname].BUILD_SCRIPT
-    return BuildScript(config, module_list)
+    return BuildScript(config, module_list, module_set=module_set)

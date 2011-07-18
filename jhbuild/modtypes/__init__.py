@@ -236,7 +236,7 @@ them into the prefix."""
 
         stripped_prefix = buildscript.config.prefix[1:]
 
-        buildscript.packagedb.add(self.name, revision or '', destdir)
+        buildscript.moduleset.packagedb.add(self.name, revision or '', destdir)
 
         install_succeeded = False
         save_broken_tree = False
@@ -324,7 +324,7 @@ them into the prefix."""
         if hasattr(self.branch, 'is_dirty') and self.branch.is_dirty():
             return
 
-        if not buildscript.packagedb.check(self.name, self.get_revision() or ''):
+        if not buildscript.moduleset.packagedb.check(self.name, self.get_revision() or ''):
             # package has not been updated
             return
 
@@ -334,9 +334,9 @@ them into the prefix."""
             return self.PHASE_DONE
 
         if buildscript.config.build_policy == 'updated-deps':
-            install_date = buildscript.packagedb.installdate(self.name)
+            install_date = buildscript.moduleset.packagedb.installdate(self.name)
             for dep in self.dependencies:
-                install_date_dep = buildscript.packagedb.installdate(dep)
+                install_date_dep = buildscript.moduleset.packagedb.installdate(dep)
                 if install_date_dep > install_date:
                     # a dependency has been updated
                     return None

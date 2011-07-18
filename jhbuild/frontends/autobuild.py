@@ -81,8 +81,8 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
     xmlrpc_report_url = None
     verbose = False
 
-    def __init__(self, config, module_list):
-        buildscript.BuildScript.__init__(self, config, module_list)
+    def __init__(self, config, module_list, module_set=None):
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.xmlrpc_report_url = config.autobuild_report_url
         self.verbose = config.verbose
         self.server = None

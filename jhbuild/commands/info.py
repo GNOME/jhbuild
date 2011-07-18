@@ -41,8 +41,8 @@ class cmd_info(Command):
 
 
     def run(self, config, options, args, help=None):
-        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
         module_set = jhbuild.moduleset.load(config)
+        packagedb = module_set.packagedb
 
         if args:
             for modname in args:

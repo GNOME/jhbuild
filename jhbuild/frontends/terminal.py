@@ -80,8 +80,8 @@ class TerminalBuildScript(buildscript.BuildScript):
     triedcheckout = None
     is_end_of_build = False
 
-    def __init__(self, config, module_list):
-        buildscript.BuildScript.__init__(self, config, module_list)
+    def __init__(self, config, module_list, module_set=None):
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.trayicon = trayicon.TrayIcon(config)
         self.notify = notify.Notify(config)
         

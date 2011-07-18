@@ -80,7 +80,7 @@ class cmd_autobuild(Command):
             if not module_list:
                 raise FatalError(_('%s not in module list') % options.startat)
     
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
 
 register_command(cmd_autobuild)

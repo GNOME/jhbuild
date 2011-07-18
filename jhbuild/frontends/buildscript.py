@@ -21,17 +21,17 @@
 import os
 import logging
 
-from jhbuild.utils import packagedb
 from jhbuild.utils import trigger
 from jhbuild.utils import cmds
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 
 class BuildScript:
-    def __init__(self, config, module_list=None):
+    def __init__(self, config, module_list=None, module_set=None):
         if self.__class__ is BuildScript:
             raise NotImplementedError('BuildScript is an abstract base class')
 
         self.modulelist = module_list
+        self.moduleset = module_set
         self.module_num = 0
 
         self.config = config
@@ -39,15 +39,6 @@ class BuildScript:
         # the existence of self.config.prefix is checked in config.py
         if not os.access(self.config.prefix, os.R_OK|os.W_OK|os.X_OK):
             raise FatalError(_('install prefix (%s) must be writable') % self.config.prefix)
-
-        if not os.path.isabs(self.config.top_builddir):
-            self.config.top_builddir = os.path.join(self.config.prefix, self.config.top_builddir)
-        if not os.path.exists(self.config.top_builddir):
-            try:
-                os.makedirs(self.config.top_builddir)
-            except OSError:
-                raise FatalError(
-                        _('working directory (%s) can not be created') % self.config.top_builddir)
 
         if not os.path.exists(self.config.checkoutroot):
             try:
@@ -66,13 +57,6 @@ class BuildScript:
                         _('checkout copy dir (%s) can not be created') % self.config.copy_dir)
             if not os.access(self.config.copy_dir, os.R_OK|os.W_OK|os.X_OK):
                 raise FatalError(_('checkout copy dir (%s) must be writable') % self.config.copy_dir)
-
-        legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
-        new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
-        if os.path.isfile(legacy_pkgdb_path):
-            os.rename(legacy_pkgdb_path, new_pkgdb_path)
-
-        self.packagedb = packagedb.PackageDB(new_pkgdb_path)
 
         self.subprocess_nice_args = []
         if config.nice_build:
@@ -111,7 +95,7 @@ class BuildScript:
             self.module_num = self.module_num + 1
 
             if self.config.min_age is not None:
-                installdate = self.packagedb.installdate(module.name)
+                installdate = self.moduleset.packagedb.installdate(module.name)
                 if installdate > self.config.min_age:
                     self.message(_('Skipping %s (installed recently)') % module.name)
                     continue
@@ -236,9 +220,9 @@ class BuildScript:
         triggers_to_run = []
         for trig in all_triggers:
             # Skip if somehow the module isn't really installed
-            if self.packagedb.installdate(module_name) is None:
+            if self.moduleset.packagedb.installdate(module_name) is None:
                 continue
-            pkg = self.packagedb.entries[module_name]
+            pkg = self.moduleset.packagedb.entries[module_name]
 
             # Skip this if the packagedb doesn't have a manifest; this
             # can happen with old packagedb.xml files.

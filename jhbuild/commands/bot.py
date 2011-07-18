@@ -156,7 +156,8 @@ class cmd_bot(Command):
             if args[0] in ('update', 'build', 'check', 'clean'):
                 module_set = jhbuild.moduleset.load(config)
                 buildscript = jhbuild.frontends.get_buildscript(config,
-                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]],
+                                                                module_set=module_set)
                 phases = None
                 if args[0] == 'update':
                     config.nonetwork = False
@@ -191,7 +192,7 @@ class cmd_bot(Command):
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
         module_list = module_set.get_module_list('all', config.skip)
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
     
     def start(self, config, daemonize, pidfile, logfile):

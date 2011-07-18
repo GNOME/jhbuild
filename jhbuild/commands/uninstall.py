@@ -45,7 +45,7 @@ class cmd_uninstall(Command):
             self.parser.error(_('This command requires a module parameter.'))
 
         # remove modules that are not marked as installed
-        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
+        packagedb = module_set.packagedb
         for module in module_list[:]:
             if not packagedb.check(module.name):
                 module_list.remove(module)
@@ -53,7 +53,7 @@ class cmd_uninstall(Command):
         config.nonetwork = True
         config.nopoison = True
 
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build(phases=['uninstall'])
 
 register_command(cmd_uninstall)

@@ -136,7 +136,7 @@ class WafModule(Package, DownloadableModule):
         buildscript.set_action(_('Uninstalling'), self)
         cmd = [self.waf_cmd, 'uninstall']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        buildscript.packagedb.remove(self.name)
+        buildscript.moduleset.packagedb.remove(self.name)
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):

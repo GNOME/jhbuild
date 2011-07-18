@@ -296,7 +296,7 @@ class AutogenModule(Package, DownloadableModule):
     def do_uninstall(self, buildscript):
         buildscript.set_action(_('Uninstalling'), self)
         # Since we are supports_install_destdir = True, just delegate to packagedb
-        buildscript.packagedb.uninstall(self.name, buildscript)
+        buildscript.moduleset.packagedb.uninstall(self.name, buildscript)
 
     def xml_tag_and_attrs(self):
         return ('autotools',
