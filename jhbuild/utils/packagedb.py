@@ -125,6 +125,8 @@ class PackageDB:
             tmp_dbfile.close()
             os.unlink(tmp_dbfile_path)
             raise
+        tmp_dbfile.flush()
+        os.fsync(tmp_dbfile.fileno())
         tmp_dbfile.close()
         os.rename(tmp_dbfile_path, self.dbfile)
 
