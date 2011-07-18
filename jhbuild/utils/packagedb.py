@@ -80,8 +80,9 @@ class PackageEntry:
         return entry_node
 
 class PackageDB:
-    def __init__(self, dbfile):
+    def __init__(self, dbfile, config):
         self.dbfile = dbfile
+        self.config = config
         self._read_cache()
 
     def _read_cache(self):
@@ -177,42 +178,41 @@ class PackageDB:
             if entry.version != version: return None
         return entry.metadata['installed-date']
 
-    def uninstall(self, package_name, buildscript):
+    def uninstall(self, package_name):
         '''Remove a module from the install cache.'''
-        if package_name in self.entries:
-            entry = self.entries[package_name]
-            if entry.manifest is None:
-                buildscript.message("warning: no manifest known for '%s', not deleting files")
+        entry = self.entries[package_name]
+
+        if entry.manifest is None:
+            logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling."))
+            return
+
+        directories = []
+        for path in entry.manifest:
+            assert os.path.isabs(path)
+            if os.path.isdir(path):
+                directories.append(path)
             else:
-                directories = []
-                for path in entry.manifest:
-                    assert os.path.isabs(path)
-                    if os.path.isdir(path):
-                        directories.append(path)
-                    else:
-                        try:
-                            os.unlink(path)
-                            logging.info(_("Deleted: %s" % (path, )))
-                        except OSError, e:
-                            logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
-                                                                                     'msg': e.strerror})
+                try:
+                    os.unlink(path)
+                    logging.info(_("Deleted: %s" % (path, )))
+                except OSError, e:
+                    logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
+                                                                             'msg': e.strerror})
                         
-                for directory in directories:
-                    if not directory.startswith(buildscript.config.prefix):
-                        # Skip non-prefix directories; otherwise we
-                        # may try to remove the user's ~ or something
-                        # (presumably we'd fail, but better not to try)
-                        continue
-                    try:
-                        os.rmdir(directory)
-                        logging.info(_("Deleted: %s" % (path, )))
-                    except OSError, e:
-                        # Allow multiple components to use directories
-                        pass
-            del self.entries[package_name]
-            self._write_cache()
-        else:
-            buildscript.message("warning: no package known for '%s'")
+        for directory in directories:
+            if not directory.startswith(self.config.prefix):
+                # Skip non-prefix directories; otherwise we
+                # may try to remove the user's ~ or something
+                # (presumably we'd fail, but better not to try)
+                continue
+            try:
+                os.rmdir(directory)
+                logging.info(_("Deleted: %s" % (directory, )))
+            except OSError, e:
+                # Allow multiple components to use directories
+                pass
+        del self.entries[package_name]
+        self._write_cache()
 
 if __name__ == '__main__':
     db = PackageDB(sys.argv[1])

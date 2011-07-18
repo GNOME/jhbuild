@@ -48,12 +48,10 @@ class cmd_uninstall(Command):
         packagedb = module_set.packagedb
         for module in module_list[:]:
             if not packagedb.check(module.name):
+                logging.warn(_('Module %(mod)r is not installed') % {'mod': module.name })
                 module_list.remove(module)
+            else:
+                packagedb.uninstall(module.name)
 
-        config.nonetwork = True
-        config.nopoison = True
-
-        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
-        return build.build(phases=['uninstall'])
 
 register_command(cmd_uninstall)

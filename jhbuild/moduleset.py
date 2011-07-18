@@ -58,7 +58,7 @@ class ModuleSet:
         if os.path.isfile(legacy_pkgdb_path):
             os.rename(legacy_pkgdb_path, new_pkgdb_path)
 
-        self.packagedb = packagedb.PackageDB(new_pkgdb_path)
+        self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
 
     def add(self, module):
         '''add a Module object to this set of modules'''

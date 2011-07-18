@@ -285,19 +285,6 @@ class AutogenModule(Package, DownloadableModule):
                     extra_env = self.extra_env)
     do_distclean.depends = [PHASE_CONFIGURE]
 
-    def skip_uninstall(self, buildscript, last_phase):
-        srcdir = self.get_srcdir(buildscript)
-        if not os.path.exists(srcdir):
-            return True
-        if not os.path.exists(os.path.join(srcdir, self.makefile)):
-            return True
-        return False
-
-    def do_uninstall(self, buildscript):
-        buildscript.set_action(_('Uninstalling'), self)
-        # Since we are supports_install_destdir = True, just delegate to packagedb
-        buildscript.moduleset.packagedb.uninstall(self.name, buildscript)
-
     def xml_tag_and_attrs(self):
         return ('autotools',
                 [('autogenargs', 'autogenargs', ''),
