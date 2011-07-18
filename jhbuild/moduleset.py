@@ -142,7 +142,8 @@ class ModuleSet:
         if self.config.partial_build and process_sysdeps:
             system_module_state = self.get_system_modules(all_modules)
             for pkg_config,(module, req_version, installed_version, new_enough) in system_module_state.iteritems():
-                if new_enough:
+                # Only mark a module as processed if new enough *and* we haven't built it before
+                if new_enough and not self.packagedb.check(module.name):
                     self._state[module] = 'processed'
 
         if tags:
