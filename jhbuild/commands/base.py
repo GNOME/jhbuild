@@ -349,7 +349,6 @@ class cmd_buildone(Command):
         for modname in args:
             try:
                 module = module_set.get_module(modname, ignore_case=True)
-                print module.pkg_config
             except KeyError, e:
                 default_repo = jhbuild.moduleset.get_default_repo()
                 if not default_repo:
