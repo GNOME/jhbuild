@@ -22,7 +22,12 @@ import sys
 import time
 import logging
 import xml.dom.minidom as DOM
-import xml.etree.ElementTree as ET
+
+try:
+    import xml.etree.ElementTree as ET
+except ImportError:
+    import elementtree.ElementTree as ET
+
 from StringIO import StringIO
 
 def _parse_isotime(string):
