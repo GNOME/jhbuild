@@ -55,7 +55,7 @@ class ModuleSet:
 
         legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
         new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
-        if os.path.isfile(legacy_pkgdb_path):
+        if os.path.exists(self.config.top_builddir) and os.path.isfile(legacy_pkgdb_path):
             os.rename(legacy_pkgdb_path, new_pkgdb_path)
 
         self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
