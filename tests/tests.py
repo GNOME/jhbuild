@@ -202,6 +202,7 @@ class BuildTestCase(unittest.TestCase):
         self.branch = mock.Branch()
         self.branch.config = self.config
         self.buildscript = None
+        self.moduleset = None
 
     def build(self, packagedb_params = {}, **kwargs):
         self.config.build_targets = ['install', 'test']
@@ -210,12 +211,12 @@ class BuildTestCase(unittest.TestCase):
         self.config.update_build_targets()
 
         if not self.buildscript or packagedb_params:
-            self.buildscript = mock.BuildScript(self.config, self.modules)
-            self.buildscript.packagedb = mock.PackageDB(**packagedb_params)
+            packagedb = mock.PackageDB(**packagedb_params)
+            self.moduleset = jhbuild.moduleset.ModuleSet(self.config, db=packagedb)
+            self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
         else:
-            packagedb = self.buildscript.packagedb
-            self.buildscript = mock.BuildScript(self.config, self.modules)
-            self.buildscript.packagedb = packagedb
+            packagedb = self.buildscript.moduleset.packagedb
+            self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
 
         self.buildscript.build()
         return self.buildscript.actions
@@ -229,7 +230,9 @@ class AutotoolsModTypeTestCase(BuildTestCase):
 
     def setUp(self):
         BuildTestCase.setUp(self)
-        self.modules = [AutogenModule('foo', self.branch)]
+        module = AutogenModule('foo')
+        module.branch = self.branch
+        self.modules = [module]
         self.modules[0].config = self.config
         # replace clean method as it checks for Makefile existence
         self.modules[0].skip_clean = lambda x,y: False

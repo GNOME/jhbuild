@@ -49,16 +49,19 @@ def get_default_repo():
     return _default_repo
 
 class ModuleSet:
-    def __init__(self, config = None):
+    def __init__(self, config = None, db=None):
         self.config = config
         self.modules = {}
 
-        legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
-        new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
-        if os.path.exists(self.config.top_builddir) and os.path.isfile(legacy_pkgdb_path):
-            os.rename(legacy_pkgdb_path, new_pkgdb_path)
+        if db is None:
+            legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
+            new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
+            if os.path.exists(self.config.top_builddir) and os.path.isfile(legacy_pkgdb_path):
+                os.rename(legacy_pkgdb_path, new_pkgdb_path)
 
-        self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
+            self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
+        else:
+            self.packagedb = db
 
     def add(self, module):
         '''add a Module object to this set of modules'''

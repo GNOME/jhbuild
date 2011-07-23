@@ -55,6 +55,7 @@ class Config(jhbuild.config.Config):
     min_age = None
 
     prefix = '/tmp/'
+    top_builddir = '/tmp/_jhbuild'
 
     def __init__(self):
         pass
@@ -72,7 +73,7 @@ class PackageDB:
             return self.force_uptodate
         return self.db.get(package, ('_none_'))[0] == version
 
-    def add(self, package, version):
+    def add(self, package, version, manifest):
         self.db[package] = (version, time.time()+self.time_delta)
 
     def remove(self, package):
@@ -85,9 +86,10 @@ class PackageDB:
 class BuildScript(jhbuild.frontends.buildscript.BuildScript):
     execute_is_failure = False
 
-    def __init__(self, config, module_list):
+    def __init__(self, config, module_list, moduleset):
         self.config = config
         self.modulelist = module_list
+        self.moduleset = moduleset
         self.packagedb = PackageDB()
         self.actions = []
     
@@ -113,8 +115,17 @@ class Branch(jhbuild.versioncontrol.Branch):
         return '/tmp/'
     srcdir = property(srcdir)
 
+    def checkoutdir(self):
+        return '/tmp/'
+    checkoutdir = property(checkoutdir)
+
     def checkout(self, buildscript):
         pass
+
+    def may_checkout(self, buildscript):
+        if buildscript.config.nonetwork:
+            return False
+        return True
 
     def tree_id(self):
         return 'foo'
