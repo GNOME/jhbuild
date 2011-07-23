@@ -579,6 +579,7 @@ class Config:
         if k == 'quiet_mode' and v:
             try:
                 import curses
+                logging.getLogger().setLevel(logging.ERROR)
             except ImportError:
                 logging.warning(
                         _('quiet mode has been disabled because the Python curses module is missing.'))
