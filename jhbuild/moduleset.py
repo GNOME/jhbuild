@@ -72,9 +72,9 @@ class ModuleSet:
         module_name_lower = module_name.lower()
         for module in self.modules.keys():
             if module.lower() == module_name_lower:
-                if self.config is None or not self.config.quiet_mode:
-                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
-                            'orig': module_name, 'new': module})
+                logging.info(_('fixed case of module \'%(orig)s\' to '
+                               '\'%(new)s\'') % {'orig': module_name,
+                                                 'new': module})
                 return self.modules[module]
         raise KeyError(module_name)
 
