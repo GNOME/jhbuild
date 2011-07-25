@@ -21,6 +21,7 @@ import os
 import time
 import subprocess
 import locale
+import logging
 import codecs
 import sys
 
@@ -155,6 +156,11 @@ def escape(string):
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
     return string
 
+class LoggingFormatter(logging.Formatter):
+    def __init__(self):
+        logging.Formatter.__init__(self, '<div class="%(levelname)s">'
+                                   '%(message)s</div>')
+
 class TinderboxBuildScript(buildscript.BuildScript):
     help_url = 'http://live.gnome.org/JhbuildIssues/'
     triedcheckout = None
@@ -163,6 +169,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
         buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.indexfp = None
         self.modulefp = None
+
+        for handle in logging.getLogger().handlers:
+            handle.setFormatter(LoggingFormatter())
 
         self.outputdir = os.path.abspath(config.tinderbox_outputdir)
         if not os.path.exists(self.outputdir):
@@ -330,6 +339,11 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp = codecs.open(
                 os.path.join(self.outputdir, self.modulefilename), 'w',
                 encoding=self.charset, errors='xmlcharrefreplace')
+
+        for handle in logging.getLogger().handlers:
+            if isinstance(handle, logging.StreamHandler):
+                handle.stream = self.modulefp
+
         self.modulefp.write(buildlog_header % { 'module': module,
                                                 'charset': self.charset })
     def end_module(self, module, failed):
