@@ -202,9 +202,11 @@ class BuildScript:
                     force_phase = False
                     num_phase += 1
 
-            self.end_module(module.name, failed)
             if not failed:
                 self.run_triggers(module.name)
+
+            self.end_module(module.name, failed)
+
         self.end_build(failures)
         if failures:
             return 1
