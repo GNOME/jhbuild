@@ -105,7 +105,7 @@ buildlog_header = '''<html>
         color: red;
       }
       .note {
-        background-color: #FFFF66
+        background-color: #FFFF66;
       }
     </style>
   </head>
