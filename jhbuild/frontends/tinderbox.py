@@ -102,8 +102,23 @@ buildlog_header = '''<html>
       .conflict {
         color: red;
       }
+      .critical {
+        background-color: red;
+      }
       .error {
         color: red;
+      }
+      .warning {
+        color: darkgreen;
+        font-size: smaller;
+      }
+      .info {
+        color: darkgreen;
+        font-size: smaller;
+      }
+      .debug {
+        color: gray;
+        font-size: smaller;
       }
       .note {
         background-color: #FFFF66;
