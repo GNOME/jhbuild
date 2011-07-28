@@ -27,7 +27,7 @@ try:
 except ImportError:
     hashlib = None
 
-from jhbuild.modtypes import register_module_type, get_dependencies
+from jhbuild.modtypes import register_module_type, get_dependencies, find_first_child_node_content
 
 def parse_tarball(node, config, uri, repositories, default_repo):
     name = node.getAttribute('id')
@@ -106,6 +106,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     instance.dependencies = dependencies
     instance.after = after
     instance.suggests = suggests
+    instance.pkg_config = find_first_child_node_content(node, 'pkg-config')
 
     return instance
 
