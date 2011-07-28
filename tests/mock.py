@@ -61,6 +61,13 @@ class Config(jhbuild.config.Config):
     def __init__(self):
         pass
 
+class PackageEntry:
+    def __init__(self, package, version, manifest,
+                 metadata):
+        self.package = package # string
+        self.version = version # string
+        self.manifest = manifest # list of strings
+        self.metadata = metadata # hash of string to value
 
 class PackageDB:
     time_delta = 0
@@ -72,10 +79,15 @@ class PackageDB:
     def check(self, package, version=None):
         if self.force_uptodate:
             return self.force_uptodate
-        return self.entries.get(package, ('_none_'))[0] == version
+        entry = self.entries.get(package)
+        if not entry:
+            return None
+        return entry.version == version
 
     def add(self, package, version, manifest):
-        self.entries[package] = (version, time.time()+self.time_delta, [])
+        entry = PackageEntry(package, version, [], {})
+        entry.metadata['installed-date'] = time.time()+self.time_delta
+        self.entries[package] = entry
 
     def remove(self, package):
         del self.entries[package]
@@ -84,7 +96,7 @@ class PackageDB:
         entry = self.entries.get(package)
         if entry is None:
             return None
-        return entry[1]
+        return entry.metadata['installed-date']
 
 
 class BuildScript(jhbuild.frontends.buildscript.BuildScript):
