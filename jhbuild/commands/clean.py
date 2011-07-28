@@ -55,7 +55,7 @@ class cmd_clean(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         # remove modules that are not marked as installed
-        packagedb module_set.packagedb
+        packagedb = module_set.packagedb
         for module in module_list[:]:
             if not packagedb.check(module.name):
                 module_list.remove(module)
