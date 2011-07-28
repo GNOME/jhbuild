@@ -38,8 +38,8 @@ class PerlModule(Package, DownloadableModule):
     PHASE_BUILD = 'build'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, makeargs=''):
-        Package.__init__(self, name)
+    def __init__(self, name, branch=None, makeargs=''):
+        Package.__init__(self, name, branch=branch)
         self.makeargs = makeargs
 
     def get_srcdir(self, buildscript):

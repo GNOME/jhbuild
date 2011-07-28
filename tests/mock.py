@@ -45,6 +45,7 @@ class Config(jhbuild.config.Config):
     module_makecheck = {}
     module_nopoison = {}
     forcecheck = False
+    partial_build = True
     autogenargs = ''
     module_autogenargs = {}
     module_extra_env = {}
@@ -66,21 +67,24 @@ class PackageDB:
 
     def __init__(self, uptodate = False):
         self.force_uptodate = uptodate
-        self.db = {}
+        self.entries = {}
 
     def check(self, package, version=None):
         if self.force_uptodate:
             return self.force_uptodate
-        return self.db.get(package, ('_none_'))[0] == version
+        return self.entries.get(package, ('_none_'))[0] == version
 
     def add(self, package, version, manifest):
-        self.db[package] = (version, time.time()+self.time_delta)
+        self.entries[package] = (version, time.time()+self.time_delta, [])
 
     def remove(self, package):
-        del self.db[package]
+        del self.entries[package]
 
     def installdate(self, package):
-        return self.db.get(package, ('_none_'))[1]
+        entry = self.entries.get(package)
+        if entry is None:
+            return None
+        return entry[1]
 
 
 class BuildScript(jhbuild.frontends.buildscript.BuildScript):

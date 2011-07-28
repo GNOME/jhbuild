@@ -46,7 +46,7 @@ class AutogenModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name,
+    def __init__(self, name, branch=None,
                  autogenargs='', makeargs='',
                  makeinstallargs='',
                  supports_non_srcdir_builds=True,
@@ -55,7 +55,7 @@ class AutogenModule(Package, DownloadableModule):
                  makefile='Makefile',
                  autogen_template=None,
                  check_target=True):
-        Package.__init__(self, name)
+        Package.__init__(self, name, branch=branch)
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
         self.makeinstallargs = makeinstallargs

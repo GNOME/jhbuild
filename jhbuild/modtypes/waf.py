@@ -44,8 +44,8 @@ class WafModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, waf_cmd='./waf'):
-        Package.__init__(self, name)
+    def __init__(self, name, branch=None, waf_cmd='./waf'):
+        Package.__init__(self, name, branch=branch)
         self.waf_cmd = waf_cmd
         self.supports_install_destdir = True
 

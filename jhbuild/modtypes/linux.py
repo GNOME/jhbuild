@@ -62,8 +62,8 @@ class LinuxModule(Package):
     PHASE_HEADERS_INSTALL = 'headers_install'
     PHASE_INSTALL         = 'install'
 
-    def __init__(self, name, kconfigs=None, makeargs=None):
-        Package.__init__(self, name)
+    def __init__(self, name, branch=None, kconfigs=None, makeargs=None):
+        Package.__init__(self, name, branch=branch)
         self.kconfigs = kconfigs
         self.makeargs = makeargs
 

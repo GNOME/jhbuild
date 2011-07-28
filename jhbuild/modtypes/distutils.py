@@ -37,8 +37,8 @@ class DistutilsModule(Package, DownloadableModule):
     PHASE_BUILD = 'build'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, supports_non_srcdir_builds = True):
-        Package.__init__(self, name)
+    def __init__(self, name, branch=None, supports_non_srcdir_builds = True):
+        Package.__init__(self, name, branch=branch)
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.supports_install_destdir = True
 

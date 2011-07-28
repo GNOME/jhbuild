@@ -38,9 +38,9 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name,
+    def __init__(self, name, branch=None,
                  cmakeargs='', makeargs='',):
-        Package.__init__(self, name)
+        Package.__init__(self, name, branch=branch)
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
         self.supports_install_destdir = True

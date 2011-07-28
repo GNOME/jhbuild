@@ -43,8 +43,8 @@ class TestModule(Package, DownloadableModule):
     PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_TEST           = 'test'
     
-    def __init__(self, name, test_type=None, tested_pkgs=[]):
-        Package.__init__(self, name)
+    def __init__(self, name, branch=None, test_type=None, tested_pkgs=[]):
+        Package.__init__(self, name, branch=branch)
         self.test_type    = test_type
         self.tested_pkgs  = tested_pkgs
 
