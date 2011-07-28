@@ -75,7 +75,7 @@ class cmd_sysdeps(cmd_build):
         print _('System installed packages which are too old:') 
         for pkg_config,(module, req_version, installed_version, new_enough) in module_state.iteritems():
             if (installed_version is not None) and (not new_enough):
-                have_too_old = False
+                have_too_old = True
                 print (_("  %(pkg)s (required=%(req)s, installed=%(installed)s)" % {'pkg': pkg_config,
                                                                                     'req': req_version,
                                                                                     'installed': installed_version}))
