@@ -40,7 +40,7 @@ from jhbuild.utils import packagedb
 from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.versioncontrol.tarball import TarballBranch
-from jhbuild.utils.systeminstall import SystemInstall
+from jhbuild.utils import systeminstall
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -256,7 +256,7 @@ class ModuleSet:
     def get_system_modules(self, modules):
         assert self.config.partial_build
 
-        installed_pkgconfig = SystemInstall.get_installed_pkgconfigs()
+        installed_pkgconfig = systeminstall.get_installed_pkgconfigs()
         
         # pkgconfig -> (required_version, installed_verison)
         module_state = {}

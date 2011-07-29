@@ -47,10 +47,6 @@ class cmd_sysdeps(cmd_build):
     def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
 
-        installer = SystemInstall.find_best()
-        if installer is None:
-            raise FatalError(_("Don't know how to install packages on this system"))
-
         if not config.partial_build:
             raise FatalError(_("Partial build is not enabled; add partial_build = True to ~/.jhbuildrc"))
 
@@ -93,6 +89,10 @@ class cmd_sysdeps(cmd_build):
             print _('  (none)')
 
         if options.install:
+            installer = SystemInstall.find_best()
+            if installer is None:
+                raise FatalError(_("Don't know how to install packages on this system"))
+
             if len(uninstalled) == 0:
                 logging.info(_("No uninstalled system dependencies to install for modules: %r" % (modules, )))
             else:

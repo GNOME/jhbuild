@@ -26,6 +26,28 @@ from StringIO import StringIO
 
 import cmds
 
+def get_installed_pkgconfigs():
+    """Returns a dictionary mapping pkg-config names to their current versions on the system."""
+    env = dict(os.environ)
+    if 'PKG_CONFIG_PATH' in env:
+        del env['PKG_CONFIG_PATH']
+    proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, env=env, close_fds=True)
+    stdout = proc.communicate()[0]
+    proc.wait()
+    pkgs = []
+    for line in StringIO(stdout):
+        pkg, rest = line.split(None, 1)
+        pkgs.append(pkg)
+    args = ['pkg-config', '--modversion']
+    args.extend(pkgs)
+    proc = subprocess.Popen(args, stdout=subprocess.PIPE, close_fds=True)
+    stdout = proc.communicate()[0]
+    proc.wait()
+    pkgversions = {}
+    for pkg,verline in zip(pkgs, StringIO(stdout)):
+        pkgversions[pkg] = verline.strip()
+    return pkgversions
+
 class SystemInstall(object):
     def __init__(self):
         pass
@@ -33,29 +55,6 @@ class SystemInstall(object):
     def install(self, pkgconfig_ids):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
         raise NotImplementedError()
-
-    @classmethod
-    def get_installed_pkgconfigs(cls):
-        """Returns a dictionary mapping pkg-config names to their current versions on the system."""
-        env = dict(os.environ)
-        if 'PKG_CONFIG_PATH' in env:
-            del env['PKG_CONFIG_PATH']
-        proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, env=env, close_fds=True)
-        stdout = proc.communicate()[0]
-        proc.wait()
-        pkgs = []
-        for line in StringIO(stdout):
-            pkg, rest = line.split(None, 1)
-            pkgs.append(pkg)
-        args = ['pkg-config', '--modversion']
-        args.extend(pkgs)
-        proc = subprocess.Popen(args, stdout=subprocess.PIPE, close_fds=True)
-        stdout = proc.communicate()[0]
-        proc.wait()
-        pkgversions = {}
-        for pkg,verline in zip(pkgs, StringIO(stdout)):
-            pkgversions[pkg] = verline.strip()
-        return pkgversions
 
     @classmethod
     def find_best(cls):
