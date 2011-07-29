@@ -26,12 +26,9 @@ from StringIO import StringIO
 
 import cmds
 
-def get_installed_pkgconfigs():
+def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""
-    env = dict(os.environ)
-    if 'PKG_CONFIG_PATH' in env:
-        del env['PKG_CONFIG_PATH']
-    proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, env=env, close_fds=True)
+    proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, env=config.get_original_environment(), close_fds=True)
     stdout = proc.communicate()[0]
     proc.wait()
     pkgs = []

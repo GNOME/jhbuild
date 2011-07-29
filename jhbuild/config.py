@@ -287,6 +287,9 @@ class Config:
                 self.use_local_modulesets = False
             self.modulesets_dir = None
 
+    def get_original_environment(self):
+        return self._orig_environ
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 

@@ -256,7 +256,7 @@ class ModuleSet:
     def get_system_modules(self, modules):
         assert self.config.partial_build
 
-        installed_pkgconfig = systeminstall.get_installed_pkgconfigs()
+        installed_pkgconfig = systeminstall.get_installed_pkgconfigs(self.config)
         
         # pkgconfig -> (required_version, installed_verison)
         module_state = {}
