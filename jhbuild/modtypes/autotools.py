@@ -69,6 +69,16 @@ class AutogenModule(Package, DownloadableModule):
         self.supports_install_destdir = True
         self.supports_static_analyzer = supports_static_analyzer
 
+    def _get_makeargs(self, buildscript):
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+            self.name, self.config.makeargs)
+        if self.supports_parallel_build:
+            # Propagate job count into makeargs, unless -j is already set
+            if ' -j' not in makeargs:
+                arg = '-j %s' % (buildscript.config.jobs, )
+                makeargs = makeargs + ' ' + arg
+        return makeargs.strip()
+
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
@@ -199,8 +209,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -209,8 +218,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s%s %s' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -244,8 +252,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s%s %s check' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
@@ -258,8 +265,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -268,8 +274,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_distcheck(self, buildscript):
         buildscript.set_action(_('Dist checking'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -294,8 +299,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)

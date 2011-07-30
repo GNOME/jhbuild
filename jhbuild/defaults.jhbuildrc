@@ -47,6 +47,18 @@ buildroot = None     # if set, packages will be built with srcdir!=builddir
 # substituted with the srcdir base component.
 builddir_pattern = '%s'
 
+## @jobs: This value will be used as "X" in "make -jX" for modules
+## which support parallel builds.  Note that if you set "makeargs"
+## to include a -j option, that will take precedence.
+try:
+    import multiprocessing
+    jobs = multiprocessing.cpu_count() * 2
+except ImportError, e:
+    try:
+        jobs = 2 * os.sysconf('SC_NPROCESSORS_ONLN')
+    except (OSError, AttributeError, ValueError):
+        jobs = 2
+
 # override environment variables, command line arguments, etc
 autogenargs = '--disable-static --disable-gtk-doc'
 cmakeargs = ''

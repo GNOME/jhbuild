@@ -91,6 +91,9 @@ class WafModule(Package, DownloadableModule):
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         cmd = [self.waf_cmd, 'build']
+        if self.supports_parallel_build:
+            cmd.append('-j')
+            cmd.append('%s' % (buildscript.config.jobs, ))
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]

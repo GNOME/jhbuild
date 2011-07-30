@@ -155,6 +155,7 @@ class Package:
         self.tags = []
         self.moduleset_name = None
         self.supports_install_destdir = False
+        self.supports_parallel_build = True
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
@@ -418,6 +419,7 @@ them into the prefix."""
         instance = cls(name)
         instance.branch = get_branch(node, repositories, default_repo, config)
         instance.dependencies, instance.after, instance.suggests = get_dependencies(node)
+        instance.supports_parallel_build = (node.getAttribute('supports-parallel-builds') != 'no')
         pkg_config = find_first_child_node_content(node, 'pkg-config')
         if pkg_config != '':
             instance.pkg_config = pkg_config

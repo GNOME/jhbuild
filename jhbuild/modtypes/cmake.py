@@ -76,6 +76,11 @@ class CMakeModule(Package, DownloadableModule):
         args = '%s %s' % (self.makeargs,
                           self.config.module_makeargs.get(
                               self.name, self.config.makeargs))
+        if self.supports_parallel_build:
+            # Propagate job count into makeargs, unless -j is already set
+            if ' -j' not in args:
+                arg = '-j %s' % (self.config.jobs, )
+                args = args + ' ' + arg
         return self.eval_args(args)
 
     def skip_configure(self, buildscript, last_phase):
