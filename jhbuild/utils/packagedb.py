@@ -40,15 +40,35 @@ def _format_isotime(tm):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
 
 class PackageEntry:
-    def __init__(self, package, version, manifest,
-                 metadata):
+    def __init__(self, package, version, metadata, manifests_dir):
         self.package = package # string
         self.version = version # string
-        self.manifest = manifest # list of strings
         self.metadata = metadata # hash of string to value
+        self.manifests_dir = manifests_dir
+
+    _manifest = None
+    def get_manifest(self):
+        if self._manifest:
+            return self._manifest
+        if not os.path.exists(os.path.join(self.manifests_dir, self.package)):
+            return None
+        self._manifest = []
+        for line in file(os.path.join(self.manifests_dir, self.package)):
+            self._manifest.append(line.strip())
+        return self._manifest
+
+    def set_manifest(self, value):
+        if value is None:
+            self._manifest = value
+            return
+        self._manifest = [x.strip() for x in value if not '\n' in value]
+        if len(self._manifest) != len(value):
+            logging.error(_('package %s has files with embedded new lines') % self.package)
+
+    manifest = property(get_manifest, set_manifest)
 
     @classmethod
-    def from_xml(cls, node):
+    def from_xml(cls, node, manifests_dir):
         package = node.attrib['package']
         version = node.attrib['version']
         metadata = {}
@@ -56,7 +76,11 @@ class PackageEntry:
         installed_string = node.attrib['installed']
         if installed_string:
             metadata['installed-date'] = _parse_isotime(installed_string)
-         
+
+        dbentry = cls(package, version, metadata, manifests_dir)
+
+        # Transition code for the time when the list of files were stored
+        # in list of xml nodes
         manifestNode = node.find('manifest')
         if manifestNode is not None:
             manifest = []
@@ -68,9 +92,10 @@ class PackageEntry:
                 # Since we don't handle files with whitespace in their
                 # names anyways, it's a fine hack.
                 manifest.append(manifest_child.text.strip())
-        else:
-            manifest = None
-        return cls(package, version, manifest, metadata)
+            dbentry.manifest = manifest
+
+        return dbentry
+
 
     def to_xml(self, doc):
         entry_node = ET.Element('entry', {'package': self.package,
@@ -78,15 +103,20 @@ class PackageEntry:
         if 'installed-date' in self.metadata:
             entry_node.attrib['installed'] = _format_isotime(self.metadata['installed-date'])
         if self.manifest is not None:
-            manifest_node = ET.SubElement(entry_node, 'manifest')
-            for filename in self.manifest:
-                file_node = ET.SubElement(manifest_node, 'file')
-                file_node.text = filename
+            fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
+            fd.write('\n'.join(self.manifest))
+            os.fdatasync(fd.fileno())
+            fd.close()
+            os.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
+                      os.path.join(self.manifests_dir, self.package))
         return entry_node
 
 class PackageDB:
     def __init__(self, dbfile, config):
         self.dbfile = dbfile
+        self.manifests_dir = os.path.join(os.path.dirname(dbfile), 'manifests')
+        if not os.path.exists(self.manifests_dir):
+            os.makedirs(self.manifests_dir)
         self.config = config
         self._read_cache()
 
@@ -105,7 +135,7 @@ class PackageDB:
         for node in root:
             if node.tag != 'entry':
                 continue
-            entry = PackageEntry.from_xml(node)
+            entry = PackageEntry.from_xml(node, self.manifests_dir)
             self.entries[entry.package] = entry
 
     def _write_cache(self):
@@ -162,9 +192,9 @@ class PackageDB:
     def add(self, package, version, destdir):
         '''Add a module to the install cache.'''
         now = time.time()
-        contents = self._accumulate_dirtree_contents(destdir)
         metadata = {'installed-date': now}
-        self.entries[package] = PackageEntry(package, version, contents, metadata)
+        self.entries[package] = PackageEntry(package, version, metadata, self.manifests_dir)
+        self.entries[package].manifest = self._accumulate_dirtree_contents(destdir)
         self._write_cache()
 
     def check(self, package, version=None):
