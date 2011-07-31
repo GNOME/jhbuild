@@ -118,7 +118,14 @@ class PackageDB:
         if not os.path.exists(self.manifests_dir):
             os.makedirs(self.manifests_dir)
         self.config = config
-        self._read_cache()
+        self._entries = None
+
+    def _ensure_cache(function):
+        def decorate(self, *args, **kwargs):
+            if self._entries is None:
+                self._read_cache()
+            function(self, *args, **kwargs)
+        return decorate
 
     def _read_cache(self):
         self._entries = {}
@@ -189,10 +196,12 @@ class PackageDB:
             contents[i] = '/' + subpath[pathlen:]
         return contents
 
+    @_ensure_cache
     def get(self, package):
         '''Return entry if package is installed, otherwise return None.'''
         return self._entries.get(package)
 
+    @_ensure_cache
     def add(self, package, version, destdir):
         '''Add a module to the install cache.'''
         now = time.time()
@@ -203,20 +212,23 @@ class PackageDB:
 
     def check(self, package, version=None):
         '''Check whether a particular module is installed.'''
-        if not self._entries.has_key(package): return False
-        entry = self._entries[package]
+        entry = self.get(package)
+        if entry is None:
+            return False
         if version is not None:
             if entry.version != version: return False
         return True
 
     def installdate(self, package, version=None):
         '''Get the install date for a particular module.'''
-        if not self._entries.has_key(package): return None
-        entry = self._entries[package]
-        if version:
-            if entry.version != version: return None
+        entry = self.get(package)
+        if entry is None:
+            return None
+        if version and (entry.version != version):
+            return None
         return entry.metadata['installed-date']
 
+    @_ensure_cache
     def uninstall(self, package_name):
         '''Remove a module from the install cache.'''
         entry = self._entries[package_name]
