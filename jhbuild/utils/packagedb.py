@@ -19,9 +19,12 @@
 
 import os
 import sys 
+import stat
 import time
 import logging
 import xml.dom.minidom as DOM
+
+from . import lockfile
 
 try:
     import xml.etree.ElementTree as ET
@@ -114,21 +117,37 @@ class PackageEntry:
 class PackageDB:
     def __init__(self, dbfile, config):
         self.dbfile = dbfile
-        self.manifests_dir = os.path.join(os.path.dirname(dbfile), 'manifests')
+        dirname = os.path.dirname(dbfile)
+        self.manifests_dir = os.path.join(dirname, 'manifests')
         if not os.path.exists(self.manifests_dir):
             os.makedirs(self.manifests_dir)
         self.config = config
-        self._entries = None
+        self._lock = lockfile.LockFile.get(os.path.join(dirname, 'packagedb.xml.lock'))
+        self._entries = None # hash
+        self._entries_stat = None # os.stat structure
 
     def _ensure_cache(function):
         def decorate(self, *args, **kwargs):
             if self._entries is None:
                 self._read_cache()
+            elif self._entries_stat is None:
+                # It didn't exist before, see if it does now
+                self._read_cache()
+            else:
+                try:
+                    stbuf = os.stat(self.dbfile)
+                except OSError, e:
+                    pass
+                if not (self._entries_stat[stat.ST_INO] == stbuf[stat.ST_INO]
+                        and self._entries_stat[stat.ST_MTIME] == stbuf[stat.ST_MTIME]):
+                    logging.info(_('Package DB modified externally, rereading'))
+                    self._read_cache()
             function(self, *args, **kwargs)
         return decorate
 
     def _read_cache(self):
         self._entries = {}
+        self._entries_stat = None
         try:
             f = open(self.dbfile)
         except OSError, e:
@@ -144,6 +163,7 @@ class PackageDB:
                 continue
             entry = PackageEntry.from_xml(node, self.manifests_dir)
             self._entries[entry.package] = entry
+        self._entries_stat = os.fstat(f.fileno())
 
     def _write_cache(self):
         pkgdb_node = ET.Element('packagedb')
@@ -172,6 +192,8 @@ class PackageDB:
         os.fsync(tmp_dbfile.fileno())
         tmp_dbfile.close()
         os.rename(tmp_dbfile_path, self.dbfile)
+        # Ensure we don't reread what we already have cached
+        self._entries_stat = os.stat(self.dbfile)
 
     def _accumulate_dirtree_contents_recurse(self, path, contents):
         assert os.path.isdir(path)
@@ -196,12 +218,22 @@ class PackageDB:
             contents[i] = '/' + subpath[pathlen:]
         return contents
 
+    def _locked(function):
+        def decorate(self, *args, **kwargs):
+            self._lock.lock()
+            try:
+                function(self, *args, **kwargs)
+            finally:
+                self._lock.unlock()
+        return decorate
+
     @_ensure_cache
     def get(self, package):
         '''Return entry if package is installed, otherwise return None.'''
         return self._entries.get(package)
 
     @_ensure_cache
+    @_locked
     def add(self, package, version, destdir):
         '''Add a module to the install cache.'''
         now = time.time()
@@ -229,6 +261,7 @@ class PackageDB:
         return entry.metadata['installed-date']
 
     @_ensure_cache
+    @_locked
     def uninstall(self, package_name):
         '''Remove a module from the install cache.'''
         entry = self._entries[package_name]
