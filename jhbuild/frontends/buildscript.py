@@ -225,7 +225,8 @@ class BuildScript:
             # Skip if somehow the module isn't really installed
             if self.moduleset.packagedb.installdate(module_name) is None:
                 continue
-            pkg = self.moduleset.packagedb.entries[module_name]
+            pkg = self.moduleset.packagedb.get(module_name)
+            assert pkg is not None
 
             # Skip this if the packagedb doesn't have a manifest; this
             # can happen with old packagedb.xml files.

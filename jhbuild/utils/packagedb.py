@@ -121,7 +121,7 @@ class PackageDB:
         self._read_cache()
 
     def _read_cache(self):
-        self.entries = {}
+        self._entries = {}
         try:
             f = open(self.dbfile)
         except OSError, e:
@@ -136,12 +136,12 @@ class PackageDB:
             if node.tag != 'entry':
                 continue
             entry = PackageEntry.from_xml(node, self.manifests_dir)
-            self.entries[entry.package] = entry
+            self._entries[entry.package] = entry
 
     def _write_cache(self):
         pkgdb_node = ET.Element('packagedb')
         doc = ET.ElementTree(pkgdb_node)
-        for package,entry in self.entries.iteritems():
+        for package,entry in self._entries.iteritems():
             node = entry.to_xml(doc)
             pkgdb_node.append(node)
 
@@ -189,33 +189,37 @@ class PackageDB:
             contents[i] = '/' + subpath[pathlen:]
         return contents
 
+    def get(self, package):
+        '''Return entry if package is installed, otherwise return None.'''
+        return self._entries.get(package)
+
     def add(self, package, version, destdir):
         '''Add a module to the install cache.'''
         now = time.time()
         metadata = {'installed-date': now}
-        self.entries[package] = PackageEntry(package, version, metadata, self.manifests_dir)
-        self.entries[package].manifest = self._accumulate_dirtree_contents(destdir)
+        self._entries[package] = PackageEntry(package, version, metadata, self.manifests_dir)
+        self._entries[package].manifest = self._accumulate_dirtree_contents(destdir)
         self._write_cache()
 
     def check(self, package, version=None):
         '''Check whether a particular module is installed.'''
-        if not self.entries.has_key(package): return False
-        entry = self.entries[package]
+        if not self._entries.has_key(package): return False
+        entry = self._entries[package]
         if version is not None:
             if entry.version != version: return False
         return True
 
     def installdate(self, package, version=None):
         '''Get the install date for a particular module.'''
-        if not self.entries.has_key(package): return None
-        entry = self.entries[package]
+        if not self._entries.has_key(package): return None
+        entry = self._entries[package]
         if version:
             if entry.version != version: return None
         return entry.metadata['installed-date']
 
     def uninstall(self, package_name):
         '''Remove a module from the install cache.'''
-        entry = self.entries[package_name]
+        entry = self._entries[package_name]
 
         if entry.manifest is None:
             logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling.") % (package_name,))
@@ -246,9 +250,9 @@ class PackageDB:
             except OSError, e:
                 # Allow multiple components to use directories
                 pass
-        del self.entries[package_name]
+        del self._entries[package_name]
         self._write_cache()
 
 if __name__ == '__main__':
     db = PackageDB(sys.argv[1])
-    print "%r" % (db.entries, )
+    print "%r" % (db._entries, )
