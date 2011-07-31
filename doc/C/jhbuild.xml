@@ -115,15 +115,18 @@
 <computeroutput>...</computeroutput>
 <prompt>$</prompt></screen>
 
-      <para>Alternatively, if autotools or gnome-doc-utils is not installed,
-        install JHBuild as follows:</para>
-
-<screen><prompt>$</prompt> <userinput>cd jhbuild</userinput>
-<prompt>$</prompt> <userinput>make -f Makefile.plain</userinput>
-<computeroutput>...</computeroutput>
-<prompt>$</prompt> <userinput>make -f Makefile.plain install</userinput>
-<computeroutput>...</computeroutput>
-<prompt>$</prompt></screen>
+      <para>If <application>gnome-common</application>,
+        <application>gnome-doc-utils</application> and
+        <application>autotools</application> are available,
+        <filename>autogen.sh</filename> will configure JHBuild to install via
+        <application>autotools</application>. If
+        <application>gnome-common</application>,
+        <application>gnome-doc-utils</application> and
+        <application>autotools</application> are not available,
+        <filename>autogen.sh</filename> will configure JHBuild to install via a
+        plain Makefile. To always use the plain Makefile method pass
+        <option>--simple-install</option> to <filename>autogen.sh</filename>.
+      </para>
 
       <para>If the above steps complete successfully, a small shell script
         will be installed in <filename>~/.local/bin</filename> to start JHBuild.
