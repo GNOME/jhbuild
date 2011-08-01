@@ -29,8 +29,6 @@
     href="git://github.com/"/>
   <repository type="tarball" name="mono.net"
     href="http://go-mono.com/sources/"/>
-  <repository type="tarball" name="gupnp.org"
-    href="http://www.gupnp.org/sites/all/files/sources/"/>
   <repository type="git" name="gstreamer.freedesktop.org"
       href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="tarball" name="launchpad.net/tarball"
@@ -190,11 +188,8 @@
     </dependencies>
   </tarball>
 
-  <autotools id="gssdp" version="0.11.0">
-    <branch module="gssdp/0.11/gssdp-0.11.0.tar.xz" version="0.11.0"
-            repo="gnome.org"
-            hash="sha256:adbae8b003ff47008f1eaeba042d4438277e8b74950db7c3837d795e6227e287"
-            size="246592"/>
+  <autotools id="gssdp">
+    <branch />
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
@@ -204,10 +199,8 @@
     </suggests>
   </autotools>
 
-  <tarball id="gupnp" version="0.17.0" autogenargs="--with-context-manager=network-manager">
-    <source href="http://download.gnome.org/sources/gupnp/0.17/gupnp-0.17.0.tar.xz"
-            hash="sha256:9a818daae80ad549ed0bbf68769770286ccc0e0768d0b0462126924b2ffcc01d"
-            size="330120"/>
+  <autotools id="gupnp" autogenargs="--with-context-manager=network-manager">
+    <branch />
     <dependencies>
       <dep package="gssdp"/>
       <dep package="glib"/>
@@ -219,12 +212,10 @@
       <dep package="gobject-introspection"/>
       <dep package="NetworkManager"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <autotools id="gupnp-av">
-    <branch module="gupnp-av/0.9/gupnp-av-0.9.1.tar.xz" version="0.9.1" repo="gnome.org"
-            hash="sha256:4bd1fba9036ff9057da2a4951309a0fc3e720d66a6ff1f103c2f359ced9e4bc8"
-            size="271844"/>
+    <branch />
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
@@ -234,11 +225,8 @@
     </suggests>
   </autotools>
 
-  <autotools id="gupnp-dlna" autogen-sh="autogen.sh">
-    <branch module="gupnp-dlna-0.5.1.tar.gz" version="0.5.1" repo="gupnp.org"
-            hash="sha256:9888386ac3fd142a7a09229171201c12f46a122383cbeafd9a3eb77f1a182c52"
-            md5sum="be4d6ab220d29e1c09f0ca9aef7caaae" size="383660">
-    </branch>
+  <autotools id="gupnp-dlna">
+    <branch />
     <dependencies>
       <dep package="libxml2"/>
       <dep package="glib"/>
@@ -253,10 +241,8 @@
     </suggests>
  </autotools>
 
-  <tarball id="gupnp-vala" version="0.7.5">
-    <source href="http://download.gnome.org/sources/gupnp-vala/0.9/gupnp-vala-0.9.0.tar.xz"
-            hash="sha256:b8f88c2525dad62322c4273eeb4bfdf000d5c4f502506a5a1715606cca44723d"
-            size="89932"/>
+  <autotools id="gupnp-vala">
+    <branch />
     <dependencies>
       <dep package="glib"/>
       <dep package="gssdp"/>
@@ -267,7 +253,7 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </tarball>
+ </autotools>
 
   <tarball id="libgda" version="4.2.4" autogenargs="--with-java=no --disable-introspection">
     <source href="http://download.gnome.org/sources/libgda/4.2/libgda-4.2.4.tar.bz2"
