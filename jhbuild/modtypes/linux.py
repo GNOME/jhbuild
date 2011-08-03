@@ -240,12 +240,14 @@ def get_kconfigs(node, repositories, default_repo):
             try:
                 repo = repositories[repo_name]
             except KeyError:
-                raise FatalError(_('Repository=%s not found for kconfig in linux id=%s. Possible repositories are %s') % (repo_name, id, repositories))
+                raise FatalError(_('Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. Possible repositories are %(possible)s'
+                                    % {'missing': repo_name, 'linux_id': id, 'possible': repositories}))
         else:
             try:
                 repo = repositories[default_repo]
             except KeyError:
-                raise FatalError(_('Default Repository=%s not found for kconfig in module id=%s. Possible repositories are %s') % (default_repo, id, repositories))
+                raise FatalError(_('Default repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. Possible repositories are %(possible)s'
+                                   % {'missing': default_repo, 'linux_id': id, 'possible': repositories}))
 
         branch = repo.branch_from_xml(id, childnode, repositories, default_repo)
 
