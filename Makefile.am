@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = foreign
+
 SUBDIRS = po scripts triggers jhbuild buildbot
 
 if DOC_INSTALLATION_ENABLED
