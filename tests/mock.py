@@ -106,7 +106,7 @@ class BuildScript(jhbuild.frontends.buildscript.BuildScript):
         self.config = config
         self.modulelist = module_list
         self.moduleset = moduleset
-        self.packagedb = PackageDB()
+        self.packagedb = moduleset.packagedb
         self.actions = []
     
     def set_action(self, action, module, module_num=-1, action_target=None):
