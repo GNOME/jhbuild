@@ -538,16 +538,6 @@ class TwoModulesTestCase(BuildTestCase):
                  'bar:Building', 'bar:Installing',
                 ])
 
-    def test_build_no_update_updated_deps_policy(self):
-        '''Building two independent autotools module, (changed and not), with 'updated-deps' policy'''
-        self.build() # will feed PackageDB
-        self.buildscript.packagedb.remove('foo')
-        self.buildscript.packagedb.time_delta = 5
-        self.assertEqual(self.build(build_policy = 'updated-deps'),
-                ['foo:Checking out', 'foo:Configuring',
-                 'foo:Building', 'foo:Installing',
-                 'bar:Checking out',])
-
     def test_make_check_failure_dependent_modules(self):
         '''Building two dependent autotools modules, with failure in make check'''
         self.modules[1].dependencies = ['foo']
