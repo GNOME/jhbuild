@@ -179,12 +179,12 @@ class Package:
         os.makedirs(destdir)
         return destdir
 
-    def _clean_la_files(self, installroot):
+    def _clean_la_files(self, buildscript, installroot):
         """This method removes .la files from the toplevel lib*/
         directories.  See bug 654013."""
         assert os.path.isabs(installroot)
-        assert os.path.isabs(self.config.prefix)
-        prefixdir = os.path.join(installroot, self.config.prefix[1:])
+        assert os.path.isabs(buildscript.config.prefix)
+        prefixdir = os.path.join(installroot, buildscript.config.prefix[1:])
         if os.path.isdir(prefixdir):
             for name in os.listdir(prefixdir):
                 namepath = os.path.join(prefixdir, name)
@@ -232,7 +232,7 @@ them into the prefix."""
     def process_install(self, buildscript, revision):
         assert self.supports_install_destdir
         destdir = self._get_destdir(buildscript)
-        self._clean_la_files(destdir)
+        self._clean_la_files(buildscript, destdir)
 
         stripped_prefix = buildscript.config.prefix[1:]
 
