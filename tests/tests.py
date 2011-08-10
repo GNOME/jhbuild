@@ -22,6 +22,7 @@
 
 import os
 import shutil
+import logging
 import subprocess
 import sys
 import tempfile
@@ -663,4 +664,5 @@ class EndToEndTest(JhbuildConfigTestCase):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     unittest.main()
