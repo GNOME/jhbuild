@@ -254,8 +254,9 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
 class BuildTestCase(JhbuildConfigTestCase):
     def setUp(self):
         super(BuildTestCase, self).setUp()
-        self.branch = mock.Branch()
+        self.branch = mock.Branch(os.path.join(self.config.buildroot, 'nonexistent'))
         self.branch.config = self.config
+        self.packagedb = None
         self.buildscript = None
         self.moduleset = None
 
@@ -269,13 +270,10 @@ class BuildTestCase(JhbuildConfigTestCase):
             setattr(self.config, k, kwargs[k])
         self.config.update_build_targets()
 
-        if not self.buildscript or packagedb_params:
-            packagedb = mock.PackageDB(**packagedb_params)
-            self.moduleset = jhbuild.moduleset.ModuleSet(self.config, db=packagedb)
-            self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
-        else:
-            packagedb = self.buildscript.moduleset.packagedb
-            self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
+        if (self.packagedb is None) or (len(packagedb_params) > 0):
+            self.packagedb = mock.PackageDB(**packagedb_params)
+            self.moduleset = jhbuild.moduleset.ModuleSet(self.config, db=self.packagedb)
+        self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
 
         self.buildscript.build()
         return self.buildscript.actions
@@ -285,7 +283,7 @@ class AutotoolsModTypeTestCase(BuildTestCase):
 
     def setUp(self):
         super(AutotoolsModTypeTestCase, self).setUp()
-        module = AutogenModule('foo', branch=self.branch)
+        module = mock.MockModule('foo', branch=self.branch)
         self.modules = [module]
         self.modules[0].config = self.config
         # replace clean method as it checks for Makefile existence
@@ -391,7 +389,7 @@ class BuildPolicyTestCase(BuildTestCase):
 
     def setUp(self):
         super(BuildPolicyTestCase, self).setUp()
-        self.modules = [AutogenModule('foo', branch=self.branch)]
+        self.modules = [mock.MockModule('foo', branch=self.branch)]
         self.modules[0].config = self.config
 
     def test_policy_all(self):
@@ -445,9 +443,9 @@ class TwoModulesTestCase(BuildTestCase):
 
     def setUp(self):
         super(TwoModulesTestCase, self).setUp()
-        self.foo_branch = mock.Branch()
-        self.modules = [AutogenModule('foo', branch=self.foo_branch),
-                        AutogenModule('bar', branch=self.branch)]
+        self.foo_branch = mock.Branch(os.path.join(self.config.buildroot, 'nonexistent-foo'))
+        self.modules = [mock.MockModule('foo', branch=self.foo_branch),
+                        mock.MockModule('bar', branch=self.branch)]
         self.modules[0].config = self.config
         self.modules[1].config = self.config
 

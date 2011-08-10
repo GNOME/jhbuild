@@ -19,6 +19,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import time
+import os
+import tempfile
 
 import jhbuild.frontends.buildscript
 import jhbuild.versioncontrol
@@ -26,7 +28,7 @@ import jhbuild.errors
 import jhbuild.config
 
 class Config(jhbuild.config.Config):
-    buildroot = '/tmp/'
+    buildroot = tempfile.mkdtemp(prefix='jhbuild-tests-')
     builddir_pattern = '%s'
     use_lib64 = False
     noxvfb = True
@@ -55,8 +57,8 @@ class Config(jhbuild.config.Config):
 
     min_age = None
 
-    prefix = '/tmp/'
-    top_builddir = '/tmp/_jhbuild'
+    prefix = os.path.join(buildroot, 'prefix')
+    top_builddir = os.path.join(buildroot, '_jhbuild')
 
     def __init__(self):
         pass
@@ -123,16 +125,48 @@ class BuildScript(jhbuild.frontends.buildscript.BuildScript):
         self.actions[-1] = self.actions[-1] + ' [error]'
         return 'fail'
 
+class MockModule(jhbuild.modtypes.Package):
+    PHASE_CHECKOUT       = 'checkout'
+    PHASE_CLEAN          = 'clean'
+    PHASE_DISTCLEAN      = 'distclean'
+    PHASE_CONFIGURE      = 'configure'
+    PHASE_BUILD          = 'build'
+    PHASE_CHECK          = 'check'
+    PHASE_DIST           = 'dist'
+    PHASE_INSTALL        = 'install'
+
+    def do_checkout(self, buildscript):
+        buildscript.set_action(_('Checking out'), self)
+
+    def do_configure(self, buildscript):
+        buildscript.set_action(_('Configuring'), self)
+    do_configure.depends = [PHASE_CHECKOUT]
+
+    def do_build(self, buildscript):
+        buildscript.set_action(_('Building'), self)
+    do_build.depends = [PHASE_CONFIGURE]
+
+    def do_install(self, buildscript):
+        buildscript.set_action(_('Installing'), self)
+        buildscript.moduleset.packagedb.add(self.name, '', None)
+    do_install.depends = [PHASE_BUILD]
+
+    def do_check(self, buildscript):
+        buildscript.set_action(_('Checking'), self)
+    do_check.depends = [PHASE_BUILD]
+    do_check.error_phases = [PHASE_CONFIGURE]
+
+
 class Branch(jhbuild.versioncontrol.Branch):
-    def __init__(self):
-        pass
+    def __init__(self, tmpdir):
+        self._tmpdir = tmpdir
 
     def srcdir(self):
-        return '/tmp/'
+        return self._tmpdir
     srcdir = property(srcdir)
 
     def checkoutdir(self):
-        return '/tmp/'
+        return self._tmpdir
     checkoutdir = property(checkoutdir)
 
     def checkout(self, buildscript):
