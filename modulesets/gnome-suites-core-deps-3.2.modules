@@ -1001,42 +1001,6 @@
     </dependencies>
   </autotools>
 
-  <repository type="tarball" name="mozilla.org"
-      href="http://releases.mozilla.org/pub/mozilla.org/"/>
-  <autotools id="mozilla"
-             autogenargs="--with-x --with-system-jpeg --with-system-zlib --with-system-bz2
-	     --enable-application=xulrunner --enable-default-toolkit=cairo-gtk2
-	     --enable-startup-notification --disable-mailnews --disable-ldap
-	     --disable-gnomevfs --disable-gnomeui
-	     --with-default-mozilla-five-home=${libdir}/mozilla
-	     --enable-system-cairo
-	     --disable-mochitest
-	     --disable-debug --enable-optimize=-O2 --disable-tests
-	     --disable-javaxpcom
-	     --disable-crashreporter
-	     --with-system-nss
-	     --with-system-nspr
-	     "
-             makeinstallargs="install SKIP_GRE_REGISTRATION=1"
-             check-target="false">
-    <branch repo="mozilla.org"
-            module="xulrunner/releases/1.9.2.17/source/xulrunner-1.9.2.17.source.tar.bz2"
-            version="1.9.2.17"
-            hash="sha1:bfb3ae71abef0693a9a42be5e9b2525d2e20e7ae"
-            md5sum="665c9bd7a53fef168af42246ab263099" size="51768448"
-            checkoutdir="mozilla-1.9.2.17">
-    </branch>
-    <dependencies>
-      <dep package="gtk+-2"/>
-      <dep package="nss"/>
-      <dep package="nspr"/>
-      <dep package="dbus"/>
-      <dep package="gconf"/>
-      <dep package="cairo"/>
-      <dep package="startup-notification"/>
-      <dep package="libnotify"/>
-    </dependencies>
-  </autotools>
 <!-- End Mozilla stuff subsection -->
 
   <autotools id="pixman"
