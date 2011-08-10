@@ -1,20 +1,22 @@
 # Chinese (China) translation for jhbuild.
 # Copyright (C) 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the jhbuild package.
-# Yinghua_Wang <wantinghard@gmail.com>, 2010, 2011
+# Yinghua Wang <wantinghard@gmail.com>, 2010, 2011
+# YunQiang Su <wzssyqa@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-27 18:45+0000\n"
-"PO-Revision-Date: 2011-07-28 12:01+0000\n"
-"Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
-"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"POT-Creation-Date: 2011-08-10 13:12+0000\n"
+"PO-Revision-Date: 2011-08-10 23:59+0800\n"
+"Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
+"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../jhbuild.desktop.in.in.h:1
 msgid "Build GNOME modules"
@@ -714,31 +716,31 @@ msgstr "复制模式需要设置 copy_dir"
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr "模块集目录(%s) 找不到，禁用use_local_modulesets"
 
-#: ../jhbuild/config.py:297
+#: ../jhbuild/config.py:300
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "安装前缀(%s)无法创建"
 
-#: ../jhbuild/config.py:306
+#: ../jhbuild/config.py:309
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "无法创建工作目录(%s)"
 
-#: ../jhbuild/config.py:399
+#: ../jhbuild/config.py:402
 #, python-format
 msgid "Can't create %s directory"
 msgstr "无法创建 %s 目录"
 
-#: ../jhbuild/config.py:484
+#: ../jhbuild/config.py:487
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "无法创建 GConf 配置(%s)"
 
-#: ../jhbuild/config.py:571
+#: ../jhbuild/config.py:574
 msgid "Failed to parse 'min_age' relative time"
 msgstr "解析“min_age”相对时间失败"
 
-#: ../jhbuild/config.py:581
+#: ../jhbuild/config.py:585
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr "安静模式已禁用，因为 Python curses 模块缺失。"
@@ -816,7 +818,7 @@ msgstr "尽管 %(dep)s 模块构建失败，仍将构建 %(mod)s 模块"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "由于 %(dep)s 无法构建，未构建 %(mod)s 模块"
 
-#: ../jhbuild/frontends/buildscript.py:235
+#: ../jhbuild/frontends/buildscript.py:237
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "运行安装后的触发器脚本：%r"
@@ -916,7 +918,7 @@ msgstr "总是运行 autogen.sh"
 msgid "Don't poison modules on failure"
 msgstr "失败时不要污染模块"
 
-#: ../jhbuild/frontends/terminal.py:169 ../jhbuild/frontends/tinderbox.py:225
+#: ../jhbuild/frontends/terminal.py:169 ../jhbuild/frontends/tinderbox.py:249
 #, python-format
 msgid "%(configuration_variable)s invalid key %(key)s"
 msgstr "%(configuration_variable)s 有无效的键 %(key)s"
@@ -943,11 +945,11 @@ msgstr "成功"
 msgid "the following modules were not built"
 msgstr "以下模块未构建"
 
-#: ../jhbuild/frontends/terminal.py:290 ../jhbuild/frontends/tinderbox.py:371
+#: ../jhbuild/frontends/terminal.py:290 ../jhbuild/frontends/tinderbox.py:400
 msgid "automatically retrying configure"
 msgstr "自动重试配置"
 
-#: ../jhbuild/frontends/terminal.py:294 ../jhbuild/frontends/tinderbox.py:376
+#: ../jhbuild/frontends/terminal.py:294 ../jhbuild/frontends/tinderbox.py:405
 msgid "automatically forcing a fresh checkout"
 msgstr "自动强制一次刷新检出"
 
@@ -1043,9 +1045,8 @@ msgid "Creating tarball for"
 msgstr "正在创建档案包"
 
 #: ../jhbuild/modtypes/autotools.py:254
-#, fuzzy
 msgid "Dist checking"
-msgstr "磁盘检查"
+msgstr "Dist 检查"
 
 #: ../jhbuild/modtypes/autotools.py:264 ../jhbuild/modtypes/cmake.py:130
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:67
@@ -1074,22 +1075,23 @@ msgstr "没有找到 %s 的 <branch> 元素"
 
 # fuzzy, python-format
 #: ../jhbuild/modtypes/__init__.py:123
-#, fuzzy, python-format
-#| msgid ""
-#| "Repository=%s not found for module id=%s. Possible repositories are %s"
-msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
-msgstr "未找到 id=%2$s 的模块对应的 repository=%1$s。可能的仓库为 %3$s"
+#, python-format
+msgid ""
+"Repository=%(missing)s not found for module id=%(module)s. Possible "
+"repositories are %(possible)s"
+msgstr ""
+"未找到 id=%(module)s 的模块对应的 repository=%(missing)s。可能的仓库为 "
+"%(possible)s"
 
 # fuzzy, python-format
 #: ../jhbuild/modtypes/__init__.py:130
-#, fuzzy, python-format
-#| msgid ""
-#| "Default Repository=%s not found for module id=%s. Possible repositories "
-#| "are %s"
+#, python-format
 msgid ""
-"Default Repository=%s not found for module id=%s. Possible repositories are %"
-"s"
-msgstr "id=%2$s 的模块对应的默认仓库 repository=%1$s 找不到。可能的仓库为 %3$s"
+"Default repository=%(missing)s not found for module id=%(module)s. Possible "
+"repositories are %(possible)s"
+msgstr ""
+"找不到 id=%(module)s 的模块对应的默认仓库 repository=%(missing)s。可能的仓库"
+"为 %(possible)s"
 
 #: ../jhbuild/modtypes/__init__.py:197
 #, python-format
@@ -1097,7 +1099,7 @@ msgid "Deleting toplevel .la file: %r"
 msgstr "正在删除顶层 .la 文件：%r"
 
 #: ../jhbuild/modtypes/__init__.py:247
-#, fuzzy, python-format
+#, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "正在将临时 DESTDIR %r 移动到构建前缀目录"
 
@@ -1107,7 +1109,7 @@ msgid "Install complete: %d files copied"
 msgstr "安装完成：复制了 %d 个文件"
 
 #: ../jhbuild/modtypes/__init__.py:268
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
 "outside of prefix."
@@ -1165,28 +1167,23 @@ msgstr "正在安装内核头文件"
 
 # fuzzy, python-format
 #: ../jhbuild/modtypes/linux.py:243
-#, fuzzy, python-format
-#| msgid ""
-#| "Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-#| "are %s"
+#, python-format
 msgid ""
-"Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-"are %s"
+"Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. "
+"Possible repositories are %(possible)s"
 msgstr ""
-"linux id=%2$s 中 kconfig 对应的仓库 repository=%1$s 未找到。可能的仓库为 %3$s"
+"找不到 linux id=%(linux_id)s 中 kconfig 对应的仓库 repository=%(missing)s。可"
+"能的仓库为 %(possible)s"
 
 # fuzzy, python-format
-#: ../jhbuild/modtypes/linux.py:248
-#, fuzzy, python-format
-#| msgid ""
-#| "Default Repository=%s not found for kconfig in module id=%s. Possible "
-#| "repositories are %s"
+#: ../jhbuild/modtypes/linux.py:249
+#, python-format
 msgid ""
-"Default Repository=%s not found for kconfig in module id=%s. Possible "
-"repositories are %s"
+"Default repository=%(missing)s not found for kconfig in linux id="
+"%(linux_id)s. Possible repositories are %(possible)s"
 msgstr ""
-"模块 id=%2$s 中 kconfig 对应的默认仓库 repository=%1$s 未找到。可能的仓库为%3"
-"$s"
+"找不到模块 id=%(linux_id)s 中 kconfig 对应的默认仓库 repository=%(missing)s。"
+"可能的仓库为%(possible)s"
 
 #: ../jhbuild/modtypes/tarball.py:68
 #, python-format
@@ -1197,40 +1194,40 @@ msgstr "'%(module)s' 模块的大小属性('%(size)s')无效"
 msgid "Python xml packages are required but could not be found"
 msgstr "需要 python xml 包，但找不到"
 
-#: ../jhbuild/moduleset.py:77
+#: ../jhbuild/moduleset.py:75
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "已将'%(orig)s' 模块的实例修复为 '%(new)s'"
 
-#: ../jhbuild/moduleset.py:92
+#: ../jhbuild/moduleset.py:91
 #, python-format
 msgid "module \"%s\" not found"
 msgstr "找不到 \"%s\" 模块"
 
-#: ../jhbuild/moduleset.py:107 ../jhbuild/moduleset.py:111
+#: ../jhbuild/moduleset.py:106 ../jhbuild/moduleset.py:110
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s 依赖于未知模块 \"%(invalid)s\""
 
-#: ../jhbuild/moduleset.py:298
+#: ../jhbuild/moduleset.py:297
 msgid "Unknown module:"
 msgstr "未知模块："
 
-#: ../jhbuild/moduleset.py:367 ../jhbuild/moduleset.py:397
+#: ../jhbuild/moduleset.py:366 ../jhbuild/moduleset.py:396
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "解析 %s 失败：%s"
 
-#: ../jhbuild/moduleset.py:392
+#: ../jhbuild/moduleset.py:391
 #, python-format
 msgid "could not download %s: %s"
 msgstr "无法下载 %s：%s"
 
-#: ../jhbuild/moduleset.py:424
+#: ../jhbuild/moduleset.py:423
 msgid "Duplicate repository:"
 msgstr "重复仓库："
 
-#: ../jhbuild/moduleset.py:528
+#: ../jhbuild/moduleset.py:527
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
 "the network, perhaps you need to add use_local_modulesets = True to your ."
@@ -1260,19 +1257,24 @@ msgstr "调用了未定义的命令"
 msgid "file not in cache, but not allowed to check network"
 msgstr "文件不在缓存中，但又不允许检查网络"
 
-#: ../jhbuild/utils/packagedb.py:191
+#: ../jhbuild/utils/packagedb.py:66
+#, python-format
+msgid "package %s has files with embedded new lines"
+msgstr "包 %s 有嵌入了新行的文件"
+
+#: ../jhbuild/utils/packagedb.py:221
 #, python-format
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
 "uninstalling."
 msgstr "没有“%s”的清单，无法卸载。请尝试重新构建后再卸载。"
 
-#: ../jhbuild/utils/packagedb.py:202 ../jhbuild/utils/packagedb.py:215
+#: ../jhbuild/utils/packagedb.py:232 ../jhbuild/utils/packagedb.py:245
 #, python-format
 msgid "Deleted: %s"
 msgstr "已删除：%s"
 
-#: ../jhbuild/utils/packagedb.py:204
+#: ../jhbuild/utils/packagedb.py:234
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "删除 %(file)r 失败：%(msg)s"
@@ -1352,8 +1354,8 @@ msgstr "\"%s\" 似乎不是一份 CVS 工作副本"
 #: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid ""
-"working copy points at the wrong repository (expected %(root1)s but got %"
-"(root2)s). "
+"working copy points at the wrong repository (expected %(root1)s but got "
+"%(root2)s). "
 msgstr "工作副本指向了错误的仓库(应为 %(root1)s)，而得到的是 %(root2)s)。"
 
 #: ../jhbuild/versioncontrol/cvs.py:279
