@@ -275,7 +275,7 @@ them into the prefix."""
 
         if save_broken_tree:
             if os.path.exists(broken_name):
-                assert broken_name.startswith(buildscript.config.prefix)
+                assert broken_name.startswith(buildscript.config.top_builddir)
                 shutil.rmtree(broken_name)
             os.rename(destdir, broken_name)
         else:
