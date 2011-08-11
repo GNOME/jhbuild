@@ -54,7 +54,7 @@ class Trigger(object):
                 continue
         f.close()
         if len(self._rematches) == 0 and len(self._literal_matches) == 0:
-            raise ValueError("No keys specified in trigger script %r" % (filepath, ))
+            raise ValueError(_("No keys specified in trigger script %r") % (filepath, ))
         
     def matches(self, files_list):
        """@files_list should be a list of absolute file paths.  Return True if this trigger script
