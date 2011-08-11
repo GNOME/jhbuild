@@ -332,58 +332,6 @@ class AutotoolsModTypeTestCase(BuildTestCase):
                  'foo:Checking [error]'])
 
 
-class WafModTypeTestCase(BuildTestCase):
-    '''Waf steps'''
-
-    def setUp(self):
-        super(WafModTypeTestCase, self).setUp()
-        from jhbuild.modtypes.waf import WafModule
-        self.modules = [WafModule('foo', branch=self.branch)]
-        self.modules[0].waf_cmd = 'true' # set a command for waf that always exist
-
-    def test_build(self):
-        '''Building a waf module'''
-        self.assertEqual(self.build(),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Installing'])
-
-    def test_build_no_network(self):
-        '''Building a waf module, without network'''
-        self.assertEqual(self.build(nonetwork = True),
-                ['foo:Configuring', 'foo:Building', 'foo:Installing'])
-
-    def test_update(self):
-        '''Updating a waf module'''
-        self.assertEqual(self.build(nobuild = True), ['foo:Checking out'])
-
-    def test_build_check(self):
-        '''Building a waf module, with checks'''
-        self.assertEqual(self.build(makecheck = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Checking', 'foo:Installing'])
-
-    def test_build_clean_and_check(self):
-        '''Building a waf module, with cleaning and checks'''
-        self.assertEqual(self.build(makecheck = True, makeclean = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Cleaning',
-                 'foo:Building', 'foo:Checking', 'foo:Installing'])
-
-    def test_build_check_error(self):
-        '''Building a waf module, with an error in make check'''
-
-        def make_check_error(buildscript, *args):
-            self.modules[0].do_check_orig(buildscript, *args)
-            raise CommandError('Mock Command Error Exception')
-        make_check_error.depends = self.modules[0].do_check.depends
-        make_check_error.error_phases = self.modules[0].do_check.error_phases
-        self.modules[0].do_check_orig = self.modules[0].do_check
-        self.modules[0].do_check = make_check_error
-
-        self.assertEqual(self.build(makecheck = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Checking [error]'])
-
-
 class BuildPolicyTestCase(BuildTestCase):
     '''Build Policy'''
 
@@ -419,23 +367,6 @@ class BuildPolicyTestCase(BuildTestCase):
         self.assertEqual(self.build(
                     packagedb_params = {'uptodate': True},
                     nonetwork = True), [])
-
-
-class TestModTypeTestCase(BuildTestCase):
-    '''Tests Module Steps'''
-
-    def setUp(self):
-        super(TestModTypeTestCase, self).setUp()
-        from jhbuild.modtypes.testmodule import TestModule
-        self.modules = [TestModule('foo', branch=self.branch, test_type='dogtail')]
-
-    def test_run(self):
-        '''Running a test module'''
-        self.assertEqual(self.build(), ['foo:Checking out', 'foo:Testing'])
-
-    def test_build_no_network(self):
-        '''Running a test module, without network'''
-        self.assertEqual(self.build(nonetwork = True), ['foo:Testing'])
 
 
 class TwoModulesTestCase(BuildTestCase):
