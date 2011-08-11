@@ -126,6 +126,7 @@ class BuildScript(jhbuild.frontends.buildscript.BuildScript):
         return 'fail'
 
 class MockModule(jhbuild.modtypes.Package):
+    PHASE_FORCE_CHECKOUT = 'force-checkout'
     PHASE_CHECKOUT       = 'checkout'
     PHASE_CLEAN          = 'clean'
     PHASE_DISTCLEAN      = 'distclean'
@@ -137,6 +138,12 @@ class MockModule(jhbuild.modtypes.Package):
 
     def do_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
+    do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
+
+    def do_clean(self, buildscript):
+        buildscript.set_action(_('Cleaning'), self)
+    do_clean.depends = [PHASE_CONFIGURE]
+    do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)
@@ -145,6 +152,8 @@ class MockModule(jhbuild.modtypes.Package):
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
     do_build.depends = [PHASE_CONFIGURE]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
+                             PHASE_CLEAN, PHASE_DISTCLEAN]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
