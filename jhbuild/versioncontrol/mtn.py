@@ -23,7 +23,7 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.errors import CommandError
+from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
