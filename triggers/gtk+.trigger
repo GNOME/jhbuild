@@ -21,6 +21,6 @@
 
 for dir in $JHBUILD_PREFIX/share/icons/*; do
   if test -f $dir/index.theme; then
-    gtk-update-icon-cache $dir
+    gtk-update-icon-cache --quiet $dir
   fi
 done
