@@ -60,7 +60,7 @@
             hash="sha256:381aa8d7a07541d81457c3eac0ab5b37f05272023e3af04cbebab831732ff41f"
             md5sum="b3d627f35fc527b00121925840d5cca7" size="296955" />
     <dependencies>
-      <dep package="pygobject"/>
+      <dep package="pygobject2"/>
       <dep package="librsync"/>
     </dependencies>
   </distutils>
@@ -103,7 +103,6 @@
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="gucharmap"/>
-      <dep package="pygobject"/>
       <dep package="libgweather"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gtk+"/>
@@ -114,7 +113,7 @@
       <dep package="libnotify"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
-      <dep package="pygobject"/>
+      <dep package="pygobject2"/>
       <dep package="gnome-python"/>
       <dep package="gnome-icon-theme"/>
       <dep package="libxml2"/>
@@ -393,17 +392,27 @@
   <autotools id="pyatspi2">
     <branch/>
     <dependencies>
-      <dep package="pygobject"/>
+      <dep package="pygobject2"/>
     </dependencies>
     <suggests>
       <dep package="at-spi2-core"/>
     </suggests>
   </autotools>
 
+  <tarball id="pygobject2" version="2.28.6" autogenargs="--disable-introspection">
+    <pkg-config>pygobject-2.0</pkg-config>
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.6.tar.bz2"
+            hash="sha256:e4bfe017fa845940184c82a4d8949db3414cb29dfc84815fb763697dc85bdcee"
+            md5sum="a43d783228dd32899e6908352b8308f3" size="888240"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
   <autotools id="pygtk">
     <branch/>
     <dependencies>
-      <dep package="pygobject"/>
+      <dep package="pygobject2"/>
       <dep package="gtk+-2"/>
       <dep package="py2cairo"/>
     </dependencies>
