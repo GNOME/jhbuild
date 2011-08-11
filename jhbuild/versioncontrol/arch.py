@@ -22,7 +22,7 @@ __all__ = []
 
 import os, sys
 
-from jhbuild.errors import FatalError, BuildStateError, CommandError
+from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath
@@ -37,8 +37,7 @@ def register(archive, uri):
         assert uri is not None, 'can not register archive without uri'
         res = os.system('baz register-archive %s' % uri)
         if res != 0:
-            raise jhbuild.errors.FatalError(_('could not register archive %s')
-                                            % archive)
+            raise FatalError(_('could not register archive %s') % archive)
 
 def get_version(directory):
     '''Gets the tree version for a particular directory.'''
@@ -125,7 +124,7 @@ class ArchBranch(Branch):
             cmd.append(checkoutdir)
 
         if date:
-            raise BuildStageError(_('date based checkout not yet supported\n'))
+            raise FatalError(_('date based checkout not yet supported'))
 
         buildscript.execute(cmd, 'arch', cwd=self.checkoutroot)
 
@@ -138,7 +137,7 @@ class ArchBranch(Branch):
             self.repository._ensure_registered()
 
         if date:
-            raise BuildStageError(_('date based checkout not yet supported\n'))
+            raise FatalError(_('date based checkout not yet supported'))
 
         archive, version = split_name(self.module)
         # how do you move a working copy to another branch?
