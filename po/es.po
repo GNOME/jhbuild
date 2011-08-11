@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-31 16:53+0000\n"
-"PO-Revision-Date: 2011-08-01 10:11+0200\n"
+"POT-Creation-Date: 2011-08-10 12:04+0000\n"
+"PO-Revision-Date: 2011-08-11 10:18+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -769,7 +769,7 @@ msgstr "No se pudo cargar el archivo de configuración de GConf (%s)"
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Falló al analizar el tiempo relativo «min_age»"
 
-#: ../jhbuild/config.py:584
+#: ../jhbuild/config.py:585
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -850,7 +850,7 @@ msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr ""
 "módulo %(mod)s no construido de acuerdo con las %(dep)s no construibles"
 
-#: ../jhbuild/frontends/buildscript.py:235
+#: ../jhbuild/frontends/buildscript.py:237
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Ejecutando script disparador posinstalación: %r"
@@ -950,7 +950,7 @@ msgstr "Ejecutar siempre autogen.sh"
 msgid "Don't poison modules on failure"
 msgstr "No envenenar los módulos en caso de fallo"
 
-#: ../jhbuild/frontends/terminal.py:169 ../jhbuild/frontends/tinderbox.py:225
+#: ../jhbuild/frontends/terminal.py:169 ../jhbuild/frontends/tinderbox.py:249
 #, python-format
 msgid "%(configuration_variable)s invalid key %(key)s"
 msgstr "%(configuration_variable)s clave %(key)s no válida"
@@ -977,11 +977,11 @@ msgstr "éxito"
 msgid "the following modules were not built"
 msgstr "los siguientes módulos no se han construido"
 
-#: ../jhbuild/frontends/terminal.py:290 ../jhbuild/frontends/tinderbox.py:371
+#: ../jhbuild/frontends/terminal.py:290 ../jhbuild/frontends/tinderbox.py:400
 msgid "automatically retrying configure"
 msgstr "reintentar la configuración automáticamente"
 
-#: ../jhbuild/frontends/terminal.py:294 ../jhbuild/frontends/tinderbox.py:376
+#: ../jhbuild/frontends/terminal.py:294 ../jhbuild/frontends/tinderbox.py:405
 msgid "automatically forcing a fresh checkout"
 msgstr "forzar automáticamente una descarga limpia"
 
@@ -1111,19 +1111,26 @@ msgstr "no se encontró un elemento <branch> para %s"
 
 #: ../jhbuild/modtypes/__init__.py:123
 #, python-format
-msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
+#| msgid ""
+#| "Repository=%s not found for module id=%s. Possible repositories are %s"
+msgid ""
+"Repository=%(missing)s not found for module id=%(module)s. Possible "
+"repositories are %(possible)s"
 msgstr ""
-"No se encontró el repositorio=%s para kconfig en el id de módulo=%s. Los "
-"posibles repositorios son %s"
+"No se encontró el repositorio=%(missing)s para kconfig en el id de módulo="
+"%(module)s. Los posibles repositorios son %(possible)s"
 
 #: ../jhbuild/modtypes/__init__.py:130
 #, python-format
+#| msgid ""
+#| "Default Repository=%s not found for module id=%s. Possible repositories "
+#| "are %s"
 msgid ""
-"Default Repository=%s not found for module id=%s. Possible repositories are %"
-"s"
+"Default repository=%(missing)s not found for module id=%(module)s. Possible "
+"repositories are %(possible)s"
 msgstr ""
-"No se ha encontrado el repositorio predeterminado=%s para el id de módulo=%"
-"s. Los repositorios son posibles %s"
+"No se ha encontrado el repositorio predeterminado=%(missing)s para el id de "
+"módulo=%(module)s. Los repositorios son posibles %(possible)s"
 
 #: ../jhbuild/modtypes/__init__.py:197
 #, python-format
@@ -1201,21 +1208,27 @@ msgstr "Instalando las cabeceras del núcleo"
 
 #: ../jhbuild/modtypes/linux.py:243
 #, python-format
+#| msgid ""
+#| "Repository=%s not found for kconfig in linux id=%s. Possible repositories "
+#| "are %s"
 msgid ""
-"Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-"are %s"
+"Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. "
+"Possible repositories are %(possible)s"
 msgstr ""
-"No se encontró el repositorio=%s para kconfig en el id de linux=%s. Los "
-"repositorios posibles son %s"
+"No se encontró el repositorio=%(missing)s para kconfig en el id de linux="
+"%(linux_id)s. Los repositorios posibles son %(possible)s"
 
-#: ../jhbuild/modtypes/linux.py:248
+#: ../jhbuild/modtypes/linux.py:249
 #, python-format
+#| msgid ""
+#| "Default Repository=%s not found for kconfig in module id=%s. Possible "
+#| "repositories are %s"
 msgid ""
-"Default Repository=%s not found for kconfig in module id=%s. Possible "
-"repositories are %s"
+"Default repository=%(missing)s not found for kconfig in linux id="
+"%(linux_id)s. Possible repositories are %(possible)s"
 msgstr ""
-"No se encontró el repositorio predeterminado=%s para kconfig en el id de "
-"módulo=%s. Los repositorios posibles son %s"
+"No se encontró el repositorio predeterminado==%(missing)s para kconfig en el "
+"id de linux=%(linux_id)s. Los repositorios posibles son %(possible)s"
 
 #: ../jhbuild/modtypes/tarball.py:68
 #, python-format
@@ -1226,7 +1239,7 @@ msgstr "el módulo «%(module)s» tiene un atributo tamaño no válido («%(size
 msgid "Python xml packages are required but could not be found"
 msgstr "Se necesitan los paquetes xml de Python pero no se han encontrado"
 
-#: ../jhbuild/moduleset.py:76
+#: ../jhbuild/moduleset.py:75
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "solucionado tipo de módulo «%(orig)s» a «%(new)s»"
@@ -1301,8 +1314,8 @@ msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
 "uninstalling."
 msgstr ""
-"no hay manifiesto para «%s», no se puede desinstalar. Pruebe a construir otra "
-"vez, y luego desinstale."
+"no hay manifiesto para «%s», no se puede desinstalar. Pruebe a construir "
+"otra vez, y luego desinstale."
 
 #: ../jhbuild/utils/packagedb.py:232 ../jhbuild/utils/packagedb.py:245
 #, python-format
@@ -1389,11 +1402,11 @@ msgstr "«%s» no parece ser una copia de trabajo de CVS"
 #: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid ""
-"working copy points at the wrong repository (expected %(root1)s but got %"
-"(root2)s). "
+"working copy points at the wrong repository (expected %(root1)s but got "
+"%(root2)s). "
 msgstr ""
-"la copia de trabajo apunta a un repositorio incorrecto (se esperaba %(root1)"
-"s pero se obtuvo %(root2)s). "
+"la copia de trabajo apunta a un repositorio incorrecto (se esperaba "
+"%(root1)s pero se obtuvo %(root2)s). "
 
 #: ../jhbuild/versioncontrol/cvs.py:279
 msgid "Consider using the changecvsroot.py script to fix this."
@@ -1533,8 +1546,8 @@ msgstr "archivo no descargado"
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
-"tamaño del archivo descargado incorrecto (se esperaba %(size1)d, se obtuvo %"
-"(size2)d)"
+"tamaño del archivo descargado incorrecto (se esperaba %(size1)d, se obtuvo "
+"%(size2)d)"
 
 #: ../jhbuild/versioncontrol/tarball.py:175
 #, python-format
