@@ -138,6 +138,8 @@ class MockModule(jhbuild.modtypes.Package):
 
     def do_checkout(self, buildscript):
         buildscript.set_action(_('Checking out'), self)
+        if self.check_build_policy(buildscript) == self.PHASE_DONE:
+            raise jhbuild.errors.SkipToEnd()
     do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def skip_checkout(self, buildscript, last_phase):
