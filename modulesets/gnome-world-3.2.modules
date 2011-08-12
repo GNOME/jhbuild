@@ -5,6 +5,8 @@
 <moduleset>
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
+  <repository type="git" name="git.clutter-project.org"
+      href="http://git.clutter-project.org/"/>
   <repository type="cvs" name="cvs.cairographics.org"
       cvsroot=":pserver:anonymous@cvs.cairographics.org:/cvs/cairo"
       password=""/>
@@ -142,6 +144,17 @@
     <dependencies>
       <dep package="gtk+-2"/>
       <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="cluttersmith">
+    <branch repo="git.clutter-project.org"/>
+    <dependencies>
+      <dep package="gjs"/>
+      <dep package="glib"/>
+      <dep package="clutter"/>
+      <dep package="clutter-gtk"/>
+      <dep package="mx"/>
     </dependencies>
   </autotools>
 
