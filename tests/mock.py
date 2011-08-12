@@ -140,6 +140,14 @@ class MockModule(jhbuild.modtypes.Package):
         buildscript.set_action(_('Checking out'), self)
     do_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
 
+    def skip_checkout(self, buildscript, last_phase):
+        # skip the checkout stage if the nonetwork flag is set
+        if not self.branch.may_checkout(buildscript):
+            if self.check_build_policy(buildscript) == self.PHASE_DONE:
+                raise jhbuild.errors.SkipToEnd()
+            return True
+        return False
+
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
     do_clean.depends = [PHASE_CONFIGURE]
