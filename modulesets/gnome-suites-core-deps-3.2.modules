@@ -1060,26 +1060,34 @@
     </after>
   </tarball>
 
-  <waf id="py2cairo" waf-command="./waf">
-    <pkg-config>py2cairo.pc</pkg-config>
-    <branch module="releases/py2cairo-1.10.0.tar.bz2" version="1.10.0"
-            repo="cairo.org"
-            hash="sha256:d30439f06c2ec1a39e27464c6c828b6eface3b22ee17b2de05dc409e429a7431"
-            md5sum="20337132c4ab06c1146ad384d55372c5" size="402070">
-    </branch>
+  <autotools id="py2cairo">
+    <pkg-config>pycairo.pc</pkg-config>
+    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2" repo="cairo.org"
+            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
+            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
-  </waf>
+  </autotools>
 
   <autotools id="pygobject">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="py2cairo"/>
-      <dep package="gobject-introspection"/>      
+      <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
+
+  <tarball id="pygobject2" version="2.28.6" autogenargs="--disable-introspection">
+    <pkg-config>pygobject-2.0.pc</pkg-config>
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.6.tar.bz2"
+            hash="sha256:e4bfe017fa845940184c82a4d8949db3414cb29dfc84815fb763697dc85bdcee"
+            md5sum="a43d783228dd32899e6908352b8308f3" size="888240"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
 
   <tarball id="rarian" version="0.8.1" supports-non-srcdir-builds="no">
     <pkg-config>rarian.pc</pkg-config>
