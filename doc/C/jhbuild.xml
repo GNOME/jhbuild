@@ -1389,6 +1389,58 @@ libgnomecanvas is missing branch definition for gnome-2-20
         to see which shells are under a jhbuild environment.</para>
     </section>
 
+    <section id="command-reference-sysdeps">
+      <title>sysdeps</title>
+
+      <para>The <command>sysdeps</command> command displays a list of
+        dependency modules that are provided by installed system packages.
+        JHBuild will not build the modules from source if the configuration
+        variable
+        <link linkend="cfg-partial-build"><varname>partial_build</varname></link>
+        is <constant>True</constant>.</para>
+
+      <para>The <command>sysdeps</command> command also displays a list of
+        dependency modules where the installed system packages are too old.
+        JHBuild will build newer modules from source.</para>
+
+      <para>The <command>sysdeps</command> command also displays a list of
+        dependency modules with no matching system package installed.</para>
+
+      <cmdsynopsis><command>jhbuild sysdeps</command>
+        <arg>--install</arg>
+      </cmdsynopsis>
+
+      <variablelist>
+        <varlistentry>
+          <term>
+            <option>--install</option>
+          </term>
+          <listitem>
+            <simpara>This option installs system packages which are
+              dependencies of the moduleset. The system packages are installed
+              using <application>PackageKit</application>.</simpara>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <example>
+        <title><command>sysdeps</command> example</title>
+<screen><prompt>$</prompt> <userinput>jhbuild sysdeps</userinput>
+System installed packages which are new enough:
+  speex (required=1.2rc1, installed=1.2rc1)
+  libdiscid (required=0.2.2, installed=0.2.2)
+  telepathy-farsight (required=0.0.14, installed=0.0.16)
+  lcms2 (required=2.2, installed=2.2)
+...
+System installed packages which are too old:
+  webkitgtk-3.0 (required=1.5.1, installed=1.4.0)
+  ...
+No matching system package installed:
+  libvala-0.14 (required=0.13.1)
+  ...</screen>
+      </example>
+    </section>
+
     <section id="command-reference-tinderbox">
       <title>tinderbox</title>
 
@@ -1984,6 +2036,17 @@ libgnomecanvas is missing branch definition for gnome-2-20
               than using <command>Xvfb</command>. This option is equivalent to
               passing <option>--no-xvfb</option>. The default value is
               <constant>False</constant></simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term id="cfg-partial-build">
+            <varname>partial_build</varname>
+          </term>
+          <listitem>
+            <simpara>A boolean value, if set to <constant>True</constant>
+              JHBuild will not build dependency modules if corresponding system
+              packages are installed and sufficient version. Defaults to
+              <constant>True</constant>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry>
