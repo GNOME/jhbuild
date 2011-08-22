@@ -267,6 +267,10 @@ class Config:
         # default tarballdir to checkoutroot
         if not self.tarballdir: self.tarballdir = self.checkoutroot
 
+        # Ensure top_builddir is absolute
+        if not os.path.isabs(self.top_builddir):
+            self.top_builddir = os.path.join(self.prefix, self.top_builddir)
+
         # check possible checkout_mode values
         seen_copy_mode = (self.checkout_mode == 'copy')
         possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
@@ -299,8 +303,6 @@ class Config:
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
-        if not os.path.isabs(self.top_builddir):
-            self.top_builddir = os.path.join(self.prefix, self.top_builddir)
         if not os.path.exists(self.top_builddir):
             try:
                 os.makedirs(self.top_builddir)
