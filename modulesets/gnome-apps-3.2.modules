@@ -325,15 +325,17 @@
     </dependencies>
   </autotools>
 
-  <tarball id="dbus-sharp" version="0.7.0">
-    <source href="https://github.com/downloads/mono/dbus-sharp/dbus-sharp-0.7.0.tar.gz"
+  <autotools id="dbus-sharp">
+    <branch repo="monogithub" module="dbus-sharp-0.7.0.tar.gz" version="0.7.0"
             hash="sha256:92529aef9063f477d1975947c6388c63d03234018f45d007c07716dd3e21dd41"
-            md5sum="1964fc341dcbaeda859c53cee295d042" size="127651"/>
+            md5sum="1964fc341dcbaeda859c53cee295d042" size="127651">
+      <patch file="dbus-sharp-0.7.0-pkgconfig.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="dbus"/>
       <dep package="mono"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <tarball id="dbus-sharp-glib" version="0.5.0">
     <source href="https://github.com/downloads/mono/dbus-sharp/dbus-sharp-glib-0.5.0.tar.gz"
