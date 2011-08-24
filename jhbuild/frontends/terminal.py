@@ -250,7 +250,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 if self.config.quiet_mode:
                     print ''.join(output)
                 raise CommandError(_('########## Error running %s')
-                                   % print_args['command'])
+                                   % print_args['command'], p.returncode)
         except OSError:
             # it could happen on a really badly-timed ctrl-c (see bug 551641)
             raise CommandError(_('########## Error running %s')
