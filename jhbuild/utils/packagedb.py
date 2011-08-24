@@ -218,7 +218,7 @@ class PackageDB:
         entry = self.entries[package_name]
 
         if entry.manifest is None:
-            logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling."))
+            logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling.") % (package_name,))
             return
 
         directories = []
