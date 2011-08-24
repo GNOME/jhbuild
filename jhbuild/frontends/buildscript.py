@@ -214,6 +214,7 @@ class BuildScript:
 
     def run_triggers(self, module_name):
         """See triggers/README."""
+        assert 'JHBUILD_PREFIX' in os.environ
         if PKGDATADIR is not None:
             trigger_path = os.path.join(PKGDATADIR, 'triggers')
         else:
@@ -235,7 +236,16 @@ class BuildScript:
                 triggers_to_run.append(trig)
         for trig in triggers_to_run:
             logging.info(_('Running post-installation trigger script: %r') % (trig.name, ))
-            trig.run()
+            try:
+                self.execute(trig.command())
+            except CommandError, err:
+                if isinstance(trig.command(), (str, unicode)):
+                    displayed_command = trig.command()
+                else:
+                    displayed_command = ' '.join(trig.command())
+                logging.error(_('%(command)s returned with an error code '
+                                '(%(rc)s)') % {'command' : displayed_command,
+                                               'rc' : err.returncode})
 
     def get_build_phases(self, module, targets=None):
         '''returns the list of required phases'''

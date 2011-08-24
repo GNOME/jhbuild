@@ -72,10 +72,9 @@ should be run."""
                    return True
        return False
 
-    def run(self):
-        """Synchronously execute this trigger script."""
-        assert 'JHBUILD_PREFIX' in os.environ
-        subprocess.check_call(['/bin/sh', self._file], stdin=open('/dev/null'))
+    def command(self):
+        """Returns the command required to execute the trigger script."""
+        return ['/bin/sh', self._file]
 
 def load_all(dirpath):
     result = []
