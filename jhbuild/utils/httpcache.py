@@ -137,9 +137,10 @@ class Cache:
 
             node = document.createTextNode('\n')
             document.documentElement.appendChild(node)
-        
-        document.writexml(open(cindex, 'w'))
+        fp = open(cindex, 'w')
+        document.writexml(fp)
         document.unlink()
+        fp.close()
 
     def _make_filename(self, uri):
         '''picks a unique name for a new entry in the cache.
@@ -210,7 +211,9 @@ class Cache:
                                response.headers.get('Last-Modified'),
                                response.headers.get('ETag'))
             filename = os.path.join(self.cachedir, entry.local)
-            open(filename, 'wb').write(data)
+            fp = open(filename, 'wb')
+            fp.write(data)
+            fp.close()
         except urllib2.HTTPError, e:
             if e.code == 304: # not modified; update validated
                 expires = e.hdrs.get('Expires')
