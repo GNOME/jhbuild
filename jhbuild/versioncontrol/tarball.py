@@ -64,7 +64,9 @@ class TarballRepository(Repository):
         if name in self.config.branches:
             module = self.config.branches[name]
             if not module:
-                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
+                raise FatalError(_('branch for %(name)s has wrong override, check your %(filename)s') % \
+                                   {'name'     : name,
+                                    'filename' : self.config.filename})
         else:
             if module is None:
                 module = name

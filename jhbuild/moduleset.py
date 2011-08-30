@@ -497,5 +497,5 @@ def warn_local_modulesets(config):
     logging.info(
             _('Modulesets were edited locally but JHBuild is configured '\
               'to get them from the network, perhaps you need to add '\
-              'use_local_modulesets = True to your .jhbuildrc.'))
+              'use_local_modulesets = True to your %s.' % config.filename))
 

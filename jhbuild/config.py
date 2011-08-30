@@ -38,7 +38,6 @@ if sys.platform.startswith('win'):
 __all__ = [ 'Config' ]
 
 _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.jhbuildrc')
-_default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'partial_build', 'checkoutroot', 'buildroot', 'top_builddir',
@@ -151,7 +150,7 @@ def parse_relative_time(s):
 class Config:
     _orig_environ = None
 
-    def __init__(self, filename=_default_jhbuildrc):
+    def __init__(self, filename):
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
@@ -196,12 +195,39 @@ class Config:
         except:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
-        self._config['__file__'] = filename
-        self.filename = filename
-        if not os.path.exists(filename):
-            raise FatalError(_('could not load config file, %s is missing') % filename)
 
-        self.load()
+        old_config = os.path.join(os.path.expanduser('~'), '.jhbuildrc')
+        new_config = os.path.join \
+                         (os.environ.get \
+                             ('XDG_CONFIG_HOME',
+                              os.path.join(os.path.expanduser('~'), '.config')),
+                          'jhbuildrc')
+
+        if filename:
+            if not os.path.exists(filename):
+                raise FatalError(_('could not load config file, %s is missing') % filename)
+        else:
+            if os.path.isfile(old_config) \
+                and not os.path.islink(old_config) \
+                and os.path.isfile(new_config) \
+                and not os.path.islink(new_config):
+                raise FatalError(_('The default location of the configuration '
+                                   'file has changed. Please move %(old_path)s'
+                                   ' to %(new_path)s.' \
+                                   % {'old_path': old_config,
+                                      'new_path': new_config}))
+            if os.path.exists(new_config):
+                filename = new_config
+            elif os.path.exists(old_config):
+                filename = old_config
+
+        if filename:
+            self._config['__file__'] = filename
+            self.filename = filename
+        else:
+            self._config['__file__'] = new_config
+            self.filename = new_config
+        self.load(filename)
         self.setup_env()
 
     def reload(self):
@@ -217,18 +243,19 @@ class Config:
             traceback.print_exc()
             raise FatalError(_('Could not include config file (%s)') % filename)
 
-    def load(self):
+    def load(self, filename):
         config = self._config
-        try:
-            execfile(self.filename, config)
-        except Exception, e:
-            if isinstance(e, FatalError):
-                # raise FatalErrors back, as it means an error in include()
-                # and it will print a traceback, and provide a meaningful
-                # message.
-                raise e
-            traceback.print_exc()
-            raise FatalError(_('could not load config file'))
+        if filename:
+            try:
+                execfile(filename, config)
+            except Exception, e:
+                if isinstance(e, FatalError):
+                    # raise FatalErrors back, as it means an error in include()
+                    # and it will print a traceback, and provide a meaningful
+                    # message.
+                    raise e
+                traceback.print_exc()
+                raise FatalError(_('could not load config file'))
 
         if not config.get('quiet_mode'):
             unknown_keys = []

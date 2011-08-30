@@ -71,7 +71,9 @@ class BzrRepository(Repository):
         if name in self.config.branches:
             module_href = self.config.branches[name]
             if not module_href:
-                raise FatalError(_('branch for %s has wrong override, check your .jhbuildrc') % name)
+                raise FatalError(_('branch for %(name)s has wrong override, check your %(filename)s') % \
+                                   {'name'     : name,
+                                    'filename' : self.config.filename})
 
         if module is None:
             module = name

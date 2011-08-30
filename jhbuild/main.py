@@ -107,6 +107,7 @@ def main(args):
         add_help_option=False,
         description=_('Build a set of modules from diverse repositories in correct dependency order (such as GNOME).'))
     parser.disable_interspersed_args()
+
     parser.add_option('-h', '--help', action='callback',
                       callback=lambda *args: print_help(parser),
                       help=_("Display this help and exit"))
@@ -115,7 +116,7 @@ def main(args):
                       help=optparse.SUPPRESS_HELP)
     parser.add_option('-f', '--file', action='store', metavar='CONFIG',
                       type='string', dest='configfile',
-                      default=os.environ.get("JHBUILDRC", os.path.join(os.environ['HOME'], '.jhbuildrc')),
+                      default=os.environ.get("JHBUILDRC"),
                       help=_('use a non default configuration file'))
     parser.add_option('-m', '--moduleset', action='store', metavar='URI',
                       type='string', dest='moduleset', default=None,
