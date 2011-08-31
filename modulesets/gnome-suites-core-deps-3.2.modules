@@ -664,7 +664,7 @@
            md5sum="dc36cadbbb7fa38f8af175713eda1a21" size="376341"/>
   </tarball>
 
-  <autotools id="libcanberra" autogen-sh="configure" autogenargs="--with-systemdsystemunitdir=no --disable-gtk --disable-gtk3">
+  <autotools id="libcanberra" autogen-sh="configure" autogenargs="--with-systemdsystemunitdir=no">
     <pkg-config>libcanberra-gtk.pc</pkg-config>
     <branch repo="0pointer.de" module="libcanberra/libcanberra-0.28.tar.gz" version="0.26"
             hash="sha256:eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd553e7222bc68868c"
@@ -674,6 +674,8 @@
       <dep package="gtk-doc"/>
     </dependencies>
     <after>
+      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
       <dep package="pulseaudio"/>
       <dep package="gstreamer"/>
     </after>
