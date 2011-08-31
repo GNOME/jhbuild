@@ -65,22 +65,6 @@ class PKSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
 
-    def _get_package_for(self, pkg_config):
-        assert pkg_config.endswith('.pc')
-        pkg_config = pkg_config[:-3]
-        proc = subprocess.Popen(['pkcon', '-p', 'what-provides', 'pkgconfig(%s)' % (pkg_config, ),
-                                 '--filter=arch;newest'], stdout=subprocess.PIPE, close_fds=True)
-        devnull.close()
-        stdout = proc.communicate()[0]
-        if proc.ecode != 0:
-            return None
-        pkg = None
-        for line in StringIO(stdout):
-            if line.startswith('Package:'):
-                pkg = line[line.find(':') + 1:].strip()
-                break
-        return pkg
-
     def _on_pk_message(self, msgtype, msg):
         logging.info(_('PackageKit: %s' % (msg,)))
 
