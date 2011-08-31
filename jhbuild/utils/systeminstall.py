@@ -35,14 +35,18 @@ def get_installed_pkgconfigs(config):
     for line in StringIO(stdout):
         pkg, rest = line.split(None, 1)
         pkgs.append(pkg)
-    args = ['pkg-config', '--modversion']
-    args.extend(pkgs)
-    proc = subprocess.Popen(args, stdout=subprocess.PIPE, env=config.get_original_environment(), close_fds=True)
-    stdout = proc.communicate()[0]
-    proc.wait()
+    # We have to rather inefficiently repeatedly fork to work around
+    # broken pkg-config installations - if any package has a missing
+    # dependency pkg-config will fail entirely.
     pkgversions = {}
-    for pkg,verline in zip(pkgs, StringIO(stdout)):
-        pkgversions[pkg] = verline.strip()
+    for pkg in pkgs:
+        args = ['pkg-config', '--modversion']
+        args.append(pkg)
+        proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=open('/dev/null'),
+                                close_fds=True, env=config.get_original_environment())
+        stdout = proc.communicate()[0]
+        proc.wait()
+        pkgversions[pkg] = stdout.strip()
     return pkgversions
 
 class SystemInstall(object):
