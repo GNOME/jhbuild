@@ -122,8 +122,55 @@ class PKSystemInstall(SystemInstall):
     def detect(cls):
         return cmds.has_command('pkcon')
 
+class AptSystemInstall(SystemInstall):
+    def __init__(self):
+        SystemInstall.__init__(self)
+
+    def _get_package_for(self, pkg_config):
+        pattern = '/%s.pc' % (pkg_config, )
+        proc = subprocess.Popen(['apt-file', 'search', pattern],
+                                stdout=subprocess.PIPE, close_fds=True)
+        stdout = proc.communicate()[0]
+        if proc.returncode != 0:
+            return None
+        pkg = None
+        for line in StringIO(stdout):
+            parts = line.split(':', 1)
+            if len(parts) != 2:
+                continue
+            name = parts[0]
+            path = parts[1]
+            # No idea why the LSB has forks of the pkg-config files
+            if path.find('/lsb3') != -1:
+                continue
+            
+            # otherwise for now, just take the first match
+            return name
+
+    def install(self, pkgconfig_ids):
+        logging.info(_('Using apt-file to search for providers; this may be slow.  Please wait.'))
+        native_packages = []
+        for pkgconfig in pkgconfig_ids:
+            native_pkg = self._get_package_for(pkgconfig)
+            if native_pkg:
+                native_packages.append(native_pkg)
+            else:
+                logging.info(_('No native package found for %(id)s') % {'id': pkgconfig})
+            
+        if native_packages:
+            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
+            args = ['sudo', 'apt-get', 'install']
+            args.extend(native_packages)
+            subprocess.check_call(args)
+        else:
+            logging.info(_('Nothing to install'))
+
+    @classmethod
+    def detect(cls):
+        return cmds.has_command('apt-file')
+
 # Ordered from best to worst
-_classes = [PKSystemInstall]
+_classes = [AptSystemInstall, PKSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
