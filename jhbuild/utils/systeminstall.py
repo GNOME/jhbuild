@@ -51,7 +51,9 @@ def get_installed_pkgconfigs(config):
 
 class SystemInstall(object):
     def __init__(self):
-        pass
+        if not cmds.has_command('pkexec'):
+            raise SystemExit, _('No suitable root privilege command found; you should install "pkexec"')
+        self._root_command_prefix_args = ['pkexec']
 
     def install(self, pkgconfig_ids):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
@@ -159,7 +161,7 @@ class AptSystemInstall(SystemInstall):
             
         if native_packages:
             logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
-            args = ['sudo', 'apt-get', 'install']
+            args = self._root_command_prefix_args + ['apt-get', 'install']
             args.extend(native_packages)
             subprocess.check_call(args)
         else:
