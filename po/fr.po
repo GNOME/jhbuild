@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: jhbuild HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-17 15:12+0000\n"
-"PO-Revision-Date: 2011-08-17 18:27+0200\n"
-"Last-Translator: Bruno Brouard <annoa.b@gmail.com>, 2011\n"
+"POT-Creation-Date: 2011-08-23 10:46+0000\n"
+"PO-Revision-Date: 2011-09-01 12:15+0100\n"
+"Last-Translator: Alexandre Franke <alexandre.franke@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -730,52 +730,52 @@ msgstr ""
 "la variable de configuration « %s » est désapprouvée, veuillez utiliser "
 "« repos »."
 
-#: ../jhbuild/config.py:274
+#: ../jhbuild/config.py:278
 msgid "invalid checkout mode"
 msgstr "mode d'extraction non valide"
 
-#: ../jhbuild/config.py:278
+#: ../jhbuild/config.py:282
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "mode d'extraction non valide (module : %s)"
 
-#: ../jhbuild/config.py:280
+#: ../jhbuild/config.py:284
 msgid "copy mode requires copy_dir to be set"
 msgstr "le mode « copy » exige que copy_dir soit défini"
 
-#: ../jhbuild/config.py:285
+#: ../jhbuild/config.py:289
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr ""
 "répertoire des jeux de modules (%s) introuvable, désactivation de "
 "use_local_modulesets"
 
-#: ../jhbuild/config.py:300
+#: ../jhbuild/config.py:304
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "le préfixe d'installation (%s) ne peut pas être créé"
 
-#: ../jhbuild/config.py:309
+#: ../jhbuild/config.py:311
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "le répertoire de travail (%s) ne peut pas être créé"
 
-#: ../jhbuild/config.py:402
+#: ../jhbuild/config.py:404
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Impossible de créer le répertoire %s"
 
-#: ../jhbuild/config.py:487
+#: ../jhbuild/config.py:489
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Impossible de créer la configuration de GConf (%s)"
 
-#: ../jhbuild/config.py:574
+#: ../jhbuild/config.py:576
 msgid "Failed to parse 'min_age' relative time"
 msgstr ""
 "Impossible d'analyser le temps relatif contenu dans la variable « min_age »."
 
-#: ../jhbuild/config.py:585
+#: ../jhbuild/config.py:587
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -1062,21 +1062,25 @@ msgstr "Fin de fichier (EOF)"
 
 #: ../jhbuild/modtypes/autotools.py:107 ../jhbuild/modtypes/cmake.py:84
 #: ../jhbuild/modtypes/linux.py:114 ../jhbuild/modtypes/waf.py:75
+#: ../tests/mock.py:159
 msgid "Configuring"
 msgstr "Configuration de"
 
 #: ../jhbuild/modtypes/autotools.py:200 ../jhbuild/modtypes/cmake.py:103
 #: ../jhbuild/modtypes/linux.py:146 ../jhbuild/modtypes/waf.py:86
+#: ../tests/mock.py:154
 msgid "Cleaning"
 msgstr "Nettoyage de"
 
 #: ../jhbuild/modtypes/autotools.py:210 ../jhbuild/modtypes/cmake.py:112
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:159
 #: ../jhbuild/modtypes/perl.py:53 ../jhbuild/modtypes/waf.py:93
+#: ../tests/mock.py:163
 msgid "Building"
 msgstr "Construction de"
 
 #: ../jhbuild/modtypes/autotools.py:230 ../jhbuild/modtypes/waf.py:107
+#: ../tests/mock.py:174
 msgid "Checking"
 msgstr "Vérification de"
 
@@ -1091,7 +1095,7 @@ msgstr "Vérification dist"
 
 #: ../jhbuild/modtypes/autotools.py:264 ../jhbuild/modtypes/cmake.py:130
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:67
-#: ../jhbuild/modtypes/waf.py:128
+#: ../jhbuild/modtypes/waf.py:128 ../tests/mock.py:169
 msgid "Installing"
 msgstr "Installation de"
 
@@ -1173,6 +1177,7 @@ msgstr "Omission de %s (paquet et dépendances non mis à jour)"
 
 #: ../jhbuild/modtypes/__init__.py:408 ../jhbuild/modtypes/__init__.py:426
 #: ../jhbuild/modtypes/linux.py:83 ../jhbuild/modtypes/linux.py:90
+#: ../tests/mock.py:140
 msgid "Checking out"
 msgstr "Extraction de"
 
@@ -1618,3 +1623,87 @@ msgstr "impossible de trouver quilt"
 #: ../jhbuild/versioncontrol/tarball.py:301
 msgid "could not checkout quilt patch set"
 msgstr "impossible d'extraire le jeu de correctifs quilt"
+
+#: ../jhbuild/commands/sysdeps.py:37
+msgid "Check and install tarball dependencies using system packages"
+msgstr ""
+"Vérifie et installe les tarball des dépendances en passant par des paquets "
+"du système"
+
+#: ../jhbuild/commands/sysdeps.py:45
+#| msgid "Installing modules"
+msgid "Install pkg-config modules via system"
+msgstr "Installation des modules pkg-config par le système"
+
+#: ../jhbuild/commands/sysdeps.py:51
+msgid "Partial build is not enabled; add partial_build = True to ~/.jhbuildrc"
+msgstr ""
+"La construction partielle n'est pas activée ; ajouter partial_build = True à "
+"~/.jhbuildrc"
+
+#: ../jhbuild/commands/sysdeps.py:61
+msgid "System installed packages which are new enough:"
+msgstr "Paquets installés par le système qui sont suffisamment récents :"
+
+#: ../jhbuild/commands/sysdeps.py:65 ../jhbuild/commands/sysdeps.py:75
+#, python-format
+msgid "  %(pkg)s (required=%(req)s, installed=%(installed)s)"
+msgstr "  %(pkg)s (requis=%(req)s, installé=%(installed)s)"
+
+#: ../jhbuild/commands/sysdeps.py:69 ../jhbuild/commands/sysdeps.py:79
+#: ../jhbuild/commands/sysdeps.py:89
+msgid "  (none)"
+msgstr " (aucun)"
+
+#: ../jhbuild/commands/sysdeps.py:71
+msgid "System installed packages which are too old:"
+msgstr "Paquets installés par le système qui sont trop vieux :"
+
+#: ../jhbuild/commands/sysdeps.py:81
+msgid "No matching system package installed:"
+msgstr "Aucun paquet du système correspondant installé :"
+
+#: ../jhbuild/commands/sysdeps.py:85
+#, python-format
+msgid "  %(pkg)s (required=%(req)s)"
+msgstr "  %(pkg)s (requis=%(req)s)"
+
+#: ../jhbuild/commands/sysdeps.py:94
+msgid "Don't know how to install packages on this system"
+msgstr "Impossible de déterminer comment installer des paquets sur ce système"
+
+#: ../jhbuild/commands/sysdeps.py:97
+#, python-format
+msgid "No uninstalled system dependencies to install for modules: %r"
+msgstr ""
+"Aucune dépendance du système désinstallée à installer pour les modules : %r"
+
+#: ../jhbuild/commands/sysdeps.py:99
+#, python-format
+msgid "Installing dependencies on system: %s"
+msgstr "Installation des dépendances sur le système : %s"
+
+#: ../jhbuild/utils/systeminstall.py:85 ../jhbuild/utils/systeminstall.py:88
+#, python-format
+msgid "PackageKit: %s"
+msgstr "PackageKit : %s"
+
+#: ../jhbuild/utils/systeminstall.py:116
+msgid "Nothing available to install"
+msgstr "Rien de disponible à installer"
+
+#: ../jhbuild/utils/systeminstall.py:119
+#, python-format
+#| msgid "Installing"
+msgid "Installing: %s"
+msgstr "Installation : %s"
+
+#: ../jhbuild/utils/systeminstall.py:131
+#| msgid "Build Completed"
+msgid "Complete!"
+msgstr "Terminé !"
+
+#: ../jhbuild/utils/trigger.py:57
+#, python-format
+msgid "No keys specified in trigger script %r"
+msgstr "Aucune clé précisé dans le script de déclenchement %r"
