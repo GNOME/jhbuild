@@ -37,7 +37,7 @@ def get_installed_pkgconfigs(config):
         pkgs.append(pkg)
     args = ['pkg-config', '--modversion']
     args.extend(pkgs)
-    proc = subprocess.Popen(args, stdout=subprocess.PIPE, close_fds=True)
+    proc = subprocess.Popen(args, stdout=subprocess.PIPE, env=config.get_original_environment(), close_fds=True)
     stdout = proc.communicate()[0]
     proc.wait()
     pkgversions = {}
