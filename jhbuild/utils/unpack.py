@@ -128,8 +128,8 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
     elif ext == '.bz2' and has_command('bunzip2') and has_command('tar'):
         buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext in ('.gz', '.tgz') and has_command('gunzip') and has_command('tar'):
-        buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+    elif ext in ('.gz', '.tgz') and has_command('gzip') and has_command('tar'):
+        buildscript.execute('gzip -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
     elif ext == '.zip' and has_command('unzip'):
         buildscript.execute('unzip "%s"' % localfile,
