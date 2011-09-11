@@ -105,28 +105,31 @@
   <autotools id="gnome-control-center" supports-non-srcdir-builds="no">
     <branch revision="gnome-3-2"/>
     <dependencies>
-      <dep package="intltool"/>
-      <dep package="iso-codes"/>
+      <dep package="colord"/>
+      <dep package="dbus-glib"/>
+      <dep package="gconf"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gnome-desktop"/>
-      <dep package="gnome-online-accounts"/>
-      <dep package="libxml2"/>
-      <dep package="gnome-menus"/>
-      <dep package="libgnomekbd"/>
-      <dep package="libcanberra"/>
-      <dep package="pulseaudio"/>
       <dep package="gnome-doc-utils"/>
+      <dep package="gnome-menus"/>
+      <dep package="gnome-online-accounts"/>
       <dep package="gnome-settings-daemon"/>
-      <dep package="upower"/>
-      <dep package="colord"/>
+      <dep package="intltool"/>
+      <dep package="iso-codes"/>
+      <dep package="libcanberra"/>
       <dep package="libgtop"/>
+      <dep package="libgnomekbd"/>
+      <dep package="libxml2"/>
+      <dep package="polkit"/>
+      <dep package="pulseaudio"/>
       <dep package="sound-theme-freedesktop"/>
+      <dep package="upower"/>
     </dependencies>
     <suggests>
-      <dep package="dbus-glib"/>
-      <dep package="libcanberra"/>
+      <!-- <dep package="cups"/> -->
       <dep package="accountsservice"/>
+      <dep package="NetworkManager"/>
     </suggests>
   </autotools>
 
@@ -259,20 +262,25 @@
   <autotools id="gnome-settings-daemon">
     <branch/>
     <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="gconf"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libgnomekbd"/>
-      <dep package="gnome-doc-utils"/>
-      <dep package="dbus-glib"/>
-      <dep package="libnotify"/>
-      <dep package="gsettings-desktop-schemas"/>
       <dep package="colord"/>
+      <dep package="dbus-glib"/>
+      <dep package="gconf"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-doc-utils"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gtk+"/>
+      <dep package="gudev"/>
+      <dep package="intltool"/>
+      <dep package="libgnomekbd"/>
+      <dep package="libcanberra"/>
+      <dep package="libnotify"/>
+      <dep package="polkit"/>
+      <dep package="pulseaudio"/>
       <dep package="upower"/>
     </dependencies>
     <suggests>
+      <!-- <dep package="cups"/> -->
       <dep package="gstreamer"/>
     </suggests>
   </autotools>
@@ -851,13 +859,14 @@
   <autotools id="gdm">
     <branch/>
     <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-settings-daemon"/>
-      <dep package="gnome-session"/>
-      <dep package="gnome-panel"/>
       <dep package="accountsservice"/>
+      <dep package="dbus-glib"/>
+      <dep package="gconf"/>
+      <dep package="gnome-panel"/>
+      <dep package="gnome-session"/>
+      <dep package="gnome-settings-daemon"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
     </dependencies>
   </autotools>
 
