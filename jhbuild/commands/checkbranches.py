@@ -41,7 +41,9 @@ class cmd_checkbranches(Command):
                 branch = config.moduleset[0].replace('.', '-')
             else:
                 branch = config.moduleset.replace('.', '-')
-            branch = branch.replace('gnome-suites-', 'gnome-')
+            for prefix in ('gnome-suites-core-deps', 'gnome-suites-core',
+                           'gnome-suites-', 'gnome-apps-'):
+                branch = branch.replace(prefix, 'gnome-')
 
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules)
