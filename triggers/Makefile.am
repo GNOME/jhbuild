@@ -7,3 +7,5 @@ trigger_DATA = \
 	desktop-database.trigger \
 	mime-database.trigger \
 	immodules.trigger
+
+EXTRA_DIST = $(trigger_DATA)
