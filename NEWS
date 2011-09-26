@@ -1,3 +1,182 @@
+=============
+Version 3.2.0
+=============
+
+Fixed bugs:
+
+ - #564373, packagekit - how to best exploit it in jhbuild
+ - #606414, after failed installation offer distclean/remove-and-rebuild
+ - #606664, add support for running "make distclean"
+ - #619002, libproxy doesn't build
+ - #636888, nested modules don't work with dvcs_mirror_dir
+ - #637728, Restore support for absolute moduleset paths
+ - #637917, evolution-data-server no longer needs --enable-gtk3 argument
+ - #637989, Dependency error - Clutter should be built after Atk
+ - #638212, cannot build via jhbuild  gnome-themes-extras
+ - #638254, there's no evolution-mapi entry for 3.0 module
+ - #638521, libchamplain uses GTK+3 now
+ - #638919, [buildbot] commit links don't work for all modules
+ - #639052, Many modules depend on unknown module in 3.0 modulesets
+ - #639968, accerciser is missing from 3.0 moduleset
+ - #640429, update jhbuild moduleset for glabels
+ - #640562, pulseuadio version not compilable for gnome-shell
+ - #640889, Missing  module gnome-python in 3.0
+ - #641307, libsoup errors out because it requires non-built glib-
+            networking
+ - #642155, local patch files are sometimes not found by "patch" tool
+ - #642245, angosso.net
+ - #642897, pyatspi2 should suggest at-spi2-core
+ - #643864, warnings during jhbuild sanitycheck
+ - #643962, gnome-sharp module doesn't exist but f-spot and taglib-sharp
+            depend on it
+ - #644303, UPower requires gudev 0.147, need to update from 0.145
+ - #644326, Xulrunner needs to be updated to 1.9.2.15
+ - #644506, Update Tracker version to 0.10.2
+ - #644639, build: Don't choke on Windows with PATH containing '.'
+ - #644646, Vino and Vinagre dependencies updates
+ - #645187, Set DBUS_SYSTEM_BUS_ADDRESS in environment
+ - #645296, Breaks when error occurs with the -C option
+ - #645301, gudev failing to build
+ - #645386, Install xz-utils when not available
+ - #645543, at-spi2-atk should include his dependency with at-spi2-core
+ - #645883, Use upstream gettext instead the glib one
+ - #645971, mozilla xulrunner 1.9.2.15 unavailable
+ - #646356, jhbuild bootstrap installs autoconf 2.65 but telepathy logger
+            requires 2.66
+ - #647231, Add "workdir", use make install DESTDIR=, and clean .la files
+ - #647431, moduleset: Import expat
+ - #647433, Also set moduleset_name if URI does not end in '.modules'
+ - #647445, gnome-desktop needs a hard dependency on gobject-introspection
+ - #647537, git: Fix switching to the currently configured dvcs-mirror
+ - #647545, modtypes: use tree_id() consistently as revsion
+ - #647643, autotools: apparent copypaste error in do_distcheck.depends and
+            do_distcheck.error_phases
+ - #647868, gudev depends on gobject-introspection but that's not modelled
+ - #649075, gitignore: Ignore several generated files
+ - #649463, Less duplicated work when parsing modulesets
+ - #649888, set INFOPATH
+ - #649959, gnome-user-docs: build failure: *** missing separator.  Stop.
+ - #650440, disable notifications by default
+ - #650443, terminal: Print cwd of command
+ - #650445, gnome-suites-core-deps-3.2: Switch over to js185 release for
+            gjs
+ - #650533, Make notifications less annoying
+ - #650612, libproxy: Remove mozilla dependency
+ - #651580, building gnome-games builds gtk+-2 (but should not)
+ - #651649, [3.2] Totem has clutter-gtk as a dependency
+ - #652666, ant modtype broken
+ - #653048, config: Set JHBUILD_PREFIX in environment
+ - #653102, terminal: Add new terminal_background_build key, implement it
+ - #653156, Be more robust processing files in installroot
+ - #653173, Add java bindings to core-deps
+ - #653272, 3.2: Update to vala 0.13
+ - #653273, 3.2: Update to gdata 0.9
+ - #653842, DESTDIR usage breaks installation of Pango, gdk-pixbuf, rsvg,
+            etc
+ - #653853, Do not build old versions of automake
+ - #653928, ability for global and per-module post-install commands
+ - #654013, Revert "Clean .la files post-install"
+ - #654062, Log when we're moving files from temporary DESTDIR
+ - #654466, tinderbox outputs lots of DESTDIR
+ - #654492, Can't build due to Permission denied: '/etc/pkcs11'
+ - #654512, Add some more triggers
+ - #654516, Update of accerciser's modulesets
+ - #654522, Don't fail builds if the manifest is not set
+ - #654578, autogen.sh: remove obsolete USE_GNOME2_MACROS
+ - #654582, Clean up module XML parsing
+ - #654592, Do something with modules that don't support DESTDIR
+ - #654708, KeyError: 'nice_buildinstallprog'
+ - #654768, XDG_DATA_DIRS in jhbuild/config.py breaks build (at least on
+            stock lucid)
+ - #654855, partial: Keep building when a system dependency transitions
+            from too old -> new enough
+ - #655056, Can't build gnome-settings-daemon due to missing dependency on
+            upower
+ - #655077, vala needs to be >0.12 for bootstrapping properly
+ - #655079, Add gnome-tweak-tool
+ - #655157, [3.2] gudev fails to build due to mismatched libtool
+ - #655340, triggers do not respect quiet_mode nor tinderbox
+ - #655417, build, tinderbox, list, info commands are slow
+ - #655484, re-write the place-hoders %s in python strings for convenience
+            of translation
+ - #655542, Add various missing pkg-config IDs
+ - #655546, [PATCH] Support SystemInstall on non-packagekit systems
+ - #655553, sysdeps: Do not use jhbuilt pkg-config
+ - #655555, Bump libmapi to 0.11 and bump samba to alpha16 (but tarball
+            misses autogen.sh's)
+ - #655613, sysdeps command not documented in manual
+ - #656331, gdk-pixbuf should have a dependency on gobject-introspection
+ - #656400, [patches] update pygobject to paralell install pygobject 3.0
+            and pygobject 2.28
+ - #656427, gnome-icon-theme-symbolic should have dependency on gtk+-2
+ - #656640, [3.2] Fix colord and packagekit repos
+ - #656653, python version built by jhbuild bootstrap is outdated
+ - #656697, jhbuild for telepathy-glib fails
+ - #656730, evince has a missing dependency on nautilus
+ - #656748, jhbulding ATs does not pull in at-spi2-atk
+ - #656880, gnome-icon-theme: missing depends on gtk+
+ - #656944, dbus-sharp: missing dependency on mono
+ - #656964, dbus-sharp-glib.dll sought in /opt/gnome/lib instead of
+            /opt/gnome/lib64
+ - #656966, WebKit: missing dependency on gst-plugins-base
+ - #657144, Files missing in POTFILES.in
+ - #657226, While running any operation with jhbuild, I am getting the
+            following error-
+ - #657258, uninstall: Fix broken error message
+ - #657543, hamster-applet: missing Depends on gnome-control-center
+ - #658361, jhbuild attempts to 'gunzip -dc'
+ - #658881, Error when starting up jhbuild: Non-ASCII character in
+            .jhbuildrc
+ - #659115, polkit tries and fails to 'make' before 'configure'
+
+Translators:
+
+- Gil Forcada (ca)
+- Marek Černocký, Wouter Bolsterlee (cs)
+- Mario Blättermann, Wouter Bolsterlee (de)
+- Wouter Bolsterlee (en_GB)
+- Daniel Mustieles, Jorge González, Wouter Bolsterlee (es)
+- Alexandre Franke, Bruno Brouard, Wouter Bolsterlee (fr)
+- Fran Dieguez, Wouter Bolsterlee, Fran Diéguez (gl)
+- Luca Ferretti, Wouter Bolsterlee (it)
+- Wouter Bolsterlee (ja)
+- Kjartan Maraas, Wouter Bolsterlee (nb)
+- Wouter Bolsterlee (nl)
+- Rodrigo Padula de Oliveira, Wouter Bolsterlee, Gabriel F. Vilar (pt_BR)
+- Martin Srebotnjak, Matej Urbančič, Wouter Bolsterlee (sl)
+- Daniel Nylander, Wouter Bolsterlee (sv)
+- Wouter Bolsterlee (uk)
+- Wylmer Wang, Aron Xu, Yinghua Wang, Wouter Bolsterlee (zh_CN)
+
+Documentation translators:
+
+- dmustieles, Daniel Mustieles (es)
+- Claude Paroz (fr)
+
+Many thanks to all contributors: Kalev Lember, Jasper St. Pierre, Colin
+Walters, Sean Finney, Zeeshan Ali (Khattak), David King, Fran Diéguez,
+Andre Klapper, Alexandre Franke, Daniel Nylander, Bruno Brouard, Chris
+Kühl, Stef Walter, Philip Withnall, Krzesimir Nowak, Carlos Garcia Campos,
+Richard Hughes, Brian Nitz, Olivier Le Thanh Duong, Emmanuele Bassi,
+Stéphane Maniaci, Gil Forcada, Travis Reitter, Claudio Saavedra, Javier
+Jardón, Bastien Nocera, Christian Kirbach, Christian Persch, Jorge
+González, John Stowers, Martyn Russell, Aron Xu, Rodrigo Padula de
+Oliveira, dmustieles, Łukasz Jernaś, Emilio Pozuelo Monfort, Jürg
+Billeter, Sebastian Pölsterl, Daniel Mustieles, Felix Riemann, Marc-André
+Lureau, Michael J. Chudobiak, William Jon McCann, Thomas Hindoe Paaboel
+Andersen, Yinghua Wang, Needs, Mario Blättermann, Dirk Wallenstein, Dan
+Winship, Cosimo Cecchi, Javier Hernández, Jens Georg, Vincent Untz, Luca
+Ferretti, Alberto Ruiz, Piotr Drąg, José Aliste, Claude Paroz, Wylmer
+Wang, Marek Černocký, Matthias Clasen, Ryan Lortie, Wouter Bolsterlee,
+John (J5) Palmieri, Craig Keogh, Jason D. Clinton, Damien Lespiau, Eugen
+Dedu, Olav Vitters, Diego Escalante Urrelo, Matthew Barnes, Fran Dieguez,
+Joanmarie Diggs, Carlos Martín Nieto, Javier Jardon, Federico Mena
+Quintero, Enrico Minack, Kjartan Maraas, Owen W. Taylor, Paolo Borelli, Xan
+Lopez, Ignacio Casal Quinteiro, Gabriel F. Vilar, Guillaume Desmottes,
+Murray Cumming, Raul Gutierrez Segales, Juan A. Suarez Romero, Alejandro
+Piñeiro, Martin Srebotnjak, Matej Urbančič, Michael Terry, Florian
+Müllner
+
 ==============
 Version 2.32.4
 ==============
