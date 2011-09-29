@@ -881,16 +881,18 @@
             md5sum="d0e22b5ff2ef945615db33960376d733" size="1037078"/>
   </tarball>
 
-  <autotools id="libsoup">
+  <autotools id="libsoup" autogenargs="--disable-tls-check">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
       <dep package="sqlite3"/>
       <dep package="libgnome-keyring"/>
-      <dep package="glib-networking"/>
       <dep package="gobject-introspection"/>
     </dependencies>
+    <suggests>
+      <dep package="glib-networking"/>
+    </suggests>
   </autotools>
 
   <tarball id="libtasn1" version="2.2" supports-non-srcdir-builds="no">
