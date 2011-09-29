@@ -811,18 +811,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libvolume_id" skip-autogen="true"
-                 makeargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir}"
-		 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man"
-		 check-target="false" supports-non-srcdir-builds="no">
-    <branch repo="kernel.org"
-	    module="utils/kernel/hotplug/udev-111.tar.bz2" version="111"
-	    hash="sha256:ec47cc46b15838321c31589d7bdbdcf553c0ea4f406edc6f239cb20a3732c233"
-	    md5sum="bd2a94e3ed243e6a3d501a5c8afc4b54" size="190020">
-      <patch file="libvolume_id_Makefile.patch" strip="1"/>
-    </branch>
-  </autotools>
-
   <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.1">
     <source href="http://download.gnome.org/sources/libxklavier/5.1/libxklavier-5.1.tar.bz2"
             hash="sha256:1d7e8a6ed842d415d2f95b827e7d04ecf515ed5be2aaee262a8dd1c5cbe10ff1"
