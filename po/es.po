@@ -4,22 +4,22 @@
 #
 # Gabriel Felipe Cornejo Salas <gnomeusr@gmail.com>, 2008.
 # Claudio Saavedra <csaavedra@igalia.com>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-28 11:10+0000\n"
-"PO-Revision-Date: 2011-08-28 17:32+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-09-29 14:45+0000\n"
+"PO-Revision-Date: 2011-09-29 21:06+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: ../jhbuild.desktop.in.in.h:1
 msgid "Build GNOME modules"
@@ -399,7 +399,7 @@ msgstr ""
 "Compruebe que los módulos del repositorio Git de GNOME estén en la correcta "
 "definición de rama"
 
-#: ../jhbuild/commands/checkbranches.py:63
+#: ../jhbuild/commands/checkbranches.py:65
 #, python-format
 msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "%(module)s es una definición de rama desconocida para %(branch)s"
@@ -850,10 +850,15 @@ msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr ""
 "módulo %(mod)s no construido de acuerdo con las %(dep)s no construibles"
 
-#: ../jhbuild/frontends/buildscript.py:237
+#: ../jhbuild/frontends/buildscript.py:238
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Ejecutando script disparador posinstalación: %r"
+
+#: ../jhbuild/frontends/buildscript.py:246 ../jhbuild/frontends/gtkui.py:592
+#, python-format
+msgid "%(command)s returned with an error code (%(rc)s)"
+msgstr "el comando %(command)s devolvió un código de error (%(rc)s)"
 
 #: ../jhbuild/frontends/gtkui.py:100
 msgid "Others..."
@@ -920,11 +925,6 @@ msgstr "Abrir terminal"
 #, python-format
 msgid "%(command)s died with signal %(rc)s"
 msgstr "%(command)s murió con señal %(rc)s"
-
-#: ../jhbuild/frontends/gtkui.py:592
-#, python-format
-msgid "%(command)s returned with an error code (%(rc)s)"
-msgstr "el comando %(command)s devolvió un código de error (%(rc)s)"
 
 #: ../jhbuild/frontends/gtkui.py:642
 msgid "Module"
@@ -1055,25 +1055,21 @@ msgstr "EOF"
 
 #: ../jhbuild/modtypes/autotools.py:107 ../jhbuild/modtypes/cmake.py:84
 #: ../jhbuild/modtypes/linux.py:114 ../jhbuild/modtypes/waf.py:75
-#: ../tests/mock.py:159
 msgid "Configuring"
 msgstr "Configurando"
 
 #: ../jhbuild/modtypes/autotools.py:200 ../jhbuild/modtypes/cmake.py:103
 #: ../jhbuild/modtypes/linux.py:146 ../jhbuild/modtypes/waf.py:86
-#: ../tests/mock.py:154
 msgid "Cleaning"
 msgstr "Limpiando"
 
 #: ../jhbuild/modtypes/autotools.py:210 ../jhbuild/modtypes/cmake.py:112
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:159
 #: ../jhbuild/modtypes/perl.py:53 ../jhbuild/modtypes/waf.py:93
-#: ../tests/mock.py:163
 msgid "Building"
 msgstr "Construyendo"
 
 #: ../jhbuild/modtypes/autotools.py:230 ../jhbuild/modtypes/waf.py:107
-#: ../tests/mock.py:174
 msgid "Checking"
 msgstr "Comprobando"
 
@@ -1088,7 +1084,7 @@ msgstr "Distchecking"
 
 #: ../jhbuild/modtypes/autotools.py:264 ../jhbuild/modtypes/cmake.py:130
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:67
-#: ../jhbuild/modtypes/waf.py:128 ../tests/mock.py:169
+#: ../jhbuild/modtypes/waf.py:128
 msgid "Installing"
 msgstr "Instalando"
 
@@ -1172,7 +1168,6 @@ msgstr "Omitiendo %s (paquete y dependencias no actualizados)"
 
 #: ../jhbuild/modtypes/__init__.py:408 ../jhbuild/modtypes/__init__.py:426
 #: ../jhbuild/modtypes/linux.py:83 ../jhbuild/modtypes/linux.py:90
-#: ../tests/mock.py:140
 msgid "Checking out"
 msgstr "Verificando"
 
@@ -1668,23 +1663,49 @@ msgstr "No hay dependencias del sistema que instalar para los módulos: %r"
 msgid "Installing dependencies on system: %s"
 msgstr "Instalando dependencias en el sistema: %s"
 
-#: ../jhbuild/utils/systeminstall.py:85 ../jhbuild/utils/systeminstall.py:88
+#: ../jhbuild/utils/systeminstall.py:59
+msgid "No suitable root privilege command found; you should install \"pkexec\""
+msgstr ""
+"No se encontró ningún comando de privilegio de superusuario; debería "
+"instalar «pkexec»"
+
+#: ../jhbuild/utils/systeminstall.py:78 ../jhbuild/utils/systeminstall.py:81
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:116
+#: ../jhbuild/utils/systeminstall.py:109
 msgid "Nothing available to install"
 msgstr "No hay nada disponible que instalar"
 
-#: ../jhbuild/utils/systeminstall.py:119
+#: ../jhbuild/utils/systeminstall.py:112
 #, python-format
 msgid "Installing: %s"
 msgstr "Instalando: %s"
 
-#: ../jhbuild/utils/systeminstall.py:131
+#: ../jhbuild/utils/systeminstall.py:124
 msgid "Complete!"
 msgstr "Completado."
+
+#: ../jhbuild/utils/systeminstall.py:156
+msgid "Using apt-file to search for providers; this may be slow.  Please wait."
+msgstr "Usando apt-file para buscar proveedores; puede ser lento. Espere."
+
+#: ../jhbuild/utils/systeminstall.py:163
+#, python-format
+msgid "No native package found for %(id)s"
+msgstr "No se encontró ningún paquete nativo para %(id)s"
+
+#: ../jhbuild/utils/systeminstall.py:166
+#, python-format
+#| msgid "Installing: %s"
+msgid "Installing: %(pkgs)s"
+msgstr "Instalando: %(pkgs)s"
+
+#: ../jhbuild/utils/systeminstall.py:171
+#| msgid "Nothing available to install"
+msgid "Nothing to install"
+msgstr "No hay nada para instalar"
 
 #: ../jhbuild/utils/trigger.py:57
 #, python-format
