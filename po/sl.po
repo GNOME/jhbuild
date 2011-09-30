@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-18 14:40+0000\n"
-"PO-Revision-Date: 2011-08-18 22:41+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"POT-Creation-Date: 2011-09-29 14:45+0000\n"
+"PO-Revision-Date: 2011-09-29 21:20+0100\n"
+"Last-Translator: Martin Srebotnjak  <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
@@ -415,7 +415,7 @@ msgstr "napaka med pridobivanjem buildbot PID"
 msgid "Check modules in GNOME Git repository have the correct branch definition"
 msgstr "Preveri ustreznost določi vej modulov skladišča GNOME Git"
 
-#: ../jhbuild/commands/checkbranches.py:63
+#: ../jhbuild/commands/checkbranches.py:65
 #, python-format
 msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "%(module)s nima določene veje %(branch)s"
@@ -848,10 +848,16 @@ msgstr "modul %(mod)s bo izgrajen kljub napaki odvisnosti %(dep)s"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modula %(mod)s ni mogoče izgraditi zaradi nezmožnosti izgradnje %(dep)s"
 
-#: ../jhbuild/frontends/buildscript.py:237
+#: ../jhbuild/frontends/buildscript.py:238
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Zaganjanje ponamestitvenega sprožilnega skripta: %r"
+
+#: ../jhbuild/frontends/buildscript.py:246
+#: ../jhbuild/frontends/gtkui.py:592
+#, python-format
+msgid "%(command)s returned with an error code (%(rc)s)"
+msgstr "%(command)s je vrnil napako kode (%(rc)s)"
 
 #: ../jhbuild/frontends/gtkui.py:100
 msgid "Others..."
@@ -924,11 +930,6 @@ msgstr "Odpri terminal"
 #, python-format
 msgid "%(command)s died with signal %(rc)s"
 msgstr "%(command)s je končan s signalom %(rc)s"
-
-#: ../jhbuild/frontends/gtkui.py:592
-#, python-format
-msgid "%(command)s returned with an error code (%(rc)s)"
-msgstr "%(command)s je vrnil napako kode (%(rc)s)"
 
 #: ../jhbuild/frontends/gtkui.py:642
 msgid "Module"
@@ -1061,7 +1062,6 @@ msgstr "EOF"
 #: ../jhbuild/modtypes/cmake.py:84
 #: ../jhbuild/modtypes/linux.py:114
 #: ../jhbuild/modtypes/waf.py:75
-#: ../tests/mock.py:159
 msgid "Configuring"
 msgstr "Nastavljanje"
 
@@ -1069,7 +1069,6 @@ msgstr "Nastavljanje"
 #: ../jhbuild/modtypes/cmake.py:103
 #: ../jhbuild/modtypes/linux.py:146
 #: ../jhbuild/modtypes/waf.py:86
-#: ../tests/mock.py:154
 msgid "Cleaning"
 msgstr "Čiščenje"
 
@@ -1079,13 +1078,11 @@ msgstr "Čiščenje"
 #: ../jhbuild/modtypes/linux.py:159
 #: ../jhbuild/modtypes/perl.py:53
 #: ../jhbuild/modtypes/waf.py:93
-#: ../tests/mock.py:163
 msgid "Building"
 msgstr "Izgradnja"
 
 #: ../jhbuild/modtypes/autotools.py:230
 #: ../jhbuild/modtypes/waf.py:107
-#: ../tests/mock.py:174
 msgid "Checking"
 msgstr "Preverjanje"
 
@@ -1104,7 +1101,6 @@ msgstr "Preverjanje distribucije"
 #: ../jhbuild/modtypes/distutils.py:69
 #: ../jhbuild/modtypes/perl.py:67
 #: ../jhbuild/modtypes/waf.py:128
-#: ../tests/mock.py:169
 msgid "Installing"
 msgstr "Nameščanje"
 
@@ -1129,16 +1125,11 @@ msgstr "ni mogoče najti predmeta <veja> za %s"
 
 #: ../jhbuild/modtypes/__init__.py:123
 #, python-format
-#| msgid ""
-#| "Repository=%s not found for module id=%s. Possible repositories are %s"
 msgid "Repository=%(missing)s not found for module id=%(module)s. Possible repositories are %(possible)s"
 msgstr "Skladišča=%(missing)s ni mogoče najti za modul id=%(module)s. Mogoča skladišča so %(possible)s"
 
 #: ../jhbuild/modtypes/__init__.py:130
 #, python-format
-#| msgid ""
-#| "Default Repository=%s not found for module id=%s. Possible repositories "
-#| "are %s"
 msgid "Default repository=%(missing)s not found for module id=%(module)s. Possible repositories are %(possible)s"
 msgstr "Privzetega skladišča=%(missing)s ni mogoče najti za modul id=%(module)s. Mogoča skladišča so %(possible)s"
 
@@ -1181,7 +1172,6 @@ msgstr "Izpuščanje %s (paket in odvisnosti ne bodo posodobljeni)"
 #: ../jhbuild/modtypes/__init__.py:426
 #: ../jhbuild/modtypes/linux.py:83
 #: ../jhbuild/modtypes/linux.py:90
-#: ../tests/mock.py:140
 msgid "Checking out"
 msgstr "Odjavljanje"
 
@@ -1217,17 +1207,11 @@ msgstr "Nameščanje glav jedra"
 
 #: ../jhbuild/modtypes/linux.py:243
 #, python-format
-#| msgid ""
-#| "Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-#| "are %s"
 msgid "Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. Possible repositories are %(possible)s"
 msgstr "Skladišča=%(missing)s ni mogoče najti za kconfig in linux id=%(linux_id)s. Mogoča skladišča so %(possible)s"
 
 #: ../jhbuild/modtypes/linux.py:249
 #, python-format
-#| msgid ""
-#| "Default Repository=%s not found for kconfig in module id=%s. Possible "
-#| "repositories are %s"
 msgid "Default repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. Possible repositories are %(possible)s"
 msgstr "Privzetega skladišča=%(missing)s ni mogoče najti za kconfig in linux id=%(linux_id)s. Mogoča skladišča so %(possible)s"
 
@@ -1299,7 +1283,7 @@ msgstr "Neprepoznano ime skupine v vzorcu"
 msgid "Call to undefined command"
 msgstr "Klic do nedoločenega ukaza"
 
-#: ../jhbuild/utils/httpcache.py:184
+#: ../jhbuild/utils/httpcache.py:185
 msgid "file not in cache, but not allowed to check network"
 msgstr "datoteke ni v predpomnilniku, omrežja pa ni dovoljeno preiskati "
 
@@ -1363,7 +1347,6 @@ msgstr "veja za %s ima napačne vrednosti za prepisovanje; preverite nastavitven
 
 #: ../jhbuild/versioncontrol/arch.py:127
 #: ../jhbuild/versioncontrol/arch.py:140
-#| msgid "date based checkout not yet supported\n"
 msgid "date based checkout not yet supported"
 msgstr "datumsko določen prevzem še ni podprt"
 
@@ -1607,7 +1590,6 @@ msgid "Check and install tarball dependencies using system packages"
 msgstr "Preveri in namesti odvisne pakete tar z uporabo sistemskih paketov"
 
 #: ../jhbuild/commands/sysdeps.py:45
-#| msgid "Installing modules"
 msgid "Install pkg-config modules via system"
 msgstr "Namestite module pkg-config prek sistema"
 
@@ -1658,49 +1640,50 @@ msgstr "Ni nenameščenih sistemskih odvisnosti za module: %r"
 msgid "Installing dependencies on system: %s"
 msgstr "Nameščanje odvisnih paketov v sistem: %s"
 
-#: ../jhbuild/utils/systeminstall.py:85
-#: ../jhbuild/utils/systeminstall.py:88
+#: ../jhbuild/utils/systeminstall.py:59
+msgid "No suitable root privilege command found; you should install \"pkexec\""
+msgstr "Ustreznega ukaza za pravice korenskega uporabnika ni mogoče najti; namestiti je treba paket \"pkexec\""
+
+#: ../jhbuild/utils/systeminstall.py:78
+#: ../jhbuild/utils/systeminstall.py:81
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:116
+#: ../jhbuild/utils/systeminstall.py:109
 msgid "Nothing available to install"
 msgstr "Nič ni na voljo za nameščanje"
 
-#: ../jhbuild/utils/systeminstall.py:119
+#: ../jhbuild/utils/systeminstall.py:112
 #, python-format
-#| msgid "Installing"
 msgid "Installing: %s"
 msgstr "Nameščanje: %s"
 
-#: ../jhbuild/utils/systeminstall.py:131
-#| msgid "Build Completed"
+#: ../jhbuild/utils/systeminstall.py:124
 msgid "Complete!"
 msgstr "Dokončano!"
+
+#: ../jhbuild/utils/systeminstall.py:156
+msgid "Using apt-file to search for providers; this may be slow.  Please wait."
+msgstr "Uporabljen je program apt-file za iskanje ponudnikov; opravilo je lahko doglotrajno."
+
+#: ../jhbuild/utils/systeminstall.py:163
+#, python-format
+msgid "No native package found for %(id)s"
+msgstr "Lastnega paketa za %(id)s ni mogoče najti"
+
+#: ../jhbuild/utils/systeminstall.py:166
+#, python-format
+#| msgid "Installing: %s"
+msgid "Installing: %(pkgs)s"
+msgstr "Nameščanje: %(pkgs)s"
+
+#: ../jhbuild/utils/systeminstall.py:171
+#| msgid "Nothing available to install"
+msgid "Nothing to install"
+msgstr "Ni paketov za namestitev"
 
 #: ../jhbuild/utils/trigger.py:57
 #, python-format
 msgid "No keys specified in trigger script %r"
 msgstr "V sprožilnem skriptu %r ključi niso določeni"
-
-#~ msgid "Uninstalling"
-#~ msgstr "Odstranjevanje namestitve"
-
-#~ msgid "Missing ant build tool"
-#~ msgstr "Manjka orodje za izgradnjo ant"
-
-#~ msgid "could not create directory %s"
-#~ msgstr "ni mogoče ustvariti mape %s"
-
-#~ msgid "Git-Mirror-Module:"
-#~ msgstr "Modul Git-Mirror:"
-
-#~ msgid "unable to parse '%s' as relative time."
-#~ msgstr "ni mogoče razčleniti '%s' kot relativni čas."
-
-#~ msgid "Failed to update module (corrupt .git?)"
-#~ msgstr "Napaka med posodabljanjem modula (je morda pokvarjen .git?)"
-
-#~ msgid "Missing waf, try jhbuild -m bootstrap buildone waf"
-#~ msgstr "Manjka waf, poskusite izvesti jhbuild -m bootstrap buildone waf"
