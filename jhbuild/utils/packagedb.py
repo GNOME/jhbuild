@@ -108,7 +108,10 @@ class PackageEntry:
         if self.manifest is not None:
             fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
             fd.write('\n'.join(self.manifest))
-            os.fdatasync(fd.fileno())
+            if hasattr(os, 'fdatasync'):
+                os.fdatasync(fd.fileno())
+            else:
+                os.fsync(fd.fileno())
             fd.close()
             os.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
                       os.path.join(self.manifests_dir, self.package))
