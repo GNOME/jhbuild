@@ -145,7 +145,7 @@ class PackageDB:
                         and self._entries_stat[stat.ST_MTIME] == stbuf[stat.ST_MTIME]):
                     logging.info(_('Package DB modified externally, rereading'))
                     self._read_cache()
-            function(self, *args, **kwargs)
+            return function(self, *args, **kwargs)
         return decorate
 
     def _read_cache(self):
