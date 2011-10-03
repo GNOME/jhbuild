@@ -56,16 +56,18 @@ class cmd_info(Command):
                 self.show_info(module, packagedb, module_set)
 
     def show_info(self, module, packagedb, module_set):
-        installdate = packagedb.installdate(module.name, module.get_revision() or '')
+        package_entry = packagedb.get(module.name)
 
         uprint(_('Name:'), module.name)
         uprint(_('Module Set:'), module.moduleset_name)
         uprint(_('Type:'), module.type)
 
-        if installdate is not None:
+        if package_entry is not None:
+            uprint(_('Install version:'), package_entry.version)
             uprint(_('Install date:'), time.strftime('%Y-%m-%d %H:%M:%S',
-                                                 time.localtime(installdate)))
+                                                     time.localtime(packagedb.installdate(module.name))))
         else:
+            uprint(_('Install version:'), _('not installed'))
             uprint(_('Install date:'), _('not installed'))
 
         if isinstance(module, MetaModule):
