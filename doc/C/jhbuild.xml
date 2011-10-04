@@ -871,18 +871,6 @@ jhbuildbot_password = 'password'
       <variablelist>
         <varlistentry>
           <term>
-            <option>-a</option>, <option>--autogen</option>
-          </term>
-          <listitem>
-            <simpara>Always run <command>autogen.sh</command> before building
-              modules. By default, <command>autogen.sh</command> will only be
-              called if the top-level makefile is missing. Otherwise, JHBuild
-              relies on the package's makefiles to detect if configure needs to
-              be rebuilt or rerun.</simpara>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
             <option>-c</option>, <option>--clean</option>
           </term>
           <listitem>
@@ -1050,7 +1038,6 @@ jhbuildbot_password = 'password'
         It is useful for rebuilding one or more modules.</para>
 
       <cmdsynopsis><command>jhbuild buildone</command>
-        <arg>--autogen</arg>
         <arg>--clean</arg>
         <arg>--check</arg>
         <arg>--distcheck</arg>
@@ -1062,7 +1049,7 @@ jhbuildbot_password = 'password'
         <arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--autogen</option>, <option>--check</option>,
+      <para>The <option>--check</option>,
         <option>--clean</option>, <option>-d</option>,
         <option>--distcheck</option>, <option>--no-network</option>,
         <option>-D</option> and <option>-x</option> options are processed as per
@@ -1453,7 +1440,6 @@ No matching system package installed:
         similar to Mozilla's Tinderbox, or Debian's Buildd.</para>
 
       <cmdsynopsis><command>jhbuild tinderbox</command>
-        <arg>--autogen</arg>
         <arg>--clean</arg>
         <arg>--no-network</arg>
         <arg>--output=<replaceable>directory</replaceable></arg>
@@ -1466,7 +1452,7 @@ No matching system package installed:
         <arg rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--autogen</option>, <option>--clean</option>,
+      <para>The <option>--clean</option>,
         <option>--no-network</option>, <option>--skip</option>,
         <option>--start-at</option>, <option>-D</option>, <option>-C</option>,
         <option>-N</option> and <option>-f</option> options are processed as per
@@ -1575,18 +1561,6 @@ No matching system package installed:
 
       <variablelist>
 <?dbhtml list-presentation="table"?>
-        <varlistentry>
-          <term id="cfg-alwaysautogen">
-            <varname>alwaysautogen</varname>
-          </term>
-          <listitem>
-            <simpara>A boolean value if set to <constant>True</constant>,
-              always run <command>autogen.sh</command> before
-              <command>make</command>, even if a makefile exists. This is
-              equivalent to passing <option>--always-autogen</option> option to
-              JHBuild. Defaults to <constant>False</constant>.</simpara>
-          </listitem>
-        </varlistentry>
         <varlistentry>
           <term id="cfg-autogenargs">
             <varname>autogenargs</varname>

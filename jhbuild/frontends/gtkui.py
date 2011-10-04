@@ -714,7 +714,6 @@ class PreferencesDialog(gtk.Dialog):
 
         for key, label in (
                 ('nonetwork', _('Disable network access')),
-                ('alwaysautogen', _('Always run autogen.sh')),
                 ('nopoison', _('Don\'t poison modules on failure'))):
             checkbutton = gtk.CheckButton(label)
             checkbutton.set_active(getattr(self.app.config, key))

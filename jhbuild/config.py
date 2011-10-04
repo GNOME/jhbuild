@@ -45,7 +45,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
-                'alwaysautogen', 'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
+                'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
@@ -60,7 +60,11 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'ignore_suggests', 'modulesets_dir', 'mirror_policy',
                 'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets',
                 'cmakeargs', 'module_cmakeargs', 'print_command_pattern',
-                'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir' ]
+                'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir',
+
+                # Internal only keys (propagated from command line options)
+                '_internal_noautogen',
+                ]
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -181,6 +185,9 @@ class Config:
                 raise FatalError(
                     _('Obsolete JHBuild start script, make sure it is removed '
                       'then do run \'make install\''))
+            
+        # Set defaults for internal variables
+        self._config['_internal_noautogen'] = False
 
         env_prepends.clear()
         try:
@@ -542,8 +549,6 @@ class Config:
             options = self.cmdline_options
         else:
             self.cmdline_options = options
-        if hasattr(options, 'autogen') and options.autogen:
-            self.alwaysautogen = True
         if hasattr(options, 'clean') and (
                 options.clean and not 'clean' in self.build_targets):
             self.build_targets.insert(0, 'clean')

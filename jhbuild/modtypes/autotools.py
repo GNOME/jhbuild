@@ -96,11 +96,10 @@ class AutogenModule(Package, DownloadableModule):
         if self.skip_autogen == 'never':
             return False
 
-        # skip if the makefile exists and we don't have the
-        # alwaysautogen flag turned on:
-        builddir = self.get_builddir(buildscript)
-        return (os.path.exists(os.path.join(builddir, self.makefile)) and
-                not buildscript.config.alwaysautogen)
+        if buildscript.config._internal_noautogen:
+            return True
+
+        return False
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)

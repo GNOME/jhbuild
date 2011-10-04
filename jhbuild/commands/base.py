@@ -210,8 +210,8 @@ class cmd_build(Command):
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
-                        action='store_true', dest='autogen', default=False,
-                        help=_('always run autogen.sh')),
+                        action='store_true', dest='_unused', default=False,
+                        help=_('This option does nothing anymore')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
@@ -304,8 +304,8 @@ class cmd_buildone(Command):
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
-                        action='store_true', dest='autogen', default=False,
-                        help=_('always run autogen.sh')),
+                        action='store_true', dest='_unused', default=False,
+                        help=_('This option does nothing anymore')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
