@@ -3,7 +3,7 @@ AC_INIT([jhbuild], [3.2.0],
 AC_CONFIG_SRCDIR(jhbuild/main.py)
 AM_INIT_AUTOMAKE([1.11 -Wno-portability foreign no-define tar-ustar no-dist-gzip dist-xz])
 GNOME_COMMON_INIT
-AM_MAINTAINER_MODE
+AM_MAINTAINER_MODE([enable])
 AC_PREFIX_DEFAULT(~/.local/)
 
 AM_PATH_PYTHON
