@@ -1,6 +1,6 @@
-DOC_LINGUAS = de el es fr ja sl sv
+include $(top_srcdir)/build-aux/gnome-doc-utils.make
 
-include $(top_srcdir)/gnome-doc-utils.make
+DOC_LINGUAS = de el es fr ja sl sv
 
 dist-hook: doc-dist-hook
 
