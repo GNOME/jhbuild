@@ -190,6 +190,27 @@ class TarballBranch(Branch):
             else:
                 logging.warning(_('skipped hash check (missing support for %s)') % algo)
 
+    def _download_tarball(self, buildscript, localfile):
+        """Downloads the tarball off the internet, using wget or curl."""
+        extra_env = {
+            'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
+            'PATH': os.environ.get('UNMANGLED_PATH')
+            }
+        lines = [
+            ['wget', '--continue', self.module, '-O', localfile],
+            ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile]
+            ]
+        lines = [line for line in lines if has_command(line[0])]
+        if not lines:
+            raise FatalError(_("unable to find wget or curl"))
+        try:
+            return buildscript.execute(lines[0], extra_env = extra_env)
+        except CommandError:
+            # Cleanup potential leftover file
+            if os.path.exists(localfile):
+                os.remove(localfile)
+            raise
+
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
         if not os.path.exists(self.config.tarballdir):
@@ -204,21 +225,7 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            if has_command('wget'):
-                res = buildscript.execute(
-                        ['wget', '--continue', self.module, '-O', localfile],
-                        extra_env={
-                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
-                          'PATH': os.environ.get('UNMANGLED_PATH')})
-            elif has_command('curl'):
-                res = buildscript.execute(
-                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile],
-                        extra_env={
-                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
-                          'PATH': os.environ.get('UNMANGLED_PATH')})
-            else:
-                raise FatalError(_("unable to find wget or curl"))
-
+            res = self._download_tarball(buildscript, localfile)
             self._check_tarball()
 
         # now to unpack it
