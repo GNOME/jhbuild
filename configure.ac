@@ -1,8 +1,10 @@
 AC_INIT([jhbuild], [3.2.0],
 		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
+
 AC_CONFIG_SRCDIR(jhbuild/main.py)
+AC_CONFIG_MACRO_DIR([m4])
+
 AM_INIT_AUTOMAKE([1.11 -Wno-portability foreign no-define tar-ustar no-dist-gzip dist-xz])
-GNOME_COMMON_INIT
 AM_MAINTAINER_MODE([enable])
 AC_PREFIX_DEFAULT(~/.local/)
 
