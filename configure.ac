@@ -1,14 +1,19 @@
-AC_INIT([jhbuild], [3.2.0],
-		[http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild])
+AC_INIT([jhbuild],
+        [3.2.0],
+        [http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild],
+        [jhbuild])
 
 AC_CONFIG_SRCDIR(jhbuild/main.py)
+AC_PREFIX_DEFAULT([~/.local/])
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.11 -Wno-portability foreign no-define tar-ustar no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE([enable])
-AC_PREFIX_DEFAULT(~/.local/)
 
+# Check for programs
+AC_PROG_CC
 AM_PATH_PYTHON
+PKG_PROG_PKG_CONFIG
 
 # i18n
 IT_PROG_INTLTOOL([0.40.0])
@@ -19,9 +24,6 @@ AM_GNU_GETTEXT_VERSION([0.17])
 GETTEXT_PACKAGE="jhbuild"
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package])
-
-AC_PROG_CC
-PKG_PROG_PKG_CONFIG
 
 # Documentation
 AC_ARG_ENABLE(
@@ -37,9 +39,11 @@ GNOME_DOC_INIT
 AC_CONFIG_FILES([
 	Makefile
 	doc/Makefile
+	examples/jhbuild.desktop
 	po/Makefile.in
 	scripts/Makefile
 	triggers/Makefile
+	jhbuild.desktop.in
 	jhbuild/Makefile
 	jhbuild/buildbot/Makefile
 	jhbuild/buildbot/status/web/Makefile
@@ -52,7 +56,4 @@ AC_CONFIG_FILES([
 	jhbuild/versioncontrol/Makefile
 	buildbot/Makefile
 ])
-AC_OUTPUT([
-        examples/jhbuild.desktop
-	jhbuild.desktop.in
-])
+AC_OUTPUT
