@@ -115,7 +115,7 @@ def run(command, config, args, help):
         except ImportError:
             pass
     if command not in _commands:
-        raise FatalError(_('command not found'))
+        raise FatalError(_('no such command (did you mean "jhbuild run %s"?)' % command))
 
     command_class = _commands[command]
 
