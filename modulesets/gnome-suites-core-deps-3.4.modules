@@ -450,16 +450,13 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnutls" version="2.10.2" autogenargs="--enable-guile=no">
-    <pkg-config>gnutls.pc</pkg-config>
-    <branch module="gnutls/gnutls-2.10.2.tar.bz2" version="2.10.2"
+  <autotools id="gnutls" version="2.12.0" autogenargs="--enable-guile=no --with-libgcrypt">
+    <branch module="gnutls/gnutls-2.12.0.tar.bz2" version="2.12.0"
 	    repo="ftp.gnu.org"
-            hash="sha256:e82e7a3fc69b02cc06c291a1652789d73e45bc0732e139817838248f814f8724"
-            size="7458438">
+            hash="sha256:67fe6449e1f65cd2d8eae85f8ec3280902c1a2079a245691ed252d4117033629"
+            size="7142406">
       <!-- Build fix for rpath?  -->
-      <patch file="gnutls-2.10.2-rpath.patch" strip="1"/>
-      <!-- Backport from upstream git -->
-      <patch file="gnutls-2.10.1-handshake-errors.patch" strip="1"/>
+      <patch file="gnutls-2.12.0-rpath.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libgcrypt" />
