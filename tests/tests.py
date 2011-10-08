@@ -124,6 +124,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
 
     def make_terminal_buildscript(self, config, module_list):
         module_set = jhbuild.moduleset.load(config)
+        module_set.packagedb = mock.PackageDB()
         return jhbuild.frontends.terminal.TerminalBuildScript(config, module_list, module_set)
 
     
