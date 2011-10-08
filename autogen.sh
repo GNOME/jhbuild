@@ -50,7 +50,7 @@ setup_i18n()
     make -s -C $srcdir/po -f Makefile.plain
   fi
 
-  # Check gettext.sh is installed to provide i18n for this script 
+  # Check gettext.sh is installed to provide i18n for this script
   hash gettext.sh 2>&-
   gettext_sh_available=$?
 
@@ -61,7 +61,7 @@ setup_i18n()
     . gettext.sh
   fi
 
-  # Check gettext is installed to provide i18n for this script 
+  # Check gettext is installed to provide i18n for this script
   hash gettext 2>&-
   gettext_available=$?
 }
