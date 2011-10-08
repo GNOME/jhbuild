@@ -261,6 +261,14 @@ class Config:
         if config.get('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
 
+        for path_key in ('checkoutroot', 'buildroot', 'top_builddir',
+                         'tinderbox_outputdir', 'tarballdir', 'copy_dir',
+                         'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
+                         'jhbuildbot_mastercfg', 'modulesets_dir',
+                         'dvcs_mirror_dir', 'static_analyzer_outputdir'):
+            if config.get(path_key):
+                config[path_key] = os.path.expanduser(config[path_key])
+
         # copy known config keys to attributes on the instance
         for name in _known_keys:
             setattr(self, name, config[name])
