@@ -21,9 +21,10 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.errors import BuildStateError
+from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type
+from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'CMakeModule' ]
 
@@ -87,6 +88,8 @@ class CMakeModule(Package, DownloadableModule):
         if not os.path.exists(builddir):
             os.mkdir(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
+        if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'cmake')
         baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DLIB_INSTALL_DIR=%s -Dlibdir=%s' % (
                         prefix, buildscript.config.libdir, buildscript.config.libdir)
         cmd = 'cmake %s %s %s' % (baseargs, self.get_cmakeargs(), srcdir)
