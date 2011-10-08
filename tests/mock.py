@@ -100,6 +100,9 @@ class PackageDB:
             return None
         return entry.metadata['installed-date']
 
+    def get(self, package):
+        '''Return entry if package is installed, otherwise return None.'''
+        return self.entries.get(package)
 
 class BuildScript(jhbuild.frontends.buildscript.BuildScript):
     execute_is_failure = False
