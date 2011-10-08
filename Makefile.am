@@ -22,6 +22,7 @@ INTLTOOL = 			\
 
 EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
 	install-check.c \
+	autogen.sh \
 	$(desktop_in_files) $(INTLTOOL)
 
 DISTCLEANFILES = 		\
