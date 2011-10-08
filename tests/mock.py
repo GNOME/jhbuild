@@ -170,7 +170,7 @@ class MockModule(jhbuild.modtypes.Package):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
-        buildscript.moduleset.packagedb.add(self.name, '', None)
+        buildscript.moduleset.packagedb.add(self.name, self.get_revision(), None)
     do_install.depends = [PHASE_BUILD]
 
     def do_check(self, buildscript):
