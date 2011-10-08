@@ -107,6 +107,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
         config = TestConfig()
         config.checkoutroot = os.path.abspath(os.path.join(temp_dir, 'checkout'))
         config.prefix = os.path.abspath(os.path.join(temp_dir, 'prefix'))
+        config.top_builddir = os.path.join(config.prefix, '_jhbuild')
         os.makedirs(config.checkoutroot)
         os.makedirs(config.prefix)
         config.interact = False
