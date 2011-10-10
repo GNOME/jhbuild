@@ -369,6 +369,17 @@
 
 <screen><prompt>$</prompt> <userinput>jhbuild buildone gtk+</userinput></screen>
 
+      <para>When actively developing a module, you are likely in a
+      source working directory.  The <command>make</command> will
+      invoke the build system and install the module.  This will be a
+      key part of your edit-compile-install-test cycle.</para>
+
+<screen><prompt>$</prompt> <userinput>jhbuild make</userinput></screen>
+
+      <para>If JHBuild is cancelled part way through a build, it is possible
+        to resume the build at a particular module using the
+        <option>--start-at</option> option:</para>
+
       <para>To get a list of the modules and dependencies JHBuild will build,
         and the order they will be built, use the <command>list</command>
         command:</para>
@@ -1028,6 +1039,27 @@ jhbuildbot_password = 'password'
           </listitem>
         </varlistentry>
       </variablelist>
+    </section>
+
+    <section id="command-reference-make">
+      <title>make</title>
+
+      <para>The <command>make</command> command is for actively
+      developing on a particular module.  It requires the current
+      directory be a source checkout, and does the equivalent of
+      <command>buildone -nf $(basename $(pwd))</command>.
+      </para>
+
+      <cmdsynopsis><command>jhbuild make</command>
+        <arg>--clean</arg>
+        <arg>--check</arg>
+        <arg>--distcheck</arg>
+        <arg>--quiet</arg>
+      </cmdsynopsis>
+
+      <para>The options are the same as those available for the <link
+      linkend="command-reference-build"><command>buildone</command></link>
+      command.</para>
     </section>
 
     <section id="command-reference-buildone">
