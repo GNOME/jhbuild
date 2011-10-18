@@ -62,8 +62,7 @@
 
     <para>JHBuild can build modules from a variety of sources, including
       <ulink url="http://www.cvshome.org/">CVS</ulink>,
-      <ulink url="http://subversion.tigris.org/">Subversion,</ulink>
-      <ulink url="http://wiki.gnuarch.org/">Arch</ulink>,
+      <ulink url="http://subversion.tigris.org/">Subversion</ulink>,
       <ulink url="http://www.bazaar-vcs.org/">Bazaar</ulink>,
       <ulink url="http://darcs.net/">Darcs</ulink>,
       <ulink url="http://git.or.cz/">Git</ulink> and
@@ -2354,7 +2353,7 @@ No matching system package installed:
         set.</para>
 
       <para>The <sgmltag class="attribute">type</sgmltag> attribute specifies
-        the type of repository. It can be one of: <literal>arch</literal>,
+        the type of repository. It can be one of:
         <literal>bzr</literal>, <literal>cvs</literal>,
         <literal>darcs</literal>, <literal>fossil</literal>,
         <literal>git</literal>, <literal>hg</literal>, <literal>mnt</literal>,
@@ -2404,24 +2403,6 @@ No matching system package installed:
       </para>
 
       <para>Other attributes are described below</para>
-
-      <section id="moduleset-syntax-sources-arch">
-        <title>Arch</title>
-
-        <para>This repository type is used to define a Arch repository.</para>
-
-        <para>The <sgmltag class="attribute">archive</sgmltag> attribute is
-          used to specify the archive to use.</para>
-
-        <para>The <sgmltag class="attribute">href</sgmltag> attribute is used
-          to specify the URL of the repository.</para>
-
-<programlisting>
-&lt;repository type="arch" name="rhythmbox"
-    archive="rhythmbox-devel@gnome.org--2004"
-    href="http://web.rhythmbox.org/arch/2004"/&gt;
-</programlisting>
-      </section>
 
       <section id="moduleset-syntax-sources-bzr">
         <title>Bazaar</title>
@@ -3090,32 +3071,6 @@ No matching system package installed:
             <literal>svn</literal> URL.</para>
         </section>
 
-        <section id="moduleset-syntax-sources-arch-archive">
-          <title>arch-archive</title>
-
-          <para>The <sgmltag class="element">arch-archive</sgmltag> element is
-            now deprecated - the <sgmltag class="element">repository</sgmltag>
-            element should be used instead.</para>
-
-          <para>The <sgmltag class="element">arch-archive</sgmltag> element is
-            used to describe a GNU Arch archive.</para>
-
-<programlisting>
-  &lt;arch-archive name="<replaceable>archivename</replaceable>"
-                [ default="<replaceable>yes|no</replaceable>" ]
-                href="<replaceable>mirror-url</replaceable>"/&gt;
-</programlisting>
-
-          <para>The <sgmltag class="attribute">name</sgmltag> attribute should
-            be the Arch archive name.</para>
-
-          <para>If <sgmltag class="attribute">default</sgmltag> attribute says
-            whether this is the default module source for this module set file.
-          </para>
-
-          <para>The <sgmltag class="attribute">href</sgmltag> attribute lists
-            a public mirror URL for the archive.</para>
-        </section>
       </section>
 
 <!-- end of deprecated module sources -->
