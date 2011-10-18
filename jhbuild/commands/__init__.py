@@ -117,9 +117,10 @@ def run(command, config, args, help):
     if command not in _commands:
         import jhbuild.moduleset
         module_set = jhbuild.moduleset.load(config)
-        if module_set.get_module(command):
+        try:
+            module_set.get_module(command)
             raise FatalError(_('no such command (did you mean "jhbuild build %s"?)' % command))
-        else:
+        except KeyError:
             raise FatalError(_('no such command (did you mean "jhbuild run %s"?)' % command))
 
     command_class = _commands[command]
