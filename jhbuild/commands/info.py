@@ -27,7 +27,6 @@ from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule
 from jhbuild.versioncontrol.cvs import CVSBranch
 from jhbuild.versioncontrol.svn import SubversionBranch
-from jhbuild.versioncontrol.arch import ArchBranch
 from jhbuild.versioncontrol.darcs import DarcsBranch
 from jhbuild.versioncontrol.git import GitBranch
 from jhbuild.versioncontrol.tarball import TarballBranch
@@ -79,8 +78,6 @@ class cmd_info(Command):
                 uprint(_('CVS Revision:'), module.branch.revision)
         elif isinstance(module.branch, SubversionBranch):
             uprint(_('Subversion Module:'), module.branch.module)
-        elif isinstance(module.branch, ArchBranch):
-            uprint(_('Arch Version:'), module.branch.module)
         elif isinstance(module.branch, DarcsBranch):
             uprint(_('Darcs Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):
