@@ -24,7 +24,7 @@ import time
 import logging
 import xml.dom.minidom as DOM
 
-from . import lockfile
+from jhbuild.utils import lockfile
 
 try:
     import xml.etree.ElementTree as ET
@@ -33,7 +33,7 @@ except ImportError:
 
 from StringIO import StringIO
 
-from . import fileutils
+from jhbuild.utils import fileutils
 
 def _parse_isotime(string):
     if string[-1] != 'Z':

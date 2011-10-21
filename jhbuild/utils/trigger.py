@@ -22,7 +22,7 @@ import sys
 import subprocess
 import re
 
-from . import cmds
+from jhbuild.utils import cmds
 
 class Trigger(object):
     SUFFIX = '.trigger'
