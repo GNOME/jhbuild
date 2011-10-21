@@ -147,11 +147,14 @@ class TerminalBuildScript(buildscript.BuildScript):
         kws = {
             'close_fds': True
             }
-        print_args = {}
+        print_args = {'cwd': ''}
         if cwd:
             print_args['cwd'] = cwd
         else:
-            print_args['cwd'] = os.getcwd()
+            try:
+                print_args['cwd'] = os.getcwd()
+            except OSError:
+                pass
 
         if isinstance(command, (str, unicode)):
             kws['shell'] = True
