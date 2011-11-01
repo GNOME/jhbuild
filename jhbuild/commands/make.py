@@ -62,14 +62,14 @@ class cmd_make(Command):
 
         module_set = jhbuild.moduleset.load(config)
 
-        dirname,basename = os.path.split(cwd)
-        if not dirname.endswith('/'):
-            dirname = dirname + '/'
-        if not dirname.startswith(config.checkoutroot):
+        if not cwd.startswith(config.checkoutroot):
             logging.error(_('The current directory is not in the checkout root %r') % (config.checkoutroot, ))
             return False
 
-        name = os.path.basename(basename)
+        cwd = cwd[len(config.checkoutroot):]
+        cwd = cwd.lstrip(os.sep)
+        name, _slash, _rest = cwd.partition(os.sep)
+
         try:
             module = module_set.get_module(name, ignore_case=True)
         except KeyError, e:
