@@ -411,6 +411,12 @@ class Config:
         xcursordir = os.path.join(self.prefix, 'share', 'icons')
         addpath('XCURSOR_PATH', xcursordir)
 
+        # GST_PLUGIN_PATH
+        for gst in ('gstreamer-1.0', 'gstreamer-0.10'):
+            gstplugindir = os.path.join(self.libdir , gst)
+            if os.path.exists(gstplugindir):
+                addpath('GST_PLUGIN_PATH', gstplugindir)
+
         # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
