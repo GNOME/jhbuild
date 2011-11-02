@@ -481,7 +481,7 @@
     </after>
   </tarball>
 
-  <autotools id="gstreamer" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
+  <autotools id="gstreamer" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
     <dependencies>
       <dep package="glib"/>
