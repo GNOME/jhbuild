@@ -936,7 +936,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin">
+  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin" makeargs="CFLAGS=-Wno-error">
     <branch repo="packagekit.gitorious.org" checkoutdir="PackageKit" module="packagekit.git"/>
     <dependencies>
       <dep package="glib"/>
