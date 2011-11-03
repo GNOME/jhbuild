@@ -180,25 +180,25 @@ class Package:
         os.makedirs(destdir)
         return destdir
 
+    def _clean_la_files_in_dir(self, buildscript, path):
+        for name in os.listdir(path):
+            subpath = os.path.join(path, name)
+            if os.path.isdir(subpath):
+                self._clean_la_files_in_dir(buildscript, subpath)
+            elif name.endswith('.la'):
+                    try:
+                        logging.info(_('Deleting .la file: %r') % (subpath, ))
+                        os.unlink(subpath)
+                    except OSError:
+                        pass
+
     def _clean_la_files(self, buildscript, installroot):
-        """This method removes .la files from the toplevel lib*/
-        directories.  See bug 654013."""
+        """This method removes all .la files. See bug 654013."""
         assert os.path.isabs(installroot)
         assert os.path.isabs(buildscript.config.prefix)
         prefixdir = os.path.join(installroot, buildscript.config.prefix[1:])
         if os.path.isdir(prefixdir):
-            for name in os.listdir(prefixdir):
-                namepath = os.path.join(prefixdir, name)
-                if not (name.startswith('lib') and os.path.isdir(namepath)):
-                    continue
-                for subname in os.listdir(namepath):
-                    subpath = os.path.join(namepath, subname)
-                    if subname.endswith('.la'):
-                        try:
-                            logging.info(_('Deleting toplevel .la file: %r') % (subpath, ))
-                            os.unlink(subpath)
-                        except OSError:
-                            pass
+            self._clean_la_files_in_dir(self, prefixdir)
 
     def _process_install_files(self, installroot, curdir, prefix):
         """Strip the prefix from all files in the install root, and move
