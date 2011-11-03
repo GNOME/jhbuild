@@ -470,10 +470,8 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gmime" version="2.4.15">
-    <source href="http://download.gnome.org/sources/gmime/2.4/gmime-2.4.15.tar.bz2"
-            hash="sha256:a0a6c9413b057ab5d8a2a2902cbaa5b3a17871af3f94dc8431978c9e0e5f53e1"
-            md5sum="604ec62e1ce4d149d724f5d3ee69c110" size="859146"/>
+  <autotools id="gmime">
+    <branch/>
     <dependencies>
       <dep package="gtk-doc"/>
       <dep package="glib"/>
@@ -481,7 +479,7 @@
     <after>
       <dep package="gtk-sharp"/>
     </after>
-  </tarball>
+  </autotools>
 
   <autotools id="gstreamer" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
