@@ -47,6 +47,8 @@
     href="http://dbus.freedesktop.org/releases/"/>
 <repository type="tarball" name="cairo.org"
     href="http://cairographics.org/"/>
+<repository type="tarball" name="people.freedesktop.org"
+    href="http://people.freedesktop.org/"/>
 
 <!-- Please try to keep organized alphabetically by section -->
 
@@ -1295,6 +1297,13 @@
     </branch>
   </autotools>
 
+  <autotools id="gusb">
+    <pkg-config>gusb.pc</pkg-config>
+    <branch repo="people.freedesktop.org"
+            module="~hughsient/releases/libgusb-0.1.1.tar.xz" version="0.1.1"
+            md5sum="f2724bf1d958c8c9f55c3cfb1bd0efc4" size="256892"/>
+  </autotools>
+
  <tarball id="lcms2" version="2.2" checkoutdir="lcms-2.2">
     <pkg-config>lcms2.pc</pkg-config>
     <source href="http://downloads.sourceforge.net/lcms/lcms2-2.2.tar.gz"
@@ -1308,6 +1317,7 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="gudev"/>
+      <dep package="gusb"/>
       <dep package="sqlite3"/>
       <dep package="lcms2"/>
       <dep package="gobject-introspection"/>
