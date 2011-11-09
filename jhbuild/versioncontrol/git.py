@@ -175,8 +175,11 @@ class GitBranch(Branch):
         return True
 
     def is_local_branch(self, branch):
-        return self.execute_git_predicate( ['git', 'show-ref', '--quiet',
-                '--verify', 'refs/heads/' + branch])
+        is_local_head = self.execute_git_predicate( ['git', 'show-ref', '--quiet',
+                                                     '--verify', 'refs/heads/' + branch])
+        if is_local_head:
+            return True
+        return self.execute_git_predicate(['git', 'rev-parse', branch])
 
     def is_inside_work_tree(self):
         return self.execute_git_predicate(
