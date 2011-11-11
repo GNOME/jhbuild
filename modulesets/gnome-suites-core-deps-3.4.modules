@@ -15,6 +15,8 @@
     password=""/>
 <repository type="git" name="colord.gitorious.org"
     href="git://gitorious.org/colord"/>
+<repository type="git" name="gusb.gitorious.org"
+    href="git://gitorious.org/gusb"/>
 <repository type="bzr" name="research.operationaldynamics.com"
     href="http://research.operationaldynamics.com/bzr"/>
 
@@ -1298,10 +1300,10 @@
   </autotools>
 
   <autotools id="gusb">
-    <pkg-config>gusb.pc</pkg-config>
-    <branch repo="people.freedesktop.org"
-            module="~hughsient/releases/libgusb-0.1.1.tar.xz" version="0.1.1"
-            md5sum="f2724bf1d958c8c9f55c3cfb1bd0efc4" size="256892"/>
+    <branch repo="gusb.gitorious.org" checkoutdir="gusb" module="gusb.git"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
   </autotools>
 
  <tarball id="lcms2" version="2.2" checkoutdir="lcms-2.2">
