@@ -33,6 +33,12 @@
       href="git://yorba.org/"/>
   <repository type="tarball" name="monogithub"
     href="https://github.com/downloads/mono/dbus-sharp/"/>
+  <repository type="git" name="spice"
+      href="git://anongit.freedesktop.org/git/spice"/>
+  <repository type="git" name="fedorahosted.org"
+      href="git://git.fedorahosted.org/git/"/>
+  <repository type="git" name="libvirt.org"
+      href="git://libvirt.org/"/>
 
   <include href="gnome-suites-core-3.4.modules"/>
 
@@ -44,6 +50,14 @@
   <autotools id="babl">
     <branch/>
   </autotools>
+
+  <tarball id="celt" version="0.5.1.3">
+    <source href="http://downloads.us.xiph.org/releases/celt/celt-0.5.1.3.tar.gz"
+            hash="sha256:fc2e5b68382eb436a38c3104684a6c494df9bde133c139fbba3ddb5d7eaa6a2e"
+            md5sum="67e7b5e45db57a6f1f0a6962f5ecb190" size="440772"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
 
   <tarball id="librsync" version="0.9.7" checkoutdir="librsync-0.9.7">
     <source href="http://downloads.sourceforge.net/librsync/librsync-0.9.7.tar.gz"
@@ -172,10 +186,10 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gtk-vnc" version="0.4.3" autogenargs="--with-gtk=3.0">
-    <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.3.tar.bz2"
-            hash="sha256:b9870d923d636d2e7547267d01c8cafdc06ad5b5b4987003ea3cd567bfbb6377"
-            md5sum="38d3fbacb5d00e630f939e88858206f1" size="446486"/>
+  <tarball id="gtk-vnc" version="0.4.4" autogenargs="--with-gtk=3.0">
+    <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.4.tar.bz2"
+            hash="sha256:56e02a83718dc0485ba0dd8f1a6656e60b9ab503b2c78187a3a6724f6c413a64"
+            md5sum="0c51bcbdf1530c4856f49ace7c8f709a" size="456119"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
@@ -268,6 +282,25 @@
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="fontconfig"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libosinfo">
+    <branch repo="fedorahosted.org" module="libosinfo.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Assume libvirt from system -->
+  <autotools id="libvirt-glib">
+    <branch repo="libvirt.org" module="libvirt-glib.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
     </dependencies>
   </autotools>
 
@@ -386,6 +419,38 @@
             hash="sha256:fbc87711922b2dd6ceb23ee041f1f96da9b7dbb6971df03a3081b439def069ce"
             md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
   </distutils>
+
+  <tarball id="spice-protocol" version="0.10.0">
+    <source href="http://spice-space.org/download/releases/spice-protocol-0.10.0.tar.bz2"
+            hash="sha256:05fa0e3133d288289282741a58975daf6d340a2bc9af2e72602a91801afa5899"
+            md5sum="888d8a50d36a09a1c479cadddce244ae" size="65811"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <tarball id="spice-server"
+             version="0.10.0"
+             autogenargs="--enable-werror --disable-smartcard --without-sasl --disable-client" >
+    <source href="http://spice-space.org/download/releases/spice-0.10.0.tar.bz2"
+            hash="sha256:d0ef56207d74ea0f51f92e213b4f006cd8e1f14430379552dc2f1852a414ae71"
+            md5sum="d9f0b0280c9e2291623c9560e156be26" size="1186565"/>
+    <dependencies>
+      <dep package="spice-protocol"/>
+      <dep package="celt"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="spice-gtk" version="0.7.81-4f76" autogenargs="--disable-usbredir">
+    <source href="http://www.spice-space.org/download/gtk/spice-gtk-0.7.81-4f76.tar.bz2"
+            hash="sha256:5c667c501eb76bb1fd914ee9d1b4f9f7266761d23ec453a55d35a6d7dfa2f4d4"
+            md5sum="abe92c14167e1a153b7dcb78604c3efa" size="805667"/>
+    <dependencies>
+      <dep package="celt"/>
+      <dep package="spice-protocol"/>
+      <dep package="gtk+"/>
+      <dep package="vala"/>
+    </dependencies>
+  </tarball>
 
   <repository type="tarball" name="taglib-sharp"
       href="download.banshee.fm/"/>
@@ -847,6 +912,22 @@
     </suggests>
   </autotools>
 
+  <autotools id="gnome-boxes">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="gtk-vnc"/>
+      <dep package="libosinfo"/>
+      <dep package="libvirt-glib"/>
+      <dep package="gtk+"/>
+      <dep package="spice-gtk"/>
+      <dep package="clutter-gtk"/>
+      <dep package="vala"/>
+      <dep package="gudev"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-games">
     <branch/>
     <dependencies>
@@ -1049,6 +1130,7 @@
       <dep package="file-roller"/>
       <dep package="gedit"/>
       <dep package="glade"/>
+      <dep package="gnome-boxes"/>
       <dep package="gnome-color-manager"/>
       <dep package="gnome-documents"/>
       <dep package="gnome-devel-docs"/>
