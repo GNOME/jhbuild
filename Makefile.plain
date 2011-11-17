@@ -8,12 +8,12 @@ MAKE ?= make
 
 -include Makefile.inc
 
-include-check:
-	test -f Makefile.inc || \
-	(echo "Makefile.inc doesn't exist. Please run autogen.sh"; exit 1)
-
-all: install-check
+all: include-check install-check
 	@echo 'Run "make install" to install.'
+
+include-check:
+	@test -f Makefile.inc || \
+	(echo "Makefile.inc doesn't exist. Please run autogen.sh"; exit 1)
 
 install-check: install-check.c
 	$(CC) $(CFLAGS) -o install-check install-check.c
