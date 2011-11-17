@@ -19,6 +19,7 @@
 
 import logging
 import os
+import pipes
 import sys
 import time
 from optparse import make_option
@@ -59,6 +60,15 @@ class cmd_make(Command):
         options.force_policy = True
         config._internal_noautogen = not options.autogen
         config.set_from_cmdline_options(options)
+
+        makeargs = config.makeargs
+        for arg in args:
+            # pipes.quote (and really, trying to safely quote shell arguments) is
+            # broken, but executing commands as strings is pervasive throughout
+            # jhbuild...this is a hack that will probably live until someone just
+            # replaces jhbuild entirely.
+            makeargs = '%s %s' % (makeargs, pipes.quote(arg))
+        config.makeargs = makeargs
 
         module_set = jhbuild.moduleset.load(config)
 
