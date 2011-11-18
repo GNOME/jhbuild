@@ -35,6 +35,7 @@ PKG_NAME=jhbuild
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
+test -z "$MAKE" && MAKE=make
 
 setup_i18n()
 {
@@ -158,6 +159,14 @@ configure_with_autotools()
     configure_without_autotools
   fi
 }
+
+# Check for make. make is required to provide i18n for this script and to
+# build and install JHBuild
+hash $MAKE 2>&-
+if [ $? -ne 0 ]; then
+  echo "\`$MAKE' is required to configure & build $PKG_NAME"
+  exit 1
+fi
 
 setup_i18n
 if [ $gettext_available -ne 0 ]; then
