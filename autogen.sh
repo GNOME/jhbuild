@@ -191,14 +191,19 @@ fi
 hash gnome-autogen.sh 2>&-
 gnome_autogen_available=$?
 
-# Check gnome-doc-tool package is installed.
+# Check gnome-doc-tool is installed.
 hash gnome-doc-tool 2>&-
 gnome_doc_tool_available=$?
+
+# Check gnome-doc-prepare is installed.
+hash gnome-doc-prepare 2>&-
+gnome_doc_prepare_available=$?
 
 parse_commandline $*
 
 if [ $gnome_autogen_available -eq 0 -a \
      $gnome_doc_tool_available -eq 0 -a \
+     $gnome_doc_prepare_available -eq 0 -a \
      $enable_autotools -eq 1 ]; then
   configure_with_autotools $*
 else
@@ -206,7 +211,11 @@ else
     gettext "gnome-autogen.sh not available"; echo
   fi
   if [ $gnome_doc_tool_available -ne 0 ]; then
-    gettext "gnome-doc-tools not available"; echo
+    gettext "gnome-doc-tool not available"; echo
+  elif [ $gnome_doc_prepare_available -ne 0 ]; then
+    # OpenSuSe splits gnome-doc-prepare into separate gnome-doc-utils-devel
+    # package
+    gettext "gnome-doc-prepare not available"; echo
   fi
   configure_without_autotools
 fi
