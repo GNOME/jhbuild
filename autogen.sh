@@ -155,9 +155,6 @@ configure_with_autotools()
   REQUIRED_INTLTOOL_VERSION=0.35.0 \
   REQUIRED_PKG_CONFIG_VERSION=0.16.0 \
   USE_COMMON_DOC_BUILD=yes gnome-autogen.sh $@
-  if [ $? -ne 0 ]; then
-    configure_without_autotools
-  fi
 }
 
 # Check for make. make is required to provide i18n for this script and to
