@@ -62,8 +62,6 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'cmakeargs', 'module_cmakeargs', 'print_command_pattern',
                 'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir',
                 'check_sysdeps',
-                # Internal only keys (propagated from command line options)
-                '_internal_noautogen',
                 ]
 
 env_prepends = {}
@@ -185,9 +183,6 @@ class Config:
                 raise FatalError(
                     _('Obsolete JHBuild start script, make sure it is removed '
                       'then do run \'make install\''))
-            
-        # Set defaults for internal variables
-        self._config['_internal_noautogen'] = False
 
         env_prepends.clear()
         try:

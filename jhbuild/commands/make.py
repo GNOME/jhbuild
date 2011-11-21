@@ -58,7 +58,6 @@ class cmd_make(Command):
         # Explicitly don't touch the network for this
         options.nonetwork = True
         options.force_policy = True
-        config._internal_noautogen = not options.autogen
         config.set_from_cmdline_options(options)
 
         makeargs = config.makeargs

@@ -27,6 +27,7 @@ import stat
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
      DownloadableModule, register_module_type, MakeModule
+from jhbuild.versioncontrol.tarball import TarballBranch
 
 __all__ = [ 'AutogenModule' ]
 
@@ -80,6 +81,14 @@ class AutogenModule(MakeModule, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
+    def _file_exists_and_is_newer_than(self, potential, other):
+        try:
+            other_stbuf = os.stat(other)
+            potential_stbuf = os.stat(potential)
+        except OSError, e:
+            return False
+        return potential_stbuf.st_mtime > other_stbuf.st_mtime
+
     def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
         if self.skip_autogen is True:
@@ -96,8 +105,22 @@ class AutogenModule(MakeModule, DownloadableModule):
         if self.skip_autogen == 'never':
             return False
 
-        if buildscript.config._internal_noautogen:
-            return True
+        # We can't rely on the autotools maintainer-mode stuff because many
+        # modules' autogen.sh script includes e.g. gtk-doc and/or intltool,
+        # which also need to be rerun.
+        # https://bugzilla.gnome.org/show_bug.cgi?id=660844
+        if not isinstance(self.branch, TarballBranch):
+            configsrc = None
+            srcdir = self.get_srcdir(buildscript)
+            for name in ['configure.ac', 'configure.in']:
+                path = os.path.join(srcdir, name)
+                if os.path.exists(path):
+                    configsrc = path
+                    break
+            if configsrc is not None:
+                configure = os.path.join(srcdir, 'configure')
+                if self._file_exists_and_is_newer_than(configure, configsrc):
+                    return True
 
         return False
 

@@ -64,9 +64,6 @@ class WafModule(Package, DownloadableModule):
                           self.PHASE_INSTALL]:
             return False
 
-        if buildscript.config._internal_noautogen:
-            return True
-
         return False
 
     def do_configure(self, buildscript):
