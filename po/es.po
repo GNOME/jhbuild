@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-03 22:27+0000\n"
-"PO-Revision-Date: 2011-11-04 18:22+0100\n"
+"POT-Creation-Date: 2011-11-18 10:01+0000\n"
+"PO-Revision-Date: 2011-11-25 17:23+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,27 +21,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../autogen.sh:103
+#: ../autogen.sh:104
 #, sh-format
 msgid "Configuring $PKG_NAME without autotools"
 msgstr "Configurando $PKG_NAME sin autotools"
 
-#: ../autogen.sh:115 ../autogen.sh:120
+#: ../autogen.sh:116 ../autogen.sh:121
 #, sh-format
 msgid "Unable to create file $srcdir/Makefile.inc"
 msgstr "No se pudo crear el archivo $srcdir/Makefile.inc"
 
-#: ../autogen.sh:140
+#: ../autogen.sh:141
 #, sh-format
 msgid "Unable to copy $srcdir/Makefile.plain to $srcdir/Makefile"
 msgstr "No se pudo copiar $srcdir/Makefile.plain a $srcdir/Makefile"
 
-#: ../autogen.sh:145
+#: ../autogen.sh:146
 #, sh-format
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Ahora escriba «make» para compilar $PKG_NAME"
 
-#: ../autogen.sh:175
+#: ../autogen.sh:181
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -50,13 +50,21 @@ msgstr ""
 "**Error**: La carpeta «$srcdir» no es la carpeta de nivel superior de "
 "$PKG_NAME"
 
-#: ../autogen.sh:197
+#: ../autogen.sh:208
 msgid "gnome-autogen.sh not available"
 msgstr "gnome-autogen.sh no está disponible"
 
-#: ../autogen.sh:200
-msgid "gnome-doc-tools not available"
-msgstr "gnome-doc-tools no está disponible"
+#: ../autogen.sh:211
+#| msgid "gnome-doc-tools not available"
+msgid "gnome-doc-tool not available"
+msgstr "gnome-doc-tool no está disponible"
+
+#. OpenSuSe splits gnome-doc-prepare into separate gnome-doc-utils-devel
+#. package
+#: ../autogen.sh:215
+#| msgid "gnome-doc-tools not available"
+msgid "gnome-doc-prepare not available"
+msgstr "gnome-doc-prepare no está disponible"
 
 #: ../jhbuild/commands/autobuild.py:27
 msgid "Build modules non-interactively and upload results to JhAutobuild"
@@ -594,7 +602,7 @@ msgstr "no existe tal comando (¿tal vez quiso decir «jhbuild run %s»?"
 msgid "Compile and install the module for the current directory"
 msgstr "Compilar e instalar el módulo de la carpeta actual"
 
-#: ../jhbuild/commands/make.py:69
+#: ../jhbuild/commands/make.py:66
 #, python-format
 msgid "The current directory is not in the checkout root %r"
 msgstr "La carpeta actual no es la raíz de descarga %r"
@@ -651,11 +659,11 @@ msgstr "no se puede escribir en el prefijo de instalación (%s)"
 #: ../jhbuild/commands/sanitycheck.py:147
 #: ../jhbuild/commands/sanitycheck.py:153
 #: ../jhbuild/commands/sanitycheck.py:155
-#: ../jhbuild/commands/sanitycheck.py:157 ../jhbuild/modtypes/cmake.py:92
+#: ../jhbuild/commands/sanitycheck.py:157 ../jhbuild/modtypes/cmake.py:97
 #: ../jhbuild/versioncontrol/bzr.py:204 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
 #: ../jhbuild/versioncontrol/fossil.py:105
-#: ../jhbuild/versioncontrol/git.py:442 ../jhbuild/versioncontrol/hg.py:101
+#: ../jhbuild/versioncontrol/git.py:445 ../jhbuild/versioncontrol/hg.py:101
 #: ../jhbuild/versioncontrol/mtn.py:140 ../jhbuild/versioncontrol/svn.py:311
 #, python-format
 msgid "%s not found"
@@ -870,21 +878,21 @@ msgstr "no se puede crear el prefijo de instalación (%s)"
 msgid "working directory (%s) can not be created"
 msgstr "no se puede crear la carpeta de trabajo (%s)"
 
-#: ../jhbuild/config.py:420
+#: ../jhbuild/config.py:426
 #, python-format
 msgid "Can't create %s directory"
 msgstr "No se puede crear la carpeta %s"
 
-#: ../jhbuild/config.py:505
+#: ../jhbuild/config.py:511
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "No se pudo cargar el archivo de configuración de GConf (%s)"
 
-#: ../jhbuild/config.py:590
+#: ../jhbuild/config.py:596
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Falló al analizar el tiempo relativo «min_age»"
 
-#: ../jhbuild/config.py:601
+#: ../jhbuild/config.py:607
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -1172,46 +1180,46 @@ msgstr "Interrumpido"
 msgid "EOF"
 msgstr "EOF"
 
-#: ../jhbuild/modtypes/autotools.py:108 ../jhbuild/modtypes/cmake.py:85
+#: ../jhbuild/modtypes/autotools.py:118 ../jhbuild/modtypes/cmake.py:90
 #: ../jhbuild/modtypes/linux.py:114 ../jhbuild/modtypes/waf.py:74
 #: ../tests/mock.py:162
 msgid "Configuring"
 msgstr "Configurando"
 
-#: ../jhbuild/modtypes/autotools.py:201 ../jhbuild/modtypes/cmake.py:106
+#: ../jhbuild/modtypes/autotools.py:211 ../jhbuild/modtypes/cmake.py:111
 #: ../jhbuild/modtypes/linux.py:146 ../jhbuild/modtypes/waf.py:85
 #: ../tests/mock.py:157
 msgid "Cleaning"
 msgstr "Limpiando"
 
-#: ../jhbuild/modtypes/autotools.py:211 ../jhbuild/modtypes/cmake.py:115
+#: ../jhbuild/modtypes/autotools.py:220 ../jhbuild/modtypes/cmake.py:120
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:159
 #: ../jhbuild/modtypes/perl.py:53 ../jhbuild/modtypes/waf.py:92
 #: ../tests/mock.py:166
 msgid "Building"
 msgstr "Construyendo"
 
-#: ../jhbuild/modtypes/autotools.py:246 ../jhbuild/modtypes/waf.py:106
+#: ../jhbuild/modtypes/autotools.py:254 ../jhbuild/modtypes/waf.py:109
 #: ../tests/mock.py:177
 msgid "Checking"
 msgstr "Comprobando"
 
-#: ../jhbuild/modtypes/autotools.py:260 ../jhbuild/modtypes/cmake.py:124
-#: ../jhbuild/modtypes/waf.py:117
+#: ../jhbuild/modtypes/autotools.py:267 ../jhbuild/modtypes/cmake.py:129
+#: ../jhbuild/modtypes/waf.py:120
 msgid "Creating tarball for"
 msgstr "Creando archivo tar para"
 
-#: ../jhbuild/modtypes/autotools.py:270
+#: ../jhbuild/modtypes/autotools.py:276
 msgid "Dist checking"
 msgstr "Distchecking"
 
-#: ../jhbuild/modtypes/autotools.py:280 ../jhbuild/modtypes/cmake.py:133
+#: ../jhbuild/modtypes/autotools.py:285 ../jhbuild/modtypes/cmake.py:138
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:67
-#: ../jhbuild/modtypes/waf.py:127 ../tests/mock.py:172
+#: ../jhbuild/modtypes/waf.py:130 ../tests/mock.py:172
 msgid "Installing"
 msgstr "Instalando"
 
-#: ../jhbuild/modtypes/autotools.py:296
+#: ../jhbuild/modtypes/autotools.py:301
 msgid "Distcleaning"
 msgstr "Distcleaning"
 
@@ -1250,23 +1258,22 @@ msgstr ""
 "No se ha encontrado el repositorio predeterminado=%(missing)s para el id de "
 "módulo=%(module)s. Los repositorios son posibles %(possible)s"
 
-#: ../jhbuild/modtypes/__init__.py:190
+#: ../jhbuild/modtypes/__init__.py:191
 #, python-format
-#| msgid "Deleting toplevel .la file: %r"
 msgid "Deleting .la file: %r"
 msgstr "Eliminando el archivo .la: %r"
 
-#: ../jhbuild/modtypes/__init__.py:254
+#: ../jhbuild/modtypes/__init__.py:255
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "Moviendo DESTDIR %r temporal al prefijo de construcción"
 
-#: ../jhbuild/modtypes/__init__.py:256
+#: ../jhbuild/modtypes/__init__.py:257
 #, python-format
 msgid "Install complete: %d files copied"
 msgstr "Instalación completada: %d archivos copiados"
 
-#: ../jhbuild/modtypes/__init__.py:275
+#: ../jhbuild/modtypes/__init__.py:276
 #, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
@@ -1275,48 +1282,48 @@ msgstr ""
 "Quedan archivos en la carpeta de compilación %(dest)r; es posible que el "
 "módulo haya instalado archivos fuera del prefijo."
 
-#: ../jhbuild/modtypes/__init__.py:293
+#: ../jhbuild/modtypes/__init__.py:294
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
 msgstr "Falló la instalación del módulo en el DESTDIR %(dest)r"
 
-#: ../jhbuild/modtypes/__init__.py:303
+#: ../jhbuild/modtypes/__init__.py:304
 #, python-format
 msgid "%d files remaining from previous build"
 msgstr "Quedan %d archivos pendientes de una construcción anterior"
 
-#: ../jhbuild/modtypes/__init__.py:306 ../jhbuild/utils/packagedb.py:265
+#: ../jhbuild/modtypes/__init__.py:307 ../jhbuild/utils/packagedb.py:265
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Eliminado: %(file)r"
 
-#: ../jhbuild/modtypes/__init__.py:311
+#: ../jhbuild/modtypes/__init__.py:312
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
 msgstr "Falló al eliminar el archivo %(file)r: %(msg)s"
 
-#: ../jhbuild/modtypes/__init__.py:361
+#: ../jhbuild/modtypes/__init__.py:362
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Omitiendo %s (no actualizado)"
 
-#: ../jhbuild/modtypes/__init__.py:373
+#: ../jhbuild/modtypes/__init__.py:374
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Omitiendo %s (paquete y dependencias no actualizados)"
 
-#: ../jhbuild/modtypes/__init__.py:436 ../jhbuild/modtypes/__init__.py:454
+#: ../jhbuild/modtypes/__init__.py:438 ../jhbuild/modtypes/__init__.py:456
 #: ../jhbuild/modtypes/linux.py:83 ../jhbuild/modtypes/linux.py:90
 #: ../tests/mock.py:143
 msgid "Checking out"
 msgstr "Verificando"
 
-#: ../jhbuild/modtypes/__init__.py:440
+#: ../jhbuild/modtypes/__init__.py:442
 #, python-format
 msgid "source directory %s was not created"
 msgstr "no se creó la carpeta origen %s"
 
-#: ../jhbuild/modtypes/__init__.py:457
+#: ../jhbuild/modtypes/__init__.py:459
 msgid "wipe directory and start over"
 msgstr "borrar carpeta y empezar de nuevo"
 
@@ -1585,8 +1592,8 @@ msgstr "Considere utilizar el script changecvsroot.py para resolver esto."
 
 #: ../jhbuild/versioncontrol/darcs.py:84 ../jhbuild/versioncontrol/darcs.py:90
 #: ../jhbuild/versioncontrol/fossil.py:82
-#: ../jhbuild/versioncontrol/fossil.py:95 ../jhbuild/versioncontrol/git.py:548
-#: ../jhbuild/versioncontrol/git.py:588 ../jhbuild/versioncontrol/git.py:664
+#: ../jhbuild/versioncontrol/fossil.py:95 ../jhbuild/versioncontrol/git.py:551
+#: ../jhbuild/versioncontrol/git.py:591 ../jhbuild/versioncontrol/git.py:667
 #: ../jhbuild/versioncontrol/hg.py:85 ../jhbuild/versioncontrol/hg.py:91
 msgid "date based checkout not yet supported\n"
 msgstr "aún no se soporta la comprobación basada en fechas\n"
@@ -1595,15 +1602,15 @@ msgstr "aún no se soporta la comprobación basada en fechas\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "ignorada la rama de redefinición no válida del módulo:"
 
-#: ../jhbuild/versioncontrol/git.py:196
+#: ../jhbuild/versioncontrol/git.py:199
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Para funcionar necesita al menos git-1.5.6 de junio/08"
 
-#: ../jhbuild/versioncontrol/git.py:210
+#: ../jhbuild/versioncontrol/git.py:213
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "No esperado: La carpeta de descarga no es un repositorio git:"
 
-#: ../jhbuild/versioncontrol/git.py:266
+#: ../jhbuild/versioncontrol/git.py:269
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1612,21 +1619,21 @@ msgstr ""
 "La rama «%s» solicitada no está disponible. Ni local, ni remotamente en el "
 "origen remoto."
 
-#: ../jhbuild/versioncontrol/git.py:274
+#: ../jhbuild/versioncontrol/git.py:277
 msgid "Refusing to switch a dirty tree."
 msgstr "Rechazado el cambio a un árbol sucio."
 
-#: ../jhbuild/versioncontrol/git.py:350
+#: ../jhbuild/versioncontrol/git.py:353
 #, python-format
 msgid "Command %s returned no output"
 msgstr "El comando %s no devolvió ninguna salida"
 
-#: ../jhbuild/versioncontrol/git.py:355
+#: ../jhbuild/versioncontrol/git.py:358
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "El comando %s no incluyó la línea de commit: %r"
 
-#: ../jhbuild/versioncontrol/git.py:417
+#: ../jhbuild/versioncontrol/git.py:420
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1634,7 +1641,7 @@ msgstr ""
 "Falló al actualizar el módulo porque se ha migrado a git (debería comprobar "
 "si hay cambios y eliminar la carpeta)."
 
-#: ../jhbuild/versioncontrol/git.py:418
+#: ../jhbuild/versioncontrol/git.py:421
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1642,7 +1649,7 @@ msgstr ""
 "Falló al actualizar el módulo (no se ha encontrado .git) (debería comprobar "
 "si hay cambios y eliminar la carpeta)."
 
-#: ../jhbuild/versioncontrol/git.py:515
+#: ../jhbuild/versioncontrol/git.py:518
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1651,7 +1658,7 @@ msgstr ""
 " Si está ejecutando una versión de git < 1.5.6 se recomienda que la "
 "actualice.\n"
 
-#: ../jhbuild/versioncontrol/git.py:560
+#: ../jhbuild/versioncontrol/git.py:563
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
