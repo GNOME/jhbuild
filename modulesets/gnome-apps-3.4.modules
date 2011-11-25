@@ -57,6 +57,14 @@
     </dependencies>
   </tarball>
 
+  <tarball id="libvirt" version="0.9.7">
+    <source href="http://libvirt.org/sources/libvirt-0.9.7.tar.gz"
+            hash="sha256:29ff05bfe5177d6680c02c279ed2573dcfae993f2824bffa192a3a2cdd05af23"
+            md5sum="4308b3f4d23f5b0c5196260a9a22a38b" size="17853636"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
   <tarball id="librsync" version="0.9.7" checkoutdir="librsync-0.9.7">
     <source href="http://downloads.sourceforge.net/librsync/librsync-0.9.7.tar.gz"
             hash="sha256:6633e4605662763a03bb6388529cbdfd3b11a9ec55b8845351c1bd9a92bc41d6"
@@ -293,12 +301,12 @@
     </dependencies>
   </autotools>
 
-  <!-- Assume libvirt from system -->
   <autotools id="libvirt-glib">
     <branch repo="libvirt.org" module="libvirt-glib.git"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
+      <dep package="libvirt"/>
       <dep package="vala"/>
     </dependencies>
   </autotools>
