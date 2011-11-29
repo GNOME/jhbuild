@@ -64,7 +64,10 @@ class SymlinkLockFile(LockFile):
     def _existing_process_matches(self, pid, uid):
         if os.uname()[0] != 'Linux':
             return os.path.exists('/proc/%d' % (pid, ))
-        f = open('/proc/%d/status' % (pid, ))
+        try:
+            f = open('/proc/%d/status' % (pid, ))
+        except IOError, e:
+            return False
         for line in f:
             if line.startswith('Uid:'):
                 (real, rest) = line[4:].split(None, 1)
