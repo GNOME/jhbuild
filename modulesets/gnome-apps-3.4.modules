@@ -5,8 +5,6 @@
 <moduleset>
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
-  <repository type="svn" name="inkscape.sf.net"
-      href="https://inkscape.svn.sourceforge.net/svnroot/inkscape/"/>
   <repository type="svn" name="svn.abisource.com"
       href="http://svn.abisource.com/"/>
   <repository type="tarball" name="clutter-project.org"
@@ -681,7 +679,9 @@
   </autotools>
 
   <autotools id="inkscape">
-    <branch repo="inkscape.sf.net" module="inkscape/trunk" checkoutdir="inkscape"/>
+    <branch repo="launchpad.net"
+            module="inkscape"
+            checkoutdir="inkscape/"/>
     <dependencies>
       <dep package="gtkmm"/>
       <dep package="libxslt"/>
