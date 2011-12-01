@@ -190,15 +190,17 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gtk-vnc" version="0.4.4" autogenargs="--with-gtk=3.0 --enable-vala">
-    <source href="http://download.gnome.org/sources/gtk-vnc/0.4/gtk-vnc-0.4.4.tar.bz2"
+  <autotools id="gtk-vnc" autogenargs="--with-gtk=3.0 --enable-vala">
+    <branch repo="gnome.org"
+            module="gtk-vnc/0.4/gtk-vnc-0.4.4.tar.bz2"
+            version="0.4.4"
             hash="sha256:56e02a83718dc0485ba0dd8f1a6656e60b9ab503b2c78187a3a6724f6c413a64"
             md5sum="0c51bcbdf1530c4856f49ace7c8f709a" size="456119"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="vala"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="gssdp">
     <branch />
@@ -267,15 +269,17 @@
     </suggests>
  </autotools>
 
-  <tarball id="libgda" version="5.0.1" autogenargs="--with-java=no">
-    <source href="http://ftp.acc.umu.se/pub/GNOME/sources/libgda/5.0/libgda-5.0.1.tar.xz"
+  <autotools id="libgda" autogenargs="--with-java=no">
+    <branch repo="gnome.org"
+            module="libgda/5.0/libgda-5.0.1.tar.xz"
+            version="5.0.1"
             hash="sha256:1f8ed9105702bf81ce3c546292b6148e8de428f69737ad9949b8c6f81b33bdaf"
             md5sum="e4848610f11563732ecfec3d657793c8" size="11634924"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="libgdiplus">
     <branch module="libgdiplus/libgdiplus-1.2.6.tar.bz2" version="1.2.6"
@@ -351,23 +355,27 @@
     </dependencies>
   </autotools>
 
-  <tarball id="dbus-sharp-glib" version="0.5.0">
-    <source href="https://github.com/downloads/mono/dbus-sharp/dbus-sharp-glib-0.5.0.tar.gz"
+  <autotools id="dbus-sharp-glib">
+    <branch repo="monogithub"
+            module="dbus-sharp-glib-0.5.0.tar.gz"
+            version="0.5.0"
             hash="256:f4fd663957f06ac5f0322beab264c5498bf6408f7435d0387950b4cb7996180e"
             md5sum="2284293316eb3a89f0f78798b8a24418" size="95405"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="gnome-sharp" version="2.24.2">
-    <source href="http://download.gnome.org/sources/gnome-sharp/2.24/gnome-sharp-2.24.2.tar.bz2"
+  <autotools id="gnome-sharp">
+    <branch repo="gnome.org"
+            module="gnome-sharp/2.24/gnome-sharp-2.24.2.tar.bz2"
+            version="2.24.2"
             hash="sha256:122b1e03966d63ec3389decf5440fb94285907d1b6be48352dcf6aca292cf7b0"
             md5sum="3b38f53960c736d4afb8f04204efe98b" size="421281"/>
     <dependencies>
       <dep package="mono"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="opal" autogenargs="--disable-vpb"
              check-target="false" supports-non-srcdir-builds="no">
@@ -407,15 +415,17 @@
     </dependencies>
   </autotools>
 
-  <tarball id="pygobject2" version="2.28.6" autogenargs="--disable-introspection">
+  <autotools id="pygobject2" autogenargs="--disable-introspection">
     <pkg-config>pygobject-2.0.pc</pkg-config>
-    <source href="http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.6.tar.bz2"
+    <branch repo="gnome.org"
+            module="pygobject/2.28/pygobject-2.28.6.tar.bz2"
+            version="2.28.6"
             hash="sha256:e4bfe017fa845940184c82a4d8949db3414cb29dfc84815fb763697dc85bdcee"
             md5sum="a43d783228dd32899e6908352b8308f3" size="888240"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <repository type="tarball" name="pyxdg"
       href="http://www.gnome.org/~fpeters/pyxdg/"/>
