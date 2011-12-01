@@ -9,12 +9,17 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="packagekit.gitorious.org"
       href="git://gitorious.org/packagekit"/>
+
+  <repository type="tarball" name="avahi.org"
+      href="http://www.avahi.org/download/"/>
   <repository type="tarball" name="dbus"
       href="http://dbus.freedesktop.org/releases/"/>
   <repository type="tarball" name="freedesktop.org"
       href="http://freedesktop.org/"/>
   <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org"/>
+  <repository type="tarball" name="telepathy"
+      href="http://telepathy.freedesktop.org/releases/"/>
 
 <include href="gnome-suites-core-deps-3.4.modules"/>
 
@@ -416,8 +421,9 @@
     </after>
   </autotools>
 
-  <tarball id="telepathy-mission-control" version="5.9.3">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-5.9.3.tar.gz"
+  <autotools id="telepathy-mission-control">
+    <branch repo="telepathy" module="telepathy-mission-control/telepathy-mission-control-5.9.3.tar.gz"
+            version="5.9.3"
             hash="sha256:774af104627513e7881fa6695912c962ddedcc7628ec859e020fa30000e32cab"
             md5sum="15fc8e560bc67a86393a3138d7ac38e3" size="991250"/>
     <dependencies>
@@ -426,7 +432,7 @@
       <dep package="telepathy-glib"/>
       <dep package="gnome-keyring"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
 
 <!-- Fallback Shell -->
@@ -856,16 +862,16 @@
 
   <!-- explicit disabling of qt3 and qt4 can be removed once avahi
        correctly detects what is available. -->
-  <tarball id="avahi" version="0.6.28" autogenargs="--disable-gtk --enable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --with-systemdsystemunitdir=no">
+  <autotools id="avahi" version="0.6.28" autogenargs="--disable-gtk --enable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --with-systemdsystemunitdir=no">
     <pkg-config>avahi-ui-gtk3.pc</pkg-config>
-    <source href="http://avahi.org/download/avahi-0.6.28.tar.gz"
+    <branch repo="avahi.org" module="avahi-0.6.28.tar.gz" version="0.6.28"
             hash="sha256:a0d80aac88212b9f9d5331c248091d3c9c9209f0e41985421636ebd14230fc91"
             md5sum="d0143a5aa3265019072e53ab497818d0" size="1238660"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="libdaemon"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <!-- hack around the lack of autogen.sh; bootstrap-configure doesn't
        quite work since it doesn't pass arguments to configure
