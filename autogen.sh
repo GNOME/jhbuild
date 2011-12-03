@@ -159,9 +159,10 @@ configure_with_autotools()
 
 # Check for make. make is required to provide i18n for this script and to
 # build and install JHBuild
-hash $MAKE 2>&-
+make_from_environment=`echo $MAKE | cut -d' ' -f1`
+hash $make_from_environment 2>&-
 if [ $? -ne 0 ]; then
-  echo "\`$MAKE' is required to configure & build $PKG_NAME"
+  echo "\`$make_from_environment' is required to configure & build $PKG_NAME"
   exit 1
 fi
 
