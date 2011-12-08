@@ -19,6 +19,8 @@
     href="git://gitorious.org/gusb"/>
 <repository type="bzr" name="research.operationaldynamics.com"
     href="http://research.operationaldynamics.com/bzr"/>
+<repository type="git" name="github.com"
+    href="git://github.com/"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
@@ -1344,6 +1346,14 @@
     <suggests>
       <dep package="polkit"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libwacom">
+    <branch repo="github.com" module="hadess/libwacom.git" checkoutdir="libwacom"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gudev"/>
+    </dependencies>
   </autotools>
 
 
