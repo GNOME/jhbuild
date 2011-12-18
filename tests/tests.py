@@ -45,6 +45,7 @@ from jhbuild.modtypes.distutils import DistutilsModule
 import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
+import jhbuild.utils.cmds
 
 
 def uencode(s):
@@ -593,6 +594,27 @@ class EndToEndTest(JhbuildConfigTestCase):
         self.assertEquals(stdout.strip(), 'Hello world (library test)')
         self.assertEquals(proc.wait(), 0)
 
+class UtilsTest(JhbuildConfigTestCase):
+
+    def test_compare_version(self):
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.12'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.13.1'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '4'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.14'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.13.2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3with', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3with', '2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('with3', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('with3', '2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.with', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.with', '3'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('0.5', '0.6'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('0.5', '0.5'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('1', '1.2.3.4'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('1.2.3.4', '1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('2', '1.2.3.4'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('1.2.3.4', '2'))
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
