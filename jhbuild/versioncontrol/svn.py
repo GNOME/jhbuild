@@ -315,7 +315,10 @@ class SubversionBranch(Branch):
         if not os.path.exists(self.srcdir):
             return None
         try:
-            info = get_info(self.srcdir)
+            if self.config.checkout_mode == 'export':
+                info = get_info(self.module)
+            else:
+                info = get_info(self.srcdir)
         except CommandError:
             return None
         try:
