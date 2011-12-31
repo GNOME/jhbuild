@@ -228,7 +228,15 @@ them into the prefix."""
                 os.rmdir(src_path)
             else:
                 num_copied += 1
-                os.rename(src_path, dest_path)
+                try:
+                    os.rename(src_path, dest_path)
+                except OSError, e:
+                    logging.error(_('Failed to rename %(src)r to %(dest)r: %(msg)s') %
+                                  {'src': src_path,
+                                   'dest': dest_path,
+                                   'msg': e.message})
+                    raise
+                    
         return num_copied
 
     def process_install(self, buildscript, revision):
