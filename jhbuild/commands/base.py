@@ -63,7 +63,7 @@ class cmd_update(Command):
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags=config.tags,
-                ignore_suggests=config.ignore_suggests)
+                include_suggests=not config.ignore_suggests)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -221,9 +221,9 @@ class cmd_build(Command):
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
         module_list = module_set.get_module_list(modules,
-                config.skip, tags = config.tags,
-                include_optional_modules=options.build_optional_modules,
-                ignore_suggests=config.ignore_suggests)
+                config.skip, tags=config.tags,
+                include_suggests=not config.ignore_suggests,
+                include_afters=options.build_optional_modules)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -445,10 +445,11 @@ class cmd_list(Command):
         if options.list_all_modules:
             module_list = module_set.modules.values()
         else:
-            module_list = module_set.get_module_list(args or config.modules,
-                                config.skip, tags = config.tags,
-                                include_optional_modules = options.list_optional_modules,
-                                ignore_suggests=config.ignore_suggests)
+            module_list = module_set.get_module_list \
+                              (args or config.modules, config.skip,
+                               tags=config.tags,
+                               include_suggests= not config.ignore_suggests,
+                               include_afters=options.list_optional_modules)
 
         # remove modules up to startat
         if options.startat:

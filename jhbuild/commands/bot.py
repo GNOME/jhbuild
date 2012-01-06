@@ -399,7 +399,7 @@ class cmd_bot(Command):
                 module_list = module_set.get_module_list(
                         self.jhbuild_config.modules,
                         self.jhbuild_config.skip,
-                        include_optional_modules=True)
+                        include_afters=True)
                 config['projects'] = [x.name for x in module_list \
                                       if not x.name.startswith('meta-')]
 

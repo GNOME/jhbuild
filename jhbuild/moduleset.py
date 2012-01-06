@@ -53,6 +53,7 @@ class ModuleSet:
     def __init__(self, config = None, db=None):
         self.config = config
         self.modules = {}
+        self.raise_exception_on_warning=False
 
         if db is None:
             legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
@@ -79,169 +80,91 @@ class ModuleSet:
                 return self.modules[module]
         raise KeyError(module_name)
 
-    def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
-                ignore_suggests=False, include_optional_modules=False,
-                ignore_missing=False, process_sysdeps=True):
-        '''gets a list of module objects (in correct dependency order)
-        needed to build the modules in the seed list'''
+    def get_module_list(self, module_names, skip=[], tags=[],
+                        include_suggests=True, include_afters=False):
+        module_list = self.get_full_module_list(module_names, skip,
+                                                include_suggests,
+                                                include_afters)
+        module_list = self.remove_system_modules(module_list)
+        module_list = self.remove_tag_modules(module_list, tags)
+        return module_list
 
-        if seed == 'all': seed = self.modules.keys()
+    def get_full_module_list(self, module_names, skip=[],
+                                include_suggests=True, include_afters=False):
+
+        def dep_resolve(node, resolved, seen, after):
+            ''' Recursive depth-first search of the dependency tree. Creates
+            the build order into the list 'resolved'. <after/> modules are
+            added to the dependency tree but flagged. When search finished
+            <after/> modules not a real dependency are removed.
+            '''
+            circular = False
+            seen.append(node)
+            if include_suggests:
+                edges = node.dependencies + node.suggests + node.after
+            else:
+                edges = node.dependencies + node.after
+            # do not include <after> modules because a previous visited <after>
+            # module may later be a hard dependency
+            resolved_deps = [module for module, after_module in resolved \
+                             if not after_module]
+            for edge_name in edges:
+                edge = self.modules.get(edge_name)
+                if edge == None:
+                    if node not in [i[0] for i in resolved]:
+                        self._warn(_('%(module)s has a dependency on unknown'
+                                     ' "%(invalid)s" module') % \
+                                         {'module'  : node.name,
+                                          'invalid' : edge_name})
+                elif edge_name not in skip and edge not in resolved_deps:
+                    if edge in seen:
+                        self._warn(_('Circular dependencies detected: %s') % \
+                                   ' -> '.join([i.name for i in seen] + \
+                                               [edge.name]))
+                        circular = True
+                        break
+                    else:
+                        if edge_name in node.after:
+                            dep_resolve(edge, resolved, seen, True)
+                        elif edge_name in node.suggests:
+                            dep_resolve(edge, resolved, seen, after)
+                        elif edge_name in node.dependencies:
+                            dep_resolve(edge, resolved, seen, after)
+                            # hard dependency may be missed if a cyclic
+                            # dependency. Add it:
+                            if edge not in [i[0] for i in resolved]:
+                                resolved.append((edge, after))
+
+            seen.remove(node)
+
+            if not circular:
+                if node not in [i[0] for i in resolved]:
+                    resolved.append((node, after))
+                elif not after:
+                    # a dependency exists for an after, flag to keep
+                    for index, item in enumerate(resolved):
+                        if item[1] == True and item[0] == node:
+                            resolved[index] = (node, False)
+
+        if module_names == 'all':
+            module_names = self.modules.keys()
         try:
-            all_modules = [self.get_module(mod, ignore_case = True) for mod in seed if mod not in skip]
+            # remove skip modules from module_name list
+            modules = [self.get_module(module, ignore_case = True) \
+                       for module in module_names if module not in skip]
         except KeyError, e:
             raise UsageError(_('module "%s" not found') % e)
 
-        asked_modules = all_modules[:]
+        resolved = []
+        for module in modules:
+            dep_resolve(module, resolved, [], False)
 
-        # 1st: get all modules that will be needed
-        # note this is only needed to skip "after" modules that would not
-        # otherwise be built
-        i = 0
-        while i < len(all_modules):
-            dep_missing = False
-            for modname in all_modules[i].dependencies:
-                depmod = self.modules.get(modname)
-                if not depmod:
-                    if not ignore_missing:
-                        raise UsageError(_(
-                                '%(module)s has a dependency on unknown "%(invalid)s" module') % {
-                                    'module': all_modules[i].name,
-                                    'invalid': modname})
-                    logging.info(_(
-                                '%(module)s has a dependency on unknown "%(invalid)s" module') % {
-                                    'module': all_modules[i].name,
-                                    'invalid': modname})
-                    dep_missing = True
-                    continue
-
-                if not depmod in all_modules:
-                    all_modules.append(depmod)
-
-            if not ignore_suggests:
-                # suggests can be ignored if not in moduleset
-                for modname in all_modules[i].suggests:
-                    depmod = self.modules.get(modname)
-                    if not depmod:
-                        continue
-                    if not depmod in all_modules:
-                        all_modules.append(depmod)
-
-            if dep_missing:
-                del all_modules[i]
-
-            i += 1
-
-        # 2nd: order them, raise an exception on hard dependency cycle, ignore
-        # them for soft dependencies
-        self._ordered = []
-        self._state = {}
-
-        for modname in skip:
-            # mark skipped modules as already processed
-            self._state[self.modules.get(modname)] = 'processed'
-
-        # process_sysdeps lets us avoid repeatedly checking system module state when
-        # handling recursive dependencies.
-        if self.config.partial_build and process_sysdeps:
-            system_module_state = self.get_system_modules(all_modules)
-            for pkg_config,(module, req_version, installed_version, new_enough) in system_module_state.iteritems():
-                # Only mark a module as processed if new enough *and* we haven't built it before
-                if new_enough and not self.packagedb.check(module.name):
-                    self._state[module] = 'processed'
-
-        if tags:
-            for modname in self.modules:
-                for tag in tags:
-                    if tag in self.modules[modname].tags:
-                        break
-                else:
-                    # no tag matched, mark module as processed
-                    self._state[self.modules[modname]] = 'processed'
-
-        def order(modules, module, mode = 'dependencies'):
-            if self._state.get(module, 'clean') == 'processed':
-                # already seen
-                return
-            if self._state.get(module, 'clean') == 'in-progress':
-                # dependency circle, abort when processing hard dependencies
-                if not ignore_cycles:
-                    raise DependencyCycleError()
-                else:
-                    self._state[module] = 'in-progress'
-                    return
-            self._state[module] = 'in-progress'
-            for modname in module.dependencies:
-                try:
-                    depmod = self.modules[modname]
-                    order([self.modules[x] for x in depmod.dependencies], depmod, 'dependencies')
-                except KeyError:
-                    pass # user already notified via logging.info above
-            if not ignore_suggests:
-                for modname in module.suggests:
-                    depmod = self.modules.get(modname)
-                    if not depmod:
-                        continue
-                    save_state, save_ordered = self._state.copy(), self._ordered[:]
-                    try:
-                        order([self.modules[x] for x in depmod.dependencies], depmod, 'suggests')
-                    except DependencyCycleError:
-                        self._state, self._ordered = save_state, save_ordered
-                    except KeyError:
-                        pass # user already notified via logging.info above
-
-            extra_afters = []
-            for modname in module.after:
-                depmod = self.modules.get(modname)
-                if not depmod:
-                    # this module doesn't exist, skip.
-                    continue
-                if not depmod in all_modules and not include_optional_modules:
-                    # skip modules that would not be built otherwise
-                    # (build_optional_modules being the argument to force them
-                    # to be included nevertheless)
-
-                    if not depmod.dependencies:
-                        # depmod itself has no dependencies, skip.
-                        continue
-
-                    # more expensive, if depmod has dependencies, compute its
-                    # full list of hard dependencies, getting it into
-                    # extra_afters, so they are also evaluated.
-                    # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
-                    t_ms = ModuleSet(self.config)
-                    t_ms.modules = self.modules.copy()
-                    dep_modules = t_ms.get_module_list(seed=[depmod.name], process_sysdeps=False)
-                    for m in dep_modules[:-1]:
-                        if m in all_modules:
-                            extra_afters.append(m)
-                    continue
-                save_state, save_ordered = self._state.copy(), self._ordered[:]
-                try:
-                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
-                except DependencyCycleError:
-                    self._state, self._ordered = save_state, save_ordered
-            for depmod in extra_afters:
-                save_state, save_ordered = self._state.copy(), self._ordered[:]
-                try:
-                    order([self.modules[x] for x in depmod.dependencies], depmod, 'after')
-                except DependencyCycleError:
-                    self._state, self._ordered = save_state, save_ordered
-            self._state[module] = 'processed'
-            self._ordered.append(module)
-
-        for i, module in enumerate(all_modules):
-            order([], module)
-            if i+1 == len(asked_modules): 
-                break
-
-        ordered = self._ordered[:]
-        del self._ordered
-        del self._state
-        return ordered
-    
-    def get_full_module_list(self, skip=[], ignore_cycles=False):
-        return self.get_module_list(self.modules.keys(), skip=skip,
-                ignore_cycles=ignore_cycles, ignore_missing=True)
+        if include_afters:
+            module_list = [module[0] for module in resolved]
+        else:
+            module_list = [module for module, after_module in resolved \
+                           if not after_module]
+        return module_list
 
     def get_test_module_list (self, seed, skip=[]):
         test_modules = []
@@ -275,7 +198,40 @@ class ModuleSet:
                 new_enough = compare_version(installed_version, required_version)
                 module_state[module_pkg] = (module, required_version, installed_version, new_enough)
         return module_state
-    
+
+    def remove_system_modules(self, modules):
+        if not self.config.partial_build:
+            return modules
+
+        installed_pkgconfig = systeminstall.get_installed_pkgconfigs \
+                                  (self.config)
+        return_list = []
+
+        for module in modules:
+            skip = False
+            if module.pkg_config is not None and \
+            isinstance(module.branch, TarballBranch):
+                # Strip off the .pc
+                module_pkg = module.pkg_config[:-3]
+                required_version = module.branch.version
+                if module_pkg in installed_pkgconfig:
+                    installed_version = installed_pkgconfig[module_pkg]
+                    skip = compare_version(installed_version, required_version)
+            if not skip:
+                return_list.append(module)
+        return return_list
+
+    def remove_tag_modules(self, modules, tags):
+        if tags:
+            return_list = []
+            for module in modules:
+                for tag in tags:
+                    if tag in self.modules[module.name].tags:
+                        return_list.append(module)
+            return return_list
+        else:
+            return modules
+
     def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule
         from jhbuild.modtypes.autotools import AutogenModule
@@ -340,6 +296,13 @@ class ModuleSet:
                     fp.write('  }\n')
 
         fp.write('}\n')
+
+    def _warn(self, msg):
+        if self.raise_exception_on_warning:
+            raise UsageError(msg)
+        else:
+            logging.warn(msg)
+
 
 def load(config, uri=None):
     if uri is not None:

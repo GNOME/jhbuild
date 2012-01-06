@@ -282,9 +282,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             modules = [self.modules_list_model.get(
                     self.module_combo.get_active_iter(), 0)[0]]
 
-            self.modulelist = self.module_set.get_module_list(modules,
-                    self.config.skip, tags = self.config.tags,
-                    ignore_suggests=self.config.ignore_suggests)
+            self.modulelist = self.module_set.get_module_list \
+                                  (modules, self.config.skip,
+                                   tags = self.config.tags,
+                                   include_suggests=not self.config.ignore_suggests)
         else:
             self.orig_modulelist = None
 
@@ -679,7 +680,7 @@ class SelectModulesDialog(gtk.Dialog):
 
         self.startat_model.clear()
         modulelist = self.app.module_set.get_module_list([self.selected_module],
-                ignore_suggests=self.app.config.ignore_suggests)
+                include_suggests=not self.app.config.ignore_suggests)
         for module in modulelist:
             iter = self.startat_model.append((module.name,))
             if module.name == old_start_at:
