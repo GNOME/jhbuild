@@ -197,7 +197,9 @@ parse_commandline $*
 if [ $gnome_autogen_available -eq 0 -a \
      $yelp_tools_available -eq 0 -a \
      $enable_autotools -eq 1 ]; then
-  configure_with_autotools $*
+  if test -z "$NOCONFIGURE"; then
+      configure_with_autotools $*
+  fi
 else
   if [ $gnome_autogen_available -ne 0 ]; then
     gettext "gnome-autogen.sh not available"; echo
