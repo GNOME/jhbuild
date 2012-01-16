@@ -29,6 +29,8 @@
       href="git://yorba.org/"/>
   <repository type="tarball" name="monogithub"
     href="https://github.com/downloads/mono/dbus-sharp/"/>
+  <repository type="tarball" name="spice/tarball"
+      href="http://www.spice-space.org/download/releases/"/>
   <repository type="git" name="spice"
       href="git://anongit.freedesktop.org/git/spice"/>
   <repository type="git" name="fedorahosted.org"
@@ -453,25 +455,27 @@
             md5sum="a086de99cc536095684d87f15594e4db" size="37372"/>
   </distutils>
 
-  <tarball id="spice-protocol" version="0.10.0">
-    <source href="http://spice-space.org/download/releases/spice-protocol-0.10.0.tar.bz2"
+  <autotools id="spice-protocol">
+    <branch repo="spice/tarball"
+            module="spice-protocol-0.10.0.tar.bz2"
+            version="0.10.0"
             hash="sha256:05fa0e3133d288289282741a58975daf6d340a2bc9af2e72602a91801afa5899"
             md5sum="888d8a50d36a09a1c479cadddce244ae" size="65811"/>
     <dependencies>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="spice-server"
-             version="0.10.0"
-             autogenargs="--disable-smartcard --without-sasl --disable-client" >
-    <source href="http://spice-space.org/download/releases/spice-0.10.0.tar.bz2"
+  <autotools id="spice-server" autogenargs="--disable-smartcard --without-sasl --disable-client">
+    <branch repo="spice/tarball"
+            module="spice-0.10.0.tar.bz2"
+            version="0.10.0"
             hash="sha256:d0ef56207d74ea0f51f92e213b4f006cd8e1f14430379552dc2f1852a414ae71"
             md5sum="d9f0b0280c9e2291623c9560e156be26" size="1186565"/>
     <dependencies>
       <dep package="spice-protocol"/>
       <dep package="celt"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="spice-gtk" autogenargs="--disable-usbredir --disable-smartcard --enable-vala">
     <branch repo="spice"/>
