@@ -37,6 +37,8 @@
       href="git://git.fedorahosted.org/git/"/>
   <repository type="git" name="libvirt.org"
       href="git://libvirt.org/"/>
+  <repository type="tarball" name="downloads.sourceforge.net"
+      href="http://downloads.sourceforge.net/"/>
 
   <include href="gnome-suites-core-3.4.modules"/>
 
@@ -65,11 +67,15 @@
     </dependencies>
   </tarball>
 
-  <tarball id="librsync" version="0.9.7" checkoutdir="librsync-0.9.7">
-    <source href="http://downloads.sourceforge.net/librsync/librsync-0.9.7.tar.gz"
+  <autotools id="librsync">
+    <branch repo="downloads.sourceforge.net"
+            module="librsync/librsync-0.9.7.tar.gz"
+            version="0.9.7"
             hash="sha256:6633e4605662763a03bb6388529cbdfd3b11a9ec55b8845351c1bd9a92bc41d6"
             md5sum="24cdb6b78f45e0e83766903fd4f6bc84" size="453802"/>
-  </tarball>
+    <dependencies>
+    </dependencies>
+  </autotools>
 
   <distutils id="duplicity">
     <branch repo="launchpad.net/tarball"
@@ -500,8 +506,10 @@
     </dependencies>
   </autotools>
 
-  <tarball id="wv" version="1.2.4">
-    <source href="http://downloads.sourceforge.net/wvware/wv-1.2.4.tar.gz"
+  <autotools id="wv">
+    <branch repo="downloads.sourceforge.net"
+            module="wvware/wv-1.2.4.tar.gz"
+            version="1.2.4"
             hash="sha256:673109910e22d4cf94cc8be4dcb9a0c41b5fbdb1736d4b7bdc7778894d57c2d6"
             md5sum="c1861c560491f121e12917fa76970ac5" size="629554"/>
     <dependencies>
@@ -509,7 +517,7 @@
       <dep package="libgsf"/>
       <dep package="libxml2"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="gdl">
     <branch/>
