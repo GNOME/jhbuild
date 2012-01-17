@@ -13,8 +13,6 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="gstreamer.freedesktop.org"
       href="git://anongit.freedesktop.org/gstreamer/"/>
-  <repository type="git" name="spice"
-      href="git://anongit.freedesktop.org/git/spice"/>
   <repository type="bzr" name="launchpad.net"
       href="lp:"/>
   <repository type="git" name="github.com"
@@ -40,7 +38,7 @@
       href="https://launchpad.net/"/>
   <repository type="tarball" name="monogithub"
     href="https://github.com/downloads/mono/dbus-sharp/"/>
-  <repository type="tarball" name="spice/tarball"
+  <repository type="tarball" name="spice"
       href="http://www.spice-space.org/download/releases/"/>
   <repository type="tarball" name="libvirt.org"
       href="http://libvirt.org/sources/"/>
@@ -466,8 +464,8 @@
   </distutils>
 
   <autotools id="spice-protocol">
-    <branch repo="spice/tarball"
-            module="spice-protocol-0.10.1.tar.bz2"
+    <branch repo="spice"
+            module="releases/spice-protocol-0.10.1.tar.bz2"
             version="0.10.1"
             hash="sha256:e5f6cbb679febc840eb530a5195d2625f900f7d21a5aefbadc95e3a3b9f03537"
             md5sum="7147ef0d9295dbe44510870f8d047e9c" size="66014"/>
@@ -476,8 +474,8 @@
   </autotools>
 
   <autotools id="spice-server" autogenargs="--disable-smartcard --without-sasl --disable-client">
-    <branch repo="spice/tarball"
-            module="spice-0.10.0.tar.bz2"
+    <branch repo="spice"
+            module="releases/spice-0.10.0.tar.bz2"
             version="0.10.0"
             hash="sha256:d0ef56207d74ea0f51f92e213b4f006cd8e1f14430379552dc2f1852a414ae71"
             md5sum="d9f0b0280c9e2291623c9560e156be26" size="1186565"/>
@@ -488,7 +486,11 @@
   </autotools>
 
   <autotools id="spice-gtk" autogenargs="--disable-usbredir --disable-smartcard --enable-vala">
-    <branch repo="spice"/>
+    <branch repo="spice"
+            module="gtk/spice-gtk-0.8.tar.bz2"
+            version="0.8"
+            hash="sha256:5d6607eeaace5773467ef881adb072481aca40fe1ac2ecf324ed48766cdb63b4"
+            md5sum="761b6c3d74d962d437bdd72f54292498" size="832151"/>
     <dependencies>
       <dep package="celt"/>
       <dep package="spice-protocol"/>
