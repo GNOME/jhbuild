@@ -423,6 +423,9 @@ class GitBranch(Branch):
         buildscript.execute(['git', 'remote', 'set-url', 'origin',
                 self.module], **git_extra_args)
 
+        buildscript.execute(['git', 'remote', 'update', 'origin'],
+                **git_extra_args)
+
         if update_mirror:
             self.update_dvcs_mirror(buildscript)
 
