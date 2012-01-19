@@ -598,11 +598,17 @@
     </dependencies>
   </autotools>
 
+  <!-- Temporary use fedora's server for gudev while kernel.org is down.
+    -- When kernel.org restored, revert to:
+    --   repo="kernel.org" module="utils/kernel/hotplug/udev-147.tar.bz2"
+    -->
+  <repository type="tarball" name="fedoraproject.org"
+    href="pkgs.fedoraproject.org/repo/pkgs/"/>
   <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no"
              autogen-sh="autogen.sh">
     <pkg-config>gudev-1.0.pc</pkg-config>
-    <branch checkoutdir="gudev-147" repo="kernel.org"
-            module="utils/kernel/hotplug/udev-147.tar.bz2" version="147">
+    <branch checkoutdir="gudev-147" repo="fedoraproject.org"
+            module="udev/udev-147.tar.bz2/aed0129c5a00e01d1be75ffda7d2e0f1/udev-147.tar.bz2" version="147">
       <patch file="gudev-147.patch" strip="1"/>
     </branch>
     <dependencies>
