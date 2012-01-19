@@ -38,7 +38,12 @@ __builtin__.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
 
 sys.path.insert(0, SRCDIR)
 
-from jhbuild.errors import DependencyCycleError, UsageError, CommandError
+# Override jhbuild.utils.systeminstall with this module 'tests'
+import jhbuild.utils.systeminstall
+sys.modules['jhbuild.utils.systeminstall'] = sys.modules[__name__]
+sys.modules['jhbuild.utils'].systeminstall = sys.modules[__name__]
+
+from jhbuild.errors import UsageError, CommandError
 from jhbuild.modtypes import Package
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.distutils import DistutilsModule
@@ -46,7 +51,7 @@ import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
 import jhbuild.utils.cmds
-
+import jhbuild.versioncontrol.tarball
 
 def uencode(s):
     if type(s) is unicode:
@@ -143,8 +148,11 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         self.moduleset.add(Package('quux'))
         self.moduleset.add(Package('corge'))
 
-    def get_module_list(self, seed, skip=[]):
-        return [x.name for x in self.moduleset.get_module_list(seed, skip)]
+    def get_module_list(self, seed, skip=[], tags=[], include_suggests=True,
+                        include_afters=False):
+        return [x.name for x in self.moduleset.get_module_list \
+                                    (seed, skip, tags, include_suggests,
+                                     include_afters)]
 
     def test_standalone_one(self):
         '''A standalone module'''
@@ -178,13 +186,18 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         self.moduleset.modules['foo'].dependencies = ['bar', 'qux']
         self.moduleset.modules['bar'].dependencies = ['baz']
         self.moduleset.modules['qux'].dependencies = ['quux', 'foo']
-        self.assertRaises(DependencyCycleError, self.get_module_list, ['foo'])
+        self.moduleset.raise_exception_on_warning = True
+        self.assertRaises(UsageError, self.get_module_list, ['foo'])
+        self.moduleset.raise_exception_on_warning = False
 
     def test_dependency_chain_missing_dependencies(self):
         '''A chain of dependencies with a missing <dependencies> module'''
         self.moduleset.modules['foo'].dependencies = ['bar', 'plop']
         self.moduleset.modules['bar'].dependencies = ['baz']
+        self.moduleset.raise_exception_on_warning = True
         self.assertRaises(UsageError, self.get_module_list, ['foo'])
+        self.moduleset.raise_exception_on_warning = False
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
 
     def test_dependency_chain_missing_after(self):
         '''A chain of dependencies with a missing <after> module'''
@@ -206,7 +219,7 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         self.moduleset.modules['bar'].dependencies = ['baz']
         self.moduleset.modules['baz'].after = ['qux']
         self.moduleset.modules['qux'].dependencies = ['quux']
-        self.assertEqual(self.get_module_list(['foo']), ['quux', 'qux', 'baz', 'bar', 'foo'])
+        self.assertEqual(self.get_module_list(['foo'], include_afters=True), ['quux', 'qux', 'baz', 'bar', 'foo'])
 
     def test_dependency_chain_suggests(self):
         '''A dividing chain of dependencies with an <suggests> module'''
@@ -251,7 +264,54 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         self.moduleset.modules['foo'].after = ['baz']
         self.moduleset.modules['bar'].dependencies = ['foo']
         self.moduleset.modules['baz'].dependencies = ['bar']
-        self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
+        self.moduleset.raise_exception_on_warning = True
+        self.assertRaises(UsageError, self.get_module_list, ['foo', 'bar'])
+        self.moduleset.raise_exception_on_warning = False
+
+    def test_sys_deps(self):
+        '''deps ommitted because satisfied by system dependencies'''
+        class TestBranch(jhbuild.versioncontrol.tarball.TarballBranch):
+            version = None
+            def __init__(self):
+                pass
+
+        self.moduleset.add(Package('syspkgalpha'))
+        self.moduleset.modules['foo'].dependencies = ['bar']
+        self.moduleset.modules['bar'].dependencies = ['syspkgalpha']
+        self.moduleset.modules['syspkgalpha'].dependencies = ['baz']
+        self.moduleset.modules['syspkgalpha'].pkg_config = 'syspkgalpha.pc'
+        self.moduleset.modules['syspkgalpha'].branch = TestBranch()
+        self.moduleset.modules['syspkgalpha'].branch.version = '3'
+        self.assertEqual(self.get_module_list(['foo']),
+                         ['baz', 'syspkgalpha', 'bar', 'foo'])
+        self.moduleset.modules['syspkgalpha'].branch.version = '3.1'
+        self.assertEqual(self.get_module_list(['foo']),
+                         ['baz', 'syspkgalpha', 'bar', 'foo'])
+        self.moduleset.modules['syspkgalpha'].branch.version = '2'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+        self.moduleset.modules['syspkgalpha'].branch.version = '1'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+        self.moduleset.modules['syspkgalpha'].branch.version = '1.1'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+
+        self.moduleset.add(Package('syspkgbravo'))
+        self.moduleset.modules['foo'].dependencies = ['bar']
+        self.moduleset.modules['bar'].dependencies = ['syspkgbravo']
+        self.moduleset.modules['syspkgbravo'].dependencies = ['baz']
+        self.moduleset.modules['syspkgbravo'].pkg_config = 'syspkgbravo.pc'
+        self.moduleset.modules['syspkgbravo'].branch = TestBranch()
+        self.moduleset.modules['syspkgbravo'].branch.version = '3'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+        self.moduleset.modules['syspkgbravo'].branch.version = '3.3'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+        self.moduleset.modules['syspkgbravo'].branch.version = '3.4'
+        self.assertEqual(self.get_module_list(['foo']), ['baz', 'bar', 'foo'])
+        self.moduleset.modules['syspkgbravo'].branch.version = '3.5'
+        self.assertEqual(self.get_module_list(['foo']),
+                         ['baz', 'syspkgbravo', 'bar', 'foo'])
+        self.moduleset.modules['syspkgbravo'].branch.version = '4'
+        self.assertEqual(self.get_module_list(['foo']),
+                         ['baz', 'syspkgbravo', 'bar', 'foo'])
 
 
 class BuildTestCase(JhbuildConfigTestCase):
@@ -616,6 +676,11 @@ class UtilsTest(JhbuildConfigTestCase):
         self.assertTrue(jhbuild.utils.cmds.compare_version('1.2.3.4', '1'))
         self.assertTrue(jhbuild.utils.cmds.compare_version('2', '1.2.3.4'))
         self.assertFalse(jhbuild.utils.cmds.compare_version('1.2.3.4', '2'))
+
+def get_installed_pkgconfigs(config):
+    ''' overload jhbuild.utils.get_installed_pkgconfigs'''
+    return {'syspkgalpha'   : '2',
+            'syspkgbravo'   : '3.4'}
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
