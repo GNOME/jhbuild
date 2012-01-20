@@ -20,7 +20,7 @@ INTLTOOL = 			\
 	intltool-merge.in 	\
 	intltool-update.in
 
-EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
+EXTRA_DIST = $(PATCHES) $(MODULESETS) \
 	install-check.c \
 	autogen.sh \
 	$(desktop_in_files) $(INTLTOOL)

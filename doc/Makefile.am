@@ -1,8 +1,9 @@
-include $(top_srcdir)/build-aux/gnome-doc-utils.make
+@YELP_HELP_RULES@
 
-DOC_LINGUAS = de el es fr ja sl sv
+HELP_ID = jhbuild
 
-dist-hook: doc-dist-hook
+HELP_LINGUAS = de el es fr ja sl sv
 
-DOC_MODULE = jhbuild
-DOC_FIGURES = figures/jhbuild_sample_dot_output.png
+HELP_FILES = index.docbook
+
+HELP_MEDIA = figures/jhbuild_sample_dot_output.png

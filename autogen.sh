@@ -3,8 +3,7 @@
 # JHBuild configuration script.
 #
 # For installation instructions please refer to the JHBuild manual:
-#   gnome-help ghelp:/jhbuild-source-dir/doc/C/jhbuild.xml
-# where 'jhbuild-source-dir' is the full path to the JHBuild source directory.
+#   yelp /jhbuild-source-dir/doc/C/index.docbook
 #
 # Or refer to the on-line JHBuild manual at:
 #
@@ -14,14 +13,14 @@
 # ./autogen.sh [OPTION]
 #    Available OPTION are:
 #      --simple-install   Configure without using autotools. This setting is
-#                         set automatically if gnome-common and gnome-doc-utils
+#                         set automatically if gnome-common and yelp-tools
 #                         are not installed.
 #      --prefix=PREFIX    Install JHBuild to PREFIX. Defaults to ~/.local
 #
-# If gnome-common and gnome-doc-utils are available, this configuration script
+# If gnome-common and yelp-tools are available, this configuration script
 # will configure JHBuild to install via autotools.
 #
-# If gnome-common and gnome-doc-utils are not available, this configuration
+# If gnome-common and yelp-tools are not available, this configuration
 # script will configure JHBuild to install via a plain Makefile.
 #
 # autogen.sh is used to configure JHBuild because the most common way to obtain
@@ -154,7 +153,7 @@ configure_with_autotools()
   REQUIRED_AUTOMAKE_VERSION=1.8 \
   REQUIRED_INTLTOOL_VERSION=0.35.0 \
   REQUIRED_PKG_CONFIG_VERSION=0.16.0 \
-  USE_COMMON_DOC_BUILD=yes gnome-autogen.sh $@
+  gnome-autogen.sh $@
 }
 
 # Check for make. make is required to provide i18n for this script and to
@@ -189,31 +188,22 @@ fi
 hash gnome-autogen.sh 2>&-
 gnome_autogen_available=$?
 
-# Check gnome-doc-tool is installed.
-hash gnome-doc-tool 2>&-
-gnome_doc_tool_available=$?
-
-# Check gnome-doc-prepare is installed.
-hash gnome-doc-prepare 2>&-
-gnome_doc_prepare_available=$?
+# Check yelp-tools is installed.
+hash yelp-build 2>&-
+yelp_tools_available=$?
 
 parse_commandline $*
 
 if [ $gnome_autogen_available -eq 0 -a \
-     $gnome_doc_tool_available -eq 0 -a \
-     $gnome_doc_prepare_available -eq 0 -a \
+     $yelp_tools_available -eq 0 -a \
      $enable_autotools -eq 1 ]; then
   configure_with_autotools $*
 else
   if [ $gnome_autogen_available -ne 0 ]; then
     gettext "gnome-autogen.sh not available"; echo
   fi
-  if [ $gnome_doc_tool_available -ne 0 ]; then
-    gettext "gnome-doc-tool not available"; echo
-  elif [ $gnome_doc_prepare_available -ne 0 ]; then
-    # OpenSuSe splits gnome-doc-prepare into separate gnome-doc-utils-devel
-    # package
-    gettext "gnome-doc-prepare not available"; echo
+  if [ $yelp_tools_available -ne 0 ]; then
+    gettext "yelp-tools not available"; echo
   fi
   configure_without_autotools
 fi

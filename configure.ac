@@ -33,9 +33,8 @@ AC_ARG_ENABLE(
 	[enable_doc_installation=$enableval],
 	[enable_doc_installation=no])
 AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$enable_doc_installation" = "xyes"])
-# pkg-config check below is disabled since documentation is optional
-# PKG_CHECK_MODULES(gnome-doc-utils, gnome-doc-utils)
-GNOME_DOC_INIT
+
+YELP_HELP_INIT
 
 AC_CONFIG_FILES([
 	Makefile
