@@ -262,6 +262,7 @@ class BuildTestCase(JhbuildConfigTestCase):
         self.packagedb = None
         self.buildscript = None
         self.moduleset = None
+        os.environ['JHBUILD_PREFIX'] = self.config.prefix
 
     def tearDown(self):
         super(BuildTestCase, self).tearDown()
