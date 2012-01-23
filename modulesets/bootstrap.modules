@@ -68,26 +68,13 @@
     </branch>
   </autotools>
 
-  <tarball id="gmp" version="4.3.1">
-    <source href="ftp://ftp.gnu.org/gnu/gmp/gmp-4.3.1.tar.bz2"
-            size="1881090" md5sum="26cec15a90885042dd4a15c4003b08ae"/>
-  </tarball>
-
-  <autotools id="guile1" autogenargs="--enable-error-on-warning=no">
-    <branch repo="ftp.gnu.org" module="guile/guile-1.8.7.tar.gz"
-            version="1.8.7"
-            hash="sha1:24cd2f06439c76d41d982a7384fe8a0fe5313b54"
-            md5sum="991b5b3efcbbc3f7507d05bc42f80a5e"
-            size="4026804">
-      <!-- Patch to build with gcc 4.5. http://savannah.gnu.org/bugs/?29583
-           Remove when 1.8.8 released. Patch from:
-           http://git.savannah.gnu.org/cgit/guile.git/commit/?id=445f31fc06d338f0cafda188d0287f935c2edc3c
-        -->
-      <patch file="guile-1.8.7-445f31fc06.patch" strip="2"/>
-    </branch>
-    <dependencies>
-      <dep package="gmp"/>
-    </dependencies>
+  <autotools id="guile">
+    <pkg-config>guile-2.0.pc</pkg-config>
+    <branch repo="ftp.gnu.org"
+            module="guile/guile-2.0.3.tar.xz"
+            version="2.0.3"
+            hash="sha256:d2ebcd78dc587080b96d9120053a57d8e2d22c3d54a444dff06513d5fba53093"
+            size="4196064"/>
   </autotools>
 
   <autotools id="xz">
@@ -104,7 +91,7 @@
       <dep package="automake" />
       <dep package="pkg-config" />
       <dep package="python" />
-      <dep package="guile1" />
+      <dep package="guile" />
     </dependencies>
   </metamodule>
 
