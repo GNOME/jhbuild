@@ -379,9 +379,8 @@
     </dependencies>
   </tarball>
 
-  <tarball id="folks" version="0.6.6" autogenargs="--enable-eds-backend">
-    <source href="http://ftp.gnome.org/pub/GNOME/sources/folks/0.6/folks-0.6.6.tar.xz"
-            hash="sha256:3dd6a2983969a6369c6b0e25f28ec92415b5570dd6c89b25385807ecc4aeb0a8"/>
+  <autotools id="folks" autogenargs="--enable-eds-backend">
+    <branch revision="wip/vala-0-15"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -394,7 +393,7 @@
     <suggests>
       <dep package="telepathy-logger"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <tarball id="fontconfig" version="2.8.0">
     <pkg-config>fontconfig.pc</pkg-config>
@@ -758,18 +757,16 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libgee" version="0.6.2.1">
+  <autotools id="libgee">
+    <branch revision="0.6"/>
     <pkg-config>gee-1.0.pc</pkg-config>
-    <source href="http://download.gnome.org/sources/libgee/0.6/libgee-0.6.2.1.tar.bz2"
-            hash="sha256:e177be887727c9c214bd41f46063e386a7292ba207f586930148190580c829ad"
-            md5sum="9c95ab9462179610d39df3c5a0911f3b" size="477230"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <autotools id="libgnomekbd">
     <branch/>
@@ -1234,15 +1231,13 @@
     </suggests>
   </autotools>
 
-  <tarball id="vala" version="0.15.0">
+  <autotools id="vala" autogenargs="--enable-vapigen">
+    <branch/>
     <pkg-config>libvala-0.16.pc</pkg-config>
-    <source href="http://download.gnome.org/sources/vala/0.15/vala-0.15.0.tar.xz"
-            hash="sha256:828f7341a3c4fc14b6d0f5a14ce3bdf4c40f5eae3e7ccf11c2b49061df9d2e23"
-            md5sum="2bffc49985cc790f0a9522b159ef935b" size="2618360"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="WebKit" makefile="GNUmakefile"
              autogenargs="--enable-introspection">
