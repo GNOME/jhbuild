@@ -61,6 +61,7 @@
   <autotools id="gcr">
     <branch/>
     <dependencies>
+      <dep package="gnome-common"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="libgcrypt" />
@@ -69,9 +70,17 @@
     </dependencies>
   </autotools>
 
+<!-- This is a special module: it's needed to build from git, but not
+     needed to build from tarballs, so it doesn't need to be in our suites
+     and it doesn't need to be an external dependency -->
+  <autotools id="gnome-common">
+    <branch/>
+  </autotools>
+
   <autotools id="gnome-doc-utils">
     <branch/>
     <dependencies>
+      <dep package="gnome-common"/>
       <dep package="libxslt"/>
       <dep package="libxml2"/>
       <dep package="intltool"/>
@@ -92,6 +101,7 @@
             hash="sha256:06d02133a85b9d6f29cd763050dc9267a6d73ef3008993f5b917cafc7ece96c0"
             md5sum="d6c91bf06681919ccfdf3624035b75dc" size="139287"/>
     <dependencies>
+      <dep package="gnome-common"/>
     </dependencies>
   </tarball>
 
@@ -886,6 +896,7 @@
       <dep package="libxml2"/>
       <dep package="glib"/>
       <dep package="gdk-pixbuf"/>
+      <dep package="gnome-common"/>
       <dep package="libcroco"/>
     </dependencies>
   </autotools>
