@@ -13,6 +13,8 @@
       href="http://dfn.dl.sourceforge.net/sourceforge/"/>
   <repository type="tarball" name="tukaani.org"
       href="http://tukaani.org/"/>
+  <repository type="tarball" name="launchpad.net"
+      href="https://launchpad.net/"/>
 
   <autotools id="gettext" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
@@ -43,6 +45,17 @@
             hash="sha256:c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8" />
     <dependencies>
       <dep package="m4"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="intltool">
+    <branch repo="launchpad.net"
+            module="intltool/trunk/0.41.1/+download/intltool-0.41.1.tar.gz"
+            version="0.41.1"
+            hash="sha256:06d02133a85b9d6f29cd763050dc9267a6d73ef3008993f5b917cafc7ece96c0"
+            size="139287"/>
+    <dependencies>
+      <dep package="gnome-common"/>
     </dependencies>
   </autotools>
 
@@ -101,6 +114,7 @@
       <dep package="gettext" />
       <dep package="gnome-common" />
       <dep package="autoconf" />
+      <dep package="intltool" />
       <dep package="libtool" />
       <dep package="automake" />
       <dep package="pkg-config" />
