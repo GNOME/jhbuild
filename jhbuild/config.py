@@ -62,7 +62,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets',
                 'cmakeargs', 'module_cmakeargs', 'print_command_pattern',
                 'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir',
-
+                'check_sysdeps',
                 # Internal only keys (propagated from command line options)
                 '_internal_noautogen',
                 ]
@@ -618,6 +618,8 @@ class Config:
             except ValueError:
                 raise FatalError(_('Failed to parse \'min_age\' relative '
                                    'time'))
+        if hasattr(options, 'check_sysdeps'):
+            self.check_sysdeps = options.check_sysdeps
 
     def __setattr__(self, k, v):
         '''Override __setattr__ for additional checks on some options.'''

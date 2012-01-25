@@ -62,6 +62,41 @@ class Command:
         """The body of the command"""
         raise NotImplementedError
 
+class BuildCommand(Command):
+    """Abstract class for commands that build modules"""
+
+    def required_system_dependencies_installed(self, module_state):
+        '''Returns true if all required system dependencies are installed for
+        modules in module_state.'''
+        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
+            if required_sysdep:
+                if installed_version is None or not new_enough:
+                    return False
+        return True
+
+    def print_system_dependencies(self, module_state):
+        print _('Required packages:')
+        print _('  System installed packages which are too old:')
+        have_too_old = False
+        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
+            if (installed_version is not None) and (not new_enough) and required_sysdep:
+                have_too_old = True
+                print (_("    %(pkg)s (required=%(req)s, installed=%(installed)s)" % {'pkg': pkg_config,
+                                                                                      'req': req_version,
+                                                                                      'installed': installed_version}))
+        if not have_too_old:
+            print _('    (none)')
+
+        print _('  No matching system package installed:')
+        uninstalled = []
+        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
+            if installed_version is None and required_sysdep:
+                print (_("    %(pkg)s (required=%(req)s)") % {'pkg': pkg_config,
+                                                              'req': req_version})
+                uninstalled.append(pkg_config)
+        if len(uninstalled) == 0:
+            print _('    (none)')
+
 
 def print_help():
     import os

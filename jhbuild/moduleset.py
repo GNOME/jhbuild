@@ -39,6 +39,7 @@ from jhbuild.utils import httpcache
 from jhbuild.utils import packagedb
 from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
+from jhbuild.modtypes.systemmodule import SystemModule
 from jhbuild.versioncontrol.tarball import TarballBranch
 from jhbuild.utils import systeminstall
 from jhbuild.utils import fileutils
@@ -177,7 +178,6 @@ class ModuleSet:
         return test_modules
 
     def get_system_modules(self, modules):
-        assert self.config.partial_build
 
         installed_pkgconfig = systeminstall.get_installed_pkgconfigs(self.config)
         
@@ -186,17 +186,17 @@ class ModuleSet:
         for module in modules:
             if module.pkg_config is None:
                 continue
-            if not isinstance(module.branch, TarballBranch):
-                continue
-            # Strip off the .pc
-            module_pkg = module.pkg_config[:-3]
-            required_version = module.branch.version
-            if not module_pkg in installed_pkgconfig:
-                module_state[module_pkg] = (module, required_version, None, False)
-            else:
-                installed_version = installed_pkgconfig[module_pkg]
-                new_enough = compare_version(installed_version, required_version)
-                module_state[module_pkg] = (module, required_version, installed_version, new_enough)
+            if (isinstance(module.branch, TarballBranch)
+                or isinstance(module, SystemModule)):
+                # Strip off the .pc
+                module_pkg = module.pkg_config[:-3]
+                required_version = module.branch.version
+                if not module_pkg in installed_pkgconfig:
+                    module_state[module_pkg] = (module, required_version, None, False, isinstance(module, SystemModule))
+                else:
+                    installed_version = installed_pkgconfig[module_pkg]
+                    new_enough = compare_version(installed_version, required_version)
+                    module_state[module_pkg] = (module, required_version, installed_version, new_enough, isinstance(module, SystemModule))
         return module_state
 
     def remove_system_modules(self, modules):
@@ -208,6 +208,8 @@ class ModuleSet:
         return_list = []
 
         for module in modules:
+            if isinstance(module, SystemModule):
+                continue
             skip = False
             if module.pkg_config is not None and \
             isinstance(module.branch, TarballBranch):

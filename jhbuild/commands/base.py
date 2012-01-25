@@ -28,7 +28,7 @@ import logging
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
-from jhbuild.commands import Command, register_command
+from jhbuild.commands import Command, BuildCommand, register_command
 
 from jhbuild.config import parse_relative_time
 
@@ -151,7 +151,7 @@ class cmd_cleanone(Command):
 register_command(cmd_cleanone)
 
 
-class cmd_build(Command):
+class cmd_build(BuildCommand):
     doc = N_('Update and compile all modules (the default)')
 
     name = 'build'
@@ -213,6 +213,9 @@ class cmd_build(Command):
             make_option('--min-age', metavar='TIME-SPEC',
                         action='store', dest='min_age', default=None,
                         help=_('skip modules installed less than the given time ago')),
+            make_option('--nodeps',
+                        action='store_false', dest='check_sysdeps', default=True,
+                        help=_('ignore missing system dependencies')),
             ])
 
     def run(self, config, options, args, help=None):
@@ -220,10 +223,13 @@ class cmd_build(Command):
 
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
-        module_list = module_set.get_module_list(modules,
-                config.skip, tags=config.tags,
-                include_suggests=not config.ignore_suggests,
-                include_afters=options.build_optional_modules)
+        full_module_list = module_set.get_full_module_list \
+                               (modules, config.skip,
+                                include_suggests=not config.ignore_suggests,
+                                include_afters=options.build_optional_modules)
+        full_module_list = module_set.remove_tag_modules(full_module_list,
+                                                         config.tags)
+        module_list = module_set.remove_system_modules(full_module_list)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -236,13 +242,24 @@ class cmd_build(Command):
                     _('requested module is in the ignore list, nothing to do.'))
             return 0
 
+        module_state = module_set.get_system_modules(full_module_list)
+        if (config.check_sysdeps
+            and not self.required_system_dependencies_installed(module_state)):
+            self.print_system_dependencies(module_state)
+            raise FatalError(_('Required system dependencies not installed. '
+                               'Install using the command %(cmd)s or to '
+                               'ignore system dependencies use command-line '
+                               'option %(opt)s' \
+                               % {'cmd' : "'jhbuild sysdeps --install'",
+                                  'opt' : '--nodeps'}))
+
         build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
 
 register_command(cmd_build)
 
 
-class cmd_buildone(Command):
+class cmd_buildone(BuildCommand):
     doc = N_('Update and compile one or more modules')
 
     name = 'buildone'

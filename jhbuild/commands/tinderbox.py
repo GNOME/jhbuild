@@ -20,11 +20,11 @@
 from optparse import make_option
 
 from jhbuild.errors import UsageError, FatalError
-from jhbuild.commands import Command, register_command
+from jhbuild.commands import Command, BuildCommand, register_command
 import jhbuild.frontends
 
 
-class cmd_tinderbox(Command):
+class cmd_tinderbox(BuildCommand):
     doc = N_('Build modules non-interactively and store build logs')
 
     name = 'tinderbox'
@@ -61,7 +61,10 @@ class cmd_tinderbox(Command):
                         help=_("don't poison modules on failure")),
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
-                        help=_('build even if policy says not to'))
+                        help=_('build even if policy says not to')),
+            make_option('--nodeps',
+                        action='store_false', dest='check_sysdeps', default=True,
+                        help=_('ignore missing system dependencies'))
             ])
 
     def run(self, config, options, args, help=None):
@@ -75,8 +78,9 @@ class cmd_tinderbox(Command):
             raise UsageError(_('output directory for tinderbox build not specified'))
 
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules,
-                                                 config.skip)
+        full_module_list = module_set.get_full_module_list \
+                               (args or config.modules, config.skip)
+        module_list = module_set.remove_system_modules(full_module_list)
 
         # remove modules up to startat
         if options.startat:
@@ -84,6 +88,17 @@ class cmd_tinderbox(Command):
                 del module_list[0]
             if not module_list:
                 raise FatalError(_('%s not in module list') % options.startat)
+
+        module_state = module_set.get_system_modules(full_module_list)
+        if (config.check_sysdeps
+            and not self.required_system_dependencies_installed(module_state)):
+            self.print_system_dependencies(module_state)
+            raise FatalError(_('Required system dependencies not installed. '
+                               'Install using the command %(cmd)s or to '
+                               'ignore system dependencies use command-line '
+                               'option %(opt)s' \
+                               % {'cmd' : "'jhbuild sysdeps --install'",
+                                  'opt' : '--nodeps'}))
 
         build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
