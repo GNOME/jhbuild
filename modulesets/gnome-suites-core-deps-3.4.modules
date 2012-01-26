@@ -53,6 +53,12 @@
     href="http://cairographics.org/"/>
 <repository type="tarball" name="people.freedesktop.org"
     href="http://people.freedesktop.org/"/>
+<repository type="tarball" name="poppler.freedesktop.org"
+    href="http://poppler.freedesktop.org/"/>
+<repository type="tarball" name="p11-glue.freedesktop.org"
+    href="http://p11-glue.freedesktop.org/releases/"/>
+<repository type="tarball" name="itstool.org"
+    href="http://files.itstool.org/itstool/"/>
 
 <!-- Please try to keep organized alphabetically by section -->
 
@@ -629,11 +635,13 @@
             md5sum="90472da66aa4460b04f39c324208f8f2" size="6105567"/>
   </tarball>
 
-  <tarball id="itstool" version="1.1.1">
-    <source href="http://files.itstool.org/itstool/itstool-1.1.1.tar.bz2"
+  <autotools id="itstool">
+    <branch repo="itstool.org"
+            module="itstool-1.1.1.tar.bz2"
+            version="1.1.1"
             hash="sha256:0fffba8f7249dbfadf0182aedf0ce210cd409b4240021c4c8693e3dd1f7b90c9"
             size="78824"/>
-  </tarball>
+  </autotools>
 
   <autotools id="java-gnome" autogen-sh="configure" skip-autogen="never">
     <branch repo="research.operationaldynamics.com"
@@ -915,11 +923,13 @@
             md5sum="14cc361500d2e768a8a6ec538ce3fecb" size="1641693" />
   </tarball>
 
-  <tarball id="p11-kit" version="0.8" supports-non-srcdir-builds="no">
-    <source href="http://p11-glue.freedesktop.org/releases/p11-kit-0.8.tar.gz"
+  <autotools id="p11-kit" supports-non-srcdir-builds="no">
+    <branch repo="p11-glue.freedesktop.org"
+            module="p11-kit-0.8.tar.gz"
+            version="0.8"
             hash="sha256:45eeaa8b397280a9536967c7a04c0353b0a0eff822ae53e6449288ca91d911bf"
             size="528732" />
-  </tarball>
+  </autotools>
 
   <autotools id="libunique">
     <pkg-config>unique-3.0.pc</pkg-config>
@@ -933,11 +943,12 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.1">
+  <autotools id="libxklavier" supports-non-srcdir-builds="no">
     <pkg-config>libxklavier.pc</pkg-config>
-    <source href="http://download.gnome.org/sources/libxklavier/5.1/libxklavier-5.1.tar.bz2"
+    <branch repo="gnome.org"
+            module="libxklavier/5.1/libxklavier-5.1.tar.bz2"
+            version="5.1"
             hash="sha256:1d7e8a6ed842d415d2f95b827e7d04ecf515ed5be2aaee262a8dd1c5cbe10ff1"
-            md5sum="cbc2a760827c20aef61eb7b18a6ce598"
             size="346858"/>
     <dependencies>
       <dep package="libxml2"/>
@@ -945,20 +956,7 @@
       <dep package="glib"/>
       <dep package="iso-codes"/>
     </dependencies>
-  </tarball>
-
-<!--
-<autotools id="libxklavier">
-  <branch module="libxklavier"
-	  repo="libxklavier.freedesktop.org"/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="gtk-doc"/>
-      <dep package="glib"/>
-      <dep package="iso-codes"/>
-    </dependencies>
-</autotools>
--->
+  </autotools>
 
   <autotools id="libxml2">
     <pkg-config>libxml-2.0.pc</pkg-config>
@@ -1055,11 +1053,13 @@
     </dependencies>
   </autotools>
 
-  <tarball id="poppler" version="0.18.0" autogenargs="--enable-xpdf-headers" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
+  <autotools id="poppler" autogenargs="--enable-xpdf-headers" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
     <pkg-config>poppler-glib.pc</pkg-config>
-    <source href="http://poppler.freedesktop.org/poppler-0.18.0.tar.gz"
+    <branch repo="poppler.freedesktop.org"
+            module="poppler-0.18.0.tar.gz"
+            version="0.18.0"
             hash="sha256:9019b15ef10a878e607e4088a27fb4967f61cdfada7806d0fee97954f76648e8"
-            md5sum="4cd3bf2a0a13fa8eaf00d31368915f77" size="1949737"/>
+            size="1949737"/>
     <dependencies>
       <dep package="cairo"/>
     </dependencies>
@@ -1071,7 +1071,7 @@
       <dep package="gtk+-2"/>
       <dep package="gdk-pixbuf"/>
     </after>
-  </tarball>
+  </autotools>
 
   <autotools id="py2cairo">
     <pkg-config>pycairo.pc</pkg-config>
