@@ -70,7 +70,9 @@ class PerlModule(Package, DownloadableModule):
         buildscript.execute(
                 [make, 'install', 'PREFIX=%s' % buildscript.config.prefix],
                 cwd = builddir, extra_env = self.extra_env)
-        buildscript.moduleset.packagedb.add(self.name, self.get_revision() or '')
+        buildscript.moduleset.packagedb.add(self.name,
+                                            self.get_revision() or '',
+                                            self.get_destdir(buildscript))
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):

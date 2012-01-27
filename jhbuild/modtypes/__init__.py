@@ -169,13 +169,13 @@ class Package:
     def get_builddir(self, buildscript):
         raise NotImplementedError
 
-    def _get_destdir(self, buildscript):
+    def get_destdir(self, buildscript):
         return os.path.join(buildscript.config.top_builddir, 'root-%s' % (self.name, ))
 
     def prepare_installroot(self, buildscript):
         assert self.supports_install_destdir
         """Return a directory suitable for use as e.g. DESTDIR with "make install"."""
-        destdir = self._get_destdir(buildscript)
+        destdir = self.get_destdir(buildscript)
         if os.path.exists(destdir):
             shutil.rmtree(destdir)
         os.makedirs(destdir)
@@ -241,7 +241,7 @@ them into the prefix."""
 
     def process_install(self, buildscript, revision):
         assert self.supports_install_destdir
-        destdir = self._get_destdir(buildscript)
+        destdir = self.get_destdir(buildscript)
         self._clean_la_files(buildscript, destdir)
 
         stripped_prefix = buildscript.config.prefix[1:]

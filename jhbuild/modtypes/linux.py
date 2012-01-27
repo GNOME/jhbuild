@@ -212,7 +212,9 @@ class LinuxModule(Package):
                     buildscript.config.prefix)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
                     extra_env = self.extra_env)
-        buildscript.moduleset.packagedb.add(self.name, self.get_revision() or '')
+        buildscript.moduleset.packagedb.add(self.name,
+                                            self.get_revision() or '',
+                                            self.get_destdir(buildscript))
 
     do_headers_install.depends = [PHASE_BUILD]
     do_headers_install.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
