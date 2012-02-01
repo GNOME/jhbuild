@@ -996,18 +996,18 @@
   <repository type="tarball" name="ftp.mozilla.org"
       href="https://ftp.mozilla.org/pub/mozilla.org/"/>
 
-  <autotools id="nspr" autogen-sh="autogen.sh"
+    <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
              autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
     <pkg-config>nspr.pc</pkg-config>
     <branch repo="ftp.mozilla.org"
-            module="nspr/releases/v4.8.6/src/nspr-4.8.6.tar.gz"
-	    version="4.8.6"
-	    hash="d9040bb01536fa63881c423c4fa831ea459696b32d2097f614842f824e1a9f6d"
-	    md5sum="592c275728c29d193fdba8009165990b" size="1202257">
+            module="nspr/releases/v4.8.9/src/nspr-4.8.9.tar.gz"
+            version="4.8.6"
+            hash="ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
+            md5sum="60770d45dc08c0f181b22cdfce5be3e8" size="1235265">
       <patch file="nspr.config_64bits.patch" strip="1" />
       <patch file="nspr.pkgconfig.patch" strip="1"/>
-      <patch file="nspr.autogen.patch" strip="1"/>
       <patch file="nspr.hostcompiler.patch" strip="1"/>
+      <patch file="nspr.configure_4.8.9.patch" strip="1"/>
     </branch>
   </autotools>
 
@@ -1032,12 +1032,11 @@
              check-target="false">
     <pkg-config>nss.pc</pkg-config>
     <branch repo="ftp.mozilla.org"
-            module="security/nss/releases/NSS_3_12_6_RTM/src/nss-3.12.6.tar.gz"
-	    version="3.12.6"
-	    hash="sha256:8f9759be1ce928e82830923fde62a66e270c4645f10a4c176acfccb6021a9795"
-	    md5sum="da42596665f226de5eb3ecfc1ec57cd1" size="5947630">
+            module="security/nss/releases/NSS_3_12_11_RTM/src/nss-3.12.11.tar.gz"
+	    version="3.12.11"
+	    hash="sha256:d043f8d44212bc9418b6a954ca88e05b8ab2a71f8c59e6829a9a36d8a28e9f16"
+	    md5sum="ca0ca058380be200cf247ea2496b5352" size="5944840">
       <patch file="nss.pkgconfig-and-configure.patch" strip="1"/>
-      <patch file="nss.linux3.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="nspr"/>
