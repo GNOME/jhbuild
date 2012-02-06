@@ -59,7 +59,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def __init__(self, config, module_list=None, module_set=None):
         self.orig_modulelist = module_list
-        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
+        self.module_set = jhbuild.moduleset.load(config)
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=self.module_set)
         self.config = config
         gtk.Window.__init__(self)
         self.set_resizable(False)
@@ -74,8 +75,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     theme.load_icon('applications-development', 128, ())
                     )
         self.set_title('JHBuild')
-
-        self.module_set = jhbuild.moduleset.load(config)
 
         self.create_modules_list_model()
         self.create_ui()
@@ -349,7 +348,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.build_button.set_sensitive(True)
         self.module_hbox.set_sensitive(True)
 
-    def start_phase(self):
+    def start_phase(self, module, phase):
         self.notify.clear()
 
     def start_module(self, module):
