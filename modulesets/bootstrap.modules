@@ -1,8 +1,6 @@
 <?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <repository type="tarball" name="ftp.gnu.org"
-      href="ftp://ftp.gnu.org/gnu/"/>
   <repository type="tarball" name="pkgconfig"
       href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python"
@@ -71,15 +69,6 @@
     </branch>
   </autotools>
 
-  <autotools id="guile">
-    <pkg-config>guile-2.0.pc</pkg-config>
-    <branch repo="ftp.gnu.org"
-            module="guile/guile-2.0.3.tar.xz"
-            version="2.0.3"
-            hash="sha256:d2ebcd78dc587080b96d9120053a57d8e2d22c3d54a444dff06513d5fba53093"
-            size="4196064"/>
-  </autotools>
-
   <autotools id="xz">
     <branch repo="tukaani.org" module="xz/xz-5.0.1.tar.bz2" version="5.0.1"
             size="1005959" md5sum="cb6c7a58cec4d663a395c54d186ca0c6"
@@ -93,8 +82,6 @@
       <dep package="libtool" />
       <dep package="automake" />
       <dep package="pkg-config" />
-      <dep package="python" />
-      <dep package="guile" />
     </dependencies>
   </metamodule>
 
