@@ -417,6 +417,10 @@ class Config:
             if os.path.exists(gstplugindir):
                 addpath('GST_PLUGIN_PATH', gstplugindir)
 
+        # GST_REGISTRY
+        gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer.registry')
+        addpath('GST_REGISTRY', gstregistry)
+
         # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
