@@ -26,16 +26,10 @@ from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.errors import UsageError, CommandError
 
 def get_aclocal_path():
+    # drop empty paths, including the case where ACLOCAL_PATH is unset
+    path = [x for x in os.environ.get('ACLOCAL_PATH', '').split(':') if x]
     data = get_output(['aclocal', '--print-ac-dir'])
-    path = [data[:-1]]
-    env = os.environ.get('ACLOCAL_FLAGS', '').split()
-    i = 0
-    while i < len(env):
-        if env[i] == '-I':
-            path.append(env[i+1])
-            i = i + 2
-        else:
-            i = i + 1
+    path.append(data[:-1])
     return path
 
 def inpath(filename, path):

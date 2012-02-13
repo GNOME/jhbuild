@@ -421,6 +421,10 @@ class Config:
         gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer.registry')
         addpath('GST_REGISTRY', gstregistry)
 
+        # ACLOCAL_PATH
+        aclocalpath = os.path.join(self.prefix, 'share', 'aclocal')
+        addpath('ACLOCAL_PATH', aclocalpath)
+
         # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
         if not os.path.exists(aclocaldir):
