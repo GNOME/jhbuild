@@ -33,7 +33,7 @@ def _accumulate_dirtree_contents_recurse(path, contents):
             # Only add if the directory is empty, otherwise, its existence
             # is implicit.
             if previous_len == new_len:
-                contents.append(subpath + '/')
+                contents.append(subpath + os.sep)
         else:
             contents.append(subpath)
 
@@ -42,8 +42,8 @@ def accumulate_dirtree_contents(path):
 in the returned list is relative to the root path."""
     contents = []
     _accumulate_dirtree_contents_recurse(path, contents)
-    if not path.endswith('/'):
-        path = path + '/'
+    if not path.endswith(os.sep):
+        path = path + os.sep
     pathlen = len(path)
     for i,subpath in enumerate(contents):
         assert subpath.startswith(path)
@@ -80,8 +80,8 @@ Returns a list, where each item is a 2-tuple:
 def filter_files_by_prefix(config, file_paths):
     """Return the set of files in file_paths that are inside the prefix."""
     canon_prefix = config.prefix
-    if not canon_prefix.endswith('/'):
-        canon_prefix = canon_prefix + '/'
+    if not canon_prefix.endswith(os.sep):
+        canon_prefix = canon_prefix + os.sep
     result = []
     for path in file_paths:
         if path == canon_prefix or (not path.startswith(canon_prefix)):
