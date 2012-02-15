@@ -81,7 +81,7 @@ class CMakeModule(Package, DownloadableModule):
             if ' -j' not in args:
                 arg = '-j %s' % (self.config.jobs, )
                 args = args + ' ' + arg
-        return self.eval_args(args)
+        return self.eval_args(args).strip()
 
     def skip_configure(self, buildscript, last_phase):
         return buildscript.config.nobuild
