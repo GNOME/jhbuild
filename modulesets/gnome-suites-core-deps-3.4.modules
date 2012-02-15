@@ -977,7 +977,10 @@
             module="libxklavier/5.2/libxklavier-5.2.tar.xz"
             version="5.2"
             hash="sha256:7c1f04a80035e03cec992e16b89bc708a32b3578d6e133343d2cb56385d25dfe"
-            size="312864"/>
+            size="312864">
+      <!-- This patch is in upstream git.  Remove it for releases after 5.2. -->
+      <patch file="libxklavier-5.2-introspection.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="gtk-doc"/>
