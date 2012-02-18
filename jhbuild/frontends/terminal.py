@@ -162,6 +162,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             print_args['command'] = ' '.join(command)
 
+        # get rid of hint if pretty printing is disabled.
+        if not self.config.pretty_print:
+            hint = None
+
         if not self.config.quiet_mode:
             if self.config.print_command_pattern:
                 try:
@@ -213,10 +217,6 @@ class TerminalBuildScript(buildscript.BuildScript):
                     return
 
                 if line[-1] == '\n': line = line[:-1]
-                if not self.config.pretty_print:
-                    hint = None
-                    print line
-                    return
 
                 if line.startswith('C '):
                     print '%s%s%s' % (t_colour[12], line, t_reset)
