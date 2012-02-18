@@ -1,3 +1,16 @@
+diff --git a/autogen.sh b/autogen.sh
+index a0c007a..cef6585 100644
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -1,6 +1,8 @@
+ #!/bin/sh -e
+ 
++rm -fr m4 aclocal.m4
++mkdir m4
+ gtkdocize
+ autoreconf --install --symlink
+ 
+ MYCFLAGS="-g -Wall \
 diff --git a/Makefile.am b/Makefile.am
 index a0c007a..cef6585 100644
 --- a/Makefile.am
