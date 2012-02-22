@@ -66,6 +66,30 @@
 
 <!-- Build dependencies of gnome-suites-core-3.4 -->
 
+  <autotools id="gypsy">
+    <branch repo="git.freedesktop.org"/>
+    <dependencies>
+      <dep package="bluez"/>
+      <dep package="dbus-glib"/>
+      <dep package="gudev"/>
+      <dep package="libxslt"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="geoclue">
+    <branch repo="git.freedesktop.org"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <dep package="NetworkManager"/>
+    </dependencies>
+    <suggests>
+      <dep package="gypsy"/>
+    </suggests>
+  </autotools>
+
   <autotools id="geocode-glib">
     <branch/>
     <dependencies>
@@ -1267,6 +1291,7 @@
       <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
+      <dep package="geoclue"/>
       <dep package="libxslt"/>
       <dep package="sqlite3"/>
       <dep package="enchant"/>
