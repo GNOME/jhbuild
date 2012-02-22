@@ -69,10 +69,10 @@ class AutogenModule(Package, DownloadableModule):
         self.supports_install_destdir = True
         self.supports_static_analyzer = supports_static_analyzer
 
-    def _get_makeargs(self, buildscript):
+    def _get_makeargs(self, buildscript, add_parallel=True):
         makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
             self.name, self.config.makeargs)
-        if self.supports_parallel_build:
+        if self.supports_parallel_build and add_parallel:
             # Propagate job count into makeargs, unless -j is already set
             if ' -j' not in makeargs:
                 arg = '-j %s' % (buildscript.config.jobs, )
@@ -252,7 +252,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        makeargs = self._get_makeargs(buildscript)
+        makeargs = self._get_makeargs(buildscript, add_parallel=False)
         cmd = '%s%s %s check' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
