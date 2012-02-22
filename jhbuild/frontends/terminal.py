@@ -165,6 +165,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         # get rid of hint if pretty printing is disabled.
         if not self.config.pretty_print:
             hint = None
+        elif os.name == 'nt':
+            # pretty print also doesn't work on Windows;
+            # see https://bugzilla.gnome.org/show_bug.cgi?id=670349 
+            hint = None
 
         if not self.config.quiet_mode:
             if self.config.print_command_pattern:
