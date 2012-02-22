@@ -229,7 +229,7 @@ them into the prefix."""
             else:
                 num_copied += 1
                 try:
-                    os.rename(src_path, dest_path)
+                    fileutils.rename(src_path, dest_path)
                 except OSError, e:
                     logging.error(_('Failed to rename %(src)r to %(dest)r: %(msg)s') %
                                   {'src': src_path,
@@ -293,7 +293,7 @@ them into the prefix."""
             if os.path.exists(broken_name):
                 assert broken_name.startswith(buildscript.config.top_builddir)
                 shutil.rmtree(broken_name)
-            os.rename(destdir, broken_name)
+            fileutils.rename(destdir, broken_name)
         else:
             assert destdir.startswith(buildscript.config.prefix)
             os.rmdir(destdir)

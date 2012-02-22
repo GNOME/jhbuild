@@ -21,6 +21,7 @@
 
 import os
 import sys
+import errno
 
 def _accumulate_dirtree_contents_recurse(path, contents):
     names = os.listdir(path)
@@ -89,3 +90,20 @@ def filter_files_by_prefix(config, file_paths):
         result.append(path)
     return result
 
+# Modified rename from http://selenic.com/repo/hg/file/tip/mercurial/windows.py
+def _windows_rename(src, dst):
+    '''atomically rename file src to dst, replacing dst if it exists'''
+    try:
+        os.rename(src, dst)
+    except OSError, e:
+        if e.errno != errno.EEXIST:
+            raise
+        # Windows does not allow to unlink open file.
+        # Unlike in Mercurial, we don't try any workaround here.
+        os.unlink(dst)
+        os.rename(src, dst)
+
+if os.name == 'nt':
+    rename = _windows_rename
+else:
+    rename = os.rename

@@ -41,6 +41,7 @@ from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.versioncontrol.tarball import TarballBranch
 from jhbuild.utils import systeminstall
+from jhbuild.utils import fileutils
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -57,7 +58,7 @@ class ModuleSet:
             legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
             new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
             if os.path.isfile(legacy_pkgdb_path):
-                os.rename(legacy_pkgdb_path, new_pkgdb_path)
+                fileutils.rename(legacy_pkgdb_path, new_pkgdb_path)
             self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
         else:
             self.packagedb = db

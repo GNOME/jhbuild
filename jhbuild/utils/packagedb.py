@@ -115,8 +115,8 @@ class PackageEntry:
             else:
                 os.fsync(fd.fileno())
             fd.close()
-            os.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
-                      os.path.join(self.manifests_dir, self.package))
+            fileutils.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
+                             os.path.join(self.manifests_dir, self.package))
         return entry_node
 
 class PackageDB:
@@ -196,7 +196,7 @@ class PackageDB:
         tmp_dbfile.flush()
         os.fsync(tmp_dbfile.fileno())
         tmp_dbfile.close()
-        os.rename(tmp_dbfile_path, self.dbfile)
+        fileutils.rename(tmp_dbfile_path, self.dbfile)
         # Ensure we don't reread what we already have cached
         self._entries_stat = os.stat(self.dbfile)
 

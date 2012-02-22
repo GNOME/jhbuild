@@ -24,6 +24,7 @@ import tempfile
 
 from jhbuild.utils.cmds import has_command
 from jhbuild.errors import CommandError
+from jhbuild.utils import fileutils
 
 
 def unpack_tar_file(localfile, target_directory):
@@ -153,8 +154,8 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
         if len(os.listdir(target_directory)) == 1:
             # a single directory, just move it
             tmpdirname = os.path.join(target_directory, os.listdir(target_directory)[0])
-            os.rename(tmpdirname, os.path.join(final_target_directory, checkoutdir))
+            fileutils.rename(tmpdirname, os.path.join(final_target_directory, checkoutdir))
             os.rmdir(target_directory)
         else:
             # more files, just rename the temporary directory to the final name
-            os.rename(target_directory, os.path.join(final_target_directory, checkoutdir))
+            fileutils.rename(target_directory, os.path.join(final_target_directory, checkoutdir))
