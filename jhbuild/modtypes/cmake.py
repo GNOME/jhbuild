@@ -83,9 +83,6 @@ class CMakeModule(Package, DownloadableModule):
                 args = args + ' ' + arg
         return self.eval_args(args).strip()
 
-    def skip_configure(self, buildscript, last_phase):
-        return buildscript.config.nobuild
-
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
