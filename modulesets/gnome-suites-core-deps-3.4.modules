@@ -43,8 +43,8 @@
     href="http://webkitgtk.org/"/>
 <repository type="tarball" name="ftp.musicbrainz.org"
     href="http://ftp.musicbrainz.org/pub/musicbrainz/"/>
-<repository type="tarball" name="people.suug.ch/~tgr/libnl/"
-    href="http://www.gnome.org/~fpeters/libnl/"/>
+<repository type="tarball" name="libnl"
+    href="http://www.infradead.org/~tgr/libnl/files/"/>
 <repository type="tarball" name="kernel.org"
     href="http://www.kernel.org/pub/linux/"/>
 <repository type="tarball" name="dbus"
@@ -1344,13 +1344,12 @@
   <!-- OS Core Services dependencies -->
 
   <autotools id="libnl" skip-autogen="never" autogen-sh="configure" check-target="false">
-    <pkg-config>libnl-1.pc</pkg-config>
-    <branch repo="people.suug.ch/~tgr/libnl/"
-            module="libnl-1.1.tar.gz"
-            version="1.1"
-            hash="sha256:35cea4cfb6cd8af0cafa0f34fff81def5a1f193b8b8384299b4b21883e22edc3"
-            size="288932">
-      <patch file="libnl-include-fix.patch" strip="1"/>
+    <pkg-config>libnl-3.pc</pkg-config>
+    <branch repo="libnl"
+            module="libnl-3.2.7.tar.gz"
+            version="3.2.7"
+            hash="sha256:1141f3229ebf65f6cee43a898d4832b8c17cb942e23adeccb365e75708a2b08e"
+            size="1124758">
     </branch>
   </autotools>
 
