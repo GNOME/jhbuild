@@ -1157,7 +1157,10 @@
   </autotools>
 
   <tarball id="rarian" version="0.8.1" supports-non-srcdir-builds="no">
-    <pkg-config>rarian.pc</pkg-config>
+    <!-- Always build rarian due to some distributions providing rarian-compat
+         package. (see https://bugzilla.gnome.org/show_bug.cgi?id=670917)
+         rarian can be sysdeps again when GNOME bug 671042 is fixed. -->
+    <!-- <pkg-config>rarian.pc</pkg-config> -->
     <source href="http://download.gnome.org/sources/rarian/0.8/rarian-0.8.1.tar.bz2"
             hash="sha256:aafe886d46e467eb3414e91fa9e42955bd4b618c3e19c42c773026b205a84577"
             size="324441"/>
