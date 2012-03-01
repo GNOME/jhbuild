@@ -20,6 +20,7 @@
 
 import os
 import logging
+import subprocess
 
 from jhbuild.utils import trigger
 from jhbuild.utils import cmds
@@ -60,13 +61,22 @@ class BuildScript:
 
         self.subprocess_nice_args = []
         if config.nice_build:
-            if cmds.has_command('chrt'):
-                self.subprocess_nice_args.extend(['chrt', '--idle', '0'])
+            chrt_args = ['chrt', '--idle', '0']
+            devnull = open(os.devnull, 'w')
+            if (cmds.has_command('chrt') and
+                subprocess.call(chrt_args + ['true'], stdout=devnull, stderr=devnull) == 0):
+                self.subprocess_nice_args.extend(chrt_args)
+
             elif cmds.has_command('nice'):
                 self.subprocess_nice_args.append('nice')
                 
+            ionice_args = ['ionice', '-c', '3', '-t']
             if cmds.has_command('ionice'):
-                self.subprocess_nice_args.extend(['ionice', '-c', '3', '-t'])
+                subproc = subprocess.Popen(ionice_args + ['true'], stdout=devnull,
+                                           stderr=subprocess.PIPE)
+                stderr_val = subproc.communicate()[1]
+                if subproc.returncode == 0 and len(stderr_val) == 0:
+                    self.subprocess_nice_args.extend(ionice_args)
 
     def _prepare_execute(self, command):
         if self.subprocess_nice_args:
