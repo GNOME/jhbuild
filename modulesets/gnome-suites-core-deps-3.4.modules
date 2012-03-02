@@ -31,10 +31,14 @@
     href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="http://webkitgtk.org/"/>
+<repository type="tarball" name="freedesktop.org"
+    href="http://freedesktop.org/software/"/>
 <repository type="tarball" name="poppler.freedesktop.org"
     href="http://poppler.freedesktop.org/"/>
 <repository type="tarball" name="p11-glue.freedesktop.org"
     href="http://p11-glue.freedesktop.org/releases/"/>
+<repository type="tarball" name="telepathy.freedesktop.org"
+    href="http://telepathy.freedesktop.org/releases/"/>
 <repository type="tarball" name="itstool.org"
     href="http://files.itstool.org/itstool/"/>
 
@@ -278,22 +282,26 @@
     </suggests>
   </autotools>
 
-  <tarball id="farstream" version="0.1.1" autogenargs="--disable-python">
-    <source href="http://freedesktop.org/software/farstream/releases/farstream/farstream-0.1.1.tar.gz"
+  <autotools id="farstream" autogenargs="--disable-python">
+    <branch repo="freedesktop.org"
+            module="farstream/releases/farstream/farstream-0.1.1.tar.gz"
+            version="0.1.1"
             hash="sha256:7b88a0730fbdd03297295574a613409790bf751d578690d7072cbf2be3f9ad52"/>
     <dependencies>
       <dep package="libnice"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="telepathy-farstream" version="0.2.1" autogenargs="--disable-python">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-farstream/telepathy-farstream-0.2.1.tar.gz"
+  <autotools id="telepathy-farstream" autogenargs="--disable-python">
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-farstream/telepathy-farstream-0.2.1.tar.gz"
+            version="0.2.1"
             hash="sha256:01a0b66fc2d016a7e5b54f02797ad7134b0485e7a6398c3e3c11824a31e94d0c"/>
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="farstream"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="folks" autogenargs="--enable-eds-backend">
     <branch/>
@@ -311,15 +319,16 @@
     </suggests>
   </autotools>
 
-  <tarball id="gnome-js-common" version="0.1.1">
-    <source href="http://download.gnome.org/sources/gnome-js-common/0.1/gnome-js-common-0.1.1.tar.bz2"
-            hash="sha256:6cad015cda5abfd2bccd6b95714ca39c83ca69ca7e6f7326dc75763a758dc8db"
-            size="274010"/>
+  <autotools id="gnome-js-common">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+    </dependencies>
     <suggests>
       <dep package="seed"/>
       <dep package="gjs"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <autotools id="gtksourceview" autogenargs="--enable-compile-warnings=maximum">
     <branch/>
@@ -373,15 +382,17 @@
     </dependencies>
   </autotools>
 
-  <tarball id="gmime" version="2.6.6">
-    <source href="http://download.gnome.org/sources/gmime/2.6/gmime-2.6.6.tar.xz"
+  <autotools id="gmime" version="2.6.6">
+    <branch repo="gnome.org"
+            module="gmime/2.6/gmime-2.6.6.tar.xz"
+            version="2.6.6"
             hash="sha256:efdff4cebaaa9b8dfe99832eb16f54ce60a7e02c5d1f3964f15d4ae0ddf6b3ee"
             size="721152"/>
     <dependencies>
       <dep package="gtk-doc"/>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="gstreamer" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
@@ -515,9 +526,11 @@
    </suggests>
  </autotools>
 
-  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.4">
+  <autotools id="libcroco" supports-non-srcdir-builds="no">
     <pkg-config>libcroco-0.6.pc</pkg-config>
-    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.4.tar.xz"
+    <branch repo="gnome.org"
+            module="libcroco/0.6/libcroco-0.6.4.tar.xz"
+            version="0.6.4"
             hash="sha256:c816bad3406c52a98d84a2222c0e4a7b70ee0640b49cde4a236deaa02c4232ea"
             size="461876"/>
     <dependencies>
@@ -525,7 +538,7 @@
       <dep package="gtk-doc"/>
       <dep package="libxml2"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="libgee">
     <branch revision="0.6"/>
@@ -558,8 +571,10 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libgsf" version="1.14.18" autogenargs="-- --without-bonobo --without-gnome-vfs">
-    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.18.tar.bz2"
+  <autotools id="libgsf" autogenargs="--without-bonobo --without-gnome-vfs">
+    <branch repo="gnome.org"
+            module="libgsf/1.14/libgsf-1.14.18.tar.bz2"
+            version="1.14.18"
             hash="sha256:16d29e82f7eba68f919f2588ea5328973490fe6d4a7a5f160e8af89b387c9a95"
             size="611584"/>
     <dependencies>
@@ -569,7 +584,7 @@
     <suggests>
       <dep package="gdk-pixbuf"/>
     </suggests>
-  </tarball>
+  </autotools>
 
   <autotools id="libgtop">
     <branch/>
@@ -760,16 +775,20 @@
     </dependencies>
   </autotools>
 
-  <tarball id="startup-notification" version="0.12">
+  <autotools id="startup-notification">
     <pkg-config>libstartup-notification-1.0.pc</pkg-config>
-    <source href="http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz"
+    <branch repo="freedesktop.org"
+            module="startup-notification/releases/startup-notification-0.12.tar.gz"
+            version="0.12"
             hash="sha256:3c391f7e930c583095045cd2d10eb73a64f085c7fde9d260f2652c7cb3cfbe4a"
             size="355285"/>
-  </tarball>
+  </autotools>
 
-  <tarball id="telepathy-glib" version="0.17.5" autogenargs="--enable-vala-bindings">
+  <autotools id="telepathy-glib" autogenargs="--enable-vala-bindings">
     <pkg-config>telepathy-glib.pc</pkg-config>
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.17.5.tar.gz"
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-glib/telepathy-glib-0.17.5.tar.gz"
+            version="0.17.5"
             hash="sha256:011ad936f1d592dbc685073244750303fe2201246b16f9a7fa495cf9f8a3fe8d"/>
     <dependencies>
       <dep package="glib"/>
@@ -781,18 +800,20 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </tarball>
+  </autotools>
 
-  <tarball id="telepathy-logger" version="0.2.12">
+  <autotools id="telepathy-logger">
     <pkg-config>telepathy-logger-0.2.pc</pkg-config>
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-logger/telepathy-logger-0.2.12.tar.bz2"
+    <branch repo="telepathy.freedesktop.org"
+            module="telepathy-logger/telepathy-logger-0.2.12.tar.bz2"
+            version="0.2.12"
             hash="sha256:43ce8c6d0309889b56116e9a6eb023e6698962fad72deb1202fee36d64a80199"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
       <dep package="telepathy-glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="totem-pl-parser">
     <branch/>
