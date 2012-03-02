@@ -18,7 +18,7 @@
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
-    href="http://prdownloads.sourceforge.net/sourceforge/"/>
+    href="http://downloads.sourceforge.net/"/>
 <repository type="tarball" name="libproxy.googlecode.com"
     href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
@@ -119,11 +119,13 @@
     </dependencies>
   </tarball>
 
-  <tarball id="expat" version="2.0.1">
-    <source href="http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz"
+  <autotools id="expat">
+    <branch repo="sourceforge.net"
+            module="expat/expat-2.0.1.tar.gz"
+            version="2.0.1"
             hash="sha256:847660b4df86e707c9150e33cd8c25bc5cd828f708c7418e765e3e983a2e5e93"
             size="446456"/>
-  </tarball>
+  </autotools>
 
   <tarball id="fontconfig" version="2.8.0">
     <pkg-config>fontconfig.pc</pkg-config>
@@ -217,12 +219,14 @@
     </dependencies>
   </autotools>
 
-  <tarball id="lcms2" version="2.2" checkoutdir="lcms-2.2">
+  <autotools id="lcms2">
     <pkg-config>lcms2.pc</pkg-config>
-    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.2.tar.gz"
+    <branch repo="sourceforge.net"
+            module="lcms/lcms2-2.2.tar.gz"
+            version="2.2"
             hash="sha256:b6f2a1be1a2b7ca54bfab69b32242d383a176637f161eeeaef451bd9fc1195cc"
             size="4193353"/>
-  </tarball>
+  </autotools>
 
   <tarball id="libatasmart" version="0.17">
     <pkg-config>libatasmart.pc</pkg-config>
@@ -282,14 +286,16 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libical" version="0.43">
+  <autotools id="libical" version="0.43">
     <pkg-config>libical.pc</pkg-config>
-    <source href="http://downloads.sourceforge.net/freeassociation/libical-0.43.tar.gz"
+    <branch repo="sourceforge.net"
+            module="freeassociation/libical-0.43.tar.gz"
+            version="0.43"
             hash="sha256:099f3e29a864de324477983eefaf17a4ef3b4ec8f075f95384db1ac67b6663a6"
             size="1145724"/>
     <dependencies>
     </dependencies>
-  </tarball>
+  </autotools>
 
    <cmake id="libmusicbrainz3">
     <pkg-config>libmusicbrainz3.pc</pkg-config>
@@ -343,14 +349,16 @@
             size="912563"/>
   </tarball>
 
-  <tarball id="liboauth" version="0.9.4">
+  <autotools id="liboauth" version="0.9.4">
     <pkg-config>oauth.pc</pkg-config>
-    <source href="http://downloads.sourceforge.net/liboauth/liboauth-0.9.4.tar.gz"
+    <branch repo="sourceforge.net"
+            href="liboauth/liboauth-0.9.4.tar.gz"
+            version="0.9.4"
             hash="sha256:77e372359caca5375fbcc63ac638f349e6c93c98d291992d8ebb9bb8291ca549"
             size="459597"/>
     <dependencies>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <cmake id="libproxy"
          cmakeargs="-DCMAKE_BUILD_TYPE=None -DWITH_GNOME=OFF -DWITH_GNOME3=ON -DWITH_KDE4=OFF -DWITH_PYTHON=OFF -DWITH_PERL=OFF -DWITH_VALA=ON -DWITH_DOTNET=OFF -DWITH_MOZJS=OFF -DWITH_WEBKIT=ON -DGAC_DIR=${prefix}/lib/mono">
@@ -378,12 +386,14 @@
             size="1037078"/>
   </tarball>
 
-  <tarball id="libtasn1" version="2.2" supports-non-srcdir-builds="no">
+  <autotools id="libtasn1" supports-non-srcdir-builds="no">
     <pkg-config>libtasn1.pc</pkg-config>
-    <source href="ftp://ftp.gnu.org/gnu/libtasn1/libtasn1-2.2.tar.gz"
+    <branch repo="ftp.gnu.org"
+            module="libtasn1/libtasn1-2.2.tar.gz"
+            version="2.2"
             hash="sha256:5dd7956d62a351bb657f18d228c5d5b9e9455355543f59ff36484a9d389e36b9"
             size="1641693" />
-  </tarball>
+  </autotools>
 
   <autotools id="libxml2">
     <pkg-config>libxml-2.0.pc</pkg-config>
@@ -427,24 +437,28 @@
     </dependencies>
   </autotools>
 
-  <tarball id="rarian" version="0.8.1" supports-non-srcdir-builds="no">
+  <autotools id="rarian" supports-non-srcdir-builds="no">
     <!-- Always build rarian due to some distributions providing rarian-compat
          package. (see https://bugzilla.gnome.org/show_bug.cgi?id=670917)
          rarian can be sysdeps again when GNOME bug 671042 is fixed. -->
     <!-- <pkg-config>rarian.pc</pkg-config> -->
-    <source href="http://download.gnome.org/sources/rarian/0.8/rarian-0.8.1.tar.bz2"
+    <branch repo="gnome.org"
+            module="rarian/0.8/rarian-0.8.1.tar.bz2"
+            version="0.8.1"
             hash="sha256:aafe886d46e467eb3414e91fa9e42955bd4b618c3e19c42c773026b205a84577"
             size="324441"/>
     <dependencies>
       <dep package="libxslt"/>
       <dep package="intltool"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <!-- parallel builds broken due to: https://bugs.freedesktop.org/show_bug.cgi?id=46093 -->
-  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="1.0"
-           autogenargs="--disable-default-make-check" supports-parallel-builds="no">
-    <source href="http://people.freedesktop.org/~hadess/shared-mime-info-1.0.tar.xz"
+  <autotools id="shared-mime-info" supports-non-srcdir-builds="no"
+             autogenargs="--disable-default-make-check" supports-parallel-builds="no">
+    <branch repo="people.freedesktop.org"
+            module="~hadess/shared-mime-info-1.0.tar.xz"
+            version="1.0"
             hash="sha256:d2e830e5aae213dd906e64495e9618cc4ef40d7b249e0971a190b04d5802ae8f"
             size="496700"/>
     <dependencies>
@@ -452,13 +466,15 @@
       <dep package="libxml2"/>
       <dep package="glib"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
-  <tarball id="sound-theme-freedesktop" version="0.7">
-    <source href="http://people.freedesktop.org/~mccann/dist/sound-theme-freedesktop-0.7.tar.bz2"
+  <autotools id="sound-theme-freedesktop" version="0.7">
+    <branch repo="people.freedesktop.org"
+            module="~mccann/dist/sound-theme-freedesktop-0.7.tar.bz2"
+            version="0.7"
             hash="sha256:e6595afb02b76099ef6df42c2ac7c4f9680c21c3f26b2a7ca0943d1fdbbd9aef"
             size="483786"/>
-  </tarball>
+  </autotools>
 
   <tarball id="speex" version="1.2rc1">
     <pkg-config>speex.pc</pkg-config>
