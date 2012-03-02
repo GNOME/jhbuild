@@ -9,6 +9,8 @@
 <!-- tarball repos -->
 <repository type="tarball" name="ftp.gnu.org"
     href="ftp://ftp.gnu.org/pub/gnu/"/>
+<repository type="tarball" name="iso-codes"
+    href="http://pkg-isocodes.alioth.debian.org/downloads/"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
@@ -202,11 +204,13 @@
     </dependencies>
   </tarball>
 
-  <tarball id="iso-codes" version="3.20">
-    <source href="http://download.gnome.org/teams/releng/tarballs-needing-help/iso-codes/iso-codes-3.20.tar.bz2"
-            hash="sha256:d58d8e414dd1a6c23ead5b8e94192d309e6342d21cbc1ebd0f6d5a505211803f"
-            size="6105567"/>
-  </tarball>
+  <autotools id="iso-codes">
+    <branch repo="iso-codes"
+            module="iso-codes-3.33.tar.bz2"
+            version="3.33"
+            hash="sha256:682a8df2ea1d970093e8a9f37d6a32293c3b48e458a295862905a83a1b098853"
+            size="6349976"/>
+  </autotools>
 
   <autotools id="json">
     <pkg-config>json.pc</pkg-config>
