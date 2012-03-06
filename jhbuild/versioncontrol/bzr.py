@@ -207,15 +207,13 @@ Remove it or change your dvcs_mirror_dir settings.""") % self.srcdir)
     def tree_id(self):
         if not os.path.exists(self.srcdir):
             return None
-        else:
-            try:
-                # --tree is relatively new (bzr 1.17)
-                cmd = ['bzr', 'revision-info', '--tree']
-                tree_id = get_output(cmd, cwd=self.srcdir).strip()
-            except:
-                cmd = ['bzr', 'revision-info']
-                tree_id = get_output(cmd, cwd=self.srcdir).strip()
-            return tree_id
+        try:
+            # --tree is new in bzr 1.17
+            cmd = ['bzr', 'revision-info', '--tree']
+            tree_id = get_output(cmd, cwd=self.srcdir).strip()
+        except CommandError:
+            return None
+        return tree_id
 
     def to_sxml(self):
         attrs = {}
