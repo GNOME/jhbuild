@@ -348,7 +348,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
         instance.makeinstallargs = makeinstallargs
 
     if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = (node.getAttribute('supports-non-srcdir-builds') != 'no')
+        instance.supports_non_srcdir_builds = \
+                (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('skip-autogen'):
         skip_autogen = node.getAttribute('skip-autogen')
         if skip_autogen == 'true':
