@@ -175,7 +175,7 @@ Path %s does not seem to be a checkout from dvcs_mirror_dir.
 Remove it or change your dvcs_mirror_dir settings.""") % self.srcdir)
 
         else:
-            cmd = ['bzr', 'co', '--light', mirror_href, self.srcdir]
+            cmd = ['bzr', 'co', '--light', local_mirror, self.srcdir]
             buildscript.execute(cmd)
 
     def _checkout(self, buildscript, copydir=None):
