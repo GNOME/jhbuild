@@ -169,7 +169,7 @@ class BuildScript:
                     except SkipToEnd:
                         break
                 finally:
-                    self.end_phase(module.name, phase, error)
+                    self._end_phase_internal(module.name, phase, error)
 
                 if error:
                     try:
@@ -211,9 +211,6 @@ class BuildScript:
                 else:
                     force_phase = False
                     num_phase += 1
-
-            if not failed:
-                self.run_triggers(module.name)
 
             self.end_module(module.name, failed)
 
@@ -313,6 +310,10 @@ class BuildScript:
         The argument is a string containing the error text if something
         went wrong.'''
         pass
+    def _end_phase_internal(self, module, phase, error):
+        if error is None and phase == 'install':
+            self.run_triggers(module)
+        self.end_phase(module, phase, error)
 
     def message(self, msg, module_num=-1):
         '''Display a message to the user'''
