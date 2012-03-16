@@ -34,7 +34,7 @@
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>
 
-<!ELEMENT autotools (branch,dependencies?,suggests?,after?)>
+<!ELEMENT autotools (pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST autotools
@@ -49,7 +49,7 @@
 	autogen-template CDATA  #IMPLIED
 	check-target	(true|false) "true">
 
-<!ELEMENT waf (branch,dependencies?,suggests?,after?)>
+<!ELEMENT waf (pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST waf
@@ -62,7 +62,7 @@
 
 <!-- tarball module type is deprecated, a tarball repository inside the
      appropriate modtype should be used instead -->
-<!ELEMENT tarball (source,branch?,dependencies?,patches?,suggests?,after?)>
+<!ELEMENT tarball (pkg-config?,source,branch?,dependencies?,patches?,suggests?,after?)>
 <!ATTLIST tarball
 	id		CDATA	#REQUIRED
 	version		CDATA	#REQUIRED
@@ -72,33 +72,28 @@
 	autogen-sh	CDATA	#IMPLIED
 	supports-non-srcdir-builds (yes|no) "yes">
 
-<!ELEMENT distutils (branch?,dependencies?,after?)>
+<!ELEMENT distutils (pkg-config?,branch?,dependencies?,after?)>
 <!ATTLIST distutils
 	id	ID	#REQUIRED
 	supports-non-srcdir-builds (yes|no) "yes">
 
-<!ELEMENT cmake (branch?,dependencies?,after?)>
+<!ELEMENT cmake (pkg-config?,branch?,dependencies?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
 	makeargs	CDATA	#IMPLIED>
 
-<!ELEMENT perl (branch?,dependencies?,after?)>
+<!ELEMENT perl (pkg-config?,branch?,dependencies?,after?)>
 <!ATTLIST perl
 	id		CDATA	#REQUIRED
 	makeargs	CDATA	#IMPLIED>
 
-<!ELEMENT linux (branch?,dependencies?,after?,kconfig+)>
+<!ELEMENT linux (pkg-config?,branch?,dependencies?,after?,kconfig+)>
 <!ATTLIST linux
 	id		CDATA	#REQUIRED
 	makeargs	CDATA	#IMPLIED>
 
-<!ELEMENT ant (branch?,dependencies?,after?)>
-<!ATTLIST ant
-	id		CDATA	#REQUIRED
-	makeargs	CDATA	#IMPLIED>
-
-<!ELEMENT testmodule (branch?,dependencies?,after?,testedmodules?)>
+<!ELEMENT testmodule (pkg-config?,branch?,dependencies?,after?,testedmodules?)>
 <!ATTLIST testmodule
 	id		CDATA	#REQUIRED
 	type		CDATA	#REQUIRED>
@@ -147,6 +142,7 @@
 	package	CDATA	#REQUIRED>
 
 <!-- Other children -->
+<!ELEMENT pkg-config (#PCDATA)>
 <!ELEMENT dependencies (dep*)>
 <!ELEMENT suggests (dep*)>
 <!ELEMENT after (dep*)>
