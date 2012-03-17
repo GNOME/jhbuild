@@ -580,7 +580,7 @@ class GitSvnBranch(GitBranch):
             fd = file(os.path.join(
                         self.get_checkoutdir(copydir), '.git/info/exclude'), 'a')
             fd.write(s)
-            fc.close()
+            fd.close()
             buildscript.execute(cmd, cwd=self.get_checkoutdir(copydir),
                     extra_env=get_git_extra_env())
         except:
