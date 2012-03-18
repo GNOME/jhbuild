@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   __init__.py: a package holding the various build frontends

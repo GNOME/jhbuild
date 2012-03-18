@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2008  Frederic Peters
 #
 #   build.py: custom builder pages
