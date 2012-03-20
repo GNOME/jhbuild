@@ -39,8 +39,8 @@ YELP_HELP_INIT
 AC_CONFIG_FILES([
 	Makefile
 	doc/Makefile
-	examples/jhbuild.desktop
 	po/Makefile.in
+	examples/Makefile
 	scripts/Makefile
 	triggers/Makefile
 	jhbuild.desktop.in

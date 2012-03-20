@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
-SUBDIRS = po scripts triggers jhbuild buildbot
+SUBDIRS = po examples scripts triggers jhbuild buildbot
 
 if DOC_INSTALLATION_ENABLED
 SUBDIRS += doc
