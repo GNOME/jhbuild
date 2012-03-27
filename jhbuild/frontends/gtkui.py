@@ -267,7 +267,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def on_help_cb(self, *args):
         gtk.show_uri(gtk.gdk.screen_get_default(),
-                'ghelp:jhbuild', gtk.get_current_event_time())
+                'help:jhbuild', gtk.get_current_event_time())
 
     def on_preferences_cb(self, *args):
         if not self.preference_dialog:
