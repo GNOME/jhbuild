@@ -11,6 +11,8 @@
     href="ftp://ftp.gnu.org/pub/gnu/"/>
 <repository type="tarball" name="iso-codes"
     href="http://pkg-isocodes.alioth.debian.org/downloads/"/>
+<repository type="tarball" name="launchpad.net/tarball"
+      href="https://launchpad.net/"/>
 <repository type="tarball" name="sqlite.org"
     href="http://www.sqlite.org/"/>
 <repository type="tarball" name="gnome.org"
@@ -195,14 +197,16 @@
     </branch>
   </autotools>
 
-  <tarball id="intltool" version="0.50.0">
-    <source href="http://launchpad.net/intltool/trunk/0.50.0/+download/intltool-0.50.0.tar.gz"
-            hash="sha256:dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
-            size="142837"/>
+  <autotools id="intltool">
+    <branch repo="launchpad.net/tarball"
+            module="intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz"
+            version="0.50.2"
+            hash="sha256:67f25c5c6fb71d095793a7f895b245e65e829e8bde68c6c8b4c912144ff34406"
+            size="189483"/>
     <dependencies>
       <dep package="gnome-common"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="iso-codes">
     <branch repo="iso-codes"
