@@ -8,7 +8,9 @@
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
   <repository type="git" name="git.freedesktop.org"
-      href="git://anongit.freedesktop.org/git/"/>
+      href="git://anongit.freedesktop.org/"/>
+  <repository type="git" name="telepathy.freedesktop.org"
+      href="git://anongit.freedesktop.org/telepathy/"/>
   <repository type="git" name="packagekit.gitorious.org"
       href="git://gitorious.org/packagekit"/>
 
@@ -21,8 +23,6 @@
       href="http://freedesktop.org/"/>
   <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org"/>
-  <repository type="tarball" name="telepathy"
-      href="http://telepathy.freedesktop.org/releases/"/>
   <repository type="tarball" name="gnome.org"
       href="http://download.gnome.org/sources/"/>
 
@@ -439,10 +439,8 @@
   </autotools>
 
   <autotools id="telepathy-mission-control">
-    <branch repo="telepathy" module="telepathy-mission-control/telepathy-mission-control-5.9.3.tar.gz"
-            version="5.9.3"
-            hash="sha256:774af104627513e7881fa6695912c962ddedcc7628ec859e020fa30000e32cab"
-            size="991250"/>
+    <branch repo="telepathy.freedesktop.org"
+            revision="telepathy-mission-control-5.12"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
