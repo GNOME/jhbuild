@@ -7,9 +7,11 @@
 <repository type="git" name="git.gnome.org" default="yes"
     href="git://git.gnome.org/"/>
 <repository type="git" name="git.freedesktop.org"
-    href="git://anongit.freedesktop.org/git/"/>
+    href="git://anongit.freedesktop.org/"/>
 <repository type="git" name="gstreamer.freedesktop.org"
     href="git://anongit.freedesktop.org/gstreamer/"/>
+<repository type="git" name="telepathy.freedesktop.org"
+    href="git://anongit.freedesktop.org/telepathy/"/>
 <repository type="cvs" name="libxklavier.freedesktop.org"
     cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
     password=""/>
@@ -37,8 +39,6 @@
     href="http://poppler.freedesktop.org/"/>
 <repository type="tarball" name="p11-glue.freedesktop.org"
     href="http://p11-glue.freedesktop.org/releases/"/>
-<repository type="tarball" name="telepathy.freedesktop.org"
-    href="http://telepathy.freedesktop.org/releases/"/>
 <repository type="tarball" name="itstool.org"
     href="http://files.itstool.org/itstool/"/>
 
@@ -293,10 +293,7 @@
   </autotools>
 
   <autotools id="telepathy-farstream" autogenargs="--disable-python">
-    <branch repo="telepathy.freedesktop.org"
-            module="telepathy-farstream/telepathy-farstream-0.2.1.tar.gz"
-            version="0.2.1"
-            hash="sha256:01a0b66fc2d016a7e5b54f02797ad7134b0485e7a6398c3e3c11824a31e94d0c"/>
+    <branch repo="telepathy.freedesktop.org"/>
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="farstream"/>
@@ -786,10 +783,7 @@
 
   <autotools id="telepathy-glib" autogenargs="--enable-vala-bindings">
     <pkg-config>telepathy-glib.pc</pkg-config>
-    <branch repo="telepathy.freedesktop.org"
-            module="telepathy-glib/telepathy-glib-0.17.5.tar.gz"
-            version="0.17.5"
-            hash="sha256:011ad936f1d592dbc685073244750303fe2201246b16f9a7fa495cf9f8a3fe8d"/>
+    <branch repo="telepathy.freedesktop.org"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -804,10 +798,7 @@
 
   <autotools id="telepathy-logger">
     <pkg-config>telepathy-logger-0.2.pc</pkg-config>
-    <branch repo="telepathy.freedesktop.org"
-            module="telepathy-logger/telepathy-logger-0.2.13.tar.bz2"
-            version="0.2.13"
-            hash="sha256:12ee2ab8fbd3cb14e87829d3e5f35ffecc6bacadf473f08b38284504482339b7"/>
+    <branch repo="telepathy.freedesktop.org"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
