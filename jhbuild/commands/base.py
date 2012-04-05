@@ -151,56 +151,6 @@ class cmd_cleanone(Command):
 register_command(cmd_cleanone)
 
 
-def check_bootstrap_updateness(config):
-    '''Check install date of bootstrap modules, and compare them to
-       the bootstrap moduleset file last modification date.
-    '''
-    try:
-        module_set = jhbuild.moduleset.load(config, uri = 'bootstrap')
-    except:
-        # failed to get bootstrap moduleset, silently ignore.
-        return
-    packagedb = module_set.packagedb
-
-    max_install_date = max([
-            packagedb.installdate(module.name)
-            for module in module_set.modules.values()])
-
-    if max_install_date is None:
-        # bootstrap module has never been built; probably the user doesn't want
-        # to use it
-        return
-
-    updated_modules = []
-    for module in module_set.modules.values():
-        pkg = packagedb.get(module.name)
-        if pkg is None:
-            continue
-        p_version = pkg.version
-        if p_version != module.get_revision():
-            updated_modules.append(module.name)
-
-    if not config.modulesets_dir:
-        return
-    bootstrap_uri = os.path.join(config.modulesets_dir, 'bootstrap.modules')
-    if not os.path.exists(bootstrap_uri):
-        return
-    bootstrap_mtime = os.stat(bootstrap_uri)[stat.ST_MTIME]
-
-    if max_install_date <= bootstrap_mtime:
-        # general note, to cover added modules
-        logging.info(
-                _('bootstrap moduleset has been updated since the last time '\
-                  'you used it, perhaps you should run jhbuild bootstrap.'))
-
-    if updated_modules:
-        # note about updated modules
-        logging.info(
-                _('some bootstrap modules have been updated, '\
-                  'perhaps you should update them: %s.') % \
-                  ', '.join(updated_modules))
-
-
 class cmd_build(Command):
     doc = N_('Update and compile all modules (the default)')
 
@@ -267,9 +217,6 @@ class cmd_build(Command):
 
     def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
-
-        if not config.quiet_mode:
-            check_bootstrap_updateness(config)
 
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
@@ -340,9 +287,6 @@ class cmd_buildone(Command):
 
     def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
-
-        if not config.quiet_mode:
-            check_bootstrap_updateness(config)
 
         module_set = jhbuild.moduleset.load(config)
         module_list = []

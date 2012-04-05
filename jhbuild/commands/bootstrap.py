@@ -1,7 +1,7 @@
 # jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
-#   bootstrap.py: code to check whether prerequisite modules are installed
+#   bootstrap.py: The bootstrap command installs a set of build utilities
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ from jhbuild.commands.base import cmd_build
 from jhbuild.utils.cmds import check_version
 
 class cmd_bootstrap(cmd_build):
-    doc = N_('Build required support tools')
+    doc = N_('Build support tools')
 
     name = 'bootstrap'
 
@@ -75,9 +75,6 @@ class cmd_bootstrap(cmd_build):
             os.environ['PATH'] = path
             config.skip.extend(ignored_modules)
 
-        # cancel the bootstrap updateness check as it has no sense (it *is*
-        # running bootstrap right now)
-        jhbuild.commands.base.check_bootstrap_updateness = lambda x: x
         rc = cmd_build.run(self, config, options, args)
 
         if ignored_modules:
