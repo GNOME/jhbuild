@@ -278,40 +278,13 @@
 
 <screen><prompt>$</prompt> <userinput>jhbuild sanitycheck</userinput></screen>
 
-      <para>If this command displays any messages, the errors can be fixed in
-        one of two ways:</para>
-
-      <orderedlist>
-        <listitem>
-          <simpara>Install the required package from your distribution's
-            repository. A list of
-            <ulink url="http://live.gnome.org/JhbuildDependencies">package
-            names</ulink> for different distributions is maintained on the GNOME
-            wiki. Run the <command>sanitycheck</command> command again after
-            installing the distribution's packages to ensure the required tools
-            are present.</simpara>
-        </listitem>
-        <listitem>
-          <simpara>Run the <command>bootstrap</command> command to download,
-            build and install the build prerequisites:</simpara>
-
-<screen><prompt>$</prompt> <userinput>jhbuild bootstrap</userinput></screen>
-
-          <para>When complete, run the <command>sanitycheck</command> command
-            to verify the required tools are present.</para>
-
-          <note>
-            <para>The <command>bootstrap</command> command does not build all
-              the package dependencies required by the build tools. If your
-              distribution does not provide the required packages, they will
-              need to be built outside of the JHBuild environment.</para>
-
-            <para>The build tools dependencies include
-              <application>m4</application>, <application>perl</application> and
-              a C compiler (for example, <application>gcc</application>).</para>
-          </note>
-        </listitem>
-      </orderedlist>
+      <para>If this command displays any messages, please install the required
+        package from your distribution's repository. A list of
+        <ulink url="http://live.gnome.org/JhbuildDependencies">package names
+        </ulink> for different distributions is maintained on the GNOME wiki.
+        Run the <command>sanitycheck</command> command again after installing
+        the distribution's packages to ensure the required tools are present.
+      </para>
     </section>
 
     <section id="getting-started-use">
@@ -743,9 +716,13 @@ jhbuildbot_password = 'password'
       <title>bootstrap</title>
 
       <para>The <command>bootstrap</command> command installs a set of build
-        utilities required to build most modules (e.g.
-        <application>autoconf</application>,
-        <application>automake</application>, etc).</para>
+        utilities. The build utilities include
+        <application>autoconf</application>, <application>automake</application>
+        and similar utilities. The recommended method to install the build
+        utilities is via your distribution's package management system. The
+        <command>bootstrap</command> should only be used if the build utilities
+        are not provided by your distribution's package management system, for
+        example on <systemitem class="osname">Mac OS</systemitem>.</para>
 
       <cmdsynopsis><command>jhbuild bootstrap</command>
       </cmdsynopsis>
