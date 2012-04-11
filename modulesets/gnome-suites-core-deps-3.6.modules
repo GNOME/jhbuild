@@ -256,7 +256,7 @@
       <dep package="pygobject"/>
       <dep package="gtk+"/>
       <dep package="clutter"/>
-      <dep package="libgee"/>
+      <dep package="libgee-0.6"/>
       <dep package="libxklavier"/>
       <dep package="vala"/>
     </dependencies>
@@ -305,7 +305,7 @@
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
-      <dep package="libgee"/>
+      <dep package="libgee-0.6"/>
       <dep package="vala"/>
       <dep package="gobject-introspection"/>
       <dep package="telepathy-glib"/>
@@ -537,15 +537,26 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgee">
-    <branch/>
+  <autotools id="libgee-0.6">
     <pkg-config>gee-1.0.pc</pkg-config>
+    <branch module="libgee"
+            revision="0.6"
+            checkoutdir="libgee-0.6"/>
     <dependencies>
       <dep package="glib"/>
-    </dependencies>
-    <suggests>
       <dep package="gobject-introspection"/>
-    </suggests>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgee">
+    <pkg-config>gee-0.8.pc</pkg-config>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
+    </dependencies>
   </autotools>
 
   <autotools id="libgnomekbd">
