@@ -147,8 +147,21 @@
   </autotools>
 
   <autotools id="cogl">
-    <pkg-config>cogl-1.0.pc</pkg-config>
+    <pkg-config>cogl-2.0.pc</pkg-config>
     <branch/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="cogl-1.10">
+    <pkg-config>cogl-1.0.pc</pkg-config>
+    <branch module="cogl"
+            revision="cogl-1.10"
+            checkoutdir="cogl-1.10"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -160,7 +173,7 @@
   <autotools id="clutter">
     <branch/>
     <dependencies>
-      <dep package="cogl"/>
+      <dep package="cogl-1.10"/>
       <dep package="atk"/>
       <dep package="glib"/>
       <dep package="cairo"/>
