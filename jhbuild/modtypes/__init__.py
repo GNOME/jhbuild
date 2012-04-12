@@ -225,7 +225,10 @@ them into the prefix."""
                 else:
                     os.mkdir(dest_path)
                 num_copied += self._process_install_files(installroot, src_path, prefix)
-                os.rmdir(src_path)
+                if os.path.islink(src_path):
+                    os.unlink(src_path)
+                else:
+                    os.rmdir(src_path)
             else:
                 num_copied += 1
                 try:
