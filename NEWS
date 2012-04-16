@@ -1,4 +1,138 @@
 =============
+Version 3.4.0
+=============
+
+Fixed bugs:
+
+ - #634985, Tilde character in .jhbuildrc is misinterpreted
+ - #650533, Make notifications less annoying
+ - #654555, Don't have two ways to be installed
+ - #654686, parallel make by default
+ - #654872, Delete no longer shipped files at install time
+ - #655164, All tests were broken by recent changes
+ - #655688, Improve error message when command not found
+ - #656399, remove arch support
+ - #656789, Add '3.2.x' to version in JHBuild bugzilla
+ - #658601, checkout_mode export can't get version attribute from svn
+ - #660939, Update autotools configuration
+ - #661010, jhbuild modulesets require out-of-date version of libgee (0.6.0
+            instead of 0.6.2.1)
+ - #661367, 'jhbuild make' not documented in manual
+ - #661412, Make.py should import logging
+ - #661533, gtk+ depends on glib 2.31.0
+ - #661641, gdk-pixbuf request glib 2.31.0
+ - #661848, jhbuild dependencies issues
+ - #662392, Error when pwd is removed
+ - #662928, The include-check rule in Makefile.plain always fails
+ - #663003, "Failed to parse" error for moduleset definitions blames wrong
+            file
+ - #663189, Make "jhbuild make" smarter
+ - #663255, config: Export GST_PLUGIN_PATH
+ - #663839, Cannot compile cogl in jhbuild: requested branch is not
+            available
+ - #664154, 3.4: Add Boxes & its deps
+ - #664230, autogen.sh should complain about make (or automake?) not being
+            present
+ - #664231, configure_without_autotools should not prompt "now type make"
+            if it doesn't find key dependencies
+ - #664304, make: Allow specifying make flags
+ - #664796, add libvirt to 3.4 moduleset
+ - #665030, IOError: [Errno 2] No such file or directory:
+            '/proc/22621/status'
+ - #665499, JHBuild fails to build if MAKE contains a space
+ - #666425, Handle alphabetic parts of version string
+ - #666546, tiny bug in sample.jhbuildrc
+ - #666577, Add '3.4.x' to version in JHBuild bugzilla
+ - #668107, jhbuild update does not really update git repositories
+ - #668368, Use new documentation infrastructure (yelp-tools instead of
+            gnome-doc-utils)
+ - #668434, tracker is listed in the build order after nautilus even though
+            tracker has a hard dependency on nautilus
+ - #668879, packagedb.add takes 4 args, linux.py & perl.py supply 3
+ - #669205, nspr/nss: update to latest versions
+ - #669437, libxml2 symbol versioning causes problems
+ - #669475, jhbuild gui doesn't work
+ - #669589, bootstrap: bump to automake 1.11.3
+ - #669658, moduleset.dtd: element moduleset missing cmake
+ - #669750, Should set GST_REGISTRY
+ - #669953, jhbuild's udev is too old to support gnome-boxes
+ - #669956, don't autogen avahi
+ - #670094, cmake/Windows fix
+ - #670123, libxklavier 5.2 needs patch to fix introspection
+ - #670127, shared-mime-info 1.0 is not safe for parallel builds
+ - #670154, use os.sep instead of literal '/' in hbuild/utils/fileutils.py
+ - #670343, udev libtool pain
+ - #670349, jhbuild: fix handling of pretty_print=False
+ - #670533, cairomm: missing dep on libsigc++2
+ - #670625, autotools: Don't run make check in parallel
+ - #670698, bluez: mismatching checksum
+ - #670774, apps-3.4: gnome-games depends on yelp-tools now
+ - #670799, gmime module needs gpgme as a system dependency
+ - #670801, jhbuild: small clean up in modtypes/cmake.py
+ - #670917, gnome-doc-utils requires rarian-compat: "/bin/sh: scrollkeeper-
+            config: command not found"
+ - #670940, gnome-themes-standard: missing dependency on gtk+
+ - #670943, js185 fails checkout stage
+ - #670993, WebKit: dependency on geoclue should be stronger
+ - #671162, jhbuild doesn't work if old chrt or ionice is installed
+ - #671217, liboauth fails checkout stage
+ - #671226, avoid message about unknown key e
+ - #671353, outdated text on Python scripts
+ - #671365, libgxps: missing dependency on liblcms2
+ - #671460, jhbuild: bazaar not working in checkout_mode = 'export'
+ - #671634, fix for supports-non-srcdir-builds in autotools
+ - #671697, core-deps-base-3.4: lcms2, ical: use ./configure
+ - #671700, core-deps-3.4: build libgsf from git
+ - #671789, fix eog dependencies and suggests
+ - #671891, Bump poppler dependency from 0.18.0 to 0.18.4 to fix some
+            compile errors
+ - #672172, jhbuild: fix for undefined name in bzr.py
+ - #672206, jhbuild moduleset.dtd: added pkg-config, removed ant
+ - #672266, Don't run triggers if not installing
+ - #672634, tracker has undeclared dependency against totem-pl-parser
+ - #673950, core-deps-base-3.[4|6]: dbus-glib depends on expat
+ - #673957, deps-3.6: fix caribou deps depending on gee-0.6 (gee-1.0)
+ - #673994, deps-3.6: gstreamer has been branched
+ - #673999, gnome-terminal gnome suites 3.6 fails to build
+ - #674007, core-deps-3.[4,6]: fix musicbrainz build
+
+Translators:
+
+- Marek Černocký (cs)
+- Mario Blättermann, Christian Kirbach (de)
+- Kristjan SCHMIDT (eo)
+- Daniel Mustieles (es)
+- Fran Diéguez (gl)
+- Jiro Matsuzawa (ja)
+- Seong-ho Cho, Seong-ho, Cho (ko)
+- Kjartan Maraas (nb)
+- Kirill Moseevskih (ru)
+- Matej Urbančič (sl)
+- Wylmer Wang, Yinghua Wang (zh_CN)
+
+Documentation translators:
+
+- Daniel Mustieles (es)
+- OKANO Takayoshi, Jiro Matsuzawa (ja)
+
+Many thanks to all contributors: Emmanuele Bassi, Gert Kulyk, John Ralls,
+Travis Reitter, Jon McCann, Zeeshan Ali (Khattak), Jasper St. Pierre, Seong-
+ho Cho, Thomas Hindoe Paaboel Andersen, Yinghua Wang, Mario Blättermann,
+Richard Hughes, Philip Withnall, Javier Jardón, Christophe Fergeau, Jiro
+Matsuzawa, Kjartan Maraas, Seong-ho, Cho, Cosimo Cecchi, Jens Georg, Ryan
+Lortie, Bastien Nocera, Owen W. Taylor, Marc-André Lureau, Paolo Borelli,
+Danielle Madeley, Christian Kirbach, Felix Riemann, Christian Persch, David
+King, Fran Diéguez, Piotr Drąg, Tshepang Lekhonkhobe, Thomas Wood, Andre
+Klapper, Shaun McCance, Marek Černocký, Matthias Clasen, Kristjan SCHMIDT,
+Xan Lopez, Wylmer Wang, Guillaume Desmottes, Murray Cumming, Craig Keogh,
+Alejandro G. Castro, Juan A. Suarez Romero, Stef Walter, Damien Lespiau,
+Alejandro Piñeiro, Colin Walters, Giovanni Campagna, Juan Pablo Ugarte,
+Gustavo Noronha Silva, Krzesimir Nowak, Kirill Moseevskih, Carlos Garcia
+Campos, Luca Ferretti, Matej Urbančič, Yuri Myasoedov, Martin Robinson,
+OKANO Takayoshi, Marcin Wojdyr, Daniel Mustieles, Michael Terry, Martin
+Pitt, Florian Müllner, Robert Bragg, Matthew Barnes
+
+=============
 Version 3.2.1
 =============
 

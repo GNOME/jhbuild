@@ -1,5 +1,5 @@
 AC_INIT([jhbuild],
-        [3.2.1],
+        [3.4.0],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild],
         [jhbuild])
 
