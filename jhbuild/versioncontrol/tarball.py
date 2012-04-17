@@ -313,7 +313,7 @@ class TarballBranch(Branch):
 
     def checkout(self, buildscript):
         if self.checkout_mode == 'clobber':
-            self._wipedir(buildscript)
+            self._wipedir(buildscript, self.raw_srcdir)
         if not os.path.exists(self.srcdir):
             self._download_and_unpack(buildscript)
         if self.quilt:

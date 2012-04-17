@@ -118,7 +118,7 @@ class Branch:
         May raise CommandError or BuildStateError if a problem occurrs.
         """
         if self.checkout_mode in ('clobber', 'export'):
-            self._wipedir(buildscript)
+            self._wipedir(buildscript, self.srcdir)
             if self.checkout_mode == 'export':
                 try:
                     self._export(buildscript)
@@ -133,7 +133,7 @@ class Branch:
                 if os.path.exists(self.get_checkoutdir()):
                     self._update(buildscript, self.config.copy_dir)
                 else:
-                    self._wipedir(buildscript)
+                    self._wipedir(buildscript, self.srcdir)
                     self._checkout(buildscript, copydir)
                 self._copy(buildscript, copydir)
             else:
@@ -144,16 +144,16 @@ class Branch:
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
-        self._wipedir(buildscript)
+        self._wipedir(buildscript, self.srcdir)
         self.checkout(buildscript)
 
     def tree_id(self):
         """A string identifier for the state of the working tree."""
         raise NotImplementedError
 
-    def _wipedir(self, buildscript):
-        if os.path.exists(self.srcdir):
-            buildscript.execute(['rm', '-rf', self.srcdir])
+    def _wipedir(self, buildscript, dir):
+        if dir and dir != os.sep and os.path.exists(dir):
+            buildscript.execute(['rm', '-rf', dir])
 
     def _export(self, buildscript):
         raise NotImplementedError
@@ -165,7 +165,7 @@ class Branch:
          fromdir = os.path.join(copydir, os.path.basename(module))
          todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
          if os.path.exists(todir):
-             self._wipedir(buildscript)
+             self._wipedir(buildscript, self.srcdir)
          buildscript.execute(['cp', '-R', fromdir, todir])
 
     def to_sxml(self):
