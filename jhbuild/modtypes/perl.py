@@ -20,7 +20,6 @@
 __metaclass__ = type
 
 import os
-import re
 
 from jhbuild.errors import BuildStateError
 from jhbuild.modtypes import \
@@ -83,12 +82,9 @@ class PerlModule(Package, DownloadableModule):
 def parse_perl(node, config, uri, repositories, default_repo):
     instance = PerlModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    # Make some substitutions; do special handling of '${prefix}'
-    prefix_re = re.compile('(\${prefix})')
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
-        makeargs = prefix_re.sub(config.prefix, makeargs)
-        instance.makeargs = makeargs
+        instance.makeargs = instance.eval_args(makeargs)
 
     return instance
 register_module_type('perl', parse_perl)

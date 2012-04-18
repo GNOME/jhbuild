@@ -21,7 +21,6 @@
 __metaclass__ = type
 
 import os
-import re
 import shutil
 import errno
 
@@ -275,9 +274,7 @@ def parse_linux(node, config, uri, repositories, default_repo):
     makeargs = ''
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
-    # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
-    p = re.compile('(\${prefix})')
-    makeargs = p.sub(config.prefix, makeargs)
+        makeargs = makeargs.replace('${prefix}', config.prefix)
 
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)

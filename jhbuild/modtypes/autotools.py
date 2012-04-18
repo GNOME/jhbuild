@@ -323,29 +323,15 @@ class AutogenModule(Package, DownloadableModule):
 def parse_autotools(node, config, uri, repositories, default_repo):
     instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
-    prefix_re = re.compile('(\${prefix})')
-    # I'm not sure the replacement of ${libdir} is necessary for firefox...
-    libdir_re = re.compile('(\${libdir})')
-    libsubdir = '/lib'
-    if config.use_lib64:
-        libsubdir = '/lib64'
-
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
-        autogenargs = prefix_re.sub(config.prefix, autogenargs)
-        autogenargs = libdir_re.sub(config.prefix + libsubdir, autogenargs)        
-        instance.autogenargs = autogenargs
+        instance.autogenargs = instance.eval_args(autogenargs)
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
-        makeargs = prefix_re.sub(config.prefix, makeargs)
-        makeargs = libdir_re.sub(config.prefix + libsubdir, makeargs)
-        instance.makeargs = makeargs
+        instance.makeargs = instance.eval_args(makeargs)
     if node.hasAttribute('makeinstallargs'):
         makeinstallargs = node.getAttribute('makeinstallargs')
-        makeinstallargs = prefix_re.sub(config.prefix, makeinstallargs)
-        makeinstallargs = libdir_re.sub(config.prefix + libsubdir, makeinstallargs)
-        instance.makeinstallargs = makeinstallargs
+        instance.makeinstallargs = instance.eval_args(makeinstallargs)
 
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \

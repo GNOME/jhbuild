@@ -57,15 +57,6 @@ class CMakeModule(Package, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
-    def eval_args(self, args):
-        args = args.replace('${prefix}', self.config.prefix)
-        libsubdir = 'lib'
-        if self.config.use_lib64:
-            libsubdir = 'lib64'
-        libdir = os.path.join(self.config.prefix, libsubdir)
-        args = args.replace('${libdir}', libdir)
-        return args
-
     def get_cmakeargs(self):
         args = '%s %s' % (self.cmakeargs,
                           self.config.module_cmakeargs.get(

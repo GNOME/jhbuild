@@ -160,6 +160,15 @@ class Package:
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
+    def eval_args(self, args):
+        args = args.replace('${prefix}', self.config.prefix)
+        libsubdir = 'lib'
+        if self.config.use_lib64:
+            libsubdir = 'lib64'
+        libdir = os.path.join(self.config.prefix, libsubdir)
+        args = args.replace('${libdir}', libdir)
+        return args
+
     def get_extra_env(self):
         return self.config.module_extra_env.get(self.name)
     extra_env = property(get_extra_env)
@@ -431,6 +440,7 @@ them into the prefix."""
         instance.branch = get_branch(node, repositories, default_repo, config)
         instance.dependencies, instance.after, instance.suggests = get_dependencies(node)
         instance.supports_parallel_build = (node.getAttribute('supports-parallel-builds') != 'no')
+        instance.config = config
         pkg_config = find_first_child_node_content(node, 'pkg-config')
         if pkg_config != '':
             instance.pkg_config = pkg_config
