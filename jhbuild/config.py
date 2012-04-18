@@ -272,7 +272,8 @@ class Config:
                          'tinderbox_outputdir', 'tarballdir', 'copy_dir',
                          'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
                          'jhbuildbot_mastercfg', 'modulesets_dir',
-                         'dvcs_mirror_dir', 'static_analyzer_outputdir'):
+                         'dvcs_mirror_dir', 'static_analyzer_outputdir',
+                         'prefix'):
             if config.get(path_key):
                 config[path_key] = os.path.expanduser(config[path_key])
 
