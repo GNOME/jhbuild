@@ -19,6 +19,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import os.path
 import re
 import sys
 import traceback
@@ -307,6 +308,19 @@ class Config:
                           'disabling use_local_modulesets') % self.modulesets_dir)
                 self.use_local_modulesets = False
             self.modulesets_dir = None
+
+        if self.buildroot and not os.path.isabs(self.buildroot):
+            raise FatalError(_('%s must be an absolute path') % 'buildroot')
+        if not os.path.isabs(self.checkoutroot):
+            raise FatalError(_('%s must be an absolute path') % 'checkoutroot')
+        if not os.path.isabs(self.prefix):
+            raise FatalError(_('%s must be an absolute path') % 'prefix')
+        if not os.path.isabs(self.tarballdir):
+            raise FatalError(_('%s must be an absolute path') % 'tarballdir')
+        if (self.tinderbox_outputdir and
+            not os.path.isabs(self.tinderbox_outputdir)):
+            raise FatalError(_('%s must be an absolute path') %
+                             'tinderbox_outputdir')
 
     def get_original_environment(self):
         return self._orig_environ
