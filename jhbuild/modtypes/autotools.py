@@ -118,7 +118,8 @@ class AutogenModule(Package, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
 
         srcdir = self.get_srcdir(buildscript)
-        if not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
+        if self.autogen_sh == 'autogen.sh' and \
+        not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
             # if there is no autogen.sh, automatically fallback to configure
             if os.path.exists(os.path.join(srcdir, 'configure')):
                 self.autogen_sh = 'configure'
