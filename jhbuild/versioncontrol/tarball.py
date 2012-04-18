@@ -319,6 +319,13 @@ class TarballBranch(Branch):
         if self.quilt:
             self._quilt_checkout(buildscript)
 
+    def may_checkout(self, buildscript):
+        if os.path.exists(self._local_tarball):
+            return True
+        elif buildscript.config.nonetwork:
+            return False
+        return True
+
     def tree_id(self):
         md5sum = hashlib.md5()
         if self.patches:
