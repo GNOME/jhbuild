@@ -44,13 +44,14 @@ class CMakeModule(Package, DownloadableModule):
         Package.__init__(self, name, branch=branch)
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
+        self.supports_non_srcdir_builds = True
         self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
-        if buildscript.config.buildroot:
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern % (
                 self.branch.checkoutdir or self.branch.get_module_basename())
             return os.path.join(buildscript.config.buildroot, d)
@@ -140,6 +141,9 @@ class CMakeModule(Package, DownloadableModule):
 
 def parse_cmake(node, config, uri, repositories, default_repo):
     instance = CMakeModule.parse_from_xml(node, config, uri, repositories, default_repo)
+    if node.hasAttribute('supports-non-srcdir-builds'):
+        instance.supports_non_srcdir_builds = \
+                (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('cmakeargs'):
         instance.cmakeargs = node.getAttribute('cmakeargs')
     if node.hasAttribute('makeargs'):
