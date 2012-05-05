@@ -107,6 +107,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     instance.after = after
     instance.suggests = suggests
     instance.pkg_config = find_first_child_node_content(node, 'pkg-config')
+    instance.config = config
 
     return instance
 
