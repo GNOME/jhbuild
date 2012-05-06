@@ -77,6 +77,8 @@ should be run."""
         return ['/bin/sh', self._file]
 
 def load_all(dirpath):
+    if not os.path.isdir(dirpath):
+        return []
     result = []
     for filename in os.listdir(dirpath):
         if not filename.endswith(Trigger.SUFFIX):
