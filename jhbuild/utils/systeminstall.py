@@ -127,6 +127,30 @@ class PKSystemInstall(SystemInstall):
     def detect(cls):
         return cmds.has_command('pkcon')
 
+class YumSystemInstall(SystemInstall):
+    def __init__(self):
+        SystemInstall.__init__(self)
+
+    def install(self, pkgconfig_ids):
+        logging.info(_('Using yum to install packages.  Please wait.'))
+
+        native_packages = []
+        for pkgconfig in pkgconfig_ids:
+            native_packages.append('pkgconfig(' + pkgconfig + ')')
+
+        if native_packages:
+            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
+            args = self._root_command_prefix_args + ['yum', '-y', 'install']
+            args.extend(native_packages)
+            subprocess.check_call(args)
+        else:
+            logging.info(_('Nothing to install'))
+
+    @classmethod
+    def detect(cls):
+        return cmds.has_command('yum')
+
+
 class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
@@ -175,7 +199,7 @@ class AptSystemInstall(SystemInstall):
         return cmds.has_command('apt-file')
 
 # Ordered from best to worst
-_classes = [AptSystemInstall, PKSystemInstall]
+_classes = [AptSystemInstall, PKSystemInstall, YumSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
