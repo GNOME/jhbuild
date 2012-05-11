@@ -983,10 +983,18 @@
 
   <!-- OS Core Services dependencies -->
 
+  <tarball id="libusb" version="1.0.9" checkoutdir="libusb-1.0.9">
+    <pkg-config>libusb-1.0.pc</pkg-config>
+    <source href="http://downloads.sourceforge.net/libusb/libusb-1.0.9.tar.bz2"
+            hash="sha256:e920eedc2d06b09606611c99ec7304413c6784cba6e33928e78243d323195f9b"
+            size="421971"/>
+  </tarball>
+
   <autotools id="libgusb">
     <branch repo="gusb.gitorious.org" checkoutdir="libgusb" module="gusb.git"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="libusb"/>
     </dependencies>
   </autotools>
 
