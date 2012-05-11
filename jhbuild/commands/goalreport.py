@@ -371,12 +371,14 @@ class cmd_goalreport(Command):
         self.load_false_positives(options.falsepositivesfile)
 
         config.devhelp_dirname = options.devhelp_dirname
+        config.partial_build = False
 
         module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
             self.module_list = module_set.modules.values()
         else:
-            self.module_list = module_set.get_module_list(args or config.modules, config.skip)
+            self.module_list = module_set.get_module_list(args or config.modules,
+                            config.skip, process_sysdeps=False)
 
         results = {}
         try:
