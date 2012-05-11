@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2007  Gary Kramlich <grim@reaperworld.com>
 #
@@ -23,7 +23,7 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.errors import CommandError
+from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.commands.sanitycheck import inpath

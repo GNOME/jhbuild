@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   base.py: the most common jhbuild commands
@@ -55,14 +55,14 @@ class cmd_clean(Command):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         # remove modules that are not marked as installed
-        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
+        packagedb = module_set.packagedb
         for module in module_list[:]:
             if not packagedb.check(module.name):
                 module_list.remove(module)
 
         config.nopoison = True
 
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build(phases=['clean'])
 
 register_command(cmd_clean)

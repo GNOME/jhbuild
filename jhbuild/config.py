@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2007-2008  Frederic Peters
 #
@@ -19,6 +19,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import os.path
 import re
 import sys
 import traceback
@@ -40,11 +41,12 @@ _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.jhbuildrc')
 _default_jhbuildrc = os.path.join(os.environ['HOME'], '.jhbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
-                'checkoutroot', 'buildroot', 'autogenargs', 'makeargs',
+                'partial_build', 'checkoutroot', 'buildroot', 'top_builddir',
+                'autogenargs', 'makeargs', 'nice_build', 'jobs',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork',
-                'alwaysautogen', 'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
+                'nobuild', 'makeclean', 'makecheck', 'module_makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
@@ -58,7 +60,12 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'jhbuildbot_mastercfg', 'use_local_modulesets',
                 'ignore_suggests', 'modulesets_dir', 'mirror_policy',
                 'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets',
-                'cmakeargs', 'module_cmakeargs' ]
+                'cmakeargs', 'module_cmakeargs', 'print_command_pattern',
+                'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir',
+
+                # Internal only keys (propagated from command line options)
+                '_internal_noautogen',
+                ]
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -108,7 +115,8 @@ def addpath(envvar, path):
             if sys.platform.startswith('win'):
                 path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
 
-            if sys.platform.startswith('win') and path[1]==':':
+            if sys.platform.startswith('win') and len(path) > 1 and \
+               path[1] == ':':
                 # Windows: Don't allow c:/ style paths in :-separated env vars
                 # for obvious reasons. /c/ style paths are valid - if a var is
                 # separated by : it will only be of interest to programs inside
@@ -178,6 +186,9 @@ class Config:
                 raise FatalError(
                     _('Obsolete JHBuild start script, make sure it is removed '
                       'then do run \'make install\''))
+            
+        # Set defaults for internal variables
+        self._config['_internal_noautogen'] = False
 
         env_prepends.clear()
         try:
@@ -258,12 +269,25 @@ class Config:
         if config.get('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
 
+        for path_key in ('checkoutroot', 'buildroot', 'top_builddir',
+                         'tinderbox_outputdir', 'tarballdir', 'copy_dir',
+                         'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
+                         'jhbuildbot_mastercfg', 'modulesets_dir',
+                         'dvcs_mirror_dir', 'static_analyzer_outputdir',
+                         'prefix'):
+            if config.get(path_key):
+                config[path_key] = os.path.expanduser(config[path_key])
+
         # copy known config keys to attributes on the instance
         for name in _known_keys:
             setattr(self, name, config[name])
 
         # default tarballdir to checkoutroot
         if not self.tarballdir: self.tarballdir = self.checkoutroot
+
+        # Ensure top_builddir is absolute
+        if not os.path.isabs(self.top_builddir):
+            self.top_builddir = os.path.join(self.prefix, self.top_builddir)
 
         # check possible checkout_mode values
         seen_copy_mode = (self.checkout_mode == 'copy')
@@ -285,6 +309,22 @@ class Config:
                 self.use_local_modulesets = False
             self.modulesets_dir = None
 
+        if self.buildroot and not os.path.isabs(self.buildroot):
+            raise FatalError(_('%s must be an absolute path') % 'buildroot')
+        if not os.path.isabs(self.checkoutroot):
+            raise FatalError(_('%s must be an absolute path') % 'checkoutroot')
+        if not os.path.isabs(self.prefix):
+            raise FatalError(_('%s must be an absolute path') % 'prefix')
+        if not os.path.isabs(self.tarballdir):
+            raise FatalError(_('%s must be an absolute path') % 'tarballdir')
+        if (self.tinderbox_outputdir and
+            not os.path.isabs(self.tinderbox_outputdir)):
+            raise FatalError(_('%s must be an absolute path') %
+                             'tinderbox_outputdir')
+
+    def get_original_environment(self):
+        return self._orig_environ
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 
@@ -294,7 +334,21 @@ class Config:
             except:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
+        if not os.path.exists(self.top_builddir):
+            try:
+                os.makedirs(self.top_builddir)
+            except OSError:
+                raise FatalError(
+                        _('working directory (%s) can not be created') % self.top_builddir)
+
+        os.environ['JHBUILD_PREFIX'] = self.prefix
+
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
+
+        if not os.environ.get('DBUS_SYSTEM_BUS_ADDRESS'):
+            # Use the distribution's D-Bus for the system bus. JHBuild's D-Bus
+            # will # be used for the session bus
+            os.environ['DBUS_SYSTEM_BUS_ADDRESS'] = 'unix:path=/var/run/dbus/system_bus_socket'
 
         # LD_LIBRARY_PATH
         if self.use_lib64:
@@ -330,13 +384,12 @@ class Config:
         addpath('MANPATH', '')
         addpath('MANPATH', manpathdir)
 
+        # INFOPATH
+        infopathdir = os.path.join(self.prefix, 'share', 'info')
+        addpath('INFOPATH', infopathdir)
+
         # PKG_CONFIG_PATH
-        if os.environ.get('PKG_CONFIG_PATH') is None:
-            # add system pkgconfig lookup-directories by default, as pkg-config
-            # usage spread and is now used by libraries that are out of jhbuild
-            # realm; this also helps when building a single module with
-            # jhbuild.  It is possible to avoid this by setting PKG_CONFIG_PATH
-            # to the empty string.
+        if os.environ.get('PKG_CONFIG_PATH') is None and self.partial_build:
             for dirname in ('share', 'lib', 'lib64'):
                 full_name = '/usr/%s/pkgconfig' % dirname
                 if os.path.exists(full_name):
@@ -358,16 +411,34 @@ class Config:
         addpath('GI_TYPELIB_PATH', typelibpath)
 
         # XDG_DATA_DIRS
+        if self.partial_build:
+            addpath('XDG_DATA_DIRS', '/usr/share')
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
 
         # XDG_CONFIG_DIRS
+        if self.partial_build:
+            addpath('XDG_CONFIG_DIRS', '/etc')
         xdgconfigdir = os.path.join(self.prefix, 'etc', 'xdg')
         addpath('XDG_CONFIG_DIRS', xdgconfigdir)
 
         # XCURSOR_PATH
         xcursordir = os.path.join(self.prefix, 'share', 'icons')
         addpath('XCURSOR_PATH', xcursordir)
+
+        # GST_PLUGIN_PATH
+        for gst in ('gstreamer-1.0', 'gstreamer-0.10'):
+            gstplugindir = os.path.join(self.libdir , gst)
+            if os.path.exists(gstplugindir):
+                addpath('GST_PLUGIN_PATH', gstplugindir)
+
+        # GST_REGISTRY
+        gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer.registry')
+        addpath('GST_REGISTRY', gstregistry)
+
+        # ACLOCAL_PATH
+        aclocalpath = os.path.join(self.prefix, 'share', 'aclocal')
+        addpath('ACLOCAL_PATH', aclocalpath)
 
         # ACLOCAL_FLAGS
         aclocaldir = os.path.join(self.prefix, 'share', 'aclocal')
@@ -376,10 +447,11 @@ class Config:
                 os.makedirs(aclocaldir)
             except:
                 raise FatalError(_("Can't create %s directory") % aclocaldir)
-        if os.path.exists('/usr/share/aclocal'):
-            addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
-        if os.path.exists('/usr/local/share/aclocal'):
-            addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
+        if self.partial_build:
+            if os.path.exists('/usr/share/aclocal'):
+                addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
+                if os.path.exists('/usr/local/share/aclocal'):
+                    addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         # PERL5LIB
@@ -389,7 +461,7 @@ class Config:
         # These two variables are so that people who use "jhbuild shell"
         # can tweak their shell prompts and such to show "I'm under jhbuild".
         # The first variable is the obvious one to look for; the second
-        # one is for historical reasons.
+        # one is for historical reasons. 
         os.environ['UNDER_JHBUILD'] = 'true'
         os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
@@ -506,14 +578,12 @@ class Config:
             options = self.cmdline_options
         else:
             self.cmdline_options = options
-        if hasattr(options, 'autogen') and options.autogen:
-            self.alwaysautogen = True
-        if hasattr(options, 'clean') and (
-                options.clean and not 'clean' in self.build_targets):
-            self.build_targets.insert(0, 'clean')
         if hasattr(options, 'check') and (
                 options.check and not 'check' in self.build_targets):
             self.build_targets.insert(0, 'check')
+        if hasattr(options, 'clean') and (
+                options.clean and not 'clean' in self.build_targets):
+            self.build_targets.insert(0, 'clean')
         if hasattr(options, 'dist') and (
                 options.dist and not 'dist' in self.build_targets):
             self.build_targets.append('dist')
@@ -554,6 +624,7 @@ class Config:
         if k == 'quiet_mode' and v:
             try:
                 import curses
+                logging.getLogger().setLevel(logging.ERROR)
             except ImportError:
                 logging.warning(
                         _('quiet mode has been disabled because the Python curses module is missing.'))

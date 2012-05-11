@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   tarball.py: some code to handle tarball repositories
@@ -190,6 +190,27 @@ class TarballBranch(Branch):
             else:
                 logging.warning(_('skipped hash check (missing support for %s)') % algo)
 
+    def _download_tarball(self, buildscript, localfile):
+        """Downloads the tarball off the internet, using wget or curl."""
+        extra_env = {
+            'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
+            'PATH': os.environ.get('UNMANGLED_PATH')
+            }
+        lines = [
+            ['wget', '--continue', self.module, '-O', localfile],
+            ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile]
+            ]
+        lines = [line for line in lines if has_command(line[0])]
+        if not lines:
+            raise FatalError(_("unable to find wget or curl"))
+        try:
+            return buildscript.execute(lines[0], extra_env = extra_env)
+        except CommandError:
+            # Cleanup potential leftover file
+            if os.path.exists(localfile):
+                os.remove(localfile)
+            raise
+
     def _download_and_unpack(self, buildscript):
         localfile = self._local_tarball
         if not os.path.exists(self.config.tarballdir):
@@ -204,21 +225,7 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            if has_command('wget'):
-                res = buildscript.execute(
-                        ['wget', '--continue', self.module, '-O', localfile],
-                        extra_env={
-                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
-                          'PATH': os.environ.get('UNMANGLED_PATH')})
-            elif has_command('curl'):
-                res = buildscript.execute(
-                        ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile],
-                        extra_env={
-                          'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
-                          'PATH': os.environ.get('UNMANGLED_PATH')})
-            else:
-                raise FatalError(_("unable to find wget or curl"))
-
+            res = self._download_tarball(buildscript, localfile)
             self._check_tarball()
 
         # now to unpack it
@@ -280,8 +287,9 @@ class TarballBranch(Branch):
                     raise CommandError(_('Failed to find patch: %s') % patch)
 
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
+            # patchfile can be a relative file
             buildscript.execute('patch -p%d < "%s"'
-                                % (patchstrip, patchfile),
+                                % (patchstrip, os.path.abspath(patchfile)),
                                 cwd=self.raw_srcdir)
 
     def _quilt_checkout(self, buildscript):
@@ -310,6 +318,13 @@ class TarballBranch(Branch):
             self._download_and_unpack(buildscript)
         if self.quilt:
             self._quilt_checkout(buildscript)
+
+    def may_checkout(self, buildscript):
+        if os.path.exists(self._local_tarball):
+            return True
+        elif buildscript.config.nonetwork:
+            return False
+        return True
 
     def tree_id(self):
         md5sum = hashlib.md5()

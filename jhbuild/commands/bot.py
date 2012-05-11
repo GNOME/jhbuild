@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2008 Frederic Peters
 #
@@ -156,13 +156,13 @@ class cmd_bot(Command):
             if args[0] in ('update', 'build', 'check', 'clean'):
                 module_set = jhbuild.moduleset.load(config)
                 buildscript = jhbuild.frontends.get_buildscript(config,
-                        [module_set.get_module(x, ignore_case=True) for x in args[1:]])
+                        [module_set.get_module(x, ignore_case=True) for x in args[1:]],
+                                                                module_set=module_set)
                 phases = None
                 if args[0] == 'update':
                     config.nonetwork = False
                     phases = ['checkout']
                 elif args[0] == 'build':
-                    config.alwaysautogen = True
                     # make check will be run in another step
                     config.makecheck = False
                     config.build_targets = ['install']
@@ -191,7 +191,7 @@ class cmd_bot(Command):
     def setup(self, config):
         module_set = jhbuild.moduleset.load(config, 'buildbot')
         module_list = module_set.get_module_list('all', config.skip)
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
     
     def start(self, config, daemonize, pidfile, logfile):

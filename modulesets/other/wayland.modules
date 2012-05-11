@@ -1,0 +1,103 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+  <repository type="git" name="freedesktop" default="yes"
+      href="git://anongit.freedesktop.org/git"/>
+  <repository type="git" name="wayland" default="yes"
+      href="git://anongit.freedesktop.org/git/wayland"/>
+  <repository type="git" name="mesa" default="yes"
+      href="git://anongit.freedesktop.org/git/mesa"/>      
+  <repository type="git" name="xorg-util" default="yes"
+      href="git://anongit.freedesktop.org/git/xorg/util"/>
+  <repository type="git" name="xorg-proto" default="yes"
+      href="git://anongit.freedesktop.org/git/xorg/proto"/>
+  <repository type="git" name="xorg-lib" default="yes"
+      href="git://anongit.freedesktop.org/git/xorg/lib"/>
+  <repository type="git" name="xorg-doc" default="yes"
+      href="git://anongit.freedesktop.org/git/xorg/doc"/>
+
+  <autotools id="pixman">
+    <branch repo="freedesktop"/>
+  </autotools>
+  
+  <autotools id="cairo">
+    <branch repo="freedesktop"/>
+    <dependencies>
+      <dep package="pixman"/>
+      <dep package="mesa"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="drm">
+    <branch repo="mesa"/>
+  </autotools>
+  
+  <autotools id="mesa"  skip-autogen="never">
+    <branch repo="mesa"/>
+    <dependencies>
+      <dep package="drm"/>
+      <dep package="libX11"/>
+      <dep package="glproto"/>
+    </dependencies>
+  </autotools>
+  
+  <autotools id="wayland">
+    <branch repo="wayland"/>
+  </autotools>
+
+  <autotools id="wayland-demos">
+    <branch repo="wayland"/>
+    <dependencies>
+      <dep package="wayland"/>
+      <dep package="cairo"/>
+      <dep package="libxkbcommon"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="macros">
+    <branch repo="xorg-util"/>
+  </autotools>
+ 
+  <autotools id="glproto">
+    <branch repo="xorg-proto"/>
+  </autotools>
+ 
+  <autotools id="xproto">
+    <branch repo="xorg-proto"/>
+    <dependencies>
+      <dep package="macros"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="kbproto">
+    <branch repo="xorg-proto"/>
+    <dependencies>
+      <dep package="xproto"/>
+    </dependencies>
+  </autotools>
+  
+  <autotools id="libX11">
+    <branch repo="xorg-lib"/>
+    <dependencies>
+      <dep package="macros"/>
+      <dep package="kbproto"/>
+      <dep package="libxtrans"/>
+    </dependencies>
+  </autotools>
+  
+  <autotools id="libxtrans" >
+    <branch repo="xorg-lib"/>
+  </autotools>
+
+  <autotools id="libxkbcommon" >
+    <branch repo="xorg-lib"/>
+    <dependencies>
+      <dep package="macros"/>
+      <dep package="xproto"/>
+      <dep package="kbproto"/>
+      <dep package="libX11"/>    
+    </dependencies>
+  </autotools>
+</moduleset>

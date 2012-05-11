@@ -11,9 +11,11 @@ app_PYTHON = \
 	clean.py \
 	gui.py \
 	info.py \
+	make.py \
 	rdepends.py \
 	sanitycheck.py \
 	snapshot.py \
+	sysdeps.py \
 	tinderbox.py \
 	uninstall.py
 

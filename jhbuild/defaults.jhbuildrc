@@ -2,7 +2,7 @@
 # This file holds the default values for the ~/.jhbuildrc file.
 # Do not copy this to ~/.jhbuildrc
 
-import os, sys
+import os, sys, tempfile
 
 if 'GTK_PATH' in os.environ.keys():
     del os.environ['GTK_PATH']
@@ -11,7 +11,7 @@ if 'GTK_PATH' in os.environ.keys():
 modulesets_dir = os.path.join(SRCDIR, 'modulesets')
 
 # what modules to build?
-moduleset = 'gnome-apps-3.0'
+moduleset = 'gnome-apps-3.6'
 modules = [ 'meta-gnome-core', 'meta-gnome-apps-tested' ]
 
 # policy for modules to build, options are:
@@ -20,6 +20,9 @@ modules = [ 'meta-gnome-core', 'meta-gnome-apps-tested' ]
 #  - updated-deps: build modules that have changed, or their dependencies
 #    have changed.
 build_policy = 'updated-deps'
+
+# If True, ignore tarball modules already installed while building
+partial_build = True
 
 # Skip modules installed more recently than the specified relative time.
 # min_age can only be specified via the command-line. Setting min_age within
@@ -33,7 +36,8 @@ tags = []
 
 # directories
 prefix = '/opt/gnome'
-checkoutroot = os.path.expanduser('~/checkout/gnome')
+top_builddir = '_jhbuild'  # If a relative path, prefix will be prepended
+checkoutroot = '~/checkout/gnome'
 tarballdir = None    # will default to checkoutroot
 buildroot = None     # if set, packages will be built with srcdir!=builddir
 
@@ -42,6 +46,18 @@ buildroot = None     # if set, packages will be built with srcdir!=builddir
 # the chance of mixing the two up.  In the pattern, '%s' will be
 # substituted with the srcdir base component.
 builddir_pattern = '%s'
+
+## @jobs: This value will be used as "X" in "make -jX" for modules
+## which support parallel builds.  Note that if you set "makeargs"
+## to include a -j option, that will take precedence.
+try:
+    import multiprocessing
+    jobs = multiprocessing.cpu_count() * 2
+except ImportError, _e:
+    try:
+        jobs = 2 * os.sysconf('SC_NPROCESSORS_ONLN')
+    except (OSError, AttributeError, ValueError):
+        jobs = 2
 
 # override environment variables, command line arguments, etc
 autogenargs = '--disable-static --disable-gtk-doc'
@@ -71,7 +87,6 @@ module_nopoison = {}
 
 # control parts of the build process
 nonetwork     = False  # never touch the network
-alwaysautogen = False  # call autogen.sh even if a makefile is found
 nobuild       = False  # don't actually build the packages
 makeclean     = False  # run make clean before building
 makecheck     = False  # run make check after building
@@ -88,6 +103,13 @@ makecheck_advisory = False # whether to pass over 'make check' failures
 interact      = True   # whether to interact with the user.
 quiet_mode    = False  # whether to display running commands output
 progress_bar  = True   # whether to display a progress bar when running in quiet mode
+
+# Run a static analyzer by prepending the command to the configure and build command lines.
+# Defaults to the Clang Static Analyzer (scan-build)
+static_analyzer = False
+module_static_analyzer = {}
+static_analyzer_template = 'scan-build -v -o %(outputdir)s/%(module)s'
+static_analyzer_outputdir = os.path.join(tempfile.gettempdir(), 'jhbuild_static_analyzer')
 
 # checkout modes. For VCS directories, it specifies how the checkout
 # is done. We can also specify checkout modes for specific modules
@@ -115,6 +137,11 @@ except AttributeError:
 # In particular, don't set it to 'gtk'.
 buildscript = 'terminal'
 
+# If True, run builds under "chrt --idle 0" on Linux ("nice" on other Unix)
+# This can dramatically improve desktop interactivity for builds with make -j X while
+# having only a tiny impact on build throughput.
+nice_build = True
+
 # where to put tinderbox output
 tinderbox_outputdir = None
 
@@ -134,14 +161,11 @@ cvs_program = 'cvs'
 mirror_policy = ""
 module_mirror_policy = {}
 
-if sys.platform.startswith('win'):
-    notrayicon = True
-    nonotify = True
-else:
-    # Show a tray icon using zenity
-    notrayicon = False
-    # whether not to emit notifications through the notification daemon
-    nonotify = False
+# whether not to emit notifications through the notification daemon
+# notifications are persistent in GNOME 3, therefore off by default
+nonotify = True
+# Show a tray icon using zenity
+notrayicon = True
 
 # whether to run tests in real X and not in Xvfb
 noxvfb = False
@@ -171,3 +195,7 @@ ignore_suggests = False
 
 # local directory for DVCS mirror (git only atm)
 dvcs_mirror_dir = None
+
+# A string displayed before JHBuild executes a command. String may contain the
+# variables %(command)s, %(cwd)s
+print_command_pattern = '%(command)s'

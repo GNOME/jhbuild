@@ -1,4 +1,6 @@
-SUBDIRS = po scripts jhbuild buildbot
+ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+
+SUBDIRS = po examples scripts triggers jhbuild buildbot
 
 if DOC_INSTALLATION_ENABLED
 SUBDIRS += doc
@@ -18,8 +20,9 @@ INTLTOOL = 			\
 	intltool-merge.in 	\
 	intltool-update.in
 
-EXTRA_DIST = gnome-doc-utils.make $(PATCHES) $(MODULESETS) \
+EXTRA_DIST = $(PATCHES) $(MODULESETS) \
 	install-check.c \
+	autogen.sh \
 	$(desktop_in_files) $(INTLTOOL)
 
 DISTCLEANFILES = 		\

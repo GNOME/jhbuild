@@ -1,0 +1,1364 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+<!-- git repos -->
+<repository type="git" name="git.gnome.org" default="yes"
+    href="git://git.gnome.org/"/>
+<repository type="git" name="git.freedesktop.org"
+    href="git://anongit.freedesktop.org/git/"/>
+<repository type="git" name="gstreamer.freedesktop.org"
+    href="git://anongit.freedesktop.org/gstreamer/"/>
+<repository type="cvs" name="libxklavier.freedesktop.org"
+    cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/xklavier"
+    password=""/>
+<repository type="git" name="colord.gitorious.org"
+    href="git://gitorious.org/colord"/>
+<repository type="bzr" name="research.operationaldynamics.com"
+    href="http://research.operationaldynamics.com/bzr"/>
+
+<!-- tarball repos -->
+<repository type="tarball" name="ftp.gnu.org"
+    href="ftp://ftp.gnu.org/pub/gnu/"/>
+<repository type="tarball" name="sqlite.org"
+    href="http://www.sqlite.org/"/>
+<repository type="tarball" name="gnome.org"
+    href="http://download.gnome.org/sources/"/>
+<repository type="tarball" name="gnupg.org"
+    href="ftp://ftp.gnupg.org/gcrypt/"/>
+<repository type="tarball" name="xmlsoft.org"
+    href="ftp://xmlsoft.org/"/>
+<repository type="tarball" name="sourceforge.net"
+    href="http://prdownloads.sourceforge.net/sourceforge/"/>
+<repository type="tarball" name="libproxy.googlecode.com"
+    href="http://libproxy.googlecode.com/files/"/>
+<repository type="tarball" name="0pointer.de"
+    href="http://0pointer.de/lennart/projects/"/>
+<repository type="tarball" name="webkitgtk.org"
+    href="http://webkitgtk.org/"/>
+<repository type="tarball" name="ftp.musicbrainz.org"
+    href="http://ftp.musicbrainz.org/pub/musicbrainz/"/>
+<repository type="tarball" name="people.suug.ch/~tgr/libnl/"
+    href="http://www.gnome.org/~fpeters/libnl/"/>
+<repository type="tarball" name="kernel.org"
+    href="http://www.kernel.org/pub/linux/"/>
+<repository type="tarball" name="dbus"
+    href="http://dbus.freedesktop.org/releases/"/>
+<repository type="tarball" name="cairo.org"
+    href="http://cairographics.org/"/>
+
+<!-- Please try to keep organized alphabetically by section -->
+
+<!-- Build dependencies of gnome-suites-core-3.2 -->
+
+<!-- This is a special module: it's needed to build from git, but not
+     needed to build from tarballs, so it doesn't need to be in our suites
+     and it doesn't need to be an external dependency -->
+  <autotools id="gnome-common">
+    <branch/>
+  </autotools>
+
+  <autotools id="gnome-doc-utils">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-common"/>
+      <dep package="libxslt"/>
+      <dep package="libxml2"/>
+      <dep package="intltool"/>
+      <dep package="rarian"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-doc">
+    <branch/>
+    <dependencies>
+      <dep package="libxslt"/>
+    </dependencies>
+    <suggests>
+      <dep package="gnome-doc-utils"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="intltool" version="0.41.1">
+    <source href="http://launchpad.net/intltool/trunk/0.41.1/+download/intltool-0.41.1.tar.gz"
+            hash="sha256:06d02133a85b9d6f29cd763050dc9267a6d73ef3008993f5b917cafc7ece96c0"
+            md5sum="d6c91bf06681919ccfdf3624035b75dc" size="139287"/>
+    <dependencies>
+      <dep package="gnome-common"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="libical" version="0.43">
+    <pkg-config>libical.pc</pkg-config>
+    <source href="http://downloads.sourceforge.net/freeassociation/libical-0.43.tar.gz"
+            hash="sha256:099f3e29a864de324477983eefaf17a4ef3b4ec8f075f95384db1ac67b6663a6"
+            md5sum="5f0a1feb60894d0be537aefea5647474" size="1145724"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+  <autotools id="libgdata">
+    <pkg-config>libgdata.pc</pkg-config>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libsoup"/>
+      <dep package="liboauth"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="sound-theme-freedesktop" version="0.7">
+    <source href="http://people.freedesktop.org/~mccann/dist/sound-theme-freedesktop-0.7.tar.bz2"
+            hash="sha256:e6595afb02b76099ef6df42c2ac7c4f9680c21c3f26b2a7ca0943d1fdbbd9aef"
+            md5sum="7bcad4fa54570f80c612012bce66f60f" size="483786"/>
+  </tarball>
+
+  <tarball id="liboauth" version="0.9.4">
+    <pkg-config>oauth.pc</pkg-config>
+    <source href="http://downloads.sourceforge.net/liboauth/liboauth-0.9.4.tar.gz"
+            hash="sha256:77e372359caca5375fbcc63ac638f349e6c93c98d291992d8ebb9bb8291ca549"
+            md5sum="973ded7a1af348c5bfe4e3b6b7e47bd3" size="459597"/>
+    <dependencies>
+    </dependencies>
+  </tarball>
+
+<!-- OS Core API/ABI stable dependencies -->
+
+  <autotools id="atk">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="cairo" autogenargs="--enable-xlib">
+    <pkg-config>cairo.pc</pkg-config>
+    <branch module="releases/cairo-1.10.0.tar.gz" version="1.10.0"
+            repo="cairo.org"
+            hash="sha256:0f2ce4cc4615594088d74eb8b5360bad7c3cc3c3da9b61af9bfd979ed1ed94b2"
+            md5sum="70a2ece66cf473d976e2db0f75bf199e" size="24022822">
+      <patch file="cairo-1.10.0-TrailingComma.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="fontconfig"/>
+      <dep package="gtk-doc"/>
+      <dep package="pixman"/>
+    </dependencies>
+    <after>
+      <dep package="glitz"/>
+    </after>
+  </autotools>
+
+  <autotools id="cogl">
+    <pkg-config>cogl-1.0.pc</pkg-config>
+    <branch revision="cogl-1.8"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="clutter">
+    <branch revision="clutter-1.8"/>
+    <dependencies>
+      <dep package="cogl"/>
+      <dep package="atk"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="gtk-doc"/>
+      <dep package="json-glib"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gudev"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gdk-pixbuf">
+    <branch revision="gdk-pixbuf-2-24"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glib">
+    <branch revision="glib-2-30"/>
+    <dependencies>
+      <dep package="gtk-doc"/>
+    </dependencies>
+    <after>
+      <dep package="shared-mime-info"/>
+    </after>
+    <suggests>
+      <!-- these provide gnome implementations of glib
+           extension points -->
+      <dep package="gvfs"/>
+      <dep package="glib-networking"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="glib-networking">
+    <branch revision="glib-2-30"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="intltool"/>
+      <dep package="libproxy"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gnutls"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk+">
+    <branch revision="gtk-3-2"/>
+    <dependencies>
+      <dep package="atk"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="shared-mime-info"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="pango">
+    <branch revision="pango-1-29-4"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <after>
+      <dep package="libXft"/>
+    </after>
+  </autotools>
+
+  <!-- OS Core unstable dependencies -->
+
+  <autotools id="cantarell-fonts">
+    <branch/>
+    <dependencies>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="caribou" autogenargs="--disable-gtk2-module">
+    <branch/>
+    <dependencies>
+      <dep package="pygobject"/>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+      <dep package="libgee"/>
+      <dep package="libxklavier"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gtk">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="clutter-gst">
+    <branch/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="dbus-glib">
+    <pkg-config>dbus-glib-1.pc</pkg-config>
+    <branch module="dbus-glib/dbus-glib-0.94.tar.gz" version="0.94"
+	    repo="dbus"
+	    hash="sha256:e460fa9314f0d35b054355080b5c315187c9e3d02252f1b7b11195bb0c08d39b"
+	    md5sum="e1f1506a6f4941e67bffd614b1ad5af6" size="705558">
+    </branch>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="dbus-python">
+    <branch module="dbus-python/dbus-python-0.83.1.tar.gz" version="0.83.1"
+            repo="dbus"
+	    hash="sha256:ce283806f1af4f2322e183a276528a880b503c74972932bd09f06bdb7fcc1b99"
+	    md5sum="5fdf3970aa0c00020289de7ba8f3be18" size="533391"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="desktop-file-utils" version="0.16">
+    <source href="http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.16.tar.bz2"
+            hash="sha256:7960be4bf7aa4b4698e8ea333cfa0bbfa7a169029e85d6a8b5390f625155c9a3"
+            md5sum="6811712bced796d025d1a8a0f728d941" size="282640"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="enchant" version="1.6.0">
+    <pkg-config>enchant.pc</pkg-config>
+    <source href="http://www.abisource.com/downloads/enchant/1.6.0/enchant-1.6.0.tar.gz"
+	    hash="sha256:2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03f7097f"
+	    md5sum="de11011aff801dc61042828041fb59c7" size="607018"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="expat" version="2.0.1">
+    <source href="http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz"
+            hash="sha256:847660b4df86e707c9150e33cd8c25bc5cd828f708c7418e765e3e983a2e5e93"
+            md5sum="ee8b492592568805593f81f8cdf2a04c" size="446456"/>
+  </tarball>
+
+  <tarball id="farsight2" version="0.0.26" autogenargs="--disable-python">
+    <source href="http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.26.tar.gz"
+            hash="sha256:b554e20b24e03c84073ae17dd525217e230954ec84506f08b67a11a054c7ea39"
+            md5sum="7756d910687dd2abd455fd68e83f125c" size="1167062"/>
+    <dependencies>
+      <dep package="libnice"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="folks" version="0.6.4.1" autogenargs="--enable-eds-backend">
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/folks/0.6/folks-0.6.4.1.tar.bz2"
+            hash="sha256:1399cf14ce9b363eced8980f55be331fe28464e9b6375525ff7dc6bd164c52cd"
+            md5sum="05c3a353bdaccf1f7bdf9fce97aba1e6" size="1561642"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libgee"/>
+      <dep package="vala"/>
+      <dep package="gobject-introspection"/>
+      <dep package="telepathy-glib"/>
+      <dep package="evolution-data-server"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="fontconfig" version="2.8.0">
+    <pkg-config>fontconfig.pc</pkg-config>
+    <source href="http://www.fontconfig.org/release/fontconfig-2.8.0.tar.gz"
+            hash="sha256:fa2a1c6eea654d9fce7a4b1220f10c99cdec848dccaf1625c01f076b31382335"
+            md5sum="77e15a92006ddc2adbb06f840d591c0e" size="1548409"/>
+    <dependencies>
+      <dep package="expat"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gamin" version="0.1.10">
+    <source href="http://download.gnome.org/sources/gamin/0.1/gamin-0.1.10.tar.bz2"
+            hash="sha256:a59948b20ce2f14136c013f155abb8c8d51db2ea167c063ff33461e453fec10a"
+            md5sum="2e2d9ea71f34e0aa22a700ddbff05385" size="452194"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="gnome-js-common" version="0.1.1">
+    <source href="http://download.gnome.org/sources/gnome-js-common/0.1/gnome-js-common-0.1.1.tar.bz2"
+            hash="sha256:6cad015cda5abfd2bccd6b95714ca39c83ca69ca7e6f7326dc75763a758dc8db"
+            md5sum="4f1c409a0be66d0df9dcdf15e9cf70ff" size="274010"/>
+    <suggests>
+      <dep package="seed"/>
+      <dep package="gjs"/>
+    </suggests>
+  </tarball>
+
+  <autotools id="gtksourceview" autogenargs="--enable-compile-warnings=maximum">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="librest">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-video-effects">
+    <branch/>
+    <dependencies>
+      <dep package="gstreamer"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gobject-introspection">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gjs">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="js185"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="seed" autogenargs="--with-webkit=3.0">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="WebKit"/>
+      <dep package="gnome-js-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnutls" version="2.10.2" autogenargs="--enable-guile=no">
+    <pkg-config>gnutls.pc</pkg-config>
+    <branch module="gnutls/gnutls-2.10.2.tar.bz2" version="2.10.2"
+	    repo="ftp.gnu.org"
+            hash="sha256:e82e7a3fc69b02cc06c291a1652789d73e45bc0732e139817838248f814f8724"
+            size="7458438">
+      <!-- Build fix for rpath?  -->
+      <patch file="gnutls-2.10.2-rpath.patch" strip="1"/>
+      <!-- Backport from upstream git -->
+      <patch file="gnutls-2.10.1-handshake-errors.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libgcrypt" />
+      <dep package="libtasn1" />
+    </dependencies>
+  </autotools>
+
+  <tarball id="gmime" version="2.4.15">
+    <source href="http://download.gnome.org/sources/gmime/2.4/gmime-2.4.15.tar.bz2"
+            hash="sha256:a0a6c9413b057ab5d8a2a2902cbaa5b3a17871af3f94dc8431978c9e0e5f53e1"
+            md5sum="604ec62e1ce4d149d724f5d3ee69c110" size="859146"/>
+    <dependencies>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+    </dependencies>
+    <after>
+      <dep package="gtk-sharp"/>
+    </after>
+  </tarball>
+
+  <autotools id="gstreamer" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-plugins-base" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
+    <dependencies>
+      <dep package="gstreamer"/>
+      <dep package="gtk+"/>
+      <dep package="liboil"/>
+    </dependencies>
+    <suggests>
+      <dep package="gudev"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gst-plugins-good" autogenargs="--with-gtk=3.0 --disable-tests --disable-examples" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-good"/>
+    <dependencies>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+    <suggests>
+      <dep package="pulseaudio"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gudev"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="gst-plugins-farsight" version="0.12.11">
+    <source href="http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.11.tar.gz"
+            hash="sha256:df5b6fb9774d63be7dc18af5e5760e2e9d4726711d423e8de3af6a960aa13761"
+            md5sum="685a3dfd6752390e336e9556b62fad9e" size="500109"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="cairomm" autogen-sh="configure">
+    <branch module="releases/cairomm-1.9.2.tar.gz" version="1.9.2"
+            repo="cairo.org"
+            hash="sha256:06be135a638be9e279905cc6287c066da93ab62f273a4a66858af379621288f6"
+            md5sum="24b0d35de4154195b8b78cf1f48b85e7" size="856678">
+    </branch>
+    <dependencies>
+       <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mm-common">
+    <branch/>
+  </autotools>
+
+  <autotools id="libsigc++2">
+    <branch/>
+    <dependencies>
+      <dep package="mm-common"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="glibmm">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsigc++2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pangomm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="cairomm"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="atkmm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtkmm">
+    <branch/>
+    <dependencies>
+      <dep package="pangomm"/>
+      <dep package="atkmm"/>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no"
+             autogen-sh="autogen.sh">
+    <pkg-config>gudev-1.0.pc</pkg-config>
+    <branch checkoutdir="gudev-147" repo="kernel.org"
+            module="utils/kernel/hotplug/udev-147.tar.bz2" version="147">
+      <patch file="gudev-147.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <repository type="tarball" name="icon-theme.freedesktop.org"
+	  href="http://icon-theme.freedesktop.org/releases/"/>
+  <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
+             check-target="false">
+    <branch module="hicolor-icon-theme-0.12.tar.gz" version="0.12"
+	    repo="icon-theme.freedesktop.org"
+            hash="sha256:9edca690617eaa19054951ca53501c802180262be8880ed84754ac46c93bec73"
+            md5sum="55cafbcef8bcf7107f6d502149eb4d87" size="38008">
+      <patch file="hicolor-icon-theme.clean-target.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <tarball id="icon-naming-utils" version="0.8.90">
+    <pkg-config>icon-naming-utils.pc</pkg-config>
+    <source href="http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.gz"
+            hash="sha256:044ab2199ed8c6a55ce36fd4fcd8b8021a5e21f5bab028c0a7cdcf52a5902e1c"
+            md5sum="2c5c7a418e5eb3268f65e21993277fba" size="70321"/>
+    <branch repo="icon-theme.freedesktop.org"/>
+  </tarball>
+
+  <tarball id="iso-codes" version="3.20">
+    <source href="http://download.gnome.org/teams/releng/tarballs-needing-help/iso-codes/iso-codes-3.20.tar.bz2"
+            hash="sha256:d58d8e414dd1a6c23ead5b8e94192d309e6342d21cbc1ebd0f6d5a505211803f"
+            md5sum="90472da66aa4460b04f39c324208f8f2" size="6105567"/>
+  </tarball>
+
+  <tarball id="itstool" version="1.1.1">
+    <source href="http://files.itstool.org/itstool/itstool-1.1.1.tar.bz2"
+            hash="sha256:0fffba8f7249dbfadf0182aedf0ce210cd409b4240021c4c8693e3dd1f7b90c9"
+            size="78824"/>
+  </tarball>
+
+  <autotools id="java-gnome" autogen-sh="configure" skip-autogen="never">
+    <branch repo="research.operationaldynamics.com"
+            module="bzr/java-gnome/mainline"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+      <dep package="gtk+"/>
+      <dep package="gtksourceview"/>
+      <dep package="librsvg"/>
+      <dep package="enchant"/>
+      <dep package="libunique"/>
+      <dep package="libnotify"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="json-glib">
+    <branch revision="json-glib-0-14"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="libatasmart" version="0.17">
+    <pkg-config>libatasmart.pc</pkg-config>
+    <source href="http://0pointer.de/public/libatasmart-0.17.tar.gz"
+           md5sum="dc36cadbbb7fa38f8af175713eda1a21" size="376341"/>
+  </tarball>
+
+  <autotools id="libcanberra" autogen-sh="configure" autogenargs="--with-systemdsystemunitdir=no">
+    <pkg-config>libcanberra-gtk.pc</pkg-config>
+    <branch repo="0pointer.de" module="libcanberra/libcanberra-0.28.tar.gz" version="0.26"
+            hash="sha256:eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd553e7222bc68868c"
+            md5sum="c198b4811598c4c161ff505e4531b02c" size="487276">
+    </branch>
+    <dependencies>
+      <dep package="gtk-doc"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
+      <dep package="pulseaudio"/>
+      <dep package="gstreamer"/>
+    </after>
+  </autotools>
+
+ <autotools id="libchamplain">
+   <branch/>
+   <dependencies>
+     <dep package="glib"/>
+     <dep package="cairo"/>
+     <dep package="clutter"/>
+     <dep package="gtk+"/>
+     <dep package="sqlite3"/>
+   </dependencies>
+   <suggests>
+     <dep package="libsoup"/>
+     <dep package="clutter-gtk"/>
+   </suggests>
+ </autotools>
+
+  <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.2">
+    <pkg-config>libcroco-0.6.pc</pkg-config>
+    <source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.2.tar.bz2"
+            hash="sha256:be24853f64c09b63d39e563fb0222e29bae1a33c3d9f6cbffc0bc27669371749"
+            md5sum="1429c597aa4b75fc610ab3a542c99209" size="415492"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="pango"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="libdaemon" autogenargs="--disable-lynx">
+    <pkg-config>libdaemon.pc</pkg-config>
+    <branch repo="0pointer.de" module="libdaemon/libdaemon-0.14.tar.gz"
+	    version="0.14"
+            hash="sha256:fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"
+            md5sum="509dc27107c21bcd9fbf2f95f5669563" size="340474"/>
+  </autotools>
+
+  <tarball id="libdiscid" version="0.2.2">
+    <pkg-config>libdiscid.pc</pkg-config>
+    <source href="http://users.musicbrainz.org/~matt/libdiscid-0.2.2.tar.gz"
+            hash="sha256:974b5d5ab23fb45910a4fe171045a22a749cd8cb9833168f7178839993a58402"
+            md5sum="ee21ddbe696a3c60e14827a75f3bcf5b" size="347907"/>
+  </tarball>
+
+  <autotools id="libgpg-error" autogen-sh="configure" check-target="false">
+    <branch module="libgpg-error/libgpg-error-1.8.tar.bz2"
+            repo="gnupg.org" version="1.8"
+            hash="sha256:bdfbf2677147239d2d26d4e37f44635d9fd97c133c9ef9fd9793a12a059508c5"
+            md5sum="1d2005268a2f096db28cf9cf77b3229a" size="435341" />
+  </autotools>
+
+  <autotools id="libgcrypt" autogen-sh="configure" check-target="false">
+    <branch module="libgcrypt/libgcrypt-1.4.5.tar.bz2"
+            repo="gnupg.org" version="1.4.5"
+            hash="sha256:496f907c5324de75367ec61c63bfeed1309ef0bc64845dc20b3597731abd9e40"
+            md5sum="cc2017ad09b4543f8b3b5e9a53cfd89d" size="1148382">
+      <patch file="libgcrypt-1.4.5-ImplicitDSOLinking.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libgpg-error" />
+    </dependencies>
+  </autotools>
+
+  <tarball id="libgee" version="0.6.0">
+    <pkg-config>gee-1.0.pc</pkg-config>
+    <source href="http://download.gnome.org/sources/libgee/0.6/libgee-0.6.0.tar.bz2"
+            hash="sha256:e586678d0a88637abeaaf850b62231000772e79ea6d9c4b45dc3cea99f778a7a"
+            md5sum="4eb513b23ab6ea78884989518a4acf6f" size="477609"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </tarball>
+
+  <autotools id="libgnomekbd">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+" />
+      <dep package="libxklavier" />
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgweather">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="gconf"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="libgsf" version="1.14.18" autogenargs="-- --without-bonobo --without-gnome-vfs">
+    <source href="http://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.18.tar.bz2"
+            hash="sha256:16d29e82f7eba68f919f2588ea5328973490fe6d4a7a5f160e8af89b387c9a95"
+            md5sum="2c15d875b1931c40c7e7a2368f3ed948" size="611584"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
+  </tarball>
+
+  <autotools id="libgtop">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <cmake id="libmusicbrainz">
+    <pkg-config>libmusicbrainz3.pc</pkg-config>
+    <branch module="libmusicbrainz-3.0.2.tar.gz" version="3.0.2"
+            repo="ftp.musicbrainz.org"
+            hash="sha256:b9a35e56826239add731cf083108cbc313d4a2d1770e6f5006966daa66a21eda"
+            md5sum="648ecd43f7b80852419aaf73702bc23f" size="98537">
+      <patch file="libmusicbrainz-3.0.2-gcc-4.4-fix.patch"/>
+    </branch>
+    <dependencies>
+      <dep package="libdiscid"/>
+    </dependencies>
+  </cmake>
+
+  <tarball id="libnice" version="0.1.0">
+    <pkg-config>nice.pc</pkg-config>
+    <source href="http://nice.freedesktop.org/releases/libnice-0.1.0.tar.gz"
+            hash="sha256:c79b85f53c63fc676c6f84f4a40a5e210106cc7856ba17580fc2716f36c720ff"
+            md5sum="c077e2aa74c9afb4b4e157efc8a6ad9d" size="655234"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="libnotify">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="liboil" version="0.3.17">
+    <pkg-config>liboil-0.3.pc</pkg-config>
+    <source href="http://liboil.freedesktop.org/download/liboil-0.3.17.tar.gz"
+            hash="sha256:105f02079b0b50034c759db34b473ecb5704ffa20a5486b60a8b7698128bfc69"
+            md5sum="47dc734f82faeb2964d97771cfd2e701" size="912563"/>
+  </tarball>
+
+  <autotools id="libpeas">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject"/>
+      <dep package="seed"/>
+    </suggests>
+  </autotools>
+
+  <cmake id="libproxy"
+         cmakeargs="-DCMAKE_BUILD_TYPE=None -DWITH_GNOME=OFF -DWITH_GNOME3=ON -DWITH_KDE4=OFF -DWITH_PYTHON=OFF -DWITH_PERL=OFF -DWITH_VALA=ON -DWITH_DOTNET=OFF -DWITH_MOZJS=OFF -DWITH_WEBKIT=ON -DGAC_DIR=${prefix}/lib/mono">
+    <pkg-config>libproxy-1.0.pc</pkg-config>
+    <branch repo="libproxy.googlecode.com"
+            module="libproxy-0.4.7.tar.gz" version="0.4.7"
+            hash="sha256:8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
+            md5sum="509e03a488a61cd62bfbaf3ab6a2a7a5" size="91092"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="NetworkManager"/>
+    </suggests>
+    <after>
+      <dep package="WebKit"/>
+    </after>
+  </cmake>
+
+  <autotools id="librsvg" supports-non-srcdir-builds="no" autogenargs="--disable-gtk-theme">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gnome-common"/>
+      <dep package="libcroco"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="libsndfile" version="1.0.23" supports-non-srcdir-builds="no"
+           autogenargs="--disable-flac">
+    <pkg-config>sndfile.pc</pkg-config>
+    <source href="http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.23.tar.gz"
+            hash="sha256:54c9c375598538263395a691f9b30987a2faa3d8a166d27e6a09ba4700223d4d"
+            md5sum="d0e22b5ff2ef945615db33960376d733" size="1037078"/>
+  </tarball>
+
+  <autotools id="libsoup">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="sqlite3"/>
+      <dep package="libgnome-keyring"/>
+      <dep package="glib-networking"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="libtasn1" version="2.2" supports-non-srcdir-builds="no">
+    <pkg-config>libtasn1.pc</pkg-config>
+    <source href="ftp://ftp.gnu.org/gnu/libtasn1/libtasn1-2.2.tar.gz"
+            hash="sha256:5dd7956d62a351bb657f18d228c5d5b9e9455355543f59ff36484a9d389e36b9"
+            md5sum="14cc361500d2e768a8a6ec538ce3fecb" size="1641693" />
+  </tarball>
+
+  <tarball id="p11-kit" version="0.6" supports-non-srcdir-builds="no">
+    <source href="http://p11-glue.freedesktop.org/releases/p11-kit-0.6.tar.gz"
+            hash="sha256:ac0f55ff8d4df2b791260ae00b0e33ed20b46caaebe1a411426643d1417188bc"
+            md5sum="c1ff3e52f172fda8bf3b426f7fb63c92" size="519899" />
+  </tarball>
+
+  <autotools id="libunique">
+    <pkg-config>unique-3.0.pc</pkg-config>
+    <branch module="libunique/3.0/libunique-3.0.2.tar.bz2" repo="gnome.org"
+            version="3.0.2" checkoutdir="libunique-3.0.2"
+            hash="sha256:50269a87c7aabf1e25f01b3bbb280133138ffd7b6776289894c614a4b6ca968d"
+            md5sum="89c3f88c9bfc35b3f13fa2b7bda0c354" size="342778"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.1">
+    <pkg-config>libxklavier.pc</pkg-config>
+    <source href="http://download.gnome.org/sources/libxklavier/5.1/libxklavier-5.1.tar.bz2"
+            hash="sha256:1d7e8a6ed842d415d2f95b827e7d04ecf515ed5be2aaee262a8dd1c5cbe10ff1"
+            md5sum="cbc2a760827c20aef61eb7b18a6ce598"
+            size="346858"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+      <dep package="iso-codes"/>
+    </dependencies>
+  </tarball>
+
+<!--
+<autotools id="libxklavier">
+  <branch module="libxklavier"
+	  repo="libxklavier.freedesktop.org"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="gtk-doc"/>
+      <dep package="glib"/>
+      <dep package="iso-codes"/>
+    </dependencies>
+</autotools>
+-->
+
+  <autotools id="libxml2">
+    <pkg-config>libxml-2.0.pc</pkg-config>
+    <branch module="libxml2/libxml2-2.7.8.tar.gz"
+            repo="xmlsoft.org" version="2.7.8"
+            hash="sha256:cda23bc9ebd26474ca8f3d67e7d1c4a1f1e7106364b690d822e009fdc3c417ec"
+            md5sum="8127a65e8c3b08856093099b52599c86" size="4881808"/>
+  </autotools>
+
+  <autotools id="libxslt" check-target="false">
+    <pkg-config>libxslt.pc</pkg-config>
+    <branch module="libxml2/libxslt-1.1.26.tar.gz"
+            repo="xmlsoft.org" version="1.1.26"
+            hash="sha256:55dd52b42861f8a02989d701ef716d6280bfa02971e967c285016f99c66e3db1"
+            md5sum="e61d0364a30146aaa3001296f853b2b9" size="3401513"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="libgcrypt"/>
+    </dependencies>
+  </autotools>
+
+<!-- Begin Mozilla stuff subsection -->
+
+  <repository type="tarball" name="ftp.mozilla.org"
+      href="https://ftp.mozilla.org/pub/mozilla.org/"/>
+
+  <autotools id="nspr" autogen-sh="autogen.sh"
+             autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
+    <pkg-config>nspr.pc</pkg-config>
+    <branch repo="ftp.mozilla.org"
+            module="nspr/releases/v4.8.6/src/nspr-4.8.6.tar.gz"
+	    version="4.8.6"
+	    hash="d9040bb01536fa63881c423c4fa831ea459696b32d2097f614842f824e1a9f6d"
+	    md5sum="592c275728c29d193fdba8009165990b" size="1202257">
+      <patch file="nspr.config_64bits.patch" strip="1" />
+      <patch file="nspr.pkgconfig.patch" strip="1"/>
+      <patch file="nspr.autogen.patch" strip="1"/>
+      <patch file="nspr.hostcompiler.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <autotools id="js185" check-target="false"
+	     autogenargs="--enable-threadsafe --with-system-nspr">
+    <pkg-config>mozjs185.pc</pkg-config>
+    <branch repo="ftp.mozilla.org"
+	    module="js/js185-1.0.0.tar.gz"
+            version="1.0.0"
+	    checkoutdir="js185-1.0.0"
+	    source-subdir="js/src"
+	    md5sum="a4574365938222adca0a6bd33329cb32" size="6164605">
+      <patch file="js185.destdir.patch" strip="0"/>
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="nss"
+	     autogen-sh="autogen.sh"
+	     supports-non-srcdir-builds="no"
+	     supports-parallel-builds="no"
+             check-target="false">
+    <pkg-config>nss.pc</pkg-config>
+    <branch repo="ftp.mozilla.org"
+            module="security/nss/releases/NSS_3_12_6_RTM/src/nss-3.12.6.tar.gz"
+	    version="3.12.6"
+	    hash="sha256:8f9759be1ce928e82830923fde62a66e270c4645f10a4c176acfccb6021a9795"
+	    md5sum="da42596665f226de5eb3ecfc1ec57cd1" size="5947630">
+      <patch file="nss.pkgconfig-and-configure.patch" strip="1"/>
+      <patch file="nss.linux3.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
+<!-- End Mozilla stuff subsection -->
+
+  <autotools id="pixman"
+	     autogenargs="--disable-gtk">
+    <pkg-config>pixman-1.pc</pkg-config>
+    <branch module="releases/pixman-0.20.2.tar.gz" version="0.20.2"
+            repo="cairo.org"
+            hash="sha256:27b4e58ae8dcf8787cc309bc2b119ca6b6e353b3283a7821896e454ae8bd9725"
+            md5sum="a923c20af88e469ac29ba42cfedb88c2" size="542724">
+    </branch>
+  </autotools>
+
+  <autotools id="polkit-gnome" autogenargs="--with-gtk=3.0">
+    <branch checkoutdir="polkit-gnome" module="PolicyKit-gnome"/>
+    <dependencies>
+      <dep package="polkit"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="poppler" version="0.16.0" autogenargs="--enable-xpdf-headers">
+    <pkg-config>poppler-glib.pc</pkg-config>
+    <source href="http://poppler.freedesktop.org/poppler-0.16.0.tar.gz"
+            hash="sha256:e93e104abd710c310ebb98838f8147b198fbe0564cf8f5b273a75a1f7a01c5ac"
+            md5sum="654f8e8debf028085173d76e3c34b652" size="1945847"/>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+    <suggests>
+      <dep package="glib"/>
+      <dep package="poppler-data"/>
+    </suggests>
+    <after>
+      <dep package="gtk+-2"/>
+      <dep package="gdk-pixbuf"/>
+    </after>
+  </tarball>
+
+  <autotools id="py2cairo">
+    <pkg-config>pycairo.pc</pkg-config>
+    <branch module="releases/pycairo-1.8.2.tar.gz" version="1.8.2" repo="cairo.org"
+            hash="sha256:77a8cbe388fd66825056744f2fc5c58b3afc247748bc2c777751cc0c2eb30a2f"
+            md5sum="bbfc0c2fef08dfb0c5b8baa5f0b67a87" size="519064"/>
+    <dependencies>
+      <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pygobject">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="py2cairo"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="rarian" version="0.8.1" supports-non-srcdir-builds="no">
+    <pkg-config>rarian.pc</pkg-config>
+    <source href="http://download.gnome.org/sources/rarian/0.8/rarian-0.8.1.tar.bz2"
+            hash="sha256:aafe886d46e467eb3414e91fa9e42955bd4b618c3e19c42c773026b205a84577"
+            md5sum="75091185e13da67a0ff4279de1757b94" size="324441"/>
+    <dependencies>
+      <dep package="libxslt"/>
+      <dep package="intltool"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="shared-mime-info" supports-non-srcdir-builds="no" version="0.71">
+    <source href="http://people.freedesktop.org/~hadess/shared-mime-info-0.71.tar.bz2"
+            hash="sha256:1d8f97f17de77ae0d8a3a4ef357280ef444da87f4ce19170392712d0c2f6d04f"
+            md5sum="0a90508234d415f761a79fbffdff74f4" size="493216"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="speex" version="1.2rc1">
+    <pkg-config>speex.pc</pkg-config>
+    <source href="http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+            hash="sha256:342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f1179cb7a6"
+            md5sum="c4438b22c08e5811ff10e2b06ee9b9ae" size="1061882"/>
+  </tarball>
+
+  <autotools id="sqlite3"
+             autogenargs="--disable-tcl --enable-threadsafe --enable-readline --enable-static --enable-load-extension"
+             check-target="false">
+    <pkg-config>sqlite3.pc</pkg-config>
+    <branch module="sqlite-3.7.1.tar.gz" version="3.7.1"
+	    repo="sqlite.org"
+            hash="sha256:4a6656f765305399d67c84ad2f0725cb18594805926cdd71013370cc8216268d"
+            md5sum="96bebad5f9009f0437d9878b8728dab6" size="3309303">
+      <patch file="sqlite-3.7.1.dlsym1.patch" strip="1"/>
+      <patch file="sqlite-3.7.1.dlsym2.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+  <tarball id="startup-notification" version="0.12">
+    <pkg-config>libstartup-notification-1.0.pc</pkg-config>
+    <source href="http://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz"
+            hash="sha256:3c391f7e930c583095045cd2d10eb73a64f085c7fde9d260f2652c7cb3cfbe4a"
+            size="355285"/>
+  </tarball>
+
+  <tarball id="telepathy-glib" version="0.16.0" autogenargs="--enable-vala-bindings">
+    <pkg-config>telepathy-glib.pc</pkg-config>
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.16.0.tar.gz"
+            hash="sha256:dae3dd7c06044951e7780cdc3e5524c7c9d12cd8aae6fe42bc88aca39a40b318"
+            md5sum="071ed1b34ace45109188df73933609e4" size="3089249"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="libxslt"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </tarball>
+
+  <tarball id="telepathy-logger" version="0.2.10">
+    <pkg-config>telepathy-logger-0.2.pc</pkg-config>
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-logger/telepathy-logger-0.2.10.tar.bz2"
+            hash="sha256:6496a31ea975217c5c36a4e8f1e0544c7e523f527ef423385f20bfd85da45fc0"
+            md5sum="ec01a8f99fc11406e85153095433c155" size="449495"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="telepathy-glib"/>
+    </dependencies>
+  </tarball>
+
+  <tarball id="telepathy-farsight" version="0.0.14" autogenargs="--disable-python">
+    <pkg-config>telepathy-farsight.pc</pkg-config>
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-farsight/telepathy-farsight-0.0.14.tar.gz"
+            hash="sha256:3074d40b33ecd08d7fc0168dfb4a4dd4f98ef3fd5c4708074b9669b3f39457b5"
+            md5sum="1e6af31be4d5cdfc72a3f06542de96c0" size="547695"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farsight2"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="totem-pl-parser">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gmime"/>
+    </dependencies>
+    <suggests>
+      <dep package="libepc"/>
+      <dep package="tracker"/>
+      <dep package="dbus-glib"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="tracker" skip-autogen="never" autogen-sh="configure" autogenargs="--enable-miner-evolution=no --enable-miner-firefox=no --enable-miner-thunderbird=no --disable-unit-tests" check-target="false">
+    <pkg-config>tracker-client-0.12.pc</pkg-config>
+    <branch module="tracker/0.12/tracker-0.12.3.tar.xz" version="0.12.3" repo="gnome.org"
+            hash="sha256:97c9e151d48878409129eeeea2da0716f14a52d6097d8db3b304c6af0b7ae187"
+            md5sum="d794eca9dd1d957f7e2221520342de85" size="5746164">
+    </branch>
+    <!-- unit tests are broken:
+    ld: tracker-sparql-test.o: undefined reference to symbol 'g_object_unref'
+    -->
+    <dependencies>
+      <dep package="nautilus"/>
+      <dep package="gstreamer"/>
+      <dep package="intltool"/>
+      <dep package="poppler"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="evolution"/>
+      <dep package="exempi"/>
+      <dep package="upower"/>
+      <dep package="libgsf"/>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
+  </autotools>
+
+  <tarball id="vala" version="0.14.0">
+    <pkg-config>libvala-0.14.pc</pkg-config>
+    <source href="http://download.gnome.org/sources/vala/0.14/vala-0.14.0.tar.xz"
+            hash="sha256:3830a30b54738ddfb29ab7819a4ac2370392f52fde090742a8a304fadaec747c"
+            md5sum="c3791b1a667ee980fc91a9a662f617ba" size="2593052"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="WebKit" makefile="GNUmakefile"
+             autogenargs="--enable-introspection">
+    <pkg-config>webkitgtk-3.0.pc</pkg-config>
+    <branch repo="webkitgtk.org"
+            module="webkit-1.6.1.tar.gz" version="1.6.1"
+            hash="sha256:05b09d851a04597d50fdca71ed8b09f5a0337d696b141a435255ae2095e140ad"
+            md5sum="c11743694b1b71dad287b2e7a9e73b05" size="10129874">
+    </branch>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="fontconfig"/>
+      <dep package="libxml2"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
+      <dep package="libsoup"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="libxslt"/>
+      <dep package="sqlite3"/>
+      <dep package="enchant"/>
+    </suggests>
+  </autotools>
+
+ <autotools id="vte" autogenargs="--with-gtk=3.0 --enable-introspection=yes">
+    <branch revision="vte-0-30"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="yelp-tools">
+    <branch/>
+    <dependencies>
+      <dep package="libxslt"/>
+      <dep package="libxml2"/>
+      <dep package="intltool"/>
+      <dep package="yelp-xsl"/>
+      <dep package="itstool"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="yelp-xsl">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="libxslt"/>
+      <dep package="libxml2"/>
+      <dep package="intltool"/>
+      <dep package="itstool"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="zenity">
+    <branch revision="gnome-3-2"/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="gnome-doc-utils"/>
+    </dependencies>
+  </autotools>
+
+
+  <!-- OS Core Services dependencies -->
+
+  <autotools id="libnl" skip-autogen="never" autogen-sh="configure" check-target="false">
+    <pkg-config>libnl-1.pc</pkg-config>
+    <branch repo="people.suug.ch/~tgr/libnl/"
+            module="libnl-1.1.tar.gz" version="1.1"
+            md5sum="ae970ccd9144e132b68664f98e7ceeb1" size="288932">
+      <patch file="libnl-include-fix.patch" strip="1"/>
+    </branch>
+  </autotools>
+
+ <tarball id="lcms2" version="2.2" checkoutdir="lcms-2.2">
+    <pkg-config>lcms2.pc</pkg-config>
+    <source href="http://downloads.sourceforge.net/lcms/lcms2-2.2.tar.gz"
+            hash="sha256:b6f2a1be1a2b7ca54bfab69b32242d383a176637f161eeeaef451bd9fc1195cc"
+            md5sum="aaf33c7c25675e6163189ba488ae20f5" size="4193353"/>
+  </tarball>
+
+  <autotools id="colord" autogenargs="--disable-examples">
+    <branch repo="colord.gitorious.org" checkoutdir="colord" module="master.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus"/>
+      <dep package="gudev"/>
+      <dep package="sqlite3"/>
+      <dep package="lcms2"/>
+      <dep package="gobject-introspection"/>
+      <!-- and cups -->
+      <!-- and sane -->
+    </dependencies>
+    <suggests>
+      <dep package="polkit"/>
+    </suggests>
+  </autotools>
+
+
+  <!-- Deprecated dependencies -->
+
+  <autotools id="gtk+-2">
+    <branch checkoutdir="gtk+-2" module="gtk+" revision="gtk-2-24"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="shared-mime-info"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gtk-engines">
+    <branch revision="gtk-engines-2-22"/>
+    <dependencies>
+      <dep package="gtk+-2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgnome-keyring">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="dbus"/>
+      <dep package="libgcrypt"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libwnck">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="startup-notification"/>
+    </dependencies>
+  </autotools>
+
+</moduleset>

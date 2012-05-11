@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   testmodule.py: testmodule type definitions.
@@ -28,7 +28,7 @@ except ImportError:
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 from jhbuild.modtypes.autotools import AutogenModule
 
 import xml.dom.minidom
@@ -43,12 +43,9 @@ class TestModule(Package, DownloadableModule):
     PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_TEST           = 'test'
     
-    def __init__(self, name, branch, test_type, dependencies=[], after=[], tested_pkgs=[]):
-        Package.__init__(self, name)
-        self.branch       = branch
+    def __init__(self, name, branch=None, test_type=None, tested_pkgs=[]):
+        Package.__init__(self, name, branch=branch)
         self.test_type    = test_type
-        self.dependencies = dependencies
-        self.after        = after
         self.tested_pkgs  = tested_pkgs
 
         ### modify environ for tests to be working
@@ -59,9 +56,6 @@ class TestModule(Package, DownloadableModule):
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
-
-    def get_revision(self):
-        return self.branch.branchname
 
     def _get_display(self):
         # get free display
@@ -339,16 +333,16 @@ def get_tested_packages(node):
     return tested_pkgs
 
 def parse_testmodule(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
+    instance = TestModule.parse_from_xml(node, config, uri, repositories, default_repo)
+
     test_type = node.getAttribute('type')
     if test_type not in __test_types__:
         # FIXME: create an error here
         pass
+    instance.test_type = test_type
 
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
-    tested_pkgs = get_tested_packages(node)
-    return TestModule(id, branch, test_type, dependencies=dependencies,
-            after=after, tested_pkgs=tested_pkgs)
+    instance.tested_pkgs = get_tested_packages(node)
+    
+    return instance
                                    
 register_module_type('testmodule', parse_testmodule)

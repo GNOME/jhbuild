@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2007  Alberto Ruiz <aruiz@gnome.org>
 #
 #   unpack.py: helper functions for unpacking compressed packages
@@ -24,6 +24,7 @@ import tempfile
 
 from jhbuild.utils.cmds import has_command
 from jhbuild.errors import CommandError
+from jhbuild.utils import fileutils
 
 
 def unpack_tar_file(localfile, target_directory):
@@ -128,8 +129,8 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
     elif ext == '.bz2' and has_command('bunzip2') and has_command('tar'):
         buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext in ('.gz', '.tgz') and has_command('gunzip') and has_command('tar'):
-        buildscript.execute('gunzip -dc "%s" | tar xf -' % localfile,
+    elif ext in ('.gz', '.tgz') and has_command('gzip') and has_command('tar'):
+        buildscript.execute('gzip -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
     elif ext == '.zip' and has_command('unzip'):
         buildscript.execute('unzip "%s"' % localfile,
@@ -153,8 +154,8 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
         if len(os.listdir(target_directory)) == 1:
             # a single directory, just move it
             tmpdirname = os.path.join(target_directory, os.listdir(target_directory)[0])
-            os.rename(tmpdirname, os.path.join(final_target_directory, checkoutdir))
+            fileutils.rename(tmpdirname, os.path.join(final_target_directory, checkoutdir))
             os.rmdir(target_directory)
         else:
             # more files, just rename the temporary directory to the final name
-            os.rename(target_directory, os.path.join(final_target_directory, checkoutdir))
+            fileutils.rename(target_directory, os.path.join(final_target_directory, checkoutdir))

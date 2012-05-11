@@ -121,11 +121,9 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="gtk-doc"/>
     </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
   </autotools>
 
   <autotools id="cairo" autogenargs="--enable-xlib">
@@ -154,9 +152,9 @@
       <dep package="pango"/>
       <dep package="gtk-doc"/>
       <dep package="json-glib"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gudev"/>
     </suggests>
@@ -166,6 +164,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="gtk-doc"/>
     </dependencies>
   </autotools>
@@ -187,12 +186,13 @@
   </autotools>
 
   <autotools id="glib-networking">
-    <branch/>
+    <branch revision="glib-2-28"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="intltool"/>
       <dep package="libproxy"/>
       <dep package="gsettings-desktop-schemas"/>
+      <dep package="gnutls"/>
     </dependencies>
   </autotools>
 
@@ -205,9 +205,9 @@
       <dep package="pango"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
       <dep package="shared-mime-info"/>
     </suggests>
   </autotools>
@@ -218,10 +218,8 @@
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="gtk-doc"/>
-    </dependencies>
-    <suggests>
       <dep package="gobject-introspection"/>
-    </suggests>
+    </dependencies>
     <after>
       <dep package="libXft"/>
     </after>
@@ -260,10 +258,10 @@
   </autotools>
 
   <autotools id="dbus-glib">
-    <branch module="dbus-glib/dbus-glib-0.82.tar.gz" version="0.82"
+    <branch module="dbus-glib/dbus-glib-0.86.tar.gz" version="0.86"
 	    repo="dbus"
-	    hash="sha256:ddfb062797341b5c5a22555ffe80138953cc61a67ba805647b2746f519bfbde1"
-	    md5sum="aa2a4517de0e9144be3bce2cf8cdd924" size="674953">
+	    hash="sha256:5351a6e7f38ffc641c34b4a4cdd9bed1c1dc7043a501096bac00a2876ea90bdc"
+	    md5sum="cd0ab148fb0c786fc88be49d19971f50" size="694242">
     </branch>
     <dependencies>
       <dep package="libxml2"/>
@@ -320,10 +318,10 @@
     </dependencies>
   </tarball>
 
-  <tarball id="folks" version="0.4.2">
-          <source href="http://ftp.gnome.org/pub/GNOME/sources/folks/0.4/folks-0.4.2.tar.bz2"
-            hash="sha256:269426df3896c07581067d3ead6aa2669c5895cfd3568e9e83abda5016b08e54"
-            md5sum="9cfc8d77866a6f18830a5dff3e47c3e1" size="610469"/>
+  <tarball id="folks" version="0.4.3">
+          <source href="http://ftp.gnome.org/pub/GNOME/sources/folks/0.4/folks-0.4.3.tar.bz2"
+            hash="sha256:e5a5bbe1524130ff5b6400726db3e12299b12ffefa108bc89169509f343d925e"
+            md5sum="82e3b69de10e5dd59bae170b595f8ad7" size="635168"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -370,7 +368,7 @@
   </autotools>
 
   <autotools id="gobject-introspection" supports-non-srcdir-builds="no">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -378,8 +376,9 @@
   </autotools>
 
   <autotools id="gjs">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
+      <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
       <dep package="mozilla"/>
     </dependencies>
@@ -420,10 +419,8 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
-    </dependencies>
-    <suggests>
       <dep package="gobject-introspection"/>
-    </suggests>
+    </dependencies>
   </autotools>
 
   <autotools id="gst-plugins-base" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" supports-non-srcdir-builds="no">
@@ -521,11 +518,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no">
+  <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no"
+             autogen-sh="autogen.sh">
     <branch checkoutdir="gudev-147" repo="kernel.org"
             module="utils/kernel/hotplug/udev-147.tar.bz2" version="147">
       <patch file="gudev-147.patch" strip="1"/>
     </branch>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+    </dependencies>
   </autotools>
 
   <repository type="tarball" name="icon-theme.freedesktop.org"
@@ -553,10 +554,10 @@
             md5sum="90472da66aa4460b04f39c324208f8f2" size="6105567"/>
   </tarball>
 
-  <tarball id="json-glib" version="0.12">
-    <source href="http://download.gnome.org/sources/json-glib/0.12/json-glib-0.12.0.tar.bz2"
-            hash="sha256:e22978aadbe92a12e4cef2f494eb3571ac5c983ad05cff4256328157f1112842"
-            size="417623"/>
+  <tarball id="json-glib" version="0.12.4">
+    <source href="http://download.gnome.org/sources/json-glib/0.12/json-glib-0.12.4.tar.bz2"
+            hash="sha256:462cd611016ae189d5e3f258dc7741e6a2e8267404b4e3806aaf346d50f1df7e"
+            size="448904"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -656,7 +657,7 @@
   </tarball>
 
   <autotools id="libgnomekbd">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+" />
@@ -665,7 +666,7 @@
   </autotools>
 
   <autotools id="libgweather">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="libxml2"/>
@@ -782,18 +783,15 @@
   </tarball>
 
   <autotools id="libsoup">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gnutls"/>
       <dep package="libxml2"/>
       <dep package="sqlite3"/>
       <dep package="libgnome-keyring"/>
       <dep package="glib-networking"/>
-    </dependencies>
-    <suggests>
       <dep package="gobject-introspection"/>
-    </suggests>
+    </dependencies>
   </autotools>
 
   <tarball id="libtasn1" version="2.2" supports-non-srcdir-builds="no">
@@ -803,26 +801,14 @@
   </tarball>
 
   <autotools id="libunique">
-    <branch module="libunique/2.91/libunique-2.91.4.tar.bz2" repo="gnome.org"
-            version="2.91.4" checkoutdir="libunique-2.91.4"
-            hash="sha256:6e30bc877c5c683e7f1bb67a96d396ceaa0501730555881d9678e8061f4639db"
-            md5sum="b9d27909765ccdb0e9941cb484bc2137" size="366601"/>
+    <branch module="libunique/3.0/libunique-3.0.0.tar.bz2" repo="gnome.org"
+            version="3.0.0" checkoutdir="libunique-3.0.0"
+            hash="sha256:e945ff3d3bb7d4085ed73b5418f2935097bb0afc07287739c8f0d6fc049202e1"
+            md5sum="bff4dcb7b888490d09f47a096ef2e685" size="342590"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="dbus-glib"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="libvolume_id" skip-autogen="true"
-                 makeargs="EXTRAS=extras/volume_id prefix=${prefix} libdir=${libdir}"
-		 makeinstallargs="-C extras/volume_id prefix=${prefix} libdir=${libdir} install-bin install-man"
-		 check-target="false" supports-non-srcdir-builds="no">
-    <branch repo="kernel.org"
-	    module="utils/kernel/hotplug/udev-111.tar.bz2" version="111"
-	    hash="sha256:ec47cc46b15838321c31589d7bdbdcf553c0ea4f406edc6f239cb20a3732c233"
-	    md5sum="bd2a94e3ed243e6a3d501a5c8afc4b54" size="190020">
-      <patch file="libvolume_id_Makefile.patch" strip="1"/>
-    </branch>
   </autotools>
 
   <tarball id="libxklavier" supports-non-srcdir-builds="no" version="5.1">
@@ -852,10 +838,10 @@
 -->
 
   <autotools id="libxml2">
-    <branch module="libxml2/libxml2-2.7.7.tar.gz"
-            repo="xmlsoft.org" version="2.7.7"
-            hash="sha256:af5b781418ba4fff556fa43c50086658ea8a2f31909c2b625c2ce913a1d9eb68"
-            md5sum="9abc9959823ca9ff904f1fbcf21df066" size="4868502"/>
+    <branch module="libxml2/libxml2-2.7.8.tar.gz"
+            repo="xmlsoft.org" version="2.7.8"
+            hash="sha256:cda23bc9ebd26474ca8f3d67e7d1c4a1f1e7106364b690d822e009fdc3c417ec"
+            md5sum="8127a65e8c3b08856093099b52599c86" size="4881808"/>
   </autotools>
 
   <autotools id="libxslt" check-target="false">
@@ -920,11 +906,11 @@
              makeinstallargs="install SKIP_GRE_REGISTRATION=1"
              check-target="false">
     <branch repo="mozilla.org"
-            module="xulrunner/releases/1.9.2.16/source/xulrunner-1.9.2.16.source.tar.bz2"
-            version="1.9.2.16"
-            hash="sha1:57d417b19f11c7a1c067c4a63b4292dbca1d5669"
-            md5sum="229fc3f629200561ad725fcddd435bf6" size="51557217"
-            checkoutdir="mozilla-1.9.2.16">
+            module="xulrunner/releases/1.9.2.17/source/xulrunner-1.9.2.17.source.tar.bz2"
+            version="1.9.2.17"
+            hash="sha1:bfb3ae71abef0693a9a42be5e9b2525d2e20e7ae"
+            md5sum="665c9bd7a53fef168af42246ab263099" size="51768448"
+            checkoutdir="mozilla-1.9.2.167">
     </branch>
     <dependencies>
       <dep package="gtk+-2"/>
@@ -1041,10 +1027,10 @@
     </patches>
   </tarball>
 
-  <tarball id="telepathy-glib" version="0.14.1" autogenargs="--enable-vala-bindings">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.14.1.tar.gz"
-            hash="sha256:27f67e61b87bdb831d0c76ab8fc2385c780ff10ae89b2f4db49417fc516f8be0"
-            md5sum="51f67552275791b314c823253693acd7" size="3028406"/>
+  <tarball id="telepathy-glib" version="0.14.3" autogenargs="--enable-vala-bindings">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-0.14.3.tar.gz"
+            hash="sha256:62e759084355ac0fce61feb561a7535a6707b223f0d1e4305fd47c83fa5494d0"
+            md5sum="fe9a4f781651593fd4afddb343ff50bf" size="3038833"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
@@ -1057,10 +1043,10 @@
     </suggests>
   </tarball>
 
-  <tarball id="telepathy-logger" version="0.2.5">
-    <source href="http://telepathy.freedesktop.org/releases/telepathy-logger/telepathy-logger-0.2.5.tar.bz2"
-            hash="sha256:e7c1c705a4277c5a674becd6667096aec2de6df5bbf5985667a8dc589969a5ed"
-            md5sum="629791e89436933aa6a2c4bd8ce39898" size="466920"/>
+  <tarball id="telepathy-logger" version="0.2.8">
+    <source href="http://telepathy.freedesktop.org/releases/telepathy-logger/telepathy-logger-0.2.8.tar.bz2"
+            hash="sha256:62b6c3262ee49e487962f35587b22d8048a614b4468410c19ee9ebc80c48b971"
+            md5sum="755e6dcaa6a9ccf47f2fe73f3d4d888b" size="447776"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -1119,10 +1105,10 @@
     </suggests>
   </autotools>
 
-  <tarball id="vala" version="0.11.7" autogenargs="--enable-vapigen">
-    <source href="http://download.gnome.org/sources/vala/0.11/vala-0.11.7.tar.bz2"
-            hash="sha256:d82a17003cb999b3411615631ca82849900986177a8bc6bec2333a5101b226f6"
-            md5sum="5515f32552ee45ed5c7541c119009caa" size="2845070"/>
+  <tarball id="vala" version="0.12.0" autogenargs="--enable-vapigen">
+    <source href="http://download.gnome.org/sources/vala/0.12/vala-0.12.0.tar.bz2"
+            hash="sha256:9a398e16fba2c78c9bcadb05e489c9bc318e34901d43451ac5d2ce4bc46b1225"
+            md5sum="b11fafaa705085342156312e356b6ff2" size="2852200"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1131,9 +1117,9 @@
   <autotools id="WebKit" makefile="GNUmakefile"
              autogenargs="--with-gtk=3.0 --enable-introspection">
     <branch repo="webkitgtk.org"
-            module="webkit-1.3.13.tar.gz" version="1.3.13"
-            hash="sha256:a35e8b69c9acb94c4d5d4bdd5b92ae3d3255b7f60ed785ac7cdf325a15197f89"
-            md5sum="984adaafac545a89c24351fd4dbd743c" size="8471864">
+            module="webkit-1.4.0.tar.gz" version="1.4.0"
+            hash="sha256:3eb0fe06a99878a32f18a77cdaaf5a33ce2af36ee33c251ae14f4e4b3fa57f88"
+            md5sum="10c969db3b5484c71df1aa9a338377ff" size="8474824">
     </branch>
     <dependencies>
       <dep package="cairo"/>
@@ -1153,7 +1139,7 @@
   </autotools>
 
  <autotools id="vte" autogenargs="--with-gtk=3.0 --enable-introspection=yes">
-    <branch/>
+    <branch revision="vte-0-28"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -1168,7 +1154,7 @@
   </autotools>
 
   <autotools id="yelp-xsl">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="libxslt"/>
       <dep package="libxml2"/>
@@ -1177,7 +1163,7 @@
   </autotools>
 
   <autotools id="zenity">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>
@@ -1207,9 +1193,9 @@
       <dep package="pango"/>
       <dep package="atk"/>
       <dep package="gdk-pixbuf"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
       <dep package="shared-mime-info"/>
     </suggests>
   </autotools>
@@ -1222,7 +1208,7 @@
   </autotools>
 
   <autotools id="libgnome-keyring">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="dbus"/>
@@ -1238,7 +1224,7 @@
   </autotools>
 
   <autotools id="libwnck">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>

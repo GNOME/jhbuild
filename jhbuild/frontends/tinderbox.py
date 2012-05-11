@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   tinderbox.py: build logic for a non-interactive reporting build
@@ -21,12 +21,13 @@ import os
 import time
 import subprocess
 import locale
+import logging
 import codecs
 import sys
 
 from jhbuild.main import _encoding
 from jhbuild.utils import cmds
-from jhbuild.errors import CommandError
+from jhbuild.errors import CommandError, FatalError
 import buildscript
 import commands
 
@@ -101,11 +102,26 @@ buildlog_header = '''<html>
       .conflict {
         color: red;
       }
+      .critical {
+        background-color: red;
+      }
       .error {
         color: red;
       }
+      .warning {
+        color: darkgreen;
+        font-size: smaller;
+      }
+      .info {
+        color: darkgreen;
+        font-size: smaller;
+      }
+      .debug {
+        color: gray;
+        font-size: smaller;
+      }
       .note {
-        background-color: #FFFF66
+        background-color: #FFFF66;
       }
     </style>
   </head>
@@ -155,14 +171,22 @@ def escape(string):
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
     return string
 
+class LoggingFormatter(logging.Formatter):
+    def __init__(self):
+        logging.Formatter.__init__(self, '<div class="%(levelname)s">'
+                                   '%(message)s</div>')
+
 class TinderboxBuildScript(buildscript.BuildScript):
     help_url = 'http://live.gnome.org/JhbuildIssues/'
     triedcheckout = None
 
-    def __init__(self, config, module_list):
-        buildscript.BuildScript.__init__(self, config, module_list)
+    def __init__(self, config, module_list, module_set=None):
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=module_set)
         self.indexfp = None
         self.modulefp = None
+
+        for handle in logging.getLogger().handlers:
+            handle.setFormatter(LoggingFormatter())
 
         self.outputdir = os.path.abspath(config.tinderbox_outputdir)
         if not os.path.exists(self.outputdir):
@@ -201,14 +225,33 @@ class TinderboxBuildScript(buildscript.BuildScript):
         kws = {
             'close_fds': True
             }
+        print_args = {}
+        if cwd:
+            print_args['cwd'] = cwd
+        else:
+            print_args['cwd'] = os.getcwd()
+
         self.modulefp.write('<pre>')
         if isinstance(command, (str, unicode)):
-            self.modulefp.write('<span class="command">%s</span>\n'
-                                % escape(command))
             kws['shell'] = True
+            print_args['command'] = command
         else:
-            self.modulefp.write('<span class="command">%s</span>\n'
-                                % escape(' '.join(command)))
+            print_args['command'] = ' '.join(command)
+
+        if self.config.print_command_pattern:
+            try:
+                commandstr = self.config.print_command_pattern % print_args
+                self.modulefp.write('<span class="command">%s</span>\n'
+                                    % escape(commandstr))
+            except TypeError, e:
+                raise FatalError('\'print_command_pattern\' %s' % e)
+            except KeyError, e:
+                raise FatalError(_('%(configuration_variable)s invalid key'
+                                   ' %(key)s' % \
+                                   {'configuration_variable' :
+                                        '\'print_command_pattern\'',
+                                    'key' : e}))
+
         kws['stdin'] = subprocess.PIPE
         kws['stdout'] = subprocess.PIPE
         kws['stderr'] = subprocess.PIPE
@@ -237,6 +280,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
             kws['env'] = os.environ.copy()
             kws['env'].update(extra_env)
 
+        command = self._prepare_execute(command)
+
         try:
             p = subprocess.Popen(command, **kws)
         except OSError, e:
@@ -247,7 +292,8 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp.write('</pre>\n')
         self.modulefp.flush()
         if p.returncode != 0:
-            raise CommandError('Error running %s' % command, p.returncode)
+            raise CommandError('Error running %s' % print_args['command'],
+                               p.returncode)
 
     def start_build(self):
         assert self.outputdir
@@ -308,6 +354,11 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp = codecs.open(
                 os.path.join(self.outputdir, self.modulefilename), 'w',
                 encoding=self.charset, errors='xmlcharrefreplace')
+
+        for handle in logging.getLogger().handlers:
+            if isinstance(handle, logging.StreamHandler):
+                handle.stream = self.modulefp
+
         self.modulefp.write(buildlog_header % { 'module': module,
                                                 'charset': self.charset })
     def end_module(self, module, failed):

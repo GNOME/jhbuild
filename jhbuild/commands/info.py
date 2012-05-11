@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   info.py: show information about a module
@@ -27,7 +27,6 @@ from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule
 from jhbuild.versioncontrol.cvs import CVSBranch
 from jhbuild.versioncontrol.svn import SubversionBranch
-from jhbuild.versioncontrol.arch import ArchBranch
 from jhbuild.versioncontrol.darcs import DarcsBranch
 from jhbuild.versioncontrol.git import GitBranch
 from jhbuild.versioncontrol.tarball import TarballBranch
@@ -41,8 +40,8 @@ class cmd_info(Command):
 
 
     def run(self, config, options, args, help=None):
-        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
         module_set = jhbuild.moduleset.load(config)
+        packagedb = module_set.packagedb
 
         if args:
             for modname in args:
@@ -56,16 +55,18 @@ class cmd_info(Command):
                 self.show_info(module, packagedb, module_set)
 
     def show_info(self, module, packagedb, module_set):
-        installdate = packagedb.installdate(module.name, module.get_revision() or '')
+        package_entry = packagedb.get(module.name)
 
         uprint(_('Name:'), module.name)
         uprint(_('Module Set:'), module.moduleset_name)
         uprint(_('Type:'), module.type)
 
-        if installdate is not None:
+        if package_entry is not None:
+            uprint(_('Install version:'), package_entry.version)
             uprint(_('Install date:'), time.strftime('%Y-%m-%d %H:%M:%S',
-                                                 time.localtime(installdate)))
+                                                     time.localtime(packagedb.installdate(module.name))))
         else:
+            uprint(_('Install version:'), _('not installed'))
             uprint(_('Install date:'), _('not installed'))
 
         if isinstance(module, MetaModule):
@@ -77,8 +78,6 @@ class cmd_info(Command):
                 uprint(_('CVS Revision:'), module.branch.revision)
         elif isinstance(module.branch, SubversionBranch):
             uprint(_('Subversion Module:'), module.branch.module)
-        elif isinstance(module.branch, ArchBranch):
-            uprint(_('Arch Version:'), module.branch.module)
         elif isinstance(module.branch, DarcsBranch):
             uprint(_('Darcs Archive:'), module.branch.module)
         elif isinstance(module.branch, GitBranch):

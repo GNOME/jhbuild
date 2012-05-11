@@ -177,7 +177,6 @@
       <dep package="gnome-python"/>
       <dep package="gtkhtml2"/>
       <dep package="gdl"/>
-      <dep package="libgda"/>
     </dependencies>
   </autotools>
 
@@ -456,13 +455,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgdamm-3.0">
-    <branch module="libgdamm" revision="libgdamm-3-0"/>
-    <dependencies>
-      <dep package="gtkmm"/>
-      <dep package="libgda-3-0"/>
-    </dependencies>
-  </autotools>
   <autotools id="libgdamm">
     <branch/>
     <dependencies>
@@ -793,27 +785,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgda-3-0">
-    <branch module="libgda" revision="release-3-0-branch"
-            checkoutdir="libgda-3-0"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgnomedb" autogenargs="--enable-gnome=yes">
-    <branch/>
-    <dependencies>
-      <dep package="libgda-3-0"/>
-      <dep package="libgnomeui"/>
-      <dep package="libbonoboui"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="mergeant">
     <branch/>
     <dependencies>
-      <dep package="libgnomedb"/> <!-- TODO: Doesn't this use just libgda >4.1 now? murrayc. -->
+      <dep package="libgda"/>
     </dependencies>
   </autotools>
 
@@ -2298,19 +2273,27 @@
     </dependencies>
   </waf>
 
+  <tarball id="librsync" version="0.9.7" checkoutdir="librsync-0.9.7">
+    <source href="http://downloads.sourceforge.net/librsync/librsync-0.9.7.tar.gz"
+            hash="sha256:6633e4605662763a03bb6388529cbdfd3b11a9ec55b8845351c1bd9a92bc41d6"
+            md5sum="24cdb6b78f45e0e83766903fd4f6bc84" size="453802"/>
+  </tarball>
+
   <distutils id="duplicity">
     <branch repo="launchpad.net/tarball"
-            module="duplicity/0.6-series/0.6.07/+download/duplicity-0.6.07.tar.gz"
-            version="0.6.07"
-            hash="sha256:5a66ec622c273aef12f0c8ae1635b44f2de920c50395854715c5e4c70ec93c87"
-            md5sum="08efd239362f601b946f4dc2450fc840" size="280311">
+            module="duplicity/0.6-series/0.6.13/+download/duplicity-0.6.13.tar.gz"
+            version="0.6.13"
+            hash="sha256:381aa8d7a07541d81457c3eac0ab5b37f05272023e3af04cbebab831732ff41f"
+            md5sum="b3d627f35fc527b00121925840d5cca7" size="296955" />
+    <dependencies>
       <dep package="pygobject"/>
-    </branch>
+      <dep package="librsync"/>
+    </dependencies>
   </distutils>
 
   <autotools id="deja-dup">
     <branch repo="launchpad.net"
-            module="~deja-dup-team/deja-dup/trunk"
+            module="~deja-dup-team/deja-dup/16"
             checkoutdir="deja-dup/"/>
     <dependencies>
       <dep package="dbus-glib"/>
@@ -2373,7 +2356,7 @@
   </autotools>
 
   <autotools id="grilo">
-    <branch/>
+    <branch revision="0.1.x" checkoutdir="grilo-0.1" module="grilo"/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -2387,19 +2370,20 @@
   </autotools>
 
   <autotools id="grilo-plugins">
-    <branch/>
+    <branch revision="0.1.x" checkoutdir="grilo-plugins-0.1" module="grilo-plugins"/>
     <dependencies>
       <dep package="grilo"/>
       <dep package="libxml2"/>
     </dependencies>
     <suggests>
       <dep package="libgdata"/>
+      <dep package="gmime"/>
       <dep package="gupnp"/>
       <dep package="gupnp-av"/>
     </suggests>
   </autotools>
 
-  <autotools id="rygel-grilo">
+  <autotools id="grilo-mediaserver2">
     <branch/>
     <dependencies>
       <dep package="grilo"/>

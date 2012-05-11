@@ -39,8 +39,6 @@
     href="https://git.maemo.org/" />
   <repository type="svn" name="svn.o-hand.com"
       href="http://svn.o-hand.com/repos/"/>
-  <repository type="git" name="git.clutter-project.org"
-      href="git://git.clutter-project.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
@@ -118,9 +116,10 @@
       trunk-template="%(module)s"
       branches-template="%(branch)s"
       tags-template="%(tag)s"/>
+  <repository type="tarball" name="gnome.org"
+      href="http://download.gnome.org/sources/"/>
 
   <include href="gnome-apps-3.0.modules"/>
-  <include href="gnome-suites-core-3.0.modules"/>
 
   <autotools id="gnome-desktop-2" autogenargs="--with-gnome-distributor=JHBuild">
     <branch revision="gnome-2-32" checkoutdir="gnome-desktop-2" module="gnome-desktop"/>
@@ -149,6 +148,17 @@
     <dependencies>
       <dep package="gtk+-2"/>
       <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libunique-1">
+    <branch module="libunique/1.1/libunique-1.1.6.tar.bz2" repo="gnome.org"
+            version="1.1.6" checkoutdir="libunique-1.1.6"
+            hash="sha256:e5c8041cef8e33c55732f06a292381cb345db946cf792a4ae18aa5c66cdd4fbb"
+            md5sum="7955769ef31f1bc4f83446dbb3625e6d" size="335534"/>
+    <dependencies>
+      <dep package="gtk+-2"/>
+      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
@@ -217,6 +227,25 @@
     <dependencies>
       <dep package="gedit"/>
       <dep package="gucharmap"/>
+    </dependencies>
+  </autotools>
+
+  <tarball id="libinfinity" version="0.5.0" autogenargs="--with-gtk3">
+    <source href="http://releases.0x539.de/libinfinity/libinfinity-0.5.0.tar.gz"
+            hash="sha256:171cb4933090ee0d2be9648c387ca607148d4df4bb35535e7e1766ce2da42692"
+            md5sum="2b25de033c3a4c9975340300b09b84b0" size="1399866"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="gnutls"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="gedit-collaboration">
+    <branch/>
+    <dependencies>
+      <dep package="gedit"/>
+      <dep package="libinfinity"/>
     </dependencies>
   </autotools>
 
@@ -372,13 +401,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="orbitcpp">
-    <branch/>
-    <dependencies>
-      <dep package="ORBit2"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libpanelappletmm">
     <branch/>
     <dependencies>
@@ -522,13 +544,6 @@
     <branch/>
     <dependencies>
       <dep package="libglade"/>
-      <dep package="gtk+-2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gthumb">
-    <branch/>
-    <dependencies>
       <dep package="gtk+-2"/>
     </dependencies>
   </autotools>
@@ -709,25 +724,17 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pygda">
-    <branch/>
-    <dependencies>
-      <dep package="pygobject"/>
-      <dep package="libgda"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="glom">
     <branch/>
     <dependencies>
       <dep package="libxml++"/>
       <dep package="libgdamm"/>
       <dep package="iso-codes"/>
-      <dep package="pygda"/>
       <dep package="gtksourceviewmm"/>
       <dep package="gnome-doc-utils"/>
       <dep package="goocanvasmm"/>
       <dep package="libepc"/>
+      <dep package="evince"/>
     </dependencies>
   </autotools>
 
@@ -832,16 +839,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-scan">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+-2"/>
-      <dep package="gconf"/>
-      <dep package="gegl"/>
-      <dep package="gimp"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libipoddevice">
     <branch/>
     <dependencies>
@@ -868,7 +865,7 @@
   </autotools>
 
   <autotools id="gnome-games-extra-data">
-    <branch/>
+    <branch revision="gnome-3-0"/>
   </autotools>
 
   <autotools id="mobile-broadband-provider-info">
@@ -933,7 +930,7 @@
   </autotools>
 
   <autotools id="clutter-box2d">
-    <branch repo="git.clutter-project.org" module="clutter-box2d"/>
+    <branch/>
     <dependencies>
       <dep package="clutter"/>
     </dependencies>
@@ -957,7 +954,7 @@
     <branch repo="gitorious.org" module="gupnp/gupnp-tools"/>
     <dependencies>
       <dep package="gupnp"/>
-      <dep package="gtk+-2"/>
+      <dep package="gtk+"/>
       <dep package="gnome-icon-theme"/>
     </dependencies>
   </autotools>
@@ -1196,9 +1193,7 @@
  </autotools>
 
  <distutils id="d-feet">
-   <branch repo="git.fedoraproject.org"
-           module="d-feet.git"
-           checkoutdir="d-feet"/>
+   <branch/>
    <dependencies>
      <dep package="pygtk"/>
      <dep package="dbus-python"/>
@@ -1496,10 +1491,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="dvb-daemon">
-    <branch repo="launchpad.net"
-            module="~gnome-dvb-daemon/gnome-dvb-daemon/trunk"
-            checkoutdir="gnome-dvb-daemon/"/>
+  <autotools id="gnome-dvb-daemon">
+   <branch />
    <dependencies>
      <dep package="glib"/>
      <dep package="gstreamer"/>
@@ -1507,8 +1500,6 @@
      <dep package="vala-trunk"/>
      <dep package="gst-plugins-good"/>
      <dep package="gst-plugins-bad"/>
-     <dep package="gst-python"/>
-     <dep package="dbus-glib"/>
      <dep package="libgee"/>
      <dep package="sqlite3"/>
      <dep package="pygobject"/>
@@ -1547,20 +1538,6 @@
       <dep package="vala"/>
       <dep package="gconf"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="gnote">
-    <branch/>
-    <dependencies>
-      <dep package="glibmm"/>
-      <dep package="libxml2"/>
-      <dep package="libxml++"/>
-      <dep package="gtkmm"/>
-      <dep package="gconf"/>
-    </dependencies>
-    <suggests>
-      <dep package="libpanelappletmm"/>
-    </suggests>
   </autotools>
 
   <autotools id="gparted">
@@ -1833,33 +1810,33 @@
   </autotools>
 
   <autotools id="grilo">
-    <branch/>
+    <branch revision="0.1.x" checkoutdir="grilo-0.1" module="grilo"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+-2"/>
-      <dep package="gconf"/>
+      <dep package="gtk+"/>
       <dep package="vala"/>
       <dep package="libsoup"/>
     </suggests>
   </autotools>
 
   <autotools id="grilo-plugins">
-    <branch/>
+    <branch revision="0.1.x" checkoutdir="grilo-plugins-0.1" module="grilo-plugins"/>
     <dependencies>
       <dep package="grilo"/>
       <dep package="libxml2"/>
     </dependencies>
     <suggests>
       <dep package="libgdata"/>
+      <dep package="gmime"/>
       <dep package="gupnp"/>
       <dep package="gupnp-av"/>
     </suggests>
   </autotools>
 
-  <autotools id="rygel-grilo">
+  <autotools id="grilo-mediaserver2">
     <branch/>
     <dependencies>
       <dep package="grilo"/>
@@ -2127,6 +2104,13 @@
       <dep package="libnotify"/>
       <dep package="network-manager-applet"/>
    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-shell-extensions">
+    <branch revision="gnome-3-0"/>
+    <dependencies>
+      <dep package="gnome-shell"/>
+    </dependencies>
   </autotools>
 
 </moduleset>

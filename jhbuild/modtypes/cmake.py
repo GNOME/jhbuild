@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   cmake.py: cmake module type definitions.
@@ -21,9 +21,10 @@ __metaclass__ = type
 
 import os
 
-from jhbuild.errors import BuildStateError
+from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
+from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'CMakeModule' ]
 
@@ -38,12 +39,12 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, cmakeargs='', makeargs='',
-                 dependencies=[], after=[], suggests=[]):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, branch=None,
+                 cmakeargs='', makeargs='',):
+        Package.__init__(self, name, branch=branch)
         self.cmakeargs = cmakeargs
         self.makeargs  = makeargs
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -56,18 +57,6 @@ class CMakeModule(Package, DownloadableModule):
         else:
             return self.get_srcdir(buildscript)
 
-    def get_revision(self):
-        return self.branch.tree_id()
-
-    def eval_args(self, args):
-        args = args.replace('${prefix}', self.config.prefix)
-        libsubdir = 'lib'
-        if self.config.use_lib64:
-            libsubdir = 'lib64'
-        libdir = os.path.join(self.config.prefix, libsubdir)
-        args = args.replace('${libdir}', libdir)
-        return args
-
     def get_cmakeargs(self):
         args = '%s %s' % (self.cmakeargs,
                           self.config.module_cmakeargs.get(
@@ -78,10 +67,12 @@ class CMakeModule(Package, DownloadableModule):
         args = '%s %s' % (self.makeargs,
                           self.config.module_makeargs.get(
                               self.name, self.config.makeargs))
-        return self.eval_args(args)
-
-    def skip_configure(self, buildscript, last_phase):
-        return buildscript.config.nobuild
+        if self.supports_parallel_build:
+            # Propagate job count into makeargs, unless -j is already set
+            if ' -j' not in args:
+                arg = '-j %s' % (self.config.jobs, )
+                args = args + ' ' + arg
+        return self.eval_args(args).strip()
 
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)
@@ -90,6 +81,8 @@ class CMakeModule(Package, DownloadableModule):
         if not os.path.exists(builddir):
             os.mkdir(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
+        if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
+            raise CommandError(_('%s not found') % 'cmake')
         baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DLIB_INSTALL_DIR=%s -Dlibdir=%s' % (
                         prefix, buildscript.config.libdir, buildscript.config.libdir)
         cmd = 'cmake %s %s %s' % (baseargs, self.get_cmakeargs(), srcdir)
@@ -132,12 +125,13 @@ class CMakeModule(Package, DownloadableModule):
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s install' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs())
+        destdir = self.prepare_installroot(buildscript)
+        cmd = '%s %s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                self.get_makeargs(), destdir)
         buildscript.execute(cmd,
                 cwd = builddir,
                 extra_env = self.extra_env)
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
@@ -145,20 +139,12 @@ class CMakeModule(Package, DownloadableModule):
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    cmakeargs = ''
-    makeargs = ''
+    instance = CMakeModule.parse_from_xml(node, config, uri, repositories, default_repo)
     if node.hasAttribute('cmakeargs'):
-        cmakeargs = node.getAttribute('cmakeargs')
+        instance.cmakeargs = node.getAttribute('cmakeargs')
     if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
-
-    return CMakeModule(id, branch, cmakeargs, makeargs,
-                       dependencies = dependencies, after = after,
-                       suggests = suggests)
+        instance.makeargs = node.getAttribute('makeargs')
+    return instance
 
 register_module_type('cmake', parse_cmake)
 

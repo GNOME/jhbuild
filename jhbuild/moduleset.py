@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   moduleset.py: logic for running the build.
@@ -29,14 +29,19 @@ from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
 
 try:
     import xml.dom.minidom
+    import xml.parsers.expat
 except ImportError:
     raise FatalError(_('Python xml packages are required but could not be found'))
 
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
-from jhbuild.utils.cmds import get_output
+from jhbuild.utils import packagedb
+from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
+from jhbuild.versioncontrol.tarball import TarballBranch
+from jhbuild.utils import systeminstall
+from jhbuild.utils import fileutils
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -45,9 +50,19 @@ def get_default_repo():
     return _default_repo
 
 class ModuleSet:
-    def __init__(self, config = None):
+    def __init__(self, config = None, db=None):
         self.config = config
         self.modules = {}
+
+        if db is None:
+            legacy_pkgdb_path = os.path.join(self.config.prefix, 'share', 'jhbuild', 'packagedb.xml')
+            new_pkgdb_path = os.path.join(self.config.top_builddir, 'packagedb.xml')
+            if os.path.isfile(legacy_pkgdb_path):
+                fileutils.rename(legacy_pkgdb_path, new_pkgdb_path)
+            self.packagedb = packagedb.PackageDB(new_pkgdb_path, config)
+        else:
+            self.packagedb = db
+
     def add(self, module):
         '''add a Module object to this set of modules'''
         self.modules[module.name] = module
@@ -58,15 +73,15 @@ class ModuleSet:
         module_name_lower = module_name.lower()
         for module in self.modules.keys():
             if module.lower() == module_name_lower:
-                if self.config is None or not self.config.quiet_mode:
-                    logging.info(_('fixed case of module \'%(orig)s\' to \'%(new)s\'') % {
-                            'orig': module_name, 'new': module})
+                logging.info(_('fixed case of module \'%(orig)s\' to '
+                               '\'%(new)s\'') % {'orig': module_name,
+                                                 'new': module})
                 return self.modules[module]
         raise KeyError(module_name)
 
     def get_module_list(self, seed, skip=[], tags=[], ignore_cycles=False,
                 ignore_suggests=False, include_optional_modules=False,
-                ignore_missing=False):
+                ignore_missing=False, process_sysdeps=True):
         '''gets a list of module objects (in correct dependency order)
         needed to build the modules in the seed list'''
 
@@ -98,6 +113,7 @@ class ModuleSet:
                                     'invalid': modname})
                     dep_missing = True
                     continue
+
                 if not depmod in all_modules:
                     all_modules.append(depmod)
 
@@ -123,6 +139,15 @@ class ModuleSet:
         for modname in skip:
             # mark skipped modules as already processed
             self._state[self.modules.get(modname)] = 'processed'
+
+        # process_sysdeps lets us avoid repeatedly checking system module state when
+        # handling recursive dependencies.
+        if self.config.partial_build and process_sysdeps:
+            system_module_state = self.get_system_modules(all_modules)
+            for pkg_config,(module, req_version, installed_version, new_enough) in system_module_state.iteritems():
+                # Only mark a module as processed if new enough *and* we haven't built it before
+                if new_enough and not self.packagedb.check(module.name):
+                    self._state[module] = 'processed'
 
         if tags:
             for modname in self.modules:
@@ -185,7 +210,7 @@ class ModuleSet:
                     # <http://bugzilla.gnome.org/show_bug.cgi?id=546640>
                     t_ms = ModuleSet(self.config)
                     t_ms.modules = self.modules.copy()
-                    dep_modules = t_ms.get_module_list(seed=[depmod.name])
+                    dep_modules = t_ms.get_module_list(seed=[depmod.name], process_sysdeps=False)
                     for m in dep_modules[:-1]:
                         if m in all_modules:
                             extra_afters.append(m)
@@ -227,6 +252,29 @@ class ModuleSet:
                 if test_app in mod.tested_pkgs:
                     test_modules.append(mod)
         return test_modules
+
+    def get_system_modules(self, modules):
+        assert self.config.partial_build
+
+        installed_pkgconfig = systeminstall.get_installed_pkgconfigs(self.config)
+        
+        # pkgconfig -> (required_version, installed_verison)
+        module_state = {}
+        for module in modules:
+            if module.pkg_config is None:
+                continue
+            if not isinstance(module.branch, TarballBranch):
+                continue
+            # Strip off the .pc
+            module_pkg = module.pkg_config[:-3]
+            required_version = module.branch.version
+            if not module_pkg in installed_pkgconfig:
+                module_state[module_pkg] = (module, required_version, None, False)
+            else:
+                installed_version = installed_pkgconfig[module_pkg]
+                new_enough = compare_version(installed_version, required_version)
+                module_state[module_pkg] = (module, required_version, installed_version, new_enough)
+        return module_state
     
     def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule
@@ -313,10 +361,7 @@ def load(config, uri=None):
         elif not urlparse.urlparse(uri)[0]:
             uri = 'http://git.gnome.org/browse/jhbuild/plain/modulesets' \
                   '/%s.modules' % uri
-        try:
-            ms.modules.update(_parse_module_set(config, uri).modules)
-        except xml.parsers.expat.ExpatError, e:
-            raise FatalError(_('failed to parse %s: %s') % (uri, e))
+        ms.modules.update(_parse_module_set(config, uri).modules)
     return ms
 
 def load_tests (config, uri=None):
@@ -347,12 +392,16 @@ def _parse_module_set(config, uri):
         document = xml.dom.minidom.parse(filename)
     except IOError, e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
+    except xml.parsers.expat.ExpatError, e:
+        raise FatalError(_('failed to parse %s: %s') % (uri, e))
 
     assert document.documentElement.nodeName == 'moduleset'
     moduleset = ModuleSet(config = config)
     moduleset_name = document.documentElement.getAttribute('name')
-    if not moduleset_name and uri.endswith('.modules'):
-        moduleset_name = os.path.basename(uri)[:-len('.modules')]    
+    if not moduleset_name:
+        moduleset_name = os.path.basename(uri)
+        if moduleset_name.endswith('.modules'):
+            moduleset_name = moduleset_name[:-len('.modules')]
 
     # load up list of repositories
     repositories = {}
@@ -431,7 +480,6 @@ def _parse_module_set(config, uri):
             if moduleset_name:
                 module.tags.append(moduleset_name)
             module.moduleset_name = moduleset_name
-            module.config = config
             moduleset.add(module)
 
     # keep default repository around, used when creating automatic modules

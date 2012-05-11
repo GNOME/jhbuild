@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2007  Gustavo Carneiro
 # Copyright (C) 2008  Frederic Peters
@@ -26,7 +26,7 @@ import re
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'WafModule' ]
@@ -44,20 +44,16 @@ class WafModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[],
-                 waf_cmd='./waf'):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+    def __init__(self, name, branch=None, waf_cmd='./waf'):
+        Package.__init__(self, name, branch=branch)
         self.waf_cmd = waf_cmd
+        self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
         return self.get_srcdir(buildscript)
-
-    def get_revision(self):
-        return self.branch.tree_id()
 
     def skip_configure(self, buildscript, last_phase):
         # don't skip this stage if we got here from one of the
@@ -68,11 +64,10 @@ class WafModule(Package, DownloadableModule):
                           self.PHASE_INSTALL]:
             return False
 
-        # skip if the .lock-wscript file exists and we don't have the
-        # alwaysautogen flag turned on:
-        builddir = self.get_builddir(buildscript)
-        return (os.path.exists(os.path.join(builddir, '.lock-wscript')) and
-                not buildscript.config.alwaysautogen)
+        if buildscript.config._internal_noautogen:
+            return True
+
+        return False
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -96,6 +91,9 @@ class WafModule(Package, DownloadableModule):
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         cmd = [self.waf_cmd, 'build']
+        if self.supports_parallel_build:
+            cmd.append('-j')
+            cmd.append('%s' % (buildscript.config.jobs, ))
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
@@ -130,16 +128,10 @@ class WafModule(Package, DownloadableModule):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
-        cmd = [self.waf_cmd, 'install']
+        destdir = self.prepare_installroot(buildscript)
+        cmd = [self.waf_cmd, 'install', '--destdir', destdir]
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
-    do_install.depends = [PHASE_BUILD]
-
-    def do_uninstall(self, buildscript):
-        buildscript.set_action(_('Uninstalling'), self)
-        cmd = [self.waf_cmd, 'uninstall']
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
-        buildscript.packagedb.remove(self.name)
+        self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
@@ -148,16 +140,11 @@ class WafModule(Package, DownloadableModule):
 
 
 def parse_waf(node, config, uri, repositories, default_repo):
-    module_id = node.getAttribute('id')
-    waf_cmd = './waf'
+    instance = WafModule.parse_from_xml(node, config, uri, repositories, default_repo)
+
     if node.hasAttribute('waf-command'):
-        waf_cmd = node.getAttribute('waf-command')
+        instance.waf_cmd = node.getAttribute('waf-command')
 
-    # override revision tag if requested.
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
-
-    return WafModule(module_id, branch, dependencies=dependencies, after=after,
-            suggests=suggests, waf_cmd=waf_cmd)
+    return instance
 
 register_module_type('waf', parse_waf)

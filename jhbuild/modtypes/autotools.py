@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2007-2008  Frederic Peters
 #
@@ -26,7 +26,7 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, get_dependencies, get_branch, register_module_type
+     Package, DownloadableModule, register_module_type
 
 __all__ = [ 'AutogenModule' ]
 
@@ -46,17 +46,17 @@ class AutogenModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch, autogenargs='', makeargs='',
+    def __init__(self, name, branch=None,
+                 autogenargs='', makeargs='',
                  makeinstallargs='',
-                 dependencies=[], after=[], suggests=[],
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
-                 check_target=True):
-        Package.__init__(self, name, dependencies, after, suggests)
-        self.branch = branch
+                 check_target=True,
+                 supports_static_analyzer=True):
+        Package.__init__(self, name, branch=branch)
         self.autogenargs = autogenargs
         self.makeargs    = makeargs
         self.makeinstallargs = makeinstallargs
@@ -66,6 +66,18 @@ class AutogenModule(Package, DownloadableModule):
         self.makefile = makefile
         self.autogen_template = autogen_template
         self.check_target = check_target
+        self.supports_install_destdir = True
+        self.supports_static_analyzer = supports_static_analyzer
+
+    def _get_makeargs(self, buildscript, add_parallel=True):
+        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
+            self.name, self.config.makeargs)
+        if self.supports_parallel_build and add_parallel:
+            # Propagate job count into makeargs, unless -j is already set
+            if ' -j' not in makeargs:
+                arg = '-j %s' % (buildscript.config.jobs, )
+                makeargs = makeargs + ' ' + arg
+        return makeargs.strip()
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -77,9 +89,6 @@ class AutogenModule(Package, DownloadableModule):
             return os.path.join(buildscript.config.buildroot, d)
         else:
             return self.get_srcdir(buildscript)
-
-    def get_revision(self):
-        return self.branch.tree_id()
 
     def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
@@ -97,11 +106,10 @@ class AutogenModule(Package, DownloadableModule):
         if self.skip_autogen == 'never':
             return False
 
-        # skip if the makefile exists and we don't have the
-        # alwaysautogen flag turned on:
-        builddir = self.get_builddir(buildscript)
-        return (os.path.exists(os.path.join(builddir, self.makefile)) and
-                not buildscript.config.alwaysautogen)
+        if buildscript.config._internal_noautogen:
+            return True
+
+        return False
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
@@ -144,7 +152,7 @@ class AutogenModule(Package, DownloadableModule):
         else:
             vars['libdir'] = "'${exec_prefix}/lib'"
 
-        cmd = template % vars
+        cmd = self.static_analyzer_pre_cmd(buildscript) + template % vars
 
         if self.autogen_sh == 'autoreconf':
             # autoreconf doesn't honour ACLOCAL_FLAGS, therefore we pass
@@ -201,8 +209,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -211,14 +218,28 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), makeargs)
+        makeargs = self._get_makeargs(buildscript)
+        cmd = '%s%s %s' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
             PHASE_CLEAN, PHASE_DISTCLEAN]
+
+    def static_analyzer_pre_cmd(self, buildscript):
+        if self.supports_static_analyzer and buildscript.config.module_static_analyzer.get(self.name, buildscript.config.static_analyzer):
+            template = buildscript.config.static_analyzer_template + ' '
+            outputdir = buildscript.config.static_analyzer_outputdir
+
+            if not os.path.exists(outputdir):
+                os.makedirs(outputdir)
+
+            vars = {'outputdir': outputdir,
+                    'module': self.name
+                   }
+
+            return template % vars
+        return ''
 
     def skip_check(self, buildscript, last_phase):
         if not self.check_target:
@@ -231,9 +252,8 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
-        cmd = '%s %s check' % (os.environ.get('MAKE', 'make'), makeargs)
+        makeargs = self._get_makeargs(buildscript, add_parallel=False)
+        cmd = '%s%s %s check' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -245,8 +265,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -254,52 +273,37 @@ class AutogenModule(Package, DownloadableModule):
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_distcheck(self, buildscript):
-        buildscript.set_action(_('Creating tarball for'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        buildscript.set_action(_('Dist checking'), self)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-    do_dist.depends = [PHASE_CONFIGURE]
-    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+    do_distcheck.depends = [PHASE_DIST]
+    do_distcheck.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
+        destdir = self.prepare_installroot(buildscript)
         if self.makeinstallargs:
-            cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.makeinstallargs)
+            cmd = '%s %s DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                                        self.makeinstallargs,
+                                        destdir)
         else:
-            cmd = '%s install' % os.environ.get('MAKE', 'make')
-
+            cmd = '%s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
+                                             destdir)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
-        buildscript.packagedb.add(self.name, self.get_revision() or '')
+        self.process_install(buildscript, self.get_revision())
+
     do_install.depends = [PHASE_BUILD]
 
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
+        makeargs = self._get_makeargs(buildscript)
         cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
     do_distclean.depends = [PHASE_CONFIGURE]
-
-    def skip_uninstall(self, buildscript, last_phase):
-        srcdir = self.get_srcdir(buildscript)
-        if not os.path.exists(srcdir):
-            return True
-        if not os.path.exists(os.path.join(srcdir, self.makefile)):
-            return True
-        return False
-
-    def do_uninstall(self, buildscript):
-        buildscript.set_action(_('Uninstalling'), self)
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-                self.name, self.config.makeargs)
-        cmd = '%s %s uninstall' % (os.environ.get('MAKE', 'make'), makeargs)
-        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
-                extra_env = self.extra_env)
-        buildscript.packagedb.remove(self.name)
 
     def xml_tag_and_attrs(self):
         return ('autotools',
@@ -312,82 +316,53 @@ class AutogenModule(Package, DownloadableModule):
                  ('skip-autogen', 'skip_autogen', False),
                  ('autogen-sh', 'autogen_sh', 'autogen.sh'),
                  ('makefile', 'makefile', 'Makefile'),
+                 ('supports-static-analyzer', 'supports_static_analyzer', True),
                  ('autogen-template', 'autogen_template', None)])
 
 
 def parse_autotools(node, config, uri, repositories, default_repo):
-    id = node.getAttribute('id')
-    autogenargs = ''
-    makeargs = ''
-    makeinstallargs = ''
-    supports_non_srcdir_builds = True
-    autogen_sh = None
-    skip_autogen = False
-    check_target = True
-    makefile = 'Makefile'
-    autogen_template = None
+    instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
+
     if node.hasAttribute('autogenargs'):
         autogenargs = node.getAttribute('autogenargs')
+        instance.autogenargs = instance.eval_args(autogenargs)
     if node.hasAttribute('makeargs'):
         makeargs = node.getAttribute('makeargs')
+        instance.makeargs = instance.eval_args(makeargs)
     if node.hasAttribute('makeinstallargs'):
         makeinstallargs = node.getAttribute('makeinstallargs')
+        instance.makeinstallargs = instance.eval_args(makeinstallargs)
+
     if node.hasAttribute('supports-non-srcdir-builds'):
-        supports_non_srcdir_builds = \
-            (node.getAttribute('supports-non-srcdir-builds') != 'no')
+        instance.supports_non_srcdir_builds = \
+                (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('skip-autogen'):
         skip_autogen = node.getAttribute('skip-autogen')
         if skip_autogen == 'true':
-            skip_autogen = True
+            instance.skip_autogen = True
         elif skip_autogen == 'never':
-            skip_autogen = 'never'
-        else:
-            skip_autogen = False
+            instance.skip_autogen = 'never'
+
     if node.hasAttribute('check-target'):
-        check_target = (node.getAttribute('check-target') == 'true')
-    if node.hasAttribute('autogen-sh'):
-        autogen_sh = node.getAttribute('autogen-sh')
-    if node.hasAttribute('makefile'):
-        makefile = node.getAttribute('makefile')
-    if node.hasAttribute('autogen-template'):
-        autogen_template = node.getAttribute('autogen-template')
-
-    # Make some substitutions; do special handling of '${prefix}' and '${libdir}'
-    p = re.compile('(\${prefix})')
-    autogenargs     = p.sub(config.prefix, autogenargs)
-    makeargs        = p.sub(config.prefix, makeargs)
-    makeinstallargs = p.sub(config.prefix, makeinstallargs)
-    # I'm not sure the replacement of ${libdir} is necessary for firefox...
-    p = re.compile('(\${libdir})')
-    libsubdir = '/lib'
-    if config.use_lib64:
-        libsubdir = '/lib64'
-    autogenargs     = p.sub(config.prefix + libsubdir, autogenargs)
-    makeargs        = p.sub(config.prefix + libsubdir, makeargs)
-    makeinstallargs = p.sub(config.prefix + libsubdir, makeinstallargs)
-
-    dependencies, after, suggests = get_dependencies(node)
-    branch = get_branch(node, repositories, default_repo, config)
+        instance.check_target = (node.getAttribute('check-target') == 'true')
+    if node.hasAttribute('static-analyzer'):
+        instance.supports_static_analyzer = (node.getAttribute('static-analyzer') == 'true')
 
     from jhbuild.versioncontrol.tarball import TarballBranch
-    if isinstance(branch, TarballBranch):
-        # in tarballs, force autogen-sh to be configure, unless autogen-sh is
-        # already set
-        if autogen_sh is None:
-            autogen_sh = 'configure'
-    elif not autogen_sh:
-        autogen_sh = 'autogen.sh'
+    if node.hasAttribute('autogen-sh'):
+        autogen_sh = node.getAttribute('autogen-sh')
+        if autogen_sh is not None:
+            instance.autogen_sh = autogen_sh
+        elif isinstance(instance.branch, TarballBranch):
+            # in tarballs, force autogen-sh to be configure, unless autogen-sh is
+            # already set
+            instance.autogen_sh = 'configure'
 
-    return AutogenModule(id, branch, autogenargs, makeargs,
-                         makeinstallargs=makeinstallargs,
-                         dependencies=dependencies,
-                         after=after,
-                         suggests=suggests,
-                         supports_non_srcdir_builds=supports_non_srcdir_builds,
-                         skip_autogen=skip_autogen,
-                         autogen_sh=autogen_sh,
-                         makefile=makefile,
-                         autogen_template=autogen_template,
-                         check_target=check_target)
+    if node.hasAttribute('makefile'):
+        instance.makefile = node.getAttribute('makefile')
+    if node.hasAttribute('autogen-template'):
+        instance.autogen_template = node.getAttribute('autogen-template')
+
+    return instance
 register_module_type('autotools', parse_autotools)
 

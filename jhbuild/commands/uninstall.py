@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   base.py: the most common jhbuild commands
@@ -17,6 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import logging
 from optparse import make_option
 
 import jhbuild.moduleset
@@ -45,15 +46,13 @@ class cmd_uninstall(Command):
             self.parser.error(_('This command requires a module parameter.'))
 
         # remove modules that are not marked as installed
-        packagedb = jhbuild.frontends.get_buildscript(config, []).packagedb
+        packagedb = module_set.packagedb
         for module in module_list[:]:
             if not packagedb.check(module.name):
+                logging.warn(_('Module %(mod)r is not installed') % {'mod': module.name })
                 module_list.remove(module)
+            else:
+                packagedb.uninstall(module.name)
 
-        config.nonetwork = True
-        config.nopoison = True
-
-        build = jhbuild.frontends.get_buildscript(config, module_list)
-        return build.build(phases=['uninstall'])
 
 register_command(cmd_uninstall)

@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   __init__.py: a package holding the various jhbuild subcommands
@@ -115,7 +115,13 @@ def run(command, config, args, help):
         except ImportError:
             pass
     if command not in _commands:
-        raise FatalError(_('command not found'))
+        import jhbuild.moduleset
+        module_set = jhbuild.moduleset.load(config)
+        try:
+            module_set.get_module(command)
+            raise FatalError(_('no such command (did you mean "jhbuild build %s"?)' % command))
+        except KeyError:
+            raise FatalError(_('no such command (did you mean "jhbuild run %s"?)' % command))
 
     command_class = _commands[command]
 

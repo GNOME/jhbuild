@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2007-2008  Frederic Peters
 #
@@ -22,6 +22,7 @@
 
 import os
 import shutil
+import logging
 import subprocess
 import sys
 import tempfile
@@ -44,6 +45,7 @@ from jhbuild.modtypes.distutils import DistutilsModule
 import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
+import jhbuild.utils.cmds
 
 
 def uencode(s):
@@ -73,11 +75,67 @@ if sys.platform.startswith('win'):
             cmd_list = subprocess_win32.cmdline2list (cmdline)
             self.assertEqual (cmd_list, ['test', 'no quotes', '!=', '"no\\ quotes"'])
 
-class ModuleOrderingTestCase(unittest.TestCase):
+class TestConfig(jhbuild.config.Config):
+
+    # The Config base class calls setup_env() in the constructor, but
+    # we need to override some attributes before calling it.
+    def setup_env(self):
+        pass
+
+    def real_setup_env(self):
+        jhbuild.config.Config.setup_env(self)
+
+class JhbuildConfigTestCase(unittest.TestCase):
+    """A test case that creates a mock configuration and temporary directory."""
+
+    def setUp(self):
+        self.config = mock.Config()
+        self._old_env = os.environ.copy()
+        self._temp_dirs = []
+
+    def tearDown(self):
+        restore_environ(self._old_env)
+        for temp_dir in self._temp_dirs:
+            shutil.rmtree(temp_dir)
+
+    def make_temp_dir(self):
+        temp_dir = tempfile.mkdtemp(prefix='unittest-')
+        self._temp_dirs.append(temp_dir)
+        return temp_dir
+
+    def make_config(self):
+        temp_dir = self.make_temp_dir()
+        config = TestConfig()
+        config.checkoutroot = os.path.abspath(os.path.join(temp_dir, 'checkout'))
+        config.prefix = os.path.abspath(os.path.join(temp_dir, 'prefix'))
+        config.top_builddir = os.path.join(config.prefix, '_jhbuild')
+        os.makedirs(config.checkoutroot)
+        os.makedirs(config.prefix)
+        config.interact = False
+        config.quiet_mode = True # Not enough to disable output entirely
+        config.progress_bar = False
+        config.real_setup_env()
+        return config
+
+    def make_branch(self, config, src_name):
+        branch_dir = os.path.join(config.checkoutroot, src_name)
+        shutil.copytree(os.path.join(os.path.dirname(__file__), src_name),
+                        branch_dir)
+        return SimpleBranch(src_name, branch_dir)
+
+    def make_terminal_buildscript(self, config, module_list):
+        module_set = jhbuild.moduleset.load(config)
+        module_set.packagedb = mock.PackageDB()
+        return jhbuild.frontends.terminal.TerminalBuildScript(config, module_list, module_set)
+
+    
+
+class ModuleOrderingTestCase(JhbuildConfigTestCase):
     '''Module Ordering'''
 
     def setUp(self):
-        self.moduleset = jhbuild.moduleset.ModuleSet()
+        super(ModuleOrderingTestCase, self).setUp()
+        self.moduleset = jhbuild.moduleset.ModuleSet(config=self.config)
         self.moduleset.add(Package('foo'))
         self.moduleset.add(Package('bar'))
         self.moduleset.add(Package('baz'))
@@ -196,11 +254,18 @@ class ModuleOrderingTestCase(unittest.TestCase):
         self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
 
 
-class BuildTestCase(unittest.TestCase):
+class BuildTestCase(JhbuildConfigTestCase):
     def setUp(self):
-        self.config = mock.Config()
-        self.branch = mock.Branch()
+        super(BuildTestCase, self).setUp()
+        self.branch = mock.Branch(os.path.join(self.config.buildroot, 'nonexistent'))
         self.branch.config = self.config
+        self.packagedb = None
+        self.buildscript = None
+        self.moduleset = None
+        os.environ['JHBUILD_PREFIX'] = self.config.prefix
+
+    def tearDown(self):
+        super(BuildTestCase, self).tearDown()
         self.buildscript = None
 
     def build(self, packagedb_params = {}, **kwargs):
@@ -209,27 +274,21 @@ class BuildTestCase(unittest.TestCase):
             setattr(self.config, k, kwargs[k])
         self.config.update_build_targets()
 
-        if not self.buildscript or packagedb_params:
-            self.buildscript = mock.BuildScript(self.config, self.modules)
-            self.buildscript.packagedb = mock.PackageDB(**packagedb_params)
-        else:
-            packagedb = self.buildscript.packagedb
-            self.buildscript = mock.BuildScript(self.config, self.modules)
-            self.buildscript.packagedb = packagedb
+        if (self.packagedb is None) or (len(packagedb_params) > 0):
+            self.packagedb = mock.PackageDB(**packagedb_params)
+            self.moduleset = jhbuild.moduleset.ModuleSet(self.config, db=self.packagedb)
+        self.buildscript = mock.BuildScript(self.config, self.modules, self.moduleset)
 
         self.buildscript.build()
         return self.buildscript.actions
-
-    def tearDown(self):
-        self.buildscript = None
-
 
 class AutotoolsModTypeTestCase(BuildTestCase):
     '''Autotools steps'''
 
     def setUp(self):
-        BuildTestCase.setUp(self)
-        self.modules = [AutogenModule('foo', self.branch)]
+        super(AutotoolsModTypeTestCase, self).setUp()
+        module = mock.MockModule('foo', branch=self.branch)
+        self.modules = [module]
         self.modules[0].config = self.config
         # replace clean method as it checks for Makefile existence
         self.modules[0].skip_clean = lambda x,y: False
@@ -277,64 +336,12 @@ class AutotoolsModTypeTestCase(BuildTestCase):
                  'foo:Checking [error]'])
 
 
-class WafModTypeTestCase(BuildTestCase):
-    '''Waf steps'''
-
-    def setUp(self):
-        BuildTestCase.setUp(self)
-        from jhbuild.modtypes.waf import WafModule
-        self.modules = [WafModule('foo', self.branch)]
-        self.modules[0].waf_cmd = 'true' # set a command for waf that always exist
-
-    def test_build(self):
-        '''Building a waf module'''
-        self.assertEqual(self.build(),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Installing'])
-
-    def test_build_no_network(self):
-        '''Building a waf module, without network'''
-        self.assertEqual(self.build(nonetwork = True),
-                ['foo:Configuring', 'foo:Building', 'foo:Installing'])
-
-    def test_update(self):
-        '''Updating a waf module'''
-        self.assertEqual(self.build(nobuild = True), ['foo:Checking out'])
-
-    def test_build_check(self):
-        '''Building a waf module, with checks'''
-        self.assertEqual(self.build(makecheck = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Checking', 'foo:Installing'])
-
-    def test_build_clean_and_check(self):
-        '''Building a waf module, with cleaning and checks'''
-        self.assertEqual(self.build(makecheck = True, makeclean = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Cleaning',
-                 'foo:Building', 'foo:Checking', 'foo:Installing'])
-
-    def test_build_check_error(self):
-        '''Building a waf module, with an error in make check'''
-
-        def make_check_error(buildscript, *args):
-            self.modules[0].do_check_orig(buildscript, *args)
-            raise CommandError('Mock Command Error Exception')
-        make_check_error.depends = self.modules[0].do_check.depends
-        make_check_error.error_phases = self.modules[0].do_check.error_phases
-        self.modules[0].do_check_orig = self.modules[0].do_check
-        self.modules[0].do_check = make_check_error
-
-        self.assertEqual(self.build(makecheck = True),
-                ['foo:Checking out', 'foo:Configuring', 'foo:Building',
-                 'foo:Checking [error]'])
-
-
 class BuildPolicyTestCase(BuildTestCase):
     '''Build Policy'''
 
     def setUp(self):
-        BuildTestCase.setUp(self)
-        self.modules = [AutogenModule('foo', self.branch)]
+        super(BuildPolicyTestCase, self).setUp()
+        self.modules = [mock.MockModule('foo', branch=self.branch)]
         self.modules[0].config = self.config
 
     def test_policy_all(self):
@@ -366,31 +373,14 @@ class BuildPolicyTestCase(BuildTestCase):
                     nonetwork = True), [])
 
 
-class TestModTypeTestCase(BuildTestCase):
-    '''Tests Module Steps'''
-
-    def setUp(self):
-        BuildTestCase.setUp(self)
-        from jhbuild.modtypes.testmodule import TestModule
-        self.modules = [TestModule('foo', self.branch, 'dogtail')]
-
-    def test_run(self):
-        '''Running a test module'''
-        self.assertEqual(self.build(), ['foo:Checking out', 'foo:Testing'])
-
-    def test_build_no_network(self):
-        '''Running a test module, without network'''
-        self.assertEqual(self.build(nonetwork = True), ['foo:Testing'])
-
-
 class TwoModulesTestCase(BuildTestCase):
     '''Building two dependent modules'''
 
     def setUp(self):
-        BuildTestCase.setUp(self)
-        self.foo_branch = mock.Branch()
-        self.modules = [AutogenModule('foo', self.foo_branch),
-                        AutogenModule('bar', self.branch)]
+        super(TwoModulesTestCase, self).setUp()
+        self.foo_branch = mock.Branch(os.path.join(self.config.buildroot, 'nonexistent-foo'))
+        self.modules = [mock.MockModule('foo', branch=self.foo_branch),
+                        mock.MockModule('bar', branch=self.branch)]
         self.modules[0].config = self.config
         self.modules[1].config = self.config
 
@@ -482,16 +472,6 @@ class TwoModulesTestCase(BuildTestCase):
                  'bar:Building', 'bar:Installing',
                 ])
 
-    def test_build_no_update_updated_deps_policy(self):
-        '''Building two independent autotools module, (changed and not), with 'updated-deps' policy'''
-        self.build() # will feed PackageDB
-        self.buildscript.packagedb.remove('foo')
-        self.buildscript.packagedb.time_delta = 5
-        self.assertEqual(self.build(build_policy = 'updated-deps'),
-                ['foo:Checking out', 'foo:Configuring',
-                 'foo:Building', 'foo:Installing',
-                 'bar:Checking out',])
-
     def test_make_check_failure_dependent_modules(self):
         '''Building two dependent autotools modules, with failure in make check'''
         self.modules[1].dependencies = ['foo']
@@ -528,17 +508,6 @@ class TwoModulesTestCase(BuildTestCase):
                  'foo:Building', 'foo:Checking', 'foo:Installing',
                  'bar:Checking out', 'bar:Configuring',
                  'bar:Building', 'bar:Checking', 'bar:Installing'])
-
-
-class TestConfig(jhbuild.config.Config):
-
-    # The Config base class calls setup_env() in the constructor, but
-    # we need to override some attributes before calling it.
-    def setup_env(self):
-        pass
-
-    def real_setup_env(self):
-        jhbuild.config.Config.setup_env(self)
 
 
 class SimpleBranch(object):
@@ -582,41 +551,7 @@ def with_stdout_hidden(func):
         os.close(old_fd)
 
 
-class EndToEndTest(unittest.TestCase):
-
-    def setUp(self):
-        self.config = mock.Config()
-        self._old_env = os.environ.copy()
-        self._temp_dirs = []
-
-    def tearDown(self):
-        restore_environ(self._old_env)
-        for temp_dir in self._temp_dirs:
-            shutil.rmtree(temp_dir)
-
-    def make_temp_dir(self):
-        temp_dir = tempfile.mkdtemp(prefix='unittest-')
-        self._temp_dirs.append(temp_dir)
-        return temp_dir
-
-    def make_config(self):
-        temp_dir = self.make_temp_dir()
-        config = TestConfig()
-        config.checkoutroot = os.path.abspath(os.path.join(temp_dir, 'checkout'))
-        config.prefix = os.path.abspath(os.path.join(temp_dir, 'prefix'))
-        os.makedirs(config.checkoutroot)
-        os.makedirs(config.prefix)
-        config.interact = False
-        config.quiet_mode = True # Not enough to disable output entirely
-        config.progress_bar = False
-        config.real_setup_env()
-        return config
-
-    def make_branch(self, config, src_name):
-        branch_dir = os.path.join(config.checkoutroot, src_name)
-        shutil.copytree(os.path.join(os.path.dirname(__file__), src_name),
-                        branch_dir)
-        return SimpleBranch(src_name, branch_dir)
+class EndToEndTest(JhbuildConfigTestCase):
 
     # FIXME: broken under Win32
     def test_distutils(self):
@@ -624,8 +559,7 @@ class EndToEndTest(unittest.TestCase):
         module_list = [DistutilsModule('hello',
                                        self.make_branch(config, 'distutils'))]
         module_list[0].config = self.config
-        build = jhbuild.frontends.terminal.TerminalBuildScript(
-            config, module_list)
+        build = self.make_terminal_buildscript(config, module_list)
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
@@ -635,10 +569,9 @@ class EndToEndTest(unittest.TestCase):
     def test_autotools(self):
         config = self.make_config()
         module_list = [AutogenModule('hello',
-                                     self.make_branch(config, 'autotools'))]
+                                     branch=self.make_branch(config, 'autotools'))]
         module_list[0].config = self.config
-        build = jhbuild.frontends.terminal.TerminalBuildScript(
-            config, module_list)
+        build = self.make_terminal_buildscript(config, module_list)
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
@@ -651,18 +584,39 @@ class EndToEndTest(unittest.TestCase):
     def test_autotools_with_libtool(self):
         config = self.make_config()
         module_list = [
-            AutogenModule('libhello', self.make_branch(config, 'libhello')),
-            AutogenModule('hello', self.make_branch(config, 'hello'))]
+            AutogenModule('libhello', branch=self.make_branch(config, 'libhello')),
+            AutogenModule('hello', branch=self.make_branch(config, 'hello'))]
         module_list[0].config = self.config
         module_list[1].config = self.config
-        build = jhbuild.frontends.terminal.TerminalBuildScript(
-            config, module_list)
+        build = self.make_terminal_buildscript(config, module_list)
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
         self.assertEquals(stdout.strip(), 'Hello world (library test)')
         self.assertEquals(proc.wait(), 0)
 
+class UtilsTest(JhbuildConfigTestCase):
+
+    def test_compare_version(self):
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.12'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.13.1'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '4'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.14'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.13.1.with.ckbi.1.88', '3.13.2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3with', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3with', '2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('with3', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('with3', '2'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('3.with', '3.1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('3.with', '3'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('0.5', '0.6'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('0.5', '0.5'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('1', '1.2.3.4'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('1.2.3.4', '1'))
+        self.assertTrue(jhbuild.utils.cmds.compare_version('2', '1.2.3.4'))
+        self.assertFalse(jhbuild.utils.cmds.compare_version('1.2.3.4', '2'))
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     unittest.main()

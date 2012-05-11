@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 # Copyright (C) 2003-2004  Seth Nickell
 #
@@ -57,9 +57,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     error_resolution = None
     preference_dialog = None
 
-    def __init__(self, config, module_list=None):
+    def __init__(self, config, module_list=None, module_set=None):
         self.orig_modulelist = module_list
-        buildscript.BuildScript.__init__(self, config)
+        self.module_set = jhbuild.moduleset.load(config)
+        buildscript.BuildScript.__init__(self, config, module_list, module_set=self.module_set)
         self.config = config
         gtk.Window.__init__(self)
         self.set_resizable(False)
@@ -74,8 +75,6 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                     theme.load_icon('applications-development', 128, ())
                     )
         self.set_title('JHBuild')
-
-        self.module_set = jhbuild.moduleset.load(config)
 
         self.create_modules_list_model()
         self.create_ui()
@@ -268,7 +267,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def on_help_cb(self, *args):
         gtk.show_uri(gtk.gdk.screen_get_default(),
-                'ghelp:jhbuild', gtk.get_current_event_time())
+                'help:jhbuild', gtk.get_current_event_time())
 
     def on_preferences_cb(self, *args):
         if not self.preference_dialog:
@@ -348,6 +347,9 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.progressbar.set_text(_('Build Completed'))
         self.build_button.set_sensitive(True)
         self.module_hbox.set_sensitive(True)
+
+    def start_phase(self, module, phase):
+        self.notify.clear()
 
     def start_module(self, module):
         idx = [x.name for x in self.modulelist].index(module)
@@ -474,6 +476,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             if extra_env is not None:
                 kws['env'] = os.environ.copy()
                 kws['env'].update(extra_env)
+
+            command = self._prepare_execute(command)
 
             try:
                 p = subprocess.Popen(command, **kws)
@@ -712,7 +716,6 @@ class PreferencesDialog(gtk.Dialog):
 
         for key, label in (
                 ('nonetwork', _('Disable network access')),
-                ('alwaysautogen', _('Always run autogen.sh')),
                 ('nopoison', _('Don\'t poison modules on failure'))):
             checkbutton = gtk.CheckButton(label)
             checkbutton.set_active(getattr(self.app.config, key))

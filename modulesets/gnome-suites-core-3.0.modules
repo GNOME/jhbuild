@@ -9,7 +9,6 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="packagekit.gitorious.org"
       href="git://gitorious.org/packagekit"/>
-  <repository type="git" name="clutter-project.org" href="http://git.clutter-project.org/"/>
   <repository type="git" name="git.kernel.org"
       href="git://git.kernel.org/pub/scm/"/>
   <repository type="tarball" name="dbus"
@@ -27,7 +26,7 @@
 <!-- Core User Shell -->
 
   <autotools id="at-spi2-core">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
@@ -35,7 +34,7 @@
   </autotools>
 
   <autotools id="at-spi2-atk">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
@@ -79,7 +78,7 @@
   </autotools>
 
   <autotools id="gnome-bluetooth">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="glib"/>
@@ -90,7 +89,7 @@
   </autotools>
 
   <autotools id="gnome-control-center" supports-non-srcdir-builds="no">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="iso-codes"/>
@@ -116,7 +115,7 @@
   </autotools>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -150,6 +149,7 @@
     <branch/>
     <dependencies>
       <dep package="gnome-common"/>
+      <dep package="gtk+"/>
       <dep package="icon-naming-utils"/>
     </dependencies>
   </autotools>
@@ -167,18 +167,16 @@
   </autotools>
 
   <autotools id="gnome-menus">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gnome-common"/>
+      <dep package="gobject-introspection"/>
       <dep package="glib"/>
     </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
   </autotools>
 
-  <autotools id="gnome-packagekit" autogenargs="--disable-strict">
+  <autotools id="gnome-packagekit" autogenargs="--enable-strict=no">
     <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="PackageKit"/>
@@ -244,7 +242,7 @@
   </autotools>
 
   <autotools id="gnome-settings-daemon">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -263,7 +261,7 @@
   </autotools>
 
   <autotools id="gnome-shell">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="intltool"/>
@@ -294,7 +292,7 @@
   </autotools>
 
   <autotools id="gnome-themes-standard">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="cantarell-fonts"/>
@@ -303,7 +301,7 @@
   </autotools>
 
   <autotools id="gsettings-desktop-schemas">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gnome-themes-standard"/>
@@ -311,7 +309,7 @@
   </autotools>
 
  <autotools id="gvfs">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -325,7 +323,7 @@
   </autotools>
 
   <autotools id="mousetweaks">
-    <branch />
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gsettings-desktop-schemas"/>
@@ -334,7 +332,7 @@
   </autotools>
 
   <autotools id="mutter" autogenargs="--with-gtk=3.0">
-    <branch />
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gdk-pixbuf"/>
@@ -410,7 +408,7 @@
 <!-- Fallback Shell -->
 
   <autotools id="gconf" autogenargs="--enable-gtk --with-gtk=3.0">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="ORBit2"/>
@@ -470,7 +468,7 @@
 <!-- Core Utilities -->
 
   <autotools id="brasero">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="gtk+"/>
       <dep package="gconf"/>
@@ -486,7 +484,7 @@
   </autotools>
 
   <autotools id="empathy">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -511,7 +509,7 @@
   </autotools>
 
   <autotools id="eog">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -524,12 +522,11 @@
       <dep package="exempi"/>
       <dep package="dbus-glib"/>
       <dep package="pygobject"/>
-      <dep package="pygtk"/>
     </suggests>
   </autotools>
 
   <autotools id="epiphany">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="iso-codes"/>
@@ -549,7 +546,7 @@
   </autotools>
 
   <autotools id="evince">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -577,7 +574,7 @@
   </autotools>
 
   <autotools id="gnome-disk-utility">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="avahi"/>
       <dep package="gtk+"/>
@@ -590,7 +587,7 @@
   </autotools>
 
   <autotools id="gnome-system-monitor">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -605,7 +602,7 @@
   </autotools>
 
   <autotools id="gnome-terminal" autogenargs="--with-gtk=3.0">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -618,14 +615,14 @@
   </autotools>
 
   <autotools id="gnome-user-docs">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="gnome-doc-utils"/>
     </dependencies>
   </autotools>
 
   <autotools id="gnome-utils">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -636,7 +633,7 @@
   </autotools>
 
   <autotools id="gucharmap" autogenargs="--with-gtk=3.0">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -649,7 +646,7 @@
   </autotools>
 
   <autotools id="nautilus">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -669,7 +666,7 @@
   </autotools>
 
   <autotools id="totem">
-    <branch/>
+    <branch  revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>
@@ -689,7 +686,7 @@
   </autotools>
 
   <autotools id="yelp">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -726,7 +723,7 @@
   </autotools>
 
   <autotools id="vino">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -800,7 +797,7 @@
   </autotools>
 
   <autotools id="gdm">
-    <branch/>
+    <branch revision="gnome-3-0"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="gtk+"/>
@@ -824,6 +821,7 @@
       <dep package="gtk-doc"/>
       <dep package="polkit"/>
       <dep package="gudev"/>
+      <dep package="gnutls"/>
     </dependencies>
   </autotools>
 
@@ -846,12 +844,10 @@
     <branch repo="git.freedesktop.org" checkoutdir="polkit" module="PolicyKit"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="expat"/>
       <dep package="intltool"/>
     </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
   </autotools>
 
   <autotools id="upower">
@@ -859,9 +855,9 @@
     <dependencies>
       <dep package="polkit"/>
       <dep package="dbus-glib"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
       <dep package="gudev"/>
     </suggests>
   </autotools>

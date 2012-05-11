@@ -1,4 +1,4 @@
-# jhbuild - a build script for GNOME 1.x and 2.x
+# jhbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
 #   tinderbox.py: non-interactive build that generates a report
@@ -85,7 +85,7 @@ class cmd_tinderbox(Command):
             if not module_list:
                 raise FatalError(_('%s not in module list') % options.startat)
 
-        build = jhbuild.frontends.get_buildscript(config, module_list)
+        build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
 
 register_command(cmd_tinderbox)
