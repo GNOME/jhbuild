@@ -230,6 +230,21 @@
     </suggests>
   </autotools>
 
+  <autotools id="xorg-macros">
+    <pkg-config>xorg-macros.pc</pkg-config>
+    <branch repo="git.freedesktop.org"
+     module="xorg/util/macros" checkoutdir="xorg-macros"/>
+  </autotools>
+
+  <autotools id="libXtst">
+    <pkg-config>xtst.pc</pkg-config>
+    <branch repo="git.freedesktop.org"
+     module="xorg/lib/libXtst" checkoutdir="libXtst"/>
+    <dependencies>
+      <dep package="xorg-macros"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="pango">
     <branch/>
     <dependencies>
