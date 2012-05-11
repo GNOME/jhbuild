@@ -1,11 +1,12 @@
 #! /bin/sh
 
-xsltproc --nodtdattr scripts/create-master-tracking-moduleset.xsl \
-	modulesets/gnome-suites-2.28.modules > \
-	modulesets/gnome-suites-trunk.modules
+VERSION=$(grep '^moduleset =' jhbuild/defaults.jhbuildrc | awk -F"-"  '{ print $NF }' | sed -e "s/'//g")
 
-xsltproc --nodtdattr scripts/create-master-tracking-moduleset.xsl \
-	modulesets/gnome-2.28.modules > \
-	modulesets/gnome-trunk.modules
+for FILENAME in modulesets/*-$VERSION.modules
+do
+    TRUNK_FILENAME=$(echo $FILENAME | sed -e "s/$VERSION/trunk/")
+    xsltproc --nodtdattr scripts/create-master-tracking-moduleset.xsl \
+        $FILENAME > $TRUNK_FILENAME
+    sed -i -e "s/-$VERSION.modules/-trunk.modules/" $TRUNK_FILENAME
+done
 
-sed -i -e 's/gnome-suites-2.28.modules/gnome-suites-trunk.modules/' modulesets/gnome-trunk.modules
