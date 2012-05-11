@@ -44,7 +44,7 @@ from jhbuild.errors import FatalError
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 from jhbuild.utils import httpcache
-
+from jhbuild.modtypes import MetaModule
 
 try: t_bold = cmds.get_output(['tput', 'bold'])
 except: t_bold = ''
@@ -462,29 +462,22 @@ class cmd_goalreport(Command):
         print >> output, '</thead>'
         print >> output, '<tbody>'
 
-        suites = [
-            ('meta-gnome-desktop-suite', 'Desktop'),
-            ('meta-gnome-devel-platform', 'Platform'),
-            ('meta-gnome-admin', 'Admin'),
-            ('meta-gnome-devtools-suite', 'Development Tools'),
-            ('meta-gnome-mobile-suite', 'Mobile'),
-            ('meta-gnome-bindings-c++', 'Bindings (C++)'),
-            ('meta-gnome-bindings-python', 'Bindings (Python)'),
-            ('meta-gnome-bindings-mono', 'Bindings (Mono)'),
-        ]
         suites = []
+        for module_key, module in module_set.modules.items():
+            if not isinstance(module_set.get_module(module_key), MetaModule):
+                continue
+            if module_key.endswith('upcoming-deprecations'):
+                # mark deprecated modules as processed, so they don't show in "Others"
+                try:
+                    metamodule = module_set.get_module(meta_key)
+                except KeyError:
+                    continue
+                for module_name in metamodule.dependencies:
+                    processed_modules[module_name] = True
+            else:
+                suites.append([module_key, module_key.replace('meta-', '')])
 
         processed_modules = {'gnome-common': True}
-
-        # mark deprecated modules as processed, so they don't show in "Others"
-        for meta_key in ('meta-gnome-devel-platform-upcoming-deprecations',
-                         'meta-gnome-desktop-upcoming-deprecations'):
-            try:
-                metamodule = module_set.get_module(meta_key)
-            except KeyError:
-                continue
-            for module_name in metamodule.dependencies:
-                processed_modules[module_name] = True
 
         not_other_module_names = []
         for suite_key, suite_label in suites:
