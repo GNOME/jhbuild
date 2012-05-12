@@ -19,8 +19,10 @@
 
 import os
 import re
+import socket
 import sys
 import subprocess
+import time
 import types
 import cPickle
 import logging
@@ -547,6 +549,11 @@ class cmd_goalreport(Command):
                 print >> output, '  <li><a href="%s">False positives</a></li>' % options.falsepositivesfile
             print >> output, '</ul>'
             print >> output, '</div>'
+
+        print >> output, '<div id="footer">'
+        print >> output, 'Generated:', time.strftime('%Y-%m-%d %H:%M:%S %z')
+        print >> output, 'on ', socket.getfqdn()
+        print >> output, '</div>'
 
         print >> output, '</body>'
         print >> output, '</html>'
