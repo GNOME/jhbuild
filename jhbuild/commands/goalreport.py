@@ -152,9 +152,14 @@ class ShellCheck(Check):
         if not self.cmds:
             self.cmds = [self.cmd]
         outputs = []
+        rc = 0
         for cmd in self.cmds:
-            outputs.append(subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,
-                    cwd=self.module.branch.srcdir).communicate()[0].strip())
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True,
+                            cwd=self.module.branch.srcdir)
+            outputs.append(process.communicate()[0].strip())
+            rc = process.wait() or rc
+        if rc == 1:
+            raise ExcludedModuleException()
         nb_lines = sum([len(x.splitlines()) for x in outputs])
         if nb_lines == 0:
             self.status = 'ok'
