@@ -137,6 +137,8 @@ class Check:
     def fix_false_positive(self, false_positive):
         if not false_positive:
             return
+        if false_positive ==  'n/a':
+            raise ExcludedModuleException()
         self.status = 'ok'
 
     def create_from_args(cls, *args):
