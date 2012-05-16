@@ -7,6 +7,7 @@ app_PYTHON = \
 	distutils.py \
 	linux.py \
 	perl.py \
+	systemmodule.py \
 	tarball.py \
 	testmodule.py \
 	waf.py

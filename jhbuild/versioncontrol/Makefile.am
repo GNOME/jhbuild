@@ -10,5 +10,6 @@ app_PYTHON = \
 	hg.py \
 	mtn.py \
 	svn.py \
+	system.py \
 	tarball.py
 
