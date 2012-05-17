@@ -760,6 +760,7 @@ jhbuildbot_password = 'password'
         <arg>--force</arg>
         <arg>--build-optional-modules</arg>
         <arg>--min-age=<replaceable>time</replaceable></arg>
+        <arg>--nodeps</arg>
         <arg rep="repeat">module</arg>
       </cmdsynopsis>
 
@@ -926,6 +927,14 @@ jhbuildbot_password = 'password'
               two hours ago.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--nodeps</option>
+          </term>
+          <listitem>
+            <simpara>Ignore missing system dependencies.</simpara>
+          </listitem>
+        </varlistentry>
       </variablelist>
     </section>
 
@@ -966,13 +975,14 @@ jhbuildbot_password = 'password'
         <arg>--no-xvfb</arg>
         <arg>--force</arg>
         <arg>--min-age=<replaceable>time</replaceable></arg>
+        <arg>--nodeps</arg>
         <arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The <option>--check</option>, <option>--clean</option>,
         <option>-d</option>, <option>--distcheck</option>,
-        <option>--no-network</option>, <option>-D</option> and
-        <option>-x</option> options are processed as per the
+        <option>--no-network</option>, <option>-D</option>, <option>-x</option>
+        and <option>--nodeps</option> options are processed as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
@@ -1301,19 +1311,26 @@ libgnomecanvas is missing branch definition for gnome-2-20
     <section id="command-reference-sysdeps">
       <title>sysdeps</title>
 
-      <para>The <command>sysdeps</command> command displays a list of
-        dependency modules that are provided by installed system packages.
-        JHBuild will not build the modules from source if the configuration
-        variable
-        <link linkend="cfg-partial-build"><varname>partial_build</varname></link>
-        is <constant>True</constant>.</para>
+      <para>The <command>sysdeps</command> command displays:</para>
 
-      <para>The <command>sysdeps</command> command also displays a list of
-        dependency modules where the installed system packages are too old.
-        JHBuild will build newer modules from source.</para>
-
-      <para>The <command>sysdeps</command> command also displays a list of
-        dependency modules with no matching system package installed.</para>
+      <orderedlist>
+        <listitem>
+          <simpara>a list of installed system packages which will be used
+            during the build. JHBuild will not build these modules and opt to
+            use the system package instead.</simpara>
+        </listitem>
+        <listitem>
+          <simpara>a list of required packages. To begin a build the packages
+            must be provided by your system.</simpara>
+        </listitem>
+        <listitem>
+          <simpara>a list of optional packages. The corresponding system
+            package was not found or too old. JHBuild will build the module.
+            Optional packages will not be displayed if
+            <link linkend="cfg-partial-build"><varname>partial_build</varname></link>
+            is <constant>False</constant>.</simpara>
+        </listitem>
+      </orderedlist>
 
       <cmdsynopsis><command>jhbuild sysdeps</command>
         <arg>--install</arg>
@@ -1341,12 +1358,18 @@ System installed packages which are new enough:
   telepathy-farsight (required=0.0.14, installed=0.0.16)
   lcms2 (required=2.2, installed=2.2)
 ...
-System installed packages which are too old:
-  webkitgtk-3.0 (required=1.5.1, installed=1.4.0)
-  ...
-No matching system package installed:
-  libvala-0.14 (required=0.13.1)
-  ...</screen>
+Required packages:
+  System installed packages which are too old:
+    (none)
+  No matching system package installed:
+    zlib (required=1.2)
+Optional packages: (JHBuild will build the missing packages)
+  System installed packages which are too old:
+    webkitgtk-3.0 (required=1.5.1, installed=1.4.0)
+    ...
+  No matching system package installed:
+    libvala-0.14 (required=0.13.1)
+    ...</screen>
       </example>
     </section>
 
@@ -1368,13 +1391,15 @@ No matching system package installed:
         <arg>-C</arg>
         <arg>-N</arg>
         <arg>-f</arg>
+        <arg>--nodeps</arg>
         <arg rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The <option>--clean</option>, <option>--no-network</option>,
         <option>--skip</option>, <option>--start-at</option>,
-        <option>-D</option>, <option>-C</option>, <option>-N</option> and
-        <option>-f</option> options are processed as per the
+        <option>-D</option>, <option>-C</option>, <option>-N</option>,
+        <option>-f</option> and <option>--nodeps</option> options are processed
+        as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
@@ -2499,6 +2524,19 @@ No matching system package installed:
           "%(module)s/tags/%(tag)s")</para>
       </section>
 
+      <section id="moduleset-syntax-sources-system">
+        <title>System</title>
+
+        <para>This repository type is used to define a fake system repository.
+          A system repository is required to create
+          <link linkend="moduleset-syntax-defs-systemmodule"><sgmltag class="element">systemmodules</sgmltag></link>.
+        </para>
+
+<programlisting>
+&lt;repository type="system" name="system"/&gt;
+</programlisting>
+      </section>
+
       <section id="moduleset-syntax-sources-tarball">
         <title>Tarballs</title>
 
@@ -2791,6 +2829,25 @@ No matching system package installed:
   &lt;/after&gt;
 
 &lt;/perl&gt;
+</programlisting>
+      </section>
+
+      <section id="moduleset-syntax-defs-systemmodule">
+        <title>systemmodule</title>
+
+        <para>The <sgmltag class="element">systemmodule</sgmltag> element is
+          used to specify modules that must be provided by the system. The
+          module should be installed by your distributions package management
+          system.</para>
+
+<programlisting>
+&lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;pkg-config&gt;<replaceable>pkg-config</replaceable>.pc&lt;/pkg-config&gt;
+
+  &lt;branch repo="<replaceable>pkg-config</replaceable>" version="<replaceable>version</replaceable>" [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+&lt;/systemmodule&gt;
 </programlisting>
       </section>
 
