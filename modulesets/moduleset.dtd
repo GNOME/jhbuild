@@ -5,7 +5,7 @@
 <!ELEMENT repository (mirror*)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
-	type	 (arch|bzr|cvs|darcs|fossil|git|hg|svn|tarball)  #REQUIRED
+	type	 (arch|bzr|cvs|darcs|fossil|git|hg|svn|system|tarball)  #REQUIRED
 	default  (yes|no)  "no"
 	password CDATA  #IMPLIED
 	cvsroot	 CDATA  #IMPLIED
@@ -90,6 +90,10 @@
 
 <!ELEMENT linux (pkg-config?,branch?,dependencies?,after?,kconfig+)>
 <!ATTLIST linux
+	id		CDATA	#REQUIRED>
+
+<!ELEMENT systemmodule (pkg-config?,branch?)>
+<!ATTLIST systemmodule
 	id		CDATA	#REQUIRED
 	makeargs	CDATA	#IMPLIED>
 
