@@ -119,9 +119,7 @@ class ModuleSet:
                                           'invalid' : edge_name})
                 elif edge_name not in skip and edge not in resolved_deps:
                     if edge in seen:
-                        self._warn(_('Circular dependencies detected: %s') % \
-                                   ' -> '.join([i.name for i in seen] + \
-                                               [edge.name]))
+                        # circular dependency detected
                         circular = True
                         break
                     else:
