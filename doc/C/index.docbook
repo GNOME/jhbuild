@@ -141,18 +141,19 @@
 <prompt>$</prompt> <userinput>echo PATH=$PATH:~/.local/bin >> ~/.bashrc</userinput>
 <prompt>$</prompt></screen>
 
-      <para>Before running JHBuild, it is necessary to set up a configuration
-        file located at <filename>~/.jhbuildrc</filename>.</para>
     </section>
 
     <section id="getting-started-configure">
       <title>Configuring JHBuild</title>
 
-      <para>The <filename>~/.jhbuildrc</filename> file uses Python syntax to
-        set configuration variables for JHBuild. An example is provided with
-        JHBuild, see <filename>examples/sample.jhbuildrc</filename>. Copy
+      <para>JHBuild can be configured via a configuration file. The default
+        location is <filename>~/.config/jhbuildrc</filename>. If a configuration
+        file does not exist, the defaults are used. The configuration file uses
+        Python syntax. An example is provided, see
+        <filename>examples/sample.jhbuildrc</filename>. Copy
         <filename>examples/sample.jhbuildrc</filename> to
-        <filename>~/.jhbuildrc</filename> and customize as required.</para>
+        <filename>~/.config/jhbuildrc</filename> and customize as required.
+      </para>
 
       <para>The sample configuration will make JHBuild build the
         <application>meta-gnome-core</application> and
@@ -292,8 +293,8 @@
 
       <para>After set up is complete, JHBuild can be used to build software.
         To build all the modules selected in the
-        <filename>~/.jhbuildrc</filename> file, run the following command:
-      </para>
+        <filename>~/.config/jhbuildrc</filename> file, run the following
+        command:</para>
 
 <screen><prompt>$</prompt> <userinput>jhbuild build</userinput></screen>
 
@@ -468,7 +469,7 @@
 
       <para>Setup JHBuild on the new
         <systemitem class="username">gnomedev</systemitem> account. Copy or
-        soft-link <filename>~/.jhbuildrc</filename> and
+        soft-link <filename>~/.config/jhbuildrc</filename> and
         <filename>~/.local/bin/jhbuild</filename> to
         <systemitem class="username">gnomedev</systemitem> home directory.
       </para>
@@ -579,7 +580,8 @@ Type=Application</programlisting>
 <screen><prompt>$</prompt> <userinput>jhbuild bot --setup</userinput></screen>
 
       <para>Once this step has completed successfully, three new configuration
-        variables are required in <filename>~/.jhbuildrc</filename>.</para>
+        variables are required in <filename>~/.config/jhbuildrc</filename>.
+      </para>
 
       <note>
         <para>It is not possible to use an alternate configuration file, the
@@ -637,7 +639,7 @@ jhbuildbot_password = 'password'
         </term>
         <listitem>
           <simpara>Use an alternative configuration file instead of the
-            default <filename>~/.jhbuildrc</filename>.</simpara>
+            default <filename>~/.config/jhbuildrc</filename>.</simpara>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -1473,8 +1475,8 @@ Optional packages: (JHBuild will build the missing packages)
   <section id="config-reference">
     <title>Configuration File Reference</title>
 
-    <para>The <filename>~/.jhbuildrc</filename> file uses standard Python
-      syntax. The file is run, and the resulting variables defined in the
+    <para>The <filename>~/.config/jhbuildrc</filename> file uses standard
+      Python syntax. The file is run, and the resulting variables defined in the
       namespace are used to control how JHBuild acts. A set of default values
       are inserted into the namespace before running the user's configuration
       file.</para>
