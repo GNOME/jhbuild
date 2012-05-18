@@ -121,6 +121,10 @@ class ModuleSet:
                     if edge in seen:
                         # circular dependency detected
                         circular = True
+                        if self.raise_exception_on_warning:
+                            # Translation of string not required - used in
+                            # unit tests only
+                            raise UsageError('Circular dependencies detected')
                         break
                     else:
                         if edge_name in node.after:
