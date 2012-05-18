@@ -90,7 +90,7 @@ class ModuleSet:
         module_list = self.remove_tag_modules(module_list, tags)
         return module_list
 
-    def get_full_module_list(self, module_names, skip=[],
+    def get_full_module_list(self, module_names='all', skip=[],
                                 include_suggests=True, include_afters=False):
 
         def dep_resolve(node, resolved, seen, after):
