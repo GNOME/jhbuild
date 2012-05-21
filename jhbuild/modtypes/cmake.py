@@ -47,6 +47,14 @@ class CMakeModule(Package, DownloadableModule):
         self.supports_non_srcdir_builds = True
         self.supports_install_destdir = True
 
+    def eval_args(self, args):
+        args = Package.eval_args(self, args)
+        libsuffix = ''
+        if self.config.use_lib64:
+            libsuffix = '64'
+        args = args.replace('${libsuffix}', libsuffix)
+        return args
+
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
