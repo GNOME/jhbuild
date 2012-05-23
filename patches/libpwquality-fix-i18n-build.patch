@@ -1,0 +1,38 @@
+From 971b3cb3cef618d054a58c72375e46f4709ab1f1 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 May 2012 11:51:33 +0100
+Subject: [PATCH] Fix compilation
+
+Errors about setlocale() and LC_ALL being undefined
+---
+ src/pwmake.c  |    1 +
+ src/pwscore.c |    1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/src/pwmake.c b/src/pwmake.c
+index 4040a7a..6e50ea7 100644
+--- a/src/pwmake.c
++++ b/src/pwmake.c
+@@ -13,6 +13,7 @@
+ #include <sys/stat.h>
+ #include <errno.h>
+ #include <libgen.h>
++#include <locale.h>
+ 
+ #include "pwquality.h"
+ 
+diff --git a/src/pwscore.c b/src/pwscore.c
+index e8d38a9..68e8722 100644
+--- a/src/pwscore.c
++++ b/src/pwscore.c
+@@ -13,6 +13,7 @@
+ #include <sys/stat.h>
+ #include <errno.h>
+ #include <libgen.h>
++#include <locale.h>
+ 
+ #include "pwquality.h"
+ 
+-- 
+1.7.10.1
+

@@ -103,6 +103,8 @@
       href="http://tracker.openchange.org/attachments/download/"/>
   <repository type="tarball" name="gnome.org"
       href="http://download.gnome.org/sources/"/>
+  <repository type="tarball" name="libpwquality"
+      href="https://fedorahosted.org/releases/l/i/libpwquality/"/>
 
   <include href="gnome-apps-3.6.modules"/>
 
@@ -2178,6 +2180,15 @@
       <dep package="gdk-pixbuf"/>
       <dep package="gudev"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libpwquality">
+    <branch repo="libpwquality"
+            module="https://fedorahosted.org/releases/l/i/libpwquality/libpwquality-1.0.0.tar.bz2" version="1.0.0"
+            hash="sha256:1f2e6171071f37871096c9d73f91ac4f2d35597ba844d07594e080c37b15009c"
+            md5sum="35e809791aedcbedfb3bd33f1a715984" size="342995">
+      <patch file="libpwquality-fix-i18n-build.patch" strip="1" />
+    </branch>
   </autotools>
 
 </moduleset>
