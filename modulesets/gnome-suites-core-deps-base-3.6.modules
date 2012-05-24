@@ -300,7 +300,7 @@
     </dependencies>
   </autotools>
 
-  <cmake id="libmusicbrainz"
+  <cmake id="libmusicbrainz4"
          cmakeargs="-DLIB_SUFFIX=${libsuffix}">
     <pkg-config>libmusicbrainz4.pc</pkg-config>
     <branch repo="github.com/metabrainz"
@@ -308,6 +308,20 @@
             version="4.0.3"
             hash="sha256:8f2a8f6e8aa858a66860a4726ee383480b43a57350b28a4478af3e19cacb52d7"
             size="110111">
+    </branch>
+    <dependencies>
+    </dependencies>
+  </cmake>
+
+  <cmake id="libmusicbrainz"
+         cmakeargs="-DLIB_SUFFIX=${libsuffix}">
+    <pkg-config>libmusicbrainz5.pc</pkg-config>
+    <branch repo="github.com/metabrainz"
+            module="libmusicbrainz/libmusicbrainz-5.0.0.tar.gz"
+            version="5.0.0"
+            hash="sha256:8479063ad3decad11c71d91926226c9f43aaabbf82cb0944eda749c1f44e3006"
+            size="109143">
+      <patch file="libmusicbrainz5-werror-compile-fix.patch" strip="1"/>
     </branch>
     <dependencies>
     </dependencies>

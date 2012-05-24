@@ -1,0 +1,30 @@
+From 0dba908e548373d598e06f6a92bc4ac2af09cc58 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 24 May 2012 16:12:49 +0100
+Subject: [PATCH] Fix broken compilation from tarball
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+-Werror in release tarballs? Really?
+libmusicbrainz-5.0.0/tests/ctest.c: In function ‘CompileTest’:
+libmusicbrainz-5.0.0/tests/ctest.c:276:19: error: variable ‘SecondaryType’ set but not used [-Werror=unused-but-set-variable]
+---
+ tests/ctest.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/ctest.c b/tests/ctest.c
+index 66ae4f7..4284292 100644
+--- a/tests/ctest.c
++++ b/tests/ctest.c
+@@ -777,6 +777,7 @@ void CompileTest()
+ 
+ 	DummyInt=mb5_secondarytype_list_size(SecondaryTypeList);
+ 	SecondaryType=mb5_secondarytype_list_item(SecondaryTypeList,0);
++	SecondaryType=SecondaryType;
+ 	ReleaseGroupList=mb5_secondarytype_list_clone(SecondaryTypeList);
+ 	DummyInt=mb5_secondarytype_list_get_count(SecondaryTypeList);
+ 	DummyInt=mb5_secondarytype_list_get_offset(SecondaryTypeList);
+-- 
+1.7.10.1
+
