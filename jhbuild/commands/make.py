@@ -78,13 +78,20 @@ class cmd_make(Command):
 
         cwd = cwd[len(config.checkoutroot):]
         cwd = cwd.lstrip(os.sep)
-        name, _slash, _rest = cwd.partition(os.sep)
+        modname, _slash, _rest = cwd.partition(os.sep)
 
         try:
-            module = module_set.get_module(name, ignore_case=True)
+            module = module_set.get_module(modname, ignore_case=True)
         except KeyError, e:
-            logging.error(_('No module matching current directory %r in the moduleset') % (name, ))
-            return False
+            default_repo = jhbuild.moduleset.get_default_repo()
+            if not default_repo:
+                logging.error(_('No module matching current directory %r in the moduleset') % (modname, ))
+                return False
+            from jhbuild.modtypes.autotools import AutogenModule
+            module = AutogenModule(modname, default_repo.branch(modname))
+            module.config = config
+            logging.info(_('module "%s" does not exist, created automatically using repository "%s"') % \
+                             (modname, default_repo.name))
 
         build = jhbuild.frontends.get_buildscript(config, [module], module_set=module_set)
         return build.build()
