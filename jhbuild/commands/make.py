@@ -63,6 +63,9 @@ class cmd_make(Command):
 
         makeargs = config.makeargs
         for arg in args:
+            # if uninstalling, skip install.
+            if arg == 'uninstall' or arg.startswith('uninstall-'):
+                config.noinstall = True
             # pipes.quote (and really, trying to safely quote shell arguments) is
             # broken, but executing commands as strings is pervasive throughout
             # jhbuild...this is a hack that will probably live until someone just

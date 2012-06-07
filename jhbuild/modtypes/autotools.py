@@ -298,6 +298,9 @@ class AutogenModule(Package, DownloadableModule):
 
     do_install.depends = [PHASE_BUILD]
 
+    def skip_install(self, buildscript, last_phase):
+        return self.config.noinstall
+
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
         makeargs = self._get_makeargs(buildscript)
