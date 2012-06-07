@@ -97,7 +97,14 @@ class Branch:
         raise NotImplementedError
 
     def get_module_basename(self):
-        return os.path.basename(self.module)
+        module = os.path.basename(self.module)
+        # prune common filename extensions
+        index = module.lower().rfind('.tar')
+        if index > 0:
+            return module[:index]
+        if len(module) > 4 and module.lower().endswith('.zip'):
+            return module[:-4]
+        return module
 
     def get_checkoutdir(self):
         if self.checkout_mode == 'copy' and self.config.copy_dir:
