@@ -32,7 +32,8 @@ class cmd_checkmodulesets(Command):
 
     def run(self, config, options, args, help=None):
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_full_module_list()
+        module_list = module_set.get_full_module_list \
+                          (warn_about_circular_dependencies = True)
         for mod in module_list:
             if mod.type in ('meta', 'tarball'):
                 continue
