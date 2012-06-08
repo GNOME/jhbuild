@@ -51,6 +51,7 @@ class AutogenModule(Package, DownloadableModule):
                  makeinstallargs='',
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
+                 skip_install_phase=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
@@ -62,6 +63,7 @@ class AutogenModule(Package, DownloadableModule):
         self.makeinstallargs = makeinstallargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.skip_autogen = skip_autogen
+        self.skip_install_phase = skip_install_phase
         self.autogen_sh = autogen_sh
         self.makefile = makefile
         self.autogen_template = autogen_template
@@ -299,7 +301,7 @@ class AutogenModule(Package, DownloadableModule):
     do_install.depends = [PHASE_BUILD]
 
     def skip_install(self, buildscript, last_phase):
-        return self.config.noinstall
+        return self.config.noinstall or self.skip_install_phase
 
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
@@ -318,6 +320,7 @@ class AutogenModule(Package, DownloadableModule):
                  ('supports-non-srcdir-builds',
                   'supports_non_srcdir_builds', True),
                  ('skip-autogen', 'skip_autogen', False),
+                 ('skip-install', 'skip_install_phase', False),
                  ('autogen-sh', 'autogen_sh', 'autogen.sh'),
                  ('makefile', 'makefile', 'Makefile'),
                  ('supports-static-analyzer', 'supports_static_analyzer', True),
@@ -346,6 +349,12 @@ def parse_autotools(node, config, uri, repositories, default_repo):
             instance.skip_autogen = True
         elif skip_autogen == 'never':
             instance.skip_autogen = 'never'
+    if node.hasAttribute('skip-install'):
+        skip_install = node.getAttribute('skip-install')
+        if skip_install.lower() in ('true', 'yes'):
+            instance.skip_install_phase = True
+        else:
+            instance.skip_install_phase = False
 
     if node.hasAttribute('check-target'):
         instance.check_target = (node.getAttribute('check-target') == 'true')
