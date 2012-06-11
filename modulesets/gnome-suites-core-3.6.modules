@@ -13,6 +13,8 @@
     href="git://anongit.freedesktop.org/telepathy/"/>
   <repository type="git" name="packagekit.gitorious.org"
       href="git://gitorious.org/packagekit"/>
+  <repository type="git" name="stefw.freedesktop.org"
+      href="git://people.freedesktop.org/~stefw"/>
 
 <!-- tarball repos -->
   <repository type="tarball" name="avahi.org"
@@ -153,6 +155,7 @@
       <dep package="gstreamer"/>
       <dep package="NetworkManager"/>
       <dep package="network-manager-applet"/>
+      <dep package="realmd"/>
     </suggests>
   </autotools>
 
@@ -979,6 +982,14 @@
       <dep package="gobject-introspection"/>
       <dep package="expat"/>
       <dep package="intltool"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="realmd" autogenargs="">
+    <branch repo="stefw.freedesktop.org" module="realmd"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="PackageKit"/>
     </dependencies>
   </autotools>
 
