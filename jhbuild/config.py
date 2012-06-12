@@ -472,10 +472,14 @@ class Config:
         python_bin = os.environ.get('PYTHON', 'python')
         try:
             pythonversion = 'python' + get_output([python_bin, '-c',
-                'import sys; print ".".join([str(x) for x in sys.version_info[:2]])'],
+                'import sys; print(".".join([str(x) for x in sys.version_info[:2]]))'],
                 get_stderr = False).strip()
         except CommandError:
             pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+            if 'PYTHON' in os.environ:
+                logging.warn(_('Unable to determine python version using the '
+                               'PYTHON environment variable (%s). Using default "%s"')
+                             % (os.environ['PYTHON'], pythonversion))
 
         # In Python 2.6, site-packages got replaced by dist-packages, get the
         # actual value by asking distutils
@@ -483,10 +487,14 @@ class Config:
         try:
             python_packages_dir = get_output([python_bin, '-c',
                 'import os, distutils.sysconfig; '\
-                'print distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1]' % self.prefix],
+                'print(distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1])' % self.prefix],
                 get_stderr=False).strip()
         except CommandError:
             python_packages_dir = 'site-packages'
+            if 'PYTHON' in os.environ:
+                logging.warn(_('Unable to determine python site-packages directory using the '
+                               'PYTHON environment variable (%s). Using default "%s"')
+                             % (os.environ['PYTHON'], python_packages_dir))
             
         if self.use_lib64:
             pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, python_packages_dir)
