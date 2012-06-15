@@ -63,7 +63,7 @@ class cmd_tinderbox(BuildCommand):
                         action='store_true', dest='force_policy', default=False,
                         help=_('build even if policy says not to')),
             make_option('--nodeps',
-                        action='store_false', dest='check_sysdeps', default=True,
+                        action='store_false', dest='check_sysdeps', default=None,
                         help=_('ignore missing system dependencies'))
             ])
 
