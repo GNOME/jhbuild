@@ -626,7 +626,7 @@ class Config:
             except ValueError:
                 raise FatalError(_('Failed to parse \'min_age\' relative '
                                    'time'))
-        if hasattr(options, 'check_sysdeps'):
+        if hasattr(options, 'check_sysdeps') and options.check_sysdeps:
             self.check_sysdeps = options.check_sysdeps
 
     def __setattr__(self, k, v):

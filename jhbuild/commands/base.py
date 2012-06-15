@@ -214,7 +214,7 @@ class cmd_build(BuildCommand):
                         action='store', dest='min_age', default=None,
                         help=_('skip modules installed less than the given time ago')),
             make_option('--nodeps',
-                        action='store_false', dest='check_sysdeps', default=True,
+                        action='store_false', dest='check_sysdeps', default=None,
                         help=_('ignore missing system dependencies')),
             ])
 
