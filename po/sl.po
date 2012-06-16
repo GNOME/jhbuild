@@ -47,11 +47,11 @@ msgstr "Zaženite `make' za kodno prevajanje paketa $PKG_NAME"
 msgid "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME directory"
 msgstr "**Napaka**: mapa `$srcdir' ni videti kot mapa vrhnje ravni paketa $PKG_NAME"
 
-#: ../autogen.sh:203
+#: ../autogen.sh:205
 msgid "gnome-autogen.sh not available"
 msgstr "skript gnome-autogen.sh ni na voljo"
 
-#: ../autogen.sh:206
+#: ../autogen.sh:208
 msgid "yelp-tools not available"
 msgstr "orodje yelp-tools ni na voljo"
 
@@ -267,6 +267,7 @@ msgid "Update and compile one or more modules"
 msgstr "Posodobi in kodno pretvori enega ali več modulov"
 
 #: ../jhbuild/commands/base.py:320
+#: ../jhbuild/commands/make.py:93
 #, python-format
 msgid "module \"%s\" does not exist, created automatically using repository \"%s\""
 msgstr "modula \"%s\" ni mogoče najti; ustvarjen je samodejno v skladišču \"%s\""
@@ -451,12 +452,12 @@ msgstr "%(module)s nima določene veje %(branch)s"
 msgid "Check if modules in jhbuild have the correct definition"
 msgstr "Preveri ali imajo moduli v jhbuild pravilna določila"
 
-#: ../jhbuild/commands/checkmodulesets.py:42
+#: ../jhbuild/commands/checkmodulesets.py:43
 #, python-format
 msgid "%(module)s is unreachable (%(href)s)"
 msgstr "Modula %(module)s ni mogoče doseči (%(href)s)"
 
-#: ../jhbuild/commands/checkmodulesets.py:45
+#: ../jhbuild/commands/checkmodulesets.py:46
 #, python-format
 msgid "Cannot check %(module)s (%(href)s)"
 msgstr "Ni mogoče pregledati modula %(module)s (%(href)s)"
@@ -464,6 +465,15 @@ msgstr "Ni mogoče pregledati modula %(module)s (%(href)s)"
 #: ../jhbuild/commands/clean.py:29
 msgid "Clean all modules"
 msgstr "Počisti vse module"
+
+#: ../jhbuild/commands/goalreport.py:328
+msgid "Report GNOME modules status wrt various goals"
+msgstr "Poročaj o stanju modulov GNOME glede na različne cilje"
+
+#: ../jhbuild/commands/goalreport.py:351
+#| msgid "Could not check git program"
+msgid "check to perform"
+msgstr "Preverite za delovanje"
 
 #: ../jhbuild/commands/gui.py:30
 msgid "Build targets from a GUI app"
@@ -649,7 +659,7 @@ msgstr "Kodno prevedi in namesti modul za trenutno mapo"
 msgid "The current directory is not in the checkout root %r"
 msgstr "Trenutna mapa ni na poti objave korena %r"
 
-#: ../jhbuild/commands/make.py:86
+#: ../jhbuild/commands/make.py:88
 #, python-format
 msgid "No module matching current directory %r in the moduleset"
 msgstr "V zbirki ni modula, ki je skladen s trenutno mapo %r"
@@ -700,7 +710,7 @@ msgstr "predpona namestitve (%s) ni zapisljiva."
 #: ../jhbuild/commands/sanitycheck.py:147
 #: ../jhbuild/commands/sanitycheck.py:149
 #: ../jhbuild/commands/sanitycheck.py:151
-#: ../jhbuild/modtypes/cmake.py:85
+#: ../jhbuild/modtypes/cmake.py:94
 #: ../jhbuild/versioncontrol/bzr.py:204
 #: ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:108
@@ -801,6 +811,10 @@ msgstr "mapa za shranjevanje dnevnikov izgradnje"
 msgid "output directory for tinderbox build not specified"
 msgstr "odvodna mapa za izgradnjo tinderbox ni določena"
 
+#: ../jhbuild/commands/twoninetynine.py:161
+msgid "Report GNOME modules status wrt 3.0 goals"
+msgstr "Poročaj o stanju modulov GNOME glede na cilje 3.0"
+
 #: ../jhbuild/commands/uninstall.py:30
 msgid "Uninstall all modules"
 msgstr "Odstrani namestitev vseh modulov"
@@ -894,16 +908,26 @@ msgstr "delovne mape (%s) ni mogoče ustvariti"
 msgid "Can't create %s directory"
 msgstr "Ni mogoče ustvariti mape %s"
 
-#: ../jhbuild/config.py:534
+#: ../jhbuild/config.py:480
+#, python-format
+msgid "Unable to determine python version using the PYTHON environment variable (%s). Using default \"%s\""
+msgstr "Ni mogoče določiti različice python z okoljsko spremenljivko PYTHON (%s). Uporabljena bo privzeta \"%s\""
+
+#: ../jhbuild/config.py:495
+#, python-format
+msgid "Unable to determine python site-packages directory using the PYTHON environment variable (%s). Using default \"%s\""
+msgstr "Mape paketov spletišč python ni mogoče določiti z okoljsko spremenljivko PYTHON (%s). Uporabljena bo privzeta \"%s\""
+
+#: ../jhbuild/config.py:542
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Ni mogoče ustvariti GConf nastavitev (%s)"
 
-#: ../jhbuild/config.py:619
+#: ../jhbuild/config.py:627
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Napaka med razčlenjevanjem relativnega časa 'min_age'"
 
-#: ../jhbuild/config.py:632
+#: ../jhbuild/config.py:640
 msgid "quiet mode has been disabled because the Python curses module is missing."
 msgstr "tihi način izpisa je onemogočen, saj Python curses modul ni nameščen."
 
@@ -1196,21 +1220,21 @@ msgid "EOF"
 msgstr "EOF"
 
 #: ../jhbuild/modtypes/autotools.py:118
-#: ../jhbuild/modtypes/cmake.py:78
+#: ../jhbuild/modtypes/cmake.py:87
 #: ../jhbuild/modtypes/linux.py:113
 #: ../jhbuild/modtypes/waf.py:74
 msgid "Configuring"
 msgstr "Nastavljanje"
 
-#: ../jhbuild/modtypes/autotools.py:211
-#: ../jhbuild/modtypes/cmake.py:99
+#: ../jhbuild/modtypes/autotools.py:212
+#: ../jhbuild/modtypes/cmake.py:108
 #: ../jhbuild/modtypes/linux.py:145
 #: ../jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Čiščenje"
 
-#: ../jhbuild/modtypes/autotools.py:220
-#: ../jhbuild/modtypes/cmake.py:108
+#: ../jhbuild/modtypes/autotools.py:221
+#: ../jhbuild/modtypes/cmake.py:117
 #: ../jhbuild/modtypes/distutils.py:57
 #: ../jhbuild/modtypes/linux.py:158
 #: ../jhbuild/modtypes/perl.py:52
@@ -1218,30 +1242,30 @@ msgstr "Čiščenje"
 msgid "Building"
 msgstr "Izgradnja"
 
-#: ../jhbuild/modtypes/autotools.py:254
+#: ../jhbuild/modtypes/autotools.py:255
 #: ../jhbuild/modtypes/waf.py:109
 msgid "Checking"
 msgstr "Preverjanje"
 
-#: ../jhbuild/modtypes/autotools.py:267
-#: ../jhbuild/modtypes/cmake.py:117
+#: ../jhbuild/modtypes/autotools.py:268
+#: ../jhbuild/modtypes/cmake.py:126
 #: ../jhbuild/modtypes/waf.py:120
 msgid "Creating tarball for"
 msgstr "Ustvarjanje tar paketa za"
 
-#: ../jhbuild/modtypes/autotools.py:276
+#: ../jhbuild/modtypes/autotools.py:277
 msgid "Dist checking"
 msgstr "Preverjanje distribucije"
 
-#: ../jhbuild/modtypes/autotools.py:285
-#: ../jhbuild/modtypes/cmake.py:126
+#: ../jhbuild/modtypes/autotools.py:286
+#: ../jhbuild/modtypes/cmake.py:135
 #: ../jhbuild/modtypes/distutils.py:69
 #: ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:130
 msgid "Installing"
 msgstr "Nameščanje"
 
-#: ../jhbuild/modtypes/autotools.py:301
+#: ../jhbuild/modtypes/autotools.py:302
 msgid "Distcleaning"
 msgstr "Čiščenje distribucije"
 
@@ -1388,41 +1412,41 @@ msgstr "Zahtevani so paketi python XML, vendar jih ni mogoče najti"
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "popravljen primer modula '%(orig)s' v '%(new)s'"
 
-#: ../jhbuild/moduleset.py:116
+#: ../jhbuild/moduleset.py:117
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s ima odvisnosti do neznanega \"%(invalid)s\" modula"
 
-#: ../jhbuild/moduleset.py:122
+#: ../jhbuild/moduleset.py:130
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Zaznane krožne odvisnosti: %s"
 
-#: ../jhbuild/moduleset.py:157
+#: ../jhbuild/moduleset.py:164
 #, python-format
 msgid "module \"%s\" not found"
 msgstr "modula \"%s\" ni mogoče najti"
 
-#: ../jhbuild/moduleset.py:256
+#: ../jhbuild/moduleset.py:263
 msgid "Unknown module:"
 msgstr "Neznani modul:"
 
-#: ../jhbuild/moduleset.py:354
+#: ../jhbuild/moduleset.py:361
 #, python-format
 msgid "could not download %s: %s"
 msgstr "ni mogoče prejeti %s: %s"
 
-#: ../jhbuild/moduleset.py:359
-#: ../jhbuild/moduleset.py:361
+#: ../jhbuild/moduleset.py:366
+#: ../jhbuild/moduleset.py:368
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "napaka med razčlenjevanjem %s: %s"
 
-#: ../jhbuild/moduleset.py:388
+#: ../jhbuild/moduleset.py:395
 msgid "Duplicate repository:"
 msgstr "Podvojeno skladišče:"
 
-#: ../jhbuild/moduleset.py:491
+#: ../jhbuild/moduleset.py:498
 msgid "Modulesets were edited locally but JHBuild is configured to get them from the network, perhaps you need to add use_local_modulesets = True to your .jhbuildrc."
 msgstr "Moduli so bili urejeni krajevno, JHBuild pa je nastavljen za prevzemanje modulov preko omrežja. Najverjetneje je treba uporabiti možnost use_local_modulesets = True v nastavitveni datoteki .jhbuildrc."
 
@@ -1789,8 +1813,3 @@ msgstr "ni mogoče najti programa quilt"
 #: ../jhbuild/versioncontrol/tarball.py:308
 msgid "could not checkout quilt patch set"
 msgstr "ni mogoče prevzeti nabora popravkov quilt"
-
-#~ msgid ""
-#~ "Partial build is not enabled; add partial_build = True to ~/.jhbuildrc"
-#~ msgstr ""
-#~ "Delna gradnja ni omogočena; dodajte partial_build = True v ~/.jhbuildrc"
