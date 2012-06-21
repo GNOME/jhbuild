@@ -208,11 +208,13 @@ class ModuleSet:
 
     def remove_system_modules(self, modules):
         if not self.config.partial_build:
-            return modules
+            return [module for module in modules \
+                    if not isinstance(module, SystemModule)]
+
+        return_list = []
 
         installed_pkgconfig = systeminstall.get_installed_pkgconfigs \
-                                  (self.config)
-        return_list = []
+                                (self.config)
 
         for module in modules:
             if isinstance(module, SystemModule):
