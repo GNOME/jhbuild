@@ -243,7 +243,7 @@ class Config:
             traceback.print_exc()
             raise FatalError(_('Could not include config file (%s)') % filename)
 
-    def load(self, filename):
+    def load(self, filename=None):
         config = self._config
         if filename:
             try:
