@@ -66,6 +66,7 @@ def get_dependencies(node):
     dependencies = []
     after = []
     suggests = []
+    systemdependencies = []
 
     def add_to_list(list, childnode):
         for dep in childnode.childNodes:
@@ -76,6 +77,25 @@ def get_dependencies(node):
                             node.getAttribute('id'))
                 list.append(package)
 
+    def add_to_system_dependencies(lst, childnode):
+        for dep in childnode.childNodes:
+            if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+                typ = dep.getAttribute('type')
+                if not type:
+                    raise FatalError(_('%(node)s node for %(module)s module is'
+                                       ' missing %(attribute)s attribute') % \
+                                     {'node_name'   : 'dep',
+                                      'module_name' : node.getAttribute('id'),
+                                      'attribute'   : 'type'})
+                name = dep.getAttribute('name')
+                if not type:
+                    raise FatalError(_('%(node)s node for %(module)s module is'
+                                       ' missing %(attribute)s attribute') % \
+                                     {'node_name'   : 'dep',
+                                      'module_name' : node.getAttribute('id'),
+                                      'attribute'   : 'name'})
+                lst.append((typ, name))
+
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue
         if childnode.nodeName == 'dependencies':
@@ -84,8 +104,10 @@ def get_dependencies(node):
             add_to_list(suggests, childnode)
         elif childnode.nodeName == 'after':
             add_to_list(after, childnode)
+        elif childnode.nodeName == 'systemdependencies':
+            add_to_system_dependencies(systemdependencies, childnode)
 
-    return dependencies, after, suggests
+    return dependencies, after, suggests, systemdependencies
 
 def get_node_content(node):
     node.normalize()
@@ -145,12 +167,14 @@ class Package:
     type = 'base'
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
-    def __init__(self, name, branch=None, dependencies = [], after = [], suggests = [], pkg_config=None):
+    def __init__(self, name, branch=None, dependencies = [], after = [],
+                  suggests = [], systemdependencies = [], pkg_config=None):
         self.name = name
         self.branch = branch
         self.dependencies = dependencies
         self.after = after
         self.suggests = suggests
+        self.systemdependencies = systemdependencies
         self.pkg_config = pkg_config
         self.tags = []
         self.moduleset_name = None
@@ -438,7 +462,7 @@ them into the prefix."""
         name = node.getAttribute('id')
         instance = cls(name)
         instance.branch = get_branch(node, repositories, default_repo, config)
-        instance.dependencies, instance.after, instance.suggests = get_dependencies(node)
+        instance.dependencies, instance.after, instance.suggests, instance.systemdependencies = get_dependencies(node)
         instance.supports_parallel_build = (node.getAttribute('supports-parallel-builds') != 'no')
         instance.config = config
         pkg_config = find_first_child_node_content(node, 'pkg-config')
@@ -500,8 +524,9 @@ class MetaModule(Package):
 
 def parse_metamodule(node, config, url, repos, default_repo):
     id = node.getAttribute('id')
-    dependencies, after, suggests = get_dependencies(node)
-    return MetaModule(id, dependencies=dependencies, after=after, suggests=suggests)
+    dependencies, after, suggests, systemdependencies = get_dependencies(node)
+    return MetaModule(id, dependencies=dependencies, after=after,
+                      suggests=suggests, systemdependencies=systemdependencies)
 register_module_type('metamodule', parse_metamodule)
 
 

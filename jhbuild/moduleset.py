@@ -191,13 +191,24 @@ class ModuleSet:
         # pkgconfig -> (required_version, installed_verison)
         module_state = {}
         for module in modules:
-            if module.pkg_config is None:
-                continue
             if (isinstance(module.branch, TarballBranch)
                 or isinstance(module, SystemModule)):
-                # Strip off the .pc
-                module_pkg = module.pkg_config[:-3]
                 required_version = module.branch.version
+                if module.pkg_config is None:
+                    module_pkg = module.name
+                else: # Strip off the .pc
+                    module_pkg = module.pkg_config[:-3]
+
+                if module.systemdependencies:
+                    if not systeminstall.systemdependencies_met \
+                               (module.name, module.systemdependencies,
+                                self.config):
+                        module_state[module_pkg] = (module, required_version,
+                                                    None, False,
+                                                    isinstance(module,
+                                                               SystemModule))
+                if module.pkg_config is None:
+                    continue
                 if not module_pkg in installed_pkgconfig:
                     module_state[module_pkg] = (module, required_version, None, False, isinstance(module, SystemModule))
                 else:

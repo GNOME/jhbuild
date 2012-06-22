@@ -85,7 +85,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     # for tarballs, don't ever pass --enable-maintainer-mode
     autogenargs = autogenargs.replace('--enable-maintainer-mode', '')
 
-    dependencies, after, suggests = get_dependencies(node)
+    dependencies, after, suggests, systemdependencies = get_dependencies(node)
 
     from autotools import AutogenModule
     from jhbuild.versioncontrol.tarball import TarballBranch, TarballRepository
@@ -106,6 +106,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
     instance.dependencies = dependencies
     instance.after = after
     instance.suggests = suggests
+    instance.systemdependencies = systemdependencies
     instance.pkg_config = find_first_child_node_content(node, 'pkg-config')
     instance.config = config
 

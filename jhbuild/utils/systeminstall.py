@@ -20,6 +20,7 @@
 import os
 import sys 
 import logging
+import shlex
 import subprocess
 import pipes
 from StringIO import StringIO
@@ -48,6 +49,77 @@ def get_installed_pkgconfigs(config):
         proc.wait()
         pkgversions[pkg] = stdout.strip()
     return pkgversions
+
+def systemdependencies_met(module_name, sysdeps, config):
+    '''Returns True of the system dependencies are met for module_name'''
+    def get_c_include_search_paths(config):
+        '''returns a list of C include paths (-I) from the environment and the
+        user's config'''
+        def extract_path_from_cflags(args):
+            '''extract the C include paths (-I) from a list of arguments (args)
+            Returns a list of paths'''
+            itr = iter(args.split())
+            paths = []
+            if os.name == 'nt':
+                # shlex.split doesn't handle sep '\' on Windows
+                import string
+                shell_split = string.split
+            else:
+                shell_split = shlex.split
+            try:
+                while True:
+                    arg = itr.next()
+                    if arg.strip() == '-I':
+                        # extract paths handling quotes and multiple paths
+                        paths += shell_split(itr.next())[0].split(os.pathsep)
+                    elif arg.startswith('-I'):
+                        paths += shell_split(arg[2:])[0].split(os.pathsep)
+            except StopIteration:
+                pass
+            return paths
+        # search /usr/include by default
+        paths = [ os.path.join(os.sep, 'usr', 'include')]
+        paths += extract_path_from_cflags(os.environ.get('CPPFLAGS', ''))
+        # check include paths incorrectly configured in CFLAGS, CXXFLAGS
+        paths += extract_path_from_cflags(os.environ.get('CFLAGS', ''))
+        paths += extract_path_from_cflags(os.environ.get('CXXFLAGS', ''))
+        # check include paths incorrectly configured in makeargs
+        paths += extract_path_from_cflags(config.makeargs)
+        paths += extract_path_from_cflags(config.module_autogenargs.get
+                                             (module_name, ''))
+        paths += extract_path_from_cflags(config.module_makeargs.get
+                                             (module_name, ''))
+        paths = list(set(paths)) # remove duplicates
+        return paths
+
+    c_include_search_paths = None
+    for dep_type, value in sysdeps:
+        if dep_type.lower() == 'path':
+            if os.path.split(value)[0]:
+                if not os.path.isfile(value) and not os.access(value, os.X_OK):
+                    return False
+            else:
+                found = False
+                for path in os.environ.get('PATH', '').split(os.pathsep):
+                    filename = os.path.join(path, value)
+                    if (os.path.isfile(filename) and
+                        os.access(filename, os.X_OK)):
+                        found = True
+                        break
+                if not found:
+                    return False
+        elif dep_type.lower() == 'c_include':
+            if c_include_search_paths is None:
+                c_include_search_paths = get_c_include_search_paths(config)
+            found = False
+            for path in c_include_search_paths:
+                filename = os.path.join(path, value)
+                if os.path.isfile(filename):
+                    found = True
+                    break
+            if not found:
+                return False
+    return True
 
 class SystemInstall(object):
     def __init__(self):
