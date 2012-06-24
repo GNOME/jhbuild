@@ -90,6 +90,8 @@
       href="git://gitorious.org/"/>
   <repository type="tarball" name="samba.org"
       href="http://samba.org/samba/ftp/"/>
+  <repository type="hg" name="hg.sourceforge.net"
+    href="http://hg.sourceforge.net/"/>
   <repository type="tarball" name="sourceforge.net"
       href="http://prdownloads.sourceforge.net/sourceforge/"/>
   <repository type="svn" name="xchat.sf.net"
@@ -1285,6 +1287,17 @@
       <dep package="gtk+-2"/>
     </suggests>
   </tarball>
+
+  <autotools id="gtkspell-3">
+    <branch repo="hg.sourceforge.net"
+            module="gtkspell/gtkspell"
+            checkoutdir="gtkspell"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="gtk-doc"/>
+      <dep package="pango"/>
+    </dependencies>
+  </autotools>
 
   <tarball id="gtkspell" version="2.0.16">
     <source href="http://sourceforge.net/projects/gtkspell/files/2.0.16/gtkspell-2.0.16.tar.gz"
