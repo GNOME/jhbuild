@@ -384,7 +384,11 @@
     <branch repo="libproxy.googlecode.com"
             module="libproxy-0.4.7.tar.gz" version="0.4.7"
             hash="sha256:8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
-            size="91092"/>
+            size="91092">
+      <!-- fix gcc4.7 problems. Remove when new release. Patch rev 833:
+           http://code.google.com/p/libproxy/source/detail?r=833       -->
+      <patch file="libproxy-0.4.7-gcc47.patch"/>
+    </branch>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
