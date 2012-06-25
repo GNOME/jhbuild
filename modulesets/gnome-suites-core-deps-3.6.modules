@@ -45,6 +45,8 @@
     href="https://fedorahosted.org/releases/l/i/libpwquality/"/>
 <repository type="tarball" name="graphviz.org"
     href="http://www.graphviz.org/pub/"/>
+<repository type="tarball" name="launchpad.net/tarball"
+    href="https://launchpad.net/"/>
 
 <include href="gnome-suites-core-deps-base-3.6.modules"/>
 
@@ -137,6 +139,18 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libzeitgeist">
+    <branch repo="launchpad.net/tarball"
+            module="libzeitgeist/0.3/0.3.18/+download/libzeitgeist-0.3.18.tar.gz"
+            version="0.3.18"
+            hash="sha256:82c128d97a68600518b8e3e65ef4d5b123c57f3d5dfa977c7ff733c0fdf80f73"
+            size="527117"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
   </autotools>
 
 <!-- OS Core API/ABI stable dependencies -->
