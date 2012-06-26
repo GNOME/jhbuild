@@ -94,7 +94,13 @@ class CMakeModule(Package, DownloadableModule):
             raise CommandError(_('%s not found') % 'cmake')
         baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DLIB_INSTALL_DIR=%s -Dlibdir=%s' % (
                         prefix, buildscript.config.libdir, buildscript.config.libdir)
-        cmd = 'cmake %s %s %s' % (baseargs, self.get_cmakeargs(), srcdir)
+        cmakeargs = self.get_cmakeargs()
+        # CMake on Windows generates VS projects or NMake makefiles by default.
+        # When using MSYS "MSYS Makefiles" is the best guess. "Unix Makefiles"
+        # and "MinGW Makefiles" could also work (each is a bit different).
+        if os.name == 'nt' and os.getenv("MSYSCON") and '-G' not in cmakeargs:
+            baseargs += ' -G "MSYS Makefiles"'
+        cmd = 'cmake %s %s %s' % (baseargs, cmakeargs, srcdir)
         if os.path.exists(os.path.join(builddir, 'CMakeCache.txt')):
             # remove that file, as it holds the result of a previous cmake
             # configure run, and would be reused unconditionnaly
