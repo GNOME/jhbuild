@@ -23,7 +23,8 @@
       href="git://libvirt.org/"/>
   <repository type="git" name="fedorahosted.org"
       href="git://git.fedorahosted.org/git/"/>
-
+  <repository type="git" name="colord.gitorious.org"
+      href="git://gitorious.org/colord/"/>
 
 <!-- tarball repos -->
   <repository type="tarball" name="cairo.org"
@@ -67,6 +68,16 @@
             hash="sha256:fc2e5b68382eb436a38c3104684a6c494df9bde133c139fbba3ddb5d7eaa6a2e"
             size="440772"/>
     <dependencies>
+    </dependencies>
+  </autotools>
+
+  <autotools id="colord-gtk">
+    <branch repo="colord.gitorious.org" checkoutdir="colord-gtk" module="colord-gtk.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="colord"/>
+      <dep package="vala"/>
     </dependencies>
   </autotools>
 
