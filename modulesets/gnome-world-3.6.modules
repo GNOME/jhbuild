@@ -7,6 +7,8 @@
       href="git://git.gnome.org/"/>
   <repository type="git" name="git.clutter-project.org"
       href="http://git.clutter-project.org/"/>
+  <repository type="tarball" name="clutter-project.org"
+    href="http://source.clutter-project.org/sources/"/>
   <repository type="cvs" name="cairo.freedesktop.org"
       cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
       password=""/>
@@ -134,6 +136,22 @@
     <dependencies>
       <dep package="gtk+-2"/>
       <dep package="cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mx">
+    <branch repo="clutter-project.org"
+            module="mx/1.4/mx-1.4.3.tar.xz"
+            version="1.4.3"
+            hash="sha256:d0c259a7bcaf130a17cef00ed4c7118287f05790a6b50bcffa02668130336eb5"
+            size="951232"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+      <dep package="startup-notification"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
 
