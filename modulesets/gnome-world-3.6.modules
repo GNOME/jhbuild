@@ -2230,7 +2230,10 @@
   </autotools>
 
 
-  <autotools id="gstreamer-master" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
+  <autotools id="gstreamer-master"
+             autogenargs="--disable-tests"
+             checkoutdir="gstreamer-master"
+             supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gstreamer"/>
     <dependencies>
       <dep package="glib"/>
@@ -2239,7 +2242,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-base-master" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
+  <autotools id="gst-plugins-base-master"
+             autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs"
+             checkoutdir="gst-plugins-base-master"
+             supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
     <dependencies>
       <dep package="gstreamer-master"/>
@@ -2251,7 +2257,10 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-plugins-good-master" autogenargs="--with-gtk=3.0 --disable-tests --disable-examples" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
+  <autotools id="gst-plugins-good-master"
+             autogenargs="--with-gtk=3.0 --disable-tests --disable-examples"
+             checkoutdir="gst-plugins-good-master"
+             supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-good"/>
     <dependencies>
       <dep package="gstreamer-master"/>
@@ -2265,7 +2274,9 @@
   </autotools>
 
   <autotools id="gst-plugins-ugly-master"
-             autogenargs="--disable-tests" supports-non-srcdir-builds="no">
+             autogenargs="--disable-tests"
+             checkoutdir="gst-plugins-ugly-master"
+             supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-ugly"/>
     <dependencies>
@@ -2276,6 +2287,7 @@
 
   <autotools id="gst-plugins-bad-master"
              autogenargs="--disable-tests"
+             checkoutdir="gst-plugins-bad-master"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-bad"/>
