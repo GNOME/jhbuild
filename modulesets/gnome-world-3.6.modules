@@ -383,16 +383,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-bad-master"
-             autogenargs="-- --disable-tests"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-bad"/>
-    <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gst-plugins-gl" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-gl"/>
     <dependencies>
@@ -2252,7 +2242,7 @@
   <autotools id="gst-plugins-base-master" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base"/>
     <dependencies>
-      <dep package="gstreamer"/>
+      <dep package="gstreamer-master"/>
       <dep package="gtk+"/>
       <dep package="liboil"/>
     </dependencies>
@@ -2264,14 +2254,35 @@
   <autotools id="gst-plugins-good-master" autogenargs="--with-gtk=3.0 --disable-tests --disable-examples" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-good"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-master"/>
+      <dep package="gst-plugins-base-master"/>
     </dependencies>
     <suggests>
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
       <dep package="gudev"/>
     </suggests>
+  </autotools>
+
+  <autotools id="gst-plugins-ugly-master"
+             autogenargs="--disable-tests" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org"
+            module="gst-plugins-ugly"/>
+    <dependencies>
+      <dep package="gstreamer-master"/>
+      <dep package="gst-plugins-base-master"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-plugins-bad-master"
+             autogenargs="--disable-tests"
+             supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org"
+            module="gst-plugins-bad"/>
+    <dependencies>
+      <dep package="gstreamer-master"/>
+      <dep package="gst-plugins-base-master"/>
+    </dependencies>
   </autotools>
 
 </moduleset>
