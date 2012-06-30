@@ -402,10 +402,23 @@
   </autotools>
 
   <autotools id="gst-ffmpeg" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-ffmpeg"/>
+    <branch repo="gstreamer.freedesktop.org"
+            module="gst-ffmpeg"
+            revision="0.10"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-libav"
+             autogenargs="--disable-tests"
+             supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org"
+            module="gst-ffmpeg"/>
+    <dependencies>
+      <dep package="gstreamer-master"/>
+      <dep package="gst-plugins-base-master"/>
     </dependencies>
   </autotools>
 
