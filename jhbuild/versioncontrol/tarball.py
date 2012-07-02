@@ -71,6 +71,9 @@ class TarballRepository(Repository):
             if module is None:
                 module = name
             module = urlparse.urljoin(self.href, module)
+        module = module.replace('${version}', version)
+        if checkoutdir is not None:
+            checkoutdir = checkoutdir.replace('${version}', version)
         if size is not None:
             size = int(size)
         if md5sum and (not hash or hashlib.__name__ == 'md5'):
