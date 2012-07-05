@@ -454,14 +454,22 @@ class Config:
         addpath('XCURSOR_PATH', xcursordir)
 
         # GST_PLUGIN_PATH
-        for gst in ('gstreamer-1.0', 'gstreamer-0.10'):
-            gstplugindir = os.path.join(self.libdir , gst)
-            if os.path.exists(gstplugindir):
-                addpath('GST_PLUGIN_PATH', gstplugindir)
+        gstplugindir = os.path.join(self.libdir , 'gstreamer-0.10')
+        if os.path.exists(gstplugindir):
+            addpath('GST_PLUGIN_PATH', gstplugindir)
+
+        # GST_PLUGIN_PATH_1_0
+        gstplugindir = os.path.join(self.libdir , 'gstreamer-1.0')
+        if os.path.exists(gstplugindir):
+            addpath('GST_PLUGIN_PATH_1_0', gstplugindir)
 
         # GST_REGISTRY
-        gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer.registry')
+        gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer-0.10.registry')
         addpath('GST_REGISTRY', gstregistry)
+
+        # GST_REGISTRY_1_0
+        gstregistry = os.path.join(self.prefix, '_jhbuild', 'gstreamer-1.0.registry')
+        addpath('GST_REGISTRY_1_0', gstregistry)
 
         # ACLOCAL_PATH
         aclocalpath = os.path.join(self.prefix, 'share', 'aclocal')
