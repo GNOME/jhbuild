@@ -47,6 +47,14 @@
     href="http://www.graphviz.org/pub/"/>
 <repository type="tarball" name="launchpad.net/tarball"
     href="https://launchpad.net/"/>
+<repository type="tarball" name="opencc"
+    href="http://opencc.googlecode.com/files/"/>
+<repository type="tarball" name="anthy"
+    href="http://ftp.jaist.ac.jp/pub/sourceforge.jp/anthy/37536/"/>
+<repository type="tarball" name="libhangul"
+    href="http://libhangul.googlecode.com/files/"/>
+<repository type="tarball" name="ibus"
+    href="http://ibus.googlecode.com/files/"/>
 
 <include href="gnome-suites-core-deps-base-3.6.modules"/>
 
@@ -1036,6 +1044,72 @@
             hash="sha256:1aad05fd8801165aa5c14badf06d3b8c94b2f4213016e0f09d73a3973c41db93"
             md5sum="21db9a7877ab14b0fb29d4448c798de6" size="358017">
     </branch>
+  </autotools>
+
+  <autotools id="ibus"
+             autogenargs="--disable-tests --disable-gconf --enable-dconf --disable-ui"
+             makeargs="CFLAGS=-Wno-error">
+    <branch repo="ibus"
+            module="ibus-1.4.99.20120712.tar.gz" version="1.4.99.20120712"
+            hash="sha1:57db18a8a7b25c20d6ae171cab57e72bf613ad39" size="1705854"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="dconf"/>
+      <dep package="iso-codes"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <cmake id="opencc">
+    <branch repo="opencc"
+            module="opencc-0.3.0.tar.gz" version="0.3.0"
+            hash="sha1:76f1750751b7fe15d25d66f0378814434fad1e70" size="491179"/>
+  </cmake>
+
+  <autotools id="ibus-pinyin"
+             autogenargs="--enable-db-open-phrase --enable-opencc --disable-boost"
+             makeargs="CFLAGS=-Wno-error">
+    <branch repo="ibus"
+            module="ibus-pinyin-1.4.99.20120620.tar.gz" version="1.4.99.20120620"
+            hash="sha1:acfadeb1903789f56c6f89ccb5e6a0064be54604" size="1817269"/>
+    <dependencies>
+      <dep package="ibus"/>
+      <dep package="opencc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="anthy">
+    <branch repo="anthy"
+            module="anthy-9100h.tar.gz" version="9100h"
+            hash="sha1:bfea9e74e208c4b976b6bd7ac6784cd290c636fd" size="4446148"/>
+  </autotools>
+
+  <autotools id="ibus-anthy" autogenargs="--enable-private-png=yes">
+    <branch repo="ibus"
+            module="ibus-anthy-1.4.99.20120713.tar.gz" version="1.4.99.20120713"
+            hash="sha1:28b285228608d09dd79df492e74660b199095f77" size="553048"/>
+    <dependencies>
+      <dep package="ibus"/>
+      <dep package="anthy"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libhangul">
+    <branch repo="libhangul"
+            module="libhangul-0.1.0.tar.gz" version="0.1.0"
+            hash="sha1:9c6f3a82f2d4068771215f1b9f13a0d4bdbbfc77" size="2899845"/>
+  </autotools>
+
+  <autotools id="ibus-hangul">
+    <branch repo="ibus"
+            module="ibus-hangul-1.4.1.tar.gz" version="1.4.1"
+            hash="sha1:659899cf942a983fbd2ffbb4bd4f5ecd883f5c0a" size="484065"/>
+    <dependencies>
+      <dep package="ibus"/>
+      <dep package="libhangul"/>
+    </dependencies>
   </autotools>
 
   <!-- Deprecated dependencies -->
