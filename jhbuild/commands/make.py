@@ -93,8 +93,8 @@ class cmd_make(Command):
             from jhbuild.modtypes.autotools import AutogenModule
             module = AutogenModule(modname, default_repo.branch(modname))
             module.config = config
-            logging.info(_('module "%s" does not exist, created automatically using repository "%s"') % \
-                             (modname, default_repo.name))
+            logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
+                         {'modname': modname, 'reponame': default_repo.name})
 
         build = jhbuild.frontends.get_buildscript(config, [module], module_set=module_set)
         return build.build()

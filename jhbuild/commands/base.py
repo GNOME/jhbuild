@@ -317,8 +317,8 @@ class cmd_buildone(BuildCommand):
                 from jhbuild.modtypes.autotools import AutogenModule
                 module = AutogenModule(modname, default_repo.branch(modname))
                 module.config = config
-                logging.info(_('module "%s" does not exist, created automatically using repository "%s"') % \
-                                (modname, default_repo.name))
+                logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
+                             {'modname': modname, 'reponame': default_repo.name})
             module_list.append(module)
 
         if not module_list:
@@ -455,9 +455,7 @@ class cmd_list(Command):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
         if options.startat and options.list_all_modules:
-            raise UsageError(_('Conflicting options specified '
-                               '(\'%s\' and \'%s\')') % \
-                               ('--start-at', '--all-modules'))
+            raise UsageError(_('Conflicting options specified (\'--start-at\' and \'--all-modules\')'))
 
         if options.list_all_modules:
             module_list = module_set.modules.values()

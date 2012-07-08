@@ -89,8 +89,8 @@ class cmd_sanitycheck(Command):
                         not_in_path.append(macro)
 
             if len(not_in_path) > 0:
-                uprint(_("Please copy the lacking macros (%s) in one of the following paths: %s"
-                         % (', '.join(not_in_path), ', '.join(path))))
+                uprint(_("Please copy the lacking macros (%(macros)s) in one of the following paths: %(path)s") % \
+                       {'macros': ', '.join(not_in_path), 'path': ', '.join(path)})
 
         except CommandError, exc:
             uprint(str(exc))
@@ -125,7 +125,7 @@ class cmd_sanitycheck(Command):
 
         if not (inpath('curl', os.environ['PATH'].split(os.pathsep)) or
                 inpath('wget', os.environ['PATH'].split(os.pathsep))):
-            uprint(_('%s or %s not found') % ('curl', 'wget'))
+            uprint(_('curl or wget not found'))
 
         # check for git:
         if not inpath('git', os.environ['PATH'].split(os.pathsep)):
