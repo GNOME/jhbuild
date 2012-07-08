@@ -305,6 +305,18 @@
     </suggests>
   </autotools>
 
+  <cmake id="libgit2">
+    <branch repo="github.com" module="libgit2/libgit2.git" checkoutdir="libgit2" revision="development"/>
+  </cmake>
+
+  <autotools id="libgit2-glib">
+    <branch/>
+    <dependencies>
+      <dep package="libgit2"/>
+      <dep package="glib"/>
+    </dependencies>
+  <autotools>
+
   <autotools id="gitg">
     <branch/>
     <dependencies>
