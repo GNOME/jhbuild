@@ -9,6 +9,7 @@ app_PYTHON = \
 	checkbranches.py \
 	checkmodulesets.py \
 	clean.py \
+	goalreport.py \
 	gui.py \
 	info.py \
 	make.py \
@@ -17,5 +18,6 @@ app_PYTHON = \
 	snapshot.py \
 	sysdeps.py \
 	tinderbox.py \
+	twoninetynine.py \
 	uninstall.py
 
