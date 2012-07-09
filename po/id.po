@@ -7,12 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-19 07:43+0000\n"
-"PO-Revision-Date: 2012-05-26 17:20+0700\n"
+"POT-Creation-Date: 2012-07-09 12:53+0000\n"
+"PO-Revision-Date: 2012-07-09 20:50+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Indonesian\n"
 "X-Poedit-Country: INDONESIA\n"
@@ -44,11 +44,11 @@ msgstr "Sekarang ketikkan 'make' untuk mengkompail $PKG_NAME"
 msgid "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME directory"
 msgstr "**Galat**: Direktori '$srcdir' nampaknya bukan direktori aras puncak $PKG_NAME"
 
-#: ../autogen.sh:203
+#: ../autogen.sh:205
 msgid "gnome-autogen.sh not available"
 msgstr "gnome-autogen.sh tak tersedia"
 
-#: ../autogen.sh:206
+#: ../autogen.sh:208
 msgid "yelp-tools not available"
 msgstr "yelp-tools tak tersedia"
 
@@ -109,7 +109,7 @@ msgstr "url laporan bagi autobuild tak dinyatakan"
 #: ../jhbuild/commands/autobuild.py:81
 #: ../jhbuild/commands/base.py:72
 #: ../jhbuild/commands/base.py:238
-#: ../jhbuild/commands/base.py:476
+#: ../jhbuild/commands/base.py:474
 #: ../jhbuild/commands/clean.py:55
 #: ../jhbuild/commands/tinderbox.py:90
 #, python-format
@@ -266,9 +266,10 @@ msgid "Update and compile one or more modules"
 msgstr "Mutakhirkan dan kompail satu modul atau lebih"
 
 #: ../jhbuild/commands/base.py:320
+#: ../jhbuild/commands/make.py:96
 #, python-format
-msgid "module \"%s\" does not exist, created automatically using repository \"%s\""
-msgstr "modul \"%s\" tak ada, dibuat secara otomatis memakai repositori \"%s\""
+msgid "module \"%(modname)s\" does not exist, created automatically using repository \"%(reponame)s\""
+msgstr "modul \"%(modname)s\" tak ada, dibuat secara otomatis memakai repositori \"%(reponame)s\""
 
 #: ../jhbuild/commands/base.py:333
 msgid "Run a command under the JHBuild environment"
@@ -329,25 +330,24 @@ msgid "list all modules, not only those that would be built"
 msgstr "tampilkan daftar semua modul, bukan hanya yang akan dibangun"
 
 #: ../jhbuild/commands/base.py:458
-#, python-format
-msgid "Conflicting options specified ('%s' and '%s')"
-msgstr "Opsi-opsi yang bertentangan dinyatakan ('%s' dan '%s')"
+msgid "Conflicting options specified ('--start-at' and '--all-modules')"
+msgstr "Opsi-opsi yang bertentangan dinyatakan ('--start-at' dan '--all-modules')"
 
-#: ../jhbuild/commands/base.py:492
+#: ../jhbuild/commands/base.py:490
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Keluarkan graf kebergantungan Graphviz bagi satu modul atau lebih"
 
-#: ../jhbuild/commands/base.py:495
+#: ../jhbuild/commands/base.py:493
 #: ../jhbuild/commands/info.py:39
 #: ../jhbuild/commands/uninstall.py:33
 msgid "[ modules ... ]"
 msgstr "[ modul ... ]"
 
-#: ../jhbuild/commands/base.py:501
+#: ../jhbuild/commands/base.py:499
 msgid "add dotted lines to soft dependencies"
 msgstr "tambahkan garis putus-putus ke kebergantungan lunak"
 
-#: ../jhbuild/commands/base.py:504
+#: ../jhbuild/commands/base.py:502
 msgid "group modules from metamodule together"
 msgstr "kelompokkan modul dari metamodule bersama-sama"
 
@@ -450,12 +450,12 @@ msgstr "%(module)s kehilangan definisi branch untuk %(branch)s"
 msgid "Check if modules in jhbuild have the correct definition"
 msgstr "Periksa apakah modul dalam jhbuild memiliki definisi yang benar"
 
-#: ../jhbuild/commands/checkmodulesets.py:42
+#: ../jhbuild/commands/checkmodulesets.py:43
 #, python-format
 msgid "%(module)s is unreachable (%(href)s)"
 msgstr "%(module)s tak dapat dihubungi (%(href)s)"
 
-#: ../jhbuild/commands/checkmodulesets.py:45
+#: ../jhbuild/commands/checkmodulesets.py:46
 #, python-format
 msgid "Cannot check %(module)s (%(href)s)"
 msgstr "Tak bisa memeriksa %(module)s (%(href)s)"
@@ -463,6 +463,14 @@ msgstr "Tak bisa memeriksa %(module)s (%(href)s)"
 #: ../jhbuild/commands/clean.py:29
 msgid "Clean all modules"
 msgstr "Clean semua modul"
+
+#: ../jhbuild/commands/goalreport.py:328
+msgid "Report GNOME modules status wrt various goals"
+msgstr "Laporkan status modul GNOME menurut berbagai tujuan"
+
+#: ../jhbuild/commands/goalreport.py:351
+msgid "check to perform"
+msgstr "pemeriksaan yang akan dilakukan"
 
 #: ../jhbuild/commands/gui.py:30
 msgid "Build targets from a GUI app"
@@ -643,12 +651,12 @@ msgstr "tak ada perintah demikian (apakah maksud Anda \"jhbuild run %s\"?)"
 msgid "Compile and install the module for the current directory"
 msgstr "Kompail dan pasang modul bagi direktori kini"
 
-#: ../jhbuild/commands/make.py:76
+#: ../jhbuild/commands/make.py:79
 #, python-format
 msgid "The current directory is not in the checkout root %r"
 msgstr "Direktori kini bukan dalam akar checkout %r"
 
-#: ../jhbuild/commands/make.py:86
+#: ../jhbuild/commands/make.py:91
 #, python-format
 msgid "No module matching current directory %r in the moduleset"
 msgstr "Tak ada modul yang cocok dengan direktori kini %r dalam moduleset"
@@ -699,15 +707,15 @@ msgstr "awalan pemasangan (%s) tak dapat ditulisi"
 #: ../jhbuild/commands/sanitycheck.py:147
 #: ../jhbuild/commands/sanitycheck.py:149
 #: ../jhbuild/commands/sanitycheck.py:151
-#: ../jhbuild/modtypes/cmake.py:85
-#: ../jhbuild/versioncontrol/bzr.py:204
+#: ../jhbuild/modtypes/cmake.py:94
+#: ../jhbuild/versioncontrol/bzr.py:206
 #: ../jhbuild/versioncontrol/cvs.py:297
-#: ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/fossil.py:105
+#: ../jhbuild/versioncontrol/darcs.py:110
+#: ../jhbuild/versioncontrol/fossil.py:107
 #: ../jhbuild/versioncontrol/git.py:448
-#: ../jhbuild/versioncontrol/hg.py:101
-#: ../jhbuild/versioncontrol/mtn.py:140
-#: ../jhbuild/versioncontrol/svn.py:311
+#: ../jhbuild/versioncontrol/hg.py:103
+#: ../jhbuild/versioncontrol/mtn.py:142
+#: ../jhbuild/versioncontrol/svn.py:313
 #, python-format
 msgid "%s not found"
 msgstr "%s tak ditemukan"
@@ -719,8 +727,8 @@ msgstr "aclocal tak dapat melihat makro %s"
 
 #: ../jhbuild/commands/sanitycheck.py:92
 #, python-format
-msgid "Please copy the lacking macros (%s) in one of the following paths: %s"
-msgstr "Mohon salin makro yang kurang (%s) dalam satu dari path berikut: %s"
+msgid "Please copy the lacking macros (%(macros)s) in one of the following paths: %(path)s"
+msgstr "Mohon salin makro yang kurang (%(macros)s) dalam satu dari path berikut: %(path)s"
 
 #: ../jhbuild/commands/sanitycheck.py:100
 msgid "Could not find XML catalog"
@@ -737,9 +745,8 @@ msgid "Could not find the perl module %s"
 msgstr "Tak bisa temukan modul perl %s"
 
 #: ../jhbuild/commands/sanitycheck.py:128
-#, python-format
-msgid "%s or %s not found"
-msgstr "%s atau %s tak ditemukan"
+msgid "curl or wget not found"
+msgstr "curl atau wget tak ditemukan"
 
 #: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
@@ -800,6 +807,10 @@ msgstr "direktori tempat menyimpan log pembangunan"
 msgid "output directory for tinderbox build not specified"
 msgstr "direktori keluaran bagi tinderbox build tak dinyatakan"
 
+#: ../jhbuild/commands/twoninetynine.py:161
+msgid "Report GNOME modules status wrt 3.0 goals"
+msgstr "Laporkan status modul GNOME menurut tujuan 3.0"
+
 #: ../jhbuild/commands/uninstall.py:30
 msgid "Uninstall all modules"
 msgstr "Bongkar semua modul"
@@ -809,100 +820,115 @@ msgstr "Bongkar semua modul"
 msgid "Module %(mod)r is not installed"
 msgstr "Modul %(mod)r tak terpasang"
 
-#: ../jhbuild/config.py:175
+#: ../jhbuild/config.py:174
 msgid "JHBuild start script has been installed in ~/.local/bin/jhbuild, you should remove the old version that is still in ~/bin/ (or make it a symlink to ~/.local/bin/jhbuild)"
 msgstr "Skrip awal JHBuild telah dipasang di ~/.local/bin/jhbuild, Anda mesti menghapus versi lama yang masih ada di ~/bin/ (atau menjadikannya symlink ke ~/.local/bin/jhbuild)"
 
-#: ../jhbuild/config.py:187
+#: ../jhbuild/config.py:186
 msgid "Obsolete JHBuild start script, make sure it is removed then do run 'make install'"
 msgstr "Skrip awal JHBuild kedaluarsa, pastikan itu dihapus lalu jalankan 'make install'"
 
-#: ../jhbuild/config.py:198
+#: ../jhbuild/config.py:197
 msgid "could not load config defaults"
 msgstr "tak bisa memuat nilai baku konfig"
 
-#: ../jhbuild/config.py:202
+#: ../jhbuild/config.py:208
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "tak bisa memuat berkas konfig, %s hilang"
 
-#: ../jhbuild/config.py:218
+#: ../jhbuild/config.py:214
+#, python-format
+msgid "The default location of the configuration file has changed. Please move %(old_path)s to %(new_path)s."
+msgstr "Lokasi baku dari berkas konfigurasi telah berubah. Silakan pindahkan %(old_path)s ke %(new_path)s."
+
+#: ../jhbuild/config.py:244
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Tak bisa menyertakan berkas konfig (%s)"
 
-#: ../jhbuild/config.py:231
+#: ../jhbuild/config.py:258
 msgid "could not load config file"
 msgstr "tak bisa memuat berkas konfig"
 
-#: ../jhbuild/config.py:245
+#: ../jhbuild/config.py:272
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "kunci tak dikenal didefinisikan dalam berkas konfigurasi: %s"
 
-#: ../jhbuild/config.py:252
+#: ../jhbuild/config.py:279
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos['gnome.org']\"."
 msgstr "variabel konfigurasi \"%s\" tak dipakai lagi, Anda mesti memakai \"repos['gnome.org']\"."
 
-#: ../jhbuild/config.py:257
-#: ../jhbuild/config.py:262
+#: ../jhbuild/config.py:284
+#: ../jhbuild/config.py:289
 #, python-format
 msgid "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr "variabel konfigurasi \"%s\" tak dipakai lagi, Anda mesti memakai \"repos\"."
 
-#: ../jhbuild/config.py:296
+#: ../jhbuild/config.py:323
 msgid "invalid checkout mode"
 msgstr "mode checkout tak valid"
 
-#: ../jhbuild/config.py:300
+#: ../jhbuild/config.py:327
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "mode checkout tak valid (modul: %s)"
 
-#: ../jhbuild/config.py:302
+#: ../jhbuild/config.py:329
 msgid "copy mode requires copy_dir to be set"
 msgstr "mode penyalinan memerlukan copy_dir diisi"
 
-#: ../jhbuild/config.py:307
+#: ../jhbuild/config.py:334
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr "direktori moduleset (%s) tak ditemukan, menonaktifkan use_local_modulesets"
 
-#: ../jhbuild/config.py:313
-#: ../jhbuild/config.py:315
-#: ../jhbuild/config.py:317
-#: ../jhbuild/config.py:319
-#: ../jhbuild/config.py:322
+#: ../jhbuild/config.py:340
+#: ../jhbuild/config.py:342
+#: ../jhbuild/config.py:344
+#: ../jhbuild/config.py:346
+#: ../jhbuild/config.py:349
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s mesti merupakan path absolut"
 
-#: ../jhbuild/config.py:335
+#: ../jhbuild/config.py:362
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "awalan pemasangan (%s) tak dapat dibuat"
 
-#: ../jhbuild/config.py:342
+#: ../jhbuild/config.py:369
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "direktori kerja (%s) tak dapat dibuat"
 
-#: ../jhbuild/config.py:449
+#: ../jhbuild/config.py:484
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Tak dapat membuat direktori %s"
 
-#: ../jhbuild/config.py:534
+#: ../jhbuild/config.py:515
+#, python-format
+msgid "Unable to determine python version using the PYTHON environment variable (%s). Using default \"%s\""
+msgstr "Tak bisa menentukan versi python memakai variabel lingkungan PYTHON (%s). Memakai yang baku \"%s\""
+
+#: ../jhbuild/config.py:530
+#, python-format
+msgid "Unable to determine python site-packages directory using the PYTHON environment variable (%s). Using default \"%s\""
+msgstr "Tak bisa menentukan direktori site-packages python memakai variabel lingkungan PYTHON (%s). Memakai yang baku \"%s\""
+
+#: ../jhbuild/config.py:577
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Tak bisa membuat config GConf (%s)"
 
-#: ../jhbuild/config.py:619
+#: ../jhbuild/config.py:662
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Gagal mengurai waktu relatif 'min_age'"
 
-#: ../jhbuild/config.py:632
+#: ../jhbuild/config.py:676
 msgid "quiet mode has been disabled because the Python curses module is missing."
 msgstr "mode senyap dinonaktifkan karena modul curses Python hilang."
 
@@ -1171,46 +1197,46 @@ msgstr "%prog [ -f config ] perintah [ opsi ... ]"
 msgid "Build a set of modules from diverse repositories in correct dependency order (such as GNOME)."
 msgstr "Bangun sekumpulan modul dari repositori yang tersebar dalam urutan kebergantungan yang benar (seperti misalnya GNOME)."
 
-#: ../jhbuild/main.py:112
+#: ../jhbuild/main.py:113
 msgid "Display this help and exit"
 msgstr "Tampilkan bantuan ini dan keluar"
 
-#: ../jhbuild/main.py:119
+#: ../jhbuild/main.py:120
 msgid "use a non default configuration file"
 msgstr "gunakan berkas konfigurasi bukan bawaan"
 
-#: ../jhbuild/main.py:122
+#: ../jhbuild/main.py:123
 msgid "use a non default module set"
 msgstr "gunakan set modul bukan bawaan"
 
-#: ../jhbuild/main.py:125
+#: ../jhbuild/main.py:126
 msgid "do not prompt for input"
 msgstr "jangan minta sesuatu dari masukan"
 
-#: ../jhbuild/main.py:156
+#: ../jhbuild/main.py:157
 msgid "Interrupted"
 msgstr "Diinterupsi"
 
-#: ../jhbuild/main.py:159
+#: ../jhbuild/main.py:160
 msgid "EOF"
 msgstr "EOF"
 
-#: ../jhbuild/modtypes/autotools.py:118
-#: ../jhbuild/modtypes/cmake.py:78
+#: ../jhbuild/modtypes/autotools.py:120
+#: ../jhbuild/modtypes/cmake.py:87
 #: ../jhbuild/modtypes/linux.py:113
 #: ../jhbuild/modtypes/waf.py:74
 msgid "Configuring"
 msgstr "Mengkonfigur"
 
-#: ../jhbuild/modtypes/autotools.py:212
-#: ../jhbuild/modtypes/cmake.py:99
+#: ../jhbuild/modtypes/autotools.py:214
+#: ../jhbuild/modtypes/cmake.py:114
 #: ../jhbuild/modtypes/linux.py:145
 #: ../jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Clean"
 
-#: ../jhbuild/modtypes/autotools.py:221
-#: ../jhbuild/modtypes/cmake.py:108
+#: ../jhbuild/modtypes/autotools.py:223
+#: ../jhbuild/modtypes/cmake.py:123
 #: ../jhbuild/modtypes/distutils.py:57
 #: ../jhbuild/modtypes/linux.py:158
 #: ../jhbuild/modtypes/perl.py:52
@@ -1218,30 +1244,30 @@ msgstr "Clean"
 msgid "Building"
 msgstr "Build"
 
-#: ../jhbuild/modtypes/autotools.py:255
+#: ../jhbuild/modtypes/autotools.py:257
 #: ../jhbuild/modtypes/waf.py:109
 msgid "Checking"
 msgstr "Check"
 
-#: ../jhbuild/modtypes/autotools.py:268
-#: ../jhbuild/modtypes/cmake.py:117
+#: ../jhbuild/modtypes/autotools.py:270
+#: ../jhbuild/modtypes/cmake.py:132
 #: ../jhbuild/modtypes/waf.py:120
 msgid "Creating tarball for"
 msgstr "Membuat tarball untuk"
 
-#: ../jhbuild/modtypes/autotools.py:277
+#: ../jhbuild/modtypes/autotools.py:279
 msgid "Dist checking"
 msgstr "Dist check"
 
-#: ../jhbuild/modtypes/autotools.py:286
-#: ../jhbuild/modtypes/cmake.py:126
+#: ../jhbuild/modtypes/autotools.py:288
+#: ../jhbuild/modtypes/cmake.py:141
 #: ../jhbuild/modtypes/distutils.py:69
 #: ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:130
 msgid "Installing"
 msgstr "Memasang"
 
-#: ../jhbuild/modtypes/autotools.py:302
+#: ../jhbuild/modtypes/autotools.py:307
 msgid "Distcleaning"
 msgstr "Distclean"
 
@@ -1388,38 +1414,44 @@ msgstr "Paket xml Python diperlukan tapi tak dapat ditemukan"
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "modul '%(orig)s' diperbaiki besar kecilnya menjadi '%(new)s'"
 
-#: ../jhbuild/moduleset.py:116
+#: ../jhbuild/moduleset.py:117
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s memiliki kebergantungan atas modul \"%(invalid)s\" yang tak dikenal"
 
-#: ../jhbuild/moduleset.py:159
+#: ../jhbuild/moduleset.py:130
+#, python-format
+msgid "Circular dependencies detected: %s"
+msgstr "Kebergantungan melingkar terdeteksi: %s"
+
+#: ../jhbuild/moduleset.py:164
 #, python-format
 msgid "module \"%s\" not found"
 msgstr "modul \"%s\" tak ditemukan"
 
-#: ../jhbuild/moduleset.py:258
+#: ../jhbuild/moduleset.py:265
 msgid "Unknown module:"
 msgstr "Modul tak dikenal:"
 
-#: ../jhbuild/moduleset.py:356
+#: ../jhbuild/moduleset.py:363
 #, python-format
 msgid "could not download %s: %s"
 msgstr "tak bisa mengunduh %s: %s"
 
-#: ../jhbuild/moduleset.py:361
-#: ../jhbuild/moduleset.py:363
+#: ../jhbuild/moduleset.py:368
+#: ../jhbuild/moduleset.py:370
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "gagal mengurai %s: %s"
 
-#: ../jhbuild/moduleset.py:390
+#: ../jhbuild/moduleset.py:397
 msgid "Duplicate repository:"
 msgstr "Repositori duplikat:"
 
-#: ../jhbuild/moduleset.py:493
-msgid "Modulesets were edited locally but JHBuild is configured to get them from the network, perhaps you need to add use_local_modulesets = True to your .jhbuildrc."
-msgstr "Moduleset disunting secara lokal tapi JHBuild ditata untuk mengambil mereka dari jaringan, barangkali Anda perlu menambahkan use_local_modulesets = True ke .jhbuildrc Anda."
+#: ../jhbuild/moduleset.py:500
+#, python-format
+msgid "Modulesets were edited locally but JHBuild is configured to get them from the network, perhaps you need to add use_local_modulesets = True to your %s."
+msgstr "Moduleset disunting secara lokal tapi JHBuild ditata untuk mengambil mereka dari jaringan, barangkali Anda perlu menambahkan use_local_modulesets = True ke %s Anda."
 
 #: ../jhbuild/monkeypatch.py:102
 #, python-format
@@ -1547,14 +1579,14 @@ msgstr "Gagal unpack %s (berkas kosong?)"
 #: ../jhbuild/versioncontrol/mtn.py:52
 #: ../jhbuild/versioncontrol/tarball.py:67
 #, python-format
-msgid "branch for %s has wrong override, check your .jhbuildrc"
-msgstr "branch bagi %s memiliki penimpaan yang salah, periksa .jhbuildrc Anda"
+msgid "branch for %(name)s has wrong override, check your %(filename)s"
+msgstr "branch bagi %(name)s memiliki penimpaan yang salah, periksa %(filename)s Anda"
 
-#: ../jhbuild/versioncontrol/bzr.py:117
+#: ../jhbuild/versioncontrol/bzr.py:119
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "atribut tak dipakai lagi. Gunakan revspec sebagai gantinya."
 
-#: ../jhbuild/versioncontrol/bzr.py:173
+#: ../jhbuild/versioncontrol/bzr.py:175
 #, python-format
 msgid ""
 "\n"
@@ -1589,15 +1621,15 @@ msgstr "salinan kerja menunjuk ke repositori yang salah (diharapkan %(root1)s ta
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Pertimbangkan pakaian skrip changecvsroot.py untuk memperbaiki ini."
 
-#: ../jhbuild/versioncontrol/darcs.py:84
-#: ../jhbuild/versioncontrol/darcs.py:90
-#: ../jhbuild/versioncontrol/fossil.py:82
-#: ../jhbuild/versioncontrol/fossil.py:95
+#: ../jhbuild/versioncontrol/darcs.py:86
+#: ../jhbuild/versioncontrol/darcs.py:92
+#: ../jhbuild/versioncontrol/fossil.py:84
+#: ../jhbuild/versioncontrol/fossil.py:97
 #: ../jhbuild/versioncontrol/git.py:554
 #: ../jhbuild/versioncontrol/git.py:594
 #: ../jhbuild/versioncontrol/git.py:670
-#: ../jhbuild/versioncontrol/hg.py:85
-#: ../jhbuild/versioncontrol/hg.py:91
+#: ../jhbuild/versioncontrol/hg.py:87
+#: ../jhbuild/versioncontrol/hg.py:93
 msgid "date based checkout not yet supported\n"
 msgstr "checkout berbasis tanggal belum didukung\n"
 
@@ -1653,32 +1685,32 @@ msgstr ""
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Tak bisa mendapat revisi terakhir dari %s. Periksalah lokasi modul."
 
-#: ../jhbuild/versioncontrol/__init__.py:186
+#: ../jhbuild/versioncontrol/__init__.py:193
 #, python-format
 msgid "unknown repository type %s"
 msgstr "tipe repositori %s tak dikenal"
 
-#: ../jhbuild/versioncontrol/mtn.py:91
+#: ../jhbuild/versioncontrol/mtn.py:93
 #, python-format
 msgid "Initializing %s"
 msgstr "Menginisialisasi %s"
 
-#: ../jhbuild/versioncontrol/mtn.py:99
+#: ../jhbuild/versioncontrol/mtn.py:101
 #, python-format
 msgid "Pulling branch %(branch)s from %(server)s"
 msgstr "Menyedot branch %(branch)s dari %(server)s"
 
-#: ../jhbuild/versioncontrol/mtn.py:117
+#: ../jhbuild/versioncontrol/mtn.py:119
 #, python-format
 msgid "branch %(branch)s has %(num)d heads"
 msgstr "branch %(branch)s memiliki %(num)d head"
 
-#: ../jhbuild/versioncontrol/mtn.py:123
+#: ../jhbuild/versioncontrol/mtn.py:125
 #, python-format
 msgid "Checking out branch '%(branch)s' to directory '%(dir)s'"
 msgstr "Sedang check out branch '%(branch)s' ke direktori '%(dir)s'"
 
-#: ../jhbuild/versioncontrol/mtn.py:132
+#: ../jhbuild/versioncontrol/mtn.py:134
 #, python-format
 msgid "Updating working copy %s"
 msgstr "Memutakhirkan salinan kerja %s"
@@ -1697,91 +1729,91 @@ msgstr "tak bisa mendapat URI Subversion bagi %s"
 msgid "could not parse \"svn info\" output for %s"
 msgstr "tak bisa mengurai keluaran \"svn info\" bagi %s"
 
-#: ../jhbuild/versioncontrol/svn.py:307
+#: ../jhbuild/versioncontrol/svn.py:309
 msgid "Error checking for conflicts"
 msgstr "Galat saat memeriksa konflik"
 
-#: ../jhbuild/versioncontrol/tarball.py:85
+#: ../jhbuild/versioncontrol/tarball.py:87
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "branch untuk %s salah, periksa berkas moduleset."
 
-#: ../jhbuild/versioncontrol/tarball.py:121
+#: ../jhbuild/versioncontrol/tarball.py:123
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL tak memiliki komponen nama berkas: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:164
+#: ../jhbuild/versioncontrol/tarball.py:166
 msgid "file not downloaded"
 msgstr "berkas tak diunduh"
 
-#: ../jhbuild/versioncontrol/tarball.py:169
+#: ../jhbuild/versioncontrol/tarball.py:171
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr "ukuran berkas yang diunduh salah (diharapkan %(size1)d, didapat %(size2)d)"
 
-#: ../jhbuild/versioncontrol/tarball.py:175
+#: ../jhbuild/versioncontrol/tarball.py:177
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "atribut hash tak valid pada modul %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:188
+#: ../jhbuild/versioncontrol/tarball.py:190
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "hash berkas salah (diharapkan %(sum1)s, didapat %(sum2)s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:191
+#: ../jhbuild/versioncontrol/tarball.py:193
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "pemeriksaan hash dilewati (kehilangan dukungan bagi %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:205
+#: ../jhbuild/versioncontrol/tarball.py:207
 msgid "unable to find wget or curl"
 msgstr "tak bisa temukan wget atau curl"
 
-#: ../jhbuild/versioncontrol/tarball.py:221
+#: ../jhbuild/versioncontrol/tarball.py:223
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "dir tarball (%s) tak dapat dibuat"
 
-#: ../jhbuild/versioncontrol/tarball.py:223
+#: ../jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "dir tarball (%s) harus dapat ditulisi"
 
-#: ../jhbuild/versioncontrol/tarball.py:235
+#: ../jhbuild/versioncontrol/tarball.py:237
 #, python-format
 msgid "failed to unpack %s"
 msgstr "gagal unpack %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:238
+#: ../jhbuild/versioncontrol/tarball.py:240
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "tak bisa unpack tarball (diharapkan dir %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:253
+#: ../jhbuild/versioncontrol/tarball.py:255
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "tak bisa mengunduh patch (galat: %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:255
+#: ../jhbuild/versioncontrol/tarball.py:257
 msgid "could not download patch"
 msgstr "tak bisa mengunduh patch"
 
-#: ../jhbuild/versioncontrol/tarball.py:287
+#: ../jhbuild/versioncontrol/tarball.py:289
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Gagal menemukan patch: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:289
+#: ../jhbuild/versioncontrol/tarball.py:291
 msgid "Applying patch"
 msgstr "Menerapkan patch"
 
-#: ../jhbuild/versioncontrol/tarball.py:297
+#: ../jhbuild/versioncontrol/tarball.py:299
 msgid "unable to find quilt"
 msgstr "tak bisa temukan quilt"
 
-#: ../jhbuild/versioncontrol/tarball.py:308
+#: ../jhbuild/versioncontrol/tarball.py:310
 msgid "could not checkout quilt patch set"
 msgstr "tak bisa checkout set patch quilt"
 
