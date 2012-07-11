@@ -281,7 +281,8 @@ them into the prefix."""
         destdir = self.get_destdir(buildscript)
         self._clean_la_files(buildscript, destdir)
 
-        stripped_prefix = buildscript.config.prefix[1:]
+        prefix_without_drive = os.path.splitdrive(buildscript.config.prefix)[1]
+        stripped_prefix = prefix_without_drive[1:]
 
         previous_entry = buildscript.moduleset.packagedb.get(self.name)
         if previous_entry:
