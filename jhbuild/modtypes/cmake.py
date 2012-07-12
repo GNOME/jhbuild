@@ -87,8 +87,8 @@ class CMakeModule(Package, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        if not os.path.exists(builddir):
-            os.mkdir(builddir)
+        if buildscript.config.buildroot and not os.path.exists(builddir):
+            os.makedirs(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cmake')
