@@ -386,8 +386,7 @@ class cmd_goalreport(Command):
         if options.list_all_modules:
             self.module_list = module_set.modules.values()
         else:
-            self.module_list = module_set.get_module_list(args or config.modules,
-                            config.skip, process_sysdeps=False)
+            self.module_list = module_set.get_module_list(args or config.modules, config.skip)
 
         results = {}
         try:
