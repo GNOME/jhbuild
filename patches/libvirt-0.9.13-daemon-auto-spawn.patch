@@ -1,0 +1,46 @@
+From efe6c8021146d046846ead5b5efc9828d97c1ceb Mon Sep 17 00:00:00 2001
+From: Christophe Fergeau <cfergeau@redhat.com>
+Date: Thu, 12 Jul 2012 13:52:36 +0200
+Subject: [PATCH] Fix daemon auto-spawning
+
+Commit 32a9aac switched libvirt to use the XDG base directories
+to locate most of its data/config. In particular, the per-user socket
+for qemu:///session is now stored in the XDG runtime directory.
+This directory is located by looking at the XDG_RUNTIME_DIR environment
+variable, with a fallback to ~/.cache/libvirt if this variable is not
+set.
+
+When the daemon is autospawned because a client application wants
+to use qemu:///session, the daemon is ran in a clean environment
+which does not contain XDG_RUNTIME_DIR. It will create its socket
+in ~/.cache/libvirt. If the client application has XDG_RUNTIME_DIR
+set, it will not look for the socket in the fallback place, and will
+fail to connect to the autospawned daemon.
+
+This patch adds XDG_RUNTIME_DIR to the daemon environment before
+auto-starting it. I've done this in virNetSocketForkDaemon rather
+than in virCommandAddEnvPassCommon as I wasn't sure we want to pass
+these variables to other commands libvirt spawns. XDG_CACHE_HOME
+and XDG_CONFIG_HOME are also added to the daemon env as it makes use
+of those as well.
+---
+ src/rpc/virnetsocket.c |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/rpc/virnetsocket.c b/src/rpc/virnetsocket.c
+index 0b32ffe..08dfbb0 100644
+--- a/src/rpc/virnetsocket.c
++++ b/src/rpc/virnetsocket.c
+@@ -97,6 +97,9 @@ static int virNetSocketForkDaemon(const char *binary)
+                                              NULL);
+ 
+     virCommandAddEnvPassCommon(cmd);
++    virCommandAddEnvPass(cmd, "XDG_CACHE_HOME");
++    virCommandAddEnvPass(cmd, "XDG_CONFIG_HOME");
++    virCommandAddEnvPass(cmd, "XDG_RUNTIME_DIR");
+     virCommandClearCaps(cmd);
+     virCommandDaemonize(cmd);
+     ret = virCommandRun(cmd, NULL);
+-- 
+1.7.10.4
+
