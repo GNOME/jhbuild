@@ -2252,69 +2252,11 @@
     </dependencies>
   </autotools>
 
-
-  <autotools id="gstreamer-master"
-             autogenargs="--disable-tests"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gstreamer"
-            checkoutdir="gstreamer-master"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libxml2"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-plugins-base-master"
-             autogenargs="--with-gtk=3.0 --disable-gnome_vfs"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-plugins-base"
-            checkoutdir="gst-plugins-base-master"/>
-    <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gtk+"/>
-      <dep package="liboil"/>
-    </dependencies>
-    <suggests>
-      <dep package="gudev"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="gst-plugins-good-master"
-             autogenargs="--with-gtk=3.0"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-plugins-good"
-            checkoutdir="gst-plugins-good-master"/>
-    <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
-    </dependencies>
-    <suggests>
-      <dep package="pulseaudio"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gudev"/>
-    </suggests>
-  </autotools>
-
   <autotools id="gst-plugins-ugly-master"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             checkoutdir="gst-plugins-ugly-master"
             module="gst-plugins-ugly"/>
-    <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-plugins-bad-master"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            checkoutdir="gst-plugins-bad-master"
-            module="gst-plugins-bad"/>
     <dependencies>
       <dep package="gstreamer-master"/>
       <dep package="gst-plugins-base-master"/>
