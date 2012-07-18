@@ -1111,11 +1111,13 @@
   </autotools>
 
   <autotools id="ibus"
-             autogenargs="--disable-tests --disable-gconf --disable-dconf --enable-memconf --disable-ui"
+             autogenargs="--disable-tests --disable-gconf --enable-dconf --disable-memconf --disable-ui"
              makeargs="CFLAGS=-Wno-error">
     <branch repo="ibus"
             module="ibus-1.4.99.20120712.tar.gz" version="1.4.99.20120712"
-            hash="sha1:57db18a8a7b25c20d6ae171cab57e72bf613ad39" size="1705854"/>
+            hash="sha1:57db18a8a7b25c20d6ae171cab57e72bf613ad39" size="1705854">
+      <patch file="ibus-dconf.patch" strip="1" />
+    </branch>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
