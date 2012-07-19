@@ -127,6 +127,9 @@ class cmd_cleanone(Command):
             make_option('--honour-config',
                         action='store_true', dest='honour_config', default=False,
                         help=_('honour the makeclean setting in config file')),
+            make_option('--distclean',
+                        action='store_true', dest='distclean', default=False,
+                        help=_('completely clean source tree')),
             ])
 
     def run(self, config, options, args, help=None):
@@ -147,7 +150,11 @@ class cmd_cleanone(Command):
             return 0
 
         build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
-        return build.build(phases=['clean'])
+        if options.distclean:
+            clean_phase = 'distclean'
+        else:
+            clean_phase = 'clean'
+        return build.build(phases=[clean_phase])
 
 register_command(cmd_cleanone)
 
@@ -163,6 +170,9 @@ class cmd_build(BuildCommand):
             make_option('-a', '--autogen',
                         action='store_true', dest='_unused', default=False,
                         help=optparse.SUPPRESS_HELP), # no longer used
+            make_option('', '--distclean',
+                        action='store_true', dest='distclean', default=False,
+                        help=_('completely clean source tree')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
@@ -274,6 +284,9 @@ class cmd_buildone(BuildCommand):
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
+            make_option('', '--distclean',
+                        action='store_true', dest='distclean', default=False,
+                        help=_('completely clean source tree')),
             make_option('--check',
                         action='store_true', dest='check', default=False,
                         help=_('run make check after building')),

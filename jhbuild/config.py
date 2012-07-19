@@ -45,7 +45,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork', 'nobuild',
-                'noinstall', 'makeclean', 'makecheck', 'module_makecheck',
+                'noinstall', 'makeclean', 'makedistclean', 'makecheck', 'module_makecheck',
                 'use_lib64', 'tinderbox_outputdir', 'sticky_date',
                 'tarballdir', 'pretty_print', 'svn_program', 'makedist',
                 'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
@@ -605,6 +605,8 @@ class Config:
             self.build_targets.insert(0, 'check')
         if self.makeclean and not 'clean' in self.build_targets:
             self.build_targets.insert(0, 'clean')
+        if self.makedistclean and not 'distclean' in self.build_targets:
+            self.build_targets.insert(0, 'distclean')
         if self.nobuild:
             # nobuild actually means "checkout"
             for phase in ('configure', 'build', 'check', 'clean', 'install'):
@@ -627,6 +629,9 @@ class Config:
         if hasattr(options, 'clean') and (
                 options.clean and not 'clean' in self.build_targets):
             self.build_targets.insert(0, 'clean')
+        if hasattr(options, 'distclean') and (
+                options.distclean and not 'distclean' in self.build_targets):
+            self.build_targets.insert(0, 'distclean')
         if hasattr(options, 'dist') and (
                 options.dist and not 'dist' in self.build_targets):
             self.build_targets.append('dist')

@@ -303,13 +303,19 @@ class AutogenModule(Package, DownloadableModule):
     def skip_install(self, buildscript, last_phase):
         return self.config.noinstall or self.skip_install_phase
 
+    def skip_distclean(self, buildscript, last_phase):
+        return self.skip_clean(buildscript, last_phase)
+
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
-        makeargs = self._get_makeargs(buildscript)
-        cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
-        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
-                    extra_env = self.extra_env)
-    do_distclean.depends = [PHASE_CONFIGURE]
+        if hasattr(self.branch, 'delete_unknown_files'):
+            self.branch.delete_unknown_files(buildscript)
+        else:
+            makeargs = self._get_makeargs(buildscript)
+            cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
+            buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
+                                extra_env = self.extra_env)
+    do_distclean.depends = [PHASE_CHECKOUT]
 
     def xml_tag_and_attrs(self):
         return ('autotools',

@@ -448,6 +448,10 @@ class GitBranch(Branch):
             raise CommandError(_('%s not found') % 'git')
         Branch.checkout(self, buildscript)
 
+    def delete_unknown_files(self, buildscript):
+        git_extra_args = {'cwd': self.get_checkoutdir(), 'extra_env': get_git_extra_env()}
+        buildscript.execute(['git', 'clean', '-d', '-f', '-x'], **git_extra_args)
+
     def tree_id(self):
         if not os.path.exists(self.get_checkoutdir()):
             return None
