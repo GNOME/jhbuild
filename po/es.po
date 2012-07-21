@@ -12,10 +12,11 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-17 11:15+0000\n"
-"PO-Revision-Date: 2012-06-27 11:14+0200\n"
+"POT-Creation-Date: 2012-07-08 19:14+0000\n"
+"PO-Revision-Date: 2012-07-21 17:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -106,7 +107,7 @@ msgid "report url for autobuild not specified"
 msgstr "url de informe de autobuild no especificado"
 
 #: ../jhbuild/commands/autobuild.py:81 ../jhbuild/commands/base.py:72
-#: ../jhbuild/commands/base.py:238 ../jhbuild/commands/base.py:476
+#: ../jhbuild/commands/base.py:238 ../jhbuild/commands/base.py:474
 #: ../jhbuild/commands/clean.py:55 ../jhbuild/commands/tinderbox.py:90
 #, python-format
 msgid "%s not in module list"
@@ -244,10 +245,15 @@ msgstr "Actualizar y compilar uno o más módulos"
 
 #: ../jhbuild/commands/base.py:320 ../jhbuild/commands/make.py:96
 #, python-format
+#| msgid ""
+#| "module \"%s\" does not exist, created automatically using repository \"%s"
+#| "\""
 msgid ""
-"module \"%s\" does not exist, created automatically using repository \"%s\""
+"module \"%(modname)s\" does not exist, created automatically using "
+"repository \"%(reponame)s\""
 msgstr ""
-"el módulo «%s» no existe, creado automáticamente usando el repositorio «%s»"
+"el módulo «%(modname)s» no existe, creado automáticamente usando el "
+"repositorio «%(reponame)s»"
 
 #: ../jhbuild/commands/base.py:333
 msgid "Run a command under the JHBuild environment"
@@ -306,25 +312,26 @@ msgid "list all modules, not only those that would be built"
 msgstr "listar todos los módulos, no sólo los que se deberían construir"
 
 #: ../jhbuild/commands/base.py:458
-#, python-format
-msgid "Conflicting options specified ('%s' and '%s')"
-msgstr "Conflicto en las opciones especificadas («%s» y «%s»)"
+#| msgid "Conflicting options specified ('%s' and '%s')"
+msgid "Conflicting options specified ('--start-at' and '--all-modules')"
+msgstr ""
+"Conflicto en las opciones especificadas («--start-at» y «--all-modules»)"
 
-#: ../jhbuild/commands/base.py:492
+#: ../jhbuild/commands/base.py:490
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr ""
 "Mostrar un gráfico de Graphviz con las dependencias de uno o más módulos"
 
-#: ../jhbuild/commands/base.py:495 ../jhbuild/commands/info.py:39
+#: ../jhbuild/commands/base.py:493 ../jhbuild/commands/info.py:39
 #: ../jhbuild/commands/uninstall.py:33
 msgid "[ modules ... ]"
 msgstr "[ módulos … ]"
 
-#: ../jhbuild/commands/base.py:501
+#: ../jhbuild/commands/base.py:499
 msgid "add dotted lines to soft dependencies"
 msgstr "añadir líneas punteadas a las dependencias suaves"
 
-#: ../jhbuild/commands/base.py:504
+#: ../jhbuild/commands/base.py:502
 msgid "group modules from metamodule together"
 msgstr "agrupar los módulos de un metamódulo juntos"
 
@@ -692,10 +699,14 @@ msgstr "aclocal no puede ver las macros de %s"
 
 #: ../jhbuild/commands/sanitycheck.py:92
 #, python-format
-msgid "Please copy the lacking macros (%s) in one of the following paths: %s"
+#| msgid ""
+#| "Please copy the lacking macros (%s) in one of the following paths: %s"
+msgid ""
+"Please copy the lacking macros (%(macros)s) in one of the following paths: "
+"%(path)s"
 msgstr ""
-"Por favor copie las macros que faltan (%s) en cualquier de las rutas "
-"siguientes: %s"
+"Por favor copie las macros que faltan (%(macros)s) en cualquier de las rutas "
+"siguientes: %(path)s"
 
 #: ../jhbuild/commands/sanitycheck.py:100
 msgid "Could not find XML catalog"
@@ -712,9 +723,9 @@ msgid "Could not find the perl module %s"
 msgstr "No se pudo encontrar el módulo de perl %s"
 
 #: ../jhbuild/commands/sanitycheck.py:128
-#, python-format
-msgid "%s or %s not found"
-msgstr "no se encontró %s o %s"
+#| msgid "%s or %s not found"
+msgid "curl or wget not found"
+msgstr "no se encontró curl o wget"
 
 #: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
@@ -892,12 +903,12 @@ msgstr "no se puede crear el prefijo de instalación (%s)"
 msgid "working directory (%s) can not be created"
 msgstr "no se puede crear la carpeta de trabajo (%s)"
 
-#: ../jhbuild/config.py:476
+#: ../jhbuild/config.py:484
 #, python-format
 msgid "Can't create %s directory"
 msgstr "No se puede crear la carpeta %s"
 
-#: ../jhbuild/config.py:507
+#: ../jhbuild/config.py:515
 #, python-format
 msgid ""
 "Unable to determine python version using the PYTHON environment variable "
@@ -906,7 +917,7 @@ msgstr ""
 "No se pudo determinar la versión de Python usando la variable de entorno "
 "PYTHON (%s). Usando la predeterminada «%s»"
 
-#: ../jhbuild/config.py:522
+#: ../jhbuild/config.py:530
 #, python-format
 msgid ""
 "Unable to determine python site-packages directory using the PYTHON "
@@ -915,16 +926,16 @@ msgstr ""
 "No se pudo determinar la carpeta de paquetes de Python usando la variable de "
 "entorno PYTHON (%s). Usando la predeterminada «%s»"
 
-#: ../jhbuild/config.py:569
+#: ../jhbuild/config.py:577
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "No se pudo cargar el archivo de configuración de GConf (%s)"
 
-#: ../jhbuild/config.py:654
+#: ../jhbuild/config.py:662
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Falló al analizar el tiempo relativo «min_age»"
 
-#: ../jhbuild/config.py:668
+#: ../jhbuild/config.py:676
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -1217,12 +1228,12 @@ msgstr "EOF"
 msgid "Configuring"
 msgstr "Configurando"
 
-#: ../jhbuild/modtypes/autotools.py:214 ../jhbuild/modtypes/cmake.py:108
+#: ../jhbuild/modtypes/autotools.py:214 ../jhbuild/modtypes/cmake.py:114
 #: ../jhbuild/modtypes/linux.py:145 ../jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Limpiando"
 
-#: ../jhbuild/modtypes/autotools.py:223 ../jhbuild/modtypes/cmake.py:117
+#: ../jhbuild/modtypes/autotools.py:223 ../jhbuild/modtypes/cmake.py:123
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:158
 #: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:92
 msgid "Building"
@@ -1232,7 +1243,7 @@ msgstr "Construyendo"
 msgid "Checking"
 msgstr "Comprobando"
 
-#: ../jhbuild/modtypes/autotools.py:270 ../jhbuild/modtypes/cmake.py:126
+#: ../jhbuild/modtypes/autotools.py:270 ../jhbuild/modtypes/cmake.py:132
 #: ../jhbuild/modtypes/waf.py:120
 msgid "Creating tarball for"
 msgstr "Creando archivo tar para"
@@ -1241,7 +1252,7 @@ msgstr "Creando archivo tar para"
 msgid "Dist checking"
 msgstr "Distchecking"
 
-#: ../jhbuild/modtypes/autotools.py:288 ../jhbuild/modtypes/cmake.py:135
+#: ../jhbuild/modtypes/autotools.py:288 ../jhbuild/modtypes/cmake.py:141
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:130
 msgid "Installing"
@@ -1427,30 +1438,26 @@ msgstr "Dependencias circulares detectadas: %s"
 msgid "module \"%s\" not found"
 msgstr "no se encontró el módulo «%s»"
 
-#: ../jhbuild/moduleset.py:263
+#: ../jhbuild/moduleset.py:265
 msgid "Unknown module:"
 msgstr "Módulo desconocido:"
 
-#: ../jhbuild/moduleset.py:361
+#: ../jhbuild/moduleset.py:363
 #, python-format
 msgid "could not download %s: %s"
 msgstr "no se pudo descargar %s: %s"
 
-#: ../jhbuild/moduleset.py:366 ../jhbuild/moduleset.py:368
+#: ../jhbuild/moduleset.py:368 ../jhbuild/moduleset.py:370
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "falló al analizar %s: %s"
 
-#: ../jhbuild/moduleset.py:395
+#: ../jhbuild/moduleset.py:397
 msgid "Duplicate repository:"
 msgstr "Duplicar repositorio:"
 
-#: ../jhbuild/moduleset.py:498
+#: ../jhbuild/moduleset.py:500
 #, python-format
-#| msgid ""
-#| "Modulesets were edited locally but JHBuild is configured to get them from "
-#| "the network, perhaps you need to add use_local_modulesets = True to your ."
-#| "jhbuildrc."
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
 "the network, perhaps you need to add use_local_modulesets = True to your %s."
@@ -1589,7 +1596,6 @@ msgstr "Falló al descomprimir %s (¿archivo vacío?)"
 #: ../jhbuild/versioncontrol/fossil.py:49 ../jhbuild/versioncontrol/hg.py:53
 #: ../jhbuild/versioncontrol/mtn.py:52 ../jhbuild/versioncontrol/tarball.py:67
 #, python-format
-#| msgid "branch for %s has wrong override, check your .jhbuildrc"
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
 "la rama de %(name)s tiene una anulación incorrecta. Compruebe su %(filename)s"
