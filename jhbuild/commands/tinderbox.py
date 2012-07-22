@@ -22,6 +22,7 @@ from optparse import make_option
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands import Command, BuildCommand, register_command
 import jhbuild.frontends
+import optparse
 
 
 class cmd_tinderbox(BuildCommand):
@@ -33,8 +34,8 @@ class cmd_tinderbox(BuildCommand):
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
-                        action='store_true', dest='autogen', default=False,
-                        help=_('always run autogen.sh')),
+                        action='store_true', dest='_unused', default=False,
+                        help=optparse.SUPPRESS_HELP), # no longer used
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),

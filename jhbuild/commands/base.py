@@ -18,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
+import optparse
 import re
 import stat
 import sys
@@ -161,7 +162,7 @@ class cmd_build(BuildCommand):
         Command.__init__(self, [
             make_option('-a', '--autogen',
                         action='store_true', dest='_unused', default=False,
-                        help=_('This option does nothing anymore')),
+                        help=optparse.SUPPRESS_HELP), # no longer used
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
@@ -269,7 +270,7 @@ class cmd_buildone(BuildCommand):
         Command.__init__(self, [
             make_option('-a', '--autogen',
                         action='store_true', dest='_unused', default=False,
-                        help=_('This option does nothing anymore')),
+                        help=optparse.SUPPRESS_HELP), # no longer used
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
