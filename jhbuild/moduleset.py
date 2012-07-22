@@ -161,7 +161,7 @@ class ModuleSet:
             modules = [self.get_module(module, ignore_case = True) \
                        for module in module_names if module not in skip]
         except KeyError, e:
-            raise UsageError(_('module "%s" not found') % e)
+            raise UsageError(_("A module called '%s' could not be found.") % e)
 
         resolved = []
         for module in modules:
