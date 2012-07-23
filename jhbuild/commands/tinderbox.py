@@ -90,16 +90,16 @@ class cmd_tinderbox(BuildCommand):
             if not module_list:
                 raise FatalError(_('%s not in module list') % options.startat)
 
-        module_state = module_set.get_system_modules(full_module_list)
-        if (config.check_sysdeps
-            and not self.required_system_dependencies_installed(module_state)):
-            self.print_system_dependencies(module_state)
-            raise FatalError(_('Required system dependencies not installed. '
-                               'Install using the command %(cmd)s or to '
-                               'ignore system dependencies use command-line '
-                               'option %(opt)s' \
-                               % {'cmd' : "'jhbuild sysdeps --install'",
-                                  'opt' : '--nodeps'}))
+        if config.check_sysdeps:
+            module_state = module_set.get_system_modules(full_module_list)
+            if not self.required_system_dependencies_installed(module_state):
+                self.print_system_dependencies(module_state)
+                raise FatalError(_('Required system dependencies not installed.'
+                                   ' Install using the command %(cmd)s or to '
+                                   'ignore system dependencies use command-line'
+                                   ' option %(opt)s' \
+                                   % {'cmd' : "'jhbuild sysdeps --install'",
+                                      'opt' : '--nodeps'}))
 
         build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
         return build.build()
