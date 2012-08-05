@@ -1,0 +1,15 @@
+diff -up spice-gtk-0.12.101/gtk/spice-gtk-session.c.threads spice-gtk-0.12.101/gtk/spice-gtk-session.c
+--- spice-gtk-0.12.101/gtk/spice-gtk-session.c.threads	2012-08-05 11:36:56.439347607 -0400
++++ spice-gtk-0.12.101/gtk/spice-gtk-session.c	2012-08-05 11:37:18.247353136 -0400
+@@ -619,9 +619,9 @@ static void clipboard_get(GtkClipboard *
+ 
+     /* apparently, this is needed to avoid dead-lock, from
+        gtk_dialog_run */
+-    GDK_THREADS_LEAVE();
++    gdk_threads_leave();
+     g_main_loop_run(ri.loop);
+-    GDK_THREADS_ENTER();
++    gdk_threads_enter();
+ 
+     g_main_loop_unref(ri.loop);
+     ri.loop = NULL;

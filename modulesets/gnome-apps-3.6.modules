@@ -474,7 +474,10 @@
             module="gtk/spice-gtk-0.12.101.tar.bz2"
             version="0.12.101"
             hash="sha256:73c74843674425d4a1e35777fc3cfe629f47a71596bdf1e3f2c28a9677d3da00"
-            size="1163312"/>
+            size="1163312">
+      <!-- https://bugs.freedesktop.org/show_bug.cgi?id=53142 -->
+      <patch file="spice-gtk-threads.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="celt"/>
       <dep package="spice-protocol"/>
