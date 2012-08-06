@@ -140,7 +140,6 @@
 <screen>
 <prompt>$</prompt> <userinput>echo PATH=$PATH:~/.local/bin >> ~/.bashrc</userinput>
 <prompt>$</prompt></screen>
-
     </section>
 
     <section id="getting-started-configure">
@@ -2849,9 +2848,46 @@ Optional packages: (JHBuild will build the missing packages)
 &lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
   &lt;pkg-config&gt;<replaceable>pkg-config</replaceable>.pc&lt;/pkg-config&gt;
 
-  &lt;branch repo="<replaceable>pkg-config</replaceable>" version="<replaceable>version</replaceable>" [ ... ] &gt;
-    [...]
-  &lt;/branch&gt;
+  &lt;branch repo="<replaceable>system</replaceable>" version="<replaceable>version</replaceable>" /&gt;
+&lt;/systemmodule&gt;
+</programlisting>
+
+        <para>If the system module does not provide a pkg-config file,
+          <sgmltag class="element">systemdependencies</sgmltag> tag can be used
+          to identify the dependencies. Two values are supported by the
+          <sgmltag class="attribute">type</sgmltag> attribute of the
+          <sgmltag class="element">dep</sgmltag> tag:</para>
+
+        <orderedlist>
+          <listitem>
+            <simpara><sgmltag class="attvalue">path</sgmltag> value. The path
+              is searched for the matching program name.</simpara>
+          </listitem>
+          <listitem>
+            <simpara><sgmltag class="attvalue">c_include</sgmltag> value. The
+              C include path is searched for the matching header name.
+              <sgmltag class="attribute">name</sgmltag> may include a
+              sub-directory. The C include search path can modified by setting
+              <varname>CPPFLAGS</varname> within the configuration variables
+              <varname>cflags</varname> or
+              <link linkend="cfg-module-autogenargs"><varname>module_autogenargs</varname></link>.
+            </simpara>
+          </listitem>
+        </orderedlist>
+
+<programlisting>
+&lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;branch repo="<replaceable>system</replaceable>" version="<replaceable>version</replaceable>" /&gt;
+  &lt;systemdependencies&gt;
+    &lt;dep type="path" name="<replaceable>executable-name</replaceable>" /&gt;
+  &lt;/systemdependencies&gt;
+&lt;/systemmodule&gt;
+
+&lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;branch repo="<replaceable>system</replaceable>" version="<replaceable>version</replaceable>" /&gt;
+  &lt;systemdependencies&gt;
+    &lt;dep type="c_include" name="<replaceable>header-name</replaceable>" /&gt;
+  &lt;/systemdependencies&gt;
 &lt;/systemmodule&gt;
 </programlisting>
       </section>
