@@ -105,6 +105,8 @@
       href="http://tracker.openchange.org/attachments/download/"/>
   <repository type="tarball" name="gnome.org"
       href="http://download.gnome.org/sources/"/>
+  <repository type="git" name="yorba.org"
+      href="git://yorba.org/"/>
 
   <include href="gnome-apps-3.6.modules"/>
 
@@ -116,6 +118,23 @@
       <dep package="pygtk"/>
     </dependencies>
   </autotools>
+
+  <cmake id="geary">
+    <branch repo="yorba.org" module="geary"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gmime"/>
+      <dep package="gnome-keyring"/>
+      <dep package="gtk+"/>
+      <dep package="libcanberra"/>
+      <dep package="libgee-0.6"/>
+      <dep package="libnotify"/>
+      <dep package="libunique"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </cmake>
 
   <autotools id="gnome-calendar">
     <branch/>
