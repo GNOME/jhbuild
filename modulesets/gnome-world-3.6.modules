@@ -465,7 +465,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-python" autogenargs="--" supports-non-srcdir-builds="no">
+  <autotools id="gst-python"
+             makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS="
+             supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-python"
             revision="0.10"/>
@@ -930,7 +932,9 @@
   </autotools>
 
   <autotools id="gnonlin">
-    <branch repo="gstreamer.freedesktop.org" module="gnonlin"/>
+    <branch repo="gstreamer.freedesktop.org"
+            module="gnonlin"
+            revision="0.10"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
