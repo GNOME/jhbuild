@@ -1429,22 +1429,19 @@
   </autotools> 
 
   <autotools id="goocanvas">
-    <branch/>
+    <branch revision="goocanvas-1.0"/>
     <dependencies>
       <dep package="gtk+"/>
     </dependencies>
   </autotools>
 
-  <!-- This is needed to render the canvas in conduits Gtk and Hildon GUIs -->
-  <tarball id="pygoocanvas" version="0.9">
-    <source href="http://download.berlios.de/pygoocanvas/pygoocanvas-0.9.0.tar.gz"
-            hash="sha256:3fa0944b57253b9981a1ea1baa92fc03a0d746a49d779b9c5f51080959c7e011"
-            md5sum="1988b7572d553d954ffd159e7e61cb17" size="430723"/>
+  <autotools id="pygoocanvas">
+    <branch/>
     <dependencies>
       <dep package="goocanvas"/>
       <dep package="pygtk"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <!-- Conduit needs this to integrate with data from Evolution out of the box. -->
   <repository type="tarball" name="skyhouseconsulting.com"
