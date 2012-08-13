@@ -92,6 +92,9 @@
       <patch file="libvirt-0.9.13-daemon-auto-spawn.patch" strip="1"/>
     </branch>
     <dependencies>
+      <dep package="device-mapper"/>
+      <dep package="libnl"/>
+      <dep package="yajl"/>
     </dependencies>
   </autotools>
 
@@ -239,6 +242,10 @@
             version="2.0.3"
             hash="sha256:d2ebcd78dc587080b96d9120053a57d8e2d22c3d54a444dff06513d5fba53093"
             size="4196064"/>
+    <dependencies>
+      <dep package="libunistring"/>
+      <dep package="gc"/>
+    </dependencies>
   </autotools>
 
   <autotools id="gupnp-av">
@@ -284,6 +291,7 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
+      <dep package="openssl"/>
     </dependencies>
   </autotools>
 
@@ -306,6 +314,7 @@
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
       <dep package="vala"/>
+      <dep package="wget"/>
     </dependencies>
   </autotools>
 
@@ -454,6 +463,7 @@
     </branch>
     <dependencies>
       <dep package="celt"/>
+      <dep package="cyrus-sasl"/>
       <dep package="spice-protocol"/>
       <dep package="gtk+"/>
       <dep package="vala"/>
@@ -622,6 +632,7 @@
   <autotools id="gnome-doc-utils" supports-parallel-builds="no">
     <branch/>
     <dependencies>
+      <dep package="gettext"/>
       <dep package="gnome-common"/>
       <dep package="libxslt"/>
       <dep package="libxml2"/>
@@ -740,12 +751,14 @@
   <autotools id="gnome-color-manager">
     <branch/>
     <dependencies>
+      <dep package="exiv2"/>
       <dep package="glib"/>
       <dep package="gnome-desktop"/>
       <dep package="gtk+"/>
       <dep package="intltool"/>
       <dep package="lcms2"/>
       <dep package="libcanberra"/>
+      <dep package="libexif"/>
       <dep package="vte"/>
       <dep package="colord-gtk"/>
       <dep package="yelp-tools"/>
@@ -860,6 +873,7 @@
       <dep package="gtk+-2"/>
       <dep package="libxml2"/>
       <dep package="libsigc++2"/>
+      <dep package="libXv"/>
       <dep package="opal" />
       <dep package="evolution-data-server"/>
     </dependencies>
@@ -905,6 +919,7 @@
   <autotools id="file-roller">
     <branch/>
     <dependencies>
+      <dep package="file"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="intltool"/>
@@ -971,6 +986,7 @@
     <dependencies>
       <dep package="intltool"/>
       <dep package="librsvg"/>
+      <dep package="glu"/>
       <dep package="gtk+"/>
       <dep package="pygobject"/>
       <dep package="clutter"/>
@@ -1080,6 +1096,7 @@
   <autotools id="nemiver">
     <branch/>
     <dependencies>
+      <dep package="boost"/>
       <dep package="gdlmm"/>
       <dep package="gtkmm"/>
       <dep package="glibmm"/>

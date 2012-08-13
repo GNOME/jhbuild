@@ -46,6 +46,8 @@
 <repository type="tarball" name="complang.org"
     href="http://www.complang.org/"/>
 
+  <include href="gnome-sysdeps-3.6.modules"/>
+
 <!-- Please try to keep organized alphabetically -->
 
   <autotools id="cairo" autogenargs="--enable-xlib">
@@ -172,7 +174,9 @@
       <patch file="gudev-173.patch" strip="1"/>
     </branch>
     <dependencies>
+      <dep package="gperf"/>
       <dep package="gobject-introspection"/>
+      <dep package="libacl"/>
     </dependencies>
   </autotools>
 
@@ -252,6 +256,7 @@
     </branch>
     <dependencies>
       <dep package="gtk-doc"/>
+      <dep package="libvorbis"/>
     </dependencies>
     <after>
       <dep package="gtk+"/>
@@ -320,6 +325,7 @@
             size="109119">
     </branch>
     <dependencies>
+      <dep package="neon"/>
     </dependencies>
   </cmake>
 
@@ -397,8 +403,10 @@
     <branch module="libxml2/libxml2-2.8.0.tar.gz"
             repo="xmlsoft.org" version="2.8.0"
             hash="sha256:f2e2d0e322685193d1affec83b21dc05d599e17a7306d7b90de95bb5b9ac622a"
-            size="4915203">
-    </branch>
+            size="4915203"/>
+    <dependencies>
+      <dep package="zlib"/>
+    </dependencies>
   </autotools>
 
   <autotools id="libxslt" check-target="false">

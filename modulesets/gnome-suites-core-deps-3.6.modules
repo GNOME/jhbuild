@@ -168,6 +168,7 @@
     <branch revision="cogl-1.10"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="libXcomposite"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
@@ -198,6 +199,9 @@
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
       <dep package="gtk-doc"/>
+      <dep package="libjpeg"/>
+      <dep package="libpng"/>
+      <dep package="libtiff"/>
     </dependencies>
   </autotools>
 
@@ -205,6 +209,7 @@
     <branch/>
     <dependencies>
       <dep package="gtk-doc"/>
+      <dep package="libffi"/>
     </dependencies>
     <after>
       <dep package="shared-mime-info"/>
@@ -254,6 +259,7 @@
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
       <dep package="harfbuzz"/>
+      <dep package="libXft"/>
     </dependencies>
   </autotools>
 
@@ -417,8 +423,11 @@
   <autotools id="gobject-introspection">
     <branch/>
     <dependencies>
+      <dep package="bison"/>
+      <dep package="flex"/>
       <dep package="glib"/>
       <dep package="cairo"/>
+      <dep package="python-devel"/>
     </dependencies>
   </autotools>
 
@@ -437,6 +446,8 @@
       <dep package="gobject-introspection"/>
       <dep package="WebKit"/>
       <dep package="gnome-js-common"/>
+      <dep package="mpfr"/>
+      <dep package="readline"/>
     </dependencies>
   </autotools>
 
@@ -490,6 +501,10 @@
     <dependencies>
       <dep package="gstreamer-master"/>
       <dep package="gst-plugins-base-master"/>
+      <dep package="flac"/>
+      <dep package="libv4l"/>
+      <dep package="taglib"/>
+      <dep package="wavpack"/>
     </dependencies>
     <suggests>
       <dep package="pulseaudio"/>
@@ -506,6 +521,7 @@
     <dependencies>
       <dep package="gstreamer-master"/>
       <dep package="gst-plugins-base-master"/>
+      <dep package="soundtouch"/>
     </dependencies>
   </autotools>
 
@@ -535,6 +551,10 @@
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+      <dep package="flac"/>
+      <dep package="libv4l"/>
+      <dep package="taglib"/>
+      <dep package="wavpack"/>
     </dependencies>
     <suggests>
       <dep package="pulseaudio"/>
@@ -943,6 +963,9 @@
             version="0.12"
             hash="sha256:3c391f7e930c583095045cd2d10eb73a64f085c7fde9d260f2652c7cb3cfbe4a"
             size="355285"/>
+    <dependencies>
+      <dep package="xcb-util"/>
+    </dependencies>
   </autotools>
 
   <autotools id="telepathy-glib" autogenargs="--enable-vala-bindings">
@@ -1057,6 +1080,10 @@
       <dep package="pango"/>
       <dep package="libsoup"/>
       <dep package="gobject-introspection"/>
+      <dep package="gperf"/>
+      <dep package="libicu"/>
+      <dep package="libXt"/>
+      <dep package="ruby"/>
     </dependencies>
     <suggests>
       <dep package="libxslt"/>
@@ -1120,6 +1147,7 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="gudev"/>
+      <dep package="libusb1"/>
       <dep package="libgusb"/>
       <dep package="sqlite3"/>
       <dep package="lcms2"/>
@@ -1144,8 +1172,10 @@
     <branch repo="libpwquality"
             module="https://fedorahosted.org/releases/l/i/libpwquality/libpwquality-1.1.0.tar.bz2" version="1.1.0"
             hash="sha256:1aad05fd8801165aa5c14badf06d3b8c94b2f4213016e0f09d73a3973c41db93"
-            md5sum="21db9a7877ab14b0fb29d4448c798de6" size="358017">
-    </branch>
+            md5sum="21db9a7877ab14b0fb29d4448c798de6" size="358017"/>
+    <dependencies>
+      <dep package="cracklib"/>
+    </dependencies>
   </autotools>
 
   <autotools id="ibus"
