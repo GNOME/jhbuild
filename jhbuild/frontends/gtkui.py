@@ -589,7 +589,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 rc = os.WEXITSTATUS(self.vte_child_exit_status)
             elif os.WIFSIGNALED(self.vte_child_exit_status):
                 raise CommandError(_('%(command)s died with signal %(rc)s') % {
-                        'command': short_command, 'rc': os.WTERMSIG(rc)})
+                        'command': short_command,
+                        'rc': os.WTERMSIG(self.vte_child_exit_status)})
 
         if rc:
             raise CommandError(_('%(command)s returned with an error code (%(rc)s)') % {
