@@ -68,33 +68,45 @@ class BuildCommand(Command):
     def required_system_dependencies_installed(self, module_state):
         '''Returns true if all required system dependencies are installed for
         modules in module_state.'''
-        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
-            if required_sysdep:
-                if installed_version is None or not new_enough:
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+            if systemmodule:
+                if not new_enough:
                     return False
         return True
 
     def print_system_dependencies(self, module_state):
+
+        def fmt_pkg_config(pkg_config):
+            if pkg_config is None:
+                return ''
+            else:
+                return '%s ' % pkg_config
+
         print _('Required packages:')
         print _('  System installed packages which are too old:')
         have_too_old = False
-        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
-            if (installed_version is not None) and (not new_enough) and required_sysdep:
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+            if (installed_version is not None) and (not new_enough) and systemmodule:
                 have_too_old = True
-                print (_("    %(pkg)s (required=%(req)s, installed=%(installed)s)" % {'pkg': pkg_config,
-                                                                                      'req': req_version,
-                                                                                      'installed': installed_version}))
+                print (_("    %(module)s (%(pkg_config)srequired=%(req)s, "
+                         "installed=%(installed)s)" % \
+                             {'module'     : module.name,
+                              'pkg_config' : fmt_pkg_config(module.pkg_config),
+                              'req'        : req_version,
+                              'installed'  : installed_version}))
         if not have_too_old:
             print _('    (none)')
 
         print _('  No matching system package installed:')
-        uninstalled = []
-        for pkg_config,(module, req_version, installed_version, new_enough, required_sysdep) in module_state.iteritems():
-            if installed_version is None and required_sysdep:
-                print (_("    %(pkg)s (required=%(req)s)") % {'pkg': pkg_config,
-                                                              'req': req_version})
-                uninstalled.append(pkg_config)
-        if len(uninstalled) == 0:
+        have_missing = False
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+            if installed_version is None and (not new_enough) and systemmodule:
+                have_missing = True
+                print (_("    %(module)s (%(pkg_config)srequired=%(req)s)") % \
+                       {'module'     : module.name,
+                        'pkg_config' : fmt_pkg_config(module.pkg_config),
+                        'req': req_version})
+        if not have_missing:
             print _('    (none)')
 
 

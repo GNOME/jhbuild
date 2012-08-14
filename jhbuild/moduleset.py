@@ -184,37 +184,32 @@ class ModuleSet:
                     test_modules.append(mod)
         return test_modules
 
-    def get_system_modules(self, modules):
-
+    def get_module_state(self, modules):
         installed_pkgconfig = systeminstall.get_installed_pkgconfigs(self.config)
         
-        # pkgconfig -> (required_version, installed_verison)
         module_state = {}
         for module in modules:
-            if (isinstance(module.branch, TarballBranch)
-                or isinstance(module, SystemModule)):
+            # only consider SystemModules or modules with <pkg-config>
+            if (isinstance(module, SystemModule) or
+                (isinstance(module.branch, TarballBranch) and
+                 module.pkg_config is not None)):
                 required_version = module.branch.version
-                if module.pkg_config is None:
-                    module_pkg = module.name
-                else: # Strip off the .pc
+                installed_version = None
+                new_enough = False
+                systemmodule = isinstance(module, SystemModule)
+                if module.pkg_config is not None:
+                    # strip off the .pc
                     module_pkg = module.pkg_config[:-3]
-
-                if module.systemdependencies:
-                    if not systeminstall.systemdependencies_met \
-                               (module.name, module.systemdependencies,
-                                self.config):
-                        module_state[module_pkg] = (module, required_version,
-                                                    None, False,
-                                                    isinstance(module,
-                                                               SystemModule))
-                if module.pkg_config is None:
-                    continue
-                if not module_pkg in installed_pkgconfig:
-                    module_state[module_pkg] = (module, required_version, None, False, isinstance(module, SystemModule))
-                else:
-                    installed_version = installed_pkgconfig[module_pkg]
-                    new_enough = compare_version(installed_version, required_version)
-                    module_state[module_pkg] = (module, required_version, installed_version, new_enough, isinstance(module, SystemModule))
+                    if module_pkg in installed_pkgconfig:
+                        installed_version = installed_pkgconfig[module_pkg]
+                        new_enough = compare_version(installed_version,
+                                                     required_version)
+                elif systemmodule:
+                    new_enough = systeminstall.systemdependencies_met \
+                                     (module.name, module.systemdependencies,
+                                      self.config)
+                module_state[module] = (required_version, installed_version,
+                                        new_enough, systemmodule)
         return module_state
 
     def remove_system_modules(self, modules):

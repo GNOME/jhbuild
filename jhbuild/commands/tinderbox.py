@@ -91,7 +91,7 @@ class cmd_tinderbox(BuildCommand):
                 raise FatalError(_('%s not in module list') % options.startat)
 
         if config.check_sysdeps:
-            module_state = module_set.get_system_modules(full_module_list)
+            module_state = module_set.get_module_state(full_module_list)
             if not self.required_system_dependencies_installed(module_state):
                 self.print_system_dependencies(module_state)
                 raise FatalError(_('Required system dependencies not installed.'
