@@ -214,6 +214,8 @@ class AutogenModule(MakeModule, DownloadableModule):
             PHASE_CLEAN, PHASE_DISTCLEAN]
 
     def skip_clean(self, buildscript, last_phase):
+        if 'distclean' in self.config.build_targets:
+            return True
         builddir = self.get_builddir(buildscript)
         if not os.path.exists(builddir):
             return True
@@ -315,7 +317,10 @@ class AutogenModule(MakeModule, DownloadableModule):
         return self.config.noinstall or self.skip_install_phase
 
     def skip_distclean(self, buildscript, last_phase):
-        return self.skip_clean(buildscript, last_phase)
+        builddir = self.get_builddir(buildscript)
+        if not os.path.exists(builddir):
+            return True
+        return False
 
     def do_distclean(self, buildscript):
         buildscript.set_action(_('Distcleaning'), self)
