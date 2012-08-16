@@ -36,6 +36,9 @@ class cmd_tinderbox(BuildCommand):
             make_option('-a', '--autogen',
                         action='store_true', dest='_unused', default=False,
                         help=optparse.SUPPRESS_HELP), # no longer used
+            make_option('', '--distclean',
+                        action='store_true', dest='distclean', default=False,
+                        help=_('completely clean source tree')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),
