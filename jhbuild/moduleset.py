@@ -208,6 +208,8 @@ class ModuleSet:
                     new_enough = systeminstall.systemdependencies_met \
                                      (module.name, module.systemdependencies,
                                       self.config)
+                    if new_enough:
+                        installed_version = _('unknown')
                 module_state[module] = (required_version, installed_version,
                                         new_enough, systemmodule)
         return module_state

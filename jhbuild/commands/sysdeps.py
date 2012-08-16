@@ -114,7 +114,7 @@ class cmd_sysdeps(cmd_build):
 
             print _('  No matching system package installed:')
             for module,(req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
-                if installed_version is None and (not systemmodule):
+                if installed_version is None and (not new_enough) and (not systemmodule):
                     print (_("    %(module)s (%(pkg_config)srequired=%(req)s)") % \
                            {'module'     : module.name,
                             'pkg_config' : fmt_pkg_config(module.pkg_config),
