@@ -62,7 +62,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'build_targets', 'cmakeargs', 'module_cmakeargs',
                 'print_command_pattern', 'static_analyzer',
                 'module_static_analyzer', 'static_analyzer_template',
-                'static_analyzer_outputdir', 'check_sysdeps',
+                'static_analyzer_outputdir', 'check_sysdeps', 'system_prefix',
               ]
 
 env_prepends = {}

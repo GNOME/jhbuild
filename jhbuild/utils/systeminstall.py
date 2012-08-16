@@ -155,6 +155,12 @@ PK_FILTER_ENUM_ARCH = 1 << 18
 class PKSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
+        self._loop = None
+        # PackageKit 0.8.1 has API breaks in the D-BUS interface, for now
+        # we try to support both it and older PackageKit
+        self._using_pk_0_8_1 = None
+        self._sysbus = None
+        self._pkdbus = None
 
     def _on_pk_message(self, msgtype, msg):
         logging.info(_('PackageKit: %s' % (msg,)))
@@ -162,67 +168,88 @@ class PKSystemInstall(SystemInstall):
     def _on_pk_error(self, msgtype, msg):
         logging.error(_('PackageKit: %s' % (msg,)))
 
-    def install(self, pkgconfig_ids):
-        import dbus
-        import dbus.glib
-        import glib
-
-        # PackageKit 0.8.1 has API breaks in the D-BUS interface, for now
-        # we try to support both it and older PackageKit
-        using_pk_0_8_1 = False
-
-        loop = glib.MainLoop()
-        
-        sysbus = dbus.SystemBus()
-        pk = dbus.Interface(sysbus.get_object('org.freedesktop.PackageKit',
+    def _get_new_transaction(self):
+        if self._loop is None:
+            import glib
+            self._loop = glib.MainLoop()
+        if self._sysbus is None:
+            import dbus.glib
+            import dbus
+            self._dbus = dbus
+            self._sysbus = dbus.SystemBus()
+        if self._pkdbus is None:
+            self._pkdbus = dbus.Interface(self._sysbus.get_object('org.freedesktop.PackageKit',
                                               '/org/freedesktop/PackageKit'),
                             'org.freedesktop.PackageKit')
-        try:
-            txn_path = pk.CreateTransaction()
-            txn = sysbus.get_object('org.freedesktop.PackageKit', txn_path)
-            using_pk_0_8_1 = True
-        except dbus.exceptions.DBusException:
-            tid = pk.GetTid()
-            txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
-
-        txn_tx = dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
+        if self._using_pk_0_8_1 is None:
+            try:
+                txn_path = self._pkdbus.CreateTransaction()
+                txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
+                self._using_pk_0_8_1 = True
+            except dbus.exceptions.DBusException:
+                tid = self._pkdbus.GetTid()
+                txn = self._sysbus.get_object('org.freedesktop.PackageKit', tid)
+                self._using_pk_0_8_1 = False
+        elif self._using_pk_0_8_1:
+            txn_path = self._pkdbus.CreateTransaction()
+            txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
+        else:
+            tid = self._pkdbus.GetTid()
+            txn = self._sysbus.get_object('org.freedesktop.PackageKit', tid)
+        txn_tx = self._dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
         txn.connect_to_signal('Message', self._on_pk_message)
         txn.connect_to_signal('ErrorCode', self._on_pk_error)
-        txn.connect_to_signal('Destroy', lambda *args: loop.quit())
+        txn.connect_to_signal('Destroy', lambda *args: self._loop.quit())
+        return txn_tx, txn
 
+    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
         pk_package_ids = set()
-        txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-        if using_pk_0_8_1:
-            txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST | PK_FILTER_ENUM_NOT_INSTALLED,
-                                PK_PROVIDES_ANY,
-                                ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
-        else:
-            txn_tx.WhatProvides("arch;newest;~installed", "any",
-                                ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
-        loop.run()
 
-        del txn
+        if uninstalled_pkgconfigs:
+            txn_tx, txn = self._get_new_transaction()
+            txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
+            if self._using_pk_0_8_1:
+                txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
+                                    PK_FILTER_ENUM_NOT_INSTALLED,
+                                    PK_PROVIDES_ANY,
+                                    ['pkgconfig(%s)' % pkg for modname, pkg in
+                                     uninstalled_pkgconfigs])
+            else:
+                txn_tx.WhatProvides('arch;newest;~installed', 'any',
+                                    ['pkgconfig(%s)' % pkg for modname, pkg in
+                                     uninstalled_pkgconfigs])
+            self._loop.run()
+            del txn, txn_tx
+
+        if uninstalled_filenames:
+            txn_tx, txn = self._get_new_transaction()
+            txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
+            if self._using_pk_0_8_1:
+                txn_tx.SearchFiles(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
+                                   PK_FILTER_ENUM_NOT_INSTALLED,
+                                   [pkg for modname, pkg in
+                                    uninstalled_filenames])
+            else:
+                txn_tx.SearchFiles('arch;newest;~installed',
+                                   [pkg for modname, pkg in
+                                    uninstalled_filenames])
+            self._loop.run()
+            del txn, txn_tx
+
+        # On Fedora 17 a file can be in two packages: the normal package and
+        # an older compat- package. Don't install compat- packages.
+        pk_package_ids = [pkg for pkg in pk_package_ids
+                          if not pkg.startswith('compat-')]
 
         if len(pk_package_ids) == 0:
             logging.info(_('Nothing available to install'))
             return
 
-        logging.info(_('Installing: %s' % (' '.join(pk_package_ids, ))))
+        logging.info(_('Installing:\n  %s' % ('\n  '.join(pk_package_ids, ))))
 
-        if using_pk_0_8_1:
-            txn_path = pk.CreateTransaction()
-            txn = sysbus.get_object('org.freedesktop.PackageKit', txn_path)
-        else:
-            tid = pk.GetTid()
-            txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
-
-        txn_tx = dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
-        txn.connect_to_signal('Message', self._on_pk_message)
-        txn.connect_to_signal('ErrorCode', self._on_pk_error)
-        txn.connect_to_signal('Destroy', lambda *args: loop.quit())
-
+        txn_tx, txn = self._get_new_transaction()
         txn_tx.InstallPackages(True, pk_package_ids)
-        loop.run()
+        self._loop.run()
 
         logging.info(_('Complete!'))
 
