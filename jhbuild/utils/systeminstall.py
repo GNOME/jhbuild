@@ -172,7 +172,8 @@ class PKSystemInstall(SystemInstall):
 
         pk_package_ids = set()
         txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-        txn_tx.WhatProvides("arch;newest;~installed", "any", map(lambda x: 'pkgconfig(%s)' % (x, ), pkgconfig_ids))
+        txn_tx.WhatProvides("arch;newest;~installed", "any",
+                            ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
         loop.run()
 
         del txn
