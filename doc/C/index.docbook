@@ -750,6 +750,7 @@ jhbuildbot_password = 'password'
         <arg>--check</arg>
         <arg>--dist</arg>
         <arg>--distcheck</arg>
+        <arg>--distclean</arg>
         <arg>--ignore-suggests</arg>
         <arg>--no-network</arg>
         <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
@@ -805,6 +806,21 @@ jhbuildbot_password = 'password'
           <listitem>
             <simpara>Run <command>make distcheck</command> after building
               modules.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <option>--distclean</option>
+          </term>
+          <listitem>
+            <simpara>For git modules, run <command>git clean -dfx</command>
+              before building modules. For other modules, run <command>make
+              distclean</command> before building modules.</simpara>
+
+            <note>
+              <simpara>This option will delete any uncommited changes.
+              </simpara>
+            </note>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -974,6 +990,7 @@ jhbuildbot_password = 'password'
         <arg>--clean</arg>
         <arg>--check</arg>
         <arg>--distcheck</arg>
+        <arg>--distclean</arg>
         <arg>--no-network</arg>
         <arg>-D <replaceable>date</replaceable></arg>
         <arg>--no-xvfb</arg>
@@ -985,8 +1002,9 @@ jhbuildbot_password = 'password'
 
       <para>The <option>--check</option>, <option>--clean</option>,
         <option>-d</option>, <option>--distcheck</option>,
-        <option>--no-network</option>, <option>-D</option>, <option>-x</option>
-        and <option>--nodeps</option> options are processed as per the
+        <option>--distclean</option>, <option>--no-network</option>,
+        <option>-D</option>, <option>-x</option> and <option>--nodeps</option>
+        options are processed as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
@@ -1385,6 +1403,7 @@ Optional packages: (JHBuild will build the missing packages)
 
       <cmdsynopsis><command>jhbuild tinderbox</command>
         <arg>--clean</arg>
+        <arg>--distclean</arg>
         <arg>--no-network</arg>
         <arg>--output=<replaceable>directory</replaceable></arg>
         <arg rep="repeat">--skip=<replaceable>module</replaceable></arg>
@@ -1397,11 +1416,11 @@ Optional packages: (JHBuild will build the missing packages)
         <arg rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--clean</option>, <option>--no-network</option>,
-        <option>--skip</option>, <option>--start-at</option>,
-        <option>-D</option>, <option>-C</option>, <option>-N</option>,
-        <option>-f</option> and <option>--nodeps</option> options are processed
-        as per the
+      <para>The <option>--clean</option>, <option>--distclean</option>,
+        <option>--no-network</option>, <option>--skip</option>,
+        <option>--start-at</option>, <option>-D</option>, <option>-C</option>,
+        <option>-N</option>, <option>-f</option> and <option>--nodeps</option>
+        options are processed as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
