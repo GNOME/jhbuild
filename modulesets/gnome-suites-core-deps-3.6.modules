@@ -1029,6 +1029,13 @@
             module="webkit-1.9.6.tar.xz" version="1.9.6"
             hash="sha256:6cb8eaf26e29ce5dc7cd5e225bcd0e5ecbd493775932e74862d232b0ffaf93ee"
             size="8373840">
+      <!-- Two patches required for empathy to build
+            https://bugzilla.gnome.org/show_bug.cgi?id=681396
+            Remove when 1.9.7 or greater released. -->
+      <!-- http://trac.webkit.org/changeset/125056 -->
+      <patch file="WebKit-1.9.6-changeset_125056.diff" strip="2" />
+      <!-- http://trac.webkit.org/changeset/125183 -->
+      <patch file="WebKit-1.9.6-changeset_125183.diff" strip="2" />
     </branch>
     <dependencies>
       <dep package="at-spi2-core"/>

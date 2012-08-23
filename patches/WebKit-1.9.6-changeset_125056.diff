@@ -1,0 +1,76 @@
+Index: /trunk/Source/WebCore/ChangeLog
+===================================================================
+--- /trunk/Source/WebCore/ChangeLog	(revision 125055)
++++ /trunk/Source/WebCore/ChangeLog	(revision 125056)
+@@ -1,2 +1,25 @@
++2012-08-08  Xan Lopez  <xlopez@igalia.com>
++
++        Evolution, empathy no longer build with webkint 1.9.6:  webkit_dom_html_element_set_class_name is gone
++        https://bugs.webkit.org/show_bug.cgi?id=93384
++
++        Reviewed by Adam Barth.
++
++        Provide custom backwards compatibility wrappers for HTMLElement
++        className accessors, since the attribute was moved to Element. The
++        previous fix attempted to define the attribute twice (once in each
++        class), but this is wrong, just provide again the old accessors
++        making them forward to the new methods.
++
++        * bindings/gobject/WebKitDOMCustom.cpp:
++        (webkit_dom_html_element_get_class_name): provide again
++        get_class_name for backwards compatibility.
++        (webkit_dom_html_element_set_class_name): provide again
++        set_class_name for backwards compatibility.
++        * bindings/gobject/WebKitDOMCustom.h: ditto.
++        * html/HTMLElement.idl: remove the className attribute
++        definition. Since it's already present in Element this will break
++        our bindings.
++
+ 2012-08-07  Ojan Vafai  <ojan@chromium.org>
+ 
+Index: /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.cpp
+===================================================================
+--- /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.cpp	(revision 125055)
++++ /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.cpp	(revision 125056)
+@@ -50,4 +50,16 @@
+ }
+ 
++gchar*
++webkit_dom_html_element_get_class_name(WebKitDOMHTMLElement* element)
++{
++    return webkit_dom_element_get_class_name(WEBKIT_DOM_ELEMENT(element));
++}
++
++void
++webkit_dom_html_element_set_class_name(WebKitDOMHTMLElement* element, const gchar* value)
++{
++    webkit_dom_element_set_class_name(WEBKIT_DOM_ELEMENT(element), value);
++}
++
+ void
+ webkit_dom_html_form_element_dispatch_form_change(WebKitDOMHTMLFormElement* self)
+Index: /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.h
+===================================================================
+--- /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.h	(revision 125055)
++++ /trunk/Source/WebCore/bindings/gobject/WebKitDOMCustom.h	(revision 125056)
+@@ -31,4 +31,6 @@
+ /* Compatibility */
+ WEBKIT_API WebKitDOMBlob* webkit_dom_blob_webkit_slice(WebKitDOMBlob* self, gint64 start, gint64 end, const gchar* content_type);
++WEBKIT_API gchar* webkit_dom_html_element_get_class_name(WebKitDOMHTMLElement* element);
++WEBKIT_API void webkit_dom_html_element_set_class_name(WebKitDOMHTMLElement* element, const gchar* value);
+ WEBKIT_API void webkit_dom_html_form_element_dispatch_form_change(WebKitDOMHTMLFormElement* self);
+ WEBKIT_API void webkit_dom_html_form_element_dispatch_form_input(WebKitDOMHTMLFormElement* self);
+#Index: /trunk/Source/WebCore/html/HTMLElement.idl
+#===================================================================
+#--- /trunk/Source/WebCore/html/HTMLElement.idl	(revision 125055)
+#+++ /trunk/Source/WebCore/html/HTMLElement.idl	(revision 125056)
+#@@ -93,9 +93,4 @@
+# #endif
+# 
+#-#if defined(LANGUAGE_GOBJECT) && LANGUAGE_GOBJECT // Keep on HTMLElement for #backwards compat.
+#-        attribute [Reflect=class] DOMString className;
+#-#endif
+#-
+#-
+#         void click();
+#     };
