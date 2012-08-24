@@ -28,6 +28,7 @@ __all__ = [
     ]
 
 import os
+import re
 import shutil
 import logging
 
@@ -489,6 +490,8 @@ class MakeModule(Package):
             if ' -j' not in makeargs:
                 arg = '-j %s' % (buildscript.config.jobs, )
                 makeargs = makeargs + ' ' + arg
+        elif not self.supports_parallel_build and ' -j' in makeargs:
+            makeargs = re.sub(r'-j\w*\d+', '', makeargs)
         return self.eval_args(makeargs).strip()
 
 
