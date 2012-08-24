@@ -470,6 +470,28 @@ them into the prefix."""
             instance.pkg_config = pkg_config
         return instance
 
+class MakeModule(Package):
+    '''A base class for modules that use the command 'make' within the build
+    process.'''
+    def __init__(self, name, branch=None, makeargs='', makeinstallargs='',
+                  makefile='Makefile'):
+        Package.__init__(self, name, branch=branch)
+        self.makeargs = makeargs
+        self.makeinstallargs = makeinstallargs
+        self.makefile = makefile
+
+    def get_makeargs(self, buildscript, add_parallel=True):
+        makeargs = '%s %s' % (self.makeargs,
+                              self.config.module_makeargs.get(
+                                  self.name, self.config.makeargs))
+        if self.supports_parallel_build and add_parallel:
+            # Propagate job count into makeargs, unless -j is already set
+            if ' -j' not in makeargs:
+                arg = '-j %s' % (buildscript.config.jobs, )
+                makeargs = makeargs + ' ' + arg
+        return self.eval_args(makeargs).strip()
+
+
 class DownloadableModule:
     PHASE_CHECKOUT = 'checkout'
     PHASE_FORCE_CHECKOUT = 'force_checkout'

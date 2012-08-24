@@ -23,12 +23,12 @@ import os
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, register_module_type
+     Package, DownloadableModule, register_module_type, MakeModule
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'CMakeModule' ]
 
-class CMakeModule(Package, DownloadableModule):
+class CMakeModule(MakeModule, DownloadableModule):
     """Base type for modules that use CMake build system."""
     type = 'cmake'
 
@@ -41,9 +41,8 @@ class CMakeModule(Package, DownloadableModule):
 
     def __init__(self, name, branch=None,
                  cmakeargs='', makeargs='',):
-        Package.__init__(self, name, branch=branch)
+        MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
         self.cmakeargs = cmakeargs
-        self.makeargs  = makeargs
         self.supports_non_srcdir_builds = True
         self.supports_install_destdir = True
 
@@ -71,17 +70,6 @@ class CMakeModule(Package, DownloadableModule):
                           self.config.module_cmakeargs.get(
                               self.name, self.config.cmakeargs))
         return self.eval_args(args)
-
-    def get_makeargs(self):
-        args = '%s %s' % (self.makeargs,
-                          self.config.module_makeargs.get(
-                              self.name, self.config.makeargs))
-        if self.supports_parallel_build:
-            # Propagate job count into makeargs, unless -j is already set
-            if ' -j' not in args:
-                arg = '-j %s' % (self.config.jobs, )
-                args = args + ' ' + arg
-        return self.eval_args(args).strip()
 
     def do_configure(self, buildscript):
         buildscript.set_action(_('Configuring'), self)

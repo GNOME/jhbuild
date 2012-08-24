@@ -26,7 +26,7 @@ import errno
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
-     Package, register_module_type
+     register_module_type, MakeModule
 
 __all__ = [ 'LinuxModule' ]
 
@@ -45,7 +45,7 @@ class LinuxConfig:
                 raise BuildStateError(_('kconfig file %s was not created') % self.path)
 
 
-class LinuxModule(Package):
+class LinuxModule(MakeModule):
     '''For modules that are built with the linux kernel method of
     make config, make, make install and make modules_install.'''
     type = 'linux'
@@ -62,9 +62,8 @@ class LinuxModule(Package):
     PHASE_INSTALL         = 'install'
 
     def __init__(self, name, branch=None, kconfigs=None, makeargs=None):
-        Package.__init__(self, name, branch=branch)
+        MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
         self.kconfigs = kconfigs
-        self.makeargs = makeargs
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -89,9 +88,6 @@ class LinuxModule(Package):
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_MRPROPER]
-
-    def get_makeargs(self):
-        return self.makeargs + ' ' + self.config.module_makeargs.get(self.name, self.config.makeargs)
 
     def do_mrproper(self, buildscript):
         buildscript.set_action(_('make mrproper'), self)

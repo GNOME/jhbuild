@@ -26,11 +26,11 @@ import stat
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, register_module_type
+     DownloadableModule, register_module_type, MakeModule
 
 __all__ = [ 'AutogenModule' ]
 
-class AutogenModule(Package, DownloadableModule):
+class AutogenModule(MakeModule, DownloadableModule):
     '''Base type for modules that are distributed with a Gnome style
     "autogen.sh" script and the GNU build tools.  Subclasses are
     responsible for downloading/updating the working copy.'''
@@ -57,29 +57,17 @@ class AutogenModule(Package, DownloadableModule):
                  autogen_template=None,
                  check_target=True,
                  supports_static_analyzer=True):
-        Package.__init__(self, name, branch=branch)
+        MakeModule.__init__(self, name, branch=branch, makeargs=makeargs,
+                            makeinstallargs=makeinstallargs, makefile=makefile)
         self.autogenargs = autogenargs
-        self.makeargs    = makeargs
-        self.makeinstallargs = makeinstallargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.skip_autogen = skip_autogen
         self.skip_install_phase = skip_install_phase
         self.autogen_sh = autogen_sh
-        self.makefile = makefile
         self.autogen_template = autogen_template
         self.check_target = check_target
         self.supports_install_destdir = True
         self.supports_static_analyzer = supports_static_analyzer
-
-    def _get_makeargs(self, buildscript, add_parallel=True):
-        makeargs = self.makeargs + ' ' + self.config.module_makeargs.get(
-            self.name, self.config.makeargs)
-        if self.supports_parallel_build and add_parallel:
-            # Propagate job count into makeargs, unless -j is already set
-            if ' -j' not in makeargs:
-                arg = '-j %s' % (buildscript.config.jobs, )
-                makeargs = makeargs + ' ' + arg
-        return makeargs.strip()
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -212,7 +200,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        makeargs = self._get_makeargs(buildscript)
+        makeargs = self.get_makeargs(buildscript)
         cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -221,7 +209,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        makeargs = self._get_makeargs(buildscript)
+        makeargs = self.get_makeargs(buildscript)
         cmd = '%s%s %s' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
@@ -255,7 +243,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        makeargs = self._get_makeargs(buildscript, add_parallel=False)
+        makeargs = self.get_makeargs(buildscript, add_parallel=False)
         cmd = '%s%s %s check' % (self.static_analyzer_pre_cmd(buildscript), os.environ.get('MAKE', 'make'), makeargs)
         try:
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
@@ -268,7 +256,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        makeargs = self._get_makeargs(buildscript)
+        makeargs = self.get_makeargs(buildscript)
         cmd = '%s %s dist' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -277,7 +265,7 @@ class AutogenModule(Package, DownloadableModule):
 
     def do_distcheck(self, buildscript):
         buildscript.set_action(_('Dist checking'), self)
-        makeargs = self._get_makeargs(buildscript)
+        makeargs = self.get_makeargs(buildscript)
         cmd = '%s %s distcheck' % (os.environ.get('MAKE', 'make'), makeargs)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                     extra_env = self.extra_env)
@@ -311,7 +299,7 @@ class AutogenModule(Package, DownloadableModule):
         if hasattr(self.branch, 'delete_unknown_files'):
             self.branch.delete_unknown_files(buildscript)
         else:
-            makeargs = self._get_makeargs(buildscript)
+            makeargs = self.get_makeargs(buildscript)
             cmd = '%s %s distclean' % (os.environ.get('MAKE', 'make'), makeargs)
             buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                                 extra_env = self.extra_env)
