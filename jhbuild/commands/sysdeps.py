@@ -25,6 +25,7 @@ from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.commands.base import cmd_build
 from jhbuild.utils.systeminstall import SystemInstall
+from jhbuild.utils import cmds
 
 class cmd_sysdeps(cmd_build):
     doc = N_('Check and install tarball dependencies using system packages')
@@ -130,6 +131,14 @@ class cmd_sysdeps(cmd_build):
             if options.install:
                 installer = SystemInstall.find_best()
                 if installer is None:
+                    # FIXME: This should be implemented per Colin's design:
+                    # https://bugzilla.gnome.org/show_bug.cgi?id=682104#c3
+                    if cmds.has_command('apt-get'):
+                        raise FatalError(_("%(cmd)s is required to install "
+                                           "packages on this system. Please "
+                                           "install %(cmd)s.")
+                                         % {'cmd' : 'apt-file'})
+
                     raise FatalError(_("Don't know how to install packages on this system"))
 
                 if len(uninstalled) == 0:
