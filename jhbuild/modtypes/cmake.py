@@ -101,7 +101,7 @@ class CMakeModule(MakeModule, DownloadableModule):
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.get_makeargs())
+        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.get_makeargs(buildscript))
         buildscript.execute(cmd, cwd = builddir,
                 extra_env = self.extra_env)
     do_clean.depends = [PHASE_CONFIGURE]
@@ -110,7 +110,7 @@ class CMakeModule(MakeModule, DownloadableModule):
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.get_makeargs())
+        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.get_makeargs(buildscript))
         buildscript.execute(cmd, cwd = builddir,
                 extra_env = self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
@@ -119,7 +119,7 @@ class CMakeModule(MakeModule, DownloadableModule):
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
         cmd = '%s %s package_source' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs())
+                self.get_makeargs(buildscript))
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
                 extra_env = self.extra_env)
     do_dist.depends = [PHASE_CONFIGURE]
@@ -130,7 +130,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
         cmd = '%s %s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs(), destdir)
+                self.get_makeargs(buildscript), destdir)
         buildscript.execute(cmd,
                 cwd = builddir,
                 extra_env = self.extra_env)

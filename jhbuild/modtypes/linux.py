@@ -94,7 +94,7 @@ class LinuxModule(MakeModule):
         for kconfig in self.kconfigs:
             cmd = '%s %s mrproper EXTRAVERSION=%s O=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(),
+                    self.get_makeargs(buildscript),
                     kconfig.version,
                     'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -142,7 +142,7 @@ class LinuxModule(MakeModule):
         for kconfig in self.kconfigs:
             cmd = '%s %s clean EXTRAVERSION=%s O=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(),
+                    self.get_makeargs(buildscript),
                     kconfig.version,
                     'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -154,7 +154,7 @@ class LinuxModule(MakeModule):
         buildscript.set_action(_('Building'), self)
         for kconfig in self.kconfigs:
             cmd = '%s %s EXTRAVERSION=%s O=%s' % (os.environ.get('MAKE', 'make'),
-                                                  self.get_makeargs(),
+                                                  self.get_makeargs(buildscript),
                                                   kconfig.version,
                                                   'build-' + kconfig.version)
             buildscript.execute(cmd, cwd = self.branch.srcdir,
@@ -186,7 +186,7 @@ class LinuxModule(MakeModule):
         for kconfig in self.kconfigs:
             cmd = '%s %s modules_install EXTRAVERSION=%s O=%s INSTALL_MOD_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(),
+                    self.get_makeargs(buildscript),
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)
@@ -201,7 +201,7 @@ class LinuxModule(MakeModule):
         for kconfig in self.kconfigs:
             cmd = '%s %s headers_install EXTRAVERSION=%s O=%s INSTALL_HDR_PATH=%s' % (
                     os.environ.get('MAKE', 'make'),
-                    self.get_makeargs(),
+                    self.get_makeargs(buildscript),
                     kconfig.version,
                     'build-' + kconfig.version,
                     buildscript.config.prefix)
