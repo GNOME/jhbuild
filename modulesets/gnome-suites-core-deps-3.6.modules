@@ -612,6 +612,15 @@
     </dependencies>
   </autotools>
 
+  <tarball id="gupnp-igd" version="0.2.1" autogenargs="--disable-python">
+    <pkg-config>gupnp-igd-1.0.pc</pkg-config>
+    <source href="http://ftp.gnome.org/pub/GNOME/sources/gupnp-igd/0.2/gupnp-igd-0.2.0.tar.xz"
+            hash="sha256:924c17c511f18d021329f0d9515235069f4aa1632a487edebb21443002409952"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gupnp"/>
+    </dependencies>
+  </tarball>
 
   <autotools id="itstool">
     <branch repo="itstool.org"
@@ -745,6 +754,17 @@
       <dep package="lcms2"/>
     </dependencies>
   </autotools>
+
+  <tarball id="libnice" version="0.1.2" autogenargs="--enable-gupnp">
+    <pkg-config>nice.pc</pkg-config>
+    <source href="http://nice.freedesktop.org/releases/libnice-0.1.2.tar.gz"
+            hash="sha256:f2472b6392a27287ded21a6ba535b19c6204614fb191e1c4ff98295202c247f6"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gupnp-igd"/>
+    </dependencies>
+  </tarball>
 
   <autotools id="libnotify">
     <branch/>
