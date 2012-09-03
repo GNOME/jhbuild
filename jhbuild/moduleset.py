@@ -202,14 +202,17 @@ class ModuleSet:
                     module_pkg = module.pkg_config[:-3]
                     if module_pkg in installed_pkgconfig:
                         installed_version = installed_pkgconfig[module_pkg]
-                        new_enough = compare_version(installed_version,
-                                                     required_version)
+                        if required_version is None:
+                            new_enough = True
+                        else:
+                            new_enough = compare_version(installed_version,
+                                                         required_version)
                 elif systemmodule:
                     new_enough = systeminstall.systemdependencies_met \
                                      (module.name, module.systemdependencies,
                                       self.config)
                     if new_enough:
-                        installed_version = _('unknown')
+                        installed_version = 'unknown'
                 module_state[module] = (required_version, installed_version,
                                         new_enough, systemmodule)
         return module_state

@@ -24,9 +24,8 @@ class SystemRepository(Repository):
 
     branch_xml_attrs = ['version']
 
-    def branch(self, name, version, module = None,
-               checkoutdir = None):
-        instance = SystemBranch(self, module, version, checkoutdir)
+    def branch(self, name, version = None):
+        instance = SystemBranch(self, version)
         return instance
 
     def to_sxml(self):
@@ -34,8 +33,8 @@ class SystemRepository(Repository):
 
 class SystemBranch(Branch):
 
-    def __init__(self, repository, module, version, checkoutdir):
-        Branch.__init__(self, repository, module, checkoutdir)
+    def __init__(self, repository, version):
+        Branch.__init__(self, repository, module = None, checkoutdir = None)
         self.version = version
 
     def to_sxml(self):

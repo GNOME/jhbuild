@@ -76,11 +76,20 @@ class BuildCommand(Command):
 
     def print_system_dependencies(self, module_state):
 
-        def fmt_pkg_config(pkg_config):
-            if pkg_config is None:
-                return ''
+        def fmt_details(pkg_config, req_version, installed_version):
+            fmt_list = []
+            if pkg_config:
+                fmt_list.append(pkg_config)
+            if req_version:
+                fmt_list.append(_('required=%s') % req_version)
+            if installed_version and installed_version != 'unknown':
+                fmt_list.append(_('installed=%s') % installed_version)
+            # Translators: This is used to separate items of package metadata
+            fmt_str = _(', ').join(fmt_list)
+            if fmt_str:
+                return _('(%s)') % fmt_str
             else:
-                return '%s ' % pkg_config
+                return ''
 
         print _('Required packages:')
         print _('  System installed packages which are too old:')
@@ -88,12 +97,10 @@ class BuildCommand(Command):
         for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
             if (installed_version is not None) and (not new_enough) and systemmodule:
                 have_too_old = True
-                print (_("    %(module)s (%(pkg_config)srequired=%(req)s, "
-                         "installed=%(installed)s)" % \
-                             {'module'     : module.name,
-                              'pkg_config' : fmt_pkg_config(module.pkg_config),
-                              'req'        : req_version,
-                              'installed'  : installed_version}))
+                print ('    %s %s' % (module.name,
+                                      fmt_details(module.pkg_config,
+                                                  req_version,
+                                                  installed_version)))
         if not have_too_old:
             print _('    (none)')
 
@@ -102,10 +109,10 @@ class BuildCommand(Command):
         for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
             if installed_version is None and (not new_enough) and systemmodule:
                 have_missing = True
-                print (_("    %(module)s (%(pkg_config)srequired=%(req)s)") % \
-                       {'module'     : module.name,
-                        'pkg_config' : fmt_pkg_config(module.pkg_config),
-                        'req': req_version})
+                print ('    %s %s' % (module.name,
+                                      fmt_details(module.pkg_config,
+                                                  req_version,
+                                                  installed_version)))
         if not have_missing:
             print _('    (none)')
 
