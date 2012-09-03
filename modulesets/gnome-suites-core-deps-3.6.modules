@@ -614,6 +614,33 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gssdp">
+    <branch />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gupnp"
+             autogenargs="--with-context-manager=network-manager">
+    <branch revision="gupnp-0.18"/>
+    <dependencies>
+      <dep package="gssdp"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+      <dep package="NetworkManager"/>
+    </suggests>
+  </autotools>
+
   <autotools id="gupnp-igd"
              autogenargs="--disable-python">
     <branch/>
