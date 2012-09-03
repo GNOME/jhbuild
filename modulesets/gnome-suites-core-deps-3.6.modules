@@ -35,6 +35,8 @@
     href="http://webkitgtk.org/releases/"/>
 <repository type="tarball" name="freedesktop.org"
     href="http://freedesktop.org/software/"/>
+<repository type="tarball" name="nice.freedesktop.org"
+    href="http://nice.freedesktop.org/releases/"/>
 <repository type="tarball" name="poppler.freedesktop.org"
     href="http://poppler.freedesktop.org/"/>
 <repository type="tarball" name="p11-glue.freedesktop.org"
@@ -754,16 +756,19 @@
     </dependencies>
   </autotools>
 
-  <tarball id="libnice" version="0.1.2" autogenargs="--enable-gupnp">
+  <autotools id="libnice"
+             autogenargs="--enable-gupnp">
     <pkg-config>nice.pc</pkg-config>
-    <source href="http://nice.freedesktop.org/releases/libnice-0.1.2.tar.gz"
+    <branch repo="nice.freedesktop.org"
+            module="libnice-0.1.2.tar.gz"
+            version="0.1.2"
             hash="sha256:f2472b6392a27287ded21a6ba535b19c6204614fb191e1c4ff98295202c247f6"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gst-plugins-base"/>
       <dep package="gupnp-igd"/>
     </dependencies>
-  </tarball>
+  </autotools>
 
   <autotools id="libnotify">
     <branch/>
