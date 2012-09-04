@@ -443,22 +443,6 @@
     </branch>
   </autotools>
 
-  <autotools id="rarian" supports-non-srcdir-builds="no">
-    <!-- Always build rarian due to some distributions providing rarian-compat
-         package. (see https://bugzilla.gnome.org/show_bug.cgi?id=670917)
-         rarian can be sysdeps again when GNOME bug 671042 is fixed. -->
-    <!-- <pkg-config>rarian.pc</pkg-config> -->
-    <branch repo="gnome.org"
-            module="rarian/0.8/rarian-0.8.1.tar.bz2"
-            version="0.8.1"
-            hash="sha256:aafe886d46e467eb3414e91fa9e42955bd4b618c3e19c42c773026b205a84577"
-            size="324441"/>
-    <dependencies>
-      <dep package="libxslt"/>
-      <dep package="intltool"/>
-    </dependencies>
-  </autotools>
-
   <!-- parallel builds broken due to: https://bugs.freedesktop.org/show_bug.cgi?id=46093 -->
   <autotools id="shared-mime-info" supports-non-srcdir-builds="no"
              autogenargs="--disable-default-make-check" supports-parallel-builds="no">
