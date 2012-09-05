@@ -23,6 +23,10 @@ __metaclass__ = type
 import os
 import re
 import stat
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
@@ -89,6 +93,65 @@ class AutogenModule(MakeModule, DownloadableModule):
             return False
         return potential_stbuf.st_mtime > other_stbuf.st_mtime
 
+    def _get_configure_cmd(self, buildscript):
+        if self.configure_cmd is not None:
+            return self.configure_cmd
+        if self.autogen_template:
+            template = self.autogen_template
+        else:
+            template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
+                        " --libdir %(libdir)s %(autogenargs)s ")
+
+        autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
+                self.name, self.config.autogenargs)
+
+        vars = {'prefix': buildscript.config.prefix,
+                'autogen-sh': self.autogen_sh,
+                'autogenargs': autogenargs}
+
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
+            vars['srcdir'] = self.get_srcdir(buildscript)
+        else:
+            vars['srcdir'] = '.'
+
+        if buildscript.config.use_lib64:
+            vars['libdir'] = "'${exec_prefix}/lib64'"
+        else:
+            vars['libdir'] = "'${exec_prefix}/lib'"
+
+        cmd = self.static_analyzer_pre_cmd(buildscript) + template % vars
+
+        if self.autogen_sh == 'autoreconf':
+            cmd = cmd.replace('autoreconf', 'configure')
+            cmd = cmd.replace('--enable-maintainer-mode', '')
+
+        # Fix up the arguments for special cases:
+        #   tarballs: remove --enable-maintainer-mode to avoid breaking build
+        #   tarballs: remove '-- ' to avoid breaking build (GStreamer weirdness)
+        #   non-tarballs: place --prefix and --libdir after '-- ', if present
+        if self.autogen_sh == 'configure':
+            cmd = cmd.replace('--enable-maintainer-mode', '')
+
+            # Also, don't pass '--', which gstreamer attempts to do, since
+            # it is royally broken.
+            cmd = cmd.replace('-- ', '')
+        else:
+            # place --prefix and --libdir arguments after '-- '
+            # (GStreamer weirdness)
+            if autogenargs.find('-- ') != -1:
+                p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
+                       (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
+                cmd = p.sub(r'\1\4-- \2\3', cmd)
+
+        # If there is no --exec-prefix in the constructed autogen command, we
+        # can safely assume it will be the same as {prefix} and substitute it
+        # right now, so the printed command can be copy/pasted afterwards.
+        # (GNOME #580272)
+        if not '--exec-prefix' in template:
+            cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
+        self.configure_cmd = cmd
+        return cmd
+
     def skip_configure(self, buildscript, last_phase):
         # skip if manually instructed to do so
         if self.skip_autogen is True:
@@ -104,6 +167,18 @@ class AutogenModule(MakeModule, DownloadableModule):
 
         if self.skip_autogen == 'never':
             return False
+
+        # if autogen.sh args has changed, re-run configure
+        db_entry = buildscript.moduleset.packagedb.get(self.name)
+        if db_entry:
+            configure_hash = db_entry.metadata.get('configure-hash')
+            if configure_hash:
+                configure_cmd = self._get_configure_cmd(buildscript)
+                if hashlib.md5(configure_cmd).hexdigest() != configure_hash:
+                    return False
+            else:
+                # force one-time reconfigure if no configure-hash
+                return False
 
         # We can't rely on the autotools maintainer-mode stuff because many
         # modules' autogen.sh script includes e.g. gtk-doc and/or intltool,
@@ -143,31 +218,6 @@ class AutogenModule(MakeModule, DownloadableModule):
         except:
             pass
 
-        if self.autogen_template:
-            template = self.autogen_template
-        else:
-            template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
-                        " --libdir %(libdir)s %(autogenargs)s ")
-
-        autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
-                self.name, self.config.autogenargs)
-
-        vars = {'prefix': buildscript.config.prefix,
-                'autogen-sh': self.autogen_sh,
-                'autogenargs': autogenargs}
-                
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
-            vars['srcdir'] = self.get_srcdir(buildscript)
-        else:
-            vars['srcdir'] = '.'
-
-        if buildscript.config.use_lib64:
-            vars['libdir'] = "'${exec_prefix}/lib64'"
-        else:
-            vars['libdir'] = "'${exec_prefix}/lib'"
-
-        cmd = self.static_analyzer_pre_cmd(buildscript) + template % vars
-
         if self.autogen_sh == 'autoreconf':
             # autoreconf doesn't honour ACLOCAL_FLAGS, therefore we pass
             # a crafted ACLOCAL variable.  (GNOME bug 590064)
@@ -180,34 +230,8 @@ class AutogenModule(MakeModule, DownloadableModule):
             buildscript.execute(['autoreconf', '-i'], cwd=srcdir,
                     extra_env=extra_env)
             os.chmod(os.path.join(srcdir, 'configure'), 0755)
-            cmd = cmd.replace('autoreconf', 'configure')
-            cmd = cmd.replace('--enable-maintainer-mode', '')
 
-        # Fix up the arguments for special cases:
-        #   tarballs: remove --enable-maintainer-mode to avoid breaking build
-        #   tarballs: remove '-- ' to avoid breaking build (GStreamer weirdness)
-        #   non-tarballs: place --prefix and --libdir after '-- ', if present
-        if self.autogen_sh == 'configure':
-            cmd = cmd.replace('--enable-maintainer-mode', '')
-            
-            # Also, don't pass '--', which gstreamer attempts to do, since
-            # it is royally broken.
-            cmd = cmd.replace('-- ', '')
-        else:
-            # place --prefix and --libdir arguments after '-- '
-            # (GStreamer weirdness)
-            if autogenargs.find('-- ') != -1:
-                p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
-                       (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
-                cmd = p.sub(r'\1\4-- \2\3', cmd)
-
-        # If there is no --exec-prefix in the constructed autogen command, we
-        # can safely assume it will be the same as {prefix} and substitute it
-        # right now, so the printed command can be copy/pasted afterwards.
-        # (GNOME #580272)
-        if not '--exec-prefix' in template:
-            cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
-
+        cmd = self._get_configure_cmd(buildscript)
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT,

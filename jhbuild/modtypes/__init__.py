@@ -181,6 +181,7 @@ class Package:
         self.moduleset_name = None
         self.supports_install_destdir = False
         self.supports_parallel_build = True
+        self.configure_cmd = None
 
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
@@ -358,7 +359,9 @@ them into the prefix."""
                         logging.warn(_("Failed to delete no longer installed file %(file)r: %(msg)s") % { 'file': path,
                                                                                                           'msg': error_string})
 
-            buildscript.moduleset.packagedb.add(self.name, revision or '', absolute_new_contents)
+            buildscript.moduleset.packagedb.add(self.name, revision or '',
+                                                absolute_new_contents,
+                                                self.configure_cmd)
 
     def get_revision(self):
         return self.branch.tree_id()

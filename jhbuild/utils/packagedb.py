@@ -23,6 +23,10 @@ import stat
 import time
 import logging
 import xml.dom.minidom as DOM
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 
 from jhbuild.utils import lockfile
 
@@ -81,6 +85,9 @@ class PackageEntry:
         installed_string = node.attrib['installed']
         if installed_string:
             metadata['installed-date'] = _parse_isotime(installed_string)
+        configure_hash = node.attrib.get('configure-hash')
+        if configure_hash:
+            metadata['configure-hash'] = configure_hash
 
         dbentry = cls(package, version, metadata, manifests_dir)
 
@@ -107,6 +114,9 @@ class PackageEntry:
                                           'version': self.version})
         if 'installed-date' in self.metadata:
             entry_node.attrib['installed'] = _format_isotime(self.metadata['installed-date'])
+        if 'configure-hash' in self.metadata:
+            entry_node.attrib['configure-hash'] = \
+                self.metadata['configure-hash']
         if self.manifest is not None:
             fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
             fd.write('\n'.join(self.manifest))
@@ -216,11 +226,18 @@ class PackageDB:
 
     @_ensure_cache
     @_locked
-    def add(self, package, version, contents):
+    def add(self, package, version, contents, configure_cmd = None):
         '''Add a module to the install cache.'''
-        now = time.time()
-        metadata = {'installed-date': now}
-        self._entries[package] = PackageEntry(package, version, metadata, self.manifests_dir)
+        entry = self.get(package)
+        if entry:
+            metadata = entry.metadata
+        else:
+            metadata = {}
+        metadata['installed-date'] = time.time() # now
+        if configure_cmd:
+            metadata['configure-hash'] = hashlib.md5(configure_cmd).hexdigest()
+        self._entries[package] = PackageEntry(package, version, metadata,
+                                              self.manifests_dir)
         self._entries[package].manifest = contents
         self._write_cache()
 
