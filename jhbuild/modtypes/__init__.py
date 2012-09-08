@@ -143,16 +143,17 @@ def get_branch(node, repositories, default_repo, config):
         try:
             repo = repositories[childnode.getAttribute('repo')]
         except KeyError:
+            repo_names = ', '.join([r.name for r in repositories.values()])
             raise UndefinedRepositoryError(
                 _('Repository=%(missing)s not found for module id=%(module)s. Possible repositories are %(possible)s'
-                  % {'missing': childnode.getAttribute('repo'), 'module': name, 'possible': repositories}))
+                  % {'missing': childnode.getAttribute('repo'), 'module': name,
+                     'possible': repo_names}))
+    elif default_repo:
+        repo = repositories[default_repo]
     else:
-        try:
-            repo = repositories[default_repo]
-        except KeyError:
-            raise UndefinedRepositoryError(
-                _('Default repository=%(missing)s not found for module id=%(module)s. Possible repositories are %(possible)s'
-                  % {'missing': default_repo, 'module': name, 'possible': repositories}))
+        raise UndefinedRepositoryError(
+                _('No repository for module id=%(module)s. Either set branch/repo or default repository.'
+                  % {'module': name}))
 
     if repo.mirrors:
         mirror_type = config.mirror_policy
