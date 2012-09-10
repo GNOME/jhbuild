@@ -1,0 +1,57 @@
+From 712c9a0932f0b676cfbe5bf8ef3222fcf17d3dec Mon Sep 17 00:00:00 2001
+From: Christophe Fergeau <cfergeau@redhat.com>
+Date: Mon, 10 Sep 2012 12:17:07 +0200
+Subject: [PATCH 2/2] Fix unwanted closing of libvirt client connection
+
+e5a1bee07 introduced a regression in Boxes: when Boxes is left idle
+(it's still doing some libvirt calls in the background), the
+libvirt connection gets closed after a few minutes. What happens is
+that this code in virNetClientIOHandleOutput gets triggered:
+
+if (!thecall)
+    return -1; /* Shouldn't happen, but you never know... */
+
+and after the changes in e5a1bee07, this causes the libvirt connection
+to be closed.
+
+Upon further investigation, what happens is that
+virNetClientIOHandleOutput is called from gvir_event_handle_dispatch
+in libvirt-glib, which is triggered because the client fd became
+writable. However, between the times gvir_event_handle_dispatch
+is called, and the time the client lock is grabbed and
+virNetClientIOHandleOutput is called, another thread runs and
+completes the current call. 'thecall' is then NULL when the first
+thread gets to run virNetClientIOHandleOutput.
+
+After describing this situation on IRC, danpb suggested this:
+
+11:37 < danpb> In that case I think the correct thing would be to change
+               'return -1' above to 'return 0' since that's not actually an
+               error - its a rare, but expected event
+
+which is what this patch is doing. I've tested it against master
+libvirt, and I didn't get disconnected in ~10 minutes while this
+happens in less than 5 minutes without this patch.
+---
+ src/rpc/virnetclient.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/rpc/virnetclient.c b/src/rpc/virnetclient.c
+index 43a9814..727ed67 100644
+--- a/src/rpc/virnetclient.c
++++ b/src/rpc/virnetclient.c
+@@ -1205,7 +1205,10 @@ virNetClientIOHandleOutput(virNetClientPtr client)
+         thecall = thecall->next;
+ 
+     if (!thecall)
+-        return -1; /* Shouldn't happen, but you never know... */
++        return 0; /* This can happen if another thread raced with us and
++                   * completed the call between the time this thread woke
++                   * up from poll()ing and the time we locked the client
++                   */
+ 
+     while (thecall) {
+         ssize_t ret = virNetClientIOWriteMessage(client, thecall);
+-- 
+1.7.11.4
+

@@ -1,0 +1,124 @@
+From 826fa2876e13aa0256b6200bb4d6063d79a65e63 Mon Sep 17 00:00:00 2001
+From: Christophe Fergeau <cfergeau@redhat.com>
+Date: Thu, 6 Sep 2012 08:16:46 +0200
+Subject: [PATCH 1/2] events: Fix domain event race on client disconnect
+
+GNOME Boxes sometimes stops getting domain events from libvirtd, even
+after restarting it. Further investigation in libvirtd shows that
+events are properly queued with virDomainEventStateQueue, but the
+timer virDomainEventTimer which flushes the events and sends them to
+the clients never gets called. Looking at the event queue in gdb
+shows that it's non-empty and that its size increases with each new
+events.
+
+virDomainEventTimer is set up in virDomainEventStateRegister[ID]
+when going from 0 client connecte to 1 client connected, but is
+initially disabled. The timer is removed in
+virDomainEventStateRegister[ID] when the last client is disconnected
+(going from 1 client connected to 0).
+
+This timer (which handles sending the events to the clients) is
+enabled in virDomainEventStateQueue when queueing an event on an
+empty queue (queue containing 0 events). It's disabled in
+virDomainEventStateFlush after flushing the queue (ie removing all
+the elements from it). This way, no extra work is done when the queue
+is empty, and when the next event comes up, the timer will get
+reenabled because the queue will go from 0 event to 1 event, which
+triggers enabling the timer.
+
+However, with this Boxes bug, we have a client connected (Boxes), a
+non-empty queue (there are events waiting to be sent), but a disabled
+timer, so something went wrong.
+
+When Boxes connects (it's the only client connecting to the libvirtd
+instance I used for debugging), the event timer is not set as expected
+(state->timer == -1 when virDomainEventStateRegisterID is called),
+but at the same time the event queue is not empty. In other words,
+we had no clients connected, but pending events. This also explains
+why the timer never gets enabled as this is only done when an event
+is queued on an empty queue.
+
+I think this can happen if an event gets queued using
+virDomainEventStateQueue and the client disconnection happens before
+the event timer virDomainEventTimer gets a chance to run and flush
+the event. In this situation, virDomainEventStateDeregister[ID] will
+get called with a non-empty event queue, the timer will be destroyed
+if this was the only client connected. Then, when other clients connect
+at a later time, they will never get notified about domain events as
+the event timer will never get enabled because the timer is only
+enabled if the event queue is empty when virDomainEventStateRegister[ID]
+gets called, which will is no longer the case.
+
+To avoid this issue, this commit makes sure to remove all events from
+the event queue when the last client in unregistered. As there is
+no longer anyone interested in receiving these events, these events
+are stale so there is no need to keep them around. A client connecting
+later will have no interest in getting events that happened before it
+got connected.
+---
+ src/conf/domain_event.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
+
+diff --git a/src/conf/domain_event.c b/src/conf/domain_event.c
+index 43ecdcf..7ab973b 100644
+--- a/src/conf/domain_event.c
++++ b/src/conf/domain_event.c
+@@ -525,13 +525,13 @@ void virDomainEventFree(virDomainEventPtr event)
+ }
+ 
+ /**
+- * virDomainEventQueueFree:
++ * virDomainEventQueueClear:
+  * @queue: pointer to the queue
+  *
+- * Free the memory in the queue. We process this like a list here
++ * Removes all elements from the queue
+  */
+ static void
+-virDomainEventQueueFree(virDomainEventQueuePtr queue)
++virDomainEventQueueClear(virDomainEventQueuePtr queue)
+ {
+     int i;
+     if (!queue)
+@@ -541,6 +541,22 @@ virDomainEventQueueFree(virDomainEventQueuePtr queue)
+         virDomainEventFree(queue->events[i]);
+     }
+     VIR_FREE(queue->events);
++    queue->count = 0;
++}
++
++/**
++ * virDomainEventQueueFree:
++ * @queue: pointer to the queue
++ *
++ * Free the memory in the queue. We process this like a list here
++ */
++static void
++virDomainEventQueueFree(virDomainEventQueuePtr queue)
++{
++    if (!queue)
++        return;
++
++    virDomainEventQueueClear(queue);
+     VIR_FREE(queue);
+ }
+ 
+@@ -1559,6 +1575,7 @@ virDomainEventStateDeregister(virConnectPtr conn,
+         state->timer != -1) {
+         virEventRemoveTimeout(state->timer);
+         state->timer = -1;
++        virDomainEventQueueClear(state->queue);
+     }
+ 
+     virDomainEventStateUnlock(state);
+@@ -1596,6 +1613,7 @@ virDomainEventStateDeregisterID(virConnectPtr conn,
+         state->timer != -1) {
+         virEventRemoveTimeout(state->timer);
+         state->timer = -1;
++        virDomainEventQueueClear(state->queue);
+     }
+ 
+     virDomainEventStateUnlock(state);
+-- 
+1.7.11.4
+
