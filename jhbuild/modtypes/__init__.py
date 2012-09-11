@@ -252,7 +252,15 @@ them into the prefix."""
             src_path = os.path.join(curdir, filename)
             assert src_path.startswith(installroot)
             dest_path = src_path[len(installroot):]
-            if os.path.isdir(src_path):
+            if os.path.islink(src_path):
+                linkto = os.readlink(src_path)
+                if os.path.exists(dest_path):
+                    if os.path.islink(dest_path) or os.path.isfile(dest_path):
+                        os.unlink(dest_path)
+                os.symlink(linkto, dest_path)
+                os.unlink(src_path)
+                num_copied += 1
+            elif os.path.isdir(src_path):
                 if os.path.exists(dest_path):
                     if not os.path.isdir(dest_path):
                         os.unlink(dest_path)
@@ -260,10 +268,7 @@ them into the prefix."""
                 else:
                     os.mkdir(dest_path)
                 num_copied += self._process_install_files(installroot, src_path, prefix)
-                if os.path.islink(src_path):
-                    os.unlink(src_path)
-                else:
-                    os.rmdir(src_path)
+                os.rmdir(src_path)
             else:
                 num_copied += 1
                 try:
