@@ -117,7 +117,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
                 self.name, self.config.autogenargs)
 
-        vars = {'prefix': buildscript.config.prefix,
+        vars = {'prefix': os.path.splitdrive(buildscript.config.prefix)[1],
                 'autogen-sh': self.autogen_sh,
                 'autogenargs': autogenargs}
 
@@ -152,7 +152,7 @@ class AutogenModule(MakeModule, DownloadableModule):
             # (GStreamer weirdness)
             if autogenargs.find('-- ') != -1:
                 p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
-                       (buildscript.config.prefix, "'\${exec_prefix}/lib64'"))
+                       (vars['prefix'], "'\${exec_prefix}/lib64'"))
                 cmd = p.sub(r'\1\4-- \2\3', cmd)
 
         # If there is no --exec-prefix in the constructed autogen command, we
@@ -160,7 +160,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         # right now, so the printed command can be copy/pasted afterwards.
         # (GNOME #580272)
         if not '--exec-prefix' in template:
-            cmd = cmd.replace('${exec_prefix}', buildscript.config.prefix)
+            cmd = cmd.replace('${exec_prefix}', vars['prefix'])
         self.configure_cmd = cmd
         return cmd
 
