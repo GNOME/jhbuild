@@ -27,7 +27,7 @@ def _accumulate_dirtree_contents_recurse(path, contents):
     names = os.listdir(path)
     for name in names:
         subpath = os.path.join(path, name)
-        if os.path.isdir(subpath):
+        if os.path.isdir(subpath) and not os.path.islink(subpath):
             previous_len = len(contents)
             _accumulate_dirtree_contents_recurse(subpath, contents)
             new_len = len(contents)
