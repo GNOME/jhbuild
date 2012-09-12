@@ -190,6 +190,9 @@ class AutogenModule(MakeModule, DownloadableModule):
             else:
                 # force one-time reconfigure if no configure-hash
                 return False
+        else:
+            # always configure for the first build
+            return False
 
         # We can't rely on the autotools maintainer-mode stuff because many
         # modules' autogen.sh script includes e.g. gtk-doc and/or intltool,
