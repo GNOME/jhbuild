@@ -62,7 +62,7 @@ Returns a list, where each item is a 2-tuple:
     results = []
 
     for path in reversed(sorted(file_paths)):
-        isdir = os.path.isdir(path)
+        isdir = os.path.isdir(path) and not os.path.islink(path)
         try:
             if isdir:
                 os.rmdir(path)
