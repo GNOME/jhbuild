@@ -94,8 +94,20 @@ class AutogenModule(MakeModule, DownloadableModule):
         return potential_stbuf.st_mtime > other_stbuf.st_mtime
 
     def _get_configure_cmd(self, buildscript):
+        '''returns a string of the command-line to configure the module.
+        This method may modify self.autogen_sh, if 'autogen.sh' doesn't exist.
+        FIXME: bad idea to modify self.autogen_sh in a getter.
+        '''
         if self.configure_cmd is not None:
             return self.configure_cmd
+
+        srcdir = self.get_srcdir(buildscript)
+        if self.autogen_sh == 'autogen.sh' and \
+        not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
+            # if there is no autogen.sh, automatically fallback to configure
+            if os.path.exists(os.path.join(srcdir, 'configure')):
+                self.autogen_sh = 'configure'
+
         if self.autogen_template:
             template = self.autogen_template
         else:
@@ -205,13 +217,9 @@ class AutogenModule(MakeModule, DownloadableModule):
             os.makedirs(builddir)
         buildscript.set_action(_('Configuring'), self)
 
-        srcdir = self.get_srcdir(buildscript)
-        if self.autogen_sh == 'autogen.sh' and \
-        not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
-            # if there is no autogen.sh, automatically fallback to configure
-            if os.path.exists(os.path.join(srcdir, 'configure')):
-                self.autogen_sh = 'configure'
+        cmd = self._get_configure_cmd(buildscript)
 
+        srcdir = self.get_srcdir(buildscript)
         try:
             if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0111):
                 os.chmod(os.path.join(srcdir, self.autogen_sh), 0755)
@@ -231,7 +239,6 @@ class AutogenModule(MakeModule, DownloadableModule):
                     extra_env=extra_env)
             os.chmod(os.path.join(srcdir, 'configure'), 0755)
 
-        cmd = self._get_configure_cmd(buildscript)
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT,
