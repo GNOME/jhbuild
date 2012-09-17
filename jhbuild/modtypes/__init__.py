@@ -254,9 +254,8 @@ them into the prefix."""
             dest_path = src_path[len(installroot):]
             if os.path.islink(src_path):
                 linkto = os.readlink(src_path)
-                if os.path.exists(dest_path):
-                    if os.path.islink(dest_path) or os.path.isfile(dest_path):
-                        os.unlink(dest_path)
+                if os.path.islink(dest_path) or os.path.isfile(dest_path):
+                    os.unlink(dest_path)
                 os.symlink(linkto, dest_path)
                 os.unlink(src_path)
                 num_copied += 1
