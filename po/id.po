@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-09-05 12:58+0000\n"
-"PO-Revision-Date: 2012-09-10 19:50+0700\n"
+"POT-Creation-Date: 2012-09-12 12:57+0000\n"
+"PO-Revision-Date: 2012-09-24 18:18+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.3\n"
 
 #: ../autogen.sh:103
 #, sh-format
@@ -113,12 +114,10 @@ msgid "[ options ... ] [ modules ... ]"
 msgstr "[ opsi ... ] [ modul ... ]"
 
 #: ../jhbuild/commands/base.py:50
-#| msgid "start building at the given module"
 msgid "start updating at the given module"
 msgstr "mulai memutakhirkan dari modul yang diberikan"
 
 #: ../jhbuild/commands/base.py:53
-#| msgid "build only modules with the given tags"
 msgid "update only modules with the given tags"
 msgstr "mutakhirkan hanya modul yang tag-nya diberikan"
 
@@ -559,45 +558,43 @@ msgstr "Setelah:"
 msgid "Before:"
 msgstr "Sebelum:"
 
-#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:47
+#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:48
 #, python-format
-#| msgid "Requires:"
 msgid "required=%s"
 msgstr "diperlukan=%s"
 
-#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:49
+#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:50
 #, python-format
-#| msgid "not installed"
 msgid "installed=%s"
 msgstr "dipasang=%s"
 
 #. Translators: This is used to separate items of package metadata
-#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:51
+#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:52
 msgid ", "
 msgstr ", "
 
-#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:53
+#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:54
 #, python-format
 msgid "(%s)"
 msgstr "(%s)"
 
-#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:78
+#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:79
 msgid "Required packages:"
 msgstr "Paket yang diperlukan:"
 
-#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:79
-#: ../jhbuild/commands/sysdeps.py:107
+#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:80
+#: ../jhbuild/commands/sysdeps.py:108
 msgid "  System installed packages which are too old:"
 msgstr "  Paket terlalu tua yang terpasang sistem:"
 
 #: ../jhbuild/commands/__init__.py:105 ../jhbuild/commands/__init__.py:117
-#: ../jhbuild/commands/sysdeps.py:88 ../jhbuild/commands/sysdeps.py:101
-#: ../jhbuild/commands/sysdeps.py:116
+#: ../jhbuild/commands/sysdeps.py:89 ../jhbuild/commands/sysdeps.py:102
+#: ../jhbuild/commands/sysdeps.py:117
 msgid "    (none)"
 msgstr "    (nihil)"
 
-#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:90
-#: ../jhbuild/commands/sysdeps.py:118
+#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:91
+#: ../jhbuild/commands/sysdeps.py:119
 msgid "  No matching system package installed:"
 msgstr "  Tak ada paket sistem terpasang yang cocok:"
 
@@ -739,38 +736,47 @@ msgstr "Tak bisa memeriksa program git"
 msgid "Print out a moduleset for the exact versions that are checked out"
 msgstr "Cetak daftar moduleset bagi versi eksak yang di-check out"
 
-#: ../jhbuild/commands/sysdeps.py:30
+#: ../jhbuild/commands/sysdeps.py:31
 msgid "Check and install tarball dependencies using system packages"
 msgstr "Periksa dan pasang kebergantungan tarball memakai paket sistem"
 
-#: ../jhbuild/commands/sysdeps.py:38
+#: ../jhbuild/commands/sysdeps.py:39
 msgid "Install pkg-config modules via system"
 msgstr "Pasang modul pkg-config melalui sistem"
 
-#: ../jhbuild/commands/sysdeps.py:67
+#: ../jhbuild/commands/sysdeps.py:68
 msgid "System installed packages which are new enough:"
 msgstr "Paket terpasang sistem yang cukup baru:"
 
-#: ../jhbuild/commands/sysdeps.py:76 ../jhbuild/commands/sysdeps.py:128
+#: ../jhbuild/commands/sysdeps.py:77 ../jhbuild/commands/sysdeps.py:129
 msgid "  (none)"
 msgstr "  (nihil)"
 
-#: ../jhbuild/commands/sysdeps.py:106
+#: ../jhbuild/commands/sysdeps.py:107
 msgid "Optional packages: (JHBuild will build the missing packages)"
 msgstr "Paket opsional: (JHBuild akan membangun paket yang hilang)"
 
-#: ../jhbuild/commands/sysdeps.py:133
+#: ../jhbuild/commands/sysdeps.py:137
+#, python-format
+msgid ""
+"%(cmd)s is required to install packages on this system. Please install "
+"%(cmd)s."
+msgstr ""
+"%(cmd)s diperlukan untuk memasang paket pada sistem ini. Harap pasang "
+"%(cmd)s."
+
+#: ../jhbuild/commands/sysdeps.py:142
 msgid "Don't know how to install packages on this system"
 msgstr "Tak tahu bagaimana memasang paket pada sistem ini"
 
-#: ../jhbuild/commands/sysdeps.py:136
+#: ../jhbuild/commands/sysdeps.py:145
 #, python-format
 msgid "No uninstalled system dependencies to install for modules: %r"
 msgstr ""
 "Tak ada kebergantungan sistem yang belum terpasang, yang dapat dipasang bagi "
 "modul: %r"
 
-#: ../jhbuild/commands/sysdeps.py:138
+#: ../jhbuild/commands/sysdeps.py:147
 #, python-format
 msgid "Installing dependencies on system: %s"
 msgstr "Memasang kebergantungan pada sistem: %s"
@@ -1219,42 +1225,42 @@ msgstr "Diinterupsi"
 msgid "EOF"
 msgstr "EOF"
 
-#: ../jhbuild/modtypes/autotools.py:131 ../jhbuild/modtypes/cmake.py:75
+#: ../jhbuild/modtypes/autotools.py:206 ../jhbuild/modtypes/cmake.py:75
 #: ../jhbuild/modtypes/linux.py:109 ../jhbuild/modtypes/waf.py:71
 msgid "Configuring"
 msgstr "Mengkonfigur"
 
-#: ../jhbuild/modtypes/autotools.py:227 ../jhbuild/modtypes/cmake.py:102
+#: ../jhbuild/modtypes/autotools.py:251 ../jhbuild/modtypes/cmake.py:102
 #: ../jhbuild/modtypes/linux.py:141 ../jhbuild/modtypes/waf.py:82
 msgid "Cleaning"
 msgstr "Clean"
 
-#: ../jhbuild/modtypes/autotools.py:236 ../jhbuild/modtypes/cmake.py:111
+#: ../jhbuild/modtypes/autotools.py:260 ../jhbuild/modtypes/cmake.py:111
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:154
 #: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:89
 msgid "Building"
 msgstr "Build"
 
-#: ../jhbuild/modtypes/autotools.py:270 ../jhbuild/modtypes/waf.py:106
+#: ../jhbuild/modtypes/autotools.py:294 ../jhbuild/modtypes/waf.py:106
 msgid "Checking"
 msgstr "Check"
 
-#: ../jhbuild/modtypes/autotools.py:283 ../jhbuild/modtypes/cmake.py:120
+#: ../jhbuild/modtypes/autotools.py:307 ../jhbuild/modtypes/cmake.py:120
 #: ../jhbuild/modtypes/waf.py:117
 msgid "Creating tarball for"
 msgstr "Membuat tarball untuk"
 
-#: ../jhbuild/modtypes/autotools.py:292
+#: ../jhbuild/modtypes/autotools.py:316
 msgid "Dist checking"
 msgstr "Dist check"
 
-#: ../jhbuild/modtypes/autotools.py:301 ../jhbuild/modtypes/cmake.py:129
+#: ../jhbuild/modtypes/autotools.py:325 ../jhbuild/modtypes/cmake.py:129
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:127
 msgid "Installing"
 msgstr "Memasang"
 
-#: ../jhbuild/modtypes/autotools.py:326
+#: ../jhbuild/modtypes/autotools.py:350
 msgid "Distcleaning"
 msgstr "Distclean"
 
@@ -1270,7 +1276,6 @@ msgstr "dep node bagi modul %s kehilangan atribut paket"
 
 #: ../jhbuild/modtypes/__init__.py:86 ../jhbuild/modtypes/__init__.py:93
 #, python-format
-#| msgid "dep node for module %s is missing package attribute"
 msgid "%(node)s node for %(module)s module is missing %(attribute)s attribute"
 msgstr "node %(node)s bagi modul %(module)s kurang atribut %(attribute)s"
 
@@ -1297,27 +1302,27 @@ msgstr ""
 "Repositori=%(missing)s bawaan tak ditemukan bagi modul dengan id=%(module)s. "
 "Repositori yang mungkin adalah %(possible)s"
 
-#: ../jhbuild/modtypes/__init__.py:225
+#: ../jhbuild/modtypes/__init__.py:226
 #, python-format
 msgid "Deleting .la file: %r"
 msgstr "Menghapus berkas .la: %r"
 
-#: ../jhbuild/modtypes/__init__.py:271
+#: ../jhbuild/modtypes/__init__.py:277
 #, python-format
 msgid "Failed to rename %(src)r to %(dest)r: %(msg)s"
 msgstr "Gagal mengubah nama %(src)r ke %(dest)r: %(msg)s"
 
-#: ../jhbuild/modtypes/__init__.py:301
+#: ../jhbuild/modtypes/__init__.py:307
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "Memindah DESTDIR temporer %r ke dalam awalan pembangunan"
 
-#: ../jhbuild/modtypes/__init__.py:303
+#: ../jhbuild/modtypes/__init__.py:309
 #, python-format
 msgid "Install complete: %d files copied"
 msgstr "Pemasangan komplit: %d berkas disalin"
 
-#: ../jhbuild/modtypes/__init__.py:322
+#: ../jhbuild/modtypes/__init__.py:328
 #, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
@@ -1326,47 +1331,47 @@ msgstr ""
 "Berkas masih tersisa di buildroot %(dest)r; modul mungkin telah memasang "
 "berkas di luar direktor awalan."
 
-#: ../jhbuild/modtypes/__init__.py:340
+#: ../jhbuild/modtypes/__init__.py:346
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
 msgstr "Modul gagal dipasang ke DESTDIR %(dest)r"
 
-#: ../jhbuild/modtypes/__init__.py:350
+#: ../jhbuild/modtypes/__init__.py:356
 #, python-format
 msgid "%d files remaining from previous build"
 msgstr "%d berkas tersisa dari pembangunan sebelumnya"
 
-#: ../jhbuild/modtypes/__init__.py:353 ../jhbuild/utils/packagedb.py:265
+#: ../jhbuild/modtypes/__init__.py:359 ../jhbuild/utils/packagedb.py:282
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Dihapus: %(file)r"
 
-#: ../jhbuild/modtypes/__init__.py:358
+#: ../jhbuild/modtypes/__init__.py:364
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
 msgstr "Gagal menghapus berkas %(file)r yang tak terpasang lagi: %(msg)s"
 
-#: ../jhbuild/modtypes/__init__.py:408
+#: ../jhbuild/modtypes/__init__.py:416
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Melewati %s (tak dimutakhirkan)"
 
-#: ../jhbuild/modtypes/__init__.py:420
+#: ../jhbuild/modtypes/__init__.py:428
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Melewati %s (paket dan kebergantungan tak dimutakhirkan)"
 
-#: ../jhbuild/modtypes/__init__.py:509 ../jhbuild/modtypes/__init__.py:527
+#: ../jhbuild/modtypes/__init__.py:517 ../jhbuild/modtypes/__init__.py:535
 #: ../jhbuild/modtypes/linux.py:81 ../jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "Sedang check out"
 
-#: ../jhbuild/modtypes/__init__.py:513
+#: ../jhbuild/modtypes/__init__.py:521
 #, python-format
 msgid "source directory %s was not created"
 msgstr "direktori sumber %s tak dibuat"
 
-#: ../jhbuild/modtypes/__init__.py:530
+#: ../jhbuild/modtypes/__init__.py:538
 msgid "wipe directory and start over"
 msgstr "sapu bersih direktori dan mulai lagi dari awal"
 
@@ -1500,16 +1505,16 @@ msgstr ""
 "Kunci %(path)r dipegang oleh pid %(pid)d; sedang menunggunya keluar.  Tekan "
 "Control-C untuk menginterupsi."
 
-#: ../jhbuild/utils/packagedb.py:71
+#: ../jhbuild/utils/packagedb.py:75
 #, python-format
 msgid "package %s has files with embedded new lines"
 msgstr "paket %s memiliki berkas dengan baris baru tertempel"
 
-#: ../jhbuild/utils/packagedb.py:148
+#: ../jhbuild/utils/packagedb.py:158
 msgid "Package DB modified externally, rereading"
 msgstr "DB paket diubah dari luar, dibaca ulang"
 
-#: ../jhbuild/utils/packagedb.py:252
+#: ../jhbuild/utils/packagedb.py:269
 #, python-format
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
@@ -1518,7 +1523,7 @@ msgstr ""
 "tak ada manifes bagi '%s', tak bisa membongkar.  Cobalah membangun lagi, "
 "lalu membongkar."
 
-#: ../jhbuild/utils/packagedb.py:269
+#: ../jhbuild/utils/packagedb.py:286
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Gagal menghapus %(file)r: %(msg)s"
