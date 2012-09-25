@@ -141,6 +141,13 @@ class SystemInstall(object):
             if possible_cls.detect():
                 return possible_cls()
 
+# PackageKit dbus interface contains bitfield constants which
+# aren't introspectable
+PK_PROVIDES_ANY = 1
+PK_FILTER_ENUM_NOT_INSTALLED = 1 << 3
+PK_FILTER_ENUM_NEWEST = 1 << 16
+PK_FILTER_ENUM_ARCH = 1 << 18
+
 # NOTE: This class is unfinished
 class PKSystemInstall(SystemInstall):
     def __init__(self):
@@ -157,14 +164,24 @@ class PKSystemInstall(SystemInstall):
         import dbus.glib
         import glib
 
+        # PackageKit 0.8.1 has API breaks in the D-BUS interface, for now
+        # we try to support both it and older PackageKit
+        using_pk_0_8_1 = False
+
         loop = glib.MainLoop()
         
         sysbus = dbus.SystemBus()
         pk = dbus.Interface(sysbus.get_object('org.freedesktop.PackageKit',
                                               '/org/freedesktop/PackageKit'),
                             'org.freedesktop.PackageKit')
-        tid = pk.GetTid()
-        txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
+        try:
+            txn_path = pk.CreateTransaction()
+            txn = sysbus.get_object('org.freedesktop.PackageKit', txn_path)
+            using_pk_0_8_1 = True
+        except dbus.exceptions.DBusException:
+            tid = pk.GetTid()
+            txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
+
         txn_tx = dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
         txn.connect_to_signal('Message', self._on_pk_message)
         txn.connect_to_signal('ErrorCode', self._on_pk_error)
@@ -172,8 +189,13 @@ class PKSystemInstall(SystemInstall):
 
         pk_package_ids = set()
         txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-        txn_tx.WhatProvides("arch;newest;~installed", "any",
-                            ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
+        if using_pk_0_8_1:
+            txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST | PK_FILTER_ENUM_NOT_INSTALLED,
+                                PK_PROVIDES_ANY,
+                                ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
+        else:
+            txn_tx.WhatProvides("arch;newest;~installed", "any",
+                                ['pkgconfig(%s)' % pkg for pkg in pkgconfig_ids])
         loop.run()
 
         del txn
@@ -184,8 +206,13 @@ class PKSystemInstall(SystemInstall):
 
         logging.info(_('Installing: %s' % (' '.join(pk_package_ids, ))))
 
-        tid = pk.GetTid()
-        txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
+        if using_pk_0_8_1:
+            txn_path = pk.CreateTransaction()
+            txn = sysbus.get_object('org.freedesktop.PackageKit', txn_path)
+        else:
+            tid = pk.GetTid()
+            txn = sysbus.get_object('org.freedesktop.PackageKit', tid)
+
         txn_tx = dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
         txn.connect_to_signal('Message', self._on_pk_message)
         txn.connect_to_signal('ErrorCode', self._on_pk_error)
