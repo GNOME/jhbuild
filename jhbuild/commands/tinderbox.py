@@ -34,8 +34,8 @@ class cmd_tinderbox(BuildCommand):
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
-                        action='store_true', dest='_unused', default=False,
-                        help=optparse.SUPPRESS_HELP), # no longer used
+                        action='store_true', dest='autogen', default=False,
+                        help=_('always run autogen.sh')),
             make_option('', '--distclean',
                         action='store_true', dest='distclean', default=False,
                         help=_('completely clean source tree')),

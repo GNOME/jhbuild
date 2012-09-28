@@ -64,7 +64,11 @@ class WafModule(Package, DownloadableModule):
                           self.PHASE_INSTALL]:
             return False
 
-        return False
+        # skip if the .lock-wscript file exists and we don't have the
+        # alwaysautogen flag turned on:
+        builddir = self.get_builddir(buildscript)
+        return (os.path.exists(os.path.join(builddir, '.lock-wscript')) and
+                not buildscript.config.alwaysautogen)
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)

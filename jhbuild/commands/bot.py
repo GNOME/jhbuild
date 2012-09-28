@@ -163,6 +163,7 @@ class cmd_bot(Command):
                     config.nonetwork = False
                     phases = ['checkout']
                 elif args[0] == 'build':
+                    config.alwaysautogen = True
                     # make check will be run in another step
                     config.makecheck = False
                     config.build_targets = ['install']

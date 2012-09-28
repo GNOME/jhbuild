@@ -32,8 +32,8 @@ class cmd_autobuild(Command):
     def __init__(self):
         Command.__init__(self, [
             make_option('-a', '--autogen',
-                        action='store_true', dest='_unused', default=False,
-                        help=optparse.SUPPRESS_HELP), # no longer used
+                        action='store_true', dest='autogen', default=False,
+                        help=_('always run autogen.sh')),
             make_option('-c', '--clean',
                         action='store_true', dest='clean', default=False,
                         help=_('run make clean before make')),

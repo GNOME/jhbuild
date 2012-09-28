@@ -45,24 +45,25 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'installprog', 'repos', 'branches', 'noxvfb', 'xvfbargs',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork', 'nobuild',
-                'noinstall', 'makeclean', 'makedistclean', 'makecheck', 'module_makecheck',
-                'use_lib64', 'tinderbox_outputdir', 'sticky_date',
-                'tarballdir', 'pretty_print', 'svn_program', 'makedist',
-                'makedistcheck', 'nonotify', 'notrayicon', 'cvs_program',
-                'checkout_mode', 'copy_dir', 'module_checkout_mode',
-                'build_policy', 'trycheckout', 'min_age',
-                'nopoison', 'module_nopoison', 'forcecheck',
-                'makecheck_advisory', 'quiet_mode', 'progress_bar',
-                'module_extra_env', 'jhbuildbot_master', 'jhbuildbot_slavename',
-                'jhbuildbot_password', 'jhbuildbot_svn_commits_box',
-                'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
-                'jhbuildbot_mastercfg', 'use_local_modulesets',
-                'ignore_suggests', 'modulesets_dir', 'mirror_policy',
-                'module_mirror_policy', 'dvcs_mirror_dir', 'build_targets',
-                'cmakeargs', 'module_cmakeargs', 'print_command_pattern',
-                'static_analyzer', 'module_static_analyzer', 'static_analyzer_template', 'static_analyzer_outputdir',
-                'check_sysdeps',
-                ]
+                'alwaysautogen', 'noinstall', 'makeclean', 'makedistclean',
+                'makecheck', 'module_makecheck', 'use_lib64',
+                'tinderbox_outputdir', 'sticky_date', 'tarballdir',
+                'pretty_print', 'svn_program', 'makedist', 'makedistcheck',
+                'nonotify', 'notrayicon', 'cvs_program', 'checkout_mode',
+                'copy_dir', 'module_checkout_mode', 'build_policy',
+                'trycheckout', 'min_age', 'nopoison', 'module_nopoison',
+                'forcecheck', 'makecheck_advisory', 'quiet_mode',
+                'progress_bar', 'module_extra_env', 'jhbuildbot_master',
+                'jhbuildbot_slavename', 'jhbuildbot_password',
+                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
+                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
+                'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
+                'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
+                'build_targets', 'cmakeargs', 'module_cmakeargs',
+                'print_command_pattern', 'static_analyzer',
+                'module_static_analyzer', 'static_analyzer_template',
+                'static_analyzer_outputdir', 'check_sysdeps',
+              ]
 
 env_prepends = {}
 def prependpath(envvar, path):
@@ -618,6 +619,8 @@ class Config:
             options = self.cmdline_options
         else:
             self.cmdline_options = options
+        if hasattr(options, 'autogen') and options.autogen:
+            self.alwaysautogen = True
         if hasattr(options, 'check') and (
                 options.check and not 'check' in self.build_targets):
             self.build_targets.insert(0, 'check')

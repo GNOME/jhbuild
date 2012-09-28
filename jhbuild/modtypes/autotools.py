@@ -180,6 +180,9 @@ class AutogenModule(MakeModule, DownloadableModule):
         if self.skip_autogen == 'never':
             return False
 
+        if buildscript.config.alwaysautogen:
+            return False
+
         # if autogen.sh args has changed, re-run configure
         db_entry = buildscript.moduleset.packagedb.get(self.name)
         if db_entry:

@@ -775,6 +775,15 @@ jhbuildbot_password = 'password'
       <variablelist>
         <varlistentry>
           <term>
+            <option>-a</option>, <option>--autogen</option>
+          </term>
+          <listitem>
+            <simpara>Always run <command>autogen.sh</command> before building
+              modules.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
             <option>-c</option>, <option>--clean</option>
           </term>
           <listitem>
@@ -988,6 +997,7 @@ jhbuildbot_password = 'password'
         It is useful for rebuilding one or more modules.</para>
 
       <cmdsynopsis><command>jhbuild buildone</command>
+        <arg>--autogen</arg>
         <arg>--clean</arg>
         <arg>--check</arg>
         <arg>--distcheck</arg>
@@ -1001,11 +1011,11 @@ jhbuildbot_password = 'password'
         <arg choice="plain" rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--check</option>, <option>--clean</option>,
-        <option>-d</option>, <option>--distcheck</option>,
-        <option>--distclean</option>, <option>--no-network</option>,
-        <option>-D</option>, <option>-x</option> and <option>--nodeps</option>
-        options are processed as per the
+      <para>The <option>--autogen</option>, <option>--check</option>,
+        <option>--clean</option>, <option>-d</option>,
+        <option>--distcheck</option>, <option>--distclean</option>,
+        <option>--no-network</option>, <option>-D</option>, <option>-x</option>
+        and <option>--nodeps</option> options are processed as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
@@ -1409,6 +1419,7 @@ Optional packages: (JHBuild will build the missing packages)
         similar to Mozilla's Tinderbox, or Debian's Buildd.</para>
 
       <cmdsynopsis><command>jhbuild tinderbox</command>
+        <arg>--autogen</arg>
         <arg>--clean</arg>
         <arg>--distclean</arg>
         <arg>--no-network</arg>
@@ -1423,11 +1434,12 @@ Optional packages: (JHBuild will build the missing packages)
         <arg rep="repeat">module</arg>
       </cmdsynopsis>
 
-      <para>The <option>--clean</option>, <option>--distclean</option>,
-        <option>--no-network</option>, <option>--skip</option>,
-        <option>--start-at</option>, <option>-D</option>, <option>-C</option>,
-        <option>-N</option>, <option>-f</option> and <option>--nodeps</option>
-        options are processed as per the
+      <para>The <option>--autogen</option>, <option>--clean</option>,
+        <option>--distclean</option>, <option>--no-network</option>,
+        <option>--skip</option>, <option>--start-at</option>,
+        <option>-D</option>, <option>-C</option>, <option>-N</option>,
+        <option>-f</option> and <option>--nodeps</option> options are processed
+        as per the
         <link linkend="command-reference-build"><command>build</command></link>
         command.</para>
 
@@ -1534,6 +1546,17 @@ Optional packages: (JHBuild will build the missing packages)
 
       <variablelist>
 <?dbhtml list-presentation="table"?>
+        <varlistentry id="cfg-alwaysautogen">
+          <term>
+            <varname>alwaysautogen</varname>
+          </term>
+          <listitem>
+            <simpara>A boolean value if set to <constant>True</constant>,
+              always run <command>autogen.sh</command>. This is equivalent to
+              passing <option>--autogen</option> option to JHBuild. Defaults to
+              <constant>False</constant>.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-autogenargs">
           <term>
             <varname>autogenargs</varname>
