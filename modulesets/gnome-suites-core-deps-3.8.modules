@@ -298,8 +298,8 @@
     <branch/>
     <dependencies>
       <dep package="clutter"/>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
@@ -404,7 +404,7 @@
   <autotools id="gnome-video-effects">
     <branch/>
     <dependencies>
-      <dep package="gstreamer-master"/>
+      <dep package="gstreamer"/>
     </dependencies>
   </autotools>
 
@@ -451,12 +451,12 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gstreamer-master"
+  <autotools id="gstreamer"
              autogenargs="--disable-tests"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gstreamer"
-            checkoutdir="gstreamer-master"/>
+            checkoutdir="gstreamer"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -464,14 +464,14 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-base-master"
+  <autotools id="gst-plugins-base"
              autogenargs="--with-gtk=3.0 --disable-gnome_vfs"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-base"
-            checkoutdir="gst-plugins-base-master"/>
+            checkoutdir="gst-plugins-base"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
+      <dep package="gstreamer"/>
       <dep package="gtk+"/>
       <dep package="liboil"/>
     </dependencies>
@@ -480,15 +480,15 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-plugins-good-master"
+  <autotools id="gst-plugins-good"
              autogenargs="--with-gtk=3.0"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-good"
-            checkoutdir="gst-plugins-good-master"/>
+            checkoutdir="gst-plugins-good"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
       <dep package="flac"/>
       <dep package="libv4l"/>
       <dep package="taglib"/>
@@ -501,20 +501,20 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-plugins-bad-master"
+  <autotools id="gst-plugins-bad"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
-            checkoutdir="gst-plugins-bad-master"
+            checkoutdir="gst-plugins-bad"
             module="gst-plugins-bad"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
       <dep package="soundtouch"/>
     </dependencies>
   </autotools>
 
-  <autotools id="gstreamer" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gstreamer" revision="0.10"/>
+  <autotools id="gstreamer-0.10" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gstreamer" revision="0.10" checkoutdir="gstreamer-0.10"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libxml2"/>
@@ -522,10 +522,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-base" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base" revision="0.10"/>
+  <autotools id="gst-plugins-base-0.10" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base" revision="0.10" checkoutdir="gst-plugins-base-0.10"/>
     <dependencies>
-      <dep package="gstreamer"/>
+      <dep package="gstreamer-0.10"/>
       <dep package="gtk+"/>
       <dep package="liboil"/>
     </dependencies>
@@ -759,7 +759,7 @@
             hash="sha256:046ce11f66638b54f2e042e7b1fbcc537ec99c27185fb006edbfd80d7f990074"/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gst-plugins-base"/>
       <dep package="gupnp-igd"/>
     </dependencies>
   </autotools>
@@ -991,8 +991,8 @@
     </dependencies>
     <suggests>
       <dep package="libgnome-keyring"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
       <dep package="NetworkManager"/>
       <dep package="evolution"/>
       <dep package="upower"/>
@@ -1047,7 +1047,7 @@
       <dep package="fontconfig"/>
       <dep package="geoclue"/>
       <dep package="libxml2"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gst-plugins-base"/>
       <dep package="gtk+"/>
       <!-- GTK+ 2.x required for the plugin process when build Webkit2 -->
       <dep package="gtk+-2"/>

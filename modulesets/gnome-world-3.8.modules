@@ -423,24 +423,24 @@
       <dep package="glib"/>
       <dep package="avahi"/>
       <dep package="libsoup"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
   <autotools id="gst-openmax" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-openmax"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="gst-plugins-bad"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
+      <dep package="gst-plugins-bad-0.10"/>
     </dependencies>
   </autotools>
 
   <autotools id="gstreamer-vaapi">
     <branch repo="gitorious.org" module="vaapi/gstreamer-vaapi"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
       <dep package="libva"/>
     </dependencies>
   </autotools>
@@ -453,23 +453,23 @@
     <branch repo="git.freedesktop.org" checkoutdir="libva-intel-driver" module="vaapi/intel-driver" revision="v1.0-branch"/>
   </autotools>
 
-  <autotools id="gst-plugins-bad"
+  <autotools id="gst-plugins-bad-0.10"
              autogenargs="--disable-tests --disable-fatal-warnings"
              supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            revision="0.10"/>
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-bad"
+            revision="0.10" checkoutdir="gst-plugins-bad-0.10"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-ugly" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            revision="0.10"/>
+  <autotools id="gst-plugins-ugly-0.10" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-ugly"
+            revision="0.10" checkoutdir="gst-plugins-ugly-0.10"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
       <dep package="yasm"/>
     </dependencies>
   </autotools>
@@ -477,8 +477,8 @@
   <autotools id="gst-plugins-gl" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org" module="gst-plugins-gl"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
@@ -487,8 +487,8 @@
             module="gst-ffmpeg"
             revision="0.10"/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
@@ -498,8 +498,8 @@
     <branch repo="gstreamer.freedesktop.org"
             module="gst-ffmpeg"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 
@@ -511,8 +511,8 @@
             revision="0.10"/>
     <dependencies>
       <dep package="pygobject2"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
@@ -671,21 +671,21 @@
     <branch/>
     <dependencies>
       <dep package="gtkmm"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
       <dep package="libxml++"/>
     </dependencies>
     <suggests>
-      <dep package="gst-plugins-good"/>
+      <dep package="gst-plugins-good-0.10"/>
       <dep package="gst-ffmpeg"/>
-      <dep package="gst-plugins-ugly"/>
+      <dep package="gst-plugins-ugly-0.10"/>
     </suggests>
   </autotools>
 
   <autotools id="gstreamermm-plugins-good">
     <branch/>
     <dependencies>
-      <dep package="gst-plugins-good"/>
+      <dep package="gst-plugins-good-0.10"/>
       <dep package="gstreamermm"/>
     </dependencies>
   </autotools>
@@ -956,7 +956,7 @@
       <dep package="gtk+-2"/>
       <dep package="gnome-python-extras"/>
       <dep package="pygtk"/>
-      <dep package="gstreamer"/>
+      <dep package="gstreamer-0.10"/>
       <dep package="gst-python"/>
     </dependencies>
   </autotools>
@@ -965,7 +965,7 @@
     <branch/>
     <dependencies>
       <dep package="gtk+-2"/>
-      <dep package="gstreamer"/>
+      <dep package="gstreamer-0.10"/>
     </dependencies>
   </autotools>
 
@@ -974,8 +974,8 @@
     <branch repo="gstreamer.freedesktop.org"
             module="gnonlin"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 
@@ -985,21 +985,21 @@
             module="gst-editing-services"/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
-      <dep package="gst-plugins-bad-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-bad"/>
     </dependencies>
   </autotools>
 
   <autotools id="pitivi">
     <branch/>
     <dependencies>
-      <dep package="gstreamer-master"/>
+      <dep package="gstreamer"/>
       <dep package="gnonlin"/>
       <dep package="goocanvas"/>
       <dep package="gst-editing-services"/>
-      <dep package="gst-plugins-base-master"/>
-      <dep package="gst-plugins-good-master"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
       <dep package="pygobject"/>
       <dep package="py2cairo"/>
     </dependencies>
@@ -1255,8 +1255,8 @@
   <autotools id="monkey-bubble">
     <branch/>
     <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
       <dep package="libxml2"/>
       <dep package="gconf"/>
       <dep package="librsvg"/>
@@ -1319,16 +1319,16 @@
    <branch repo="svn.fluendo.com" />
    <dependencies>
      <dep package="liboil"/>
-     <dep package="gstreamer"/>
-     <dep package="gst-plugins-base"/>
+     <dep package="gstreamer-0.10"/>
+     <dep package="gst-plugins-base-0.10"/>
    </dependencies>
  </autotools>
 
  <autotools id="gst-fluendo-mpegdemux">
    <branch repo="svn.fluendo.com" />
    <dependencies>
-     <dep package="gstreamer"/>
-     <dep package="gst-plugins-base"/>
+     <dep package="gstreamer-0.10"/>
+     <dep package="gst-plugins-base-0.10"/>
    </dependencies>
  </autotools>
 
@@ -1716,8 +1716,8 @@
     <branch repo="gstreamer.freedesktop.org" module="gst-rtsp-server"/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
   </autotools>
 
@@ -1725,11 +1725,11 @@
    <branch />
    <dependencies>
      <dep package="glib"/>
-     <dep package="gstreamer"/>
+     <dep package="gstreamer-0.10"/>
      <dep package="gst-rtsp-server"/>
      <dep package="vala"/>
-     <dep package="gst-plugins-good"/>
-     <dep package="gst-plugins-bad"/>
+     <dep package="gst-plugins-good-0.10"/>
+     <dep package="gst-plugins-bad-0.10"/>
      <dep package="libgee-0.6"/>
      <dep package="sqlite3"/>
      <dep package="pygobject2"/>
@@ -2135,12 +2135,12 @@
     </dependencies>
   </autotools>
 
-  <autotools id="clutter-gst010">
-    <branch module="clutter-gst" checkoutdir="clutter-gst010" revision="clutter-gst-1.6"/>
+  <autotools id="clutter-gst-0.10">
+    <branch module="clutter-gst" checkoutdir="clutter-gst-0.10" revision="clutter-gst-1.6"/>
     <dependencies>
       <dep package="clutter"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer-0.10"/>
+      <dep package="gst-plugins-base-0.10"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
@@ -2153,7 +2153,7 @@
       <dep package="vala"/>
       <dep package="libgee-0.6"/>
       <dep package="clutter-gtk"/>
-      <dep package="clutter-gst010"/>
+      <dep package="clutter-gst-0.10"/>
       <dep package="json-glib"/>
     </dependencies>
   </autotools>
@@ -2353,14 +2353,14 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-ugly-master"
+  <autotools id="gst-plugins-ugly"
              supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
-            checkoutdir="gst-plugins-ugly-master"
+            checkoutdir="gst-plugins-ugly"
             module="gst-plugins-ugly"/>
     <dependencies>
-      <dep package="gstreamer-master"/>
-      <dep package="gst-plugins-base-master"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 
