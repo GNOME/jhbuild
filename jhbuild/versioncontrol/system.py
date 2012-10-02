@@ -37,6 +37,10 @@ class SystemBranch(Branch):
         Branch.__init__(self, repository, module = None, checkoutdir = None)
         self.version = version
 
+    def branchname(self):
+        return self.version
+    branchname = property(branchname)
+
     def to_sxml(self):
         return ([sxml.branch(module=self.module,
                              repo=self.repository,
