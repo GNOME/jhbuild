@@ -20,4 +20,4 @@
 # IfExecutable: pango-querymodules
 # REMatch: /lib.*/pango/.*/modules/.*\.so
 
-pango-querymodules > $JHBUILD_PREFIX/etc/pango/pango.modules
+pango-querymodules --update-cache
