@@ -261,17 +261,18 @@ class YumSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
 
-    def install(self, pkgconfig_ids):
+    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
         logging.info(_('Using yum to install packages.  Please wait.'))
 
-        native_packages = []
-        for pkgconfig in pkgconfig_ids:
-            native_packages.append('pkgconfig(' + pkgconfig + ')')
-
-        if native_packages:
-            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
+        if len(uninstalled_pkgconfigs) + len(uninstalled_filenames) > 0:
+            logging.info(_('Installing:\n  %(pkgs)s') %
+                         {'pkgs': '\n  '.join([modname for modname, pkg in
+                                               uninstalled_pkgconfigs +
+                                               uninstalled_filenames])})
             args = self._root_command_prefix_args + ['yum', '-y', 'install']
-            args.extend(native_packages)
+            args.extend(['pkgconfig(%s)' % pkg for modname, pkg in
+                         uninstalled_pkgconfigs])
+            args.extend([pkg for modname, pkg in uninstalled_filenames])
             subprocess.check_call(args)
         else:
             logging.info(_('Nothing to install'))
