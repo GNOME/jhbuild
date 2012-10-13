@@ -147,28 +147,28 @@ class cmd_sysdeps(cmd_build):
             if len(uninstalled_pkgconfigs) == 0:
                 print _('  (none)')
 
-            if options.install:
-                installer = SystemInstall.find_best()
-                if installer is None:
-                    # FIXME: This should be implemented per Colin's design:
-                    # https://bugzilla.gnome.org/show_bug.cgi?id=682104#c3
-                    if cmds.has_command('apt-get'):
-                        raise FatalError(_("%(cmd)s is required to install "
-                                           "packages on this system. Please "
-                                           "install %(cmd)s.")
-                                         % {'cmd' : 'apt-file'})
+        if options.install:
+            installer = SystemInstall.find_best()
+            if installer is None:
+                # FIXME: This should be implemented per Colin's design:
+                # https://bugzilla.gnome.org/show_bug.cgi?id=682104#c3
+                if cmds.has_command('apt-get'):
+                    raise FatalError(_("%(cmd)s is required to install "
+                                       "packages on this system. Please "
+                                       "install %(cmd)s.")
+                                     % {'cmd' : 'apt-file'})
 
-                    raise FatalError(_("Don't know how to install packages on this system"))
+                raise FatalError(_("Don't know how to install packages on this system"))
 
-                if (len(uninstalled_pkgconfigs) +
-                    len(uninstalled_filenames)) == 0:
-                    logging.info(_("No uninstalled system dependencies to install for modules: %r" % (modules, )))
-                else:
-                    logging.info(_("Installing dependencies on system: %s" % \
-                                   ' '.join([pkg[0] for pkg in
-                                             uninstalled_pkgconfigs +
-                                             uninstalled_filenames])))
-                    installer.install(uninstalled_pkgconfigs,
-                                      uninstalled_filenames)
+            if (len(uninstalled_pkgconfigs) +
+                len(uninstalled_filenames)) == 0:
+                logging.info(_("No uninstalled system dependencies to install for modules: %r" % (modules, )))
+            else:
+                logging.info(_("Installing dependencies on system: %s" % \
+                               ' '.join([pkg[0] for pkg in
+                                         uninstalled_pkgconfigs +
+                                         uninstalled_filenames])))
+                installer.install(uninstalled_pkgconfigs,
+                                  uninstalled_filenames)
 
 register_command(cmd_sysdeps)
