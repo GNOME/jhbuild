@@ -98,9 +98,6 @@ class AutogenModule(MakeModule, DownloadableModule):
         This method may modify self.autogen_sh, if 'autogen.sh' doesn't exist.
         FIXME: bad idea to modify self.autogen_sh in a getter.
         '''
-        if self.configure_cmd is not None:
-            return self.configure_cmd
-
         srcdir = self.get_srcdir(buildscript)
         if self.autogen_sh == 'autogen.sh' and \
         not os.path.exists(os.path.join(srcdir, self.autogen_sh)):
@@ -161,7 +158,6 @@ class AutogenModule(MakeModule, DownloadableModule):
         # (GNOME #580272)
         if not '--exec-prefix' in template:
             cmd = cmd.replace('${exec_prefix}', vars['prefix'])
-        self.configure_cmd = cmd
         return cmd
 
     def skip_configure(self, buildscript, last_phase):
