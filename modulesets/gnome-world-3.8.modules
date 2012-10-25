@@ -455,6 +455,15 @@
     <branch repo="git.freedesktop.org" checkoutdir="libva-intel-driver" module="vaapi/intel-driver" revision="v1.0-branch"/>
   </autotools>
 
+  <autotools id="libva-vdpau-driver">
+    <branch repo="git.freedesktop.org"
+            checkoutdir="libva-vdpau-driver"
+            module="vaapi/vdpau-driver"/>
+    <dependencies>
+      <dep package="libva"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gst-plugins-bad-0.10"
              autogenargs="--disable-tests --disable-fatal-warnings"
              supports-non-srcdir-builds="no">
