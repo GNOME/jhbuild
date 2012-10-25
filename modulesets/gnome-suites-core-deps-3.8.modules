@@ -510,27 +510,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gstreamer-0.10" autogenargs="-- --disable-tests" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gstreamer" revision="0.10" checkoutdir="gstreamer-0.10"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libxml2"/>
-      <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-plugins-base-0.10" autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-base" revision="0.10" checkoutdir="gst-plugins-base-0.10"/>
-    <dependencies>
-      <dep package="gstreamer-0.10"/>
-      <dep package="gtk+"/>
-      <dep package="liboil"/>
-    </dependencies>
-    <suggests>
-      <dep package="gudev"/>
-    </suggests>
-  </autotools>
-
   <autotools id="mm-common">
     <branch/>
   </autotools>
