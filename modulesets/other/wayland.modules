@@ -17,24 +17,27 @@
       href="git://anongit.freedesktop.org/git/xorg/lib"/>
   <repository type="git" name="xorg-doc" default="yes"
       href="git://anongit.freedesktop.org/git/xorg/doc"/>
+  <repository type="git" name="gnome" default="yes"
+      href="git://git.gnome.org"/>
 
   <autotools id="pixman">
     <branch repo="freedesktop"/>
   </autotools>
   
-  <autotools id="cairo">
+  <autotools id="cairo" autogenargs="--enable-gl --enable-xcb --enable-egl">
     <branch repo="freedesktop"/>
     <dependencies>
       <dep package="pixman"/>
       <dep package="mesa"/>
+      <dep package="glib"/>
     </dependencies>
   </autotools>
 
-  <autotools id="drm">
+  <autotools id="drm" autogenargs="--enable-nouveau-experimental-api">
     <branch repo="mesa"/>
   </autotools>
   
-  <autotools id="mesa"  skip-autogen="never">
+  <autotools id="mesa" skip-autogen="never" autogenargs="--enable-gles2 --disable-gallium-egl --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi --with-gallium-drivers=r300,r600,swrast,nouveau">
     <branch repo="mesa"/>
     <dependencies>
       <dep package="drm"/>
@@ -43,11 +46,11 @@
     </dependencies>
   </autotools>
   
-  <autotools id="wayland">
+  <autotools id="wayland" autogenargs="--with-egl-platforms=wayland,drm,x11">
     <branch repo="wayland"/>
   </autotools>
 
-  <autotools id="wayland-demos">
+  <autotools id="weston" autogenargs="--disable-setuid-install">
     <branch repo="wayland"/>
     <dependencies>
       <dep package="wayland"/>
@@ -91,13 +94,61 @@
     <branch repo="xorg-lib"/>
   </autotools>
 
-  <autotools id="libxkbcommon" >
+  <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
     <branch repo="xorg-lib"/>
     <dependencies>
       <dep package="macros"/>
       <dep package="xproto"/>
       <dep package="kbproto"/>
       <dep package="libX11"/>    
+    </dependencies>
+  </autotools>
+
+
+  <autotools id="glib">
+    <branch repo="gnome"/>
+  </autotools>
+  
+  <autotools id="gobject-introspection">
+    <branch repo="gnome"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+  
+  <autotools id="atk">
+    <branch repo="gnome"/>
+  </autotools>
+
+  <autotools id="harfbuzz">
+    <branch repo="freedesktop"/>
+  </autotools>
+  
+  <autotools id="pango">
+    <branch repo="gnome"/>
+    <dependencies>
+      <dep package="harfbuzz"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gdk-pixbuf" autogenargs="--without-libtiff">
+    <branch repo="gnome"/>
+  </autotools>
+  
+  <autotools id="at-spi2-atk">
+    <branch repo="gnome"/>
+  </autotools>
+  
+  <autotools id="gtk+" autogenargs="--enable-wayland-backend --enable-x11-backend">
+    <branch repo="gnome"/>
+    <dependencies>
+      <dep package="wayland"/>
+      <dep package="gobject-introspection"/>
+      <dep package="atk"/>
+      <dep package="pango"/>
+      <dep package="at-spi2-atk"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="libxkbcommon"/>
     </dependencies>
   </autotools>
 </moduleset>

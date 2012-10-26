@@ -1,19 +1,8 @@
 # -*- mode: python -*-
 moduleset = 'other/wayland'
-modules = ['wayland-demos']
+modules = ['weston']
 checkoutroot = '~/checkout/wayland'
 prefix = '~/wayland'
 autogenargs=''
-makeargs = '-j2'
 
 os.environ['EGL_PLATFORM'] = 'wayland'
-
-module_autogenargs['drm'] = '--enable-nouveau-experimental-api'
-module_autogenargs['wayland'] = '--with-egl-platforms=wayland,drm,x11'
-module_autogenargs['cairo'] ='--enable-gl --enable-xcb --enable-egl'
-
-#The options here very much depend on the graphics card
-module_autogenargs['mesa'] = '--enable-gles2 ' \
-                             '--disable-gallium-egl '\
-                             '--with-dri-drivers=i915 '\
-                             '--with-egl-platforms=wayland,drm,x11'
