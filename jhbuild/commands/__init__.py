@@ -146,7 +146,7 @@ def register_command(command_class):
 
 # special help command, never run
 class cmd_help(Command):
-    doc = N_('Information about available jhbuild commands')
+    doc = N_('Information about available JHBuild commands')
 
     name = 'help'
     usage_args = ''

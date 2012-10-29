@@ -68,7 +68,7 @@ class cmd_autobuild(Command):
             config.verbose = True
 
         if not config.autobuild_report_url:
-            raise UsageError(_('report url for autobuild not specified'))
+            raise UsageError(_('report URL for autobuild not specified'))
     
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,

@@ -113,7 +113,7 @@ class cmd_sanitycheck(Command):
             try:
                 get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
             except:
-                uprint(_('Could not find the perl module %s') % perlmod)
+                uprint(_('Could not find the Perl module %s') % perlmod)
                 
         # check for cvs:
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):

@@ -27,7 +27,7 @@ import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 
 class cmd_checkmodulesets(Command):
-    doc = N_('Check if modules in jhbuild have the correct definition')
+    doc = N_('Check if modules in JHBuild have the correct definition')
     name = 'checkmodulesets'
 
     def run(self, config, options, args, help=None):

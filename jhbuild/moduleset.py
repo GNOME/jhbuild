@@ -31,7 +31,7 @@ try:
     import xml.dom.minidom
     import xml.parsers.expat
 except ImportError:
-    raise FatalError(_('Python xml packages are required but could not be found'))
+    raise FatalError(_('Python XML packages are required but could not be found'))
 
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
