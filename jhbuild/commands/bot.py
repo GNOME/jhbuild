@@ -81,7 +81,7 @@ class cmd_bot(Command):
                         help=_('start as daemon')),
             make_option('--pidfile', metavar='PIDFILE',
                         action='store', dest='pidfile', default=None,
-                        help=_('pid file location')),
+                        help=_('PID file location')),
             make_option('--logfile', metavar='LOGFILE',
                         action='store', dest='logfile', default=None,
                         help=_('log file location')),
