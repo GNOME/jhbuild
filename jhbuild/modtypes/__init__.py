@@ -237,7 +237,7 @@ class Package:
         if os.path.isdir(prefixdir):
             self._clean_la_files_in_dir(self, prefixdir)
 
-    def _process_install_files(self, installroot, curdir, prefix):
+    def _process_install_files(self, installroot, curdir, prefix, errors):
         """Strip the prefix from all files in the install root, and move
 them into the prefix."""
         assert os.path.isdir(installroot) and os.path.isabs(installroot)
@@ -253,33 +253,37 @@ them into the prefix."""
             src_path = os.path.join(curdir, filename)
             assert src_path.startswith(installroot)
             dest_path = src_path[len(installroot):]
-            if os.path.islink(src_path):
-                linkto = os.readlink(src_path)
-                if os.path.islink(dest_path) or os.path.isfile(dest_path):
-                    os.unlink(dest_path)
-                os.symlink(linkto, dest_path)
-                os.unlink(src_path)
-                num_copied += 1
-            elif os.path.isdir(src_path):
-                if os.path.exists(dest_path):
-                    if not os.path.isdir(dest_path):
+            try:
+                if os.path.islink(src_path):
+                    linkto = os.readlink(src_path)
+                    if os.path.islink(dest_path) or os.path.isfile(dest_path):
                         os.unlink(dest_path)
+                    os.symlink(linkto, dest_path)
+                    os.unlink(src_path)
+                    num_copied += 1
+                elif os.path.isdir(src_path):
+                    if os.path.exists(dest_path):
+                        if not os.path.isdir(dest_path):
+                            os.unlink(dest_path)
+                            os.mkdir(dest_path)
+                    else:
                         os.mkdir(dest_path)
+                    num_copied += self._process_install_files(installroot,
+                                                              src_path, prefix,
+                                                              errors)
+                    try:
+                        os.rmdir(src_path)
+                    except OSError:
+                        # files remaining in buildroot, errors reported below
+                        pass
                 else:
-                    os.mkdir(dest_path)
-                num_copied += self._process_install_files(installroot, src_path, prefix)
-                os.rmdir(src_path)
-            else:
-                num_copied += 1
-                try:
-                    fileutils.rename(src_path, dest_path)
-                except OSError, e:
-                    logging.error(_('Failed to rename %(src)r to %(dest)r: %(msg)s') %
-                                  {'src': src_path,
-                                   'dest': dest_path,
-                                   'msg': e.message})
-                    raise
-                    
+                    try:
+                        fileutils.rename(src_path, dest_path)
+                        num_copied += 1
+                    except OSError, e:
+                        errors.append("%s: '%s'" % (str(e), dest_path))
+            except OSError, e:
+                errors.append(str(e))
         return num_copied
 
     def process_install(self, buildscript, revision):
@@ -302,12 +306,14 @@ them into the prefix."""
         save_broken_tree = False
         broken_name = destdir + '-broken'
         destdir_prefix = os.path.join(destdir, stripped_prefix)
+        errors = []
         if os.path.isdir(destdir_prefix):
             destdir_install = True
             logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
-            num_copied = self._process_install_files(destdir, destdir_prefix, buildscript.config.prefix)
-            logging.info(_('Install complete: %d files copied') % (num_copied, ))
-        
+            num_copied = self._process_install_files(destdir, destdir_prefix,
+                                                     buildscript.config.prefix,
+                                                     errors)
+
             # Now the destdir should have a series of empty directories:
             # $JHBUILD_PREFIX/_jhbuild/root-foo/$JHBUILD_PREFIX
             # Remove them one by one to clean the tree to the state we expect,
@@ -367,6 +373,17 @@ them into the prefix."""
             buildscript.moduleset.packagedb.add(self.name, revision or '',
                                                 absolute_new_contents,
                                                 self.configure_cmd)
+
+        if errors:
+            raise CommandError(_('Install encountered errors: %(num)d '
+                                 'errors raised, %(files)d files copied. '
+                                 'The errors are:\n  %(err)s') %
+                               {'num'   : len(errors),
+                                'files' : num_copied,
+                                'err'   : '\n  '.join(errors)})
+        else:
+            logging.info(_('Install complete: %d files copied') %
+                         (num_copied, ))
 
     def get_revision(self):
         return self.branch.tree_id()
