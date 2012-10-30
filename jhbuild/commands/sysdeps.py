@@ -60,7 +60,7 @@ class cmd_sysdeps(cmd_build):
 
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
-        module_list = module_set.get_full_module_list(modules)
+        module_list = module_set.get_full_module_list(modules, config.skip)
         module_state = module_set.get_module_state(module_list)
 
         have_new_enough = False
