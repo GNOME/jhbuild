@@ -177,7 +177,6 @@ class LoggingFormatter(logging.Formatter):
                                    '%(message)s</div>')
 
 class TinderboxBuildScript(buildscript.BuildScript):
-    help_url = 'http://live.gnome.org/JhbuildIssues/'
     triedcheckout = None
 
     def __init__(self, config, module_list, module_set=None):
@@ -371,9 +370,22 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.modulefp = None
         self.indexfp.write('</td>\n')
         if failed:
-            self.indexfp.write('<td class="failure">failed '
-                               '<a href="%s%s">'
-                               '(help)</a></td>\n' % (self.help_url, module))
+            help_html = ''
+            if self.config.help_website and self.config.help_website[1]:
+                try:
+                    help_url = self.config.help_website[1] % {'module' : module}
+                    help_html = ' <a href="%s">(help)</a>' % help_url
+                except TypeError, e:
+                    raise FatalError('"help_website" %s' % e)
+                except KeyError, e:
+                    raise FatalError(_('%(configuration_variable)s invalid key'
+                                       ' %(key)s' % \
+                                       {'configuration_variable' :
+                                            '\'help_website\'',
+                                        'key' : e}))
+
+            self.indexfp.write('<td class="failure">failed%s</td>\n' %
+                               help_html)
         else:
             self.indexfp.write('<td class="success">ok</td>\n')
         self.indexfp.write('</tr>\n\n')
@@ -406,14 +418,26 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 return 'force_checkout'
         self.triedcheckout = None
 
-        if self.modulefp:
-            self.modulefp.write('<div class="note">The Gnome Live! website may'
-                                ' have suggestions on how to resolve some'
-                                ' build errors. Visit'
-                                ' <a href="%s%s">%s%s</a>'
-                                ' for more information.</div>'
-                                % (self.help_url, module.name,
-                                   self.help_url, module.name))
+        if (self.modulefp and self.config.help_website and
+            self.config.help_website[0] and self.config.help_website[1]):
+            try:
+                help_url = self.config.help_website[1] % \
+                               {'module' : module.name}
+                self.modulefp.write('<div class="note">The %(name)s website may'
+                                    ' have suggestions on how to resolve some'
+                                    ' build errors. Visit'
+                                    ' <a href="%(url)s">%(url)s</a>'
+                                    ' for more information.</div>'
+                                    % {'name' : self.config.help_website[0],
+                                       'url'  : help_url})
+            except TypeError, e:
+                raise FatalError('"help_website" %s' % e)
+            except KeyError, e:
+                raise FatalError(_('%(configuration_variable)s invalid key'
+                                   ' %(key)s' % \
+                                   {'configuration_variable' :
+                                        '\'help_website\'',
+                                    'key' : e}))
         return 'fail'
 
 BUILD_SCRIPT = TinderboxBuildScript
