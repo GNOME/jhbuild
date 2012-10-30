@@ -204,8 +204,10 @@ class AutogenModule(MakeModule, DownloadableModule):
                     configsrc = path
                     break
             if configsrc is not None:
-                configure = os.path.join(srcdir, 'configure')
-                if self._file_exists_and_is_newer_than(configure, configsrc):
+                config_status = os.path.join(self.get_builddir(buildscript),
+                                             'config.status')
+                if self._file_exists_and_is_newer_than(config_status,
+                                                       configsrc):
                     return True
 
         return False
