@@ -279,6 +279,11 @@ class ModuleSet:
             if isinstance(mod, MetaModule):
                 attrs = '[color="lightcoral",style="filled",' \
                         'label="%s"]' % mod.name
+            elif isinstance(mod, SystemModule):
+                label = mod.name
+                if mod.branch.version:
+                    label += '\\n(%s)' % mod.branch.version
+                attrs = '[color="palegreen",style="filled",label="%s"]' % label
             else:
                 label = mod.name
                 color = 'lightskyblue'
