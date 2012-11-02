@@ -350,6 +350,10 @@ class AutogenModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         if not os.path.exists(builddir):
             return True
+        if not os.path.exists(os.path.join(builddir, self.makefile)) and \
+           not hasattr(self.branch, 'delete_unknown_files'):
+            return True
+
         return False
 
     def do_distclean(self, buildscript):
