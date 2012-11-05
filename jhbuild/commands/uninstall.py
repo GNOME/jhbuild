@@ -24,6 +24,7 @@ import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands import Command, register_command
+from jhbuild.modtypes.autotools import AutogenModule
 
 
 class cmd_uninstall(Command):
@@ -36,11 +37,20 @@ class cmd_uninstall(Command):
         config.set_from_cmdline_options(options)
 
         module_set = jhbuild.moduleset.load(config)
-        try:
-            module_list = [module_set.get_module(modname, ignore_case = True) \
-                           for modname in args]
-        except KeyError:
-            raise FatalError(_('unknown module %s') % modname)
+        module_list = []
+        default_repo = jhbuild.moduleset.get_default_repo()
+        for modname in args:
+            try:
+                module = module_set.get_module(modname,
+                                               ignore_case = True)
+            except KeyError:
+                if not default_repo:
+                    raise FatalError(_('unknown module %s and no default repository to try an automatic module') % modname)
+
+                module = AutogenModule(modname, default_repo.branch(modname))
+                module.config = config
+
+            module_list.append(module)
 
         if not module_list:
             self.parser.error(_('This command requires a module parameter.'))
@@ -52,6 +62,8 @@ class cmd_uninstall(Command):
                 logging.warn(_('Module %(mod)r is not installed') % {'mod': module.name })
                 module_list.remove(module)
             else:
+                logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
+                         {'modname': modname, 'reponame': default_repo.name})
                 packagedb.uninstall(module.name)
 
 
