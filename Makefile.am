@@ -37,3 +37,6 @@ bin_PROGRAMS = install-check
 
 install_check_SOURCES = install-check.c
 
+
+install-exec-local:
+	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)

@@ -1,4 +1,4 @@
-EXTRA_DIST = hg-update.py jhbuild.in
+EXTRA_DIST = hg-update.py jhbuild.in debian-python2-postinstall-hook.sh
 
 bin_SCRIPTS = jhbuild
 CLEANFILES = jhbuild
