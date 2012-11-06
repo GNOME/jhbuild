@@ -380,6 +380,7 @@ class Config:
             libdir = os.path.join(self.prefix, 'lib')
         self.libdir = libdir
         addpath('LD_LIBRARY_PATH', libdir)
+        os.environ['JHBUILD_LIBDIR'] = libdir
 
         # LDFLAGS and C_INCLUDE_PATH are required for autoconf configure
         # scripts to find modules that do not use pkg-config (such as guile
