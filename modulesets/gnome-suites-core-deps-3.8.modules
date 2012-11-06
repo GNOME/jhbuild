@@ -882,8 +882,19 @@
     </after>
   </autotools>
 
-  <autotools id="pygobject">
+  <!-- Python 3 build of pygobject -->
+  <autotools id="pygobject" autogenargs="--with-python=python3">
     <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="py2cairo"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <!-- Python 2 build of pygobject, until everything gets ported to Python 3 -->
+  <autotools id="pygobject-python2" autogenargs="--with-python=python2">
+    <branch module="pygobject" checkoutdir="pygobject-python2"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="py2cairo"/>
