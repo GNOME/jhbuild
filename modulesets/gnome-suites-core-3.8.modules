@@ -243,21 +243,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-screensaver">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-menus"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libgnomekbd"/>
-    </dependencies>
-    <suggests>
-      <dep package="libnotify"/>
-    </suggests>
-  </autotools>
-
   <autotools id="gnome-session">
     <branch/>
     <dependencies>
@@ -465,49 +450,6 @@
       <dep package="polkit"/>
     </suggests>
   </autotools>
-
-  <autotools id="gnome-panel">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libwnck"/>
-      <dep package="evolution-data-server"/>
-      <dep package="gnome-menus"/>
-      <dep package="dbus-glib"/>
-      <dep package="librsvg"/>
-      <dep package="libgweather"/>
-      <dep package="libcanberra"/>
-      <dep package="yelp-tools"/>
-    </dependencies>
-    <suggests>
-      <dep package="polkit"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="metacity">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+-2"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="intltool"/>
-      <dep package="libcanberra"/>
-      <dep package="zenity"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="notification-daemon">
-    <branch/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libcanberra"/>
-    </dependencies>
-  </autotools>
-
 
 <!-- Core Utilities -->
 
@@ -1071,26 +1013,6 @@
     </dependencies>
   </metamodule>
 
-  <!-- The Core GNOME Fallback UX: Provides a non composited
-       fallback experience for incapable hardware
-  -->
-  <metamodule id="meta-gnome-core-shell-fallback">
-    <dependencies>
-      <dep package="gnome-panel"/>
-      <dep package="gnome-screensaver"/>
-      <dep package="metacity"/>
-      <dep package="network-manager-applet"/>
-      <dep package="notification-daemon"/>
-      <!-- workaround to ensure that dbus-python is around for
-           glib tests
-      -->
-      <dep package="dbus-python"/>
-    </dependencies>
-    <suggests>
-      <dep package="polkit-gnome"/>
-    </suggests>
-  </metamodule>
-
   <!-- The Core GNOME OS Services: Only OS System services required to
        provide the Core GNOME UX
   -->
@@ -1114,14 +1036,13 @@
     </dependencies>
   </metamodule>
 
-  <!-- The entirety of the Core GNOME UX, including fallback and utilities
+  <!-- The entirety of the Core GNOME UX, including extras and utilities
   -->
   <metamodule id="meta-gnome-core">
     <dependencies>
       <dep package="meta-gnome-core-shell"/>
       <dep package="meta-gnome-core-extras"/>
       <dep package="meta-gnome-core-utilities"/>
-      <dep package="meta-gnome-core-shell-fallback"/>
     </dependencies>
   </metamodule>
 

@@ -2441,6 +2441,71 @@
       <dep package="libxml2"/>
       <dep package="glib"/>
       <dep package="WebKit"/>
+  </autotools>
+
+  <autotools id="gnome-panel">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libwnck"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gnome-menus"/>
+      <dep package="dbus-glib"/>
+      <dep package="librsvg"/>
+      <dep package="libgweather"/>
+      <dep package="libcanberra"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+    <suggests>
+      <dep package="polkit"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="metacity">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-2"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="intltool"/>
+      <dep package="libcanberra"/>
+      <dep package="zenity"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="notification-daemon">
+    <branch/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libcanberra"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-screensaver">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-menus"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libgnomekbd"/>
+    </dependencies>
+    <suggests>
+      <dep package="libnotify"/>
+    </suggests>
+  </autotools>
+
+ <autotools id="polkit-gnome" autogenargs="--with-gtk=3.0">
+    <branch checkoutdir="polkit-gnome" module="PolicyKit-gnome"/>
+    <dependencies>
+      <dep package="polkit"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
     </dependencies>
   </autotools>
 
