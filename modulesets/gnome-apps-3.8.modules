@@ -473,8 +473,19 @@
     <branch repo="opalvoip.sf.net" module="ptlib/branches/v2_10"/>
   </autotools>
 
-  <autotools id="pyatspi2">
+  <autotools id="pyatspi2" autogenargs="--with-python=python3" >
     <branch/>
+    <dependencies>
+      <dep package="pygobject"/>
+    </dependencies>
+    <suggests>
+      <dep package="at-spi2-core"/>
+    </suggests>
+  </autotools>
+
+  <!-- Python 2 build of pyatspi2, needed for Accerciser and Dogtail -->
+  <autotools id="pyatspi2-python2" autogenargs="--with-python=python2">
+    <branch module="pyatspi2" checkoutdir="pyatspi2-python2"/>
     <dependencies>
       <dep package="pygobject-python2"/>
     </dependencies>
@@ -613,7 +624,7 @@
       <dep package="at-spi2-atk"/> <!-- to make accerciser's gui accessible -->
       <dep package="intltool"/>
       <dep package="pygobject-python2"/>
-      <dep package="pyatspi2"/>
+      <dep package="pyatspi2-python2"/>
       <dep package="yelp-tools"/>
       <dep package="gtk+"/>
     </dependencies>
