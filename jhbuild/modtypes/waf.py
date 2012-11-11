@@ -44,9 +44,10 @@ class WafModule(Package, DownloadableModule):
     PHASE_DIST           = 'dist'
     PHASE_INSTALL        = 'install'
 
-    def __init__(self, name, branch=None, waf_cmd='./waf'):
+    def __init__(self, name, branch=None, waf_cmd='./waf', python_cmd='python'):
         Package.__init__(self, name, branch=branch)
         self.waf_cmd = waf_cmd
+        self.python_cmd = python_cmd
         self.supports_install_destdir = True
 
     def get_srcdir(self, buildscript):
@@ -78,14 +79,15 @@ class WafModule(Package, DownloadableModule):
         cmd = [self.waf_cmd, 'configure', '--prefix', buildscript.config.prefix]
         if buildscript.config.use_lib64:
             cmd += ["--libdir", os.path.join(buildscript.config.prefix, "lib64")]
-        buildscript.execute(cmd, cwd=builddir)
+        buildscript.execute(cmd, cwd=builddir, extra_env={'PYTHON': self.python_cmd})
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         cmd = [self.waf_cmd, 'clean']
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
+                            extra_env={'PYTHON': self.python_cmd})
     do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -95,7 +97,8 @@ class WafModule(Package, DownloadableModule):
         if self.supports_parallel_build:
             cmd.append('-j')
             cmd.append('%s' % (buildscript.config.jobs, ))
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
+                            extra_env={'PYTHON': self.python_cmd})
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -110,7 +113,8 @@ class WafModule(Package, DownloadableModule):
         buildscript.set_action(_('Checking'), self)
         cmd = [self.waf_cmd, 'check']
         try:
-            buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
+                                extra_env={'PYTHON': self.python_cmd})
         except CommandError:
             if not buildscript.config.makecheck_advisory:
                 raise
@@ -123,7 +127,8 @@ class WafModule(Package, DownloadableModule):
             cmd = [self.waf_cmd, 'distcheck']
         else:
             cmd = [self.waf_cmd, 'dist']
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
+                                extra_env={'PYTHON': self.python_cmd})
     do_dist.depends = [PHASE_BUILD]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -131,7 +136,8 @@ class WafModule(Package, DownloadableModule):
         buildscript.set_action(_('Installing'), self)
         destdir = self.prepare_installroot(buildscript)
         cmd = [self.waf_cmd, 'install', '--destdir', destdir]
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript))
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
+                            extra_env={'PYTHON': self.python_cmd})
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
@@ -145,6 +151,9 @@ def parse_waf(node, config, uri, repositories, default_repo):
 
     if node.hasAttribute('waf-command'):
         instance.waf_cmd = node.getAttribute('waf-command')
+
+    if node.hasAttribute('python-command'):
+        instance.python_cmd = node.getAttribute('python-command')
 
     return instance
 

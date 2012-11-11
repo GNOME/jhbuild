@@ -2955,8 +2955,14 @@ Optional packages: (JHBuild will build the missing packages)
           is used to specify the waf command script to use; it defaults to
           <command>waf</command>.</para>
 
+        <para>The <sgmltag class="attribute">python-command</sgmltag> attribute
+          is used to specify the Python executable to use; it defaults to
+          <command>python</command>. This is useful to build modules against
+          version 3 of Python.</para>
+
 <programlisting>
 &lt;waf id="<replaceable>modulename</replaceable>"&gt;
+	 [ python-command="<replaceable>python-command</replaceable>" ]
 	 [ waf-command="<replaceable>waf-command</replaceable>" ]&gt;
   &lt;branch [ ... ] &gt;
     [...]
