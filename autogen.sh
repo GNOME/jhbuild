@@ -97,10 +97,16 @@ parse_commandline()
 }
 
 # configure JHBuild to build and install without autotools via a plain
-# Makefile. Sets up a Makefile.inc and copies Makefile.plain to Makefile
+# Makefile. Sets up a Makefile.inc and copies Makefile.plain or
+# Makefile.windows to Makefile
 configure_without_autotools()
 {
   eval_gettext "Configuring \$PKG_NAME without autotools"; echo
+
+  makefile="$srcdir/Makefile.plain"
+  if [ "x$MSYSTEM" != "x" ]; then
+    makefile="$srcdir/Makefile.windows"
+  fi
 
   # setup the defaults. The following can changed from the commandline.
   # e.g. ./autogen.sh --prefix=${HOME}/jhbuildhome
@@ -131,13 +137,13 @@ configure_without_autotools()
   echo "datarootdir=$datarootdir" >> $srcdir/Makefile.inc
   echo "desktopdir=$desktopdir" >> $srcdir/Makefile.inc
 
-  if [ ! -f $srcdir/Makefile.plain ]; then
-    eval_gettext "Unable to read file $srcdir/Makefile.plain"; echo
+  if [ ! -f $makefile ]; then
+    eval_gettext "Unable to read file \$makefile"; echo
     exit 1
   fi
 
-  cp $srcdir/Makefile.plain $srcdir/Makefile || {
-    eval_gettext "Unable to copy \$srcdir/Makefile.plain to \$srcdir/Makefile"
+  cp $makefile $srcdir/Makefile || {
+    eval_gettext "Unable to copy \$makefile to \$srcdir/Makefile"
     echo
     exit 1
   }
