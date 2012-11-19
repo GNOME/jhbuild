@@ -51,6 +51,8 @@
         href="http://downloads.xiph.org/releases/"/>
   <repository type="tarball" name="ftp.gnu.org"
       href="http://ftp.gnu.org/gnu/"/>
+  <repository type="tarball" name="speech-dispatcher"
+      href="http://devel.freebsoft.org/pub/projects/speechd/"/>
 
   <include href="gnome-suites-core-3.8.modules"/>
 
@@ -504,6 +506,12 @@
     <dependencies>
       <dep package="glib"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="speech-dispatcher">
+    <branch repo="speech-dispatcher" module="speech-dispatcher-0.8-beta1.tar.gz" version="0.8-beta1"
+            hash="sha256:eb60069f291008717c429aff210afe6075c24b68b8de75fe16d9298e85cbac5c"
+            size="1229374"/>
   </autotools>
 
   <autotools id="spice-protocol">
@@ -1362,6 +1370,9 @@
       <dep package="pygobject"/>
       <dep package="yelp-tools"/>
     </dependencies>
+    <suggests>
+      <dep package="speech-dispatcher"/>
+    </suggests>
   </autotools>
 
   <autotools id="rhythmbox">
