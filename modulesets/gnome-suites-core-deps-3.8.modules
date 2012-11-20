@@ -35,6 +35,8 @@
     href="http://webkitgtk.org/releases/"/>
 <repository type="tarball" name="freedesktop.org"
     href="http://freedesktop.org/software/"/>
+<repository type="tarball" name="libopenraw.freedesktop.org"
+    href="http://libopenraw.freedesktop.org/download/"/>
 <repository type="tarball" name="nice.freedesktop.org"
     href="http://nice.freedesktop.org/releases/"/>
 <repository type="tarball" name="poppler.freedesktop.org"
@@ -313,7 +315,10 @@
 
   <autotools id="exempi" autogenargs="--enable-unittest=no">
     <pkg-config>exempi-2.0.pc</pkg-config>
-    <branch repo="git.freedesktop.org"/>
+    <branch repo="libopenraw.freedesktop.org"
+            module="exempi-${version}.tar.bz2"
+            version="2.2.0"
+            hash="sha256:8ac374cca17df023ae978bb5f7a9d5d116da89141192f8de8c8060de0722b00f"/>
   </autotools>
 
   <autotools id="folks" autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings">
