@@ -68,7 +68,8 @@
 
 <!-- Build dependencies of gnome-suites-core-3.4 -->
 
-  <autotools id="gypsy">
+  <!-- https://bugs.freedesktop.org/show_bug.cgi?id=56852 -->
+  <autotools id="gypsy" autogenargs="CFLAGS=-Wno-error=deprecated-declarations">
     <branch repo="gypsy.freedesktop.org"
             module="gypsy-${version}.tar.bz2"
             version="0.9"
