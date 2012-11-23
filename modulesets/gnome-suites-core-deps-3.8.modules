@@ -61,6 +61,8 @@
     href="http://libhangul.googlecode.com/files/"/>
 <repository type="tarball" name="ibus"
     href="http://ibus.googlecode.com/files/"/>
+<repository type="tarball" name="pyzy"
+    href="http://pyzy.googlecode.com/files/"/>
 
 <include href="gnome-suites-core-deps-base-3.8.modules"/>
 
@@ -1145,6 +1147,19 @@
             module="opencc-0.3.0.tar.gz" version="0.3.0"
             hash="sha1:76f1750751b7fe15d25d66f0378814434fad1e70" size="491179"/>
   </cmake>
+
+  <autotools id="pyzy"
+             autogenargs="--enable-db-open-phrase --disable-db-android">
+    <branch repo="pyzy"
+            module="pyzy-${version}.tar.gz"
+            version="0.1.0"
+            hash="sha256:fe468a4372473d85a56f05d55b14f0e0201fde6f9336a1a2322cf79421c84d9a"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
 
   <autotools id="ibus-pinyin"
              autogenargs="--enable-db-open-phrase --enable-opencc --disable-boost"
