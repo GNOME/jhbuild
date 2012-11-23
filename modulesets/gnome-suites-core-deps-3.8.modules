@@ -1162,7 +1162,6 @@
 
 
   <autotools id="ibus-pinyin"
-             autogenargs="--enable-db-open-phrase --enable-opencc --disable-boost"
              makeargs="CFLAGS=-Wno-error">
     <branch repo="ibus"
             module="ibus-pinyin-${version}.tar.gz"
@@ -1170,7 +1169,8 @@
             hash="sha256:3801a7303d2d1e3c618d5024cad8e62d2ef371e9a7aaa5c21e4a4e4ab7f56b57"/>
     <dependencies>
       <dep package="ibus"/>
-      <dep package="opencc"/>
+      <dep package="pyzy"/>
+      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
@@ -1186,6 +1186,8 @@
             version="1.4.99.20121006"
             hash="sha256:cadeef2846596f4f023a0c50240e92f6cb5c5e3d3b1af424b5c924e2d086bda6"/>
     <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="ibus"/>
       <dep package="anthy"/>
     </dependencies>
