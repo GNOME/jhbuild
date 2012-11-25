@@ -158,29 +158,6 @@
     </dependencies>
   </autotools>
 
-  <!-- Temporary use fedora's server for gudev while kernel.org is down.
-       When kernel.org restored, revert to:
-         repo="kernel.org" module="utils/kernel/hotplug/udev-147.tar.bz2"
-    -->
-  <repository type="tarball" name="fedoraproject.org"
-    href="pkgs.fedoraproject.org/repo/pkgs/"/>
-  <autotools id="gudev" check-target="false" supports-non-srcdir-builds="no"
-             autogen-sh="autogen.sh" autogenargs="--with-rootlibdir=${libdir}">
-    <pkg-config>gudev-1.0.pc</pkg-config>
-    <branch repo="fedoraproject.org"
-            module="udev/udev-173.tar.bz2/91a88a359b60bbd074b024883cc0dbde/udev-173.tar.bz2"
-            version="173"
-            hash="sha256:70a18315a12f8fc1131f7da5b4dae3606988b69d5c08f96f443b84b8486caaaf"
-            size="608027">
-      <patch file="gudev-173.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="gperf"/>
-      <dep package="gobject-introspection"/>
-      <dep package="libacl"/>
-    </dependencies>
-  </autotools>
-
   <tarball id="icon-naming-utils" version="0.8.90">
     <pkg-config>icon-naming-utils.pc</pkg-config>
     <source href="http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.gz"
