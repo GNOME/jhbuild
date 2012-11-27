@@ -352,6 +352,7 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="libsoup"/>
+      <dep package="udisks"/>
     </dependencies>
     <suggests>
       <dep package="gudev"/>
@@ -948,6 +949,16 @@
     </dependencies>
   </autotools>
 
+  <autotools id="udisks">
+    <pkg-config>udisks2.pc</pkg-config>
+    <branch repo="git.freedesktop.org" module="udisks"/>
+    <dependencies>
+      <dep package="gudev"/>
+      <dep package="polkit"/>
+      <dep package="libatasmart"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="upower" autogenargs="--enable-strict=no">
     <branch repo="git.freedesktop.org" />
     <dependencies>
@@ -1044,8 +1055,8 @@
       <dep package="PackageKit"/>
       <dep package="polkit"/>
       <dep package="upower"/>
+      <dep package="udisks"/>
       <!-- <dep package="cups"/> -->
-      <!-- <dep package="udisks"/> -->
       <!-- <dep package="systemd"/> -->
       <!-- <dep package="xorg-x11-server"/> -->
       <!-- <dep package="plymouth"/> -->
