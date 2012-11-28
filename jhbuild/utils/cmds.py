@@ -182,7 +182,7 @@ def pprint_output(pipe, format_line):
             rlist, wlist, xlist = select.select(read_set, [], [])
 
             if pipe.stdout in rlist:
-                out_chunk = os.read(pipe.stdout.fileno(), 1024)
+                out_chunk = os.read(pipe.stdout.fileno(), 10000)
                 if out_chunk == '':
                     pipe.stdout.close()
                     read_set.remove(pipe.stdout)
@@ -193,16 +193,9 @@ def pprint_output(pipe, format_line):
                     pos = out_data.find('\n')
                     format_line(out_data[:pos+1], False)
                     out_data = out_data[pos+1:]
-                # FIXME: A bug here: If the last out_chunk is exactly 1024
-                # and there is no final newline, the last line will not be
-                # shown. Due to the '1024 chunk to line with no lookahead'
-                # algorithm used here. I can't see a solution.
-                if len(out_chunk) < 1024 and out_data:
-                    format_line(out_data, False)
-                    out_data = ''
-        
+
             if pipe.stderr in rlist:
-                err_chunk = os.read(pipe.stderr.fileno(), 1024)
+                err_chunk = os.read(pipe.stderr.fileno(), 10000)
                 if err_chunk == '':
                     pipe.stderr.close()
                     read_set.remove(pipe.stderr)
@@ -214,11 +207,16 @@ def pprint_output(pipe, format_line):
 
             # safeguard against tinderbox that close stdin
             if sys.stdin in rlist and sys.stdin.isatty():
-                in_chunk = os.read(sys.stdin.fileno(), 1024)
+                in_chunk = os.read(sys.stdin.fileno(), 10000)
                 if pipe.stdin:
                     os.write(pipe.stdin.fileno(), in_chunk)
-        
-            select.select([],[],[],.1) # give a little time for buffers to fill
+
+        # flush the remainder of stdout/stderr data lacking newlines
+        if out_data:
+            format_line(out_data, False)
+        if err_data:
+            format_line(err_data, True)
+
     except KeyboardInterrupt:
         # interrupt received.  Send SIGINT to child process.
         try:
