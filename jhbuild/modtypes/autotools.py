@@ -158,6 +158,8 @@ class AutogenModule(MakeModule, DownloadableModule):
         # (GNOME #580272)
         if not '--exec-prefix' in template:
             cmd = cmd.replace('${exec_prefix}', vars['prefix'])
+
+        self.configure_cmd = cmd
         return cmd
 
     def skip_configure(self, buildscript, last_phase):
