@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-29 11:59+0000\n"
-"PO-Revision-Date: 2012-10-29 13:00+0100\n"
+"POT-Creation-Date: 2012-11-25 11:13+0000\n"
+"PO-Revision-Date: 2012-11-29 16:08+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -23,27 +23,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
-#: ../autogen.sh:103
+#: ../autogen.sh:104
 #, sh-format
 msgid "Configuring $PKG_NAME without autotools"
 msgstr "Configurando $PKG_NAME sin autotools"
 
-#: ../autogen.sh:115 ../autogen.sh:120
+#: ../autogen.sh:121 ../autogen.sh:126
 #, sh-format
 msgid "Unable to create file $srcdir/Makefile.inc"
 msgstr "No se pudo crear el archivo $srcdir/Makefile.inc"
 
-#: ../autogen.sh:140
+#: ../autogen.sh:141
 #, sh-format
-msgid "Unable to copy $srcdir/Makefile.plain to $srcdir/Makefile"
-msgstr "No se pudo copiar $srcdir/Makefile.plain a $srcdir/Makefile"
+#| msgid "Unable to create file $srcdir/Makefile.inc"
+msgid "Unable to read file $makefile"
+msgstr "No se pudo leer el archivo $makefile"
 
-#: ../autogen.sh:145
+#: ../autogen.sh:146
+#, sh-format
+#| msgid "Unable to copy $srcdir/Makefile.plain to $srcdir/Makefile"
+msgid "Unable to copy $makefile to $srcdir/Makefile"
+msgstr "No se pudo copiar el archivo $makefile a $srcdir/Makefile"
+
+#: ../autogen.sh:151
 #, sh-format
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Ahora escriba «make» para compilar $PKG_NAME"
 
-#: ../autogen.sh:181
+#: ../autogen.sh:187
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -52,11 +59,11 @@ msgstr ""
 "**Error**: La carpeta «$srcdir» no es la carpeta de nivel superior de "
 "$PKG_NAME"
 
-#: ../autogen.sh:205
+#: ../autogen.sh:211
 msgid "gnome-autogen.sh not available"
 msgstr "gnome-autogen.sh no está disponible"
 
-#: ../autogen.sh:208
+#: ../autogen.sh:214
 msgid "yelp-tools not available"
 msgstr "yelp-tools no está disponible"
 
@@ -103,7 +110,6 @@ msgid "verbose mode"
 msgstr "modo detallado"
 
 #: ../jhbuild/commands/autobuild.py:71
-#| msgid "report url for autobuild not specified"
 msgid "report URL for autobuild not specified"
 msgstr "url de informe de autobuild no especificado"
 
@@ -437,7 +443,6 @@ msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "%(module)s es una definición de rama desconocida para %(branch)s"
 
 #: ../jhbuild/commands/checkmodulesets.py:30
-#| msgid "Check if modules in jhbuild have the correct definition"
 msgid "Check if modules in JHBuild have the correct definition"
 msgstr "Compruebe que los módulos de JHBuild tienen la definición correcta"
 
@@ -621,7 +626,6 @@ msgid "For more information run \"jhbuild <command> --help\""
 msgstr "Para obtener más información ejecute «jhbuild <command> --help»"
 
 #: ../jhbuild/commands/__init__.py:149
-#| msgid "Information about available jhbuild commands"
 msgid "Information about available JHBuild commands"
 msgstr "Información sobre los comandos de JHBuild disponibles"
 
@@ -731,7 +735,6 @@ msgstr "No se pudo encontrar %s en el catálogo XML"
 
 #: ../jhbuild/commands/sanitycheck.py:116
 #, python-format
-#| msgid "Could not find the perl module %s"
 msgid "Could not find the Perl module %s"
 msgstr "No se pudo encontrar el módulo de Perl %s"
 
@@ -923,12 +926,12 @@ msgstr "no se puede crear el prefijo de instalación (%s)"
 msgid "working directory (%s) can not be created"
 msgstr "no se puede crear la carpeta de trabajo (%s)"
 
-#: ../jhbuild/config.py:480
+#: ../jhbuild/config.py:481
 #, python-format
 msgid "Can't create %s directory"
 msgstr "No se puede crear la carpeta %s"
 
-#: ../jhbuild/config.py:511
+#: ../jhbuild/config.py:512
 #, python-format
 msgid ""
 "Unable to determine python version using the PYTHON environment variable (%"
@@ -937,7 +940,7 @@ msgstr ""
 "No se pudo determinar la versión de Python usando la variable de entorno "
 "PYTHON (%s). Usando la predeterminada «%s»"
 
-#: ../jhbuild/config.py:526
+#: ../jhbuild/config.py:527
 #, python-format
 msgid ""
 "Unable to determine python site-packages directory using the PYTHON "
@@ -946,16 +949,16 @@ msgstr ""
 "No se pudo determinar la carpeta de paquetes de Python usando la variable de "
 "entorno PYTHON (%s). Usando la predeterminada «%s»"
 
-#: ../jhbuild/config.py:573
+#: ../jhbuild/config.py:574
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "No se pudo cargar el archivo de configuración de GConf (%s)"
 
-#: ../jhbuild/config.py:665
+#: ../jhbuild/config.py:666
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Falló al analizar el tiempo relativo «min_age»"
 
-#: ../jhbuild/config.py:679
+#: ../jhbuild/config.py:680
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -1247,42 +1250,42 @@ msgstr "Interrumpido"
 msgid "EOF"
 msgstr "EOF"
 
-#: ../jhbuild/modtypes/autotools.py:217 ../jhbuild/modtypes/cmake.py:75
-#: ../jhbuild/modtypes/linux.py:109 ../jhbuild/modtypes/waf.py:75
+#: ../jhbuild/modtypes/autotools.py:222 ../jhbuild/modtypes/cmake.py:75
+#: ../jhbuild/modtypes/linux.py:109 ../jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "Configurando"
 
-#: ../jhbuild/modtypes/autotools.py:257 ../jhbuild/modtypes/cmake.py:102
-#: ../jhbuild/modtypes/linux.py:141 ../jhbuild/modtypes/waf.py:86
+#: ../jhbuild/modtypes/autotools.py:262 ../jhbuild/modtypes/cmake.py:102
+#: ../jhbuild/modtypes/linux.py:141 ../jhbuild/modtypes/waf.py:87
 msgid "Cleaning"
 msgstr "Limpiando"
 
-#: ../jhbuild/modtypes/autotools.py:266 ../jhbuild/modtypes/cmake.py:111
+#: ../jhbuild/modtypes/autotools.py:271 ../jhbuild/modtypes/cmake.py:111
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:154
-#: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:93
+#: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:95
 msgid "Building"
 msgstr "Construyendo"
 
-#: ../jhbuild/modtypes/autotools.py:300 ../jhbuild/modtypes/waf.py:110
+#: ../jhbuild/modtypes/autotools.py:305 ../jhbuild/modtypes/waf.py:113
 msgid "Checking"
 msgstr "Comprobando"
 
-#: ../jhbuild/modtypes/autotools.py:313 ../jhbuild/modtypes/cmake.py:120
-#: ../jhbuild/modtypes/waf.py:121
+#: ../jhbuild/modtypes/autotools.py:318 ../jhbuild/modtypes/cmake.py:120
+#: ../jhbuild/modtypes/waf.py:125
 msgid "Creating tarball for"
 msgstr "Creando archivo tar para"
 
-#: ../jhbuild/modtypes/autotools.py:322
+#: ../jhbuild/modtypes/autotools.py:327
 msgid "Dist checking"
 msgstr "Distchecking"
 
-#: ../jhbuild/modtypes/autotools.py:331 ../jhbuild/modtypes/cmake.py:129
+#: ../jhbuild/modtypes/autotools.py:336 ../jhbuild/modtypes/cmake.py:129
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:66
-#: ../jhbuild/modtypes/waf.py:131
+#: ../jhbuild/modtypes/waf.py:136
 msgid "Installing"
 msgstr "Instalando"
 
-#: ../jhbuild/modtypes/autotools.py:356
+#: ../jhbuild/modtypes/autotools.py:365
 msgid "Distcleaning"
 msgstr "Distcleaning"
 
@@ -1445,7 +1448,6 @@ msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "el módulo «%(module)s» tiene un atributo tamaño no válido («%(size)s»)"
 
 #: ../jhbuild/moduleset.py:34 ../jhbuild/utils/httpcache.py:46
-#| msgid "Python xml packages are required but could not be found"
 msgid "Python XML packages are required but could not be found"
 msgstr "Se necesitan los paquetes XML de Python pero no se han encontrado"
 
@@ -1468,21 +1470,21 @@ msgstr "Dependencias circulares detectadas: %s"
 msgid "Unknown module:"
 msgstr "Módulo desconocido:"
 
-#: ../jhbuild/moduleset.py:374
+#: ../jhbuild/moduleset.py:379
 #, python-format
 msgid "could not download %s: %s"
 msgstr "no se pudo descargar %s: %s"
 
-#: ../jhbuild/moduleset.py:379 ../jhbuild/moduleset.py:381
+#: ../jhbuild/moduleset.py:384 ../jhbuild/moduleset.py:386
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "falló al analizar %s: %s"
 
-#: ../jhbuild/moduleset.py:408
+#: ../jhbuild/moduleset.py:413
 msgid "Duplicate repository:"
 msgstr "Duplicar repositorio:"
 
-#: ../jhbuild/moduleset.py:511
+#: ../jhbuild/moduleset.py:516
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1569,7 +1571,6 @@ msgstr "No hay nada disponible que instalar"
 
 #: ../jhbuild/utils/systeminstall.py:248
 #, python-format
-#| msgid "Installing: %s"
 msgid ""
 "Installing:\n"
 "  %s"
@@ -1587,7 +1588,6 @@ msgstr "Usando yum para instalar paquetes. Espere."
 
 #: ../jhbuild/utils/systeminstall.py:268
 #, python-format
-#| msgid "Installing: %(pkgs)s"
 msgid ""
 "Installing:\n"
 "  %(pkgs)s"
@@ -1605,7 +1605,6 @@ msgstr "Usando apt-file para buscar proveedores; puede ser lento. Espere."
 
 #: ../jhbuild/utils/systeminstall.py:318
 #, python-format
-#| msgid "No native package found for %(id)s"
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "No se encontró ningún paquete nativo para %(id)s (%(filename)s)"
 
