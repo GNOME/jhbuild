@@ -1769,7 +1769,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-rtsp-server">
+  <autotools id="gst-rtsp-server-0.10">
     <branch repo="gstreamer.freedesktop.org" module="gst-rtsp-server"/>
     <dependencies>
       <dep package="glib"/>
@@ -1778,12 +1778,21 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gst-rtsp-server">
+    <branch repo="gstreamer.freedesktop.org" module="gst-rtsp-server"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-dvb-daemon">
    <branch />
    <dependencies>
      <dep package="glib"/>
      <dep package="gstreamer-0.10"/>
-     <dep package="gst-rtsp-server"/>
+     <dep package="gst-rtsp-server-0.10"/>
      <dep package="vala"/>
      <dep package="gst-plugins-good-0.10"/>
      <dep package="gst-plugins-bad-0.10"/>
