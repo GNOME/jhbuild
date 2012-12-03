@@ -419,17 +419,20 @@
     </suggests>
   </autotools>
 
-  <autotools id="pulseaudio" autogenargs="--disable-udev --disable-hal --disable-oss">
+  <autotools id="pulseaudio"
+             autogenargs="--disable-hal --disable-oss">
     <pkg-config>libpulse.pc</pkg-config>
     <branch repo="freedesktop.org" module="software/pulseaudio/releases/pulseaudio-2.0.tar.xz"
             version="2.0"
             hash="sha256:28b42edd42f4879a6884af5f0ec11801ac001eb7582881215b36649aa37e2061"
             size="1353708"/>
     <dependencies>
+      <dep package="alsa"/>
       <dep package="json"/>
       <dep package="libsndfile"/>
       <dep package="liboil"/>
       <dep package="libtool-ltdl"/>
+      <dep package="libudev"/>
       <dep package="glib"/>
       <dep package="speex"/>
     </dependencies>
