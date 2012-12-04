@@ -16,6 +16,8 @@
       password=""/>
   <repository type="git" name="gstreamer.freedesktop.org"
       href="git://anongit.freedesktop.org/gstreamer/"/>
+  <repository type="git" name="fprint.freedesktop.org"
+      href="git://anongit.freedesktop.org/libfprint/"/>
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
@@ -575,6 +577,23 @@
       <dep package="pygobject2"/>
       <dep package="gstreamer-0.10"/>
       <dep package="gst-plugins-base-0.10"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libfprint">
+    <branch repo="fprint.freedesktop.org" module="libfprint"/>
+    <dependencies>
+      <dep package="libusb1"/>
+      <dep package="nss"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="fprintd">
+    <branch repo="fprint.freedesktop.org" module="fprintd"/>
+    <dependencies>
+      <dep package="libfprint"/>
+      <dep package="dbus-glib"/>
     </dependencies>
   </autotools>
 
