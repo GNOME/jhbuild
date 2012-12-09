@@ -116,6 +116,8 @@
   <repository type="svn" name="opalvoip.sf.net"
       href="https://opalvoip.svn.sourceforge.net/svnroot/opalvoip/"/>
 
+  <repository type="tarball" name="dbus"
+    href="http://dbus.freedesktop.org/releases/"/>
   <repository type="tarball" name="mono.net"
     href="http://download.mono-project.com/sources/"/>
   <repository type="tarball" name="launchpad.net/tarball"
@@ -136,6 +138,20 @@
       <dep package="gnome-menus"/>
       <dep package="pygtk"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="dbus-python">
+    <branch module="dbus-python/dbus-python-0.83.1.tar.gz" version="0.83.1"
+            repo="dbus"
+            hash="sha256:ce283806f1af4f2322e183a276528a880b503c74972932bd09f06bdb7fcc1b99"
+            size="533391"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="dbus-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="pygobject-python2"/>
+    </suggests>
   </autotools>
 
   <autotools id="easytag">
