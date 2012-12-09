@@ -21,8 +21,6 @@
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://downloads.sourceforge.net/"/>
-<repository type="tarball" name="libproxy.googlecode.com"
-    href="http://libproxy.googlecode.com/files/"/>
 <repository type="tarball" name="0pointer.de"
     href="http://0pointer.de/lennart/projects/"/>
 <repository type="tarball" name="github.com/metabrainz"
@@ -200,28 +198,6 @@
       <dep package="nss"/>
     </dependencies>
   </autotools>
-
-  <cmake id="libproxy"
-         cmakeargs="-DCMAKE_BUILD_TYPE=None -DWITH_GNOME=OFF -DWITH_GNOME3=ON -DWITH_KDE4=OFF -DWITH_PYTHON=OFF -DWITH_PERL=OFF -DWITH_VALA=ON -DWITH_DOTNET=OFF -DWITH_MOZJS=OFF -DWITH_WEBKIT3=ON -DGAC_DIR=${prefix}/lib/mono">
-    <pkg-config>libproxy-1.0.pc</pkg-config>
-    <branch repo="libproxy.googlecode.com"
-            module="libproxy-0.4.7.tar.gz" version="0.4.7"
-            hash="sha256:8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
-            size="91092">
-      <!-- fix gcc4.7 problems. Remove when new release. Patch rev 833:
-           http://code.google.com/p/libproxy/source/detail?r=833       -->
-      <patch file="libproxy-0.4.7-gcc47.patch"/>
-    </branch>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-    <suggests>
-      <dep package="NetworkManager"/>
-    </suggests>
-    <after>
-      <dep package="WebKit"/>
-    </after>
-  </cmake>
 
   <tarball id="libsndfile" version="1.0.23" supports-non-srcdir-builds="no"
            autogenargs="--disable-flac">
