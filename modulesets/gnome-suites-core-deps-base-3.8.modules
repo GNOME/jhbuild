@@ -15,8 +15,6 @@
       href="https://launchpad.net/"/>
 <repository type="tarball" name="gnome.org"
     href="http://download.gnome.org/sources/"/>
-<repository type="tarball" name="gnupg.org"
-    href="ftp://ftp.gnupg.org/gcrypt/"/>
 <repository type="tarball" name="xmlsoft.org"
     href="ftp://xmlsoft.org/"/>
 <repository type="tarball" name="sourceforge.net"
@@ -100,25 +98,6 @@
       <dep package="pulseaudio"/>
       <dep package="gstreamer"/>
     </after>
-  </autotools>
-
-  <autotools id="libgpg-error" autogen-sh="configure" check-target="false">
-    <branch module="libgpg-error/libgpg-error-1.8.tar.bz2"
-            repo="gnupg.org" version="1.8"
-            hash="sha256:bdfbf2677147239d2d26d4e37f44635d9fd97c133c9ef9fd9793a12a059508c5"
-            size="435341" />
-  </autotools>
-
-  <autotools id="libgcrypt" autogen-sh="configure" check-target="false">
-    <branch repo="gnupg.org"
-            module="libgcrypt/libgcrypt-1.5.0.tar.bz2"
-            version="1.5.0"
-            hash="sha256:4b62fc516004940a0571025401a0581d49199f1a76dfb5ce6fd63f50db8173fa"
-            size="1433506">
-    </branch>
-    <dependencies>
-      <dep package="libgpg-error" />
-    </dependencies>
   </autotools>
 
   <!-- with-libusb=no will result in libgphoto2 using the newer libusb-1.0 -->
