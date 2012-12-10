@@ -798,23 +798,6 @@
     </branch>
   </autotools>
 
-  <autotools id="nss"
-	     autogen-sh="autogen.sh" supports-non-srcdir-builds="no"
-         supports-parallel-builds="no" check-target="false">
-    <pkg-config>nss.pc</pkg-config>
-    <branch repo="ftp.mozilla.org"
-            module="security/nss/releases/NSS_3_12_11_RTM/src/nss-3.12.11.tar.gz"
-	    version="3.12.11"
-	    hash="sha256:d043f8d44212bc9418b6a954ca88e05b8ab2a71f8c59e6829a9a36d8a28e9f16"
-	    size="5944840">
-      <patch file="nss.pkgconfig-and-configure.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="nspr"/>
-      <dep package="sqlite3"/>
-    </dependencies>
-  </autotools>
-
 <!-- End Mozilla stuff subsection -->
 
   <autotools id="poppler" autogenargs="--enable-xpdf-headers" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
