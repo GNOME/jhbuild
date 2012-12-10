@@ -17,8 +17,6 @@
 <!-- tarball repos -->
   <repository type="tarball" name="avahi.org"
       href="http://www.avahi.org/download/"/>
-  <repository type="tarball" name="dbus"
-      href="http://dbus.freedesktop.org/releases/"/>
   <repository type="tarball" name="freedesktop.org"
       href="http://freedesktop.org/"/>
   <repository type="tarball" name="gnome.org"
@@ -849,19 +847,6 @@
     <branch repo="git.freedesktop.org" module="ConsoleKit"/>
     <dependencies>
       <dep package="dbus-glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="dbus" supports-non-srcdir-builds="no" autogenargs="--with-systemdsystemunitdir=no">
-    <pkg-config>dbus-1.pc</pkg-config>
-    <branch module="dbus/dbus-1.4.0.tar.gz" version="1.4.0"
-	    repo="dbus"
-	    hash="sha256:c96d2f86d40e158e2bf405925a0a42cce0533a8466098e2f2238aa1614926652"
-	    size="1800347">
-    </branch>
-    <dependencies>
-      <dep package="expat"/>
-      <dep package="glib"/>
     </dependencies>
   </autotools>
 
