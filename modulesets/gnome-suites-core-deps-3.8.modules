@@ -24,8 +24,6 @@
 <!-- tarball repos -->
 <repository type="tarball" name="gnome.org"
     href="http://download.gnome.org/sources/"/>
-<repository type="tarball" name="ftp.mozilla.org"
-    href="https://ftp.mozilla.org/pub/mozilla.org/"/>
 <repository type="tarball" name="sourceforge.net"
     href="http://prdownloads.sourceforge.net/sourceforge/"/>
 <repository type="tarball" name="webkitgtk.org"
@@ -780,25 +778,6 @@
             hash="sha256:3cb942465efd5bde1c1875826118fe4bca45b0c9edc7c87835909a5866bed325"
             size="544632" />
   </autotools>
-
-<!-- Begin Mozilla stuff subsection -->
-
-    <autotools id="nspr" autogen-sh="mozilla/nsprpub/configure"
-             autogenargs="--enable-ipv6 --with-mozilla" check-target="false">
-    <pkg-config>nspr.pc</pkg-config>
-    <branch repo="ftp.mozilla.org"
-            module="nspr/releases/v4.8.9/src/nspr-4.8.9.tar.gz"
-            version="4.8.6"
-            hash="sha256:ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
-            size="1235265">
-      <patch file="nspr.config_64bits.patch" strip="1" />
-      <patch file="nspr.pkgconfig.patch" strip="1"/>
-      <patch file="nspr.hostcompiler.patch" strip="1"/>
-      <patch file="nspr.configure_4.8.9.patch" strip="1"/>
-    </branch>
-  </autotools>
-
-<!-- End Mozilla stuff subsection -->
 
   <autotools id="poppler" autogenargs="--enable-xpdf-headers" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
     <pkg-config>poppler-glib.pc</pkg-config>
