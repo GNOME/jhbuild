@@ -583,6 +583,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gst-python">
+    <branch repo="gstreamer.freedesktop.org"/>
+    <dependencies>
+      <dep package="pygobject-python2"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gst-python-0.10"
              makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS="
              supports-non-srcdir-builds="no">
@@ -1101,6 +1110,7 @@
       <dep package="gst-editing-services"/>
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
+      <dep package="gst-python"/>
       <dep package="pygobject-python2"/>
       <dep package="py2cairo"/>
     </dependencies>
