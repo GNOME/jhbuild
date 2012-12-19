@@ -675,18 +675,18 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-terminal" autogenargs="--with-gtk=3.0">
-    <!-- Use gnome-3-6 branch, see
-         https://bugzilla.gnome.org/show_bug.cgi?id=687272 -->
-    <branch revision="gnome-3-6"/>
+  <autotools id="gnome-terminal">
+    <branch/>
     <dependencies>
+      <dep package="dconf"/>
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
       <dep package="gconf"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="libuuid"/>
       <dep package="vte"/>
-      <dep package="startup-notification"/>
-      <dep package="gnome-doc-utils"/>
+      <dep package="yelp-tools"/>
     </dependencies>
   </autotools>
 
