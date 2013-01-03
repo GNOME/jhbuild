@@ -100,19 +100,6 @@
     </after>
   </autotools>
 
-  <!-- with-libusb=no will result in libgphoto2 using the newer libusb-1.0 -->
-  <autotools id="libgphoto2"
-             autogen-sh="configure" autogenargs="--with-libusb=no">
-    <pkg-config>libgphoto2.pc</pkg-config>
-    <branch repo="sourceforge.net"
-            module="gphoto/libgphoto/2.5.0/libgphoto2-2.5.0.tar.bz2"
-            version="2.5.0"
-            hash="sha256:e7df389f1b034be021066227c0908b8f21d3be0cd0c6ed56979c04c3a9f75b31"/>
-    <dependencies>
-      <dep package="libusb1"/>
-    </dependencies>
-  </autotools>
-
   <cmake id="libmusicbrainz"
          cmakeargs="-DLIB_SUFFIX=${libsuffix}">
     <pkg-config>libmusicbrainz5.pc</pkg-config>
