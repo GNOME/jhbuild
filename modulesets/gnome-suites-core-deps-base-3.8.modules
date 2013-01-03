@@ -25,8 +25,6 @@
     href="https://github.com/downloads/metabrainz/"/>
 <repository type="tarball" name="people.freedesktop.org"
     href="http://people.freedesktop.org/"/>
-<repository type="tarball" name="complang.org"
-    href="http://www.complang.org/"/>
 
   <include href="gnome-sysdeps-3.8.modules"/>
 
@@ -123,16 +121,6 @@
     <dependencies>
       <dep package="zlib"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="ragel">
-    <branch repo="complang.org"
-            module="ragel/ragel-6.7.tar.gz"
-            version="6.7"
-            hash="sha256:46df8e3f117a730f8896061c95ea8e8f53e9789cb053c2eea047833724fd7a30"
-            size="1182734">
-      <patch file="ragel-6.6-gcc47-lookup.patch" strip="1" />
-    </branch>
   </autotools>
 
   <!-- parallel builds broken due to: https://bugs.freedesktop.org/show_bug.cgi?id=46093 -->
