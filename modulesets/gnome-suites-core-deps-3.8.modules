@@ -36,8 +36,6 @@
     href="http://freedesktop.org/software/"/>
 <repository type="tarball" name="people.freedesktop.org"
     href="http://people.freedesktop.org/"/>
-<repository type="tarball" name="gypsy.freedesktop.org"
-    href="http://gypsy.freedesktop.org/releases/"/>
 <repository type="tarball" name="icon-theme.freedesktop.org"
     href="http://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="libopenraw.freedesktop.org"
@@ -68,20 +66,6 @@
 <!-- Please try to keep organized alphabetically by section -->
 
 <!-- Build dependencies of gnome-suites-core -->
-
-  <!-- https://bugs.freedesktop.org/show_bug.cgi?id=56852 -->
-  <autotools id="gypsy" autogenargs="CFLAGS=-Wno-error=deprecated-declarations">
-    <branch repo="gypsy.freedesktop.org"
-            module="gypsy-${version}.tar.bz2"
-            version="0.9"
-            hash="sha256:4348bb4168c24be681a48443e4d98fd73935988ed5910693944e97ff0d8cfe58"/>
-    <dependencies>
-      <dep package="bluez"/>
-      <dep package="dbus-glib"/>
-      <dep package="gudev"/>
-      <dep package="libxslt"/>
-    </dependencies>
-  </autotools>
 
   <autotools id="geoclue">
     <branch repo="git.freedesktop.org"/>
