@@ -15,13 +15,6 @@
             version="1.0.19"/>
   </systemmodule>
 
-  <systemmodule id="cups">
-    <branch repo="system" version="1.4"/>
-    <systemdependencies>
-      <dep type="path" name="cups-config"/>
-    </systemdependencies>
-  </systemmodule>
-
   <systemmodule id="bison">
     <branch repo="system" version="2.0"/>
     <systemdependencies>
@@ -65,6 +58,13 @@
     <branch repo="system"/>
     <systemdependencies>
       <dep type="c_include" name="crack.h"/>
+    </systemdependencies>
+  </systemmodule>
+
+  <systemmodule id="cups">
+    <branch repo="system" version="1.4"/>
+    <systemdependencies>
+      <dep type="path" name="cups-config"/>
     </systemdependencies>
   </systemmodule>
 
@@ -238,6 +238,12 @@
             version="0.9"/>
   </systemmodule>
 
+  <systemmodule id="lcms2">
+    <pkg-config>lcms2.pc</pkg-config>
+    <branch repo="system"
+            version="2.2"/>
+  </systemmodule>
+
   <systemmodule id="libatasmart">
     <pkg-config>libatasmart.pc</pkg-config>
     <branch repo="system"
@@ -303,26 +309,6 @@
     <branch repo="system" version="2.8.0"/>
   </systemmodule>
 
-  <systemmodule id="libgcrypt">
-    <branch repo="system"
-            version="1.5.0"/>
-    <systemdependencies>
-      <dep type="c_include" name="gcrypt.h"/>
-    </systemdependencies>
-  </systemmodule>
-
-  <systemmodule id="libgphoto2">
-    <pkg-config>libgphoto2.pc</pkg-config>
-    <branch repo="system"
-            version="2.4.13"/>
-  </systemmodule>
-
-  <systemmodule id="liboauth">
-    <pkg-config>oauth.pc</pkg-config>
-    <branch repo="system"
-            version="0.9.4"/>
-  </systemmodule>
-
   <systemmodule id="libdaemon">
     <pkg-config>libdaemon.pc</pkg-config>
     <branch repo="system"
@@ -347,6 +333,20 @@
     <branch repo="system" version="3.0.0"/>
   </systemmodule>
 
+  <systemmodule id="libgcrypt">
+    <branch repo="system"
+            version="1.5.0"/>
+    <systemdependencies>
+      <dep type="c_include" name="gcrypt.h"/>
+    </systemdependencies>
+  </systemmodule>
+
+  <systemmodule id="libgphoto2">
+    <pkg-config>libgphoto2.pc</pkg-config>
+    <branch repo="system"
+            version="2.4.13"/>
+  </systemmodule>
+
   <systemmodule id="libical">
     <pkg-config>libical.pc</pkg-config>
     <branch repo="system"
@@ -369,6 +369,12 @@
     <pkg-config>libnl-3.0.pc</pkg-config>
     <branch repo="system"
             version="3.2.7"/>
+  </systemmodule>
+
+  <systemmodule id="liboauth">
+    <pkg-config>oauth.pc</pkg-config>
+    <branch repo="system"
+            version="0.9.4"/>
   </systemmodule>
 
   <systemmodule id="libpng">
@@ -472,12 +478,6 @@
     <pkg-config>zeitgeist-1.0.pc</pkg-config>
     <branch repo="system"
             version="0.3.18"/>
-  </systemmodule>
-
-  <systemmodule id="lcms2">
-    <pkg-config>lcms2.pc</pkg-config>
-    <branch repo="system"
-            version="2.2"/>
   </systemmodule>
 
   <systemmodule id="mpfr">
