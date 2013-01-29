@@ -8,11 +8,17 @@
 
 set -e
 
-bindir=$1
-test -n "$bindir" || (echo "usage: $0 bindir"; exit 1)
+BINDIR=$1
+DEST="$BINDIR/python2"
+PYTHON=$(which python 2>/dev/null || true);
 
-py2=$(which python2 2>/dev/null || true)
-if test -z "$py2"; then
-    py=$(which python 2>/dev/null);
-    ln -s "$(which python)" ${bindir}/python2;
-fi
+function die() { echo "$1" >&2 ; exit 2; }
+
+test -n "$BINDIR" || die "Usage: $0 BINDIR"
+test -d "$BINDIR" || die "$0: '$BINDIR' is not a directory"
+
+which python2 2>/dev/null && exit 0 # 'python2' is already on PATH
+
+test -x "$PYTHON" || die "$0: Unable to find 'python' in the PATH"
+
+ln -sf "$PYTHON" "$DEST"
