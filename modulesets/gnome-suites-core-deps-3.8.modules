@@ -385,7 +385,7 @@
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
-      <dep package="libgee-0.6"/>
+      <dep package="libgee-0.8"/>
       <dep package="vala"/>
       <dep package="gobject-introspection"/>
       <dep package="telepathy-glib"/>
@@ -718,6 +718,18 @@
     <branch module="libgee"
             revision="0.6"
             checkoutdir="libgee-0.6"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgee-0.8">
+    <pkg-config>gee-0.8.pc</pkg-config>
+    <branch module="libgee"
+            revision="0.8"
+            checkoutdir="libgee-0.8"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
