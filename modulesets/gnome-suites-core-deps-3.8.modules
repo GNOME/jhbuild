@@ -196,6 +196,29 @@
     </dependencies>
   </cmake>
 
+  <autotools id="libqmi">
+    <branch repo="git.freedesktop.org" module="libqmi.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="ModemManager"
+             autogenargs="--with-udev-base-dir=${libdir}/udev --with-systemdsystemunitdir=no --disable-more-warnings">
+    <branch repo="git.freedesktop.org"
+	    module="ModemManager/ModemManager.git" checkoutdir="ModemManager" />
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus-glib"/>
+      <dep package="gtk-doc"/>
+      <dep package="polkit"/>
+      <dep package="gudev"/>
+      <dep package="ppp"/>
+      <dep package="libqmi"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="sound-theme-freedesktop" version="0.8">
     <branch repo="people.freedesktop.org"
             module="~mccann/dist/sound-theme-freedesktop-0.8.tar.bz2"
