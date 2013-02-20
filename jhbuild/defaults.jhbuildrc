@@ -52,10 +52,10 @@ builddir_pattern = '%s'
 ## to include a -j option, that will take precedence.
 try:
     import multiprocessing
-    jobs = multiprocessing.cpu_count() * 2
+    jobs = multiprocessing.cpu_count() + 1
 except ImportError, _e:
     try:
-        jobs = 2 * os.sysconf('SC_NPROCESSORS_ONLN')
+        jobs = os.sysconf('SC_NPROCESSORS_ONLN') + 1
     except (OSError, AttributeError, ValueError):
         jobs = 2
 
