@@ -322,6 +322,7 @@ class cmd_buildone(BuildCommand):
         module_set = jhbuild.moduleset.load(config)
         module_list = []
         for modname in args:
+            modname = modname.rstrip(os.sep)
             try:
                 module = module_set.get_module(modname, ignore_case=True)
             except KeyError, e:

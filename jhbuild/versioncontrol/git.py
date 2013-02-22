@@ -143,7 +143,9 @@ class GitBranch(Branch):
         self.unmirrored_module = unmirrored_module
 
     def get_module_basename(self):
-        name = os.path.basename(self.module)
+        # prevent basename() from returning empty strings on trailing '/'
+        name = self.module.rstrip(os.sep)
+        name = os.path.basename(name)
         if name.endswith('.git'):
             name = name[:-4]
         return name

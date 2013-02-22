@@ -97,7 +97,9 @@ class Branch:
         raise NotImplementedError
 
     def get_module_basename(self):
-        module = os.path.basename(self.module)
+        # prevent basename() from returning empty strings on trailing '/'
+        module = self.module.rstrip(os.sep)
+        module = os.path.basename(module)
         # prune common filename extensions
         index = module.lower().rfind('.tar')
         if index > 0:
@@ -111,8 +113,9 @@ class Branch:
             return os.path.join(self.config.copy_dir, self.get_module_basename())
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
-        else:
+        if self.get_module_basename():
             return os.path.join(self.checkoutroot, self.get_module_basename())
+        raise Exception('unable to get a valid checkout directory')
 
     def may_checkout(self, buildscript):
         if buildscript.config.nonetwork:

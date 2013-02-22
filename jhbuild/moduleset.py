@@ -70,6 +70,7 @@ class ModuleSet:
         self.modules[module.name] = module
 
     def get_module(self, module_name, ignore_case = False):
+        module_name = module_name.rstrip(os.sep)
         if self.modules.has_key(module_name) or not ignore_case:
             return self.modules[module_name]
         module_name_lower = module_name.lower()
