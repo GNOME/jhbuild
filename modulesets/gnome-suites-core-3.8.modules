@@ -425,10 +425,10 @@
   <autotools id="pulseaudio"
              autogenargs="--disable-hal --disable-oss">
     <pkg-config>libpulse.pc</pkg-config>
-    <branch repo="freedesktop.org" module="software/pulseaudio/releases/pulseaudio-2.0.tar.xz"
-            version="2.0"
-            hash="sha256:28b42edd42f4879a6884af5f0ec11801ac001eb7582881215b36649aa37e2061"
-            size="1353708"/>
+    <branch repo="freedesktop.org"
+            module="software/pulseaudio/releases/pulseaudio-${version}.tar.xz"
+            version="2.1"
+            hash="sha256:ef6b347bf47abfb98080795f1583018ac959b4aeb4df916b879f9e1eaba0ca7f"/>
     <dependencies>
       <dep package="alsa"/>
       <dep package="json"/>
@@ -438,11 +438,12 @@
       <dep package="glib"/>
       <dep package="speex"/>
     </dependencies>
-    <after>
-      <dep package="gconf"/>
+    <suggest>
       <dep package="avahi"/>
       <dep package="bluez"/>
       <dep package="dbus"/>
+    </suggest>
+    <after>
       <dep package="polkit"/>
     </after>
   </autotools>
