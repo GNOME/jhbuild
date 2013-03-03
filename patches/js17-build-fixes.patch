@@ -1,0 +1,40 @@
+From d09750e208fbb65d87aa46e7b90bb51acf8f0679 Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Sun, 10 Feb 2013 16:29:02 -0500
+Subject: [PATCH] Add toplevel configure/Makefile
+
+So this module implements the Build API:
+http://people.gnome.org/~walters/docs/build-api.txt
+---
+ Makefile  | 5 +++++
+ configure | 5 +++++
+ 2 files changed, 10 insertions(+)
+ create mode 100644 Makefile
+ create mode 100755 configure
+
+diff --git a/Makefile b/Makefile
+new file mode 100644
+index 0000000..98de844
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,5 @@
++all:
++	cd js/src && $(MAKE)
++
++install:
++	cd js/src && $(MAKE) install DESTDIR=$(DESTDIR)
+diff --git a/configure b/configure
+new file mode 100755
+index 0000000..db588c3
+--- /dev/null
++++ b/configure
+@@ -0,0 +1,5 @@
++#!/bin/sh
++dnl http://people.gnome.org/~walters/docs/build-api.txt
++echo \#buildapi-variable-no-builddir >/dev/null
++cd js/src
++exec ./configure "$@"
+-- 
+1.8.1.2
+
+

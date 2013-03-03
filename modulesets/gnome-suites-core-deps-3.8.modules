@@ -62,6 +62,8 @@
     href="http://pyzy.googlecode.com/files/"/>
 <repository type="tarball" name="maxmind.com"
       href="http://www.maxmind.com/download/"/>
+<repository type="tarball" name="people.mozilla.org"
+      href="http://people.mozilla.org/"/>
 
 <include href="gnome-sysdeps-3.8.modules"/>
 
@@ -700,6 +702,21 @@
       <dep package="librsvg"/>
       <dep package="enchant"/>
       <dep package="libnotify"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="js17" check-target="false"
+      autogenargs="--enable-threadsafe --with-system-nspr">
+    <pkg-config>mozjs-17.0.pc</pkg-config>
+    <branch repo="people.mozilla.org"
+            module="~sstangl/mozjs17.0.0.rc1.tar.gz"
+            version="17.0.0.rc0"
+            hash="sha256:80bc258b42a0313229d6cd20f377bf3aac6f072347fba6b4f8f366f264cf5476"
+            checkoutdir="js17-17.0.0.rc1">
+      <patch file="js17-build-fixes.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
     </dependencies>
   </autotools>
 
