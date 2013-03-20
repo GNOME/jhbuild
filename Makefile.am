@@ -7,7 +7,11 @@ SUBDIRS += doc
 endif
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
-MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules) modulesets/moduleset.dtd
+MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules)
+DTDS = \
+	modulesets/moduleset.dtd \
+	modulesets/moduleset.rnc \
+	$(NULL)
 
 desktopdir = $(datadir)/applications
 desktop_in_files = jhbuild.desktop.in
@@ -20,7 +24,8 @@ INTLTOOL = 			\
 	intltool-merge.in 	\
 	intltool-update.in
 
-EXTRA_DIST = $(PATCHES) $(MODULESETS) \
+EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
+	modulesets/moduleset.xsl \
 	install-check.c \
 	autogen.sh \
 	$(desktop_in_files) $(INTLTOOL)
