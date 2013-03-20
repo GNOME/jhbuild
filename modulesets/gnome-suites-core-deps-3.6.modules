@@ -211,15 +211,15 @@
       <dep package="gtk-doc"/>
       <dep package="libffi"/>
     </dependencies>
-    <after>
-      <dep package="shared-mime-info"/>
-    </after>
     <suggests>
       <!-- these provide gnome implementations of glib
            extension points -->
       <dep package="gvfs"/>
       <dep package="glib-networking"/>
     </suggests>
+    <after>
+      <dep package="shared-mime-info"/>
+    </after>
   </autotools>
 
   <autotools id="glib-networking">
@@ -1001,8 +1001,8 @@
   </autotools>
 
   <autotools id="vala" autogenargs="--enable-vapigen">
-    <branch/>
     <pkg-config>libvala-0.16.pc</pkg-config>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
