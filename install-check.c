@@ -63,7 +63,8 @@ main (int    argc,
 {
   struct stat buf;
   char **args;
-  int i, len;
+  int i;
+  unsigned int len;
   char *dot, *lastarg, *start;
 
   lastarg = argv[argc - 1];
@@ -109,7 +110,7 @@ install:
   args = malloc (sizeof (char *) * (argc + 1));
 
 #ifndef WITH_INSTALL
-  args[0] = "install";
+  args[0] = (char *) "install";
 #else
   args[0] = WITH_INSTALL;
 #endif
