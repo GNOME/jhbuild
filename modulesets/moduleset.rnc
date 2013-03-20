@@ -14,7 +14,9 @@ moduleset =
      | testmodule
      | cvsroot
      | cvsmodule
-     | waf)+
+     | waf
+     | cmake
+     | systemmodule)+
   }
 attlist.moduleset &= attribute name { text }?
 repository = element repository { attlist.repository, mirror* }
@@ -28,7 +30,9 @@ attlist.repository &=
     | "fossil"
     | "git"
     | "hg"
+    | "mtn"
     | "svn"
+    | "system"
     | "tarball"
   },
   [ a:defaultValue = "no" ] attribute default { "yes" | "no" }?,
@@ -66,9 +70,11 @@ attlist.mirror &=
   attribute href { text }?
 \include = element include { attlist.include, empty }
 attlist.include &= attribute href { text }
+# As parsed by get_dependencies()
+dependencieselements = dependencies?, suggests?, after?, systemdependencies?
 autotools =
   element autotools {
-    attlist.autotools, branch, dependencies?, suggests?, after?
+    attlist.autotools, pkg-config?, branch, dependencieselements
   }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
@@ -83,30 +89,36 @@ attlist.autotools &=
   attribute skip-autogen { "true" | "false" | "never" }?,
   [ a:defaultValue = "yes" ]
   attribute supports-non-srcdir-builds { "yes" | "no" }?,
+  attribute supports-parallel-builds { "yes" | "no" }?,
   attribute autogen-template { text }?,
   [ a:defaultValue = "true" ]
   attribute check-target { "true" | "false" }?
 waf =
-  element waf { attlist.waf, branch, dependencies?, suggests?, after? }
+  element waf { attlist.waf, branch, dependencieselements }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
 attlist.waf &=
   attribute id { text },
   attribute waf-command { text }?
+systemmodule =
+  element systemmodule { attlist.systemmodule, pkg-config?, branch, dependencieselements }
+attlist.systemmodule &=
+  attribute id { text },
+  attribute supports-parallel-builds { "yes" | "no" }?
+pkg-config = element pkg-config { text }
 metamodule =
-  element metamodule { attlist.metamodule, dependencies, after? }
+  element metamodule { attlist.metamodule, dependencieselements }
 attlist.metamodule &= attribute id { text }
 # tarball module type is deprecated, a tarball repository inside the
 # appropriate modtype should be used instead
 tarball =
   element tarball {
     attlist.tarball,
+    pkg-config?,
     source,
     branch?,
-    dependencies?,
-    patches?,
-    suggests?,
-    after?
+    dependencieselements,
+    patches?
   }
 attlist.tarball &=
   attribute id { text },
@@ -125,10 +137,10 @@ attlist.distutils &=
   attribute id { xsd:ID },
   [ a:defaultValue = "yes" ]
   attribute supports-non-srcdir-builds { "yes" | "no" }?
-cmake = element cmake { attlist.cmake, branch?, dependencies?, after? }
+cmake = element cmake { attlist.cmake, pkg-config?, branch?, dependencieselements }
 attlist.cmake &=
   attribute id { text },
-  attribute cmakeargs { text }?
+  attribute cmakeargs { text }?,
   attribute makeargs { text }?
 perl = element perl { attlist.perl, branch?, dependencies?, after? }
 attlist.perl &=
@@ -159,7 +171,7 @@ attlist.cvsroot &=
   [ a:defaultValue = "" ] attribute password { text }?
 cvsmodule =
   element cvsmodule {
-    attlist.cvsmodule, suggests?, dependencies?, after?
+    attlist.cvsmodule, dependencieselements
   }
 attlist.cvsmodule &=
   attribute id { text },
@@ -198,9 +210,13 @@ suggests = element suggests { attlist.suggests, dep* }
 attlist.suggests &= empty
 after = element after { attlist.after, dep* }
 attlist.after &= empty
+systemdependencies = element systemdependencies { attlist.systemdependencies, sysdep* }
+attlist.systemdependencies &= empty
 dep = element dep { attlist.dep, empty }
 attlist.dep &= attribute package { text }
-branch = element branch { attlist.branch, patch* }
+sysdep = element dep { attlist.sysdep, empty }
+attlist.sysdep &= attribute type { text }, attribute name { text }
+branch = element branch { attlist.branch, patch*, quilt* }
 attlist.branch &=
   attribute repo { text }?,
   attribute module { text }?,
@@ -223,4 +239,4 @@ attlist.branch &=
 # source-subdir is tarballs only
 quilt = element quilt { attlist.quilt, branch }
 attlist.quilt &= attribute id { text }
-start = quilt | moduleset | cmake | ant
+start = moduleset | ant

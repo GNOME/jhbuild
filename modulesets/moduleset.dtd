@@ -1,11 +1,11 @@
-<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake)+>
+<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|systemmodule)+>
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
 <!ELEMENT repository (mirror*)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
-	type	 (arch|bzr|cvs|darcs|fossil|git|hg|svn|system|tarball)  #REQUIRED
+	type	 (arch|bzr|cvs|darcs|fossil|git|hg|mtn|svn|system|tarball)  #REQUIRED
 	default  (yes|no)  "no"
 	password CDATA  #IMPLIED
 	cvsroot	 CDATA  #IMPLIED
@@ -46,6 +46,7 @@
 	makefile	CDATA	#IMPLIED
 	skip-autogen	(true|false|never) "false"
 	supports-non-srcdir-builds (yes|no) "yes"
+	supports-parallel-builds (yes|no) "yes"
 	autogen-template CDATA  #IMPLIED
 	check-target	(true|false) "true">
 
@@ -56,13 +57,13 @@
 	id		CDATA	#REQUIRED
 	waf-command	CDATA	#IMPLIED>
 
-<!ELEMENT metamodule (dependencies,after?)>
+<!ELEMENT metamodule (dependencies,suggests?,after?)>
 <!ATTLIST metamodule
 	id		CDATA	#REQUIRED>
 
 <!-- tarball module type is deprecated, a tarball repository inside the
      appropriate modtype should be used instead -->
-<!ELEMENT tarball (pkg-config?,source,branch?,dependencies?,patches?,suggests?,after?)>
+<!ELEMENT tarball (pkg-config?,source,branch?,dependencies?,suggests?,after?,patches?)>
 <!ATTLIST tarball
 	id		CDATA	#REQUIRED
 	version		CDATA	#REQUIRED
@@ -77,7 +78,7 @@
 	id	ID	#REQUIRED
 	supports-non-srcdir-builds (yes|no) "yes">
 
-<!ELEMENT cmake (pkg-config?,branch?,dependencies?,after?)>
+<!ELEMENT cmake (pkg-config?,branch?,dependencies?,suggests?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
@@ -93,10 +94,10 @@
 <!ATTLIST linux
 	id		CDATA	#REQUIRED>
 
-<!ELEMENT systemmodule (pkg-config?,branch?)>
+<!ELEMENT systemmodule (pkg-config?,branch,dependencies?,suggests?,after?,systemdependencies?)>
 <!ATTLIST systemmodule
 	id		CDATA	#REQUIRED
-	makeargs	CDATA	#IMPLIED>
+	supports-parallel-builds (yes|no) "yes">
 
 <!ELEMENT testmodule (pkg-config?,branch?,dependencies?,after?,testedmodules?)>
 <!ATTLIST testmodule
@@ -151,11 +152,17 @@
 <!ELEMENT dependencies (dep*)>
 <!ELEMENT suggests (dep*)>
 <!ELEMENT after (dep*)>
+<!ELEMENT systemdependencies (dep*)>
 <!ELEMENT dep EMPTY>
+<!-- This is actually 2 different types of element: <dep package=""/> as used in <dependencies>
+     and <dep type="" name=""/> as used in <systemdependencies>. The DTD can't specify both
+     separately since they have the same element name. -->
 <!ATTLIST dep
-	package	CDATA	#REQUIRED>
+	package	CDATA	#IMPLIED
+	type	CDATA	#IMPLIED
+	name	CDATA	#IMPLIED>
 
-<!ELEMENT branch (patch*)>
+<!ELEMENT branch (patch*,quilt*)>
 <!ATTLIST branch
 	repo		CDATA	#IMPLIED
 	module		CDATA	#IMPLIED
