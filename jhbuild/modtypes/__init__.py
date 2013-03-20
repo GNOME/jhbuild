@@ -82,14 +82,14 @@ def get_dependencies(node):
         for dep in childnode.childNodes:
             if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
                 typ = dep.getAttribute('type')
-                if not type:
+                if not typ:
                     raise FatalError(_('%(node)s node for %(module)s module is'
                                        ' missing %(attribute)s attribute') % \
                                      {'node_name'   : 'dep',
                                       'module_name' : node.getAttribute('id'),
                                       'attribute'   : 'type'})
                 name = dep.getAttribute('name')
-                if not type:
+                if not name:
                     raise FatalError(_('%(node)s node for %(module)s module is'
                                        ' missing %(attribute)s attribute') % \
                                      {'node_name'   : 'dep',
