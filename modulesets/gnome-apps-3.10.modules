@@ -15,6 +15,8 @@
       href="git://libvirt.org/"/>
   <repository type="git" name="fedorahosted.org"
       href="git://git.fedorahosted.org/git/"/>
+  <repository type="git" name="wayland" default="yes"
+      href="git://anongit.freedesktop.org/git/wayland"/>
 
 <!-- tarball repos -->
   <repository type="tarball" name="gnome.org"
@@ -836,6 +838,15 @@
       <dep package="totem-pl-parser"/>
       <dep package="tracker"/>
     </suggests>
+  </autotools>
+
+  <autotools id="weston" autogenargs="--disable-setuid-install">
+    <branch repo="wayland"/>
+    <dependencies>
+      <dep package="wayland"/>
+      <dep package="cairo"/>
+      <dep package="libxkbcommon"/>
+    </dependencies>
   </autotools>
 
 <!-- Meta Modules -->
