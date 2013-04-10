@@ -12,6 +12,10 @@
     href="git://anongit.freedesktop.org/gstreamer/"/>
 <repository type="git" name="telepathy.freedesktop.org"
     href="git://anongit.freedesktop.org/telepathy/"/>
+<repository type="git" name="wayland.freedesktop.org"
+    href="git://anongit.freedesktop.org/git/wayland"/>
+<repository type="git" name="xorg-lib"
+    href="git://anongit.freedesktop.org/git/xorg/lib"/>
 <repository type="git" name="github.com"
     href="git://github.com/"/>
 <repository type="git" name="gusb.gitorious.org"
@@ -302,7 +306,7 @@
     </after>
   </autotools>
 
-  <autotools id="gtk+">
+  <autotools id="gtk+" autogenargs="--enable-x11-backend --enable-wayland-backend">
     <branch/>
     <dependencies>
       <dep package="atk"/>
@@ -313,6 +317,8 @@
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
       <dep package="at-spi2-atk"/>
+      <dep package="libxkbcommon"/>
+      <dep package="wayland"/>
     </dependencies>
     <suggests>
       <dep package="shared-mime-info"/>
@@ -1019,6 +1025,20 @@
       <dep package="gdk-pixbuf"/>
       <dep package="graphviz"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
+    <branch repo="xorg-lib"/>
+    <dependencies>
+      <dep package="xorg-macros"/>
+      <dep package="xorg-xproto"/>
+      <dep package="xorg-kbproto"/>
+      <dep package="libX11"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="wayland" autogenargs="--with-egl-platforms=wayland,drm,x11">
+    <branch repo="wayland.freedesktop.org"/>
   </autotools>
 
   <autotools id="WebKit" makefile="GNUmakefile"
