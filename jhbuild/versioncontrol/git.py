@@ -391,16 +391,21 @@ class GitBranch(Branch):
 
     def _checkout(self, buildscript, copydir=None):
 
+        extra_opts = []
         if self.config.quiet_mode:
-            quiet = ['-q']
-        else:
-            quiet = []
+            extra_opts.append('-q')
+
+        if self.config.shallow_clone:
+            extra_opts.append('--depth=1')
 
         self.update_dvcs_mirror(buildscript)
 
-        cmd = ['git', 'clone'] + quiet + [self.module]
+        cmd = ['git', 'clone'] + extra_opts + [self.module]
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
+
+        if self.branch is not None:
+            cmd.extend(['-b', self.branch])
 
         if copydir:
             buildscript.execute(cmd, cwd=copydir, extra_env=get_git_extra_env())
