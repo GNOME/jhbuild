@@ -200,12 +200,21 @@ yelp_tools_available=$?
 
 parse_commandline $*
 
+have_autotools=1
 if [ $gnome_autogen_available -eq 0 -a \
      $yelp_tools_available -eq 0 -a \
      $enable_autotools -eq 1 ]; then
-  if test -z "$NOCONFIGURE"; then
-      configure_with_autotools $*
-  fi
+    have_autotools=0
+fi
+# As a hack, force use of autotools if NOCONFIGURE is specified; this
+# allows the gnome-ostree build system to work which doesn't have
+# yelp, but also can't pass options to autogen.sh
+if test -z "$NOCONFIGURE"; then
+    have_autotools=0
+fi
+
+if [ $have_autotools -eq 0 ]; then
+  configure_with_autotools $*
 else
   if [ $gnome_autogen_available -ne 0 ]; then
     gettext "gnome-autogen.sh not available"; echo
