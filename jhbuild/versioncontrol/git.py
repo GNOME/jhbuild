@@ -278,9 +278,10 @@ class GitBranch(Branch):
             buildscript.execute(switch_command, cwd=self.get_checkoutdir(),
                     extra_env=get_git_extra_env())
 
-    def pull_current_branch(self, buildscript):
+    def rebase_current_branch(self, buildscript):
         """Pull the current branch if it is tracking a remote branch."""
-        if not self.is_tracking_a_remote_branch(self.get_current_branch()):
+        branch = self.get_current_branch();
+        if not self.is_tracking_a_remote_branch(branch):
             return
 
         git_extra_args = {'cwd': self.get_checkoutdir(),
@@ -292,7 +293,8 @@ class GitBranch(Branch):
             buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
                     **git_extra_args)
 
-        buildscript.execute(['git', 'pull', '--rebase'], **git_extra_args)
+        buildscript.execute(['git', 'rebase', 'origin/' + branch],
+                            **git_extra_args)
 
         if stashed:
             # git stash pop was introduced in 1.5.5,
@@ -439,7 +441,7 @@ class GitBranch(Branch):
 
         self.switch_branch_if_necessary(buildscript)
 
-        self.pull_current_branch(buildscript)
+        self.rebase_current_branch(buildscript)
 
         self._update_submodules(buildscript)
 
