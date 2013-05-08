@@ -508,7 +508,7 @@ class MakeModule(Package):
         self.makefile = makefile
 
     def get_makeargs(self, buildscript, add_parallel=True):
-        makeargs = '%s %s' % (self.makeargs,
+        makeargs = ' %s %s' % (self.makeargs,
                               self.config.module_makeargs.get(
                                   self.name, self.config.makeargs))
         if self.supports_parallel_build and add_parallel:
