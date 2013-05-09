@@ -2114,7 +2114,11 @@ Optional packages: (JHBuild will build the missing packages)
           <listitem>
             <simpara>A list of modules to skip. This <option>--skip</option>
               command line option extends the list. This list is empty by
-              default.</simpara>
+              default. If the list contains the special value <literal>'*'</literal>,
+              JHBuild will skip all modules not explicitly listed in
+              the <varname>modules</varname> variable.  This may be useful if
+              you want to build modules without their implicit dependencies.
+             </simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-sticky-date">

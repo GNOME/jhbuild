@@ -172,6 +172,11 @@ class ModuleSet:
         else:
             module_list = [module for module, after_module in resolved \
                            if not after_module]
+
+        if '*' in skip:
+            module_list = [module for module in module_list \
+                           if module.name in self.config.modules]
+        
         return module_list
 
     def get_test_module_list (self, seed, skip=[]):
