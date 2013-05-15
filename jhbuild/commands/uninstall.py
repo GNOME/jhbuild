@@ -47,6 +47,8 @@ class cmd_uninstall(Command):
                 if not default_repo:
                     raise FatalError(_('unknown module %s and no default repository to try an automatic module') % modname)
 
+                logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
+                         {'modname': modname, 'reponame': default_repo.name})
                 module = AutogenModule(modname, default_repo.branch(modname))
                 module.config = config
 
@@ -62,8 +64,6 @@ class cmd_uninstall(Command):
                 logging.warn(_('Module %(mod)r is not installed') % {'mod': module.name })
                 module_list.remove(module)
             else:
-                logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
-                         {'modname': modname, 'reponame': default_repo.name})
                 packagedb.uninstall(module.name)
 
 
