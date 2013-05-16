@@ -199,16 +199,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="spice-protocol">
-    <branch repo="spice"
-            module="releases/spice-protocol-0.10.1.tar.bz2"
-            version="0.10.1"
-            hash="sha256:e5f6cbb679febc840eb530a5195d2625f900f7d21a5aefbadc95e3a3b9f03537"
-            size="66014"/>
-    <dependencies>
-    </dependencies>
-  </autotools>
-
   <autotools id="spice-server" autogenargs="--disable-smartcard --without-sasl --disable-client">
     <branch repo="spice"
             module="releases/spice-0.10.1.tar.bz2"
@@ -216,7 +206,6 @@
             hash="sha256:13dfe2e80984a836f85a1da4e1a4da3707123f15a507e8c0df1f4268a02bb780"
             size="1237043"/>
     <dependencies>
-      <dep package="spice-protocol"/>
       <dep package="celt"/>
     </dependencies>
   </autotools>
@@ -231,7 +220,6 @@
     <dependencies>
       <dep package="celt"/>
       <dep package="cyrus-sasl"/>
-      <dep package="spice-protocol"/>
       <dep package="gtk+"/>
       <dep package="vala"/>
     </dependencies>
