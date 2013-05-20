@@ -376,8 +376,7 @@ class cmd_run(Command):
         if options.in_builddir:
             module_set = jhbuild.moduleset.load(config)
             try:
-                module_list = [module_set.get_module(options.in_builddir, ignore_case = True)
-                               for modname in args]
+                module_list = [module_set.get_module(options.in_builddir, ignore_case = True)]
             except KeyError, e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
@@ -393,8 +392,7 @@ class cmd_run(Command):
         elif options.in_checkoutdir:
             module_set = jhbuild.moduleset.load(config)
             try:
-                module_list = [module_set.get_module(options.in_checkoutdir, ignore_case = True)
-                               for modname in args]
+                module_list = [module_set.get_module(options.in_checkoutdir, ignore_case = True)]
             except KeyError, e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
