@@ -516,8 +516,8 @@ class MakeModule(Package):
             if ' -j' not in makeargs:
                 arg = '-j %s' % (buildscript.config.jobs, )
                 makeargs = makeargs + ' ' + arg
-        elif not self.supports_parallel_build and ' -j' in makeargs:
-            makeargs = re.sub(r'-j\w*\d+', '', makeargs)
+        elif not self.supports_parallel_build:
+            makeargs = re.sub(r'-j\w*\d+', '', makeargs) + ' -j 1'
         return self.eval_args(makeargs).strip()
 
 
