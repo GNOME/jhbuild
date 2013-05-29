@@ -33,17 +33,25 @@ import sys
 import urllib2
 import urlparse
 import time
-import rfc822
-import StringIO
+try:
+    from email.utils import parsedate_tz, mktime_tz
+except ImportError:
+    from rfc822 import parsedate_tz, mktime_tz
+try:
+    from cStringIO import StringIO
+except ImportError:
+	from StringIO import StringIO
 try:
     import gzip
 except ImportError:
     gzip = None
-
 try:
     import xml.dom.minidom
 except ImportError:
     raise SystemExit, _('Python XML packages are required but could not be found')
+
+from appdirs import user_cache_dir
+
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -51,14 +59,17 @@ def _parse_isotime(string):
     tm = time.strptime(string, '%Y-%m-%dT%H:%M:%SZ')
     return time.mktime(tm[:8] + (0,)) - time.timezone    
 
+
 def _format_isotime(tm):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
 
+
 def _parse_date(date):
-    tm = rfc822.parsedate_tz(date)
+    tm = parsedate_tz(date)
     if tm:
-        return rfc822.mktime_tz(tm)
+        return mktime_tz(tm)
     return 0
+
 
 class CacheEntry:
     def __init__(self, uri, local, modified, etag, expires=0):
@@ -68,11 +79,9 @@ class CacheEntry:
         self.etag = etag
         self.expires = expires
 
+
 class Cache:
-    try:
-        cachedir = os.path.join(os.environ['XDG_CACHE_HOME'], 'jhbuild')
-    except KeyError:
-        cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
+    cachedir = user_cache_dir("jhbuild", "Gnome")
 
     # default to a 6 hour expiry time.
     default_age = 6 * 60 * 60
@@ -232,6 +241,7 @@ class Cache:
         self.entries[uri] = entry
         self.write_cache()
         return filename
+
 
 _cache = None
 def load(uri, nonetwork=False, age=None):

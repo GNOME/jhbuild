@@ -20,18 +20,12 @@
 import sys
 import __builtin__
 
+
 # Windows lacks all sorts of subprocess features that we need to kludge around
 if sys.platform.startswith('win'):
     from jhbuild.utils import subprocess_win32
     sys.modules['subprocess'] = subprocess_win32
 
-# Python < 2.4 lacks reversed() builtin
-if not hasattr(__builtin__, 'reversed'):
-    def reversed(l):
-        l = list(l)
-        l.reverse()
-        return iter(l)
-    __builtin__.reversed = reversed
 
 # Python < 2.4 lacks string.Template class
 import string
@@ -162,11 +156,3 @@ if not hasattr(string, 'Template'):
             return self.pattern.sub(convert, self.template)
 
     string.Template = Template
-
-# Python < 2.4 lacks subprocess module
-try:
-    import subprocess
-except ImportError:
-    from jhbuild.cut_n_paste import subprocess
-    sys.modules['subprocess'] = subprocess
-        
