@@ -33,8 +33,14 @@ import sys
 import urllib2
 import urlparse
 import time
-import rfc822
-import StringIO
+try:
+    from email.utils import parsedate_tz, mktime_tz
+except ImportError:
+    from rfc822 import parsedate_tz, mktime_tz
+try:
+    from cStringIO import StringIO
+except ImportError:
+	from StringIO import StringIO
 try:
     import gzip
 except ImportError:
@@ -57,9 +63,9 @@ def _format_isotime(tm):
 
 
 def _parse_date(date):
-    tm = rfc822.parsedate_tz(date)
+    tm = parsedate_tz(date)
     if tm:
-        return rfc822.mktime_tz(tm)
+        return mktime_tz(tm)
     return 0
 
 
