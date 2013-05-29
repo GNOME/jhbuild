@@ -68,7 +68,11 @@ cflags = ''
 
 # a alternative install program to use; the included install-check
 # program won't update timestamps if the header hasn't changed
-installprog = os.path.join(os.environ['HOME'], '.local/bin', 'install-check')
+installprog = os.path.join(
+	os.path.expanduser("~"),
+	'.local/bin',
+	'install-check'
+)
 if not os.path.exists(installprog):
     installprog = '/usr/bin/install-check'
 if not os.path.exists(installprog):
