@@ -50,6 +50,8 @@ try:
 except ImportError:
     raise SystemExit, _('Python XML packages are required but could not be found')
 
+from appdirs import user_cache_dir
+
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -79,10 +81,7 @@ class CacheEntry:
 
 
 class Cache:
-    try:
-        cachedir = os.path.join(os.environ['XDG_CACHE_HOME'], 'jhbuild')
-    except KeyError:
-        cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
+    cachedir = user_cache_dir("jhbuild", "Gnome")
 
     # default to a 6 hour expiry time.
     default_age = 6 * 60 * 60
