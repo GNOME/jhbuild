@@ -241,7 +241,7 @@ class AutogenModule(MakeModule, DownloadableModule):
             extra_env['ACLOCAL'] = ' '.join((
                 extra_env.get('ACLOCAL', os.environ.get('ACLOCAL', 'aclocal')),
                 extra_env.get('ACLOCAL_FLAGS', os.environ.get('ACLOCAL_FLAGS', ''))))
-            buildscript.execute(['autoreconf', '-i'], cwd=srcdir,
+            buildscript.execute(['autoreconf', '-fi'], cwd=srcdir,
                     extra_env=extra_env)
             os.chmod(os.path.join(srcdir, 'configure'), 0755)
 
