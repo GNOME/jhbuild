@@ -9,12 +9,6 @@
 
   <repository type="system" name="system"/>
 
-  <systemmodule id="alsa">
-    <pkg-config>alsa.pc</pkg-config>
-    <branch repo="system"
-            version="1.0.19"/>
-  </systemmodule>
-
   <systemmodule id="avahi">
     <pkg-config>avahi-gobject.pc</pkg-config>
     <branch repo="system"
@@ -268,12 +262,6 @@
     <branch repo="system"/>
   </systemmodule>
 
-  <systemmodule id="json">
-    <pkg-config>json.pc</pkg-config>
-    <branch repo="system"
-            version="0.9"/>
-  </systemmodule>
-
   <systemmodule id="lcms2">
     <pkg-config>lcms2.pc</pkg-config>
     <branch repo="system"
@@ -442,12 +430,6 @@
     <branch repo="system" version="0.4.0"/>
   </systemmodule>
 
-  <systemmodule id="libsndfile">
-    <pkg-config>sndfile.pc</pkg-config>
-    <branch repo="system"
-            version="1.0.21"/>
-  </systemmodule>
-
   <systemmodule id="libtasn1">
     <pkg-config>libtasn1.pc</pkg-config>
     <branch repo="system"
@@ -459,19 +441,6 @@
     <systemdependencies>
       <dep type="c_include" name="tiff.h"/>
     </systemdependencies>
-  </systemmodule>
-
-  <systemmodule id="libtool-ltdl">
-    <branch repo="system"/>
-    <systemdependencies>
-      <dep type="c_include" name="ltdl.h"/>
-    </systemdependencies>
-  </systemmodule>
-
-  <systemmodule id="libudev">
-    <pkg-config>libudev.pc</pkg-config>
-    <branch repo="system"
-            version="173"/>
   </systemmodule>
 
   <systemmodule id="libunistring">
@@ -591,6 +560,12 @@
             version="0.20"/>
   </systemmodule>
 
+  <systemmodule id="pulseaudio">
+    <pkg-config>libpulse-mainloop-glib.pc</pkg-config>
+    <branch repo="system"
+            version="2.1"/>
+  </systemmodule>
+
   <systemmodule id="ppp">
     <branch repo="system"/>
     <systemdependencies>
@@ -664,12 +639,6 @@
     <systemdependencies>
       <dep type="path" name="spamassassin"/>
     </systemdependencies>
-  </systemmodule>
-
-  <systemmodule id="speex">
-    <pkg-config>speex.pc</pkg-config>
-    <branch repo="system"
-            version="1.2rc1"/>
   </systemmodule>
 
   <systemmodule id="sqlite3">
