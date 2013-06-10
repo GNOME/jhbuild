@@ -15,8 +15,6 @@
       href="git://gitorious.org/packagekit"/>
 
 <!-- tarball repos -->
-  <repository type="tarball" name="avahi.org"
-      href="http://www.avahi.org/download/"/>
   <repository type="tarball" name="freedesktop.org"
       href="http://freedesktop.org/"/>
   <repository type="tarball" name="gnome.org"
@@ -827,21 +825,6 @@
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-    </dependencies>
-  </autotools>
-
-  <!-- explicit disabling of qt3 and qt4 can be removed once avahi
-       correctly detects what is available. -->
-  <autotools id="avahi" autogen-sh="configure"
-             autogenargs="--disable-gtk --disable-gtk3 --enable-introspection=no --disable-qt3 --disable-qt4 --disable-mono --disable-monodoc --disable-manpages --disable-python --enable-compat-howl --enable-compat-libdns_sd --with-systemdsystemunitdir=no">
-    <pkg-config>avahi-ui-gtk3.pc</pkg-config>
-    <branch repo="avahi.org" module="avahi-0.6.31.tar.gz" version="0.6.31"
-            hash="sha256:8372719b24e2dd75de6f59bb1315e600db4fd092805bd1201ed0cb651a2dab48"
-            size="1268686"/>
-    <dependencies>
-      <dep package="gdbm"/>
-      <dep package="gtk+"/>
-      <dep package="libdaemon"/>
     </dependencies>
   </autotools>
 
