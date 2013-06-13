@@ -19,6 +19,8 @@
       href="git://anongit.freedesktop.org/git/xorg/doc"/>
   <repository type="git" name="gnome" default="yes"
       href="git://git.gnome.org"/>
+<repository type="git" name="github"
+      href="git://github.com/"/>
 
   <autotools id="pixman">
     <branch repo="freedesktop"/>
@@ -95,7 +97,7 @@
   </autotools>
 
   <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
-    <branch repo="xorg-lib"/>
+    <branch repo="github" module="xkbcommon/libxkbcommon.git"/>
     <dependencies>
       <dep package="macros"/>
       <dep package="xproto"/>
