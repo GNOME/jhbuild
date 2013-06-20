@@ -42,6 +42,8 @@
     href="http://freedesktop.org/software/"/>
 <repository type="tarball" name="people.freedesktop.org"
     href="http://people.freedesktop.org/"/>
+<repository type="tarball" name="cairo.org"
+    href="http://cairographics.org/"/>
 <repository type="tarball" name="icon-theme.freedesktop.org"
     href="http://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="libopenraw.freedesktop.org"
@@ -76,6 +78,20 @@
 <!-- Please try to keep organized alphabetically by section -->
 
 <!-- Build dependencies of gnome-suites-core -->
+
+  <autotools id="cairo" autogenargs="--enable-xlib">
+    <pkg-config>cairo.pc</pkg-config>
+    <branch module="releases/cairo-${version}.tar.xz"
+            version="1.12.14"
+            repo="cairo.org"
+            hash="sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855">
+    </branch>
+    <dependencies>
+      <dep package="fontconfig"/>
+      <dep package="gtk-doc"/>
+      <dep package="pixman"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="geoclue">
     <branch repo="git.freedesktop.org"/>
