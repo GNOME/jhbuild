@@ -19,6 +19,8 @@
       href="http://freedesktop.org/"/>
   <repository type="tarball" name="gnome.org"
       href="http://download.gnome.org/sources/"/>
+  <repository type="tarball" name="kernel.org"
+      href="http://www.kernel.org"/>
 
 <include href="gnome-suites-core-deps-3.10.modules"/>
 
@@ -799,6 +801,15 @@
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="bluez">
+    <pkg-config>bluez.pc</pkg-config>
+    <branch repo="kernel.org" module="pub/linux/bluetooth/bluez-5.6.tar.xz" version="5.6"
+            hash="sha256:feef22586e1aac28f61ba22ae836fab7a758501395a532e1a009c50e03de1789"
+            size="990656"/>
+    <dependencies>
     </dependencies>
   </autotools>
 
