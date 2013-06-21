@@ -26,6 +26,8 @@
     href="http://research.operationaldynamics.com/bzr"/>
 <repository type="git" name="linuxwacom.git.sourceforge.net"
     href="git://linuxwacom.git.sourceforge.net/"/>
+<repository type="git" name="quvi"
+    href="git://repo.or.cz/"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="iso-codes"
@@ -1248,6 +1250,24 @@
     <dependencies>
       <dep package="ibus"/>
       <dep package="libhangul"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libquvi-scripts-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
+    <branch repo="quvi" module="libquvi-scripts.git" checkoutdir="libquvi-scripts-0.9"/>
+  </autotools>
+
+  <autotools id="libquvi-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
+    <branch repo="quvi" module="libquvi.git" checkoutdir="libquvi-0.9"/>
+    <dependencies>
+      <dep package="libquvi-scripts-0.9"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="quvi-tool-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
+    <branch repo="quvi" module="quvi-tool.git" checkoutdir="quvi-tool-0.9"/>
+    <dependencies>
+      <dep package="libquvi-0.9"/>
     </dependencies>
   </autotools>
 
