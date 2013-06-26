@@ -137,8 +137,20 @@
     <branch repo="gnome"/>
   </autotools>
   
+  <autotools id="at-spi2-core">
+    <branch repo="gnome"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="at-spi2-atk">
     <branch repo="gnome"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
+    </dependencies>
   </autotools>
   
   <autotools id="gtk+" autogenargs="--enable-wayland-backend --enable-x11-backend">
