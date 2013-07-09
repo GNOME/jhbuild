@@ -413,7 +413,7 @@
       <dep package="gobject-introspection"/>
       <dep package="telepathy-glib"/>
       <dep package="evolution-data-server"/>
-      <dep package="libzeitgeist"/>
+      <dep package="zeitgeist"/>
       <dep package="shared-mime-info"/>
     </dependencies>
     <suggests>
@@ -1300,6 +1300,23 @@
       <dep package="gtk+"/>
       <dep package="startup-notification"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="zeitgeist">
+    <branch repo="git.freedesktop.org"
+            module="zeitgeist/zeitgeist"
+            checkoutdir="zeitgeist"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="json-glib"/>
+      <dep package="telepathy-glib"/>
+    </suggests>
   </autotools>
 
 </moduleset>
