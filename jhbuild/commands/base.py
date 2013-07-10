@@ -378,15 +378,15 @@ class cmd_run(Command):
         if module_name:
             module_set = jhbuild.moduleset.load(config)
             try:
-                module_list = [module_set.get_module(module_name, ignore_case = True)]
+                module = module_set.get_module(module_name, ignore_case = True)
             except KeyError, e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
-            build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
+            build = jhbuild.frontends.get_buildscript(config, [module], module_set=module_set)
             if options.in_builddir:
-                workingdir = module_list[0].get_builddir(build)
+                workingdir = module.get_builddir(build)
             else:
-                workingdir = module_list[0].get_srcdir(build)
+                workingdir = module.get_srcdir(build)
             try:
                 build.execute(args, cwd=workingdir)
             except CommandError, exc:
