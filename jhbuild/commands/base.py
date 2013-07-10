@@ -374,33 +374,21 @@ class cmd_run(Command):
                     'command':args[0], 'err':str(exc)})
 
     def run(self, config, options, args, help=None):
-        if options.in_builddir:
+        module_name = options.in_builddir or options.in_checkoutdir
+        if module_name:
             module_set = jhbuild.moduleset.load(config)
             try:
-                module_list = [module_set.get_module(options.in_builddir, ignore_case = True)]
+                module_list = [module_set.get_module(module_name, ignore_case = True)]
             except KeyError, e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
             build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
-            builddir = module_list[0].get_builddir(build)
+            if options.in_builddir:
+                workingdir = module_list[0].get_builddir(build)
+            else:
+                workingdir = module_list[0].get_srcdir(build)
             try:
-                build.execute(args, cwd=builddir)
-            except CommandError, exc:
-                if args:
-                    raise FatalError(_("Unable to execute the command '%s'") % args[0])
-                else:
-                    raise FatalError(str(exc))
-        elif options.in_checkoutdir:
-            module_set = jhbuild.moduleset.load(config)
-            try:
-                module_list = [module_set.get_module(options.in_checkoutdir, ignore_case = True)]
-            except KeyError, e:
-                raise FatalError(_("A module called '%s' could not be found.") % e)
-
-            build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
-            checkoutdir = module_list[0].get_srcdir(build)
-            try:
-                build.execute(args, cwd=checkoutdir)
+                build.execute(args, cwd=workingdir)
             except CommandError, exc:
                 if args:
                     raise FatalError(_("Unable to execute the command '%s'") % args[0])
