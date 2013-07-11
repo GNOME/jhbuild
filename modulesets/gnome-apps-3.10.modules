@@ -41,6 +41,22 @@
        that are not covered there, add them in here
     -->
 
+  <autotools id="babl">
+    <branch/>
+  </autotools>
+
+  <autotools id="gegl">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="pango"/>
+      <dep package="librsvg"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="bijiben">
     <branch/>
     <dependencies>
@@ -693,6 +709,7 @@
   <autotools id="gnome-photos">
     <branch/>
     <dependencies>
+      <dep package="gegl"/>
       <dep package="cairo"/>
       <dep package="clutter-gtk"/>
       <dep package="dleyna-renderer"/>
