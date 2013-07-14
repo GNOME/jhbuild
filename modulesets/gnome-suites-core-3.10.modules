@@ -9,6 +9,8 @@
       href="git://git.gnome.org/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/"/>
+  <repository type="git" name="pulseaudio.freedesktop.org"
+      href="git://anongit.freedesktop.org/pulseaudio/"/>
   <repository type="git" name="telepathy.freedesktop.org"
     href="git://anongit.freedesktop.org/telepathy/"/>
   <repository type="git" name="packagekit.gitorious.org"
@@ -423,6 +425,26 @@
     <suggests>
       <dep package="mobile-broadband-provider-info"/>
     </suggests>
+  </autotools>
+
+  <autotools id="pulseaudio"
+             autogenargs="--disable-hal --disable-oss-output --disable-esound --disable-gconf --disable-gtk3">
+    <branch repo="pulseaudio.freedesktop.org"/>
+    <dependencies>
+      <dep package="alsa"/>
+      <dep package="avahi"/>
+      <dep package="bluez"/>
+      <dep package="dbus"/>
+      <dep package="json"/>
+      <dep package="libsndfile"/>
+      <dep package="libtool-ltdl"/>
+      <dep package="libudev"/>
+      <dep package="glib"/>
+      <dep package="speex"/>
+    </dependencies>
+    <after>
+      <dep package="polkit"/>
+    </after>
   </autotools>
 
   <autotools id="telepathy-mission-control" autogenargs="--disable-Werror">
