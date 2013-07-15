@@ -74,6 +74,8 @@
       href="http://ftp.mozilla.org/"/>
 <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org"/>
+<repository type="tarball" name="ftp.gnu.org"
+    href="http://ftp.gnu.org/gnu/"/>
 
 <include href="gnome-sysdeps-3.10.modules"/>
 
@@ -448,6 +450,19 @@
       <dep package="seed"/>
       <dep package="gjs"/>
     </suggests>
+  </autotools>
+
+  <autotools id="gnutls">
+    <pkg-config>gnutls.pc</pkg-config>
+    <branch module="gnutls/gnutls-${version}.tar.xz"
+            version="3.0.26"
+            repo="ftp.gnu.org"
+            hash="sha256:a80b55fd9b2fc7c5c7bca4f9fac2caff17880412849823e314393a905bd50ed3">
+    </branch>
+    <dependencies>
+      <dep package="libtasn1" />
+      <dep package="p11-kit" />
+    </dependencies>
   </autotools>
 
   <autotools id="grilo">
