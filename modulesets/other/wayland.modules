@@ -165,4 +165,38 @@
       <dep package="libxkbcommon"/>
     </dependencies>
   </autotools>
+
+  <autotools id="cogl" autogenargs="--enable-gles2 --enable-wayland-egl-platform">
+    <pkg-config>cogl-1.0.pc</pkg-config>
+    <branch repo="gnome" revision="cogl-1.16"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="pango"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="clutter" autogenargs="--enable-wayland-backend --enable-installed-tests">
+    <branch repo="gnome" revision="clutter-1.16"/>
+    <dependencies>
+      <dep package="cogl"/>
+      <dep package="atk"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="gdk-pixbuf"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="clutter-gtk">
+    <branch repo="gnome" revision="master"/>
+    <dependencies>
+      <dep package="clutter"/>
+      <dep package="gtk"/>
+    </dependencies>
+  </autotools>
 </moduleset>
