@@ -136,9 +136,12 @@ buildlog_footer = '''
 def get_distro():
     # try using the lsb_release tool to get the distro info
     try:
-        distro = cmds.get_output(['lsb_release', '--short', '--id']).strip()
-        release = cmds.get_output(['lsb_release', '--short', '--release']).strip()
-        codename = cmds.get_output(['lsb_release', '--short', '--codename']).strip()
+        distro = cmds.get_output(['lsb_release', '--short', '--id']) \
+                     .decode(_encoding).strip()
+        release = cmds.get_output(['lsb_release', '--short', '--release']) \
+                      .decode(_encoding).strip()
+        codename = cmds.get_output(['lsb_release', '--short', '--codename']) \
+                       .decode(_encoding).strip()
         if codename:
             return '%s %s (%s)' % (distro, release, codename)
         else:
