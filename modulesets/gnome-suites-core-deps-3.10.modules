@@ -14,6 +14,8 @@
     href="git://anongit.freedesktop.org/telepathy/"/>
 <repository type="git" name="wayland.freedesktop.org"
     href="git://anongit.freedesktop.org/git/wayland"/>
+<repository type="git" name="xorg.freedesktop.org"
+    href="git://anongit.freedesktop.org/git/xorg"/>
 <repository type="git" name="github.com"
     href="git://github.com/"/>
 <repository type="git" name="gusb.gitorious.org"
@@ -1053,6 +1055,13 @@
     <dependencies>
       <dep package="libffi"/>
       <dep package="doxygen"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="xwayland">
+    <branch repo="xorg.freedesktop.org" checkoutdir="xwayland" module="xserver" revision="xwayland-1.12"/>
+    <dependencies>
+      <dep package="wayland"/>
     </dependencies>
   </autotools>
 
