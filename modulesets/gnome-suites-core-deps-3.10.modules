@@ -14,8 +14,6 @@
     href="git://anongit.freedesktop.org/telepathy/"/>
 <repository type="git" name="wayland.freedesktop.org"
     href="git://anongit.freedesktop.org/git/wayland"/>
-<repository type="git" name="xorg-lib"
-    href="git://anongit.freedesktop.org/git/xorg/lib"/>
 <repository type="git" name="github.com"
     href="git://github.com/"/>
 <repository type="git" name="gusb.gitorious.org"
@@ -250,7 +248,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cogl">
+  <autotools id="cogl" autogenargs="--enable-wayland-egl-platform --enable-wayland-egl-server">
     <pkg-config>cogl-1.0.pc</pkg-config>
     <branch revision="cogl-1.16"/>
     <dependencies>
@@ -259,13 +257,14 @@
       <dep package="libXcomposite"/>
       <dep package="xcb-dri2" />
       <dep package="pango"/>
+      <dep package="wayland"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
   </autotools>
 
-  <autotools id="clutter" autogenargs="--enable-installed-tests">
+  <autotools id="clutter" autogenargs="--enable-installed-tests --enable-wayland-backend --enable-wayland-compositor">
     <branch revision="clutter-1.16"/>
     <dependencies>
       <dep package="cogl"/>
@@ -274,6 +273,7 @@
       <dep package="cairo"/>
       <dep package="json-glib"/>
       <dep package="gobject-introspection"/>
+      <dep package="wayland"/>
     </dependencies>
     <suggests>
       <dep package="gdk-pixbuf"/>
