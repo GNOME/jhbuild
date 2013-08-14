@@ -92,8 +92,6 @@
       href="git://gitorious.org/"/>
   <repository type="tarball" name="samba.org"
       href="http://samba.org/samba/ftp/"/>
-  <repository type="hg" name="hg.code.sf.net"
-    href="http://hg.code.sf.net/p/"/>
   <repository type="tarball" name="sourceforge.net"
       href="http://prdownloads.sourceforge.net/sourceforge/"/>
   <repository type="svn" name="xchat.sf.net"
@@ -428,41 +426,6 @@
     <suggests>
       <dep package="evolution-data-server"/>
       <dep package="vte"/>
-    </suggests>
-  </autotools>
-
-  <cmake id="libgit2"
-         cmakeargs="-DTHREADSAFE:BOOL=1">
-    <branch repo="github.com" module="libgit2/libgit2.git" checkoutdir="libgit2" revision="master"/>
-  </cmake>
-
-  <autotools id="libgit2-glib">
-    <branch/>
-    <dependencies>
-      <dep package="libgit2"/>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gitg">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gtksourceview"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="json-glib"/>
-      <dep package="libgee"/>
-      <dep package="libgit2-glib"/>
-      <dep package="libpeas"/>
-      <dep package="vala"/>
-      <dep package="WebKit"/>
-      <dep package="gtkspell-3"/>
-    </dependencies>
-    <suggests>
-      <dep package="glade"/>
-      <dep package="pygobject"/>
     </suggests>
   </autotools>
 
@@ -1567,17 +1530,6 @@
       <dep package="gtk+-2"/>
     </suggests>
   </tarball>
-
-  <autotools id="gtkspell-3">
-    <branch repo="hg.code.sf.net"
-            module="gtkspell/code"
-            checkoutdir="gtkspell"/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="gtk-doc"/>
-      <dep package="pango"/>
-    </dependencies>
-  </autotools>
 
   <tarball id="gtkspell" version="2.0.16">
     <source href="http://sourceforge.net/projects/gtkspell/files/2.0.16/gtkspell-2.0.16.tar.gz"

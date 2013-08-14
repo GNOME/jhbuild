@@ -321,6 +321,19 @@
     </dependencies>
   </autotools>
 
+  <cmake id="libgit2"
+         cmakeargs="-DTHREADSAFE:BOOL=1">
+    <branch repo="github.com" module="libgit2/libgit2.git" checkoutdir="libgit2" revision="master"/>
+  </cmake>
+
+  <autotools id="libgit2-glib">
+    <branch/>
+    <dependencies>
+      <dep package="libgit2"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <!-- Apps start here -->
 
   <autotools id="accerciser">
@@ -530,6 +543,28 @@
     <suggests>
       <dep package="iso-codes"/>
       <dep package="enchant"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gitg">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtksourceview"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="json-glib"/>
+      <dep package="libgee"/>
+      <dep package="libgit2-glib"/>
+      <dep package="libpeas"/>
+      <dep package="vala"/>
+      <dep package="WebKit"/>
+      <dep package="gtkspell-3"/>
+    </dependencies>
+    <suggests>
+      <dep package="glade"/>
+      <dep package="pygobject"/>
     </suggests>
   </autotools>
 
@@ -973,6 +1008,7 @@
       <dep package="five-or-more"/>
       <dep package="four-in-a-row"/>
       <dep package="gedit"/>
+      <dep package="gitg"/>
       <dep package="glade"/>
       <dep package="gnome-boxes"/>
       <dep package="gnome-clocks"/>
