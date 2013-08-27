@@ -1060,9 +1060,16 @@
   </autotools>
 
   <autotools id="xwayland">
-    <branch repo="xorg.freedesktop.org" checkoutdir="xwayland" module="xserver" revision="xwayland-1.12"/>
+    <branch repo="xorg.freedesktop.org" checkoutdir="xwayland" module="xserver" revision="xwayland"/>
     <dependencies>
       <dep package="wayland"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="xf86-video-intel">
+    <branch repo="xorg.freedesktop.org" checkoutdir="xf86-video-intel" module="driver/xf86-video-intel" revision="xwayland"/>
+    <dependencies>
+      <dep package="xwayland"/>
     </dependencies>
   </autotools>
 
