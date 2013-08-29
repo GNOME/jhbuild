@@ -17,7 +17,8 @@ AM_PATH_PYTHON
 PKG_PROG_PKG_CONFIG
 
 # i18n
-IT_PROG_INTLTOOL([0.40.0])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.18])
 
 GETTEXT_PACKAGE=AC_PACKAGE_TARNAME
 AC_SUBST([GETTEXT_PACKAGE])
@@ -40,7 +41,7 @@ AC_CONFIG_FILES([
 	examples/Makefile
 	scripts/Makefile
 	triggers/Makefile
-	jhbuild.desktop.in
+	jhbuild.desktop
 	jhbuild/Makefile
 	jhbuild/buildbot/Makefile
 	jhbuild/buildbot/status/web/Makefile

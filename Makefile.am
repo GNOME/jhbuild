@@ -12,28 +12,13 @@ DTDS = \
 	$(NULL)
 
 desktopdir = $(datadir)/applications
-desktop_in_files = jhbuild.desktop.in
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-
-@INTLTOOL_DESKTOP_RULE@
-
-INTLTOOL = 			\
-	intltool-extract.in 	\
-	intltool-merge.in 	\
-	intltool-update.in
+desktop_DATA = jhbuild.desktop
 
 EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	modulesets/moduleset.xsl \
 	install-check.c \
 	autogen.sh \
-	$(desktop_in_files) $(INTLTOOL)
-
-DISTCLEANFILES = 		\
-	intltool-extract 	\
-	intltool-merge 		\
-	intltool-update
-
-CLEANFILES = \
+	build-aux/config.rpath \
 	$(desktop_DATA)
 
 bin_PROGRAMS = install-check
