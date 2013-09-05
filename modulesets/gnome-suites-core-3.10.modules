@@ -317,7 +317,6 @@
       <dep package="libcroco"/>
       <dep package="libsoup"/>
       <dep package="mutter"/>
-      <dep package="mutter-wayland"/>
       <dep package="NetworkManager"/>
       <dep package="network-manager-applet"/>
       <dep package="polkit"/>
@@ -331,6 +330,7 @@
     <suggests>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+      <dep package="mutter-wayland"/>
     </suggests>
     <after>
       <dep package="librsvg"/>
@@ -427,8 +427,11 @@
       <dep package="wayland"/>
       <dep package="zenity"/>
       <dep package="xwayland"/>
-      <dep package="xf86-video-intel"/>
+      <dep package="xf86-video-wlshm"/>
     </dependencies>
+    <suggests>
+      <dep package="xf86-video-intel"/>
+    </suggests>
   </autotools>
   <autotools id="network-manager-applet"
              autogenargs="--enable-more-warnings=no --disable-migration">
