@@ -80,8 +80,14 @@ def systemdependencies_met(module_name, sysdeps, config):
             except StopIteration:
                 pass
             return paths
-        # search /usr/include by default
+        try:
+            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+        except:
+            multiarch = None
+        # search /usr/include and its multiarch subdir (if any) by default
         paths = [ os.path.join(os.sep, 'usr', 'include')]
+        if multiarch:
+            paths += [ os.path.join(paths[0], multiarch) ]
         paths += extract_path_from_cflags(os.environ.get('CPPFLAGS', ''))
         # check include paths incorrectly configured in CFLAGS, CXXFLAGS
         paths += extract_path_from_cflags(os.environ.get('CFLAGS', ''))
