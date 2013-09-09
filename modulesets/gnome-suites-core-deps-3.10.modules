@@ -280,6 +280,7 @@
       <dep package="gobject-introspection"/>
       <dep package="wayland"/>
       <dep package="libxkbcommon"/>
+      <dep package="libevdev"/>
     </dependencies>
     <suggests>
       <dep package="gdk-pixbuf"/>
@@ -1042,6 +1043,10 @@
       <dep package="gdk-pixbuf"/>
       <dep package="graphviz"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="libevdev" autogenargs="--disable-gcov">
+    <branch repo="git.freedesktop.org" checkoutdir="libevdev" module="libevdev"/>
   </autotools>
 
   <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
