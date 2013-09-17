@@ -221,7 +221,7 @@ use_autotools=$FALSE
 if [ $enable_autotools -eq $TRUE -a $autotools_dependencies_met -eq $TRUE ]; then
   use_autotools=$TRUE
 fi
-if [ $force_autotools -eq $TRUE -a $autotools_dependencies_met -eq $TRUE ]; then
+if [ $force_autotools -eq $TRUE ]; then
   use_autotools=$TRUE
 fi
 
