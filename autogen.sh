@@ -213,7 +213,7 @@ fi
 # allows the gnome-ostree build system to work which doesn't have
 # yelp, but also can't pass options to autogen.sh
 force_autotools=$FALSE
-if test -z "$NOCONFIGURE"; then
+if test -n "$NOCONFIGURE"; then
   force_autotools=$TRUE
 fi
 
