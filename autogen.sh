@@ -79,7 +79,7 @@ setup_i18n()
 # on Solaris, BSD and MacOS.
 parse_commandline()
 {
-  enable_autotools=$FALSE
+  enable_autotools=$TRUE
 
   while [ -n "$1" ]; do
     # substring operations available in all sh?
@@ -88,7 +88,7 @@ parse_commandline()
       key=${keyvalue%%=*}
       value=${keyvalue##*=}
       if [ "$key" = "simple-install" ]; then
-        enable_autotools=$TRUE
+        enable_autotools=$FALSE
       fi
       echo $key | grep -E '^[A-Za-z_][A-Za-z_0-9]*$' > /dev/null 2>&1
       if [ $? -eq 0 ]; then
