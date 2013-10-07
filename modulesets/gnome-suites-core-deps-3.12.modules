@@ -250,7 +250,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cogl" autogenargs="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform --enable-xlib-egl-platform">
+  <autotools id="cogl" autogenargs="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform --enable-xlib-egl-platform --enable-cogl-gst">
     <pkg-config>cogl-1.0.pc</pkg-config>
     <branch revision="cogl-1.18"/>
     <dependencies>
@@ -263,6 +263,8 @@
       <dep package="pango"/>
       <dep package="wayland"/>
       <dep package="wayland-egl"/>
+      <dep package="gstreamer"/>
+      <dep package="gstreamer-plugins-base"/>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
@@ -388,6 +390,7 @@
   <autotools id="clutter-gst">
     <branch/>
     <dependencies>
+      <dep package="cogl"/>
       <dep package="clutter"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
