@@ -16,8 +16,7 @@ fi
 GNOMEDOC=`which yelp-build`
 if test -z $GNOMEDOC; then
         echo "*** The tools to build the documentation are not found,"
-        echo "    documentation will not be buildded ***"
-        exit 1
+        echo "    documentation will not be builded ***"
 fi
 
 # if the AC_CONFIG_MACRO_DIR() macro is used, create that directory

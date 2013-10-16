@@ -25,14 +25,23 @@ AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package])
 
 # Documentation
+have_doc_tools=no
 AC_ARG_ENABLE(
-	doc_installation,
-	AS_HELP_STRING([--enable-doc-installation=@<:@no/yes@:>@], [install the documentation files]),
+	[doc_installation],
+	[AS_HELP_STRING([--enable-doc-installation=@<:@no/yes@:>@],
+	                [Enable build of documentation files])],
 	[enable_doc_installation=$enableval],
-	[enable_doc_installation=no])
-AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$enable_doc_installation" = "xyes"])
-
-YELP_HELP_INIT
+	[enable_doc_installation=check])
+AS_IF([test "x$enable_doc_installation" != "xno"],
+      [m4_ifdef([YELP_HELP_INIT],
+                [YELP_HELP_INIT
+                 have_doc_tools=yes])
+      ])
+AS_IF([test "x$enable_doc_installation" = "xyes"],
+      [AS_IF([test "x$have_doc_tools" = "xno"],
+             [AC_MSG_ERROR([--enable-doc-installation was given, but yelp-tools were not found])])
+      ])
+AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$have_doc_tools" = "xyes"])
 
 AC_CONFIG_FILES([
 	Makefile
