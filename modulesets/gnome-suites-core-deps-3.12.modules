@@ -81,6 +81,25 @@
 
 <!-- Build dependencies of gnome-suites-core -->
 
+  <autotools id="appdata-tools">
+    <branch repo="people.freedesktop.org"
+            module="~hughsient/releases/appdata-tools-${version}.tar.xz"
+            version="0.1.6"
+            hash="sha256:4e790c90fd7dc021aae78f97bb48950122a82d8782772fa0666e91f7b2de99d2"
+            size="263152"/>
+<!--
+    <branch repo="github.com" checkoutdir="appdata-tools" module="hughsie/appdata-tools.git"/>
+-->
+    <dependencies>
+      <dep package="gdk-pixbuf"/>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="libxslt"/>
+    </suggests>
+  </autotools>
+
   <autotools id="cairo" autogenargs="--enable-gl">
     <pkg-config>cairo.pc</pkg-config>
     <branch module="releases/cairo-${version}.tar.xz"
