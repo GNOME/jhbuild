@@ -1022,7 +1022,7 @@
     </dependencies>
     <suggests>
       <dep package="libgcrypt"/>
-      <dep package="libquvi-0.9"/>
+      <!-- <dep package="libquvi-0.9"/> -->
     </suggests>
   </autotools>
 
@@ -1333,24 +1333,6 @@
     <dependencies>
       <dep package="ibus"/>
       <dep package="libhangul"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libquvi-scripts-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
-    <branch repo="quvi" module="libquvi-scripts.git" checkoutdir="libquvi-scripts-0.9"/>
-  </autotools>
-
-  <autotools id="libquvi-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
-    <branch repo="quvi" module="libquvi.git" checkoutdir="libquvi-0.9"/>
-    <dependencies>
-      <dep package="libquvi-scripts-0.9"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="quvi-tool-0.9" autogen-template="%(srcdir)s/bootstrap.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s">
-    <branch repo="quvi" module="quvi-tool.git" checkoutdir="quvi-tool-0.9"/>
-    <dependencies>
-      <dep package="libquvi-0.9"/>
     </dependencies>
   </autotools>
 
