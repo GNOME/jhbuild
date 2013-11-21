@@ -391,8 +391,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
 
     if node.hasAttribute('check-target'):
         instance.check_target = (node.getAttribute('check-target') == 'true')
-    if node.hasAttribute('static-analyzer'):
-        instance.supports_static_analyzer = (node.getAttribute('static-analyzer') == 'true')
+    if node.hasAttribute('supports-static-analyzer'):
+        instance.supports_static_analyzer = (node.getAttribute('supports-static-analyzer') == 'true')
 
     from jhbuild.versioncontrol.tarball import TarballBranch
     if node.hasAttribute('autogen-sh'):
