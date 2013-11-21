@@ -556,6 +556,30 @@ Type=Application</programlisting>
           <filename>~gnomedev/.xsession-errors</filename>.</para>
       </section>
     </section>
+
+    <section id="static-analysis">
+      <title>Static Analysis</title>
+
+      <para>JHBuild supports running static analysis tools on the code in
+        modules as they’re built. To enable this, set the
+        <varname>static_analyzer</varname> configuration variable
+        to <constant>True</constant> in
+        the <filename>.jhbuildrc</filename> configuration file.</para>
+
+      <para>If enabled, every time a module is built using JHBuild, the build
+        process will be wrapped in a static analyzer, which will generate a
+        report of any problems it finds with the code. These reports are saved
+        as HTML files in subdirectories of
+        <filename>/tmp/jhbuild_static_analyzer</filename> (by default; the path
+        can be changed using the <varname>static_analyzer_outputdir</varname>
+        configuration variable).</para>
+
+      <para>Static analysis currently only works for modules which use autotools
+        as their build system. It requires the <command>scan-build</command>
+        program to be installed, although the command it uses can be changed by
+        modifying the <varname>static_analyzer_template</varname> configuration
+        variable.</para>
+    </section>
   </section>
 
   <section id="buildbot-integration">
@@ -1953,6 +1977,18 @@ Optional packages: (JHBuild will build the missing packages)
               the module.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-module-static-analyzer">
+          <term>
+            <varname>module_static_analyzer</varname>
+          </term>
+          <listitem>
+            <simpara>Dictionary mapping module names to boolean values
+              indicating whether static analysis should be performed while
+              building that module. This allows the global
+              <varname>static_analyzer</varname> configuration option to be
+              overridden.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-modules">
           <term>
             <varname>modules</varname>
@@ -2166,6 +2202,42 @@ Optional packages: (JHBuild will build the missing packages)
               the <varname>modules</varname> variable.  This may be useful if
               you want to build modules without their implicit dependencies.
              </simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-static-analyzer">
+          <term>
+            <varname>static_analyzer</varname>
+          </term>
+          <listitem>
+            <simpara>A boolean value: if set to <constant>True</constant>,
+              run a static analysis tool on each module as it’s being built.
+              Defaults to <constant>False</constant>.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-static-analyzer-outputdir">
+          <term>
+            <varname>static_analyzer_outputdir</varname>
+          </term>
+          <listitem>
+            <simpara>Root directory below which static analysis reports will
+              be saved (if <varname>static_analyzer</varname> is
+              <constant>True</constant>). Defaults to
+              <filename>/tmp/jhbuild_static_analyzer</filename>.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-static-analyzer-template">
+          <term>
+            <varname>static_analyzer_template</varname>
+          </term>
+          <listitem>
+            <simpara>Command template for the static analyzer. This has the
+              parameters <varname>outputdir</varname> (the value of the
+              <varname>static_analyzer_outputdir</varname> configuration
+              variable) and <varname>module</varname> (the name of the module
+              currently being built) substituted into it
+              <function>printf</function>-style. The resulting command is
+              used as a prefix to <command>make</command> when building a
+              module. Defaults to <command>scan-build</command>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-sticky-date">
@@ -2793,7 +2865,8 @@ Optional packages: (JHBuild will build the missing packages)
 	      [ autogen-template="<replaceable>autogen-template</replaceable>" ]
 	      [ check-target="<replaceable>check-target</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]
-	      [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]&gt;
+	      [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]
+	      [ supports-static-analyzer="<replaceable>supports-static-analyzer</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
     [...]
@@ -2867,6 +2940,11 @@ Optional packages: (JHBuild will build the missing packages)
         <para>The <sgmltag class="attribute">check-target</sgmltag> attribute
           must be specified (with false as value) for modules that do not have a
           <command>make check</command> target.</para>
+
+        <para>The <sgmltag class="attribute">supports-static-analyzer</sgmltag>
+          attribute must be specified (with false as value) for modules which
+          don’t support being built under a static analysis tool such as
+          <command>scan-build</command>.</para>
       </section>
 
       <section id="moduleset-syntax-defs-cmake">
