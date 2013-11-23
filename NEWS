@@ -1,4 +1,224 @@
 ==============
+Version 3.10.0
+==============
+
+Fixed bugs:
+
+ - #644643, build: make Makefile.plain work with Msys
+ - #654582, Clean up module XML parsing
+ - #656081, offer to git clean -dfx over "make distclean"
+ - #668368, Use new documentation infrastructure (yelp-tools instead of
+            gnome-doc-utils)
+ - #670240, jhbuild doesn't handle correctly drive when DESTDIR is used
+ - #681342, use systemmodule for 3.6 modulesets
+ - #681344, sysdeps --install doesn't work for path systemmodule and
+            c_include systemmodule
+ - #682104, Improve the error message when apt-file is not present
+ - #682262, Dies when a directory is not writable
+ - #682951, jhbuild update --help uses 'build' instead of 'update' in two
+            places
+ - #683374, if changes to configure arguments, force run autogen.sh
+ - #683408, bootstrap: Update libtool to 2.4.2
+ - #683416, bring back -a --autogen command-line option
+ - #683566, OSError: [Errno 2] No such file or directory:
+            '/opt/gnome/_jhbuild/root-libgphoto2/opt/gnome/include/gphoto2
+ - #683624, recent change to autotools skip_configure() breaks some builds
+ - #683639, Better error message for misspelled or missing branch/@repo
+ - #683832, jhbuild crashes if there isn't an installed pkg-config
+ - #683846, manifests filelists incorrect when module has soft links
+ - #683848, Checking for libdb4 headers is, actually, checking for the
+            newest libdb headers
+ - #684205, OSError: [Errno 17] File exists when installing  gnome-devel-
+            docs
+ - #684335, empathy links to gstreamer and webkit
+ - #684652, jhbuild sysdeps --install not working on Fedora 18+
+ - #684796, libproxy is build against webkitgtk 1 which bring gstreamer
+            0.10 into a few gstreamer 1.0 applications
+ - #684878, ensure gstreamer is built correctly
+ - #684883, default target should be GNOME core
+ - #684908, don't build avahi-ui by default
+ - #685042, move brasero from core to apps
+ - #685149, strings - Consistently Capitalize PID
+ - #685150, strings -  Consistently capitalize acronyms and package names
+ - #685264, The dot command fails.
+ - #685268, systemmodules should be in a different colour in dot output
+ - #685335, gnome-suites-core-deps-3.{6,8}.modules: make gnome libgdata
+            dependencies non-optional
+ - #685337, Add command to get information about the JHBuild environment.
+ - #685348, Add a sysdep for the xorg-wacom package
+ - #685349, gnome-suites-core-deps-3.{6,8}.modules: ibus requires gconf
+ - #685350, pango.trigger: Make /etc/pango if it doesn't exist
+ - #685351, gnome-suites-core-3.{6,8}.modules: make gnome-shell hard
+            require gdm
+ - #685489, sysdeps should respect skip
+ - #686019, make (help) link in tinderbox output configurable
+ - #686906, Update wayland module set, add gtk
+ - #687203, geoclue gtk+2 dep can be dropped?
+ - #687272, Gmone-terminal doesn't start from overview in 3.7.1
+ - #687403, autotools: run "make distclean" only if there is a Makefile
+ - #687601, uninstall: support automatically created modules
+ - #687692, Install python2 symlink in ~/.local/bin when running on Debian
+ - #687699, re-enable parallel builds for webkit?
+ - #687715, should build udisks2
+ - #687716, libgtop has undeclared dependency on texinfo
+ - #687720, libgxps has undeclared dependency on libarchive.pc
+ - #687743, Provide pygobject for python 2 and 3
+ - #687814, reenable gvfs' http when gvfs updates for libsoup API changes
+ - #687837, 3.8: drop fallback mode
+ - #687891, gnome-settings-daemon has an undeclared dependency on bin/cups-
+            config
+ - #688011, world-3.8: fix closing dependencies tag in bijiben
+ - #688062, add py3cairo to the 3.8 modulesets
+ - #688075, fix gypsy build
+ - #688119, ibus-pinyin has an undeclared dependency on sqlite3
+ - #688696, missing dependency - xcb-dri2
+ - #688828, Pango requires harfbuzz 0.9.7
+ - #688846, gypsy: re-add Wno-error=deprecated-declarations
+ - #688872, bijiben has moved to git.gnome.org
+ - #689010, nautilus depends on tracker-sparql-0.14.pc
+ - #689011, gnome-initial-setup depends on clutter-gst-1.0
+ - #689194, jhbuild tinderbox slows down builds
+ - #689196, gnome-disk-utility: add libdvdread dependency
+ - #689226, nemiver has an undeclared dependency on gdb
+ - #689227, speech-dispatcher has an undeclared dependency on dotconf
+ - #689228, deps: switch graphviz to ./configure
+ - #689507, pulseaudio is built with inappropriate options
+ - #689755, Should build gnome-shell-extensions with --enable-extensions
+            =classic-mode
+ - #690103, current vala officially does not support out of source builds
+ - #691395, atk asks You need to install gnome-common from the GNOME CVS
+ - #691407, jhbuild fedora 18 dependency libnotify-devel is missing
+ - #691408, jhbuild fontconfig dependency gperf is missing in fedora 18
+ - #691412, jhbuild gnome-session dependency 'sm' is missing in fedora 18
+ - #692390, commit 8a353753 creates OS -> apps dependency
+ - #692565, moduleset: Add modules required to build with js17
+ - #692675, a couple of impossible-to-install sysdeps on Ubuntu
+ - #692709, gnome-control-center depends on colord-gtk
+ - #692825, `make install' fails on Debian systems if called more than once
+ - #693451, [PATCH] udisks module was erroneously removed
+ - #693729, 3.8: Update spice-gtk version
+ - #693788, missing iso-codes dependency for gnome-desktop module
+ - #694452, totem-pl-parser should depend on libquvi
+ - #694466, JHBuild deletes the whole checkout root if being passed a
+            module with trailing slashes
+ - #694527, Smoketesting 3.7.90 moduleset using JHBuild fails
+ - #694900, G-C-C can't run with jhbuild due to old libs deps
+ - #695271, apps-3.8: Update libvirt version
+ - #695751, totem-pl-parser should depend on gnome-common
+ - #696081, Switch clutter-gst to 2.0 branch
+ - #696082, Switch clutter-gst to 2.0 branch
+ - #696144, gnome-ostree depends on gjs
+ - #696184, Add `make check-modulesets` target
+ - #696294, Add libarchive dependency to ostree
+ - #696784, gsettings-desktop-schemas depends on gnome-common
+ - #696887, gnome-suites-core-deps-3.8.0.modules on ftp.gnome.org has bad
+            branch-def for cantarell-fonts
+ - #697818, [PATCH] Add "shallow_clone" option
+ - #697875, [PATCH] autogen.sh: Add a hack to work in the gnome-ostree
+            build system
+ - #697925, Error during phase checkout: gnome-suites-core-3.8.modules:
+            gnome-icon-theme has no 3.8 branch
+ - #698108, Libsecret is a hard dep of evince in 3.8
+ - #698684, 3.{8,10}: Add gtk+-2 dependency on gnome-themes-standard
+ - #699928, jhbuild runs parallel build even when module specifies
+            makeargs=-j 1
+ - #699931, jhbuild bootstrap not working: missing gnome-doc-utils
+            definition
+ - #699936, git: Rebase rather than pull
+ - #699938, allow skipping all dependencies
+ - #700475, support for shallow_clone option in bazaar
+ - #700557, autoreconf -i fails in cases of ltmain.sh mismatch
+ - #700731, Fix --in-[checkout|build]dir when passing no args to the `run'
+            command
+ - #700834, Add moduleset for the dLeyna/Rygel DLNA stack as other/dleyna
+ - #701051, should pass -j1 when supports-parallel-builds="no"
+ - #701059, update-desktop-database trigger does not run
+ - #701147, librsvg needs pango as dependency
+ - #701181, a small cleanup in the monkeypatch
+ - #701776, world-3.10: Add the dLeyna servers as dependencies for GNOME
+            Photos
+ - #701868, In grc deps, p11-kit version is wrong
+ - #702020, Bump p11-kit to 0.19.1, due to gcr dependency
+ - #702065, libxkbcommon has moved to github, configure script exits with
+            error
+ - #702603, FBTS: gdx-pixbuf doesn't build on 3.6
+ - #702682, FTBFS: master doesn't to build pangocairo in 3.10
+ - #702776, FTBFS: building dconf in 3.6 fails because of newer vala
+ - #702777, FTBFS: librsvg fails to build 3.6 because of newer dependency
+ - #702805, 3.10: Add quvi 0.9 modules
+ - #702830, 3.10: Add gexiv2 and libraw to the Shotwell system dependencies
+ - #703633, Drop zeitgeist-1.0
+ - #703698, python.pc not found on Debian Wheezy
+ - #703954, Clean up the code handling --in-builddir and --in-checkoutdir
+ - #704768, bad hints in documentation will hardcode $PATH in .bashrc
+ - #705136, update libpwquality to 1.2.2
+ - #705496, add mutter-wayland to modulesets
+ - #705996, Need to pump to gettext 0.18.3
+ - #706497, "configure without autotools" option doesn't work
+ - #706518, Confusing message printed on the console at "make install"
+ - #707009, 3.10 should use networkmanager and network-manager-applet 0.9.8
+ - #707174, trunk branch is missing empty m4 and build-aux directory ,
+            prevents ./autogen.sh
+ - #707561, Unable to find multiarch'ed header files (eg. tiff.h on Debian)
+ - #707843, Add libXtst to at-spi2-core dependencies
+ - #708376, autogen.sh --simple-install option is broken
+ - #709019, Out of date default moduleset
+ - #710569, 3.12: Polari add dconf as suggest dependency
+ - #712147, autogen.sh does not work
+ - #712150, Add appdata-tools to core-deps-3.12 moduleset
+ - #712305, gcr depends on vapigen
+ - #712312, deps-3.12: libgusb depends on vala
+
+Translators:
+
+- Marek Černocký, Lucas Lommer (cs)
+- Christian Kirbach (de)
+- Dimitris Spingos, Tom Tryfonidis (el)
+- Daniel Mustieles (es)
+- Fran Diéguez (gl)
+- Andika Triwidada (id)
+- Jiro Matsuzawa (ja)
+- Seong-ho Cho (ko)
+- Kjartan Maraas (nb)
+- Enrico Nicoletto, Rafael Ferreira (pt_BR)
+- Matej Urbančič (sl)
+- Victor Ibragimov (tg)
+- Wylmer Wang (zh_CN)
+
+Documentation translators:
+
+- Dimitris Spingos, Tom Tryfonidis (el)
+- Daniel Mustieles (es)
+- Jiro Matsuzawa (ja)
+- Rafael Ferreira (pt_BR)
+
+Many thanks to all contributors: Zeeshan Ali (Khattak), Jasper St. Pierre,
+Colin Walters, Vadim Rutkovsky, Behdad Esfahbod, Kalev Lember, Alessandro
+Campagni, Rafael Ferreira, David King, Fran Diéguez, Darxus, Ryan Lortie,
+Nuno Araujo, Adam Dingle, Alexandre Franke, Rob Bradford, Jesse van den
+Kieboom, Matej Urbančič, Jonh Wendell, Emanuele Aina, Gustavo Noronha
+Silva, Krzesimir Nowak, Magdalen Berns, Daiki Ueno, Carlos Garcia Campos,
+Richard Hughes, Emmanuele Bassi, Travis Reitter, Matthew Waters, Cosimo
+Cecchi, Alban Browaeys, Sam Thursfield, Jiro Matsuzawa, Claudio Saavedra,
+Javier Jardón, Bastien Nocera, Christian Kirbach, Christian Persch, Martyn
+Russell, Dimitris Spingos, Seán de Búrca, Stefano Facchini, Andika
+Triwidada, Sebastian Pölsterl, Xabier Rodriguez Calvar, Andrés G.
+Aragoneses, Daniel Mustieles, William Jon McCann, Seong-ho Cho, Thomas
+Hindoe Paaboel Andersen, Philip Withnall, Christophe Fergeau, Dan Winship,
+Philipp Kaluza, Javier Hernández, Jens Georg, Adel Gadllah, Lucas Lommer,
+Luca Ferretti, Felix Riemann, Rui Matos, José Aliste, Wylmer Wang, Marek
+Černocký, Matthias Clasen, Javier, Alberto Garcia, Murray Cumming, Craig
+Keogh, Giovanni Campagna, Thomas Bechtold, Tristan Van Berkom, Victor
+Ibragimov, Eugen Dedu, Marcin Wojdyr, Diego Escalante Urrelo, Martin Pitt,
+John Ralls, Joanmarie Diggs, Thomas Wood, Ondrej Holy, Kjartan Maraas,
+Enrico Nicoletto, Sindhu S, Owen W. Taylor, Paolo Borelli, Xan Lopez,
+Ignacio Casal Quinteiro, Volker Sobek, Lionel Landwerlin, Tim Lunn, Tom
+Tryfonidis, Sébastien Wilmet, Mike Gorse, Juan A. Suarez Romero, Ernst
+Sjostrand, Fabiano Fidêncio, Alejandro Piñeiro, Florian Müllner, Pierre-
+Yves Luyten, Michael Wood, Stef Walter, Martin Robinson, Michael Terry,
+José Alburquerque, Germán Poo-Caamaño
+
+==============
 Version 3.5.91
 ==============
 
