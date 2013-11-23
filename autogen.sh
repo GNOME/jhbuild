@@ -157,6 +157,8 @@ configure_without_autotools()
 # configure JHBuild to build and install via autotools.
 configure_with_autotools()
 {
+  test -d m4 || mkdir m4
+  test -d build-aux || mkdir build-aux
   export PKG_NAME
   REQUIRED_AUTOCONF_VERSION=2.57 \
   REQUIRED_AUTOMAKE_VERSION=1.8 \
