@@ -46,7 +46,6 @@ AC_CONFIG_FILES([
 	jhbuild/buildbot/status/web/Makefile
 	jhbuild/buildbot/status/Makefile
 	jhbuild/commands/Makefile
-	jhbuild/cut_n_paste/Makefile
 	jhbuild/frontends/Makefile
 	jhbuild/modtypes/Makefile
 	jhbuild/utils/Makefile
