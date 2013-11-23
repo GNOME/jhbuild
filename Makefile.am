@@ -52,7 +52,7 @@ install-exec-local:
 #
 # This will fail if xmllint isn't installed.
 check-modulesets:
-	xmllint --noout --dtdvalid modulesets/moduleset.dtd $(MODULESETS)
+	xmllint --noout --dtdvalid $(srcdir)/modulesets/moduleset.dtd $(MODULESETS)
 .PHONY: check-modulesets
 
 check: check-modulesets
