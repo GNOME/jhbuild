@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-17 16:25+0000\n"
-"PO-Revision-Date: 2013-09-19 17:22+0200\n"
+"POT-Creation-Date: 2013-11-23 19:32+0000\n"
+"PO-Revision-Date: 2013-11-26 11:27+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -48,7 +48,7 @@ msgstr "No se pudo copiar el archivo $makefile a $srcdir/Makefile"
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Ahora escriba «make» para compilar $PKG_NAME"
 
-#: ../autogen.sh:190
+#: ../autogen.sh:192
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -57,7 +57,7 @@ msgstr ""
 "**Error**: La carpeta «$srcdir» no es la carpeta de nivel superior de "
 "$PKG_NAME"
 
-#: ../autogen.sh:232
+#: ../autogen.sh:234
 msgid ""
 "WARNING: gnome-autogen.sh not available (usually part of package 'gnome-"
 "common')"
@@ -65,7 +65,7 @@ msgstr ""
 "ADVERTENCIA: gnome-autogen.sh no está disponible (generalmente es parte del "
 "paquete «gnome-common»)"
 
-#: ../autogen.sh:235
+#: ../autogen.sh:237
 msgid ""
 "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
 msgstr ""
@@ -465,6 +465,28 @@ msgstr "No se puede comprobar %(module)s (%(href)s)"
 #: ../jhbuild/commands/clean.py:29
 msgid "Clean all modules"
 msgstr "Limpiar todos los módulos"
+
+#: ../jhbuild/commands/extdeps.py:70
+msgid "Report details on GNOME external dependencies"
+msgstr "Informar de detalles en dependencias externas de GNOME"
+
+#: ../jhbuild/commands/extdeps.py:98
+msgid "External deps for GNOME"
+msgstr "Dependencias externas para GNOME"
+
+#: ../jhbuild/commands/extdeps.py:104
+#, python-format
+msgid "External deps for GNOME %s"
+msgstr "Dependencias externas para GNOME %s"
+
+#: ../jhbuild/commands/extdeps.py:138
+msgid "patched"
+msgstr "parcheada"
+
+#: ../jhbuild/commands/extdeps.py:142
+#, python-format
+msgid "and %d others."
+msgstr "y %d otras."
 
 #: ../jhbuild/commands/goalreport.py:328
 msgid "Report GNOME modules status wrt various goals"
@@ -1514,19 +1536,6 @@ msgstr ""
 "configurado para obtenerlos de la red, quizá deba añadir "
 "use_local_modulesets = True a su %s."
 
-#: ../jhbuild/monkeypatch.py:102
-#, python-format
-msgid "Invalid placeholder in string: line %d, col %d"
-msgstr "Contenedor no válido en la cadena: línea %d, columna %d"
-
-#: ../jhbuild/monkeypatch.py:107 ../jhbuild/monkeypatch.py:133
-msgid "Too many positional arguments"
-msgstr "Demasiados argumentos posicionales"
-
-#: ../jhbuild/monkeypatch.py:127 ../jhbuild/monkeypatch.py:160
-msgid "Unrecognized named group in pattern"
-msgstr "Grupo nombrado no reconocido en el patrón"
-
 #: ../jhbuild/utils/cmds.py:40
 msgid "Call to undefined command"
 msgstr "Llamada a un comando no definido"
@@ -1574,22 +1583,22 @@ msgstr ""
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Falló al eliminar %(file)r: %(msg)s"
 
-#: ../jhbuild/utils/systeminstall.py:134
+#: ../jhbuild/utils/systeminstall.py:140
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr ""
 "No se encontró ningún comando de privilegio de superusuario; debería "
 "instalar «pkexec»"
 
-#: ../jhbuild/utils/systeminstall.py:166 ../jhbuild/utils/systeminstall.py:169
+#: ../jhbuild/utils/systeminstall.py:172 ../jhbuild/utils/systeminstall.py:175
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:245
+#: ../jhbuild/utils/systeminstall.py:251
 msgid "Nothing available to install"
 msgstr "No hay nada disponible que instalar"
 
-#: ../jhbuild/utils/systeminstall.py:248
+#: ../jhbuild/utils/systeminstall.py:254
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1598,15 +1607,15 @@ msgstr ""
 "Instalando:\n"
 "  %s"
 
-#: ../jhbuild/utils/systeminstall.py:254
+#: ../jhbuild/utils/systeminstall.py:260
 msgid "Complete!"
 msgstr "Completado."
 
-#: ../jhbuild/utils/systeminstall.py:265
+#: ../jhbuild/utils/systeminstall.py:271
 msgid "Using yum to install packages.  Please wait."
 msgstr "Usando yum para instalar paquetes. Espere."
 
-#: ../jhbuild/utils/systeminstall.py:268
+#: ../jhbuild/utils/systeminstall.py:274
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1615,20 +1624,20 @@ msgstr ""
 "Instalando:\n"
 "  %(pkgs)s"
 
-#: ../jhbuild/utils/systeminstall.py:278 ../jhbuild/utils/systeminstall.py:328
+#: ../jhbuild/utils/systeminstall.py:284 ../jhbuild/utils/systeminstall.py:334
 msgid "Nothing to install"
 msgstr "No hay nada para instalar"
 
-#: ../jhbuild/utils/systeminstall.py:309
+#: ../jhbuild/utils/systeminstall.py:315
 msgid "Using apt-file to search for providers; this may be slow.  Please wait."
 msgstr "Usando apt-file para buscar proveedores; puede ser lento. Espere."
 
-#: ../jhbuild/utils/systeminstall.py:318
+#: ../jhbuild/utils/systeminstall.py:324
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "No se encontró ningún paquete nativo para %(id)s (%(filename)s)"
 
-#: ../jhbuild/utils/systeminstall.py:323
+#: ../jhbuild/utils/systeminstall.py:329
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalando: %(pkgs)s"
@@ -1914,6 +1923,15 @@ msgstr "no se pudo encontrar quilt"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "no se pudo subir el conjunto de parches"
+
+#~ msgid "Invalid placeholder in string: line %d, col %d"
+#~ msgstr "Contenedor no válido en la cadena: línea %d, columna %d"
+
+#~ msgid "Too many positional arguments"
+#~ msgstr "Demasiados argumentos posicionales"
+
+#~ msgid "Unrecognized named group in pattern"
+#~ msgstr "Grupo nombrado no reconocido en el patrón"
 
 #~ msgid "gnome-autogen.sh not available"
 #~ msgstr "gnome-autogen.sh no está disponible"
