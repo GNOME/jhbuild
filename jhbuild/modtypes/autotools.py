@@ -56,6 +56,7 @@ class AutogenModule(MakeModule, DownloadableModule):
                  supports_non_srcdir_builds=True,
                  skip_autogen=False,
                  skip_install_phase=False,
+                 uninstall_before_install=False,
                  autogen_sh='autogen.sh',
                  makefile='Makefile',
                  autogen_template=None,
@@ -67,6 +68,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.skip_autogen = skip_autogen
         self.skip_install_phase = skip_install_phase
+        self.uninstall_before_install = uninstall_before_install
         self.autogen_sh = autogen_sh
         self.autogen_template = autogen_template
         self.check_target = check_target
@@ -320,6 +322,12 @@ class AutogenModule(MakeModule, DownloadableModule):
     do_distcheck.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
+        buildscript.set_action(_('Uninstalling old installed version'), self)
+        if self.uninstall_before_install:
+            packagedb =  buildscript.moduleset.packagedb
+            if packagedb.check(self.name):
+                packagedb.uninstall(self.name)
+
         buildscript.set_action(_('Installing'), self)
         destdir = self.prepare_installroot(buildscript)
         if self.makeinstallargs:
@@ -369,6 +377,7 @@ class AutogenModule(MakeModule, DownloadableModule):
                   'supports_non_srcdir_builds', True),
                  ('skip-autogen', 'skip_autogen', False),
                  ('skip-install', 'skip_install_phase', False),
+                 ('uninstall-before-install', 'uninstall_before_install', False),
                  ('autogen-sh', 'autogen_sh', 'autogen.sh'),
                  ('makefile', 'makefile', 'Makefile'),
                  ('supports-static-analyzer', 'supports_static_analyzer', True),
@@ -410,6 +419,8 @@ def parse_autotools(node, config, uri, repositories, default_repo):
             instance.skip_install_phase = True
         else:
             instance.skip_install_phase = False
+    if node.hasAttribute('uninstall-before-install'):
+        instance.uninstall_before_install = (node.getAttribute('uninstall-before-install') == 'true')
 
     if node.hasAttribute('check-target'):
         instance.check_target = (node.getAttribute('check-target') == 'true')

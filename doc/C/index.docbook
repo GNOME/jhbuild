@@ -2778,6 +2778,7 @@ Optional packages: (JHBuild will build the missing packages)
 	      [ makefile="<replaceable>makefile</replaceable>" ]
 	      [ skip-autogen="<replaceable>skip-autogen</replaceable>" ]
 	      [ skip-install="<replaceable>skip-install</replaceable>" ]
+	      [ uninstall-before-install="<replaceable>uninstall-before-install</replaceable>" ]
 	      [ autogen-template="<replaceable>autogen-template</replaceable>" ]
 	      [ check-target="<replaceable>check-target</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
@@ -2819,6 +2820,16 @@ Optional packages: (JHBuild will build the missing packages)
           attribute specifying whether to skip <command>make install</command>
           command on the module. <sgmltag class="attribute">makefile</sgmltag>
           specifies the filename of the makefile to use.</para>
+
+	<para>The <sgmltag class="attribute">uninstall-before-install</sgmltag>
+	  specifies any old installed files from the module should before removed
+	  before running the install step. This can be used to work around a
+	  problem where libtool tries to link one library it is installing
+	  against another library it is installing, but because of jhbuild's
+	  use of DESTDIR, finds the old installed library instead. The downside
+          of specifying this is that it could cause problems if the user is
+	  currently running code that relies on installed files from the
+	  module.</para>
 
         <para>The
           <sgmltag class="attribute">supports-non-srcdir-builds</sgmltag>
