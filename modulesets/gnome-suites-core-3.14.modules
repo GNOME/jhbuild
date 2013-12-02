@@ -64,7 +64,11 @@
 
   <autotools id="evolution-data-server"
              supports-non-srcdir-builds="no"
-             autogenargs="--enable-vala-bindings --disable-strict --disable-uoa">
+             autogenargs="--enable-vala-bindings --disable-strict --disable-uoa"
+             uninstall-before-install="true">
+    <!-- We uninstall the old copy before installing, because the our usage
+         of DESTDIR and libtool's relinking interfere and cause camel providers
+         to link against the install version of libcamel. -->
     <branch revision="evolution-data-server-3-12"/>
     <dependencies>
       <dep package="intltool"/>
