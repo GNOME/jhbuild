@@ -70,6 +70,8 @@
       href="http://www.maxmind.com/download/"/>
 <repository type="tarball" name="ftp.mozilla.org"
       href="http://ftp.mozilla.org/"/>
+<repository type="tarball" name="people.mozilla.org"
+      href="http://people.mozilla.org/"/>
 <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org"/>
 <repository type="tarball" name="ftp.gnu.org"
@@ -780,6 +782,21 @@
             hash="sha256:321e964fe9386785d3bf80870640f2fa1c683e32fe988eeb201b04471c172fba"
             checkoutdir="js17-17.0.0">
       <patch file="js17-build-fixes.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="nspr"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="js24" check-target="false"
+      autogenargs="--enable-threadsafe --with-system-nspr --disable-tests --disable-strip --enable-ctypes --enable-system-ffi --disable-intl-api">
+    <pkg-config>mozjs-24.1.pc</pkg-config>
+    <branch repo="people.mozilla.org"
+            module="~sstangl/mozjs-24.1.0.rc1.tar.bz2"
+            version="24.1.0.rc1"
+            hash="sha256:69ca3ae747cae5cad980bdcd59e688bc99114901c8c1e0b789d187f4ef1e7264"
+            checkoutdir="js24-24.1.0.rc1">
+      <patch file="js24-buildapi.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="nspr"/>
