@@ -72,7 +72,7 @@ def systemdependencies_met(module_name, sysdeps, config):
             try:
                 while True:
                     arg = itr.next()
-                    if arg.strip() == '-I':
+                    if arg.strip() in ['-I', '-isystem']:
                         # extract paths handling quotes and multiple paths
                         paths += shell_split(itr.next())[0].split(os.pathsep)
                     elif arg.startswith('-I'):
