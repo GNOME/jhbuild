@@ -222,7 +222,9 @@ class BuildScript:
     def run_triggers(self, module_name):
         """See triggers/README."""
         assert 'JHBUILD_PREFIX' in os.environ
-        if PKGDATADIR is not None:
+        if os.environ.get('JHBUILD_TRIGGERS') is not None:
+            trigger_path = os.environ.get('JHBUILD_TRIGGERS')
+        elif PKGDATADIR is not None:
             trigger_path = os.path.join(PKGDATADIR, 'triggers')
         else:
             trigger_path = os.path.join(SRCDIR, 'triggers')
