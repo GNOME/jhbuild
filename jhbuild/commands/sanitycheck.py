@@ -77,23 +77,8 @@ class cmd_sanitycheck(Command):
                              r'automake \([^)]*\) ([\d.]+)', '1.10'):
             uprint(_('%s not found') % 'automake >= 1.10')
 
-        try:
-            not_in_path = []
-            path = get_aclocal_path()
 
-            macros = ['libtool.m4', 'gettext.m4', 'pkg.m4']
-            for macro in macros:
-                if not inpath (macro, path):
-                    uprint(_("aclocal can't see %s macros") % (macro.split('.m4')[0]))
-                    if not_in_path.count(macro) == 0:
-                        not_in_path.append(macro)
-
-            if len(not_in_path) > 0:
-                uprint(_("Please copy the lacking macros (%(macros)s) in one of the following paths: %(path)s") % \
-                       {'macros': ', '.join(not_in_path), 'path': ', '.join(path)})
-
-        except CommandError, exc:
-            uprint(str(exc))
+        self.check_m4()
 
         # XML catalog sanity checks
         if not os.access('/etc/xml/catalog', os.R_OK):
@@ -149,5 +134,24 @@ class cmd_sanitycheck(Command):
             uprint(_('%s not found') % 'bison')
         if not inpath('xzcat', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'xzcat')
+
+    def check_m4(self):
+        try:
+            not_in_path = []
+            path = get_aclocal_path()
+
+            macros = ['libtool.m4', 'gettext.m4', 'pkg.m4']
+            for macro in macros:
+                if not inpath (macro, path):
+                    uprint(_("aclocal can't see %s macros") % (macro.split('.m4')[0]))
+                    if not_in_path.count(macro) == 0:
+                        not_in_path.append(macro)
+
+            if len(not_in_path) > 0:
+                uprint(_("Please copy the lacking macros (%(macros)s) in one of the following paths: %(path)s") % \
+                       {'macros': ', '.join(not_in_path), 'path': ', '.join(path)})
+
+        except CommandError, exc:
+            uprint(str(exc))
 
 register_command(cmd_sanitycheck)
