@@ -60,6 +60,8 @@ class cmd_sanitycheck(Command):
                 os.access(config.prefix, os.R_OK|os.W_OK|os.X_OK)):
             uprint(_('install prefix (%s) is not writable') % config.prefix)
 
+        autoconf = True
+
         # check whether various tools are installed
         if not check_version(['libtoolize', '--version'],
                              r'libtoolize \([^)]*\) ([\d.]+)', '1.5'):
@@ -72,13 +74,14 @@ class cmd_sanitycheck(Command):
             uprint(_('%s not found') % 'pkg-config >= 0.14.0')
         if not check_version(['autoconf', '--version'],
                              r'autoconf \([^)]*\) ([\d.]+)', '2.53'):
+            autoconf = False
             uprint(_('%s not found') % 'autoconf >= 2.53')
         if not check_version(['automake', '--version'],
                              r'automake \([^)]*\) ([\d.]+)', '1.10'):
             uprint(_('%s not found') % 'automake >= 1.10')
 
-
-        self.check_m4()
+        if (autoconf):
+            self.check_m4()
 
         # XML catalog sanity checks
         if not os.access('/etc/xml/catalog', os.R_OK):
