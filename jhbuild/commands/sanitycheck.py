@@ -106,7 +106,7 @@ class cmd_sanitycheck(Command):
                 try:
                     data = get_output(['xmlcatalog', '/etc/xml/catalog', item])
                 except:
-                    uprint(_('Could not find %s in XML catalog') % name            )
+                    uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\')') % name)
 
         # Perl modules used by tools such as intltool:
         for perlmod in [ 'XML::Parser' ]:
