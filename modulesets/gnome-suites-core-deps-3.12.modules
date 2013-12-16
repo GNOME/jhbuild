@@ -68,8 +68,6 @@
       href="http://www.maxmind.com/download/"/>
 <repository type="tarball" name="ftp.mozilla.org"
       href="http://ftp.mozilla.org/"/>
-<repository type="tarball" name="people.mozilla.org"
-      href="http://people.mozilla.org/"/>
 <repository type="tarball" name="kernel.org"
       href="http://www.kernel.org"/>
 <repository type="tarball" name="ftp.gnu.org"
@@ -785,11 +783,11 @@
   <autotools id="js24" check-target="false"
       autogenargs="--enable-threadsafe --with-system-nspr --disable-tests --disable-strip --enable-ctypes --enable-system-ffi --disable-intl-api">
     <pkg-config>mozjs-24.pc</pkg-config>
-    <branch repo="people.mozilla.org"
-            module="~sstangl/mozjs-24.2.0.rc3.tar.bz2"
-            version="24.2.0.rc3"
-            hash="sha256:be07fc4e064a9ea128ab7c2438cf1875ad61d1b33cb01a85c751865b59b82c96"
-            checkoutdir="js24-24.2.0.rc3">
+    <branch repo="ftp.mozilla.org"
+            module="pub/mozilla.org/js/mozjs-24.2.0.tar.bz2"
+            version="24.2.0"
+            hash="sha256:e62f3f331ddd90df1e238c09d61a505c516fe9fd8c5c95336611d191d18437d8"
+            checkoutdir="js24-24.2.0">
       <patch file="js24-buildapi.patch" strip="1"/>
     </branch>
     <dependencies>
