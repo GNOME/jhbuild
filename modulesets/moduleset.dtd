@@ -34,7 +34,7 @@
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>
 
-<!ELEMENT autotools (pkg-config?,branch,dependencies?,suggests?,after?)>
+<!ELEMENT autotools (autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST autotools
@@ -49,6 +49,13 @@
 	supports-parallel-builds (yes|no) "yes"
 	autogen-template CDATA  #IMPLIED
 	check-target	(true|false) "true">
+
+<!ELEMENT autogenargs EMPTY>
+<!ATTLIST autogenargs value CDATA #REQUIRED>
+<!ELEMENT makeargs EMPTY>
+<!ATTLIST makeargs value CDATA #REQUIRED>
+<!ELEMENT makeinstallargs EMPTY>
+<!ATTLIST makeinstallargs value CDATA #REQUIRED>
 
 <!ELEMENT waf (pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not

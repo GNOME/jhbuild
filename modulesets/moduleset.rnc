@@ -74,7 +74,7 @@ attlist.include &= attribute href { text }
 dependencieselements = dependencies?, suggests?, after?, systemdependencies?
 autotools =
   element autotools {
-    attlist.autotools, pkg-config?, branch, dependencieselements
+    attlist.autotools, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch, dependencieselements
   }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
@@ -93,6 +93,12 @@ attlist.autotools &=
   attribute autogen-template { text }?,
   [ a:defaultValue = "true" ]
   attribute check-target { "true" | "false" }?
+autogenargs = element autogenargs { attlist.autogenargs }
+attlist.autogenargs &= attribute value { text }
+makeargs = element makeargs { attlist.makeargs }
+attlist.makeargs &= attribute value { text }
+makeinstallargs = element makeinstallargs { attlist.autogenargs }
+attlist.makeinstallargs &= attribute value { text }
 waf =
   element waf { attlist.waf, branch, dependencieselements }
 # Note: Here the ID type is not used as some existing IDs in modsets are not

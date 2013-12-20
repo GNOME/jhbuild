@@ -399,6 +399,12 @@ def collect_args(instance, node, argtype):
     else:
         args = ''
 
+    for child in node.childNodes:
+        if child.nodeType == child.ELEMENT_NODE and child.nodeName == argtype:
+            if not child.hasAttribute('value'):
+                raise FatalError(_("<%s/> tag must contain value=''"), argtype)
+            args += ' ' + child.getAttribute('value')
+
     return instance.eval_args(args)
 
 def parse_autotools(node, config, uri, repositories, default_repo):
