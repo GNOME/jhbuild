@@ -63,7 +63,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'print_command_pattern', 'static_analyzer',
                 'module_static_analyzer', 'static_analyzer_template',
                 'static_analyzer_outputdir', 'check_sysdeps', 'system_prefix',
-                'help_website',
+                'help_website', 'conditions'
               ]
 
 env_prepends = {}
@@ -146,6 +146,28 @@ def parse_relative_time(s):
     else:
         raise ValueError
 
+def get_default_conditions():
+    # the default conditions set.  We determine which set to used based on
+    # the first item in the list which is a prefix of 'sys.platform', which
+    # is a name like 'linux2', 'darwin', 'freebsd10', etc.
+    #
+    # if we watch to match (eg 'freebsd10' more closely than other versions
+    # of 'freebsd') then we just need to make sure the more-specific one
+    # comes first in the list
+    conditions_sets = [
+            ('linux', ['linux', 'wayland', 'udev', 'x11']),
+            ('freebsd', ['freebsd', 'x11']),
+
+            # this must be left here so that at least one will be found
+            ('', ['x11'])
+        ]
+
+    for prefix, flags in conditions_sets:
+        if sys.platform.startswith(prefix):
+            return set(flags)
+
+    # we will only hit this if someone removed the '' entry above
+    raise FatalError('failed to find matching condition set...')
 
 class Config:
     _orig_environ = None
@@ -224,6 +246,8 @@ class Config:
         else:
             self._config['__file__'] = new_config
             self.filename = new_config
+
+        self._config['conditions'] = get_default_conditions()
         self.load(filename)
         self.setup_env()
 
