@@ -124,11 +124,14 @@ def main(args):
     parser.add_option('--no-interact', action='store_true',
                       dest='nointeract', default=False,
                       help=_('do not prompt for input'))
+    parser.add_option('--conditions', action='append',
+                      dest='conditions', default=[],
+                      help=_('modify the condition set'))
 
     options, args = parser.parse_args(args)
 
     try:
-        config = jhbuild.config.Config(options.configfile)
+        config = jhbuild.config.Config(options.configfile, options.conditions)
     except FatalError, exc:
         sys.stderr.write('jhbuild: %s\n' % exc.args[0].encode(_encoding, 'replace'))
         sys.exit(1)

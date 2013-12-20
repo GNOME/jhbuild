@@ -169,10 +169,20 @@ def get_default_conditions():
     # we will only hit this if someone removed the '' entry above
     raise FatalError('failed to find matching condition set...')
 
+def modify_conditions(conditions, conditions_modifiers):
+    for flag in conditions_modifiers:
+        for mod in flag.split(','):
+            if mod.startswith('+'):
+                conditions.add(mod[1:])
+            elif mod.startswith('-'):
+                conditions.discard(mod[1:])
+            else:
+                raise FatalError(_("Invalid condition set modifier: '%s'.  Must start with '+' or '-'.") % mod)
+
 class Config:
     _orig_environ = None
 
-    def __init__(self, filename):
+    def __init__(self, filename, conditions_modifiers):
         self._config = {
             '__file__': _defaults_file,
             'addpath':  addpath,
@@ -247,13 +257,30 @@ class Config:
             self._config['__file__'] = new_config
             self.filename = new_config
 
+        # we might need to redo this process on config reloads, so save these
+        self.saved_conditions_modifiers = conditions_modifiers
+
+        # We handle the conditions flags like so:
+        #   - get the default set of conditions (determined by the OS)
+        #   - modify it with the commandline arguments
+        #   - load the config file so that it can make further modifications
+        #   - modify it with the commandline arguments again
+        #
+        # We apply the commandline argument condition modifiers both before
+        # and after parsing the configuration so that the jhbuildrc has a
+        # chance to inspect the modified set of flags (and conditionally act
+        # on it to set new autogenargs, for example) but also so that the
+        # condition flags given on the commandline will ultimately override
+        # those in jhbuildrc.
         self._config['conditions'] = get_default_conditions()
+        modify_conditions(self._config['conditions'], conditions_modifiers)
         self.load(filename)
+        modify_conditions(self.conditions, conditions_modifiers)
         self.setup_env()
 
     def reload(self):
         os.environ = self._orig_environ.copy()
-        self.__init__(filename=self._config.get('__file__'))
+        self.__init__(filename=self._config.get('__file__'), conditions_modifiers=self.saved_conditions_modifiers)
         self.set_from_cmdline_options(options=None)
 
     def include(self, filename):
