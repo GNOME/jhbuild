@@ -393,19 +393,20 @@ class AutogenModule(MakeModule, DownloadableModule):
                  ('supports-static-analyzer', 'supports_static_analyzer', True),
                  ('autogen-template', 'autogen_template', None)])
 
+def collect_args(instance, node, argtype):
+    if node.hasAttribute(argtype):
+        args = node.getAttribute(argtype)
+    else:
+        args = ''
+
+    return instance.eval_args(args)
 
 def parse_autotools(node, config, uri, repositories, default_repo):
     instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    if node.hasAttribute('autogenargs'):
-        autogenargs = node.getAttribute('autogenargs')
-        instance.autogenargs = instance.eval_args(autogenargs)
-    if node.hasAttribute('makeargs'):
-        makeargs = node.getAttribute('makeargs')
-        instance.makeargs = instance.eval_args(makeargs)
-    if node.hasAttribute('makeinstallargs'):
-        makeinstallargs = node.getAttribute('makeinstallargs')
-        instance.makeinstallargs = instance.eval_args(makeinstallargs)
+    instance.autogenargs = collect_args (instance, node, 'autogenargs')
+    instance.makeargs = collect_args (instance, node, 'makeargs')
+    instance.makeinstallargs = collect_args (instance, node, 'makeinstallargs')
 
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
