@@ -378,6 +378,48 @@ def _child_elements_matching(parent, names):
         if node.nodeType == node.ELEMENT_NODE and node.nodeName in names:
             yield node
 
+def _handle_conditions(config, element):
+    """
+    If we encounter an <if> tag, consult the conditions set in the config
+    in order to decide if we should include its content or not.  If the
+    condition is met, the child elements are added to the parent of the
+    <if/> tag as if the condition tag were not there at all.  If the
+    condition is not met, the entire content is simply dropped.
+
+    We do the processing as a transformation on the DOM as a whole,
+    immediately after parsing the moduleset XML, before doing any additional
+    processing.  This allows <if> to be used for anything and it means we
+    don't need to deal with it separately from each place.
+
+    Although the tool itself will accept <if> anywhere we use the schemas to
+    restrict its use to the purposes of conditionalising dependencies
+    (including suggests) and {autogen,make,makeinstall}args.
+    """
+
+    for condition_tag in _child_elements_matching(element, ['if']):
+        # In all cases, we remove the element from the parent
+        element.childNodes.remove(condition_tag)
+
+        # grab the condition from the attributes
+        c_if = condition_tag.getAttribute('condition-set')
+        c_unless = condition_tag.getAttribute('condition-unset')
+
+        if (not c_if) == (not c_unless):
+            raise FatalError(_("<if> must have exactly one of condition-set='' or condition-unset=''"))
+
+        # check the condition
+        condition_true = ((c_if and c_if in config.conditions) or
+                          (c_unless and c_unless not in config.conditions))
+
+        if condition_true:
+            # add the child elements of <condition> back into the parent
+            for condition_child in _child_elements(condition_tag):
+                element.childNodes.append(condition_child)
+
+    # now, recurse
+    for c in _child_elements(element):
+        _handle_conditions(config, c)
+
 def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork, age=0)
@@ -392,6 +434,9 @@ def _parse_module_set(config, uri):
         raise FatalError(_('failed to parse %s: %s') % (uri, e))
 
     assert document.documentElement.nodeName == 'moduleset'
+
+    _handle_conditions(config, document.documentElement)
+
     moduleset = ModuleSet(config = config)
     moduleset_name = document.documentElement.getAttribute('name')
     if not moduleset_name:

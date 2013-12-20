@@ -2,6 +2,19 @@
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
+<!-- DTD is incapable of allowing different children of an element
+     of a given name depending on the context in which it appears so
+     this is more permissive than it ought to be.  The RNG version
+     of the schema gets this correct.
+
+     DTD also appears to be incapable of describing the fact that
+     exactly one of condition-set='' and condition-unset='' is required.
+-->
+<!ELEMENT if (if|dep|autogenargs|makeargs|makeinstallargs)+>
+<!ATTLIST if
+	condition-set	CDATA	#IMPLIED
+	condition-unset	CDATA	#IMPLIED>
+
 <!ELEMENT repository (mirror*)>
 <!ATTLIST repository
 	name	 CDATA  #REQUIRED
@@ -34,7 +47,7 @@
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>
 
-<!ELEMENT autotools (autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
+<!ELEMENT autotools (if*,autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST autotools
@@ -156,8 +169,8 @@
 
 <!-- Other children -->
 <!ELEMENT pkg-config (#PCDATA)>
-<!ELEMENT dependencies (dep*)>
-<!ELEMENT suggests (dep*)>
+<!ELEMENT dependencies (dep|if)*>
+<!ELEMENT suggests (dep|if)*>
 <!ELEMENT after (dep*)>
 <!ELEMENT systemdependencies (dep*)>
 <!ELEMENT dep EMPTY>

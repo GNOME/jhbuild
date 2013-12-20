@@ -72,9 +72,10 @@ attlist.mirror &=
 attlist.include &= attribute href { text }
 # As parsed by get_dependencies()
 dependencieselements = dependencies?, suggests?, after?, systemdependencies?
+argsif = element if { attlist.if, argsif*, autogenargs*, makeargs*, makeinstallargs* }
 autotools =
   element autotools {
-    attlist.autotools, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch, dependencieselements
+    attlist.autotools, argsif*, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch, dependencieselements
   }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
@@ -210,9 +211,11 @@ attlist.testedmodules &= empty
 tested = element tested { attlist.tested, empty }
 attlist.tested &= attribute package { text }
 # Other children
-dependencies = element dependencies { attlist.dependencies, dep* }
+attlist.if = attribute condition-set { text } | attribute condition-unset { text }
+depif = element if { attlist.if, depif*, dep* }
+dependencies = element dependencies { attlist.dependencies, depif*, dep* }
 attlist.dependencies &= empty
-suggests = element suggests { attlist.suggests, dep* }
+suggests = element suggests { attlist.suggests, depif*, dep* }
 attlist.suggests &= empty
 after = element after { attlist.after, dep* }
 attlist.after &= empty
