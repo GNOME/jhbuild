@@ -2,7 +2,7 @@
 
 HELP_ID = jhbuild
 
-HELP_LINGUAS = de el es fr ja pt_BR sl sv
+HELP_LINGUAS = de el es fr ja pt_BR ru sl sv
 
 HELP_FILES = index.docbook
 
