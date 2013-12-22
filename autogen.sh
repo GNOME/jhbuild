@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/sh
 #
 # JHBuild configuration script.
 #
@@ -82,19 +82,15 @@ parse_commandline()
   enable_autotools=$TRUE
 
   while [ -n "$1" ]; do
-    # substring operations available in all sh?
-    if [ ${1:0:2} = "--" ]; then
-      keyvalue=${1:2}
-      key=${keyvalue%%=*}
-      value=${keyvalue##*=}
-      if [ "$key" = "simple-install" ]; then
+    case "$1" in
+      --simple-install)
         enable_autotools=$FALSE
-      fi
-      echo $key | grep -E '^[A-Za-z_][A-Za-z_0-9]*$' > /dev/null 2>&1
-      if [ $? -eq 0 ]; then
-        eval $key=$value
-      fi
-    fi
+        ;;
+
+      --prefix=*)
+        prefix="$(echo "$1" | cut -d= -f2)"
+        ;;
+    esac
     shift
   done
 }
