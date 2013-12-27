@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-17 16:25+0000\n"
-"PO-Revision-Date: 2013-10-19 07:05+0200\n"
+"POT-Creation-Date: 2013-12-18 13:40+0000\n"
+"PO-Revision-Date: 2013-12-27 07:46+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -47,7 +47,7 @@ msgstr "Není možné zkopírovat $makefile do $srcdir/Makefile"
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Nyní přeložte balíček $PKG_NAME zadáním příkazu „make“"
 
-#: ../autogen.sh:190
+#: ../autogen.sh:192
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "**Chyba**: Složka „$srcdir“ nevypadá jako nejvyšší složka balíčku $PKG_NAME"
 
-#: ../autogen.sh:232
+#: ../autogen.sh:234
 msgid ""
 "WARNING: gnome-autogen.sh not available (usually part of package 'gnome-"
 "common')"
@@ -63,7 +63,7 @@ msgstr ""
 "VAROVÁNÍ: skript gnome-autogen.sh není dostupný (obvykle bývá součástí "
 "balíčku „gnome-common“)"
 
-#: ../autogen.sh:235
+#: ../autogen.sh:237
 msgid ""
 "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
 msgstr ""
@@ -461,6 +461,28 @@ msgstr "Nelze zkontrolovat modul %(module)s (%(href)s)"
 #: ../jhbuild/commands/clean.py:29
 msgid "Clean all modules"
 msgstr "Vyčistit všechny moduly"
+
+#: ../jhbuild/commands/extdeps.py:70
+msgid "Report details on GNOME external dependencies"
+msgstr "Podrobný výpis externích závislostí GNOME"
+
+#: ../jhbuild/commands/extdeps.py:98
+msgid "External deps for GNOME"
+msgstr "Externí závislosti pro GNOME"
+
+#: ../jhbuild/commands/extdeps.py:104
+#, python-format
+msgid "External deps for GNOME %s"
+msgstr "Externí závislosti pro GNOME %s"
+
+#: ../jhbuild/commands/extdeps.py:138
+msgid "patched"
+msgstr "záplatováno"
+
+#: ../jhbuild/commands/extdeps.py:142
+#, python-format
+msgid "and %d others."
+msgstr "a %d dalších."
 
 #: ../jhbuild/commands/goalreport.py:328
 msgid "Report GNOME modules status wrt various goals"
@@ -1045,12 +1067,12 @@ msgstr "modul %(mod)s bude sestaven navzdory selhání %(dep)s"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modul %(mod)s nebyl sestaven vzhledem k nemožnosti sestavit %(dep)s"
 
-#: ../jhbuild/frontends/buildscript.py:246
+#: ../jhbuild/frontends/buildscript.py:248
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Běží skript post-install spouštěný po instalaci: %r"
 
-#: ../jhbuild/frontends/buildscript.py:254 ../jhbuild/frontends/gtkui.py:596
+#: ../jhbuild/frontends/buildscript.py:256 ../jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "Příkaz %(command)s vrátil chybový kód (%(rc)s)"
@@ -1497,19 +1519,6 @@ msgstr ""
 "sítě, takže potřebujete do svého souboru „%s“ přidat „use_local_modulesets = "
 "True“."
 
-#: ../jhbuild/monkeypatch.py:102
-#, python-format
-msgid "Invalid placeholder in string: line %d, col %d"
-msgstr "Neplatný zástupný symbol v řetězci: řádek %d, sloupec %d"
-
-#: ../jhbuild/monkeypatch.py:107 ../jhbuild/monkeypatch.py:133
-msgid "Too many positional arguments"
-msgstr "Příliš mnoho pozičních parametrů"
-
-#: ../jhbuild/monkeypatch.py:127 ../jhbuild/monkeypatch.py:160
-msgid "Unrecognized named group in pattern"
-msgstr "Nerozpoznaná pojmenovaná skupina ve vzoru"
-
 #: ../jhbuild/utils/cmds.py:40
 msgid "Call to undefined command"
 msgstr "Zavolán nedefinovaný příkaz"
@@ -1557,22 +1566,22 @@ msgstr ""
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Selhalo smazání %(file)r: %(msg)s"
 
-#: ../jhbuild/utils/systeminstall.py:134
+#: ../jhbuild/utils/systeminstall.py:140
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr ""
 "Nebyl nalezen žádný vhodný program pro povýšení na práva superuživatele "
 "root. Měli byste nainstalovat „pkexec“"
 
-#: ../jhbuild/utils/systeminstall.py:166 ../jhbuild/utils/systeminstall.py:169
+#: ../jhbuild/utils/systeminstall.py:172 ../jhbuild/utils/systeminstall.py:175
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:245
+#: ../jhbuild/utils/systeminstall.py:251
 msgid "Nothing available to install"
 msgstr "Není nic k dispozici k instalaci"
 
-#: ../jhbuild/utils/systeminstall.py:248
+#: ../jhbuild/utils/systeminstall.py:254
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1581,15 +1590,15 @@ msgstr ""
 "Instaluje se:\n"
 "  %s"
 
-#: ../jhbuild/utils/systeminstall.py:254
+#: ../jhbuild/utils/systeminstall.py:260
 msgid "Complete!"
 msgstr "Hotovo!"
 
-#: ../jhbuild/utils/systeminstall.py:265
+#: ../jhbuild/utils/systeminstall.py:271
 msgid "Using yum to install packages.  Please wait."
 msgstr "Používá se yum k instalaci balíčků. Čekejte prosím."
 
-#: ../jhbuild/utils/systeminstall.py:268
+#: ../jhbuild/utils/systeminstall.py:274
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1598,22 +1607,22 @@ msgstr ""
 "Instaluje se:\n"
 "  %(pkgs)s"
 
-#: ../jhbuild/utils/systeminstall.py:278 ../jhbuild/utils/systeminstall.py:328
+#: ../jhbuild/utils/systeminstall.py:284 ../jhbuild/utils/systeminstall.py:334
 msgid "Nothing to install"
 msgstr "Není nic k dispozici k instalaci"
 
-#: ../jhbuild/utils/systeminstall.py:309
+#: ../jhbuild/utils/systeminstall.py:315
 msgid "Using apt-file to search for providers; this may be slow.  Please wait."
 msgstr ""
 "Použijte apt-file k vyhledání poskytovatelů. Může to ale být pomalé, čekejte "
 "prosím."
 
-#: ../jhbuild/utils/systeminstall.py:318
+#: ../jhbuild/utils/systeminstall.py:324
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Nebyl nalezen žádný originální balíček pro %(id)s (%(filename)s)"
 
-#: ../jhbuild/utils/systeminstall.py:323
+#: ../jhbuild/utils/systeminstall.py:329
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instaluje se: %(pkgs)s"
