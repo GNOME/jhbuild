@@ -436,14 +436,14 @@ class Config:
         addpath('GI_TYPELIB_PATH', typelibpath)
 
         # XDG_DATA_DIRS
-        if self.partial_build:
-            addpath('XDG_DATA_DIRS', '/usr/share')
+        if not 'XDG_DATA_DIRS' in os.environ:
+            os.environ['XDG_DATA_DIRS'] = '/usr/local/share:/usr/share'
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
 
         # XDG_CONFIG_DIRS
-        if self.partial_build:
-            addpath('XDG_CONFIG_DIRS', '/etc')
+        if not 'XDG_CONFIG_DIRS' in os.environ:
+            XDG_CONFIG_DIRS='/etc/xdg'
         xdgconfigdir = os.path.join(self.prefix, 'etc', 'xdg')
         addpath('XDG_CONFIG_DIRS', xdgconfigdir)
 
