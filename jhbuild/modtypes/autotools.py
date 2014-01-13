@@ -181,6 +181,11 @@ class AutogenModule(MakeModule, DownloadableModule):
         if buildscript.config.alwaysautogen:
             return False
 
+        srcdir = self.get_srcdir(buildscript)
+        configure_path = os.path.join(srcdir, 'configure')
+        if not os.path.exists(configure_path):
+            return False
+
         # if autogen.sh args has changed, re-run configure
         db_entry = buildscript.moduleset.packagedb.get(self.name)
         if db_entry:
@@ -202,7 +207,6 @@ class AutogenModule(MakeModule, DownloadableModule):
         # https://bugzilla.gnome.org/show_bug.cgi?id=660844
         if not isinstance(self.branch, TarballBranch):
             configsrc = None
-            srcdir = self.get_srcdir(buildscript)
             for name in ['configure.ac', 'configure.in']:
                 path = os.path.join(srcdir, name)
                 if os.path.exists(path):
