@@ -42,10 +42,12 @@ class Config(jhbuild.config.Config):
     makecheck = False
     makedist = False
     makedistcheck = False
+    makedistclean = False
     nopoison = False
     makecheck_advisory = False
     module_makecheck = {}
     module_nopoison = {}
+    noinstall = False
     forcecheck = False
     partial_build = True
     autogenargs = ''
@@ -86,7 +88,7 @@ class PackageDB:
             return None
         return entry.version == version
 
-    def add(self, package, version, manifest):
+    def add(self, package, version, manifest, configure_cmd=None):
         entry = PackageEntry(package, version, [], {})
         entry.metadata['installed-date'] = time.time()+self.time_delta
         self.entries[package] = entry
