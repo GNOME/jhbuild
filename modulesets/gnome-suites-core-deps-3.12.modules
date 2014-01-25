@@ -1291,13 +1291,13 @@
     </dependencies>
   </autotools>
 
-  <autotools id="ibus"
-             autogenargs="--disable-tests --disable-gconf --enable-dconf --disable-memconf --disable-ui"
-             makeargs="CFLAGS=-Wno-error">
+  <autotools id="ibus" autogenargs="--disable-tests --disable-gconf --enable-dconf --disable-memconf --disable-ui">
     <branch repo="ibus"
             module="ibus-${version}.tar.gz"
-            version="1.5.3"
-            hash="sha256:2afc6371c24873f0e37554ef07effd022042f8eca6cb649d1bb02d8c57528b8c">
+            version="1.5.5"
+            size="2063794"
+            hash="sha256:02ab36af6048399fedbe8d85074b161219b89df5020932df33cf8829764f8aec">
+      <patch file="ibus.skip-dconf-update-if-DESTDIR-is-set.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="dbus"/>
