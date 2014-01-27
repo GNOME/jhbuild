@@ -314,6 +314,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         self.process_install(buildscript, self.get_revision())
 
     do_install.depends = [PHASE_BUILD]
+    do_install.error_phases = [PHASE_CONFIGURE]
 
     def skip_install(self, buildscript, last_phase):
         return self.config.noinstall or self.skip_install_phase
