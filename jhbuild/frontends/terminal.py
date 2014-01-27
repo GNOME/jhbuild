@@ -263,6 +263,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             raise CommandError(_('########## Error running %s')
                                % print_args['command'])
 
+    def start_module(self, module):
+        self.triedcheckout = None
+
     def start_phase(self, module, phase):
         self.notify.clear()
         self.trayicon.set_icon(os.path.join(icondir,
