@@ -1,16 +1,23 @@
 <?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
-  <repository type="tarball" name="ftp.gnu.org"
-      href="http://ftp.gnu.org/gnu/"/>
-  <repository type="tarball" name="pkgconfig"
-      href="http://pkgconfig.freedesktop.org/releases/"/>
-  <repository type="tarball" name="python"
-      href="http://www.python.org/ftp/python/"/>
-  <repository type="tarball" name="sourceforge"
-      href="http://dfn.dl.sourceforge.net/sourceforge/"/>
-  <repository type="tarball" name="tukaani.org"
-      href="http://tukaani.org/"/>
+  <repository type="tarball" name="ftp.gnu.org" href="http://ftp.gnu.org/gnu/"/>
+  <repository type="tarball" name="pkgconfig" href="http://pkgconfig.freedesktop.org/releases/"/>
+  <repository type="tarball" name="python" href="http://www.python.org/ftp/python/"/>
+  <repository type="tarball" name="sourceforge" href="http://dfn.dl.sourceforge.net/sourceforge/"/>
+  <repository type="tarball" name="tukaani.org" href="http://tukaani.org/"/>
+  <repository type="tarball" name="xmlsoft" href="http://xmlsoft.org/sources/"/>
+  <repository type="tarball" name="sourceware" href="http://mirrors.kernel.org/sources.redhat.com/"/>
+  <repository type="tarball" name="launchpad" href="http://launchpad.net/"/>
+  <repository type="tarball" name="gnome-http" href="http://ftp.cse.buffalo.edu/pub/Gnome/sources/"/>
+  <repository type="tarball" name="dbus" href="http://dbus.freedesktop.org/releases/dbus/"/>
+  <repository type="tarball" name="cairo" href="http://www.cairographics.org/releases/"/>
+  <repository type="tarball" name="tango" href="http://tango.freedesktop.org/releases/"/>
+  <repository type="tarball" name="igj" href="http://www.ijg.org/files/"/>
+  <repository type="tarball" name="ragel" href="http://www.complang.org/ragel/"/>
+  <repository type="tarball" name="sqlite" href="http://www.sqlite.org/"/>
+  <repository type="tarball" name="libproxy" href="http://libproxy.googlecode.com/files/"/>
+
 
   <autotools id="gettext" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
@@ -79,13 +86,95 @@
             hash="sha256:9b380f502d37085a60821484a3a13747454638927cc36033be64970512451ed8"/>
   </autotools>
 
+  <autotools id="intltool" autogen-sh="configure">
+    <branch repo="launchpad" module="intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz" version="0.50.2"
+            size="189483" hash="sha256:67f25c5c6fb71d095793a7f895b245e65e829e8bde68c6c8b4c912144ff34406"/>
+  </autotools>
+
+  <autotools id="libxslt" autogen-sh="configure">
+    <branch repo="xmlsoft" module="libxslt-1.1.28.tar.gz" version="1.1.28"
+            size="3435907" hash="sha256:5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"/>
+  </autotools>
+
+  <autotools id="libxml2" autogen-sh="configure">
+    <branch repo="xmlsoft" module="libxml2-2.9.1.tar.gz" version="2.9.1"
+            size="5172503" hash="sha256:fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"/>
+  </autotools>
+
+  <autotools id="gtk-osx-docbook" autogen-sh="configure" supports-non-srcdir-builds="no">
+     <branch repo="sourceforge" module="gtk-osx/gtk-osx-docbook-1.1.tar.gz" version="1.1"
+             size="1931036" hash="sha256:fd43e5423ecd55025d81ac5482f01c6982b7cb0cdbb54f74d4bf65716c49414c"/>
+  </autotools>
+
+  <autotools id="libffi" autogen-sh="configure">
+    <branch repo="sourceware" module="libffi/libffi-3.0.13.tar.gz" version="3.0.13"
+            size="845747" hash="sha256:1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c"/>
+  </autotools>
+
+  <autotools id="libpng" autogen-sh="configure">
+    <branch repo="sourceforge" module="libpng/libpng-1.6.7.tar.gz" version="1.6.7"
+            size="1310159" hash="sha256:5d3be409d4ed4425923ad8677fc45497abb43c6b9cfd5beafe7dfc6f2a94f24b"/>
+  </autotools>
+
+  <autotools id="vala-bootstrap" autogen-sh="configure">
+    <branch repo="gnome-http" module="vala/0.20/vala-0.20.1.tar.xz" version="0.20.1" checkoutdir="vala-0.20.1"
+            size="2627808" hash="sha256:9cb7ecd18a23525e401c204d4d08341c7d911cd5d78078eee10b747ecb45e481"/>
+  </autotools>
+
+  <autotools id="dbus" autogen-sh="configure">
+    <branch repo="dbus" module="dbus-1.6.18.tar.gz" version="1.6.18"
+            size="1916553" hash="sha256:7085a0895a9eb11a952394cdbea6d8b4358e17cb991fed0e8fb85e2b9e686dcd"/>
+  </autotools>
+
+  <autotools id="pixman" autogen-sh="configure">
+    <branch repo="cairo" module="pixman-0.32.4.tar.gz" version="0.32.4"
+            size="817407" hash="sha256:80c7ed420e8a3ae749800241e6347c3d55681296cab71384be7969cd9e657e84"/>
+  </autotools>
+
+  <autotools id="libtasn1" autogen-sh="configure">
+    <branch repo="ftp.gnu.org" module="libtasn1/libtasn1-3.4.tar.gz" version="3.4"
+            size="1844115" hash="sha256:f353507a458fe2372b791016a056c95946eebfc7256b49013851f134a5e6acc8"/>
+  </autotools>
+
+  <autotools id="icon-naming-utils" autogen-sh="configure">
+    <branch repo="tango" module="icon-naming-utils-0.8.90.tar.gz" version="0.8.90"
+            size="70321" hash="sha256:044ab2199ed8c6a55ce36fd4fcd8b8021a5e21f5bab028c0a7cdcf52a5902e1c"/>
+  </autotools>
+
+  <autotools id="libjpeg" autogen-sh="configure">
+    <branch repo="igj" module="jpegsrc.v9.tar.gz" version="9" checkoutdir="jpeg-9"
+            size="987900" hash="sha256:c4e29e9375aaf60b4b79db87a58b063fb5b84f923bee97a88280b3d159e7e535"/>
+  </autotools>
+
+  <autotools id="sqlite" autogenargs="--enable-threadsafe" autogen-sh="configure">
+    <branch repo="sqlite" module="2013/sqlite-autoconf-3080200.tar.gz" version="30802000"
+            size="1917056" hash="sha256:a0851d06092c8208e4dd947f569f40db476b472b22e3e10e2f52f3c5e94fef92"/>
+  </autotools>
+
   <metamodule id="meta-bootstrap">
     <dependencies>
-      <dep package="gettext" />
-      <dep package="autoconf" />
-      <dep package="libtool" />
-      <dep package="automake" />
-      <dep package="pkg-config" />
+      <if condition-set="macos">
+        <dep package="xz"/>
+        <dep package="gettext"/>
+        <dep package="autoconf"/>
+        <dep package="libtool"/>
+        <dep package="automake"/>
+        <dep package="pkg-config"/>
+        <dep package="python"/>
+        <dep package="intltool"/>
+        <dep package="libxslt"/>
+        <dep package="libxml2"/>
+        <dep package="gtk-osx-docbook"/>
+        <dep package="libffi"/>
+        <dep package="libpng"/>
+        <dep package="vala-bootstrap"/>
+        <dep package="dbus"/>
+        <dep package="pixman"/>
+        <dep package="libtasn1"/>
+        <dep package="icon-naming-utils"/>
+        <dep package="libjpeg"/>
+        <dep package="sqlite"/>
+      </if>
     </dependencies>
   </metamodule>
 
