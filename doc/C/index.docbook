@@ -665,6 +665,18 @@ jhbuildbot_password = 'password'
             interrupted.</simpara>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <option>--conditions</option>
+        </term>
+        <listitem>
+          <simpara>Modify the condition flags to be different than those determined on the basis of the OS and
+            those specified in jhbuildrc.  Modifications are specified like <literal>-wayland</literal> or
+            <literal>+docs</literal> in order to remove or add conditions.  Multiple modifications can be
+            separated by a comma like <command>--conditions=+docs,-wayland</command> or you can split them
+            across multiple <command>--conditions</command> arguments.</simpara>
+        </listitem>
+      </varlistentry>
     </variablelist>
 
     <para>Command specific options are listed below.</para>
@@ -2218,6 +2230,20 @@ Optional packages: (JHBuild will build the missing packages)
               <command>Xvfb</command> if running graphical tests.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-conditions">
+          <term>
+            <varname>conditions</varname>
+          </term>
+          <listitem>
+            <simpara>A set of condition (strings) that can influence the modules that are built and the options
+              that are used for building them.  You should use <literal>conditions.add()</literal> and
+              <literal>conditions.discard()</literal> to modify the list if you want to make changes.</simpara>
+            <simpara>The original set of conditions is determined on a per-OS basis and can be modified using
+              the --conditions= commandline argument.  The changes made by --conditions are visible at the time
+              that jhbuildrc is sourced, so you can set other variables based on the current value of the set,
+              but --conditions will be applied again after any changes made by jhbuildrc.</simpara>
+          </listitem>
+        </varlistentry>
       </variablelist>
     </section>
 
@@ -2296,6 +2322,13 @@ Optional packages: (JHBuild will build the missing packages)
       <sgmltag class="element">moduleset</sgmltag> element. No XML namespace is
       used. The elements below the top-level come in three types: module
       sources, include statements and module definitions.</para>
+
+    <para>Content in the moduleset file can be conditionally included by use of the &lt;if> tag to surround the
+      conditional content.  It is currently only possible to predicate the inclusion on whether a particular
+      condition flag is set or not, using &lt;if condition-set='cond'> or &lt;if condition-unset='cond'>.
+      Conditions are set by default on a per-OS basis but can be influenced by way of the
+      <varname>conditions</varname> variable in jhbuildrc or the <command>--conditions=</command> commandline
+      argument.</para>
 
     <section id="moduleset-syntax-sources">
       <title>Module Sources</title>
