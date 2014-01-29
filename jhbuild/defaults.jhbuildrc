@@ -35,10 +35,22 @@ skip = []
 tags = []
 
 # directories
-prefix = '/opt/gnome'
+if os.path.exists('/opt/gnome'):
+    # /opt/gnome has been the default for a long time, and we keep on using it
+    # if it exists
+    prefix = '/opt/gnome'
+else:
+    prefix = '~/jhbuild/install'
+
 top_builddir = '_jhbuild'  # If a relative path, prefix will be prepended
-checkoutroot = '~/checkout/gnome'
-tarballdir = None    # will default to checkoutroot
+
+if os.path.exists(os.path.expanduser('~/checkout/gnome')):
+    checkoutroot = '~/checkout/gnome/'
+else:
+    checkoutroot = '~/jhbuild/checkout/'
+
+tarballdir = '~/jhbuild/downloads/'
+
 buildroot = None     # if set, packages will be built with srcdir!=builddir
 
 # When using srcdir!=builddir builds, this key allows you to use a

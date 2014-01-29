@@ -95,7 +95,7 @@
         system, <command>git</command>. This can be achieved with the following
         command. It is recommended to run the command from a new directory where
         all source code will be installed, for example,
-        <filename>~/checkout/gnome</filename>.</para>
+        <filename>~/jhbuild/checkout</filename>.</para>
 
 <screen><prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>
 <computeroutput>...</computeroutput>
@@ -159,8 +159,8 @@
         <application>meta-gnome-apps-tested</application> modules and
         dependencies from the <systemitem>gnome-apps</systemitem> module set.
         JHBuild will unpack source trees to
-        <filename>~/checkout/gnome</filename> and install all files to
-        subdirectories of <filename>/opt/gnome</filename>. The two directories
+        <filename>~/jhbuild/checkout/</filename> and install all files to
+        subdirectories of <filename>~/jhbuild/install/</filename>. The two directories
         must be writable.</para>
 
       <para>Configuration variables are documented in
@@ -222,7 +222,7 @@
               to. Unless <link linkend="cfg-buildroot">
               <varname>buildroot</varname></link> is set, builds will occur in
               this directory too. Defaults to
-              <filename>~/checkout/gnome</filename>.</simpara>
+              <filename>~/jhbuild/checkout</filename>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -232,7 +232,7 @@
           <listitem>
             <simpara>A string specifying the prefix to install modules to.
               <varname>prefix</varname> must be an absolute path. This directory
-              must be writable. Defaults to <literal>'/opt/gnome'</literal>.
+              must be writable. Defaults to <literal>'~/jhbuild/install/'</literal>.
             </simpara>
           </listitem>
         </varlistentry>
@@ -446,7 +446,7 @@
       <para>Verify the correct application will be run. For example:</para>
 
 <screen><prompt>$ </prompt><userinput>which gedit</userinput>
-/opt/gnome/bin/gedit</screen>
+/home/wanda/jhbuild/install/bin/gedit</screen>
 
       <para>Run the application:</para>
 
@@ -497,23 +497,23 @@
           <filename>/usr/share/dbus-1/system-services/</filename>. JHBuild GNOME
           will use the JHBuild session <application>D-Bus</application> daemon
           and the services within
-          <filename><replaceable>/opt/gnome</replaceable>/share/dbus-1/services/</filename>.
-          Replace <filename>/opt/gnome</filename> with GNOME install
+          <filename><replaceable>~/jhbuild/install/</replaceable>/share/dbus-1/services/</filename>.
+          Replace <filename>~/jhbuild/install</filename> with GNOME install
           <varname>prefix</varname> in the command below:</para>
 
-<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>
-<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>
-<prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/lib/dbus/machine-id</userinput>
-<prompt>$ </prompt><userinput>ln -s /var/lib/dbus/machine-id <replaceable>/opt/gnome</replaceable>/var/lib/dbus/machine-id</userinput></screen>
+<screen><prompt>$ </prompt><userinput>rm -rf <replaceable>~/jhbuild/install</replaceable>/var/run/dbus</userinput>
+<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>~/jhbuild/install</replaceable>/var/run/dbus</userinput>
+<prompt>$ </prompt><userinput>rm -rf <replaceable>~/jhbuild/install</replaceable>/var/lib/dbus/machine-id</userinput>
+<prompt>$ </prompt><userinput>ln -s /var/lib/dbus/machine-id <replaceable>~/jhbuild/install</replaceable>/var/lib/dbus/machine-id</userinput></screen>
 
         <para>Create a GNOME startup script at
           <filename>/usr/bin/gnome-jhbuild-session</filename> with the
-          following, replacing <filename>/opt/gnome</filename> with GNOME
+          following, replacing <filename>~/jhbuild/install</filename> with GNOME
           install <varname>prefix</varname>:</para>
 
 <programlisting>#!/bin/sh
 
-GNOME=<replaceable>/opt/gnome</replaceable>
+GNOME=<replaceable>~/jhbuild/install</replaceable>
  
 GDK_USE_XFT=1
 XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share
@@ -2044,7 +2044,7 @@ Optional packages: (JHBuild will build the missing packages)
           <listitem>
             <simpara>A string specifying the prefix to install modules to.
               <varname>prefix</varname> must be an absolute path. This directory
-              must be writable. Defaults to <literal>'/opt/gnome'</literal>.
+              must be writable. Defaults to <literal>'~/jhbuild/install/'</literal>.
             </simpara>
           </listitem>
         </varlistentry>
@@ -2154,7 +2154,8 @@ Optional packages: (JHBuild will build the missing packages)
               specified directory instead of <varname>checkoutroot</varname>.
               This is useful if you have multiple JHBuild environments or
               regularly clear out <varname>checkoutroot</varname> and want to
-              reduce bandwidth usage.</simpara>
+              reduce bandwidth usage.</simpara>  Defaults to
+              <literal>'~/jhbuild/downloads'</literal>.
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-tinderbox-outputdir">
