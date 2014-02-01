@@ -91,9 +91,14 @@ class cmd_sanitycheck(Command):
             self.check_m4()
 
         # XML catalog sanity checks
-        if not os.access('/etc/xml/catalog', os.R_OK):
-            uprint(_('Could not find XML catalog'))
-        else:
+        xmlcatalog = True
+        try:
+            get_output(['which', 'xmlcatalog'])
+        except:
+            xmlcatalog = False
+            uprint(_('Could not find XML catalog (usually part of the package \'libxml2-utils\')'))
+
+        if (xmlcatalog):
             for (item, name) in [('-//OASIS//DTD DocBook XML V4.1.2//EN',
                                   'DocBook XML DTD V4.1.2'),
                                  ('http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl',
