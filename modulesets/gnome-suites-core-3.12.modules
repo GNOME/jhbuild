@@ -477,7 +477,8 @@
     </after>
   </autotools>
 
-  <autotools id="telepathy-mission-control" autogenargs="--disable-Werror">
+  <!-- mc 5.16 doesn't build against upower 1.0 -->
+  <autotools id="telepathy-mission-control" autogenargs="--disable-Werror --disable-upower">
     <branch repo="telepathy.freedesktop.org" revision="telepathy-mission-control-5.16"/>
     <dependencies>
       <dep package="dbus"/>
