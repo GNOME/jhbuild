@@ -31,6 +31,8 @@
       href="http://ftp.gnu.org/gnu/"/>
   <repository type="tarball" name="speech-dispatcher"
       href="http://devel.freebsoft.org/pub/projects/speechd/"/>
+  <repository type="tarball" name="tarball.github.com"
+    href="https://github.com/"/>
 
   <include href="gnome-suites-core-3.12.modules"/>
 
@@ -313,7 +315,12 @@
 
   <cmake id="libgit2"
          cmakeargs="-DTHREADSAFE:BOOL=1">
-    <branch repo="github.com" module="libgit2/libgit2.git" checkoutdir="libgit2" revision="master"/>
+    <branch repo="tarball.github.com"
+            module="libgit2/libgit2/archive/v${version}.tar.gz"
+            version="0.20.0"
+            hash="509ab8091623df5b745cd13682539ca2dc2372051d3418355a7acc5b4a20c2f1"
+            checkoutdir="libgit2">
+    </branch>
   </cmake>
 
   <autotools id="libgit2-glib">
