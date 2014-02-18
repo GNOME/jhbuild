@@ -415,10 +415,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="fontconfig" autogenargs="--disable-docs">
-    <branch repo="git.freedesktop.org"/>
+  <autotools id="fontconfig">
+    <pkg-config>fontconfig.pc</pkg-config>
+    <branch repo="freedesktop.org"
+            module="fontconfig/release/fontconfig-${version}.tar.bz2"
+            version="2.11.0"
+            hash="sha256:cb0e0ef6f03bc8568e95653840bb07d5859dc89d7ce2cade9d94fcccf8c1a467"/>
     <dependencies>
-      <dep package="gperf"/>
+      <dep package="freetype2"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
