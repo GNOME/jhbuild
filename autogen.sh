@@ -50,7 +50,7 @@ setup_i18n()
   if [ $msgfmtl_available -eq 0 ]; then
     # -s is for silent
     # -C is for change directory
-    make -s -C $srcdir/po -f Makefile.plain
+    $make_from_environment -s -C $srcdir/po -f Makefile.plain
   fi
 
   # Check gettext.sh is installed to provide i18n for this script
