@@ -4,15 +4,15 @@
 #
 # Lucas Lommer <llommer@svn.gnome.org>, 2010, 2012.
 # Jachym Simak <xsimi@xsimi.cz>, 2010.
-# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013.
+# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 13:40+0000\n"
-"PO-Revision-Date: 2013-12-27 07:46+0100\n"
+"POT-Creation-Date: 2014-01-29 18:55+0000\n"
+"PO-Revision-Date: 2014-02-20 22:44+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -22,32 +22,32 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../autogen.sh:107
+#: ../autogen.sh:103
 #, sh-format
 msgid "Configuring $PKG_NAME without autotools"
 msgstr "Balíček $PKG_NAME se konfiguruje bez autotools"
 
-#: ../autogen.sh:124 ../autogen.sh:129
+#: ../autogen.sh:120 ../autogen.sh:125
 #, sh-format
 msgid "Unable to create file $srcdir/Makefile.inc"
 msgstr "Není možné vytvořit soubor $srcdir/Makefile.inc"
 
-#: ../autogen.sh:144
+#: ../autogen.sh:140
 #, sh-format
 msgid "Unable to read file $makefile"
 msgstr "Není možné číst soubor $makefile"
 
-#: ../autogen.sh:149
+#: ../autogen.sh:145
 #, sh-format
 msgid "Unable to copy $makefile to $srcdir/Makefile"
 msgstr "Není možné zkopírovat $makefile do $srcdir/Makefile"
 
-#: ../autogen.sh:154
+#: ../autogen.sh:150
 #, sh-format
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Nyní přeložte balíček $PKG_NAME zadáním příkazu „make“"
 
-#: ../autogen.sh:192
+#: ../autogen.sh:188
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "**Chyba**: Složka „$srcdir“ nevypadá jako nejvyšší složka balíčku $PKG_NAME"
 
-#: ../autogen.sh:234
+#: ../autogen.sh:230
 msgid ""
 "WARNING: gnome-autogen.sh not available (usually part of package 'gnome-"
 "common')"
@@ -63,7 +63,7 @@ msgstr ""
 "VAROVÁNÍ: skript gnome-autogen.sh není dostupný (obvykle bývá součástí "
 "balíčku „gnome-common“)"
 
-#: ../autogen.sh:237
+#: ../autogen.sh:233
 msgid ""
 "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
 msgstr ""
@@ -711,16 +711,16 @@ msgstr "kořen místní kopie (%s) nemá povolen zápis"
 msgid "install prefix (%s) is not writable"
 msgstr "prefix instalace (%s) nemá povolen zápis"
 
-#: ../jhbuild/commands/sanitycheck.py:66 ../jhbuild/commands/sanitycheck.py:69
-#: ../jhbuild/commands/sanitycheck.py:72 ../jhbuild/commands/sanitycheck.py:75
-#: ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:68 ../jhbuild/commands/sanitycheck.py:71
+#: ../jhbuild/commands/sanitycheck.py:74 ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:81
+#: ../jhbuild/commands/sanitycheck.py:108
+#: ../jhbuild/commands/sanitycheck.py:112
 #: ../jhbuild/commands/sanitycheck.py:120
-#: ../jhbuild/commands/sanitycheck.py:124
-#: ../jhbuild/commands/sanitycheck.py:132
-#: ../jhbuild/commands/sanitycheck.py:141
-#: ../jhbuild/commands/sanitycheck.py:147
-#: ../jhbuild/commands/sanitycheck.py:149
-#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/commands/sanitycheck.py:129
+#: ../jhbuild/commands/sanitycheck.py:135
+#: ../jhbuild/commands/sanitycheck.py:137
+#: ../jhbuild/commands/sanitycheck.py:139 ../jhbuild/modtypes/cmake.py:82
 #: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
@@ -730,12 +730,39 @@ msgstr "prefix instalace (%s) nemá povolen zápis"
 msgid "%s not found"
 msgstr "%s nenalezeno"
 
-#: ../jhbuild/commands/sanitycheck.py:87
+#: ../jhbuild/commands/sanitycheck.py:88
+msgid "Could not find XML catalog"
+msgstr "Nelze nalézt katalog XML"
+
+#: ../jhbuild/commands/sanitycheck.py:97
+#, python-format
+msgid ""
+"Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgstr "Nelze nalézt %s v katalogu XML (obvykle součást balíčku „docbook-xsl“)"
+
+#: ../jhbuild/commands/sanitycheck.py:104
+#, python-format
+msgid "Could not find the Perl module %s"
+msgstr "Nelze nalézt perlový modul %s"
+
+#: ../jhbuild/commands/sanitycheck.py:116
+msgid "curl or wget not found"
+msgstr "nelze nalézt curl nebo wget"
+
+#: ../jhbuild/commands/sanitycheck.py:125
+msgid "Installed git program is not the right git"
+msgstr "Instalovaný program git není ten správný"
+
+#: ../jhbuild/commands/sanitycheck.py:131
+msgid "Could not check git program"
+msgstr "Nelze zkontrolovat program git"
+
+#: ../jhbuild/commands/sanitycheck.py:149
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "příkaz „aclocal“ nevidí makra %s"
 
-#: ../jhbuild/commands/sanitycheck.py:92
+#: ../jhbuild/commands/sanitycheck.py:154
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -743,32 +770,6 @@ msgid ""
 msgstr ""
 "Nakopírujte prosím chybějící makra (%(macros)s) do jedné z následujících "
 "cest: %(path)s"
-
-#: ../jhbuild/commands/sanitycheck.py:100
-msgid "Could not find XML catalog"
-msgstr "Nelze nalézt katalog XML"
-
-#: ../jhbuild/commands/sanitycheck.py:109
-#, python-format
-msgid "Could not find %s in XML catalog"
-msgstr "Nelze nalézt %s v katalogu XML"
-
-#: ../jhbuild/commands/sanitycheck.py:116
-#, python-format
-msgid "Could not find the Perl module %s"
-msgstr "Nelze nalézt perlový modul %s"
-
-#: ../jhbuild/commands/sanitycheck.py:128
-msgid "curl or wget not found"
-msgstr "nelze nalézt curl nebo wget"
-
-#: ../jhbuild/commands/sanitycheck.py:137
-msgid "Installed git program is not the right git"
-msgstr "Instalovaný program git není ten správný"
-
-#: ../jhbuild/commands/sanitycheck.py:143
-msgid "Could not check git program"
-msgstr "Nelze zkontrolovat program git"
 
 #: ../jhbuild/commands/snapshot.py:34
 msgid "Print out a moduleset for the exact versions that are checked out"
@@ -850,7 +851,12 @@ msgstr ""
 msgid "Module %(mod)r is not installed"
 msgstr "Modul %(mod)r není nainstalován"
 
-#: ../jhbuild/config.py:174
+#: ../jhbuild/config.py:180
+#, python-format
+msgid "Invalid condition set modifier: '%s'.  Must start with '+' or '-'."
+msgstr "Neplatný modifikátor sady podmínek: „%s“. Musí začínat „+“ nebo „-“."
+
+#: ../jhbuild/config.py:206
 msgid ""
 "JHBuild start script has been installed in ~/.local/bin/jhbuild, you should "
 "remove the old version that is still in ~/bin/ (or make it a symlink to ~/."
@@ -860,7 +866,7 @@ msgstr ""
 "byste odstranit starou verzi z ~/bin/ (nebo vytvořit symbolický odkaz na ~/."
 "local/bin/jhbuild)"
 
-#: ../jhbuild/config.py:186
+#: ../jhbuild/config.py:218
 msgid ""
 "Obsolete JHBuild start script, make sure it is removed then do run 'make "
 "install'"
@@ -868,16 +874,16 @@ msgstr ""
 "Zastaralý spouštěcí skript JHBuild, ujistěte se, že byl odstraněn a spusťte "
 "„make install“"
 
-#: ../jhbuild/config.py:194
+#: ../jhbuild/config.py:226
 msgid "could not load config defaults"
 msgstr "nelze nahrát výchozí nastavení"
 
-#: ../jhbuild/config.py:205
+#: ../jhbuild/config.py:237
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "nelze nahrát soubor s nastavením, %s chybí"
 
-#: ../jhbuild/config.py:211
+#: ../jhbuild/config.py:243
 #, python-format
 msgid ""
 "The default location of the configuration file has changed. Please move "
@@ -886,21 +892,21 @@ msgstr ""
 "Výchozí umístění konfiguračního souboru se změnilo. Přesuňte prosím "
 "%(old_path)s do %(new_path)s."
 
-#: ../jhbuild/config.py:241
+#: ../jhbuild/config.py:292
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Nelze zahrnout soubor s nastavením (%s)"
 
-#: ../jhbuild/config.py:255
+#: ../jhbuild/config.py:306
 msgid "could not load config file"
 msgstr "nelze načíst soubor s nastavením"
 
-#: ../jhbuild/config.py:269
+#: ../jhbuild/config.py:320
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "v souboru s nastavením jsou definovány neznámé klíče: %s"
 
-#: ../jhbuild/config.py:276
+#: ../jhbuild/config.py:327
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use "
@@ -908,53 +914,53 @@ msgid ""
 msgstr ""
 "proměnná nastavení „%s“ je zavržená, měli byste použít „repos['gnome.org']“."
 
-#: ../jhbuild/config.py:281 ../jhbuild/config.py:286
+#: ../jhbuild/config.py:332 ../jhbuild/config.py:337
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr "proměnná nastavení „%s“ je zavržená, měli byste použít „repos“."
 
-#: ../jhbuild/config.py:320
+#: ../jhbuild/config.py:371
 msgid "invalid checkout mode"
 msgstr "neplatný režim kontroly"
 
-#: ../jhbuild/config.py:324
+#: ../jhbuild/config.py:375
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "neplatný režim kontroly (modul: %s)"
 
-#: ../jhbuild/config.py:326
+#: ../jhbuild/config.py:377
 msgid "copy mode requires copy_dir to be set"
 msgstr "režim kopírování vyžaduje nastavení copy_dir"
 
-#: ../jhbuild/config.py:331
+#: ../jhbuild/config.py:382
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr ""
 "složka sady modulů (%s) nebyla nalezena, zakazuje se „use_local_modulesets“"
 
-#: ../jhbuild/config.py:337 ../jhbuild/config.py:339 ../jhbuild/config.py:341
-#: ../jhbuild/config.py:343 ../jhbuild/config.py:346
+#: ../jhbuild/config.py:388 ../jhbuild/config.py:390 ../jhbuild/config.py:392
+#: ../jhbuild/config.py:394 ../jhbuild/config.py:397
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s musí být absolutní cesta"
 
-#: ../jhbuild/config.py:359
+#: ../jhbuild/config.py:410
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "nelze vytvořit prefix instalace (%s)"
 
-#: ../jhbuild/config.py:366
+#: ../jhbuild/config.py:417
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "pracovní složka (%s) nemohla být vytvořena"
 
-#: ../jhbuild/config.py:482
+#: ../jhbuild/config.py:533
 #, python-format
 msgid "Can't create %s directory"
 msgstr "Nelze vytvořit složku %s"
 
-#: ../jhbuild/config.py:513
+#: ../jhbuild/config.py:564
 #, python-format
 msgid ""
 "Unable to determine python version using the PYTHON environment variable "
@@ -963,7 +969,7 @@ msgstr ""
 "Nelze určit verzi jazyka python pomocí proměnné prostředí PYTHON (%s). Bude "
 "použita výchozí verze „%s“"
 
-#: ../jhbuild/config.py:528
+#: ../jhbuild/config.py:579
 #, python-format
 msgid ""
 "Unable to determine python site-packages directory using the PYTHON "
@@ -972,16 +978,16 @@ msgstr ""
 "Nelze zjistit složku s balíčky jazyka Python pomocí proměnné prostředí "
 "PYTHON (%s). Bude použita výchozí „%s“"
 
-#: ../jhbuild/config.py:575
+#: ../jhbuild/config.py:626
 #, python-format
 msgid "Could not create GConf config (%s)"
 msgstr "Nelze vytvořit nastavení GConf (%s)"
 
-#: ../jhbuild/config.py:667
+#: ../jhbuild/config.py:718
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Nelze zpracovat relativní čas „min_age“"
 
-#: ../jhbuild/config.py:681
+#: ../jhbuild/config.py:732
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr "je vypnut tichý režim, protože modul „curses“ jazyka Python chybí."
@@ -1102,7 +1108,7 @@ msgstr "Spustit"
 msgid "Build Completed"
 msgstr "Sestavování hotovo"
 
-#: ../jhbuild/frontends/gtkui.py:377 ../jhbuild/frontends/terminal.py:283
+#: ../jhbuild/frontends/gtkui.py:377 ../jhbuild/frontends/terminal.py:286
 #, python-format
 msgid "Error during phase %(phase)s of %(module)s"
 msgstr "Chyba během kroku %(phase)s modulu %(module)s"
@@ -1111,25 +1117,25 @@ msgstr "Chyba během kroku %(phase)s modulu %(module)s"
 msgid "Pick an Action"
 msgstr "Vyberte akci"
 
-#: ../jhbuild/frontends/gtkui.py:397 ../jhbuild/frontends/terminal.py:310
+#: ../jhbuild/frontends/gtkui.py:397 ../jhbuild/frontends/terminal.py:313
 #, python-format
 msgid "Rerun phase %s"
 msgstr "Znovu spustit krok %s"
 
-#: ../jhbuild/frontends/gtkui.py:400 ../jhbuild/frontends/terminal.py:312
+#: ../jhbuild/frontends/gtkui.py:400 ../jhbuild/frontends/terminal.py:315
 #, python-format
 msgid "Ignore error and continue to %s"
 msgstr "Ignorovat chybu a pokračovat s %s"
 
-#: ../jhbuild/frontends/gtkui.py:403 ../jhbuild/frontends/terminal.py:314
+#: ../jhbuild/frontends/gtkui.py:403 ../jhbuild/frontends/terminal.py:317
 msgid "Ignore error and continue to next module"
 msgstr "Ignorovat chybu a pokračovat následujícím modulem"
 
-#: ../jhbuild/frontends/gtkui.py:405 ../jhbuild/frontends/terminal.py:315
+#: ../jhbuild/frontends/gtkui.py:405 ../jhbuild/frontends/terminal.py:318
 msgid "Give up on module"
 msgstr "Vzdát práci s modulem"
 
-#: ../jhbuild/frontends/gtkui.py:412 ../jhbuild/frontends/terminal.py:324
+#: ../jhbuild/frontends/gtkui.py:412 ../jhbuild/frontends/terminal.py:327
 #, python-format
 msgid "Go to phase \"%s\""
 msgstr "Přejít na krok „%s“"
@@ -1187,47 +1193,47 @@ msgstr ""
 msgid "########## Error running %s"
 msgstr "########## Chyba při běhu %s"
 
-#: ../jhbuild/frontends/terminal.py:274
+#: ../jhbuild/frontends/terminal.py:277
 msgid "success"
 msgstr "úspěch"
 
-#: ../jhbuild/frontends/terminal.py:276
+#: ../jhbuild/frontends/terminal.py:279
 msgid "the following modules were not built"
 msgstr "následující moduly nebyly sestaveny"
 
-#: ../jhbuild/frontends/terminal.py:298 ../jhbuild/frontends/tinderbox.py:415
+#: ../jhbuild/frontends/terminal.py:301 ../jhbuild/frontends/tinderbox.py:415
 msgid "automatically retrying configure"
 msgstr "automaticky zkusit příkaz „configure“ znovu"
 
-#: ../jhbuild/frontends/terminal.py:302 ../jhbuild/frontends/tinderbox.py:420
+#: ../jhbuild/frontends/terminal.py:305 ../jhbuild/frontends/tinderbox.py:420
 msgid "automatically forcing a fresh checkout"
 msgstr "automaticky získat čerstvou místní kopii"
 
-#: ../jhbuild/frontends/terminal.py:316
+#: ../jhbuild/frontends/terminal.py:319
 msgid "Start shell"
 msgstr "Spustit shell"
 
-#: ../jhbuild/frontends/terminal.py:317
+#: ../jhbuild/frontends/terminal.py:320
 msgid "Reload configuration"
 msgstr "Znovu načíst nastavení"
 
-#: ../jhbuild/frontends/terminal.py:326
+#: ../jhbuild/frontends/terminal.py:329
 msgid "choice: "
 msgstr "volba:"
 
-#: ../jhbuild/frontends/terminal.py:341
+#: ../jhbuild/frontends/terminal.py:344
 msgid "exit shell to continue with build"
 msgstr "ukončit shell a pokračovat v sestavování"
 
-#: ../jhbuild/frontends/terminal.py:351
+#: ../jhbuild/frontends/terminal.py:354
 msgid "invalid choice"
 msgstr "nesprávná volba"
 
-#: ../jhbuild/frontends/terminal.py:359
+#: ../jhbuild/frontends/terminal.py:362
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Napište „ano“ pro potvrzení akce:"
 
-#: ../jhbuild/frontends/terminal.py:362
+#: ../jhbuild/frontends/terminal.py:365
 msgid "yes"
 msgstr "ano"
 
@@ -1263,52 +1269,61 @@ msgstr "použít uvedenu sadu modulů"
 msgid "do not prompt for input"
 msgstr "nežádat vstup"
 
-#: ../jhbuild/main.py:157
+#: ../jhbuild/main.py:129
+msgid "modify the condition set"
+msgstr "změnit sadu podmínek"
+
+#: ../jhbuild/main.py:160
 msgid "Interrupted"
 msgstr "Přerušeno"
 
-#: ../jhbuild/main.py:160
+#: ../jhbuild/main.py:163
 msgid "EOF"
 msgstr "Konec souboru (EOF)"
 
-#: ../jhbuild/modtypes/autotools.py:224 ../jhbuild/modtypes/cmake.py:75
+#: ../jhbuild/modtypes/autotools.py:228 ../jhbuild/modtypes/cmake.py:75
 #: ../jhbuild/modtypes/linux.py:109 ../jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "Nastavuje se"
 
-#: ../jhbuild/modtypes/autotools.py:264 ../jhbuild/modtypes/cmake.py:102
+#: ../jhbuild/modtypes/autotools.py:268 ../jhbuild/modtypes/cmake.py:102
 #: ../jhbuild/modtypes/linux.py:141 ../jhbuild/modtypes/waf.py:87
 msgid "Cleaning"
 msgstr "Čistí se"
 
-#: ../jhbuild/modtypes/autotools.py:273 ../jhbuild/modtypes/cmake.py:111
+#: ../jhbuild/modtypes/autotools.py:277 ../jhbuild/modtypes/cmake.py:111
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:154
 #: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:95
 msgid "Building"
 msgstr "Sestavuje se"
 
-#: ../jhbuild/modtypes/autotools.py:307 ../jhbuild/modtypes/waf.py:113
+#: ../jhbuild/modtypes/autotools.py:311 ../jhbuild/modtypes/waf.py:113
 msgid "Checking"
 msgstr "Kontroluje se"
 
-#: ../jhbuild/modtypes/autotools.py:320 ../jhbuild/modtypes/cmake.py:120
+#: ../jhbuild/modtypes/autotools.py:324 ../jhbuild/modtypes/cmake.py:120
 #: ../jhbuild/modtypes/waf.py:125
 msgid "Creating tarball for"
 msgstr "Vytváří se balíček tarball pro"
 
-#: ../jhbuild/modtypes/autotools.py:329
+#: ../jhbuild/modtypes/autotools.py:333
 msgid "Dist checking"
 msgstr "Kontroluje se distribuce (distcheck)"
 
-#: ../jhbuild/modtypes/autotools.py:338 ../jhbuild/modtypes/cmake.py:129
+#: ../jhbuild/modtypes/autotools.py:342 ../jhbuild/modtypes/cmake.py:129
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:136
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: ../jhbuild/modtypes/autotools.py:367
+#: ../jhbuild/modtypes/autotools.py:371
 msgid "Distcleaning"
 msgstr "Čistí se distribuce (distclean)"
+
+#: ../jhbuild/modtypes/autotools.py:405
+#, python-format
+msgid "<%s/> tag must contain value=''"
+msgstr "značka <%s/> musí obsahovat value=''"
 
 #: ../jhbuild/modtypes/__init__.py:60
 #, python-format
@@ -1495,21 +1510,25 @@ msgstr "Detekovány cyklické závislosti: %s"
 msgid "Unknown module:"
 msgstr "Neznámý modul:"
 
-#: ../jhbuild/moduleset.py:385
+#: ../jhbuild/moduleset.py:408
+msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
+msgstr "<if> musí mít právě jedno z condition-set='' nebo condition-unset=''"
+
+#: ../jhbuild/moduleset.py:427
 #, python-format
 msgid "could not download %s: %s"
 msgstr "nepodařilo se stáhnout %s: %s"
 
-#: ../jhbuild/moduleset.py:390 ../jhbuild/moduleset.py:392
+#: ../jhbuild/moduleset.py:432 ../jhbuild/moduleset.py:434
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "nepodařilo se zpracovat %s: %s"
 
-#: ../jhbuild/moduleset.py:419
+#: ../jhbuild/moduleset.py:464
 msgid "Duplicate repository:"
 msgstr "Duplicitní repozitář:"
 
-#: ../jhbuild/moduleset.py:522
+#: ../jhbuild/moduleset.py:567
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
