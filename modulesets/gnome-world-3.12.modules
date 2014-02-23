@@ -339,10 +339,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="meld" skip-autogen="true"
-	  makeargs="prefix=${prefix}" makeinstallargs="prefix=${prefix} install">
+  <distutils id="meld">
     <branch/>
-  </autotools>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gtksourceview"/>
+      <dep package="pygobject"/>
+    </dependencies>
+  </distutils>
 
   <autotools id="gnome-phone-manager">
     <branch checkoutdir="gnome-phone-manager" module="phonemgr"/>
