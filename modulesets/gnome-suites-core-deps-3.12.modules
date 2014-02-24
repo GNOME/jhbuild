@@ -28,6 +28,8 @@
     href="git://repo.or.cz/"/>
 
 <!-- tarball repos -->
+<repository type="tarball" name="0pointer.de"
+    href="http://0pointer.de/lennart/projects/"/>
 <repository type="tarball" name="iso-codes"
     href="http://pkg-isocodes.alioth.debian.org/downloads/"/>
 <repository type="tarball" name="github.com/metabrainz"
@@ -844,6 +846,25 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libcanberra" autogen-sh="configure" autogenargs="--with-systemdsystemunitdir=no">
+    <pkg-config>libcanberra-gtk.pc</pkg-config>
+    <branch repo="0pointer.de"
+            module="libcanberra/libcanberra-${version}.tar.xz"
+            version="0.30"
+            hash="sha256:c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72">
+    </branch>
+    <dependencies>
+      <dep package="gtk-doc"/>
+      <dep package="libvorbis"/>
+    </dependencies>
+    <after>
+      <dep package="gtk+"/>
+      <dep package="gtk+-2"/>
+      <dep package="pulseaudio"/>
+      <dep package="gstreamer"/>
+    </after>
   </autotools>
 
  <autotools id="libchamplain">
