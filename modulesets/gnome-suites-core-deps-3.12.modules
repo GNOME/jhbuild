@@ -338,7 +338,7 @@
       <dep package="gobject-introspection"/>
       <dep package="wayland"/>
       <dep package="libxkbcommon"/>
-      <dep package="libevdev"/>
+      <dep package="libinput"/>
     </dependencies>
     <suggests>
       <dep package="gdk-pixbuf"/>
@@ -1165,6 +1165,17 @@
             module="libevdev/libevdev-${version}.tar.xz"
             version="1.0"
             hash="sha256:6e6d1e307eff03f1c939c9af532228b19030fc896a9257a8abfa6e9b7dc91803"/>
+  </autotools>
+
+  <autotools id="libinput">
+    <branch repo="freedesktop.org"
+            module="libinput/libinput-${version}.tar.xz"
+            version="0.1.0"
+            hash="sha256:63214727be5115806868ebdf9470fe2ddf4b2e1229102e080237380d22b40a1d"/>
+    <dependencies>
+      <dep package="libevdev"/>
+      <dep package="libudev"/>
+    </dependencies>
   </autotools>
 
   <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb --disable-x11">
