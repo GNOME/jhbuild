@@ -78,6 +78,8 @@
     href="http://ftp.gnu.org/gnu/"/>
 <repository type="tarball" name="libndp"
     href="http://libndp.org/files/"/>
+<repository type="tarball" name="mtdev"
+    href="http://bitmath.org/code/mtdev/"/>
 
 <include href="gnome-sysdeps-3.12.modules"/>
 
@@ -1159,6 +1161,13 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mtdev">
+    <branch repo="mtdev"
+            module="mtdev-${version}.tar.gz"
+            version="1.1.4"
+            hash="sha256:39005193e9e4dc9253acb74b6698a74f5225f7d645ef36352bf9de0fc9236f8f"/>
+  </autotools>
+
   <autotools id="libevdev" autogenargs="--disable-gcov">
     <branch repo="freedesktop.org"
             checkoutdir="libevdev"
@@ -1175,6 +1184,7 @@
     <dependencies>
       <dep package="libevdev"/>
       <dep package="libudev"/>
+      <dep package="mtdev"/>
     </dependencies>
   </autotools>
 
