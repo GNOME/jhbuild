@@ -113,7 +113,7 @@ class cmd_sanitycheck(Command):
         try:
             get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
         except:
-            uprint(_('Could not find the Perl module %s') % perlmod)
+            uprint(_('Could not find the Perl module %s (usually part of package \'libxml-parser-perl\' or \'perl-XML-Parser\')') % perlmod)
 
         # check for cvs:
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
@@ -121,7 +121,7 @@ class cmd_sanitycheck(Command):
 
         # check for svn:
         if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            uprint(_('%s not found') % 'svn')
+            uprint(_('%s not found (usually part of the package \'subversion\')') % 'svn')
 
         if not (inpath('curl', os.environ['PATH'].split(os.pathsep)) or
                 inpath('wget', os.environ['PATH'].split(os.pathsep))):
