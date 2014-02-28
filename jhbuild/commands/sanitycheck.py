@@ -108,13 +108,13 @@ class cmd_sanitycheck(Command):
                 except:
                     uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\')') % name)
 
-        # Perl modules used by tools such as intltool:
-        for perlmod in [ 'XML::Parser' ]:
-            try:
-                get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
-            except:
-                uprint(_('Could not find the Perl module %s') % perlmod)
-                
+        # Perl module used by tools such as intltool:
+        perlmod = 'XML::Parser'
+        try:
+            get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
+        except:
+            uprint(_('Could not find the Perl module %s') % perlmod)
+
         # check for cvs:
         if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'cvs')
