@@ -51,7 +51,14 @@ class cmd_sanitycheck(Command):
     def run(self, config, options, args, help=None):
         if args:
             raise UsageError(_('no extra arguments expected'))
-    
+
+        # try creating jhbuild directories before checking they are accessible.
+        try:
+            os.makedirs(config.checkoutroot)
+            os.makedirs(config.prefix)
+        except OSError:
+            pass
+
         # check whether the checkout root and install prefix are writable
         if not (os.path.isdir(config.checkoutroot) and
                 os.access(config.checkoutroot, os.R_OK|os.W_OK|os.X_OK)):
