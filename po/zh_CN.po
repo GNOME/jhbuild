@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-29 18:55+0000\n"
-"PO-Revision-Date: 2014-02-19 22:48+0800\n"
+"POT-Creation-Date: 2014-02-28 21:29+0000\n"
+"PO-Revision-Date: 2014-03-01 08:31+0800\n"
 "Last-Translator: Wylmer Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -685,26 +685,25 @@ msgstr "检查需要的工具是否可用"
 msgid "no extra arguments expected"
 msgstr "不应有额外参数"
 
-#: ../jhbuild/commands/sanitycheck.py:58
+#: ../jhbuild/commands/sanitycheck.py:65
 #, python-format
 msgid "checkout root (%s) is not writable"
 msgstr "检出根位置(%s) 不可写"
 
-#: ../jhbuild/commands/sanitycheck.py:61
+#: ../jhbuild/commands/sanitycheck.py:68
 #, python-format
 msgid "install prefix (%s) is not writable"
 msgstr "install 的前缀位置(%s) 不可写"
 
-#: ../jhbuild/commands/sanitycheck.py:68 ../jhbuild/commands/sanitycheck.py:71
-#: ../jhbuild/commands/sanitycheck.py:74 ../jhbuild/commands/sanitycheck.py:78
-#: ../jhbuild/commands/sanitycheck.py:81
-#: ../jhbuild/commands/sanitycheck.py:108
-#: ../jhbuild/commands/sanitycheck.py:112
+#: ../jhbuild/commands/sanitycheck.py:75 ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:81 ../jhbuild/commands/sanitycheck.py:85
+#: ../jhbuild/commands/sanitycheck.py:88
 #: ../jhbuild/commands/sanitycheck.py:120
-#: ../jhbuild/commands/sanitycheck.py:129
-#: ../jhbuild/commands/sanitycheck.py:135
-#: ../jhbuild/commands/sanitycheck.py:137
-#: ../jhbuild/commands/sanitycheck.py:139 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/commands/sanitycheck.py:132
+#: ../jhbuild/commands/sanitycheck.py:141
+#: ../jhbuild/commands/sanitycheck.py:147
+#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
 #: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
@@ -714,40 +713,51 @@ msgstr "install 的前缀位置(%s) 不可写"
 msgid "%s not found"
 msgstr "找不到 %s"
 
-#: ../jhbuild/commands/sanitycheck.py:88
-msgid "Could not find XML catalog"
-msgstr "找不到 XML 目录"
+#: ../jhbuild/commands/sanitycheck.py:99
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid ""
+"Could not find XML catalog (usually part of the package 'libxml2-utils')"
+msgstr "找不到 XML 目录(通常属于包“libxml2-utils”)"
 
-#: ../jhbuild/commands/sanitycheck.py:97
+#: ../jhbuild/commands/sanitycheck.py:109
 #, python-format
-#| msgid "Could not find %s in XML catalog"
 msgid ""
 "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
 msgstr "在 XML 目录中找不到 %s (通常属于包“docbook-xsl”)"
 
-#: ../jhbuild/commands/sanitycheck.py:104
-#, python-format
-msgid "Could not find the Perl module %s"
-msgstr "找不到 Perl 模块 %s"
-
 #: ../jhbuild/commands/sanitycheck.py:116
+#, python-format
+msgid ""
+"Could not find the Perl module %s (usually part of package 'libxml-parser-"
+"perl' or 'perl-XML-Parser')"
+msgstr "找不到 Perl 模块 %s(通常是包“libxml-parser-perl”或“perl-XML-Parser”的一部分。"
+
+#: ../jhbuild/commands/sanitycheck.py:124
+#, python-format
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid "%s not found (usually part of the package 'subversion')"
+msgstr "找不到 %s (通常属于包“subversion”)"
+
+#: ../jhbuild/commands/sanitycheck.py:128
 msgid "curl or wget not found"
 msgstr "curl 或 wget 未找到"
 
-#: ../jhbuild/commands/sanitycheck.py:125
+#: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
 msgstr "安装的 git 程序不是正确的 git 程序"
 
-#: ../jhbuild/commands/sanitycheck.py:131
+#: ../jhbuild/commands/sanitycheck.py:143
 msgid "Could not check git program"
 msgstr "无法检查 git 程序"
 
-#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:161
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "aclocal 看不到 %s 宏"
 
-#: ../jhbuild/commands/sanitycheck.py:154
+#: ../jhbuild/commands/sanitycheck.py:166
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1863,6 +1873,12 @@ msgstr "找不到 quilt"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "无法检出 quilt 补丁集"
+
+#~ msgid "Could not find XML catalog"
+#~ msgstr "找不到 XML 目录"
+
+#~ msgid "Could not find the Perl module %s"
+#~ msgstr "找不到 Perl 模块 %s"
 
 #~ msgid "gnome-autogen.sh not available"
 #~ msgstr "gnome-autogen.sh 不可用"
