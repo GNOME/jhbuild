@@ -619,12 +619,18 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gjs" autogenargs="--enable-installed-tests --enable-coverage">
+  <autotools id="gjs" autogenargs="--enable-installed-tests">
+    <if condition-set="coverage">
+      <autogenargs value="--enable-coverage"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
       <dep package="js24"/>
+      <if condition-set="coverage">
+        <dep package="lcov"/>
+      </if>
     </dependencies>
   </autotools>
 
