@@ -155,8 +155,8 @@ def get_default_conditions():
     # of 'freebsd') then we just need to make sure the more-specific one
     # comes first in the list
     conditions_sets = [
-            ('linux', ['linux', 'wayland', 'udev', 'x11']),
-            ('freebsd', ['freebsd', 'x11']),
+            ('linux', ['linux', 'wayland', 'udev', 'x11', 'systemd']),
+            ('freebsd', ['freebsd', 'x11', 'bsd']),
 
             # this must be left here so that at least one will be found
             ('', ['x11'])
