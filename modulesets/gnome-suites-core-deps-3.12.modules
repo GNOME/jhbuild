@@ -290,28 +290,36 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cogl" autogenargs="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform --enable-xlib-egl-platform --enable-cogl-gst">
+  <autotools id="cogl" autogenargs="--enable-xlib-egl-platform --enable-cogl-gst">
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
+    </if>
     <pkg-config>cogl-1.0.pc</pkg-config>
     <branch revision="cogl-1.18"/>
     <dependencies>
-      <dep package="gbm"/>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
       <dep package="libdrm"/>
       <dep package="libXcomposite"/>
       <dep package="xcb-dri2" />
       <dep package="pango"/>
-      <dep package="wayland"/>
-      <dep package="wayland-egl"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+      <if condition-set="wayland">
+        <dep package="wayland"/>
+        <dep package="wayland-egl"/>
+        <dep package="gbm"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
   </autotools>
 
-  <autotools id="clutter" autogenargs="--enable-installed-tests --enable-wayland-backend --enable-wayland-compositor --enable-evdev-input --enable-egl-backend">
+  <autotools id="clutter" autogenargs="--enable-installed-tests --enable-egl-backend">
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-backend --enable-wayland-compositor --enable-evdev-input"/>
+    </if>
     <branch revision="clutter-1.18"/>
     <dependencies>
       <dep package="cogl"/>
@@ -320,9 +328,11 @@
       <dep package="cairo"/>
       <dep package="json-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="wayland"/>
-      <dep package="libxkbcommon"/>
-      <dep package="libinput"/>
+      <if condition-set="wayland">
+        <dep package="wayland"/>
+        <dep package="libxkbcommon"/>
+        <dep package="libinput"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="gdk-pixbuf"/>
@@ -360,7 +370,10 @@
     </after>
   </autotools>
 
-  <autotools id="gtk+" autogenargs="--enable-x11-backend --enable-wayland-backend --enable-broadway-backend --enable-installed-tests">
+  <autotools id="gtk+" autogenargs="--enable-x11-backend --enable-broadway-backend --enable-installed-tests">
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-backend"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="atk"/>
@@ -371,8 +384,10 @@
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
       <dep package="at-spi2-atk"/>
-      <dep package="libxkbcommon"/>
-      <dep package="wayland"/>
+      <if condition-set="wayland">
+        <dep package="libxkbcommon"/>
+        <dep package="wayland"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="shared-mime-info"/>
