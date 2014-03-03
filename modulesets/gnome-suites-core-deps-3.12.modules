@@ -117,6 +117,9 @@
   </autotools>
 
   <autotools id="geoclue">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-wifi-source"/>
+    </if>
     <branch repo="git.freedesktop.org"/>
     <dependencies>
       <dep package="glib"/>
@@ -124,8 +127,10 @@
       <dep package="json-glib"/>
       <dep package="libsoup"/>
       <dep package="libxml2"/>
-      <dep package="ModemManager"/>
-      <dep package="NetworkManager"/>
+      <if condition-set="linux">
+        <dep package="ModemManager"/>
+        <dep package="NetworkManager"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -336,7 +341,9 @@
     </dependencies>
     <suggests>
       <dep package="gdk-pixbuf"/>
-      <dep package="gudev"/>
+      <if condition-set="wayland">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -669,7 +676,9 @@
       <dep package="iso-codes"/>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -691,7 +700,9 @@
     <suggests>
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -777,7 +788,9 @@
     </dependencies>
     <suggests>
       <dep package="gobject-introspection"/>
-      <dep package="NetworkManager"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -1129,7 +1142,6 @@
       <dep package="libsecret"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
-      <dep package="NetworkManager"/>
       <dep package="upower"/>
       <dep package="libgsf"/>
       <dep package="gdk-pixbuf"/>
@@ -1137,6 +1149,9 @@
       <dep package="totem-pl-parser"/>
       <dep package="dconf"/>
       <dep package="libosinfo"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -1314,18 +1329,23 @@
   </autotools>
 
   <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-gusb --disable-udev --with-systemdsystemunitdir=no --disable-systemd-login"/>
+    </if>
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
-      <dep package="gudev"/>
       <dep package="libusb1"/>
-      <dep package="libgusb"/>
       <dep package="sqlite3"/>
       <dep package="lcms2"/>
       <dep package="gobject-introspection"/>
       <!-- and cups -->
       <!-- and sane -->
+      <if condition-set="linux">
+        <dep package="libgusb"/>
+        <dep package="gudev"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="polkit"/>
@@ -1353,6 +1373,10 @@
   </autotools>
 
   <autotools id="libpwquality">
+    <if condition-unset="linux">
+      <!-- uses PAM features not in XSSO spec -->
+      <autogenarg value="--disable-pam"/>
+    </if>
     <branch repo="libpwquality"
             module="https://fedorahosted.org/releases/l/i/libpwquality/libpwquality-1.2.2.tar.bz2" version="1.2.2"
             hash="sha256:9689627283b43d20ca74ca822404ee486242e3e528fa95bf7016d37ff46e0696"

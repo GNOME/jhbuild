@@ -126,7 +126,6 @@
       <dep package="gdk-pixbuf"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="gnome-bluetooth"/>
       <dep package="gnome-desktop"/>
       <dep package="gnome-menus"/>
       <dep package="gnome-online-accounts"/>
@@ -139,26 +138,31 @@
       <dep package="libgtop"/>
       <dep package="libnotify"/>
       <dep package="libpwquality"/>
-      <dep package="libwacom"/>
       <dep package="libxml2"/>
-      <dep package="network-manager-applet"/>
       <dep package="polkit"/>
       <dep package="pulseaudio"/>
       <dep package="smbclient"/>
       <dep package="sound-theme-freedesktop"/>
       <dep package="upower"/>
       <dep package="grilo"/>
+      <if condition-set="linux">
+        <dep package="gnome-bluetooth"/>
+        <dep package="network-manager-applet"/>
+        <dep package="libwacom"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="cups"/>
       <dep package="cheese"/>
       <dep package="gstreamer"/>
-      <dep package="NetworkManager"/>
-      <dep package="network-manager-applet"/>
-      <dep package="ModemManager"/>
       <dep package="ibus-pinyin"/>
       <dep package="ibus-anthy"/>
       <dep package="ibus-hangul"/>
+      <if condition-set="linux">
+        <dep package="network-manager-applet"/>
+        <dep package="ModemManager"/>
+        <dep package="NetworkManager"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -241,7 +245,9 @@
       <dep package="gnome-control-center"/>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -266,6 +272,9 @@
   </autotools>
 
   <autotools id="gnome-settings-daemon">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-rfkill --disable-gudev"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="colord"/>
@@ -275,20 +284,22 @@
       <dep package="gnome-desktop"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gtk+"/>
-      <dep package="gudev"/>
       <dep package="intltool"/>
       <dep package="libcanberra"/>
       <dep package="libgweather"/>
       <dep package="libnotify"/>
       <dep package="librsvg"/>
-      <dep package="libwacom"/>
       <dep package="PackageKit"/>
       <dep package="polkit"/>
       <dep package="pulseaudio"/>
       <dep package="upower"/>
       <dep package="ibus"/>
-      <dep package="xorg-wacom"/>
       <dep package="cups"/>
+      <if condition-set="linux">
+        <dep package="libwacom"/>
+        <dep package="xorg-wacom"/>
+        <dep package="gudev"/>
+      </if>
     </dependencies>
     <suggests>
       <!-- <dep package="xkbfile"/> -->
@@ -296,6 +307,9 @@
   </autotools>
 
   <autotools id="gnome-shell" autogenargs="--enable-compile-warnings=maximum">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-networkmanager"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
@@ -305,7 +319,6 @@
       <dep package="gdm"/> <!-- runtime dependency on Gdm-1.0.typelib-->
       <dep package="gjs"/>
       <dep package="glib"/>
-      <dep package="gnome-bluetooth"/>
       <dep package="gnome-desktop"/>
       <dep package="gnome-icon-theme"/>
       <dep package="gnome-icon-theme-symbolic"/>
@@ -318,8 +331,6 @@
       <dep package="libcroco"/>
       <dep package="libsoup"/>
       <dep package="mutter"/>
-      <dep package="NetworkManager"/>
-      <dep package="network-manager-applet"/>
       <dep package="polkit"/>
       <dep package="pulseaudio"/>
       <dep package="startup-notification"/>
@@ -327,6 +338,11 @@
       <dep package="telepathy-logger"/>
       <dep package="upower"/>
       <dep package="gcr"/>
+      <if condition-set="linux">
+        <dep package="gnome-bluetooth"/>
+        <dep package="NetworkManager"/>
+        <dep package="network-manager-applet"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="gstreamer"/>
@@ -367,11 +383,15 @@
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="libsoup"/>
-      <dep package="udisks"/>
+      <if condition-set="linux">
+        <dep package="udisks"/>
+      </if>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
       <dep package="libgphoto2"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -461,20 +481,25 @@
 
   <autotools id="pulseaudio"
              autogenargs="--disable-hal --disable-oss-output --disable-esound --disable-gconf --disable-gtk3 --enable-bluez5">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-bluez4 --disable-bluez5"/>
+    </if>
     <branch repo="pulseaudio.freedesktop.org"/>
     <dependencies>
       <dep package="alsa"/>
       <dep package="avahi"/>
-      <dep package="bluez"/>
       <dep package="dbus"/>
       <dep package="json"/>
       <dep package="libcap"/>
       <dep package="libsndfile"/>
       <dep package="libtool-ltdl"/>
-      <dep package="libudev"/>
       <dep package="glib"/>
-      <dep package="sbc"/>
       <dep package="speex"/>
+      <if condition-set="linux">
+        <dep package="bluez"/>
+        <dep package="libudev"/>
+        <dep package="sbc"/>
+      </if>
     </dependencies>
     <after>
       <dep package="polkit"/>
@@ -489,9 +514,11 @@
       <dep package="dbus-glib"/>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
-      <dep package="NetworkManager"/>
       <dep package="libxslt"/>
       <dep package="telepathy-glib"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -543,10 +570,12 @@
       <dep package="enchant"/>
       <dep package="geoclue"/>
       <dep package="geocode-glib"/>
-      <dep package="gudev"/>
       <dep package="iso-codes"/>
       <dep package="libchamplain"/>
-      <dep package="NetworkManager"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -843,6 +872,9 @@
   </autotools>
 
   <autotools id="gnome-user-share">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-bluetooth"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="avahi"/>
@@ -850,8 +882,10 @@
       <dep package="dbus-glib"/>
       <dep package="libcanberra"/>
       <dep package="libnotify"/>
-      <dep package="gnome-bluetooth"/>
       <dep package="nautilus"/>
+      <if condition-set="linux">
+        <dep package="gnome-bluetooth"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -869,8 +903,10 @@
       <dep package="libgcrypt"/>
       <dep package="libnotify"/>
       <dep package="libsecret"/>
-      <dep package="NetworkManager"/>
       <dep package="telepathy-glib"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -947,6 +983,13 @@
   </autotools>
 
   <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin" makeargs="CFLAGS=-Wno-error">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-systemd --disable-systemd-updates"/>
+    </if>
+    <if condition-set="bsd">
+      <autogenargs value="--enable-ports"/>
+    </if>
+
     <branch repo="packagekit.gitorious.org" checkoutdir="PackageKit" module="packagekit.git"/>
     <dependencies>
       <dep package="glib"/>
@@ -955,13 +998,18 @@
       <dep package="dbus-glib"/>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
-      <dep package="NetworkManager"/>
       <dep package="polkit"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+        <dep package="NetworkManager"/>
+      </if>
     </suggests>
   </autotools>
 
   <autotools id="polkit">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-test"/>
+    </if>
     <branch repo="git.freedesktop.org"/>
     <dependencies>
       <dep package="glib"/>
@@ -992,7 +1040,9 @@
       <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -1018,7 +1068,6 @@
       <dep package="gnome-calculator"/>
       <dep package="gnome-contacts"/>
       <dep package="gnome-dictionary"/>
-      <dep package="gnome-disk-utility"/>
       <dep package="gnome-font-viewer"/>
       <dep package="gnome-screenshot"/>
       <dep package="gnome-system-log"/>
@@ -1029,6 +1078,10 @@
       <dep package="sushi"/>
       <dep package="totem"/>
       <dep package="yelp"/>
+      <if condition-set="linux">
+        <!-- udisks dependency -->
+        <dep package="gnome-disk-utility"/>
+      </if>
     </dependencies>
   </metamodule>
 
@@ -1039,7 +1092,6 @@
     <dependencies>
       <dep package="dconf"/>
       <dep package="evolution-data-server"/>
-      <dep package="gnome-bluetooth"/>
       <dep package="gnome-control-center"/>
       <dep package="gnome-icon-theme"/>
       <dep package="gnome-icon-theme-symbolic"/>
@@ -1082,15 +1134,17 @@
       <dep package="ConsoleKit"/>
       <dep package="dbus"/>
       <dep package="gdm"/>
-      <dep package="NetworkManager"/>
       <dep package="PackageKit"/>
       <dep package="polkit"/>
       <dep package="upower"/>
-      <dep package="udisks"/>
       <dep package="cups"/>
       <!-- <dep package="systemd"/> -->
       <!-- <dep package="xorg-x11-server"/> -->
       <!-- <dep package="plymouth"/> -->
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+        <dep package="udisks"/>
+      </if>
     </dependencies>
   </metamodule>
 
@@ -1127,7 +1181,6 @@
       <dep package="gstreamer"/>
       <dep package="libnotify"/>
       <dep package="libpeas"/>
-      <dep package="NetworkManager"/>
       <dep package="PackageKit"/>
       <dep package="polkit"/>
       <dep package="telepathy-glib"/>
@@ -1138,6 +1191,9 @@
       <dep package="gtkmm"/>
       <dep package="java-gnome"/>
       <dep package="seed"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
     </dependencies>
   </metamodule>
 

@@ -2735,7 +2735,9 @@
       <dep package="gtk+"/>
     </dependencies>
     <suggests>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -2753,7 +2755,9 @@
     <suggests>
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
-      <dep package="gudev"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -3057,8 +3061,10 @@
       <dep package="gdk-pixbuf"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="gudev"/>
       <dep package="vala"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="colord"/>
@@ -3124,7 +3130,6 @@
       <dep package="grilo"/>
       <dep package="gst-plugins-base"/>
       <dep package="gtk+"/>
-      <dep package="gudev"/>
       <dep package="json-glib"/>
       <dep package="libnotify"/>
       <dep package="libpeas"/>
@@ -3133,6 +3138,9 @@
       <dep package="pygobject-python2"/>
       <dep package="totem-pl-parser"/>
       <dep package="yelp-tools"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="avahi"/>

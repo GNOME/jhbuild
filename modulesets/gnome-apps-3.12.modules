@@ -479,7 +479,6 @@
       <dep package="gst-plugins-bad"/>
       <dep package="gst-plugins-base"/>
       <dep package="gst-plugins-good"/>
-      <dep package="gudev"/>
       <dep package="clutter-gst"/>
       <dep package="clutter-gtk"/>
       <dep package="libcanberra"/>
@@ -487,6 +486,9 @@
       <dep package="gnome-video-effects"/>
       <dep package="librsvg"/>
       <dep package="gnome-desktop"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -581,9 +583,11 @@
       <dep package="gtk+"/>
       <dep package="spice-gtk"/>
       <dep package="vala"/>
-      <dep package="gudev"/>
       <dep package="tracker"/>
       <dep package="gnome-themes-standard"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -615,8 +619,10 @@
       <dep package="iso-codes"/>
       <dep package="libgweather"/>
       <dep package="libpwquality"/>
-      <dep package="network-manager-applet"/>
-      <dep package="NetworkManager"/>
+      <if condition-set="linux">
+        <dep package="network-manager-applet"/>
+        <dep package="NetworkManager"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="upower"/>
@@ -1026,6 +1032,9 @@
   </autotools>
 
   <autotools id="brasero">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-inotify"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>
