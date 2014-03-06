@@ -4,24 +4,24 @@
 # Ricardo Ichizo <n1ghtcr4wler@gmail.com>, 2008.
 # Fabrício Godoy <skarllot@gmail.com>, 2008.
 # Djavan Fagundes <djavan@syst.com.br>, 2010.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013.
 # Enrico Nicoletto <liverig@gmail.com>, 2014.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-29 18:55+0000\n"
-"PO-Revision-Date: 2014-02-01 09:08-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2014-02-28 21:29+0000\n"
+"PO-Revision-Date: 2014-03-06 07:08-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: ../autogen.sh:103
 #, sh-format
@@ -709,26 +709,25 @@ msgstr "Verifica se as ferramentas necessárias para apoio estão disponíveis"
 msgid "no extra arguments expected"
 msgstr "nenhum argumento extra esperado"
 
-#: ../jhbuild/commands/sanitycheck.py:58
+#: ../jhbuild/commands/sanitycheck.py:65
 #, python-format
 msgid "checkout root (%s) is not writable"
 msgstr "a raiz adquirida (%s) não é gravável"
 
-#: ../jhbuild/commands/sanitycheck.py:61
+#: ../jhbuild/commands/sanitycheck.py:68
 #, python-format
 msgid "install prefix (%s) is not writable"
 msgstr "o prefixo de instalação (%s) não é gravável"
 
-#: ../jhbuild/commands/sanitycheck.py:68 ../jhbuild/commands/sanitycheck.py:71
-#: ../jhbuild/commands/sanitycheck.py:74 ../jhbuild/commands/sanitycheck.py:78
-#: ../jhbuild/commands/sanitycheck.py:81
-#: ../jhbuild/commands/sanitycheck.py:108
-#: ../jhbuild/commands/sanitycheck.py:112
+#: ../jhbuild/commands/sanitycheck.py:75 ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:81 ../jhbuild/commands/sanitycheck.py:85
+#: ../jhbuild/commands/sanitycheck.py:88
 #: ../jhbuild/commands/sanitycheck.py:120
-#: ../jhbuild/commands/sanitycheck.py:129
-#: ../jhbuild/commands/sanitycheck.py:135
-#: ../jhbuild/commands/sanitycheck.py:137
-#: ../jhbuild/commands/sanitycheck.py:139 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/commands/sanitycheck.py:132
+#: ../jhbuild/commands/sanitycheck.py:141
+#: ../jhbuild/commands/sanitycheck.py:147
+#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
 #: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
@@ -738,42 +737,57 @@ msgstr "o prefixo de instalação (%s) não é gravável"
 msgid "%s not found"
 msgstr "%s não encontrado"
 
-#: ../jhbuild/commands/sanitycheck.py:88
-msgid "Could not find XML catalog"
-msgstr "Não foi possível encontrar o catálogo XML"
+#: ../jhbuild/commands/sanitycheck.py:99
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid ""
+"Could not find XML catalog (usually part of the package 'libxml2-utils')"
+msgstr ""
+"Não foi possível localizar o catálogo XML (geralmente faz parte do pacote "
+"\"libxml2-utils\")"
 
-#: ../jhbuild/commands/sanitycheck.py:97
+#: ../jhbuild/commands/sanitycheck.py:109
 #, python-format
-#| msgid "Could not find %s in XML catalog"
 msgid ""
 "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
 msgstr ""
 "Não foi possível localizar %s no catálogo XML (geralmente faz parte do "
-"pacote 'docbook-xsl')"
-
-#: ../jhbuild/commands/sanitycheck.py:104
-#, python-format
-msgid "Could not find the Perl module %s"
-msgstr "Não foi possível encontrar o módulo de perl %s."
+"pacote \"docbook-xsl\")"
 
 #: ../jhbuild/commands/sanitycheck.py:116
+#, python-format
+msgid ""
+"Could not find the Perl module %s (usually part of package 'libxml-parser-"
+"perl' or 'perl-XML-Parser')"
+msgstr ""
+"Não foi possível localizar o módulo Perl %s (normalmente parte do pacote "
+"\"libxml-parser-perl\" ou \"perl-XML-Parser\")"
+
+#: ../jhbuild/commands/sanitycheck.py:124
+#, python-format
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid "%s not found (usually part of the package 'subversion')"
+msgstr "%s não foi localizado (geralmente faz parte do pacote \"subversion\")"
+
+#: ../jhbuild/commands/sanitycheck.py:128
 msgid "curl or wget not found"
 msgstr "curl ou wget não foram encontrados"
 
-#: ../jhbuild/commands/sanitycheck.py:125
+#: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
 msgstr "Programa do git instalado não é o git correto"
 
-#: ../jhbuild/commands/sanitycheck.py:131
+#: ../jhbuild/commands/sanitycheck.py:143
 msgid "Could not check git program"
 msgstr "Não foi possível verificar o programa git"
 
-#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:161
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "aclocal não pode ver %s macros"
 
-#: ../jhbuild/commands/sanitycheck.py:154
+#: ../jhbuild/commands/sanitycheck.py:166
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1949,6 +1963,12 @@ msgstr "não foi possível encontrar quilt"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "não foi possível obter definição de patch quilt"
+
+#~ msgid "Could not find XML catalog"
+#~ msgstr "Não foi possível encontrar o catálogo XML"
+
+#~ msgid "Could not find the Perl module %s"
+#~ msgstr "Não foi possível encontrar o módulo de perl %s."
 
 #~ msgid "Invalid placeholder in string: line %d, col %d"
 #~ msgstr "Espaço reservado inválido na string: linha %d, coluna %d"
