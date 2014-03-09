@@ -98,6 +98,8 @@ def systemdependencies_met(module_name, sysdeps, config):
                                              (module_name, ''))
         paths += extract_path_from_cflags(config.module_makeargs.get
                                              (module_name, ''))
+        paths += os.environ.get('C_INCLUDE_PATH', '').split(':')
+        paths += os.environ.get('CPLUS_INCLUDE_PATH', '').split(':')
         paths = list(set(paths)) # remove duplicates
         return paths
 
