@@ -276,7 +276,10 @@ class Config:
         modify_conditions(self._config['conditions'], conditions_modifiers)
         self.load(filename)
         modify_conditions(self.conditions, conditions_modifiers)
+
+        self.create_directories()
         self.setup_env()
+        self.update_build_targets()
 
     def reload(self):
         os.environ = self._orig_environ.copy()
@@ -400,9 +403,7 @@ class Config:
     def get_original_environment(self):
         return self._orig_environ
 
-    def setup_env(self):
-        '''set environment variables for using prefix'''
-
+    def create_directories(self):
         if not os.path.exists(self.prefix):
             try:
                 os.makedirs(self.prefix)
@@ -415,6 +416,9 @@ class Config:
             except OSError:
                 raise FatalError(
                         _('working directory (%s) can not be created') % self.top_builddir)
+
+    def setup_env(self):
+        '''set environment variables for using prefix'''
 
         os.environ['JHBUILD_PREFIX'] = self.prefix
 
@@ -645,8 +649,6 @@ class Config:
                 if x.find('libgdkxft.so') >= 0:
                     valarr.remove(x)
             os.environ['LD_PRELOAD'] = ' '.join(valarr)
-
-        self.update_build_targets()
 
     def update_build_targets(self):
         # update build targets according to old flags
