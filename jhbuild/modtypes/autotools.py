@@ -21,7 +21,6 @@
 __metaclass__ = type
 
 import os
-import re
 import stat
 try:
     import hashlib
@@ -134,23 +133,11 @@ class AutogenModule(MakeModule, DownloadableModule):
             cmd = cmd.replace('autoreconf', 'configure')
             cmd = cmd.replace('--enable-maintainer-mode', '')
 
-        # Fix up the arguments for special cases:
-        #   tarballs: remove --enable-maintainer-mode to avoid breaking build
-        #   tarballs: remove '-- ' to avoid breaking build (GStreamer weirdness)
-        #   non-tarballs: place --prefix and --libdir after '-- ', if present
+        # if we are using configure as the autogen command, make sure
+        # we don't pass --enable-maintainer-mode, since it breaks many
+        # tarball builds.
         if self.autogen_sh == 'configure':
             cmd = cmd.replace('--enable-maintainer-mode', '')
-
-            # Also, don't pass '--', which gstreamer attempts to do, since
-            # it is royally broken.
-            cmd = cmd.replace('-- ', '')
-        else:
-            # place --prefix and --libdir arguments after '-- '
-            # (GStreamer weirdness)
-            if autogenargs.find('-- ') != -1:
-                p = re.compile('(.*)(--prefix %s )((?:--libdir %s )?)(.*)-- ' %
-                       (vars['prefix'], "'\${exec_prefix}/lib64'"))
-                cmd = p.sub(r'\1\4-- \2\3', cmd)
 
         # If there is no --exec-prefix in the constructed autogen command, we
         # can safely assume it will be the same as {prefix} and substitute it
