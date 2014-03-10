@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-29 18:55+0000\n"
-"PO-Revision-Date: 2014-02-05 16:29+0100\n"
+"POT-Creation-Date: 2014-02-28 21:29+0000\n"
+"PO-Revision-Date: 2014-03-10 17:10+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -54,7 +54,7 @@ msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
 "directory"
 msgstr ""
-"**Error**: La carpeta «$srcdir» no es la carpeta de nivel superior de "
+"**Error**: la carpeta «$srcdir» no es la carpeta de nivel superior de "
 "$PKG_NAME"
 
 #: ../autogen.sh:230
@@ -710,26 +710,25 @@ msgstr "Comprobar que las herramientas de apoyo que requiere están disponibles"
 msgid "no extra arguments expected"
 msgstr "no esperar argumentos adicionales"
 
-#: ../jhbuild/commands/sanitycheck.py:58
+#: ../jhbuild/commands/sanitycheck.py:65
 #, python-format
 msgid "checkout root (%s) is not writable"
 msgstr "no se puede escribir en la raíz de la descarga (%s)"
 
-#: ../jhbuild/commands/sanitycheck.py:61
+#: ../jhbuild/commands/sanitycheck.py:68
 #, python-format
 msgid "install prefix (%s) is not writable"
 msgstr "no se puede escribir en el prefijo de instalación (%s)"
 
-#: ../jhbuild/commands/sanitycheck.py:68 ../jhbuild/commands/sanitycheck.py:71
-#: ../jhbuild/commands/sanitycheck.py:74 ../jhbuild/commands/sanitycheck.py:78
-#: ../jhbuild/commands/sanitycheck.py:81
-#: ../jhbuild/commands/sanitycheck.py:108
-#: ../jhbuild/commands/sanitycheck.py:112
+#: ../jhbuild/commands/sanitycheck.py:75 ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:81 ../jhbuild/commands/sanitycheck.py:85
+#: ../jhbuild/commands/sanitycheck.py:88
 #: ../jhbuild/commands/sanitycheck.py:120
-#: ../jhbuild/commands/sanitycheck.py:129
-#: ../jhbuild/commands/sanitycheck.py:135
-#: ../jhbuild/commands/sanitycheck.py:137
-#: ../jhbuild/commands/sanitycheck.py:139 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/commands/sanitycheck.py:132
+#: ../jhbuild/commands/sanitycheck.py:141
+#: ../jhbuild/commands/sanitycheck.py:147
+#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
 #: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
@@ -739,42 +738,58 @@ msgstr "no se puede escribir en el prefijo de instalación (%s)"
 msgid "%s not found"
 msgstr "no se encontró %s"
 
-#: ../jhbuild/commands/sanitycheck.py:88
-msgid "Could not find XML catalog"
-msgstr "No se pudo encontrar el catálogo XML"
+#: ../jhbuild/commands/sanitycheck.py:99
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid ""
+"Could not find XML catalog (usually part of the package 'libxml2-utils')"
+msgstr ""
+"No se pudo encontrar el catálogo XML (normalmente es parte del paquete "
+"«libxml2-utils»)"
 
-#: ../jhbuild/commands/sanitycheck.py:97
+#: ../jhbuild/commands/sanitycheck.py:109
 #, python-format
-#| msgid "Could not find %s in XML catalog"
 msgid ""
 "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
 msgstr ""
 "No se pudo encontrar %s en el catálogo XML (normalmente es parte del paquete "
 "«docbook-xsl»)"
 
-#: ../jhbuild/commands/sanitycheck.py:104
-#, python-format
-msgid "Could not find the Perl module %s"
-msgstr "No se pudo encontrar el módulo de Perl %s"
-
 #: ../jhbuild/commands/sanitycheck.py:116
+#, python-format
+msgid ""
+"Could not find the Perl module %s (usually part of package 'libxml-parser-"
+"perl' or 'perl-XML-Parser')"
+msgstr ""
+"No se pudo encontrar el módulo encontrar el módulo de Perl %s (normalmente "
+"forma parte de los paquetes «libxml-parser-perl» o «perl-XML-Parser»)"
+
+#: ../jhbuild/commands/sanitycheck.py:124
+#, python-format
+#| msgid ""
+#| "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgid "%s not found (usually part of the package 'subversion')"
+msgstr ""
+"No se pudo encontrar %s (normalmente es parte del paquete «subversion»)"
+
+#: ../jhbuild/commands/sanitycheck.py:128
 msgid "curl or wget not found"
 msgstr "no se encontró curl o wget"
 
-#: ../jhbuild/commands/sanitycheck.py:125
+#: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
 msgstr "El programa git instalado no es el git correcto"
 
-#: ../jhbuild/commands/sanitycheck.py:131
+#: ../jhbuild/commands/sanitycheck.py:143
 msgid "Could not check git program"
 msgstr "No se pudo comprobar el programa git"
 
-#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:161
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "aclocal no puede ver las macros de %s"
 
-#: ../jhbuild/commands/sanitycheck.py:154
+#: ../jhbuild/commands/sanitycheck.py:166
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1949,6 +1964,12 @@ msgstr "no se pudo encontrar quilt"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "no se pudo subir el conjunto de parches"
+
+#~ msgid "Could not find XML catalog"
+#~ msgstr "No se pudo encontrar el catálogo XML"
+
+#~ msgid "Could not find the Perl module %s"
+#~ msgstr "No se pudo encontrar el módulo de Perl %s"
 
 #~ msgid "Invalid placeholder in string: line %d, col %d"
 #~ msgstr "Contenedor no válido en la cadena: línea %d, columna %d"
