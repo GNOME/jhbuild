@@ -469,7 +469,7 @@ class Config:
         addpath('INFOPATH', infopathdir)
 
         # PKG_CONFIG_PATH
-        if os.environ.get('PKG_CONFIG_PATH') is None and self.partial_build:
+        if os.environ.get('PKG_CONFIG_PATH') is None:
             for dirname in ('share', 'lib', 'lib64'):
                 full_name = '/usr/%s/pkgconfig' % dirname
                 if os.path.exists(full_name):
@@ -535,11 +535,10 @@ class Config:
                 os.makedirs(aclocaldir)
             except:
                 raise FatalError(_("Can't create %s directory") % aclocaldir)
-        if self.partial_build:
-            if os.path.exists('/usr/share/aclocal'):
-                addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
-                if os.path.exists('/usr/local/share/aclocal'):
-                    addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
+        if os.path.exists('/usr/share/aclocal'):
+            addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
+            if os.path.exists('/usr/local/share/aclocal'):
+                addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
         addpath('ACLOCAL_FLAGS', aclocaldir)
 
         # PERL5LIB
