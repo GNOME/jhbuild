@@ -77,8 +77,6 @@ class WafModule(Package, DownloadableModule):
         if buildscript.config.buildroot and not os.path.exists(builddir):
             os.makedirs(builddir)
         cmd = [self.waf_cmd, 'configure', '--prefix', buildscript.config.prefix]
-        if buildscript.config.use_lib64:
-            cmd += ["--libdir", os.path.join(buildscript.config.prefix, "lib64")]
         buildscript.execute(cmd, cwd=builddir, extra_env={'PYTHON': self.python_cmd})
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]

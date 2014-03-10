@@ -2157,6 +2157,16 @@ Optional packages: (JHBuild will build the missing packages)
               <literal>svn</literal>.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-system-libdirs">
+          <term>
+            <varname>system_libdirs</varname>
+          </term>
+          <listitem>
+            <simpara>A list of strings specifying the system library paths.
+              This is used when setting the default values of some environment
+              variables, such as <envar>PKG_CONFIG_PATH</envar>.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-tarballdir">
           <term>
             <varname>tarballdir</varname>
@@ -2194,20 +2204,6 @@ Optional packages: (JHBuild will build the missing packages)
               version of a module from version control. This setting is
               equivalent to passing the <option>--try-checkout</option> option.
             </simpara>
-          </listitem>
-        </varlistentry>
-        <varlistentry id="cfg-use-lib64">
-          <term>
-            <varname>use_lib64</varname>
-          </term>
-          <listitem>
-            <simpara>A boolean value that specifies whether to install
-              libraries to <filename>lib64</filename> directories. If set,
-              <literal>--libdir=\${exec_prefix}/lib64</literal> will be passed
-              to configure. Defaults to <constant>True</constant> if running on
-              <literal>x86_64</literal>, <literal>ppc64</literal> or
-              <literal>s390x</literal> Linux, and <constant>False</constant> on
-              other systems.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-use-local-modulesets">

@@ -189,10 +189,7 @@ class Package:
 
     def eval_args(self, args):
         args = args.replace('${prefix}', self.config.prefix)
-        libsubdir = 'lib'
-        if self.config.use_lib64:
-            libsubdir = 'lib64'
-        libdir = os.path.join(self.config.prefix, libsubdir)
+        libdir = os.path.join(self.config.prefix, 'lib')
         args = args.replace('${libdir}', libdir)
         return args
 

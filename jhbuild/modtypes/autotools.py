@@ -107,8 +107,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         if self.autogen_template:
             template = self.autogen_template
         else:
-            template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s"
-                        " --libdir %(libdir)s %(autogenargs)s ")
+            template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s %(autogenargs)s ")
 
         autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
                 self.name, self.config.autogenargs)
@@ -121,11 +120,6 @@ class AutogenModule(MakeModule, DownloadableModule):
             vars['srcdir'] = self.get_srcdir(buildscript)
         else:
             vars['srcdir'] = '.'
-
-        if buildscript.config.use_lib64:
-            vars['libdir'] = "'${exec_prefix}/lib64'"
-        else:
-            vars['libdir'] = "'${exec_prefix}/lib'"
 
         cmd = self.static_analyzer_pre_cmd(buildscript) + template % vars
 

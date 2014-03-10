@@ -48,10 +48,7 @@ class CMakeModule(MakeModule, DownloadableModule):
 
     def eval_args(self, args):
         args = Package.eval_args(self, args)
-        libsuffix = ''
-        if self.config.use_lib64:
-            libsuffix = '64'
-        args = args.replace('${libsuffix}', libsuffix)
+        args = args.replace('${libsuffix}', '')
         return args
 
     def get_srcdir(self, buildscript):
@@ -80,8 +77,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cmake')
-        baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DLIB_INSTALL_DIR=%s -Dlibdir=%s' % (
-                        prefix, buildscript.config.libdir, buildscript.config.libdir)
+        baseargs = '-DCMAKE_INSTALL_PREFIX=%s' % prefix
         cmakeargs = self.get_cmakeargs()
         # CMake on Windows generates VS projects or NMake makefiles by default.
         # When using MSYS "MSYS Makefiles" is the best guess. "Unix Makefiles"

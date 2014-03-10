@@ -109,9 +109,6 @@ class cmd_bot(Command):
             pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
             pythonpath = os.path.join(config.prefix, 'lib', pythonversion, 'site-packages')
             site.addsitedir(pythonpath)
-            if config.use_lib64:
-                pythonpath = os.path.join(config.prefix, 'lib64', pythonversion, 'site-packages')
-                site.addsitedir(pythonpath)
             try:
                 import buildbot
             except ImportError:

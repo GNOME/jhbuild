@@ -46,7 +46,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
                 'interact', 'buildscript', 'nonetwork', 'nobuild',
                 'alwaysautogen', 'noinstall', 'makeclean', 'makedistclean',
-                'makecheck', 'module_makecheck', 'use_lib64',
+                'makecheck', 'module_makecheck', 'system_libdirs',
                 'tinderbox_outputdir', 'sticky_date', 'tarballdir',
                 'pretty_print', 'svn_program', 'makedist', 'makedistcheck',
                 'nonotify', 'notrayicon', 'cvs_program', 'checkout_mode',
@@ -430,11 +430,7 @@ class Config:
             os.environ['DBUS_SYSTEM_BUS_ADDRESS'] = 'unix:path=/var/run/dbus/system_bus_socket'
 
         # LD_LIBRARY_PATH
-        if self.use_lib64:
-            libdir = os.path.join(self.prefix, 'lib64')
-        else:
-            libdir = os.path.join(self.prefix, 'lib')
-        self.libdir = libdir
+        libdir = os.path.join(self.prefix, 'lib')
         addpath('LD_LIBRARY_PATH', libdir)
         os.environ['JHBUILD_LIBDIR'] = libdir
 
@@ -470,8 +466,8 @@ class Config:
 
         # PKG_CONFIG_PATH
         if os.environ.get('PKG_CONFIG_PATH') is None:
-            for dirname in ('share', 'lib', 'lib64'):
-                full_name = '/usr/%s/pkgconfig' % dirname
+            for dirname in reversed(self.system_libdirs + ['/usr/share']):
+                full_name = os.path.join(dirname, 'pkgconfig')
                 if os.path.exists(full_name):
                     addpath('PKG_CONFIG_PATH', full_name)
         pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
@@ -481,13 +477,11 @@ class Config:
 
         # GI_TYPELIB_PATH
         if not 'GI_TYPELIB_PATH' in os.environ:
-            if self.use_lib64:
-                full_name = '/usr/lib64/girepository-1.0'
-            else:
-                full_name = '/usr/lib/girepository-1.0'
-            if os.path.exists(full_name):
-                addpath('GI_TYPELIB_PATH', full_name)
-        typelibpath = os.path.join(self.libdir, 'girepository-1.0')
+            for dirname in reversed(self.system_libdirs):
+                full_name = os.path.join(dirname, 'girepository-1.0')
+                if os.path.exists(full_name):
+                    addpath('GI_TYPELIB_PATH', full_name)
+        typelibpath = os.path.join(libdir, 'girepository-1.0')
         addpath('GI_TYPELIB_PATH', typelibpath)
 
         # XDG_DATA_DIRS
@@ -507,12 +501,12 @@ class Config:
         addpath('XCURSOR_PATH', xcursordir)
 
         # GST_PLUGIN_PATH
-        gstplugindir = os.path.join(self.libdir , 'gstreamer-0.10')
+        gstplugindir = os.path.join(libdir , 'gstreamer-0.10')
         if os.path.exists(gstplugindir):
             addpath('GST_PLUGIN_PATH', gstplugindir)
 
         # GST_PLUGIN_PATH_1_0
-        gstplugindir = os.path.join(self.libdir , 'gstreamer-1.0')
+        gstplugindir = os.path.join(libdir , 'gstreamer-1.0')
         if os.path.exists(gstplugindir):
             addpath('GST_PLUGIN_PATH_1_0', gstplugindir)
 
@@ -582,12 +576,6 @@ class Config:
                 logging.warn(_('Unable to determine python site-packages directory using the '
                                'PYTHON environment variable (%s). Using default "%s"')
                              % (os.environ['PYTHON'], python_packages_dir))
-            
-        if self.use_lib64:
-            pythonpath = os.path.join(self.prefix, 'lib64', pythonversion, python_packages_dir)
-            addpath('PYTHONPATH', pythonpath)
-            if not os.path.exists(pythonpath):
-                os.makedirs(pythonpath)
 
         pythonpath = os.path.join(self.prefix, 'lib', pythonversion, python_packages_dir)
         addpath('PYTHONPATH', pythonpath)

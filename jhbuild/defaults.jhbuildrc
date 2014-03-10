@@ -135,18 +135,25 @@ module_checkout_mode = {}
 # checkout dir
 copy_dir = None
 
-# whether to install to lib64 directories?  Currently this will default to
-# True on Linux AMD64, PPC64 or S390x systems, and False everywhere else.
-# Patches accepted to fix the default for other architectures.
+# attempt to detect the system library path
 try:
-    uname = os.uname()
-    use_lib64 = (uname[0], uname[4]) in [ ('Linux', 'x86_64'),
-                                          ('Linux', 'ppc64'),
-                                          ('Linux', 's390x') ]
-    del uname
+    # Debian-style multiarch
+    system_libdirs = ['/usr/lib/' + sys._multiarch, '/usr/lib']
+
 except AttributeError:
-    # some platforms don't have os.uname (ie. Win32)
-    use_lib64 = False
+    # Check the python path and make some reasonable guesses
+    system_libdirs = []
+    for path in sys.path:
+        if path.startswith('/usr/local/lib/') and not '/usr/local/lib' in system_libdirs:
+            system_libdirs.append('/usr/local/lib')
+
+        elif path.startswith('/usr/lib64/') and not '/usr/lib64' in system_libdirs:
+            system_libdirs.append('/usr/lib64')
+    del path
+
+    # Make sure we have at least one of /usr/lib64 or /usr/lib, but not both
+    if not '/usr/lib64' in system_libdirs:
+        system_libdirs.append('/usr/lib')
 
 # default buildscript.  You should probably leave this as the default.
 # In particular, don't set it to 'gtk'.
