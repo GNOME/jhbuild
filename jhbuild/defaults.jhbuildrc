@@ -136,6 +136,7 @@ module_checkout_mode = {}
 copy_dir = None
 
 # attempt to detect the system library path
+extra_prefixes = []
 try:
     # Debian-style multiarch
     system_libdirs = ['/usr/lib/' + sys._multiarch, '/usr/lib']
@@ -146,6 +147,7 @@ except AttributeError:
     for path in sys.path:
         if path.startswith('/usr/local/lib/') and not '/usr/local/lib' in system_libdirs:
             system_libdirs.append('/usr/local/lib')
+            extra_prefixes = ['/usr/local']
 
         elif path.startswith('/usr/lib64/') and not '/usr/lib64' in system_libdirs:
             system_libdirs.append('/usr/lib64')

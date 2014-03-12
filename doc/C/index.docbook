@@ -1733,6 +1733,25 @@ Optional packages: (JHBuild will build the missing packages)
               supported by Git and Bazaar repositories.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-extra-prefixes">
+          <term>
+            <varname>extra_prefixes</varname>
+          </term>
+          <listitem>
+            <simpara>A list of strings specifying, in precedence order, the list
+              of extra prefixes.  JHBuild sets many environment variables (such
+              as <envar>LD_LIBRARY_PATH</envar>, <envar>PKG_CONFIG_PATH</envar>
+              and <envar>XDG_DATA_DIRS</envar>) based on the
+              <varname>prefix</varname> variable.  Adding directories to
+              <varname>extra_prefixes</varname> will cause these prefixes to be
+              included as well, at a lower precedence than the JHBuild
+              <varname>prefix</varname>, but at a higher precendence than system
+              directories.  This variable is empty by default except on systems
+              that install software in <filename>/usr/local</filename>, in which
+              case it contains this directory.
+            </simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-help-website">
           <term>
             <varname>help_website</varname>

@@ -64,7 +64,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'print_command_pattern', 'static_analyzer',
                 'module_static_analyzer', 'static_analyzer_template',
                 'static_analyzer_outputdir', 'check_sysdeps', 'system_prefix',
-                'help_website', 'conditions'
+                'help_website', 'conditions', 'extra_prefixes'
               ]
 
 env_prepends = {}
@@ -213,6 +213,9 @@ class Config:
         self.create_directories()
 
         setup_env_defaults(self.system_libdirs)
+
+        for prefix in reversed(self.extra_prefixes):
+            setup_env(prefix)
         setup_env(self.prefix)
 
         self.apply_env_prepends()
