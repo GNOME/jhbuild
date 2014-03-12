@@ -278,6 +278,7 @@ class Config:
         modify_conditions(self.conditions, conditions_modifiers)
 
         self.create_directories()
+        self.setup_env_defaults()
         self.setup_env()
         self.update_build_targets()
 
@@ -417,6 +418,39 @@ class Config:
                 raise FatalError(
                         _('working directory (%s) can not be created') % self.top_builddir)
 
+    def setup_env_defaults(self):
+        '''default "system values" for environment variables that are not already set'''
+
+        # PKG_CONFIG_PATH
+        if os.environ.get('PKG_CONFIG_PATH') is None:
+            for dirname in reversed(self.system_libdirs + ['/usr/share']):
+                full_name = os.path.join(dirname, 'pkgconfig')
+                if os.path.exists(full_name):
+                    addpath('PKG_CONFIG_PATH', full_name)
+
+        # GI_TYPELIB_PATH
+        if not 'GI_TYPELIB_PATH' in os.environ:
+            for dirname in reversed(self.system_libdirs):
+                full_name = os.path.join(dirname, 'girepository-1.0')
+                if os.path.exists(full_name):
+                    addpath('GI_TYPELIB_PATH', full_name)
+
+        # XDG_DATA_DIRS
+        if not 'XDG_DATA_DIRS' in os.environ:
+            os.environ['XDG_DATA_DIRS'] = '/usr/local/share:/usr/share'
+
+        # XDG_CONFIG_DIRS
+        if not 'XDG_CONFIG_DIRS' in os.environ:
+            XDG_CONFIG_DIRS='/etc/xdg'
+
+        # get rid of gdkxft from the env -- it will cause problems.
+        if os.environ.has_key('LD_PRELOAD'):
+            valarr = os.environ['LD_PRELOAD'].split(' ')
+            for x in valarr[:]:
+                if x.find('libgdkxft.so') >= 0:
+                    valarr.remove(x)
+            os.environ['LD_PRELOAD'] = ' '.join(valarr)
+
     def setup_env(self):
         '''set environment variables for using prefix'''
 
@@ -465,34 +499,20 @@ class Config:
         addpath('INFOPATH', infopathdir)
 
         # PKG_CONFIG_PATH
-        if os.environ.get('PKG_CONFIG_PATH') is None:
-            for dirname in reversed(self.system_libdirs + ['/usr/share']):
-                full_name = os.path.join(dirname, 'pkgconfig')
-                if os.path.exists(full_name):
-                    addpath('PKG_CONFIG_PATH', full_name)
         pkgconfigdatadir = os.path.join(self.prefix, 'share', 'pkgconfig')
         pkgconfigdir = os.path.join(libdir, 'pkgconfig')
         addpath('PKG_CONFIG_PATH', pkgconfigdatadir)
         addpath('PKG_CONFIG_PATH', pkgconfigdir)
 
         # GI_TYPELIB_PATH
-        if not 'GI_TYPELIB_PATH' in os.environ:
-            for dirname in reversed(self.system_libdirs):
-                full_name = os.path.join(dirname, 'girepository-1.0')
-                if os.path.exists(full_name):
-                    addpath('GI_TYPELIB_PATH', full_name)
         typelibpath = os.path.join(libdir, 'girepository-1.0')
         addpath('GI_TYPELIB_PATH', typelibpath)
 
         # XDG_DATA_DIRS
-        if not 'XDG_DATA_DIRS' in os.environ:
-            os.environ['XDG_DATA_DIRS'] = '/usr/local/share:/usr/share'
         xdgdatadir = os.path.join(self.prefix, 'share')
         addpath('XDG_DATA_DIRS', xdgdatadir)
 
         # XDG_CONFIG_DIRS
-        if not 'XDG_CONFIG_DIRS' in os.environ:
-            XDG_CONFIG_DIRS='/etc/xdg'
         xdgconfigdir = os.path.join(self.prefix, 'etc', 'xdg')
         addpath('XDG_CONFIG_DIRS', xdgconfigdir)
 
@@ -627,15 +647,6 @@ class Config:
         for envvar in env_prepends.keys():
             for path in env_prepends[envvar]:
                 addpath(envvar, path)
-
-
-        # get rid of gdkxft from the env -- it will cause problems.
-        if os.environ.has_key('LD_PRELOAD'):
-            valarr = os.environ['LD_PRELOAD'].split(' ')
-            for x in valarr[:]:
-                if x.find('libgdkxft.so') >= 0:
-                    valarr.remove(x)
-            os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
     def update_build_targets(self):
         # update build targets according to old flags
