@@ -186,11 +186,11 @@ def setup_env(prefix):
 
     # GST_REGISTRY
     gstregistry = os.path.join(prefix, '_jhbuild', 'gstreamer-0.10.registry')
-    addpath('GST_REGISTRY', gstregistry)
+    os.environ['GST_REGISTRY'] = gstregistry
 
     # GST_REGISTRY_1_0
     gstregistry = os.path.join(prefix, '_jhbuild', 'gstreamer-1.0.registry')
-    addpath('GST_REGISTRY_1_0', gstregistry)
+    os.environ['GST_REGISTRY_1_0'] = gstregistry
 
     # ACLOCAL_PATH
     aclocalpath = os.path.join(prefix, 'share', 'aclocal')
