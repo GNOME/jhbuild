@@ -280,6 +280,7 @@ class Config:
         self.create_directories()
         self.setup_env_defaults()
         self.setup_env()
+        self.apply_env_prepends()
         self.update_build_targets()
 
     def reload(self):
@@ -643,7 +644,8 @@ class Config:
         os.environ['GCONF_SCHEMA_INSTALL_SOURCE'] = 'xml:merged:' + os.path.join(
                 gconfdir, 'gconf.xml.defaults')
 
-        # handle environment prepends ...
+    def apply_env_prepends(self):
+        ''' handle environment prepends ... '''
         for envvar in env_prepends.keys():
             for path in env_prepends[envvar]:
                 addpath(envvar, path)
