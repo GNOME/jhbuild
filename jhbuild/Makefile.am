@@ -6,6 +6,7 @@ app_PYTHON = \
 	__init__.py  \
 	config.py \
 	defaults.jhbuildrc \
+	environment.py \
 	errors.py \
 	main.py  \
 	moduleset.py \
