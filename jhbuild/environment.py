@@ -282,38 +282,3 @@ def setup_env(prefix):
     # <http://bugzilla.gnome.org/show_bug.cgi?id=560872>
     if os.path.exists(os.path.join(prefix, 'bin', 'python')):
         os.environ['PYTHON'] = os.path.join(prefix, 'bin', 'python')
-
-    # Mono Prefixes
-    os.environ['MONO_PREFIX'] = prefix
-    os.environ['MONO_GAC_PREFIX'] = prefix
-
-    # GConf:
-    # Create a GConf source path file that tells GConf to use the data in
-    # the jhbuild prefix (in addition to the data in the system prefix),
-    # and point to it with GCONF_DEFAULT_SOURCE_PATH so modules will be read
-    # the right data (assuming a new enough libgconf).
-    gconfdir = os.path.join(prefix, 'etc', 'gconf')
-    gconfpathdir = os.path.join(gconfdir, '2')
-    if not os.path.exists(gconfpathdir):
-        os.makedirs(gconfpathdir)
-    gconfpath = os.path.join(gconfpathdir, 'path.jhbuild')
-    if not os.path.exists(gconfpath) and os.path.exists('/etc/gconf/2/path'):
-        try:
-            inp = open('/etc/gconf/2/path')
-            out = open(gconfpath, 'w')
-            for line in inp.readlines():
-                if '/etc/gconf' in line:
-                    out.write(line.replace('/etc/gconf', gconfdir))
-                out.write(line)
-            out.close()
-            inp.close()
-        except:
-            traceback.print_exc()
-            raise FatalError(_('Could not create GConf config (%s)') % gconfpath)
-    os.environ['GCONF_DEFAULT_SOURCE_PATH'] = gconfpath
-
-    # Set GCONF_SCHEMA_INSTALL_SOURCE to point into the jhbuild prefix so
-    # modules will install their schemas there (rather than failing to
-    # install them into /etc).
-    os.environ['GCONF_SCHEMA_INSTALL_SOURCE'] = 'xml:merged:' + os.path.join(
-            gconfdir, 'gconf.xml.defaults')
