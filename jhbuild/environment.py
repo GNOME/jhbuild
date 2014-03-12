@@ -27,27 +27,7 @@ from jhbuild.utils.cmds import get_output
 
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
-    # special case ACLOCAL_FLAGS
-    if envvar in [ 'ACLOCAL_FLAGS' ]:
-        if sys.platform.startswith('win'):
-            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
-
-        envval = os.environ.get(envvar, '-I %s' % path)
-        parts = ['-I', path] + envval.split()
-        i = 2
-        while i < len(parts)-1:
-            if parts[i] == '-I':
-                # check if "-I parts[i]" comes earlier
-                for j in range(0, i-1):
-                    if parts[j] == '-I' and parts[j+1] == parts[i+1]:
-                        del parts[i:i+2]
-                        break
-                else:
-                    i += 2
-            else:
-                i += 1
-        envval = ' '.join(parts)
-    elif envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
+    if envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
         if sys.platform.startswith('win'):
             path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
 
@@ -216,19 +196,6 @@ def setup_env(prefix):
     # ACLOCAL_PATH
     aclocalpath = os.path.join(prefix, 'share', 'aclocal')
     addpath('ACLOCAL_PATH', aclocalpath)
-
-    # ACLOCAL_FLAGS
-    aclocaldir = os.path.join(prefix, 'share', 'aclocal')
-    if not os.path.exists(aclocaldir):
-        try:
-            os.makedirs(aclocaldir)
-        except:
-            raise FatalError(_("Can't create %s directory") % aclocaldir)
-    if os.path.exists('/usr/share/aclocal'):
-        addpath('ACLOCAL_FLAGS', '/usr/share/aclocal')
-        if os.path.exists('/usr/local/share/aclocal'):
-            addpath('ACLOCAL_FLAGS', '/usr/local/share/aclocal')
-    addpath('ACLOCAL_FLAGS', aclocaldir)
 
     # PERL5LIB
     perl5lib = os.path.join(prefix, 'lib', 'perl5')
