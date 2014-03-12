@@ -111,8 +111,6 @@ def setup_env(prefix):
 
     os.environ['JHBUILD_PREFIX'] = prefix
 
-    os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
-
     if not os.environ.get('DBUS_SYSTEM_BUS_ADDRESS'):
         # Use the distribution's D-Bus for the system bus. JHBuild's D-Bus
         # will # be used for the session bus
