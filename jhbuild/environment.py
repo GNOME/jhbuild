@@ -136,7 +136,8 @@ def setup_env(prefix):
     addpath('CPLUS_INCLUDE_PATH', includedir)
 
     # On Mac OS X, we use DYLD_FALLBACK_LIBRARY_PATH
-    addpath('DYLD_FALLBACK_LIBRARY_PATH', libdir)
+    if sys.platform == 'darwin':
+        addpath('DYLD_FALLBACK_LIBRARY_PATH', libdir)
 
     # PATH
     bindir = os.path.join(prefix, 'bin')
