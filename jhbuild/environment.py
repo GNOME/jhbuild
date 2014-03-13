@@ -110,6 +110,7 @@ def setup_env(prefix):
     '''set environment variables for using prefix'''
 
     os.environ['JHBUILD_PREFIX'] = prefix
+    addpath('JHBUILD_PREFIXES', prefix)
 
     if not os.environ.get('DBUS_SYSTEM_BUS_ADDRESS'):
         # Use the distribution's D-Bus for the system bus. JHBuild's D-Bus
@@ -208,37 +209,9 @@ def setup_env(prefix):
     os.environ['CERTIFIED_GNOMIE'] = 'yes'
 
     # PYTHONPATH
-    # Python inside jhbuild may be different than Python executing jhbuild,
-    # so it is executed to get its version number (fallback to local
-    # version number should never happen)
-    python_bin = os.environ.get('PYTHON', 'python')
-    try:
-        pythonversion = 'python' + get_output([python_bin, '-c',
-            'import sys; print(".".join([str(x) for x in sys.version_info[:2]]))'],
-            get_stderr = False).strip()
-    except CommandError:
-        pythonversion = 'python' + str(sys.version_info[0]) + '.' + str(sys.version_info[1])
-        if 'PYTHON' in os.environ:
-            logging.warn(_('Unable to determine python version using the '
-                           'PYTHON environment variable (%s). Using default "%s"')
-                         % (os.environ['PYTHON'], pythonversion))
-
-    # In Python 2.6, site-packages got replaced by dist-packages, get the
-    # actual value by asking distutils
-    # <http://bugzilla.gnome.org/show_bug.cgi?id=575426>
-    try:
-        python_packages_dir = get_output([python_bin, '-c',
-            'import os, distutils.sysconfig; '\
-            'print(distutils.sysconfig.get_python_lib(prefix="%s").split(os.path.sep)[-1])' % prefix],
-            get_stderr=False).strip()
-    except CommandError:
-        python_packages_dir = 'site-packages'
-        if 'PYTHON' in os.environ:
-            logging.warn(_('Unable to determine python site-packages directory using the '
-                           'PYTHON environment variable (%s). Using default "%s"')
-                         % (os.environ['PYTHON'], python_packages_dir))
-
-    pythonpath = os.path.join(prefix, 'lib', pythonversion, python_packages_dir)
-    addpath('PYTHONPATH', pythonpath)
-    if not os.path.exists(pythonpath):
-        os.makedirs(pythonpath)
+    # We use a sitecustomize script to make sure we get the correct path
+    # with the various versions of python that the user may run.
+    if PKGDATADIR:
+        addpath('PYTHONPATH', os.path.join(PKGDATADIR, 'sitecustomize'))
+    else:
+        addpath('PYTHONPATH', os.path.join(SRCDIR, 'jhbuild', 'sitecustomize'))

@@ -12,3 +12,5 @@ app_PYTHON = \
 	moduleset.py \
 	monkeypatch.py
 
+sitecustomizedir = $(pkgdatadir)/sitecustomize
+sitecustomize_DATA = sitecustomize/sitecustomize.py
