@@ -334,6 +334,12 @@ class Config:
                 raise FatalError(
                         _('working directory (%s) can not be created') % self.top_builddir)
 
+        if os.path.exists(os.path.join(self.prefix, 'lib64', 'libglib-2.0.so')):
+            raise FatalError(_("Your install prefix contains a 'lib64' directory, which is no longer "
+                               "supported by jhbuild.  This is likely the result of a previous build with an "
+                               "older version of jhbuild or of a broken package.  Please consider removing "
+                               "your install and checkout directories and starting fresh."))
+
     def apply_env_prepends(self):
         ''' handle environment prepends ... '''
         for envvar in env_prepends.keys():
