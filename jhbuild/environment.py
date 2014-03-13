@@ -242,9 +242,3 @@ def setup_env(prefix):
     addpath('PYTHONPATH', pythonpath)
     if not os.path.exists(pythonpath):
         os.makedirs(pythonpath)
-
-    # if there is a Python installed in JHBuild prefix, set it in PYTHON
-    # environment variable, so it gets picked up by configure scripts
-    # <http://bugzilla.gnome.org/show_bug.cgi?id=560872>
-    if os.path.exists(os.path.join(prefix, 'bin', 'python')):
-        os.environ['PYTHON'] = os.path.join(prefix, 'bin', 'python')
