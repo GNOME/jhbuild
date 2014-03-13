@@ -128,30 +128,6 @@ class Config:
         os.environ['UNMANGLED_LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '')
         os.environ['UNMANGLED_PATH'] = os.environ.get('PATH', '')
 
-        try:
-            SRCDIR
-        except NameError:
-            # this happens when an old jhbuild script is called
-            if os.path.realpath(sys.argv[0]) == os.path.expanduser('~/bin/jhbuild'):
-                # if it was installed in ~/bin/, it may be because the new one
-                # is installed in ~/.local/bin/jhbuild
-                if os.path.exists(os.path.expanduser('~/.local/bin/jhbuild')):
-                    logging.warning(
-                            _('JHBuild start script has been installed in '
-                              '~/.local/bin/jhbuild, you should remove the '
-                              'old version that is still in ~/bin/ (or make '
-                              'it a symlink to ~/.local/bin/jhbuild)'))
-            if os.path.exists(os.path.join(sys.path[0], 'jhbuild')):
-                # the old start script inserted its source directory in
-                # sys.path, use it now to set new variables
-                __builtin__.__dict__['SRCDIR'] = sys.path[0]
-                __builtin__.__dict__['PKGDATADIR'] = None
-                __builtin__.__dict__['DATADIR'] = None
-            else:
-                raise FatalError(
-                    _('Obsolete JHBuild start script, make sure it is removed '
-                      'then do run \'make install\''))
-
         env_prepends.clear()
         try:
             execfile(_defaults_file, self._config)
