@@ -112,11 +112,6 @@ def setup_env(prefix):
     os.environ['JHBUILD_PREFIX'] = prefix
     addpath('JHBUILD_PREFIXES', prefix)
 
-    if not os.environ.get('DBUS_SYSTEM_BUS_ADDRESS'):
-        # Use the distribution's D-Bus for the system bus. JHBuild's D-Bus
-        # will # be used for the session bus
-        os.environ['DBUS_SYSTEM_BUS_ADDRESS'] = 'unix:path=/var/run/dbus/system_bus_socket'
-
     # LD_LIBRARY_PATH
     libdir = os.path.join(prefix, 'lib')
     addpath('LD_LIBRARY_PATH', libdir)
