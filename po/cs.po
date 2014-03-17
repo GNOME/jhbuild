@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-29 18:55+0000\n"
-"PO-Revision-Date: 2014-02-20 22:44+0100\n"
+"POT-Creation-Date: 2014-02-28 21:29+0000\n"
+"PO-Revision-Date: 2014-03-17 08:49+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -701,26 +701,25 @@ msgstr "Zkontrolovat dostupnost potřebných podpůrných nástrojů"
 msgid "no extra arguments expected"
 msgstr "nebyly očekávány žádné argumenty navíc"
 
-#: ../jhbuild/commands/sanitycheck.py:58
+#: ../jhbuild/commands/sanitycheck.py:65
 #, python-format
 msgid "checkout root (%s) is not writable"
 msgstr "kořen místní kopie (%s) nemá povolen zápis"
 
-#: ../jhbuild/commands/sanitycheck.py:61
+#: ../jhbuild/commands/sanitycheck.py:68
 #, python-format
 msgid "install prefix (%s) is not writable"
 msgstr "prefix instalace (%s) nemá povolen zápis"
 
-#: ../jhbuild/commands/sanitycheck.py:68 ../jhbuild/commands/sanitycheck.py:71
-#: ../jhbuild/commands/sanitycheck.py:74 ../jhbuild/commands/sanitycheck.py:78
-#: ../jhbuild/commands/sanitycheck.py:81
-#: ../jhbuild/commands/sanitycheck.py:108
-#: ../jhbuild/commands/sanitycheck.py:112
+#: ../jhbuild/commands/sanitycheck.py:75 ../jhbuild/commands/sanitycheck.py:78
+#: ../jhbuild/commands/sanitycheck.py:81 ../jhbuild/commands/sanitycheck.py:85
+#: ../jhbuild/commands/sanitycheck.py:88
 #: ../jhbuild/commands/sanitycheck.py:120
-#: ../jhbuild/commands/sanitycheck.py:129
-#: ../jhbuild/commands/sanitycheck.py:135
-#: ../jhbuild/commands/sanitycheck.py:137
-#: ../jhbuild/commands/sanitycheck.py:139 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/commands/sanitycheck.py:132
+#: ../jhbuild/commands/sanitycheck.py:141
+#: ../jhbuild/commands/sanitycheck.py:147
+#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
 #: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
@@ -730,39 +729,52 @@ msgstr "prefix instalace (%s) nemá povolen zápis"
 msgid "%s not found"
 msgstr "%s nenalezeno"
 
-#: ../jhbuild/commands/sanitycheck.py:88
-msgid "Could not find XML catalog"
-msgstr "Nelze nalézt katalog XML"
+#: ../jhbuild/commands/sanitycheck.py:99
+msgid ""
+"Could not find XML catalog (usually part of the package 'libxml2-utils')"
+msgstr ""
+"Nelze nalézt katalog XML (obvykle bývá součástí balíčku „libxml2-utils“)"
 
-#: ../jhbuild/commands/sanitycheck.py:97
+#: ../jhbuild/commands/sanitycheck.py:109
 #, python-format
 msgid ""
 "Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
-msgstr "Nelze nalézt %s v katalogu XML (obvykle součást balíčku „docbook-xsl“)"
-
-#: ../jhbuild/commands/sanitycheck.py:104
-#, python-format
-msgid "Could not find the Perl module %s"
-msgstr "Nelze nalézt perlový modul %s"
+msgstr ""
+"Nelze nalézt %s v katalogu XML (obvykle bývá součástí balíčku „docbook-xsl“)"
 
 #: ../jhbuild/commands/sanitycheck.py:116
+#, python-format
+msgid ""
+"Could not find the Perl module %s (usually part of package 'libxml-parser-"
+"perl' or 'perl-XML-Parser')"
+msgstr ""
+"Nelze najít modul %s jazyka Perl (obvykle bývá součástí balíčku „libxml-"
+"parser-perl“ nebo „perl-XML-Parser“)"
+
+#: ../jhbuild/commands/sanitycheck.py:124
+#, python-format
+msgid "%s not found (usually part of the package 'subversion')"
+msgstr ""
+"%s nenalezeno (obvykle bývá součástí balíčku „subversion“)"
+
+#: ../jhbuild/commands/sanitycheck.py:128
 msgid "curl or wget not found"
 msgstr "nelze nalézt curl nebo wget"
 
-#: ../jhbuild/commands/sanitycheck.py:125
+#: ../jhbuild/commands/sanitycheck.py:137
 msgid "Installed git program is not the right git"
 msgstr "Instalovaný program git není ten správný"
 
-#: ../jhbuild/commands/sanitycheck.py:131
+#: ../jhbuild/commands/sanitycheck.py:143
 msgid "Could not check git program"
 msgstr "Nelze zkontrolovat program git"
 
-#: ../jhbuild/commands/sanitycheck.py:149
+#: ../jhbuild/commands/sanitycheck.py:161
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "příkaz „aclocal“ nevidí makra %s"
 
-#: ../jhbuild/commands/sanitycheck.py:154
+#: ../jhbuild/commands/sanitycheck.py:166
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1923,3 +1935,9 @@ msgstr "nelze najít program „quilt“"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "nelze zkontrolovat vloženou sadu záplat"
+
+#~ msgid "Could not find XML catalog"
+#~ msgstr "Nelze nalézt katalog XML"
+
+#~ msgid "Could not find the Perl module %s"
+#~ msgstr "Nelze nalézt perlový modul %s"
