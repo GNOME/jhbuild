@@ -519,3 +519,21 @@ class cmd_dot(Command):
         module_set.write_dot(modules, **kwargs)
 
 register_command(cmd_dot)
+
+class cmd_postinst(Command):
+    doc = N_('Run post-install triggers for named modules (or all)')
+
+    name = 'postinst'
+    usage_args = N_('[ modules ... ]')
+
+    def __init__(self):
+        Command.__init__(self, [])
+
+    def run(self, config, options, args, help=None):
+        config.set_from_cmdline_options(options)
+
+        module_set = jhbuild.moduleset.load(config)
+        build = jhbuild.frontends.get_buildscript(config, args, module_set=module_set)
+        return build.run_triggers(args)
+
+register_command(cmd_postinst)
