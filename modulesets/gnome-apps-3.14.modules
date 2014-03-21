@@ -7,6 +7,8 @@
 <!-- git repos -->
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
+  <repository type="git" name="github.com"
+    href="git://github.com/"/>
   <repository type="git" name="git.freedesktop.org"
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="github.com"
@@ -40,6 +42,14 @@
        are supposed to remain self-contained. If apps have dependencies
        that are not covered there, add them in here
     -->
+
+  <autotools id="appstream-glib">
+    <branch repo="github.com" module="hughsie/appstream-glib.git" checkoutdir="appstream-glib"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="babl">
     <branch/>
@@ -926,6 +936,7 @@
   <autotools id="gnome-software">
     <branch/>
     <dependencies>
+      <dep package="appstream-glib"/>
       <dep package="glib"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gtk+"/>
