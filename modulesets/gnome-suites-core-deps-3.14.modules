@@ -101,6 +101,16 @@
     </suggests>
   </autotools>
 
+  <autotools id="cairo" autogenargs="--enable-gl">
+    <branch repo="git.freedesktop.org">
+    </branch>
+    <dependencies>
+      <dep package="fontconfig"/>
+      <dep package="gtk-doc"/>
+      <dep package="pixman"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="geoclue">
     <if condition-unset="linux">
       <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-wifi-source"/>
