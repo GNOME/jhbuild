@@ -1211,27 +1211,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="xwayland" autogenargs="--with-xkb-bin-directory=/usr/bin --with-xkb-path=/usr/share/X11/xkb --with-xkb-output=${prefix}/share/X11/xkb/compiled">
-    <branch repo="xorg.freedesktop.org" checkoutdir="xwayland" module="xserver" revision="xwayland"/>
+  <autotools id="libepoxy">
+    <branch repo="github.com" checkoutdir="libepoxy" module="anholt/libepoxy.git"/>
+    <dependencies>
+      <dep package="xtrans"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="xwayland" autogenargs="--with-xkb-bin-directory=/usr/bin --with-xkb-path=/usr/share/X11/xkb --with-xkb-output=${prefix}/share/X11/xkb/compiled --enable-xwayland">
+    <branch repo="xorg.freedesktop.org" checkoutdir="xwayland" module="xserver"/>
     <dependencies>
       <dep package="xfont"/>
       <dep package="xtrans"/>
       <dep package="wayland"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="xf86-video-intel">
-    <branch repo="xorg.freedesktop.org" checkoutdir="xf86-video-intel" module="driver/xf86-video-intel" revision="xwayland"/>
-    <dependencies>
-      <dep package="xwayland"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="xf86-video-wayland">
-    <branch repo="xorg.freedesktop.org"
-            module="driver/xf86-video-wayland"/>
-    <dependencies>
-      <dep package="xwayland"/>
+      <dep package="libepoxy"/>
     </dependencies>
   </autotools>
 
