@@ -347,9 +347,6 @@
     <suggests>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
-      <if condition-set="wayland">
-        <dep package="mutter-wayland"/>
-      </if>
     </suggests>
     <after>
       <dep package="librsvg"/>
@@ -436,25 +433,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mutter-wayland" autogenargs="--enable-compile-warnings=maximum --enable-wayland">
-    <branch checkoutdir="mutter-wayland" module="mutter" revision="wayland"/>
-    <dependencies>
-      <dep package="clutter"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="gtk+"/>
-      <dep package="intltool"/>
-      <dep package="libcanberra"/>
-      <dep package="libsystemd-login"/>
-      <dep package="libXinerama"/>
-      <dep package="startup-notification"/>
-      <dep package="upower"/>
-      <dep package="wayland"/>
-      <dep package="zenity"/>
-      <dep package="xwayland"/>
-    </dependencies>
-  </autotools>
   <autotools id="network-manager-applet"
              autogenargs="--enable-more-warnings=no --disable-migration --without-bluetooth">
     <branch revision="nma-0-9-8"/>
