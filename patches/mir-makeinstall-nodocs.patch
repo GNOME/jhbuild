@@ -1,0 +1,14 @@
+https://bugs.launchpad.net/mir/+bug/1304271
+
+diff -r -u mir-0.1.9-orig/cmake/Doxygen.cmake mir-0.1.9/cmake/Doxygen.cmake
+--- mir-0.1.9-orig/cmake/Doxygen.cmake	2014-05-26 14:26:59.742608852 +0200
++++ mir-0.1.9/cmake/Doxygen.cmake	2014-05-26 14:27:18.833849526 +0200
+@@ -23,5 +23,7 @@
+                     COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
+                     SOURCES ${PROJECT_BINARY_DIR}/Doxyfile
+                     DEPENDS guides)
+-  install(DIRECTORY ${CMAKE_BINARY_DIR}/doc/html DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/mir-doc/)
++  if (BUILD_DOXYGEN)
++    install(DIRECTORY ${CMAKE_BINARY_DIR}/doc/html DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/mir-doc/)
++  endif()
+ endif()

@@ -74,6 +74,8 @@
     href="http://ftp.gnu.org/gnu/"/>
 <repository type="tarball" name="libndp"
     href="http://libndp.org/files/"/>
+<repository type="tarball" name="mir"
+    href="https://launchpad.net/mir/"/>
 
 <include href="gnome-sysdeps-3.14.modules"/>
 
@@ -261,6 +263,31 @@
     </dependencies>
   </autotools>
 
+  <cmake id="mir" cmakeargs="-DMIR_ENABLE_TESTS=0">
+    <branch repo="mir"
+            module="utopic/${version}/+download/mir-${version}.tar.bz2"
+            version="0.1.9"
+            hash="sha256:8aaeb911d5a017cded788a22c7322c1fa1e098b8b410e3a17607e9c44a7d7e82">
+      <patch file="mir-gflags-noshutdown.patch" strip="1"/>
+      <patch file="mir-makeinstall-nodocs.patch" strip="1"/>
+      <patch file="mir-nolink-lttng.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="boost"/>
+      <dep package="protobuf"/>
+      <dep package="mesa-libGLES"/>
+      <dep package="google-glog"/>
+      <dep package="google-gflags"/>
+      <dep package="gbm"/>
+      <dep package="egl"/>
+      <dep package="glm"/>
+      <dep package="lttng-ust"/>
+      <dep package="lcov"/>
+      <dep package="libudev"/>
+      <dep package="libxkbcommon"/>
+    </dependencies>
+  </cmake>
+
   <autotools id="ModemManager"
              autogenargs="--with-udev-base-dir=${libdir}/udev --with-systemdsystemunitdir=no --disable-more-warnings">
     <branch repo="git.freedesktop.org"
@@ -383,6 +410,9 @@
     <if condition-set="wayland">
       <autogenargs value="--enable-wayland-backend"/>
     </if>
+    <if condition-set="mir">
+      <autogenargs value="--enable-mir-backend"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="atk"/>
@@ -396,6 +426,9 @@
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>
         <dep package="wayland"/>
+      </if>
+      <if condition-set="mir">
+        <dep package="mir"/>
       </if>
     </dependencies>
     <suggests>
@@ -1525,5 +1558,4 @@
       <dep package="telepathy-glib"/>
     </suggests>
   </autotools>
-
 </moduleset>
