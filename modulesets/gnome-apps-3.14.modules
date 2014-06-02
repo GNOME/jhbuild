@@ -108,6 +108,9 @@
   </autotools>
 
   <autotools id="gnome-weather">
+    <if condition-set="coverage">
+      <autogenargs value="--enable-coverage"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gdk-pixbuf"/>
@@ -117,6 +120,9 @@
       <dep package="intltool"/>
       <dep package="libgweather"/>
       <dep package="gjs"/>
+      <if condition-set="coverage">
+        <dep package="lcov"/>
+      </if>
     </dependencies>
   </autotools>
 
