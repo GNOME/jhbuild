@@ -111,6 +111,9 @@
     <if condition-set="coverage">
       <autogenargs value="--enable-coverage"/>
     </if>
+    <if condition-unset="dogtail">
+      <autogenargs value="--disable-dogtail"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gdk-pixbuf"/>
@@ -122,6 +125,9 @@
       <dep package="gjs"/>
       <if condition-set="coverage">
         <dep package="lcov"/>
+      </if>
+      <if condition-set="dogtail">
+        <dep package="dogtail"/>
       </if>
     </dependencies>
   </autotools>
