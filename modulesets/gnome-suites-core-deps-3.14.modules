@@ -525,8 +525,13 @@
       <patch file="farstream.netinet-in.patch" strip="1"/>
     </branch>
     <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="libnice"/>
     </dependencies>
+    <suggests>
+      <dep package="gupnp-igd"/>
+    </suggests>
   </autotools>
 
   <autotools id="telepathy-farstream" autogenargs="--disable-python --disable-Werror">
