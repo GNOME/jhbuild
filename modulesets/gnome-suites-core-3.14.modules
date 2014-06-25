@@ -256,7 +256,7 @@
 
   <autotools id="gnome-settings-daemon">
     <if condition-unset="linux">
-      <autogenargs value="--disable-rfkill --disable-gudev"/>
+      <autogenargs value="--disable-rfkill --disable-gudev --disable-network-manager"/>
     </if>
     <branch/>
     <dependencies>
@@ -283,6 +283,7 @@
         <dep package="libwacom"/>
         <dep package="xorg-wacom"/>
         <dep package="gudev"/>
+        <dep package="NetworkManager"/>
       </if>
     </dependencies>
     <suggests>
