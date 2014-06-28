@@ -77,7 +77,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cmake')
-        baseargs = '-DCMAKE_INSTALL_PREFIX=%s' % prefix
+        baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DCMAKE_INSTALL_LIBDIR=lib' % prefix
         cmakeargs = self.get_cmakeargs()
         # CMake on Windows generates VS projects or NMake makefiles by default.
         # When using MSYS "MSYS Makefiles" is the best guess. "Unix Makefiles"
