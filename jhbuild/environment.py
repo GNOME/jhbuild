@@ -98,6 +98,10 @@ def setup_env_defaults(system_libdirs):
     if not 'XDG_CONFIG_DIRS' in os.environ:
         XDG_CONFIG_DIRS='/etc/xdg'
 
+    # ACLOCAL_PATH
+    if not 'ACLOCAL_PATH' in os.environ:
+        ACLOCAL_PATH='/usr/share/aclocal'
+
     # get rid of gdkxft from the env -- it will cause problems.
     if os.environ.has_key('LD_PRELOAD'):
         valarr = os.environ['LD_PRELOAD'].split(' ')
