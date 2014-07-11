@@ -322,10 +322,10 @@ class AutogenModule(MakeModule, DownloadableModule):
     do_distcheck.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_install(self, buildscript):
-        buildscript.set_action(_('Uninstalling old installed version'), self)
         if self.uninstall_before_install:
             packagedb =  buildscript.moduleset.packagedb
             if packagedb.check(self.name):
+                buildscript.set_action(_('Uninstalling old installed version'), self)
                 packagedb.uninstall(self.name)
 
         buildscript.set_action(_('Installing'), self)
