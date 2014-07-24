@@ -16,6 +16,7 @@ jhbuild: jhbuild.in
 		-e s!\@pythondir\@!$(pythondir)!	\
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
+		-e s!\@PYTHON\@!$(PYTHON)!		\
 		< $< > $@
 
 jhbuild: Makefile
