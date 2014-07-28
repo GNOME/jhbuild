@@ -200,17 +200,22 @@
     </dependencies>
   </cmake>
 
-  <cmake id="corebird"
-         cmakeargs="-DPREFIX=${prefix}">
-     <branch repo="github.com" checkoutdir="corebird" module="baedert/corebird.git"/>
-     <dependencies>
-       <dep package="intltool"/>
-       <dep package="vala"/>
-       <dep package="glib-networking"/>
-       <dep package="librsvg"/>
-       <dep package="gtk+"/>
-     </dependencies>
-  </cmake>
+  <autotools id="corebird">
+    <branch repo="github.com" checkoutdir="corebird" module="baedert/corebird.git"/>
+    <dependencies>
+      <dep package="glib-networking"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="json-glib"/>
+      <dep package="libgee"/>
+      <dep package="librest"/>
+      <dep package="librsvg"/>
+      <dep package="libsoup"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="gnome-calendar">
     <branch/>
