@@ -1297,13 +1297,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="WebKit" makefile="GNUmakefile"
-             autogenargs="--enable-introspection">
-    <pkg-config>webkitgtk-3.0.pc</pkg-config>
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
     <branch repo="webkitgtk.org"
-            module="webkitgtk-2.4.4.tar.xz" version="2.4.4"
-            hash="sha256:58cbfc7e352ae1e1f5e383f9f766795794d88483e9a52377a295f56eedf53ab9"
-            size="9844048">
+            module="webkitgtk-2.5.1.tar.xz" version="2.5.1"
+            hash="sha256:3e66b0b932bd79c0e63eda4ab59b12bfff0daefeb0b5aa34a8eb902b5761368e"
+            size="10502028">
     </branch>
     <dependencies>
       <dep package="at-spi2-core"/>
@@ -1330,7 +1328,7 @@
       <dep package="sqlite3"/>
       <dep package="enchant"/>
     </suggests>
-  </autotools>
+  </cmake>
 
  <autotools id="vte"
             autogenargs="--enable-introspection=yes">
