@@ -75,8 +75,6 @@
       href="git://git.fishsoup.net/"/>
   <repository type="git" name="diracvideo.org"
     href="git://diracvideo.org/git/"/>
-  <repository type="svn" name="liferea.svn.sourceforge.net"
-      href="http://liferea.svn.sourceforge.net/svnroot/"/>
   <repository type="cvs" name="cvs.claws-mail"
       cvsroot=":ext:cvs@scm.dotsrc.org:/srv/cvs/claws-mail"
       password=""/>
@@ -1943,26 +1941,22 @@
   </autotools>
 
   <autotools id="liferea">
-    <branch repo="liferea.svn.sourceforge.net"
-            module="liferea/trunk/liferea"
-            checkoutdir="liferea"/>
+    <branch repo="github.com" checkoutdir="liferea" module="lwindolf/liferea"/>
     <dependencies>
-      <dep package="gtk+-2"/>
-      <dep package="intltool"/>
+      <dep package="gtk+"/>
       <dep package="glib"/>
       <dep package="pango"/>
-      <dep package="gconf"/>
       <dep package="libxml2"/>
+      <dep package="libxslt"/>
       <dep package="sqlite3"/>
       <dep package="libsoup"/>
-      <dep package="libunique-1"/>
       <dep package="WebKit1"/>
+      <dep package="json-glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="libpeas"/>
+      <dep package="intltool"/>
     </dependencies>
-    <suggests>
-      <dep package="dbus"/>
-      <dep package="NetworkManager"/>
-      <dep package="libnotify"/>
-    </suggests>
   </autotools>
 
   <autotools id="krb5-auth-dialog">
