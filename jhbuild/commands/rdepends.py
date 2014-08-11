@@ -53,7 +53,8 @@ class cmd_rdepends(Command):
 
         # get all modules but those that are a dependency of modname
         dependencies_list = [x.name for x in module_set.get_module_list([modname])]
-        dependencies_list.remove(modname)
+        if modname in dependencies_list:
+            dependencies_list.remove(modname)
         modules = module_set.get_full_module_list(skip=dependencies_list)
         modules = modules[[x.name for x in modules].index(modname)+1:]
 
