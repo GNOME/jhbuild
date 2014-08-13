@@ -1261,6 +1261,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libepoxy">
+    <branch repo="github.com"
+            checkoutdir="libepoxy"
+            module="anholt/libepoxy.git"/>
+    <dependencies>
+      <dep package="xtrans"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libevdev" autogenargs="--disable-gcov">
     <branch repo="freedesktop.org"
             checkoutdir="libevdev"
@@ -1311,6 +1320,19 @@
     <dependencies>
       <dep package="libffi"/>
       <dep package="doxygen"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="xwayland"
+             autogenargs="--with-xkb-bin-directory=/usr/bin --with-xkb-path=/usr/share/X11/xkb --with-xkb-output=${prefix}/share/X11/xkb/compiled --enable-xwayland">
+    <branch repo="xorg.freedesktop.org"
+            checkoutdir="xwayland"
+            module="xserver"/>
+    <dependencies>
+      <dep package="xfont"/>
+      <dep package="xtrans"/>
+      <dep package="wayland"/>
+      <dep package="libepoxy"/>
     </dependencies>
   </autotools>
 
