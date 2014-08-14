@@ -164,9 +164,6 @@ class PKSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
         self._loop = None
-        # PackageKit 0.8.1 has API breaks in the D-BUS interface, for now
-        # we try to support both it and older PackageKit
-        self._using_pk_0_8_1 = None
         self._sysbus = None
         self._pkdbus = None
 
@@ -189,16 +186,10 @@ class PKSystemInstall(SystemInstall):
             self._pkdbus = dbus.Interface(self._sysbus.get_object('org.freedesktop.PackageKit',
                                               '/org/freedesktop/PackageKit'),
                             'org.freedesktop.PackageKit')
-        if self._using_pk_0_8_1 is None:
-            try:
-                txn_path = self._pkdbus.CreateTransaction()
-                txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
-                self._using_pk_0_8_1 = True
-            except dbus.exceptions.DBusException:
-                tid = self._pkdbus.GetTid()
-                txn = self._sysbus.get_object('org.freedesktop.PackageKit', tid)
-                self._using_pk_0_8_1 = False
-        elif self._using_pk_0_8_1:
+            properties = dbus.Interface(self._pkdbus, 'org.freedesktop.DBus.Properties')
+            self._pk_major = properties.Get('org.freedesktop.PackageKit', 'VersionMajor')
+            self._pk_minor = properties.Get('org.freedesktop.PackageKit', 'VersionMinor')
+        if self._pk_major == 0 and self._pk_minor >= 8:
             txn_path = self._pkdbus.CreateTransaction()
             txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
         else:
@@ -216,13 +207,21 @@ class PKSystemInstall(SystemInstall):
         if uninstalled_pkgconfigs:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._using_pk_0_8_1:
+            if self._pk_major == 0 and self._pk_minor >= 9:
+                # PackageKit 0.9.x
+                txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
+                                    PK_FILTER_ENUM_NOT_INSTALLED,
+                                    ['pkgconfig(%s)' % pkg for modname, pkg in
+                                     uninstalled_pkgconfigs])
+            elif self._pk_major == 0 and self._pk_minor == 8:
+                # PackageKit 0.8.x
                 txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
                                     PK_FILTER_ENUM_NOT_INSTALLED,
                                     PK_PROVIDES_ANY,
                                     ['pkgconfig(%s)' % pkg for modname, pkg in
                                      uninstalled_pkgconfigs])
             else:
+                # PackageKit 0.7.x and older
                 txn_tx.WhatProvides('arch;newest;~installed', 'any',
                                     ['pkgconfig(%s)' % pkg for modname, pkg in
                                      uninstalled_pkgconfigs])
@@ -232,7 +231,7 @@ class PKSystemInstall(SystemInstall):
         if uninstalled_filenames:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._using_pk_0_8_1:
+            if self._pk_major == 0 and self._pk_minor >= 8:
                 txn_tx.SearchFiles(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
                                    PK_FILTER_ENUM_NOT_INSTALLED,
                                    [pkg for modname, pkg in
