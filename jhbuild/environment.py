@@ -25,11 +25,14 @@ import os
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 
+if sys.platform.startswith('win'):
+    from jhbuild.utils import subprocess_win32
+
 def addpath(envvar, path):
     '''Adds a path to an environment variable.'''
     if envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
         if sys.platform.startswith('win'):
-            path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+            path = subprocess_win32.fix_path_for_msys(path)
 
         envval = os.environ.get(envvar)
         if envval:
@@ -47,7 +50,7 @@ def addpath(envvar, path):
         else:
             pathsep = ':'
             if sys.platform.startswith('win'):
-                path = jhbuild.utils.subprocess_win32.fix_path_for_msys(path)
+                path = subprocess_win32.fix_path_for_msys(path)
 
             if sys.platform.startswith('win') and len(path) > 1 and \
                path[1] == ':':
@@ -128,7 +131,7 @@ def setup_env(prefix):
 
     # This path doesn't always get passed to addpath so we fix it here
     if sys.platform.startswith('win'):
-        libdir = jhbuild.utils.subprocess_win32.fix_path_for_msys(libdir)
+        libdir = subprocess_win32.fix_path_for_msys(libdir)
     os.environ['LDFLAGS'] = ('-L%s ' % libdir) + os.environ.get('LDFLAGS', '')
 
     includedir = os.path.join(prefix, 'include')
