@@ -44,6 +44,9 @@
     -->
 
   <autotools id="appstream-glib">
+    <if condition-set="freebsd">
+      <autogenargs value="LIBARCHIVE_CFLAGS=' ' LIBARCHIVE_LIBS='-larchive'"/>
+    </if>
     <branch repo="github.com" module="hughsie/appstream-glib.git" revision="0_2_X"/>
     <dependencies>
       <dep package="glib"/>
@@ -177,6 +180,9 @@
   </autotools>
 
   <autotools id="guile">
+    <if condition-set="freebsd">
+      <autogenargs value="BDW_GC_CFLAGS=' ' BDW_GC_LIBS='-lgc-threaded'"/>
+    </if>
     <pkg-config>guile-2.0.pc</pkg-config>
     <branch repo="ftp.gnu.org"
             module="guile/guile-2.0.11.tar.xz"
@@ -185,7 +191,12 @@
             size="4634060"/>
     <dependencies>
       <dep package="libunistring"/>
-      <dep package="gc"/>
+      <if condition-unset="freebsd">
+        <dep package="gc"/>
+      </if>
+      <if condition-set="freebsd">
+        <dep package="gc-threaded"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -214,6 +225,9 @@
  </autotools>
 
   <autotools id="libgda" autogenargs="--with-java=no --disable-tools">
+    <if condition-set="freebsd">
+      <autogenargs value="LIBCRYPTO_CFLAGS=' ' LIBCRYPTO_LIBS='-lcrypto' --with-bdb=/usr/local --with-bdb-libdir-name=lib/db5 --with-bdb-includedir-name=include/db5"/>
+    </if>
     <branch revision="LIBGDA_5.2"/>
     <dependencies>
       <dep package="glib"/>
@@ -277,6 +291,9 @@
   </autotools>
 
   <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-static">
+    <if condition-set="freebsd">
+      <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl'"/>
+    </if>
     <branch repo="spice"
             module="gtk/spice-gtk-0.25.tar.bz2"
             version="0.25"

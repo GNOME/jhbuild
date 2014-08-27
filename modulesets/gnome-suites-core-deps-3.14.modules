@@ -655,6 +655,9 @@
   </autotools>
 
   <autotools id="librest">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1121,6 +1124,9 @@
   </autotools>
 
   <autotools id="p11-kit" supports-non-srcdir-builds="no">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-trust-paths=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
     <branch repo="p11-glue.freedesktop.org"
             module="p11-kit-0.20.3.tar.gz"
             version="0.20.3"
@@ -1129,6 +1135,9 @@
   </autotools>
 
   <autotools id="poppler" autogenargs="--enable-xpdf-headers --enable-poppler-glib" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
+    <if condition-set="freebsd">
+      <autogenargs value="CXXFLAGS=-std=c++11"/>
+    </if>
     <pkg-config>poppler-glib.pc</pkg-config>
     <branch repo="poppler.freedesktop.org"
             module="poppler-0.26.4.tar.xz"

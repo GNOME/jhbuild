@@ -69,6 +69,9 @@
     <!-- We uninstall the old copy before installing, because the our usage
          of DESTDIR and libtool's relinking interfere and cause camel providers
          to link against the install version of libcamel. -->
+    <if condition-set="freebsd">
+      <autogenargs value="DB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
+    </if>
     <branch revision="evolution-data-server-3-12"/>
     <dependencies>
       <dep package="intltool"/>
@@ -379,6 +382,9 @@
   </autotools>
 
   <autotools id="glib-networking" autogenargs="--enable-installed-tests">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -825,6 +831,9 @@
   </autotools>
 
   <autotools id="yelp">
+    <if condition-set="freebsd">
+      <autogenargs value="YELP_LZMA_CFLAGS=' ' YELP_LZMA_LIBS='-llzma'"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
