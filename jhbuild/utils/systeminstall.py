@@ -189,7 +189,7 @@ class PKSystemInstall(SystemInstall):
             properties = dbus.Interface(self._pkdbus, 'org.freedesktop.DBus.Properties')
             self._pk_major = properties.Get('org.freedesktop.PackageKit', 'VersionMajor')
             self._pk_minor = properties.Get('org.freedesktop.PackageKit', 'VersionMinor')
-        if self._pk_major == 0 and self._pk_minor >= 8:
+        if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 8):
             txn_path = self._pkdbus.CreateTransaction()
             txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
         else:
@@ -207,8 +207,8 @@ class PKSystemInstall(SystemInstall):
         if uninstalled_pkgconfigs:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._pk_major == 0 and self._pk_minor >= 9:
-                # PackageKit 0.9.x
+            if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 9):
+                # PackageKit 1.0.x or 0.9.x
                 txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
                                     PK_FILTER_ENUM_NOT_INSTALLED,
                                     ['pkgconfig(%s)' % pkg for modname, pkg in
@@ -231,7 +231,7 @@ class PKSystemInstall(SystemInstall):
         if uninstalled_filenames:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._pk_major == 0 and self._pk_minor >= 8:
+            if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 8):
                 txn_tx.SearchFiles(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
                                    PK_FILTER_ENUM_NOT_INSTALLED,
                                    [pkg for modname, pkg in
