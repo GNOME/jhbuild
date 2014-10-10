@@ -5,6 +5,7 @@
 <moduleset>
 
   <include href="gnome-apps-3.16.modules"/>
+  <include href="gnome-core-apps-3.16.modules"/>
   <include href="gnome-core-3.16.modules"/>
 
   <!-- Meta Modules -->
@@ -67,10 +68,10 @@
     </dependencies>
   </metamodule>
 
-  <!-- The Core GNOME Utilities: Only unbranded, GNOME integrated
-       basic functionality utilities allowed
+  <!-- The GNOME Core Apps: Only unbranded, GNOME integrated
+       apps allowed
   -->
-  <metamodule id="meta-gnome-core-utilities">
+  <metamodule id="meta-gnome-core-apps">
     <dependencies>
       <dep package="baobab"/>
       <dep package="empathy"/>
@@ -158,13 +159,13 @@
     </dependencies>
   </metamodule>
 
-  <!-- The entirety of the Core GNOME UX, including extras and utilities
+  <!-- The entirety of the Core GNOME UX, including extras and core-apps
   -->
   <metamodule id="meta-gnome-core">
     <dependencies>
       <dep package="meta-gnome-core-shell"/>
       <dep package="meta-gnome-core-extras"/>
-      <dep package="meta-gnome-core-utilities"/>
+      <dep package="meta-gnome-core-apps"/>
       <dep package="gnome-shell-extensions"/>
     </dependencies>
   </metamodule>
