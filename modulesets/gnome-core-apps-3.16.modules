@@ -8,6 +8,11 @@
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
 
+  <!-- tarball repos -->
+  <repository type="tarball" name="libopenraw.freedesktop.org"
+      href="http://libopenraw.freedesktop.org/download/"/>
+
+
   <include href="gnome-core-3.16.modules"/>
 
   <!-- Please try to keep organized alphabetically -->
@@ -342,6 +347,61 @@
       <dep package="WebKit1"/>
       <dep package="yelp-xsl"/>
     </dependencies>
+  </autotools>
+
+
+  <!-- Core Apps Dependencies -->
+
+
+  <autotools id="exempi" autogenargs="--enable-unittest=no">
+    <pkg-config>exempi-2.0.pc</pkg-config>
+    <branch repo="libopenraw.freedesktop.org"
+            module="exempi-${version}.tar.bz2"
+            version="2.2.1"
+            hash="sha256:6c9e4380041abca80ef0e0029c07109f183506b812f870d8689e7140997fa601"/>
+  </autotools>
+
+  <autotools id="grilo">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="gtk+"/>
+      <dep package="vala"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="totem-pl-parser"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="grilo-plugins">
+    <branch/>
+    <dependencies>
+      <dep package="grilo"/>
+      <dep package="libxml2"/>
+      <dep package="totem-pl-parser"/>
+    </dependencies>
+    <suggests>
+      <dep package="avahi"/>
+      <dep package="gmime"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gssdp"/>
+      <dep package="gupnp"/>
+      <dep package="gupnp-av"/>
+      <dep package="json-glib"/>
+      <dep package="libarchive"/>
+      <dep package="libdmapsharing"/>
+      <dep package="libgcrypt"/>
+      <dep package="libgdata"/>
+      <dep package="libmediaart"/>
+      <dep package="liboauth"/>
+      <dep package="librest"/>
+      <dep package="libsoup"/>
+      <dep package="sqlite3"/>
+      <dep package="tracker"/>
+    </suggests>
   </autotools>
 
 </moduleset>
