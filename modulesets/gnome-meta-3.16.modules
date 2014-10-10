@@ -1,0 +1,210 @@
+<?xml version="1.0"?><!--*- mode: nxml; indent-tabs-mode: nil -*-->
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<!-- vim:set ts=2 expandtab: -->
+<moduleset>
+
+  <include href="gnome-apps-3.16.modules"/>
+  <include href="gnome-core-3.16.modules"/>
+
+  <!-- Meta Modules -->
+
+  <!-- Tested applications: these are built continuously by build.gnome.org
+       build slaves, and by default for anyone using JHBuild.
+  -->
+  <metamodule id="meta-gnome-apps-tested">
+    <dependencies>
+      <dep package="accerciser"/>
+      <dep package="aisleriot"/>
+      <dep package="anjuta"/>
+      <dep package="bijiben"/>
+      <dep package="brasero"/>
+      <dep package="cheese"/>
+      <dep package="devhelp"/>
+      <dep package="evolution"/>
+      <dep package="file-roller"/>
+      <dep package="five-or-more"/>
+      <dep package="four-in-a-row"/>
+      <dep package="gedit"/>
+      <dep package="gitg"/>
+      <dep package="glade"/>
+      <dep package="gnome-boxes"/>
+      <dep package="gnome-clocks"/>
+      <dep package="gnome-chess"/>
+      <dep package="gnome-color-manager"/>
+      <dep package="gnome-documents"/>
+      <dep package="gnome-devel-docs"/>
+      <dep package="gnome-initial-setup"/>
+      <dep package="gnome-getting-started-docs"/>
+      <dep package="gnome-klotski"/>
+      <dep package="gnome-logs"/>
+      <dep package="gnome-mahjongg"/>
+      <dep package="gnome-maps"/>
+      <dep package="gnome-mines"/>
+      <dep package="gnome-nettool"/>
+      <dep package="gnome-nibbles"/>
+      <dep package="gnome-photos"/>
+      <dep package="gnome-robots"/>
+      <dep package="gnome-software"/>
+      <dep package="gnome-sound-recorder"/>
+      <dep package="gnome-sudoku"/>
+      <dep package="gnome-tetravex"/>
+      <dep package="gnome-tweak-tool"/>
+      <dep package="gnome-weather"/>
+      <dep package="hitori"/>
+      <dep package="iagno"/>
+      <dep package="lightsoff"/>
+      <dep package="nautilus-sendto"/>
+      <dep package="nemiver"/>
+      <dep package="orca"/>
+      <dep package="polari"/>
+      <dep package="quadrapassel"/>
+      <dep package="rygel"/>
+      <dep package="seahorse"/>
+      <dep package="swell-foop"/>
+      <dep package="tali"/>
+      <dep package="vinagre"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- The Core GNOME Utilities: Only unbranded, GNOME integrated
+       basic functionality utilities allowed
+  -->
+  <metamodule id="meta-gnome-core-utilities">
+    <dependencies>
+      <dep package="baobab"/>
+      <dep package="empathy"/>
+      <dep package="epiphany"/>
+      <dep package="eog"/>
+      <dep package="evince"/>
+      <dep package="gnome-calculator"/>
+      <dep package="gnome-contacts"/>
+      <dep package="gnome-dictionary"/>
+      <dep package="gnome-font-viewer"/>
+      <dep package="gnome-screenshot"/>
+      <dep package="gnome-system-log"/>
+      <dep package="gnome-system-monitor"/>
+      <dep package="gnome-terminal"/>
+      <dep package="gucharmap"/>
+      <dep package="nautilus"/>
+      <dep package="sushi"/>
+      <dep package="totem"/>
+      <dep package="yelp"/>
+      <if condition-set="linux">
+        <!-- udisks dependency -->
+        <dep package="gnome-disk-utility"/>
+      </if>
+    </dependencies>
+  </metamodule>
+
+  <!-- The Core GNOME UX Shell: Only integrated session services,
+       data, and core UI allowed
+  -->
+  <metamodule id="meta-gnome-core-shell">
+    <dependencies>
+      <dep package="dconf"/>
+      <dep package="evolution-data-server"/>
+      <dep package="gnome-control-center"/>
+      <dep package="adwaita-icon-theme"/>
+      <dep package="gnome-keyring"/>
+      <dep package="gnome-menus"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gnome-packagekit"/>
+      <dep package="gnome-session"/>
+      <dep package="gnome-settings-daemon"/>
+      <dep package="gnome-shell"/>
+      <dep package="gnome-themes-standard"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gvfs"/>
+      <dep package="glib-networking"/>
+      <dep package="mousetweaks"/>
+      <dep package="mutter"/>
+      <dep package="pulseaudio"/>
+      <dep package="telepathy-mission-control"/>
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-core-extras">
+    <dependencies>
+      <dep package="gnome-backgrounds"/>
+      <dep package="gnome-user-share"/>
+      <dep package="vino"/>
+      <dep package="gnome-user-docs"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- The Core GNOME OS Services: Only OS System services required to
+       provide the Core GNOME UX
+  -->
+  <metamodule id="meta-gnome-core-os-services">
+    <dependencies>
+      <dep package="accountsservice"/>
+      <dep package="avahi"/>
+      <dep package="bluez"/>
+      <dep package="ConsoleKit"/>
+      <dep package="dbus"/>
+      <dep package="gdm"/>
+      <dep package="PackageKit"/>
+      <dep package="polkit"/>
+      <dep package="upower"/>
+      <dep package="cups"/>
+      <!-- <dep package="systemd"/> -->
+      <!-- <dep package="xorg-x11-server"/> -->
+      <!-- <dep package="plymouth"/> -->
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+        <dep package="udisks"/>
+      </if>
+    </dependencies>
+  </metamodule>
+
+  <!-- The entirety of the Core GNOME UX, including extras and utilities
+  -->
+  <metamodule id="meta-gnome-core">
+    <dependencies>
+      <dep package="meta-gnome-core-shell"/>
+      <dep package="meta-gnome-core-extras"/>
+      <dep package="meta-gnome-core-utilities"/>
+      <dep package="gnome-shell-extensions"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- Platform metamodule -->
+  <metamodule id="meta-gnome-devel-platform">
+    <dependencies>
+      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
+      <dep package="at-spi2-atk"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="pango"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- Extended platform metamodule -->
+  <metamodule id="meta-gnome-extended-devel-platform">
+    <dependencies>
+      <!-- the platform -->
+      <dep package="meta-gnome-devel-platform"/>
+      <!-- and more modules -->
+      <dep package="evolution-data-server"/>
+      <dep package="gstreamer"/>
+      <dep package="libnotify"/>
+      <dep package="libpeas"/>
+      <dep package="PackageKit"/>
+      <dep package="polkit"/>
+      <dep package="telepathy-glib"/>
+      <dep package="upower"/>
+      <dep package="WebKit"/>
+      <!-- and bindings -->
+      <dep package="pygobject"/>
+      <dep package="gtkmm"/>
+      <dep package="java-gnome"/>
+      <dep package="seed"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
+    </dependencies>
+  </metamodule>
+
+</moduleset>
