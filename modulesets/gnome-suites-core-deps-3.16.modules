@@ -264,13 +264,14 @@
     </dependencies>
   </autotools>
 
-  <cmake id="mir" cmakeargs="-DMIR_ENABLE_TESTS=0">
+  <cmake id="mir" cmakeargs="-DMIR_ENABLE_TESTS=0 -DMIR_PLATFORM=mesa">
     <branch repo="mir"
-            module="0.4/${version}/+download/mir-${version}.tar.bz2"
-            version="0.4.0"
-            hash="sha256:5d859d353da88d81bf383e37d0744796d74d24a858fcc7d978a91575ebccd524"
-            size="949452">
+            module="0.8/${version}/+download/mir-${version}.tar.bz2"
+            version="0.8.0"
+            hash="sha256:a907bb7e6cf4d5975bc02db8a7b0d6e2f668527e6d38ae402ec8b87a8ca0c5f1"
+            size="1047629">
       <patch file="mir-gflags-noshutdown.patch" strip="1"/>
+      <patch file="mir-progressbar-example.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="boost"/>
