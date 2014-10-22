@@ -42,8 +42,6 @@
     href="http://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="nice.freedesktop.org"
     href="http://nice.freedesktop.org/releases/"/>
-<repository type="tarball" name="poppler.freedesktop.org"
-    href="http://poppler.freedesktop.org/"/>
 <repository type="tarball" name="itstool.org"
     href="http://files.itstool.org/itstool/"/>
 <repository type="tarball" name="libpwquality"
@@ -1076,26 +1074,6 @@
 
   <autotools id="mobile-broadband-provider-info">
     <branch/>
-  </autotools>
-
-  <autotools id="poppler" autogenargs="--enable-xpdf-headers --enable-poppler-glib" makeargs="POPPLER_GLIB_DISABLE_DEPRECATED=">
-    <if condition-set="freebsd">
-      <autogenargs value="CXXFLAGS=-std=c++11"/>
-    </if>
-    <pkg-config>poppler-glib.pc</pkg-config>
-    <branch repo="poppler.freedesktop.org"
-            module="poppler-0.26.5.tar.xz"
-            version="0.26.5"
-            hash="sha256:de7de5fa337431e5d1f372e8577b3707322f1dbc1dc28a70f2927476f134d1ee"
-            size="1595232"/>
-    <dependencies>
-      <dep package="cairo"/>
-      <dep package="glib"/>
-    </dependencies>
-    <after>
-      <dep package="gtk+"/>
-      <dep package="gdk-pixbuf"/>
-    </after>
   </autotools>
 
   <!-- Python 3 build of pygobject -->
