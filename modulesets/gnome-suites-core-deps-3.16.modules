@@ -1233,13 +1233,14 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
+  <autotools id="libxkbcommon">
     <branch repo="libxkbcommon"
             module="http://xkbcommon.org/download/libxkbcommon-${version}.tar.xz"
             version="0.5.0"
             hash="sha256:90bd7824742b9a6f52a6cf80e2cadd6f5349cf600a358d08260772615b89d19c"
             size="615504"/>
     <dependencies>
+      <dep package="xkeyboard-config"/>
       <dep package="xorg-macros"/>
       <dep package="xorg-xproto"/>
       <dep package="xorg-kbproto"/>
