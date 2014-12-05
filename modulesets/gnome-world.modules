@@ -3153,6 +3153,47 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libretro-free"
+             skip-autogen="true">
+    <branch repo="github.com"
+            module="Kekun/libretro-free.git"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
+  <autotools id="retro-gobject"
+             skip-autogen="true">
+    <branch repo="github.com"
+            module="Kekun/retro-gobject.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="retro-gtk"
+             skip-autogen="true">
+    <branch repo="github.com"
+            module="Kekun/retro-gtk.git"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="retro-gtk"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="retro-gtk-demo"
+             skip-autogen="true">
+    <branch repo="github.com"
+            module="Kekun/retro-gtk-demo.git"/>
+    <dependencies>
+      <dep package="libretro-free"/>
+      <dep package="retro-gobject"/>
+      <dep package="retro-gtk"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="rhythmbox">
     <branch/>
     <dependencies>
