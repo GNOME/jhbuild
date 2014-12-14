@@ -26,6 +26,8 @@ from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.commands.base import cmd_build
 from jhbuild.utils.systeminstall import SystemInstall
+from jhbuild.modtypes.systemmodule import SystemModule
+from jhbuild.versioncontrol.tarball import TarballBranch
 from jhbuild.utils import cmds
 
 class cmd_sysdeps(cmd_build):
@@ -35,6 +37,12 @@ class cmd_sysdeps(cmd_build):
 
     def __init__(self):
         Command.__init__(self, [
+            make_option('--dump',
+                        action='store_true', default = False,
+                        help=_('Machine readable list of missing sysdeps')),
+            make_option('--dump-all',
+                        action='store_true', default = False,
+                        help=_('Machine readable list of all sysdeps')),
             make_option('--install',
                         action='store_true', default = False,
                         help=_('Install pkg-config modules via system'))])
@@ -61,10 +69,55 @@ class cmd_sysdeps(cmd_build):
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
         module_list = module_set.get_full_module_list(modules, config.skip)
+
+        if options.dump_all:
+            for module in module_list:
+                if (isinstance(module, SystemModule) or isinstance(module.branch, TarballBranch) and
+                                                        module.pkg_config is not None):
+                    if module.pkg_config is not None:
+                        print 'pkgconfig:{0}'.format(module.pkg_config[:-3]) # remove .pc
+
+                    if module.systemdependencies is not None:
+                        for dep_type, value in module.systemdependencies:
+                            print '{0}:{1}'.format(dep_type, value)
+
+            return
+
         module_state = module_set.get_module_state(module_list)
 
         have_new_enough = False
         have_too_old = False
+
+        if options.dump:
+            for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+                if new_enough:
+                    continue
+
+                if installed_version is not None and systemmodule:
+                    # it's already installed but it's too old and we
+                    # don't know how to build a new one for ourselves
+                    have_too_old = True
+
+                # request installation in two cases:
+                #   1) we don't know how to build it
+                #   2) we don't want to build it ourselves
+                #
+                # partial_build is on by default so this check will only
+                # fail if someone explicitly turned it off
+                if systemmodule or config.partial_build:
+                    assert (module.pkg_config or module.systemdependencies)
+
+                    if module.pkg_config is not None:
+                        print 'pkgconfig:{0}'.format(module.pkg_config[:-3]) # remove .pc
+
+                    if module.systemdependencies is not None:
+                        for dep_type, value in module.systemdependencies:
+                            print '{0}:{1}'.format(dep_type, value)
+
+            if have_too_old:
+                return 1
+
+            return
 
         print _('System installed packages which are new enough:')
         for module,(req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
