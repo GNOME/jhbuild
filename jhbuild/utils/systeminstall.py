@@ -23,6 +23,7 @@ import logging
 import shlex
 import subprocess
 import pipes
+import imp
 from StringIO import StringIO
 
 import cmds
@@ -144,6 +145,28 @@ def systemdependencies_met(module_name, sysdeps, config):
                     break
             if not found:
                 return False
+
+        elif dep_type == 'python2':
+            try:
+                imp.find_module(value)
+            except:
+                return False
+
+        elif dep_type == 'xml':
+            for d in os.environ['XDG_DATA_DIRS'].split(':'):
+                xml_catalog = os.path.join(d, 'xml', 'catalog')
+                if os.path.exists(xml_catalog):
+                    break
+            else:
+                xml_catalog = '/etc/xml/catalog'
+
+            try:
+                # no xmlcatalog installed will (correctly) fail the check
+                subprocess.check_output(['xmlcatalog', xml_catalog, value])
+
+            except:
+                return False
+
     return True
 
 class SystemInstall(object):
