@@ -53,6 +53,20 @@ def get_installed_pkgconfigs(config):
         pass
     return pkgversions
 
+def get_uninstalled_pkgconfigs_and_filenames(uninstalled):
+    uninstalled_pkgconfigs = []
+    uninstalled_filenames = []
+
+    for module_name, dep_type, value in uninstalled:
+        if dep_type == 'pkgconfig':
+            uninstalled_pkgconfigs.append(module_name, value)
+        elif dep_type.lower() == 'path':
+            uninstalled_filenames.append((module_name, os.path.join('/usr/bin', value),))
+        elif dep_type.lower() == 'c_include':
+            uninstalled_filenames.append((module.name, os.path.join('/usr/include', value),))
+
+    return uninstalled_pkgconfigs, uninstalled_filenames
+
 def systemdependencies_met(module_name, sysdeps, config):
     '''Returns True of the system dependencies are met for module_name'''
     def get_c_include_search_paths(config):
@@ -141,7 +155,7 @@ class SystemInstall(object):
         else:
             raise SystemExit, _('No suitable root privilege command found; you should install "pkexec"')
 
-    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
+    def install(self, uninstalled):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
         raise NotImplementedError()
 
@@ -202,7 +216,8 @@ class PKSystemInstall(SystemInstall):
         txn.connect_to_signal('Destroy', lambda *args: self._loop.quit())
         return txn_tx, txn
 
-    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
+    def install(self, uninstalled):
+        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
         pk_package_ids = set()
 
         if uninstalled_pkgconfigs:
@@ -279,7 +294,8 @@ class YumSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
 
-    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
+    def install(self, uninstalled):
+        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
         logging.info(_('Using yum to install packages.  Please wait.'))
 
         if len(uninstalled_pkgconfigs) + len(uninstalled_filenames) > 0:
@@ -323,7 +339,8 @@ class AptSystemInstall(SystemInstall):
             # otherwise for now, just take the first match
             return name
 
-    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
+    def install(self, uninstalled):
+        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
         logging.info(_('Using apt-file to search for providers; this may be slow.  Please wait.'))
         native_packages = []
         pkgconfigs = [(modname, '/%s.pc' % pkg) for modname, pkg in

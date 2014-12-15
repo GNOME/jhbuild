@@ -90,8 +90,7 @@ class cmd_sysdeps(cmd_build):
             print _('    (none)')
 
         print _('  No matching system package installed:')
-        uninstalled_pkgconfigs = []
-        uninstalled_filenames = []
+        uninstalled = []
         for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
             if installed_version is None and (not new_enough) and systemmodule:
                 print ('    %s %s' % (module.name,
@@ -99,22 +98,11 @@ class cmd_sysdeps(cmd_build):
                                                   req_version,
                                                   installed_version)))
                 if module.pkg_config is not None:
-                    uninstalled_pkgconfigs.append((module.name,
-                                                   # remove .pc
-                                                   module.pkg_config[:-3]))
+                    uninstalled.append((module.name, 'pkgconfig', module.pkg_config[:-3])) # remove .pc
                 elif module.systemdependencies is not None:
                     for dep_type, value in module.systemdependencies:
-                        if dep_type.lower() == 'path':
-                            uninstalled_filenames.append(
-                                (module.name,
-                                 os.path.join(config.system_prefix, 'bin',
-                                              value),))
-                        elif dep_type.lower() == 'c_include':
-                            uninstalled_filenames.append(
-                                (module.name,
-                                 os.path.join(config.system_prefix, 'include',
-                                              value),))
-        if len(uninstalled_pkgconfigs) + len(uninstalled_filenames) == 0:
+                        uninstalled.append((module.name, dep_type, value))
+        if len(uninstalled) == 0:
             print _('    (none)')
 
         have_too_old = False
@@ -140,11 +128,9 @@ class cmd_sysdeps(cmd_build):
                                                       req_version,
                                                       installed_version)))
                     if module.pkg_config is not None:
-                        uninstalled_pkgconfigs.append((module.name,
-                                                       # remove .pc
-                                                       module.pkg_config[:-3]))
+                        uninstalled.append((module.name, 'pkgconfig', module.pkg_config[:-3])) # remove .pc
 
-            if len(uninstalled_pkgconfigs) == 0:
+            if len(uninstalled) == 0:
                 print _('    (none)')
 
         if options.install:
@@ -160,15 +146,11 @@ class cmd_sysdeps(cmd_build):
 
                 raise FatalError(_("Don't know how to install packages on this system"))
 
-            if (len(uninstalled_pkgconfigs) +
-                len(uninstalled_filenames)) == 0:
+            if len(uninstalled) == 0:
                 logging.info(_("No uninstalled system dependencies to install for modules: %r") % (modules, ))
             else:
                 logging.info(_("Installing dependencies on system: %s") % \
-                               ' '.join([pkg[0] for pkg in
-                                         uninstalled_pkgconfigs +
-                                         uninstalled_filenames]))
-                installer.install(uninstalled_pkgconfigs,
-                                  uninstalled_filenames)
+                               ' '.join(pkg[0] for pkg in uninstalled))
+                installer.install(uninstalled)
 
 register_command(cmd_sysdeps)
