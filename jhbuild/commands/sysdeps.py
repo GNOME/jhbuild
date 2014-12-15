@@ -162,9 +162,9 @@ class cmd_sysdeps(cmd_build):
 
             if (len(uninstalled_pkgconfigs) +
                 len(uninstalled_filenames)) == 0:
-                logging.info(_("No uninstalled system dependencies to install for modules: %r" % (modules, )))
+                logging.info(_("No uninstalled system dependencies to install for modules: %r") % (modules, ))
             else:
-                logging.info(_("Installing dependencies on system: %s" % \
+                logging.info(_("Installing dependencies on system: %s") % \
                                ' '.join([pkg[0] for pkg in
                                          uninstalled_pkgconfigs +
                                          uninstalled_filenames])))
