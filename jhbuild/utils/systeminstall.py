@@ -141,7 +141,7 @@ class SystemInstall(object):
         else:
             raise SystemExit, _('No suitable root privilege command found; you should install "pkexec"')
 
-    def install(self, pkgconfig_ids):
+    def install(self, uninstalled_pkgconfigs, uninstalled_filenames):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
         raise NotImplementedError()
 
