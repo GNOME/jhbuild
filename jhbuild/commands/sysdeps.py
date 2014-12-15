@@ -145,7 +145,7 @@ class cmd_sysdeps(cmd_build):
                                                        module.pkg_config[:-3]))
 
             if len(uninstalled_pkgconfigs) == 0:
-                print _('  (none)')
+                print _('    (none)')
 
         if options.install:
             installer = SystemInstall.find_best()
