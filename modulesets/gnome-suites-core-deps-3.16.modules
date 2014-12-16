@@ -1226,23 +1226,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="xcb-proto">
-    <branch repo="git.freedesktop.org"
-            checkoutdir="xcb-proto"
-            module="xcb/proto.git"
-            revision="1.10"/>
-  </autotools>
-
-  <autotools id="libxcb">
-    <branch repo="git.freedesktop.org"
-            checkoutdir="libxcb"
-            module="xcb/libxcb.git"
-            revision="1.10"/>
-    <dependencies>
-      <dep package="xcb-proto"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libxkbcommon" autogenargs="--with-xkb-config-root=/usr/share/X11/xkb">
     <branch repo="github.com" checkoutdir="libxkbcommon" module="xkbcommon/libxkbcommon.git"/>
     <dependencies>
@@ -1250,7 +1233,7 @@
       <dep package="xorg-xproto"/>
       <dep package="xorg-kbproto"/>
       <dep package="libX11"/>
-      <dep package="libxcb"/>
+      <dep package="xcb"/>
     </dependencies>
   </autotools>
 
