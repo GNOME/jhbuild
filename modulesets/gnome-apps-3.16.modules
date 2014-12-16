@@ -212,11 +212,11 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgda-6.0" autogenargs="--with-java=no --disable-tools --enable-gda-gi --enable-gdaui-gi --enable-vala --enable-gdaui-vala">
+  <autotools id="libgda"
+             autogenargs="--with-java=no --disable-tools --enable-gda-gi --enable-gdaui-gi --enable-vala --enable-gdaui-vala">
     <if condition-set="freebsd">
       <autogenargs value="LIBCRYPTO_CFLAGS=' ' LIBCRYPTO_LIBS='-lcrypto' --with-bdb=/usr/local --with-bdb-libdir-name=lib/db5 --with-bdb-includedir-name=include/db5"/>
     </if>
-    <branch checkoutdir="libgda-6.0" module="libgda"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
