@@ -27,6 +27,7 @@ import sys
 
 from jhbuild.main import _encoding
 from jhbuild.utils import cmds
+from jhbuild.utils import sysid
 from jhbuild.errors import CommandError, FatalError
 import buildscript
 import commands
@@ -132,39 +133,6 @@ buildlog_footer = '''
   </body>
 </html>
 '''
-
-def get_distro():
-    # try using the lsb_release tool to get the distro info
-    try:
-        distro = cmds.get_output(['lsb_release', '--short', '--id']) \
-                     .decode(_encoding).strip()
-        release = cmds.get_output(['lsb_release', '--short', '--release']) \
-                      .decode(_encoding).strip()
-        codename = cmds.get_output(['lsb_release', '--short', '--codename']) \
-                       .decode(_encoding).strip()
-        if codename:
-            return '%s %s (%s)' % (distro, release, codename)
-        else:
-            return '%s %s' % (distro, release)
-    except (CommandError, IOError):
-        pass
-
-    # otherwise, look for a /etc/*-release file
-    release_files = ['/etc/redhat-release', '/etc/debian_version' ]
-    release_files.extend([ os.path.join('/etc', fname)
-                           for fname in os.listdir('/etc')
-                             if fname.endswith('release') \
-                                 and fname != 'lsb-release' ])
-    for filename in release_files:
-        if os.path.exists(filename):
-            return open(filename, 'r').readline().strip()
-
-    osx = commands.getoutput('sw_vers -productVersion')
-    if osx:
-        return 'Mac OS X ' + osx;
-
-    # else:
-    return None
 
 def escape(string):
     if type(string) is not unicode:
@@ -309,11 +277,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         info.append(('Build Host', socket.gethostname()))
         info.append(('Architecture', '%s %s (%s)' % (un[0], un[2], un[4])))
-
-        distro = get_distro()
-        if distro:
-            info.append(('Distribution', distro))
-
+        info.append(('System', sysid.get_pretty_name()))
         info.append(('Module Set', self.config.moduleset))
         info.append(('Start Time', self.timestamp()))
 

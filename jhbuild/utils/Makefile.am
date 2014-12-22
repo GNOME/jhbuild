@@ -9,6 +9,7 @@ app_PYTHON = \
 	notify.py \
 	packagedb.py \
 	sxml.py \
+	sysid.py \
 	systeminstall.py \
 	trigger.py \
 	trayicon.py \
