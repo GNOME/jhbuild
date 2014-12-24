@@ -928,6 +928,9 @@
   </autotools>
 
   <autotools id="gdm">
+    <if condition-unset="linux">
+      <autogenargs value="--without-plymouth"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
@@ -938,7 +941,9 @@
       <dep package="intltool"/>
       <dep package="libcanberra"/>
       <dep package="nss"/>
-      <dep package="plymouth"/>
+      <if condition-set="linux">
+        <dep package="plymouth"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="upower"/>
