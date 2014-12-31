@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="ftp.gnu.org" href="http://ftp.gnu.org/gnu/"/>
+  <repository type="tarball" name="xorg" href="http://xorg.freedesktop.org/"/>
   <repository type="tarball" name="pkgconfig" href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python" href="http://www.python.org/ftp/python/"/>
   <repository type="tarball" name="sourceforge" href="http://dfn.dl.sourceforge.net/sourceforge/"/>
@@ -18,6 +19,12 @@
   <repository type="tarball" name="sqlite" href="http://www.sqlite.org/"/>
   <repository type="tarball" name="libproxy" href="http://libproxy.googlecode.com/files/"/>
 
+  <autotools id="xorg-macros">
+    <branch repo="xorg"
+            module="releases/individual/util/util-macros-1.19.0.tar.gz" version="1.19.0"
+            size="96185"
+            hash="sha256:0d4df51b29023daf2f63aebf3ebc638ea88efedfd560ab5866741ab3f92acaa1"/>
+  </autotools>
 
   <autotools id="gettext" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
@@ -169,6 +176,7 @@
         <dep package="libtasn1"/>
         <dep package="libjpeg"/>
         <dep package="sqlite"/>
+        <dep package="xorg-macros"/>
       </if>
     </dependencies>
   </metamodule>
