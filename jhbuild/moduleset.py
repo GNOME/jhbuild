@@ -107,7 +107,7 @@ class ModuleSet:
 
     def get_full_module_list(self, module_names='all', skip=[],
                                 include_suggests=True, include_afters=False,
-                                warn_about_circular_dependencies=False):
+                                warn_about_circular_dependencies=True):
 
         def dep_resolve(node, resolved, seen, after):
             ''' Recursive depth-first search of the dependency tree. Creates
