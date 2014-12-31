@@ -93,11 +93,16 @@
   <autotools id="cairo" autogenargs="--enable-gl">
     <branch repo="git.freedesktop.org">
     </branch>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-quartz --disable-gl"/>
+    </if>
     <dependencies>
-      <dep package="fontconfig"/>
+      <if condition-unset="quartz">
+        <dep package="fontconfig"/>
+        <dep package="gl"/>
+      </if>
       <dep package="gtk-doc"/>
       <dep package="pixman"/>
-      <dep package="gl"/>
     </dependencies>
   </autotools>
 
@@ -379,6 +384,9 @@
   </autotools>
 
   <autotools id="gdk-pixbuf" autogenargs="--enable-installed-tests">
+    <if condition-set="macos">
+      <autogenargs value="--without-libtiff"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -408,12 +416,18 @@
     </after>
   </autotools>
 
-  <autotools id="gtk+" autogenargs="--enable-x11-backend --enable-broadway-backend --enable-installed-tests">
+  <autotools id="gtk+" autogenargs="--enable-broadway-backend --enable-installed-tests">
+    <if condition-set="x11">
+      <autogenargs value="--enable-x11-backend"/>
+    </if>
     <if condition-set="wayland">
       <autogenargs value="--enable-wayland-backend"/>
     </if>
     <if condition-set="mir">
       <autogenargs value="--enable-mir-backend"/>
+    </if>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-quartz-backend"/>
     </if>
     <branch/>
     <dependencies>
@@ -424,8 +438,10 @@
       <dep package="gdk-pixbuf"/>
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
-      <dep package="at-spi2-atk"/>
       <dep package="libepoxy"/>
+      <if condition-unset="quartz">
+        <dep package="at-spi2-atk"/>
+      </if>
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>
         <dep package="wayland"/>
@@ -447,9 +463,13 @@
       <dep package="cairo"/>
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
-      <dep package="harfbuzz"/>
-      <dep package="libXft"/>
-      <dep package="fontconfig"/>
+      <if condition-set="x11">
+        <dep package="libXft"/>
+      </if>
+      <if condition-unset="quartz">
+        <dep package="harfbuzz"/>
+        <dep package="fontconfig"/>
+      </if>
     </dependencies>
   </autotools>
 
