@@ -41,6 +41,7 @@ AC_CONFIG_FILES([
 	scripts/Makefile
 	triggers/Makefile
 	jhbuild.desktop.in
+	data/Makefile
 	jhbuild/Makefile
 	jhbuild/buildbot/Makefile
 	jhbuild/buildbot/status/web/Makefile

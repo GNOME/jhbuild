@@ -1,4 +1,4 @@
-SUBDIRS = po examples scripts triggers jhbuild buildbot
+SUBDIRS = po examples scripts triggers jhbuild buildbot data
 
 if DOC_INSTALLATION_ENABLED
 SUBDIRS += doc

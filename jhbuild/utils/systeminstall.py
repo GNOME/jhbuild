@@ -18,12 +18,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import sys 
+import ast
+import sys
 import logging
 import shlex
 import subprocess
 import pipes
 import imp
+import sysid
 from StringIO import StringIO
 
 import cmds
@@ -176,6 +178,23 @@ def systemdependencies_met(module_name, sysdeps, config):
                 return False
 
     return True
+
+sysdeps_data_cache = {}
+def read_sysdeps_data(name):
+    if name not in sysdeps_data_cache:
+        try:
+            if PKGDATADIR is not None:
+                filename = os.path.join(PKGDATADIR, '{}-sysdeps.py'.format(name))
+            else:
+                filename = os.path.join(SRCDIR, 'data', '{}-sysdeps.py'.format(name))
+
+            fp = open(filename)
+            sysdeps_data_cache[name] = ast.literal_eval(fp.read())
+            fp.close()
+        except:
+            sysdeps_data_cache[name] = None
+
+    return sysdeps_data_cache.get(name)
 
 class SystemInstall(object):
     def __init__(self):
@@ -347,6 +366,50 @@ class YumSystemInstall(SystemInstall):
         return cmds.has_command('yum')
 
 
+class DebianSystemInstall(SystemInstall):
+    def __init__(self):
+        SystemInstall.__init__(self)
+
+    def install(self, uninstalled):
+        myid = sysid.get_id()
+
+        sysdeps_data = read_sysdeps_data('debian')
+        package_list = dict(sysdeps_data[myid])
+        package_list.update(sysdeps_data['common'])
+
+        to_install = set()
+
+        logging.info(_("Using internal database for '%s' to find packages") % (myid,))
+
+        for modname, deptype, value in uninstalled:
+            depname = deptype + ':' + value
+
+            if depname in package_list:
+                # as below, just blindly take the first hit
+                to_install.add(package_list[depname][0])
+
+            else:
+                logging.info(_('No native package found for %(id)s '
+                               '(%(filename)s)') % {'id'       : modname,
+                                                    'filename' : depname})
+
+        if to_install:
+            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(sorted(to_install))})
+            args = self._root_command_prefix_args + ['apt-get', 'install']
+            args.extend(sorted(to_install))
+            subprocess.check_call(args)
+        else:
+            logging.info(_('Nothing to install'))
+
+    @classmethod
+    def detect(cls):
+        if not cmds.has_command('apt-get'):
+            return False
+
+        sysdeps_data = read_sysdeps_data('debian')
+
+        return sysdeps_data and sysid.get_id() in sysdeps_data
+
 class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
@@ -398,7 +461,7 @@ class AptSystemInstall(SystemInstall):
         return cmds.has_command('apt-file')
 
 # Ordered from best to worst
-_classes = [AptSystemInstall, PKSystemInstall, YumSystemInstall]
+_classes = [DebianSystemInstall, AptSystemInstall, PKSystemInstall, YumSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
