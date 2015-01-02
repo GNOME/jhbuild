@@ -23,8 +23,10 @@ import ast
 
 sys_id = None
 sys_name = None
+default_conditions = None
 
 def read_os_release():
+    global default_conditions
     global sys_name
     global sys_id
 
@@ -69,6 +71,11 @@ def read_os_release():
         # fall back
         sys_name = fields['ID'] + ' ' + fields['VERSION_ID']
 
+    default_conditions.add(fields['ID'])
+
+    if 'ID_LIKE' in fields:
+        default_conditions.union(fields['ID_LIKE'].split(' '))
+
     return True
 
 def get_macos_info():
@@ -87,11 +94,33 @@ def get_macos_info():
         return False
 
 def ensure_loaded():
+    global default_conditions
     global sys_name
     global sys_id
 
     if sys_id is not None:
         return
+
+    # the default conditions set.  We determine which set to used based on
+    # the first item in the list which is a prefix of 'sys.platform', which
+    # is a name like 'linux2', 'darwin', 'freebsd10', etc.
+    #
+    # if we watch to match (eg 'freebsd10' more closely than other versions
+    # of 'freebsd') then we just need to make sure the more-specific one
+    # comes first in the list
+    conditions_sets = [
+            ('linux', ['linux', 'wayland', 'udev', 'x11', 'systemd', 'gnu-elf']),
+            ('freebsd', ['freebsd', 'x11', 'bsd', 'gnu-elf']),
+            ('darwin', ['darwin', 'macos', 'quartz']),
+
+            # this must be left here so that at least one will be found
+            ('', ['x11'])
+        ]
+
+    for prefix, flags in conditions_sets:
+        if sys.platform.startswith(prefix):
+            default_conditions = set(flags)
+            break
 
     # our first choice is to use os-release info
     if read_os_release():
@@ -123,3 +152,8 @@ def get_pretty_name():
     ensure_loaded()
 
     return sys_name
+
+def get_default_conditions():
+    ensure_loaded()
+
+    return default_conditions

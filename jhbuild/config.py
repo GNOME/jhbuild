@@ -31,6 +31,7 @@ import __builtin__
 
 from jhbuild.environment import setup_env, setup_env_defaults, addpath
 from jhbuild.errors import FatalError
+from jhbuild.utils import sysid
 
 if sys.platform.startswith('win'):
     # For munging paths for MSYS's benefit
@@ -78,30 +79,6 @@ def parse_relative_time(s):
         return float(m.group(1)) * coeffs[m.group(2)]
     else:
         raise ValueError
-
-def get_default_conditions():
-    # the default conditions set.  We determine which set to used based on
-    # the first item in the list which is a prefix of 'sys.platform', which
-    # is a name like 'linux2', 'darwin', 'freebsd10', etc.
-    #
-    # if we watch to match (eg 'freebsd10' more closely than other versions
-    # of 'freebsd') then we just need to make sure the more-specific one
-    # comes first in the list
-    conditions_sets = [
-            ('linux', ['linux', 'wayland', 'udev', 'x11', 'systemd', 'gnu-elf']),
-            ('freebsd', ['freebsd', 'x11', 'bsd', 'gnu-elf']),
-            ('darwin', ['darwin', 'macos', 'quartz']),
-
-            # this must be left here so that at least one will be found
-            ('', ['x11'])
-        ]
-
-    for prefix, flags in conditions_sets:
-        if sys.platform.startswith(prefix):
-            return set(flags)
-
-    # we will only hit this if someone removed the '' entry above
-    raise FatalError('failed to find matching condition set...')
 
 def modify_conditions(conditions, conditions_modifiers):
     for flag in conditions_modifiers:
@@ -183,7 +160,7 @@ class Config:
         # on it to set new autogenargs, for example) but also so that the
         # condition flags given on the commandline will ultimately override
         # those in jhbuildrc.
-        self._config['conditions'] = get_default_conditions()
+        self._config['conditions'] = sysid.get_default_conditions()
         modify_conditions(self._config['conditions'], conditions_modifiers)
         self.load(filename)
         modify_conditions(self.conditions, conditions_modifiers)
