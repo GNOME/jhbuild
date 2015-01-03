@@ -220,6 +220,9 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd-journal"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -1309,6 +1312,9 @@
       <dep package="xorg-xf86driproto"/>
       <dep package="xorg-presentproto"/>
       <dep package="xorg-videoproto"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd-daemon"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -1418,6 +1424,9 @@
       <if condition-set="linux">
         <dep package="libgusb"/>
         <dep package="gudev"/>
+      </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd-login"/>
       </if>
     </dependencies>
     <suggests>

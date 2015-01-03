@@ -237,6 +237,9 @@
       <if condition-set="linux">
         <dep package="gudev"/>
       </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd-login"/>
+      </if>
     </suggests>
   </autotools>
 
@@ -252,6 +255,11 @@
       <dep package="libXcomposite"/>
       <dep package="sm"/>
       <dep package="xtrans"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd-daemon"/>
+        <dep package="libsystemd-journal"/>
+        <dep package="libsystemd-login"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -327,6 +335,9 @@
         <dep package="NetworkManager"/>
         <dep package="network-manager-applet"/>
       </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd-journal"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="gstreamer"/>
@@ -366,6 +377,10 @@
       <dep package="libsoup"/>
       <if condition-set="linux">
         <dep package="udisks"/>
+      </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd"/>
+        <dep package="libsystemd-login"/>
       </if>
     </dependencies>
     <suggests>
@@ -480,6 +495,12 @@
         <dep package="bluez"/>
         <dep package="libudev"/>
         <dep package="sbc"/>
+      </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd"/>
+        <dep package="libsystemd-daemon"/>
+        <dep package="libsystemd-journal"/>
+        <dep package="libsystemd-login"/>
       </if>
     </dependencies>
   </autotools>
@@ -901,6 +922,9 @@
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
       <dep package="polkit-gobject"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd-login"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -939,6 +963,11 @@
       <if condition-set="linux">
         <dep package="plymouth"/>
       </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd-daemon"/>
+        <dep package="libsystemd-login"/>
+        <dep package="libsystemd-journal"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="upower"/>
@@ -968,6 +997,10 @@
       <dep package="ppp"/>
       <dep package="vala"/>
       <dep package="wireless-tools"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd"/>
+        <dep package="libsystemd-login"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -985,6 +1018,10 @@
       <dep package="gtk+"/>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd-journal"/>
+        <dep package="libsystemd-login"/>
+      </if>
     </dependencies>
     <suggests>
       <dep package="polkit-gobject"/>
@@ -1004,6 +1041,11 @@
       <dep package="polkit-gobject"/>
       <dep package="polkit-agent"/>
       <dep package="libatasmart"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd"/>
+        <dep package="libsystemd-daemon"/>
+        <dep package="libsystemd-login"/>
+      </if>
     </dependencies>
   </autotools>
 
