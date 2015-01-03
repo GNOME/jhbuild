@@ -145,7 +145,7 @@
       <dep package="libnotify"/>
       <dep package="libpwquality"/>
       <dep package="libxml2"/>
-      <dep package="polkit"/>
+      <dep package="polkit-gobject"/>
       <dep package="pulseaudio"/>
       <dep package="smbclient"/>
       <dep package="sound-theme-freedesktop"/>
@@ -252,9 +252,6 @@
       <dep package="sm"/>
       <dep package="xtrans"/>
     </dependencies>
-    <suggests>
-      <dep package="polkit"/>
-    </suggests>
   </autotools>
 
   <autotools id="gnome-settings-daemon">
@@ -275,7 +272,7 @@
       <dep package="libgweather"/>
       <dep package="libnotify"/>
       <dep package="PackageKit"/>
-      <dep package="polkit"/>
+      <dep package="polkit-gobject"/>
       <dep package="pulseaudio"/>
       <dep package="upower"/>
       <dep package="ibus"/>
@@ -317,7 +314,7 @@
       <dep package="libcroco"/>
       <dep package="libsoup"/>
       <dep package="mutter"/>
-      <dep package="polkit"/>
+      <dep package="polkit-agent"/>
       <dep package="pulseaudio"/>
       <dep package="startup-notification"/>
       <dep package="telepathy-glib"/>
@@ -484,9 +481,6 @@
         <dep package="sbc"/>
       </if>
     </dependencies>
-    <after>
-      <dep package="polkit"/>
-    </after>
   </autotools>
 
   <!-- mc 5.16 doesn't build against upower 1.0 -->
@@ -905,7 +899,7 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="polkit"/>
+      <dep package="polkit-gobject"/>
     </dependencies>
   </autotools>
 
@@ -967,7 +961,7 @@
       <dep package="libgcrypt"/>
       <dep package="libuuid"/>
       <dep package="gtk-doc"/>
-      <dep package="polkit"/>
+      <dep package="polkit-agent"/>
       <dep package="gudev"/>
       <dep package="gnutls"/>
       <dep package="ppp"/>
@@ -992,27 +986,12 @@
       <dep package="dbus-glib"/>
     </dependencies>
     <suggests>
-      <dep package="polkit"/>
+      <dep package="polkit-gobject"/>
       <if condition-set="linux">
         <dep package="gudev"/>
         <dep package="NetworkManager"/>
       </if>
     </suggests>
-  </autotools>
-
-  <autotools id="polkit">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-test"/>
-    </if>
-    <branch repo="git.freedesktop.org"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="expat"/>
-      <dep package="intltool"/>
-      <dep package="js17"/>
-      <dep package="pam"/>
-    </dependencies>
   </autotools>
 
   <autotools id="udisks">
@@ -1021,7 +1000,8 @@
     <dependencies>
       <dep package="gudev"/>
       <dep package="libacl"/>
-      <dep package="polkit"/>
+      <dep package="polkit-gobject"/>
+      <dep package="polkit-agent"/>
       <dep package="libatasmart"/>
     </dependencies>
   </autotools>
@@ -1126,7 +1106,6 @@
       <dep package="dbus"/>
       <dep package="gdm"/>
       <dep package="PackageKit"/>
-      <dep package="polkit"/>
       <dep package="upower"/>
       <dep package="cups"/>
       <!-- <dep package="systemd"/> -->
@@ -1173,7 +1152,6 @@
       <dep package="libnotify"/>
       <dep package="libpeas"/>
       <dep package="PackageKit"/>
-      <dep package="polkit"/>
       <dep package="telepathy-glib"/>
       <dep package="upower"/>
       <dep package="WebKit"/>
