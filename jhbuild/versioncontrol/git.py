@@ -128,6 +128,9 @@ class GitRepository(Repository):
     def to_sxml(self):
         return [sxml.repository(type='git', name=self.name, href=self.href)]
 
+    def get_sysdeps(self):
+        return ['git']
+
 
 class GitBranch(Branch):
     """A class representing a GIT branch."""

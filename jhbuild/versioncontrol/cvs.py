@@ -209,6 +209,9 @@ class CVSRepository(Repository):
     def to_sxml(self):
         return [sxml.repository(type='cvs', name=self.name, cvsroot=self.cvsroot)]
 
+    def get_sysdeps(self):
+        return ['cvs']
+
 
 class CVSBranch(Branch):
     """A class representing a CVS branch inside a CVS repository"""

@@ -400,6 +400,8 @@ def collect_args(instance, node, argtype):
 def parse_autotools(node, config, uri, repositories, default_repo):
     instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
+    instance.dependencies += ['automake', 'libtool', 'make']
+
     instance.autogenargs = collect_args (instance, node, 'autogenargs')
     instance.makeargs = collect_args (instance, node, 'makeargs')
     instance.makeinstallargs = collect_args (instance, node, 'makeinstallargs')

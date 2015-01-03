@@ -492,6 +492,8 @@ them into the prefix."""
         pkg_config = find_first_child_node_content(node, 'pkg-config')
         if pkg_config:
             instance.pkg_config = pkg_config
+            instance.dependencies += ['pkg-config']
+        instance.dependencies += instance.branch.repository.get_sysdeps()
         return instance
 
 class MakeModule(Package):

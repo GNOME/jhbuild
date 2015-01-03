@@ -174,6 +174,9 @@ class SubversionRepository(Repository):
     def to_sxml(self):
         return [sxml.repository(type='svn', name=self.name, href=self.href)]
 
+    def get_sysdeps(self):
+        return ['svn']
+
 
 class SubversionBranch(Branch):
     """A class representing a Subversion branch"""

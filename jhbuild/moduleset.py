@@ -46,6 +46,20 @@ from jhbuild.utils import fileutils
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
+virtual_sysdeps = [
+    'automake',
+    'bzr',
+    'cmake',
+    'cvs',
+    'git',
+    'hg',
+    'libtool',
+    'make',
+    'pkg-config',
+    'svn',
+    'xmlcatalog'
+]
+
 _default_repo = None
 def get_default_repo():
     return _default_repo
@@ -522,6 +536,18 @@ def _parse_module_set(config, uri):
                 module.tags.append(moduleset_name)
             module.moduleset_name = moduleset_name
             moduleset.add(module)
+
+    # create virtual sysdeps
+    system_repo_class = get_repo_type('system')
+    virtual_repo = system_repo_class(config, 'virtual-sysdeps')
+    virtual_branch = virtual_repo.branch('virtual-sysdeps') # just reuse this
+    for name in virtual_sysdeps:
+        # don't override it if it's already there
+        if name in moduleset.modules:
+            continue
+
+        virtual = SystemModule.create_virtual(name, virtual_branch, 'path', name)
+        moduleset.add (virtual)
 
     # keep default repository around, used when creating automatic modules
     global _default_repo

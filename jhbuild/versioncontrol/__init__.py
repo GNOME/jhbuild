@@ -64,6 +64,9 @@ class Repository:
         """Return an sxml representation of this repository."""
         raise NotImplementedError
 
+    def get_sysdeps(self):
+        return []
+
 
 class Branch:
     """An abstract class representing a branch in a repository."""

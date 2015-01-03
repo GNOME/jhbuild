@@ -101,6 +101,9 @@ class BzrRepository(Repository):
         return [sxml.repository(type='bzr', name=self.name, href=self.href,
                     trunk=self.trunk_template, branches=self.branches_template)]
 
+    def get_sysdeps(self):
+        return ['bzr']
+
 class BzrBranch(Branch):
     """A class representing a Bazaar branch."""
 

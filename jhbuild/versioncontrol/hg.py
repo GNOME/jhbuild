@@ -62,6 +62,9 @@ class HgRepository(Repository):
                 module = self.href + module
         return HgBranch(self, module, checkoutdir)
 
+    def get_sysdeps(self):
+        return ['hg']
+
 
 class HgBranch(Branch):
     """A class representing a Mercurial branch."""
