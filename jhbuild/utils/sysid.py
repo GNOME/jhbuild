@@ -93,6 +93,26 @@ def get_macos_info():
     except:
         return False
 
+def get_freebsd_info():
+    global sys_name
+    global sys_id
+
+    try:
+        ver = subprocess.check_output('freebsd-version').strip()
+
+        sys_name = 'FreeBSD ' + ver
+        return True
+    except:
+        pass
+
+    try:
+        ver = subprocess.check_output(['uname', '-r']).strip()
+
+        sys_name = 'FreeBSD' + ver
+        return True
+    except:
+        return False
+
 def ensure_loaded():
     global default_conditions
     global sys_name
@@ -133,7 +153,8 @@ def ensure_loaded():
         sys_name = "Unknown Linux Distribution (no 'os-release' file)"
 
     elif sys_id.startswith('freebsd'):
-        sys_name = 'FreeBSD (%s)' % (sys_id)
+        if not get_freebsd_info():
+            sys_name = 'FreeBSD (%s)' % (sys_id)
 
     elif sys_id.startswith('macos'):
         if not get_macos_info():
