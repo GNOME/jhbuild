@@ -125,14 +125,13 @@ def systemdependencies_met(module_name, sysdeps, config):
                 if not os.path.isfile(value) and not os.access(value, os.X_OK):
                     return False
             else:
-                found = False
-                for path in os.environ.get('PATH', '').split(os.pathsep):
+                pathdirs = set(os.environ.get('PATH', '').split(os.pathsep))
+                pathdirs.update(['/sbin', '/usr/sbin'])
+                for path in pathdirs:
                     filename = os.path.join(path, value)
-                    if (os.path.isfile(filename) and
-                        os.access(filename, os.X_OK)):
-                        found = True
+                    if os.path.isfile(filename) and os.access(filename, os.X_OK):
                         break
-                if not found:
+                else:
                     return False
         elif dep_type.lower() == 'c_include':
             if c_include_search_paths is None:
