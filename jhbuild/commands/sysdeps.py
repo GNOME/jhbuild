@@ -167,7 +167,7 @@ class cmd_sysdeps(cmd_build):
                 logging.info(_("Installing dependencies on system: %s") % \
                                ' '.join([pkg[0] for pkg in
                                          uninstalled_pkgconfigs +
-                                         uninstalled_filenames])))
+                                         uninstalled_filenames]))
                 installer.install(uninstalled_pkgconfigs,
                                   uninstalled_filenames)
 
