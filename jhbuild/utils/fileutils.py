@@ -107,3 +107,10 @@ if os.name == 'nt':
     rename = _windows_rename
 else:
     rename = os.rename
+
+def ensure_unlinked(filename):
+    try:
+        os.unlink(filename)
+    except OSError as e:
+        if e.errno != os.errno.ENOENT:
+            raise

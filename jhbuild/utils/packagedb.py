@@ -104,6 +104,9 @@ class PackageEntry:
         fileutils.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
                          os.path.join(self.manifests_dir, self.package))
 
+    def remove(self):
+        fileutils.ensure_unlinked(os.path.join(self.manifests_dir, self.package))
+
     def to_xml(self, doc):
         entry_node = ET.Element('entry', {'package': self.package,
                                           'version': self.version})
@@ -273,6 +276,7 @@ class PackageDB:
                 logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
                                                                          'msg': error_string})
 
+        self._entries[package_name].remove()
         del self._entries[package_name]
         self._write_cache()
 
