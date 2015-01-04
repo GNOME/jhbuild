@@ -101,7 +101,7 @@ class PackageEntry:
     def remove(self):
         fileutils.ensure_unlinked(os.path.join(self.manifests_dir, self.package))
 
-    def to_xml(self, doc):
+    def to_xml(self):
         entry_node = ET.Element('entry', {'package': self.package,
                                           'version': self.version})
         if 'installed-date' in self.metadata:
@@ -167,7 +167,7 @@ class PackageDB:
         pkgdb_node = ET.Element('packagedb')
         doc = ET.ElementTree(pkgdb_node)
         for package,entry in self._entries.iteritems():
-            node = entry.to_xml(doc)
+            node = entry.to_xml()
             pkgdb_node.append(node)
 
         writer = fileutils.SafeWriter(self.dbfile)
