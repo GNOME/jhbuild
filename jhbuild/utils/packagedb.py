@@ -94,15 +94,9 @@ class PackageEntry:
         return dbentry
 
     def write(self):
-        fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
-        fd.write('\n'.join(self.manifest) + '\n')
-        if hasattr(os, 'fdatasync'):
-            os.fdatasync(fd.fileno())
-        else:
-            os.fsync(fd.fileno())
-        fd.close()
-        fileutils.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
-                         os.path.join(self.manifests_dir, self.package))
+        writer = fileutils.SafeWriter(os.path.join(self.manifests_dir, self.package))
+        writer.fp.write('\n'.join(self.manifest) + '\n')
+        writer.commit()
 
     def remove(self):
         fileutils.ensure_unlinked(os.path.join(self.manifests_dir, self.package))
@@ -176,9 +170,8 @@ class PackageDB:
             node = entry.to_xml(doc)
             pkgdb_node.append(node)
 
-        tmp_dbfile_path = self.dbfile + '.tmp'
-        tmp_dbfile = open(tmp_dbfile_path, 'w')
-        
+        writer = fileutils.SafeWriter(self.dbfile)
+
         # Because ElementTree can't pretty-print, we convert it to a string
         # and then read it back with DOM, then write it out again.  Yes, this
         # is lame.
@@ -187,15 +180,11 @@ class PackageDB:
         doc.write(buf, encoding='UTF-8')
         dom_doc = DOM.parseString(buf.getvalue())
         try:
-            dom_doc.writexml(tmp_dbfile, addindent='  ', newl='\n', encoding='UTF-8')
+            dom_doc.writexml(writer.fp, addindent='  ', newl='\n', encoding='UTF-8')
         except:
-            tmp_dbfile.close()
-            os.unlink(tmp_dbfile_path)
+            writer.abandon()
             raise
-        tmp_dbfile.flush()
-        os.fsync(tmp_dbfile.fileno())
-        tmp_dbfile.close()
-        fileutils.rename(tmp_dbfile_path, self.dbfile)
+        writer.commit()
         # Ensure we don't reread what we already have cached
         self._entries_stat = os.stat(self.dbfile)
 

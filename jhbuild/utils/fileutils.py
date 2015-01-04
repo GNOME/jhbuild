@@ -114,3 +114,22 @@ def ensure_unlinked(filename):
     except OSError as e:
         if e.errno != os.errno.ENOENT:
             raise
+class SafeWriter(object):
+    def __init__(self, filename):
+        self.filename = filename
+        self.tmpname = filename + '.tmp'
+        self.fp = open(self.tmpname, 'w')
+
+    def commit(self):
+        self.fp.flush()
+        if hasattr(os, 'fdatasync'):
+            os.fdatasync(self.fp.fileno())
+        else:
+            os.fsync(self.fp.fileno())
+        self.fp.close()
+
+        rename(self.tmpname, self.filename)
+
+    def abandon(self):
+        self.fp.close()
+        os.unlink(self.tmpname)
