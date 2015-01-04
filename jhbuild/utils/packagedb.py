@@ -93,6 +93,16 @@ class PackageEntry:
 
         return dbentry
 
+    def write(self):
+        fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
+        fd.write('\n'.join(self.manifest) + '\n')
+        if hasattr(os, 'fdatasync'):
+            os.fdatasync(fd.fileno())
+        else:
+            os.fsync(fd.fileno())
+        fd.close()
+        fileutils.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
+                         os.path.join(self.manifests_dir, self.package))
 
     def to_xml(self, doc):
         entry_node = ET.Element('entry', {'package': self.package,
@@ -102,16 +112,7 @@ class PackageEntry:
         if 'configure-hash' in self.metadata:
             entry_node.attrib['configure-hash'] = \
                 self.metadata['configure-hash']
-        if self.manifest is not None:
-            fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
-            fd.write('\n'.join(self.manifest) + '\n')
-            if hasattr(os, 'fdatasync'):
-                os.fdatasync(fd.fileno())
-            else:
-                os.fsync(fd.fileno())
-            fd.close()
-            fileutils.rename(os.path.join(self.manifests_dir, self.package + '.tmp'),
-                             os.path.join(self.manifests_dir, self.package))
+
         return entry_node
 
 class PackageDB:
@@ -224,6 +225,7 @@ class PackageDB:
         self._entries[package] = PackageEntry(package, version, metadata,
                                               self.manifests_dir)
         self._entries[package].manifest = contents
+        self._entries[package].write()
         self._write_cache()
 
     def check(self, package, version=None):
