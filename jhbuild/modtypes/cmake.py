@@ -100,27 +100,20 @@ class CMakeModule(MakeModule, DownloadableModule):
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s clean' % (os.environ.get('MAKE', 'make'), self.get_makeargs(buildscript))
-        buildscript.execute(cmd, cwd = builddir,
-                extra_env = self.extra_env)
+        self.make(buildscript, 'clean')
     do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
-        cmd = '%s %s' % (os.environ.get('MAKE', 'make'), self.get_makeargs(buildscript))
-        buildscript.execute(cmd, cwd = builddir,
-                extra_env = self.extra_env)
+        self.make(buildscript)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        cmd = '%s %s package_source' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs(buildscript))
-        buildscript.execute(cmd, cwd = self.get_builddir(buildscript),
-                extra_env = self.extra_env)
+        self.make(buildscript, 'package_source')
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -128,11 +121,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
-        cmd = '%s %s install DESTDIR=%s' % (os.environ.get('MAKE', 'make'),
-                self.get_makeargs(buildscript), destdir)
-        buildscript.execute(cmd,
-                cwd = builddir,
-                extra_env = self.extra_env)
+        self.make(buildscript, 'install DESTDIR={}'.format(destdir))
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 

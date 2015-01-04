@@ -518,6 +518,17 @@ class MakeModule(Package):
             makeargs = re.sub(r'-j\w*\d+', '', makeargs) + ' -j 1'
         return self.eval_args(makeargs).strip()
 
+    def make(self, buildscript, target='', pre='', makeargs=None):
+        makecmd = os.environ.get('MAKE', 'make')
+
+        if makeargs is None:
+            makeargs = self.get_makeargs(self, buildscript)
+
+        cmd = '{pre}{make} {makeargs} {target}'.format(pre=pre,
+                                                        make=makecmd,
+                                                        makeargs=makeargs,
+                                                        target=target)
+        buildscript.execute(cmd, cwd = self.get_builddir(buildscript), extra_env = self.extra_env)
 
 class DownloadableModule:
     PHASE_CHECKOUT = 'checkout'
