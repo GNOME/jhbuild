@@ -91,21 +91,6 @@ class PackageEntry:
 
         dbentry = cls(package, version, metadata, manifests_dir)
 
-        # Transition code for the time when the list of files were stored
-        # in list of xml nodes
-        manifestNode = node.find('manifest')
-        if manifestNode is not None:
-            manifest = []
-            for manifest_child in manifestNode:
-                if manifest_child.tag != 'file':
-                    continue
-                # The strip here is important since presently we
-                # "pretty print" which adds whitespace around <file>.
-                # Since we don't handle files with whitespace in their
-                # names anyways, it's a fine hack.
-                manifest.append(manifest_child.text.strip())
-            dbentry.manifest = manifest
-
         return dbentry
 
 
