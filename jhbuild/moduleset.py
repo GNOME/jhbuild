@@ -52,6 +52,7 @@ virtual_sysdeps = [
     'cmake',
     'cvs',
     'git',
+    'gmake',
     'hg',
     'libtool',
     'make',

@@ -132,7 +132,7 @@ class CMakeModule(MakeModule, DownloadableModule):
 def parse_cmake(node, config, uri, repositories, default_repo):
     instance = CMakeModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['cmake', 'make']
+    instance.dependencies += ['cmake', instance.get_makecmd(config)]
 
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \

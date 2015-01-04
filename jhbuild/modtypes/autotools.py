@@ -61,9 +61,10 @@ class AutogenModule(MakeModule, DownloadableModule):
                  makefile='Makefile',
                  autogen_template=None,
                  check_target=True,
-                 supports_static_analyzer=True):
+                 supports_static_analyzer=True,
+                 needs_gmake=True):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs,
-                            makeinstallargs=makeinstallargs, makefile=makefile)
+                            makeinstallargs=makeinstallargs, makefile=makefile, needs_gmake=needs_gmake)
         self.autogenargs = autogenargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.skip_autogen = skip_autogen
@@ -361,7 +362,7 @@ def collect_args(instance, node, argtype):
 def parse_autotools(node, config, uri, repositories, default_repo):
     instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['automake', 'libtool', 'make']
+    instance.dependencies += ['automake', 'libtool', instance.get_makecmd(config)]
 
     instance.autogenargs = collect_args (instance, node, 'autogenargs')
     instance.makeargs = collect_args (instance, node, 'makeargs')

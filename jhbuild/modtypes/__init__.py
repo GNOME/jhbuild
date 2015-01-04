@@ -499,11 +499,12 @@ class MakeModule(Package):
     '''A base class for modules that use the command 'make' within the build
     process.'''
     def __init__(self, name, branch=None, makeargs='', makeinstallargs='',
-                  makefile='Makefile'):
+                  makefile='Makefile', needs_gmake=False):
         Package.__init__(self, name, branch=branch)
         self.makeargs = makeargs
         self.makeinstallargs = makeinstallargs
         self.makefile = makefile
+        self.needs_gmake = needs_gmake
 
     def get_makeargs(self, buildscript, add_parallel=True):
         makeargs = ' %s %s' % (self.makeargs,
@@ -518,8 +519,14 @@ class MakeModule(Package):
             makeargs = re.sub(r'-j\w*\d+', '', makeargs) + ' -j 1'
         return self.eval_args(makeargs).strip()
 
+    def get_makecmd(self, config):
+        if self.needs_gmake and 'gmake' in config.conditions:
+            return 'gmake'
+        else:
+            return 'make'
+
     def make(self, buildscript, target='', pre='', makeargs=None):
-        makecmd = os.environ.get('MAKE', 'make')
+        makecmd = os.environ.get('MAKE', self.get_makecmd(buildscript.config))
 
         if makeargs is None:
             makeargs = self.get_makeargs(self, buildscript)
