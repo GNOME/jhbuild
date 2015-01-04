@@ -410,6 +410,45 @@ class DebianSystemInstall(SystemInstall):
 
         return sysdeps_data and sysid.get_id() in sysdeps_data
 
+class FreeBSDSystemInstall(SystemInstall):
+    def __init__(self):
+        SystemInstall.__init__(self)
+
+    def install(self, uninstalled):
+        sysdeps_data = read_sysdeps_data('freebsd')
+
+        to_install = set()
+
+        logging.info(_("Using internal database to find packages"))
+
+        for modname, deptype, value in uninstalled:
+            depname = deptype + ':' + value
+
+            if depname in sysdeps_data:
+                if sysdeps_data[depname] == '':
+                    logging.info(_('Installation requested for %(id)s (%(depname)s), '
+                                   'which should be part of the base system') % { 'id'      : modname,
+                                                                                  'depname' : depname })
+                else:
+                    to_install.add(sysdeps_data[depname])
+
+            else:
+                logging.info(_('No native package found for %(id)s '
+                               '(%(filename)s)') % {'id'       : modname,
+                                                    'filename' : depname})
+
+        if to_install:
+            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(sorted(to_install))})
+            args = self._root_command_prefix_args + ['pkg', 'install']
+            args.extend(sorted(to_install))
+            subprocess.check_call(args)
+        else:
+            logging.info(_('Nothing to install'))
+
+    @classmethod
+    def detect(cls):
+        return sysid.get_id().startswith('freebsd')
+
 class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
@@ -461,7 +500,7 @@ class AptSystemInstall(SystemInstall):
         return cmds.has_command('apt-file')
 
 # Ordered from best to worst
-_classes = [DebianSystemInstall, AptSystemInstall, PKSystemInstall, YumSystemInstall]
+_classes = [FreeBSDSystemInstall, DebianSystemInstall, AptSystemInstall, PKSystemInstall, YumSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
