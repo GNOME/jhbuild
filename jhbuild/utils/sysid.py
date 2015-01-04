@@ -130,7 +130,7 @@ def ensure_loaded():
     # comes first in the list
     conditions_sets = [
             ('linux', ['linux', 'wayland', 'udev', 'x11', 'systemd', 'gnu-elf']),
-            ('freebsd', ['freebsd', 'x11', 'bsd', 'gnu-elf']),
+            ('freebsd', ['freebsd', 'x11', 'bsd', 'gnu-elf', 'gmake']),
             ('darwin', ['darwin', 'macos', 'quartz']),
 
             # this must be left here so that at least one will be found
