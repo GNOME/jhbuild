@@ -119,7 +119,7 @@ class PackageEntry:
                 self.metadata['configure-hash']
         if self.manifest is not None:
             fd = file(os.path.join(self.manifests_dir, self.package + '.tmp'), 'w')
-            fd.write('\n'.join(self.manifest))
+            fd.write('\n'.join(self.manifest) + '\n')
             if hasattr(os, 'fdatasync'):
                 os.fdatasync(fd.fileno())
             else:
