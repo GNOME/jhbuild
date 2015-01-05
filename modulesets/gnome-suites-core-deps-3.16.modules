@@ -1525,6 +1525,9 @@
 
   <autotools id="gtk+-2">
     <branch checkoutdir="gtk+-2" module="gtk+" revision="gtk-2-24"/>
+    <if condition-set="quartz">
+      <autogenargs value="--with-backend=quartz"/>
+    </if>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
