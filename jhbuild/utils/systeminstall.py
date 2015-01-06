@@ -32,7 +32,7 @@ def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""
     pkgversions = {}
     try:
-        proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, env=config.get_original_environment(), close_fds=True)
+        proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, close_fds=True)
         stdout = proc.communicate()[0]
         proc.wait()
         pkgs = []
@@ -45,8 +45,7 @@ def get_installed_pkgconfigs(config):
         for pkg in pkgs:
             args = ['pkg-config', '--modversion']
             args.append(pkg)
-            proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                    close_fds=True, env=config.get_original_environment())
+            proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
             stdout = proc.communicate()[0]
             proc.wait()
             pkgversions[pkg] = stdout.strip()
