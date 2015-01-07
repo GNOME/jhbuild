@@ -75,7 +75,7 @@ class ChangeResource(HtmlResource):
                     git_module_name = self.change.git_module_name
                 else:
                     git_module_name = self.change.project
-                link = 'http://git.gnome.org/browse/%s/commit/?id=%s' % (
+                link = 'https://git.gnome.org/browse/%s/commit/?id=%s' % (
                         git_module_name, self.change.revision)
                 data += '<p>View in GNOME cgit: <a href="%s">%s commit %s</a></dd>\n' % (
                         link, git_module_name, self.change.revision[:8])
