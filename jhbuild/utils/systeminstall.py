@@ -59,7 +59,7 @@ def get_uninstalled_pkgconfigs_and_filenames(uninstalled):
 
     for module_name, dep_type, value in uninstalled:
         if dep_type == 'pkgconfig':
-            uninstalled_pkgconfigs.append(module_name, value)
+            uninstalled_pkgconfigs.append((module_name, value))
         elif dep_type.lower() == 'path':
             uninstalled_filenames.append((module_name, os.path.join('/usr/bin', value),))
         elif dep_type.lower() == 'c_include':
