@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-10 21:47+0000\n"
-"PO-Revision-Date: 2014-07-18 16:46-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2015-01-06 19:51+0000\n"
+"PO-Revision-Date: 2015-01-08 05:52-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.7.1\n"
 
 #: ../autogen.sh:103
 #, sh-format
@@ -160,7 +160,7 @@ msgstr "Atualiza um ou mais módulos do controle de versão"
 
 #: ../jhbuild/commands/base.py:104 ../jhbuild/commands/base.py:142
 #: ../jhbuild/commands/base.py:383 ../jhbuild/commands/rdepends.py:52
-#: ../jhbuild/moduleset.py:165
+#: ../jhbuild/moduleset.py:179
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Um módulo chamado \"%s\" não pôde ser encontrado."
@@ -339,8 +339,8 @@ msgstr "Opções conflitantes especificadas (\"--start-at\" e \"--all-modules\")
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Exibe um gráfico de dependências em Graphviz para um ou mais módulos"
 
-#: ../jhbuild/commands/base.py:494 ../jhbuild/commands/info.py:39
-#: ../jhbuild/commands/uninstall.py:34
+#: ../jhbuild/commands/base.py:494 ../jhbuild/commands/base.py:527
+#: ../jhbuild/commands/info.py:39 ../jhbuild/commands/uninstall.py:34
 msgid "[ modules ... ]"
 msgstr "[ módulos ... ]"
 
@@ -351,6 +351,11 @@ msgstr "adiciona linhas pontilhadas para dependências recomendadas"
 #: ../jhbuild/commands/base.py:503
 msgid "group modules from metamodule together"
 msgstr "agrupa módulos do meta módulo"
+
+#: ../jhbuild/commands/base.py:524
+msgid "Run post-install triggers for named modules (or all)"
+msgstr ""
+"Executa disparadores de pós-instalação para o módulos chamados (ou todos)"
 
 #: ../jhbuild/commands/bootstrap.py:24
 msgid "Build support tools"
@@ -607,43 +612,43 @@ msgstr "Após:"
 msgid "Before:"
 msgstr "Antes:"
 
-#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:49
+#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:57
 #, python-format
 msgid "required=%s"
 msgstr "requer=%s"
 
-#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:51
+#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:59
 #, python-format
 msgid "installed=%s"
 msgstr "instalado:%s"
 
 #. Translators: This is used to separate items of package metadata
-#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:53
+#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:61
 msgid ", "
 msgstr ", "
 
-#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:55
+#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:63
 #, python-format
 msgid "(%s)"
 msgstr "(%s)"
 
-#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:80
+#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:133
 msgid "Required packages:"
 msgstr "Pacotes necessários:"
 
-#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:81
-#: ../jhbuild/commands/sysdeps.py:124
+#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:134
+#: ../jhbuild/commands/sysdeps.py:165
 msgid "  System installed packages which are too old:"
 msgstr "  Pacotes do sistema instalados que são antigos demais:"
 
 #: ../jhbuild/commands/__init__.py:105 ../jhbuild/commands/__init__.py:117
-#: ../jhbuild/commands/sysdeps.py:90 ../jhbuild/commands/sysdeps.py:118
-#: ../jhbuild/commands/sysdeps.py:133
+#: ../jhbuild/commands/sysdeps.py:143 ../jhbuild/commands/sysdeps.py:159
+#: ../jhbuild/commands/sysdeps.py:174 ../jhbuild/commands/sysdeps.py:187
 msgid "    (none)"
 msgstr "    (nenhum)"
 
-#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:92
-#: ../jhbuild/commands/sysdeps.py:135
+#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:145
+#: ../jhbuild/commands/sysdeps.py:176
 msgid "  No matching system package installed:"
 msgstr "  Nenhum pacote de sistema correspondente instalado:"
 
@@ -728,11 +733,11 @@ msgstr "o prefixo de instalação (%s) não é gravável"
 #: ../jhbuild/commands/sanitycheck.py:147
 #: ../jhbuild/commands/sanitycheck.py:149
 #: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:79
-#: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
+#: ../jhbuild/versioncontrol/bzr.py:218 ../jhbuild/versioncontrol/cvs.py:300
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
-#: ../jhbuild/versioncontrol/git.py:457 ../jhbuild/versioncontrol/hg.py:103
-#: ../jhbuild/versioncontrol/mtn.py:142 ../jhbuild/versioncontrol/svn.py:313
+#: ../jhbuild/versioncontrol/git.py:460 ../jhbuild/versioncontrol/hg.py:106
+#: ../jhbuild/versioncontrol/mtn.py:142 ../jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
 msgstr "%s não encontrado"
@@ -797,28 +802,36 @@ msgid "Print out a moduleset for the exact versions that are checked out"
 msgstr ""
 "Exibe um conjunto de módulos para as versões exatas que estão sendo obtidas"
 
-#: ../jhbuild/commands/sysdeps.py:32
+#: ../jhbuild/commands/sysdeps.py:34
 msgid "Check and install tarball dependencies using system packages"
 msgstr ""
 "Verifica e instala os tarballs de dependências usando pacotes de sistema"
 
-#: ../jhbuild/commands/sysdeps.py:40
+#: ../jhbuild/commands/sysdeps.py:42
+msgid "Machine readable list of missing sysdeps"
+msgstr "Lista legível por máquina de dependências de sistema faltando"
+
+#: ../jhbuild/commands/sysdeps.py:45
+msgid "Machine readable list of all sysdeps"
+msgstr "Lista legível por máquina de todas dependências de sistema"
+
+#: ../jhbuild/commands/sysdeps.py:48
 msgid "Install pkg-config modules via system"
 msgstr "Instala módulos de pkg-config via sistema"
 
-#: ../jhbuild/commands/sysdeps.py:69
+#: ../jhbuild/commands/sysdeps.py:122
 msgid "System installed packages which are new enough:"
 msgstr "Pacotes do sistema instalados que são novos o suficiente:"
 
-#: ../jhbuild/commands/sysdeps.py:78 ../jhbuild/commands/sysdeps.py:148
+#: ../jhbuild/commands/sysdeps.py:131
 msgid "  (none)"
 msgstr "  (nenhum)"
 
-#: ../jhbuild/commands/sysdeps.py:123
+#: ../jhbuild/commands/sysdeps.py:164
 msgid "Optional packages: (JHBuild will build the missing packages)"
 msgstr "Pacotes opcionais: (JHBuild vai compilar os pacotes em falta)"
 
-#: ../jhbuild/commands/sysdeps.py:156
+#: ../jhbuild/commands/sysdeps.py:195
 #, python-format
 msgid ""
 "%(cmd)s is required to install packages on this system. Please install "
@@ -827,18 +840,18 @@ msgstr ""
 "%(cmd)s é necessário para instalar pacotes neste sistema. Por favor, instale "
 "%(cmd)s."
 
-#: ../jhbuild/commands/sysdeps.py:161
+#: ../jhbuild/commands/sysdeps.py:200
 msgid "Don't know how to install packages on this system"
 msgstr "Não sei como instalar pacotes neste sistema"
 
-#: ../jhbuild/commands/sysdeps.py:165
+#: ../jhbuild/commands/sysdeps.py:203
 #, python-format
 msgid "No uninstalled system dependencies to install for modules: %r"
 msgstr ""
 "Nenhuma dependência de sistema não instalada a ser instalada para os "
 "módulos: %r"
 
-#: ../jhbuild/commands/sysdeps.py:167
+#: ../jhbuild/commands/sysdeps.py:205
 #, python-format
 msgid "Installing dependencies on system: %s"
 msgstr "Instalando dependências no sistema: %s"
@@ -875,23 +888,23 @@ msgstr ""
 msgid "Module %(mod)r is not installed"
 msgstr "O módulo %(mod)r não está instalado"
 
-#: ../jhbuild/config.py:113
+#: ../jhbuild/config.py:91
 #, python-format
 msgid "Invalid condition set modifier: '%s'.  Must start with '+' or '-'."
 msgstr ""
 "O modificador de conjunto de condição: '%s' é inválido.  Deve-se iniciar com "
 "'+' ou '-'."
 
-#: ../jhbuild/config.py:136
+#: ../jhbuild/config.py:114
 msgid "could not load config defaults"
 msgstr "não foi possível carregar as configurações padrão"
 
-#: ../jhbuild/config.py:147
+#: ../jhbuild/config.py:125
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "não foi possível carregar o arquivo de configuração, %s está faltando"
 
-#: ../jhbuild/config.py:153
+#: ../jhbuild/config.py:131
 #, python-format
 msgid ""
 "The default location of the configuration file has changed. Please move "
@@ -900,21 +913,21 @@ msgstr ""
 "A localização padrão do arquivo de configurações foi alterado. Por favor, "
 "mova %(old_path)s para %(new_path)s."
 
-#: ../jhbuild/config.py:212
+#: ../jhbuild/config.py:190
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Não foi possível incluir o arquivo de configuração (%s)"
 
-#: ../jhbuild/config.py:226
+#: ../jhbuild/config.py:204
 msgid "could not load config file"
 msgstr "não foi possível carregar o arquivo de configuração"
 
-#: ../jhbuild/config.py:240
+#: ../jhbuild/config.py:218
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "chaves desconhecidas foram definidas no arquivo de configuração: %s"
 
-#: ../jhbuild/config.py:247
+#: ../jhbuild/config.py:225
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use "
@@ -923,50 +936,50 @@ msgstr ""
 "a configuração variável \"%s\" está obsoleta, você deve usar \"repos['gnome."
 "org']\"."
 
-#: ../jhbuild/config.py:252 ../jhbuild/config.py:257
+#: ../jhbuild/config.py:230 ../jhbuild/config.py:235
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr ""
 "a configuração variável \"%s\" está obsoleta, você deve usar \"repos\"."
 
-#: ../jhbuild/config.py:291
+#: ../jhbuild/config.py:269
 msgid "invalid checkout mode"
 msgstr "modo de checkout inválido"
 
-#: ../jhbuild/config.py:295
+#: ../jhbuild/config.py:273
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "modo de checkout inválido (módulo: %s)"
 
-#: ../jhbuild/config.py:297
+#: ../jhbuild/config.py:275
 msgid "copy mode requires copy_dir to be set"
 msgstr "o modo de cópia requer que seja definido o copy_dir"
 
-#: ../jhbuild/config.py:302
+#: ../jhbuild/config.py:280
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr ""
 "diretório de definição de módulos (%s) não encontrado, desabilite "
 "use_local_modulesets"
 
-#: ../jhbuild/config.py:308 ../jhbuild/config.py:310 ../jhbuild/config.py:312
-#: ../jhbuild/config.py:314 ../jhbuild/config.py:317
+#: ../jhbuild/config.py:286 ../jhbuild/config.py:288 ../jhbuild/config.py:290
+#: ../jhbuild/config.py:292 ../jhbuild/config.py:295
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s deve ser um caminho absoluto"
 
-#: ../jhbuild/config.py:328
+#: ../jhbuild/config.py:306
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "o prefixo de instalação (%s) não pôde ser criado"
 
-#: ../jhbuild/config.py:335
+#: ../jhbuild/config.py:313
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "diretório de trabalho (%s) não pôde ser criado"
 
-#: ../jhbuild/config.py:338
+#: ../jhbuild/config.py:316
 msgid ""
 "Your install prefix contains a 'lib64' directory, which is no longer "
 "supported by jhbuild.  This is likely the result of a previous build with an "
@@ -979,11 +992,11 @@ msgstr ""
 "Por gentileza, considere remover sua instalação, efetue \"checkout\" dos "
 "diretórios e comece do zero."
 
-#: ../jhbuild/config.py:416
+#: ../jhbuild/config.py:394
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Falhou ao analisar \"min_age\" como tempo relativo"
 
-#: ../jhbuild/config.py:430
+#: ../jhbuild/config.py:408
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr ""
@@ -1072,12 +1085,17 @@ msgstr "módulo %(mod)s será compilado mesmo com falha em %(dep)s"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "módulo %(mod)s não compilado por causa de %(dep)s não compilável"
 
-#: ../jhbuild/frontends/buildscript.py:248
+#: ../jhbuild/frontends/buildscript.py:238
+#, python-format
+msgid "Ignoring uninstalled package: %s"
+msgstr "Ignorando pacote não instalado: %s"
+
+#: ../jhbuild/frontends/buildscript.py:257
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Executando o script disparador pós-instalação: %r"
 
-#: ../jhbuild/frontends/buildscript.py:256 ../jhbuild/frontends/gtkui.py:596
+#: ../jhbuild/frontends/buildscript.py:265 ../jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s retornou com um código de erro (%(rc)s)"
@@ -1172,8 +1190,8 @@ msgstr "Sempre executar o autogen.sh"
 msgid "Don't poison modules on failure"
 msgstr "Não envenenar módulos ao falhar"
 
-#: ../jhbuild/frontends/terminal.py:180 ../jhbuild/frontends/tinderbox.py:251
-#: ../jhbuild/frontends/tinderbox.py:384 ../jhbuild/frontends/tinderbox.py:439
+#: ../jhbuild/frontends/terminal.py:180 ../jhbuild/frontends/tinderbox.py:219
+#: ../jhbuild/frontends/tinderbox.py:348 ../jhbuild/frontends/tinderbox.py:403
 #, python-format
 msgid "%(configuration_variable)s invalid key %(key)s"
 msgstr "Chave inválida %(key)s de (%(configuration_variable)s)"
@@ -1200,11 +1218,11 @@ msgstr "sucesso"
 msgid "the following modules were not built"
 msgstr "os seguintes módulos não estão embutidos"
 
-#: ../jhbuild/frontends/terminal.py:301 ../jhbuild/frontends/tinderbox.py:415
+#: ../jhbuild/frontends/terminal.py:301 ../jhbuild/frontends/tinderbox.py:379
 msgid "automatically retrying configure"
 msgstr "re-tentar configure automaticamente"
 
-#: ../jhbuild/frontends/terminal.py:305 ../jhbuild/frontends/tinderbox.py:420
+#: ../jhbuild/frontends/terminal.py:305 ../jhbuild/frontends/tinderbox.py:384
 msgid "automatically forcing a fresh checkout"
 msgstr "automaticamente forçar a atualização do checkout"
 
@@ -1309,7 +1327,7 @@ msgstr "Criando tarball para"
 msgid "Dist checking"
 msgstr "Distchecking"
 
-#: ../jhbuild/modtypes/autotools.py:325
+#: ../jhbuild/modtypes/autotools.py:328
 msgid "Uninstalling old installed version"
 msgstr "Desinstalando versão da instalação antiga"
 
@@ -1396,7 +1414,7 @@ msgstr "Módulo falhou em ser instalado em DESTDIR %(dest)r"
 msgid "%d files remaining from previous build"
 msgstr "%d arquivos restantes da compilação anterior"
 
-#: ../jhbuild/modtypes/__init__.py:362 ../jhbuild/utils/packagedb.py:282
+#: ../jhbuild/modtypes/__init__.py:362 ../jhbuild/utils/packagedb.py:261
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Excluído: %(file)r"
@@ -1432,17 +1450,17 @@ msgstr "Pulando %s (não atualizado)"
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Pulando %s (pacote e dependências não atualizadas)"
 
-#: ../jhbuild/modtypes/__init__.py:531 ../jhbuild/modtypes/__init__.py:549
+#: ../jhbuild/modtypes/__init__.py:533 ../jhbuild/modtypes/__init__.py:551
 #: ../jhbuild/modtypes/linux.py:81 ../jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "Obtendo"
 
-#: ../jhbuild/modtypes/__init__.py:535
+#: ../jhbuild/modtypes/__init__.py:537
 #, python-format
 msgid "source directory %s was not created"
 msgstr "diretório fonte %s não foi criado"
 
-#: ../jhbuild/modtypes/__init__.py:552
+#: ../jhbuild/modtypes/__init__.py:554
 msgid "wipe directory and start over"
 msgstr "limpar diretório e iniciar novamente"
 
@@ -1496,44 +1514,44 @@ msgid "Python XML packages are required but could not be found"
 msgstr ""
 "Pacotes do XML do Python são necessários, mas não puderam ser encontrados"
 
-#: ../jhbuild/moduleset.py:79
+#: ../jhbuild/moduleset.py:93
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "exemplo de módulo corrigido '%(orig)s' para '%(new)s'"
 
-#: ../jhbuild/moduleset.py:118
+#: ../jhbuild/moduleset.py:132
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s possui uma dependência em módulo \"%(invalid)s\""
 
-#: ../jhbuild/moduleset.py:131
+#: ../jhbuild/moduleset.py:145
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "dependência cíclica detectada: %s"
 
-#: ../jhbuild/moduleset.py:282
+#: ../jhbuild/moduleset.py:296
 msgid "Unknown module:"
 msgstr "Módulo desconhecido:"
 
-#: ../jhbuild/moduleset.py:408
+#: ../jhbuild/moduleset.py:422
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> deve possuir exatamente um condition-set='' ou condition-unset=''"
 
-#: ../jhbuild/moduleset.py:427
+#: ../jhbuild/moduleset.py:441
 #, python-format
 msgid "could not download %s: %s"
 msgstr "não foi possível obter %s: %s"
 
-#: ../jhbuild/moduleset.py:432 ../jhbuild/moduleset.py:434
+#: ../jhbuild/moduleset.py:446 ../jhbuild/moduleset.py:448
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "falhou ao analisar %s: %s"
 
-#: ../jhbuild/moduleset.py:464
+#: ../jhbuild/moduleset.py:478
 msgid "Duplicate repository:"
 msgstr "Repositório duplicado:"
 
-#: ../jhbuild/moduleset.py:567
+#: ../jhbuild/moduleset.py:593
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1572,11 +1590,11 @@ msgstr ""
 msgid "package %s has files with embedded new lines"
 msgstr "pacotes %s possuem arquivos com novas linhas embutidas"
 
-#: ../jhbuild/utils/packagedb.py:158
+#: ../jhbuild/utils/packagedb.py:141
 msgid "Package DB modified externally, rereading"
 msgstr "DB do pacote modificado externamente. Lendo novamente"
 
-#: ../jhbuild/utils/packagedb.py:269
+#: ../jhbuild/utils/packagedb.py:248
 #, python-format
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
@@ -1585,27 +1603,27 @@ msgstr ""
 "nenhum manifesto para \"%s\", não foi possível instalar. Tente compilar "
 "novamente e, então, desinstalar."
 
-#: ../jhbuild/utils/packagedb.py:286
+#: ../jhbuild/utils/packagedb.py:265
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Falha ao excluir %(file)s: %(msg)s"
 
-#: ../jhbuild/utils/systeminstall.py:142
+#: ../jhbuild/utils/systeminstall.py:178
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr ""
 "Nenhum comando com privilégio adequado de root foi encontrado. Você deveria "
 "instalar \"pkexec\""
 
-#: ../jhbuild/utils/systeminstall.py:174 ../jhbuild/utils/systeminstall.py:177
+#: ../jhbuild/utils/systeminstall.py:208 ../jhbuild/utils/systeminstall.py:211
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:253
+#: ../jhbuild/utils/systeminstall.py:290
 msgid "Nothing available to install"
 msgstr "Nada disponível para instalar"
 
-#: ../jhbuild/utils/systeminstall.py:256
+#: ../jhbuild/utils/systeminstall.py:293
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1614,15 +1632,15 @@ msgstr ""
 "Instalando:\n"
 "  %s"
 
-#: ../jhbuild/utils/systeminstall.py:262
+#: ../jhbuild/utils/systeminstall.py:309
 msgid "Complete!"
 msgstr "Concluída!"
 
-#: ../jhbuild/utils/systeminstall.py:273
+#: ../jhbuild/utils/systeminstall.py:321
 msgid "Using yum to install packages.  Please wait."
 msgstr "Usando yum para instalar pacotes. Por favor, espere."
 
-#: ../jhbuild/utils/systeminstall.py:276
+#: ../jhbuild/utils/systeminstall.py:324
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1631,22 +1649,22 @@ msgstr ""
 "Instalando:\n"
 "  %(pkgs)s"
 
-#: ../jhbuild/utils/systeminstall.py:286 ../jhbuild/utils/systeminstall.py:336
+#: ../jhbuild/utils/systeminstall.py:334 ../jhbuild/utils/systeminstall.py:385
 msgid "Nothing to install"
 msgstr "Nada a ser instalado"
 
-#: ../jhbuild/utils/systeminstall.py:317
+#: ../jhbuild/utils/systeminstall.py:366
 msgid "Using apt-file to search for providers; this may be slow.  Please wait."
 msgstr ""
 "Usando apt-file para pesquisar por fornecedores. Isso pode ser lento. Por "
 "favor, espere."
 
-#: ../jhbuild/utils/systeminstall.py:326
+#: ../jhbuild/utils/systeminstall.py:375
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Nenhum pacote nativo foi encontrado para %(id)s (%(filename)s)"
 
-#: ../jhbuild/utils/systeminstall.py:331
+#: ../jhbuild/utils/systeminstall.py:380
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalando: %(pkgs)s"
@@ -1679,11 +1697,11 @@ msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
 "ramo para %(name)s possui um desvio errado, verifique o seu %(filename)s"
 
-#: ../jhbuild/versioncontrol/bzr.py:119
+#: ../jhbuild/versioncontrol/bzr.py:122
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "o atributo é obsoleto. Use revspec no lugar."
 
-#: ../jhbuild/versioncontrol/bzr.py:175
+#: ../jhbuild/versioncontrol/bzr.py:178
 #, python-format
 msgid ""
 "\n"
@@ -1704,12 +1722,12 @@ msgstr "não foi possível registrar em %s\n"
 msgid "%s is not managed by CVS"
 msgstr "%s não é gerenciado pelo CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:274
+#: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid "\"%s\" does not appear to be a CVS working copy"
 msgstr "\"%s\" não parece ser uma cópia de trabalho do CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:277
+#: ../jhbuild/versioncontrol/cvs.py:280
 #, python-format
 msgid ""
 "working copy points at the wrong repository (expected %(root1)s but got "
@@ -1718,15 +1736,15 @@ msgstr ""
 "diretório de trabalho aponta para o repositório errado (esperado %(root1)s "
 "mas obteve %(root2)s). "
 
-#: ../jhbuild/versioncontrol/cvs.py:279
+#: ../jhbuild/versioncontrol/cvs.py:282
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Utilize o script changecvsroot.py para corrigir isso."
 
 #: ../jhbuild/versioncontrol/darcs.py:86 ../jhbuild/versioncontrol/darcs.py:92
 #: ../jhbuild/versioncontrol/fossil.py:84
-#: ../jhbuild/versioncontrol/fossil.py:97 ../jhbuild/versioncontrol/git.py:567
-#: ../jhbuild/versioncontrol/git.py:607 ../jhbuild/versioncontrol/git.py:683
-#: ../jhbuild/versioncontrol/hg.py:87 ../jhbuild/versioncontrol/hg.py:93
+#: ../jhbuild/versioncontrol/fossil.py:97 ../jhbuild/versioncontrol/git.py:570
+#: ../jhbuild/versioncontrol/git.py:610 ../jhbuild/versioncontrol/git.py:686
+#: ../jhbuild/versioncontrol/hg.py:90 ../jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "data baseada em checkout ainda tem suporte ainda\n"
 
@@ -1734,15 +1752,15 @@ msgstr "data baseada em checkout ainda tem suporte ainda\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "ignorar redefinição de ramo ruim para módulo:"
 
-#: ../jhbuild/versioncontrol/git.py:201
+#: ../jhbuild/versioncontrol/git.py:204
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Precisa ao menos do git-1.5.6 de Junho/08 para operar"
 
-#: ../jhbuild/versioncontrol/git.py:215
+#: ../jhbuild/versioncontrol/git.py:218
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Inesperado: diretório de checkout não é um repositório git:"
 
-#: ../jhbuild/versioncontrol/git.py:271
+#: ../jhbuild/versioncontrol/git.py:274
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1751,21 +1769,21 @@ msgstr ""
 "O ramo solicitado \"%s\" não está disponível. Nem localmente, nem "
 "remotamente na origem remota."
 
-#: ../jhbuild/versioncontrol/git.py:279
+#: ../jhbuild/versioncontrol/git.py:282
 msgid "Refusing to switch a dirty tree."
 msgstr "Recusa ao alternar uma árvore suja."
 
-#: ../jhbuild/versioncontrol/git.py:357
+#: ../jhbuild/versioncontrol/git.py:360
 #, python-format
 msgid "Command %s returned no output"
 msgstr "O comando %s não retornou nenhuma saída"
 
-#: ../jhbuild/versioncontrol/git.py:362
+#: ../jhbuild/versioncontrol/git.py:365
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Comando %s não incluiu a linha de commit: %r"
 
-#: ../jhbuild/versioncontrol/git.py:429
+#: ../jhbuild/versioncontrol/git.py:432
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1773,7 +1791,7 @@ msgstr ""
 "Falhou ao atualizar o módulo como alternado para o git (você deve verificar "
 "por mudanças e após remover o diretório)."
 
-#: ../jhbuild/versioncontrol/git.py:430
+#: ../jhbuild/versioncontrol/git.py:433
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1781,7 +1799,7 @@ msgstr ""
 "Falhou ao atualizar o módulo (faltando .git) (você deve verificar por "
 "mudanças e após remover o diretório)."
 
-#: ../jhbuild/versioncontrol/git.py:534
+#: ../jhbuild/versioncontrol/git.py:537
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1789,14 +1807,14 @@ msgstr ""
 "Manipulação externa falhou\n"
 " Se você está executando o git versão < 1.5.6 é recomendado que atualize.\n"
 
-#: ../jhbuild/versioncontrol/git.py:579
+#: ../jhbuild/versioncontrol/git.py:582
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
 "Não é possível obter a última revisão de %s. Verifique a localização do "
 "módulo."
 
-#: ../jhbuild/versioncontrol/__init__.py:196
+#: ../jhbuild/versioncontrol/__init__.py:199
 #, python-format
 msgid "unknown repository type %s"
 msgstr "tipo desconhecido de repositório %s"
@@ -1840,7 +1858,7 @@ msgstr "não foi possível obter URI do Subversion para %s"
 msgid "could not parse \"svn info\" output for %s"
 msgstr "não foi possível analisar saída do \"svn info\" para %s"
 
-#: ../jhbuild/versioncontrol/svn.py:309
+#: ../jhbuild/versioncontrol/svn.py:312
 msgid "Error checking for conflicts"
 msgstr "Erro ao verificar por conflitos"
 
