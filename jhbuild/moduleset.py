@@ -98,7 +98,7 @@ class ModuleSet:
         raise KeyError(module_name)
 
     def get_module_list(self, module_names, skip=[], tags=[],
-                        include_suggests=True, include_afters=False):
+                        include_suggests=True, include_afters=True):
         module_list = self.get_full_module_list(module_names, skip,
                                                 include_suggests,
                                                 include_afters)
@@ -107,7 +107,7 @@ class ModuleSet:
         return module_list
 
     def get_full_module_list(self, module_names='all', skip=[],
-                                include_suggests=True, include_afters=False,
+                                include_suggests=True, include_afters=True,
                                 warn_about_circular_dependencies=True):
 
         def add_module(to_build, name, seen = []):

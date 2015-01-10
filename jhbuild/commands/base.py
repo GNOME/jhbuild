@@ -64,7 +64,8 @@ class cmd_update(Command):
         module_set = jhbuild.moduleset.load(config)
         module_list = module_set.get_module_list(args or config.modules,
                 config.skip, tags=config.tags,
-                include_suggests=not config.ignore_suggests)
+                include_suggests=not config.ignore_suggests,
+                include_afters=not config.ignore_after)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -218,9 +219,6 @@ class cmd_build(BuildCommand):
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
                         help=_('build even if policy says not to')),
-            make_option('--build-optional-modules',
-                        action='store_true', dest='build_optional_modules', default=False,
-                        help=_('also build soft-dependencies that could be skipped')),
             make_option('--min-age', metavar='TIME-SPEC',
                         action='store', dest='min_age', default=None,
                         help=_('skip modules installed less than the given time ago')),
@@ -237,7 +235,7 @@ class cmd_build(BuildCommand):
         full_module_list = module_set.get_full_module_list \
                                (modules, config.skip,
                                 include_suggests=not config.ignore_suggests,
-                                include_afters=options.build_optional_modules)
+                                include_afters=not config.ignore_after)
         full_module_list = module_set.remove_tag_modules(full_module_list,
                                                          config.tags)
         module_list = module_set.remove_system_modules(full_module_list)
@@ -465,7 +463,7 @@ class cmd_list(Command):
                               (args or config.modules, config.skip,
                                tags=config.tags,
                                include_suggests= not config.ignore_suggests,
-                               include_afters=options.list_optional_modules)
+                               include_afters=not config.ignore_after)
 
         # remove modules up to startat
         if options.startat:
