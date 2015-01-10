@@ -110,90 +110,82 @@ class ModuleSet:
                                 include_suggests=True, include_afters=False,
                                 warn_about_circular_dependencies=True):
 
-        def dep_resolve(node, resolved, seen, after):
+        def add_module(to_build, name, seen = []):
             ''' Recursive depth-first search of the dependency tree. Creates
-            the build order into the list 'resolved'. <after/> modules are
-            added to the dependency tree but flagged. When search finished
-            <after/> modules not a real dependency are removed.
+            the build order into the list 'to_build'.  Returns True on success,
+            or False if a hard dependency problem was encountered.
             '''
-            circular = False
-            seen.append(node)
+            if name in skip:
+                return True
+
+            toplevel = not(seen)
+
+            try:
+                module = self.get_module(name, ignore_case = toplevel)
+            except KeyError:
+                if toplevel:
+                    raise UsageError(_("A module called '%s' could not be found.") % name)
+                else:
+                    self._warn(_('%(module)s has a dependency on unknown'
+                                 ' "%(invalid)s" module') % \
+                                     {'module'  : seen[-1].name,
+                                      'invalid' : name})
+                return False
+
+            # if this module is already in the build order, we're OK
+            if module in to_build:
+                return True
+
+            # detect circular dependencies
+            if module in seen:
+                if self.raise_exception_on_warning:
+                    # Translation of string not required - used in
+                    # unit tests only
+                    raise UsageError('Circular dependencies detected')
+                if warn_about_circular_dependencies:
+                    self._warn(_('Circular dependencies detected: %s') \
+                               % ' -> '.join([i.name for i in seen] + [module.name]))
+
+                return False
+
+            # construct a new list so that we can avoid unwinding
+            seen = seen + [module]
+
+            # hard dependencies: a failure here means we can't proceed
+            for dep in module.dependencies:
+                if not add_module(to_build, dep, seen):
+                    return False
+
+            # suggests: a failure here can be ignored (but will be warned about)
             if include_suggests:
-                edges = node.dependencies + node.suggests + node.after
-            else:
-                edges = node.dependencies + node.after
-            # do not include <after> modules because a previous visited <after>
-            # module may later be a hard dependency
-            resolved_deps = [module for module, after_module in resolved \
-                             if not after_module]
-            for edge_name in edges:
-                edge = self.modules.get(edge_name)
-                if edge == None:
-                    if node not in [i[0] for i in resolved]:
-                        self._warn(_('%(module)s has a dependency on unknown'
-                                     ' "%(invalid)s" module') % \
-                                         {'module'  : node.name,
-                                          'invalid' : edge_name})
-                elif edge_name not in skip and edge not in resolved_deps:
-                    if edge in seen:
-                        # circular dependency detected
-                        circular = True
-                        if self.raise_exception_on_warning:
-                            # Translation of string not required - used in
-                            # unit tests only
-                            raise UsageError('Circular dependencies detected')
-                        if warn_about_circular_dependencies:
-                            self._warn(_('Circular dependencies detected: %s') \
-                                       % ' -> '.join([i.name for i in seen] \
-                                                     + [edge.name]))
-                        break
-                    else:
-                        if edge_name in node.after:
-                            dep_resolve(edge, resolved, seen, True)
-                        elif edge_name in node.suggests:
-                            dep_resolve(edge, resolved, seen, after)
-                        elif edge_name in node.dependencies:
-                            dep_resolve(edge, resolved, seen, after)
-                            # hard dependency may be missed if a cyclic
-                            # dependency. Add it:
-                            if edge not in [i[0] for i in resolved]:
-                                resolved.append((edge, after))
+                for dep in module.suggests:
+                    add_module(to_build, dep, seen)
 
-            seen.remove(node)
+            # add ourselves, but be careful: we may already have been added as
+            # an 'after' of a module that we depend on
+            if not module in to_build:
+                to_build.append(module)
 
-            if not circular:
-                if node not in [i[0] for i in resolved]:
-                    resolved.append((node, after))
-                elif not after:
-                    # a dependency exists for an after, flag to keep
-                    for index, item in enumerate(resolved):
-                        if item[1] == True and item[0] == node:
-                            resolved[index] = (node, False)
+            # deal with 'after'. recursive <after> will be handled by
+            # the module finding itself already in 'to_build'.
+            if include_afters:
+                for dep in module.after:
+                    add_module(to_build, dep)
+
+            return True
 
         if module_names == 'all':
             module_names = self.modules.keys()
-        try:
-            # remove skip modules from module_name list
-            modules = [self.get_module(module, ignore_case = True) \
-                       for module in module_names if module not in skip]
-        except KeyError, e:
-            raise UsageError(_("A module called '%s' could not be found.") % e)
 
-        resolved = []
-        for module in modules:
-            dep_resolve(module, resolved, [], False)
-
-        if include_afters:
-            module_list = [module[0] for module in resolved]
-        else:
-            module_list = [module for module, after_module in resolved \
-                           if not after_module]
+        to_build = []
+        for name in module_names:
+            if not add_module(to_build, name):
+                raise DependencyCycleError(_("Could not resolve dependencies for module '%s'.") % module.name)
 
         if '*' in skip:
-            module_list = [module for module in module_list \
-                           if module.name in self.config.modules]
-        
-        return module_list
+            to_build = [module for module in to_build if module.name in self.config.modules]
+
+        return to_build
 
     def get_test_module_list (self, seed, skip=[]):
         test_modules = []
