@@ -39,6 +39,16 @@ def get_installed_pkgconfigs(config):
         for line in StringIO(stdout):
             pkg, rest = line.split(None, 1)
             pkgs.append(pkg)
+
+        # see if we can get the versions "the easy way"
+        try:
+            stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs)
+            versions = stdout.splitlines()
+            if len(versions) == len(pkgs):
+                return dict(zip(pkgs, versions))
+        except OSError:
+            pass
+
         # We have to rather inefficiently repeatedly fork to work around
         # broken pkg-config installations - if any package has a missing
         # dependency pkg-config will fail entirely.
