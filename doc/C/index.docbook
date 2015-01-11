@@ -1794,12 +1794,24 @@ Optional packages: (JHBuild will build the missing packages)
               installation to reduce the time taken for rebuilds.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-ignore-after">
+          <term>
+            <varname>ignore_after</varname>
+          </term>
+          <listitem>
+            <simpara>A boolean value specifying whether to ignore
+              <sgmltag class="element">after</sgmltag>
+              dependencies when calculating the dependency tree. Defaults to
+              <constant>False</constant>.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-ignore-suggests">
           <term>
             <varname>ignore_suggests</varname>
           </term>
           <listitem>
-            <simpara>A boolean value specifying whether to ignore soft
+            <simpara>A boolean value specifying whether to ignore
+              <sgmltag class="element">suggests</sgmltag>
               dependencies when calculating the dependency tree. Defaults to
               <constant>False</constant>.</simpara>
           </listitem>
@@ -2767,11 +2779,17 @@ Optional packages: (JHBuild will build the missing packages)
         the module list for <command>jhbuild build</command> if it isn't already
         included, and make sure the dependent modules are built first.</para>
 
-      <para>After generating the modules list, the modules listed in the
-        <sgmltag class="element">suggests</sgmltag> element will be used to
-        further sort the modules list (although it will not pull any additional
-        modules). This is intended for cases where a module has an optional
-        dependency on another module.</para>
+      <para>Modules listed in the <sgmltag class="element">suggests</sgmltag>
+        element will also be added unless you set the
+        <link linkend="cfg-ignore-suggests"><varname>ignore_suggests</varname></link>
+        configuration option.</para>
+
+      <para>Modules listed in the <sgmltag class="element">after</sgmltag>
+        element will also be added, after the module is built.  This can be useful
+        for cases where other modules provide plugins to extend functionality.  This
+        can be disabled using the
+        <link linkend="cfg-ignore-after"><varname>ignore_after</varname></link>
+        configuration option.</para>
 
       <section id="moduleset-syntax-defs-autotools">
         <title>autotools</title>
