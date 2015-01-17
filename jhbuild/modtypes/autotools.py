@@ -20,6 +20,8 @@
 
 __metaclass__ = type
 
+import subprocess
+import sys
 import os
 import stat
 try:
@@ -223,7 +225,17 @@ class AutogenModule(MakeModule, DownloadableModule):
         except:
             pass
 
-        buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
+        extra_env = {}
+
+        if 'gnu-elf' in buildscript.config.conditions:
+            lt_cv_sys_lib_dlsearch_path_spec = get_lt_cv_sys_lib_dlsearch_path_spec()
+            if lt_cv_sys_lib_dlsearch_path_spec is not None:
+                extra_env['lt_cv_sys_lib_dlsearch_path_spec'] = lt_cv_sys_lib_dlsearch_path_spec
+
+        if self.extra_env:
+            extra_env.update(self.extra_env)
+
+        buildscript.execute(cmd, cwd = builddir, extra_env = extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT,
             PHASE_CLEAN, PHASE_DISTCLEAN]
@@ -410,5 +422,63 @@ def parse_autotools(node, config, uri, repositories, default_repo):
         instance.autogen_template = node.getAttribute('autogen-template')
 
     return instance
+
+def get_dlsearch_path():
+    # don't cache this -- we want it called each time just before
+    # ./configure so that it can find paths that new libraries were
+    # installed into in the meanwhile (perhaps as a result of the user
+    # installing missing dependencies)
+    result = set()
+
+    if sys.platform.startswith('linux'):
+        cmd = ['/sbin/ldconfig', '-p']
+    elif 'bsd' in sys.platform:
+        cmd = ['/sbin/ldconfig', '-r']
+    else:
+        return None
+
+    out = subprocess.check_output(cmd)
+    for line in out.splitlines():
+        if ' hwcap: ' in line:
+            continue
+
+        _, _, path = line.partition(' => ')
+
+        if path and path.startswith('/'):
+            path, _, _ = path.partition(' ')
+            path, _, _ = path.rpartition('/')
+
+            result.add(path)
+
+    # check any found directories for equivalent merged /usr symlinks
+    for item in list(result):
+        without_usr = item[4:] if item.startswith('/usr') else item
+        with_usr = '/usr' + without_usr
+
+        try:
+            a = os.stat(without_usr)
+            b = os.stat(with_usr)
+
+            if a.st_dev == b.st_dev and a.st_ino == b.st_ino:
+                result.add(without_usr)
+                result.add(with_usr)
+
+        except OSError: continue
+
+    return result
+
+def get_lt_cv_sys_lib_dlsearch_path_spec():
+    dirs = get_dlsearch_path()
+
+    if dirs is None:
+        return None
+
+    ld_library_path = os.environ.get('LD_LIBRARY_PATH', '')
+    if ld_library_path:
+        for path in ld_library_path.split(':'):
+            dirs.add(path)
+
+    return ' '.join(dirs)
+
 register_module_type('autotools', parse_autotools)
 
