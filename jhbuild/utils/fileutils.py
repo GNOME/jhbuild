@@ -114,6 +114,14 @@ def ensure_unlinked(filename):
     except OSError as e:
         if e.errno != os.errno.ENOENT:
             raise
+
+def mkdir_with_parents(filename):
+    try:
+        os.makedirs(filename)
+    except EnvironmentError as e:
+        if e.errno != errno.EEXIST or not os.path.isdir(filename):
+            raise
+
 class SafeWriter(object):
     def __init__(self, filename):
         self.filename = filename

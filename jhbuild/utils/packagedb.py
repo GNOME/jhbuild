@@ -118,8 +118,7 @@ class PackageDB:
         self.dbfile = dbfile
         dirname = os.path.dirname(dbfile)
         self.manifests_dir = os.path.join(dirname, 'manifests')
-        if not os.path.exists(self.manifests_dir):
-            os.makedirs(self.manifests_dir)
+        fileutils.mkdir_with_parents(self.manifests_dir)
         self.config = config
         self._lock = lockfile.LockFile.get(os.path.join(dirname, 'packagedb.xml.lock'))
         self._entries = None # hash
