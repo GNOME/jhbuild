@@ -76,23 +76,6 @@ class PackageEntry:
 
     manifest = property(get_manifest, set_manifest)
 
-    @classmethod
-    def from_xml(cls, node, manifests_dir):
-        package = node.attrib['package']
-        version = node.attrib['version']
-        metadata = {}
-
-        installed_string = node.attrib['installed']
-        if installed_string:
-            metadata['installed-date'] = _parse_isotime(installed_string)
-        configure_hash = node.attrib.get('configure-hash')
-        if configure_hash:
-            metadata['configure-hash'] = configure_hash
-
-        dbentry = cls(package, version, metadata, manifests_dir)
-
-        return dbentry
-
     def write(self):
         writer = fileutils.SafeWriter(os.path.join(self.manifests_dir, self.package))
         writer.fp.write('\n'.join(self.manifest) + '\n')
@@ -111,6 +94,24 @@ class PackageEntry:
                 self.metadata['configure-hash']
 
         return entry_node
+
+    @classmethod
+    def from_xml(cls, node, manifests_dir):
+        package = node.attrib['package']
+        version = node.attrib['version']
+        metadata = {}
+
+        installed_string = node.attrib['installed']
+        if installed_string:
+            metadata['installed-date'] = _parse_isotime(installed_string)
+        configure_hash = node.attrib.get('configure-hash')
+        if configure_hash:
+            metadata['configure-hash'] = configure_hash
+
+        dbentry = cls(package, version, metadata, manifests_dir)
+
+        return dbentry
+
 
 class PackageDB:
     def __init__(self, dbfile, config):
