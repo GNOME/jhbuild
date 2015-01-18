@@ -278,7 +278,3 @@ class PackageDB:
         self._entries[package_name].remove()
         del self._entries[package_name]
         self._write_cache()
-
-if __name__ == '__main__':
-    db = PackageDB(sys.argv[1])
-    print "%r" % (db._entries, )
