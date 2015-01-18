@@ -18,17 +18,15 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import sys 
-import stat
+import sys
 import time
 import logging
+import errno
 import xml.dom.minidom as DOM
 try:
     import hashlib
 except ImportError:
     import md5 as hashlib
-
-from jhbuild.utils import lockfile
 
 try:
     import xml.etree.ElementTree as ET
@@ -125,96 +123,53 @@ class PackageEntry:
 
         return dbentry
 
+    @classmethod
+    def open(cls, dirname, package):
+        try:
+            info = open (os.path.join (dirname, 'info', package))
+            doc = ET.parse(info)
+            node = doc.getroot()
+
+            if node.tag == 'entry':
+                return PackageEntry.from_xml(node, dirname)
+
+        except EnvironmentError as e:
+            if e.errno != errno.ENOENT:
+                raise
+
+        # That didn't work: try the old packagedb.xml file instead.  We
+        # use the manifest file to check if the package 'really exists'
+        # because otherwise we may see the old packagedb.xml entry for
+        # an uninstalled package (since we no longer update that file)
+        #
+        # please delete this code in 2016
+        try:
+            if os.path.exists(os.path.join(dirname, 'manifests', package)):
+                info = open (os.path.join (dirname, 'packagedb.xml'))
+                doc = ET.parse(info)
+                root = doc.getroot()
+
+                if root.tag == 'packagedb':
+                    for node in root:
+                        if node.tag == 'entry' and node.attrib['package'] == package:
+                            return PackageEntry.from_xml(node, dirname)
+
+        except EnvironmentError as e:
+            if e.errno != errno.ENOENT:
+                raise
+
+        # it seems not to exist...
+        return None
 
 class PackageDB:
     def __init__(self, dbfile, config):
         self.dirname = os.path.dirname(dbfile)
-        self.dbfile = dbfile
         self.config = config
-        self._lock = lockfile.LockFile.get(os.path.join(dirname, 'packagedb.xml.lock'))
-        self._entries = None # hash
-        self._entries_stat = None # os.stat structure
 
-    def _ensure_cache(function):
-        def decorate(self, *args, **kwargs):
-            if self._entries is None:
-                self._read_cache()
-            elif self._entries_stat is None:
-                # It didn't exist before, see if it does now
-                self._read_cache()
-            else:
-                try:
-                    stbuf = os.stat(self.dbfile)
-                except OSError, e:
-                    pass
-                if not (self._entries_stat[stat.ST_INO] == stbuf[stat.ST_INO]
-                        and self._entries_stat[stat.ST_MTIME] == stbuf[stat.ST_MTIME]):
-                    logging.info(_('Package DB modified externally, rereading'))
-                    self._read_cache()
-            return function(self, *args, **kwargs)
-        return decorate
-
-    def _read_cache(self):
-        self._entries = {}
-        self._entries_stat = None
-        try:
-            f = open(self.dbfile)
-        except OSError, e:
-            return # treat as empty cache
-        except IOError, e:
-            return
-        doc = ET.parse(f)
-        root = doc.getroot()
-        if root.tag != 'packagedb':
-            return # doesn't look like a cache
-        for node in root:
-            if node.tag != 'entry':
-                continue
-            entry = PackageEntry.from_xml(node, self.dirname)
-            self._entries[entry.package] = entry
-        self._entries_stat = os.fstat(f.fileno())
-
-    def _write_cache(self):
-        pkgdb_node = ET.Element('packagedb')
-        doc = ET.ElementTree(pkgdb_node)
-        for package,entry in self._entries.iteritems():
-            node = entry.to_xml()
-            pkgdb_node.append(node)
-
-        writer = fileutils.SafeWriter(self.dbfile)
-
-        # Because ElementTree can't pretty-print, we convert it to a string
-        # and then read it back with DOM, then write it out again.  Yes, this
-        # is lame.
-        # http://renesd.blogspot.com/2007/05/pretty-print-xml-with-python.html
-        buf = StringIO()
-        doc.write(buf, encoding='UTF-8')
-        dom_doc = DOM.parseString(buf.getvalue())
-        try:
-            dom_doc.writexml(writer.fp, addindent='  ', newl='\n', encoding='UTF-8')
-        except:
-            writer.abandon()
-            raise
-        writer.commit()
-        # Ensure we don't reread what we already have cached
-        self._entries_stat = os.stat(self.dbfile)
-
-    def _locked(function):
-        def decorate(self, *args, **kwargs):
-            self._lock.lock()
-            try:
-                function(self, *args, **kwargs)
-            finally:
-                self._lock.unlock()
-        return decorate
-
-    @_ensure_cache
     def get(self, package):
         '''Return entry if package is installed, otherwise return None.'''
-        return self._entries.get(package)
+        return PackageEntry.open(self.dirname, package)
 
-    @_ensure_cache
-    @_locked
     def add(self, package, version, contents, configure_cmd = None):
         '''Add a module to the install cache.'''
         entry = self.get(package)
@@ -225,10 +180,9 @@ class PackageDB:
         metadata['installed-date'] = time.time() # now
         if configure_cmd:
             metadata['configure-hash'] = hashlib.md5(configure_cmd).hexdigest()
-        self._entries[package] = PackageEntry(package, version, metadata, self.dirname)
-        self._entries[package].manifest = contents
-        self._entries[package].write()
-        self._write_cache()
+        pkg = PackageEntry(package, version, metadata, self.dirname)
+        pkg.manifest = contents
+        pkg.write()
 
     def check(self, package, version=None):
         '''Check whether a particular module is installed.'''
@@ -248,11 +202,12 @@ class PackageDB:
             return None
         return entry.metadata['installed-date']
 
-    @_ensure_cache
-    @_locked
     def uninstall(self, package_name):
         '''Remove a module from the install cache.'''
-        entry = self._entries[package_name]
+        entry = self.get(package_name)
+
+        if entry is None:
+            raise KeyError
 
         if entry.manifest is None:
             logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling.") % (package_name,))
@@ -275,6 +230,4 @@ class PackageDB:
                 logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
                                                                          'msg': error_string})
 
-        self._entries[package_name].remove()
-        del self._entries[package_name]
-        self._write_cache()
+        entry.remove()
