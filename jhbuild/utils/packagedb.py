@@ -49,20 +49,20 @@ def _format_isotime(tm):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
 
 class PackageEntry:
-    def __init__(self, package, version, metadata, manifests_dir):
+    def __init__(self, package, version, metadata, dirname):
         self.package = package # string
         self.version = version # string
         self.metadata = metadata # hash of string to value
-        self.manifests_dir = manifests_dir
+        self.dirname = dirname
 
     _manifest = None
     def get_manifest(self):
         if self._manifest:
             return self._manifest
-        if not os.path.exists(os.path.join(self.manifests_dir, self.package)):
+        if not os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
             return None
         self._manifest = []
-        for line in file(os.path.join(self.manifests_dir, self.package)):
+        for line in file(os.path.join(self.dirname, 'manifests', self.package)):
             self._manifest.append(line.strip())
         return self._manifest
 
@@ -77,12 +77,13 @@ class PackageEntry:
     manifest = property(get_manifest, set_manifest)
 
     def write(self):
-        writer = fileutils.SafeWriter(os.path.join(self.manifests_dir, self.package))
+        fileutils.mkdir_with_parents(os.path.join(self.dirname, 'manifests'))
+        writer = fileutils.SafeWriter(os.path.join(self.dirname, 'manifests', self.package))
         writer.fp.write('\n'.join(self.manifest) + '\n')
         writer.commit()
 
     def remove(self):
-        fileutils.ensure_unlinked(os.path.join(self.manifests_dir, self.package))
+        fileutils.ensure_unlinked(os.path.join(self.dirname, 'manifests', self.package))
 
     def to_xml(self):
         entry_node = ET.Element('entry', {'package': self.package,
@@ -96,7 +97,7 @@ class PackageEntry:
         return entry_node
 
     @classmethod
-    def from_xml(cls, node, manifests_dir):
+    def from_xml(cls, node, dirname):
         package = node.attrib['package']
         version = node.attrib['version']
         metadata = {}
@@ -108,17 +109,15 @@ class PackageEntry:
         if configure_hash:
             metadata['configure-hash'] = configure_hash
 
-        dbentry = cls(package, version, metadata, manifests_dir)
+        dbentry = cls(package, version, metadata, dirname)
 
         return dbentry
 
 
 class PackageDB:
     def __init__(self, dbfile, config):
+        self.dirname = os.path.dirname(dbfile)
         self.dbfile = dbfile
-        dirname = os.path.dirname(dbfile)
-        self.manifests_dir = os.path.join(dirname, 'manifests')
-        fileutils.mkdir_with_parents(self.manifests_dir)
         self.config = config
         self._lock = lockfile.LockFile.get(os.path.join(dirname, 'packagedb.xml.lock'))
         self._entries = None # hash
@@ -159,7 +158,7 @@ class PackageDB:
         for node in root:
             if node.tag != 'entry':
                 continue
-            entry = PackageEntry.from_xml(node, self.manifests_dir)
+            entry = PackageEntry.from_xml(node, self.dirname)
             self._entries[entry.package] = entry
         self._entries_stat = os.fstat(f.fileno())
 
@@ -214,8 +213,7 @@ class PackageDB:
         metadata['installed-date'] = time.time() # now
         if configure_cmd:
             metadata['configure-hash'] = hashlib.md5(configure_cmd).hexdigest()
-        self._entries[package] = PackageEntry(package, version, metadata,
-                                              self.manifests_dir)
+        self._entries[package] = PackageEntry(package, version, metadata, self.dirname)
         self._entries[package].manifest = contents
         self._entries[package].write()
         self._write_cache()
