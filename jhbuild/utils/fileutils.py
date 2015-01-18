@@ -79,12 +79,15 @@ Returns a list, where each item is a 2-tuple:
     return results
 
 def filter_files_by_prefix(config, file_paths):
-    """Return the set of files in file_paths that are inside the prefix."""
+    """Return the set of files in file_paths that are inside the prefix.
+
+Turns relative paths into absolute paths, as appropriate."""
     canon_prefix = config.prefix
     if not canon_prefix.endswith(os.sep):
         canon_prefix = canon_prefix + os.sep
     result = []
     for path in file_paths:
+        path = os.path.join(config.prefix, path) # doesn't add the prefix if path is already absolute
         if path == canon_prefix or (not path.startswith(canon_prefix)):
             continue
         result.append(path)

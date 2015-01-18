@@ -291,18 +291,11 @@ them into the prefix."""
         prefix_without_drive = os.path.splitdrive(buildscript.config.prefix)[1]
         stripped_prefix = prefix_without_drive[1:]
 
-        previous_entry = buildscript.moduleset.packagedb.get(self.name)
-        if previous_entry:
-            previous_contents = previous_entry.get_manifest()
-        else:
-            previous_contents = None
-
-        new_contents = fileutils.accumulate_dirtree_contents(destdir)
-
         install_succeeded = False
         save_broken_tree = False
         broken_name = destdir + '-broken'
         destdir_prefix = os.path.join(destdir, stripped_prefix)
+        new_contents = fileutils.accumulate_dirtree_contents(destdir_prefix)
         errors = []
         if os.path.isdir(destdir_prefix):
             destdir_install = True
@@ -348,14 +341,20 @@ them into the prefix."""
         if not install_succeeded:
             raise CommandError(_("Module failed to install into DESTDIR %(dest)r") % {'dest': broken_name})
         else:
-            absolute_new_contents = map(lambda x: '/' + x, new_contents)
-            to_delete = []
-            if previous_contents is not None:
-                for path in previous_contents:
-                    if path not in absolute_new_contents:
-                        to_delete.append(path)
-                # Ensure we're only attempting to delete files in the prefix
-                to_delete = fileutils.filter_files_by_prefix(self.config, to_delete)
+            to_delete = set()
+            previous_entry = buildscript.moduleset.packagedb.get(self.name)
+            if previous_entry:
+                previous_contents = previous_entry.get_manifest()
+                if previous_contents:
+                    to_delete.update(fileutils.filter_files_by_prefix(self.config, previous_contents))
+
+            for filename in new_contents:
+                to_delete.discard (os.path.join(self.config.prefix, filename))
+
+            if to_delete:
+                # paranoid double-check
+                assert to_delete == set(fileutils.filter_files_by_prefix(self.config, to_delete))
+
                 logging.info(_('%d files remaining from previous build') % (len(to_delete),))
                 for (path, was_deleted, error_string) in fileutils.remove_files_and_dirs(to_delete, allow_nonempty_dirs=True):
                     if was_deleted:
@@ -368,7 +367,7 @@ them into the prefix."""
                                                                                                           'msg': error_string})
 
             buildscript.moduleset.packagedb.add(self.name, revision or '',
-                                                absolute_new_contents,
+                                                new_contents,
                                                 self.configure_cmd)
 
         if errors:
