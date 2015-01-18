@@ -77,12 +77,24 @@ class PackageEntry:
     manifest = property(get_manifest, set_manifest)
 
     def write(self):
+        # write info file
+        fileutils.mkdir_with_parents(os.path.join(self.dirname, 'info'))
+        writer = fileutils.SafeWriter(os.path.join(self.dirname, 'info', self.package))
+        ET.ElementTree(self.to_xml()).write(writer.fp)
+        writer.fp.write('\n')
+        writer.commit()
+
+        # write manifest
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'manifests'))
         writer = fileutils.SafeWriter(os.path.join(self.dirname, 'manifests', self.package))
         writer.fp.write('\n'.join(self.manifest) + '\n')
         writer.commit()
 
     def remove(self):
+        # remove info file
+        fileutils.ensure_unlinked(os.path.join(self.dirname, 'info', self.package))
+
+        # remove manifest
         fileutils.ensure_unlinked(os.path.join(self.dirname, 'manifests', self.package))
 
     def to_xml(self):
