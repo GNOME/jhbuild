@@ -5,7 +5,6 @@ app_PYTHON = \
 	cmds.py \
 	fileutils.py \
 	httpcache.py \
-	lockfile.py \
 	notify.py \
 	packagedb.py \
 	sxml.py \
