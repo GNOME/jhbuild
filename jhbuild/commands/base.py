@@ -62,10 +62,7 @@ class cmd_update(Command):
     def run(self, config, options, args, help=None):
         config.set_from_cmdline_options(options)
         module_set = jhbuild.moduleset.load(config)
-        module_list = module_set.get_module_list(args or config.modules,
-                config.skip, tags=config.tags,
-                include_suggests=not config.ignore_suggests,
-                include_afters=not config.ignore_after)
+        module_list = module_set.get_module_list(args or config.modules, config.skip, tags=config.tags)
         # remove modules up to startat
         if options.startat:
             while module_list and module_list[0].name != options.startat:
@@ -232,10 +229,7 @@ class cmd_build(BuildCommand):
 
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
-        full_module_list = module_set.get_full_module_list \
-                               (modules, config.skip,
-                                include_suggests=not config.ignore_suggests,
-                                include_afters=not config.ignore_after)
+        full_module_list = module_set.get_full_module_list (modules, config.skip)
         full_module_list = module_set.remove_tag_modules(full_module_list,
                                                          config.tags)
         module_list = module_set.remove_system_modules(full_module_list)
@@ -459,11 +453,7 @@ class cmd_list(Command):
         if options.list_all_modules:
             module_list = module_set.modules.values()
         else:
-            module_list = module_set.get_module_list \
-                              (args or config.modules, config.skip,
-                               tags=config.tags,
-                               include_suggests= not config.ignore_suggests,
-                               include_afters=not config.ignore_after)
+            module_list = module_set.get_module_list (args or config.modules, config.skip, tags=config.tags)
 
         # remove modules up to startat
         if options.startat:

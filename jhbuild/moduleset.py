@@ -97,17 +97,14 @@ class ModuleSet:
                 return self.modules[module]
         raise KeyError(module_name)
 
-    def get_module_list(self, module_names, skip=[], tags=[],
-                        include_suggests=True, include_afters=True):
-        module_list = self.get_full_module_list(module_names, skip,
-                                                include_suggests,
-                                                include_afters)
+    def get_module_list(self, module_names, skip=[], tags=[], include_suggests=None, include_afters=None):
+        module_list = self.get_full_module_list(module_names, skip, include_suggests, include_afters)
         module_list = self.remove_system_modules(module_list)
         module_list = self.remove_tag_modules(module_list, tags)
         return module_list
 
     def get_full_module_list(self, module_names='all', skip=[],
-                                include_suggests=True, include_afters=True,
+                                include_suggests=None, include_afters=None,
                                 warn_about_circular_dependencies=True):
 
         def add_module(to_build, name, seen = []):
@@ -173,6 +170,12 @@ class ModuleSet:
                     add_module(to_build, dep)
 
             return True
+
+        if include_afters is None:
+            include_afters = not self.config.ignore_after
+
+        if include_suggests is None:
+            include_suggests = not self.config.ignore_suggests
 
         if module_names == 'all':
             module_names = self.modules.keys()
