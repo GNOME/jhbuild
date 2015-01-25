@@ -49,7 +49,10 @@ if os.path.exists(os.path.expanduser('~/checkout/gnome')):
 else:
     checkoutroot = '~/jhbuild/checkout/'
 
-tarballdir = '~/jhbuild/downloads/'
+xdg_cache_home = os.environ.get('XDG_CACHE_HOME',
+                                os.path.join(os.path.expanduser('~'),
+                                             '.cache'))
+tarballdir = os.path.join(xdg_cache_home, 'jhbuild', 'downloads')
 
 buildroot = None     # if set, packages will be built with srcdir!=builddir
 
