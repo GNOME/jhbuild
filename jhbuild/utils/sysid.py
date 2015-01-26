@@ -74,7 +74,7 @@ def read_os_release():
     default_conditions.add(fields['ID'])
 
     if 'ID_LIKE' in fields:
-        default_conditions.union(fields['ID_LIKE'].split(' '))
+        default_conditions.update(fields['ID_LIKE'].split(' '))
 
     return True
 
