@@ -98,14 +98,14 @@ class ModuleSet:
         raise KeyError(module_name)
 
     def get_module_list(self, module_names, skip=[], tags=[], include_suggests=None, include_afters=None):
-        module_list = self.get_full_module_list(module_names, skip, include_suggests, include_afters)
-        module_list = self.remove_system_modules(module_list)
+        module_list = self.get_full_module_list(module_names, skip, include_suggests, include_afters,
+                                                exclude_system=True)
         module_list = self.remove_tag_modules(module_list, tags)
         return module_list
 
     def get_full_module_list(self, module_names='all', skip=[],
                                 include_suggests=None, include_afters=None,
-                                warn_about_circular_dependencies=True):
+                                exclude_system=False, warn_about_circular_dependencies=True):
 
         def add_module(to_build, name, seen = []):
             ''' Recursive depth-first search of the dependency tree. Creates
@@ -145,6 +145,19 @@ class ModuleSet:
 
                 return False
 
+            # exclude system modules, as appropriate
+            if not toplevel and exclude_system:
+                # exclude straight-up system modules
+                if isinstance(module, SystemModule):
+                    return True
+
+                # also skip if the pkg-config is installed on the system (but see below:
+                # installed_pkgconfig will be empty if partial_build is disabled)
+                if module.pkg_config and isinstance(module.branch, TarballBranch):
+                    installed_version = installed_pkgconfig.get(module.pkg_config[:-3]) # Strip off the .pc
+                    if installed_version is not None and compare_version(installed_version, module.branch.version):
+                        return True
+
             # construct a new list so that we can avoid unwinding
             seen = seen + [module]
 
@@ -179,6 +192,14 @@ class ModuleSet:
 
         if module_names == 'all':
             module_names = self.modules.keys()
+
+        # Only populate this if we are in partial build mode.  If
+        # partial_build is disabled then act as if there is nothing
+        # installed on the system.
+        if exclude_system and self.config.partial_build:
+            installed_pkgconfig = systeminstall.get_installed_pkgconfigs (self.config)
+        else:
+            installed_pkgconfig = dict()
 
         to_build = []
         for name in module_names:
@@ -232,32 +253,6 @@ class ModuleSet:
                 module_state[module] = (required_version, installed_version,
                                         new_enough, systemmodule)
         return module_state
-
-    def remove_system_modules(self, modules):
-        if not self.config.partial_build:
-            return [module for module in modules \
-                    if not isinstance(module, SystemModule)]
-
-        return_list = []
-
-        installed_pkgconfig = systeminstall.get_installed_pkgconfigs \
-                                (self.config)
-
-        for module in modules:
-            if isinstance(module, SystemModule):
-                continue
-            skip = False
-            if module.pkg_config is not None and \
-            isinstance(module.branch, TarballBranch):
-                # Strip off the .pc
-                module_pkg = module.pkg_config[:-3]
-                required_version = module.branch.version
-                if module_pkg in installed_pkgconfig:
-                    installed_version = installed_pkgconfig[module_pkg]
-                    skip = compare_version(installed_version, required_version)
-            if not skip:
-                return_list.append(module)
-        return return_list
 
     def remove_tag_modules(self, modules, tags):
         if tags:

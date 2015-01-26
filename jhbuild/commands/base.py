@@ -424,6 +424,9 @@ class cmd_list(Command):
             make_option('-r', '--show-revision',
                         action='store_true', dest='show_rev', default=False,
                         help=_('show which revision will be built')),
+            make_option('-d','--show-depends',
+                        action='store_true', dest='show_depends', default=False,
+                        help=_('for each module, list its direct dependencies')),
             make_option('-s', '--skip', metavar='MODULES',
                         action='append', dest='skip', default=[],
                         help=_('treat the given modules as up to date')),
@@ -441,7 +444,7 @@ class cmd_list(Command):
                         help=_('also list soft-dependencies that could be skipped')),
             make_option('-a', '--all-modules',
                         action='store_true', dest='list_all_modules', default=False,
-                        help=_('list all modules, not only those that would be built')),
+                        help=_('list all modules, not only those that would be built'))
             ])
 
     def run(self, config, options, args, help=None):
@@ -449,6 +452,9 @@ class cmd_list(Command):
         module_set = jhbuild.moduleset.load(config)
         if options.startat and options.list_all_modules:
             raise UsageError(_('Conflicting options specified (\'--start-at\' and \'--all-modules\')'))
+
+        if options.show_rev and options.show_depends:
+            raise UsageError(_('Conflicting options specified (\'--show-rev\' and \'--show-depends\')'))
 
         if options.list_all_modules:
             module_list = module_set.modules.values()
@@ -469,6 +475,8 @@ class cmd_list(Command):
                     uprint('%s (%s)' % (mod.name, rev))
                 else:
                     uprint(mod.name)
+            elif options.show_depends:
+                uprint(' '.join([mod.name] + mod.get_mixed_deps()))
             else:
                 uprint(mod.name)
 
