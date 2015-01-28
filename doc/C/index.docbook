@@ -2781,7 +2781,8 @@ Optional packages: (JHBuild will build the missing packages)
 	      [ uninstall-before-install="<replaceable>uninstall-before-install</replaceable>" ]
 	      [ autogen-template="<replaceable>autogen-template</replaceable>" ]
 	      [ check-target="<replaceable>check-target</replaceable>" ]
-	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]&gt;
+	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]
+	      [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
     [...]
@@ -2835,6 +2836,10 @@ Optional packages: (JHBuild will build the missing packages)
           <sgmltag class="attribute">supports-non-srcdir-builds</sgmltag>
           attribute is used to mark modules that can't be cleanly built using a
           separate source directory.</para>
+
+        <para>The <sgmltag class="attribute">force-non-srcdir-builds</sgmltag>
+          attribute is used to mark modules that can't be cleanly built from
+          the source directory, but can be built from outside it.</para>
 
         <para>The <sgmltag class="attribute">autogen-template</sgmltag>
           attribute can be used if you need finer control over the autogen

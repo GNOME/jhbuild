@@ -44,6 +44,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
         self.cmakeargs = cmakeargs
         self.supports_non_srcdir_builds = True
+        self.force_non_srcdir_builds = False
         self.supports_install_destdir = True
 
     def eval_args(self, args):
@@ -55,12 +56,14 @@ class CMakeModule(MakeModule, DownloadableModule):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
+        builddir = self.get_srcdir(buildscript)
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern % (
                 self.branch.checkoutdir or self.branch.get_module_basename())
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return self.get_srcdir(buildscript)
+            builddir = os.path.join(buildscript.config.buildroot, d)
+        if self.force_non_srcdir_builds and builddir == self.get_srcdir(buildscript):
+            builddir = os.path.join(builddir, 'build')
+        return builddir
 
     def get_cmakeargs(self):
         args = '%s %s' % (self.cmakeargs,
@@ -72,7 +75,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        if buildscript.config.buildroot and not os.path.exists(builddir):
+        if not os.path.exists(builddir):
             os.makedirs(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
@@ -145,6 +148,9 @@ def parse_cmake(node, config, uri, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
                 (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('force-non-srcdir-builds'):
+        instance.force_non_srcdir_builds = \
+                (node.getAttribute('force-non-srcdir-builds') != 'no')
     if node.hasAttribute('cmakeargs'):
         instance.cmakeargs = node.getAttribute('cmakeargs')
     if node.hasAttribute('makeargs'):
