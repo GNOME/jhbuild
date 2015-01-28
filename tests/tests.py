@@ -88,7 +88,8 @@ class TestConfig(jhbuild.config.Config):
         pass
 
     def real_setup_env(self):
-        jhbuild.config.Config.setup_env(self)
+        from jhbuild.environment import setup_env
+        setup_env(self.prefix)
 
 class JhbuildConfigTestCase(unittest.TestCase):
     """A test case that creates a mock configuration and temporary directory."""
