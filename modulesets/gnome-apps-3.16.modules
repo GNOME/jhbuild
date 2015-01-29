@@ -281,6 +281,16 @@
     </dependencies>
   </autotools>
 
+  <autotools id="usbredir">
+    <branch repo="spice"
+            module="usbredir/usbredir-0.7.tar.bz2"
+            version="0.7"
+            hash="sha256:0a63a0712b5dc62be9cca44f97270fea5d1ec1fe7dde0c11dc74a01c8e2006aa"/>
+    <dependencies>
+      <dep package="libusb1"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-static">
     <if condition-set="freebsd">
       <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl'"/>
@@ -302,6 +312,7 @@
       <dep package="pixman"/>
       <dep package="pulseaudio"/>
       <dep package="spice-protocol"/>
+      <dep package="usbredir"/>
       <dep package="vala"/>
       <dep package="zlib"/>
     </dependencies>
@@ -652,6 +663,7 @@
       <dep package="libxml2"/>
       <dep package="gtk-vnc"/>
       <dep package="libosinfo"/>
+      <dep package="libusb1"/>
       <dep package="libvirt-glib"/>
       <dep package="gtk+"/>
       <dep package="spice-gtk"/>
