@@ -4,15 +4,15 @@
 #
 # Lucas Lommer <llommer@svn.gnome.org>, 2010, 2012.
 # Jachym Simak <xsimi@xsimi.cz>, 2010.
-# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-10 21:47+0000\n"
-"PO-Revision-Date: 2014-10-29 19:45+0100\n"
+"POT-Creation-Date: 2015-02-01 13:35+0000\n"
+"PO-Revision-Date: 2015-02-03 09:04+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -157,7 +157,7 @@ msgstr "Aktualizovat jeden nebo více modulů ze systému správy verzí"
 
 #: ../jhbuild/commands/base.py:104 ../jhbuild/commands/base.py:142
 #: ../jhbuild/commands/base.py:383 ../jhbuild/commands/rdepends.py:52
-#: ../jhbuild/moduleset.py:165
+#: ../jhbuild/moduleset.py:180
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Nebyl nalezen modul s názvem „%s“."
@@ -332,8 +332,8 @@ msgstr "Zadané přepínače jsou v konfliktu („--start-at“ a „--all-modul
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Zobrazit graf závislostí Graphviz pro jeden nebo více modulů"
 
-#: ../jhbuild/commands/base.py:494 ../jhbuild/commands/info.py:39
-#: ../jhbuild/commands/uninstall.py:34
+#: ../jhbuild/commands/base.py:494 ../jhbuild/commands/base.py:527
+#: ../jhbuild/commands/info.py:39 ../jhbuild/commands/uninstall.py:34
 msgid "[ modules ... ]"
 msgstr "[moduly …]"
 
@@ -344,6 +344,10 @@ msgstr "přidat tečkované řádky do měkkých závislostí"
 #: ../jhbuild/commands/base.py:503
 msgid "group modules from metamodule together"
 msgstr "seskupit moduly z metamodulu dohromady"
+
+#: ../jhbuild/commands/base.py:524
+msgid "Run post-install triggers for named modules (or all)"
+msgstr "Spustit poinstalační spouštěče pro pojmenované moduly (nebo všechny)"
 
 #: ../jhbuild/commands/bootstrap.py:24
 msgid "Build support tools"
@@ -601,43 +605,43 @@ msgstr "Po:"
 msgid "Before:"
 msgstr "Před:"
 
-#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:49
+#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:57
 #, python-format
 msgid "required=%s"
 msgstr "vyžadováno=%s"
 
-#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:51
+#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:59
 #, python-format
 msgid "installed=%s"
 msgstr "instalováno=%s"
 
 #. Translators: This is used to separate items of package metadata
-#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:53
+#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:61
 msgid ", "
 msgstr ", "
 
-#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:55
+#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:63
 #, python-format
 msgid "(%s)"
 msgstr "(%s)"
 
-#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:80
+#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:133
 msgid "Required packages:"
 msgstr "Vyžadovené balíčky:"
 
-#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:81
-#: ../jhbuild/commands/sysdeps.py:124
+#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:134
+#: ../jhbuild/commands/sysdeps.py:165
 msgid "  System installed packages which are too old:"
 msgstr "  Balíčky nainstalované v systému, které jsou příliš staré:"
 
 #: ../jhbuild/commands/__init__.py:105 ../jhbuild/commands/__init__.py:117
-#: ../jhbuild/commands/sysdeps.py:90 ../jhbuild/commands/sysdeps.py:118
-#: ../jhbuild/commands/sysdeps.py:133
+#: ../jhbuild/commands/sysdeps.py:143 ../jhbuild/commands/sysdeps.py:159
+#: ../jhbuild/commands/sysdeps.py:174 ../jhbuild/commands/sysdeps.py:187
 msgid "    (none)"
 msgstr "    (nic)"
 
-#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:92
-#: ../jhbuild/commands/sysdeps.py:135
+#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:145
+#: ../jhbuild/commands/sysdeps.py:176
 msgid "  No matching system package installed:"
 msgstr "  Nainstalované balíčky neodpovídající systému:"
 
@@ -719,12 +723,12 @@ msgstr "prefix instalace (%s) nemá povolen zápis"
 #: ../jhbuild/commands/sanitycheck.py:141
 #: ../jhbuild/commands/sanitycheck.py:147
 #: ../jhbuild/commands/sanitycheck.py:149
-#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:79
-#: ../jhbuild/versioncontrol/bzr.py:215 ../jhbuild/versioncontrol/cvs.py:297
+#: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:82
+#: ../jhbuild/versioncontrol/bzr.py:218 ../jhbuild/versioncontrol/cvs.py:300
 #: ../jhbuild/versioncontrol/darcs.py:110
 #: ../jhbuild/versioncontrol/fossil.py:107
-#: ../jhbuild/versioncontrol/git.py:457 ../jhbuild/versioncontrol/hg.py:103
-#: ../jhbuild/versioncontrol/mtn.py:142 ../jhbuild/versioncontrol/svn.py:313
+#: ../jhbuild/versioncontrol/git.py:460 ../jhbuild/versioncontrol/hg.py:106
+#: ../jhbuild/versioncontrol/mtn.py:142 ../jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
 msgstr "%s nenalezeno"
@@ -786,28 +790,36 @@ msgstr ""
 msgid "Print out a moduleset for the exact versions that are checked out"
 msgstr "Vypsat sady modulů pro přesné verze, které jsou kontrolovány"
 
-#: ../jhbuild/commands/sysdeps.py:32
+#: ../jhbuild/commands/sysdeps.py:34
 msgid "Check and install tarball dependencies using system packages"
 msgstr ""
 "Zkontrolovat a nainstalovat závislosti balíčku pomocí systémových balíčků"
 
-#: ../jhbuild/commands/sysdeps.py:40
+#: ../jhbuild/commands/sysdeps.py:42
+msgid "Machine readable list of missing sysdeps"
+msgstr "Strojově čitelný seznam chybějících systémových závislostí"
+
+#: ../jhbuild/commands/sysdeps.py:45
+msgid "Machine readable list of all sysdeps"
+msgstr "Strojově čitelný seznam všech systémových závislostí"
+
+#: ../jhbuild/commands/sysdeps.py:48
 msgid "Install pkg-config modules via system"
 msgstr "Instalovat přes systém moduly pkg-config"
 
-#: ../jhbuild/commands/sysdeps.py:69
+#: ../jhbuild/commands/sysdeps.py:122
 msgid "System installed packages which are new enough:"
 msgstr "Balíčky nainstalované v systému, které nejsou dostatečně nové:"
 
-#: ../jhbuild/commands/sysdeps.py:78 ../jhbuild/commands/sysdeps.py:148
+#: ../jhbuild/commands/sysdeps.py:131
 msgid "  (none)"
 msgstr "  (nic)"
 
-#: ../jhbuild/commands/sysdeps.py:123
+#: ../jhbuild/commands/sysdeps.py:164
 msgid "Optional packages: (JHBuild will build the missing packages)"
 msgstr "Volitelné balíčky: (JHBuild chybějící balíčky sestaví)"
 
-#: ../jhbuild/commands/sysdeps.py:156
+#: ../jhbuild/commands/sysdeps.py:195
 #, python-format
 msgid ""
 "%(cmd)s is required to install packages on this system. Please install "
@@ -815,17 +827,17 @@ msgid ""
 msgstr ""
 "Instalace balíčků do systému vyžaduje %(cmd)s. Nainstalujte prosím %(cmd)s."
 
-#: ../jhbuild/commands/sysdeps.py:161
+#: ../jhbuild/commands/sysdeps.py:200
 msgid "Don't know how to install packages on this system"
 msgstr "Není známo, jak na tomto systému instalovat balíčky"
 
-#: ../jhbuild/commands/sysdeps.py:165
+#: ../jhbuild/commands/sysdeps.py:203
 #, python-format
 msgid "No uninstalled system dependencies to install for modules: %r"
 msgstr ""
 "Pro instalaci modulů nejsou žádné odinstalační systémové závislosti: %r"
 
-#: ../jhbuild/commands/sysdeps.py:167
+#: ../jhbuild/commands/sysdeps.py:205
 #, python-format
 msgid "Installing dependencies on system: %s"
 msgstr "Instalují se závislosti na systému: %s"
@@ -862,21 +874,21 @@ msgstr ""
 msgid "Module %(mod)r is not installed"
 msgstr "Modul %(mod)r není nainstalován"
 
-#: ../jhbuild/config.py:113
+#: ../jhbuild/config.py:91
 #, python-format
 msgid "Invalid condition set modifier: '%s'.  Must start with '+' or '-'."
 msgstr "Neplatný modifikátor sady podmínek: „%s“. Musí začínat „+“ nebo „-“."
 
-#: ../jhbuild/config.py:136
+#: ../jhbuild/config.py:114
 msgid "could not load config defaults"
 msgstr "nelze nahrát výchozí nastavení"
 
-#: ../jhbuild/config.py:147
+#: ../jhbuild/config.py:125
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "nelze nahrát soubor s nastavením, %s chybí"
 
-#: ../jhbuild/config.py:153
+#: ../jhbuild/config.py:131
 #, python-format
 msgid ""
 "The default location of the configuration file has changed. Please move "
@@ -885,21 +897,21 @@ msgstr ""
 "Výchozí umístění konfiguračního souboru se změnilo. Přesuňte prosím "
 "%(old_path)s do %(new_path)s."
 
-#: ../jhbuild/config.py:212
+#: ../jhbuild/config.py:190
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Nelze zahrnout soubor s nastavením (%s)"
 
-#: ../jhbuild/config.py:226
+#: ../jhbuild/config.py:204
 msgid "could not load config file"
 msgstr "nelze načíst soubor s nastavením"
 
-#: ../jhbuild/config.py:240
+#: ../jhbuild/config.py:218
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "v souboru s nastavením jsou definovány neznámé klíče: %s"
 
-#: ../jhbuild/config.py:247
+#: ../jhbuild/config.py:225
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use "
@@ -907,48 +919,48 @@ msgid ""
 msgstr ""
 "proměnná nastavení „%s“ je zavržená, měli byste použít „repos['gnome.org']“."
 
-#: ../jhbuild/config.py:252 ../jhbuild/config.py:257
+#: ../jhbuild/config.py:230 ../jhbuild/config.py:235
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr "proměnná nastavení „%s“ je zavržená, měli byste použít „repos“."
 
-#: ../jhbuild/config.py:291
+#: ../jhbuild/config.py:269
 msgid "invalid checkout mode"
 msgstr "neplatný režim kontroly"
 
-#: ../jhbuild/config.py:295
+#: ../jhbuild/config.py:273
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "neplatný režim kontroly (modul: %s)"
 
-#: ../jhbuild/config.py:297
+#: ../jhbuild/config.py:275
 msgid "copy mode requires copy_dir to be set"
 msgstr "režim kopírování vyžaduje nastavení copy_dir"
 
-#: ../jhbuild/config.py:302
+#: ../jhbuild/config.py:280
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr ""
 "složka sady modulů (%s) nebyla nalezena, zakazuje se „use_local_modulesets“"
 
-#: ../jhbuild/config.py:308 ../jhbuild/config.py:310 ../jhbuild/config.py:312
-#: ../jhbuild/config.py:314 ../jhbuild/config.py:317
+#: ../jhbuild/config.py:286 ../jhbuild/config.py:288 ../jhbuild/config.py:290
+#: ../jhbuild/config.py:292 ../jhbuild/config.py:295
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s musí být absolutní cesta"
 
-#: ../jhbuild/config.py:328
+#: ../jhbuild/config.py:306
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "nelze vytvořit prefix instalace (%s)"
 
-#: ../jhbuild/config.py:335
+#: ../jhbuild/config.py:313
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "pracovní složka (%s) nemohla být vytvořena"
 
-#: ../jhbuild/config.py:338
+#: ../jhbuild/config.py:316
 msgid ""
 "Your install prefix contains a 'lib64' directory, which is no longer "
 "supported by jhbuild.  This is likely the result of a previous build with an "
@@ -960,11 +972,11 @@ msgstr ""
 "verze jhbuild nebo poškozeného balíčku. Zvažte prosím možnost odstranění své "
 "instalace, kontroly složek a spuštění sestavení od čistého stolu."
 
-#: ../jhbuild/config.py:416
+#: ../jhbuild/config.py:394
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Nelze zpracovat relativní čas „min_age“"
 
-#: ../jhbuild/config.py:430
+#: ../jhbuild/config.py:408
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr "je vypnut tichý režim, protože modul „curses“ jazyka Python chybí."
@@ -1050,12 +1062,17 @@ msgstr "modul %(mod)s bude sestaven navzdory selhání %(dep)s"
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modul %(mod)s nebyl sestaven vzhledem k nemožnosti sestavit %(dep)s"
 
-#: ../jhbuild/frontends/buildscript.py:248
+#: ../jhbuild/frontends/buildscript.py:238
+#, python-format
+msgid "Ignoring uninstalled package: %s"
+msgstr "Ignoruje se odinstalovaný balíček: %s"
+
+#: ../jhbuild/frontends/buildscript.py:257
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Běží skript post-install spouštěný po instalaci: %r"
 
-#: ../jhbuild/frontends/buildscript.py:256 ../jhbuild/frontends/gtkui.py:596
+#: ../jhbuild/frontends/buildscript.py:265 ../jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "Příkaz %(command)s vrátil chybový kód (%(rc)s)"
@@ -1150,8 +1167,8 @@ msgstr "Vždy spustit „autogen.sh“"
 msgid "Don't poison modules on failure"
 msgstr "Nezkazit moduly při selhání"
 
-#: ../jhbuild/frontends/terminal.py:180 ../jhbuild/frontends/tinderbox.py:251
-#: ../jhbuild/frontends/tinderbox.py:384 ../jhbuild/frontends/tinderbox.py:439
+#: ../jhbuild/frontends/terminal.py:180 ../jhbuild/frontends/tinderbox.py:219
+#: ../jhbuild/frontends/tinderbox.py:348 ../jhbuild/frontends/tinderbox.py:403
 #, python-format
 msgid "%(configuration_variable)s invalid key %(key)s"
 msgstr "V proměnné %(configuration_variable)s je neplatný klíč %(key)s"
@@ -1178,11 +1195,11 @@ msgstr "úspěch"
 msgid "the following modules were not built"
 msgstr "následující moduly nebyly sestaveny"
 
-#: ../jhbuild/frontends/terminal.py:301 ../jhbuild/frontends/tinderbox.py:415
+#: ../jhbuild/frontends/terminal.py:301 ../jhbuild/frontends/tinderbox.py:379
 msgid "automatically retrying configure"
 msgstr "automaticky zkusit příkaz „configure“ znovu"
 
-#: ../jhbuild/frontends/terminal.py:305 ../jhbuild/frontends/tinderbox.py:420
+#: ../jhbuild/frontends/terminal.py:305 ../jhbuild/frontends/tinderbox.py:384
 msgid "automatically forcing a fresh checkout"
 msgstr "automaticky získat čerstvou místní kopii"
 
@@ -1258,50 +1275,50 @@ msgstr "Přerušeno"
 msgid "EOF"
 msgstr "Konec souboru (EOF)"
 
-#: ../jhbuild/modtypes/autotools.py:211 ../jhbuild/modtypes/cmake.py:72
+#: ../jhbuild/modtypes/autotools.py:212 ../jhbuild/modtypes/cmake.py:75
 #: ../jhbuild/modtypes/linux.py:109 ../jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "Nastavuje se"
 
-#: ../jhbuild/modtypes/autotools.py:251 ../jhbuild/modtypes/cmake.py:98
+#: ../jhbuild/modtypes/autotools.py:239 ../jhbuild/modtypes/cmake.py:101
 #: ../jhbuild/modtypes/linux.py:141 ../jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Čistí se"
 
-#: ../jhbuild/modtypes/autotools.py:260 ../jhbuild/modtypes/cmake.py:107
+#: ../jhbuild/modtypes/autotools.py:245 ../jhbuild/modtypes/cmake.py:108
 #: ../jhbuild/modtypes/distutils.py:57 ../jhbuild/modtypes/linux.py:154
 #: ../jhbuild/modtypes/perl.py:52 ../jhbuild/modtypes/waf.py:93
 msgid "Building"
 msgstr "Sestavuje se"
 
-#: ../jhbuild/modtypes/autotools.py:294 ../jhbuild/modtypes/waf.py:111
+#: ../jhbuild/modtypes/autotools.py:276 ../jhbuild/modtypes/waf.py:111
 msgid "Checking"
 msgstr "Kontroluje se"
 
-#: ../jhbuild/modtypes/autotools.py:307 ../jhbuild/modtypes/cmake.py:116
+#: ../jhbuild/modtypes/autotools.py:286 ../jhbuild/modtypes/cmake.py:115
 #: ../jhbuild/modtypes/waf.py:123
 msgid "Creating tarball for"
 msgstr "Vytváří se balíček tarball pro"
 
-#: ../jhbuild/modtypes/autotools.py:316
+#: ../jhbuild/modtypes/autotools.py:292
 msgid "Dist checking"
 msgstr "Kontroluje se distribuce (distcheck)"
 
-#: ../jhbuild/modtypes/autotools.py:325
+#: ../jhbuild/modtypes/autotools.py:301
 msgid "Uninstalling old installed version"
 msgstr "Odinstalovává se stará nainstalovaná verze"
 
-#: ../jhbuild/modtypes/autotools.py:331 ../jhbuild/modtypes/cmake.py:125
+#: ../jhbuild/modtypes/autotools.py:304 ../jhbuild/modtypes/cmake.py:121
 #: ../jhbuild/modtypes/distutils.py:69 ../jhbuild/modtypes/perl.py:66
 #: ../jhbuild/modtypes/waf.py:134
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: ../jhbuild/modtypes/autotools.py:360
+#: ../jhbuild/modtypes/autotools.py:325
 msgid "Distcleaning"
 msgstr "Čistí se distribuce (distclean)"
 
-#: ../jhbuild/modtypes/autotools.py:395
+#: ../jhbuild/modtypes/autotools.py:357
 #, python-format
 msgid "<%s/> tag must contain value=''"
 msgstr "značka <%s/> musí obsahovat value=''"
@@ -1350,12 +1367,12 @@ msgstr ""
 msgid "Deleting .la file: %r"
 msgstr "Maže se soubor .la: %r"
 
-#: ../jhbuild/modtypes/__init__.py:309
+#: ../jhbuild/modtypes/__init__.py:302
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "Přesouvá se dočasná složka DESTDIR %r do prefixu sestavení"
 
-#: ../jhbuild/modtypes/__init__.py:331
+#: ../jhbuild/modtypes/__init__.py:324
 #, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
@@ -1364,27 +1381,27 @@ msgstr ""
 "Přejmenovávají se soubory v kořeni sestavení %(dest)r; moduly mohou mít "
 "soubory nainstalovány mimo prefix instalace."
 
-#: ../jhbuild/modtypes/__init__.py:349
+#: ../jhbuild/modtypes/__init__.py:342
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
 msgstr "Selhala instalace modulu od DESTDIR %(dest)r"
 
-#: ../jhbuild/modtypes/__init__.py:359
+#: ../jhbuild/modtypes/__init__.py:358
 #, python-format
 msgid "%d files remaining from previous build"
 msgstr "Zbývá %d souborů z předchozího sestavení"
 
-#: ../jhbuild/modtypes/__init__.py:362 ../jhbuild/utils/packagedb.py:282
+#: ../jhbuild/modtypes/__init__.py:361 ../jhbuild/utils/packagedb.py:226
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Smazáno: %(file)r"
 
-#: ../jhbuild/modtypes/__init__.py:367
+#: ../jhbuild/modtypes/__init__.py:366
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
 msgstr "Selhalo smazání souboru %(file)r, který již není nainstalován: %(msg)s"
 
-#: ../jhbuild/modtypes/__init__.py:375
+#: ../jhbuild/modtypes/__init__.py:374
 #, python-format
 msgid ""
 "Install encountered errors: %(num)d errors raised, %(files)d files copied. "
@@ -1395,32 +1412,32 @@ msgstr ""
 "%(files)d souborů. Chyby jsou:\n"
 "  %(err)s"
 
-#: ../jhbuild/modtypes/__init__.py:382
+#: ../jhbuild/modtypes/__init__.py:381
 #, python-format
 msgid "Install complete: %d files copied"
 msgstr "Instalace dokončena: %d souborů zkopírováno"
 
-#: ../jhbuild/modtypes/__init__.py:430
+#: ../jhbuild/modtypes/__init__.py:429
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Přeskakuje se %s (nebyl aktualizován)"
 
-#: ../jhbuild/modtypes/__init__.py:442
+#: ../jhbuild/modtypes/__init__.py:441
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Přeskakuje se %s (balíček a závislosti nebyly aktualizovány)"
 
-#: ../jhbuild/modtypes/__init__.py:531 ../jhbuild/modtypes/__init__.py:549
+#: ../jhbuild/modtypes/__init__.py:550 ../jhbuild/modtypes/__init__.py:568
 #: ../jhbuild/modtypes/linux.py:81 ../jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "Zkontrolovat"
 
-#: ../jhbuild/modtypes/__init__.py:535
+#: ../jhbuild/modtypes/__init__.py:554
 #, python-format
 msgid "source directory %s was not created"
 msgstr "zdrojová složka %s nebyla vytvořena"
 
-#: ../jhbuild/modtypes/__init__.py:552
+#: ../jhbuild/modtypes/__init__.py:571
 msgid "wipe directory and start over"
 msgstr "vyčistit složku a začít znovu"
 
@@ -1472,44 +1489,44 @@ msgstr "modul „%(module)s“ má neplatný atribut „size“ („%(size)s“)
 msgid "Python XML packages are required but could not be found"
 msgstr "Je potřeba balík Python XML, ten však nebyl nalezen"
 
-#: ../jhbuild/moduleset.py:79
+#: ../jhbuild/moduleset.py:94
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "opravená verze modulu „%(orig)s“ do „%(new)s“"
 
-#: ../jhbuild/moduleset.py:118
+#: ../jhbuild/moduleset.py:133
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s má závislost na neznámém modul „%(invalid)s“"
 
-#: ../jhbuild/moduleset.py:131
+#: ../jhbuild/moduleset.py:146
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Detekovány cyklické závislosti: %s"
 
-#: ../jhbuild/moduleset.py:282
+#: ../jhbuild/moduleset.py:297
 msgid "Unknown module:"
 msgstr "Neznámý modul:"
 
-#: ../jhbuild/moduleset.py:408
+#: ../jhbuild/moduleset.py:423
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> musí mít právě jedno z condition-set='' nebo condition-unset=''"
 
-#: ../jhbuild/moduleset.py:427
+#: ../jhbuild/moduleset.py:442
 #, python-format
 msgid "could not download %s: %s"
 msgstr "nepodařilo se stáhnout %s: %s"
 
-#: ../jhbuild/moduleset.py:432 ../jhbuild/moduleset.py:434
+#: ../jhbuild/moduleset.py:447 ../jhbuild/moduleset.py:449
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "nepodařilo se zpracovat %s: %s"
 
-#: ../jhbuild/moduleset.py:464
+#: ../jhbuild/moduleset.py:479
 msgid "Duplicate repository:"
 msgstr "Duplicitní repozitář:"
 
-#: ../jhbuild/moduleset.py:567
+#: ../jhbuild/moduleset.py:594
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1527,32 +1544,12 @@ msgstr "Zavolán nedefinovaný příkaz"
 msgid "file not in cache, but not allowed to check network"
 msgstr "soubor není v mezipaměti a není ani povolen přístup k síti"
 
-#: ../jhbuild/utils/lockfile.py:108
-#, python-format
-msgid "Removing stale lock left by no longer extant pid %(pid)d, uid %(uid)d"
-msgstr ""
-"Odstraňuje se starý zámek, který zůstal po již neexistujícím pid %(pid)d, "
-"uid %(uid)d"
-
-#: ../jhbuild/utils/lockfile.py:120
-#, python-format
-msgid ""
-"Lock %(path)r taken by pid %(pid)d; waiting for it to exit.  Press Control-C "
-"to interrupt."
-msgstr ""
-"Zámek %(path)r nasazený pid %(pid)d; čeká se na ukončení. Pro přerušení "
-"zmáčkněte Control-C."
-
-#: ../jhbuild/utils/packagedb.py:75
+#: ../jhbuild/utils/packagedb.py:73
 #, python-format
 msgid "package %s has files with embedded new lines"
 msgstr "balíček %s má soubory s vloženými novými řádky"
 
-#: ../jhbuild/utils/packagedb.py:158
-msgid "Package DB modified externally, rereading"
-msgstr "Databáze balíčku byla externě změněna, načítá se znovu"
-
-#: ../jhbuild/utils/packagedb.py:269
+#: ../jhbuild/utils/packagedb.py:213
 #, python-format
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
@@ -1561,27 +1558,27 @@ msgstr ""
 "neexistuje seznam souborů pro „%s“, nelze odinstalovat. Zkuste znovu "
 "sestavit a pak odinstalovat."
 
-#: ../jhbuild/utils/packagedb.py:286
+#: ../jhbuild/utils/packagedb.py:230
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Selhalo smazání %(file)r: %(msg)s"
 
-#: ../jhbuild/utils/systeminstall.py:142
+#: ../jhbuild/utils/systeminstall.py:187
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr ""
 "Nebyl nalezen žádný vhodný program pro povýšení na práva superuživatele "
 "root. Měli byste nainstalovat „pkexec“"
 
-#: ../jhbuild/utils/systeminstall.py:174 ../jhbuild/utils/systeminstall.py:177
+#: ../jhbuild/utils/systeminstall.py:217 ../jhbuild/utils/systeminstall.py:220
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: ../jhbuild/utils/systeminstall.py:253
+#: ../jhbuild/utils/systeminstall.py:299
 msgid "Nothing available to install"
 msgstr "Není nic k dispozici k instalaci"
 
-#: ../jhbuild/utils/systeminstall.py:256
+#: ../jhbuild/utils/systeminstall.py:302
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1590,15 +1587,15 @@ msgstr ""
 "Instaluje se:\n"
 "  %s"
 
-#: ../jhbuild/utils/systeminstall.py:262
+#: ../jhbuild/utils/systeminstall.py:318
 msgid "Complete!"
 msgstr "Hotovo!"
 
-#: ../jhbuild/utils/systeminstall.py:273
+#: ../jhbuild/utils/systeminstall.py:330
 msgid "Using yum to install packages.  Please wait."
 msgstr "Používá se yum k instalaci balíčků. Čekejte prosím."
 
-#: ../jhbuild/utils/systeminstall.py:276
+#: ../jhbuild/utils/systeminstall.py:333
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1607,22 +1604,22 @@ msgstr ""
 "Instaluje se:\n"
 "  %(pkgs)s"
 
-#: ../jhbuild/utils/systeminstall.py:286 ../jhbuild/utils/systeminstall.py:336
+#: ../jhbuild/utils/systeminstall.py:343 ../jhbuild/utils/systeminstall.py:394
 msgid "Nothing to install"
 msgstr "Není nic k dispozici k instalaci"
 
-#: ../jhbuild/utils/systeminstall.py:317
+#: ../jhbuild/utils/systeminstall.py:375
 msgid "Using apt-file to search for providers; this may be slow.  Please wait."
 msgstr ""
 "Použijte apt-file k vyhledání poskytovatelů. Může to ale být pomalé, čekejte "
 "prosím."
 
-#: ../jhbuild/utils/systeminstall.py:326
+#: ../jhbuild/utils/systeminstall.py:384
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Nebyl nalezen žádný originální balíček pro %(id)s (%(filename)s)"
 
-#: ../jhbuild/utils/systeminstall.py:331
+#: ../jhbuild/utils/systeminstall.py:389
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instaluje se: %(pkgs)s"
@@ -1656,11 +1653,11 @@ msgstr ""
 "větev pro %(name)s má nesprávný přepis, zkontrolujte své nastavení "
 "%(filename)s"
 
-#: ../jhbuild/versioncontrol/bzr.py:119
+#: ../jhbuild/versioncontrol/bzr.py:122
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "atribut je zavržený. Použijte místo něj „revspec“."
 
-#: ../jhbuild/versioncontrol/bzr.py:175
+#: ../jhbuild/versioncontrol/bzr.py:178
 #, python-format
 msgid ""
 "\n"
@@ -1681,12 +1678,12 @@ msgstr "nelze se přihlásit do %s\n"
 msgid "%s is not managed by CVS"
 msgstr "%s není spravován pomocí CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:274
+#: ../jhbuild/versioncontrol/cvs.py:277
 #, python-format
 msgid "\"%s\" does not appear to be a CVS working copy"
 msgstr "„%s“ se nezdá být pracovní kopií CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:277
+#: ../jhbuild/versioncontrol/cvs.py:280
 #, python-format
 msgid ""
 "working copy points at the wrong repository (expected %(root1)s but got "
@@ -1695,15 +1692,15 @@ msgstr ""
 "pracovní kopie ukazuje na nesprávný repozitář (očekáván %(root1)s, ale "
 "získán %(root2)s). "
 
-#: ../jhbuild/versioncontrol/cvs.py:279
+#: ../jhbuild/versioncontrol/cvs.py:282
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Zvažte použití skriptu changecvsroot.py k opravě."
 
 #: ../jhbuild/versioncontrol/darcs.py:86 ../jhbuild/versioncontrol/darcs.py:92
 #: ../jhbuild/versioncontrol/fossil.py:84
-#: ../jhbuild/versioncontrol/fossil.py:97 ../jhbuild/versioncontrol/git.py:567
-#: ../jhbuild/versioncontrol/git.py:607 ../jhbuild/versioncontrol/git.py:683
-#: ../jhbuild/versioncontrol/hg.py:87 ../jhbuild/versioncontrol/hg.py:93
+#: ../jhbuild/versioncontrol/fossil.py:97 ../jhbuild/versioncontrol/git.py:570
+#: ../jhbuild/versioncontrol/git.py:610 ../jhbuild/versioncontrol/git.py:686
+#: ../jhbuild/versioncontrol/hg.py:90 ../jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "kontrola založená na datech není zatím podporována\n"
 
@@ -1711,15 +1708,15 @@ msgstr "kontrola založená na datech není zatím podporována\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "ignorovat špatnou redefinici větve pro modul:"
 
-#: ../jhbuild/versioncontrol/git.py:201
+#: ../jhbuild/versioncontrol/git.py:204
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Pro práci je zapotřebí minimálně git-1.5.6 z června 2008"
 
-#: ../jhbuild/versioncontrol/git.py:215
+#: ../jhbuild/versioncontrol/git.py:218
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Neočekáváno: Složka místní kopie není repozitář git:"
 
-#: ../jhbuild/versioncontrol/git.py:271
+#: ../jhbuild/versioncontrol/git.py:274
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1728,21 +1725,21 @@ msgstr ""
 "Požadovaná větev „%s“ není dostupná. Ani místně, ani vzdáleně v repozitáři "
 "origin."
 
-#: ../jhbuild/versioncontrol/git.py:279
+#: ../jhbuild/versioncontrol/git.py:282
 msgid "Refusing to switch a dirty tree."
 msgstr "Odmítá se přepnutí do nečistého stromu."
 
-#: ../jhbuild/versioncontrol/git.py:357
+#: ../jhbuild/versioncontrol/git.py:360
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Příkaz %s nevrátil žádný výstup"
 
-#: ../jhbuild/versioncontrol/git.py:362
+#: ../jhbuild/versioncontrol/git.py:365
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Příkaz %s nezahrnuje zařazovací řádek: %r"
 
-#: ../jhbuild/versioncontrol/git.py:429
+#: ../jhbuild/versioncontrol/git.py:432
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1750,7 +1747,7 @@ msgstr ""
 "Selhala aktualizace modulu, protože je přepnutý do git (měli byste "
 "zkontrolovat změny, než složku odstraníte)."
 
-#: ../jhbuild/versioncontrol/git.py:430
+#: ../jhbuild/versioncontrol/git.py:433
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1758,7 +1755,7 @@ msgstr ""
 "Selhala aktualizace modulu, protože chybí .git (měli byste zkontrolovat "
 "změny, než složku odstraníte)."
 
-#: ../jhbuild/versioncontrol/git.py:534
+#: ../jhbuild/versioncontrol/git.py:537
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1766,12 +1763,12 @@ msgstr ""
 "Externí obsloužení selhalo\n"
 " Jestli používáte git verze < 1.5.6, je doporučeno jej aktualizovat.\n"
 
-#: ../jhbuild/versioncontrol/git.py:579
+#: ../jhbuild/versioncontrol/git.py:582
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Nelze získat poslední revizi z %s. Zkontrolujte umístění modulu."
 
-#: ../jhbuild/versioncontrol/__init__.py:196
+#: ../jhbuild/versioncontrol/__init__.py:199
 #, python-format
 msgid "unknown repository type %s"
 msgstr "neznámý typ repositáře %s"
@@ -1815,7 +1812,7 @@ msgstr "nelze získat adresu URI nástroje Subversion pro %s"
 msgid "could not parse \"svn info\" output for %s"
 msgstr "nelze zpracovat výstup „svn info“ pro %s"
 
-#: ../jhbuild/versioncontrol/svn.py:309
+#: ../jhbuild/versioncontrol/svn.py:312
 msgid "Error checking for conflicts"
 msgstr "Selhala kontrola konfliktů"
 
@@ -1904,3 +1901,19 @@ msgstr "nelze najít program „quilt“"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "nelze zkontrolovat vloženou sadu záplat"
+
+#~ msgid ""
+#~ "Removing stale lock left by no longer extant pid %(pid)d, uid %(uid)d"
+#~ msgstr ""
+#~ "Odstraňuje se starý zámek, který zůstal po již neexistujícím pid %(pid)d, "
+#~ "uid %(uid)d"
+
+#~ msgid ""
+#~ "Lock %(path)r taken by pid %(pid)d; waiting for it to exit.  Press "
+#~ "Control-C to interrupt."
+#~ msgstr ""
+#~ "Zámek %(path)r nasazený pid %(pid)d; čeká se na ukončení. Pro přerušení "
+#~ "zmáčkněte Control-C."
+
+#~ msgid "Package DB modified externally, rereading"
+#~ msgstr "Databáze balíčku byla externě změněna, načítá se znovu"
