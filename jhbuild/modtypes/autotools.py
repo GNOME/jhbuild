@@ -115,6 +115,9 @@ class AutogenModule(MakeModule, DownloadableModule):
         autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
                 self.name, self.config.autogenargs)
 
+        if self.config.disable_Werror:
+            autogenargs = autogenargs + ' ' + '--disable-Werror'
+
         vars = {'prefix': os.path.splitdrive(buildscript.config.prefix)[1],
                 'autogen-sh': self.autogen_sh,
                 'autogenargs': autogenargs}

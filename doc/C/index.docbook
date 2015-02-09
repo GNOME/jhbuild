@@ -1718,6 +1718,22 @@ Optional packages: (JHBuild will build the missing packages)
             </simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-disable-Werror">
+          <term>
+            <varname>disable_Werror</varname>
+          </term>
+          <listitem>
+            <simpara>
+              A boolean value (default <literal>True</literal>) which controls if
+              <literal>--disable-Werror</literal> will be passed to automake builds.  Many packages use this
+              flag as a way to disable fatal compiler warnings.  The value of <literal>True</literal> is
+              selected as a resonable default for those using jhbuild as a means to get an up-to-date version of
+              software packages without being side-tracked by build failures in other people's modules.
+              Settings this value to <literal>False</literal> may make sense for those using jhbuild as part of
+              a continuous integration or testing system.
+            </simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-dvcs-mirror-dir">
           <term>
             <varname>dvcs_mirror_dir</varname>

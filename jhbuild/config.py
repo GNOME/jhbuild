@@ -65,7 +65,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'print_command_pattern', 'static_analyzer',
                 'module_static_analyzer', 'static_analyzer_template',
                 'static_analyzer_outputdir', 'check_sysdeps', 'system_prefix',
-                'help_website', 'conditions', 'extra_prefixes'
+                'help_website', 'conditions', 'extra_prefixes', 'disable_Werror'
               ]
 
 env_prepends = {}
