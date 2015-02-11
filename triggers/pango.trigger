@@ -18,6 +18,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # IfExecutable: pango-querymodules
-# REMatch: /lib.*/pango/.*/modules/.*\.so
+# REMatch: ^lib.*/pango/.*/modules/.*\.so
 
 pango-querymodules --update-cache

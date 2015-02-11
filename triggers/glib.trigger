@@ -17,6 +17,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # IfExecutable: glib-compile-schemas
-# LiteralMatch: /share/glib-2.0/schemas/
+# LiteralMatch: ^share/glib-2.0/schemas/
 
 glib-compile-schemas $JHBUILD_PREFIX/share/glib-2.0/schemas

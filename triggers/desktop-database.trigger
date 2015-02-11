@@ -17,6 +17,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # IfExecutable: update-desktop-database
-# REMatch: /share/applications/.*\.desktop
+# REMatch: ^share/applications/.*\.desktop
 
 update-desktop-database -q

@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # IfExecutable: gtk-update-icon-cache
-# LiteralMatch: /share/icons/
+# LiteralMatch: ^share/icons/
 
 for dir in $JHBUILD_PREFIX/share/icons/*; do
   if test -f $dir/index.theme; then

@@ -17,6 +17,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # IfExecutable: gtk-query-immodules-3.0
-# REMatch: /lib.*/gtk-3\.0/3\.0\.0/immodules/.*\.so
+# REMatch: ^lib.*/gtk-3\.0/3\.0\.0/immodules/.*\.so
 
 gtk-query-immodules-3.0 --update-cache
