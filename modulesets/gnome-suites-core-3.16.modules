@@ -330,7 +330,6 @@
       <if condition-set="linux">
         <dep package="gnome-bluetooth"/>
         <dep package="NetworkManager"/>
-        <dep package="network-manager-applet"/>
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd-journal"/>
@@ -451,26 +450,6 @@
         <dep package="xwayland"/>
       </if>
     </dependencies>
-  </autotools>
-
-  <autotools id="network-manager-applet"
-             autogenargs="--enable-more-warnings=no --disable-migration --without-bluetooth">
-    <branch revision="nma-0-9-8"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-bluetooth"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+"/>
-      <dep package="gudev"/>
-      <dep package="iso-codes"/>
-      <dep package="libsecret"/>
-      <dep package="NetworkManager"/>
-      <dep package="libnotify"/>
-    </dependencies>
-    <suggests>
-      <dep package="mobile-broadband-provider-info"/>
-    </suggests>
   </autotools>
 
   <autotools id="pulseaudio"
