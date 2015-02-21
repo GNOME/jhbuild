@@ -7,9 +7,6 @@
       href="git://git.gnome.org/"/>
   <repository type="svn" name="svn.abisource.com"
       href="http://svn.abisource.com/"/>
-  <repository type="cvs" name="cairo.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/cairo"
-      password=""/>
   <repository type="git" name="gstreamer.freedesktop.org"
       href="git://anongit.freedesktop.org/gstreamer/"/>
   <repository type="git" name="fprint.freedesktop.org"
@@ -62,9 +59,6 @@
     href="http://hg.circular-chaos.org" />
   <repository type="svn" name="transmissionbt.com"
     href="svn://svn.m0k.org/Transmission/" />
-  <repository type="cvs" name="ldtp.freedesktop.org"
-      cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/ldtp"
-      password=""/>
   <repository type="svn" name="svn.async.com.br"
       href="svn://svn.async.com.br/"/>
   <repository type="svn" name="flumotion.code.fluendo.com"
@@ -75,9 +69,6 @@
       href="git://git.fishsoup.net/"/>
   <repository type="git" name="diracvideo.org"
     href="git://diracvideo.org/git/"/>
-  <repository type="cvs" name="cvs.claws-mail"
-      cvsroot=":ext:cvs@scm.dotsrc.org:/srv/cvs/claws-mail"
-      password=""/>
   <repository type="git" name="git.xfce.org"
       href="git://git.xfce.org"/>
   <repository type="git" name="git.dronelabs.com"
@@ -324,14 +315,6 @@
       <dep package="gobject-introspection"/>
       <dep package="glib"/>
       <dep package="gconf"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="cairo-gtk-engine">
-    <branch repo="cairo.freedesktop.org"/>
-    <dependencies>
-      <dep package="gtk+-2"/>
-      <dep package="cairo"/>
     </dependencies>
   </autotools>
 
@@ -1671,12 +1654,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="ldtp">
-    <branch repo="ldtp.freedesktop.org" module="ldtp"/>
-    <dependencies>
-    </dependencies>
-  </autotools>
-
   <distutils id="postr">
    <branch/>
    <dependencies>
@@ -2016,21 +1993,6 @@
   </metamodule>
 
   <!-- ########## End of Pimplico Modules ########## -->
-
-  <autotools id="claws-mail"
-             autogenargs="--disable-libetpan">
-    <branch repo="cvs.claws-mail" revision="gtk2" module="claws" checkoutdir="claws-mail"/>
-    <dependencies>
-      <dep package="gtk+-2"/>
-      <dep package="glib"/>
-      <dep package="enchant"/>
-    </dependencies>
-    <suggests>
-      <dep package="startup-notification"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-    </suggests>
-  </autotools>
 
   <autotools id="midori">
     <branch repo="git.xfce.org" branch="kalikiana/midori"/>
