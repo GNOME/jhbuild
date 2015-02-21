@@ -77,6 +77,10 @@ def login(cvsroot, password=None):
     cvsroot = _canonicalise_cvsroot(cvsroot)
     cvspass = os.path.join(os.environ['HOME'], '.cvspass')
 
+    # cvs won't ask for this, so don't write it
+    if password == '':
+        return
+
     # check if the password has already been entered:
     try:
         fp = open(cvspass, 'r')
