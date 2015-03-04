@@ -48,8 +48,6 @@
     href="https://fedorahosted.org/releases/l/i/libpwquality/"/>
 <repository type="tarball" name="ibus"
     href="http://ibus.googlecode.com/files/"/>
-<repository type="tarball" name="pyzy"
-    href="http://pyzy.googlecode.com/files/"/>
 <repository type="tarball" name="ftp.mozilla.org"
       href="http://ftp.mozilla.org/"/>
 <repository type="tarball" name="kernel.org"
@@ -1475,20 +1473,6 @@
       <dep package="gtk+"/>
     </dependencies>
   </autotools>
-
-  <autotools id="pyzy"
-             autogenargs="--enable-db-open-phrase --disable-db-android">
-    <branch repo="pyzy"
-            module="pyzy-${version}.tar.gz"
-            version="0.1.0"
-            hash="sha256:fe468a4372473d85a56f05d55b14f0e0201fde6f9336a1a2322cf79421c84d9a"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="sqlite3"/>
-      <dep package="sqlite3-bin"/>
-    </dependencies>
-  </autotools>
-
 
   <autotools id="ibus-pinyin"
              makeargs="CFLAGS=-Wno-error">
