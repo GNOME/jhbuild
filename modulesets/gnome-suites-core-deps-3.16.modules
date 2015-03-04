@@ -909,22 +909,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="js24" check-target="false"
-      autogenargs="--enable-threadsafe --with-system-nspr --enable-debug --disable-tests --disable-strip --enable-ctypes --enable-system-ffi --disable-intl-api">
-    <pkg-config>mozjs-24.pc</pkg-config>
-    <branch repo="ftp.mozilla.org"
-            module="pub/mozilla.org/js/mozjs-24.2.0.tar.bz2"
-            version="24.2.0"
-            hash="sha256:e62f3f331ddd90df1e238c09d61a505c516fe9fd8c5c95336611d191d18437d8"
-            checkoutdir="js24-24.2.0">
-      <patch file="js24-buildapi.patch" strip="1"/>
-      <patch file="js24-prettyprinters.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="nspr"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="json-glib" autogenargs="--enable-installed-tests">
     <branch/>
     <dependencies>
