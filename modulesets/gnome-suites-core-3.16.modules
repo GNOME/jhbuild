@@ -512,7 +512,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="empathy" autogenargs="--disable-Werror">
+  <autotools id="empathy" autogenargs="--disable-Werror --enable-goa=no">
     <branch/>
     <dependencies>
       <dep package="clutter"/>
@@ -526,7 +526,6 @@
       <dep package="glib"/>
       <dep package="libgee"/>
       <dep package="libsecret"/>
-      <dep package="gnome-online-accounts"/>
       <dep package="gnutls"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gstreamer"/>
@@ -541,6 +540,8 @@
       <dep package="telepathy-mission-control"/>
       <dep package="libnotify"/>
       <dep package="WebKit1"/>
+<!--  Built with enable-goa=no until Empathy can be ported to WK2
+      <dep package="gnome-online-accounts"/> -->
     </dependencies>
     <suggests>
       <dep package="enchant"/>
