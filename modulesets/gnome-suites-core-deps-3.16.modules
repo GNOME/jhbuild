@@ -1469,6 +1469,20 @@
     </dependencies>
   </autotools>
 
+  <autotools id="ibus-libpinyin"
+             autogenargs="--disable-lua-extension --with-python=python3">
+    <branch repo="github-tar"
+            version="1.7.0"
+            module="libpinyin/ibus-libpinyin/archive/${version}.tar.gz"
+            checkoutdir="ibus-libpinyin-${version}"
+            hash="sha256:4c86f5f22acdabf881ea91fbf907d2fb48b1c92220eb4a0c68328dd7fcf850b3"/>
+    <dependencies>
+      <dep package="ibus"/>
+      <dep package="libpinyin"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="ibus-anthy" autogenargs="--enable-private-png=yes">
     <branch repo="github-tar"
             version="1.5.6"
