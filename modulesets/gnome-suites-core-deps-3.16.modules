@@ -61,6 +61,10 @@
 <repository type="tarball" name="libxkbcommon"
     href="http://xkbcommon.org/download/"/>
 
+<!-- FIXME: Remove once we no longer need to patch gcab -->
+<repository type="tarball" name="gnome"
+    href="https://download.gnome.org/sources/"/>
+
 <include href="gnome-sysdeps-3.16.modules"/>
 
 <!-- Please try to keep organized alphabetically by section -->
@@ -74,6 +78,7 @@
     <branch repo="github.com" module="hughsie/appstream-glib.git"/>
     <dependencies>
       <dep package="freetype2"/>
+      <dep package="gcab"/>
       <dep package="gdk-pixbuf"/>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -97,6 +102,23 @@
       </if>
       <dep package="gtk-doc"/>
       <dep package="pixman"/>
+    </dependencies>
+  </autotools>
+
+    <!-- FIXME We should probably build from git rather than a tarball once we
+         no longer need this patch. And remove the definition of the gnome
+         tarball repo (above). -->
+  <autotools id="gcab" skip-autogen="never" autogen-sh="autoreconf">
+    <branch repo="gnome"
+            version="0.5"
+            module="gcab/${version}/gcab-${version}.tar.xz"
+            hash="sha256:9b127e7f5976045f22d4d37ff1a52599e06ed15fda1c9ddf4f499bb9cf123d52">
+      <patch file="gcab-0.5-installation.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="vala"/>
+      <dep package="zlib"/>
     </dependencies>
   </autotools>
 
