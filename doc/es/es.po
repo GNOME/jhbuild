@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-01 11:27+0000\n"
-"PO-Revision-Date: 2015-02-03 12:41+0100\n"
+"POT-Creation-Date: 2015-02-09 12:20+0000\n"
+"PO-Revision-Date: 2015-03-16 17:49+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -394,7 +394,7 @@ msgid "<link linkend=\"cfg-moduleset\"><varname>moduleset</varname></link>"
 msgstr "<link linkend=\"cfg-moduleset\"><varname>moduleset</varname></link>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:193 C/index.docbook:1958
+#: C/index.docbook:193 C/index.docbook:1974
 msgid ""
 "A string or list of strings specifying the name(s) of the module set(s) to "
 "use. This can either be the filename of a moduleset included with JHBuild "
@@ -420,7 +420,7 @@ msgid "<link linkend=\"cfg-modules\"><varname>modules</varname></link>"
 msgstr "<link linkend=\"cfg-modules\"><varname>modules</varname></link>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:208 C/index.docbook:1945
+#: C/index.docbook:208 C/index.docbook:1961
 msgid ""
 "A list of strings specifying the modules to build. The list of modules "
 "actually built will be recursively expanded to include all the dependencies "
@@ -460,7 +460,7 @@ msgid "<link linkend=\"cfg-prefix\"><varname>prefix</varname></link>"
 msgstr "<link linkend=\"cfg-prefix\"><varname>prefix</varname></link>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:233 C/index.docbook:2076
+#: C/index.docbook:233 C/index.docbook:2092
 msgid ""
 "A string specifying the prefix to install modules to. <varname>prefix</"
 "varname> must be an absolute path. This directory must be writable. Defaults "
@@ -495,7 +495,7 @@ msgid "<link linkend=\"cfg-makeargs\"><varname>makeargs</varname></link>"
 msgstr "<link linkend=\"cfg-makeargs\"><varname>makeargs</varname></link>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:256 C/index.docbook:1807
+#: C/index.docbook:256 C/index.docbook:1823
 msgid ""
 "A string listing additional arguments to be passed to <command>make</"
 "command>. JHBuild will automatically append the parallel execution option "
@@ -2807,7 +2807,7 @@ msgstr ""
 
 #. (itstool) path: section/programlisting
 #. (itstool) path: listitem/programlisting
-#: C/index.docbook:1554 C/index.docbook:2138
+#: C/index.docbook:1554 C/index.docbook:2154
 #, no-wrap
 msgid "repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'"
 msgstr "repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'"
@@ -3065,11 +3065,40 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:1722
+#| msgid "<varname>installprog</varname>"
+msgid "<varname>disable_Werror</varname>"
+msgstr "<varname>disable_Werror</varname>"
+
+#. (itstool) path: listitem/simpara
+#: C/index.docbook:1726
+msgid ""
+"A boolean value (default <literal>True</literal>) which controls if "
+"<literal>--disable-Werror</literal> will be passed to automake builds. Many "
+"packages use this flag as a way to disable fatal compiler warnings. The "
+"value of <literal>True</literal> is selected as a resonable default for "
+"those using jhbuild as a means to get an up-to-date version of software "
+"packages without being side-tracked by build failures in other people's "
+"modules. Settings this value to <literal>False</literal> may make sense for "
+"those using jhbuild as part of a continuous integration or testing system."
+msgstr ""
+"Un valor booleano (valor predeterminado <literal>True</literal>) que "
+"controla si <literal>--disable-Werror</literal> se pasará a las "
+"construcciones automáticas. Muchos paquetes usan esta opción como una manera "
+"de desactivar advertencias fatales del compilador. El valor <literal>True</"
+"literal> se selecciona como un valor predeterminado razonable para aquellos "
+"que usan jhbuild como una manera de obtener una versión actualizada de los "
+"paquetes de software sin ser rastreado por erroes de construcción en módulos "
+"de otras personas. Establecer este valor a <literal>False</literal> tiene "
+"sentido para aquellos que usan jhbuild como parte de un sistema de "
+"integración continua o en sistemas de pruebas."
+
+#. (itstool) path: varlistentry/term
+#: C/index.docbook:1738
 msgid "<varname>dvcs_mirror_dir</varname>"
 msgstr "<varname>dvcs_mirror_dir</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1726
+#: C/index.docbook:1742
 msgid ""
 "A string specifying a local mirror directory. JHBuild will create local "
 "mirrors of repositories at the specified directory. The mirrors can be "
@@ -3088,12 +3117,12 @@ msgstr ""
 "sólo está soportada por los repositorios Git y Bazaar."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1737
+#: C/index.docbook:1753
 msgid "<varname>extra_prefixes</varname>"
 msgstr "<varname>extra_prefixes</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1741
+#: C/index.docbook:1757
 msgid ""
 "A list of strings specifying, in precedence order, the list of extra "
 "prefixes. JHBuild sets many environment variables (such as "
@@ -3118,12 +3147,12 @@ msgstr ""
 "filename>, en cuyo caso contiene esta carpeta."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1756
+#: C/index.docbook:1772
 msgid "<varname>help_website</varname>"
 msgstr "<varname>help_website</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1760
+#: C/index.docbook:1776
 msgid ""
 "A tuple specifying a help website name and URL. The website is displayed in "
 "the tinderbox html for failed modules. <varname>%(module)s</varname> in the "
@@ -3140,12 +3169,12 @@ msgstr ""
 "'http://live.gnome.org/JhbuildIssues/%(module)s')</literal>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1770
+#: C/index.docbook:1786
 msgid "<varname>installprog</varname>"
 msgstr "<varname>installprog</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1774
+#: C/index.docbook:1790
 msgid ""
 "A string specifying a program to use as replacement for <literal>/usr/bin/"
 "install</literal>. If available, defaults to the <literal>install-check</"
@@ -3159,12 +3188,12 @@ msgstr ""
 "reducir el tiempo de las reconstrucciones."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1782
+#: C/index.docbook:1798
 msgid "<varname>ignore_suggests</varname>"
 msgstr "<varname>ignore_suggests</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1786
+#: C/index.docbook:1802
 msgid ""
 "A boolean value specifying whether to ignore soft dependencies when "
 "calculating the dependency tree. Defaults to <constant>False</constant>."
@@ -3174,12 +3203,12 @@ msgstr ""
 "<constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1792
+#: C/index.docbook:1808
 msgid "<varname>interact</varname>"
 msgstr "<varname>interact</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1796
+#: C/index.docbook:1812
 msgid ""
 "A boolean value specifying whether to interact with the user. Setting this "
 "value to <constant>False</constant> is equivalent to passing the <option>--"
@@ -3191,17 +3220,17 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1803
+#: C/index.docbook:1819
 msgid "<varname>makeargs</varname>"
 msgstr "<varname>makeargs</varname>"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1814
+#: C/index.docbook:1830
 msgid "<varname>makecheck</varname>"
 msgstr "<varname>makecheck</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1818
+#: C/index.docbook:1834
 msgid ""
 "A boolean value specifying whether to run <command>make check</command> "
 "after <command>make</command>. Defaults to <constant>False</constant>."
@@ -3211,12 +3240,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1824
+#: C/index.docbook:1840
 msgid "<varname>makecheck_advisory</varname>"
 msgstr "<varname>makecheck_advisory</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1828
+#: C/index.docbook:1844
 msgid ""
 "A boolean value specifying whether failures when running <command>make "
 "check</command> should be advisory only and not cause a build failure. "
@@ -3228,12 +3257,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1835
+#: C/index.docbook:1851
 msgid "<varname>makeclean</varname>"
 msgstr "<varname>makeclean</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1839
+#: C/index.docbook:1855
 msgid ""
 "A boolean value specifying whether to run <command>make clean</command> "
 "before <command>make</command>. Defaults to <constant>False</constant>."
@@ -3243,12 +3272,12 @@ msgstr ""
 "<constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1845
+#: C/index.docbook:1861
 msgid "<varname>makedist</varname>"
 msgstr "<varname>makedist</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1849
+#: C/index.docbook:1865
 msgid ""
 "A boolean value specifying whether to run <command>make dist</command> after "
 "<command>make</command>. Defaults to <constant>False</constant>. This "
@@ -3260,12 +3289,12 @@ msgstr ""
 "opción <option>--dist</option>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1856
+#: C/index.docbook:1872
 msgid "<varname>makedistcheck</varname>"
 msgstr "<varname>makedistcheck</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1860
+#: C/index.docbook:1876
 msgid ""
 "A boolean value specifying whether to run <command>make distcheck</command> "
 "after <command>make</command>. Defaults to <constant>False</constant>. This "
@@ -3277,12 +3306,12 @@ msgstr ""
 "opción <option>--distcheck</option>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1867
+#: C/index.docbook:1883
 msgid "<varname>module_autogenargs</varname>"
 msgstr "<varname>module_autogenargs</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1871
+#: C/index.docbook:1887
 msgid ""
 "A dictionary mapping module names to strings specifying the arguments to be "
 "passed to <command>autogen.sh</command>. The setting in "
@@ -3298,12 +3327,12 @@ msgstr ""
 "varname>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1880
+#: C/index.docbook:1896
 msgid "<varname>module_checkout_mode</varname>"
 msgstr "<varname>module_checkout_mode</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1884
+#: C/index.docbook:1900
 msgid ""
 "A dictionary specifying which checkout mode to use for modules. This "
 "overrides the global <varname>checkout_mode</varname> setting."
@@ -3312,12 +3341,12 @@ msgstr ""
 "Ésto omite la configuración global <varname>checkout_mode</varname>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1890
+#: C/index.docbook:1906
 msgid "<varname>module_makeargs</varname>"
 msgstr "<varname>module_makeargs</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1894
+#: C/index.docbook:1910
 msgid ""
 "A dictionary mapping module names to strings specifying the arguments to "
 "pass to <command>make</command>. The setting in <varname>module_makeargs</"
@@ -3332,12 +3361,12 @@ msgstr ""
 "usará la variable global <varname>makeargs</varname>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1903
+#: C/index.docbook:1919
 msgid "<varname>module_makecheck</varname>"
 msgstr "<varname>module_makecheck</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1907
+#: C/index.docbook:1923
 msgid ""
 "A dictionary mapping module names to boolean values specifying whether to "
 "run <command>make check</command> after <command>make</command>. The setting "
@@ -3353,12 +3382,12 @@ msgstr ""
 "<varname>makecheck</varname>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1917
+#: C/index.docbook:1933
 msgid "<varname>module_nopoison</varname>"
 msgstr "<varname>module_nopoison</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1921
+#: C/index.docbook:1937
 msgid ""
 "A dictionary mapping module names to boolean values. If a module is set to "
 "<constant>True</constant>, JHBuild will attempt to build dependent modules "
@@ -3375,12 +3404,12 @@ msgstr ""
 "el diccionario, se usará la variable global <varname>nopoison</varname>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1931
+#: C/index.docbook:1947
 msgid "<varname>module_extra_env</varname>"
 msgstr "<varname>module_extra_env</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1935
+#: C/index.docbook:1951
 msgid ""
 "A dictionary mapping module names to dictionaries with extra environment "
 "variables to pass when executing commands for the module."
@@ -3389,22 +3418,22 @@ msgstr ""
 "entorno adicionales para pasar cuando se ejecutan comandos del módulo."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1941
+#: C/index.docbook:1957
 msgid "<varname>modules</varname>"
 msgstr "<varname>modules</varname>"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1954
+#: C/index.docbook:1970
 msgid "<varname>moduleset</varname>"
 msgstr "<varname>moduleset</varname>"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1969
+#: C/index.docbook:1985
 msgid "<varname>modulesets_dir</varname>"
 msgstr "<varname>modulesets_dir</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1973
+#: C/index.docbook:1989
 msgid ""
 "A string specifying the directory containing the modulesets to use. Defaults "
 "to the <filename>modulesets/</filename> directory in JHBuild sources."
@@ -3414,12 +3443,12 @@ msgstr ""
 "las fuentes de JHBuild."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1980
+#: C/index.docbook:1996
 msgid "<varname>nice_build</varname>"
 msgstr "<varname>nice_build</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1984
+#: C/index.docbook:2000
 msgid ""
 "Run builds under the <constant>SCHED_IDLE</constant> priority on Linux, "
 "<command>nice</command> on other Unix. This can dramatically improve desktop "
@@ -3433,12 +3462,12 @@ msgstr ""
 "rendimiento de la construcción."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:1992
+#: C/index.docbook:2008
 msgid "<varname>nobuild</varname>"
 msgstr "<varname>nobuild</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:1996
+#: C/index.docbook:2012
 msgid ""
 "A boolean value, if set to <constant>True</constant> JHBuild will not build "
 "modules, but just download and unpack the sources. The default vale is "
@@ -3449,12 +3478,12 @@ msgstr ""
 "las fuentes. El valor predeterminado es <constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2002
+#: C/index.docbook:2018
 msgid "<varname>nonetwork</varname>"
 msgstr "<varname>nonetwork</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2006
+#: C/index.docbook:2022
 msgid ""
 "A boolean value specifying whether to access the network. This affects "
 "checking out or updating CVS modules, downloading tarballs and updating "
@@ -3469,12 +3498,12 @@ msgstr ""
 "valor predeterminado es <constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2015
+#: C/index.docbook:2031
 msgid "<varname>nonotify</varname>"
 msgstr "<varname>nonotify</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2019
+#: C/index.docbook:2035
 msgid ""
 "A boolean value specifying whether to emit notifications using the "
 "notification daemon. If set to <constant>False</constant>, notifications are "
@@ -3486,12 +3515,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2026
+#: C/index.docbook:2042
 msgid "<varname>nopoison</varname>"
 msgstr "<varname>nopoison</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2030
+#: C/index.docbook:2046
 msgid ""
 "A boolean value, if set to <constant>True</constant> JHBuild attempts to "
 "build modules even if one or more of the module's dependencies failed to "
@@ -3504,12 +3533,12 @@ msgstr ""
 "option>. Su valor predeterminado es <constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2038
+#: C/index.docbook:2054
 msgid "<varname>notrayicon</varname>"
 msgstr "<varname>notrayicon</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2042
+#: C/index.docbook:2058
 msgid ""
 "A boolean value specifying whether to show an icon in the system tray using "
 "Zenity. If set to <constant>False</constant>, notifications are emitted. "
@@ -3521,12 +3550,12 @@ msgstr ""
 "<constant>True</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2049
+#: C/index.docbook:2065
 msgid "<varname>noxvfb</varname>"
 msgstr "<varname>noxvfb</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2053
+#: C/index.docbook:2069
 msgid ""
 "A boolean value, if set to <constant>True</constant> JHBuild will run any "
 "graphical tests on the real X server, rather than using <command>Xvfb</"
@@ -3540,12 +3569,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2061
+#: C/index.docbook:2077
 msgid "<varname>partial_build</varname>"
 msgstr "<varname>partial_build</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2065
+#: C/index.docbook:2081
 msgid ""
 "A boolean value, if set to <constant>True</constant> JHBuild will not build "
 "dependency modules if corresponding system packages are installed and "
@@ -3557,17 +3586,17 @@ msgstr ""
 "suficiente. El valor predeterminado es <constant>True</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2072
+#: C/index.docbook:2088
 msgid "<varname>prefix</varname>"
 msgstr "<varname>prefix</varname>"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2083
+#: C/index.docbook:2099
 msgid "<varname>pretty_print</varname>"
 msgstr "<varname>pretty_print</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2087
+#: C/index.docbook:2103
 msgid ""
 "A boolean value specifying whether to pretty format the subprocess output. "
 "Only CVS output supports pretty printing. Disable if the pretty printing "
@@ -3579,12 +3608,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2094
+#: C/index.docbook:2110
 msgid "<varname>print_command_pattern</varname>"
 msgstr "<varname>print_command_pattern</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2098
+#: C/index.docbook:2114
 msgid ""
 "A string displayed before JHBuild executes a command. <varname>%(command)s</"
 "varname> in the string will be replaced with the command about to be "
@@ -3598,12 +3627,12 @@ msgstr ""
 "literal>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2106
+#: C/index.docbook:2122
 msgid "<varname>progress_bar</varname>"
 msgstr "<varname>progress_bar</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2110
+#: C/index.docbook:2126
 msgid ""
 "A boolean value specifying whether to display a progress bar during <link "
 "linkend=\"cfg-quiet-mode\">quiet mode </link>. Defaults to <literal>True</"
@@ -3614,12 +3643,12 @@ msgstr ""
 "predeterminado es <literal>True</literal>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2116
+#: C/index.docbook:2132
 msgid "<varname>quiet_mode</varname>"
 msgstr "<varname>quiet_mode</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2120
+#: C/index.docbook:2136
 msgid ""
 "A boolean value, if set to <constant>True</constant> disables the output of "
 "running commands. Defaults to <literal>False</literal>."
@@ -3629,12 +3658,12 @@ msgstr ""
 "constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2126
+#: C/index.docbook:2142
 msgid "<varname>repos</varname>"
 msgstr "<varname>repos</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2130
+#: C/index.docbook:2146
 msgid ""
 "A dictionary specifying an alternative repository location for a particular "
 "repository. This configuration variable is useful to a module developer. By "
@@ -3650,12 +3679,12 @@ msgstr ""
 "las cadenas de ubicación de los repositorios alternativos. Por ejemplo:"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2142
+#: C/index.docbook:2158
 msgid "<varname>skip</varname>"
 msgstr "<varname>skip</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2146
+#: C/index.docbook:2162
 msgid ""
 "A list of modules to skip. This <option>--skip</option> command line option "
 "extends the list. This list is empty by default. If the list contains the "
@@ -3671,12 +3700,12 @@ msgstr ""
 "sin sus dependencias implícitas."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2156
+#: C/index.docbook:2172
 msgid "<varname>sticky_date</varname>"
 msgstr "<varname>sticky_date</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2160
+#: C/index.docbook:2176
 msgid ""
 "A string if set, and if supported by the underlying version control system, "
 "JHBuild will update the source tree to the specified date before building. "
@@ -3692,12 +3721,12 @@ msgstr ""
 "predeterminado es  <constant>None</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2169
+#: C/index.docbook:2185
 msgid "<varname>svn_program</varname>"
 msgstr "<varname>svn_program</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2173
+#: C/index.docbook:2189
 msgid ""
 "A string specifying which program to use for subversion support. This can be "
 "<literal>svn</literal>, <literal>git-svn</literal> or <literal>bzr</"
@@ -3708,12 +3737,12 @@ msgstr ""
 "predeterminado es <literal>svn</literal>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2180
+#: C/index.docbook:2196
 msgid "<varname>system_libdirs</varname>"
 msgstr "<varname>system_libdirs</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2184
+#: C/index.docbook:2200
 msgid ""
 "A list of strings specifying the system library paths. This is used when "
 "setting the default values of some environment variables, such as "
@@ -3724,12 +3753,12 @@ msgstr ""
 "variables del entorno, como <envar>PKG_CONFIG_PATH</envar>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2190
+#: C/index.docbook:2206
 msgid "<varname>tarballdir</varname>"
 msgstr "<varname>tarballdir</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2194
+#: C/index.docbook:2210
 msgid ""
 "A string if set, tarballs will be downloaded to the specified directory "
 "instead of <varname>checkoutroot</varname>. This is useful if you have "
@@ -3745,12 +3774,12 @@ msgstr ""
 "literal>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2203
+#: C/index.docbook:2219
 msgid "<varname>tinderbox_outputdir</varname>"
 msgstr "<varname>tinderbox_outputdir</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2207
+#: C/index.docbook:2223
 msgid ""
 "A string specifying the directory to store <command>jhbuild tinderbox</"
 "command> output. This string can be overridden by the <option>--output</"
@@ -3765,12 +3794,12 @@ msgstr ""
 "debe configurar esta variable en el archivo de configuración."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2216
+#: C/index.docbook:2232
 msgid "<varname>trycheckout</varname>"
 msgstr "<varname>trycheckout</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2220
+#: C/index.docbook:2236
 msgid ""
 "A boolean value, if set to <constant>True</constant> JHBuild will "
 "automatically try to solve failures by 1) running <command>autogen.sh</"
@@ -3785,12 +3814,12 @@ msgstr ""
 "pasarle <option>--try-checkout</option>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2229
+#: C/index.docbook:2245
 msgid "<varname>use_local_modulesets</varname>"
 msgstr "<varname>use_local_modulesets</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2233
+#: C/index.docbook:2249
 msgid ""
 "A boolean value that specifies to use modulesets that were checked out along "
 "the JHBuild source code; instead of downloading them on-the-fly from GNOME "
@@ -3802,12 +3831,12 @@ msgstr ""
 "predeterminado es <constant>False</constant>."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2240
+#: C/index.docbook:2256
 msgid "<varname>xvfbargs</varname>"
 msgstr "<varname>xvfbargs</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2244
+#: C/index.docbook:2260
 msgid ""
 "A string listing arguments to pass to <command>Xvfb</command> if running "
 "graphical tests."
@@ -3816,12 +3845,12 @@ msgstr ""
 "se ejecutan comprobaciones gráficas."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2249
+#: C/index.docbook:2265
 msgid "<varname>conditions</varname>"
 msgstr "<varname>conditions</varname>"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2253
+#: C/index.docbook:2269
 msgid ""
 "A set of condition (strings) that can influence the modules that are built "
 "and the options that are used for building them. You should use "
@@ -3834,7 +3863,7 @@ msgstr ""
 "literal> para modificar la lista si quiere hacer cambios."
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2256
+#: C/index.docbook:2272
 msgid ""
 "The original set of conditions is determined on a per-OS basis and can be "
 "modified using the --conditions= commandline argument. The changes made by --"
@@ -3850,12 +3879,12 @@ msgstr ""
 "después de cualquier cambio hecho por el jhbuildrc."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2266
+#: C/index.docbook:2282
 msgid "Other Configuration File Structures"
 msgstr "Otras estructuras de los archivos de configuración"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2268
+#: C/index.docbook:2284
 msgid ""
 "In addition to the above variables, there are other settings that can be set "
 "in the configuration file:"
@@ -3864,12 +3893,12 @@ msgstr ""
 "configurar en el archivo de configuración."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2273
+#: C/index.docbook:2289
 msgid "<varname>os.environ</varname>"
 msgstr "<varname>os.environ</varname>"
 
 #. (itstool) path: listitem/para
-#: C/index.docbook:2277
+#: C/index.docbook:2293
 msgid ""
 "A dictionary representing the environment. This environment is passed to "
 "processes that JHBuild spawns."
@@ -3878,7 +3907,7 @@ msgstr ""
 "procesos que JHBuild crea."
 
 #. (itstool) path: listitem/para
-#: C/index.docbook:2280
+#: C/index.docbook:2296
 msgid ""
 "Some influential environment variables include <envar>CPPFLAGS</envar>, "
 "<envar>CFLAGS</envar>, <envar>INSTALL</envar> and <envar>LDFLAGS</envar>. "
@@ -3889,13 +3918,13 @@ msgstr ""
 "ejemplo:"
 
 #. (itstool) path: listitem/programlisting
-#: C/index.docbook:2285
+#: C/index.docbook:2301
 #, no-wrap
 msgid "os.environ['CFLAGS'] = '-O0 -g'"
 msgstr "os.environ['CFLAGS'] = '-O0'"
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2289
+#: C/index.docbook:2305
 msgid ""
 "<function>addpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
@@ -3904,7 +3933,7 @@ msgstr ""
 "<parameter>pathname</parameter>)"
 
 #. (itstool) path: listitem/para
-#: C/index.docbook:2294
+#: C/index.docbook:2310
 msgid ""
 "This will add a directory to the <envar>PATH</envar> environment variable. "
 "<function>addpath</function> will correctly handle the case when the "
@@ -3918,7 +3947,7 @@ msgstr ""
 "o al final de una variable de entorno puede tener consecuencias inesperadas)."
 
 #. (itstool) path: varlistentry/term
-#: C/index.docbook:2302
+#: C/index.docbook:2318
 msgid ""
 "<function>prependpath</function>(<parameter>envvar</parameter>, "
 "<parameter>pathname</parameter>)"
@@ -3927,7 +3956,7 @@ msgstr ""
 "<parameter>pathname</parameter>)"
 
 #. (itstool) path: listitem/para
-#: C/index.docbook:2307
+#: C/index.docbook:2323
 msgid ""
 "After processing the configuration file, JHBuild will alter some paths based "
 "on variables such as <varname>prefix</varname> (e.g. adding <literal>$prefix/"
@@ -3939,7 +3968,7 @@ msgstr ""
 "envar>)."
 
 #. (itstool) path: listitem/para
-#: C/index.docbook:2312
+#: C/index.docbook:2328
 msgid ""
 "The <function>prependpath</function> function works like <function>addpath</"
 "function>, except that the environment variable is modified after JHBuild "
@@ -3950,12 +3979,12 @@ msgstr ""
 "después de que JHBuild haya hecho sus cambios al entorno."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2323
+#: C/index.docbook:2339
 msgid "Module Set File Syntax"
 msgstr "Archivo de sintaxis del conjunto de módulos"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2325
+#: C/index.docbook:2341
 msgid ""
 "JHBuild uses XML files to describe the dependencies between modules. A RELAX-"
 "NG schema and Document Type Definition are included with JHBuild in the "
@@ -3969,7 +3998,7 @@ msgstr ""
 "mode</literal> en Emacs."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2331
+#: C/index.docbook:2347
 msgid ""
 "The top-level element in a module set file is <sgmltag class=\"element"
 "\">moduleset</sgmltag> element. No XML namespace is used. The elements below "
@@ -3982,7 +4011,7 @@ msgstr ""
 "fuentes de módulos, sentencias «include» y definiciones de módulos."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2336
+#: C/index.docbook:2352
 msgid ""
 "Content in the moduleset file can be conditionally included by use of the "
 "&lt;if&gt; tag to surround the conditional content. It is currently only "
@@ -4002,12 +4031,12 @@ msgstr ""
 "línea de comandos <command>--conditions=</command>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2344 C/index.docbook:3135
+#: C/index.docbook:2360 C/index.docbook:3151
 msgid "Module Sources"
 msgstr "Repositorios de módulos"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2346
+#: C/index.docbook:2362
 msgid ""
 "Rather than listing the full location of every module, a number of \"module "
 "sources\" are listed in the module set, and then referenced by name in the "
@@ -4025,7 +4054,7 @@ msgstr ""
 "métodos de acceso al repositorio)."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2354
+#: C/index.docbook:2370
 msgid ""
 "The <sgmltag class=\"element\">repository</sgmltag> element is used to "
 "describe all types of repository. The <sgmltag class=\"element\">branch</"
@@ -4038,7 +4067,7 @@ msgstr ""
 "indicar configuraciones adicionales."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2359
+#: C/index.docbook:2375
 #, no-wrap
 msgid ""
 "\n"
@@ -4074,7 +4103,7 @@ msgstr ""
 "  [ developer-href-example=\"<replaceable>ejemplo-href-desarrollador</replaceable>\" ] /&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2376
+#: C/index.docbook:2392
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute is a unique "
 "identifier for the repository."
@@ -4083,7 +4112,7 @@ msgstr ""
 "identificador único del repositorio."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2379
+#: C/index.docbook:2395
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute specifies "
 "whether this repository is the default source for this module set."
@@ -4092,7 +4121,7 @@ msgstr ""
 "si este repositorio es el predeterminado para este conjunto de módulos."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2383
+#: C/index.docbook:2399
 msgid ""
 "The <sgmltag class=\"attribute\">type</sgmltag> attribute specifies the type "
 "of repository. It can be one of: <literal>bzr</literal>, <literal>cvs</"
@@ -4114,7 +4143,7 @@ msgstr ""
 "repositorios."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2395
+#: C/index.docbook:2411
 msgid ""
 "The <sgmltag class=\"attribute\">developer-href-example</sgmltag> attribute "
 "is used to specify the format of the URL for the repository used by "
@@ -4125,7 +4154,7 @@ msgstr ""
 "desarrolladores. Esto es sólo informativo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2399
+#: C/index.docbook:2415
 msgid ""
 "The <sgmltag class=\"element\">branch</sgmltag> element is used inside "
 "module definitions."
@@ -4134,7 +4163,7 @@ msgstr ""
 "definiciones del módulo."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2402
+#: C/index.docbook:2418
 #, no-wrap
 msgid ""
 "\n"
@@ -4170,7 +4199,7 @@ msgstr ""
 "  [ hash=\"<replaceable>hash</replaceable>\" ]/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2419
+#: C/index.docbook:2435
 msgid ""
 "All atributes have sensible defaults and depend on the module and repository "
 "definitions. Common attributes are described here."
@@ -4180,7 +4209,7 @@ msgstr ""
 "atributos comunes."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2422
+#: C/index.docbook:2438
 msgid ""
 "The <sgmltag class=\"attribute\">repo</sgmltag> attribute is used to specify "
 "non-default repository name."
@@ -4189,7 +4218,7 @@ msgstr ""
 "especificar un nombre de repositorio no predeterminado."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2425
+#: C/index.docbook:2441
 msgid ""
 "The <sgmltag class=\"attribute\">module</sgmltag> attribute is used to "
 "specify module name to checkout from the repository. Defaults to module id."
@@ -4199,7 +4228,7 @@ msgstr ""
 "predeterminado es el identificador del módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2429
+#: C/index.docbook:2445
 msgid ""
 "The <sgmltag class=\"attribute\">checkoutdir</sgmltag> attribute is used to "
 "specify the checkout directory name. Defaults to module id."
@@ -4209,17 +4238,17 @@ msgstr ""
 "identificador del módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2433
+#: C/index.docbook:2449
 msgid "Other attributes are described below"
 msgstr "A continuación se describen otros atributos"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2436
+#: C/index.docbook:2452
 msgid "Bazaar"
 msgstr "Bazaar"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2438
+#: C/index.docbook:2454
 msgid ""
 "This repository type is used to define a Bazaar repository. It is "
 "recommended to have Bazaar 1.16 or higher."
@@ -4228,7 +4257,7 @@ msgstr ""
 "recomienda tener Bazaar 1.16 o superior."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2441
+#: C/index.docbook:2457
 #, no-wrap
 msgid ""
 "\n"
@@ -4242,7 +4271,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2446
+#: C/index.docbook:2462
 msgid ""
 "Additional attributes are: <sgmltag class=\"attribute\">trunk-template</"
 "sgmltag> (defaults to <literal>\"%(module)s\"</literal>) and <sgmltag class="
@@ -4272,7 +4301,7 @@ msgstr ""
 "módulos desde un repositorio con una disposición no estándar."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2462
+#: C/index.docbook:2478
 msgid ""
 "An addition <sgmltag class=\"element\">branch</sgmltag> element accepts "
 "<sgmltag class=\"attribute\">revspec</sgmltag> attibute to anchor on a "
@@ -4290,7 +4319,7 @@ msgstr ""
 "todos los valores posibles."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2470
+#: C/index.docbook:2486
 msgid ""
 "For example repository with <sgmltag class=\"attribute\">template</sgmltag> "
 "attributes defined:"
@@ -4299,7 +4328,7 @@ msgstr ""
 "\">template</sgmltag> definidos:"
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2474
+#: C/index.docbook:2490
 #, no-wrap
 msgid ""
 "\n"
@@ -4317,7 +4346,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2481
+#: C/index.docbook:2497
 msgid ""
 "Example <sgmltag class=\"element\">branch</sgmltag> elements for the above "
 "repository:"
@@ -4326,7 +4355,7 @@ msgstr ""
 "el anterior repositorio:"
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2484
+#: C/index.docbook:2500
 #, no-wrap
 msgid ""
 "\n"
@@ -4342,7 +4371,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2490
+#: C/index.docbook:2506
 #, no-wrap
 msgid ""
 "\n"
@@ -4360,17 +4389,17 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/title
-#: C/index.docbook:2499
+#: C/index.docbook:2515
 msgid "CVS"
 msgstr "CVS"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2501
+#: C/index.docbook:2517
 msgid "This repository type is used to define a CVS repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio CVS."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2503
+#: C/index.docbook:2519
 msgid ""
 "The <sgmltag class=\"attribute\">password</sgmltag> attribute is used to "
 "specify the password to the repository."
@@ -4379,7 +4408,7 @@ msgstr ""
 "especificar la contraseña del repositorio."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2506
+#: C/index.docbook:2522
 msgid ""
 "The <sgmltag class=\"attribute\">cvsroot</sgmltag> attribute is used to "
 "specify the root of the repository."
@@ -4388,7 +4417,7 @@ msgstr ""
 "especificar la raíz del repositorio."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2509
+#: C/index.docbook:2525
 #, no-wrap
 msgid ""
 "\n"
@@ -4404,7 +4433,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2517
+#: C/index.docbook:2533
 msgid ""
 "Additional attributes are: <sgmltag class=\"attribute\">revision</sgmltag>, "
 "<sgmltag class=\"attribute\">update-new-dirs</sgmltag> and <sgmltag class="
@@ -4415,17 +4444,17 @@ msgstr ""
 "class=\"attribute\">override-checkoutdir</sgmltag>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2524
+#: C/index.docbook:2540
 msgid "Darcs"
 msgstr "Darcs"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2526
+#: C/index.docbook:2542
 msgid "This repository type is used to define a Darcs repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Darcs."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2529
+#: C/index.docbook:2545
 #, no-wrap
 msgid ""
 "\n"
@@ -4437,17 +4466,17 @@ msgstr ""
 "      href=\"http://projects.collabora.co.uk/darcs/telepathy/\"/&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2536
+#: C/index.docbook:2552
 msgid "Git"
 msgstr "Git"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2538
+#: C/index.docbook:2554
 msgid "This repository type is used to define a Git repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Git."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2540
+#: C/index.docbook:2556
 #, no-wrap
 msgid ""
 "\n"
@@ -4461,7 +4490,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2545 C/index.docbook:2667
+#: C/index.docbook:2561 C/index.docbook:2683
 msgid ""
 "It allows the following attributes on the <sgmltag class=\"element\">branch</"
 "sgmltag> element:"
@@ -4470,7 +4499,7 @@ msgstr ""
 "\">branch</sgmltag>:"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2549
+#: C/index.docbook:2565
 msgid ""
 "The <sgmltag class=\"attribute\">revision</sgmltag> attribute is used to "
 "specify a local or remote-tracking branch to switch to in the update phase. "
@@ -4487,7 +4516,7 @@ msgstr ""
 "para no interferir en su trabajo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2556
+#: C/index.docbook:2572
 msgid ""
 "The <sgmltag class=\"attribute\">tag</sgmltag> attribute is used to specify "
 "a revision to unconditionally check out in the update phase. It overrides "
@@ -4498,7 +4527,7 @@ msgstr ""
 "Omite el atributo <sgmltag class=\"attribute\">revision</sgmltag>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2566
+#: C/index.docbook:2582
 #, no-wrap
 msgid ""
 "\n"
@@ -4516,17 +4545,17 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/title
-#: C/index.docbook:2575
+#: C/index.docbook:2591
 msgid "Mercurial"
 msgstr "Mercurial"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2577
+#: C/index.docbook:2593
 msgid "This repository type is used to define a Mercurial repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Mercurial."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2580
+#: C/index.docbook:2596
 #, no-wrap
 msgid ""
 "\n"
@@ -4538,7 +4567,7 @@ msgstr ""
 "    href=\"http://gtk-vnc.codemonkey.ws/hg/\" /&gt;\n"
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2585
+#: C/index.docbook:2601
 #, no-wrap
 msgid ""
 "\n"
@@ -4548,17 +4577,17 @@ msgstr ""
 "&lt;branch repo=\"hg.gtk-vnc\" module=\"outgoing.hg\" checkoutdir=\"gtk-vnc\"/&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2591
+#: C/index.docbook:2607
 msgid "Monotone"
 msgstr "Monotone"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2593
+#: C/index.docbook:2609
 msgid "This repository type is used to define a Monotone repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Monotone."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2596
+#: C/index.docbook:2612
 msgid ""
 "The <sgmltag class=\"attribute\">server</sgmltag> attribute is used to "
 "specify the repository server."
@@ -4567,7 +4596,7 @@ msgstr ""
 "especificar el servidor del repositorio."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2599
+#: C/index.docbook:2615
 msgid ""
 "The <sgmltag class=\"attribute\">database</sgmltag> attribute is used to "
 "specify the database to use for the repository."
@@ -4576,7 +4605,7 @@ msgstr ""
 "especificar la base de datos que usar por el repositorio."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2602
+#: C/index.docbook:2618
 msgid ""
 "The <sgmltag class=\"attribute\">defbranch</sgmltag> attribute is used "
 "specify the branch of the repository to use."
@@ -4585,7 +4614,7 @@ msgstr ""
 "especificar la rama del repositorio que usar."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2605
+#: C/index.docbook:2621
 #, no-wrap
 msgid ""
 "\n"
@@ -4599,17 +4628,17 @@ msgstr ""
 "    defbranch=\"im.pidgin.pidgin\"/&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2613
+#: C/index.docbook:2629
 msgid "Subversion"
 msgstr "Subversion"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2615
+#: C/index.docbook:2631
 msgid "This repository type is used to define a Subversion repository."
 msgstr "El tipo de repositorio se usa para definir un repositorio Subversion."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2618
+#: C/index.docbook:2634
 #, no-wrap
 msgid ""
 "\n"
@@ -4623,7 +4652,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2625
+#: C/index.docbook:2641
 msgid ""
 "It allows a <sgmltag class=\"attribute\">revision</sgmltag> on the <sgmltag "
 "class=\"element\">branch</sgmltag> element. This attribute defines the "
@@ -4634,7 +4663,7 @@ msgstr ""
 "que se descargará o, si es un número, una revisión específica para descargar."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2630
+#: C/index.docbook:2646
 #, no-wrap
 msgid ""
 "\n"
@@ -4646,7 +4675,7 @@ msgstr ""
 "        "
 
 #. (itstool) path: section/para
-#: C/index.docbook:2634
+#: C/index.docbook:2650
 msgid ""
 "It is possible to specify custom <literal>svn</literal> layout using "
 "<sgmltag class=\"attribute\">trunk-template</sgmltag> (defaults to "
@@ -4663,12 +4692,12 @@ msgstr ""
 "predeterminado es «%(module)s/tags/%(tag)s»)"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2644
+#: C/index.docbook:2660
 msgid "System"
 msgstr "Sistema"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2646
+#: C/index.docbook:2662
 msgid ""
 "This repository type is used to define a fake system repository. A system "
 "repository is required to create <link linkend=\"moduleset-syntax-defs-"
@@ -4680,7 +4709,7 @@ msgstr ""
 "\">systemmodules</sgmltag></link>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2651
+#: C/index.docbook:2667
 #, no-wrap
 msgid ""
 "\n"
@@ -4690,18 +4719,18 @@ msgstr ""
 "&lt;repository type=\"system\" name=\"system\"/&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2657
+#: C/index.docbook:2673
 msgid "Tarballs"
 msgstr "Archivos tar"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2659
+#: C/index.docbook:2675
 msgid "This repository type is used to define a tarball repository."
 msgstr ""
 "El tipo de repositorio se usa para definir un repositorio de archivos tar."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2662
+#: C/index.docbook:2678
 #, no-wrap
 msgid ""
 "\n"
@@ -4713,7 +4742,7 @@ msgstr ""
 "    href=\"http://dbus.freedesktop.org/releases/dbus-python/\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2671
+#: C/index.docbook:2687
 msgid ""
 "The <sgmltag class=\"attribute\">module</sgmltag> attribute specifies the "
 "file to download and compile, the <sgmltag class=\"attribute\">version</"
@@ -4724,7 +4753,7 @@ msgstr ""
 "\">version</sgmltag> especifica la versión del módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2677
+#: C/index.docbook:2693
 msgid ""
 "The <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class="
 "\"attribute\">hash</sgmltag>, as well as the obsolete <sgmltag class="
@@ -4739,7 +4768,7 @@ msgstr ""
 "correctamente."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2683
+#: C/index.docbook:2699
 msgid ""
 "Any number of <sgmltag class=\"element\">patch</sgmltag> elements may be "
 "nested inside the <sgmltag class=\"element\">branch</sgmltag> element. These "
@@ -4757,7 +4786,7 @@ msgstr ""
 "descenderá al aplicar el parche."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2691 C/index.docbook:3267
+#: C/index.docbook:2707 C/index.docbook:3283
 msgid ""
 "For module sets shipped with JHBuild, the patch files are looked up in the "
 "<filename>jhbuild/patches/</filename> directory; for module sets referred by "
@@ -4775,7 +4804,7 @@ msgstr ""
 "se descargará de esa ubicación."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2699
+#: C/index.docbook:2715
 #, no-wrap
 msgid ""
 "\n"
@@ -4793,7 +4822,7 @@ msgstr ""
 "&lt;/branch&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2707
+#: C/index.docbook:2723
 msgid ""
 "A tarball <sgmltag class=\"element\">branch</sgmltag> element may also "
 "contain <sgmltag class=\"element\">quilt</sgmltag> elements which specify "
@@ -4805,12 +4834,12 @@ msgstr ""
 "importar."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2715
+#: C/index.docbook:2731
 msgid "Including Other Module Sets"
 msgstr "Incluir otros conjuntos de módulos"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2717
+#: C/index.docbook:2733
 msgid ""
 "JHBuild allows one module set to include the contents of another by "
 "reference using the <sgmltag class=\"element\">include</sgmltag> element."
@@ -4819,7 +4848,7 @@ msgstr ""
 "por otro usando el elemento <sgmltag class=\"element\">include</sgmltag>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2721
+#: C/index.docbook:2737
 #, no-wrap
 msgid ""
 "\n"
@@ -4829,7 +4858,7 @@ msgstr ""
 "&lt;include href=\"<replaceable>uri</replaceable>\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2725
+#: C/index.docbook:2741
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> is a URI reference to the "
 "module set to be included, relative to the file containing the <sgmltag "
@@ -4840,7 +4869,7 @@ msgstr ""
 "contiene el elemento <sgmltag class=\"element\">include</sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2729
+#: C/index.docbook:2745
 msgid ""
 "Only module definitions are imported from the referenced module set - module "
 "sources are not. Multiple levels of includes are allowed, but include loops "
@@ -4851,12 +4880,12 @@ msgstr ""
 "pero no bucles (en este momento no hay ningún código para manejar bucles)."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2736
+#: C/index.docbook:2752
 msgid "Module Definitions"
 msgstr "Definiciones de módulos"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2738
+#: C/index.docbook:2754
 msgid ""
 "There are various types of module definitions that can be used in a module "
 "set file, and the list can easily be extended. Only the most common ones "
@@ -4867,7 +4896,7 @@ msgstr ""
 "se mencionan los más comunes."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2742
+#: C/index.docbook:2758
 msgid ""
 "They are all basically composed of a <sgmltag class=\"element\">branch</"
 "sgmltag> element describing how to get the module and <sgmltag class="
@@ -4882,7 +4911,7 @@ msgstr ""
 "para declarar las dependencias del módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2749
+#: C/index.docbook:2765
 msgid ""
 "Any modules listed in the <sgmltag class=\"element\">dependencies</sgmltag> "
 "element will be added to the module list for <command>jhbuild build</"
@@ -4895,7 +4924,7 @@ msgstr ""
 "dependientes se construyen primero."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2754
+#: C/index.docbook:2770
 msgid ""
 "After generating the modules list, the modules listed in the <sgmltag class="
 "\"element\">suggests</sgmltag> element will be used to further sort the "
@@ -4910,12 +4939,12 @@ msgstr ""
 "módulo."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2761
+#: C/index.docbook:2777
 msgid "autotools"
 msgstr "autotools"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2763
+#: C/index.docbook:2779
 msgid ""
 "The <sgmltag class=\"element\">autotools</sgmltag> element is used to define "
 "a module which is compiled using the GNU Autotools build system."
@@ -4925,37 +4954,8 @@ msgstr ""
 "Autotools."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2767
+#: C/index.docbook:2783
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;autotools id=\"<replaceable>id</replaceable>\"\n"
-#| "\t      [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-#| "\t      [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-#| "\t      [ makeinstallargs=\"<replaceable>makeinstallargs</replaceable>\" ]\n"
-#| "\t      [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n"
-#| "\t      [ makefile=\"<replaceable>makefile</replaceable>\" ]\n"
-#| "\t      [ skip-autogen=\"<replaceable>skip-autogen</replaceable>\" ]\n"
-#| "\t      [ skip-install=\"<replaceable>skip-install</replaceable>\" ]\n"
-#| "\t      [ uninstall-before-install=\"<replaceable>uninstall-before-install</replaceable>\" ]\n"
-#| "\t      [ autogen-template=\"<replaceable>autogen-template</replaceable>\" ]\n"
-#| "\t      [ check-target=\"<replaceable>check-target</replaceable>\" ]\n"
-#| "\t      [ supports-non-srcdir-builds=\"<replaceable>supports-non-srcdir-builds</replaceable>\" ]&gt;\n"
-#| "\n"
-#| "  &lt;branch [ ... ] &gt;\n"
-#| "    [...]\n"
-#| "  &lt;/branch&gt;\n"
-#| "\n"
-#| "  &lt;dependencies&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/dependencies&gt;\n"
-#| "  &lt;after&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/after&gt;\n"
-#| "\n"
-#| "&lt;/autotools&gt;\n"
 msgid ""
 "\n"
 "&lt;autotools id=\"<replaceable>id</replaceable>\"\n"
@@ -5018,7 +5018,7 @@ msgstr ""
 "&lt;/autotools&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2798
+#: C/index.docbook:2814
 msgid ""
 "The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class="
 "\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
@@ -5033,7 +5033,7 @@ msgstr ""
 "<command>make install</command> respectivamente."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2805
+#: C/index.docbook:2821
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies "
 "the name of the autogen.sh script to run. The value <literal>autoreconf</"
@@ -5062,7 +5062,7 @@ msgstr ""
 "\">makefile</sgmltag> especifica el nombre del archivo makefile que usar."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2820
+#: C/index.docbook:2836
 msgid ""
 "The <sgmltag class=\"attribute\">uninstall-before-install</sgmltag> "
 "specifies any old installed files from the module should before removed "
@@ -5084,7 +5084,7 @@ msgstr ""
 "del módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2830
+#: C/index.docbook:2846
 msgid ""
 "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
 "attribute is used to mark modules that can't be cleanly built using a "
@@ -5095,11 +5095,7 @@ msgstr ""
 "usando una carpeta de fuentes por separado."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2835
-#| msgid ""
-#| "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
-#| "attribute is used to mark modules that can't be cleanly built using a "
-#| "separate source directory."
+#: C/index.docbook:2851
 msgid ""
 "The <sgmltag class=\"attribute\">force-non-srcdir-builds</sgmltag> attribute "
 "is used to mark modules that can't be cleanly built from the source "
@@ -5110,7 +5106,7 @@ msgstr ""
 "carpeta de fuentes, pero que sí se pueden construir fuera de ella."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2839
+#: C/index.docbook:2855
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be "
 "used if you need finer control over the autogen command line. It is a python "
@@ -5127,7 +5123,7 @@ msgstr ""
 "ejemplo, esta es la plantilla predeterminada de autogen:"
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2847
+#: C/index.docbook:2863
 #, no-wrap
 msgid ""
 "\n"
@@ -5137,7 +5133,7 @@ msgstr ""
 "%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2851
+#: C/index.docbook:2867
 msgid ""
 "The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
 "specified (with false as value) for modules that do not have a <command>make "
@@ -5148,12 +5144,12 @@ msgstr ""
 "objetivo <command>make check</command>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2857
+#: C/index.docbook:2873
 msgid "cmake"
 msgstr "cmake"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2859
+#: C/index.docbook:2875
 msgid ""
 "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
 "module which is built using the CMake build system."
@@ -5162,7 +5158,7 @@ msgstr ""
 "un módulo que se construirá usando el sistema de construcción CMake."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2862
+#: C/index.docbook:2878
 #, no-wrap
 msgid ""
 "\n"
@@ -5198,12 +5194,12 @@ msgstr ""
 "&lt;/cmake&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2881
+#: C/index.docbook:2897
 msgid "distutils"
 msgstr "distutils"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2883
+#: C/index.docbook:2899
 msgid ""
 "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
 "a module which is built using python's distutils"
@@ -5212,7 +5208,7 @@ msgstr ""
 "definir un módulo que se construirá usando las distutils de python."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2886
+#: C/index.docbook:2902
 #, no-wrap
 msgid ""
 "\n"
@@ -5250,12 +5246,12 @@ msgstr ""
 "&lt;/distutils&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2906
+#: C/index.docbook:2922
 msgid "linux"
 msgstr "linux"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2908
+#: C/index.docbook:2924
 msgid ""
 "The <sgmltag class=\"element\">linux</sgmltag> element defines a module used "
 "to build a linux kernel. In addition, a separate kernel configuration can be "
@@ -5267,7 +5263,7 @@ msgstr ""
 "\"element\">kconfig</sgmltag>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2913
+#: C/index.docbook:2929
 #, no-wrap
 msgid ""
 "\n"
@@ -5319,12 +5315,12 @@ msgstr ""
 "&lt;/linux&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2940
+#: C/index.docbook:2956
 msgid "perl"
 msgstr "perl"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2942
+#: C/index.docbook:2958
 msgid ""
 "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
 "modules."
@@ -5333,7 +5329,7 @@ msgstr ""
 "módulos perl."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2945
+#: C/index.docbook:2961
 msgid ""
 "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>make</command>."
@@ -5342,7 +5338,7 @@ msgstr ""
 "especificar argumentos adicionales para pasárselos a <command>make</command>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2949
+#: C/index.docbook:2965
 #, no-wrap
 msgid ""
 "\n"
@@ -5384,12 +5380,12 @@ msgstr ""
 "&lt;/perl&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:2971
+#: C/index.docbook:2987
 msgid "systemmodule"
 msgstr "systemmodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2973
+#: C/index.docbook:2989
 msgid ""
 "The <sgmltag class=\"element\">systemmodule</sgmltag> element is used to "
 "specify modules that must be provided by the system. The module should be "
@@ -5400,7 +5396,7 @@ msgstr ""
 "instalado por el sistema de gestión de paquetes de su sistema."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2978
+#: C/index.docbook:2994
 #, no-wrap
 msgid ""
 "\n"
@@ -5418,7 +5414,7 @@ msgstr ""
 "&lt;/systemmodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2986
+#: C/index.docbook:3002
 msgid ""
 "If the system module does not provide a pkg-config file, <sgmltag class="
 "\"element\">systemdependencies</sgmltag> tag can be used to identify the "
@@ -5433,7 +5429,7 @@ msgstr ""
 "valores:"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2994
+#: C/index.docbook:3010
 msgid ""
 "<sgmltag class=\"attvalue\">path</sgmltag> value. The path is searched for "
 "the matching program name."
@@ -5442,7 +5438,7 @@ msgstr ""
 "especificar el nombre del programa."
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:2998
+#: C/index.docbook:3014
 msgid ""
 "<sgmltag class=\"attvalue\">c_include</sgmltag> value. The C include path is "
 "searched for the matching header name. <sgmltag class=\"attribute\">name</"
@@ -5460,7 +5456,7 @@ msgstr ""
 "\"><varname>module_autogenargs</varname></link>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3009
+#: C/index.docbook:3025
 #, no-wrap
 msgid ""
 "\n"
@@ -5494,12 +5490,12 @@ msgstr ""
 "&lt;/systemmodule&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3027
+#: C/index.docbook:3043
 msgid "waf"
 msgstr "waf"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3029
+#: C/index.docbook:3045
 msgid ""
 "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
 "module which is built using the Waf build system."
@@ -5508,7 +5504,7 @@ msgstr ""
 "módulo que se construirá con el sistema de construcción Waf."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3032
+#: C/index.docbook:3048
 msgid ""
 "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
 "specify the waf command script to use; it defaults to <command>waf</command>."
@@ -5518,7 +5514,7 @@ msgstr ""
 "<command>waf</command>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3036
+#: C/index.docbook:3052
 msgid ""
 "The <sgmltag class=\"attribute\">python-command</sgmltag> attribute is used "
 "to specify the Python executable to use; it defaults to <command>python</"
@@ -5530,7 +5526,7 @@ msgstr ""
 "versión 3 de Python."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3041
+#: C/index.docbook:3057
 #, no-wrap
 msgid ""
 "\n"
@@ -5570,12 +5566,12 @@ msgstr ""
 "&lt;/waf&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3062
+#: C/index.docbook:3078
 msgid "testmodule"
 msgstr "testmodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3064
+#: C/index.docbook:3080
 msgid ""
 "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
 "create a module which runs a suite of tests using LDTP or Dogtail."
@@ -5584,7 +5580,7 @@ msgstr ""
 "crear un módulo que ejecute un conjunto de pruebas usado LDTP o Dogtail."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3068
+#: C/index.docbook:3084
 #, no-wrap
 msgid ""
 "\n"
@@ -5634,7 +5630,7 @@ msgstr ""
 "&lt;/testmodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3092
+#: C/index.docbook:3108
 msgid ""
 "The <sgmltag class=\"attribute\">type</sgmltag> attribute gives the type of "
 "tests to be run in the module. 'dogtail' uses python to invoke all .py "
@@ -5645,7 +5641,7 @@ msgstr ""
 "los archivos .py. «ldtp» invoca «ldtprunner run.xml»."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3096
+#: C/index.docbook:3112
 msgid ""
 "Unless the noxvfb configuration option is set, an Xvfb server is started to "
 "run the tests in"
@@ -5654,12 +5650,12 @@ msgstr ""
 "un servidor Xvfb para ejecutar las pruebas en él"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3101
+#: C/index.docbook:3117
 msgid "metamodule"
 msgstr "metamodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3103
+#: C/index.docbook:3119
 msgid ""
 "The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module "
 "that doesn't actually do anything. The only purpose of a module of this type "
@@ -5670,7 +5666,7 @@ msgstr ""
 "son sus dependencias."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3107
+#: C/index.docbook:3123
 msgid ""
 "For example, meta-gnome-desktop depends on all the key components of the "
 "GNOME desktop, therefore telling JHBuild to install it actually installs the "
@@ -5681,7 +5677,7 @@ msgstr ""
 "instala el escritorio completo."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3111
+#: C/index.docbook:3127
 #, no-wrap
 msgid ""
 "\n"
@@ -5709,7 +5705,7 @@ msgstr ""
 "&lt;/metamodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3124
+#: C/index.docbook:3140
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of "
 "the module. The child elements are handled as for <link linkend=\"moduleset-"
@@ -5722,17 +5718,17 @@ msgstr ""
 "sgmltag></link>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3132
+#: C/index.docbook:3148
 msgid "Deprecated Elements"
 msgstr "Elementos obsotelos"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3138
+#: C/index.docbook:3154
 msgid "cvsroot"
 msgstr "cvsroot"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3140
+#: C/index.docbook:3156
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -5743,7 +5739,7 @@ msgstr ""
 "sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3144
+#: C/index.docbook:3160
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
 "a CVS repository."
@@ -5752,7 +5748,7 @@ msgstr ""
 "describir un repositorio CVS."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3147
+#: C/index.docbook:3163
 #, no-wrap
 msgid ""
 "\n"
@@ -5768,7 +5764,7 @@ msgstr ""
 "           password=\"<replaceable>contraseña-anónima</replaceable>\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3154
+#: C/index.docbook:3170
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the CVS repository."
@@ -5777,7 +5773,7 @@ msgstr ""
 "identificador único para el repositorio CVS."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3157
+#: C/index.docbook:3173
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -5787,7 +5783,7 @@ msgstr ""
 "módulos."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3161
+#: C/index.docbook:3177
 msgid ""
 "The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root "
 "used for anonymous access to this repository, and the <sgmltag class="
@@ -5800,12 +5796,12 @@ msgstr ""
 "anónimo."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3168
+#: C/index.docbook:3184
 msgid "svnroot"
 msgstr "svnroot"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3170
+#: C/index.docbook:3186
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -5816,7 +5812,7 @@ msgstr ""
 "sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3174
+#: C/index.docbook:3190
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
 "a Subversion repository."
@@ -5825,7 +5821,7 @@ msgstr ""
 "describir un repositorio de Subversion."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3177
+#: C/index.docbook:3193
 #, no-wrap
 msgid ""
 "\n"
@@ -5839,7 +5835,7 @@ msgstr ""
 "           href=\"<replaceable>svnroot-anónimo</replaceable>\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3183
+#: C/index.docbook:3199
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the Subversion repository."
@@ -5848,7 +5844,7 @@ msgstr ""
 "identificador único para el repositorio de Subversion."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3186
+#: C/index.docbook:3202
 msgid ""
 "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -5857,7 +5853,7 @@ msgstr ""
 "este repositorio es el predeterminado para este conjunto de módulos."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3190
+#: C/index.docbook:3206
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL "
 "for the repository. This will probably be either a <literal>http</literal>, "
@@ -5868,12 +5864,12 @@ msgstr ""
 "<literal>https</literal> o <literal>svn</literal>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3200
+#: C/index.docbook:3216
 msgid "Deprecated Module Types"
 msgstr "Tipos de módulos obsoletos"
 
 #. (itstool) path: warning/para
-#: C/index.docbook:3203
+#: C/index.docbook:3219
 msgid ""
 "This section describes deprecated elements, they may still be used in "
 "existing module sets but it is advised not to use them anymore."
@@ -5882,12 +5878,12 @@ msgstr ""
 "módulos existentes, pero se recomienda que no se usen más."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3209
+#: C/index.docbook:3225
 msgid "tarball"
 msgstr "archivo tar"
 
 #. (itstool) path: important/para
-#: C/index.docbook:3212
+#: C/index.docbook:3228
 msgid ""
 "This deprecated element is just a thin wrapper around both <sgmltag class="
 "\"element\">autotools</sgmltag> module type and <sgmltag class=\"element"
@@ -5898,7 +5894,7 @@ msgstr ""
 "<sgmltag class=\"element\">tarball</sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3217
+#: C/index.docbook:3233
 msgid ""
 "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
 "module that is to be built from a tarball."
@@ -5907,7 +5903,7 @@ msgstr ""
 "un módulo que se construirá a partir de un archivo tar."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3220
+#: C/index.docbook:3236
 #, no-wrap
 msgid ""
 "\n"
@@ -5963,7 +5959,7 @@ msgstr ""
 "  &lt;/tarball&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3247
+#: C/index.docbook:3263
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
 "\">version</sgmltag> attributes are used to identify the module."
@@ -5972,7 +5968,7 @@ msgstr ""
 "\"attribute\">version</sgmltag> se usan para identificar el módulo."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3251
+#: C/index.docbook:3267
 msgid ""
 "The <sgmltag class=\"element\">source</sgmltag> element specifies the file "
 "to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> "
@@ -5991,7 +5987,7 @@ msgstr ""
 "el paquete fuente se ha descargado correctamente."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3260
+#: C/index.docbook:3276
 msgid ""
 "The <sgmltag class=\"element\">patches</sgmltag> element is used to specify "
 "one or more patches to apply to the source tree after unpacking, the "
@@ -6007,7 +6003,7 @@ msgstr ""
 "descenderá al aplicar el parche."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3275
+#: C/index.docbook:3291
 msgid ""
 "The other attributes and the <sgmltag class=\"element\">dependencies</"
 "sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class="
