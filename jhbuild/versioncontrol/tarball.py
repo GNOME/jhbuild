@@ -196,6 +196,8 @@ class TarballBranch(Branch):
                 logging.warning(_('skipped hash check (missing support for %s)') % algo)
 
     def _download_tarball(self, buildscript, localfile):
+        if not os.access(self.config.tarballdir, os.R_OK|os.W_OK|os.X_OK):
+            raise FatalError(_('tarball dir (%s) must be writable') % self.config.tarballdir)
         """Downloads the tarball off the internet, using wget or curl."""
         extra_env = {
             'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
@@ -224,8 +226,6 @@ class TarballBranch(Branch):
             except OSError:
                 raise FatalError(
                         _('tarball dir (%s) can not be created') % self.config.tarballdir)
-        if not os.access(self.config.tarballdir, os.R_OK|os.W_OK|os.X_OK):
-            raise FatalError(_('tarball dir (%s) must be writable') % self.config.tarballdir)
         try:
             self._check_tarball()
         except BuildStateError:
