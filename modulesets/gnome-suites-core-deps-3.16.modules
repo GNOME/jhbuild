@@ -86,11 +86,11 @@
   </autotools>
 
   <autotools id="cairo" autogenargs="--enable-gl">
-    <branch repo="git.freedesktop.org">
-    </branch>
     <if condition-set="quartz">
       <autogenargs value="--enable-quartz --disable-gl"/>
     </if>
+    <branch repo="git.freedesktop.org">
+    </branch>
     <dependencies>
       <if condition-unset="quartz">
         <dep package="fontconfig"/>
@@ -1505,10 +1505,10 @@
   <!-- Deprecated dependencies -->
 
   <autotools id="gtk+-2">
-    <branch checkoutdir="gtk+-2" module="gtk+" revision="gtk-2-24"/>
     <if condition-set="quartz">
       <autogenargs value="--with-backend=quartz"/>
     </if>
+    <branch checkoutdir="gtk+-2" module="gtk+" revision="gtk-2-24"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
