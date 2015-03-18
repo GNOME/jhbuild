@@ -1,3 +1,127 @@
+===============
+Version 3.15.92
+===============
+
+Fixed bugs:
+
+ - #634617, use ACLOCAL_PATH
+ - #655417, build, tinderbox, list, info commands are slow
+ - #655553, sysdeps: Do not use jhbuilt pkg-config
+ - #677672, jhbuild'ing evolution-data-server: libtool relink error
+ - #691394, jhbuild doesn't know about xml or python module sysdeps
+ - #723053, zeitgeist is missing a dependency on python-rdflib
+ - #724771, Aisleriot really does depend on gconf
+ - #725986, sysdeps: look in C{,PLUS}_INCLUDE_PATH for headers
+ - #726684, JHBuild looks for package x when it should look for x-devel
+ - #726755, add new command 'jhbuild postinst'
+ - #727335, Yorba repository: git://yorba.org no longer reachable
+ - #727962, Jhbuild sysdeps --install crash (PackageKit API change)
+ - #729489, gnome-shell only use libgsystem on Linux
+ - #730543, spice-gtk depends on spice-protocol
+ - #730768, 3.14: add mir as an optional depend of gtk+
+ - #730970, app-3-14: add Hitori
+ - #731132, nemiver depends on vte-2.90
+ - #731174, gnome-world-3.14: metacity
+ - #732205, gnome-settings-daemon optionally depends on NetworkManager
+ - #733082, evolution in 3.14 modules needs dependency on gnome-icon-theme
+ - #733083, shotwell's repository is old
+ - #733141, NameError: name 'use_lib64' is not defined.
+ - #733704, Jhbuild does not function correctly when multiple versions of
+            python are installed
+ - #734375, Add Budgie-Desktop in GNOME-World-3.14 Modules
+ - #734583, Dependency missing from adwaita-icon-theme to librsvg
+ - #734586, Dependency missing from gnome-terminal to appdata-tools
+ - #734593, The geoip module uses GeoIP-1.5.1 which has a broken .pc file
+ - #734637, gnome-world-3.14: add gnome-flashback
+ - #734710, Upgrade gnutls version to 3.x in modulesets targetting 3.14 and
+            above
+ - #735019, Missing ltdl dependency for libcanberra
+ - #735517, FreeBSD-specific autogenargs and dependencies
+ - #735641, gtk+ depends on adwaita-icon-theme
+ - #736605, mutter depends on libxkbcommon and gbm
+ - #736976, Update WebKit1 to 2.4.5 in core-deps-3.14
+ - #737201, Add libchamplainmm
+ - #737481, Backtrace from running jhbuild sysdeps --inistall on FC21 to be
+ - #739957, Add gnome-characters to jhbuild
+ - #740307, java-atk-wrapper should be added as a module
+ - #740866, Sluggish startup
+ - #741266, gnome-sysdeps-3.16: add xmlto
+ - #741461, 3.16: update spice-gtk version
+ - #741484, 3.16: add gl and egl sysdeps
+ - #741496, sysdeps: add two new modes
+ - #741536, 3.16: add c++ sysdep
+ - #741537, Some trivial bugfixes for 'jhbuild sysdeps'
+ - #741538, 3.16: fill in a lot of base system depends
+ - #741774, Fix security warning when using sysdeps --install
+ - #741905, modulesets: fix libgusb location
+ - #741908, 3.16: gdm depends on plymouth by default now
+ - #741931, environment: set OBJC_INCLUDE_PATH
+ - #742051, gdm should not depend on plymouth on non-Linux systems
+ - #742134, 3.16: tweak some deps on macos
+ - #742258, Syntax error in sysdeps.py
+ - #742264, "virtual" system depends
+ - #742267, add 'sysid' submodule
+ - #742268, systeminstall: search for path files in sbin
+ - #742269, Debian sysdeps whac-a-mole
+ - #742292, jhbuild: figure out how to deal with make vs. gmake
+ - #742298, various improvements for packagedb
+ - #742305, Mutter doesn't need gbm when wayland is not available
+ - #742381, apps-3.16: update gnome-maps dependencies
+ - #742475, CMake support out of source builds
+ - #742481, OSX Bootstrap improvements
+ - #742544, git.gnome.org URL changed to HTTPS
+ - #742545, append() takes exactly one argument (2 given)
+ - #742671, Add gnome-2048 to world module set
+ - #742959, Switch clutter-gst3 package to stable branch
+ - #743127, packagedb: move to using separate files for package info
+ - #744285, world: add xdg-app
+ - #744903, triggers: fix LiteralMatch vs REMatch problems
+ - #744910, jhbuild inappropriately creates '~/.cvspass' file
+ - #745591, Update Sound Juicer dependencies
+ - #745822, ibus-hangul does not get installed with jhbuild sysdeps
+            --install
+
+Translators:
+
+- Samir Ribic (bs)
+- Marek Černocký (cs)
+- MarMav (el)
+- Daniel Mustieles (es)
+- Andika Triwidada (id)
+- Seong-ho Cho (ko)
+- Kjartan Maraas (nb)
+- Rafael Ferreira, Enrico Nicoletto (pt_BR)
+- Dušan Kazik (sk)
+- Matej Urbančič (sl)
+- Sebastian Rasmussen (sv)
+- Muhammet Kara (tr)
+
+Documentation translators:
+
+- Maria  Mavridou, marablack3 (el)
+- Daniel Mustieles (es)
+- Rafael Ferreira (pt_BR)
+
+Many thanks to all contributors: Emmanuele Bassi, MarMav, Kjartan Maraas,
+Zeeshan Ali (Khattak), Seong-ho Cho, William Jon McCann, Rafael Ferreira,
+Enrico Nicoletto, Nicklas Lindgren, Rui Matos, Philip Withnall, Richard
+Mark, Samir Ribic, Jiro Matsuzawa, Vadim Rutkovsky, Juan Pablo Ugarte,
+Javier Jardón, Yanko Kaneti, Debarshi Ray, Jens Georg, Bastien Nocera, Juan
+R. García Blanco, Fabiano Fidêncio, Owen W. Taylor, Ting-Wei Lan, Maria
+Mavridou, Kalev Lember, Alberts Muktupāvels, Ignacio Casal Quinteiro, David
+King, Piotr Drąg, Víctor Manuel Jáquez Leal, Jasper St. Pierre, Thiago F.
+G. Albuquerque, Ryan Lortie, Igor Gnatenko, Damián Nohales, Marek
+Černocký, Matthias Clasen, Christian Hergert, Tristan Brindle, Sébastien
+Wilmet, Murray Cumming, Patrick Griffis, Claudio Saavedra, Jesse van den
+Kieboom, Juan A. Suarez Romero, Matej Urbančič, marablack3, Giovanni
+Campagna, Michael Catanzaro, Gergely POLONKAI, Lionel Landwerlin, Dmitry
+Shachnev, Paolo Borelli, Andika Triwidada, Muhammet Kara, Magdalen Berns,
+Carlos Garcia Campos, Sebastian Pölsterl, LAN-TW, alexis diavatis, Richard
+Hughes, Sebastian Rasmussen, Rico Tzschichholz, Phillip Wood, Dan Winship,
+Olav Vitters, Daniel Mustieles, Florian Müllner, Dušan Kazik, Erick Pérez
+Castellanos, Marc-André Lureau
+
+
 ==============
 Version 3.12.0
 ==============
