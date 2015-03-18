@@ -14,3 +14,5 @@ app_PYTHON = \
 
 sitecustomizedir = $(pkgdatadir)/sitecustomize
 sitecustomize_DATA = sitecustomize/sitecustomize.py
+
+EXTRA_DIST = $(sitecustomize_DATA)
