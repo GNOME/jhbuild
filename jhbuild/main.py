@@ -30,7 +30,6 @@ import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.utils.cmds import get_output
-from jhbuild.moduleset import warn_local_modulesets
 
 
 if sys.platform == 'darwin':
@@ -148,8 +147,6 @@ def main(args):
     else:
         command = args[0]
         args = args[1:]
-
-    warn_local_modulesets(config)
 
     try:
         rc = jhbuild.commands.run(command, config, args, help=lambda: print_help(parser))
