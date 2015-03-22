@@ -28,7 +28,7 @@ from jhbuild.utils.cmds import get_output
 if sys.platform.startswith('win'):
     from jhbuild.utils import subprocess_win32
 
-def addpath(envvar, path):
+def addpath(envvar, path, prepend=True):
     '''Adds a path to an environment variable.'''
     if envvar in [ 'LDFLAGS', 'CFLAGS', 'CXXFLAGS' ]:
         if sys.platform.startswith('win'):
@@ -62,7 +62,10 @@ def addpath(envvar, path):
 
         envval = os.environ.get(envvar, path)
         parts = envval.split(pathsep)
-        parts.insert(0, path)
+        if prepend:
+            parts.insert(0, path)
+        else:
+            parts.append(path)
         # remove duplicate entries:
         i = 1
         while i < len(parts):
@@ -151,6 +154,24 @@ def setup_env(prefix):
     manpathdir = os.path.join(prefix, 'share', 'man')
     addpath('MANPATH', '')
     addpath('MANPATH', manpathdir)
+    # Setting MANPATH on *BSD causes man to ignore its default search path,
+    # so we need to add the default search path to MANPATH.
+    if sys.platform.startswith('freebsd') or sys.platform.startswith('dragonfly'):
+        systemmanpath = get_output('manpath -q', extra_env={'MANPATH': ''})
+        systemmanpath = systemmanpath.strip().split(':')
+    elif sys.platform.startswith('netbsd'):
+        # Running 'man -p' without specifying a manual page name causes it to
+        # exit with status 1.
+        systemmanpath = get_output('man -p || true', extra_env={'MANPATH': ''})
+        systemmanpath = map(os.path.dirname, systemmanpath.strip().split('\n'))
+    elif sys.platform.startswith('openbsd'):
+        # I cannot find a command that prints the default search path on
+        # OpenBSD, so I add paths found in the default /etc/man.conf here.
+        systemmanpath = [ '/usr/share/man', '/usr/X11R6/man', '/usr/local/man' ]
+    else:
+        systemmanpath = []
+    for systemmanpathdir in systemmanpath:
+        addpath('MANPATH', systemmanpathdir, prepend=False)
 
     # INFOPATH
     infopathdir = os.path.join(prefix, 'share', 'info')
