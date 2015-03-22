@@ -362,17 +362,8 @@ def load(config, uri=None):
         modulesets = [ config.moduleset ]
     ms = ModuleSet(config = config)
     for uri in modulesets:
-        if os.path.isabs(uri):
-            pass
-        elif config.modulesets_dir and config.nonetwork or config.use_local_modulesets:
-            if os.path.isfile(os.path.join(config.modulesets_dir,
-                                           uri + '.modules')):
-                uri = os.path.join(config.modulesets_dir, uri + '.modules')
-            elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
-                uri = os.path.join(config.modulesets_dir, uri)
-        elif not urlparse.urlparse(uri)[0]:
-            uri = 'https://git.gnome.org/browse/gnome-modulesets/plain' \
-                  '/%s.modules' % uri
+        if not urlparse.urlparse(uri):
+           raise FatalError(_("moduleset variable '%s' should be a URI") % uri)
         ms.modules.update(_parse_module_set(config, uri).modules)
 
     # create virtual sysdeps
