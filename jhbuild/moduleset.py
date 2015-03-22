@@ -371,7 +371,7 @@ def load(config, uri=None):
             elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
                 uri = os.path.join(config.modulesets_dir, uri)
         elif not urlparse.urlparse(uri)[0]:
-            uri = 'https://git.gnome.org/browse/jhbuild/plain/modulesets' \
+            uri = 'https://git.gnome.org/browse/gnome-modulesets/plain' \
                   '/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
 
