@@ -450,6 +450,11 @@ def _parse_module_set(config, uri):
 
     assert document.documentElement.nodeName == 'moduleset'
 
+    for node in _child_elements_matching(document.documentElement, ['redirect']):
+        new_url = node.getAttribute('href')
+        logging.info('moduleset is now located at %s', new_url)
+        return _parse_module_set(config, new_url)
+
     _handle_conditions(config, document.documentElement)
 
     moduleset = ModuleSet(config = config)

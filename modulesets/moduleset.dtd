@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|systemmodule)+>
+<!ELEMENT moduleset (redirect|repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|systemmodule)+>
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
@@ -46,6 +46,9 @@
 
 <!ELEMENT include EMPTY>
 <!ATTLIST include href CDATA #REQUIRED>
+
+<!ELEMENT redirect EMPTY>
+<!ATTLIST redirect href CDATA #REQUIRED>
 
 <!ELEMENT autotools (if*,autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
