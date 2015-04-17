@@ -24,6 +24,7 @@ import shlex
 import subprocess
 import pipes
 import imp
+import time
 from StringIO import StringIO
 
 import cmds
@@ -333,6 +334,58 @@ class PKSystemInstall(SystemInstall):
     def detect(cls):
         return cmds.has_command('pkcon')
 
+class PacmanSystemInstall(SystemInstall):
+    def __init__(self):
+        SystemInstall.__init__(self)
+        self._pacman_install_args = ['pacman', '-S', '--asdeps', '--needed', '--quiet', '--noconfirm']
+
+    def _maybe_update_pkgfile(self):
+        if not cmds.has_command('pkgfile'):
+            logging.info(_('pkgfile not found, automatically installing'))
+            if subprocess.call(self._root_command_prefix_args + self._pacman_install_args + ['pkgfile',]):
+                logging.error(_('Failed to install pkgfile'))
+                raise SystemExit
+        # Update the pkgfile cache if it is older than 1 day.
+        if not os.listdir('/var/cache/pkgfile') or os.stat('/var/cache/pkgfile').st_mtime < time.time() - 86400:
+            logging.info(_('pkgfile cache is old or doesn\'t exist, automatically updating'))
+            subprocess.call(self._root_command_prefix_args + ['pkgfile', '--update'])
+
+    def install(self, uninstalled):
+        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
+        logging.info(_('Using pacman to install packages.  Please wait.'))
+        package_names = set()
+
+        if not uninstalled_filenames and not uninstalled_pkgconfigs:
+            logging.info(_('Nothing to install'))
+            return
+
+        self._maybe_update_pkgfile()
+
+        for name, pkgconfig in uninstalled_pkgconfigs:
+            # Just throw the pkgconfigs in the normal file list
+            uninstalled_filenames.append((None, '/usr/lib/pkgconfig/%s.pc' %pkgconfig))
+
+        for name, filename in uninstalled_filenames:
+            result = subprocess.check_output(['pkgfile', '--raw', filename])
+            if result:
+                package_names.add(result.split('\n')[0])
+
+        if not package_names:
+            logging.info(_('Nothing to install'))
+            return
+
+        logging.info('Installing:\n  %s' %('\n  '.join(package_names)))
+        if subprocess.call(self._root_command_prefix_args + self._pacman_install_args + list(package_names)):
+            logging.error(_('Install failed'))
+        else:
+            logging.info(_('Completed!'))
+
+    @classmethod
+    def detect(cls):
+        if cmds.has_command('pacman'):
+            return True
+        return False
+
 class YumSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
@@ -410,7 +463,7 @@ class AptSystemInstall(SystemInstall):
         return cmds.has_command('apt-file')
 
 # Ordered from best to worst
-_classes = [AptSystemInstall, PKSystemInstall, YumSystemInstall]
+_classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall, YumSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
