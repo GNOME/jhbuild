@@ -2500,50 +2500,6 @@
     </suggests>
   </autotools>
 
-  <!-- ########## Gnome Flashback Modules ########## -->
-
-  <autotools id="gnome-panel">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-desktop"/>
-      <dep package="libwnck"/>
-      <dep package="evolution-data-server"/>
-      <dep package="gnome-menus"/>
-      <dep package="dbus-glib"/>
-      <dep package="librsvg"/>
-      <dep package="libgweather"/>
-      <dep package="libcanberra"/>
-      <dep package="yelp-tools"/>
-    </dependencies>
-    <suggests>
-      <dep package="polkit-gobject"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="metacity">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="intltool"/>
-      <dep package="libcanberra"/>
-      <dep package="zenity"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="notification-daemon">
-    <branch/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libcanberra"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libgnomekbd">
     <branch/>
     <dependencies>
@@ -2577,27 +2533,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-flashback">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-desktop"/>
-      <dep package="gtk+"/>
-    </dependencies>
-  </autotools>
-
-  <metamodule id="meta-gnome-flashback">
-    <dependencies>
-      <dep package="gnome-applets"/>
-      <dep package="gnome-flashback"/>
-      <dep package="gnome-panel"/>
-      <dep package="metacity"/>
-      <dep package="notification-daemon"/>
-    </dependencies>
-  </metamodule>
-
-  <!-- ########## End of Gnome Flashback Modules ########## -->
-
   <autotools id="librsync" autogen-sh="configure">
     <branch repo="downloads.sourceforge.net"
             module="librsync/librsync-0.9.7.tar.gz"
@@ -2628,32 +2563,6 @@
   <!--   enscript                                   -->
   <!--   libavcodec                                 -->
   <!-- Those are not managed by jhbuild             -->
-  <autotools id="gnome-applets" autogenargs="--enable-mini-commander">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-panel"/>
-      <dep package="libgtop"/>
-      <dep package="libgnomekbd"/>
-      <dep package="gucharmap"/>
-      <dep package="libgweather"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gtk+"/>
-      <dep package="glib"/>
-      <dep package="libxklavier" />
-      <dep package="libwnck"/>
-      <dep package="libnotify"/>
-      <dep package="dbus"/>
-      <dep package="dbus-glib"/>
-      <dep package="pygobject"/>
-      <dep package="adwaita-icon-theme"/>
-      <dep package="libxml2"/>
-      <dep package="polkit-gobject"/>
-    </dependencies>
-    <after>
-      <dep package="gnome-control-center"/>
-    </after>
-  </autotools>
 
   <autotools id="gnome-search-tool">
     <branch/>
