@@ -223,6 +223,10 @@ class AutogenModule(MakeModule, DownloadableModule):
         except:
             pass
 
+        if self.autogen_sh == 'autoreconf':
+            buildscript.execute(['autoreconf', '-fi'], cwd=srcdir)
+            os.chmod(os.path.join(srcdir, 'configure'), 0755)
+
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT,
