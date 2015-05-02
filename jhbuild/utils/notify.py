@@ -43,18 +43,28 @@ class Notify:
         except dbus.exceptions.DBusException:
             return None
 
+    def reset(self):
+        self.notif_id = 0
+        self.iface = self.get_iface()
+
     def notify(self, summary, body, icon = "", expire = 0):
         '''emit a notification'''
         if self.disabled:
             return
 
-        self.notif_id = self.iface.Notify("jhbuild", self.notif_id, icon,
-                                          summary, body, [], {}, 1000*expire)
+        try:
+            self.notif_id = self.iface.Notify("jhbuild", self.notif_id, icon,
+                                              summary, body, [], {}, 1000*expire)
+        except dbus.exceptions.DBusException:
+            self.reset()
 
     def clear(self):
         if self.notif_id != 0:
-            self.iface.CloseNotification(self.notif_id)
-            self.notif_id = 0
+            try:
+                self.iface.CloseNotification(self.notif_id)
+                self.notif_id = 0
+            except dbus.exceptions.DBusException:
+                self.reset()
 
 if __name__ == "__main__":
     n = Notify()
