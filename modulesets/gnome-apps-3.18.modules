@@ -314,7 +314,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-static">
+  <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-webdav --enable-static">
     <if condition-set="freebsd">
       <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl'"/>
     </if>
@@ -332,6 +332,7 @@
       <dep package="libjpeg"/>
       <dep package="openssl"/>
       <dep package="opus"/>
+      <dep package="phodav"/>
       <dep package="pixman"/>
       <dep package="pulseaudio"/>
       <dep package="spice-protocol"/>
