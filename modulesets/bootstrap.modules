@@ -19,6 +19,7 @@
   <repository type="tarball" name="sqlite" href="http://www.sqlite.org/"/>
   <repository type="tarball" name="libproxy" href="http://libproxy.googlecode.com/files/"/>
   <repository type="tarball" name="cmake" href="http://www.cmake.org/files/"/>
+  <repository type="git" name="github.com" href="git://github.com/"/>
 
   <autotools id="xorg-macros">
     <branch repo="xorg"
@@ -170,6 +171,10 @@
             size="1917056" hash="sha256:a0851d06092c8208e4dd947f569f40db476b472b22e3e10e2f52f3c5e94fef92"/>
   </autotools>
 
+  <autotools id="m4-common">
+    <branch repo="github.com" module="desrt/m4-common.git"/>
+  </autotools>
+
   <metamodule id="meta-bootstrap">
     <dependencies>
       <if condition-set="macos">
@@ -180,6 +185,7 @@
         <dep package="automake"/>
         <dep package="bison"/>
         <dep package="pkg-config"/>
+        <dep package="m4-common"/>
         <dep package="cmake"/>
         <dep package="python"/>
         <dep package="intltool"/>
