@@ -161,12 +161,13 @@ def systemdependencies_met(module_name, sysdeps, config):
                 return False
 
         elif dep_type == 'xml':
-            for d in os.environ['XDG_DATA_DIRS'].split(':'):
-                xml_catalog = os.path.join(d, 'xml', 'catalog')
-                if os.path.exists(xml_catalog):
-                    break
-            else:
-                xml_catalog = '/etc/xml/catalog'
+            xml_catalog = '/etc/xml/catalog'
+
+            if not os.path.exists(xml_catalog):
+                for d in os.environ['XDG_DATA_DIRS'].split(':'):
+                    xml_catalog = os.path.join(d, 'xml', 'catalog')
+                    if os.path.exists(xml_catalog):
+                        break
 
             try:
                 # no xmlcatalog installed will (correctly) fail the check
