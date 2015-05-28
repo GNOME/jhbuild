@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-18 10:11+0000\n"
-"PO-Revision-Date: 2015-04-23 10:53+0200\n"
+"POT-Creation-Date: 2015-05-27 22:20+0000\n"
+"PO-Revision-Date: 2015-05-28 \n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -425,8 +425,8 @@ msgid ""
 "A list of strings specifying the modules to build. The list of modules "
 "actually built will be recursively expanded to include all the dependencies "
 "unless the <link linkend=\"command-reference-buildone\"> <command>buildone</"
-"command></link> command is used. Defaults to <literal>['meta-gnome-"
-"desktop']</literal>."
+"command></link> command is used. Defaults to <literal>['meta-gnome-desktop']"
+"</literal>."
 msgstr ""
 "Una lista de cadenas especificando los módulos que construir. La lista de "
 "los módulos actualmente construidos se expandirá recursivamente para incluir "
@@ -1175,7 +1175,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/index.docbook:561
 msgid "Static Analysis"
-msgstr ""
+msgstr "Análisis de estadísticas"
 
 #. (itstool) path: section/para
 #: C/index.docbook:563
@@ -1185,6 +1185,11 @@ msgid ""
 "configuration variable to <constant>True</constant> in the <filename>."
 "jhbuildrc</filename> configuration file."
 msgstr ""
+"JHBuild soporta ejecutar herramientas de análisis de estadísticas en el "
+"código de los módulos a medida que se construyen. Para activa esto, "
+"establezca la variable de configuración <varname>static_analyzer</varname> a "
+"<constant>True</constant> en el archivo de configuración <filename>."
+"jhbuildrc</filename>."
 
 #. (itstool) path: section/para
 #: C/index.docbook:569
@@ -1196,6 +1201,12 @@ msgid ""
 "default; the path can be changed using the "
 "<varname>static_analyzer_outputdir</varname> configuration variable)."
 msgstr ""
+"Si está activada, cada vez que se construya un módulo usando JHBuild, el "
+"proceso de construcción se incluirá en un analizador estático que generará "
+"un informe de cuaqlquier problema encontrado en el código. Estos informes se "
+"guardan en HTML, en subcarpetas de <filename>/tmp/jhbuild_static_analyzer</"
+"filename> (de manera predeterminada; la ruta se puede cambiar en la variable "
+"de configuración <varname>static_analyzer_outputdir</varname>)."
 
 #. (itstool) path: section/para
 #: C/index.docbook:577
@@ -1205,6 +1216,11 @@ msgid ""
 "be installed, although the command it uses can be changed by modifying the "
 "<varname>static_analyzer_template</varname> configuration variable."
 msgstr ""
+"Actualmente, el análisis estático sólo funciona con módulos que usen "
+"autotools como sistema de construcción. Requiere que el programa "
+"<command>scan-build</command> esté instalado, aunque el comando que usa se "
+"puede cambiar modificando la variable de configuración "
+"<varname>static_analyzer_template</varname>."
 
 #. (itstool) path: section/title
 #: C/index.docbook:586
@@ -2474,8 +2490,8 @@ msgid ""
 "environment."
 msgstr ""
 "Esto hará que su consola bash muestre <literal>[jhbuild]</literal> antes de "
-"su «prompt» normal, haciendo más fácil ver que consolas están bajo un "
-"entorno jhbuild."
+"su «prompt» normal, haciendo más fácil ver que consolas están bajo un entorno "
+"jhbuild."
 
 #. (itstool) path: section/title
 #: C/index.docbook:1381
@@ -3452,7 +3468,6 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:1981
-#| msgid "<varname>module_autogenargs</varname>"
 msgid "<varname>module_static_analyzer</varname>"
 msgstr "<varname>module_static_analyzer</varname>"
 
@@ -3672,8 +3687,8 @@ msgid ""
 "executed. <varname>%(cwd)s</varname> in the string will be replaced with the "
 "current working directory. Defaults to <literal>'%(command)s'</literal>."
 msgstr ""
-"Se muestra una cadena antes de que JHBuild ejecute un comando. <varname>"
-"%(command)s</varname> se reemplazará en la cadena por el comando que "
+"Se muestra una cadena antes de que JHBuild ejecute un comando. <varname>%"
+"(command)s</varname> se reemplazará en la cadena por el comando que "
 "ejecutar. <varname>%(cwd)s</varname> se reemplazará en la cadena por la "
 "carpeta de trabajo actual. La predeterminada es <literal>«%(command)s»</"
 "literal>."
@@ -3753,16 +3768,11 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2208
-#| msgid "<varname>sticky_date</varname>"
 msgid "<varname>static_analyzer</varname>"
 msgstr "<varname>static_analyzer</varname>"
 
 #. (itstool) path: listitem/simpara
 #: C/index.docbook:2212
-#| msgid ""
-#| "A boolean value, if set to <constant>True</constant> JHBuild will not "
-#| "build modules, but just download and unpack the sources. The default vale "
-#| "is <constant>False</constant>."
 msgid ""
 "A boolean value: if set to <constant>True</constant>, run a static analysis "
 "tool on each module as it’s being built. Defaults to <constant>False</"
@@ -3774,7 +3784,6 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2218
-#| msgid "<varname>tinderbox_outputdir</varname>"
 msgid "<varname>static_analyzer_outputdir</varname>"
 msgstr "<varname>static_analyzer_outputdir</varname>"
 
@@ -3791,7 +3800,6 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2229
-#| msgid "<varname>sticky_date</varname>"
 msgid "<varname>static_analyzer_template</varname>"
 msgstr "<varname>static_analyzer_template</varname>"
 
@@ -3874,19 +3882,25 @@ msgstr "<varname>tarballdir</varname>"
 
 #. (itstool) path: listitem/simpara
 #: C/index.docbook:2282
+#| msgid ""
+#| "A string if set, tarballs will be downloaded to the specified directory "
+#| "instead of <varname>checkoutroot</varname>. This is useful if you have "
+#| "multiple JHBuild environments or regularly clear out "
+#| "<varname>checkoutroot</varname> and want to reduce bandwidth usage. "
+#| "Defaults to <literal>'~/jhbuild/downloads'</literal>."
 msgid ""
 "A string if set, tarballs will be downloaded to the specified directory "
 "instead of <varname>checkoutroot</varname>. This is useful if you have "
 "multiple JHBuild environments or regularly clear out <varname>checkoutroot</"
-"varname> and want to reduce bandwidth usage. Defaults to <literal>'~/jhbuild/"
-"downloads'</literal>."
+"varname> and want to reduce bandwidth usage. Defaults to <literal>'~/.cache/"
+"jhbuild/downloads'</literal>."
 msgstr ""
 "Una cadena que, si está establecida, indica que los archivos tar se "
 "descargarán en la carpeta especificada en lugar de en <varname>checkoutroot</"
 "varname>. Esto es útil si tiene múltiples entornos JHBuild o si vacía "
 "habitualmente su <varname>checkoutroot</varname> y quiere reducir el uso del "
-"ancho de banda. EL valor predeterminado es <literal>'~/jhbuild/downloads'</"
-"literal>."
+"ancho de banda. El valor predeterminado es <literal>'~/.cache/jhbuild/"
+"downloads'</literal>."
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2291
@@ -3988,10 +4002,10 @@ msgid ""
 msgstr ""
 "El conjunto original de condiciones se determina basándose en el sistema "
 "operativo y se puede modificar usando el argumento de línea de comandos «--"
-"conditions=». Los cambios hechos por «--conditions» serán visibles al usar "
-"el archivo jhbuildrc, por lo que puede establecer otras variables basadas en "
-"el valor actual del conjunto, pero «--conditions» se aplicará de nuevo "
-"después de cualquier cambio hecho por el jhbuildrc."
+"conditions=». Los cambios hechos por «--conditions» serán visibles al usar el "
+"archivo jhbuildrc, por lo que puede establecer otras variables basadas en el "
+"valor actual del conjunto, pero «--conditions» se aplicará de nuevo después "
+"de cualquier cambio hecho por el jhbuildrc."
 
 #. (itstool) path: section/title
 #: C/index.docbook:2354
@@ -4793,17 +4807,17 @@ msgstr ""
 #: C/index.docbook:2722
 msgid ""
 "It is possible to specify custom <literal>svn</literal> layout using "
-"<sgmltag class=\"attribute\">trunk-template</sgmltag> (defaults to "
-"\"%(module)s/trunk\"), <sgmltag class=\"attribute\">branches-template</"
-"sgmltag> (defaults to \"%(module)s/branches/%(branch)s\") and <sgmltag class="
+"<sgmltag class=\"attribute\">trunk-template</sgmltag> (defaults to \"%"
+"(module)s/trunk\"), <sgmltag class=\"attribute\">branches-template</sgmltag> "
+"(defaults to \"%(module)s/branches/%(branch)s\") and <sgmltag class="
 "\"attribute\">tags-template</sgmltag> (defaults to \"%(module)s/tags/%(tag)s"
 "\")"
 msgstr ""
 "Es posible especificar una disposición de <literal>svn</literal> "
 "personalizada usando <sgmltag class=\"attribute\">trunk-template</sgmltag> "
 "(el predeterminado es «%(module)s/trunk»), <sgmltag class=\"attribute"
-"\">branches-template</sgmltag> (el predeterminado es «%(module)s/branches/"
-"%(branch)s») y <sgmltag class=\"attribute\">tags-template</sgmltag> (el "
+"\">branches-template</sgmltag> (el predeterminado es «%(module)s/branches/%"
+"(branch)s») y <sgmltag class=\"attribute\">tags-template</sgmltag> (el "
 "predeterminado es «%(module)s/tags/%(tag)s»)"
 
 #. (itstool) path: section/title
@@ -5071,36 +5085,6 @@ msgstr ""
 #. (itstool) path: section/programlisting
 #: C/index.docbook:2855
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "&lt;autotools id=\"<replaceable>id</replaceable>\"\n"
-#| "\t      [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
-#| "\t      [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
-#| "\t      [ makeinstallargs=\"<replaceable>makeinstallargs</replaceable>\" ]\n"
-#| "\t      [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n"
-#| "\t      [ makefile=\"<replaceable>makefile</replaceable>\" ]\n"
-#| "\t      [ skip-autogen=\"<replaceable>skip-autogen</replaceable>\" ]\n"
-#| "\t      [ skip-install=\"<replaceable>skip-install</replaceable>\" ]\n"
-#| "\t      [ uninstall-before-install=\"<replaceable>uninstall-before-install</replaceable>\" ]\n"
-#| "\t      [ autogen-template=\"<replaceable>autogen-template</replaceable>\" ]\n"
-#| "\t      [ check-target=\"<replaceable>check-target</replaceable>\" ]\n"
-#| "\t      [ supports-non-srcdir-builds=\"<replaceable>supports-non-srcdir-builds</replaceable>\" ]\n"
-#| "\t      [ force-non-srcdir-builds=\"<replaceable>force-non-srcdir-builds</replaceable>\" ]&gt;\n"
-#| "\n"
-#| "  &lt;branch [ ... ] &gt;\n"
-#| "    [...]\n"
-#| "  &lt;/branch&gt;\n"
-#| "\n"
-#| "  &lt;dependencies&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/dependencies&gt;\n"
-#| "  &lt;after&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/after&gt;\n"
-#| "\n"
-#| "&lt;/autotools&gt;\n"
 msgid ""
 "\n"
 "&lt;autotools id=\"<replaceable>id</replaceable>\"\n"
@@ -5292,10 +5276,6 @@ msgstr ""
 
 #. (itstool) path: section/para
 #: C/index.docbook:2944
-#| msgid ""
-#| "The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
-#| "specified (with false as value) for modules that do not have a "
-#| "<command>make check</command> target."
 msgid ""
 "The <sgmltag class=\"attribute\">supports-static-analyzer</sgmltag> "
 "attribute must be specified (with false as value) for modules which don’t "
@@ -7491,8 +7471,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "In order to activate a D-Bus service installed within the JHBuild root, "
-#~ "while using the system D-Bus, you have to modify the <filename>/etc/"
-#~ "dbus-1/session.conf</filename> file by adding the following line:"
+#~ "while using the system D-Bus, you have to modify the <filename>/etc/dbus-"
+#~ "1/session.conf</filename> file by adding the following line:"
 #~ msgstr ""
 #~ "Para activar un servicio D-Bus instalado con el entorno raíz JHBuild, "
 #~ "mientras usa el sistema D-Bus, debe modificar el archivo <filename>/etc/"
