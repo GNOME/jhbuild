@@ -1292,7 +1292,8 @@
     </dependencies>
   </autotools>
 
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
+  <!-- TODO: gold 2.25-5.fc22 can't link WebKit. Remove -DUSE_LD_GOLD=OFF once it works again. -->
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DUSE_LD_GOLD=OFF">
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
             module="webkitgtk-2.9.2.tar.xz" version="2.9.2"
