@@ -6,6 +6,7 @@ trigger_DATA = \
 	pango.trigger \
 	desktop-database.trigger \
 	mime-database.trigger \
-	immodules.trigger
+	immodules.trigger \
+	texinfo-dir.trigger
 
 EXTRA_DIST = $(trigger_DATA)

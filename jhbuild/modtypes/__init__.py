@@ -234,6 +234,20 @@ class Package:
         if os.path.isdir(prefixdir):
             self._clean_la_files_in_dir(self, prefixdir)
 
+    def _clean_texinfo_dir_files(self, buildscript, installroot):
+        """This method removes GNU Texinfo dir files."""
+        assert os.path.isabs(installroot)
+        assert os.path.isabs(buildscript.config.prefix)
+        prefixdir = os.path.join(installroot, buildscript.config.prefix[1:])
+        if os.path.isdir(prefixdir):
+            dirfile = os.path.join(prefixdir, 'share/info/dir')
+            if os.path.isfile(dirfile):
+                try:
+                    logging.info(_('Deleting dir file: %r') % (dirfile, ))
+                    os.unlink(dirfile)
+                except OSError:
+                    pass
+
     def _process_install_files(self, installroot, curdir, prefix, errors):
         """Strip the prefix from all files in the install root, and move
 them into the prefix."""
@@ -287,6 +301,7 @@ them into the prefix."""
         assert self.supports_install_destdir
         destdir = self.get_destdir(buildscript)
         self._clean_la_files(buildscript, destdir)
+        self._clean_texinfo_dir_files(buildscript, destdir)
 
         prefix_without_drive = os.path.splitdrive(buildscript.config.prefix)[1]
         stripped_prefix = prefix_without_drive[1:]
