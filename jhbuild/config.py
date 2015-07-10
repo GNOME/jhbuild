@@ -66,7 +66,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'module_static_analyzer', 'static_analyzer_template',
                 'static_analyzer_outputdir', 'check_sysdeps', 'system_prefix',
                 'help_website', 'conditions', 'extra_prefixes',
-                'disable_Werror', 'xdg_cache_home',
+                'disable_Werror', 'xdg_cache_home', 'exit_on_error'
               ]
 
 env_prepends = {}

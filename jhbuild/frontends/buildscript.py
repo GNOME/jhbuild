@@ -21,6 +21,7 @@
 import os
 import logging
 import subprocess
+import sys
 
 from jhbuild.utils import trigger
 from jhbuild.utils import cmds
@@ -172,6 +173,9 @@ class BuildScript:
                     self._end_phase_internal(module.name, phase, error)
 
                 if error:
+                    if self.config.exit_on_error:
+                        sys.exit(1)
+
                     try:
                         nextphase = build_phases[num_phase+1]
                     except IndexError:

@@ -691,6 +691,16 @@ jhbuildbot_password = 'password'
       </varlistentry>
       <varlistentry>
         <term>
+          <option>--exit-on-error</option>
+        </term>
+        <listitem>
+          <simpara>Exit immediately if a module fails to build. This option is
+            primarily useful in noninteractive mode, in order to ensure jhbuild
+            does not continue to build any additional modules.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <option>--conditions</option>
         </term>
         <listitem>
@@ -1771,6 +1781,19 @@ Optional packages: (JHBuild will build the missing packages)
               <command>updateone</command> will create the mirrors and fetch new
               commits from the online repositories. This option is only
               supported by Git and Bazaar repositories.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="exit-on-error">
+          <term>
+            <varname>exit_on_error</varname>
+          </term>
+          <listitem>
+            <simpara>A boolean value specifying whether to exit immediately when a
+              module fails to build. This is primarily useful in noninteractive
+              mode, in order to prevent additional modules from building after
+              one fails. Setting this value to <constant>True</constant> is
+              equivalent to passing the <option>--exit-on-error</option> option.
+              Defaults to <constant>False</constant>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-extra-prefixes">

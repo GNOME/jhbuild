@@ -124,6 +124,9 @@ def main(args):
     parser.add_option('--no-interact', action='store_true',
                       dest='nointeract', default=False,
                       help=_('do not prompt for input'))
+    parser.add_option('--exit-on-error', action='store_true',
+                      dest='exit_on_error', default=False,
+                      help=_('exit immediately when the build fails'))
     parser.add_option('--conditions', action='append',
                       dest='conditions', default=[],
                       help=_('modify the condition set'))
@@ -138,6 +141,7 @@ def main(args):
 
     if options.moduleset: config.moduleset = options.moduleset
     if options.nointeract: config.interact = False
+    if options.exit_on_error: config.exit_on_error = True
 
     if not args or args[0][0] == '-':
         command = 'build' # default to cvs update + compile
