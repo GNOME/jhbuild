@@ -684,6 +684,15 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libgrss">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="librest">
     <if condition-set="freebsd">
       <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
@@ -1164,6 +1173,7 @@
     <branch/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="libgrss"/>
       <dep package="libicu"/>
       <dep package="libmediaart"/>
       <dep package="libpng"/>
