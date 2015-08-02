@@ -23,7 +23,7 @@ __all__ = [
     'register_module_type',
     'parse_xml_node',
     'Package',
-    'get_dependencies'
+    'get_dependencies',
     'get_branch'
     ]
 
