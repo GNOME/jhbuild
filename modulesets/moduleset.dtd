@@ -102,12 +102,15 @@
 	id	ID	#REQUIRED
 	supports-non-srcdir-builds (yes|no) "yes">
 
-<!ELEMENT cmake (pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ELEMENT cmake (if*,cmakeargs*,makeargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
 	makeargs	CDATA	#IMPLIED
 	supports-non-srcdir-builds (yes|no) "yes">
+
+<!ELEMENT cmakeargs EMPTY>
+<!ATTLIST cmakeargs value CDATA #REQUIRED>
 
 <!ELEMENT perl (pkg-config?,branch?,dependencies?,after?)>
 <!ATTLIST perl

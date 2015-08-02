@@ -24,6 +24,7 @@ import os
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, MakeModule
+from jhbuild.modtypes.autotools import collect_args
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'CMakeModule' ]
@@ -134,16 +135,15 @@ def parse_cmake(node, config, uri, repositories, default_repo):
 
     instance.dependencies += ['cmake', instance.get_makecmd(config)]
 
+    instance.cmakeargs = collect_args(instance, node, 'cmakeargs')
+    instance.makeargs = collect_args(instance, node, 'makeargs')
+
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
                 (node.getAttribute('supports-non-srcdir-builds') != 'no')
     if node.hasAttribute('force-non-srcdir-builds'):
         instance.force_non_srcdir_builds = \
                 (node.getAttribute('force-non-srcdir-builds') != 'no')
-    if node.hasAttribute('cmakeargs'):
-        instance.cmakeargs = node.getAttribute('cmakeargs')
-    if node.hasAttribute('makeargs'):
-        instance.makeargs = node.getAttribute('makeargs')
     return instance
 
 register_module_type('cmake', parse_cmake)

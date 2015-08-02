@@ -145,11 +145,14 @@ attlist.distutils &=
   attribute id { xsd:ID },
   [ a:defaultValue = "yes" ]
   attribute supports-non-srcdir-builds { "yes" | "no" }?
-cmake = element cmake { attlist.cmake, pkg-config?, branch?, dependencieselements }
+cmakeargsif = element if { attlist.if, cmakeargsif*, cmakeargs*, makeargs* }
+cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-config?, branch?, dependencieselements }
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
   attribute makeargs { text }?
+cmakeargs = element cmakeargs { attlist.cmakeargs }
+attlist.cmakeargs &= attribute value { text }
 perl = element perl { attlist.perl, branch?, dependencies?, after? }
 attlist.perl &=
   attribute id { text },
