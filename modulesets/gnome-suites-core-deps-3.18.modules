@@ -1319,10 +1319,10 @@
 
   <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
     <if condition-unset="x11">
-      <autogenargs value="-DENABLE_X11_TARGET=OFF"/>
+      <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
     <if condition-unset="wayland">
-      <autogenargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
+      <cmakeargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
     </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
