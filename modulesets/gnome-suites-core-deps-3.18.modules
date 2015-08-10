@@ -1317,8 +1317,7 @@
     </dependencies>
   </autotools>
 
-  <!-- TODO: gold 2.25-5.fc22 can't link WebKit. Remove -DUSE_LD_GOLD=OFF once it works again. -->
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DUSE_LD_GOLD=OFF">
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
     <if condition-unset="x11">
       <autogenargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
