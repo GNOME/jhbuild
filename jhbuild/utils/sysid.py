@@ -129,7 +129,7 @@ def ensure_loaded():
     # of 'freebsd') then we just need to make sure the more-specific one
     # comes first in the list
     conditions_sets = [
-            ('linux', ['linux', 'wayland', 'udev', 'x11', 'systemd', 'gnu-elf']),
+            ('linux', ['linux', 'wayland', 'udev', 'evdev', 'x11', 'systemd', 'gnu-elf']),
             ('freebsd', ['freebsd', 'x11', 'bsd', 'gnu-elf', 'gmake']),
             ('darwin', ['darwin', 'macos', 'quartz']),
 

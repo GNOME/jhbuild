@@ -345,8 +345,11 @@
   </autotools>
 
   <autotools id="clutter" autogenargs="--enable-installed-tests --enable-egl-backend">
+    <if condition-set="evdev">
+      <autogenargs value="--enable-evdev-input"/>
+    </if>
     <if condition-set="wayland">
-      <autogenargs value="--enable-wayland-backend --enable-wayland-compositor --enable-evdev-input"/>
+      <autogenargs value="--enable-wayland-backend --enable-wayland-compositor"/>
     </if>
     <branch/>
     <dependencies>
@@ -356,10 +359,13 @@
       <dep package="cairo"/>
       <dep package="json-glib"/>
       <dep package="gobject-introspection"/>
+      <if condition-set="evdev">
+        <dep package="libinput"/>
+        <dep package="libxkbcommon"/>
+      </if>
       <if condition-set="wayland">
         <dep package="wayland"/>
         <dep package="libxkbcommon"/>
-        <dep package="libinput"/>
       </if>
     </dependencies>
     <suggests>
