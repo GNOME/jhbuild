@@ -218,10 +218,11 @@ class GitBranch(Branch):
             raise CommandError(_('Unexpected: Checkoutdir is not a git '
                     'repository:' + self.get_checkoutdir()))
         try:
-            return os.path.basename(
-                    get_output(['git', 'symbolic-ref', '-q', 'HEAD'],
+            full_branch = get_output(['git', 'symbolic-ref', '-q', 'HEAD'],
                             cwd=self.get_checkoutdir(),
-                            extra_env=get_git_extra_env()).strip())
+                            extra_env=get_git_extra_env()).strip()
+            # strip refs/heads/ to get the branch name only
+            return full_branch.replace('refs/heads/', '')
         except CommandError:
             return None
 
