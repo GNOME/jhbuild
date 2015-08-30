@@ -110,7 +110,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="geoclue">
+  <autotools id="geoclue" autogenargs="--with-systemdsystemunitdir=no">
     <if condition-unset="linux">
       <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-cdma-source"/>
     </if>
@@ -1430,9 +1430,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion">
+  <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no">
     <if condition-unset="linux">
-      <autogenargs value="--disable-gusb --disable-udev --with-systemdsystemunitdir=no --disable-systemd-login"/>
+      <autogenargs value="--disable-gusb --disable-udev --disable-systemd-login"/>
     </if>
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
     <dependencies>

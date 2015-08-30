@@ -927,7 +927,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gdm">
+  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no">
     <if condition-unset="linux">
       <autogenargs value="--without-plymouth"/>
     </if>
@@ -987,7 +987,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin" makeargs="CFLAGS=-Wno-error">
+  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin --with-systemdsystemunitdir=no" makeargs="CFLAGS=-Wno-error">
     <if condition-unset="linux">
       <autogenargs value="--disable-systemd --disable-systemd-updates"/>
     </if>
@@ -1015,7 +1015,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="udisks">
+  <autotools id="udisks" autogenargs="--with-systemdsystemunitdir=no">
     <pkg-config>udisks2.pc</pkg-config>
     <branch repo="git.freedesktop.org" module="udisks"/>
     <dependencies>
@@ -1033,7 +1033,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="upower">
+  <autotools id="upower" autogenargs="--with-systemdsystemunitdir=no">
     <branch repo="git.freedesktop.org" />
     <dependencies>
       <dep package="dbus-glib"/>
