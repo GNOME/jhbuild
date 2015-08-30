@@ -927,7 +927,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no">
+  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no --with-log-dir=${prefix}/var/log/gdm">
     <if condition-unset="linux">
       <autogenargs value="--without-plymouth"/>
     </if>
