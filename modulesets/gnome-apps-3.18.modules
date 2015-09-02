@@ -677,10 +677,15 @@
     </dependencies>
   </autotools>
 
+
+
   <autotools id="fwupd"
              autogenargs="--disable-colorhug --disable-uefi">
-    <branch repo="github.com"
-            module="hughsie/fwupd.git"/>
+    <branch repo="tarball.github.com"
+            module="hughsie/fwupd/archive/${version}.tar.gz"
+            version="0.1.5"
+            hash="35f7e8c7b169c58b2e34391ea4dd0c99001ecfe2c767df2861159f05a43b9be1"
+            checkoutdir="fwupd-${version}"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="gcab"/>
