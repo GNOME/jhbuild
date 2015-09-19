@@ -217,9 +217,9 @@ attlist.tested &= attribute package { text }
 # Other children
 attlist.if = attribute condition-set { text } | attribute condition-unset { text }
 depif = element if { attlist.if, depif*, dep* }
-dependencies = element dependencies { attlist.dependencies, depif*, dep* }
+dependencies = element dependencies { attlist.dependencies & depif* & dep* }
 attlist.dependencies &= empty
-suggests = element suggests { attlist.suggests, depif*, dep* }
+suggests = element suggests { attlist.suggests & depif* & dep* }
 attlist.suggests &= empty
 after = element after { attlist.after, dep* }
 attlist.after &= empty
