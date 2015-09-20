@@ -20,6 +20,7 @@
 from optparse import make_option
 import logging
 import os.path
+import sys
 
 import jhbuild.moduleset
 from jhbuild.errors import FatalError
@@ -79,7 +80,10 @@ class cmd_sysdeps(cmd_build):
 
                     if module.systemdependencies is not None:
                         for dep_type, value, altdeps in module.systemdependencies:
-                            print '{0}:{1}'.format(dep_type, value)
+                            sys.stdout.write('{0}:{1}'.format(dep_type, value))
+                            for dep_type, value, empty in altdeps:
+                                sys.stdout.write(',{0}:{1}'.format(dep_type, value))
+                            sys.stdout.write('\n')
 
             return
 
@@ -112,7 +116,10 @@ class cmd_sysdeps(cmd_build):
 
                     if module.systemdependencies is not None:
                         for dep_type, value, altdeps in module.systemdependencies:
-                            print '{0}:{1}'.format(dep_type, value)
+                            sys.stdout.write('{0}:{1}'.format(dep_type, value))
+                            for dep_type, value, empty in altdeps:
+                                sys.stdout.write(',{0}:{1}'.format(dep_type, value))
+                            sys.stdout.write('\n')
 
             if have_too_old:
                 return 1
