@@ -180,12 +180,17 @@
 <!ELEMENT suggests (dep|if)*>
 <!ELEMENT after (dep*)>
 <!ELEMENT systemdependencies (dep*)>
-<!ELEMENT dep EMPTY>
+<!ELEMENT dep (altdep*)>
 <!-- This is actually 2 different types of element: <dep package=""/> as used in <dependencies>
      and <dep type="" name=""/> as used in <systemdependencies>. The DTD can't specify both
      separately since they have the same element name. -->
 <!ATTLIST dep
 	package	CDATA	#IMPLIED
+	type	CDATA	#IMPLIED
+	name	CDATA	#IMPLIED>
+<!-- <altdep> is only used in <systemdependencies> to specify alternative dependencies. -->
+<!ELEMENT altdep EMPTY>
+<!ATTLIST altdep
 	type	CDATA	#IMPLIED
 	name	CDATA	#IMPLIED>
 

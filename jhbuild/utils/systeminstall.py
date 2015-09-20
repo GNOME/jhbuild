@@ -128,11 +128,12 @@ def systemdependencies_met(module_name, sysdeps, config):
         return paths
 
     c_include_search_paths = None
-    for dep_type, value in sysdeps:
+    for dep_type, value, altdeps in sysdeps:
+        dep_met = True
         if dep_type.lower() == 'path':
             if os.path.split(value)[0]:
                 if not os.path.isfile(value) and not os.access(value, os.X_OK):
-                    return False
+                    dep_met = False
             else:
                 pathdirs = set(os.environ.get('PATH', '').split(os.pathsep))
                 pathdirs.update(['/sbin', '/usr/sbin'])
@@ -141,7 +142,7 @@ def systemdependencies_met(module_name, sysdeps, config):
                     if os.path.isfile(filename) and os.access(filename, os.X_OK):
                         break
                 else:
-                    return False
+                    dep_met = False
         elif dep_type.lower() == 'c_include':
             if c_include_search_paths is None:
                 c_include_search_paths = get_c_include_search_paths(config)
@@ -152,13 +153,13 @@ def systemdependencies_met(module_name, sysdeps, config):
                     found = True
                     break
             if not found:
-                return False
+                dep_met = False
 
         elif dep_type == 'python2':
             try:
                 imp.find_module(value)
             except:
-                return False
+                dep_met = False
 
         elif dep_type == 'xml':
             xml_catalog = '/etc/xml/catalog'
@@ -174,7 +175,17 @@ def systemdependencies_met(module_name, sysdeps, config):
                 subprocess.check_output(['xmlcatalog', xml_catalog, value])
 
             except:
-                return False
+                dep_met = False
+
+        # check alternative dependencies
+        if not dep_met and altdeps:
+            for altdep in altdeps:
+                if systemdependencies_met(module_name, [ altdep ], config):
+                    dep_met = True
+                    break
+
+        if not dep_met:
+            return False
 
     return True
 

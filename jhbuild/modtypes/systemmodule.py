@@ -27,13 +27,13 @@ __all__ = [ 'SystemModule' ]
 class SystemModule(Package):
     @classmethod
     def create_virtual(cls, name, branch, deptype, value):
-        return cls(name, branch=branch, systemdependencies=[(deptype, value)])
+        return cls(name, branch=branch, systemdependencies=[(deptype, value, [])])
 
 def parse_systemmodule(node, config, uri, repositories, default_repo):
     instance = SystemModule.parse_from_xml(node, config, uri, repositories,
                                            default_repo)
 
-    if any(deptype == 'xml' for deptype, value in instance.systemdependencies):
+    if any(deptype == 'xml' for deptype, value, altdeps in instance.systemdependencies):
         instance.dependencies += ['xmlcatalog']
 
     return instance

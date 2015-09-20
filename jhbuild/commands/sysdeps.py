@@ -78,7 +78,7 @@ class cmd_sysdeps(cmd_build):
                         print 'pkgconfig:{0}'.format(module.pkg_config[:-3]) # remove .pc
 
                     if module.systemdependencies is not None:
-                        for dep_type, value in module.systemdependencies:
+                        for dep_type, value, altdeps in module.systemdependencies:
                             print '{0}:{1}'.format(dep_type, value)
 
             return
@@ -111,7 +111,7 @@ class cmd_sysdeps(cmd_build):
                         print 'pkgconfig:{0}'.format(module.pkg_config[:-3]) # remove .pc
 
                     if module.systemdependencies is not None:
-                        for dep_type, value in module.systemdependencies:
+                        for dep_type, value, altdeps in module.systemdependencies:
                             print '{0}:{1}'.format(dep_type, value)
 
             if have_too_old:
@@ -153,7 +153,7 @@ class cmd_sysdeps(cmd_build):
                 if module.pkg_config is not None:
                     uninstalled.append((module.name, 'pkgconfig', module.pkg_config[:-3])) # remove .pc
                 elif module.systemdependencies is not None:
-                    for dep_type, value in module.systemdependencies:
+                    for dep_type, value, altdeps in module.systemdependencies:
                         uninstalled.append((module.name, dep_type, value))
         if len(uninstalled) == 0:
             print _('    (none)')

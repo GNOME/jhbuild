@@ -78,9 +78,9 @@ def get_dependencies(node):
                             node.getAttribute('id'))
                 list.append(package)
 
-    def add_to_system_dependencies(lst, childnode):
+    def add_to_system_dependencies(lst, childnode, tag='dep'):
         for dep in childnode.childNodes:
-            if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == 'dep':
+            if dep.nodeType == dep.ELEMENT_NODE and dep.nodeName == tag:
                 typ = dep.getAttribute('type')
                 if not typ:
                     raise FatalError(_('%(node)s node for %(module)s module is'
@@ -95,7 +95,10 @@ def get_dependencies(node):
                                      {'node_name'   : 'dep',
                                       'module_name' : node.getAttribute('id'),
                                       'attribute'   : 'name'})
-                lst.append((typ, name))
+                altdeps = []
+                if dep.childNodes:
+                    add_to_system_dependencies(altdeps, dep, 'altdep')
+                lst.append((typ, name, altdeps))
 
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE: continue

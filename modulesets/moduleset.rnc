@@ -227,8 +227,9 @@ systemdependencies = element systemdependencies { attlist.systemdependencies, sy
 attlist.systemdependencies &= empty
 dep = element dep { attlist.dep, empty }
 attlist.dep &= attribute package { text }
-sysdep = element dep { attlist.sysdep, empty }
+sysdep = element dep { attlist.sysdep, altdep* }
 attlist.sysdep &= attribute type { text }, attribute name { text }
+altdep = element altdep { attlist.sysdep }
 branch = element branch { attlist.branch, patch*, quilt* }
 attlist.branch &=
   attribute repo { text }?,
