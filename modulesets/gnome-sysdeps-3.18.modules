@@ -65,7 +65,23 @@
   <systemmodule id="clang">
     <branch repo="system"/>
     <systemdependencies>
-      <dep type="path" name="llvm-config"/>
+      <dep type="path" name="llvm-config">
+        <!-- Debian -->
+        <altdep type="path" name="llvm-config-3.9"/>
+        <altdep type="path" name="llvm-config-3.8"/>
+        <altdep type="path" name="llvm-config-3.7"/>
+        <altdep type="path" name="llvm-config-3.6"/>
+        <altdep type="path" name="llvm-config-3.5"/>
+        <altdep type="path" name="llvm-config-3.4"/>
+        <!-- FreeBSD -->
+        <altdep type="path" name="llvm-config39"/>
+        <altdep type="path" name="llvm-config38"/>
+        <altdep type="path" name="llvm-config37"/>
+        <altdep type="path" name="llvm-config36"/>
+        <altdep type="path" name="llvm-config35"/>
+        <altdep type="path" name="llvm-config34"/>
+        <altdep type="path" name="llvm-config-devel"/>
+      </dep>
     </systemdependencies>
   </systemmodule>
 
@@ -761,7 +777,23 @@
   <systemmodule id="llvm">
     <branch repo="system"/>
     <systemdependencies>
-      <dep type="c_include" name="llvm-c/Core.h"/>
+      <dep type="c_include" name="llvm-c/Core.h">
+        <!-- Debian -->
+        <altdep type="c_include" name="llvm-c-3.9/llvm-c/Core.h"/>
+        <altdep type="c_include" name="llvm-c-3.8/llvm-c/Core.h"/>
+        <altdep type="c_include" name="llvm-c-3.7/llvm-c/Core.h"/>
+        <altdep type="c_include" name="llvm-c-3.6/llvm-c/Core.h"/>
+        <altdep type="c_include" name="llvm-c-3.5/llvm-c/Core.h"/>
+        <altdep type="c_include" name="llvm-c-3.4/llvm-c/Core.h"/>
+        <!-- FreeBSD -->
+        <altdep type="c_include" name="../llvm39/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm38/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm37/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm36/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm35/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm34/include/llvm-c/Core.h"/>
+        <altdep type="c_include" name="../llvm-devel/include/llvm-c/Core.h"/>
+      </dep>
     </systemdependencies>
   </systemmodule>
 
