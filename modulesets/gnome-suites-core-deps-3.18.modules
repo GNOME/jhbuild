@@ -26,6 +26,8 @@
     href="git://repo.or.cz/"/>
 
 <!-- tarball repos -->
+<repository type="tarball" name="cairo.org"
+    href="http://cairographics.org/"/>
 <repository type="tarball" name="iso-codes"
     href="http://pkg-isocodes.alioth.debian.org/downloads/"/>
 <repository type="tarball" name="sourceforge.net"
@@ -99,6 +101,18 @@
       <dep package="gtk-doc"/>
       <dep package="pixman"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="cairomm" autogen-sh="configure">
+    <branch module="releases/cairomm-${version}.tar.gz"
+            version="1.12.0"
+            repo="cairo.org"
+            hash="sha256:50435aec6fdd976934b791e808993160113ad19ca53a5634a9b64ccbe55874cc">
+     </branch>
+     <dependencies>
+        <dep package="cairo"/>
+        <dep package="libsigc++2"/>
+     </dependencies>
   </autotools>
 
   <autotools id="gcab">
