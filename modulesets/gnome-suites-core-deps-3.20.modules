@@ -87,23 +87,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cairo" autogenargs="--enable-gl">
-    <if condition-set="quartz">
-      <autogenargs value="--enable-quartz --disable-gl"/>
-    </if>
-    <branch repo="git.freedesktop.org">
-    </branch>
-    <dependencies>
-      <if condition-unset="quartz">
-        <dep package="fontconfig"/>
-        <dep package="gl"/>
-      </if>
-      <dep package="gtk-doc"/>
-      <dep package="librsvg"/>
-      <dep package="pixman"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="cairomm" autogen-sh="configure">
     <branch module="releases/cairomm-${version}.tar.gz"
             version="1.12.0"
