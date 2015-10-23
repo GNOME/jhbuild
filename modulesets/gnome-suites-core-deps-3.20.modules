@@ -42,8 +42,6 @@
     href="http://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="nice.freedesktop.org"
     href="http://nice.freedesktop.org/releases/"/>
-<repository type="tarball" name="itstool.org"
-    href="http://files.itstool.org/itstool/"/>
 <repository type="tarball" name="libpwquality"
     href="https://fedorahosted.org/releases/l/i/libpwquality/"/>
 <repository type="tarball" name="ftp.mozilla.org"
@@ -877,20 +875,6 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
-    </dependencies>
-  </autotools>
-
-  <!-- Remove annoying autogen-sh="autoreconf" when itstool.use-correct-libxml.patch is removed -->
-  <autotools id="itstool" autogen-sh="autoreconf">
-    <branch repo="itstool.org"
-            module="itstool-2.0.2.tar.bz2"
-            version="2.0.2"
-            hash="sha256:bf909fb59b11a646681a8534d5700fec99be83bb2c57badf8c1844512227033a"
-            size="96748">
-      <patch file="itstool.use-correct-libxml.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="libxml2-python"/>
     </dependencies>
   </autotools>
 
