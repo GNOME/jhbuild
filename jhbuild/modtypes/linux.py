@@ -114,8 +114,8 @@ class LinuxModule(MakeModule):
 
             try:
                 os.makedirs(os.path.join(self.branch.srcdir, 'build-' + kconfig.version))
-            except OSError, (e, msg):
-                if e != errno.EEXIST:
+            except OSError as e:
+                if e.errno != errno.EEXIST:
                     raise
 
             if kconfig.branch:

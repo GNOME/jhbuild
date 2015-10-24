@@ -676,7 +676,7 @@ class cmd_goalreport(Command):
                 filename += '?action=raw'
             try:
                 filename = httpcache.load(filename, age=0)
-            except Exception, e:
+            except Exception as e:
                 logging.warning('could not download %s: %s' % (filename, e))
                 return
         for line in file(filename):
@@ -723,7 +723,7 @@ class cmd_goalreport(Command):
                 filename += '?action=raw'
             try:
                 filename = httpcache.load(filename, age=0)
-            except Exception, e:
+            except Exception as e:
                 logging.warning('could not download %s: %s' % (filename, e))
                 return
         for line in file(filename):

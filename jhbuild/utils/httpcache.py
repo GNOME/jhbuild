@@ -43,7 +43,7 @@ except ImportError:
 try:
     import xml.dom.minidom
 except ImportError:
-    raise SystemExit, _('Python XML packages are required but could not be found')
+    raise SystemExit(_('Python XML packages are required but could not be found'))
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -214,7 +214,7 @@ class Cache:
             fp = open(filename, 'wb')
             fp.write(data)
             fp.close()
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as e:
             if e.code == 304: # not modified; update validated
                 expires = e.hdrs.get('Expires')
                 filename = os.path.join(self.cachedir, entry.local)

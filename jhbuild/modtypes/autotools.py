@@ -91,7 +91,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         try:
             other_stbuf = os.stat(other)
             potential_stbuf = os.stat(potential)
-        except OSError, e:
+        except OSError as e:
             return False
         return potential_stbuf.st_mtime > other_stbuf.st_mtime
 

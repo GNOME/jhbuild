@@ -62,10 +62,10 @@ class ServerProxy(xmlrpclib.ServerProxy):
         for i in range(ITERS):
             try:
                 return xmlrpclib.ServerProxy.__request(self, methodname, params)
-            except xmlrpclib.ProtocolError, e:
+            except xmlrpclib.ProtocolError as e:
                 if e.errcode != 500:
                     raise
-            except socket.error, e:
+            except socket.error as e:
                 pass
             if i < ITERS-1:
                 if self.verbose_timeout:
@@ -176,7 +176,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
 
         try:
             p = subprocess.Popen(command, **kws)
-        except OSError, e:
+        except OSError as e:
             self.phasefp.write('<span class="error">' + _('Error: %s') % escape(str(e)) + '</span>\n')
             raise CommandError(str(e))
 
@@ -207,7 +207,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
 
         try:
             self.build_id = self.server.start_build(info)
-        except xmlrpclib.ProtocolError, e:
+        except xmlrpclib.ProtocolError as e:
             if e.errcode == 403:
                 print >> sys.stderr, _('ERROR: Wrong credentials, please check username/password')
                 sys.exit(1)

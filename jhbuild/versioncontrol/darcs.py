@@ -101,7 +101,7 @@ class DarcsBranch(Branch):
             path = os.path.join(self.srcdir, filename)
             try:
                 stat = os.stat(path)
-            except OSError, e:
+            except OSError as e:
                 continue
             os.chmod(path, stat.st_mode | 0111)
 

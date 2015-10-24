@@ -166,7 +166,7 @@ class cmd_sanitycheck(Command):
                 uprint(_("Please copy the lacking macros (%(macros)s) in one of the following paths: %(path)s") % \
                        {'macros': ', '.join(not_in_path), 'path': ', '.join(path)})
 
-        except CommandError, exc:
+        except CommandError as exc:
             uprint(str(exc))
 
 register_command(cmd_sanitycheck)

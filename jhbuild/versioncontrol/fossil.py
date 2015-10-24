@@ -112,7 +112,7 @@ class FossilBranch(Branch):
 
         try:
             infos = Popen(['fossil', 'info'], stdout=PIPE, cwd=self.srcdir)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
         infos = infos.stdout.read().strip()
         return re.search(r"checkout: +(\w+)", infos).group(1)

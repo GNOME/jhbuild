@@ -277,7 +277,7 @@ class TestModule(Package, DownloadableModule):
             else:
                 buildscript.execute('ldtprunner run.xml', cwd=src_dir,
                         extra_env={'DISPLAY': ':%s' % self.screennum})
-        except CommandError, e:
+        except CommandError as e:
             os.kill(ldtp_pid, signal.SIGINT)
             if e.returncode == 32512:        # ldtprunner not installed
                 raise BuildStateError('ldtprunner not available')
@@ -317,7 +317,7 @@ class TestModule(Package, DownloadableModule):
             try:
                 buildscript.execute('python %s' % test_case,
                         cwd=src_dir, extra_env=extra_env)
-            except CommandError, e:
+            except CommandError as e:
                 if e.returncode != 0:
                     raise BuildStateError('%s failed' % test_case)
 

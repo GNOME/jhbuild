@@ -69,7 +69,7 @@ Returns a list, where each item is a 2-tuple:
             else:
                 os.unlink(path)
             results.append((path, True, ''))
-        except OSError, e:
+        except OSError as e:
             if (isdir
                 and allow_nonempty_dirs
                 and len(os.listdir(path)) > 0):
@@ -98,7 +98,7 @@ def _windows_rename(src, dst):
     '''atomically rename file src to dst, replacing dst if it exists'''
     try:
         os.rename(src, dst)
-    except OSError, e:
+    except OSError as e:
         if e.errno != errno.EEXIST:
             raise
         # Windows does not allow to unlink open file.

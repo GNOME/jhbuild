@@ -514,7 +514,7 @@ class cmd_bot(Command):
                     if changeHorizon is not None and not isinstance(changeHorizon, int):
                         raise ValueError("changeHorizon needs to be an int")
 
-                except KeyError, e:
+                except KeyError as e:
                     log.msg("config dictionary is missing a required parameter")
                     log.msg("leaving old configuration in place")
                     raise

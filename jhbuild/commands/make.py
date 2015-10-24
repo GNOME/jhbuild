@@ -84,7 +84,7 @@ class cmd_make(Command):
 
         try:
             module = module_set.get_module(modname, ignore_case=True)
-        except KeyError, e:
+        except KeyError as e:
             default_repo = jhbuild.moduleset.get_default_repo()
             if not default_repo:
                 logging.error(_('No module matching current directory %r in the moduleset') % (modname, ))

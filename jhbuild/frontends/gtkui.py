@@ -482,7 +482,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
             try:
                 p = subprocess.Popen(command, **kws)
-            except OSError, e:
+            except OSError as e:
                 raise CommandError(str(e))
             self.child_pid = p.pid
 

@@ -74,7 +74,7 @@ if __name__ == '__main__':
     ret = False
     try:
         ret = pull_and_update()
-    except OSError, e:
+    except OSError as e:
         print '%s: %s' % (sys.argv[0], e)
 
     if ret:

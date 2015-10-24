@@ -175,9 +175,9 @@ class TerminalBuildScript(buildscript.BuildScript):
             if self.config.print_command_pattern:
                 try:
                     print self.config.print_command_pattern % print_args
-                except TypeError, e:
+                except TypeError as e:
                     raise FatalError('\'print_command_pattern\' %s' % e)
-                except KeyError, e:
+                except KeyError as e:
                     raise FatalError(_('%(configuration_variable)s invalid key'
                                        ' %(key)s' % \
                                        {'configuration_variable' :
@@ -207,7 +207,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
         try:
             p = subprocess.Popen(command, **kws)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
 
         output = []

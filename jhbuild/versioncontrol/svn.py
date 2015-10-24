@@ -306,7 +306,7 @@ class SubversionBranch(Branch):
         try:
             output = subprocess.Popen(['svn', 'info', '-R'],
                     stdout = subprocess.PIPE, **kws).communicate()[0]
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
         if '\nConflict' in output:
             raise CommandError(_('Error checking for conflicts'))

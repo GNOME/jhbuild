@@ -95,7 +95,7 @@ class TrayIcon:
         try:
             self.proc.stdin.write(cmd)
             self.proc.stdin.flush()
-        except (IOError, OSError), err:
+        except (IOError, OSError) as err:
             self.close()
     def set_icon(self, icon):
         self._send_cmd('icon: %s\n' % icon)

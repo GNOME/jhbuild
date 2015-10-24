@@ -100,7 +100,7 @@ class cmd_updateone(Command):
         module_set = jhbuild.moduleset.load(config)
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
-        except KeyError, e:
+        except KeyError as e:
             raise FatalError(_("A module called '%s' could not be found.") % e)
 
         if not module_list:
@@ -138,7 +138,7 @@ class cmd_cleanone(Command):
         module_set = jhbuild.moduleset.load(config)
         try:
             module_list = [module_set.get_module(modname, ignore_case = True) for modname in args]
-        except KeyError, e:
+        except KeyError as e:
             raise FatalError(_("A module called '%s' could not be found.") % e)
 
         if not module_list:
@@ -325,7 +325,7 @@ class cmd_buildone(BuildCommand):
             modname = modname.rstrip(os.sep)
             try:
                 module = module_set.get_module(modname, ignore_case=True)
-            except KeyError, e:
+            except KeyError as e:
                 default_repo = jhbuild.moduleset.get_default_repo()
                 if not default_repo:
                     continue
@@ -369,7 +369,7 @@ class cmd_run(Command):
             return self.run(config, options, args)
         try:
             return os.execlp(args[0], *args)
-        except OSError, exc:
+        except OSError as exc:
             raise FatalError(_("Unable to execute the command '%(command)s': %(err)s") % {
                     'command':args[0], 'err':str(exc)})
 
@@ -379,7 +379,7 @@ class cmd_run(Command):
             module_set = jhbuild.moduleset.load(config)
             try:
                 module = module_set.get_module(module_name, ignore_case = True)
-            except KeyError, e:
+            except KeyError as e:
                 raise FatalError(_("A module called '%s' could not be found.") % e)
 
             build = jhbuild.frontends.get_buildscript(config, [module], module_set=module_set)
@@ -389,7 +389,7 @@ class cmd_run(Command):
                 workingdir = module.get_srcdir(build)
             try:
                 build.execute(args, cwd=workingdir)
-            except CommandError, exc:
+            except CommandError as exc:
                 if args:
                     raise FatalError(_("Unable to execute the command '%s'") % args[0])
                 else:
@@ -399,7 +399,7 @@ class cmd_run(Command):
                 os.execlp(args[0], *args)
             except IndexError:
                 raise FatalError(_('No command given'))
-            except OSError, exc:
+            except OSError as exc:
                 raise FatalError(_("Unable to execute the command '%(command)s': %(err)s") % {
                         'command':args[0], 'err':str(exc)})
 

@@ -59,7 +59,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
                              stdout=subprocess.PIPE,
                              stderr=stderr_output,
                              **kws)
-    except OSError, e:
+    except OSError as e:
         raise CommandError(str(e))
     stdout, stderr = p.communicate()
     if p.returncode != 0:

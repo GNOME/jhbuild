@@ -111,7 +111,7 @@ class HgBranch(Branch):
         try:
             hg = Popen(['hg', 'ti', '--template', '{node}'], stdout=PIPE,
                        cwd=self.srcdir)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
         return hg.stdout.read().strip()
 

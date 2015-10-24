@@ -176,7 +176,7 @@ class ModuleSet:
             # remove skip modules from module_name list
             modules = [self.get_module(module, ignore_case = True) \
                        for module in module_names if module not in skip]
-        except KeyError, e:
+        except KeyError as e:
             raise UsageError(_("A module called '%s' could not be found.") % e)
 
         resolved = []
@@ -438,14 +438,14 @@ def _handle_conditions(config, element):
 def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork, age=0)
-    except Exception, e:
+    except Exception as e:
         raise FatalError(_('could not download %s: %s') % (uri, e))
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
-    except IOError, e:
+    except IOError as e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
-    except xml.parsers.expat.ExpatError, e:
+    except xml.parsers.expat.ExpatError as e:
         raise FatalError(_('failed to parse %s: %s') % (uri, e))
 
     assert document.documentElement.nodeName == 'moduleset'
@@ -523,7 +523,7 @@ def _parse_module_set(config, uri):
                 inc_moduleset = _parse_module_set(config, inc_uri)
             except UndefinedRepositoryError:
                 raise
-            except FatalError, e:
+            except FatalError as e:
                 if inc_uri[0] == '/':
                     raise e
                 # look up in local modulesets

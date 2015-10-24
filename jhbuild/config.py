@@ -195,7 +195,7 @@ class Config:
         if filename:
             try:
                 execfile(filename, config)
-            except Exception, e:
+            except Exception as e:
                 if isinstance(e, FatalError):
                     # raise FatalErrors back, as it means an error in include()
                     # and it will print a traceback, and provide a meaningful

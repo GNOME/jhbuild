@@ -294,9 +294,9 @@ them into the prefix."""
                     try:
                         fileutils.rename(src_path, dest_path)
                         num_copied += 1
-                    except OSError, e:
+                    except OSError as e:
                         errors.append("%s: '%s'" % (str(e), dest_path))
-            except OSError, e:
+            except OSError as e:
                 errors.append(str(e))
         return num_copied
 
@@ -334,7 +334,7 @@ them into the prefix."""
                 assert target.startswith(buildscript.config.prefix)
                 try:
                     os.rmdir(target)
-                except OSError, e:
+                except OSError as e:
                     pass
 
             remaining_files = os.listdir(destdir)
@@ -418,7 +418,7 @@ them into the prefix."""
         method = getattr(self, 'do_' + phase)
         try:
             method(buildscript)
-        except (CommandError, BuildStateError), e:
+        except (CommandError, BuildStateError) as e:
             error_phases = []
             if hasattr(method, 'error_phases'):
                 error_phases = method.error_phases

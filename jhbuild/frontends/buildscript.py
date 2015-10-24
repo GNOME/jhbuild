@@ -161,7 +161,7 @@ class BuildScript:
                 try:
                     try:
                         error, altphases = module.run_phase(self, phase)
-                    except SkipToPhase, e:
+                    except SkipToPhase as e:
                         try:
                             num_phase = build_phases.index(e.phase)
                         except ValueError:
@@ -261,7 +261,7 @@ class BuildScript:
             logging.info(_('Running post-installation trigger script: %r') % (trig.name, ))
             try:
                 self.execute(trig.command())
-            except CommandError, err:
+            except CommandError as err:
                 if isinstance(trig.command(), (str, unicode)):
                     displayed_command = trig.command()
                 else:

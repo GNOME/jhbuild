@@ -104,7 +104,7 @@ def main(args):
         opts, args = getopt.getopt(args, 'd:u:s:x:h',
                                    ['dependencies=', 'uri=', 'source=',
                                     'exceptions=', 'help'])
-    except getopt.error, exc:
+    except getopt.error as exc:
         sys.stderr.write('mk-tarball-moduleset: %s\n' % str(exc))
         sys.stderr.write(usage + '\n')
         sys.exit(1)
