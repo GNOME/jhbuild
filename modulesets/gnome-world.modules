@@ -254,6 +254,36 @@
     </dependencies>
   </autotools>
 
+  <!-- Temporarily removed from gnome-apps because:
+
+       a) It needs to be ported to grilo-0.3.
+       b) dbus-python is in gnome-world, which is not included in gnome-apps.
+       c) dbus-python is a python2 build that depends on pygobject-python2,
+          whereas gnome-music depends on pygobject (python3 build).
+
+       Also, pygobject-python2 has a dependency on unknown "py2cairo" module,
+       but that doesn't matter much since this should not depend on
+       pygobject-python2 anyway.
+
+       https://mail.gnome.org/archives/desktop-devel-list/2015-October/msg00030.html
+  -->
+  <autotools id="gnome-music">
+    <branch/>
+    <dependencies>
+      <dep package="dbus-python"/>
+      <dep package="gnome-themes-standard"/>
+      <dep package="gobject-introspection"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gtk+"/>
+      <dep package="gvfs"/>
+      <dep package="intltool"/>
+      <dep package="pygobject"/>
+      <dep package="tracker"/>
+      <dep package="libmediaart"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-news">
     <branch repo="github.com" module="ignatenkobrain/gnome-news"/>
     <dependencies>
