@@ -221,6 +221,17 @@
     </suggests>
  </autotools>
 
+  <autotools id="libgames-support">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libgee"/>
+      <dep package="m4-common"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libgda-5.2" autogenargs="--with-java=no --disable-tools --enable-gda-gi --enable-gdaui-gi --disable-vala --disable-gdaui-vala">
     <if condition-set="freebsd">
       <autogenargs value="LIBCRYPTO_CFLAGS=' ' LIBCRYPTO_LIBS='-lcrypto' --with-bdb=/usr/local --with-bdb-libdir-name=lib/db5 --with-bdb-includedir-name=include/db5"/>
