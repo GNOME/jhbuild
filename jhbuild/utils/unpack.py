@@ -61,7 +61,7 @@ def unpack_zip_file(localfile, target_directory):
         return perm
 
     def attr_to_dir_perm(host, attr):
-        if host==0:
+        if host == 0:
             # attr & 16 should be true (this is directory bit)
             if attr & 1:
                 perm = 0444
