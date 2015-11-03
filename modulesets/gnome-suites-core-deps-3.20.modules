@@ -344,18 +344,6 @@
     </suggests>
   </autotools>
 
-  <!-- libXi prior to 1.7.4 contains locking bugs that will deadlock the
-       compositor when touch events are received. Avoid a bleading-edge
-       system dependency by building from git. -->
-  <autotools id="libXi">
-    <branch repo="xorg.freedesktop.org" module="lib/libXi" checkoutdir="libXi"/>
-    <dependencies>
-      <dep package="libX11"/>
-      <dep package="libXext"/>
-      <dep package="xorg-xproto"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="clutter" autogenargs="--enable-installed-tests --enable-egl-backend">
     <if condition-set="wayland">
       <autogenargs value="--enable-wayland-backend --enable-wayland-compositor --enable-evdev-input"/>
