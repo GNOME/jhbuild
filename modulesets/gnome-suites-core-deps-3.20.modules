@@ -42,8 +42,6 @@
     href="http://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="nice.freedesktop.org"
     href="http://nice.freedesktop.org/releases/"/>
-<repository type="tarball" name="libpwquality"
-    href="https://fedorahosted.org/releases/l/i/libpwquality/"/>
 <repository type="tarball" name="ftp.mozilla.org"
       href="http://ftp.mozilla.org/"/>
 <repository type="tarball" name="kernel.org"
@@ -1432,22 +1430,6 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gudev"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libpwquality">
-    <if condition-unset="linux">
-      <!-- uses PAM features not in XSSO spec -->
-      <autogenargs value="--disable-pam"/>
-    </if>
-    <branch repo="libpwquality"
-            module="https://fedorahosted.org/releases/l/i/libpwquality/libpwquality-1.2.3.tar.bz2" version="1.2.3"
-            hash="sha256:b11c79ce7b03cdf878fccb653e67bd430155cc6fd224efbbb3e78842f752516a"
-            size="367794">
-      <patch file="libpwquality.libintl-link.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="cracklib"/>
     </dependencies>
   </autotools>
 
