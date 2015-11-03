@@ -1197,14 +1197,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="xorg-randrproto">
-    <pkg-config>randrproto.pc</pkg-config>
-    <branch repo="xorg-tar"
-            module="releases/individual/proto/randrproto-1.5.0.tar.gz" version="1.5.0"
-            size="171254"
-            hash="8f8a716d6daa6ba05df97d513960d35a39e040600bf04b313633f11679006fab"/>
-  </autotools>
-
   <autotools id="xorg-xproto">
     <pkg-config>xproto.pc</pkg-config>
     <branch repo="xorg-tar"
@@ -1219,33 +1211,6 @@
             module="releases/individual/lib/xtrans-1.3.5.tar.gz" version="1.3.5"
             size="227536"
             hash="sha256:b7a577c1b6c75030145e53b4793db9c88f9359ac49e7d771d4385d21b3e5945d"/>
-  </autotools>
-
-  <autotools id="xwayland"
-             autogenargs="--with-xkb-bin-directory=/usr/bin --with-xkb-path=/usr/share/X11/xkb --with-xkb-output=${prefix}/share/X11/xkb/compiled --enable-xwayland">
-    <branch repo="xorg.freedesktop.org"
-            checkoutdir="xwayland"
-            module="xserver"/>
-    <dependencies>
-      <dep package="xfont"/>
-      <dep package="xtrans"/>
-      <dep package="wayland"/>
-      <dep package="libepoxy"/>
-      <dep package="pciaccess"/>
-      <dep package="xorg-xcmiscproto"/>
-      <dep package="xorg-bigreqsproto"/>
-      <dep package="xorg-scrnsaverproto"/>
-      <dep package="xorg-randrproto"/>
-      <dep package="xorg-xproto"/>
-      <dep package="xorg-resourceproto"/>
-      <dep package="xorg-xf86driproto"/>
-      <dep package="xorg-presentproto"/>
-      <dep package="xorg-videoproto"/>
-      <dep package="xcb-keysyms"/>
-      <if condition-set="systemd">
-        <dep package="libsystemd-daemon"/>
-      </if>
-    </dependencies>
   </autotools>
 
   <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
