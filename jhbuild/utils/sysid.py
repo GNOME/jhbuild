@@ -108,7 +108,7 @@ def get_freebsd_info():
     try:
         ver = subprocess.check_output(['uname', '-r']).strip()
 
-        sys_name = 'FreeBSD' + ver
+        sys_name = 'FreeBSD ' + ver
         return True
     except:
         return False
