@@ -24,7 +24,6 @@ INTLTOOL = 			\
 
 EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	modulesets/moduleset.xsl \
-	install-check.c \
 	autogen.sh \
 	$(desktop_in_files) $(INTLTOOL)
 
@@ -35,11 +34,6 @@ DISTCLEANFILES = 		\
 
 CLEANFILES = \
 	$(desktop_DATA)
-
-bin_PROGRAMS = install-check
-
-install_check_SOURCES = install-check.c
-
 
 install-exec-local:
 	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)

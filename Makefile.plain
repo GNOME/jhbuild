@@ -8,21 +8,18 @@ MAKE ?= make
 
 -include Makefile.inc
 
-all: include-check install-check
+all: include-check
 	@echo 'Run "make install" to install.'
 
 include-check:
 	@test -f Makefile.inc || \
 	(echo "Makefile.inc doesn't exist. Please run autogen.sh"; exit 1)
 
-install-check: install-check.c
-	$(CC) $(CFLAGS) -o install-check install-check.c
-
 update:
 	git pull --rebase
 	@if [ "x$(DISABLE_GETTEXT)" = x ]; then (cd po && $(MAKE) -f Makefile.plain); fi
 
-install: include-check install-check
+install: include-check
 	@if [ "x$(DISABLE_GETTEXT)" = x ]; then (cd po && $(MAKE) -f Makefile.plain install); fi
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
@@ -35,8 +32,6 @@ install: include-check install-check
 	@mkdir -p $(desktopdir)
 	@sed "s,^_,,g;s,^Exec=.*$$,Exec=$(bindir)/jhbuild gui,;s,^X-GNOME-Bugzilla-Version=.*$$,," \
 		< jhbuild.desktop.in.in > $(desktopdir)/jhbuild.desktop
-
-	install -m755 install-check $(bindir)/install-check
 
 # if ~/bin/jbuild exists, it is most likely an old version, and it will
 # not work; so rename it and install a symlink to the new version
