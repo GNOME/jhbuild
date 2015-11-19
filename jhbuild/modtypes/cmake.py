@@ -41,10 +41,12 @@ class CMakeModule(MakeModule, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
-                 cmakeargs='', makeargs='',):
+                 cmakeargs='', makeargs='',
+                 skip_install_phase=False):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
         self.cmakeargs = cmakeargs
         self.supports_non_srcdir_builds = True
+        self.skip_install_phase = skip_install_phase
         self.force_non_srcdir_builds = False
         self.supports_install_destdir = True
 
@@ -118,6 +120,9 @@ class CMakeModule(MakeModule, DownloadableModule):
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
+    def skip_install(self, buildscript, last_phase):
+        return self.config.noinstall or self.skip_install_phase
+
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
@@ -127,7 +132,8 @@ class CMakeModule(MakeModule, DownloadableModule):
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
-        return 'cmake', [('id', 'name', None)]
+        return 'cmake', [('id', 'name', None),
+                         ('skip-install', 'skip_install_phase', False)]
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):
@@ -138,6 +144,12 @@ def parse_cmake(node, config, uri, repositories, default_repo):
     instance.cmakeargs = collect_args(instance, node, 'cmakeargs')
     instance.makeargs = collect_args(instance, node, 'makeargs')
 
+    if node.hasAttribute('skip-install'):
+        skip_install = node.getAttribute('skip-install')
+        if skip_install.lower() in ('true', 'yes'):
+            instance.skip_install_phase = True
+        else:
+            instance.skip_install_phase = False
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
                 (node.getAttribute('supports-non-srcdir-builds') != 'no')
