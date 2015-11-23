@@ -1183,7 +1183,8 @@ libgnomecanvas is missing branch definition for gnome-2-20
         or more modules.</para>
 
       <cmdsynopsis><command>jhbuild info</command>
-        <arg choice="plain" rep="repeat">module</arg>
+          <arg choice="opt">--installed</arg>
+          <arg choice="opt" rep="repeat">module</arg>
       </cmdsynopsis>
 
       <para>The command displays the module name, type, dependencies,
@@ -1194,6 +1195,20 @@ libgnomecanvas is missing branch definition for gnome-2-20
 
       <para>If there is no module specified the command will display
         information about all the modules defined in the module set.</para>
+
+      <para>If the <option>--installed</option> option is specified, the output will
+        be filtered to include only installed packages. This resulting output only
+        contains modules that were actually built and installed by jhbuild. The output
+        does not include system dependencies.
+      </para>
+
+      <note>
+        <simpara>
+          If the <option>--installed</option> option is specified together with one or more module names,
+          then only the installed modules (not including system dependencies) are printed out.
+          If at least one module is not installed, then the command will exit with a return value of 1.
+        </simpara>
+      </note>
     </section>
 
     <section id="command-reference-list">
