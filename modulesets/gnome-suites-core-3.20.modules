@@ -784,6 +784,9 @@
   </autotools>
 
   <autotools id="nautilus">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-selinux"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
