@@ -3150,6 +3150,38 @@ Optional packages: (JHBuild will build the missing packages)
   &lt;/systemdependencies&gt;
 &lt;/systemmodule&gt;
 </programlisting>
+
+        <para>If the system module may be installed in different locations
+          or installed with different names by different distributions,
+          <sgmltag class="element">altdep</sgmltag> tag can be used as
+          subelements of <sgmltag class="element">dep</sgmltag> tag to
+          specify alternative locations or names.
+          <sgmltag class="element">altdep</sgmltag> tag support the same
+          attributes as <sgmltag class="element">dep</sgmltag> tag does.</para>
+
+<programlisting>
+&lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;branch repo="<replaceable>system</replaceable>" version="<replaceable>version</replaceable>" /&gt;
+  &lt;systemdependencies&gt;
+    &lt;dep type="path" name="<replaceable>executable-name</replaceable>"&gt;
+      &lt;altdep type="path" name="<replaceable>alternative-executable-name-1</replaceable>" /&gt;
+      &lt;altdep type="path" name="<replaceable>alternative-executable-name-2</replaceable>" /&gt;
+      ...
+    &lt;dep&gt;
+  &lt;/systemdependencies&gt;
+&lt;/systemmodule&gt;
+
+&lt;systemmodule id="<replaceable>modulename</replaceable>"&gt;
+  &lt;branch repo="<replaceable>system</replaceable>" version="<replaceable>version</replaceable>" /&gt;
+  &lt;systemdependencies&gt;
+    &lt;dep type="c_include" name="<replaceable>header-name</replaceable>"&gt;
+      &lt;altdep type="c_include" name="<replaceable>alternative-header-name-1</replaceable>" /&gt;
+      &lt;altdep type="c_include" name="<replaceable>alternative-header-name-2</replaceable>" /&gt;
+      ...
+    &lt;dep&gt;
+  &lt;/systemdependencies&gt;
+&lt;/systemmodule&gt;
+</programlisting>
       </section>
 
       <section id="moduleset-syntax-defs-waf">
