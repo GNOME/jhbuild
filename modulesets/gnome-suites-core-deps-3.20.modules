@@ -1216,7 +1216,9 @@
             hash="sha256:b7a577c1b6c75030145e53b4793db9c88f9359ac49e7d771d4385d21b3e5945d"/>
   </autotools>
 
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
+  <!-- FTL is disabled as we have no way to install the llvm-static package as a sysdep on Fedora.
+       Enabling FTL will require either enhancing sysdeps or adding llvm to core-deps. -->
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DENABLE_FTL_JIT=OFF">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
