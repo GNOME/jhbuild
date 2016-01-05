@@ -1050,15 +1050,6 @@
     <branch/>
   </autotools>
 
-  <!-- This should be moved to sysdeps once it's widely-available. -->
-  <autotools id="pcre2">
-    <branch repo="sourceforge.net"
-            checkoutdir="pcre2"
-            module="pcre/files/pcre2/${version}/pcre2-${version}.tar.bz2"
-            version="10.20"
-            hash="sha256:332e287101c9e9567d1ed55391b338b32f1f72c5b5ee7cc81ef2274a53ad487a"/>
-  </autotools>
-
   <!-- Python 3 build of pygobject -->
   <autotools id="pygobject" autogenargs="--with-python=python3">
     <branch/>
@@ -1286,13 +1277,12 @@
   </cmake>
 
  <autotools id="vte"
-            autogenargs="--enable-introspection=yes">
+            autogenargs="--enable-introspection=yes --without-pcre2">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
-      <dep package="pcre2"/>
       <dep package="vala"/>
     </dependencies>
   </autotools>
