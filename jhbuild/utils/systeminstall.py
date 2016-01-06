@@ -345,10 +345,19 @@ class PacmanSystemInstall(SystemInstall):
             if subprocess.call(self._root_command_prefix_args + self._pacman_install_args + ['pkgfile',]):
                 logging.error(_('Failed to install pkgfile'))
                 raise SystemExit
+
         # Update the pkgfile cache if it is older than 1 day.
-        if not os.listdir('/var/cache/pkgfile') or os.stat('/var/cache/pkgfile').st_mtime < time.time() - 86400:
+        cacheexists = bool(os.listdir('/var/cache/pkgfile'))
+        if not cacheexists or os.stat('/var/cache/pkgfile').st_mtime < time.time() - 86400:
             logging.info(_('pkgfile cache is old or doesn\'t exist, automatically updating'))
-            subprocess.call(self._root_command_prefix_args + ['pkgfile', '--update'])
+            result = subprocess.call(self._root_command_prefix_args + ['pkgfile', '--update'])
+            if result and not cacheexists:
+                logging.error(_('Failed to create pkgfile cache'))
+                raise SystemExit
+            elif result:
+                logging.warning(_('Failed to update pkgfile cache'))
+            else:
+                logging.info(_('Successfully updated pkgfile cache'))
 
     def install(self, uninstalled):
         uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
@@ -366,9 +375,12 @@ class PacmanSystemInstall(SystemInstall):
             uninstalled_filenames.append((None, '/usr/lib/pkgconfig/%s.pc' %pkgconfig))
 
         for name, filename in uninstalled_filenames:
-            result = subprocess.check_output(['pkgfile', '--raw', filename])
-            if result:
-                package_names.add(result.split('\n')[0])
+            try:
+                result = subprocess.check_output(['pkgfile', '--raw', filename])
+                if result:
+                    package_names.add(result.split('\n')[0])
+            except subprocess.CalledProcessError:
+                logging.warning(_('Provider for "%s" was not found, ignoring' %(name if name else filename)))
 
         if not package_names:
             logging.info(_('Nothing to install'))
