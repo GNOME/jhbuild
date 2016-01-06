@@ -12,28 +12,25 @@ DTDS = \
 	$(NULL)
 
 desktopdir = $(datadir)/applications
-desktop_in_files = jhbuild.desktop.in
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+desktop_DATA = jhbuild.desktop
 
-@INTLTOOL_DESKTOP_RULE@
+jhbuild.desktop.in: jhbuild.desktop.in.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
-INTLTOOL = 			\
-	intltool-extract.in 	\
-	intltool-merge.in 	\
-	intltool-update.in
+# Substitute variables in a Desktop Entry file.
+jhbuild.desktop: jhbuild.desktop.in
+	$(AM_V_GEN) sed -e 's|@bindir[@]|$(bindir)|g' $< > $@
 
 EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	modulesets/moduleset.xsl \
 	autogen.sh \
-	$(desktop_in_files) $(INTLTOOL)
-
-DISTCLEANFILES = 		\
-	intltool-extract 	\
-	intltool-merge 		\
-	intltool-update
+	jhbuild.desktop.in.in jhbuild.desktop.in
 
 CLEANFILES = \
 	$(desktop_DATA)
+
+MAINTAINERCLEANFILES = \
+	jhbuild.desktop.in
 
 install-exec-local:
 	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)

@@ -1,10 +1,10 @@
+noinst_DATA = jhbuild.desktop
 
-xsession_in_files = jhbuild.desktop.in
-noinst_DATA = $(xsession_in_files:.desktop.in=.desktop)
+jhbuild.desktop: jhbuild.desktop.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+
+CLEANFILES = $(desktop_DATA)
 
 EXTRA_DIST = jhbuild.desktop.in
 
 DISTCLEANFILES = jhbuild.desktop
-
-@INTLTOOL_DESKTOP_RULE@
-
