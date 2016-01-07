@@ -355,12 +355,18 @@
     </suggests>
   </autotools>
 
-  <autotools id="clutter" autogenargs="--enable-installed-tests --enable-egl-backend">
+  <autotools id="clutter" autogenargs="--enable-installed-tests --disable-maintainer-flags">
+    <if condition-unset="quartz">
+      <autogenargs value="--enable-egl-backend"/>
+    </if>
     <if condition-set="evdev">
       <autogenargs value="--enable-evdev-input"/>
     </if>
     <if condition-set="wayland">
       <autogenargs value="--enable-wayland-backend --enable-wayland-compositor"/>
+    </if>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-quartz-backend"/>
     </if>
     <branch/>
     <dependencies>
