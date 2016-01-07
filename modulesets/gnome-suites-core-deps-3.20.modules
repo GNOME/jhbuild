@@ -319,21 +319,31 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cogl" autogenargs="--enable-xlib-egl-platform --enable-cogl-gst --disable-maintainer-flags">
+  <autotools id="cogl" autogenargs="--enable-cogl-gst --disable-maintainer-flags">
+    <if condition-set="x11">
+      <autogenargs value="--enable-xlib-egl-platform"/>
+    </if>
     <if condition-set="wayland">
       <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
+    </if>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-gl"/>
     </if>
     <pkg-config>cogl-1.0.pc</pkg-config>
     <branch revision="cogl-1.22"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
-      <dep package="libdrm"/>
-      <dep package="libXcomposite"/>
-      <dep package="xcb-dri2" />
       <dep package="pango"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
+      <if condition-unset="quartz">
+        <dep package="libdrm"/>
+      </if>
+      <if condition-set="x11">
+        <dep package="libXcomposite"/>
+        <dep package="xcb-dri2" />
+      </if>
       <if condition-set="wayland">
         <dep package="wayland"/>
         <dep package="wayland-egl"/>
