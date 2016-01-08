@@ -27,8 +27,6 @@
       href="http://ftp.gnu.org/gnu/"/>
   <repository type="tarball" name="qqwing"
       href="http://ostermiller.org/qqwing/"/>
-  <repository type="tarball" name="speech-dispatcher"
-      href="http://devel.freebsoft.org/pub/projects/speechd/"/>
   <repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
   <repository type="tarball" name="downloads.sourceforge.net"
@@ -307,16 +305,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pyatspi2" autogenargs="--with-python=python3" >
-    <branch/>
-    <dependencies>
-      <dep package="pygobject"/>
-    </dependencies>
-    <suggests>
-      <dep package="at-spi2-core"/>
-    </suggests>
-  </autotools>
-
   <autotools id="qqwing">
     <branch repo="qqwing"
             module="qqwing-${version}.tar.gz"
@@ -325,17 +313,6 @@
             size="352060"/>
     <dependencies>
       <dep package="c++"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="speech-dispatcher" autogenargs="--with-espeak">
-    <branch repo="speech-dispatcher"
-            module="speech-dispatcher-${version}.tar.gz"
-            version="0.8"
-            hash="sha256:0a6ce544cfbac8592a8ea08e3ab24c389153904ea51c6fd68756cea52de9efa2"/>
-    <dependencies>
-      <dep package="dotconf"/>
-      <dep package="espeak"/>
     </dependencies>
   </autotools>
 
@@ -1120,22 +1097,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="orca">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="at-spi2-atk"/> <!-- to make Orca's gui accessible -->
-      <dep package="gobject-introspection"/>
-      <dep package="intltool"/>
-      <dep package="pyatspi2"/>
-      <dep package="pygobject"/>
-      <dep package="yelp-tools"/>
-    </dependencies>
-    <suggests>
-      <dep package="speech-dispatcher"/>
-    </suggests>
-  </autotools>
-
   <autotools id="polari">
     <branch/>
     <dependencies>
@@ -1286,7 +1247,6 @@
       <dep package="lightsoff"/>
       <dep package="nautilus-sendto"/>
       <dep package="nemiver"/>
-      <dep package="orca"/>
       <dep package="polari"/>
       <dep package="quadrapassel"/>
       <dep package="rygel"/>
