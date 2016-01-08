@@ -734,6 +734,32 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-initial-setup">
+    <branch/>
+    <dependencies>
+      <dep package="accountsservice"/>
+      <dep package="geoclue"/>
+      <dep package="gdm"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gnome-keyring"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gstreamer"/>
+      <dep package="iso-codes"/>
+      <dep package="libgweather"/>
+      <dep package="libpwquality"/>
+      <dep package="WebKit"/>
+      <if condition-set="linux">
+        <dep package="network-manager-applet"/>
+        <dep package="NetworkManager"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="upower"/>
+      <dep package="gnome-getting-started-docs"/>
+    </suggests>
+  </autotools>
+
   <autotools id="gnome-logs">
     <branch/>
     <dependencies>
