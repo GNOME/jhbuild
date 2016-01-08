@@ -693,28 +693,6 @@
     </dependencies>
   </autotools>
 
-
-
-  <autotools id="fwupd"
-             autogenargs="--disable-colorhug --disable-uefi">
-    <branch repo="tarball.github.com"
-            module="hughsie/fwupd/archive/${version}.tar.gz"
-            version="0.5.1"
-            hash="9640a6099c6be03e335a527b864d058a2621202a3050a3d4f9180cc81ac928f0"
-            checkoutdir="fwupd-${version}"/>
-    <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="gcab"/>
-      <dep package="glib"/>
-      <dep package="gudev"/>
-      <dep package="libarchive"/>
-      <dep package="libgusb"/>
-      <dep package="libsoup"/>
-      <dep package="polkit-gobject"/>
-      <dep package="sqlite3"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gedit">
     <branch/>
     <dependencies>
@@ -1143,23 +1121,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-software">
-    <branch/>
-    <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="glib"/>
-      <dep package="gnome-desktop"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="gtk+"/>
-      <dep package="libsoup"/>
-      <dep package="PackageKit"/>
-      <dep package="sqlite3"/>
-      <if condition-set="linux">
-        <dep package="fwupd"/>
-      </if>
-    </dependencies>
-  </autotools>
-
   <autotools id="nautilus-sendto">
     <branch/>
     <dependencies>
@@ -1346,9 +1307,9 @@
       <dep package="gnome-mines"/>
       <dep package="gnome-nettool"/>
       <dep package="gnome-nibbles"/>
+      <dep package="gnome-packagekit"/>
       <dep package="gnome-photos"/>
       <dep package="gnome-robots"/>
-      <dep package="gnome-software"/>
       <dep package="gnome-sound-recorder"/>
       <dep package="gnome-sudoku"/>
       <dep package="gnome-taquin"/>
