@@ -241,24 +241,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-packagekit">
-    <branch/>
-    <dependencies>
-      <dep package="PackageKit"/>
-      <dep package="gtk+"/>
-      <dep package="libnotify"/>
-      <dep package="libcanberra"/>
-    </dependencies>
-    <suggests>
-      <if condition-set="linux">
-        <dep package="gudev"/>
-      </if>
-      <if condition-set="systemd">
-        <dep package="libsystemd-login"/>
-      </if>
-    </suggests>
-  </autotools>
-
   <autotools id="gnome-session">
     <branch/>
     <dependencies>
@@ -361,6 +343,23 @@
     <after>
       <dep package="librsvg"/>
     </after>
+  </autotools>
+
+  <autotools id="gnome-software">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+      <dep package="PackageKit"/>
+      <dep package="sqlite3"/>
+      <if condition-set="linux">
+        <dep package="fwupd"/>
+      </if>
+    </dependencies>
   </autotools>
 
   <autotools id="gnome-themes-standard">
