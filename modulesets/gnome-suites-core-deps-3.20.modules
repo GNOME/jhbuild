@@ -58,6 +58,8 @@
     href="http://xkbcommon.org/download/"/>
 <repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
+<repository type="tarball" name="pcre"
+    href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/"/>
 
 <include href="gnome-sysdeps-3.20.modules"/>
 
@@ -1096,6 +1098,16 @@
     <branch/>
   </autotools>
 
+  <!-- This should be moved to sysdeps once it's widely-available. -->
+  <autotools id="pcre2"
+             autogenargs="--enable-jit --enable-pcre2-8 --enable-pcre2-16 --enable-pcre2-32">
+    <branch repo="pcre"
+            module="Testing/pcre2-${version}.tar.bz2"
+            version="10.21-RC1"
+            hash="sha256:02dd62e2cf7306a3e8689d2f7a144070214aa322383c3908913e36da3f20e4c8"
+            size="1458545"/>
+  </autotools>
+
   <!-- Python 3 build of pygobject -->
   <autotools id="pygobject" autogenargs="--with-python=python3">
     <branch/>
@@ -1323,12 +1335,13 @@
   </cmake>
 
  <autotools id="vte"
-            autogenargs="--enable-introspection=yes --without-pcre2">
+            autogenargs="--enable-introspection=yes">
     <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+"/>
+      <dep package="pcre2"/>
       <dep package="vala"/>
     </dependencies>
   </autotools>
