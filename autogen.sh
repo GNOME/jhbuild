@@ -171,7 +171,6 @@ configure_with_autotools()
   set -x
 
   aclocal --install || exit 1
-  intltoolize --force --copy --automake || exit 1
   autoreconf --verbose --force --install -Wno-portability || exit 1
 
   if [ "$NOCONFIGURE" = "" ]; then
@@ -224,9 +223,9 @@ automake_available=$?
 hash pkg-config 2>& -
 pkg_config_available=$?
 
-# Check intltool is installed.
-hash intltoolize 2>& -
-intltool_available=$?
+# Check autopoint is installed.
+hash autopoint 2>& -
+autopoint_available=$?
 
 # Check yelp-tools is installed.
 hash yelp-build 2>&-
@@ -238,7 +237,7 @@ autotools_dependencies_met=$FALSE
 if [ $autoconf_available -eq $TRUE -a \
      $automake_available -eq $TRUE -a \
      $pkg_config_available -eq $TRUE -a \
-     $intltool_available -eq $TRUE -a \
+     $autopoint_available -eq $TRUE -a \
      $yelp_tools_available -eq $TRUE ]; then
     autotools_dependencies_met=$TRUE
 fi
@@ -268,8 +267,8 @@ else
   if [ $automake_available -ne $TRUE ]; then
     gettext "WARNING: automake not available (usually part of package 'automake')"; echo
   fi
-  if [ $intltool_available -ne $TRUE ]; then
-    gettext "WARNING: intltoolize not available (usually part of package 'intltool')"; echo
+  if [ $autopoint_available -ne $TRUE ]; then
+    gettext "WARNING: autopoint not available (usually part of package 'gettext')"; echo
   fi
   if [ $pkg_config_available -ne $TRUE ]; then
     gettext "WARNING: pkg-config not available (usually part of package 'pkgconfig')"; echo
