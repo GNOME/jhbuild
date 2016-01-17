@@ -116,6 +116,14 @@
     </suggests>
   </autotools>
 
+  <autotools id="gnome-backgrounds">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-bluetooth">
     <branch/>
     <dependencies>
@@ -397,6 +405,24 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-user-share">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-bluetooth"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="avahi"/>
+      <dep package="gtk+"/>
+      <dep package="dbus-glib"/>
+      <dep package="libcanberra"/>
+      <dep package="libnotify"/>
+      <dep package="nautilus"/>
+      <if condition-set="linux">
+        <dep package="gnome-bluetooth"/>
+      </if>
+    </dependencies>
+  </autotools>
+
   <autotools id="gsettings-desktop-schemas" autogenargs="--enable-introspection=yes">
     <branch/>
     <dependencies>
@@ -539,6 +565,27 @@
         <dep package="NetworkManager"/>
       </if>
     </dependencies>
+  </autotools>
+
+  <autotools id="vino">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+    </dependencies>
+    <suggests>
+      <dep package="avahi"/>
+      <dep package="gnutls"/>
+      <dep package="libgcrypt"/>
+      <dep package="libnotify"/>
+      <dep package="libsecret"/>
+      <dep package="telepathy-glib"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
+    </suggests>
   </autotools>
 
 
@@ -902,55 +949,6 @@
     </dependencies>
   </autotools>
 
-<!-- Core Extras -->
-
-  <autotools id="gnome-backgrounds">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-user-share">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-bluetooth"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="avahi"/>
-      <dep package="gtk+"/>
-      <dep package="dbus-glib"/>
-      <dep package="libcanberra"/>
-      <dep package="libnotify"/>
-      <dep package="nautilus"/>
-      <if condition-set="linux">
-        <dep package="gnome-bluetooth"/>
-      </if>
-    </dependencies>
-  </autotools>
-
-  <autotools id="vino">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libsoup"/>
-    </dependencies>
-    <suggests>
-      <dep package="avahi"/>
-      <dep package="gnutls"/>
-      <dep package="libgcrypt"/>
-      <dep package="libnotify"/>
-      <dep package="libsecret"/>
-      <dep package="telepathy-glib"/>
-      <if condition-set="linux">
-        <dep package="NetworkManager"/>
-      </if>
-    </suggests>
-  </autotools>
-
 
 <!-- Core OS Services -->
 
@@ -1152,6 +1150,7 @@
       <dep package="adwaita-icon-theme"/>
       <dep package="dconf"/>
       <dep package="evolution-data-server"/>
+      <dep package="gnome-backgrounds"/>
       <dep package="gnome-control-center"/>
       <dep package="gnome-initial-setup"/>
       <dep package="gnome-keyring"/>
@@ -1160,6 +1159,8 @@
       <dep package="gnome-settings-daemon"/>
       <dep package="gnome-shell"/>
       <dep package="gnome-themes-standard"/>
+      <dep package="gnome-user-docs"/>
+      <dep package="gnome-user-share"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gvfs"/>
       <dep package="glib-networking"/>
@@ -1168,15 +1169,7 @@
       <dep package="orca"/>
       <dep package="pulseaudio"/>
       <dep package="telepathy-mission-control"/>
-    </dependencies>
-  </metamodule>
-
-  <metamodule id="meta-gnome-core-extras">
-    <dependencies>
-      <dep package="gnome-backgrounds"/>
-      <dep package="gnome-user-share"/>
       <dep package="vino"/>
-      <dep package="gnome-user-docs"/>
     </dependencies>
   </metamodule>
 
@@ -1189,11 +1182,11 @@
       <dep package="avahi"/>
       <dep package="bluez"/>
       <dep package="ConsoleKit"/>
+      <dep package="cups"/>
       <dep package="dbus"/>
       <dep package="gdm"/>
       <dep package="PackageKit"/>
       <dep package="upower"/>
-      <dep package="cups"/>
       <!-- <dep package="systemd"/> -->
       <!-- <dep package="xorg-x11-server"/> -->
       <!-- <dep package="plymouth"/> -->
@@ -1209,7 +1202,6 @@
   <metamodule id="meta-gnome-core">
     <dependencies>
       <dep package="meta-gnome-core-shell"/>
-      <dep package="meta-gnome-core-extras"/>
       <dep package="meta-gnome-core-utilities"/>
       <dep package="gnome-shell-extensions"/>
     </dependencies>
