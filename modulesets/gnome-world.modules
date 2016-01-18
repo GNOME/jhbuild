@@ -3323,5 +3323,23 @@
     </dependencies>
   </autotools>
 
+  <autotools id="zeitgeist" autogenargs="--with-session-bus-services-dir=${prefix}/share/dbus-1/services">
+    <branch repo="git.freedesktop.org"
+            module="zeitgeist/zeitgeist"
+            checkoutdir="zeitgeist"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="rapper"/>
+      <dep package="rdflib"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="json-glib"/>
+      <dep package="telepathy-glib"/>
+    </suggests>
+  </autotools>
 
 </moduleset>
