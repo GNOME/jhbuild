@@ -107,6 +107,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gcr">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-common"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libgcrypt" />
+      <dep package="libtasn1" />
+      <dep package="p11-kit"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="geoclue" autogenargs="--with-systemdsystemunitdir=no">
     <if condition-unset="linux">
       <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-cdma-source"/>
@@ -141,19 +154,6 @@
             module="maxmind/geoip-api-c/releases/download/v${version}/GeoIP-${version}.tar.gz"
             hash="sha256:0ae1c95e69ad627d3a45cb897f79ce0c30f13fcd4b4a0dda073be0c9552521b3">
     </branch>
-  </autotools>
-
-  <autotools id="gcr">
-    <branch/>
-    <dependencies>
-      <dep package="gnome-common"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="libgcrypt" />
-      <dep package="libtasn1" />
-      <dep package="p11-kit"/>
-      <dep package="vala"/>
-    </dependencies>
   </autotools>
 
 <!-- This is a special module: it's needed to build from git, but not
@@ -196,15 +196,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="iso-codes">
-    <pkg-config>iso-codes.pc</pkg-config>
-    <branch repo="iso-codes"
-            module="iso-codes-3.51.tar.xz"
-            version="3.51"
-            hash="sha256:5222f79d92ac021a56c7080616c13655c50f7b1ff1a31ec0308da14a684ad77f"
-            size="3626932"/>
-  </autotools>
-
   <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
              check-target="false">
     <branch module="hicolor-icon-theme-0.15.tar.xz" version="0.15"
@@ -214,13 +205,13 @@
     </branch>
   </autotools>
 
-  <autotools id="uhttpmock">
-    <branch repo="github.com" checkoutdir="uhttpmock" module="pwithnall/uhttpmock.git"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-      <dep package="m4-common"/>
-    </dependencies>
+  <autotools id="iso-codes">
+    <pkg-config>iso-codes.pc</pkg-config>
+    <branch repo="iso-codes"
+            module="iso-codes-3.51.tar.xz"
+            version="3.51"
+            hash="sha256:5222f79d92ac021a56c7080616c13655c50f7b1ff1a31ec0308da14a684ad77f"
+            size="3626932"/>
   </autotools>
 
   <autotools id="libgdata">
@@ -356,6 +347,15 @@
             size="478237"/>
   </autotools>
 
+  <autotools id="uhttpmock">
+    <branch repo="github.com" checkoutdir="uhttpmock" module="pwithnall/uhttpmock.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="m4-common"/>
+    </dependencies>
+  </autotools>
+
 <!-- OS Core API/ABI stable dependencies -->
 
   <autotools id="atk">
@@ -365,42 +365,6 @@
       <dep package="gobject-introspection"/>
       <dep package="gtk-doc"/>
     </dependencies>
-  </autotools>
-
-  <autotools id="cogl" autogenargs="--enable-cogl-gst --disable-maintainer-flags">
-    <if condition-set="x11">
-      <autogenargs value="--enable-xlib-egl-platform"/>
-    </if>
-    <if condition-set="wayland">
-      <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
-    </if>
-    <if condition-set="quartz">
-      <autogenargs value="--enable-gl"/>
-    </if>
-    <pkg-config>cogl-1.0.pc</pkg-config>
-    <branch revision="cogl-1.22"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk-doc"/>
-      <dep package="pango"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-      <if condition-unset="quartz">
-        <dep package="libdrm"/>
-      </if>
-      <if condition-set="x11">
-        <dep package="libXcomposite"/>
-        <dep package="xcb-dri2" />
-      </if>
-      <if condition-set="wayland">
-        <dep package="wayland"/>
-        <dep package="wayland-egl"/>
-        <dep package="gbm"/>
-      </if>
-    </dependencies>
-    <suggests>
-      <dep package="gobject-introspection"/>
-    </suggests>
   </autotools>
 
   <autotools id="clutter" autogenargs="--enable-installed-tests --disable-maintainer-flags">
@@ -438,6 +402,42 @@
       <if condition-set="wayland">
         <dep package="gudev"/>
       </if>
+    </suggests>
+  </autotools>
+
+  <autotools id="cogl" autogenargs="--enable-cogl-gst --disable-maintainer-flags">
+    <if condition-set="x11">
+      <autogenargs value="--enable-xlib-egl-platform"/>
+    </if>
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
+    </if>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-gl"/>
+    </if>
+    <pkg-config>cogl-1.0.pc</pkg-config>
+    <branch revision="cogl-1.22"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk-doc"/>
+      <dep package="pango"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <if condition-unset="quartz">
+        <dep package="libdrm"/>
+      </if>
+      <if condition-set="x11">
+        <dep package="libXcomposite"/>
+        <dep package="xcb-dri2" />
+      </if>
+      <if condition-set="wayland">
+        <dep package="wayland"/>
+        <dep package="wayland-egl"/>
+        <dep package="gbm"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
     </suggests>
   </autotools>
 
@@ -549,6 +549,14 @@
 
   <!-- OS Core unstable dependencies -->
 
+  <autotools id="atkmm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="cantarell-fonts">
     <branch/>
     <dependencies>
@@ -565,14 +573,6 @@
       <dep package="libgee"/>
       <dep package="libxklavier"/>
       <dep package="vala"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="clutter-gtk">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="clutter"/>
     </dependencies>
   </autotools>
 
@@ -602,6 +602,14 @@
     </suggests>
   </autotools>
 
+  <autotools id="clutter-gtk">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="clutter"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="folks" autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings"
              uninstall-before-install="true">
     <branch/>
@@ -619,6 +627,40 @@
       <dep package="telepathy-logger"/>
       <dep package="zeitgeist"/>
     </suggests>
+  </autotools>
+
+  <autotools id="glibmm">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsigc++2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gjs" autogenargs="--enable-installed-tests">
+    <if condition-set="coverage">
+      <autogenargs value="--enable-coverage"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="dbus-glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="js24"/>
+      <if condition-set="coverage">
+        <dep package="lcov"/>
+      </if>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gobject-introspection">
+    <branch/>
+    <dependencies>
+      <dep package="bison"/>
+      <dep package="flex"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="python2-devel"/>
+    </dependencies>
   </autotools>
 
   <autotools id="gom">
@@ -694,86 +736,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gtksourceview">
-    <branch/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="shared-mime-info"/>
-      <dep package="gtk+"/>
-      <dep package="m4-common"/>
-    </dependencies>
-    <suggests>
-      <dep package="glade"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="harfbuzz" autogenargs="">
-    <branch repo="git.freedesktop.org"
-      module="harfbuzz" checkoutdir="harfbuzz"/>
-    <dependencies>
-      <dep package="c++"/>
-      <dep package="glib"/>
-      <dep package="libicu"/>
-      <dep package="ragel"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libgrss">
-    <branch/>
+  <autotools id="gssdp" makeargs="CFLAGS=-Wno-error">
+    <branch />
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="librest">
-    <if condition-set="freebsd">
-      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-      <dep package="libxml2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libsecret">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
     </dependencies>
     <suggests>
-      <dep package="libgcrypt"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="gobject-introspection">
-    <branch/>
-    <dependencies>
-      <dep package="bison"/>
-      <dep package="flex"/>
-      <dep package="glib"/>
-      <dep package="cairo"/>
-      <dep package="python2-devel"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gjs" autogenargs="--enable-installed-tests">
-    <if condition-set="coverage">
-      <autogenargs value="--enable-coverage"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="js24"/>
-      <if condition-set="coverage">
-        <dep package="lcov"/>
-      </if>
-    </dependencies>
+    </suggests>
   </autotools>
 
   <autotools id="gstreamer"
@@ -787,6 +758,19 @@
       <dep package="glib"/>
       <dep package="libxml2"/>
       <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-plugins-bad"
+             autogenargs="--disable-fatal-warnings"
+             supports-non-srcdir-builds="no">
+    <branch repo="gstreamer.freedesktop.org"
+            checkoutdir="gst-plugins-bad"
+            module="gst-plugins-bad"
+            revision="1.6"/>
+    <dependencies>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
     </dependencies>
   </autotools>
 
@@ -834,57 +818,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="gst-plugins-bad"
-             autogenargs="--disable-fatal-warnings"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            checkoutdir="gst-plugins-bad"
-            module="gst-plugins-bad"
-            revision="1.6"/>
-    <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="mm-common">
-    <branch/>
-  </autotools>
-
-  <autotools id="libsigc++2">
-    <branch/>
-    <dependencies>
-      <dep package="mm-common"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="glibmm">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsigc++2"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="pangomm">
-    <branch/>
-    <dependencies>
-      <dep package="glibmm"/>
-      <dep package="cairomm"/>
-      <dep package="pango"/>
-      <dep package="atk"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="atkmm">
-    <branch/>
-    <dependencies>
-      <dep package="glibmm"/>
-      <dep package="atk"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gtkmm">
+ <autotools id="gtkmm">
     <branch/>
     <dependencies>
       <dep package="cairomm"/>
@@ -895,14 +829,16 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gssdp" makeargs="CFLAGS=-Wno-error">
-    <branch />
+  <autotools id="gtksourceview">
+    <branch/>
     <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+      <dep package="gtk+"/>
+      <dep package="m4-common"/>
     </dependencies>
     <suggests>
-      <dep package="gobject-introspection"/>
+      <dep package="glade"/>
     </suggests>
   </autotools>
 
@@ -930,6 +866,17 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gupnp"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="harfbuzz" autogenargs="">
+    <branch repo="git.freedesktop.org"
+      module="harfbuzz" checkoutdir="harfbuzz"/>
+    <dependencies>
+      <dep package="c++"/>
+      <dep package="glib"/>
+      <dep package="libicu"/>
+      <dep package="ragel"/>
     </dependencies>
   </autotools>
 
@@ -997,16 +944,12 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgweather">
+  <autotools id="libgrss">
     <branch/>
     <dependencies>
-      <dep package="m4-common"/>
-      <dep package="intltool"/>
-      <dep package="libxml2"/>
-      <dep package="geocode-glib"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
       <dep package="libsoup"/>
+      <dep package="libxml2"/>
     </dependencies>
   </autotools>
 
@@ -1030,6 +973,19 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libgweather">
+    <branch/>
+    <dependencies>
+      <dep package="m4-common"/>
+      <dep package="intltool"/>
+      <dep package="libxml2"/>
+      <dep package="geocode-glib"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libgxps">
     <branch/>
     <dependencies>
@@ -1037,6 +993,15 @@
       <dep package="cairo"/>
       <dep package="lcms2"/>
       <dep package="libarchive"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libinput">
+    <branch repo="git.freedesktop.org" checkoutdir="libinput" module="wayland/libinput.git" />
+    <dependencies>
+      <dep package="libevdev"/>
+      <dep package="libudev"/>
+      <dep package="mtdev"/>
     </dependencies>
   </autotools>
 
@@ -1077,6 +1042,18 @@
     </suggests>
   </autotools>
 
+  <autotools id="librest">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="librsvg" supports-non-srcdir-builds="no" autogenargs="--enable-vala=yes">
     <if condition-unset="gnu-elf">
       <autogenargs value="--disable-Bsymbolic"/>
@@ -1091,6 +1068,24 @@
       <dep package="pango"/>
       <dep package="gobject-introspection"/>
       <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libsecret">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+    <suggests>
+      <dep package="libgcrypt"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="libsigc++2">
+    <branch/>
+    <dependencies>
+      <dep package="mm-common"/>
     </dependencies>
   </autotools>
 
@@ -1109,11 +1104,41 @@
     </suggests>
   </autotools>
 
+  <autotools id="libxkbcommon">
+    <branch repo="libxkbcommon"
+            module="http://xkbcommon.org/download/libxkbcommon-${version}.tar.xz"
+            version="0.5.0"
+            hash="sha256:90bd7824742b9a6f52a6cf80e2cadd6f5349cf600a358d08260772615b89d19c"
+            size="615504"/>
+    <dependencies>
+      <dep package="xkeyboard-config"/>
+      <dep package="xorg-macros"/>
+      <dep package="xorg-xproto"/>
+      <dep package="xorg-kbproto"/>
+      <dep package="libX11"/>
+      <dep package="xcb"/>
+      <dep package="xcb-xkb"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mm-common">
+    <branch/>
+  </autotools>
+
   <autotools id="mobile-broadband-provider-info">
     <branch/>
   </autotools>
 
-  <!-- This should be moved to sysdeps once it's widely-available. -->
+  <autotools id="pangomm">
+    <branch/>
+    <dependencies>
+      <dep package="glibmm"/>
+      <dep package="cairomm"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="pcre2"
              autogenargs="--enable-jit --enable-pcre2-8 --enable-pcre2-16 --enable-pcre2-32">
     <branch repo="pcre"
@@ -1241,32 +1266,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libinput">
-    <branch repo="git.freedesktop.org" checkoutdir="libinput" module="wayland/libinput.git" />
-    <dependencies>
-      <dep package="libevdev"/>
-      <dep package="libudev"/>
-      <dep package="mtdev"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libxkbcommon">
-    <branch repo="libxkbcommon"
-            module="http://xkbcommon.org/download/libxkbcommon-${version}.tar.xz"
-            version="0.5.0"
-            hash="sha256:90bd7824742b9a6f52a6cf80e2cadd6f5349cf600a358d08260772615b89d19c"
-            size="615504"/>
-    <dependencies>
-      <dep package="xkeyboard-config"/>
-      <dep package="xorg-macros"/>
-      <dep package="xorg-xproto"/>
-      <dep package="xorg-kbproto"/>
-      <dep package="libX11"/>
-      <dep package="xcb"/>
-      <dep package="xcb-xkb"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="wayland-protocols">
     <branch repo="wayland.freedesktop.org"/>
   </autotools>
@@ -1281,23 +1280,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="xorg-xproto">
-    <pkg-config>xproto.pc</pkg-config>
-    <branch repo="xorg-tar"
-            module="releases/individual/proto/xproto-7.0.28.tar.gz" version="7.0.28"
-            size="367523"
-            hash="sha256:6cabc8ce3fa2b1a2427871167b62c24d5b08a58bd3e81ed7aaf08f2bf6dbcfed"/>
-  </autotools>
-
-  <autotools id="xtrans">
-    <pkg-config>xtrans.pc</pkg-config>
-    <branch repo="xorg-tar"
-            module="releases/individual/lib/xtrans-1.3.5.tar.gz" version="1.3.5"
-            size="227536"
-            hash="sha256:b7a577c1b6c75030145e53b4793db9c88f9359ac49e7d771d4385d21b3e5945d"/>
-  </autotools>
-
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
+  <!-- FTL is disabled as we have no way to install the llvm-static package as a sysdep on Fedora.
+       Enabling FTL will require either enhancing sysdeps or adding llvm to core-deps. -->
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DENABLE_FTL_JIT=OFF">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
@@ -1363,6 +1348,22 @@
     </suggests>
   </cmake>
 
+  <autotools id="xorg-xproto">
+    <pkg-config>xproto.pc</pkg-config>
+    <branch repo="xorg-tar"
+            module="releases/individual/proto/xproto-7.0.28.tar.gz" version="7.0.28"
+            size="367523"
+            hash="sha256:6cabc8ce3fa2b1a2427871167b62c24d5b08a58bd3e81ed7aaf08f2bf6dbcfed"/>
+  </autotools>
+
+  <autotools id="xtrans">
+    <pkg-config>xtrans.pc</pkg-config>
+    <branch repo="xorg-tar"
+            module="releases/individual/lib/xtrans-1.3.5.tar.gz" version="1.3.5"
+            size="227536"
+            hash="sha256:b7a577c1b6c75030145e53b4793db9c88f9359ac49e7d771d4385d21b3e5945d"/>
+  </autotools>
+
  <autotools id="vte"
             autogenargs="--enable-introspection=yes">
     <branch/>
@@ -1410,16 +1411,6 @@
 
   <!-- OS Core Services dependencies -->
 
-  <autotools id="libgusb">
-    <branch repo="github.com" checkoutdir="libgusb" module="hughsie/libgusb.git"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="vala"/>
-      <dep package="libusb1"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no">
     <if condition-unset="linux">
       <autogenargs value="--disable-gusb --disable-udev --disable-systemd-login"/>
@@ -1458,17 +1449,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libwacom">
-    <branch repo="sourceforge.net"
-            module="linuxwacom/files/libwacom/libwacom-${version}.tar.bz2" version="0.13"
-            hash="sha256:976b8801007ac96c6512751a0ef6903b482cd361f256965c2884196c88788176"
-            size="439767"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gudev"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="ibus"
              autogenargs="--disable-tests --disable-gconf --enable-dconf --disable-memconf --disable-ui GSETTINGS_SCHEMA_CONVERT=/usr/bin/false --with-python=python3">
     <branch repo="github-tar"
@@ -1483,20 +1463,6 @@
       <dep package="dconf"/>
       <dep package="iso-codes"/>
       <dep package="gtk+"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="ibus-libpinyin"
-             autogenargs="--disable-lua-extension --with-python=python3">
-    <branch repo="github-tar"
-            version="1.7.0"
-            module="libpinyin/ibus-libpinyin/archive/${version}.tar.gz"
-            checkoutdir="ibus-libpinyin-${version}"
-            hash="sha256:4fcdf3300afe5b6551f0a05ce3e9f7e9fb43dd73f16604cabed348b4cc7f5d36"/>
-    <dependencies>
-      <dep package="ibus"/>
-      <dep package="libpinyin"/>
-      <dep package="sqlite3"/>
     </dependencies>
   </autotools>
 
@@ -1522,6 +1488,41 @@
     <dependencies>
       <dep package="ibus"/>
       <dep package="libhangul"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="ibus-libpinyin"
+             autogenargs="--disable-lua-extension --with-python=python3">
+    <branch repo="github-tar"
+            version="1.7.0"
+            module="libpinyin/ibus-libpinyin/archive/${version}.tar.gz"
+            checkoutdir="ibus-libpinyin-${version}"
+            hash="sha256:4fcdf3300afe5b6551f0a05ce3e9f7e9fb43dd73f16604cabed348b4cc7f5d36"/>
+    <dependencies>
+      <dep package="ibus"/>
+      <dep package="libpinyin"/>
+      <dep package="sqlite3"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libgusb">
+    <branch repo="github.com" checkoutdir="libgusb" module="hughsie/libgusb.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
+      <dep package="libusb1"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libwacom">
+    <branch repo="sourceforge.net"
+            module="linuxwacom/files/libwacom/libwacom-${version}.tar.bz2" version="0.13"
+            hash="sha256:976b8801007ac96c6512751a0ef6903b482cd361f256965c2884196c88788176"
+            size="439767"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gudev"/>
     </dependencies>
   </autotools>
 
