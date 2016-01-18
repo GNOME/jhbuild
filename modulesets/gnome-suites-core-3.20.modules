@@ -26,17 +26,28 @@
 
 <include href="gnome-suites-core-deps-3.20.modules"/>
 
-<!-- Please try to keep organized alphabetically by section -->
+
+<!-- Please try to keep organized alphabetically by section:
+
+     1) Core User Shell (hosted on git.gnome.org)
+     2) Core Utilities (anything that's an app)
+     3) Core OS Services (non-GNOME, mostly freedesktop stuff)
+     4) Metamodules
+
+     All modules in this file should be in a metamodule.
+  -->
 
 
 <!-- Core User Shell -->
 
-  <autotools id="at-spi2-core">
+  <autotools id="adwaita-icon-theme">
     <branch/>
     <dependencies>
-      <dep package="dbus"/>
-      <dep package="glib"/>
-      <dep package="libXtst"/>
+      <dep package="hicolor-icon-theme"/>
+      <dep package="gnome-common"/>
+      <dep package="intltool"/>
+      <dep package="gtk+"/>
+      <dep package="librsvg"/>
     </dependencies>
   </autotools>
 
@@ -51,27 +62,12 @@
     </dependencies>
   </autotools>
 
-  <autotools id="cheese">
+  <autotools id="at-spi2-core">
     <branch/>
     <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="intltool"/>
+      <dep package="dbus"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-bad"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="gst-plugins-good"/>
-      <dep package="clutter-gst3"/>
-      <dep package="clutter-gtk"/>
-      <dep package="libcanberra"/>
-      <dep package="vala"/>
-      <dep package="gnome-video-effects"/>
-      <dep package="librsvg"/>
-      <dep package="gnome-desktop"/>
-      <if condition-set="linux">
-        <dep package="gudev"/>
-      </if>
+      <dep package="libXtst"/>
     </dependencies>
   </autotools>
 
@@ -116,6 +112,51 @@
     </suggests>
   </autotools>
 
+  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no --with-log-dir=${prefix}/var/log/gdm">
+    <if condition-unset="linux">
+      <autogenargs value="--without-plymouth"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="accountsservice"/>
+      <dep package="dbus-glib"/>
+      <dep package="fontconfig"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="libcanberra"/>
+      <dep package="nss"/>
+      <dep package="pam"/>
+      <if condition-set="linux">
+        <dep package="plymouth"/>
+      </if>
+      <if condition-set="systemd">
+        <dep package="libsystemd-daemon"/>
+        <dep package="libsystemd-login"/>
+        <dep package="libsystemd-journal"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="upower"/>
+      <dep package="yelp-tools"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="glib-networking" autogenargs="--enable-installed-tests">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="intltool"/>
+      <dep package="libproxy"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gnutls"/>
+      <dep package="p11-kit"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-backgrounds">
     <branch/>
     <dependencies>
@@ -134,41 +175,6 @@
     </dependencies>
     <suggests>
       <dep package="geoclue"/>
-    </suggests>
-  </autotools>
-
-  <autotools id="gnome-online-accounts">
-    <branch/>
-    <dependencies>
-      <dep package="gtk+"/>
-      <dep package="WebKit"/>
-      <dep package="librest"/>
-      <dep package="libsoup"/>
-      <dep package="libsecret"/>
-      <dep package="json-glib"/>
-      <dep package="libsecret"/>
-      <dep package="libxml2"/>
-      <dep package="telepathy-glib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="network-manager-applet"
-             autogenargs="--enable-more-warnings=no --disable-migration --without-bluetooth">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="dbus-glib"/>
-      <dep package="gnome-bluetooth"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+"/>
-      <dep package="gudev"/>
-      <dep package="iso-codes"/>
-      <dep package="libsecret"/>
-      <dep package="NetworkManager"/>
-      <dep package="libnotify"/>
-    </dependencies>
-    <suggests>
-      <dep package="mobile-broadband-provider-info"/>
     </suggests>
   </autotools>
 
@@ -238,17 +244,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="adwaita-icon-theme">
-    <branch/>
-    <dependencies>
-      <dep package="hicolor-icon-theme"/>
-      <dep package="gnome-common"/>
-      <dep package="intltool"/>
-      <dep package="gtk+"/>
-      <dep package="librsvg"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gnome-keyring">
     <branch/>
     <dependencies>
@@ -270,6 +265,21 @@
       <dep package="gnome-common"/>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-online-accounts">
+    <branch/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="WebKit"/>
+      <dep package="librest"/>
+      <dep package="libsoup"/>
+      <dep package="libsecret"/>
+      <dep package="json-glib"/>
+      <dep package="libsecret"/>
+      <dep package="libxml2"/>
+      <dep package="telepathy-glib"/>
     </dependencies>
   </autotools>
 
@@ -377,20 +387,11 @@
     </after>
   </autotools>
 
-  <autotools id="gnome-software">
+  <autotools id="gnome-shell-extensions" autogenargs="--enable-extensions=classic-mode">
     <branch/>
     <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="glib"/>
-      <dep package="gnome-desktop"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="gtk+"/>
-      <dep package="libsoup"/>
-      <dep package="PackageKit"/>
-      <dep package="sqlite3"/>
-      <if condition-set="linux">
-        <dep package="fwupd"/>
-      </if>
+      <dep package="gnome-shell"/>
+      <dep package="gnome-menus"/>
     </dependencies>
   </autotools>
 
@@ -402,6 +403,13 @@
       <dep package="librsvg"/>
       <dep package="gtk+"/>
       <dep package="gtk+-2"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-user-docs">
+    <branch/>
+    <dependencies>
+      <dep package="yelp-tools"/>
     </dependencies>
   </autotools>
 
@@ -457,21 +465,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="glib-networking" autogenargs="--enable-installed-tests">
-    <if condition-set="freebsd">
-      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="intltool"/>
-      <dep package="libproxy"/>
-      <dep package="gsettings-desktop-schemas"/>
-      <dep package="gnutls"/>
-      <dep package="p11-kit"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="mousetweaks">
     <branch/>
     <dependencies>
@@ -519,6 +512,26 @@
         <dep package="xwayland"/>
       </if>
     </dependencies>
+  </autotools>
+
+  <autotools id="network-manager-applet"
+             autogenargs="--enable-more-warnings=no --disable-migration --without-bluetooth">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="dbus-glib"/>
+      <dep package="gnome-bluetooth"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="gudev"/>
+      <dep package="iso-codes"/>
+      <dep package="libsecret"/>
+      <dep package="NetworkManager"/>
+      <dep package="libnotify"/>
+    </dependencies>
+    <suggests>
+      <dep package="mobile-broadband-provider-info"/>
+    </suggests>
   </autotools>
 
   <autotools id="pulseaudio"
@@ -599,6 +612,30 @@
       <dep package="gtk+"/>
       <dep package="vala"/>
       <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="cheese">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="clutter-gst3"/>
+      <dep package="clutter-gtk"/>
+      <dep package="libcanberra"/>
+      <dep package="vala"/>
+      <dep package="gnome-video-effects"/>
+      <dep package="librsvg"/>
+      <dep package="gnome-desktop"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -808,6 +845,23 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-software">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gtk+"/>
+      <dep package="libsoup"/>
+      <dep package="PackageKit"/>
+      <dep package="sqlite3"/>
+      <if condition-set="linux">
+        <dep package="fwupd"/>
+      </if>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-system-monitor">
     <branch/>
     <dependencies>
@@ -839,13 +893,6 @@
     <suggests>
       <dep package="gnome-shell"/>
     </suggests>
-  </autotools>
-
-  <autotools id="gnome-user-docs">
-    <branch/>
-    <dependencies>
-      <dep package="yelp-tools"/>
-    </dependencies>
   </autotools>
 
   <autotools id="nautilus">
@@ -982,36 +1029,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no --with-log-dir=${prefix}/var/log/gdm">
-    <if condition-unset="linux">
-      <autogenargs value="--without-plymouth"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="accountsservice"/>
-      <dep package="dbus-glib"/>
-      <dep package="fontconfig"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="intltool"/>
-      <dep package="libcanberra"/>
-      <dep package="nss"/>
-      <dep package="pam"/>
-      <if condition-set="linux">
-        <dep package="plymouth"/>
-      </if>
-      <if condition-set="systemd">
-        <dep package="libsystemd-daemon"/>
-        <dep package="libsystemd-login"/>
-        <dep package="libsystemd-journal"/>
-      </if>
-    </dependencies>
-    <suggests>
-      <dep package="upower"/>
-      <dep package="yelp-tools"/>
-    </suggests>
-  </autotools>
-
   <autotools id="NetworkManager"
              autogenargs="--with-udev-dir=${libdir}/udev --with-systemdsystemunitdir=no --with-crypto=gnutls --disable-wimax --disable-more-warnings">
     <branch repo="git.freedesktop.org"
@@ -1101,13 +1118,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-shell-extensions" autogenargs="--enable-extensions=classic-mode">
-    <branch/>
-    <dependencies>
-      <dep package="gnome-shell"/>
-      <dep package="gnome-menus"/>
-    </dependencies>
-  </autotools>
 
 <!-- Meta Modules -->
 
@@ -1143,13 +1153,14 @@
   </metamodule>
 
   <!-- The Core GNOME UX Shell: Only integrated session services,
-       data, and core UI allowed
+       data, and core UI allowed.
   -->
   <metamodule id="meta-gnome-core-shell">
     <dependencies>
       <dep package="adwaita-icon-theme"/>
       <dep package="dconf"/>
       <dep package="evolution-data-server"/>
+      <dep package="gdm"/>
       <dep package="gnome-backgrounds"/>
       <dep package="gnome-control-center"/>
       <dep package="gnome-initial-setup"/>
@@ -1158,6 +1169,7 @@
       <dep package="gnome-session"/>
       <dep package="gnome-settings-daemon"/>
       <dep package="gnome-shell"/>
+      <dep package="gnome-shell-extensions"/>
       <dep package="gnome-themes-standard"/>
       <dep package="gnome-user-docs"/>
       <dep package="gnome-user-share"/>
@@ -1184,7 +1196,6 @@
       <dep package="ConsoleKit"/>
       <dep package="cups"/>
       <dep package="dbus"/>
-      <dep package="gdm"/>
       <dep package="PackageKit"/>
       <dep package="upower"/>
       <!-- <dep package="systemd"/> -->
@@ -1203,7 +1214,6 @@
     <dependencies>
       <dep package="meta-gnome-core-shell"/>
       <dep package="meta-gnome-core-utilities"/>
-      <dep package="gnome-shell-extensions"/>
     </dependencies>
   </metamodule>
 
