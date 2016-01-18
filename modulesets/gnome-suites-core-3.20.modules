@@ -178,6 +178,24 @@
     </suggests>
   </autotools>
 
+  <autotools id="gnome-color-manager">
+    <branch/>
+    <dependencies>
+      <dep package="exiv2"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="lcms2"/>
+      <dep package="libcanberra"/>
+      <dep package="libexif"/>
+      <dep package="vte"/>
+      <dep package="colord-gtk"/>
+      <dep package="yelp-tools"/>
+      <!-- and libtiff -->
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-control-center" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
@@ -216,6 +234,7 @@
     <suggests>
       <dep package="cups"/>
       <dep package="cheese"/>
+      <dep package="gnome-color-manager"/>
       <dep package="gstreamer"/>
       <dep package="ibus-libpinyin"/>
       <dep package="ibus-anthy"/>
@@ -1181,6 +1200,8 @@
       <dep package="evolution-data-server"/>
       <dep package="gdm"/>
       <dep package="gnome-backgrounds"/>
+      <!-- Not in utilities because the desktop file is hidden -->
+      <dep package="gnome-color-manager"/>
       <dep package="gnome-control-center"/>
       <dep package="gnome-documents"/>
       <dep package="gnome-initial-setup"/>
