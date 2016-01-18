@@ -3346,4 +3346,39 @@
     </dependencies>
   </autotools>
 
+  <autotools id="anjuta">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+"/>
+      <dep package="vte"/>
+      <dep package="gdl"/>
+      <dep package="libgda"/>
+      <dep package="gtksourceview"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+    <suggests>
+      <dep package="glade"/>
+      <dep package="devhelp"/>
+      <dep package="vala"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="libgda"
+             autogenargs="--with-java=no --disable-tools --enable-gda-gi --enable-gdaui-gi --enable-vala --enable-gdaui-vala">
+    <if condition-set="freebsd">
+      <autogenargs value="LIBCRYPTO_CFLAGS=' ' LIBCRYPTO_LIBS='-lcrypto' --with-bdb=/usr/local --with-bdb-libdir-name=lib/db5 --with-bdb-includedir-name=include/db5"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libxml2"/>
+      <dep package="openssl"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
 </moduleset>
