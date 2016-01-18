@@ -1028,6 +1028,34 @@
     </suggests>
   </autotools>
 
+  <autotools id="gnome-weather">
+    <if condition-set="coverage">
+      <autogenargs value="--enable-coverage"/>
+    </if>
+    <if condition-unset="dogtail">
+      <autogenargs value="--disable-dogtail"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="m4-common"/>
+      <dep package="appstream-glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="geoclue"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="intltool"/>
+      <dep package="libgweather"/>
+      <dep package="gjs"/>
+      <if condition-set="coverage">
+        <dep package="lcov"/>
+      </if>
+      <if condition-set="dogtail">
+        <dep package="dogtail"/>
+      </if>
+    </dependencies>
+  </autotools>
+
   <autotools id="nautilus">
     <if condition-unset="linux">
       <autogenargs value="--disable-selinux"/>
@@ -1274,6 +1302,7 @@
       <dep package="gnome-software"/>
       <dep package="gnome-system-monitor"/>
       <dep package="gnome-terminal"/>
+      <dep package="gnome-weather"/>
       <dep package="nautilus"/>
       <dep package="sushi"/>
       <dep package="totem"/>

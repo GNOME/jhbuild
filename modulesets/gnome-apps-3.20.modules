@@ -80,34 +80,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-weather">
-    <if condition-set="coverage">
-      <autogenargs value="--enable-coverage"/>
-    </if>
-    <if condition-unset="dogtail">
-      <autogenargs value="--disable-dogtail"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="m4-common"/>
-      <dep package="appstream-glib"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="geoclue"/>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk+"/>
-      <dep package="intltool"/>
-      <dep package="libgweather"/>
-      <dep package="gjs"/>
-      <if condition-set="coverage">
-        <dep package="lcov"/>
-      </if>
-      <if condition-set="dogtail">
-        <dep package="dogtail"/>
-      </if>
-    </dependencies>
-  </autotools>
-
   <autotools id="ghex">
     <branch/>
     <dependencies>
@@ -876,7 +848,6 @@
       <dep package="gnome-tetravex"/>
       <dep package="gnome-todo"/>
       <dep package="gnome-tweak-tool"/>
-      <dep package="gnome-weather"/>
       <dep package="hitori"/>
       <dep package="iagno"/>
       <dep package="lightsoff"/>
