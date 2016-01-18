@@ -42,6 +42,21 @@
 
 <!-- Dependencies and miscellaneous -->
 
+  <autotools id="farstream" autogenargs="--disable-python">
+    <branch repo="freedesktop.org"
+            module="farstream/releases/farstream/farstream-${version}.tar.gz"
+            version="0.2.7"
+            hash="sha256:dad0ed43cf94e71df558c23825abe57db59d1ee8d970ffaec5e2dbc2e7acbf7d"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libnice"/>
+    </dependencies>
+    <suggests>
+      <dep package="gupnp-igd"/>
+    </suggests>
+  </autotools>
+
  <autotools id="gtksourceviewmm">
     <branch/>
     <dependencies>
@@ -202,6 +217,14 @@
       <dep package="tracker"/>
       <dep package="valadoc"/>
       <dep package="libmediaart"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-farstream" autogenargs="--disable-python --disable-Werror">
+    <branch repo="telepathy.freedesktop.org"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farstream"/>
     </dependencies>
   </autotools>
 
