@@ -42,6 +42,10 @@
 
 <!-- Dependencies and miscellaneous -->
 
+  <autotools id="babl">
+    <branch/>
+  </autotools>
+
   <autotools id="farstream" autogenargs="--disable-python">
     <branch repo="freedesktop.org"
             module="farstream/releases/farstream/farstream-${version}.tar.gz"
@@ -125,6 +129,21 @@
       <dep package="gdl"/>
       <dep package="glibmm"/>
       <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gegl">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="pango"/>
+      <dep package="libjasper"/>
+      <dep package="libjpeg"/>
+      <dep package="libpng"/>
+      <dep package="librsvg"/>
     </dependencies>
   </autotools>
 
@@ -262,6 +281,20 @@
       <dep package="yelp-tools"/>
       <dep package="gtk+"/>
       <dep package="py3cairo"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="bijiben">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="tracker"/>
+      <dep package="clutter-gtk"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <dep package="glib"/>
+      <dep package="WebKit1"/>
+      <dep package="evolution-data-server"/>
     </dependencies>
   </autotools>
 
@@ -452,10 +485,30 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-chat">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="telepathy-glib"/>
+      <dep package="telepathy-logger"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-code-assistance">
     <branch/>
     <dependencies>
       <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-dictionary">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="yelp-tools"/>
     </dependencies>
   </autotools>
 
@@ -471,6 +524,22 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-music">
+    <branch/>
+    <dependencies>
+      <dep package="gnome-themes-standard"/>
+      <dep package="gobject-introspection"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gtk+"/>
+      <dep package="gvfs"/>
+      <dep package="intltool"/>
+      <dep package="pygobject"/>
+      <dep package="tracker"/>
+      <dep package="libmediaart"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-nettool">
     <branch/>
     <dependencies>
@@ -478,6 +547,40 @@
       <dep package="gtk+"/>
       <dep package="libgtop"/>
       <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-news">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="pygobject"/>
+      <dep package="tracker"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-photos">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="gegl"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gexiv2"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gnome-online-miners"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gtk+"/>
+      <dep package="libgdata"/>
+      <dep package="libgfbgraph"/>
+      <dep package="libjpeg"/>
+      <dep package="libpng"/>
+      <dep package="tracker"/>
     </dependencies>
   </autotools>
 
@@ -809,6 +912,7 @@
   -->
   <metamodule id="meta-gnome-apps-tested">
     <dependencies>
+      <dep package="meta-gnome-core-incubator"/>
       <dep package="meta-gnome-games"/>
       <dep package="accerciser"/>
       <dep package="brasero"/>
@@ -831,6 +935,20 @@
       <dep package="rygel"/>
       <dep package="seahorse"/>
       <dep package="vinagre"/>
+    </dependencies>
+  </metamodule>
+
+  <!-- GNOME Incubator: Where new core apps grow up, until they are
+       good enough to form part of the default user experience.
+  -->
+  <metamodule id="meta-gnome-core-incubator">
+    <dependencies>
+      <dep package="bijiben"/>
+      <dep package="gnome-chat"/>
+      <dep package="gnome-dictionary"/>
+      <dep package="gnome-music"/>
+      <dep package="gnome-news"/>
+      <dep package="gnome-photos"/>
     </dependencies>
   </metamodule>
 

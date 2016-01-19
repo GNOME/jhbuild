@@ -178,16 +178,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-chat">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="telepathy-glib"/>
-      <dep package="telepathy-logger"/>
-    </dependencies>
-  </autotools>
-
   <!-- Not an app, but a service for gnome-control-center -->
   <autotools id="gnome-color-manager">
     <branch/>
@@ -652,20 +642,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="bijiben">
-    <branch/>
-    <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="tracker"/>
-      <dep package="clutter-gtk"/>
-      <dep package="gtk+"/>
-      <dep package="libxml2"/>
-      <dep package="glib"/>
-      <dep package="WebKit1"/>
-      <dep package="evolution-data-server"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="cheese">
     <branch/>
     <dependencies>
@@ -874,16 +850,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-dictionary">
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="yelp-tools"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gnome-disk-utility">
     <branch/>
     <dependencies>
@@ -984,56 +950,6 @@
       <dep package="gnome-themes-standard"/>
       <dep package="folks"/>
       <dep package="libgee"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-music">
-    <branch/>
-    <dependencies>
-      <dep package="gnome-themes-standard"/>
-      <dep package="gobject-introspection"/>
-      <dep package="grilo"/>
-      <dep package="grilo-plugins"/>
-      <dep package="gtk+"/>
-      <dep package="gvfs"/>
-      <dep package="intltool"/>
-      <dep package="pygobject"/>
-      <dep package="tracker"/>
-      <dep package="libmediaart"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-news">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gtk+"/>
-      <dep package="pygobject"/>
-      <dep package="tracker"/>
-      <dep package="WebKit"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gnome-photos">
-    <branch/>
-    <dependencies>
-      <dep package="babl"/>
-      <dep package="gegl"/>
-      <dep package="cairo"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gexiv2"/>
-      <dep package="glib"/>
-      <dep package="gnome-desktop"/>
-      <dep package="gnome-online-accounts"/>
-      <dep package="gnome-online-miners"/>
-      <dep package="grilo"/>
-      <dep package="grilo-plugins"/>
-      <dep package="gtk+"/>
-      <dep package="libgdata"/>
-      <dep package="libgfbgraph"/>
-      <dep package="libjpeg"/>
-      <dep package="libpng"/>
-      <dep package="tracker"/>
     </dependencies>
   </autotools>
 
@@ -1348,6 +1264,7 @@
       <dep package="baobab"/>
       <dep package="cheese"/>
       <dep package="eog"/>
+      <dep package="epiphany"/>
       <dep package="evince"/>
       <dep package="file-roller"/>
       <dep package="gedit"/>
@@ -1373,21 +1290,6 @@
         <!-- udisks dependency -->
         <dep package="gnome-disk-utility"/>
       </if>
-    </dependencies>
-  </metamodule>
-
-  <!-- GNOME Incubator: Where new core apps grow up, until they are
-       good enough to form part of the default user experience.
-  -->
-  <metamodule id="meta-gnome-core-incubator">
-    <dependencies>
-      <dep package="bijiben"/>
-      <dep package="epiphany"/>
-      <dep package="gnome-chat"/>
-      <dep package="gnome-dictionary"/>
-      <dep package="gnome-music"/>
-      <dep package="gnome-news"/>
-      <dep package="gnome-photos"/>
     </dependencies>
   </metamodule>
 
@@ -1454,7 +1356,6 @@
   -->
   <metamodule id="meta-gnome-core">
     <dependencies>
-      <dep package="meta-gnome-core-incubator"/>
       <dep package="meta-gnome-core-shell"/>
       <dep package="meta-gnome-core-utilities"/>
     </dependencies>
