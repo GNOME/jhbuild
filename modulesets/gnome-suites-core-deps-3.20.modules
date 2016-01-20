@@ -1273,9 +1273,7 @@
             hash="sha256:b7a577c1b6c75030145e53b4793db9c88f9359ac49e7d771d4385d21b3e5945d"/>
   </autotools>
 
-  <!-- FTL is disabled as we have no way to install the llvm-static package as a sysdep on Fedora.
-       Enabling FTL will require either enhancing sysdeps or adding llvm to core-deps. -->
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DENABLE_FTL_JIT=OFF">
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
@@ -1284,9 +1282,9 @@
     </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
-            module="webkitgtk-2.11.3.tar.xz" version="2.11.3"
-            hash="sha256:728b54364f067029b8c6106476c2cd874c68999a1d09eb1cdabe60fa5e38562a"
-            size="11574888">
+            module="webkitgtk-2.11.4.tar.xz" version="2.11.4"
+            hash="sha256:47631d5d66967ebda2683c065706d5d91d4d886fc11f382eecd39451c71dfe3c"
+            size="11603208">
     </branch>
     <dependencies>
       <dep package="c++"/>
