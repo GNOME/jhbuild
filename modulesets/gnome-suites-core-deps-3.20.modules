@@ -1290,6 +1290,10 @@
     <if condition-unset="wayland">
       <cmakeargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
     </if>
+    <!-- FTL JIT crashes on FreeBSD. See https://bugs.webkit.org/show_bug.cgi?id=152258 -->
+    <if condition-set="freebsd">
+      <cmakeargs value="-DENABLE_FTL_JIT=OFF"/>
+    </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
             module="webkitgtk-2.11.4.tar.xz" version="2.11.4"
@@ -1321,7 +1325,6 @@
       <dep package="libwebp"/>
       <dep package="libxml2"/>
       <dep package="libxslt"/>
-      <dep package="llvm"/>
       <!-- Either libGL or libGLES is required. -->
       <dep package="mesa-libGLES"/>
       <dep package="pango"/>
@@ -1335,6 +1338,9 @@
       </if>
       <if condition-set="wayland">
         <dep package="wayland"/>
+      </if>
+      <if condition-unset="freebsd">
+        <dep package="llvm"/>
       </if>
     </dependencies>
     <suggests>
