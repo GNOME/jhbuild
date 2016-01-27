@@ -126,10 +126,10 @@ def mkdir_with_parents(filename):
             raise
 
 class SafeWriter(object):
-    def __init__(self, filename):
+    def __init__(self, filename, mode='w', encoding=None):
         self.filename = filename
         self.tmpname = filename + '.tmp'
-        self.fp = open(self.tmpname, 'w')
+        self.fp = open(self.tmpname, mode, encoding=encoding)
 
     def commit(self):
         self.fp.flush()

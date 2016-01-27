@@ -179,7 +179,7 @@ class AutogenModule(MakeModule, DownloadableModule):
             configure_hash = db_entry.metadata.get('configure-hash')
             if configure_hash:
                 configure_cmd = self._get_configure_cmd(buildscript)
-                if hashlib.md5(configure_cmd).hexdigest() != configure_hash:
+                if hashlib.md5(configure_cmd.encode('unicode-escape')).hexdigest() != configure_hash:
                     return False
             else:
                 # force one-time reconfigure if no configure-hash

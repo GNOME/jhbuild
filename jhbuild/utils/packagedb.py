@@ -78,14 +78,18 @@ class PackageEntry:
     def write(self):
         # write info file
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'info'))
-        writer = fileutils.SafeWriter(os.path.join(self.dirname, 'info', self.package))
-        ET.ElementTree(self.to_xml()).write(writer.fp)
-        writer.fp.write('\n')
+        writer = fileutils.SafeWriter(
+            os.path.join(self.dirname, 'info', self.package),
+            mode='wb')
+        ET.ElementTree(self.to_xml()).write(writer.fp, encoding='utf-8')
+        writer.fp.write('\n'.encode('utf-8'))
         writer.commit()
 
         # write manifest
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'manifests'))
-        writer = fileutils.SafeWriter(os.path.join(self.dirname, 'manifests', self.package))
+        writer = fileutils.SafeWriter(
+            os.path.join(self.dirname, 'manifests', self.package),
+            encoding='utf-8')
         writer.fp.write('\n'.join(self.manifest) + '\n')
         writer.commit()
 
