@@ -17,6 +17,7 @@ jhbuild: jhbuild.in
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
 		< $< > $@
+	chmod +x $@
 
 jhbuild: Makefile
 
