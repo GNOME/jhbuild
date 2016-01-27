@@ -40,7 +40,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
         raise CommandError(_('Call to undefined command'))
 
     kws = {}
-    if isinstance(cmd, (str, unicode)):
+    if isinstance(cmd, str):
         kws['shell'] = True
     if cwd is not None:
         kws['cwd'] = cwd
@@ -59,7 +59,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
                              stdout=subprocess.PIPE,
                              stderr=stderr_output,
                              **kws)
-    except OSError, e:
+    except OSError as e:
         raise CommandError(str(e))
     stdout, stderr = p.communicate()
     if p.returncode != 0:
@@ -111,7 +111,7 @@ class Pipeline(subprocess.Popen):
                 c2cwrite = stdout
 
             self.children.append(
-                subprocess.Popen(cmd, shell=isinstance(cmd, (str, unicode)),
+                subprocess.Popen(cmd, shell=isinstance(cmd, str),
                                  bufsize=bufsize, close_fds=True,
                                  cwd=cwd, env=env,
                                  stdin=stdin,
@@ -158,7 +158,7 @@ def spawn_child(command, use_pipe=False,
         p = Pipeline(command, cwd=cwd, env=env,
                      stdin=stdin, stdout=stdout, stderr=stderr)
     else:
-        p = subprocess.Popen(command, shell=isinstance(command, (str,unicode)),
+        p = subprocess.Popen(command, shell=isinstance(command, str),
                              close_fds=True, cwd=cwd, env=env,
                              stdin=stdin, stdout=stdout, stderr=stderr)
     return p

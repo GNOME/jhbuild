@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import urllib, time
+import urllib.request, urllib.parse, urllib.error, time
 
 from twisted.web import html
 from twisted.web.util import Redirect
@@ -26,7 +26,7 @@ from buildbot.status.web.build import BuildsResource, StatusResourceBuild
 from buildbot.status.web.base import HtmlResource, make_row, make_stop_form, \
      css_classes, make_name_user_passwd_form
 
-from step import JhStepsResource
+from .step import JhStepsResource
 
 
 class JhStatusResourceBuild(StatusResourceBuild):
@@ -64,7 +64,7 @@ class JhStatusResourceBuild(StatusResourceBuild):
                 data += '<div>ETA %ds (%s)</div>\n' % (when, when_time)
 
             if self.build_control is not None:
-                stopURL = urllib.quote(req.childLink("stop"))
+                stopURL = urllib.parse.quote(req.childLink("stop"))
                 data += make_stop_form(stopURL, self.isUsingUserPasswd(req))
 
         if b.isFinished():
@@ -113,7 +113,7 @@ class JhStatusResourceBuild(StatusResourceBuild):
             for s in b.getSteps():
                 name = s.getName()
                 data += (" <li><a href=\"%s\">%s</a> [%s]\n"
-                         % (req.childLink("steps/%s" % urllib.quote(name)),
+                         % (req.childLink("steps/%s" % urllib.parse.quote(name)),
                             name,
                             " ".join(s.getText())))
                 if s.getLogs():
@@ -121,8 +121,8 @@ class JhStatusResourceBuild(StatusResourceBuild):
                     for logfile in s.getLogs():
                         logname = logfile.getName()
                         logurl = req.childLink("steps/%s/logs/%s" %
-                                               (urllib.quote(name),
-                                                urllib.quote(logname)))
+                                               (urllib.parse.quote(name),
+                                                urllib.parse.quote(logname)))
                         data += ("   <li><a href=\"%s\">%s</a></li>\n" %
                                  (logurl, logfile.getName()))
                     data += "  </ul>\n"
@@ -165,7 +165,7 @@ class JhStatusResourceBuild(StatusResourceBuild):
                          "exactly. Any changes that have been committed \n"
                          "after this build was started <b>will</b> be \n"
                          "included in a rebuild.</p>\n")
-            rebuildURL = urllib.quote(req.childLink("rebuild"))
+            rebuildURL = urllib.parse.quote(req.childLink("rebuild"))
             data += ('<form method="post" action="%s" class="command rebuild">\n'
                      % rebuildURL)
             data += make_name_user_passwd_form(self.isUsingUserPasswd(req))

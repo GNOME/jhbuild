@@ -20,7 +20,7 @@
 # heavily based on buildbot code,
 #   Copyright (C) Brian Warner <warner-buildbot@lothar.com>
 
-import time, urllib
+import time, urllib.request, urllib.parse, urllib.error
 
 from buildbot import version
 from buildbot.changes.changes import Change
@@ -31,14 +31,15 @@ from buildbot.status.web.waterfall import WaterfallStatusResource, Spacer
 from buildbot.status.web.base import Box, HtmlResource, IBox, ICurrentBox, \
      ITopBox, td, build_get_class, path_to_build, path_to_step, map_branches
 
-from feeds import Rss20StatusResource, Atom10StatusResource
+from .feeds import Rss20StatusResource, Atom10StatusResource
+from functools import reduce
 
 def insertGaps(g, lastEventTime, idleGap=2, showEvents=False):
     # summary of changes between this function and the one from buildbot:
     #  - do not insert time gaps for events that are not shown
     debug = False
 
-    e = g.next()
+    e = next(g)
     starts, finishes = e.getTimes()
     if debug: log.msg("E0", starts, finishes)
     if finishes == 0:
@@ -54,7 +55,7 @@ def insertGaps(g, lastEventTime, idleGap=2, showEvents=False):
     yield e
 
     while 1:
-        e = g.next()
+        e = next(g)
         if isinstance(e, builder.Event) and not showEvents:
             continue
         starts, finishes = e.getTimes()
@@ -127,7 +128,7 @@ class JhWaterfallStatusResource(WaterfallStatusResource):
         lastEventTime = util.now()
         sources = [commit_source] + builders
         changeNames = ["changes"]
-        builderNames = map(lambda builder: builder.getName(), builders)
+        builderNames = [builder.getName() for builder in builders]
         sourceNames = changeNames + builderNames
         sourceEvents = []
         sourceGenerators = []
@@ -136,7 +137,7 @@ class JhWaterfallStatusResource(WaterfallStatusResource):
         def get_event_from(g):
             try:
                 while True:
-                    e = g.next()
+                    e = next(g)
                     # e might be builder.BuildStepStatus,
                     # builder.BuildStatus, builder.Event,
                     # waterfall.Spacer(builder.Event), or changes.Change .
@@ -298,7 +299,7 @@ class JhWaterfallStatusResource(WaterfallStatusResource):
             builder_name = b.name[len(self.module_name)+1:]
             data += '<th class="%s" title="%s"><a href="%s">%s</a></th>' % (
                     state, state,
-                    request.childLink('../builders/%s' % urllib.quote(b.name, safe='')),
+                    request.childLink('../builders/%s' % urllib.parse.quote(b.name, safe='')),
                     builder_name)
         data += '</tr>\n'
 
@@ -383,7 +384,7 @@ class JhWaterfallStatusResource(WaterfallStatusResource):
             # is a vertical list of events, all for the same source.
             assert(len(chunkstrip) == len(sourceNames))
             maxRows = reduce(lambda x,y: max(x,y),
-                             map(lambda x: len(x), chunkstrip))
+                             [len(x) for x in chunkstrip])
             for i in range(maxRows):
                 if i != maxRows-1:
                     grid[0].append(None)

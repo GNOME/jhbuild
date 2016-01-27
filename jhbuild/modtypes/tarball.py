@@ -87,7 +87,7 @@ def parse_tarball(node, config, uri, repositories, default_repo):
 
     dependencies, after, suggests, systemdependencies = get_dependencies(node)
 
-    from autotools import AutogenModule
+    from .autotools import AutogenModule
     from jhbuild.versioncontrol.tarball import TarballBranch, TarballRepository
 
     # create a fake TarballRepository, and give it the moduleset uri

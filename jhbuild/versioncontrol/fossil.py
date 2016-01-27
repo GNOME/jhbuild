@@ -23,7 +23,7 @@ __metaclass__ = type
 
 import os
 import sys
-import urlparse
+import urllib.parse
 from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
@@ -52,7 +52,7 @@ class FossilRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlparse.urljoin(self.href, module)
+            module = urllib.parse.urljoin(self.href, module)
         return FossilBranch(self, module, checkoutdir)
 
 
@@ -112,7 +112,7 @@ class FossilBranch(Branch):
 
         try:
             infos = Popen(['fossil', 'info'], stdout=PIPE, cwd=self.srcdir)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
         infos = infos.stdout.read().strip()
         return re.search(r"checkout: +(\w+)", infos).group(1)

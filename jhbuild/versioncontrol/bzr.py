@@ -22,7 +22,7 @@ __metaclass__ = type
 
 import os
 import errno
-import urlparse
+import urllib.parse
 import logging
 
 from jhbuild.errors import FatalError, CommandError
@@ -33,20 +33,20 @@ from jhbuild.utils.sxml import sxml
 
 # Make sure that the urlparse module considers bzr://, bzr+ssh://, sftp:// and lp:
 # scheme to be netloc aware and set to allow relative URIs.
-if 'bzr' not in urlparse.uses_netloc:
-    urlparse.uses_netloc.append('bzr')
-if 'bzr' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('bzr')
-if 'bzr+ssh' not in urlparse.uses_netloc:
-    urlparse.uses_netloc.append('bzr+ssh')
-if 'bzr+ssh' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('bzr+ssh')
-if 'sftp' not in urlparse.uses_netloc:
-    urlparse.uses_netloc.append('sftp')
-if 'sftp' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('sftp')
-if 'lp' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('lp')
+if 'bzr' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('bzr')
+if 'bzr' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('bzr')
+if 'bzr+ssh' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('bzr+ssh')
+if 'bzr+ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('bzr+ssh')
+if 'sftp' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('sftp')
+if 'sftp' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('sftp')
+if 'lp' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('lp')
 
 
 class BzrRepository(Repository):
@@ -79,9 +79,9 @@ class BzrRepository(Repository):
             module = name
 
         if revision or branch:
-            template = urlparse.urljoin(self.href, self.branches_template)
+            template = urllib.parse.urljoin(self.href, self.branches_template)
         else:
-            template = urlparse.urljoin(self.href, self.trunk_template)
+            template = urllib.parse.urljoin(self.href, self.trunk_template)
 
         if not module_href:
             module_href = template % {
@@ -115,7 +115,8 @@ class BzrBranch(Branch):
     def get_revspec(self):
         return self._revspec
 
-    def set_revspec(self, (tag, revspec)):
+    def set_revspec(self, xxx_todo_changeme):
+        (tag, revspec) = xxx_todo_changeme
         if revspec:
             self._revspec = ['-r%s' % revspec]
         elif tag:

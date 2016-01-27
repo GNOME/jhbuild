@@ -27,7 +27,7 @@ import traceback
 import time
 import types
 import logging
-import __builtin__
+import builtins
 
 from jhbuild.environment import setup_env, setup_env_defaults, addpath
 from jhbuild.errors import FatalError
@@ -109,7 +109,7 @@ class Config:
 
         env_prepends.clear()
         try:
-            execfile(_defaults_file, self._config)
+            exec(compile(open(_defaults_file).read(), _defaults_file, 'exec'), self._config)
         except:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
@@ -185,7 +185,7 @@ class Config:
     def include(self, filename):
         '''Read configuration variables from a file.'''
         try:
-            execfile(filename, self._config)
+            exec(compile(open(filename).read(), filename, 'exec'), self._config)
         except:
             traceback.print_exc()
             raise FatalError(_('Could not include config file (%s)') % filename)
@@ -194,8 +194,8 @@ class Config:
         config = self._config
         if filename:
             try:
-                execfile(filename, config)
-            except Exception, e:
+                exec(compile(open(filename).read(), filename, 'exec'), config)
+            except Exception as e:
                 if isinstance(e, FatalError):
                     # raise FatalErrors back, as it means an error in include()
                     # and it will print a traceback, and provide a meaningful
@@ -206,7 +206,7 @@ class Config:
 
         if not config.get('quiet_mode'):
             unknown_keys = []
-            for k in config.keys():
+            for k in list(config.keys()):
                 if k in _known_keys + ['cvsroots', 'svnroots', 'cflags']:
                     continue
                 if k[0] == '_':
@@ -238,7 +238,7 @@ class Config:
             config['repos'].update(config['svnroots'])
 
         # environment variables
-        if config.has_key('cflags') and config['cflags']:
+        if 'cflags' in config and config['cflags']:
             os.environ['CFLAGS'] = config['cflags']
         if config.get('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
@@ -268,7 +268,7 @@ class Config:
         possible_checkout_modes = ('update', 'clobber', 'export', 'copy')
         if self.checkout_mode not in possible_checkout_modes:
             raise FatalError(_('invalid checkout mode'))
-        for module, checkout_mode in self.module_checkout_mode.items():
+        for module, checkout_mode in list(self.module_checkout_mode.items()):
             seen_copy_mode = seen_copy_mode or (checkout_mode == 'copy')
             if checkout_mode not in possible_checkout_modes:
                 raise FatalError(_('invalid checkout mode (module: %s)') % module)
@@ -321,7 +321,7 @@ class Config:
 
     def apply_env_prepends(self):
         ''' handle environment prepends ... '''
-        for envvar in env_prepends.keys():
+        for envvar in list(env_prepends.keys()):
             for path in env_prepends[envvar]:
                 addpath(envvar, path)
 

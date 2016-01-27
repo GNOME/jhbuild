@@ -21,7 +21,8 @@
 import os
 
 def changecvsroot(oldroot, newroot, *dirs):
-    def handle((oldroot, newroot), dirname, fnames):
+    def handle(xxx_todo_changeme, dirname, fnames):
+        (oldroot, newroot) = xxx_todo_changeme
         if os.path.basename(dirname) == 'CVS' and 'Root' in fnames:
             r = open(os.path.join(dirname, 'Root'), 'r').read().strip()
             if r == oldroot:

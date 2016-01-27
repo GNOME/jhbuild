@@ -1,9 +1,9 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys
 import os
-import __builtin__
+import builtins
 
 USE_CHECKOUT_SRC = False
 
@@ -24,9 +24,9 @@ else:
     except ImportError:
         sys.path.insert(0, srcdir)
 
-__builtin__.__dict__['PKGDATADIR'] = pkgdatadir
-__builtin__.__dict__['DATADIR'] = datadir
-__builtin__.__dict__['SRCDIR'] = srcdir
+builtins.__dict__['PKGDATADIR'] = pkgdatadir
+builtins.__dict__['DATADIR'] = datadir
+builtins.__dict__['SRCDIR'] = srcdir
 
 import jhbuild.main
 jhbuild.main.main(sys.argv[1:])

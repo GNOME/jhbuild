@@ -13,7 +13,7 @@ AM_MAINTAINER_MODE([enable])
 
 # Check for programs
 AC_PROG_CC
-AM_PATH_PYTHON
+AM_PATH_PYTHON([3])
 PKG_PROG_PKG_CONFIG
 
 # i18n

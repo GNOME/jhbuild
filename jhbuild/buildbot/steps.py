@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, commands, re, StringIO
+import os, subprocess, re, io
 
 from buildbot.process import factory
 from buildbot.process import buildstep
@@ -247,7 +247,7 @@ class JHBuildModulePathCommand(steps.shell.ShellCommand):
             return SUCCESS	
 
     def createSummary(self, log):
-        output = StringIO.StringIO(log.getText())
+        output = io.StringIO(log.getText())
         warnings = []
         for line in output.readlines():
             if "warning:" in line:

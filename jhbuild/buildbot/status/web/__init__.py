@@ -25,10 +25,10 @@ from buildbot import interfaces, util
 from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.status.web.baseweb import WebStatus
 
-from waterfall import JhWaterfallStatusResource
-from changes import  ChangesResource
-from builder import JhBuildersResource
-from bot import JhBuildbotsResource
+from .waterfall import JhWaterfallStatusResource
+from .changes import  ChangesResource
+from .builder import JhBuildersResource
+from .bot import JhBuildbotsResource
 
 
 def content(self, request):

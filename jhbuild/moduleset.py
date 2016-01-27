@@ -17,11 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import generators
+
 
 import os
 import sys
-import urlparse
+import urllib.parse
 import logging
 
 from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
@@ -86,10 +86,10 @@ class ModuleSet:
 
     def get_module(self, module_name, ignore_case = False):
         module_name = module_name.rstrip(os.sep)
-        if self.modules.has_key(module_name) or not ignore_case:
+        if module_name in self.modules or not ignore_case:
             return self.modules[module_name]
         module_name_lower = module_name.lower()
-        for module in self.modules.keys():
+        for module in list(self.modules.keys()):
             if module.lower() == module_name_lower:
                 logging.info(_('fixed case of module \'%(orig)s\' to '
                                '\'%(new)s\'') % {'orig': module_name,
@@ -171,12 +171,12 @@ class ModuleSet:
                             resolved[index] = (node, False)
 
         if module_names == 'all':
-            module_names = self.modules.keys()
+            module_names = list(self.modules.keys())
         try:
             # remove skip modules from module_name list
             modules = [self.get_module(module, ignore_case = True) \
                        for module in module_names if module not in skip]
-        except KeyError, e:
+        except KeyError as e:
             raise UsageError(_("A module called '%s' could not be found.") % e)
 
         resolved = []
@@ -199,7 +199,7 @@ class ModuleSet:
         test_modules = []
         if seed == []:
             return
-        for mod in self.modules.values():
+        for mod in list(self.modules.values()):
             for test_app in seed:
                 if test_app in mod.tested_pkgs:
                     test_modules.append(mod)
@@ -281,7 +281,7 @@ class ModuleSet:
         from jhbuild.versioncontrol.tarball import TarballBranch
         
         if modules is None:
-            modules = self.modules.keys()
+            modules = list(self.modules.keys())
         inlist = {}
         for module in modules:
             inlist[module] = None
@@ -318,21 +318,21 @@ class ModuleSet:
             
             for dep in self.modules[modname].dependencies:
                 fp.write('  "%s" -> "%s";\n' % (modname, dep))
-                if not inlist.has_key(dep):
+                if dep not in inlist:
                     modules.append(dep)
                 inlist[dep] = None
 
             if suggests:
                 for dep in self.modules[modname].after + self.modules[modname].suggests:
-                    if self.modules.has_key(dep):
+                    if dep in self.modules:
                         fp.write('  "%s" -> "%s" [style=dotted];\n' % (modname, dep))
-                        if not inlist.has_key(dep):
+                        if dep not in inlist:
                             modules.append(dep)
                         inlist[dep] = None
 
         if clusters:
             # create clusters for MetaModules
-            for modname in inlist.keys():
+            for modname in list(inlist.keys()):
                 mod = self.modules.get(modname)
                 if isinstance(mod, MetaModule):
                     fp.write('  subgraph "cluster_%s" {\n' % mod.name)
@@ -369,7 +369,7 @@ def load(config, uri=None):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
                 uri = os.path.join(config.modulesets_dir, uri)
-        elif not urlparse.urlparse(uri)[0]:
+        elif not urllib.parse.urlparse(uri)[0]:
             uri = 'https://git.gnome.org/browse/jhbuild/plain/modulesets' \
                   '/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
@@ -378,7 +378,7 @@ def load(config, uri=None):
 def load_tests (config, uri=None):
     ms = load (config, uri)
     ms_tests = ModuleSet(config = config)
-    for app, module in ms.modules.iteritems():
+    for app, module in ms.modules.items():
         if module.__class__ == TestModule:
             ms_tests.modules[app] = module
     return ms_tests
@@ -438,14 +438,14 @@ def _handle_conditions(config, element):
 def _parse_module_set(config, uri):
     try:
         filename = httpcache.load(uri, nonetwork=config.nonetwork, age=0)
-    except Exception, e:
+    except Exception as e:
         raise FatalError(_('could not download %s: %s') % (uri, e))
     filename = os.path.normpath(filename)
     try:
         document = xml.dom.minidom.parse(filename)
-    except IOError, e:
+    except IOError as e:
         raise FatalError(_('failed to parse %s: %s') % (filename, e))
-    except xml.parsers.expat.ExpatError, e:
+    except xml.parsers.expat.ExpatError as e:
         raise FatalError(_('failed to parse %s: %s') % (uri, e))
 
     assert document.documentElement.nodeName == 'moduleset'
@@ -518,12 +518,12 @@ def _parse_module_set(config, uri):
     for node in _child_elements(document.documentElement):
         if node.nodeName == 'include':
             href = node.getAttribute('href')
-            inc_uri = urlparse.urljoin(uri, href)
+            inc_uri = urllib.parse.urljoin(uri, href)
             try:
                 inc_moduleset = _parse_module_set(config, inc_uri)
             except UndefinedRepositoryError:
                 raise
-            except FatalError, e:
+            except FatalError as e:
                 if inc_uri[0] == '/':
                     raise e
                 # look up in local modulesets

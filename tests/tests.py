@@ -28,13 +28,13 @@ import sys
 import tempfile
 import unittest
 
-import __builtin__
-__builtin__.__dict__['_'] = lambda x: x
-__builtin__.__dict__['N_'] = lambda x: x
+import builtins
+builtins.__dict__['_'] = lambda x: x
+builtins.__dict__['N_'] = lambda x: x
 
-__builtin__.__dict__['PKGDATADIR'] = None
-__builtin__.__dict__['DATADIR'] = None
-__builtin__.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
+builtins.__dict__['PKGDATADIR'] = None
+builtins.__dict__['DATADIR'] = None
+builtins.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
 
 sys.path.insert(0, SRCDIR)
 
@@ -54,7 +54,7 @@ import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
 
 def uencode(s):
-    if type(s) is unicode:
+    if type(s) is str:
         return s.encode(_encoding, 'replace')
     else:
         return s
@@ -62,11 +62,11 @@ def uencode(s):
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        print uencode(s),
+        print(uencode(s), end=' ')
     s = args[-1]
-    print uencode(s)
-__builtin__.__dict__['uprint'] = uprint
-__builtin__.__dict__['uencode'] = uencode
+    print(uencode(s))
+builtins.__dict__['uprint'] = uprint
+builtins.__dict__['uencode'] = uencode
 
 
 import mock
@@ -589,9 +589,9 @@ class SimpleBranch(object):
 
 def restore_environ(env):
     # os.environ.clear() doesn't appear to change underlying environment.
-    for key in os.environ.keys():
+    for key in list(os.environ.keys()):
         del os.environ[key]
-    for key, value in env.iteritems():
+    for key, value in env.items():
         os.environ[key] = value
 
 

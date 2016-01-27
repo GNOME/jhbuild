@@ -29,8 +29,8 @@ from jhbuild.main import _encoding
 from jhbuild.utils import cmds
 from jhbuild.utils import sysid
 from jhbuild.errors import CommandError, FatalError
-import buildscript
-import commands
+from . import buildscript
+import subprocess
 
 index_header = '''<html>
   <head>
@@ -135,8 +135,8 @@ buildlog_footer = '''
 '''
 
 def escape(string):
-    if type(string) is not unicode:
-        string = unicode(string, _encoding, 'replace')
+    if type(string) is not str:
+        string = str(string, _encoding, 'replace')
     string = string.replace('&', '&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
@@ -202,7 +202,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
             print_args['cwd'] = os.getcwd()
 
         self.modulefp.write('<pre>')
-        if isinstance(command, (str, unicode)):
+        if isinstance(command, str):
             kws['shell'] = True
             print_args['command'] = command
         else:
@@ -213,9 +213,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 commandstr = self.config.print_command_pattern % print_args
                 self.modulefp.write('<span class="command">%s</span>\n'
                                     % escape(commandstr))
-            except TypeError, e:
+            except TypeError as e:
                 raise FatalError('\'print_command_pattern\' %s' % e)
-            except KeyError, e:
+            except KeyError as e:
                 raise FatalError(_('%(configuration_variable)s invalid key'
                                    ' %(key)s' % \
                                    {'configuration_variable' :
@@ -254,7 +254,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
 
         try:
             p = subprocess.Popen(command, **kws)
-        except OSError, e:
+        except OSError as e:
             self.modulefp.write('<span class="error">Error: %s</span>\n'
                                 % escape(str(e)))
             raise CommandError(str(e))
@@ -342,9 +342,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 try:
                     help_url = self.config.help_website[1] % {'module' : module}
                     help_html = ' <a href="%s">(help)</a>' % help_url
-                except TypeError, e:
+                except TypeError as e:
                     raise FatalError('"help_website" %s' % e)
-                except KeyError, e:
+                except KeyError as e:
                     raise FatalError(_('%(configuration_variable)s invalid key'
                                        ' %(key)s' % \
                                        {'configuration_variable' :
@@ -397,9 +397,9 @@ class TinderboxBuildScript(buildscript.BuildScript):
                                     ' for more information.</div>'
                                     % {'name' : self.config.help_website[0],
                                        'url'  : help_url})
-            except TypeError, e:
+            except TypeError as e:
                 raise FatalError('"help_website" %s' % e)
-            except KeyError, e:
+            except KeyError as e:
                 raise FatalError(_('%(configuration_variable)s invalid key'
                                    ' %(key)s' % \
                                    {'configuration_variable' :

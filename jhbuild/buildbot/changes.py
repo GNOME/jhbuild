@@ -127,7 +127,7 @@ class GnomeMaildirSource(MaildirSource):
                 else:
                     comments += line[4:] + '\n'
 
-            comments = unicode(comments.strip(), m.get_content_charset() or 'ascii', 'ignore')
+            comments = str(comments.strip(), m.get_content_charset() or 'ascii', 'ignore')
 
         c = changes.Change(name, files, comments, isdir, revision=revision, links=links, when=when)
         c.project = project

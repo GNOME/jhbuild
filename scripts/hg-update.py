@@ -51,11 +51,11 @@ def update():
         # going to revert the update.
         if index != -1:
             out = out[:index]
-    print out
+    print(out)
     return hg.returncode == 0
 
 def undo_update(parent):
-    print 'Update failed, updating to parent revision'
+    print('Update failed, updating to parent revision')
     env = dict(os.environ)
     env['HGMERGE'] = 'false'
     hg = call(['hg', 'update', '--noninteractive', '-q', parent], env=env)
@@ -74,8 +74,8 @@ if __name__ == '__main__':
     ret = False
     try:
         ret = pull_and_update()
-    except OSError, e:
-        print '%s: %s' % (sys.argv[0], e)
+    except OSError as e:
+        print('%s: %s' % (sys.argv[0], e))
 
     if ret:
         exit_code = 0

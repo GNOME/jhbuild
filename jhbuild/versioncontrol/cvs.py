@@ -31,7 +31,7 @@ try:
 except ImportError:
     import md5 as hashlib
 
-import git
+from . import git
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type

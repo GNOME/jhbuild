@@ -25,9 +25,9 @@ import subprocess
 import pipes
 import imp
 import time
-from StringIO import StringIO
+from io import StringIO
 
-import cmds
+from . import cmds
 
 def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""
@@ -46,7 +46,7 @@ def get_installed_pkgconfigs(config):
             stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs)
             versions = stdout.splitlines()
             if len(versions) == len(pkgs):
-                return dict(zip(pkgs, versions))
+                return dict(list(zip(pkgs, versions)))
         except OSError:
             pass
 
@@ -96,10 +96,10 @@ def systemdependencies_met(module_name, sysdeps, config):
                 shell_split = shlex.split
             try:
                 while True:
-                    arg = itr.next()
+                    arg = next(itr)
                     if arg.strip() in ['-I', '-isystem']:
                         # extract paths handling quotes and multiple paths
-                        paths += shell_split(itr.next())[0].split(os.pathsep)
+                        paths += shell_split(next(itr))[0].split(os.pathsep)
                     elif arg.startswith('-I'):
                         paths += shell_split(arg[2:])[0].split(os.pathsep)
             except StopIteration:
@@ -197,7 +197,7 @@ class SystemInstall(object):
         elif cmds.has_command('sudo'):
             self._root_command_prefix_args = ['sudo']
         else:
-            raise SystemExit, _('No suitable root privilege command found; you should install "pkexec"')
+            raise SystemExit(_('No suitable root privilege command found; you should install "pkexec"'))
 
     def install(self, uninstalled):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
@@ -480,5 +480,5 @@ _classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall, YumSystemIns
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     installer = SystemInstall.find_best()
-    print "Using %r" % (installer, )
+    print("Using %r" % (installer, ))
     installer.install(sys.argv[1:])

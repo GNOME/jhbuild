@@ -41,12 +41,12 @@ __all__ = ['sxml', 'sxml_to_string']
 # from Django, originally. used to make sure xml is utf-8.
 def smart_str(s, encoding='utf-8', errors='strict'):
     # Returns a bytestring version of 's', encoded as specified in 'encoding'.
-    if not isinstance(s, basestring):
+    if not isinstance(s, str):
         try:
             return str(s)
         except UnicodeEncodeError:
-            return unicode(s).encode(encoding, errors)
-    elif isinstance(s, unicode):
+            return str(s).encode(encoding, errors)
+    elif isinstance(s, str):
         return s.encode(encoding, errors)
     elif s and encoding != 'utf-8':
         return s.decode('utf-8', errors).encode(encoding, errors)
@@ -77,7 +77,7 @@ class sxml:
                 return ('<%s%s>%s</%s>'
                         % (attr,
                            ''.join([' %s="%s"' % (_trans(k), quote(v))
-                                    for k, v in kw.items()]),
+                                    for k, v in list(kw.items())]),
                            '\n'.join(args),
                            attr))
             render.__name__ = attr

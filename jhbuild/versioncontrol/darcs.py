@@ -21,7 +21,7 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import urlparse
+import urllib.parse
 
 try:
     import hashlib
@@ -58,7 +58,7 @@ class DarcsRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlparse.urljoin(self.href, module)
+            module = urllib.parse.urljoin(self.href, module)
         return DarcsBranch(self, module, checkoutdir)
 
 
@@ -101,9 +101,9 @@ class DarcsBranch(Branch):
             path = os.path.join(self.srcdir, filename)
             try:
                 stat = os.stat(path)
-            except OSError, e:
+            except OSError as e:
                 continue
-            os.chmod(path, stat.st_mode | 0111)
+            os.chmod(path, stat.st_mode | 0o111)
 
     def checkout(self, buildscript):
         if not inpath('darcs', os.environ['PATH'].split(os.pathsep)):

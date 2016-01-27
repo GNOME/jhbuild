@@ -68,7 +68,7 @@ builddir_pattern = '%s'
 try:
     import multiprocessing
     jobs = multiprocessing.cpu_count() + 1
-except ImportError, _e:
+except ImportError as _e:
     try:
         jobs = os.sysconf('SC_NPROCESSORS_ONLN') + 1
     except (OSError, AttributeError, ValueError):

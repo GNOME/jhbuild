@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from twisted.web.util import Redirect
 from twisted.web import html
@@ -26,7 +26,7 @@ from buildbot.status.web.base import HtmlResource
 from buildbot.status.web.step import StepsResource, StatusResourceBuildStep
 from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 
-from logs import JhLogsResource
+from .logs import JhLogsResource
 
 class JhStatusResourceBuildStep(StatusResourceBuildStep):
     def getTitle(self, request):
@@ -87,7 +87,7 @@ class JhStatusResourceBuildStep(StatusResourceBuildStep):
                     # are not safe, it escapes the / that separates the
                     # step name from the log number.
                     logname = logfile.getName()
-                    logurl = req.childLink("logs/%s" % urllib.quote(logname))
+                    logurl = req.childLink("logs/%s" % urllib.parse.quote(logname))
                     data += ('<li><a href="%s">%s</a></li>\n' % 
                              (logurl, html.escape(logname)))
                 else:

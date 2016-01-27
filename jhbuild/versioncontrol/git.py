@@ -23,10 +23,10 @@ __metaclass__ = type
 
 import os
 import stat
-import urlparse
+import urllib.parse
 import subprocess
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import sys
 import logging
 
@@ -39,16 +39,16 @@ from jhbuild.utils.sxml import sxml
 
 # Make sure that the urlparse module considers git:// and git+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
-if 'git' not in urlparse.uses_netloc:
-    urlparse.uses_netloc.append('git')
-if 'git' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('git')
-if 'git+ssh' not in urlparse.uses_netloc:
-    urlparse.uses_netloc.append('git+ssh')
-if 'git+ssh' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('git+ssh')
-if 'ssh' not in urlparse.uses_relative:
-    urlparse.uses_relative.append('ssh')
+if 'git' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('git')
+if 'git' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('git')
+if 'git+ssh' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('git+ssh')
+if 'git+ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('git+ssh')
+if 'ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('ssh')
 
 def get_git_extra_env():
     # we run git without the JHBuild LD_LIBRARY_PATH and PATH, as it can
@@ -112,7 +112,7 @@ class GitRepository(Repository):
                 else:
                     if new_module:
                         module = new_module
-        if not (urlparse.urlparse(module)[0] or module[0] == '/'):
+        if not (urllib.parse.urlparse(module)[0] or module[0] == '/'):
             if self.href.endswith('/'):
                 base_href = self.href
             else:
@@ -540,7 +540,7 @@ class GitSvnBranch(GitBranch):
         # only parse the final match
         if match:
             branch = match.group(1)
-            external = urllib.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
+            external = urllib.parse.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
             revision_expr = re.compile(r"-r(\d*)")
             i = 0
             while i < len(external):
@@ -553,7 +553,7 @@ class GitSvnBranch(GitBranch):
                     externals[external[i]] = (external[i+1], None)
                     i = i+2
         
-        for extdir in externals.iterkeys():
+        for extdir in externals.keys():
             uri = externals[extdir][0]
             revision = externals[extdir][1]
             extdir = cwd+os.sep+extdir

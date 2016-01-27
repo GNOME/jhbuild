@@ -23,7 +23,7 @@ __metaclass__ = type
 
 import os
 import sys
-import urlparse
+import urllib.parse
 from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
@@ -57,7 +57,7 @@ class HgRepository(Repository):
             if module is None:
                 module = name
             if not self.href.startswith('ssh://'):
-                module = urlparse.urljoin(self.href, module)
+                module = urllib.parse.urljoin(self.href, module)
             else:
                 module = self.href + module
         return HgBranch(self, module, checkoutdir)
@@ -111,7 +111,7 @@ class HgBranch(Branch):
         try:
             hg = Popen(['hg', 'ti', '--template', '{node}'], stdout=PIPE,
                        cwd=self.srcdir)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
         return hg.stdout.read().strip()
 

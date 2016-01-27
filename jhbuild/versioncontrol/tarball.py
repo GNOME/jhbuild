@@ -25,8 +25,8 @@ try:
     import hashlib
 except ImportError:
     import md5 as hashlib
-import urlparse
-import urllib2
+import urllib.parse
+import urllib.request, urllib.error, urllib.parse
 import logging
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
@@ -70,7 +70,7 @@ class TarballRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlparse.urljoin(self.href, module)
+            module = urllib.parse.urljoin(self.href, module)
         module = module.replace('${version}', version)
         if checkoutdir is not None:
             checkoutdir = checkoutdir.replace('${version}', version)
@@ -250,23 +250,23 @@ class TarballBranch(Branch):
         # now patch the working tree
         for (patch, patchstrip) in self.patches:
             patchfile = ''
-            if urlparse.urlparse(patch)[0]:
+            if urllib.parse.urlparse(patch)[0]:
                 # patch name has scheme, get patch from network
                 try:
                     patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urllib2.HTTPError, e:
+                except urllib.error.HTTPError as e:
                     raise BuildStateError(_('could not download patch (error: %s)') % e.code)
-                except urllib2.URLError, e:
+                except urllib.error.URLError as e:
                     raise BuildStateError(_('could not download patch'))
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory
                 for patch_prefix in ('.', 'patches', '../patches'):
-                    uri = urlparse.urljoin(self.repository.moduleset_uri,
+                    uri = urllib.parse.urljoin(self.repository.moduleset_uri,
                             os.path.join(patch_prefix, patch))
                     try:
                         patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
-                    except Exception, e:
+                    except Exception as e:
                         continue
                     if not os.path.isfile(patchfile):
                         continue

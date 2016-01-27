@@ -81,7 +81,7 @@ class BuildScript:
 
     def _prepare_execute(self, command):
         if self.subprocess_nice_args:
-            if isinstance(command, (str, unicode)):
+            if isinstance(command, str):
                 command = ' '.join(self.subprocess_nice_args) + ' ' + command
             else:
                 command = self.subprocess_nice_args + command
@@ -161,7 +161,7 @@ class BuildScript:
                 try:
                     try:
                         error, altphases = module.run_phase(self, phase)
-                    except SkipToPhase, e:
+                    except SkipToPhase as e:
                         try:
                             num_phase = build_phases.index(e.phase)
                         except ValueError:
@@ -261,8 +261,8 @@ class BuildScript:
             logging.info(_('Running post-installation trigger script: %r') % (trig.name, ))
             try:
                 self.execute(trig.command())
-            except CommandError, err:
-                if isinstance(trig.command(), (str, unicode)):
+            except CommandError as err:
+                if isinstance(trig.command(), str):
                     displayed_command = trig.command()
                 else:
                     displayed_command = ' '.join(trig.command())

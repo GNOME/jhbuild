@@ -68,7 +68,7 @@ class BuildCommand(Command):
     def required_system_dependencies_installed(self, module_state):
         '''Returns true if all required system dependencies are installed for
         modules in module_state.'''
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.items():
             if systemmodule:
                 if not new_enough:
                     return False
@@ -91,30 +91,30 @@ class BuildCommand(Command):
             else:
                 return ''
 
-        print _('Required packages:')
-        print _('  System installed packages which are too old:')
+        print(_('Required packages:'))
+        print(_('  System installed packages which are too old:'))
         have_too_old = False
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.items():
             if (installed_version is not None) and (not new_enough) and systemmodule:
                 have_too_old = True
-                print ('    %s %s' % (module.name,
+                print(('    %s %s' % (module.name,
                                       fmt_details(module.pkg_config,
                                                   req_version,
-                                                  installed_version)))
+                                                  installed_version))))
         if not have_too_old:
-            print _('    (none)')
+            print(_('    (none)'))
 
-        print _('  No matching system package installed:')
+        print(_('  No matching system package installed:'))
         have_missing = False
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.items():
             if installed_version is None and (not new_enough) and systemmodule:
                 have_missing = True
-                print ('    %s %s' % (module.name,
+                print(('    %s %s' % (module.name,
                                       fmt_details(module.pkg_config,
                                                   req_version,
-                                                  installed_version)))
+                                                  installed_version))))
         if not have_missing:
-            print _('    (none)')
+            print(_('    (none)'))
 
 
 def print_help():
@@ -132,11 +132,11 @@ def print_help():
             pass
 
     uprint(_('JHBuild commands are:'))
-    commands = [(x.name, x.doc) for x in get_commands().values()]
+    commands = [(x.name, x.doc) for x in list(get_commands().values())]
     commands.sort()
     for name, description in commands:
         uprint('  %-15s %s' % (name, description))
-    print
+    print()
     uprint(_('For more information run "jhbuild <command> --help"'))
 
 # handle registration of new commands

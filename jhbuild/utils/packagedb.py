@@ -33,7 +33,7 @@ try:
 except ImportError:
     import elementtree.ElementTree as ET
 
-from StringIO import StringIO
+from io import StringIO
 
 from jhbuild.utils import fileutils
 

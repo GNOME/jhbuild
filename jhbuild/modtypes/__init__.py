@@ -51,12 +51,12 @@ def register_lazy_module_type(name, module):
     _module_types[name] = parse_func
 
 def parse_xml_node(node, config, uri, repositories, default_repo):
-    if not _module_types.has_key(node.nodeName):
+    if node.nodeName not in _module_types:
         try:
             __import__('jhbuild.modtypes.%s' % node.nodeName)
         except ImportError:
             pass
-    if not _module_types.has_key(node.nodeName):
+    if node.nodeName not in _module_types:
         raise FatalError(_('unknown module type %s') % node.nodeName)
 
     parser = _module_types[node.nodeName]
@@ -146,7 +146,7 @@ def get_branch(node, repositories, default_repo, config):
         try:
             repo = repositories[childnode.getAttribute('repo')]
         except KeyError:
-            repo_names = ', '.join([r.name for r in repositories.values()])
+            repo_names = ', '.join([r.name for r in list(repositories.values())])
             raise UndefinedRepositoryError(
                 _('Repository=%(missing)s not found for module id=%(module)s. Possible repositories are %(possible)s'
                   % {'missing': childnode.getAttribute('repo'), 'module': name,
@@ -294,9 +294,9 @@ them into the prefix."""
                     try:
                         fileutils.rename(src_path, dest_path)
                         num_copied += 1
-                    except OSError, e:
+                    except OSError as e:
                         errors.append("%s: '%s'" % (str(e), dest_path))
-            except OSError, e:
+            except OSError as e:
                 errors.append(str(e))
         return num_copied
 
@@ -326,7 +326,7 @@ them into the prefix."""
             # $JHBUILD_PREFIX/_jhbuild/root-foo/$JHBUILD_PREFIX
             # Remove them one by one to clean the tree to the state we expect,
             # so we can better spot leftovers or broken things.
-            prefix_dirs = filter(lambda x: x != '', stripped_prefix.split(os.sep))
+            prefix_dirs = [x for x in stripped_prefix.split(os.sep) if x != '']
             while len(prefix_dirs) > 0:
                 dirname = prefix_dirs.pop()
                 subprefix = os.path.join(*([destdir] + prefix_dirs))
@@ -334,7 +334,7 @@ them into the prefix."""
                 assert target.startswith(buildscript.config.prefix)
                 try:
                     os.rmdir(target)
-                except OSError, e:
+                except OSError as e:
                     pass
 
             remaining_files = os.listdir(destdir)
@@ -418,7 +418,7 @@ them into the prefix."""
         method = getattr(self, 'do_' + phase)
         try:
             method(buildscript)
-        except (CommandError, BuildStateError), e:
+        except (CommandError, BuildStateError) as e:
             error_phases = []
             if hasattr(method, 'error_phases'):
                 error_phases = method.error_phases

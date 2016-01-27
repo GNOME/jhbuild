@@ -26,12 +26,13 @@
 import os
 import signal
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from optparse import make_option
 import socket
-import __builtin__
+import builtins
 import csv
 import logging
+import collections
 
 try:
     import elementtree.ElementTree as ET
@@ -116,7 +117,7 @@ class cmd_bot(Command):
 
         # make jhbuild config file accessible to buildbot files
         # (master.cfg , steps.py, etc.)
-        __builtin__.__dict__['jhbuild_config'] = config
+        builtins.__dict__['jhbuild_config'] = config
 
         daemonize = False
         pidfile = None
@@ -146,7 +147,7 @@ class cmd_bot(Command):
             os.environ['LC_ALL'] = 'C'
             os.environ['LANGUAGE'] = 'C'
             os.environ['LANG'] = 'C'
-            __builtin__.__dict__['_'] = lambda x: x
+            builtins.__dict__['_'] = lambda x: x
             config.interact = False
             config.nonetwork = True
             os.environ['TERM'] = 'dumb'
@@ -347,7 +348,7 @@ class cmd_bot(Command):
                 # have to copy all that code.]
                 localDict = {'basedir': os.path.expanduser(self.basedir)}
                 try:
-                    exec f in localDict
+                    exec(f, localDict)
                 except:
                     log.msg("error while parsing config file")
                     raise
@@ -371,7 +372,7 @@ class cmd_bot(Command):
                               "changeHorizon", "logMaxSize", "logMaxTailSize",
                               "logCompressionMethod",
                               )
-                for k in config.keys():
+                for k in list(config.keys()):
                     if k not in known_keys:
                         log.msg("unknown key '%s' defined in config dictionary" % k)
 
@@ -453,7 +454,7 @@ class cmd_bot(Command):
                         })
 
                 # Status targets
-                if not config.has_key('status'):
+                if 'status' not in config:
                     # let it be possible to define additional status in
                     # master.cfg
                     config['status'] = []
@@ -505,16 +506,16 @@ class cmd_bot(Command):
                             isinstance(logMaxTailSize, int):
                         raise ValueError("logMaxTailSize needs to be None or int")
                     mergeRequests = config.get('mergeRequests')
-                    if mergeRequests is not None and not callable(mergeRequests):
+                    if mergeRequests is not None and not isinstance(mergeRequests, collections.Callable):
                         raise ValueError("mergeRequests must be a callable")
                     prioritizeBuilders = config.get('prioritizeBuilders')
-                    if prioritizeBuilders is not None and not callable(prioritizeBuilders):
+                    if prioritizeBuilders is not None and not isinstance(prioritizeBuilders, collections.Callable):
                         raise ValueError("prioritizeBuilders must be callable")
                     changeHorizon = config.get("changeHorizon")
                     if changeHorizon is not None and not isinstance(changeHorizon, int):
                         raise ValueError("changeHorizon needs to be an int")
 
-                except KeyError, e:
+                except KeyError as e:
                     log.msg("config dictionary is missing a required parameter")
                     log.msg("leaving old configuration in place")
                     raise
@@ -561,7 +562,7 @@ class cmd_bot(Command):
                     if s.slavename in ("debug", "change", "status"):
                         raise KeyError(
                             "reserved name '%s' used for a bot" % s.slavename)
-                if config.has_key('interlocks'):
+                if 'interlocks' in config:
                     raise KeyError("c['interlocks'] is no longer accepted")
 
                 assert isinstance(change_sources, (list, tuple))
@@ -593,7 +594,7 @@ class cmd_bot(Command):
                 builders = builders_dicts
 
                 for b in builders:
-                    if b.has_key('slavename') and b['slavename'] not in slavenames:
+                    if 'slavename' in b and b['slavename'] not in slavenames:
                         raise ValueError("builder %s uses undefined slave %s" \
                                          % (b['name'], b['slavename']))
                     for n in b.get('slavenames', []):
@@ -652,7 +653,7 @@ class cmd_bot(Command):
                     for l in b.get('locks', []):
                         if isinstance(l, locks.LockAccess): # User specified access to the lock
                             l = l.lockid
-                        if lock_dict.has_key(l.name):
+                        if l.name in lock_dict:
                             if lock_dict[l.name] is not l:
                                 raise ValueError("Two different locks (%s and %s) "
                                                  "share the name %s"
@@ -666,7 +667,7 @@ class cmd_bot(Command):
                         for l in s[1].get('locks', []):
                             if isinstance(l, locks.LockAccess): # User specified access to the lock
                                 l = l.lockid
-                            if lock_dict.has_key(l.name):
+                            if l.name in lock_dict:
                                 if lock_dict[l.name] is not l:
                                     raise ValueError("Two different locks (%s and %s)"
                                                      " share the name %s"
@@ -702,7 +703,7 @@ class cmd_bot(Command):
                 # Update any of our existing builders with the current log parameters.
                 # This is required so that the new value is picked up after a
                 # reconfig.
-                for builder in self.botmaster.builders.values():
+                for builder in list(self.botmaster.builders.values()):
                     builder.builder_status.setLogCompressionLimit(logCompressionLimit)
                     builder.builder_status.setLogCompressionMethod(logCompressionMethod)
                     builder.builder_status.setLogMaxSize(logMaxSize)

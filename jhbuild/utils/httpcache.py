@@ -30,11 +30,11 @@ and draws ideas from feedparser.py.  Strategies include:
 
 import os
 import sys
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 import time
-import rfc822
-import StringIO
+import email.utils
+import io
 try:
     import gzip
 except ImportError:
@@ -43,7 +43,7 @@ except ImportError:
 try:
     import xml.dom.minidom
 except ImportError:
-    raise SystemExit, _('Python XML packages are required but could not be found')
+    raise SystemExit(_('Python XML packages are required but could not be found'))
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -55,9 +55,9 @@ def _format_isotime(tm):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(tm))
 
 def _parse_date(date):
-    tm = rfc822.parsedate_tz(date)
+    tm = email.utils.parsedate_tz(date)
     if tm:
-        return rfc822.mktime_tz(tm)
+        return email.utils.mktime_tz(tm)
     return 0
 
 class CacheEntry:
@@ -123,7 +123,7 @@ class Cache:
         document.appendChild(document.createElement('cache'))
         node = document.createTextNode('\n')
         document.documentElement.appendChild(node)
-        for uri in self.entries.keys():
+        for uri in list(self.entries.keys()):
             entry = self.entries[uri]
             node = document.createElement('entry')
             node.setAttribute('uri', entry.uri)
@@ -146,14 +146,14 @@ class Cache:
         '''picks a unique name for a new entry in the cache.
         Very simplistic.'''
         # get the basename from the URI
-        parts = urlparse.urlparse(uri, allow_fragments=False)
+        parts = urllib.parse.urlparse(uri, allow_fragments=False)
         base = parts[2].split('/')[-1]
         if not base: base = 'index.html'
 
         is_unique = False
         while not is_unique:
             is_unique = True
-            for uri in self.entries.keys():
+            for uri in list(self.entries.keys()):
                 if self.entries[uri].local == base:
                     is_unique = False
                     break
@@ -165,7 +165,7 @@ class Cache:
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
-        parts = urlparse.urlparse(uri)
+        parts = urllib.parse.urlparse(uri)
         if parts[0] in ('', 'file'):
             return parts[2]
         if sys.platform.startswith('win') and uri[1] == ':':
@@ -184,7 +184,7 @@ class Cache:
         if nonetwork:
             raise RuntimeError(_('file not in cache, but not allowed to check network'))
 
-        request = urllib2.Request(uri)
+        request = urllib.request.Request(uri)
         if gzip:
             request.add_header('Accept-encoding', 'gzip')
         if entry:
@@ -194,13 +194,13 @@ class Cache:
                 request.add_header('If-None-Match', entry.etag)
 
         try:
-            response = urllib2.urlopen(request)
+            response = urllib.request.urlopen(request)
 
             # get data, and gunzip it if it is encoded
             data = response.read()
             if gzip and response.headers.get('Content-Encoding', '') == 'gzip':
                 try:
-                    data = gzip.GzipFile(fileobj=StringIO.StringIO(data)).read()
+                    data = gzip.GzipFile(fileobj=io.StringIO(data)).read()
                 except:
                     data = ''
 
@@ -214,7 +214,7 @@ class Cache:
             fp = open(filename, 'wb')
             fp.write(data)
             fp.close()
-        except urllib2.HTTPError, e:
+        except urllib.error.HTTPError as e:
             if e.code == 304: # not modified; update validated
                 expires = e.hdrs.get('Expires')
                 filename = os.path.join(self.cachedir, entry.local)

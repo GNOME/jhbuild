@@ -91,7 +91,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         try:
             other_stbuf = os.stat(other)
             potential_stbuf = os.stat(potential)
-        except OSError, e:
+        except OSError as e:
             return False
         return potential_stbuf.st_mtime > other_stbuf.st_mtime
 
@@ -218,14 +218,14 @@ class AutogenModule(MakeModule, DownloadableModule):
 
         srcdir = self.get_srcdir(buildscript)
         try:
-            if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0111):
-                os.chmod(os.path.join(srcdir, self.autogen_sh), 0755)
+            if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0o111):
+                os.chmod(os.path.join(srcdir, self.autogen_sh), 0o755)
         except:
             pass
 
         if self.autogen_sh == 'autoreconf':
             buildscript.execute(['autoreconf', '-fi'], cwd=srcdir)
-            os.chmod(os.path.join(srcdir, 'configure'), 0755)
+            os.chmod(os.path.join(srcdir, 'configure'), 0o755)
 
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]

@@ -109,7 +109,7 @@ def setup_env_defaults(system_libdirs):
         os.environ['ACLOCAL_PATH']='/usr/share/aclocal'
 
     # get rid of gdkxft from the env -- it will cause problems.
-    if os.environ.has_key('LD_PRELOAD'):
+    if 'LD_PRELOAD' in os.environ:
         valarr = os.environ['LD_PRELOAD'].split(' ')
         for x in valarr[:]:
             if x.find('libgdkxft.so') >= 0:
@@ -163,7 +163,7 @@ def setup_env(prefix):
         # Running 'man -p' without specifying a manual page name causes it to
         # exit with status 1.
         systemmanpath = get_output('man -p || true', extra_env={'MANPATH': ''})
-        systemmanpath = map(os.path.dirname, systemmanpath.strip().split('\n'))
+        systemmanpath = list(map(os.path.dirname, systemmanpath.strip().split('\n')))
     elif sys.platform.startswith('openbsd'):
         # I cannot find a command that prints the default search path on
         # OpenBSD, so I add paths found in the default /etc/man.conf here.

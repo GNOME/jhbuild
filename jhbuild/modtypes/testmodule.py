@@ -49,9 +49,9 @@ class TestModule(Package, DownloadableModule):
         self.tested_pkgs  = tested_pkgs
 
         ### modify environ for tests to be working
-        if os.environ.has_key('LDTP_DEBUG'):
+        if 'LDTP_DEBUG' in os.environ:
             del os.environ['LDTP_DEBUG'] # get rid of verbose LDTP output
-        if not os.environ.has_key('GNOME_ACCESSIBILITY') or os.environ['GNOME_ACCESSIBILITY'] != 1:
+        if 'GNOME_ACCESSIBILITY' not in os.environ or os.environ['GNOME_ACCESSIBILITY'] != 1:
             os.environ['GNOME_ACCESSIBILITY'] = '1'
 
     def get_srcdir(self, buildscript):
@@ -188,7 +188,7 @@ class TestModule(Package, DownloadableModule):
         for group in groups:
             status += 'In Group #%s (%s)\n' % (group_num, group['groupstatus'])
             for script in group['script']:
-                for test in script['tests'].keys():
+                for test in list(script['tests'].keys()):
                     status += 'Test \'%s\' ' % test
                     if script['tests'][test]['pass'] == '0': # failed
                         status += 'failed\n\tErrors'
@@ -277,7 +277,7 @@ class TestModule(Package, DownloadableModule):
             else:
                 buildscript.execute('ldtprunner run.xml', cwd=src_dir,
                         extra_env={'DISPLAY': ':%s' % self.screennum})
-        except CommandError, e:
+        except CommandError as e:
             os.kill(ldtp_pid, signal.SIGINT)
             if e.returncode == 32512:        # ldtprunner not installed
                 raise BuildStateError('ldtprunner not available')
@@ -317,7 +317,7 @@ class TestModule(Package, DownloadableModule):
             try:
                 buildscript.execute('python %s' % test_case,
                         cwd=src_dir, extra_env=extra_env)
-            except CommandError, e:
+            except CommandError as e:
                 if e.returncode != 0:
                     raise BuildStateError('%s failed' % test_case)
 

@@ -27,7 +27,9 @@ __all__ = [
 __metaclass__ = type
 
 from jhbuild.errors import FatalError, BuildStateError
+import importlib
 import os
+import warnings
 
 class Repository:
     """An abstract class representing a collection of modules."""
@@ -192,8 +194,10 @@ def register_repo_type(name, repo_class):
 def get_repo_type(name):
     if name not in _repo_types:
         try:
-            __import__('jhbuild.versioncontrol.%s' % name)
-        except ImportError:
+            importlib.import_module('jhbuild.versioncontrol.%s' % name)
+        except ImportError as e:
+            warnings.warn("Failed to import versioncontrol.%s: %s" %
+                          (name, e))
             pass
     if name not in _repo_types:
         raise FatalError(_('unknown repository type %s') % name)

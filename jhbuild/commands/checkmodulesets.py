@@ -19,7 +19,7 @@
 
 
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from optparse import make_option
 import logging
 

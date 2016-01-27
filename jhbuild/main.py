@@ -23,8 +23,8 @@ import traceback
 import logging
 
 import gettext
-import __builtin__
-__builtin__.__dict__['N_'] = lambda x: x
+import builtins
+builtins.__dict__['N_'] = lambda x: x
 
 import jhbuild.config
 import jhbuild.commands
@@ -52,13 +52,13 @@ except (locale.Error, AssertionError):
     _encoding = 'ascii'
 
 def uencode(s):
-    if type(s) is unicode:
+    if type(s) is str:
         return s.encode(_encoding, 'replace')
     else:
         return s
 
 def udecode(s):
-    if type(s) is not unicode:
+    if type(s) is not str:
         return s.decode(_encoding, 'replace')
     else:
         return s
@@ -66,13 +66,13 @@ def udecode(s):
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        print uencode(s),
+        print(uencode(s), end=' ')
     s = args[-1]
-    print uencode(s)
+    print(uencode(s))
 
-__builtin__.__dict__['uprint'] = uprint
-__builtin__.__dict__['uencode'] = uencode
-__builtin__.__dict__['udecode'] = udecode
+builtins.__dict__['uprint'] = uprint
+builtins.__dict__['uencode'] = uencode
+builtins.__dict__['udecode'] = udecode
 
 class LoggingFormatter(logging.Formatter):
     def __init__(self):
@@ -84,7 +84,7 @@ class LoggingFormatter(logging.Formatter):
 
 def print_help(parser):
     parser.print_help()
-    print
+    print()
     jhbuild.commands.print_help()
     parser.exit()
 
@@ -92,7 +92,7 @@ def main(args):
     localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
     if not os.path.exists(localedir):
         localedir = None
-    gettext.install('jhbuild', localedir=localedir, unicode=True)
+    gettext.install('jhbuild', localedir=localedir)
 
     if hasattr(os, 'getuid') and os.getuid() == 0:
         sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
@@ -135,7 +135,7 @@ def main(args):
 
     try:
         config = jhbuild.config.Config(options.configfile, options.conditions)
-    except FatalError, exc:
+    except FatalError as exc:
         sys.stderr.write('jhbuild: %s\n' % exc.args[0].encode(_encoding, 'replace'))
         sys.exit(1)
 
@@ -153,11 +153,11 @@ def main(args):
 
     try:
         rc = jhbuild.commands.run(command, config, args, help=lambda: print_help(parser))
-    except UsageError, exc:
+    except UsageError as exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
         parser.print_usage()
         sys.exit(1)
-    except FatalError, exc:
+    except FatalError as exc:
         sys.stderr.write('jhbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
         sys.exit(1)
     except KeyboardInterrupt:
@@ -166,7 +166,7 @@ def main(args):
     except EOFError:
         uprint(_('EOF'))
         sys.exit(1)
-    except IOError, e:
+    except IOError as e:
         if e.errno != errno.EPIPE:
             raise
         sys.exit(0)

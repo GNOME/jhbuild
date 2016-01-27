@@ -156,7 +156,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             except OSError:
                 pass
 
-        if isinstance(command, (str, unicode)):
+        if isinstance(command, str):
             kws['shell'] = True
             print_args['command'] = command
         else:
@@ -173,10 +173,10 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not self.config.quiet_mode:
             if self.config.print_command_pattern:
                 try:
-                    print self.config.print_command_pattern % print_args
-                except TypeError, e:
+                    print(self.config.print_command_pattern % print_args)
+                except TypeError as e:
                     raise FatalError('\'print_command_pattern\' %s' % e)
-                except KeyError, e:
+                except KeyError as e:
                     raise FatalError(_('%(configuration_variable)s invalid key'
                                        ' %(key)s' % \
                                        {'configuration_variable' :
@@ -206,7 +206,7 @@ class TerminalBuildScript(buildscript.BuildScript):
 
         try:
             p = subprocess.Popen(command, **kws)
-        except OSError, e:
+        except OSError as e:
             raise CommandError(str(e))
 
         output = []
@@ -223,13 +223,13 @@ class TerminalBuildScript(buildscript.BuildScript):
                 if line[-1] == '\n': line = line[:-1]
 
                 if line.startswith('C '):
-                    print '%s%s%s' % (t_colour[12], line, t_reset)
+                    print('%s%s%s' % (t_colour[12], line, t_reset))
                 elif line.startswith('M '):
-                    print '%s%s%s' % (t_colour[10], line, t_reset)
+                    print('%s%s%s' % (t_colour[10], line, t_reset))
                 elif line.startswith('? '):
-                    print '%s%s%s' % (t_colour[8], line, t_reset)
+                    print('%s%s%s' % (t_colour[8], line, t_reset))
                 else:
-                    print line
+                    print(line)
 
             cmds.pprint_output(p, format_line)
             if conflicts:
@@ -255,7 +255,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             if p.wait() != 0:
                 if self.config.quiet_mode:
-                    print ''.join(output)
+                    print(''.join(output))
                 raise CommandError(_('########## Error running %s')
                                    % print_args['command'], p.returncode)
         except OSError:
@@ -278,8 +278,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             self.message(_('the following modules were not built'))
             for module in failures:
-                print module,
-            print
+                print(module, end=' ')
+            print()
 
     def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
@@ -309,7 +309,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not self.config.interact:
             return 'fail'
         while True:
-            print
+            print()
             uprint('  [1] %s' % _('Rerun phase %s') % phase)
             if nextphase:
                 uprint('  [2] %s' % _('Ignore error and continue to %s') % nextphase)
@@ -326,7 +326,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     altphase_label = altphase
                 uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
-            val = raw_input(uencode(_('choice: ')))
+            val = input(uencode(_('choice: ')))
             val = udecode(val)
             val = val.strip()
             if val == '1':
@@ -359,7 +359,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 except AttributeError:
                     needs_confirmation = False
                 if needs_confirmation:
-                    val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
+                    val = input(uencode(_('Type "yes" to confirm the action: ')))
                     val = udecode(val)
                     val = val.strip()
                     if val.lower() in ('yes', _('yes').lower()):
