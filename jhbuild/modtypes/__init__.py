@@ -451,7 +451,7 @@ them into the prefix."""
             install_date = buildscript.moduleset.packagedb.installdate(self.name)
             for dep in self.dependencies:
                 install_date_dep = buildscript.moduleset.packagedb.installdate(dep)
-                if install_date_dep > install_date:
+                if install_date_dep and install_date_dep > install_date:
                     # a dependency has been updated
                     return None
             else:

@@ -636,7 +636,7 @@ class EndToEndTest(JhbuildConfigTestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout.strip(), 'Hello world (autotools)')
+        self.assertEquals(stdout.strip(), b'Hello world (autotools)')
         self.assertEquals(proc.wait(), 0)
 
     # Won't pass under stock MSYS because pkgconfig isn't installed in base

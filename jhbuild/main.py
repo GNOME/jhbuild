@@ -65,10 +65,7 @@ def udecode(s):
 
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
-    for s in args[:-1]:
-        print(uencode(s), end=' ')
-    s = args[-1]
-    print(uencode(s))
+    print(''.join(*args))
 
 builtins.__dict__['uprint'] = uprint
 builtins.__dict__['uencode'] = uencode

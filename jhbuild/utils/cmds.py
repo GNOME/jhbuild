@@ -64,7 +64,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
     stdout, stderr = p.communicate()
     if p.returncode != 0:
         raise CommandError(_('Error running %s') % cmd, p.returncode)
-    return stdout
+    return stdout.decode('unicode-escape')
 
 class Pipeline(subprocess.Popen):
     '''A class that wraps a sequence of subprocess.Popen() objects
@@ -188,7 +188,7 @@ def pprint_output(pipe, format_line):
                     read_set.remove(pipe.stdout)
                     if sys.stdin in read_set:
                         read_set.remove(sys.stdin)
-                out_data += out_chunk
+                out_data += out_chunk.decode('unicode-escape')
                 while '\n' in out_data:
                     pos = out_data.find('\n')
                     format_line(out_data[:pos+1], False)
@@ -199,7 +199,7 @@ def pprint_output(pipe, format_line):
                 if err_chunk == '':
                     pipe.stderr.close()
                     read_set.remove(pipe.stderr)
-                err_data += err_chunk
+                err_data += err_chunk.decode('unicode-escape')
                 while '\n' in err_data:
                     pos = err_data.find('\n')
                     format_line(err_data[:pos+1], True)
@@ -243,14 +243,14 @@ def compare_version(version, minver):
     for i, ver in enumerate(version):
         part = re.sub(r'^[^\d]*(\d*).*$', r'\1', ver)
         if not part:
-            version[i] = None
+            version[i] = 0
         else:
             version[i] = int(part)
     minver = minver.split('.')
     for i, ver in enumerate(minver):
         part = re.sub(r'^[^\d]*(\d*).*$', r'\1', ver)
         if not part:
-            minver[i] = None
+            minver[i] = 0
         else:
             minver[i] = int(part)
     return version >= minver

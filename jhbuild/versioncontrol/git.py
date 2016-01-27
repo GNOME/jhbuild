@@ -360,7 +360,7 @@ class GitBranch(Branch):
         stdout = proc.communicate()[0]
         if not stdout.strip():
             raise CommandError(_('Command %s returned no output') % cmd_desc)
-        for line in stdout.splitlines():
+        for line in stdout.decode('unicode-escape').splitlines():
             if line.startswith('commit '):
                 commit = line.split(None, 1)[1].strip()
                 return commit

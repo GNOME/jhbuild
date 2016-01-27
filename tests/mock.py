@@ -56,6 +56,9 @@ class Config(jhbuild.config.Config):
     makeargs = ''
     module_makeargs = {}
     build_targets = ['install']
+    exit_on_error = False
+    disable_Werror = False
+    jobs = 1
 
     min_age = None
 
