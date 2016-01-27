@@ -60,8 +60,9 @@ class PackageEntry:
         if not os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
             return None
         self._manifest = []
-        for line in file(os.path.join(self.dirname, 'manifests', self.package)):
-            self._manifest.append(line.strip())
+        with open(os.path.join(self.dirname, 'manifests', self.package)) as f:
+            for line in f:
+                self._manifest.append(line.strip())
         return self._manifest
 
     def set_manifest(self, value):
@@ -179,7 +180,8 @@ class PackageDB:
             metadata = {}
         metadata['installed-date'] = time.time() # now
         if configure_cmd:
-            metadata['configure-hash'] = hashlib.md5(configure_cmd).hexdigest()
+            metadata['configure-hash'] = hashlib.md5(
+                configure_cmd.encode('utf-8')).hexdigest()
         pkg = PackageEntry(package, version, metadata, self.dirname)
         pkg.manifest = contents
         pkg.write()
