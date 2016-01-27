@@ -135,6 +135,9 @@ configure_without_autotools()
   echo "bindir=$bindir" >> $srcdir/Makefile.inc
   echo "datarootdir=$datarootdir" >> $srcdir/Makefile.inc
   echo "desktopdir=$desktopdir" >> $srcdir/Makefile.inc
+  if [ $msgfmtl_available -ne 0 ]; then
+      echo "DISABLE_GETTEXT=yes" >> $srcdir/Makefile.inc
+  fi
 
   if [ ! -f $makefile ]; then
     eval_gettext "Unable to read file \$makefile"; echo
