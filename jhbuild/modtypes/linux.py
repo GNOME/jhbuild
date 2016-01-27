@@ -272,10 +272,9 @@ def parse_linux(node, config, uri, repositories, default_repo):
         makeargs = node.getAttribute('makeargs')
         makeargs = makeargs.replace('${prefix}', config.prefix)
 
-    dependencies, after, suggests = get_dependencies(node)[0:2]
     branch = get_branch(node, repositories, default_repo, config)
     kconfigs = get_kconfigs(node, repositories, default_repo)
 
-    return LinuxModule(id, branch, dependencies, after, suggests, kconfigs, makeargs)
+    return LinuxModule(id, branch, kconfigs, makeargs)
 
 register_module_type('linux', parse_linux)
