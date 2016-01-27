@@ -22,6 +22,7 @@ import sys
 import os
 import signal
 import subprocess
+import unicodedata
 import locale
 
 from jhbuild.frontends import buildscript
@@ -362,7 +363,9 @@ class TerminalBuildScript(buildscript.BuildScript):
                     val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
                     val = udecode(val)
                     val = val.strip()
-                    if val.lower() in ('yes', _('yes').lower()):
+                    def normalize(s):
+                        return unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').lower()
+                    if normalize(val) in ('yes', normalize(_('yes')), _('yes').lower()):
                         return selected_phase
                     continue
                 return selected_phase
