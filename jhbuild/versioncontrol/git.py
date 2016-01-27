@@ -30,10 +30,11 @@ import urllib.request, urllib.parse, urllib.error
 import sys
 import logging
 
+import jhbuild.main
+
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-import jhbuild.versioncontrol.svn
 from jhbuild.commands.sanitycheck import inpath
 from jhbuild.utils.sxml import sxml
 
@@ -576,6 +577,7 @@ class GitSvnBranch(GitBranch):
 
         # FIXME (add self.revision support)
         try:
+            import jhbuild.versioncontrol.svn
             last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
             if not self.revision:
                 cmd.extend(['-r', last_revision])

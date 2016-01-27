@@ -37,14 +37,14 @@ def get_installed_pkgconfigs(config):
         stdout = proc.communicate()[0]
         proc.wait()
         pkgs = []
-        for line in StringIO(stdout):
+        for line in StringIO(stdout.decode('unicode-escape')):
             pkg, rest = line.split(None, 1)
             pkgs.append(pkg)
 
         # see if we can get the versions "the easy way"
         try:
             stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs)
-            versions = stdout.splitlines()
+            versions = stdout.decode('unicode-escape').splitlines()
             if len(versions) == len(pkgs):
                 return dict(list(zip(pkgs, versions)))
         except OSError:
@@ -59,7 +59,7 @@ def get_installed_pkgconfigs(config):
             proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
             stdout = proc.communicate()[0]
             proc.wait()
-            pkgversions[pkg] = stdout.strip()
+            pkgversions[pkg] = stdout.decode('unicode-escape').strip()
     except OSError: # pkg-config not installed
         pass
     return pkgversions
@@ -378,7 +378,7 @@ class PacmanSystemInstall(SystemInstall):
             try:
                 result = subprocess.check_output(['pkgfile', '--raw', filename])
                 if result:
-                    package_names.add(result.split('\n')[0])
+                    package_names.add(result.decode('unicode-escape').split('\n')[0])
             except subprocess.CalledProcessError:
                 logging.warning(_('Provider for "%s" was not found, ignoring' %(name if name else filename)))
 

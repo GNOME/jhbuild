@@ -29,6 +29,7 @@ __metaclass__ = type
 from jhbuild.errors import FatalError, BuildStateError
 import importlib
 import os
+import traceback
 import warnings
 
 class Repository:
@@ -197,7 +198,7 @@ def get_repo_type(name):
             importlib.import_module('jhbuild.versioncontrol.%s' % name)
         except ImportError as e:
             warnings.warn("Failed to import versioncontrol.%s: %s" %
-                          (name, e))
+                          (name, traceback.format_exc()))
             pass
     if name not in _repo_types:
         raise FatalError(_('unknown repository type %s') % name)

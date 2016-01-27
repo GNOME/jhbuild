@@ -83,7 +83,7 @@ def get_macos_info():
     global sys_id
 
     try:
-        ver = subprocess.check_output('sw_vers -productVersion')
+        ver = subprocess.check_output('sw_vers -productVersion').decode('unicode-escape')
 
         sys_name = 'Mac OS X ' + ver
         sys_id = 'macos-' + ver
@@ -98,7 +98,7 @@ def get_freebsd_info():
     global sys_id
 
     try:
-        ver = subprocess.check_output('freebsd-version').strip()
+        ver = subprocess.check_output('freebsd-version').strip().decode('unicode-escape')
 
         sys_name = 'FreeBSD ' + ver
         return True
@@ -106,7 +106,7 @@ def get_freebsd_info():
         pass
 
     try:
-        ver = subprocess.check_output(['uname', '-r']).strip()
+        ver = subprocess.check_output(['uname', '-r']).strip().decode('unicode-escape')
 
         sys_name = 'FreeBSD ' + ver
         return True
