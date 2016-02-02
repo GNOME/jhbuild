@@ -1356,6 +1356,17 @@
             size="478237"/>
   </autotools>
 
+  <autotools id="speech-dispatcher" autogenargs="--with-espeak">
+    <branch repo="speech-dispatcher"
+            module="speech-dispatcher-${version}.tar.gz"
+            version="0.8"
+            hash="sha256:0a6ce544cfbac8592a8ea08e3ab24c389153904ea51c6fd68756cea52de9efa2"/>
+    <dependencies>
+      <dep package="dotconf"/>
+      <dep package="espeak"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-webdav --enable-static">
     <if condition-set="freebsd">
       <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl'"/>
