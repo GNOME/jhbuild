@@ -1406,9 +1406,7 @@
     </dependencies>
   </autotools>
 
-  <!-- FTL is disabled as we have no way to install the llvm-static package as a sysdep on Fedora.
-       Enabling FTL will require either enhancing sysdeps or adding llvm to core-deps. -->
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DENABLE_FTL_JIT=OFF">
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
@@ -1420,11 +1418,10 @@
       <cmakeargs value="-DENABLE_FTL_JIT=OFF"/>
     </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
-    <!-- Reminder: When upgrading to 2.11.4, stop disabling FTL. -->
     <branch repo="webkitgtk.org"
-            module="webkitgtk-2.11.4.tar.xz" version="2.11.4"
-            hash="sha256:47631d5d66967ebda2683c065706d5d91d4d886fc11f382eecd39451c71dfe3c"
-            size="11603208">
+            module="webkitgtk-2.11.5.tar.xz" version="2.11.5"
+            hash="sha256:f6bb102ec2db2f1c134280551cd19fac9ea067324268709df97c2221b08baa02"
+            size="11701588">
     </branch>
     <dependencies>
       <dep package="c++"/>
@@ -1464,9 +1461,6 @@
       </if>
       <if condition-set="wayland">
         <dep package="wayland"/>
-      </if>
-      <if condition-unset="freebsd">
-        <dep package="llvm"/>
       </if>
     </dependencies>
     <suggests>
