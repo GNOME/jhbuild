@@ -43,14 +43,14 @@
             hash="sha256:cdf29d1a4c0f7d5b0c181bc8818fe6816d3b6ad4fcc8f6c0e5540a228c3f81ed"/>
   </autotools>
 
-  <autotools id="m4" autogen-sh="configure">
+  <autotools id="m4" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
 	    module="m4/m4-1.4.17.tar.bz2" version="1.4.17"
 	    size="1438525"
             hash="sha256:8e4e1f963932136ed45dcd5afb0c6e237e96a6fcdcd2a2fa6755040859500d70" />
   </autotools>
 
-  <autotools id="autoconf" autogen-sh="configure">
+  <autotools id="autoconf" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
             module="autoconf/autoconf-2.69.tar.gz" version="2.69"
             size="1927468"
@@ -60,7 +60,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libtool" autogen-sh="configure">
+  <autotools id="libtool" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
             module="libtool/libtool-2.4.2.tar.gz" version="2.4.2"
             size="2632347" md5sum="d2f3b7d4627e69e13514a40e72a24d50"
@@ -69,17 +69,23 @@
     </branch>
   </autotools>
 
-  <autotools id="automake-1.10" autogen-sh="configure">
+  <autotools id="automake-1.10" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
             module="automake/automake-1.10.3.tar.bz2" version="1.10.3"
             size="957505" md5sum="b8e67fb458da396bc35555af7ef2b49f" />
+    <dependencies>
+      <dep package="autoconf"/>
+    </dependencies>
   </autotools>
 
-  <autotools id="automake" autogen-sh="configure">
+  <autotools id="automake" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
             module="automake/automake-1.14.1.tar.gz" version="1.14.1"
             hash="sha256:814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
             size="2240681"/>
+    <dependencies>
+      <dep package="autoconf"/>
+    </dependencies>
   </autotools>
 
   <autotools id="pkg-config" autogen-sh="configure" autogenargs="--with-internal-glib">

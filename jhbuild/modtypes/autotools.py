@@ -369,7 +369,10 @@ def collect_args(instance, node, argtype):
 def parse_autotools(node, config, uri, repositories, default_repo):
     instance = AutogenModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['automake', 'libtool', instance.get_makecmd(config)]
+    # Allow base packages such as autoconf/automake/libtool/etc. to skip the
+    # standard dependencies to prevent dependency cycles.
+    if node.getAttribute('bootstrap') != 'true':
+        instance.dependencies += ['automake', 'libtool', instance.get_makecmd(config)]
 
     instance.autogenargs = collect_args (instance, node, 'autogenargs')
     instance.makeargs = collect_args (instance, node, 'makeargs')
