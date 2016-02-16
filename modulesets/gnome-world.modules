@@ -172,6 +172,25 @@
     </suggests>
   </autotools>
 
+  <cmake id="FeedReader"
+         cmakeargs="-DUSE_WEBKIT_4=ON -DWITH_LIBUNITY=OFF">
+    <branch repo="github.com" checkoutdir="FeedReader" module="jangernert/FeedReader.git"/>
+    <dependencies>
+      <dep package="gtk+"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libxml2"/>
+      <dep package="json-glib"/>
+      <dep package="libsoup"/>
+      <dep package="libgee"/>
+      <dep package="vala"/>
+      <dep package="WebKit"/>
+      <dep package="sqlite3"/>
+      <dep package="librest"/>
+      <dep package="libnotify"/>
+    </dependencies>
+  </cmake>
+
   <autotools id="gconf"
              autogenargs="--enable-gtk --with-gtk=3.0 --disable-orbit">
     <branch/>
