@@ -39,9 +39,11 @@ install-exec-local:
 # This is a lower-level check than `jhbuild checkmodulesets` (which analyses the
 # module graph), and doesn't require jhbuild to be built and installed.
 #
-# This will fail if xmllint isn't installed.
+# This will fail if xmllint or trang isn't installed.
 check-modulesets:
 	xmllint --noout --dtdvalid $(srcdir)/modulesets/moduleset.dtd $(MODULESETS)
+	trang $(srcdir)/modulesets/moduleset.rnc $(srcdir)/modulesets/moduleset.rng
+	xmllint --noout --relaxng $(srcdir)/modulesets/moduleset.rng $(MODULESETS)
 .PHONY: check-modulesets
 
 check: check-modulesets
