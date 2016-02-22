@@ -1438,10 +1438,6 @@
     <if condition-unset="wayland">
       <cmakeargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
     </if>
-    <!-- FTL JIT crashes on FreeBSD. See https://bugs.webkit.org/show_bug.cgi?id=152258 -->
-    <if condition-set="freebsd">
-      <cmakeargs value="-DENABLE_FTL_JIT=OFF"/>
-    </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
             module="webkitgtk-2.11.90.tar.xz" version="2.11.90"
