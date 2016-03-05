@@ -1,24 +1,23 @@
 # Korean translation for jhbuild.
 # Copyright (C) 2011 jhbuild's COPYRIGHT HOLDER
 # This file is distributed under the same license as the jhbuild package.
-# Seong-ho Cho <darkcircle.0426@gmail.com>, 2011, 2012.
-# Seong-ho Cho <shcho@gnome.org>, 2014.
+# Seong-ho Cho <shcho@gnome.org>, 2011, 2012, 2014, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-14 10:28+0000\n"
-"PO-Revision-Date: 2015-09-14 21:10+0900\n"
+"POT-Creation-Date: 2016-01-11 15:43+0000\n"
+"PO-Revision-Date: 2016-03-02 06:59+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
-"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language-Team: 한국어 <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../autogen.sh:103
 #, sh-format
@@ -45,26 +44,35 @@ msgstr "$makefile을 $srcdir/Makefile로 복사할 수 없습니다"
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "$PKG_NAME을(를) 컴파일 하려면 이제 `make'를 입력합니다"
 
-#: ../autogen.sh:188
-#, sh-format
-msgid ""
-"**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
-"directory"
-msgstr ""
-"**오류**: `$srcdir' 디렉터리는 $PKG_NAME 디렉터리의 최상위레벨이 아닌 것 같습"
-"니다"
+#: ../autogen.sh:265
+#| msgid ""
+#| "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
+msgid "WARNING: aclocal not available (usually part of package 'autoconf')"
+msgstr "경고: aclocal이 없습니다('autoconf' 꾸러미의 일부)"
 
-#: ../autogen.sh:230
-msgid ""
-"WARNING: gnome-autogen.sh not available (usually part of package 'gnome-"
-"common')"
-msgstr ""
-"경고: gnome-autogen.sh가 없습니다(보통 'gnome-common' 패키지에 들어있습니다)"
+#: ../autogen.sh:268
+#| msgid ""
+#| "WARNING: gnome-autogen.sh not available (usually part of package 'gnome-"
+#| "common')"
+msgid "WARNING: automake not available (usually part of package 'automake')"
+msgstr "경고: automake가 없습니다('autoconf' 꾸러미의 일부)"
 
-#: ../autogen.sh:233
+#: ../autogen.sh:271
+#| msgid ""
+#| "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
+msgid "WARNING: autopoint not available (usually part of package 'gettext')"
+msgstr "경고: autopoint가 없습니다('gettext' 꾸러미의 일부)"
+
+#: ../autogen.sh:274
+#| msgid ""
+#| "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
+msgid "WARNING: pkg-config not available (usually part of package 'pkgconfig')"
+msgstr "경고: pkg-config가 없습니다('pkgconfig' 꾸러미의 일부)"
+
+#: ../autogen.sh:277
 msgid ""
 "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
-msgstr "경고: yelp-tools가 없습니다(보통 'yelp-tools' 패키지에 들어있습니다)"
+msgstr "경고: yelp-tools가 없습니다('yelp-tools' 꾸러미의 일부)"
 
 #: ../jhbuild/commands/autobuild.py:28
 msgid "Build modules non-interactively and upload results to JhAutobuild"
@@ -328,7 +336,7 @@ msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "하나 이상의 모듈에 대한 Graphviz 의존성 그래프 출력"
 
 #: ../jhbuild/commands/base.py:494 ../jhbuild/commands/base.py:527
-#: ../jhbuild/commands/info.py:39 ../jhbuild/commands/uninstall.py:34
+#: ../jhbuild/commands/info.py:41 ../jhbuild/commands/uninstall.py:34
 msgid "[ modules ... ]"
 msgstr "[ 모듈 ... ]"
 
@@ -490,148 +498,158 @@ msgstr "수행 검사"
 msgid "Build targets from a GUI app"
 msgstr "GUI 프로그램 으로부터 대상 빌드"
 
-#: ../jhbuild/commands/info.py:36
+#: ../jhbuild/commands/info.py:38
 msgid "Display information about one or more modules"
 msgstr "하나 이상의 모듈에 대한 정보 보여주기"
 
-#: ../jhbuild/commands/info.py:51
+#: ../jhbuild/commands/info.py:47
+msgid ""
+"only display information for installed modules. This will not list system "
+"dependencies. If one or more module names are specified and at least one "
+"module is not installed, then the command will return 1."
+msgstr ""
+"설치한 모듈의 정보만 표시합니다. 이 정보에서는 시스템 의존성을 나타내지 않습"
+"니다.하나 이상의 이름을 지정하고 최소한 하나의 모듈을 설치하지 않았다면 명령"
+"에서 1 값을 반환합니다."
+
+#: ../jhbuild/commands/info.py:64
 #, python-format
 msgid "unknown module %s"
 msgstr "알 수 없는 모듈 %s"
 
-#: ../jhbuild/commands/info.py:60
+#: ../jhbuild/commands/info.py:86
 msgid "Name:"
 msgstr "이름:"
 
-#: ../jhbuild/commands/info.py:61
+#: ../jhbuild/commands/info.py:87
 msgid "Module Set:"
 msgstr "모듈세트:"
 
-#: ../jhbuild/commands/info.py:62
+#: ../jhbuild/commands/info.py:88
 msgid "Type:"
 msgstr "유형:"
 
-#: ../jhbuild/commands/info.py:65 ../jhbuild/commands/info.py:69
+#: ../jhbuild/commands/info.py:91 ../jhbuild/commands/info.py:95
 msgid "Install version:"
 msgstr "설치 버전:"
 
-#: ../jhbuild/commands/info.py:66 ../jhbuild/commands/info.py:70
+#: ../jhbuild/commands/info.py:92 ../jhbuild/commands/info.py:96
 msgid "Install date:"
 msgstr "설치 날짜:"
 
-#: ../jhbuild/commands/info.py:69 ../jhbuild/commands/info.py:70
+#: ../jhbuild/commands/info.py:95 ../jhbuild/commands/info.py:96
 msgid "not installed"
 msgstr "설치되지 않음"
 
-#: ../jhbuild/commands/info.py:75
+#: ../jhbuild/commands/info.py:101
 msgid "CVS Root:"
 msgstr "CVS 루트:"
 
-#: ../jhbuild/commands/info.py:76
+#: ../jhbuild/commands/info.py:102
 msgid "CVS Module:"
 msgstr "CVS 모듈:"
 
-#: ../jhbuild/commands/info.py:78
+#: ../jhbuild/commands/info.py:104
 msgid "CVS Revision:"
 msgstr "CVS 리비전:"
 
-#: ../jhbuild/commands/info.py:80
+#: ../jhbuild/commands/info.py:106
 msgid "Subversion Module:"
 msgstr "서브버전 모듈:"
 
-#: ../jhbuild/commands/info.py:82
+#: ../jhbuild/commands/info.py:108
 msgid "Darcs Archive:"
 msgstr "Darcs Archive:"
 
-#: ../jhbuild/commands/info.py:84
+#: ../jhbuild/commands/info.py:110
 msgid "Git Module:"
 msgstr "Git 모듈:"
 
-#: ../jhbuild/commands/info.py:86
+#: ../jhbuild/commands/info.py:112
 msgid "Git Origin Module:"
 msgstr "Git 본래 모듈:"
 
-#: ../jhbuild/commands/info.py:90
+#: ../jhbuild/commands/info.py:116
 msgid "Git Branch:"
 msgstr "Git 브랜치:"
 
-#: ../jhbuild/commands/info.py:92
+#: ../jhbuild/commands/info.py:118
 msgid "Git Tag:"
 msgstr "Git 태그:"
 
-#: ../jhbuild/commands/info.py:94
+#: ../jhbuild/commands/info.py:120
 msgid "URL:"
 msgstr "URL:"
 
-#: ../jhbuild/commands/info.py:95
+#: ../jhbuild/commands/info.py:121
 msgid "Version:"
 msgstr "버전:"
 
-#: ../jhbuild/commands/info.py:98
+#: ../jhbuild/commands/info.py:124
 msgid "Tree-ID:"
 msgstr "트리-ID:"
 
-#: ../jhbuild/commands/info.py:103
+#: ../jhbuild/commands/info.py:129
 msgid "Sourcedir:"
 msgstr "원본 디렉터리:"
 
-#: ../jhbuild/commands/info.py:109
+#: ../jhbuild/commands/info.py:135
 msgid "Requires:"
 msgstr "요구항목:"
 
-#: ../jhbuild/commands/info.py:113
+#: ../jhbuild/commands/info.py:139
 msgid "Required by:"
 msgstr "요구 주체:"
 
-#: ../jhbuild/commands/info.py:115
+#: ../jhbuild/commands/info.py:141
 msgid "Suggests:"
 msgstr "제안:"
 
-#: ../jhbuild/commands/info.py:117
+#: ../jhbuild/commands/info.py:143
 msgid "After:"
 msgstr "이후:"
 
-#: ../jhbuild/commands/info.py:121
+#: ../jhbuild/commands/info.py:147
 msgid "Before:"
 msgstr "이전:"
 
-#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:57
+#: ../jhbuild/commands/__init__.py:84 ../jhbuild/commands/sysdeps.py:58
 #, python-format
 msgid "required=%s"
 msgstr "요구됨=%s"
 
-#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:59
+#: ../jhbuild/commands/__init__.py:86 ../jhbuild/commands/sysdeps.py:60
 #, python-format
 msgid "installed=%s"
 msgstr "설치함=%s"
 
 #. Translators: This is used to separate items of package metadata
-#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:61
+#: ../jhbuild/commands/__init__.py:88 ../jhbuild/commands/sysdeps.py:62
 msgid ", "
 msgstr ","
 
-#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:63
+#: ../jhbuild/commands/__init__.py:90 ../jhbuild/commands/sysdeps.py:64
 #, python-format
 msgid "(%s)"
 msgstr "(%s)"
 
-#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:133
+#: ../jhbuild/commands/__init__.py:94 ../jhbuild/commands/sysdeps.py:140
 msgid "Required packages:"
 msgstr "필요한 패키지:"
 
-#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:134
-#: ../jhbuild/commands/sysdeps.py:165
+#: ../jhbuild/commands/__init__.py:95 ../jhbuild/commands/sysdeps.py:141
+#: ../jhbuild/commands/sysdeps.py:172
 msgid "  System installed packages which are too old:"
 msgstr "  시스템에 설치한 매우 오래된 패키지:"
 
 #: ../jhbuild/commands/__init__.py:105 ../jhbuild/commands/__init__.py:117
-#: ../jhbuild/commands/sysdeps.py:143 ../jhbuild/commands/sysdeps.py:159
-#: ../jhbuild/commands/sysdeps.py:174 ../jhbuild/commands/sysdeps.py:187
+#: ../jhbuild/commands/sysdeps.py:150 ../jhbuild/commands/sysdeps.py:166
+#: ../jhbuild/commands/sysdeps.py:181 ../jhbuild/commands/sysdeps.py:194
 msgid "    (none)"
 msgstr "    (없음)"
 
-#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:145
-#: ../jhbuild/commands/sysdeps.py:176
+#: ../jhbuild/commands/__init__.py:107 ../jhbuild/commands/sysdeps.py:152
+#: ../jhbuild/commands/sysdeps.py:183
 msgid "  No matching system package installed:"
 msgstr "  일치하지 않는 설치한 시스템 패키지:"
 
@@ -707,8 +725,7 @@ msgstr "설치 접두경로(%s)이(가) 기록 가능하지 않습니다"
 
 #: ../jhbuild/commands/sanitycheck.py:75 ../jhbuild/commands/sanitycheck.py:78
 #: ../jhbuild/commands/sanitycheck.py:81 ../jhbuild/commands/sanitycheck.py:85
-#: ../jhbuild/commands/sanitycheck.py:88
-#: ../jhbuild/commands/sanitycheck.py:120
+#: ../jhbuild/commands/sanitycheck.py:88 ../jhbuild/commands/sanitycheck.py:120
 #: ../jhbuild/commands/sanitycheck.py:132
 #: ../jhbuild/commands/sanitycheck.py:141
 #: ../jhbuild/commands/sanitycheck.py:147
@@ -716,9 +733,9 @@ msgstr "설치 접두경로(%s)이(가) 기록 가능하지 않습니다"
 #: ../jhbuild/commands/sanitycheck.py:151 ../jhbuild/modtypes/cmake.py:83
 #: ../jhbuild/versioncontrol/bzr.py:218 ../jhbuild/versioncontrol/cvs.py:304
 #: ../jhbuild/versioncontrol/darcs.py:110
-#: ../jhbuild/versioncontrol/fossil.py:107
-#: ../jhbuild/versioncontrol/git.py:461 ../jhbuild/versioncontrol/hg.py:106
-#: ../jhbuild/versioncontrol/mtn.py:142 ../jhbuild/versioncontrol/svn.py:316
+#: ../jhbuild/versioncontrol/fossil.py:107 ../jhbuild/versioncontrol/git.py:461
+#: ../jhbuild/versioncontrol/hg.py:106 ../jhbuild/versioncontrol/mtn.py:142
+#: ../jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
 msgstr "%s을(를) 찾을 수 없습니다"
@@ -779,35 +796,35 @@ msgstr "다음 경로 중 한 곳에 부족한 %(macros)s 매크로를 복사하
 msgid "Print out a moduleset for the exact versions that are checked out"
 msgstr "체크아웃된 정확한 버전의 모듈세트 출력"
 
-#: ../jhbuild/commands/sysdeps.py:34
+#: ../jhbuild/commands/sysdeps.py:35
 msgid "Check and install tarball dependencies using system packages"
 msgstr "시스템 패키지를 사용하여 타르볼 의존요소를 검사하고 설치합니다"
 
-#: ../jhbuild/commands/sysdeps.py:42
+#: ../jhbuild/commands/sysdeps.py:43
 msgid "Machine readable list of missing sysdeps"
 msgstr " sysdeps가 빠진 머신 인식 가능 목록"
 
-#: ../jhbuild/commands/sysdeps.py:45
+#: ../jhbuild/commands/sysdeps.py:46
 msgid "Machine readable list of all sysdeps"
 msgstr "모든 sysdeps에 대한 머신 인식 가능 목록"
 
-#: ../jhbuild/commands/sysdeps.py:48
+#: ../jhbuild/commands/sysdeps.py:49
 msgid "Install pkg-config modules via system"
 msgstr "시스템을 통해 pkg-config 모듈을 설치"
 
-#: ../jhbuild/commands/sysdeps.py:122
+#: ../jhbuild/commands/sysdeps.py:129
 msgid "System installed packages which are new enough:"
 msgstr "시스템에 설치된 패키지중 최신의 것:"
 
-#: ../jhbuild/commands/sysdeps.py:131
+#: ../jhbuild/commands/sysdeps.py:138
 msgid "  (none)"
 msgstr "  (없음)"
 
-#: ../jhbuild/commands/sysdeps.py:164
+#: ../jhbuild/commands/sysdeps.py:171
 msgid "Optional packages: (JHBuild will build the missing packages)"
 msgstr "선택적 패키지: (JHBuild는 빠진 패키지를 빌드합니다)"
 
-#: ../jhbuild/commands/sysdeps.py:195
+#: ../jhbuild/commands/sysdeps.py:202
 #, python-format
 msgid ""
 "%(cmd)s is required to install packages on this system. Please install "
@@ -816,16 +833,16 @@ msgstr ""
 "시스템에 패키지를 설치하려면 %(cmd)s 명령이 필요합니다. %(cmd)s을(를) 설치해"
 "주십시오."
 
-#: ../jhbuild/commands/sysdeps.py:200
+#: ../jhbuild/commands/sysdeps.py:207
 msgid "Don't know how to install packages on this system"
 msgstr "이 시스템에 어떻게 패키지를 설치해야 할지 알 수 없음"
 
-#: ../jhbuild/commands/sysdeps.py:203
+#: ../jhbuild/commands/sysdeps.py:210
 #, python-format
 msgid "No uninstalled system dependencies to install for modules: %r"
 msgstr "모듈을 위해 설치할 시스템 의존요소가 삭제되지 않음: %r"
 
-#: ../jhbuild/commands/sysdeps.py:205
+#: ../jhbuild/commands/sysdeps.py:212
 #, python-format
 msgid "Installing dependencies on system: %s"
 msgstr "시스템에 의존요소 설치중: %s"
@@ -1330,12 +1347,12 @@ msgstr "%s에 대한 dep 노드에 패키지 속성이 빠졌습니다"
 msgid "%(node)s node for %(module)s module is missing %(attribute)s attribute"
 msgstr "%(module)s의 %(node)s 노드에서 %(attribute)s 속성이 빠졌습니다"
 
-#: ../jhbuild/modtypes/__init__.py:139
+#: ../jhbuild/modtypes/__init__.py:142
 #, python-format
 msgid "no <branch> element found for %s"
 msgstr "%s에 대한 <branch> 요소가 없습니다"
 
-#: ../jhbuild/modtypes/__init__.py:148
+#: ../jhbuild/modtypes/__init__.py:151
 #, python-format
 msgid ""
 "Repository=%(missing)s not found for module id=%(module)s. Possible "
@@ -1344,7 +1361,7 @@ msgstr ""
 "모듈 id=%(module)s에 대한 Repository=%(missing)s이(가) 없습니다. 가능한 저장"
 "소는 %(possible)s 입니다"
 
-#: ../jhbuild/modtypes/__init__.py:155
+#: ../jhbuild/modtypes/__init__.py:158
 #, python-format
 msgid ""
 "No repository for module id=%(module)s. Either set branch/repo or default "
@@ -1353,22 +1370,22 @@ msgstr ""
 "id=%(module)s 모듈의 저장소가 없습니다. 브랜치 및 저장소를 설정하시거나 기본 "
 "저장소를 설정하십시오."
 
-#: ../jhbuild/modtypes/__init__.py:224
+#: ../jhbuild/modtypes/__init__.py:227
 #, python-format
 msgid "Deleting .la file: %r"
 msgstr ".la 파일을 삭제하는 중: %r"
 
-#: ../jhbuild/modtypes/__init__.py:246
+#: ../jhbuild/modtypes/__init__.py:249
 #, python-format
 msgid "Deleting dir file: %r"
 msgstr "dir 파일을 삭제하는 중: %r"
 
-#: ../jhbuild/modtypes/__init__.py:317
+#: ../jhbuild/modtypes/__init__.py:320
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "빌드 접두경로에 임시 DESTDIR %r을(를) 이동중"
 
-#: ../jhbuild/modtypes/__init__.py:339
+#: ../jhbuild/modtypes/__init__.py:342
 #, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
@@ -1377,27 +1394,27 @@ msgstr ""
 "파일이 빌드루트 %(dest)r에 남아있습니다. 모듈은 접두경로 이외의 위치에 설치합"
 "니다."
 
-#: ../jhbuild/modtypes/__init__.py:357
+#: ../jhbuild/modtypes/__init__.py:360
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
 msgstr "DESTDIR %(dest)r으로의 모듈 설치에 실패했습니다"
 
-#: ../jhbuild/modtypes/__init__.py:373
+#: ../jhbuild/modtypes/__init__.py:376
 #, python-format
 msgid "%d files remaining from previous build"
 msgstr "이전 빌드로부터 파일 %d개가 남아있습니다"
 
-#: ../jhbuild/modtypes/__init__.py:376 ../jhbuild/utils/packagedb.py:226
+#: ../jhbuild/modtypes/__init__.py:379 ../jhbuild/utils/packagedb.py:226
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "삭제됨: %(file)r"
 
-#: ../jhbuild/modtypes/__init__.py:381
+#: ../jhbuild/modtypes/__init__.py:384
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
 msgstr "더 이상 설치되지 않은 %(file)r파일 삭제에 실패: %(msg)s"
 
-#: ../jhbuild/modtypes/__init__.py:389
+#: ../jhbuild/modtypes/__init__.py:392
 #, python-format
 msgid ""
 "Install encountered errors: %(num)d errors raised, %(files)d files copied. "
@@ -1408,32 +1425,32 @@ msgstr ""
 "을 복사했습니다. 오류는 다음과 같습니다:\n"
 " %(err)s"
 
-#: ../jhbuild/modtypes/__init__.py:396
+#: ../jhbuild/modtypes/__init__.py:399
 #, python-format
 msgid "Install complete: %d files copied"
 msgstr "설치 완료: %d 파일이 복사됨"
 
-#: ../jhbuild/modtypes/__init__.py:444
+#: ../jhbuild/modtypes/__init__.py:447
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "%s 건너뛰는 중(업데이트되지 않음)"
 
-#: ../jhbuild/modtypes/__init__.py:456
+#: ../jhbuild/modtypes/__init__.py:459
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "%s 건너뛰는 중(패키지와 의존요소가 업데이트되지 않음)"
 
-#: ../jhbuild/modtypes/__init__.py:565 ../jhbuild/modtypes/__init__.py:583
+#: ../jhbuild/modtypes/__init__.py:568 ../jhbuild/modtypes/__init__.py:586
 #: ../jhbuild/modtypes/linux.py:81 ../jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "검사중"
 
-#: ../jhbuild/modtypes/__init__.py:569
+#: ../jhbuild/modtypes/__init__.py:572
 #, python-format
 msgid "source directory %s was not created"
 msgstr "원본 디렉터리 %s이(가) 만들어지지 않았습니다"
 
-#: ../jhbuild/modtypes/__init__.py:586
+#: ../jhbuild/modtypes/__init__.py:589
 msgid "wipe directory and start over"
 msgstr "디렉터리를 지우고 시작"
 
@@ -1560,20 +1577,20 @@ msgstr ""
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "%(file)r 삭제 실패: %(msg)s"
 
-#: ../jhbuild/utils/systeminstall.py:188
+#: ../jhbuild/utils/systeminstall.py:200
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr "적당한 루트 권한 명령이 없어 \"pkexec\"를 설치하는것이 좋습니다"
 
-#: ../jhbuild/utils/systeminstall.py:218 ../jhbuild/utils/systeminstall.py:221
+#: ../jhbuild/utils/systeminstall.py:230 ../jhbuild/utils/systeminstall.py:233
 #, python-format
 msgid "PackageKit: %s"
 msgstr "패키지 킷: %s"
 
-#: ../jhbuild/utils/systeminstall.py:300
+#: ../jhbuild/utils/systeminstall.py:312
 msgid "Nothing available to install"
 msgstr "설치할 것이 없음"
 
-#: ../jhbuild/utils/systeminstall.py:303
+#: ../jhbuild/utils/systeminstall.py:315
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1582,15 +1599,67 @@ msgstr ""
 "설치중:\n"
 "  %s"
 
-#: ../jhbuild/utils/systeminstall.py:319
+#: ../jhbuild/utils/systeminstall.py:331
 msgid "Complete!"
 msgstr "완료!"
 
-#: ../jhbuild/utils/systeminstall.py:331
+#: ../jhbuild/utils/systeminstall.py:344
+msgid "pkgfile not found, automatically installing"
+msgstr "pkgfile이 없어 자동으로 설치 중입니다"
+
+#: ../jhbuild/utils/systeminstall.py:346
+#| msgid "Failed to unpack %s (empty file?)"
+msgid "Failed to install pkgfile"
+msgstr "pkgfile 설치 실패"
+
+#: ../jhbuild/utils/systeminstall.py:352
+msgid "pkgfile cache is old or doesn't exist, automatically updating"
+msgstr "pkgfile 캐시가 오래됐거나 없어서 자동으로 설치중입니다"
+
+#: ../jhbuild/utils/systeminstall.py:355
+#| msgid "Unable to create file $srcdir/Makefile.inc"
+msgid "Failed to create pkgfile cache"
+msgstr "pkgfile 캐시 만들기 실패"
+
+#: ../jhbuild/utils/systeminstall.py:358
+#| msgid "Failed to unpack %s"
+msgid "Failed to update pkgfile cache"
+msgstr "pkgfile 캐시 업데이트 실패"
+
+#: ../jhbuild/utils/systeminstall.py:360
+msgid "Successfully updated pkgfile cache"
+msgstr "pkgfile 캐시를 성공적으로 업데이트했습니다"
+
+#: ../jhbuild/utils/systeminstall.py:364
+#| msgid "Using yum to install packages.  Please wait."
+msgid "Using pacman to install packages.  Please wait."
+msgstr "꾸러미 설치에 pacman을 사용중입니다. 잠시만 기다리십시오."
+
+#: ../jhbuild/utils/systeminstall.py:368 ../jhbuild/utils/systeminstall.py:386
+#: ../jhbuild/utils/systeminstall.py:420 ../jhbuild/utils/systeminstall.py:471
+msgid "Nothing to install"
+msgstr "설치할 것이 없음"
+
+#: ../jhbuild/utils/systeminstall.py:383
+#, python-format
+msgid "Provider for \"%s\" was not found, ignoring"
+msgstr "\"%s\" 제공자가 없어 무시합니다"
+
+#: ../jhbuild/utils/systeminstall.py:391
+#| msgid "Install date:"
+msgid "Install failed"
+msgstr "설치 실패"
+
+#: ../jhbuild/utils/systeminstall.py:393
+#| msgid "Complete!"
+msgid "Completed!"
+msgstr "완료!"
+
+#: ../jhbuild/utils/systeminstall.py:407
 msgid "Using yum to install packages.  Please wait."
 msgstr "패키지를 설치하려고 yum을 사용합니다. 잠시만 기다리십시오."
 
-#: ../jhbuild/utils/systeminstall.py:334
+#: ../jhbuild/utils/systeminstall.py:410
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1599,20 +1668,16 @@ msgstr ""
 "설치중:\n"
 "  %(pkgs)s"
 
-#: ../jhbuild/utils/systeminstall.py:344 ../jhbuild/utils/systeminstall.py:395
-msgid "Nothing to install"
-msgstr "설치할 것이 없음"
-
-#: ../jhbuild/utils/systeminstall.py:376
+#: ../jhbuild/utils/systeminstall.py:452
 msgid "Using apt-file to search for providers; this may be slow.  Please wait."
 msgstr "제공자를 검색하려 apt-file을 사용하므로 느립니다. 기다리십시오."
 
-#: ../jhbuild/utils/systeminstall.py:385
+#: ../jhbuild/utils/systeminstall.py:461
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "%(id)s (%(filename)s)에 대한 기존 패키지를 찾을 수 없습니다"
 
-#: ../jhbuild/utils/systeminstall.py:390
+#: ../jhbuild/utils/systeminstall.py:466
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "설치 중: %(pkgs)s"
@@ -1893,6 +1958,13 @@ msgstr "quilt를 찾을 수 없습니다"
 #: ../jhbuild/versioncontrol/tarball.py:313
 msgid "could not checkout quilt patch set"
 msgstr "quilt 패치 셋을 검사할 수 없습니다"
+
+#~ msgid ""
+#~ "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
+#~ "directory"
+#~ msgstr ""
+#~ "**오류**: `$srcdir' 디렉터리는 $PKG_NAME 디렉터리의 최상위레벨이 아닌 것 "
+#~ "같습니다"
 
 #~ msgid ""
 #~ "Removing stale lock left by no longer extant pid %(pid)d, uid %(uid)d"
