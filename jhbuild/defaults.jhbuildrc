@@ -54,7 +54,7 @@ xdg_cache_home = os.environ.get('XDG_CACHE_HOME',
                                              '.cache'))
 tarballdir = os.path.join(xdg_cache_home, 'jhbuild', 'downloads')
 
-buildroot = None     # if set, packages will be built with srcdir!=builddir
+buildroot = os.path.join(xdg_cache_home, 'jhbuild', 'build')
 
 # When using srcdir!=builddir builds, this key allows you to use a
 # different builddir name.  Some people like this because it reduces
