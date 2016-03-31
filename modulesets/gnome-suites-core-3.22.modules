@@ -463,6 +463,18 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gtk-vnc" autogenargs="--with-gtk=3.0 --enable-vala">
+    <branch/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="pulseaudio"/>
+      <dep package="vala"/>
+    </dependencies>
+  </autotools>
+
  <autotools id="gvfs">
     <branch/>
     <dependencies>
@@ -761,6 +773,27 @@
     <suggests>
       <dep package="gspell"/>
     </suggests>
+  </autotools>
+
+  <autotools id="gnome-boxes" autogenargs="--enable-vala">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="gtk-vnc"/>
+      <dep package="libgovirt"/>
+      <dep package="libosinfo"/>
+      <dep package="libusb1-1.0.9"/>
+      <dep package="libvirt-glib"/>
+      <dep package="gtk+"/>
+      <dep package="spice-gtk"/>
+      <dep package="vala"/>
+      <dep package="tracker"/>
+      <dep package="gnome-themes-standard"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
+    </dependencies>
   </autotools>
 
   <autotools id="gnome-calculator" supports-non-srcdir-builds="no">
@@ -1238,6 +1271,7 @@
       <dep package="evince"/>
       <dep package="file-roller"/>
       <dep package="gedit"/>
+      <dep package="gnome-boxes"/>
       <dep package="gnome-calculator"/>
       <dep package="gnome-characters"/>
       <dep package="gnome-clocks"/>
