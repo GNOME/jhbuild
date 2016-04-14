@@ -1440,7 +1440,7 @@
     <branch repo="github.com" module="mono/mono-tools.git" checkoutdir="mono-tools"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <!-- <dep package="gecko-sharp"/> -->
     </dependencies>
   </autotools>
@@ -1457,7 +1457,7 @@
     <dependencies>
       <dep package="desktop-file-utils"/>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="gtksourceview-sharp"/>
       <!-- <dep package="gecko-sharp"/> -->
     </dependencies>
@@ -1467,7 +1467,7 @@
     <branch repo="github.com" module="mono/gsf-sharp.git" checkoutdir="gsf-sharp"/>
     <dependencies>
       <dep package="libgsf"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
     </dependencies>
   </autotools>
 
@@ -1475,7 +1475,7 @@
     <branch/>
     <dependencies>
       <dep package="evolution-data-server"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
     </dependencies>
   </autotools>
 
@@ -1563,7 +1563,7 @@
     <branch repo="hg.circular-chaos.org"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
    </dependencies>
@@ -1573,7 +1573,7 @@
     <branch/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="ndesk-dbus"/>
       <dep package="ndesk-dbus-glib"/>
       <dep package="notify-sharp"/>
@@ -2086,7 +2086,7 @@
   <autotools id="hyena">
     <branch/>
     <dependencies>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
     </dependencies>
   </autotools>
 
@@ -2094,7 +2094,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="poppler"/>
       <dep package="hyena"/>
     </dependencies>
@@ -2640,7 +2640,15 @@
     </suggests>
   </autotools>
 
-  <autotools id="gtk-sharp" autogen-sh="bootstrap-2.12">
+  <autotools id="gtk-sharp">
+    <branch repo="github.com" module="mono/gtk-sharp.git" checkoutdir="gtk-sharp"/>
+    <dependencies>
+      <dep package="mono"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-sharp-2" autogen-sh="bootstrap-2.12">
     <branch repo="github.com" module="mono/gtk-sharp.git" checkoutdir="gtk-sharp"
             revision="gtk-sharp-2-12-branch"/>
     <dependencies>
@@ -2676,7 +2684,7 @@
             size="304402"/>
     <dependencies>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
     </dependencies>
   </autotools>
 
@@ -2782,7 +2790,7 @@
       <dep package="gst-plugins-base-0.10"/>
       <dep package="gst-plugins-good-0.10"/>
       <dep package="mono"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="taglib-sharp"/>
       <dep package="mono-addins"/>
       <dep package="dbus-sharp"/>
@@ -2812,7 +2820,7 @@
   <autotools id="f-spot">
     <branch/>
     <dependencies>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
     </dependencies>
   </autotools>
 
@@ -3122,7 +3130,7 @@
     <branch/>
     <dependencies>
       <dep package="intltool"/>
-      <dep package="gtk-sharp"/>
+      <dep package="gtk-sharp-2"/>
       <dep package="dbus-sharp"/>
       <dep package="dbus-sharp-glib"/>
       <dep package="gnome-doc-utils"/>
