@@ -1613,7 +1613,10 @@
   </autotools>
 
  <autotools id="vte"
-            autogenargs="--enable-introspection=yes">
+            autogenargs="--enable-introspection=yes"
+            uninstall-before-install="true">
+    <!-- We uninstall the old copy before installing to avoid the version from
+         the installed pkg-config file winding up in the new vapi. See bug #762780. -->
     <branch/>
     <dependencies>
       <dep package="intltool"/>
