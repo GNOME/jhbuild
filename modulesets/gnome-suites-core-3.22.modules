@@ -500,10 +500,14 @@
   </autotools>
 
   <autotools id="mutter" autogenargs="--enable-compile-warnings=maximum --enable-installed-tests">
+    <if condition-set="x11">
+      <autogenargs value="--enable-xlib-egl-platform"/>
+    </if>
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
+    </if>
     <branch/>
     <dependencies>
-      <dep package="cogl"/>
-      <dep package="clutter"/>
       <dep package="gdk-pixbuf"/>
       <dep package="glib"/>
       <dep package="gnome-desktop"/>
