@@ -440,10 +440,13 @@ class AptSystemInstall(SystemInstall):
                 continue
             name = parts[0]
             path = parts[1]
-            # No idea why the LSB has forks of the pkg-config files
-            if path.find('/lsb3') != -1:
+            # Ignore copies of the pkg-config files that are not from the
+            # libraries.
+            if '/lsb3' in path:
                 continue
-            
+            if '/emscripten' in path:
+                continue
+
             # otherwise for now, just take the first match
             return name
 
