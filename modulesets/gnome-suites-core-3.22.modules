@@ -1263,13 +1263,11 @@
       <dep package="evince"/>
       <dep package="file-roller"/>
       <dep package="gedit"/>
-      <dep package="gnome-boxes"/>
       <dep package="gnome-calculator"/>
       <dep package="gnome-characters"/>
       <dep package="gnome-clocks"/>
       <dep package="gnome-contacts"/>
       <dep package="gnome-font-viewer"/>
-      <dep package="gnome-logs"/>
       <dep package="gnome-maps"/>
       <dep package="gnome-screenshot"/>
       <dep package="gnome-software"/>
@@ -1283,6 +1281,12 @@
       <if condition-set="linux">
         <!-- udisks dependency -->
         <dep package="gnome-disk-utility"/>
+        <!-- udev dependency -->
+        <dep package="gnome-boxes"/>
+      </if>
+      <if condition-set="systemd">
+        <!-- systemd journal dependency -->
+        <dep package="gnome-logs"/>
       </if>
     </dependencies>
   </metamodule>
@@ -1302,7 +1306,6 @@
       <dep package="gnome-control-center"/>
       <dep package="gnome-documents"/>
       <dep package="gnome-getting-started-docs"/>
-      <dep package="gnome-initial-setup"/>
       <dep package="gnome-keyring"/>
       <dep package="gnome-online-accounts"/>
       <dep package="gnome-session"/>
@@ -1322,6 +1325,10 @@
       <dep package="rygel"/>
       <dep package="telepathy-mission-control"/>
       <dep package="vino"/>
+      <if condition-set="linux">
+        <!-- NetworkManager dependency -->
+        <dep package="gnome-initial-setup"/>
+      </if>
     </dependencies>
   </metamodule>
 
