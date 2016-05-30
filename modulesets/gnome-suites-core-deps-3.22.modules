@@ -384,6 +384,9 @@
   </autotools>
 
   <autotools id="glib" autogenargs="--enable-installed-tests">
+    <if condition-set="freebsd">
+      <autogenargs value="--disable-dtrace --with-libiconv=gnu"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gtk-doc"/>
