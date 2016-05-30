@@ -1387,7 +1387,7 @@
 
   <autotools id="spice-gtk" autogenargs="--disable-smartcard --enable-vala --enable-webdav --enable-static">
     <if condition-set="freebsd">
-      <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl'"/>
+      <autogenargs value="SSL_CFLAGS=' ' SSL_LIBS='-lssl -lcrypto'"/>
     </if>
     <branch repo="spice"
             module="gtk/spice-gtk-0.29.tar.bz2"
