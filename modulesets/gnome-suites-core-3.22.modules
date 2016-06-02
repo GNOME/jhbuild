@@ -1236,7 +1236,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="upower" autogenargs="--with-systemdsystemunitdir=no">
+  <autotools id="upower"
+             supports-non-srcdir-builds="no"
+             autogenargs="--with-systemdsystemunitdir=no">
     <branch repo="git.freedesktop.org" />
     <dependencies>
       <dep package="dbus-glib"/>
