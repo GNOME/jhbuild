@@ -607,7 +607,9 @@
   </autotools>
 
   <!-- mc 5.16 doesn't build against upower 1.0 -->
-  <autotools id="telepathy-mission-control" autogenargs="--disable-upower">
+  <autotools id="telepathy-mission-control"
+             autogenargs="--disable-upower"
+             supports-non-srcdir-builds="no">
     <branch repo="telepathy.freedesktop.org" revision="telepathy-mission-control-5.16"/>
     <dependencies>
       <dep package="dbus"/>
