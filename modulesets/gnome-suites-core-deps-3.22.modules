@@ -940,7 +940,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libgee">
+  <autotools id="libgee" supports-non-srcdir-builds="no">
     <pkg-config>gee-0.8.pc</pkg-config>
     <branch/>
     <dependencies>
@@ -1420,7 +1420,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="telepathy-glib" autogenargs="--enable-vala-bindings --disable-fatal-warnings">
+  <autotools id="telepathy-glib"
+             supports-non-srcdir-builds="no"
+             autogenargs="--enable-vala-bindings --disable-fatal-warnings">
     <pkg-config>telepathy-glib.pc</pkg-config>
     <branch repo="telepathy.freedesktop.org"/>
     <dependencies>
