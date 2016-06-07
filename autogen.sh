@@ -173,8 +173,8 @@ configure_with_autotools()
 
   set -x
 
-  aclocal --install || exit 1
-  autoreconf --verbose --force --install -Wno-portability || exit 1
+  ( cd "$srcdir" && aclocal --install ) || exit 1
+  ( cd "$srcdir" && autoreconf --verbose --force --install -Wno-portability ) || exit 1
 
   if [ "$NOCONFIGURE" = "" ]; then
     $srcdir/configure "$@" || exit 1
