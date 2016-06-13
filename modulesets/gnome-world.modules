@@ -134,6 +134,28 @@
     </dependencies>
   </autotools>
 
+  <autotools id="brasero">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-inotify"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libcanberra"/>
+      <dep package="libnotify"/>
+      <dep package="libxml2"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+    <suggests>
+      <dep package="nautilus"/>
+      <dep package="totem-pl-parser"/>
+      <dep package="tracker"/>
+    </suggests>
+  </autotools>
+
   <autotools id="dbus-python">
     <branch module="dbus-python/dbus-python-0.83.1.tar.gz" version="0.83.1"
             repo="dbus"
