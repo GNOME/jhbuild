@@ -1540,7 +1540,7 @@
     </dependencies>
   </autotools>
 
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release">
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=Release -DENABLE_PLUGIN_PROCESS_GTK2=OFF">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
@@ -1565,8 +1565,6 @@
       <dep package="gperf"/>
       <dep package="gst-plugins-base"/>
       <dep package="gtk+"/>
-      <!-- GTK+ 2.x required for the plugin process -->
-      <dep package="gtk+-2"/>
       <dep package="harfbuzz"/>
       <dep package="hyphen"/>
       <dep package="libicu"/>
