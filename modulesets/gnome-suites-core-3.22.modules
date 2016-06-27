@@ -246,6 +246,9 @@
   </autotools>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
+    <if condition-unset="udev">
+      <autogenargs value="--disable-udev"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
@@ -256,9 +259,11 @@
       <dep package="gtk+"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="iso-codes"/>
-      <dep package="libudev"/>
       <dep package="yelp-tools"/> <!-- for the docs -->
       <dep package="xkeyboard-config"/>
+      <if condition-set="udev">
+        <dep package="libudev"/>
+      </if>
     </dependencies>
   </autotools>
 
