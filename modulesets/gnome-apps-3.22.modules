@@ -78,6 +78,24 @@
     </suggests>
   </autotools>
 
+  <autotools id="gdl">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="librsvg"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gdlmm">
+    <branch/>
+    <dependencies>
+      <dep package="gdl"/>
+      <dep package="glibmm"/>
+      <dep package="gtkmm"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gegl">
     <branch/>
     <dependencies>
@@ -535,6 +553,24 @@
     </dependencies>
   </autotools>
 
+  <autotools id="nemiver"
+             autogenargs="--enable-gsettings=yes">
+    <branch/>
+    <dependencies>
+      <dep package="boost"/>
+      <dep package="gdb"/>
+      <dep package="gdlmm"/>
+      <dep package="gtkmm"/>
+      <dep package="glibmm"/>
+      <dep package="gtksourceviewmm"/>
+      <dep package="vte"/>
+      <dep package="libgtop"/>
+      <dep package="libxml2"/>
+      <dep package="ghex"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="polari">
     <branch/>
     <dependencies>
@@ -834,6 +870,7 @@
       <dep package="gnome-todo"/>
       <dep package="gnome-tweak-tool"/>
       <dep package="nautilus-sendto"/>
+      <dep package="nemiver"/>
       <dep package="polari"/>
       <dep package="seahorse"/>
       <dep package="vinagre"/>
