@@ -473,6 +473,9 @@
   </autotools>
 
  <autotools id="gvfs">
+    <if condition-unset="linux">
+      <autogenargs value="--disable-admin"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
