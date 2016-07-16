@@ -116,6 +116,9 @@
 
   <autotools id="aisleriot"
              autogenargs="--with-platform=gtk-only">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-pysol-card-theme-path=/usr/local/share/PySolFC"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
