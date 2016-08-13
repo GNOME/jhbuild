@@ -69,7 +69,7 @@
       <ulink url="http://www.selenic.com/mercurial/">Mercurial</ulink>
       repositories, as well as Tar and Zip archives hosted on web or FTP sites.
       JHBuild can build modules using a variety of build systems, including
-      Autotools, CMake, WAF, Python Distutils and Perl Makefiles.</para>
+      Autotools, CMake, Meson, WAF, Python Distutils and Perl Makefiles.</para>
 
     <para>JHBuild is not intended as a replacement for the distribution's
       package management system. Instead, it makes it easy to build software
@@ -3002,6 +3002,57 @@ Optional packages: (JHBuild will build the missing packages)
 &lt;/cmake&gt;
 </programlisting>
       </section>
+
+      <section id="moduleset-syntax-defs-meson">
+        <title>Meson</title>
+
+        <para>The <sgmltag class="element">meson</sgmltag> element is used to
+          define a module which is built using the Meson build system.</para>
+
+<programlisting>
+  &lt;meson id="<replaceable>modulename</replaceable>"
+            [ skip-install="<replaceable>skip-install</replaceable>" ]&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+&lt;/meson&gt;
+</programlisting>
+      </section>
+
+      <section id="moduleset-syntax-defs-distutils">
+        <title>distutils</title>
+
+        <para>The <sgmltag class="element">distutils</sgmltag> element is used
+          to define a module which is built using python's distutils</para>
+
+<programlisting>
+&lt;distutils id="<replaceable>modulename</replaceable>"
+            [ supports-non-srcdir-builds="<replaceable>yes|no</replaceable>" ]&gt;
+  &lt;branch [ ... ] &gt;
+    [...]
+  &lt;/branch&gt;
+
+  &lt;dependencies&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/dependencies&gt;
+  &lt;after&gt;
+    &lt;dep package="<replaceable>modulename</replaceable>"/&gt;
+    ...
+  &lt;/after&gt;
+&lt;/distutils&gt;
+</programlisting>
+      </section>
+
 
       <section id="moduleset-syntax-defs-distutils">
         <title>distutils</title>
