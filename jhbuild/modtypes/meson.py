@@ -38,7 +38,6 @@ class MesonModule(MakeModule, DownloadableModule):
     PHASE_CLEAN = 'clean'
     PHASE_CONFIGURE = 'configure'
     PHASE_BUILD = 'build'
-    PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
@@ -126,12 +125,6 @@ class MesonModule(MakeModule, DownloadableModule):
         buildscript.execute('ninja', cwd=builddir, extra_env=self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT]
-
-    def do_dist(self, buildscript):
-        buildscript.set_action(_('Creating tarball for'), self)
-        buildscript.execute('ninja dist', cwd=builddir, extra_env=self.extra_env)
-    do_dist.depends = [PHASE_CONFIGURE]
-    do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def skip_install(self, buildscript, last_phase):
         return self.config.noinstall or self.skip_install_phase
