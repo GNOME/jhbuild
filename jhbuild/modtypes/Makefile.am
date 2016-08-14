@@ -6,6 +6,7 @@ app_PYTHON = \
 	cmake.py \
 	distutils.py \
 	linux.py \
+	meson.py \
 	perl.py \
 	systemmodule.py \
 	tarball.py \
