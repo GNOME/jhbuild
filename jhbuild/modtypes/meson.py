@@ -80,8 +80,6 @@ class MesonModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         if not os.path.exists(builddir):
             os.makedirs(builddir)
-        if os.path.exists(os.path.join(builddir, 'meson-private/coredata.dat')):
-            os.unlink(os.path.join(builddir, 'meson-private/coredata.dat'))
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('meson', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'meson')
