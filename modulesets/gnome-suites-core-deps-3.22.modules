@@ -1111,6 +1111,20 @@
     </dependencies>
   </autotools>
 
+  <autotools id="osinfo-db-tools">
+    <branch repo="gitlab.com" module="libosinfo/osinfo-db-tools.git"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="osinfo-db" autogen-sh="autobuild.sh">
+    <branch repo="gitlab.com" module="libosinfo/osinfo-db.git"/>
+    <dependencies>
+      <dep package="osinfo-db-tools"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libpeas"
              autogenargs="--enable-python3">
     <branch/>
