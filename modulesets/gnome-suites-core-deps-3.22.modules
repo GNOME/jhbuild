@@ -104,6 +104,10 @@
     </dependencies>
   </autotools>
 
+  <autotools id="babl">
+    <branch/>
+  </autotools>
+
   <autotools id="cairomm" autogen-sh="configure">
     <branch module="releases/cairomm-${version}.tar.gz"
             version="1.12.0"
@@ -341,6 +345,22 @@
       <dep package="libjpeg"/>
       <dep package="libpng"/>
       <dep package="libtiff"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gegl">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="pango"/>
+      <dep package="libjasper"/>
+      <dep package="libjpeg"/>
+      <dep package="libpng"/>
+      <dep package="libraw"/>
+      <dep package="librsvg"/>
     </dependencies>
   </autotools>
 
