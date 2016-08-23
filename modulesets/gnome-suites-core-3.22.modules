@@ -80,38 +80,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="evolution-data-server"
-             supports-non-srcdir-builds="no"
-             autogenargs="--enable-vala-bindings --disable-strict --disable-uoa --disable-google-auth"
-             uninstall-before-install="true">
-    <!-- We uninstall the old copy before installing, because the our usage
-         of DESTDIR and libtool's relinking interfere and cause camel providers
-         to link against the install version of libcamel. -->
-    <if condition-set="freebsd">
-      <autogenargs value="DB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
-    </if>
-    <branch/>
-    <dependencies>
-      <dep package="intltool"/>
-      <dep package="libsoup"/>
-      <dep package="libxml2"/>
-      <dep package="gtk+"/>
-      <dep package="sqlite3"/>
-      <dep package="gcr"/>
-      <dep package="libgweather"/>
-      <dep package="libical"/>
-      <dep package="libgdata"/>
-      <dep package="gnome-online-accounts"/>
-      <dep package="liboauth"/>
-      <dep package="vala"/>
-      <dep package="libdb"/>
-      <dep package="libsecret"/>
-    </dependencies>
-    <suggests>
-      <dep package="nss"/>
-    </suggests>
-  </autotools>
-
   <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no --with-log-dir=${prefix}/var/log/gdm">
     <if condition-unset="linux">
       <autogenargs value="--without-plymouth"/>
@@ -1342,7 +1310,6 @@
     <dependencies>
       <dep package="adwaita-icon-theme"/>
       <dep package="dconf"/>
-      <dep package="evolution-data-server"/>
       <dep package="gdm"/>
       <dep package="gnome-backgrounds"/>
       <!-- Not in utilities because the desktop file is hidden -->
@@ -1425,7 +1392,6 @@
       <!-- the platform -->
       <dep package="meta-gnome-devel-platform"/>
       <!-- and more modules -->
-      <dep package="evolution-data-server"/>
       <dep package="gstreamer"/>
       <dep package="libnotify"/>
       <dep package="libpeas"/>

@@ -272,6 +272,38 @@
     </dependencies>
   </autotools>
 
+  <autotools id="evolution-data-server"
+             supports-non-srcdir-builds="no"
+             autogenargs="--enable-vala-bindings --disable-strict --disable-uoa --disable-google-auth"
+             uninstall-before-install="true">
+    <!-- We uninstall the old copy before installing, because the our usage
+         of DESTDIR and libtool's relinking interfere and cause camel providers
+         to link against the install version of libcamel. -->
+    <if condition-set="freebsd">
+      <autogenargs value="DB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="gtk+"/>
+      <dep package="sqlite3"/>
+      <dep package="gcr"/>
+      <dep package="libgweather"/>
+      <dep package="libical"/>
+      <dep package="libgdata"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="liboauth"/>
+      <dep package="vala"/>
+      <dep package="libdb"/>
+      <dep package="libsecret"/>
+    </dependencies>
+    <suggests>
+      <dep package="nss"/>
+    </suggests>
+  </autotools>
+
   <autotools id="folks"
              autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings"
              supports-non-srcdir-builds="no"
