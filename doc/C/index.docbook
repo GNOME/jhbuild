@@ -219,10 +219,10 @@
           </term>
           <listitem>
             <simpara>A string specifying the directory to unpack source trees
-              to. Unless <link linkend="cfg-buildroot">
-              <varname>buildroot</varname></link> is set, builds will occur in
-              this directory too. Defaults to
-              <filename>~/jhbuild/checkout</filename>.</simpara>
+              to. If <link linkend="cfg-buildroot">
+              <varname>buildroot</varname></link> is set to
+              <constant>None</constant>, builds will occur in this directory
+              too. Defaults to <filename>~/jhbuild/checkout</filename>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -1686,7 +1686,8 @@ Optional packages: (JHBuild will build the missing packages)
           </term>
           <listitem>
             <simpara>A string specifying the parent directory to place build
-              trees. Defaults to <constant>None</constant>, which causes builds
+              trees. Defaults to <filename>~/.cache/jhbuild/build</filename>.
+              Setting the value to <constant>None</constant> causes builds
               to be performed within the source trees.</simpara>
           </listitem>
         </varlistentry>
