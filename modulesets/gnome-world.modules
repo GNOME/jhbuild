@@ -3244,6 +3244,22 @@
     </dependencies>
   </autotools>
 
+  <autotools id="xdg-desktop-portal" autogenargs="--disable-docbook-docs">
+    <branch repo="github.com" module="flatpak/xdg-desktop-portal"/>
+    <dependencies>
+      <dep package="flatpak"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="xdg-desktop-portal-gtk">
+    <branch repo="github.com" module="flatpak/xdg-desktop-portal-gtk"/>
+    <dependencies>
+      <dep package="xdg-desktop-portal"/>
+      <dep package="gtk+"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libratbag">
     <branch repo="github.com" checkoutdir="libratbag" module="libratbag/libratbag.git"/>
     <dependencies>
