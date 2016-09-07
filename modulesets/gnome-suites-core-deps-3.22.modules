@@ -939,10 +939,10 @@
              autogenargs="--disable-lua-extension --with-python=python3"
              supports-non-srcdir-builds="no">
     <branch repo="github-tar"
-            version="1.7.4"
+            version="1.8.0"
             module="libpinyin/ibus-libpinyin/archive/${version}.tar.gz"
             checkoutdir="ibus-libpinyin-${version}"
-            hash="sha256:4627eab10ded24bd1a95ee56a2f7bd6a82deb94435aea674267fc40febd66f81"/>
+            hash="sha256:c8f9fbd374273f6210afb6e647dac4574dd0a7c3c4d8d57d2e8592c33a25296d"/>
     <dependencies>
       <dep package="ibus"/>
       <dep package="libpinyin"/>
@@ -1188,6 +1188,19 @@
       <dep package="gobject-introspection"/>
       <dep package="vala"/>
       <dep package="wget"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libpinyin"
+             autogenargs="--with-dbm=KyotoCabinet">
+    <branch repo="github-tar"
+            version="1.6.0"
+            module="libpinyin/libpinyin/archive/${version}.tar.gz"
+            checkoutdir="libpinyin-${version}"
+            hash="sha256:ca4a33f01fb4301cfad1f977276823f0172b1aa5736046a5c2ca73c474386e37"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="kyotocabinet"/>
     </dependencies>
   </autotools>
 
