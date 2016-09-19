@@ -85,7 +85,7 @@ class PackageEntry:
         # write manifest
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'manifests'))
         writer = fileutils.SafeWriter(os.path.join(self.dirname, 'manifests', self.package))
-        writer.fp.write('\n'.join(self.manifest) + '\n')
+        writer.fp.write('\n'.join(self.manifest).encode('utf-8', 'backslashreplace') + '\n')
         writer.commit()
 
     def remove(self):
