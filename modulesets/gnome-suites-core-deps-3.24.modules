@@ -66,6 +66,8 @@
     href="http://devel.freebsoft.org/pub/projects/speechd/"/>
 <repository type="tarball" name="spice"
     href="http://www.spice-space.org/download/"/>
+<repository type="tarball" name="libarchive"
+    href="http://libarchive.org/downloads/"/>
 
 <include href="gnome-sysdeps-3.24.modules"/>
 
@@ -968,6 +970,14 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libarchive" autogen-sh="configure">
+    <pkg-config>libarchive.pc</pkg-config>
+    <branch repo="libarchive"
+            version="3.2.1"
+            module="libarchive-${version}.tar.gz"
+            hash="sha256:72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"/>
   </autotools>
 
  <autotools id="libchamplain">
