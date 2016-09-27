@@ -55,6 +55,9 @@ class MesonModule(MakeModule, DownloadableModule):
         args = args.replace('${libsuffix}', '')
         return args
 
+    def get_libdir(self):
+        return 'lib'
+
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
@@ -83,7 +86,7 @@ class MesonModule(MakeModule, DownloadableModule):
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('meson', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'meson')
-        baseargs = '--prefix %s' % prefix
+        baseargs = '--prefix %s --libdir %s' % (prefix, self.get_libdir())
         mesonargs = self.get_mesonargs()
         cmd = 'meson %s %s %s' % (baseargs, mesonargs, srcdir)
         buildscript.execute(cmd, cwd=builddir, extra_env=self.extra_env)
