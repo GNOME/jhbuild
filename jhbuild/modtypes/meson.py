@@ -125,7 +125,7 @@ class MesonModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         buildscript.execute('ninja', cwd=builddir, extra_env=self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
-    do_build.error_phases = [PHASE_FORCE_CHECKOUT]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def skip_install(self, buildscript, last_phase):
         return self.config.noinstall or self.skip_install_phase
