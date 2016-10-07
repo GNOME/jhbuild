@@ -710,6 +710,49 @@
     </suggests>
   </autotools>
 
+  <autotools id="gtk+" autogenargs="--enable-broadway-backend --enable-installed-tests">
+    <if condition-set="x11">
+      <autogenargs value="--enable-x11-backend"/>
+    </if>
+    <if condition-set="wayland">
+      <autogenargs value="--enable-wayland-backend"/>
+    </if>
+    <if condition-set="mir">
+      <autogenargs value="--enable-mir-backend"/>
+    </if>
+    <if condition-set="quartz">
+      <autogenargs value="--enable-quartz-backend"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="atk"/>
+      <dep package="glib"/>
+      <dep package="cairo"/>
+      <dep package="pango"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk-doc"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libepoxy"/>
+      <if condition-unset="quartz">
+        <dep package="at-spi2-atk"/>
+      </if>
+      <if condition-set="wayland">
+        <dep package="libxkbcommon"/>
+        <dep package="wayland"/>
+        <dep package="wayland-egl"/>
+        <dep package="wayland-protocols"/>
+      </if>
+      <if condition-set="mir">
+        <dep package="mir"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <!-- Many GTK+ apps require desktop-file-validate. -->
+      <dep package="desktop-file-utils"/>
+      <dep package="shared-mime-info"/>
+    </suggests>
+  </autotools>
+
   <autotools id="gtk+-3" autogenargs="--enable-broadway-backend --enable-installed-tests">
     <if condition-set="x11">
       <autogenargs value="--enable-x11-backend"/>
