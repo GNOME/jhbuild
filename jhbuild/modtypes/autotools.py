@@ -43,7 +43,7 @@ class AutogenModule(MakeModule, DownloadableModule):
     PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
     PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
     PHASE_CLEAN          = 'clean'
-    PHASE_DISTCLEAN      = 'distclean'
+    PHASE_DISTCLEAN      = 'git clean'
     PHASE_CONFIGURE      = 'configure'
     PHASE_BUILD          = 'build'
     PHASE_CHECK          = 'check'
