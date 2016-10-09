@@ -20,12 +20,14 @@
 __metaclass__ = type
 
 import os
+import shutil
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, MakeModule
 from jhbuild.modtypes.autotools import collect_args
 from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import fileutils
 
 __all__ = [ 'MesonModule' ]
 
@@ -90,8 +92,11 @@ class MesonModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        if not os.path.exists(builddir):
-            os.makedirs(builddir)
+        # meson does not allow configuring if the builddir already exists,
+        # so we'll need to get rid of it and start over to configure again.
+        if os.path.exists(builddir):
+            shutil.rmtree(builddir)
+        os.makedirs(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('meson', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'meson')
