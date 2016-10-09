@@ -52,6 +52,7 @@ class MesonModule(MakeModule, DownloadableModule):
         self.skip_install_phase = skip_install_phase
         self.force_non_srcdir_builds = True
         self.supports_install_destdir = True
+        self.find_ninja()
 
     def find_ninja(self):
         for f in ['ninja', 'ninja-build']:
@@ -100,7 +101,6 @@ class MesonModule(MakeModule, DownloadableModule):
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('meson', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'meson')
-        self.find_ninja()
         baseargs = '--prefix %s --libdir %s' % (prefix, self.get_libdir())
         mesonargs = self.get_mesonargs()
         cmd = 'meson %s %s %s' % (baseargs, mesonargs, srcdir)
