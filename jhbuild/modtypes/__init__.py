@@ -583,6 +583,14 @@ class DownloadableModule:
         return False
 
     def do_force_checkout(self, buildscript):
+        # Try to wipe the build directory. Ignore exceptions if the child class
+        # does not implement get_builddir().
+        try:
+            builddir = self.get_builddir(buildscript)
+            if os.path.exists(builddir):
+                shutil.rmtree(builddir)
+        except:
+            pass
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)
     do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
