@@ -276,15 +276,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="evolution-data-server"
-             supports-non-srcdir-builds="no"
-             autogenargs="--enable-vala-bindings --disable-strict --disable-uoa --disable-google-auth"
-             uninstall-before-install="true">
-    <!-- We uninstall the old copy before installing, because the our usage
-         of DESTDIR and libtool's relinking interfere and cause camel providers
-         to link against the install version of libcamel. -->
+  <cmake id="evolution-data-server"
+         cmakeargs="-DENABLE_INTROSPECTION=ON -DENABLE_VALA_BINDINGS=ON -DENABLE_UOA=OFF -DENABLE_GOOGLE_AUTH=OFF">
     <if condition-set="freebsd">
-      <autogenargs value="DB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
+      <cmakeargs value="-DDB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
     </if>
     <branch/>
     <dependencies>
@@ -307,7 +302,7 @@
     <suggests>
       <dep package="nss"/>
     </suggests>
-  </autotools>
+  </cmake>
 
   <autotools id="folks"
              autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings"

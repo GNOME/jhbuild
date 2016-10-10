@@ -304,7 +304,8 @@
     </suggests>
   </autotools>
 
-  <autotools id="evolution" autogenargs="--disable-libcryptui --disable-pst-import">
+  <cmake id="evolution"
+         cmakeargs="-DENABLE_LIBCRYPTUI=OFF -DENABLE_PST_IMPORT=OFF">
     <branch/>
     <dependencies>
       <dep package="atk"/>
@@ -342,7 +343,7 @@
       <dep package="geoclue"/>
       <dep package="geocode-glib"/>
     </suggests>
-  </autotools>
+  </cmake>
 
   <autotools id="ghex">
     <branch/>
