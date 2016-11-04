@@ -104,10 +104,11 @@
   <autotools id="python" autogenargs="--enable-shared" autogen-sh="configure">
     <pkg-config>python-2.7.pc</pkg-config>
     <branch repo="python"
-            module="2.7.10/Python-2.7.10.tar.xz"
-            version="2.7.10"
-            hash="sha256:1cd3730781b91caf0fa1c4d472dc29274186480161a150294c42ce9b5c5effc0"
-            size="12250696">
+            module="2.7.12/Python-2.7.12.tar.xz"
+            version="2.7.12"
+            hash="md5:57dffcee9cee8bb2ab5f82af1d8e9a69"
+            size="12390820">
+      <patch file="https://git.gnome.org/browse/gtk-osx/plain/patches/python2-linkflags.patch" strip="1"/>
     </branch>
   </autotools>
 
@@ -145,8 +146,8 @@
   </autotools>
 
   <autotools id="libpng" autogen-sh="configure">
-    <branch repo="sourceforge" module="libpng/libpng-1.6.7.tar.gz" version="1.6.7"
-            size="1310159" hash="sha256:5d3be409d4ed4425923ad8677fc45497abb43c6b9cfd5beafe7dfc6f2a94f24b"/>
+    <branch repo="sourceforge" module="libpng/libpng-1.6.17.tar.xz" version="1.6.17"
+            hash="md5:430a9b76b78533235cd4b9b26ce75c7e"/>
   </autotools>
 
   <autotools id="vala-bootstrap" autogen-sh="configure">
@@ -155,8 +156,7 @@
   </autotools>
 
   <autotools id="dbus" autogen-sh="configure">
-    <branch repo="dbus" module="dbus-1.6.18.tar.gz" version="1.6.18"
-            size="1916553" hash="sha256:7085a0895a9eb11a952394cdbea6d8b4358e17cb991fed0e8fb85e2b9e686dcd"/>
+    <branch repo="dbus" module="dbus-1.10.12.tar.gz" version="1.10.12"/>
   </autotools>
 
   <autotools id="pixman" autogen-sh="configure">
@@ -170,8 +170,8 @@
   </autotools>
 
   <autotools id="libjpeg" autogen-sh="configure">
-    <branch repo="igj" module="jpegsrc.v9.tar.gz" version="9" checkoutdir="jpeg-9"
-            size="987900" hash="sha256:c4e29e9375aaf60b4b79db87a58b063fb5b84f923bee97a88280b3d159e7e535"/>
+    <branch repo="igj" module="jpegsrc.v9b.tar.gz" version="9b"
+            checkoutdir="jpeg-9b"/>
   </autotools>
 
   <autotools id="sqlite" autogenargs="--enable-threadsafe" autogen-sh="configure">
