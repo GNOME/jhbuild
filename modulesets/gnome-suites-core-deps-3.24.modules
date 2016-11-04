@@ -440,6 +440,9 @@
     <if condition-unset="linux">
       <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-cdma-source"/>
     </if>
+    <if condition-set="macos">
+      <autogenargs value="--disable-nmea-source"/>
+    </if>
     <branch repo="git.freedesktop.org"/>
     <dependencies>
       <dep package="glib"/>
@@ -484,16 +487,23 @@
     <if condition-set="freebsd">
       <autogenargs value="--disable-dtrace --with-libiconv=gnu"/>
     </if>
+    <if condition-set="macos">
+      <autogenargs value="--with-pcre=internal"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gettext"/>
       <dep package="gtk-doc"/>
       <dep package="libffi"/>
-      <dep package="libpcre"/>
       <dep package="zlib"/>
+      <if condition-unset="macos">
+        <dep package="libpcre"/>
+      </if>
     </dependencies>
     <after>
-      <dep package="shared-mime-info"/>
+      <if condition-unset="macos">
+        <dep package="shared-mime-info"/>
+      </if>
     </after>
   </autotools>
 
@@ -1391,6 +1401,9 @@
     <if condition-set="freebsd">
       <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
     </if>
+    <if condition-set="macos">
+      <autogenargs value="--without-ca-certificates"/>
+    </if>
     <branch revision="librest-0-7"/>
     <dependencies>
       <dep package="glib"/>
@@ -1417,6 +1430,9 @@
   </autotools>
 
   <autotools id="libsecret">
+    <if condition-set="macos">
+      <autogenargs value="--disable-manpages"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>

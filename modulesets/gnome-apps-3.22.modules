@@ -365,6 +365,9 @@
   </autotools>
 
   <autotools id="glade">
+    <if condition-set="macos">
+      <autogenargs value="--disable-man-pages"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>

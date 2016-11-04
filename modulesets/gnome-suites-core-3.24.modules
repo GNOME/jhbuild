@@ -117,6 +117,9 @@
     <if condition-set="freebsd">
       <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
     </if>
+    <if condition-set="macos">
+      <autogenargs value="--without-pkcs11 --without-ca-certificates"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -124,7 +127,9 @@
       <dep package="libproxy"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gnutls"/>
-      <dep package="p11-kit"/>
+      <if condition-unset="macos">
+        <dep package="p11-kit"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -539,10 +544,11 @@
     <if condition-unset="linux">
       <autogenargs value="--disable-bluez4 --disable-bluez5"/>
     </if>
+    <if condition-set="macos">
+      <autogenargs value="--disable-alsa --disable-avahi"/>
+    </if>
     <branch repo="pulseaudio.freedesktop.org"/>
     <dependencies>
-      <dep package="alsa"/>
-      <dep package="avahi"/>
       <dep package="dbus"/>
       <dep package="json"/>
       <dep package="libsndfile"/>
@@ -557,6 +563,10 @@
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
+      </if>
+      <if condition-unset="macos">
+        <dep package="alsa"/>
+        <dep package="avahi"/>
       </if>
     </dependencies>
   </autotools>
@@ -1403,9 +1413,7 @@
       <dep package="gstreamer"/>
       <dep package="libnotify"/>
       <dep package="libpeas"/>
-      <dep package="PackageKit"/>
       <dep package="telepathy-glib"/>
-      <dep package="upower"/>
       <dep package="WebKit"/>
       <!-- and bindings -->
       <dep package="pygobject"/>
@@ -1413,6 +1421,10 @@
       <dep package="gtkmm-3"/>
       <if condition-set="linux">
         <dep package="NetworkManager"/>
+      </if>
+      <if condition-unset="macos">
+        <dep package="PackageKit"/>
+        <dep package="upower"/>
       </if>
     </dependencies>
   </metamodule>
