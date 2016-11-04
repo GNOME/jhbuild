@@ -279,7 +279,7 @@
   <cmake id="evolution-data-server"
          cmakeargs="-DENABLE_INTROSPECTION=ON -DENABLE_VALA_BINDINGS=ON -DENABLE_UOA=OFF -DENABLE_GOOGLE_AUTH=OFF">
     <if condition-set="freebsd">
-      <cmakeargs value="-DDB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
+      <cmakeargs value="-DWITH_LIBDB_CFLAGS=-I/usr/local/include/db5 -DWITH_LIBDB_LIBS=-ldb-5"/>
     </if>
     <branch/>
     <dependencies>
