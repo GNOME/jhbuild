@@ -284,6 +284,10 @@
     <if condition-set="freebsd">
       <autogenargs value="DB_CFLAGS=-I/usr/local/include/db5 DB_LIBS=-ldb-5.3"/>
     </if>
+    <if condition-unset="x11">
+      <!-- Without X11, only gcr-base-1.0 is available, not gcr-1.0 -->
+      <autogenargs value="--disable-gtk"/>
+    </if>
     <branch revision="gnome-3-22"/>
     <dependencies>
       <dep package="intltool"/>
@@ -364,15 +368,20 @@
   </autotools>
 
   <autotools id="gcr">
+    <if condition-unset="x11">
+      <autogenargs value="--without-gtk"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gnome-common"/>
       <dep package="glib"/>
-      <dep package="gtk+"/>
       <dep package="libgcrypt" />
       <dep package="libtasn1" />
       <dep package="p11-kit"/>
       <dep package="vala"/>
+      <if condition-set="x11">
+        <dep package="gtk+"/>
+      </if>
     </dependencies>
   </autotools>
 

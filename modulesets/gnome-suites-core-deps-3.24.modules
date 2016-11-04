@@ -384,15 +384,20 @@
   </autotools>
 
   <autotools id="gcr">
+    <if condition-unset="x11">
+      <autogenargs value="--without-gtk"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gnome-common"/>
       <dep package="glib"/>
-      <dep package="gtk+-3"/>
       <dep package="libgcrypt" />
       <dep package="libtasn1" />
       <dep package="p11-kit"/>
       <dep package="vala"/>
+      <if condition-set="x11">
+        <dep package="gtk+-3"/>
+      </if>
     </dependencies>
   </autotools>
 
