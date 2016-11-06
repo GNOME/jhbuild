@@ -49,10 +49,14 @@ from jhbuild.utils import httpcache
 from jhbuild.modtypes import MetaModule
 
 try: t_bold = cmds.get_output(['tput', 'bold'])
-except: t_bold = ''
-try: t_reset = cmds.get_output(['tput', 'sgr0'])
-except: t_reset = ''
+except:
+    try: t_bold = cmds.get_output(['tput', 'md'])
+    except: t_bold = ''
 
+try: t_reset = cmds.get_output(['tput', 'sgr0'])
+except:
+    try: t_reset = cmds.get_output(['tput', 'me'])
+    except: t_reset = ''
 
 HTML_AT_TOP = '''<html>
 <head>

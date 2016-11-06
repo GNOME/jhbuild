@@ -36,15 +36,32 @@ is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
 
 try: t_bold = cmds.get_output(['tput', 'bold'])
-except: t_bold = ''
+except:
+    try: t_bold = cmds.get_output(['tput', 'md'])
+    except: t_bold = ''
+
 try: t_reset = cmds.get_output(['tput', 'sgr0'])
-except: t_reset = ''
+except:
+    try: t_reset = cmds.get_output(['tput', 'me'])
+    except: t_reset = ''
+
 t_colour = [''] * 16
 try:
     for i in range(8):
         t_colour[i] = cmds.get_output(['tput', 'setf', '%d' % i])
         t_colour[i+8] = t_bold + t_colour[i]
-except: pass
+except:
+    try:
+        for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
+            t_colour[index] = cmds.get_output(['tput', 'setaf', '%d' % i])
+            t_colour[index+8] = t_bold + t_colour[index]
+    except:
+        try:
+            for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
+                t_colour[index] = cmds.get_output(['tput', 'AF', '%d' % i])
+                t_colour[index+8] = t_bold + t_colour[index]
+        except:
+            pass
 
 
 user_shell = os.environ.get('SHELL', '/bin/sh')
