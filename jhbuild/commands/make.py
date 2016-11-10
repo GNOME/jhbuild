@@ -53,7 +53,7 @@ class cmd_make(Command):
 
     def run(self, config, options, args, help=None):
         # Grab the cwd before anything changes it
-        cwd = os.getcwd()
+        cwd = self.get_cwd()
 
         # Explicitly don't touch the network for this
         options.nonetwork = True

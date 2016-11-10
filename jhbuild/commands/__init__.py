@@ -26,6 +26,7 @@ __all__ = [
 
 import optparse
 import sys
+import os
 
 from jhbuild.errors import UsageError, FatalError
 
@@ -57,6 +58,13 @@ class Command:
             description=_(self.doc))
         self.parser.add_options(self.options)
         return self.parser.parse_args(args)
+
+    def get_cwd(self):
+        # Get symbolic link path when inside one
+        cwd = os.getenv('PWD')
+        if not cwd:
+            cwd = os.getcwd()
+        return cwd
 
     def run(self, config, options, args, help=None):
         """The body of the command"""
