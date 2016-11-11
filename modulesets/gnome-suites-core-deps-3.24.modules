@@ -632,8 +632,9 @@
     </suggests>
   </autotools>
 
-  <meson id="gstreamer"
-         autogenargs="--disable-tests --disable-fatal-warnings">
+  <autotools id="gstreamer"
+         autogenargs="--disable-tests --disable-fatal-warnings"
+         supports-non-srcdir-builds="no">
     <branch repo="gstreamer.freedesktop.org"
             module="gstreamer"
             checkoutdir="gstreamer"/>
@@ -642,7 +643,7 @@
       <dep package="libxml2"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </meson>
+  </autotools>
 
   <meson id="graphene">
     <branch repo="github.com" checkoutdir="graphene" module="ebassi/graphene.git"/>
