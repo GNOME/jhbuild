@@ -646,6 +646,9 @@
       <dep package="enchant"/>
       <dep package="iso-codes"/>
       <dep package="m4-common"/>
+      <if condition-set="macos">
+        <dep package="gtk-mac-integration"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -855,6 +858,15 @@
       <dep package="docbook-xml"/>
       <dep package="docbook-xsl"/>
       <dep package="cc"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gtk-mac-integration">
+    <branch />
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="pygobject"/>
     </dependencies>
   </autotools>
 
