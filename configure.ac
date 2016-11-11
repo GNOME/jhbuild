@@ -32,6 +32,14 @@ AC_ARG_ENABLE(
 	[enable_doc_installation=no])
 AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$enable_doc_installation" = "xyes"])
 
+# GUI
+AC_ARG_ENABLE(
+	gui,
+	AS_HELP_STRING([--enable-gui=@<:@no/yes@:>@], [install the graphical user interface (default: no)]),
+	[enable_gui=$enableval],
+	[enable_gui=no])
+AM_CONDITIONAL([GUI_ENABLED],[test "x$enable_gui" == "xyes"])
+
 YELP_HELP_INIT
 
 AC_CONFIG_FILES([

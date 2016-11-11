@@ -11,6 +11,7 @@ DTDS = \
 	modulesets/moduleset.rnc \
 	$(NULL)
 
+if GUI_ENABLED
 desktopdir = $(datadir)/applications
 desktop_DATA = jhbuild.desktop
 
@@ -20,6 +21,7 @@ jhbuild.desktop.in: jhbuild.desktop.in.in
 # Substitute variables in a Desktop Entry file.
 jhbuild.desktop: jhbuild.desktop.in
 	$(AM_V_GEN) sed -e 's|@bindir[@]|$(bindir)|g' $< > $@
+endif
 
 EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	modulesets/moduleset.xsl \
