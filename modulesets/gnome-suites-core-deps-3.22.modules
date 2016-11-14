@@ -107,6 +107,10 @@
   </autotools>
 
   <autotools id="babl">
+    <if condition-set="darwin">
+      <!-- https://bugzilla.gnome.org/show_bug.cgi?id=725530 -->
+      <autogenargs value="--disable-sse"/>
+    </if>
     <branch/>
   </autotools>
 
