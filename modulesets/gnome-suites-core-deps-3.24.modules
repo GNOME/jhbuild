@@ -100,6 +100,14 @@
     </dependencies>
   </autotools>
 
+  <autotools id="atkmm-1.6">
+    <branch checkoutdir="atkmm-1.6" module="atkmm" revision="atkmm-2-24"/>
+    <dependencies>
+      <dep package="glibmm-2.4"/>
+      <dep package="atk"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="atkmm">
     <branch/>
     <dependencies>
@@ -112,11 +120,23 @@
     <branch/>
   </autotools>
 
+  <autotools id="cairomm-1.0" autogen-sh="configure">
+    <branch module="releases/cairomm-${version}.tar.gz"
+            version="1.13.1"
+            repo="cairo.org"
+            hash="sha256:97a78bd7de6baf8af3da1f9b39f1317f8da9f1145b7694e928fbd5521da08ef6">
+     </branch>
+     <dependencies>
+        <dep package="cairo"/>
+        <dep package="libsigcplusplus-2.0"/>
+     </dependencies>
+  </autotools>
+
   <autotools id="cairomm" autogen-sh="configure">
     <branch module="releases/cairomm-${version}.tar.gz"
-            version="1.12.0"
+            version="1.15.1"
             repo="cairo.org"
-            hash="sha256:50435aec6fdd976934b791e808993160113ad19ca53a5634a9b64ccbe55874cc">
+            hash="sha256:15ee5f681fd2d835b9162dbf5a85a6e96f8523afa478fb6c65d7c63830457ce2">
      </branch>
      <dependencies>
         <dep package="cairo"/>
@@ -467,6 +487,14 @@
     <after>
       <dep package="shared-mime-info"/>
     </after>
+  </autotools>
+
+  <autotools id="glibmm-2.4" supports-non-srcdir-builds="no">
+    <branch checkoutdir="glibmm-2.4" module="glibmm" revision="glibmm-2-50"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsigcplusplus-2.0"/>
+    </dependencies>
   </autotools>
 
   <autotools id="glibmm" supports-non-srcdir-builds="no">
@@ -856,9 +884,9 @@
   <autotools id="gtkmm-3">
     <branch checkoutdir="gtkmm-3" module="gtkmm" revision="gtkmm-3-22"/>
     <dependencies>
-      <dep package="cairomm"/>
-      <dep package="pangomm"/>
-      <dep package="atkmm"/>
+      <dep package="cairomm-1.0"/>
+      <dep package="pangomm-1.4"/>
+      <dep package="atkmm-1.6"/>
       <dep package="gtk+-3"/>
       <dep package="glib"/>
     </dependencies>
@@ -1377,8 +1405,15 @@
     </suggests>
   </autotools>
 
+  <autotools id="libsigcplusplus-2.0">
+    <branch checkoutdir="libsigcplusplus-2.0" module="libsigcplusplus" revision="libsigc++-2-10"/>
+    <dependencies>
+      <dep package="mm-common"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libsigcplusplus">
-    <branch revision="libsigc++-2-10"/>
+    <branch/>
     <dependencies>
       <dep package="mm-common"/>
     </dependencies>
@@ -1527,6 +1562,16 @@
         <dep package="harfbuzz"/>
         <dep package="fontconfig"/>
       </if>
+    </dependencies>
+  </autotools>
+
+  <autotools id="pangomm-1.4">
+    <branch checkoutdir="pangomm-1.4" module="pangomm" revision="pangomm-2-40"/>
+    <dependencies>
+      <dep package="glibmm-2.4"/>
+      <dep package="cairomm-1.0"/>
+      <dep package="pango"/>
+      <dep package="atk"/>
     </dependencies>
   </autotools>
 
