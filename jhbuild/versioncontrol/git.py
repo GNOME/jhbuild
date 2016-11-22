@@ -385,11 +385,14 @@ class GitBranch(Branch):
         if self.config.nonetwork:
             return
 
-        # Calculate anew in case a configuration reload changed the mirror root.
+        # Calculate a new in case a configuration reload changed the mirror root.
         mirror_dir = get_git_mirror_directory(self.config.dvcs_mirror_dir,
                 self.checkoutdir, self.unmirrored_module)
 
         if os.path.exists(mirror_dir):
+            buildscript.execute(['git', 'remote', 'set-url', 'origin',
+                    self.unmirrored_module], cwd=mirror_dir,
+                    extra_env=get_git_extra_env())
             buildscript.execute(['git', 'fetch'], cwd=mirror_dir,
                     extra_env=get_git_extra_env())
         else:
@@ -433,14 +436,14 @@ class GitBranch(Branch):
                 raise CommandError(_('Failed to update module as it switched to git (you should check for changes then remove the directory).'))
             raise CommandError(_('Failed to update module (missing .git) (you should check for changes then remove the directory).'))
 
+        if update_mirror:
+            self.update_dvcs_mirror(buildscript)
+
         buildscript.execute(['git', 'remote', 'set-url', 'origin',
                 self.module], **git_extra_args)
 
         buildscript.execute(['git', 'remote', 'update', 'origin'],
                 **git_extra_args)
-
-        if update_mirror:
-            self.update_dvcs_mirror(buildscript)
 
         if self.config.sticky_date:
             self.move_to_sticky_date(buildscript)
