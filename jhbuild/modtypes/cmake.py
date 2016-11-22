@@ -95,6 +95,7 @@ class CMakeModule(MakeModule, DownloadableModule):
             # remove that file, as it holds the result of a previous cmake
             # configure run, and would be reused unconditionnaly
             # (cf https://bugzilla.gnome.org/show_bug.cgi?id=621194)
+            # FIXME: It's always wrong to remove CMakeCache.txt without also removing CMakeFiles directory
             os.unlink(os.path.join(builddir, 'CMakeCache.txt'))
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
