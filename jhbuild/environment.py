@@ -116,6 +116,8 @@ def setup_env_defaults(system_libdirs):
                 valarr.remove(x)
         os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
+    del os.environ['CONFIG_SITE']
+
 def setup_env(prefix):
     '''set environment variables for using prefix'''
 
