@@ -52,9 +52,8 @@ class MesonModule(MakeModule, DownloadableModule):
         self.skip_install_phase = skip_install_phase
         self.force_non_srcdir_builds = True
         self.supports_install_destdir = True
-        self.find_ninja()
 
-    def find_ninja(self):
+    def ensure_ninja_binary(self):
         for f in ['ninja', 'ninja-build']:
             if inpath(f, os.environ['PATH'].split(os.pathsep)):
                 self.ninja_binary = f
@@ -131,6 +130,7 @@ class MesonModule(MakeModule, DownloadableModule):
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         builddir = self.get_builddir(buildscript)
+        self.ensure_ninja_binary()
         buildscript.execute(self.ninja_binary + ' clean', cwd=builddir, extra_env=self.extra_env)
     do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
@@ -138,6 +138,7 @@ class MesonModule(MakeModule, DownloadableModule):
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
+        self.ensure_ninja_binary()
         buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
@@ -151,6 +152,7 @@ class MesonModule(MakeModule, DownloadableModule):
         destdir = self.prepare_installroot(buildscript)
         extra_env = (self.extra_env or {}).copy()
         extra_env['DESTDIR'] = destdir
+        self.ensure_ninja_binary()
         buildscript.execute(self.ninja_binary + ' install', cwd=builddir, extra_env=extra_env)
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
