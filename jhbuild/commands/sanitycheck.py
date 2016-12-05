@@ -115,14 +115,7 @@ class cmd_sanitycheck(Command):
         except:
             uprint(_('Could not find the Perl module %s (usually part of package \'libxml-parser-perl\' or \'perl-XML-Parser\')') % perlmod)
 
-        # check for cvs:
-        if not inpath('cvs', os.environ['PATH'].split(os.pathsep)):
-            uprint(_('%s not found') % 'cvs')
-
-        # check for svn:
-        if not inpath('svn', os.environ['PATH'].split(os.pathsep)):
-            uprint(_('%s not found (usually part of the package \'subversion\')') % 'svn')
-
+        # check for a downloading util:
         if not (inpath('curl', os.environ['PATH'].split(os.pathsep)) or
                 inpath('wget', os.environ['PATH'].split(os.pathsep))):
             uprint(_('curl or wget not found'))
