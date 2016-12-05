@@ -47,7 +47,7 @@ def get_installed_pkgconfigs(config):
             versions = stdout.splitlines()
             if len(versions) == len(pkgs):
                 return dict(zip(pkgs, versions))
-        except OSError:
+        except subprocess.CalledProcessError:
             pass
 
         # We have to rather inefficiently repeatedly fork to work around
@@ -60,7 +60,7 @@ def get_installed_pkgconfigs(config):
             stdout = proc.communicate()[0]
             proc.wait()
             pkgversions[pkg] = stdout.strip()
-    except OSError: # pkg-config not installed
+    except subprocess.CalledProcessError: # pkg-config not installed
         pass
     return pkgversions
 
