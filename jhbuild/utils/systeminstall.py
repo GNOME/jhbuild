@@ -260,8 +260,8 @@ class PKSystemInstall(SystemInstall):
             self._sysbus = dbus.SystemBus()
         if self._pkdbus is None:
             self._pkdbus = dbus.Interface(self._sysbus.get_object('org.freedesktop.PackageKit',
-                                              '/org/freedesktop/PackageKit'),
-                            'org.freedesktop.PackageKit')
+                                                                  '/org/freedesktop/PackageKit'),
+                                          'org.freedesktop.PackageKit')
             properties = dbus.Interface(self._pkdbus, 'org.freedesktop.DBus.Properties')
         txn_path = self._pkdbus.CreateTransaction()
         txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
