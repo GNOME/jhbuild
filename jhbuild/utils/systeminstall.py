@@ -290,12 +290,6 @@ class PKSystemInstall(SystemInstall):
         logging.info(_('Installing:\n  %s' % ('\n  '.join(pk_package_ids, ))))
 
         txn_tx, txn = self._get_new_transaction()
-        # Using OnlyTrusted might break package installation on rawhide,
-        # where packages are unsigned, but this prevents users of normal
-        # distros with signed packages from seeing security warnings. It
-        # would be better to simulate the transaction first to decide
-        # whether OnlyTrusted will work before using it. See
-        # http://www.freedesktop.org/software/PackageKit/gtk-doc/introduction-ideas-transactions.html
         txn_tx.InstallPackages(PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, pk_package_ids)
         self._loop.run()
 
