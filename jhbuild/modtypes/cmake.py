@@ -20,6 +20,7 @@
 __metaclass__ = type
 
 import os
+import shutil
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
@@ -78,7 +79,14 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Configuring'), self)
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        if not os.path.exists(builddir):
+        if os.path.exists(builddir):
+            try:
+                # Clear CMake files so we get a clean configure.
+                os.unlink(os.path.join(builddir, 'CMakeCache.txt'))
+                shutil.rmtree(os.path.join(builddir, 'CMakeFiles'))
+            except:
+                pass
+        else:
             os.makedirs(builddir)
         prefix = os.path.expanduser(buildscript.config.prefix)
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
@@ -91,12 +99,6 @@ class CMakeModule(MakeModule, DownloadableModule):
         if os.name == 'nt' and os.getenv("MSYSCON") and '-G' not in cmakeargs:
             baseargs += ' -G "MSYS Makefiles"'
         cmd = 'cmake %s %s %s' % (baseargs, cmakeargs, srcdir)
-        if os.path.exists(os.path.join(builddir, 'CMakeCache.txt')):
-            # remove that file, as it holds the result of a previous cmake
-            # configure run, and would be reused unconditionnaly
-            # (cf https://bugzilla.gnome.org/show_bug.cgi?id=621194)
-            # FIXME: It's always wrong to remove CMakeCache.txt without also removing CMakeFiles directory
-            os.unlink(os.path.join(builddir, 'CMakeCache.txt'))
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
