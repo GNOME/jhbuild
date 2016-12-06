@@ -64,19 +64,37 @@ def get_installed_pkgconfigs(config):
         pass
     return pkgversions
 
-def get_uninstalled_pkgconfigs_and_filenames(uninstalled):
+def get_uninstalled_pkgconfigs(uninstalled):
     uninstalled_pkgconfigs = []
-    uninstalled_filenames = []
-
     for module_name, dep_type, value in uninstalled:
         if dep_type == 'pkgconfig':
             uninstalled_pkgconfigs.append((module_name, value))
-        elif dep_type.lower() == 'path':
+    return uninstalled_pkgconfigs
+
+def get_uninstalled_binaries(uninstalled):
+    uninstalled_binaries = []
+    for module_name, dep_type, value in uninstalled:
+        if dep_type.lower() == 'path':
+            uninstalled_binaries.append((module_name, value))
+    return uninstalled_binaries
+
+def get_uninstalled_c_includes(uninstalled):
+    uninstalled_c_includes = []
+    for module_name, dep_type, value in uninstalled:
+        if dep_type.lower() == 'c_include':
+            uninstalled_c_includes.append((module_name, value))
+    return uninstalled_c_includes
+
+# This function returns uninstalled binaries and C includes as filenames.
+# Backends should use either this OR the functions above.
+def get_uninstalled_filenames(uninstalled):
+    uninstalled_filenames = []
+    for module_name, dep_type, value in uninstalled:
+        if dep_type.lower() == 'path':
             uninstalled_filenames.append((module_name, os.path.join('/usr/bin', value)))
         elif dep_type.lower() == 'c_include':
             uninstalled_filenames.append((module_name, os.path.join('/usr/include', value)))
-
-    return uninstalled_pkgconfigs, uninstalled_filenames
+    return uninstalled_filenames
 
 def systemdependencies_met(module_name, sysdeps, config):
     '''Returns True of the system dependencies are met for module_name'''
@@ -254,9 +272,8 @@ class PKSystemInstall(SystemInstall):
         return txn_tx, txn
 
     def install(self, uninstalled):
-        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
         pk_package_ids = set()
-
+        uninstalled_pkgconfigs = get_uninstalled_pkgconfigs(uninstalled)
         if uninstalled_pkgconfigs:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
@@ -267,6 +284,7 @@ class PKSystemInstall(SystemInstall):
             self._loop.run()
             del txn, txn_tx
 
+        uninstalled_filenames = get_uninstalled_filenames(uninstalled)
         if uninstalled_filenames:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
@@ -324,7 +342,8 @@ class PacmanSystemInstall(SystemInstall):
                 logging.info(_('Successfully updated pkgfile cache'))
 
     def install(self, uninstalled):
-        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
+        uninstalled_pkgconfigs = get_uninstalled_pkgconfigs(uninstalled)
+        uninstalled_filenames = get_uninstalled_filenames(uninstalled)
         logging.info(_('Using pacman to install packages.  Please wait.'))
         package_names = set()
 
@@ -388,26 +407,57 @@ class AptSystemInstall(SystemInstall):
             # otherwise for now, just take the first match
             return name
 
+    def _try_append_native_package(self, modname, filename, native_packages):
+        native_pkg = self._get_package_for(filename)
+        if native_pkg:
+            native_packages.append(native_pkg)
+            return True
+        return False
+
+    def _append_native_package_or_warn(self, modname, filename, native_packages):
+        if not self._try_append_native_package(modname, filename, native_packages):
+            logging.info(_('No native package found for %(id)s '
+                           '(%(filename)s)') % {'id'       : modname,
+                                                'filename' : filename})
+
+    def _install_packages(self, native_packages):
+        logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
+        args = self._root_command_prefix_args + ['apt-get', 'install']
+        args.extend(native_packages)
+        subprocess.check_call(args)
+
     def install(self, uninstalled):
-        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
         logging.info(_('Using apt-file to search for providers; this may be slow.  Please wait.'))
         native_packages = []
+
         pkgconfigs = [(modname, '/%s.pc' % pkg) for modname, pkg in
-                      uninstalled_pkgconfigs]
-        for modname, filename in pkgconfigs + uninstalled_filenames:
-            native_pkg = self._get_package_for(filename)
-            if native_pkg:
-                native_packages.append(native_pkg)
-            else:
-                logging.info(_('No native package found for %(id)s '
-                               '(%(filename)s)') % {'id'       : modname,
-                                                   'filename' : filename})
+                      get_uninstalled_pkgconfigs(uninstalled)]
+        for modname, filename in pkgconfigs:
+            self._append_native_package_or_warn(modname, filename, native_packages)
+
+        binaries = [(modname, '/usr/bin/%s' % pkg) for modname, pkg in
+                    get_uninstalled_binaries(uninstalled)]
+        for modname, filename in binaries:
+            self._append_native_package_or_warn(modname, filename, native_packages)
+
+        # Get multiarch include directory, e.g. /usr/include/x86_64-linux-gnu
+        multiarch = None
+        try:
+            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+        except:
+            # Really need GCC to continue. Yes, this is fragile.
+            self._install_packages(['gcc'])
+            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+
+        c_includes = get_uninstalled_c_includes(uninstalled)
+        for modname, filename in c_includes:
+            # Try multiarch first, so we print the non-multiarch location on failure.
+            if (multiarch == None or
+                not self._try_append_native_package(modname, '/usr/include/%s/%s' % (multiarch, filename), native_packages)):
+                self._append_native_package_or_warn(modname, '/usr/include/%s' % filename, native_packages)
 
         if native_packages:
-            logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
-            args = self._root_command_prefix_args + ['apt-get', 'install']
-            args.extend(native_packages)
-            subprocess.check_call(args)
+            self._install_packages(native_packages)
         else:
             logging.info(_('Nothing to install'))
 
