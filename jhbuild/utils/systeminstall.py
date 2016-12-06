@@ -385,9 +385,13 @@ class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
 
-    def _get_package_for(self, filename):
-        proc = subprocess.Popen(['apt-file', '--fixed-string', 'search', filename],
-                                stdout=subprocess.PIPE, close_fds=True)
+    def _get_package_for(self, filename, exact_match):
+        if exact_match:
+            proc = subprocess.Popen(['apt-file', '--fixed-string', 'search', filename],
+                                    stdout=subprocess.PIPE, close_fds=True)
+        else:
+            proc = subprocess.Popen(['apt-file', 'search', filename],
+                                    stdout=subprocess.PIPE, close_fds=True)
         stdout = proc.communicate()[0]
         if proc.returncode != 0:
             return None
@@ -407,15 +411,15 @@ class AptSystemInstall(SystemInstall):
             # otherwise for now, just take the first match
             return name
 
-    def _try_append_native_package(self, modname, filename, native_packages):
-        native_pkg = self._get_package_for(filename)
+    def _try_append_native_package(self, modname, filename, native_packages, exact_match):
+        native_pkg = self._get_package_for(filename, exact_match)
         if native_pkg:
             native_packages.append(native_pkg)
             return True
         return False
 
-    def _append_native_package_or_warn(self, modname, filename, native_packages):
-        if not self._try_append_native_package(modname, filename, native_packages):
+    def _append_native_package_or_warn(self, modname, filename, native_packages, exact_match):
+        if not self._try_append_native_package(modname, filename, native_packages, exact_match):
             logging.info(_('No native package found for %(id)s '
                            '(%(filename)s)') % {'id'       : modname,
                                                 'filename' : filename})
@@ -433,12 +437,12 @@ class AptSystemInstall(SystemInstall):
         pkgconfigs = [(modname, '/%s.pc' % pkg) for modname, pkg in
                       get_uninstalled_pkgconfigs(uninstalled)]
         for modname, filename in pkgconfigs:
-            self._append_native_package_or_warn(modname, filename, native_packages)
+            self._append_native_package_or_warn(modname, filename, native_packages, False)
 
         binaries = [(modname, '/usr/bin/%s' % pkg) for modname, pkg in
                     get_uninstalled_binaries(uninstalled)]
         for modname, filename in binaries:
-            self._append_native_package_or_warn(modname, filename, native_packages)
+            self._append_native_package_or_warn(modname, filename, native_packages, True)
 
         # Get multiarch include directory, e.g. /usr/include/x86_64-linux-gnu
         multiarch = None
@@ -453,8 +457,8 @@ class AptSystemInstall(SystemInstall):
         for modname, filename in c_includes:
             # Try multiarch first, so we print the non-multiarch location on failure.
             if (multiarch == None or
-                not self._try_append_native_package(modname, '/usr/include/%s/%s' % (multiarch, filename), native_packages)):
-                self._append_native_package_or_warn(modname, '/usr/include/%s' % filename, native_packages)
+                not self._try_append_native_package(modname, '/usr/include/%s/%s' % (multiarch, filename), native_packages, True)):
+                self._append_native_package_or_warn(modname, '/usr/include/%s' % filename, native_packages, True)
 
         if native_packages:
             self._install_packages(native_packages)
