@@ -369,32 +369,6 @@ class PacmanSystemInstall(SystemInstall):
             return True
         return False
 
-class YumSystemInstall(SystemInstall):
-    def __init__(self):
-        SystemInstall.__init__(self)
-
-    def install(self, uninstalled):
-        uninstalled_pkgconfigs, uninstalled_filenames = get_uninstalled_pkgconfigs_and_filenames(uninstalled)
-        logging.info(_('Using yum to install packages.  Please wait.'))
-
-        if len(uninstalled_pkgconfigs) + len(uninstalled_filenames) > 0:
-            logging.info(_('Installing:\n  %(pkgs)s') %
-                         {'pkgs': '\n  '.join([modname for modname, pkg in
-                                               uninstalled_pkgconfigs +
-                                               uninstalled_filenames])})
-            args = self._root_command_prefix_args + ['yum', '-y', 'install']
-            args.extend(['pkgconfig(%s)' % pkg for modname, pkg in
-                         uninstalled_pkgconfigs])
-            args.extend([pkg for modname, pkg in uninstalled_filenames])
-            subprocess.check_call(args)
-        else:
-            logging.info(_('Nothing to install'))
-
-    @classmethod
-    def detect(cls):
-        return cmds.has_command('yum')
-
-
 class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
@@ -449,7 +423,7 @@ class AptSystemInstall(SystemInstall):
         return cmds.has_command('apt-file')
 
 # Ordered from best to worst
-_classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall, YumSystemInstall]
+_classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
