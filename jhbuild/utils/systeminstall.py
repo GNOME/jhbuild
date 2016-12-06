@@ -386,7 +386,7 @@ class AptSystemInstall(SystemInstall):
         SystemInstall.__init__(self)
 
     def _get_package_for(self, filename):
-        proc = subprocess.Popen(['apt-file', 'search', filename],
+        proc = subprocess.Popen(['apt-file', '--fixed-string', 'search', filename],
                                 stdout=subprocess.PIPE, close_fds=True)
         stdout = proc.communicate()[0]
         if proc.returncode != 0:
