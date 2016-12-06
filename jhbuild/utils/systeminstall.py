@@ -431,7 +431,7 @@ class AptSystemInstall(SystemInstall):
         subprocess.check_call(args)
 
     def install(self, uninstalled):
-        logging.info(_('Using apt-file to search for providers; this may be slow.  Please wait.'))
+        logging.info(_('Using apt-file to search for providers; this may be extremely slow. Please wait. Patience!'))
         native_packages = []
 
         pkgconfigs = [(modname, '/%s.pc' % pkg) for modname, pkg in
