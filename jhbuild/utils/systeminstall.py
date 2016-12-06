@@ -246,14 +246,8 @@ class PKSystemInstall(SystemInstall):
                                               '/org/freedesktop/PackageKit'),
                             'org.freedesktop.PackageKit')
             properties = dbus.Interface(self._pkdbus, 'org.freedesktop.DBus.Properties')
-            self._pk_major = properties.Get('org.freedesktop.PackageKit', 'VersionMajor')
-            self._pk_minor = properties.Get('org.freedesktop.PackageKit', 'VersionMinor')
-        if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 8):
-            txn_path = self._pkdbus.CreateTransaction()
-            txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
-        else:
-            tid = self._pkdbus.GetTid()
-            txn = self._sysbus.get_object('org.freedesktop.PackageKit', tid)
+        txn_path = self._pkdbus.CreateTransaction()
+        txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
         txn_tx = self._dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
         txn.connect_to_signal('Message', self._on_pk_message)
         txn.connect_to_signal('ErrorCode', self._on_pk_error)
@@ -267,39 +261,20 @@ class PKSystemInstall(SystemInstall):
         if uninstalled_pkgconfigs:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 9):
-                # PackageKit 1.0.x or 0.9.x
-                txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
-                                    PK_FILTER_ENUM_NOT_INSTALLED,
-                                    ['pkgconfig(%s)' % pkg for modname, pkg in
-                                     uninstalled_pkgconfigs])
-            elif self._pk_major == 0 and self._pk_minor == 8:
-                # PackageKit 0.8.x
-                txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
-                                    PK_FILTER_ENUM_NOT_INSTALLED,
-                                    PK_PROVIDES_ANY,
-                                    ['pkgconfig(%s)' % pkg for modname, pkg in
-                                     uninstalled_pkgconfigs])
-            else:
-                # PackageKit 0.7.x and older
-                txn_tx.WhatProvides('arch;newest;~installed', 'any',
-                                    ['pkgconfig(%s)' % pkg for modname, pkg in
-                                     uninstalled_pkgconfigs])
+            txn_tx.WhatProvides(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
+                                PK_FILTER_ENUM_NOT_INSTALLED,
+                                ['pkgconfig(%s)' % pkg for modname, pkg in
+                                 uninstalled_pkgconfigs])
             self._loop.run()
             del txn, txn_tx
 
         if uninstalled_filenames:
             txn_tx, txn = self._get_new_transaction()
             txn.connect_to_signal('Package', lambda info, pkid, summary: pk_package_ids.add(pkid))
-            if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 8):
-                txn_tx.SearchFiles(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
-                                   PK_FILTER_ENUM_NOT_INSTALLED,
-                                   [pkg for modname, pkg in
-                                    uninstalled_filenames])
-            else:
-                txn_tx.SearchFiles('arch;newest;~installed',
-                                   [pkg for modname, pkg in
-                                    uninstalled_filenames])
+            txn_tx.SearchFiles(PK_FILTER_ENUM_ARCH | PK_FILTER_ENUM_NEWEST |
+                               PK_FILTER_ENUM_NOT_INSTALLED,
+                               [pkg for modname, pkg in
+                                uninstalled_filenames])
             self._loop.run()
             del txn, txn_tx
 
@@ -315,17 +290,13 @@ class PKSystemInstall(SystemInstall):
         logging.info(_('Installing:\n  %s' % ('\n  '.join(pk_package_ids, ))))
 
         txn_tx, txn = self._get_new_transaction()
-        if self._pk_major == 1 or (self._pk_major == 0 and self._pk_minor >= 8):
-            # Using OnlyTrusted might break package installation on rawhide,
-            # where packages are unsigned, but this prevents users of normal
-            # distros with signed packages from seeing security warnings. It
-            # would be better to simulate the transaction first to decide
-            # whether OnlyTrusted will work before using it. See
-            # http://www.freedesktop.org/software/PackageKit/gtk-doc/introduction-ideas-transactions.html
-            txn_tx.InstallPackages(PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, pk_package_ids)
-        else:
-            # PackageKit 0.7.x and older
-            txn_tx.InstallPackages(True, pk_package_ids)
+        # Using OnlyTrusted might break package installation on rawhide,
+        # where packages are unsigned, but this prevents users of normal
+        # distros with signed packages from seeing security warnings. It
+        # would be better to simulate the transaction first to decide
+        # whether OnlyTrusted will work before using it. See
+        # http://www.freedesktop.org/software/PackageKit/gtk-doc/introduction-ideas-transactions.html
+        txn_tx.InstallPackages(PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, pk_package_ids)
         self._loop.run()
 
         logging.info(_('Complete!'))
