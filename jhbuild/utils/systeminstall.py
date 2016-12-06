@@ -218,7 +218,6 @@ PK_FILTER_ENUM_NEWEST = 1 << 16
 PK_FILTER_ENUM_ARCH = 1 << 18
 PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED = 1 << 1
 
-# NOTE: This class is unfinished
 class PKSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
