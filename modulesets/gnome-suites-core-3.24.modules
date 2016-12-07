@@ -538,39 +538,6 @@
     </suggests>
   </autotools>
 
-  <autotools id="pulseaudio"
-             supports-non-srcdir-builds="no"
-             autogenargs="--disable-hal --disable-oss-output --disable-esound --disable-gconf --disable-gtk3 --enable-bluez5">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-bluez4 --disable-bluez5"/>
-    </if>
-    <if condition-set="macos">
-      <autogenargs value="--disable-alsa --disable-avahi"/>
-    </if>
-    <branch repo="pulseaudio.freedesktop.org"/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="json"/>
-      <dep package="libsndfile"/>
-      <dep package="libtool-ltdl"/>
-      <dep package="glib"/>
-      <dep package="speex"/>
-      <if condition-set="linux">
-        <dep package="bluez"/>
-        <dep package="libcap"/>
-        <dep package="libudev"/>
-        <dep package="sbc"/>
-      </if>
-      <if condition-set="systemd">
-        <dep package="libsystemd"/>
-      </if>
-      <if condition-unset="macos">
-        <dep package="alsa"/>
-        <dep package="avahi"/>
-      </if>
-    </dependencies>
-  </autotools>
-
   <autotools id="rygel" supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
