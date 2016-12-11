@@ -272,6 +272,7 @@ class PKSystemInstall(SystemInstall):
         return txn_tx, txn
 
     def install(self, uninstalled):
+        logging.info(_('Computing packages to install. This might be slow. Please wait.'))
         pk_package_ids = set()
         uninstalled_pkgconfigs = get_uninstalled_pkgconfigs(uninstalled)
         if uninstalled_pkgconfigs:
@@ -305,6 +306,7 @@ class PKSystemInstall(SystemInstall):
             return
 
         logging.info(_('Installing:\n  %s' % ('\n  '.join(pk_package_ids, ))))
+        logging.info(_('This might take a very long time. Do not turn off your computer. You can run `pkmon\' to monitor progress.'))
 
         txn_tx, txn = self._get_new_transaction()
         txn_tx.InstallPackages(PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, pk_package_ids)
