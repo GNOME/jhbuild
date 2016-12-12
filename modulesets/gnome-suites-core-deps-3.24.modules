@@ -68,6 +68,8 @@
     href="http://www.spice-space.org/download/"/>
 <repository type="tarball" name="libarchive"
     href="http://libarchive.org/downloads/"/>
+<repository type="tarball" name="people.mozilla.org"
+    href="https://people.mozilla.org/~sstangl/"/>
 
 <include href="gnome-sysdeps-3.24.modules"/>
 
@@ -1544,6 +1546,26 @@
       <dep package="ppp"/>
       <dep package="libmbim"/>
       <dep package="libqmi"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mozjs31" autogen-sh="configure"
+             autogenargs="--with-system-nspr --with-system-zlib --enable-system-ffi --with-system-icu">
+    <pkg-config>mozjs-31.pc</pkg-config>
+    <branch repo="people.mozilla.org" module="mozjs-31.5.0.tar.bz2"
+            version="31.5.0" source-subdir="js/src">
+      <patch file="mozjs31-1021171.patch" strip="1"/>
+      <patch file="mozjs31-1037470.patch" strip="1"/>
+      <patch file="mozjs31-1046176.patch" strip="1"/>
+      <patch file="mozjs31-1119228.patch" strip="1"/>
+      <patch file="mozjs31-install-name.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libffi"/>
+      <dep package="libicu"/>
+      <dep package="nspr"/>
+      <dep package="python2"/>
+      <dep package="zlib"/>
     </dependencies>
   </autotools>
 
