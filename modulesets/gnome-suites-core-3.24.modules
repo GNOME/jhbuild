@@ -1152,12 +1152,9 @@
 
   <autotools id="NetworkManager"
              autogenargs="--with-udev-dir=${libdir}/udev --with-systemdsystemunitdir=no --with-crypto=gnutls --disable-wimax --disable-more-warnings --disable-json-validation">
-    <branch repo="gnome.org"
-           version="1.4.2"
-           module="NetworkManager/1.4/NetworkManager-${version}.tar.xz"
-           hash="a864e347ddf6da8dabd40e0185b8c10a655d4a94b45cbaa2b3bb4b5e8360d204"
-           size="3758636">
-    </branch>
+    <branch repo="git.freedesktop.org"
+	          module="NetworkManager/NetworkManager.git"
+            checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="libndp"/>
       <dep package="libnl"/>
