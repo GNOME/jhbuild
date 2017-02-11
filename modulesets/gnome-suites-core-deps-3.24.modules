@@ -1557,6 +1557,28 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mozjs38" autogen-sh="configure"
+             autogenargs="--enable-posix-nspr-emulation --with-system-zlib --enable-system-ffi --with-system-icu --with-intl-api">
+    <pkg-config>mozjs-38.pc</pkg-config>
+    <branch repo="people.mozilla.org" module="mozjs-38.2.1.rc0.tar.bz2"
+            version="38.2.1"
+            checkoutdir="mozjs-38.0.0" source-subdir="js/src"
+            hash="sha256:01994c758174bc173bcf4960f05ecb4da21014f09641a63b2952bbf9eeaa8b5c">
+      <patch file="mozjs38-fix-tracelogger.patch" strip="1"/>
+      <patch file="mozjs38-release-number.patch" strip="1"/>
+      <patch file="mozjs38-shell-version.patch" strip="1"/>
+      <patch file="mozjs38-pkg-config-version.patch" strip="1"/>
+      <patch file="mozjs38-install-name.patch" strip="1"/>
+      <patch file="mozjs38-1269317.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libffi"/>
+      <dep package="libicu"/>
+      <dep package="python2"/>
+      <dep package="zlib"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="pango" autogenargs="--with-cairo --enable-installed-tests">
     <branch/>
     <dependencies>
