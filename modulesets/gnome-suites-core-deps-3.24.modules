@@ -562,7 +562,7 @@
       <dep package="m4-common"/>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="mozjs31"/>
+      <dep package="mozjs38"/>
       <if condition-set="coverage">
         <dep package="lcov"/>
       </if>
@@ -1534,26 +1534,6 @@
       <dep package="ppp"/>
       <dep package="libmbim"/>
       <dep package="libqmi"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="mozjs31" autogen-sh="configure"
-             autogenargs="--with-system-nspr --with-system-zlib --enable-system-ffi --with-system-icu --with-intl-api">
-    <pkg-config>mozjs-31.pc</pkg-config>
-    <branch repo="people.mozilla.org" module="mozjs-31.5.0.tar.bz2"
-            version="31.5.0" source-subdir="js/src">
-      <patch file="mozjs31-1021171.patch" strip="1"/>
-      <patch file="mozjs31-1037470.patch" strip="1"/>
-      <patch file="mozjs31-1046176.patch" strip="1"/>
-      <patch file="mozjs31-1119228.patch" strip="1"/>
-      <patch file="mozjs31-install-name.patch" strip="1"/>
-    </branch>
-    <dependencies>
-      <dep package="libffi"/>
-      <dep package="libicu"/>
-      <dep package="nspr"/>
-      <dep package="python2"/>
-      <dep package="zlib"/>
     </dependencies>
   </autotools>
 
