@@ -50,6 +50,17 @@ class CMakeModule(MakeModule, DownloadableModule):
         self.skip_install_phase = skip_install_phase
         self.force_non_srcdir_builds = False
         self.supports_install_destdir = True
+        self.use_ninja = True
+
+    def ensure_ninja_binary(self):
+        for f in ['ninja', 'ninja-build']:
+            if inpath(f, os.environ['PATH'].split(os.pathsep)):
+                self.ninja_binary = f
+                return
+
+        self.use_ninja = False
+
+        raise CommandError(_('%s not found') % 'ninja')
 
     def eval_args(self, args):
         args = Package.eval_args(self, args)
@@ -93,6 +104,8 @@ class CMakeModule(MakeModule, DownloadableModule):
             raise CommandError(_('%s not found') % 'cmake')
         baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DCMAKE_INSTALL_LIBDIR=lib' % prefix
         cmakeargs = self.get_cmakeargs()
+        if self.use_ninja:
+            baseargs += ' -G Ninja'
         # CMake on Windows generates VS projects or NMake makefiles by default.
         # When using MSYS "MSYS Makefiles" is the best guess. "Unix Makefiles"
         # and "MinGW Makefiles" could also work (each is a bit different).
@@ -106,20 +119,31 @@ class CMakeModule(MakeModule, DownloadableModule):
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         builddir = self.get_builddir(buildscript)
-        self.make(buildscript, 'clean')
+        if self.use_ninja:
+            self.ensure_ninja_binary()
+            buildscript.execute(self.ninja_binary + ' clean', cwd=builddir, extra_env=self.extra_env)
+        else:
+            self.make(buildscript, 'clean')
     do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
-        self.make(buildscript)
+        if self.use_ninja:
+            self.ensure_ninja_binary()
+            buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
+        else:
+            self.make(buildscript)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        self.make(buildscript, 'package_source')
+        if not self.use_ninja:
+            self.make(buildscript, 'package_source')
+        else:
+            raise CommandError(_('%s does not support dist') % 'ninja')
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -130,13 +154,20 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Installing'), self)
         builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
-        self.make(buildscript, 'install DESTDIR={}'.format(destdir))
+        if self.use_ninja:
+            self.ensure_ninja_binary()
+            extra_env = self.extra_env or {}
+            extra_env['DESTDIR'] = destdir
+            buildscript.execute(self.ninja_binary + ' install', cwd=builddir, extra_env=extra_env)
+        else:
+            self.make(buildscript, 'install DESTDIR={}'.format(destdir))
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
     def xml_tag_and_attrs(self):
         return 'cmake', [('id', 'name', None),
-                         ('skip-install', 'skip_install_phase', False)]
+                         ('skip-install', 'skip_install_phase', False),
+                         ('use-ninja', 'use_ninja', True)]
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):
@@ -159,6 +190,10 @@ def parse_cmake(node, config, uri, repositories, default_repo):
     if node.hasAttribute('force-non-srcdir-builds'):
         instance.force_non_srcdir_builds = \
                 (node.getAttribute('force-non-srcdir-builds') != 'no')
+    if node.hasAttribute('use-ninja'):
+        use_ninja = node.getAttribute('use-ninja')
+        if use_ninja.lower() in ('false', 'no'):
+            instance.use_ninja = False
     return instance
 
 register_module_type('cmake', parse_cmake)
