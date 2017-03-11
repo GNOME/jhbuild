@@ -7,12 +7,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild"
-"&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-11 21:19+0000\n"
-"PO-Revision-Date: 2017-01-26 07:28+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=jhbuil"
+"d&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-02-22 19:28+0000\n"
+"PO-Revision-Date: 2017-03-11 18:51+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -727,12 +727,12 @@ msgstr "Инсталациони префикс (%s) није уписив"
 #: jhbuild/commands/sanitycheck.py:88 jhbuild/commands/sanitycheck.py:125
 #: jhbuild/commands/sanitycheck.py:134 jhbuild/commands/sanitycheck.py:140
 #: jhbuild/commands/sanitycheck.py:142 jhbuild/commands/sanitycheck.py:144
-#: jhbuild/modtypes/cmake.py:93 jhbuild/modtypes/meson.py:62
-#: jhbuild/modtypes/meson.py:102 jhbuild/versioncontrol/bzr.py:218
-#: jhbuild/versioncontrol/cvs.py:304 jhbuild/versioncontrol/darcs.py:110
-#: jhbuild/versioncontrol/fossil.py:107 jhbuild/versioncontrol/git.py:461
-#: jhbuild/versioncontrol/hg.py:106 jhbuild/versioncontrol/mtn.py:142
-#: jhbuild/versioncontrol/svn.py:316
+#: jhbuild/modtypes/cmake.py:63 jhbuild/modtypes/cmake.py:104
+#: jhbuild/modtypes/meson.py:62 jhbuild/modtypes/meson.py:102
+#: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
+#: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
+#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
 msgstr "%s није нађено"
@@ -1286,19 +1286,19 @@ msgstr "Прекинуто"
 msgid "EOF"
 msgstr "Крај датотеке"
 
-#: jhbuild/modtypes/autotools.py:215 jhbuild/modtypes/cmake.py:79
+#: jhbuild/modtypes/autotools.py:215 jhbuild/modtypes/cmake.py:90
 #: jhbuild/modtypes/linux.py:109 jhbuild/modtypes/meson.py:92
 #: jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "Подешавам"
 
-#: jhbuild/modtypes/autotools.py:246 jhbuild/modtypes/cmake.py:107
+#: jhbuild/modtypes/autotools.py:246 jhbuild/modtypes/cmake.py:120
 #: jhbuild/modtypes/linux.py:141 jhbuild/modtypes/meson.py:131
 #: jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Чистим"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:114
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:131
 #: jhbuild/modtypes/distutils.py:57 jhbuild/modtypes/linux.py:154
 #: jhbuild/modtypes/meson.py:139 jhbuild/modtypes/perl.py:52
 #: jhbuild/modtypes/waf.py:93
@@ -1309,7 +1309,7 @@ msgstr "Градим"
 msgid "Checking"
 msgstr "Оверавам"
 
-#: jhbuild/modtypes/autotools.py:293 jhbuild/modtypes/cmake.py:121
+#: jhbuild/modtypes/autotools.py:293 jhbuild/modtypes/cmake.py:142
 #: jhbuild/modtypes/waf.py:123
 msgid "Creating tarball for"
 msgstr "Правим тар-лопту за"
@@ -1322,7 +1322,7 @@ msgstr "Проверавам дистрибуцију"
 msgid "Uninstalling old installed version"
 msgstr "Уклони старо инсталирано издање"
 
-#: jhbuild/modtypes/autotools.py:311 jhbuild/modtypes/cmake.py:130
+#: jhbuild/modtypes/autotools.py:311 jhbuild/modtypes/cmake.py:154
 #: jhbuild/modtypes/distutils.py:69 jhbuild/modtypes/meson.py:150
 #: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:134
 msgid "Installing"
@@ -1336,6 +1336,11 @@ msgstr "Чистим дистрибуцију"
 #, python-format
 msgid "<%s/> tag must contain value=''"
 msgstr "<%s/> ознака мора садржати вредност=''"
+
+#: jhbuild/modtypes/cmake.py:146
+#, python-format
+msgid "%s does not support dist"
+msgstr "„%s“ не подржава дистрибуцију"
 
 #: jhbuild/modtypes/__init__.py:60
 #, python-format
@@ -1584,7 +1589,7 @@ msgstr "Нисам успео да уклоним %(file)r: %(msg)s"
 #: jhbuild/utils/systeminstall.py:218
 msgid "No suitable root privilege command found; you should install \"pkexec\""
 msgstr ""
-"Нема одговарајуће наредбе са овлашћењима администратора; требали бисте да "
+"Нема одговарајуће наредбе са овлашћењима администратора; требало би да "
 "инсталирате „pkexec“"
 
 #: jhbuild/utils/systeminstall.py:247 jhbuild/utils/systeminstall.py:250
@@ -1593,7 +1598,6 @@ msgid "PackageKit: %s"
 msgstr "Пакетски прибор: %s"
 
 #: jhbuild/utils/systeminstall.py:275
-#| msgid "Using pacman to install packages.  Please wait."
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr "Израчунавам пакете за инсталирање. Ово може бити споро. Сачекајте."
 
@@ -1679,8 +1683,6 @@ msgid "Installing: %(pkgs)s"
 msgstr "Инсталирам: %(pkgs)s"
 
 #: jhbuild/utils/systeminstall.py:436
-#| msgid ""
-#| "Using apt-file to search for providers; this may be slow.  Please wait."
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
@@ -1760,8 +1762,8 @@ msgstr "Размислите о употреби „changecvsroot.py“ скри
 
 #: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
 #: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
-#: jhbuild/versioncontrol/git.py:571 jhbuild/versioncontrol/git.py:611
-#: jhbuild/versioncontrol/git.py:687 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
+#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "овера по датуму још није подржана\n"
@@ -1800,7 +1802,7 @@ msgstr "Наредба %s није дала никакав излаз"
 msgid "Command %s did not include commit line: %r"
 msgstr "Наредба „%s“ нема опис предаје: %r"
 
-#: jhbuild/versioncontrol/git.py:433
+#: jhbuild/versioncontrol/git.py:436
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1808,7 +1810,7 @@ msgstr ""
 "Неуспех при ажурирању модула јер је модул пребачен у гит (треба да проверите "
 "измене и онда да уклоните ову фасциклу)."
 
-#: jhbuild/versioncontrol/git.py:434
+#: jhbuild/versioncontrol/git.py:437
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1816,7 +1818,7 @@ msgstr ""
 "Нисам успео да ажурирам модул (недостаје .git) (проверите измене па уклоните "
 "ову фасциклу)."
 
-#: jhbuild/versioncontrol/git.py:538
+#: jhbuild/versioncontrol/git.py:541
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1825,7 +1827,7 @@ msgstr ""
 "Ако користите издање гита које је мање од 1.5.6, препоручујемо да ажурирате "
 "ваш гит.\n"
 
-#: jhbuild/versioncontrol/git.py:583
+#: jhbuild/versioncontrol/git.py:586
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
