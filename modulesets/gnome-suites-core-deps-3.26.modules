@@ -676,9 +676,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="gstreamer"
-         autogenargs="--disable-tests --disable-fatal-warnings"
-         supports-non-srcdir-builds="no">
+  <meson id="gstreamer">
     <branch repo="gstreamer.freedesktop.org"
             module="gstreamer"
             checkoutdir="gstreamer"/>
@@ -687,7 +685,7 @@
       <dep package="libxml2"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="graphene">
     <branch repo="github.com" checkoutdir="graphene" module="ebassi/graphene.git"/>
@@ -697,9 +695,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="gst-plugins-bad"
-             autogenargs="--disable-fatal-warnings"
-             supports-non-srcdir-builds="no">
+  <meson id="gst-plugins-bad">
     <branch repo="gstreamer.freedesktop.org"
             checkoutdir="gst-plugins-bad"
             module="gst-plugins-bad"/>
@@ -710,11 +706,9 @@
     <suggests>
       <dep package="graphene"/>
     </suggests>
-  </autotools>
+  </meson>
 
-  <autotools id="gst-plugins-base"
-             autogenargs="--disable-fatal-warnings"
-             supports-non-srcdir-builds="no">
+  <meson id="gst-plugins-base">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-base"
             checkoutdir="gst-plugins-base"/>
@@ -728,11 +722,9 @@
         <dep package="gudev"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
-  <autotools id="gst-plugins-good"
-             autogenargs="--disable-fatal-warnings"
-             supports-non-srcdir-builds="no">
+  <meson id="gst-plugins-good">
     <branch repo="gstreamer.freedesktop.org"
             module="gst-plugins-good"
             checkoutdir="gst-plugins-good"/>
@@ -754,7 +746,7 @@
         <dep package="gudev"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="gtk+" autogenargs="--enable-broadway-backend --enable-installed-tests">
     <if condition-set="x11">
