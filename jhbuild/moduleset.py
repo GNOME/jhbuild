@@ -56,7 +56,6 @@ virtual_sysdeps = [
     'hg',
     'libtool',
     'make',
-    'meson',
     'pkg-config',
     'svn',
     'xmlcatalog'
