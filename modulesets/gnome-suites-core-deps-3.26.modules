@@ -606,6 +606,9 @@
   </meson>
 
   <autotools id="gmime3">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-libiconv=gnu"/>
+    </if>
     <branch checkoutdir="gmime3" module="gmime"/>
     <dependencies>
       <dep package="gtk-doc"/>
