@@ -68,6 +68,8 @@
     href="http://www.spice-space.org/download/"/>
 <repository type="tarball" name="people.mozilla.org"
     href="https://people.mozilla.org/~sstangl/"/>
+<repository type="tarball" name="mozilla2"
+    href="https://people-mozilla.org/~sfink/"/>
 
 <include href="gnome-sysdeps-3.26.modules"/>
 
@@ -1563,6 +1565,28 @@
       <patch file="mozjs38-copy-headers.patch" strip="1"/>
       <patch file="mozjs38-add-bracket.patch" strip="1"/>
       <patch file="mozjs38-1269317.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="libffi"/>
+      <dep package="libicu"/>
+      <dep package="python2"/>
+      <dep package="zlib"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="mozjs45" autogen-sh="configure"
+             autogenargs="--enable-posix-nspr-emulation --with-system-zlib --enable-system-ffi --with-system-icu --with-intl-api">
+    <pkg-config>mozjs-45.pc</pkg-config>
+    <branch repo="mozilla2" module="mozjs-45.0.2.tar.bz2"
+            version="45.0.2" source-subdir="js/src">
+      <patch file="mozjs45-fix-tracelogger.patch" strip="1"/>
+      <patch file="mozjs45-build-parallel-installable.patch" strip="1"/>
+      <patch file="mozjs45-install-name.patch" strip="1"/>
+      <patch file="mozjs45-copy-headers.patch" strip="1"/>
+      <patch file="mozjs45-add-bracket.patch" strip="1"/>
+      <patch file="mozjs45-1269317.patch" strip="1"/>
+      <patch file="mozjs45-functions-visibility.patch" strip="1"/>
+      <patch file="mozjs45-1176787-disable-mozglue.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="libffi"/>
