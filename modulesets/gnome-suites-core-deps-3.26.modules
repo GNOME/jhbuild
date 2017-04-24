@@ -339,8 +339,8 @@
     </suggests>
   </autotools>
 
-  <autotools id="fwupd"
-             autogenargs="--disable-colorhug --disable-uefi">
+  <meson id="fwupd"
+         mesonargs="-Denable-colorhug=false -Denable-uefi=false">
     <branch repo="github.com" checkoutdir="fwupd" module="hughsie/fwupd"/>
     <dependencies>
       <dep package="appstream-glib"/>
@@ -357,7 +357,7 @@
       <dep package="libgusb"/>
       <dep package="libelf"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="gcab">
     <branch/>
