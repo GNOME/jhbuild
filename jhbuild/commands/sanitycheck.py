@@ -143,6 +143,16 @@ class cmd_sanitycheck(Command):
         if not inpath('xzcat', os.environ['PATH'].split(os.pathsep)):
             uprint(_('%s not found') % 'xzcat')
 
+        # check for "sysdeps --install" deps:
+        try:
+            import glib
+        except:
+            uprint(_('%s not found') % 'pygtk')
+        try:
+            import dbus.glib
+        except:
+            uprint(_('%s not found') % 'dbus-python')
+
     def check_m4(self):
         try:
             not_in_path = []
