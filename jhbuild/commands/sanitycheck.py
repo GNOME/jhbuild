@@ -147,7 +147,7 @@ class cmd_sanitycheck(Command):
         try:
             import glib
         except:
-            uprint(_('%s not found') % 'pygtk')
+            uprint(_('%s not found') % 'python-gobject')
         try:
             import dbus.glib
         except:
