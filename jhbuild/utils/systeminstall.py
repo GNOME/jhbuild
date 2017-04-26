@@ -251,10 +251,16 @@ class PKSystemInstall(SystemInstall):
 
     def _get_new_transaction(self):
         if self._loop is None:
-            import glib
+            try:
+                import glib
+            except:
+                raise SystemExit(_('Error: python-gobject package not found.'))
             self._loop = glib.MainLoop()
         if self._sysbus is None:
-            import dbus.glib
+            try:
+                import dbus.glib
+            except:
+                raise SystemExit(_('Error: dbus-python package not found.'))
             import dbus
             self._dbus = dbus
             self._sysbus = dbus.SystemBus()
