@@ -1,17 +1,17 @@
 # Swedish translation for jhbuild.
-# Copyright © 2008-2016 Free Software Foundation, Inc.
+# Copyright © 2008-2017 Free Software Foundation, Inc.
 # This file is distributed under the same license as the jhbuild package.
 # Daniel Nylander <po@danielnylander.se>, 2008-2011.
 # Sebastian Rasmussen <sebras@gmail.com>, 2014, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-22 19:28+0000\n"
-"PO-Revision-Date: 2017-02-23 21:55+0100\n"
+"POT-Creation-Date: 2017-04-26 18:08+0000\n"
+"PO-Revision-Date: 2017-04-26 23:01+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -164,7 +164,7 @@ msgstr "Uppdatera en eller flera moduler från versionshantering"
 
 #: jhbuild/commands/base.py:104 jhbuild/commands/base.py:142
 #: jhbuild/commands/base.py:383 jhbuild/commands/rdepends.py:52
-#: jhbuild/moduleset.py:181
+#: jhbuild/moduleset.py:180
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "En modul med namnet ”%s” kunde inte hittas."
@@ -735,6 +735,7 @@ msgstr "installationsprefixet (%s) är inte skrivbart"
 #: jhbuild/commands/sanitycheck.py:88 jhbuild/commands/sanitycheck.py:125
 #: jhbuild/commands/sanitycheck.py:134 jhbuild/commands/sanitycheck.py:140
 #: jhbuild/commands/sanitycheck.py:142 jhbuild/commands/sanitycheck.py:144
+#: jhbuild/commands/sanitycheck.py:150 jhbuild/commands/sanitycheck.py:154
 #: jhbuild/modtypes/cmake.py:63 jhbuild/modtypes/cmake.py:104
 #: jhbuild/modtypes/meson.py:62 jhbuild/modtypes/meson.py:102
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
@@ -780,12 +781,12 @@ msgstr "Installerat git-program är inte den rätta git"
 msgid "Could not check git program"
 msgstr "Kunde inte kontrollera git-program"
 
-#: jhbuild/commands/sanitycheck.py:154
+#: jhbuild/commands/sanitycheck.py:164
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "aclocal kan inte se %s-makron"
 
-#: jhbuild/commands/sanitycheck.py:159
+#: jhbuild/commands/sanitycheck.py:169
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1309,7 +1310,7 @@ msgid "Cleaning"
 msgstr "Rensar"
 
 #: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:131
-#: jhbuild/modtypes/distutils.py:57 jhbuild/modtypes/linux.py:154
+#: jhbuild/modtypes/distutils.py:58 jhbuild/modtypes/linux.py:154
 #: jhbuild/modtypes/meson.py:139 jhbuild/modtypes/perl.py:52
 #: jhbuild/modtypes/waf.py:93
 msgid "Building"
@@ -1524,44 +1525,44 @@ msgstr "modulen ”%(module)s” har ett ogiltigt storleksattribut (”%(size)s�
 msgid "Python XML packages are required but could not be found"
 msgstr "Python XML-paket krävs men kunde inte hittas"
 
-#: jhbuild/moduleset.py:95
+#: jhbuild/moduleset.py:94
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "rättade till skiftläge för modulen ”%(orig)s” till ”%(new)s”"
 
-#: jhbuild/moduleset.py:134
+#: jhbuild/moduleset.py:133
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s har ett beroende av okända modulen ”%(invalid)s”"
 
-#: jhbuild/moduleset.py:147
+#: jhbuild/moduleset.py:146
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Cirkulära beroenden detekterades: %s"
 
-#: jhbuild/moduleset.py:298
+#: jhbuild/moduleset.py:297
 msgid "Unknown module:"
 msgstr "Okänd modul:"
 
-#: jhbuild/moduleset.py:437
+#: jhbuild/moduleset.py:436
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> måste ha exakt en av condition-set='' eller condition-unset=''"
 
-#: jhbuild/moduleset.py:456
+#: jhbuild/moduleset.py:455
 #, python-format
 msgid "could not download %s: %s"
 msgstr "kunde inte hämta %s: %s"
 
-#: jhbuild/moduleset.py:461 jhbuild/moduleset.py:463
+#: jhbuild/moduleset.py:460 jhbuild/moduleset.py:462
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "misslyckades med att tolka %s: %s"
 
-#: jhbuild/moduleset.py:498
+#: jhbuild/moduleset.py:497
 msgid "Duplicate repository:"
 msgstr "Duplicerat förråd:"
 
-#: jhbuild/moduleset.py:601
+#: jhbuild/moduleset.py:600
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1608,15 +1609,23 @@ msgstr ""
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:275
+#: jhbuild/utils/systeminstall.py:257
+msgid "Error: python-gobject package not found."
+msgstr "Fel: paketet python-gobject hittades inte."
+
+#: jhbuild/utils/systeminstall.py:263
+msgid "Error: dbus-python package not found."
+msgstr "Fel: paketet dbus-python hittades inte."
+
+#: jhbuild/utils/systeminstall.py:281
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr "Beräknar paket att installera. Detta kan gå långsamt. Var god vänta."
 
-#: jhbuild/utils/systeminstall.py:305
+#: jhbuild/utils/systeminstall.py:311
 msgid "Nothing available to install"
 msgstr "Inget tillgängligt för installation"
 
-#: jhbuild/utils/systeminstall.py:308
+#: jhbuild/utils/systeminstall.py:314
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1625,7 +1634,7 @@ msgstr ""
 "Installerar:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:309
+#: jhbuild/utils/systeminstall.py:315
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "`pkmon' to monitor progress."
@@ -1633,67 +1642,67 @@ msgstr ""
 "Detta kan ta väldigt lång tid. Slå inte av din dator. Du kan köra ”pkmon” "
 "för att övervaka förloppet."
 
-#: jhbuild/utils/systeminstall.py:315
+#: jhbuild/utils/systeminstall.py:321
 msgid "Complete!"
 msgstr "Färdigt!"
 
-#: jhbuild/utils/systeminstall.py:328
+#: jhbuild/utils/systeminstall.py:334
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile hittades inte, installerar automatiskt"
 
-#: jhbuild/utils/systeminstall.py:330
+#: jhbuild/utils/systeminstall.py:336
 msgid "Failed to install pkgfile"
 msgstr "Misslyckades med att installera pkgfile"
 
-#: jhbuild/utils/systeminstall.py:336
+#: jhbuild/utils/systeminstall.py:342
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr "cache för pkgfile är gammal eller finns inte, uppdaterar automatiskt"
 
-#: jhbuild/utils/systeminstall.py:339
+#: jhbuild/utils/systeminstall.py:345
 msgid "Failed to create pkgfile cache"
 msgstr "Misslyckades med att skapa cache för pkgfile"
 
-#: jhbuild/utils/systeminstall.py:342
+#: jhbuild/utils/systeminstall.py:348
 msgid "Failed to update pkgfile cache"
 msgstr "Misslyckades med att uppdatera cache för pkgfile"
 
-#: jhbuild/utils/systeminstall.py:344
+#: jhbuild/utils/systeminstall.py:350
 msgid "Successfully updated pkgfile cache"
 msgstr "Uppdaterade cache för pkgfile"
 
-#: jhbuild/utils/systeminstall.py:349
+#: jhbuild/utils/systeminstall.py:355
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Använder pacman för att installera paket.  Vänta."
 
-#: jhbuild/utils/systeminstall.py:353 jhbuild/utils/systeminstall.py:371
-#: jhbuild/utils/systeminstall.py:468
+#: jhbuild/utils/systeminstall.py:359 jhbuild/utils/systeminstall.py:377
+#: jhbuild/utils/systeminstall.py:474
 msgid "Nothing to install"
 msgstr "Inget att installera"
 
-#: jhbuild/utils/systeminstall.py:368
+#: jhbuild/utils/systeminstall.py:374
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Leverantör för ”%s” hittades inte, ignorerar"
 
-#: jhbuild/utils/systeminstall.py:376
+#: jhbuild/utils/systeminstall.py:382
 msgid "Install failed"
 msgstr "Installation misslyckades"
 
-#: jhbuild/utils/systeminstall.py:378
+#: jhbuild/utils/systeminstall.py:384
 msgid "Completed!"
 msgstr "Färdigt!"
 
-#: jhbuild/utils/systeminstall.py:425
+#: jhbuild/utils/systeminstall.py:431
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Inget inbyggt paket hittades för %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:430
+#: jhbuild/utils/systeminstall.py:436
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Installerar: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:436
+#: jhbuild/utils/systeminstall.py:442
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
