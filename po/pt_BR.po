@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-16 22:37+0000\n"
-"PO-Revision-Date: 2017-02-21 06:57-0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=jhbuil"
+"d&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-04-26 18:08+0000\n"
+"PO-Revision-Date: 2017-04-26 21:53-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -168,7 +168,7 @@ msgstr "Atualiza um ou mais módulos do controle de versão"
 # Não colocar aspas em %s, pois o valor que é inserido já contém aspas simples.
 #: jhbuild/commands/base.py:104 jhbuild/commands/base.py:142
 #: jhbuild/commands/base.py:383 jhbuild/commands/rdepends.py:52
-#: jhbuild/moduleset.py:181
+#: jhbuild/moduleset.py:180
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Não foi possível encontrar o módulo %s."
@@ -747,6 +747,7 @@ msgstr "o prefixo de instalação (%s) não é gravável"
 #: jhbuild/commands/sanitycheck.py:88 jhbuild/commands/sanitycheck.py:125
 #: jhbuild/commands/sanitycheck.py:134 jhbuild/commands/sanitycheck.py:140
 #: jhbuild/commands/sanitycheck.py:142 jhbuild/commands/sanitycheck.py:144
+#: jhbuild/commands/sanitycheck.py:150 jhbuild/commands/sanitycheck.py:154
 #: jhbuild/modtypes/cmake.py:63 jhbuild/modtypes/cmake.py:104
 #: jhbuild/modtypes/meson.py:62 jhbuild/modtypes/meson.py:102
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
@@ -793,12 +794,12 @@ msgstr "Programa do git instalado não é o git correto"
 msgid "Could not check git program"
 msgstr "Não foi possível verificar o programa git"
 
-#: jhbuild/commands/sanitycheck.py:154
+#: jhbuild/commands/sanitycheck.py:164
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "aclocal não pode ver %s macros"
 
-#: jhbuild/commands/sanitycheck.py:159
+#: jhbuild/commands/sanitycheck.py:169
 #, python-format
 msgid ""
 "Please copy the lacking macros (%(macros)s) in one of the following paths: "
@@ -1329,7 +1330,7 @@ msgid "Cleaning"
 msgstr "Limpando"
 
 #: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:131
-#: jhbuild/modtypes/distutils.py:57 jhbuild/modtypes/linux.py:154
+#: jhbuild/modtypes/distutils.py:58 jhbuild/modtypes/linux.py:154
 #: jhbuild/modtypes/meson.py:139 jhbuild/modtypes/perl.py:52
 #: jhbuild/modtypes/waf.py:93
 msgid "Building"
@@ -1546,44 +1547,44 @@ msgid "Python XML packages are required but could not be found"
 msgstr ""
 "Pacotes do XML do Python são necessários, mas não puderam ser encontrados"
 
-#: jhbuild/moduleset.py:95
+#: jhbuild/moduleset.py:94
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "exemplo de módulo corrigido “%(orig)s” para “%(new)s”"
 
-#: jhbuild/moduleset.py:134
+#: jhbuild/moduleset.py:133
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s possui uma dependência em módulo “%(invalid)s”"
 
-#: jhbuild/moduleset.py:147
+#: jhbuild/moduleset.py:146
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Dependência cíclica detectada: %s"
 
-#: jhbuild/moduleset.py:298
+#: jhbuild/moduleset.py:297
 msgid "Unknown module:"
 msgstr "Módulo desconhecido:"
 
-#: jhbuild/moduleset.py:437
+#: jhbuild/moduleset.py:436
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> deve possuir exatamente um condition-set='' ou condition-unset=''"
 
-#: jhbuild/moduleset.py:456
+#: jhbuild/moduleset.py:455
 #, python-format
 msgid "could not download %s: %s"
 msgstr "não foi possível obter %s: %s"
 
-#: jhbuild/moduleset.py:461 jhbuild/moduleset.py:463
+#: jhbuild/moduleset.py:460 jhbuild/moduleset.py:462
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "falhou ao analisar %s: %s"
 
-#: jhbuild/moduleset.py:498
+#: jhbuild/moduleset.py:497
 msgid "Duplicate repository:"
 msgstr "Repositório duplicado:"
 
-#: jhbuild/moduleset.py:601
+#: jhbuild/moduleset.py:600
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1631,16 +1632,24 @@ msgstr ""
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:275
+#: jhbuild/utils/systeminstall.py:257
+msgid "Error: python-gobject package not found."
+msgstr "Erro: o pacote python-gobject não foi localizado."
+
+#: jhbuild/utils/systeminstall.py:263
+msgid "Error: dbus-python package not found."
+msgstr "Erro: o pacote dbus-python não foi localizado."
+
+#: jhbuild/utils/systeminstall.py:281
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr ""
 "Computando pacotes para instalar. Isso pode ser lento. Por favor, aguarde."
 
-#: jhbuild/utils/systeminstall.py:305
+#: jhbuild/utils/systeminstall.py:311
 msgid "Nothing available to install"
 msgstr "Nada disponível para instalar"
 
-#: jhbuild/utils/systeminstall.py:308
+#: jhbuild/utils/systeminstall.py:314
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1649,7 +1658,7 @@ msgstr ""
 "Instalando:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:309
+#: jhbuild/utils/systeminstall.py:315
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "`pkmon' to monitor progress."
@@ -1657,68 +1666,68 @@ msgstr ""
 "Isso pode levar muito tempo. Por favor, não desligue seu computador. Você "
 "pode executar “pkmon” para monitorar o progresso."
 
-#: jhbuild/utils/systeminstall.py:315
+#: jhbuild/utils/systeminstall.py:321
 msgid "Complete!"
 msgstr "Concluída!"
 
-#: jhbuild/utils/systeminstall.py:328
+#: jhbuild/utils/systeminstall.py:334
 msgid "pkgfile not found, automatically installing"
 msgstr "aquivo de pacote não encontrado, instalando automaticamente"
 
-#: jhbuild/utils/systeminstall.py:330
+#: jhbuild/utils/systeminstall.py:336
 msgid "Failed to install pkgfile"
 msgstr "Falha ao instalar aquivo de pacote"
 
-#: jhbuild/utils/systeminstall.py:336
+#: jhbuild/utils/systeminstall.py:342
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr ""
 "cache de aquivo de pacote é antigo ou não existe, atualizando automaticamente"
 
-#: jhbuild/utils/systeminstall.py:339
+#: jhbuild/utils/systeminstall.py:345
 msgid "Failed to create pkgfile cache"
 msgstr "Falha ao criar cache de pacote"
 
-#: jhbuild/utils/systeminstall.py:342
+#: jhbuild/utils/systeminstall.py:348
 msgid "Failed to update pkgfile cache"
 msgstr "Falha ao atualizar cache de pacote"
 
-#: jhbuild/utils/systeminstall.py:344
+#: jhbuild/utils/systeminstall.py:350
 msgid "Successfully updated pkgfile cache"
 msgstr "Cache de pacote atualizado com sucesso"
 
-#: jhbuild/utils/systeminstall.py:349
+#: jhbuild/utils/systeminstall.py:355
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Usando pacman para instalar pacotes. Por favor, espere."
 
-#: jhbuild/utils/systeminstall.py:353 jhbuild/utils/systeminstall.py:371
-#: jhbuild/utils/systeminstall.py:468
+#: jhbuild/utils/systeminstall.py:359 jhbuild/utils/systeminstall.py:377
+#: jhbuild/utils/systeminstall.py:474
 msgid "Nothing to install"
 msgstr "Nada a ser instalado"
 
-#: jhbuild/utils/systeminstall.py:368
+#: jhbuild/utils/systeminstall.py:374
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Fornecedor de “%s” não foi encontrado, ignorando"
 
-#: jhbuild/utils/systeminstall.py:376
+#: jhbuild/utils/systeminstall.py:382
 msgid "Install failed"
 msgstr "Instalação falhou"
 
-#: jhbuild/utils/systeminstall.py:378
+#: jhbuild/utils/systeminstall.py:384
 msgid "Completed!"
 msgstr "Concluída!"
 
-#: jhbuild/utils/systeminstall.py:425
+#: jhbuild/utils/systeminstall.py:431
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Nenhum pacote nativo foi encontrado para %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:430
+#: jhbuild/utils/systeminstall.py:436
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalando: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:436
+#: jhbuild/utils/systeminstall.py:442
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
