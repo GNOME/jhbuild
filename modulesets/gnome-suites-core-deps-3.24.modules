@@ -471,14 +471,13 @@
   </autotools>
 
   <autotools id="glib" autogenargs="--enable-installed-tests --disable-libmount">
-    <branch revision="glib-2-52"/>
     <if condition-set="freebsd">
       <autogenargs value="--disable-dtrace --with-libiconv=gnu"/>
     </if>
     <if condition-set="macos">
       <autogenargs value="--with-pcre=internal"/>
     </if>
-    <branch/>
+    <branch revision="glib-2-52"/>
     <dependencies>
       <dep package="gettext"/>
       <dep package="gtk-doc"/>
