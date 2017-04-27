@@ -252,7 +252,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no">
+  <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no --enable-vala">
     <if condition-unset="linux">
       <autogenargs value="--disable-gusb --disable-udev --disable-systemd-login"/>
     </if>
@@ -265,6 +265,7 @@
       <dep package="lcms2"/>
       <dep package="gobject-introspection"/>
       <dep package="docbook-xml"/>
+      <dep package="vala"/>
       <!-- and cups -->
       <!-- and sane -->
       <if condition-set="linux">
@@ -281,7 +282,7 @@
     </suggests>
   </autotools>
 
-  <autotools id="colord-gtk">
+  <autotools id="colord-gtk" autogenargs="--enable-vala">
     <branch repo="github.com" checkoutdir="colord-gtk" module="hughsie/colord-gtk.git"/>
     <dependencies>
       <dep package="glib"/>

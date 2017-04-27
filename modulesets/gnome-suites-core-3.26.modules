@@ -1101,6 +1101,25 @@
     </suggests>
   </autotools>
 
+  <meson id="simple-scan">
+    <branch/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="itstool"/>
+      <dep package="libgusb"/>
+      <dep package="sane"/>
+      <dep package="vala"/>
+      <dep package="zlib"/>
+    </dependencies>
+    <suggests>
+      <dep package="PackageKit"/>
+      <dep package="colord-gtk"/>
+    </suggests>
+  </meson>
+
   <autotools id="sushi">
     <branch/>
     <dependencies>
@@ -1301,6 +1320,8 @@
       <dep package="totem"/>
       <dep package="yelp"/>
       <if condition-set="linux">
+        <!-- libgusb dependency -->
+        <dep package="simple-scan"/>
         <!-- udisks dependency -->
         <dep package="gnome-disk-utility"/>
         <!-- udev dependency -->
