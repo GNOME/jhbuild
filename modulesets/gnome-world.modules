@@ -668,10 +668,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-python">
-    <branch repo="gstreamer.freedesktop.org" revision="1.6"/>
+  <autotools id="gst-python2" autogenargs="PYTHON=python2">
+    <branch repo="gstreamer.freedesktop.org" module="gst-python"
+            checkoutdir="gst-python2"/>
     <dependencies>
       <dep package="pygobject-python2"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gst-python" autogenargs="PYTHON=python3">
+    <branch repo="gstreamer.freedesktop.org"/>
+    <dependencies>
+      <dep package="pygobject"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
     </dependencies>
