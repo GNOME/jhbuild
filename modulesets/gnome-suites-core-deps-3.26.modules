@@ -1520,7 +1520,11 @@
   </cmake>
 
   <distutils id="meson" python3="1">
-    <branch repo="github.com" module="mesonbuild/meson.git" revision="0.40.0"/>
+    <branch repo="github-tar"
+            version="0.40.0"
+            module="mesonbuild/meson/archive/${version}.tar.gz"
+            checkoutdir="meson-${version}"
+            hash="sha256:34bab8104df65f78b89c8d27d074ec6a426cc97cdea2b139892de2545904609a"/>
     <dependencies>
       <dep package="ninja"/>
     </dependencies>
@@ -1664,8 +1668,11 @@
   </autotools>
 
   <distutils id="py3cairo" python3="1">
-    <branch repo="github.com" module="pygobject/pycairo.git"
-            checkoutdir="pycairo-python3"/>
+    <branch repo="github-tar"
+            version="1.12.0"
+            module="pygobject/pycairo/archive/v${version}.tar.gz"
+            checkoutdir="pycairo-python3-${version}"
+            hash="sha256:e804a4cb8946a3dcf32c54ace4362b62cc1a9c5821c3a075ed172dcb1420c592"/>
   </distutils>
 
   <!-- Python 3 build of pygobject -->
