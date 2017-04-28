@@ -85,32 +85,6 @@
     </systemdependencies>
   </systemmodule>
 
-  <systemmodule id="clang">
-    <branch repo="system"/>
-    <systemdependencies>
-      <dep type="path" name="llvm-config">
-        <!-- Debian -->
-        <altdep type="path" name="llvm-config-5.0"/>
-        <altdep type="path" name="llvm-config-4.0"/>
-        <altdep type="path" name="llvm-config-3.9"/>
-        <altdep type="path" name="llvm-config-3.8"/>
-        <altdep type="path" name="llvm-config-3.7"/>
-        <altdep type="path" name="llvm-config-3.6"/>
-        <altdep type="path" name="llvm-config-3.5"/>
-        <altdep type="path" name="llvm-config-3.4"/>
-        <!-- FreeBSD -->
-        <altdep type="path" name="llvm-config40"/>
-        <altdep type="path" name="llvm-config39"/>
-        <altdep type="path" name="llvm-config38"/>
-        <altdep type="path" name="llvm-config37"/>
-        <altdep type="path" name="llvm-config36"/>
-        <altdep type="path" name="llvm-config35"/>
-        <altdep type="path" name="llvm-config34"/>
-        <altdep type="path" name="llvm-config-devel"/>
-      </dep>
-    </systemdependencies>
-  </systemmodule>
-
   <systemmodule id="cups">
     <branch repo="system" version="1.4"/>
     <systemdependencies>
@@ -446,6 +420,32 @@
   <systemmodule id="libcanberra-gtk3">
     <pkg-config>libcanberra-gtk3.pc</pkg-config>
     <branch repo="system"/>
+  </systemmodule>
+
+  <systemmodule id="libclang">
+    <branch repo="system"/>
+    <systemdependencies>
+      <dep type="c_include" name="clang-c/Index.h">
+        <!-- Debian. FIXME: This is definitely broken. https://bugzilla.gnome.org/show_bug.cgi?id=781872 -->
+        <altdep type="path" name="llvm-config-5.0"/>
+        <altdep type="path" name="llvm-config-4.0"/>
+        <altdep type="path" name="llvm-config-3.9"/>
+        <altdep type="path" name="llvm-config-3.8"/>
+        <altdep type="path" name="llvm-config-3.7"/>
+        <altdep type="path" name="llvm-config-3.6"/>
+        <altdep type="path" name="llvm-config-3.5"/>
+        <altdep type="path" name="llvm-config-3.4"/>
+        <!-- FreeBSD -->
+        <altdep type="path" name="llvm-config40"/>
+        <altdep type="path" name="llvm-config39"/>
+        <altdep type="path" name="llvm-config38"/>
+        <altdep type="path" name="llvm-config37"/>
+        <altdep type="path" name="llvm-config36"/>
+        <altdep type="path" name="llvm-config35"/>
+        <altdep type="path" name="llvm-config34"/>
+        <altdep type="path" name="llvm-config-devel"/>
+      </dep>
+    </systemdependencies>
   </systemmodule>
 
   <systemmodule id="libdmapsharing">
