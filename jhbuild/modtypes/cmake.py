@@ -51,6 +51,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         self.force_non_srcdir_builds = False
         self.supports_install_destdir = True
         self.use_ninja = True
+        self.cmakedir = None
 
     def ensure_ninja_binary(self):
         for f in ['ninja', 'ninja-build']:
@@ -111,7 +112,8 @@ class CMakeModule(MakeModule, DownloadableModule):
         # and "MinGW Makefiles" could also work (each is a bit different).
         if os.name == 'nt' and os.getenv("MSYSCON") and '-G' not in cmakeargs:
             baseargs += ' -G "MSYS Makefiles"'
-        cmd = 'cmake %s %s %s' % (baseargs, cmakeargs, srcdir)
+        cmakedir = os.path.join(srcdir, self.cmakedir) if self.cmakedir else srcdir
+        cmd = 'cmake %s %s %s' % (baseargs, cmakeargs, cmakedir)
         buildscript.execute(cmd, cwd = builddir, extra_env = self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
@@ -167,7 +169,8 @@ class CMakeModule(MakeModule, DownloadableModule):
     def xml_tag_and_attrs(self):
         return 'cmake', [('id', 'name', None),
                          ('skip-install', 'skip_install_phase', False),
-                         ('use-ninja', 'use_ninja', True)]
+                         ('use-ninja', 'use_ninja', True),
+                         ('cmakedir', None)]
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):
@@ -194,6 +197,8 @@ def parse_cmake(node, config, uri, repositories, default_repo):
         use_ninja = node.getAttribute('use-ninja')
         if use_ninja.lower() in ('false', 'no'):
             instance.use_ninja = False
+    if node.hasAttribute('cmakedir'):
+        instance.cmakedir = node.getAttribute('cmakedir')
     return instance
 
 register_module_type('cmake', parse_cmake)

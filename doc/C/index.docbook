@@ -2987,7 +2987,8 @@ Optional packages: (JHBuild will build the missing packages)
 
 <programlisting>
   &lt;cmake id="<replaceable>modulename</replaceable>"
-            [ skip-install="<replaceable>skip-install</replaceable>" ]&gt;
+            [ skip-install="<replaceable>skip-install</replaceable>" ]
+            [ cmakedir="<replaceable>cmakedir</replaceable>" ]&gt;
   &lt;branch [ ... ] &gt;
     [...]
   &lt;/branch&gt;
@@ -3002,6 +3003,10 @@ Optional packages: (JHBuild will build the missing packages)
   &lt;/after&gt;
 &lt;/cmake&gt;
 </programlisting>
+
+        <para>The <sgmltag class="attribute">cmakedir</sgmltag> attribute
+          specifies the subdirectory where cmake will run in relation to srcdir.
+        </para>
       </section>
 
       <section id="moduleset-syntax-defs-meson">
