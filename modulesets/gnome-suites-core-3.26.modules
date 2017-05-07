@@ -982,6 +982,9 @@
   </autotools>
 
   <meson id="gnome-software">
+    <if condition-unset="linux">
+      <mesonargs value="-Denable-ostree=false -Denable-firmware=false -Denable-flatpak=false -Denable-gudev=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="appstream-glib"/>
