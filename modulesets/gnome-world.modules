@@ -3054,7 +3054,10 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-packagekit">
+  <meson id="gnome-packagekit">
+    <if condition-unset="systemd">
+      <mesonargs value="-Denable-systemd=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="PackageKit"/>
@@ -3070,7 +3073,7 @@
         <dep package="libsystemd"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-power-manager">
     <branch/>
