@@ -16,6 +16,7 @@ moduleset =
      | cvsmodule
      | waf
      | cmake
+     | meson
      | systemmodule)+
   }
 attlist.moduleset &= attribute name { text }?
@@ -145,6 +146,7 @@ distutils =
 attlist.distutils &=
   attribute id { xsd:ID },
   [ a:defaultValue = "yes" ]
+  attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
 cmakeargsif = element if { attlist.if, cmakeargsif*, cmakeargs*, makeargs* }
 cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-config?, branch?, dependencieselements }
@@ -154,6 +156,14 @@ attlist.cmake &=
   attribute makeargs { text }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
+mesonargsif = element if { attlist.if, mesonargsif*, mesonargs*, makeargs* }
+meson = element meson { attlist.meson, mesonargsif*, mesonargs*, makeargs*, pkg-config?, branch?, dependencieselements }
+attlist.meson &=
+  attribute id { text },
+  attribute mesonargs { text }?,
+  attribute makeargs { text }?
+mesonargs = element mesonargs { attlist.mesonargs }
+attlist.mesonargs &= attribute value { text }
 perl = element perl { attlist.perl, branch?, dependencies?, after? }
 attlist.perl &=
   attribute id { text },
@@ -222,7 +232,7 @@ dependencies = element dependencies { attlist.dependencies & depif* & dep* }
 attlist.dependencies &= empty
 suggests = element suggests { attlist.suggests & depif* & dep* }
 attlist.suggests &= empty
-after = element after { attlist.after, dep* }
+after = element after { attlist.after & depif* & dep* }
 attlist.after &= empty
 systemdependencies = element systemdependencies { attlist.systemdependencies, sysdep* }
 attlist.systemdependencies &= empty
