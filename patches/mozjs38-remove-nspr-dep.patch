@@ -1,0 +1,25 @@
+Removes the dependency on NSPR from the pkg-config file in the case where
+SpiderMonkey was configured with --enable-posix-nspr-emulation.
+
+--- a/build/autoconf/nspr-build.m4	2017-04-24 21:52:45.000000000 -0700
++++ b/build/autoconf/nspr-build.m4	2017-04-24 21:53:42.000000000 -0700
+@@ -186,6 +186,8 @@
+                 ,
+                 AC_MSG_ERROR([system NSPR does not support PR_STATIC_ASSERT]))
+     CFLAGS=$_SAVE_CFLAGS
++elif test -n "$JS_POSIX_NSPR"; then
++    NSPR_PKGCONF_CHECK=
+ fi
+ AC_SUBST(NSPR_PKGCONF_CHECK)
+ 
+--- a/js/src/configure	2017-04-24 22:18:01.000000000 -0700
++++ b/js/src/configure	2017-04-24 22:18:30.000000000 -0700
+@@ -12494,6 +12494,8 @@
+ fi
+ rm -f conftest*
+     CFLAGS=$_SAVE_CFLAGS
++elif test -n "$JS_POSIX_NSPR"; then
++    NSPR_PKGCONF_CHECK=
+ fi
+ 
+ 
