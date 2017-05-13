@@ -178,7 +178,11 @@ def setup_env(prefix):
 
     # INFOPATH
     infopathdir = os.path.join(prefix, 'share', 'info')
-    addpath('INFOPATH', infopathdir)
+    infopathports = os.path.join(prefix, 'info')
+    if not os.path.exists(infopathdir) and os.path.exists(infopathports):
+        addpath('INFOPATH', infopathports)
+    else:
+        addpath('INFOPATH', infopathdir)
 
     # PKG_CONFIG_PATH
     pkgconfigdatadir = os.path.join(prefix, 'share', 'pkgconfig')
