@@ -294,6 +294,9 @@
     <if condition-set="freebsd">
       <cmakeargs value="-DWITH_LIBDB_CFLAGS=-I/usr/local/include/db5 -DWITH_LIBDB_LIBS=-ldb-5"/>
     </if>
+    <if condition-unset="x11">
+      <cmakeargs value="-DENABLE_GTK=OFF"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
