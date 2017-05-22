@@ -93,14 +93,14 @@
     </dependencies>
   </meson>
 
-  <autotools id="atk">
+  <meson id="atk">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
       <dep package="gtk-doc"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="atkmm-1.6">
     <branch checkoutdir="atkmm-1.6" module="atkmm" revision="atkmm-2-24"/>
@@ -1607,7 +1607,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="pango" autogenargs="--with-cairo --enable-installed-tests">
+  <meson id="pango">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1622,7 +1622,7 @@
         <dep package="fontconfig"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="pangomm-1.4">
     <branch checkoutdir="pangomm-1.4" module="pangomm" revision="pangomm-2-40"/>
