@@ -138,16 +138,12 @@
      </dependencies>
   </autotools>
 
-  <autotools id="cairomm" autogen-sh="configure">
-    <branch module="releases/cairomm-${version}.tar.gz"
-            version="1.15.3"
-            repo="cairo.org"
-            hash="sha256:d858a8c6981a033d8f851d58e19ec7d42d496a40fbec028028498832b6700bc8">
-     </branch>
-     <dependencies>
-        <dep package="cairo"/>
-        <dep package="libsigcplusplus"/>
-     </dependencies>
+  <autotools id="cairomm">
+    <branch repo="git.freedesktop.org" module="cairomm"/>
+    <dependencies>
+       <dep package="cairo"/>
+       <dep package="libsigcplusplus"/>
+    </dependencies>
   </autotools>
 
   <autotools id="cantarell-fonts">
