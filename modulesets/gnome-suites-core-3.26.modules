@@ -336,9 +336,9 @@
     </suggests>
   </autotools>
 
-  <autotools id="gnome-shell">
+  <meson id="gnome-shell">
     <if condition-unset="linux">
-      <autogenargs value="--disable-networkmanager"/>
+      <mesonargs value="-Denable-networkmanager=no"/>
     </if>
     <branch/>
     <dependencies>
@@ -383,7 +383,7 @@
     <after>
       <dep package="librsvg"/>
     </after>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-shell-extensions" autogenargs="--enable-extensions=classic-mode">
     <branch/>
