@@ -121,7 +121,7 @@ class MesonModule(MakeModule, DownloadableModule):
 
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
-        meson_marker_path = os.path.join(builddir, 'meson-private')
+        meson_marker_path = os.path.join(builddir, 'meson-private', 'coredata.dat')
         if not os.path.exists(meson_marker_path):
             return False
 
