@@ -70,6 +70,8 @@
     href="https://people.mozilla.org/~sstangl/"/>
 <repository type="tarball" name="mozilla2"
     href="https://people-mozilla.org/~sfink/"/>
+<repository type="tarball" name="savannah-download"
+    href="http://download.savannah.gnu.org/releases/"/>
 
 <include href="gnome-sysdeps-3.26.modules"/>
 
@@ -337,6 +339,20 @@
     <suggests>
       <dep package="telepathy-logger"/>
     </suggests>
+  </autotools>
+
+  <autotools id="freetype2" autogen-sh="configure">
+    <pkg-config>freetype2.pc</pkg-config>
+    <branch repo="savannah-download"
+            module="freetype/freetype-2.8.tar.bz2"
+            version="2.8.0"
+            hash="sha256:a3c603ed84c3c2495f9c9331fe6bba3bb0ee65e06ec331e0a0fb52158291b40b"
+            size="1873526"/>
+    <dependencies>
+      <dep package="zlib"/>
+      <dep package="libpng"/>
+      <dep package="harfbuzz"/>
+    </dependencies>
   </autotools>
 
   <meson id="fwupd"
