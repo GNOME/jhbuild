@@ -320,6 +320,9 @@
   </autotools>
 
   <meson id="gnome-builder">
+    <if condition-unset="linux">
+      <mesonargs value="-Dwith_flatpak=false -Dwith_sysprof=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="devhelp"/>
