@@ -709,6 +709,23 @@ jhbuildbot_password = 'password'
       </varlistentry>
     </variablelist>
 
+    <para>Additionally, JHBuild checks the presence, and value, of the
+      following environment variables:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><envar>JHBUILD_RUN_AS_ROOT</envar></term>
+        <listitem>
+          <simpara>By default, JHBuild does not run when using the root user,
+            to avoid destructive operations that may affect the whole system.
+            In certain cases, though, it's acceptable to run JHBuild as root;
+            for instance, inside a container, or in a continuous integration
+            environment. Exporting the <envar>JHBUILD_RUN_AS_ROOT</envar> will
+            disable the user id check at startup.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
     <para>Command specific options are listed below.</para>
 
     <section id="command-reference-autobuild">
