@@ -1,0 +1,44 @@
+language: c
+sudo: required
+    # necessary for `jhbuild sysdeps --install`
+dist:
+- trusty
+    # - `precise` fails due to `aclocal: --install should copy macros in the directory indicated by the first -I option, but no -I was supplied.`
+    # - `precise` is hard to use with Python 3 because `sudo pip install` requires Python >3.2 in order to avoid `SyntaxError: invalid syntax` at `http_error_msg = u'%s Client Error: %s for url: %s' % (self.status_code, reason, self.url)` (see https://stackoverflow.com/questions/38957513/hi-i-just-installed-reques$, but 3.2.x is the highest version in `precise`
+
+before_install:
+- sudo apt-get update
+- sudo apt-get build-dep jhbuild
+- sudo apt-get install gettext yelp-tools autopoint
+    # necessary to provide `make` target `check`
+- sudo apt-get install trang
+    # for `make check`
+- sudo apt-get remove gettext
+- wget https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.xz && tar xf gettext-0.19.8.1.tar.xz && cd gettext-0.19.8.1 && ./configure && make -j && sudo make install && cd ..
+    # - necessary to avoid `The AM_GNU_GETTEXT_VERSION declaration in your configure.ac file requires the infrastructure from gettext-0.19 but this version is older. Please upgrade to gettext-0.19 or newer.`
+    # - separate building and installation in `gettext-tools` necessary because otherwise building and installing in source root fails due to `/usr/bin/msgfmt: unrecognized option '--desktop'`
+- sudo apt-get install python3-setuptools
+- sudo easy_install3 pip
+    # `sudo apt-get install python3-pip` fails due to `E: Unable to locate package python3-pip`
+- sudo pip3 install pathlib
+    # avoid `ImportError: No module named pathlib` in `meson` (uses `python3` for building and installing)
+- git clone git://github.com/ninja-build/ninja.git && cd ninja && python ./bootstrap.py && python ./configure.py && sudo cp ninja /usr/local/bin && cd ..
+    # avoid `Could not detect Ninja v1.6 or newer` in `meson`
+
+script:
+- ./autogen.sh && make -j && make check -j && make install
+- sudo apt-get install apt-file
+    # necessary to avoid `apt-file is required to install packages on this system. Please install apt-file` during `jhbuild sysdeps --install`
+- sudo apt-file update
+    # - necessary to avoid `E: The cache is empty. You need to run 'apt-file update' first.` during `jhbuild sysdeps --install`
+    # - `W: Don't know how to handle "https` doesn't seem to be a problem and can be ignored
+- sudo env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sysdeps --install
+    # PATH is not even preserved in `sudo -E` which doesn't make sense asked https://unix.stackexchange.com/questions/374536/how-is-it-possible-that-a-command-is-found-without-but-not-with-sudo-e for input
+- sudo chown -Rc `echo $USER`:`echo $USER` $HOME/.cache
+    # avoid `jhbuild build: could not download https://git.gnome.org/browse/jhbuild/plain/modulesets/gnome-apps-3.26.modules: [Errno 13] Permission denied: '/home/travis/.cache/jhbuild/gnome-apps-3.26.modules-'`
+- sudo chown -Rc `echo $USER`:`echo $USER` $HOME/jhbuild/install
+    # avoid `jhbuild build: install prefix (/home/travis/jhbuild/install) must be writable`
+- sudo mkdir $HOME/jhbuild/checkout/ && sudo chown -Rc `echo $USER`:`echo $USER` $HOME/jhbuild/checkout/
+    # avoid `jhbuild build: checkout root (/home/travis/jhbuild/checkout/) can not be created`
+- $HOME/.local/bin/jhbuild build --nodeps
+    # some sysdeps are still not statisfied, so add `--nodeps`
