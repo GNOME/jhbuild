@@ -94,10 +94,6 @@ def main(args):
         localedir = None
     gettext.install('jhbuild', localedir=localedir, unicode=True)
 
-    if hasattr(os, 'getuid') and os.getuid() == 0:
-        sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
-        sys.exit(1)
-
     logging.getLogger().setLevel(logging.INFO)
     logging_handler = logging.StreamHandler()
     logging_handler.setFormatter(LoggingFormatter())
@@ -130,8 +126,15 @@ def main(args):
     parser.add_option('--conditions', action='append',
                       dest='conditions', default=[],
                       help=_('modify the condition set'))
+    parser.add_option('--allow-root', action='store_true',
+                      dest='allow_root', default=False,
+                      help=_('don\'t return if jhbuild is invoked as root user (this is useful when using subcommands like sysdeps in a headless environment)'))
 
     options, args = parser.parse_args(args)
+
+    if hasattr(os, 'getuid') and os.getuid() == 0 and not options.allow_root:
+        sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
+        sys.exit(1)
 
     try:
         config = jhbuild.config.Config(options.configfile, options.conditions)
