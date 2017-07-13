@@ -46,7 +46,10 @@ class cmd_sysdeps(cmd_build):
                         help=_('Machine readable list of all sysdeps')),
             make_option('--install',
                         action='store_true', default = False,
-                        help=_('Install pkg-config modules via system'))])
+                        help=_('Install pkg-config modules via system')),
+            make_option('--no-parallel',
+                        action='store_true', default = False,
+                        help=_('Don\'t run package search with apt-file in parallel'))])
 
     def run(self, config, options, args, help=None):
 
@@ -211,6 +214,7 @@ class cmd_sysdeps(cmd_build):
             else:
                 logging.info(_("Installing dependencies on system: %s") % \
                                ' '.join(pkg[0] for pkg in uninstalled))
-                installer.install(uninstalled)
+                installer.install(uninstalled,
+                                  parallel=not options.no_parallel)
 
 register_command(cmd_sysdeps)
