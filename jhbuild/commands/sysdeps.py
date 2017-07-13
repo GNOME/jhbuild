@@ -198,11 +198,12 @@ class cmd_sysdeps(cmd_build):
             if installer is None:
                 # FIXME: This should be implemented per Colin's design:
                 # https://bugzilla.gnome.org/show_bug.cgi?id=682104#c3
-                if cmds.has_command('apt-get'):
+                apt_get = 'apt-get'
+                if cmds.has_command(apt_get):
                     raise FatalError(_("%(cmd)s is required to install "
                                        "packages on this system. Please "
                                        "install %(cmd)s.")
-                                     % {'cmd' : 'apt-file'})
+                                     % {'cmd' : apt_get})
 
                 raise FatalError(_("Don't know how to install packages on this system"))
 
