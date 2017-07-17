@@ -1602,21 +1602,13 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mozjs45" autogen-sh="configure"
-             autogenargs="--enable-posix-nspr-emulation --with-system-zlib --enable-system-ffi --with-system-icu --with-intl-api">
-    <pkg-config>mozjs-45.pc</pkg-config>
-    <branch repo="mozilla2" module="mozjs-45.0.2.tar.bz2"
-            version="45.0.2" source-subdir="js/src">
-      <patch file="mozjs45-fix-tracelogger.patch" strip="1"/>
-      <patch file="mozjs45-build-parallel-installable.patch" strip="1"/>
-      <patch file="mozjs45-install-name.patch" strip="1"/>
-      <patch file="mozjs45-copy-headers.patch" strip="1"/>
-      <patch file="mozjs45-add-bracket.patch" strip="1"/>
-      <patch file="mozjs45-1269317.patch" strip="1"/>
-      <patch file="mozjs45-functions-visibility.patch" strip="1"/>
-      <patch file="mozjs45-1176787-disable-mozglue.patch" strip="1"/>
-      <patch file="mozjs45-remove-nspr-dep.patch" strip="1"/>
-    </branch>
+  <autotools id="mozjs52" autogen-sh="js/src/configure"
+             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
+             autogenargs="--enable-posix-nspr-emulation --with-system-zlib --with-system-icu --with-intl-api AUTOCONF=autoconf">
+    <!-- prefix option must have an = sign in mozilla's configure -->
+    <pkg-config>mozjs-52.pc</pkg-config>
+    <branch repo="github.com" module="ptomato/mozjs" revision="mozjs52"
+            checkoutdir="mozjs52"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="libicu"/>
