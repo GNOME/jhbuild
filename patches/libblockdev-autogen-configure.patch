@@ -1,0 +1,17 @@
+diff --git a/autogen.sh b/autogen.sh
+index 1f63992..0ea7050 100755
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -14,3 +14,12 @@ PKG_NAME=`autoconf --trace 'AC_INIT:$1' configure.ac`
+ aclocal --install || exit 1
+ autoreconf --verbose --force --install -Wno-portability || exit 1
+ popd
++if [ "$NOCONFIGURE" = "" ]; then
++        $srcdir/configure "$@" || exit 1
++
++        if [ "$1" = "--help" ]; then exit 0 else
++                echo "Now type \`make\' to compile $PKG_NAME" || exit 1
++        fi
++else
++        echo "Skipping configure process."
++fi

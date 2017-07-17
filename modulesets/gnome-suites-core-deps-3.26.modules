@@ -14,6 +14,8 @@
     href="https://github.com/"/>
 <repository type="git" name="gitlab.com"
     href="https://gitlab.com/"/>
+<repository type="git" name="pagure.io"
+    href="https://pagure.io/"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="cairo.org"
@@ -1072,6 +1074,23 @@
     </suggests>
   </meson>
 
+  <autotools id="libblockdev" autogenargs="--without-gtk-doc">
+    <branch repo="github.com" module="storaged-project/libblockdev" patch="libblockdev-autogen-configure.patch"/>
+    <dependencies>
+      <dep package="pygobject"/>
+      <dep package="m4-common"/>
+      <dep package="libbytesize"/>
+      <dep package="libvolume_key"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="libbytesize" autogenargs="--without-gtk-doc">
+    <branch repo="github.com" module="rhinstaller/libbytesize" patch="libbytesize-autogen-configure.patch"/>
+    <dependencies>
+      <dep package="m4-common"/>
+    </dependencies>
+  </autotools>
+
  <autotools id="libchamplain" autogenargs="--enable-vala">
    <branch/>
    <dependencies>
@@ -1464,6 +1483,13 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libvolume_key" autogen-sh="autoreconf">
+    <branch repo="pagure.io" module="volume_key"/>
+    <dependencies>
+      <dep package="m4-common"/>
+    </dependencies>
+  </autotools>
+
   <!-- Deprecated -->
   <autotools id="libwnck">
     <branch/>
@@ -1784,6 +1810,22 @@
         <dep package="NetworkManager"/>
       </if>
     </suggests>
+  </autotools>
+
+  <autotools id="udisks" autogenargs="--with-systemdsystemunitdir=no --disable-gtk-doc-html">
+    <branch repo="github.com" module="storaged-project/udisks"/>
+    <dependencies>
+      <dep package="gudev"/>
+      <dep package="libacl"/>
+      <dep package="polkit-gobject"/>
+      <dep package="polkit-agent"/>
+      <dep package="libatasmart"/>
+      <dep package="libblockdev"/>
+      <dep package="m4-common"/>
+      <if condition-set="systemd">
+        <dep package="libsystemd"/>
+      </if>
+    </dependencies>
   </autotools>
 
   <autotools id="uhttpmock" supports-non-srcdir-builds="no">
