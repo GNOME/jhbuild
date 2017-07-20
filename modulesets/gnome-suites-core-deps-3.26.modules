@@ -58,8 +58,6 @@
     href="http://xorg.freedesktop.org/"/>
 <repository type="tarball" name="github-tar"
     href="https://github.com/"/>
-<repository type="tarball" name="libxkbcommon"
-    href="http://xkbcommon.org/download/"/>
 <repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
 <repository type="tarball" name="pcre"
@@ -1493,23 +1491,6 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libxkbcommon">
-    <branch repo="libxkbcommon"
-            module="http://xkbcommon.org/download/libxkbcommon-${version}.tar.xz"
-            version="0.5.0"
-            hash="sha256:90bd7824742b9a6f52a6cf80e2cadd6f5349cf600a358d08260772615b89d19c"
-            size="615504"/>
-    <dependencies>
-      <dep package="xkeyboard-config"/>
-      <dep package="xorg-macros"/>
-      <dep package="xorg-xproto"/>
-      <dep package="xorg-kbproto"/>
-      <dep package="libX11"/>
-      <dep package="xcb"/>
-      <dep package="xcb-xkb"/>
-    </dependencies>
-  </autotools>
-
   <!-- GNOME’s cache for autoconf-archive.
        Please keep this comment for greppability. -->
   <autotools id="m4-common">
@@ -1918,14 +1899,6 @@
       </if>
     </dependencies>
   </cmake>
-
-  <autotools id="xorg-xproto">
-    <pkg-config>xproto.pc</pkg-config>
-    <branch repo="xorg-tar"
-            module="releases/individual/proto/xproto-7.0.28.tar.gz" version="7.0.28"
-            size="367523"
-            hash="sha256:6cabc8ce3fa2b1a2427871167b62c24d5b08a58bd3e81ed7aaf08f2bf6dbcfed"/>
-  </autotools>
 
   <autotools id="xtrans">
     <pkg-config>xtrans.pc</pkg-config>
