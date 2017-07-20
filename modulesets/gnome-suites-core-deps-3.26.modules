@@ -72,6 +72,8 @@
     href="https://people-mozilla.org/~sfink/"/>
 <repository type="tarball" name="savannah-download"
     href="http://download.savannah.gnu.org/releases/"/>
+<repository type="tarball" name="gnome-download"
+    href="https://download.gnome.org/"/>
 
 <include href="gnome-sysdeps-3.26.modules"/>
 
@@ -1562,8 +1564,10 @@
              autogenargs="--enable-posix-nspr-emulation --with-system-zlib --with-intl-api AUTOCONF=autoconf">
     <!-- prefix option must have an = sign in mozilla's configure -->
     <pkg-config>mozjs-52.pc</pkg-config>
-    <branch repo="github.com" module="ptomato/mozjs" revision="mozjs52"
-            checkoutdir="mozjs52"/>
+    <branch repo="gnome-download" version="52.2.1gnome1"
+            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.gz"
+            hash="sha256:31697943b1dbbb51ba9aee35b8269a353c487d7af4d336010b90054dc4f9b0af"
+            size="37334801"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="libicu"/>
