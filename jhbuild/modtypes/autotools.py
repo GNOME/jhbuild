@@ -62,7 +62,8 @@ class AutogenModule(MakeModule, DownloadableModule):
                  autogen_template=None,
                  check_target=True,
                  supports_static_analyzer=True,
-                 needs_gmake=True):
+                 needs_gmake=True,
+                 supports_unknown_configure_options=True):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs,
                             makeinstallargs=makeinstallargs, makefile=makefile, needs_gmake=needs_gmake)
         self.autogenargs = autogenargs
@@ -75,6 +76,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         self.check_target = check_target
         self.supports_install_destdir = True
         self.supports_static_analyzer = supports_static_analyzer
+        self.supports_unknown_configure_options = supports_unknown_configure_options
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -112,10 +114,12 @@ class AutogenModule(MakeModule, DownloadableModule):
         else:
             template = ("%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s %(autogenargs)s ")
 
+        default_autogenargs = (self.config.autogenargs
+            if self.supports_unknown_configure_options else '')
         autogenargs = self.autogenargs + ' ' + self.config.module_autogenargs.get(
-                self.name, self.config.autogenargs)
+                self.name, default_autogenargs)
 
-        if self.config.disable_Werror:
+        if self.config.disable_Werror and self.supports_unknown_configure_options:
             autogenargs = '--disable-Werror' + ' ' + autogenargs
 
         vars = {'prefix': os.path.splitdrive(buildscript.config.prefix)[1],
@@ -345,6 +349,8 @@ class AutogenModule(MakeModule, DownloadableModule):
                  ('makeinstallargs', 'makeinstallargs', ''),
                  ('supports-non-srcdir-builds',
                   'supports_non_srcdir_builds', True),
+                 ('supports-unknown-configure-options',
+                  'supports_unknown_configure_options', True),
                  ('skip-autogen', 'skip_autogen', False),
                  ('skip-install', 'skip_install_phase', False),
                  ('uninstall-before-install', 'uninstall_before_install', False),
@@ -382,6 +388,9 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
                 (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('supports-unknown-configure-options'):
+        instance.supports_unknown_configure_options = \
+                (node.getAttribute('supports-unknown-configure-options') != 'no')
     if node.hasAttribute('skip-autogen'):
         skip_autogen = node.getAttribute('skip-autogen')
         if skip_autogen == 'true':

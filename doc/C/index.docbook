@@ -2915,6 +2915,7 @@ Optional packages: (JHBuild will build the missing packages)
 	      [ check-target="<replaceable>check-target</replaceable>" ]
 	      [ supports-non-srcdir-builds="<replaceable>supports-non-srcdir-builds</replaceable>" ]
 	      [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]
+	      [ supports-unknown-configure-options="<replaceable>supports-unknown-configure-options</replaceable>" ]
 	      [ supports-static-analyzer="<replaceable>supports-static-analyzer</replaceable>" ]&gt;
 
   &lt;branch [ ... ] &gt;
@@ -2994,6 +2995,11 @@ Optional packages: (JHBuild will build the missing packages)
           attribute must be specified (with false as value) for modules which
           don’t support being built under a static analysis tool such as
           <command>scan-build</command>.</para>
+
+        <para>The <sgmltag class="attribute">supports-unknown-configure-options</sgmltag>
+          attribute is used to mark modules that will error out if an unknown
+          option is passed to <filename>configure</filename>. Global configure
+          options will not be used for that module.</para>
       </section>
 
       <section id="moduleset-syntax-defs-cmake">
