@@ -420,26 +420,6 @@
     </dependencies>
   </meson>
 
-  <autotools id="seahorse">
-    <branch/>
-    <dependencies>
-      <dep package="vala"/>
-      <dep package="intltool"/>
-      <dep package="gtk+-3"/>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-      <dep package="libsecret"/>
-      <dep package="gcr"/>
-      <dep package="yelp-tools"/>
-      <dep package="gpgme"/>
-      <dep package="gnupg"/>
-    </dependencies>
-    <suggests>
-      <dep package="avahi"/>
-      <dep package="libxml2"/>
-    </suggests>
-  </autotools>
-
 <!-- Games -->
 
   <autotools id="five-or-more">
@@ -679,7 +659,6 @@
   -->
   <metamodule id="meta-gnome-apps-tested">
     <dependencies>
-      <dep package="meta-gnome-core-incubator"/>
       <dep package="meta-gnome-games"/>
       <dep package="accerciser"/>
       <dep package="dconf-editor"/>
@@ -690,6 +669,7 @@
       <dep package="glade"/>
       <dep package="gnome-builder"/>
       <dep package="gnome-devel-docs"/>
+      <dep package="gnome-dictionary"/>
       <dep package="gnome-nettool"/>
       <dep package="gnome-sound-recorder"/>
       <dep package="gnome-tweak-tool"/>
@@ -699,16 +679,6 @@
       <if condition-set="linux">
         <dep package="gnome-multi-writer"/>
       </if>
-    </dependencies>
-  </metamodule>
-
-  <!-- GNOME Incubator: Where new core apps grow up, until they are
-       good enough to form part of the default user experience.
-  -->
-  <metamodule id="meta-gnome-core-incubator">
-    <dependencies>
-      <dep package="gnome-dictionary"/>
-      <dep package="seahorse"/>
     </dependencies>
   </metamodule>
 
