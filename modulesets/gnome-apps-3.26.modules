@@ -7,8 +7,6 @@
 <!-- git repos -->
   <repository type="git" name="git.gnome.org" default="yes"
       href="git://git.gnome.org/"/>
-  <repository type="git" name="git.freedesktop.org"
-      href="git://anongit.freedesktop.org/git/"/>
   <repository type="git" name="github.com"
       href="git://github.com/"/>
 
@@ -21,12 +19,6 @@
       href="http://ostermiller.org/qqwing/"/>
   <repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
-  <repository type="tarball" name="downloads.sourceforge.net"
-      href="http://downloads.sourceforge.net/"/>
-  <repository type="tarball" name="freedesktop.org"
-      href="http://freedesktop.org/software/"/>
-  <repository type="git" name="telepathy.freedesktop.org"
-      href="git://anongit.freedesktop.org/telepathy/"/>
 
   <include href="gnome-suites-core-3.26.modules"/>
 
@@ -43,21 +35,6 @@
     -->
 
 <!-- Dependencies and miscellaneous -->
-
-  <autotools id="farstream" autogenargs="--disable-python" supports-non-srcdir-builds="no">
-    <branch repo="freedesktop.org"
-            module="farstream/releases/farstream/farstream-${version}.tar.gz"
-            version="0.2.7"
-            hash="sha256:dad0ed43cf94e71df558c23825abe57db59d1ee8d970ffaec5e2dbc2e7acbf7d"/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="libnice"/>
-    </dependencies>
-    <suggests>
-      <dep package="gupnp-igd"/>
-    </suggests>
-  </autotools>
 
   <autotools id="gnome-code-assistance">
     <branch/>
@@ -171,14 +148,6 @@
             size="352060"/>
     <dependencies>
       <dep package="c++"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="telepathy-farstream" autogenargs="--disable-python" supports-non-srcdir-builds="no">
-    <branch repo="telepathy.freedesktop.org"/>
-    <dependencies>
-      <dep package="telepathy-glib"/>
-      <dep package="farstream"/>
     </dependencies>
   </autotools>
 
@@ -671,11 +640,11 @@
       <dep package="gnome-devel-docs"/>
       <dep package="gnome-dictionary"/>
       <dep package="gnome-nettool"/>
+      <dep package="gnome-recipes"/>
       <dep package="gnome-sound-recorder"/>
       <dep package="gnome-tweak-tool"/>
       <dep package="nautilus-sendto"/>
       <dep package="polari"/>
-      <dep package="recipes"/>
       <if condition-set="linux">
         <dep package="gnome-multi-writer"/>
       </if>

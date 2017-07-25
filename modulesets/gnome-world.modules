@@ -77,6 +77,8 @@
       href="git://git.ardour.org/"/>
   <repository type="git" name="gitorious.org"
       href="https://gitorious.org/"/>
+  <repository type="git" name="telepathy.freedesktop.org"
+      href="git://anongit.freedesktop.org/telepathy/"/>
   <repository type="tarball" name="samba.org"
       href="https://ftp.samba.org/pub/"/>
   <repository type="tarball" name="sourceforge.net"
@@ -111,6 +113,9 @@
       href="https://github.com/downloads/metabrainz/"/>
   <repository type="tarball" name="downloads.sourceforge.net"
       href="http://downloads.sourceforge.net/"/>
+  <repository type="tarball" name="freedesktop.org"
+      href="http://freedesktop.org/software/"/>
+
 
   <include href="gnome-apps-3.26.modules"/>
 
@@ -3580,6 +3585,29 @@
       <dep package="WebKit"/>
       <dep package="evolution-data-server"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="telepathy-farstream" autogenargs="--disable-python" supports-non-srcdir-builds="no">
+    <branch repo="telepathy.freedesktop.org"/>
+    <dependencies>
+      <dep package="telepathy-glib"/>
+      <dep package="farstream"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="farstream" autogenargs="--disable-python" supports-non-srcdir-builds="no">
+    <branch repo="freedesktop.org"
+            module="farstream/releases/farstream/farstream-${version}.tar.gz"
+            version="0.2.7"
+            hash="sha256:dad0ed43cf94e71df558c23825abe57db59d1ee8d970ffaec5e2dbc2e7acbf7d"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libnice"/>
+    </dependencies>
+    <suggests>
+      <dep package="gupnp-igd"/>
+    </suggests>
   </autotools>
 
 </moduleset>
