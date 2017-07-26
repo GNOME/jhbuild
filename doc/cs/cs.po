@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
-"POT-Creation-Date: 2017-06-27 14:15+0000\n"
-"PO-Revision-Date: 2017-07-01 11:46+0200\n"
+"POT-Creation-Date: 2017-07-24 01:04+0000\n"
+"PO-Revision-Date: 2017-07-26 11:18+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4181,7 +4181,7 @@ msgstr ""
 "conditions=</command>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:2481 C/index.docbook:3367
+#: C/index.docbook:2481 C/index.docbook:3373
 msgid "Module Sources"
 msgstr "Zdroje modulů"
 
@@ -4927,7 +4927,7 @@ msgstr ""
 "záplaty jít."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2828 C/index.docbook:3499
+#: C/index.docbook:2828 C/index.docbook:3505
 msgid ""
 "For module sets shipped with JHBuild, the patch files are looked up in the "
 "<filename>jhbuild/patches/</filename> directory; for module sets referred by "
@@ -5109,6 +5109,7 @@ msgid ""
 "\t      [ check-target=\"<replaceable>check-target</replaceable>\" ]\n"
 "\t      [ supports-non-srcdir-builds=\"<replaceable>supports-non-srcdir-builds</replaceable>\" ]\n"
 "\t      [ force-non-srcdir-builds=\"<replaceable>force-non-srcdir-builds</replaceable>\" ]\n"
+"\t      [ supports-unknown-configure-options=\"<replaceable>supports-unknown-configure-options</replaceable>\" ]\n"
 "\t      [ supports-static-analyzer=\"<replaceable>supports-static-analyzer</replaceable>\" ]&gt;\n"
 "\n"
 "  &lt;branch [ ... ] &gt;\n"
@@ -5140,6 +5141,7 @@ msgstr ""
 "\t      [ check-target=\"<replaceable>cíl_pro_stažení</replaceable>\" ]\n"
 "\t      [ supports-non-srcdir-builds=\"<replaceable>podporuje_sestavení_mimo_zdrojovu_složku</replaceable>\" ]\n"
 "\t      [ force-non-srcdir-builds=\"<replaceable>vynutit_sestavení_mimo_zdrojovou_složku</replaceable>\" ]\n"
+"\t      [ supports-unknown-configure-options=\"<replaceable>podporuje_neznámé_volby_nastavení</replaceable>\" ]\n"
 "\t      [ supports-static-analyzer=\"<replaceable>podporuje_statickou_analýzu</replaceable>\" ]&gt;\n"
 "\n"
 "  &lt;branch [ … ] &gt;\n"
@@ -5158,7 +5160,7 @@ msgstr ""
 "&lt;/autotools&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2936
+#: C/index.docbook:2937
 msgid ""
 "The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class="
 "\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
@@ -5173,7 +5175,7 @@ msgstr ""
 "<command>make</command> respektive <command>make install</command>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2943
+#: C/index.docbook:2944
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies "
 "the name of the autogen.sh script to run. The value <literal>autoreconf</"
@@ -5201,7 +5203,7 @@ msgstr ""
 "se má použít."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2958
+#: C/index.docbook:2959
 msgid ""
 "The <sgmltag class=\"attribute\">uninstall-before-install</sgmltag> "
 "specifies any old installed files from the module should before removed "
@@ -5222,7 +5224,7 @@ msgstr ""
 "soubory nainstalované z modulu."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2968
+#: C/index.docbook:2969
 msgid ""
 "The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
 "attribute is used to mark modules that can't be cleanly built using a "
@@ -5233,7 +5235,7 @@ msgstr ""
 "odděleného stromu se zdrojovými kódy."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2973
+#: C/index.docbook:2974
 msgid ""
 "The <sgmltag class=\"attribute\">force-non-srcdir-builds</sgmltag> attribute "
 "is used to mark modules that can't be cleanly built from the source "
@@ -5244,7 +5246,7 @@ msgstr ""
 "zdrojovými kódy, ale mohou být sestavené mimo něj."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2977
+#: C/index.docbook:2978
 msgid ""
 "The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be "
 "used if you need finer control over the autogen command line. It is a python "
@@ -5261,7 +5263,7 @@ msgstr ""
 "<varname>autogenargs</varname>. Zde je například výchozí autogen-template:"
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:2985
+#: C/index.docbook:2986
 #, no-wrap
 msgid ""
 "\n"
@@ -5271,7 +5273,7 @@ msgstr ""
 "%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:2989
+#: C/index.docbook:2990
 msgid ""
 "The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
 "specified (with false as value) for modules that do not have a <command>make "
@@ -5282,7 +5284,7 @@ msgstr ""
 "command>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:2993
+#: C/index.docbook:2994
 msgid ""
 "The <sgmltag class=\"attribute\">supports-static-analyzer</sgmltag> "
 "attribute must be specified (with false as value) for modules which don’t "
@@ -5294,13 +5296,26 @@ msgstr ""
 "nástroji statické analýzy, jako je třeba <sgmltag class=\"attribute\">scan-"
 "build</sgmltag>."
 
+#. (itstool) path: section/para
+#: C/index.docbook:2999
+msgid ""
+"The <sgmltag class=\"attribute\">supports-unknown-configure-options</"
+"sgmltag> attribute is used to mark modules that will error out if an unknown "
+"option is passed to <filename>configure</filename>. Global configure options "
+"will not be used for that module."
+msgstr ""
+"Atribut <sgmltag class=\"attribute\">supports-unknown-configure-options"
+"</sgmltag> se používá k označení modulů, které se dostanou do chybového "
+"stavu, když je příkazu <filename>configure</filename> předána neznámá volba. "
+"Pro tento modul se nebudou používat globální konfigurační volby."
+
 #. (itstool) path: section/title
-#: C/index.docbook:3000
+#: C/index.docbook:3006
 msgid "cmake"
 msgstr "cmake"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3002
+#: C/index.docbook:3008
 msgid ""
 "The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
 "module which is built using the CMake build system."
@@ -5309,7 +5324,7 @@ msgstr ""
 "modulu, který se sestavuje pomocí sestavovacího systému CMake."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3005
+#: C/index.docbook:3011
 #, no-wrap
 msgid ""
 "\n"
@@ -5349,7 +5364,7 @@ msgstr ""
 "&lt;/cmake&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3024
+#: C/index.docbook:3030
 msgid ""
 "The <sgmltag class=\"attribute\">cmakedir</sgmltag> attribute specifies the "
 "subdirectory where cmake will run in relation to srcdir."
@@ -5358,12 +5373,12 @@ msgstr ""
 "vekteré se spustí cmake relativně ke složce se zdrojovými kódy."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3030
+#: C/index.docbook:3036
 msgid "Meson"
 msgstr "Meson"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3032
+#: C/index.docbook:3038
 msgid ""
 "The <sgmltag class=\"element\">meson</sgmltag> element is used to define a "
 "module which is built using the Meson build system."
@@ -5372,7 +5387,7 @@ msgstr ""
 "modulu, který se sestavuje pomocí sestavovacího systému Meson."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3035
+#: C/index.docbook:3041
 #, no-wrap
 msgid ""
 "\n"
@@ -5410,12 +5425,12 @@ msgstr ""
 "&lt;/meson&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3055 C/index.docbook:3081
+#: C/index.docbook:3061 C/index.docbook:3087
 msgid "distutils"
 msgstr "distutils"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3057 C/index.docbook:3083
+#: C/index.docbook:3063 C/index.docbook:3089
 msgid ""
 "The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
 "a module which is built using python's distutils"
@@ -5424,7 +5439,7 @@ msgstr ""
 "modulu, který se sestavuje pomocí distutils od Pythonu."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3060 C/index.docbook:3086
+#: C/index.docbook:3066 C/index.docbook:3092
 #, no-wrap
 msgid ""
 "\n"
@@ -5462,12 +5477,12 @@ msgstr ""
 "&lt;/distutils&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3106
+#: C/index.docbook:3112
 msgid "linux"
 msgstr "linux"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3108
+#: C/index.docbook:3114
 msgid ""
 "The <sgmltag class=\"element\">linux</sgmltag> element defines a module used "
 "to build a linux kernel. In addition, a separate kernel configuration can be "
@@ -5478,7 +5493,7 @@ msgstr ""
 "podřízeného prvku <sgmltag class=\"element\">kconfig</sgmltag>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3113
+#: C/index.docbook:3119
 #, no-wrap
 msgid ""
 "\n"
@@ -5530,12 +5545,12 @@ msgstr ""
 "&lt;/linux&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3140
+#: C/index.docbook:3146
 msgid "perl"
 msgstr "perl"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3142
+#: C/index.docbook:3148
 msgid ""
 "The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
 "modules."
@@ -5544,7 +5559,7 @@ msgstr ""
 "jazyka Perl."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3145
+#: C/index.docbook:3151
 msgid ""
 "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>make</command>."
@@ -5553,7 +5568,7 @@ msgstr ""
 "dodatečných argumentů, které se předají příkazu <command>make</command>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3149
+#: C/index.docbook:3155
 #, no-wrap
 msgid ""
 "\n"
@@ -5595,12 +5610,12 @@ msgstr ""
 "&lt;/perl&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3171
+#: C/index.docbook:3177
 msgid "systemmodule"
 msgstr "systemmodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3173
+#: C/index.docbook:3179
 msgid ""
 "The <sgmltag class=\"element\">systemmodule</sgmltag> element is used to "
 "specify modules that must be provided by the system. The module should be "
@@ -5611,7 +5626,7 @@ msgstr ""
 "skrze systém správy balíčků vaší distribuce."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3178
+#: C/index.docbook:3184
 #, no-wrap
 msgid ""
 "\n"
@@ -5629,7 +5644,7 @@ msgstr ""
 "&lt;/systemmodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3186
+#: C/index.docbook:3192
 msgid ""
 "If the system module does not provide a pkg-config file, <sgmltag class="
 "\"element\">systemdependencies</sgmltag> tag can be used to identify the "
@@ -5643,7 +5658,7 @@ msgstr ""
 "\"attribute\">type</sgmltag> značky <sgmltag class=\"element\">dep</sgmltag>:"
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:3194
+#: C/index.docbook:3200
 msgid ""
 "<sgmltag class=\"attvalue\">path</sgmltag> value. The path is searched for "
 "the matching program name."
@@ -5652,7 +5667,7 @@ msgstr ""
 "odpovídající názvy programů."
 
 #. (itstool) path: listitem/simpara
-#: C/index.docbook:3198
+#: C/index.docbook:3204
 msgid ""
 "<sgmltag class=\"attvalue\">c_include</sgmltag> value. The C include path is "
 "searched for the matching header name. <sgmltag class=\"attribute\">name</"
@@ -5669,7 +5684,7 @@ msgstr ""
 "module-autogenargs\"><varname>module_autogenargs</varname></link>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3209
+#: C/index.docbook:3215
 #, no-wrap
 msgid ""
 "\n"
@@ -5703,7 +5718,7 @@ msgstr ""
 "&lt;/systemmodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3225
+#: C/index.docbook:3231
 msgid ""
 "If the system module may be installed in different locations or installed "
 "with different names by different distributions, <sgmltag class=\"element"
@@ -5720,7 +5735,7 @@ msgstr ""
 "stejné atributy jako značka <sgmltag class=\"element\">dep</sgmltag>."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3233
+#: C/index.docbook:3239
 #, no-wrap
 msgid ""
 "\n"
@@ -5770,12 +5785,12 @@ msgstr ""
 "&lt;/systemmodule&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3259
+#: C/index.docbook:3265
 msgid "waf"
 msgstr "waf"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3261
+#: C/index.docbook:3267
 msgid ""
 "The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
 "module which is built using the Waf build system."
@@ -5784,7 +5799,7 @@ msgstr ""
 "který je sestavován pomocí systému sestavení Waf."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3264
+#: C/index.docbook:3270
 msgid ""
 "The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
 "specify the waf command script to use; it defaults to <command>waf</command>."
@@ -5794,7 +5809,7 @@ msgstr ""
 "<command>waf</command>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3268
+#: C/index.docbook:3274
 msgid ""
 "The <sgmltag class=\"attribute\">python-command</sgmltag> attribute is used "
 "to specify the Python executable to use; it defaults to <command>python</"
@@ -5805,7 +5820,7 @@ msgstr ""
 "command>. Hodí se to při sestavování modulu v jazyce Python verze 3."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3273
+#: C/index.docbook:3279
 #, no-wrap
 msgid ""
 "\n"
@@ -5845,12 +5860,12 @@ msgstr ""
 "&lt;/waf&gt;\n"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3294
+#: C/index.docbook:3300
 msgid "testmodule"
 msgstr "testmodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3296
+#: C/index.docbook:3302
 msgid ""
 "The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
 "create a module which runs a suite of tests using LDTP or Dogtail."
@@ -5859,7 +5874,7 @@ msgstr ""
 "modulu, který spustí sadu testů používající LDTP nebo Dogtail."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3300
+#: C/index.docbook:3306
 #, no-wrap
 msgid ""
 "\n"
@@ -5909,7 +5924,7 @@ msgstr ""
 "&lt;/testmodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3324
+#: C/index.docbook:3330
 msgid ""
 "The <sgmltag class=\"attribute\">type</sgmltag> attribute gives the type of "
 "tests to be run in the module. 'dogtail' uses python to invoke all .py "
@@ -5920,7 +5935,7 @@ msgstr ""
 "souborů .py. „ldtp“ vyvolá „ldtprunner run.xml“."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3328
+#: C/index.docbook:3334
 msgid ""
 "Unless the noxvfb configuration option is set, an Xvfb server is started to "
 "run the tests in"
@@ -5929,12 +5944,12 @@ msgstr ""
 "provedly testy."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3333
+#: C/index.docbook:3339
 msgid "metamodule"
 msgstr "metamodule"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3335
+#: C/index.docbook:3341
 msgid ""
 "The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module "
 "that doesn't actually do anything. The only purpose of a module of this type "
@@ -5945,7 +5960,7 @@ msgstr ""
 "závislosti."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3339
+#: C/index.docbook:3345
 msgid ""
 "For example, meta-gnome-desktop depends on all the key components of the "
 "GNOME desktop, therefore telling JHBuild to install it actually installs the "
@@ -5956,7 +5971,7 @@ msgstr ""
 "nainstalovat kompletní uživatelské prostředí."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3343
+#: C/index.docbook:3349
 #, no-wrap
 msgid ""
 "\n"
@@ -5984,7 +5999,7 @@ msgstr ""
 "&lt;/metamodule&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3356
+#: C/index.docbook:3362
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of "
 "the module. The child elements are handled as for <link linkend=\"moduleset-"
@@ -5997,17 +6012,17 @@ msgstr ""
 "link>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3364
+#: C/index.docbook:3370
 msgid "Deprecated Elements"
 msgstr "Zavržené prvky"
 
 #. (itstool) path: section/title
-#: C/index.docbook:3370
+#: C/index.docbook:3376
 msgid "cvsroot"
 msgstr "cvsroot"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3372
+#: C/index.docbook:3378
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -6017,7 +6032,7 @@ msgstr ""
 "něj by se měl použít prvek <sgmltag class=\"element\">repository</sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3376
+#: C/index.docbook:3382
 msgid ""
 "The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
 "a CVS repository."
@@ -6026,7 +6041,7 @@ msgstr ""
 "repozitáře CVS."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3379
+#: C/index.docbook:3385
 #, no-wrap
 msgid ""
 "\n"
@@ -6042,7 +6057,7 @@ msgstr ""
 "           password=\"<replaceable>heslo-anonymního-cvs</replaceable>\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3386
+#: C/index.docbook:3392
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the CVS repository."
@@ -6051,7 +6066,7 @@ msgstr ""
 "identifikátor pro repozitář CVS."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3389
+#: C/index.docbook:3395
 msgid ""
 "The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -6060,7 +6075,7 @@ msgstr ""
 "o výchozí zdroj modulu pro tento soubor sady modulů."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3393
+#: C/index.docbook:3399
 msgid ""
 "The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root "
 "used for anonymous access to this repository, and the <sgmltag class="
@@ -6073,12 +6088,12 @@ msgstr ""
 "přístup."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3400
+#: C/index.docbook:3406
 msgid "svnroot"
 msgstr "svnroot"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3402
+#: C/index.docbook:3408
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - "
 "the <sgmltag class=\"element\">repository</sgmltag> element should be used "
@@ -6088,7 +6103,7 @@ msgstr ""
 "se měl použít prvek <sgmltag class=\"element\">repository</sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3406
+#: C/index.docbook:3412
 msgid ""
 "The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
 "a Subversion repository."
@@ -6097,7 +6112,7 @@ msgstr ""
 "repozitáře Subversion."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3409
+#: C/index.docbook:3415
 #, no-wrap
 msgid ""
 "\n"
@@ -6111,7 +6126,7 @@ msgstr ""
 "           href=\"<replaceable>kořen-anonymního-svn</replaceable>\"/&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3415
+#: C/index.docbook:3421
 msgid ""
 "The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
 "identifier for the Subversion repository."
@@ -6120,7 +6135,7 @@ msgstr ""
 "identifikátor pro repozitář Subversion."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3418
+#: C/index.docbook:3424
 msgid ""
 "If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
 "this is the default module source for this module set file."
@@ -6129,7 +6144,7 @@ msgstr ""
 "o výchozí zdroj modulu pro tento soubor sady modulů."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3422
+#: C/index.docbook:3428
 msgid ""
 "The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL "
 "for the repository. This will probably be either a <literal>http</literal>, "
@@ -6140,12 +6155,12 @@ msgstr ""
 "literal> nebo <literal>https</literal> nebo <literal>svn</literal>."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3432
+#: C/index.docbook:3438
 msgid "Deprecated Module Types"
 msgstr "Zavržené typy modulů"
 
 #. (itstool) path: warning/para
-#: C/index.docbook:3435
+#: C/index.docbook:3441
 msgid ""
 "This section describes deprecated elements, they may still be used in "
 "existing module sets but it is advised not to use them anymore."
@@ -6154,12 +6169,12 @@ msgstr ""
 "stávajících sadách modulů, ale není doporučováno je používat napříště."
 
 #. (itstool) path: section/title
-#: C/index.docbook:3441
+#: C/index.docbook:3447
 msgid "tarball"
 msgstr "tarball"
 
 #. (itstool) path: important/para
-#: C/index.docbook:3444
+#: C/index.docbook:3450
 msgid ""
 "This deprecated element is just a thin wrapper around both <sgmltag class="
 "\"element\">autotools</sgmltag> module type and <sgmltag class=\"element"
@@ -6170,7 +6185,7 @@ msgstr ""
 "\"element\">tarball</sgmltag>."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3449
+#: C/index.docbook:3455
 msgid ""
 "The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
 "module that is to be built from a tarball."
@@ -6179,7 +6194,7 @@ msgstr ""
 "modulu, který je sestavován z archivu tarball."
 
 #. (itstool) path: section/programlisting
-#: C/index.docbook:3452
+#: C/index.docbook:3458
 #, no-wrap
 msgid ""
 "\n"
@@ -6235,7 +6250,7 @@ msgstr ""
 "  &lt;/tarball&gt;\n"
 
 #. (itstool) path: section/para
-#: C/index.docbook:3479
+#: C/index.docbook:3485
 msgid ""
 "The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
 "\">version</sgmltag> attributes are used to identify the module."
@@ -6244,7 +6259,7 @@ msgstr ""
 "\"attribute\">version</sgmltag> se používají k identifikaci modulu."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3483
+#: C/index.docbook:3489
 msgid ""
 "The <sgmltag class=\"element\">source</sgmltag> element specifies the file "
 "to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> "
@@ -6263,7 +6278,7 @@ msgstr ""
 "se zdrojovými kódy stažen v pořádku."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3492
+#: C/index.docbook:3498
 msgid ""
 "The <sgmltag class=\"element\">patches</sgmltag> element is used to specify "
 "one or more patches to apply to the source tree after unpacking, the "
@@ -6278,7 +6293,7 @@ msgstr ""
 "sgmltag> říká, do jaké úrovně složek se má při použití záplaty jít."
 
 #. (itstool) path: section/para
-#: C/index.docbook:3507
+#: C/index.docbook:3513
 msgid ""
 "The other attributes and the <sgmltag class=\"element\">dependencies</"
 "sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class="
