@@ -6,23 +6,19 @@
 
 <!-- git repos -->
   <repository type="git" name="git.gnome.org" default="yes"
-      href="git://git.gnome.org/"/>
+      href="https://git.gnome.org/"/>
   <repository type="git" name="git.freedesktop.org"
-      href="git://anongit.freedesktop.org/"/>
-  <repository type="git" name="pulseaudio.freedesktop.org"
-      href="git://anongit.freedesktop.org/pulseaudio/"/>
-  <repository type="git" name="telepathy.freedesktop.org"
-    href="git://anongit.freedesktop.org/telepathy/"/>
+      href="https://anongit.freedesktop.org/git/"/>
   <repository type="git" name="github.com"
-      href="git://github.com/"/>
+      href="https://github.com/"/>
 
 <!-- tarball repos -->
   <repository type="tarball" name="freedesktop.org"
-      href="http://freedesktop.org/"/>
+      href="https://freedesktop.org/"/>
   <repository type="tarball" name="gnome.org"
       href="https://download.gnome.org/sources/"/>
   <repository type="tarball" name="kernel.org"
-      href="http://www.kernel.org"/>
+      href="https://www.kernel.org"/>
 
 <include href="gnome-suites-core-deps-3.26.modules"/>
 
@@ -568,7 +564,9 @@
   <autotools id="telepathy-mission-control"
              autogenargs="--disable-upower"
              supports-non-srcdir-builds="no">
-    <branch repo="telepathy.freedesktop.org" revision="telepathy-mission-control-5.16"/>
+    <branch repo="git.freedesktop.org"
+            module="telepathy/telepathy-mission-control"
+            revision="telepathy-mission-control-5.16"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>

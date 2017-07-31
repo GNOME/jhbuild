@@ -5,53 +5,35 @@
 
 <!-- git repos -->
 <repository type="git" name="git.gnome.org" default="yes"
-    href="git://git.gnome.org/"/>
+    href="https://git.gnome.org/"/>
 <repository type="git" name="gitlab.gnome.org"
     href="https://gitlab.gnome.org/"/>
 <repository type="git" name="git.freedesktop.org"
-    href="git://anongit.freedesktop.org/"/>
-<repository type="git" name="gstreamer.freedesktop.org"
-    href="git://anongit.freedesktop.org/gstreamer/"/>
-<repository type="git" name="telepathy.freedesktop.org"
-    href="git://anongit.freedesktop.org/telepathy/"/>
-<repository type="git" name="wayland.freedesktop.org"
-    href="git://anongit.freedesktop.org/git/wayland"/>
-<repository type="git" name="xorg.freedesktop.org"
-    href="git://anongit.freedesktop.org/git/xorg"/>
+    href="https://anongit.freedesktop.org/git/"/>
 <repository type="git" name="github.com"
-    href="git://github.com/"/>
-<repository type="git" name="linuxwacom.git.sourceforge.net"
-    href="git://linuxwacom.git.sourceforge.net/"/>
-<repository type="git" name="quvi"
-    href="git://repo.or.cz/"/>
-  <repository type="git" name="gitlab.com"
-      href="https://gitlab.com/"/>
-<repository type="git" name="git.libvirt.org"
-    href="git://libvirt.org/"/>
+    href="https://github.com/"/>
+<repository type="git" name="gitlab.com"
+    href="https://gitlab.com/"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="cairo.org"
-    href="http://cairographics.org/"/>
+    href="https://cairographics.org/"/>
 <repository type="tarball" name="iso-codes"
-    href="http://pkg-isocodes.alioth.debian.org/downloads/"/>
+    href="https://pkg-isocodes.alioth.debian.org/downloads/"/>
 <repository type="tarball" name="sourceforge.net"
-    href="http://sourceforge.net/projects/"/>
+    href="https://sourceforge.net/projects/"/>
 <repository type="tarball" name="webkitgtk.org"
-    href="http://webkitgtk.org/releases/"/>
+    href="https://webkitgtk.org/releases/"/>
 <repository type="tarball" name="freedesktop.org"
-    href="http://freedesktop.org/software/"/>
+    href="https://freedesktop.org/software/"/>
 <repository type="tarball" name="people.freedesktop.org"
-    href="http://people.freedesktop.org/"/>
+    href="https://people.freedesktop.org/"/>
 <repository type="tarball" name="icon-theme.freedesktop.org"
-    href="http://icon-theme.freedesktop.org/releases/"/>
+    href="https://icon-theme.freedesktop.org/releases/"/>
 <repository type="tarball" name="nice.freedesktop.org"
-    href="http://nice.freedesktop.org/releases/"/>
-<repository type="tarball" name="ftp.mozilla.org"
-      href="http://ftp.mozilla.org/"/>
-<repository type="tarball" name="kernel.org"
-      href="http://www.kernel.org"/>
+    href="https://nice.freedesktop.org/releases/"/>
 <repository type="tarball" name="ftp.gnu.org"
-    href="http://ftp.gnu.org/gnu/"/>
+    href="https://ftp.gnu.org/gnu/"/>
 <repository type="tarball" name="mir"
     href="https://launchpad.net/mir/"/>
 <repository type="tarball" name="xorg-tar"
@@ -60,18 +42,15 @@
     href="https://github.com/"/>
 <repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
+<!-- FIXME: Not available via HTTPS -->
 <repository type="tarball" name="pcre"
-    href="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/"/>
+    href="http://ftp.csx.cam.ac.uk/pub/software/programming/pcre/"/>
 <repository type="tarball" name="speech-dispatcher"
-    href="http://devel.freebsoft.org/pub/projects/speechd/"/>
+    href="https://devel.freebsoft.org/pub/projects/speechd/"/>
 <repository type="tarball" name="spice"
-    href="http://www.spice-space.org/download/"/>
-<repository type="tarball" name="people.mozilla.org"
-    href="https://people.mozilla.org/~sstangl/"/>
-<repository type="tarball" name="mozilla2"
-    href="https://people-mozilla.org/~sfink/"/>
+    href="https://www.spice-space.org/download/"/>
 <repository type="tarball" name="savannah-download"
-    href="http://download.savannah.gnu.org/releases/"/>
+    href="https://download.savannah.gnu.org/releases/"/>
 <repository type="tarball" name="gnome-download"
     href="https://download.gnome.org/"/>
 
@@ -701,8 +680,8 @@
   </autotools>
 
   <meson id="gstreamer">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gstreamer"
+    <branch repo="git.freedesktop.org"
+            module="gstreamer/gstreamer"
             checkoutdir="gstreamer"/>
     <dependencies>
       <dep package="glib"/>
@@ -720,9 +699,9 @@
   </meson>
 
   <meson id="gst-plugins-bad">
-    <branch repo="gstreamer.freedesktop.org"
+    <branch repo="git.freedesktop.org"
             checkoutdir="gst-plugins-bad"
-            module="gst-plugins-bad"/>
+            module="gstreamer/gst-plugins-bad"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
@@ -733,8 +712,8 @@
   </meson>
 
   <meson id="gst-plugins-base">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-plugins-base"
+    <branch repo="git.freedesktop.org"
+            module="gstreamer/gst-plugins-base"
             checkoutdir="gst-plugins-base"/>
     <dependencies>
       <dep package="gstreamer"/>
@@ -749,8 +728,8 @@
   </meson>
 
   <meson id="gst-plugins-good">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-plugins-good"
+    <branch repo="git.freedesktop.org"
+            module="gstreamer/gst-plugins-good"
             checkoutdir="gst-plugins-good"/>
     <dependencies>
       <dep package="gstreamer"/>
@@ -1452,7 +1431,9 @@
   </autotools>
 
   <autotools id="libvirt-glib" autogenargs="--enable-werror=no">
-    <branch repo="git.libvirt.org" module="libvirt-glib.git"/>
+    <branch repo="github.com"
+            checkoutdir="libvirt"
+            module="libvirt/libvirt-glib.git"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -1725,7 +1706,8 @@
              supports-non-srcdir-builds="no"
              autogenargs="--enable-vala-bindings --disable-fatal-warnings">
     <pkg-config>telepathy-glib.pc</pkg-config>
-    <branch repo="telepathy.freedesktop.org"/>
+    <branch repo="git.freedesktop.org"
+            module="telepathy/telepathy-glib"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -1738,7 +1720,8 @@
 
   <autotools id="telepathy-logger" supports-non-srcdir-builds="no">
     <pkg-config>telepathy-logger-0.2.pc</pkg-config>
-    <branch repo="telepathy.freedesktop.org"/>
+    <branch repo="git.freedesktop.org"
+            module="telepathy/telepathy-logger"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -1834,7 +1817,8 @@
   </autotools>
 
   <autotools id="wayland-protocols">
-    <branch repo="wayland.freedesktop.org"/>
+    <branch repo="git.freedesktop.org"
+            module="wayland/wayland-protocols"/>
     <dependencies>
       <dep package="wayland"/>
     </dependencies>
@@ -1842,7 +1826,8 @@
 
   <autotools id="wayland"
              autogenargs="--disable-documentation">
-    <branch repo="wayland.freedesktop.org"/>
+    <branch repo="git.freedesktop.org"
+            module="wayland/wayland"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="doxygen"/>
