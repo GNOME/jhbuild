@@ -395,10 +395,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gdk-pixbuf" autogenargs="--enable-installed-tests">
-    <if condition-set="macos">
-      <autogenargs value="--without-libtiff"/>
-    </if>
+  <meson id="gdk-pixbuf">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -406,9 +403,9 @@
       <dep package="gtk-doc"/>
       <dep package="libjpeg"/>
       <dep package="libpng"/>
-      <dep package="libtiff"/>
+      <dep package="shared-mime-info"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="gegl" autogenargs="--without-libavformat --without-jasper">
     <branch/>
