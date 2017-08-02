@@ -235,7 +235,9 @@
     </suggests>
   </autotools>
 
-  <autotools id="colord" autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no --enable-vala">
+  <autotools id="colord"
+             autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no --enable-vala"
+             force-non-srcdir-builds="yes">
     <if condition-unset="linux">
       <autogenargs value="--disable-gusb --disable-udev --disable-systemd-login"/>
     </if>
