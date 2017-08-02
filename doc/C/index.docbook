@@ -3012,7 +3012,8 @@ Optional packages: (JHBuild will build the missing packages)
 <programlisting>
   &lt;cmake id="<replaceable>modulename</replaceable>"
             [ skip-install="<replaceable>skip-install</replaceable>" ]
-            [ cmakedir="<replaceable>cmakedir</replaceable>" ]&gt;
+            [ cmakedir="<replaceable>cmakedir</replaceable>" ]
+            [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]&gt;
   &lt;branch [ ... ] &gt;
     [...]
   &lt;/branch&gt;
@@ -3031,6 +3032,10 @@ Optional packages: (JHBuild will build the missing packages)
         <para>The <sgmltag class="attribute">cmakedir</sgmltag> attribute
           specifies the subdirectory where cmake will run in relation to srcdir.
         </para>
+
+        <para>The <sgmltag class="attribute">force-non-srcdir-builds</sgmltag>
+          attribute is used to mark modules that can't be cleanly built from
+          the source directory, but can be built from outside it.</para>
       </section>
 
       <section id="moduleset-syntax-defs-meson">

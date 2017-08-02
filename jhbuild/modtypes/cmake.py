@@ -170,7 +170,11 @@ class CMakeModule(MakeModule, DownloadableModule):
         return 'cmake', [('id', 'name', None),
                          ('skip-install', 'skip_install_phase', False),
                          ('use-ninja', 'use_ninja', True),
-                         ('cmakedir', None)]
+                         ('cmakedir', None),
+                         ('supports-non-srcdir-builds',
+                          'supports_non_srcdir_builds', True),
+                         ('force-non-srcdir-builds',
+                          'force_non_srcdir_builds', False)]
 
 
 def parse_cmake(node, config, uri, repositories, default_repo):

@@ -154,7 +154,9 @@ cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
-  attribute makeargs { text }?
+  attribute makeargs { text }?,
+  attribute supports-non-srcdir-builds { "yes" | "no" }?,
+  attribute force-non-srcdir-builds { "yes" | "no" }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
 mesonargsif = element if { attlist.if, mesonargsif*, mesonargs*, makeargs* }
