@@ -68,6 +68,7 @@ class AutogenModule(MakeModule, DownloadableModule):
                             makeinstallargs=makeinstallargs, makefile=makefile, needs_gmake=needs_gmake)
         self.autogenargs = autogenargs
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
+        self.force_non_srcdir_builds = False
         self.skip_autogen = skip_autogen
         self.skip_install_phase = skip_install_phase
         self.uninstall_before_install = uninstall_before_install
@@ -82,12 +83,14 @@ class AutogenModule(MakeModule, DownloadableModule):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
+        builddir = self.get_srcdir(buildscript);
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern % (
                 self.branch.checkoutdir or self.branch.get_module_basename())
-            return os.path.join(buildscript.config.buildroot, d)
-        else:
-            return self.get_srcdir(buildscript)
+            builddir = os.path.join(buildscript.config.buildroot, d)
+        if self.force_non_srcdir_builds and builddir == self.get_srcdir(buildscript):
+            builddir = os.path.join(builddir, 'build')
+        return builddir
 
     def _file_exists_and_is_newer_than(self, potential, other):
         try:
@@ -126,7 +129,8 @@ class AutogenModule(MakeModule, DownloadableModule):
                 'autogen-sh': self.autogen_sh,
                 'autogenargs': autogenargs}
 
-        if buildscript.config.buildroot and self.supports_non_srcdir_builds:
+        if buildscript.config.buildroot and self.supports_non_srcdir_builds or \
+           self.force_non_srcdir_builds:
             vars['srcdir'] = self.get_srcdir(buildscript)
         else:
             vars['srcdir'] = '.'
@@ -214,7 +218,7 @@ class AutogenModule(MakeModule, DownloadableModule):
 
     def do_configure(self, buildscript):
         builddir = self.get_builddir(buildscript)
-        if buildscript.config.buildroot and not os.path.exists(builddir):
+        if not os.path.exists(builddir):
             os.makedirs(builddir)
         buildscript.set_action(_('Configuring'), self)
 
@@ -349,6 +353,8 @@ class AutogenModule(MakeModule, DownloadableModule):
                  ('makeinstallargs', 'makeinstallargs', ''),
                  ('supports-non-srcdir-builds',
                   'supports_non_srcdir_builds', True),
+                 ('force-non-srcdir-builds',
+                  'force_non_srcdir_builds', False),
                  ('supports-unknown-configure-options',
                   'supports_unknown_configure_options', True),
                  ('skip-autogen', 'skip_autogen', False),
@@ -388,6 +394,9 @@ def parse_autotools(node, config, uri, repositories, default_repo):
     if node.hasAttribute('supports-non-srcdir-builds'):
         instance.supports_non_srcdir_builds = \
                 (node.getAttribute('supports-non-srcdir-builds') != 'no')
+    if node.hasAttribute('force-non-srcdir-builds'):
+        instance.force_non_srcdir_builds = \
+                (node.getAttribute('force-non-srcdir-builds') != 'no')
     if node.hasAttribute('supports-unknown-configure-options'):
         instance.supports_unknown_configure_options = \
                 (node.getAttribute('supports-unknown-configure-options') != 'no')
