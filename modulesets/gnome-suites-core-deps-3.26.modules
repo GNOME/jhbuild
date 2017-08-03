@@ -1776,23 +1776,37 @@
     </suggests>
   </meson>
 
-  <!-- evolution miner broken:
-       https://bugzilla.gnome.org/show_bug.cgi?id=678235 -->
   <autotools id="tracker"
-             autogenargs="--enable-miner-firefox=no --enable-miner-thunderbird=no --enable-miner-evolution=no --disable-nautilus-extension --disable-tracker-needle --disable-tracker-preferences --with-unicode-support=libicu --with-bash-completion-dir=${prefix}/share/bash-completion/completions"
+             autogenargs="--with-unicode-support=libicu --with-bash-completion-dir=${prefix}/share/bash-completion/completions"
              check-target="false"
              supports-non-srcdir-builds="no">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
-      <dep package="libgrss"/>
       <dep package="libicu"/>
-      <dep package="libmediaart"/>
-      <dep package="libpng"/>
       <dep package="libuuid"/>
       <dep package="sqlite3"/>
       <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="upower"/>
+      <dep package="dconf"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
+    </suggests>
+  </autotools>
+
+  <autotools id="tracker-miners"
+             check-target="false"
+             supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="tracker"/>
+      <dep package="libpng"/>
+      <dep package="libgrss"/>
       <if condition-set="linux">
         <dep package="libseccomp"/>
       </if>
@@ -1801,7 +1815,6 @@
       <dep package="libsecret"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
-      <dep package="upower"/>
       <dep package="libgsf"/>
       <dep package="gdk-pixbuf"/>
       <dep package="poppler"/>
