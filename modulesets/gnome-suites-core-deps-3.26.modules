@@ -1076,7 +1076,9 @@
   </meson>
 
   <autotools id="libblockdev" autogenargs="--without-gtk-doc">
-    <branch repo="github.com" module="storaged-project/libblockdev" patch="libblockdev-autogen-configure.patch"/>
+    <branch repo="github.com" module="storaged-project/libblockdev">
+      <patch file="libblockdev-autogen-configure.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="pygobject"/>
       <dep package="m4-common"/>
