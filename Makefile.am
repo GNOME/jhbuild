@@ -44,8 +44,9 @@ install-exec-local:
 # This will fail if xmllint or trang isn't installed.
 check-modulesets:
 	xmllint --noout --dtdvalid $(srcdir)/modulesets/moduleset.dtd $(MODULESETS)
-	trang $(srcdir)/modulesets/moduleset.rnc $(srcdir)/modulesets/moduleset.rng
-	xmllint --noout --relaxng $(srcdir)/modulesets/moduleset.rng $(MODULESETS)
+	trang $(srcdir)/modulesets/moduleset.rnc $(builddir)/moduleset.rng
+	xmllint --noout --relaxng $(builddir)/moduleset.rng $(MODULESETS)
+	rm -f $(builddir)/moduleset.rng
 .PHONY: check-modulesets
 
 check: check-modulesets
