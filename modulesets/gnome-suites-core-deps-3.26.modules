@@ -1077,10 +1077,10 @@
     </suggests>
   </meson>
 
-  <autotools id="libblockdev" autogenargs="--without-gtk-doc">
-    <branch repo="github.com" module="storaged-project/libblockdev">
-      <patch file="libblockdev-autogen-configure.patch" strip="1"/>
-    </branch>
+  <autotools id="libblockdev"
+             autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s %(autogenargs)s"
+             autogenargs="--without-gtk-doc">
+    <branch repo="github.com" module="storaged-project/libblockdev"/>
     <dependencies>
       <dep package="pygobject"/>
       <dep package="m4-common"/>
@@ -1089,10 +1089,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libbytesize" autogenargs="--without-gtk-doc">
-    <branch repo="github.com" module="rhinstaller/libbytesize">
-      <patch file="libbytesize-autogen-configure.patch" strip="1"/>
-    </branch>
+  <autotools id="libbytesize"
+             autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s %(autogenargs)s"
+             autogenargs="--without-gtk-doc">
+    <branch repo="github.com" module="rhinstaller/libbytesize"/>
     <dependencies>
       <dep package="m4-common"/>
     </dependencies>
