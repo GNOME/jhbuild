@@ -235,12 +235,8 @@
     </suggests>
   </autotools>
 
-  <autotools id="colord"
-             autogenargs="--disable-examples --disable-strict --disable-bash-completion --with-systemdsystemunitdir=no --enable-vala"
-             force-non-srcdir-builds="yes">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-gusb --disable-udev --disable-systemd-login"/>
-    </if>
+  <meson id="colord"
+         mesonargs="-Denable-bash-completion=false -Denable-vala=false">
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
     <dependencies>
       <dep package="argyll"/>
@@ -266,7 +262,7 @@
     <suggests>
       <dep package="polkit-gobject"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="colord-gtk" autogenargs="--enable-vala">
     <branch repo="github.com" checkoutdir="colord-gtk" module="hughsie/colord-gtk.git"/>
