@@ -127,10 +127,9 @@
   </systemmodule>
 
   <systemmodule id="device-mapper">
-    <branch repo="system"/>
-    <systemdependencies>
-      <dep type="c_include" name="libdevmapper.h"/>
-    </systemdependencies>
+    <pkg-config>devmapper.pc</pkg-config>
+    <branch repo="system"
+            version="1.02.93"/>
   </systemmodule>
 
   <systemmodule id="docbook-utils">
@@ -1106,6 +1105,11 @@
     <systemdependencies>
       <dep type="path" name="makeinfo"/>
     </systemdependencies>
+  </systemmodule>
+
+  <systemmodule id="udisks">
+    <pkg-config>udisks2.pc</pkg-config>
+    <branch repo="system" version="2.1.1"/>
   </systemmodule>
 
   <systemmodule id="valgrind">

@@ -10,12 +10,22 @@
     href="https://gitlab.gnome.org/"/>
 <repository type="git" name="git.freedesktop.org"
     href="https://anongit.freedesktop.org/git/"/>
-<repository type="git" name="github.com"
-    href="https://github.com/"/>
 <repository type="git" name="gitlab.com"
     href="https://gitlab.com/"/>
 <repository type="git" name="pagure.io"
     href="https://pagure.io/"/>
+
+<!-- WARNING: github.com is only allowed here under one of two conditions:
+
+  (a) The module has tarball releases elsewhere (e.g. GNOME infrastructure)
+  (b) The module is always built from tarball, never from git
+
+If (a) does not apply then you must build from tarball (github-tar) if adding
+a GitHub module here. Otherwise our release infrastructure will fail to handle
+the module and we will just change it to use a tarball anyway.
+-->
+<repository type="git" name="github.com"
+    href="https://github.com/"/>
 
 <!-- tarball repos -->
 <repository type="tarball" name="cairo.org"
@@ -41,8 +51,6 @@
 <repository type="tarball" name="xorg-tar"
     href="http://xorg.freedesktop.org/"/>
 <repository type="tarball" name="github-tar"
-    href="https://github.com/"/>
-<repository type="tarball" name="tarball.github.com"
     href="https://github.com/"/>
 <!-- FIXME: Not available via HTTPS -->
 <repository type="tarball" name="pcre"
@@ -1075,27 +1083,6 @@
     </suggests>
   </meson>
 
-  <autotools id="libblockdev"
-             autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--without-gtk-doc">
-    <branch repo="github.com" module="storaged-project/libblockdev"/>
-    <dependencies>
-      <dep package="pygobject"/>
-      <dep package="m4-common"/>
-      <dep package="libbytesize"/>
-      <dep package="libvolume_key"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libbytesize"
-             autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--without-gtk-doc">
-    <branch repo="github.com" module="rhinstaller/libbytesize"/>
-    <dependencies>
-      <dep package="m4-common"/>
-    </dependencies>
-  </autotools>
-
  <autotools id="libchamplain" autogenargs="--enable-vala">
    <branch/>
    <dependencies>
@@ -1485,13 +1472,6 @@
       <dep package="librest"/>
       <dep package="libsoup"/>
       <dep package="gnome-online-accounts"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="libvolume_key" autogen-sh="autoreconf">
-    <branch repo="pagure.io" module="volume_key"/>
-    <dependencies>
-      <dep package="m4-common"/>
     </dependencies>
   </autotools>
 
