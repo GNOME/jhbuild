@@ -1238,7 +1238,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="PackageKit" autogenargs="--disable-tests --disable-qt --disable-browser-plugin --disable-bash-completion --with-systemdsystemunitdir=no" makeargs="CFLAGS=-Wno-error">
+  <!-- Vala disabled for https://github.com/hughsie/PackageKit/issues/212 -->
+  <autotools id="PackageKit" autogenargs="--disable-vala --disable-tests --disable-qt --disable-browser-plugin --disable-bash-completion --with-systemdsystemunitdir=no" makeargs="CFLAGS=-Wno-error">
     <if condition-unset="linux">
       <autogenargs value="--disable-systemd --disable-systemd-updates"/>
     </if>
