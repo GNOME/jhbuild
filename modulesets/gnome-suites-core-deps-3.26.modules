@@ -244,7 +244,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="colord"
-         mesonargs="-Denable-bash-completion=false -Denable-vala=false">
+         mesonargs="-Denable-bash-completion=false -Denable-vala=true">
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
     <dependencies>
       <dep package="argyll"/>
@@ -272,7 +272,7 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </meson>
 
-  <autotools id="colord-gtk" autogenargs="--disable-vala">
+  <autotools id="colord-gtk" autogenargs="--enable-vala">
     <branch repo="github.com" checkoutdir="colord-gtk" module="hughsie/colord-gtk.git"/>
     <dependencies>
       <dep package="glib"/>
