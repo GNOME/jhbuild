@@ -2619,7 +2619,10 @@
     </suggests>
   </autotools>
 
-  <autotools id="librsync" autogen-sh="configure">
+  <autotools id="librsync"
+             autogen-sh="configure"
+             skip-autogen="never"
+             autogenargs="--enable-shared">
     <branch repo="downloads.sourceforge.net"
             module="librsync/librsync-0.9.7.tar.gz"
             version="0.9.7"
@@ -2631,10 +2634,10 @@
 
   <distutils id="duplicity">
     <branch repo="launchpad.net/tarball"
-            module="duplicity/0.6-series/0.6.26/+download/duplicity-0.6.26.tar.gz"
-            version="0.6.26"
-            hash="sha256:8bef8a5d805b79ae177e54d42152238bce1b2aaf9ad32e03a2c3a20cbd4e074a"
-            size="1270436"/>
+            module="duplicity/0.7-series/0.7.13.1/+download/duplicity-0.7.13.1.tar.gz"
+            version="0.7.13.1"
+            hash="sha256:adb8668fb10e0b0f91cb77f758d02c02bf5c02e6c4835904a82cbdab6db4bef2"
+            size="1553736"/>
     <dependencies>
       <dep package="pygobject2"/>
       <dep package="librsync"/>
@@ -2897,23 +2900,24 @@
     </dependencies>
   </autotools>
 
-  <autotools id="deja-dup">
+  <meson id="deja-dup">
     <branch repo="launchpad.net"
-            module="deja-dup/26"
-            checkoutdir="deja-dup/"/>
+            module="deja-dup"/>
     <dependencies>
       <dep package="duplicity"/>
       <dep package="glib"/>
+      <dep package="gnome-online-accounts"/>
       <dep package="gtk+-3"/>
-      <dep package="libnotify"/>
+      <dep package="libpeas"/>
       <dep package="libsecret"/>
+      <dep package="PackageKit"/>
       <dep package="vala"/>
       <dep package="yelp-tools"/>
     </dependencies>
     <suggests>
       <dep package="nautilus"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="f-spot">
     <branch/>
