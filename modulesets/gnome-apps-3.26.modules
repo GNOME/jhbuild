@@ -260,9 +260,9 @@
     </suggests>
   </autotools>
 
-  <meson id="gnome-builder">
+  <meson id="gnome-builder" mesonargs="-Dwith_sysmon=false -Dwith_sysprof=false">
     <if condition-unset="linux">
-      <mesonargs value="-Dwith_flatpak=false -Dwith_sysprof=false"/>
+      <mesonargs value="-Dwith_flatpak=false"/>
     </if>
     <branch/>
     <dependencies>
