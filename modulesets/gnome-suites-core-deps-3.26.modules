@@ -761,18 +761,18 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </meson>
 
-  <autotools id="gtk+" autogenargs="--enable-broadway-backend --enable-installed-tests">
+  <meson id="gtk+" mesonargs="-Denable-broadway-backend=true">
     <if condition-set="x11">
-      <autogenargs value="--enable-x11-backend"/>
+      <mesonargs value="-Denable-x11-backend=true"/>
     </if>
     <if condition-set="wayland">
-      <autogenargs value="--enable-wayland-backend"/>
+      <mesonargs value="-Denable-wayland-backend=true"/>
     </if>
     <if condition-set="mir">
-      <autogenargs value="--enable-mir-backend"/>
+      <mesonargs value="-Denable-mir-backend=true"/>
     </if>
     <if condition-set="quartz">
-      <autogenargs value="--enable-quartz-backend"/>
+      <mesonargs value="-Denable-quartz-backend=true"/>
     </if>
     <branch/>
     <dependencies>
@@ -804,7 +804,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="desktop-file-utils"/>
       <dep package="shared-mime-info"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="gtk+-3" autogenargs="--enable-broadway-backend --enable-installed-tests">
     <if condition-set="x11">
