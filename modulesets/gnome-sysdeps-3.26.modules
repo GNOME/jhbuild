@@ -229,6 +229,16 @@
             version="2.11.0"/>
   </systemmodule>
 
+  <!-- Do not move this to core-deps! There is a circular dependency between
+       freetype2 and harfbuzz. If you need a newer version of freetype2 than is
+       available via sysdeps then you are simply out of luck. Note the
+       pkg-config version is nonsense, so be careful with that. -->
+  <systemmodule id="freetype2">
+    <pkg-config>freetype2.pc</pkg-config>
+    <branch repo="system"
+            version="12.0.6"/>
+  </systemmodule>
+
   <systemmodule id="gbm">
     <pkg-config>gbm.pc</pkg-config>
     <branch repo="system"/>

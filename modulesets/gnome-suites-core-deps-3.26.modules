@@ -335,19 +335,6 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </autotools>
 
-  <autotools id="freetype2" autogen-sh="configure">
-    <branch repo="savannah-download"
-            module="freetype/freetype-2.8.tar.bz2"
-            version="2.8.0"
-            hash="sha256:a3c603ed84c3c2495f9c9331fe6bba3bb0ee65e06ec331e0a0fb52158291b40b"
-            size="1873526"/>
-    <dependencies>
-      <dep package="zlib"/>
-      <dep package="libpng"/>
-      <dep package="harfbuzz"/>
-    </dependencies>
-  </autotools>
-
   <meson id="fwupd"
          mesonargs="-Denable-colorhug=false -Denable-uefi=false -Denable-dell=false">
     <branch repo="github.com" checkoutdir="fwupd" module="hughsie/fwupd"/>
