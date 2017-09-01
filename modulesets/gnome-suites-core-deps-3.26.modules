@@ -914,6 +914,16 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </autotools>
 
+  <autotools id="gudev" autogenargs="--disable-umockdev">
+    <branch checkoutdir="libgudev" module="libgudev"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gobject-introspection"/>
+    </suggests>
+  </autotools>
+
   <autotools id="gupnp"
              autogenargs="--with-context-manager=network-manager">
     <branch revision="gupnp-1.0"/>
