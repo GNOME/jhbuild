@@ -28,8 +28,6 @@ the module and we will just change it to use a tarball anyway.
     href="https://github.com/"/>
 
 <!-- tarball repos -->
-<repository type="tarball" name="gnome.org"
-    href="https://download.gnome.org/sources/"/>
 <repository type="tarball" name="cairo.org"
     href="https://cairographics.org/"/>
 <repository type="tarball" name="iso-codes"
@@ -1378,26 +1376,6 @@ the module and we will just change it to use a tarball anyway.
       <autogenargs value="--disable-Bsymbolic"/>
     </if>
     <branch revision="librsvg-2-40"/>
-    <dependencies>
-      <dep package="libxml2"/>
-      <dep package="glib"/>
-      <dep package="gdk-pixbuf"/>
-      <dep package="gnome-common"/>
-      <dep package="libcroco"/>
-      <dep package="pango"/>
-      <dep package="gobject-introspection"/>
-      <dep package="vala"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="librsvg-tarball" autogenargs="--enable-vala=yes">
-    <if condition-unset="gnu-elf">
-      <autogenargs value="--disable-Bsymbolic"/>
-    </if>
-    <branch repo="gnome.org"
-            version="2.41.1"
-            module="librsvg/2.41/librsvg-${version}.tar.xz"
-            hash="sha256:c1c3e76de68f8b7da3d88992cebab252a7e872818e892d7a56a9e89e44b298a0"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="glib"/>
