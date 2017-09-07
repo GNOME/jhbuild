@@ -703,7 +703,6 @@ the module and we will just change it to use a tarball anyway.
             checkoutdir="gst-plugins-bad"
             module="gstreamer/gst-plugins-bad"/>
     <dependencies>
-      <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
     </dependencies>
     <suggests>
@@ -732,7 +731,6 @@ the module and we will just change it to use a tarball anyway.
             module="gstreamer/gst-plugins-good"
             checkoutdir="gst-plugins-good"/>
     <dependencies>
-      <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
       <dep package="flac"/>
       <dep package="libvpx"/>
@@ -750,6 +748,18 @@ the module and we will just change it to use a tarball anyway.
       </if>
     </suggests>
   </meson>
+
+  <autotools id="gst-libav">
+    <branch repo="git.freedesktop.org"
+            checkoutdir="gst-libav"
+            module="gstreamer/gst-libav"/>
+    <dependencies>
+      <dep package="gst-plugins-base"/>
+    </dependencies>
+    <suggests>
+      <dep package="yasm"/>
+    </suggests>
+  </autotools>
 
   <meson id="gtk+" mesonargs="-Denable-broadway-backend=true">
     <if condition-set="x11">
@@ -1917,6 +1927,9 @@ the module and we will just change it to use a tarball anyway.
         <dep package="wayland"/>
       </if>
     </dependencies>
+    <suggests>
+      <dep package="gst-libav"/>
+    </suggests>
   </cmake>
 
   <autotools id="xtrans">
