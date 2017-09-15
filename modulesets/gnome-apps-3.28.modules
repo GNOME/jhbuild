@@ -156,6 +156,42 @@
     </dependencies>
   </autotools>
 
+  <autotools id="baobab">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="librsvg"/>
+      <dep package="vala"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="cheese">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="clutter-gst"/>
+      <dep package="clutter-gtk"/>
+      <dep package="libcanberra"/>
+      <dep package="vala"/>
+      <dep package="gnome-video-effects"/>
+      <dep package="librsvg"/>
+      <dep package="gnome-desktop"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
+    </dependencies>
+  </autotools>
+
   <meson id="dconf-editor">
     <branch/>
     <dependencies>
@@ -176,6 +212,79 @@
       <dep package="m4-common"/>
       <dep package="WebKit"/>
     </dependencies>
+  </autotools>
+
+  <autotools id="eog">
+    <branch/>
+    <dependencies>
+      <dep package="gettext"/>
+      <dep package="glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="libjpeg"/>
+      <dep package="libpeas"/>
+      <dep package="libxml2"/>
+      <dep package="shared-mime-info"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+    <suggests>
+      <dep package="exempi"/>
+      <dep package="libexif"/>
+      <dep package="lcms2"/>
+      <dep package="librsvg"/>
+    </suggests>
+  </autotools>
+
+  <meson id="epiphany">
+    <branch/>
+    <dependencies>
+      <dep package="WebKit"/>
+      <dep package="appstream-glib"/>
+      <dep package="cairo"/>
+      <dep package="gcr"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gettext"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gtk+-3"/>
+      <dep package="hogweed"/>
+      <dep package="iso-codes"/>
+      <dep package="json-glib"/>
+      <dep package="libdazzle"/>
+      <dep package="libhttpseverywhere"/>
+      <dep package="libnotify"/>
+      <dep package="libsecret"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <dep package="m4-common"/>
+      <dep package="nettle"/>
+      <dep package="sqlite3"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </meson>
+
+  <autotools id="evince" autogenargs="--enable-introspection"
+                         supports-parallel-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="libxml2"/>
+      <dep package="adwaita-icon-theme"/>
+      <dep package="libsecret"/>
+      <dep package="poppler"/>
+      <dep package="nautilus"/>
+      <dep package="libgxps"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+    <suggests>
+      <dep package="libsecret"/>
+    </suggests>
   </autotools>
 
   <cmake id="evolution"
@@ -220,6 +329,35 @@
     </suggests>
   </cmake>
 
+  <autotools id="file-roller">
+    <branch/>
+    <dependencies>
+      <dep package="file"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="intltool"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gedit">
+    <branch/>
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="libpeas"/>
+      <dep package="yelp-tools"/>
+      <dep package="gtksourceview-3"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="python3-devel"/>
+      <if condition-set="macos">
+        <dep package="gtk-mac-integration"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="gspell"/>
+    </suggests>
+  </autotools>
+
   <autotools id="ghex">
     <branch/>
     <dependencies>
@@ -252,6 +390,28 @@
     </suggests>
   </autotools>
 
+  <autotools id="gnome-boxes" autogenargs="--enable-vala"
+             supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="gtk-vnc"/>
+      <dep package="libgovirt"/>
+      <dep package="libosinfo"/>
+      <dep package="libusb1-1.0.9"/>
+      <dep package="libvirt-glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="spice-gtk"/>
+      <dep package="vala"/>
+      <dep package="tracker"/>
+      <dep package="tracker-miners"/>
+      <if condition-set="linux">
+        <dep package="gudev"/>
+      </if>
+    </dependencies>
+  </autotools>
+
   <meson id="gnome-builder" mesonargs="-Dwith_sysmon=false -Dwith_sysprof=false">
     <if condition-unset="linux">
       <mesonargs value="-Dwith_flatpak=false"/>
@@ -280,6 +440,77 @@
     </dependencies>
   </meson>
 
+  <autotools id="gnome-calculator" supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gtksourceview-3"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+      <dep package="m4-common"/>
+      <dep package="mpc"/>
+      <dep package="mpfr"/>
+      <dep package="vala"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <meson id="gnome-calendar">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="evolution-data-server"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </meson>
+
+   <autotools id="gnome-characters">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="gjs"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </autotools>
+
+  <meson id="gnome-clocks">
+    <branch/>
+    <dependencies>
+      <dep package="vala"/>
+      <dep package="gtk+-3"/>
+      <dep package="gsound"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libgweather"/>
+      <dep package="geoclue"/>
+      <dep package="geocode-glib"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </meson>
+
+  <meson id="gnome-contacts">
+    <branch/>
+    <dependencies>
+      <dep package="folks"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gtk+-3"/>
+      <dep package="libgee"/>
+      <dep package="telepathy-glib"/>
+      <dep package="vala"/>
+      <dep package="libchamplain"/>
+    </dependencies>
+    <suggests>
+      <dep package="cheese"/>
+      <dep package="gstreamer"/>
+    </suggests>
+  </meson>
+
   <meson id="gnome-dictionary">
     <branch/>
     <dependencies>
@@ -288,6 +519,113 @@
       <dep package="yelp-tools"/>
     </dependencies>
   </meson>
+
+  <meson id="gnome-disk-utility">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="glib"/>
+      <dep package="gnome-settings-daemon"/>
+      <dep package="gtk+-3"/>
+      <dep package="libnotify"/>
+      <dep package="libpwquality"/>
+      <dep package="libsecret"/>
+      <dep package="udisks"/>
+      <dep package="dvdread"/>
+    </dependencies>
+  </meson>
+
+  <autotools id="gnome-documents"
+             supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="evince"/>
+      <dep package="gjs"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop"/>
+      <dep package="tracker"/>
+      <dep package="tracker-miners"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gnome-online-miners"/>
+      <dep package="libgdata"/>
+      <dep package="libgepub"/>
+      <dep package="liboauth"/>
+      <dep package="libzapojit"/>
+      <dep package="m4-common"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </autotools>
+
+  <meson id="gnome-font-viewer">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gtk+-3"/>
+    </dependencies>
+  </meson>
+
+  <autotools id="gnome-initial-setup">
+    <branch/>
+    <dependencies>
+      <dep package="accountsservice"/>
+      <dep package="geoclue"/>
+      <dep package="gdm"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-keyring"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gstreamer"/>
+      <dep package="iso-codes"/>
+      <dep package="libgweather"/>
+      <dep package="libpwquality"/>
+      <dep package="WebKit"/>
+      <if condition-set="linux">
+        <dep package="network-manager-applet"/>
+        <dep package="NetworkManager"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="upower"/>
+      <dep package="gnome-getting-started-docs"/>
+    </suggests>
+  </autotools>
+
+  <autotools id="gnome-logs">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="intltool"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gtk+-3"/>
+      <dep package="libsystemd"/>
+      <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-maps">
+    <branch/>
+    <dependencies>
+      <dep package="clutter-gtk"/>
+      <dep package="gjs"/>
+      <dep package="glib"/>
+      <dep package="glib-networking"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop"/>
+      <dep package="libchamplain"/>
+      <dep package="geocode-glib"/>
+      <dep package="geoclue"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="libgfbgraph"/>
+      <dep package="folks"/>
+      <dep package="libgee"/>
+      <dep package="librsvg"/>
+    </dependencies>
+  </autotools>
 
   <meson id="gnome-multi-writer">
     <branch/>
@@ -301,6 +639,22 @@
     </dependencies>
   </meson>
 
+  <autotools id="gnome-music">
+    <branch/>
+    <dependencies>
+      <dep package="gobject-introspection"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gtk+-3"/>
+      <dep package="gvfs"/>
+      <dep package="intltool"/>
+      <dep package="libmediaart"/>
+      <dep package="pygobject"/>
+      <dep package="tracker"/>
+      <dep package="tracker-miners"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="gnome-nettool">
     <branch/>
     <dependencies>
@@ -308,6 +662,32 @@
       <dep package="gtk+-3"/>
       <dep package="libgtop"/>
       <dep package="yelp-tools"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-photos"
+             supports-non-srcdir-builds="no">
+    <branch/>
+    <dependencies>
+      <dep package="babl"/>
+      <dep package="gegl"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="geocode-glib"/>
+      <dep package="gexiv2"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gnome-online-miners"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gtk+-3"/>
+      <dep package="libgdata"/>
+      <dep package="libgfbgraph"/>
+      <dep package="libjpeg"/>
+      <dep package="libpng"/>
+      <dep package="tracker"/>
+      <dep package="tracker-miners"/>
     </dependencies>
   </autotools>
 
@@ -324,6 +704,50 @@
     </dependencies>
   </autotools>
 
+  <autotools id="gnome-system-monitor">
+    <branch />
+    <dependencies>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="libgtop"/>
+      <dep package="gtk+-3"/>
+      <dep package="gtkmm-3"/>
+      <dep package="libxml2"/>
+      <dep package="librsvg"/>
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-terminal" autogenargs="--disable-migration">
+    <branch/>
+    <dependencies>
+      <dep package="dconf"/>
+      <dep package="intltool"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="libuuid"/>
+      <dep package="vte"/>
+      <dep package="yelp-tools"/>
+      <dep package="nautilus"/>
+      <dep package="appstream-glib"/>
+    </dependencies>
+    <suggests>
+      <dep package="gnome-shell"/>
+    </suggests>
+  </autotools>
+
+  <meson id="gnome-todo">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="evolution-data-server"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="libpeas"/>
+    </dependencies>
+  </meson>
+
   <meson id="gnome-tweak-tool">
     <branch/>
     <dependencies>
@@ -332,6 +756,28 @@
       <dep package="pygobject"/>
     </dependencies>
   </meson>
+
+  <autotools id="gnome-weather" autogenargs="--disable-dogtail">
+    <if condition-set="coverage">
+      <autogenargs value="--enable-coverage"/>
+    </if>
+    <branch/>
+    <dependencies>
+      <dep package="m4-common"/>
+      <dep package="appstream-glib"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="geoclue"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+      <dep package="intltool"/>
+      <dep package="libgweather"/>
+      <dep package="gjs"/>
+      <if condition-set="coverage">
+        <dep package="lcov"/>
+      </if>
+    </dependencies>
+  </autotools>
 
   <meson id="polari">
     <branch/>
@@ -344,6 +790,54 @@
       <dep package="gspell"/>
       <dep package="m4-common"/>
       <dep package="telepathy-glib"/>
+    </dependencies>
+  </meson>
+
+  <meson id="simple-scan">
+    <branch/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="itstool"/>
+      <dep package="libgusb"/>
+      <dep package="sane"/>
+      <dep package="vala"/>
+      <dep package="zlib"/>
+    </dependencies>
+    <suggests>
+      <dep package="PackageKit"/>
+      <dep package="colord-gtk"/>
+    </suggests>
+  </meson>
+
+  <!-- https://bugzilla.gnome.org/show_bug.cgi?id=786248 -->
+  <meson id="totem"
+         mesonargs="-Dwith-plugins=none">
+    <branch/>
+    <dependencies>
+      <dep package="appstream-glib"/>
+      <dep package="cairo"/>
+      <dep package="clutter"/>
+      <dep package="clutter-gst"/>
+      <dep package="clutter-gtk"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="glib"/>
+      <dep package="gnome-desktop"/>
+      <dep package="grilo"/>
+      <dep package="grilo-plugins"/>
+      <dep package="gsettings-desktop-schemas"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gtk+-3"/>
+      <dep package="intltool"/>
+      <dep package="iso-codes"/>
+      <dep package="libpeas"/>
+      <dep package="totem-pl-parser"/>
+      <dep package="yelp-tools"/>
     </dependencies>
   </meson>
 
@@ -601,6 +1095,50 @@
   </meson>
 
 <!-- Meta Modules -->
+
+  <!-- The Core GNOME Utilities: Only unbranded, GNOME integrated
+       basic functionality utilities allowed.
+
+       Before modifying this list, mail release-team@ and CC Allan.
+  -->
+  <metamodule id="meta-gnome-core-utilities">
+    <dependencies>
+      <dep package="baobab"/>
+      <dep package="cheese"/>
+      <dep package="eog"/>
+      <dep package="epiphany"/>
+      <dep package="evince"/>
+      <dep package="file-roller"/>
+      <dep package="gedit"/>
+      <dep package="gnome-calculator"/>
+      <dep package="gnome-calendar"/>
+      <dep package="gnome-characters"/>
+      <dep package="gnome-clocks"/>
+      <dep package="gnome-contacts"/>
+      <dep package="gnome-documents"/>
+      <dep package="gnome-font-viewer"/>
+      <dep package="gnome-maps"/>
+      <dep package="gnome-music"/>
+      <dep package="gnome-photos"/>
+      <dep package="gnome-system-monitor"/>
+      <dep package="gnome-terminal"/>
+      <dep package="gnome-todo"/>
+      <dep package="gnome-weather"/>
+      <dep package="totem"/>
+      <if condition-set="linux">
+        <!-- libgusb dependency -->
+        <dep package="simple-scan"/>
+        <!-- udisks dependency -->
+        <dep package="gnome-disk-utility"/>
+        <!-- udev dependency -->
+        <dep package="gnome-boxes"/>
+      </if>
+      <if condition-set="systemd">
+        <!-- systemd journal dependency -->
+        <dep package="gnome-logs"/>
+      </if>
+    </dependencies>
+  </metamodule>
 
   <!-- Tested applications: these are built continuously by build.gnome.org
        build slaves, and by default for anyone using JHBuild.
