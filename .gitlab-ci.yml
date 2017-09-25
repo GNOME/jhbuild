@@ -1,0 +1,100 @@
+before_script:
+    - sed -i '/^#\sdeb-src /s/^#//' "/etc/apt/sources.list"
+    - apt-get update
+    - apt-get build-dep --yes jhbuild
+    - apt-get install --yes gettext yelp-tools autopoint
+        # necessary to provide `make` target `check`
+    - apt-get install --yes trang
+        # for `make check`
+    #- apt-get remove --yes gettext
+    #- wget https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.xz && tar xf gettext-0.19.8.1.tar.xz && cd gettext-0.19.8.1 && ./configure && make -j && make install && cd ..
+        # - necessary to avoid `The AM_GNU_GETTEXT_VERSION declaration in your configure.ac file requires the infrastructure from gettext-0.19 but this version is older. Please upgrade to gettext-0.19 or newer.`
+        # - separate building and installation in `gettext-tools` necessary because otherwise building and installing in source root fails due to `/usr/bin/msgfmt: unrecognized option '--desktop'`
+    - apt-get install --yes python3-pip
+    - pip3 install pathlib
+        # avoid `ImportError: No module named pathlib` in `meson` (uses `python3` for building and installing)
+    - apt-get install --yes git && git clone git://github.com/ninja-build/ninja.git && cd ninja && python ./bootstrap.py && python ./configure.py && cp ninja /usr/local/bin && cd ..
+        # avoid `Could not detect Ninja v1.6 or newer` in `meson`
+    - apt-get install sudo
+        # - avoid `No suitable root privilege command found; you should install "pkexec"` during `jhbuild sysdeps --install`
+        # - don't install `policykit-1` because it provides `pkexec` which is preferred over `sudo` and causes `Error getting authority: Error initializing authority: Could not connect: No such file or directory` because some resources can't be accessed in an unprivileged docker container
+    - env DEBIAN_FRONTEND=noninteractive apt-get install --yes keyboard-configuration tzdata
+        # necessary in order to avoid `DEBIAN_FRONTEND` being not passed to `apt-get install` subprocess (unclear why since no explicit env arguments are passed to `apt-get` subprocesses)
+
+ubuntu-18.10:
+    image: ubuntu:18.10
+    script:
+        - ./autogen.sh && make -j && make check -j && make install
+        - apt-get install --yes apt-file
+            # necessary to avoid `apt-file is required to install packages on this system. Please install apt-file` during `jhbuild sysdeps --install`
+        - apt-file update
+            # - necessary to avoid `E: The cache is empty. You need to run 'apt-file update' first.` during `jhbuild sysdeps --install`
+            # - `W: Don't know how to handle "https` doesn't seem to be a problem and can be ignored
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sysdeps --install --install-options='--yes --assume-yes --force-yes'
+            # `--force-yes` causes warning `W: --force-yes is deprecated, use one of the options starting with --allow instead.` @TODO: figure out replacement
+        #- env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild bootstrap
+            # - fails due to `jhbuild bootstrap: Repository=gnome.org not found for module id=m4-common. Possible repositories are ragel, igj, sqlite, expat, cmake, launchpad, gnome-http, python, cairo, sourceware, libproxy, pkgconfig, tango, ftp.gnu.org, tukaani.org, git.gnome.org, xorg, sourceforge, xmlsoft, dbus` which is probably a bug
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sanitycheck
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild --no-interact --exit-on-error build --nodeps &> /tmp/build.log || (tail -n 1000 /tmp/build.log; exit 1)
+            # some sysdeps are still not statisfied, so add `--nodeps`
+        - tail -n 1000 /tmp/build.log
+            # this duplication is necessary in order to be able to display the tail of `build.log` both after failure and success because `||` has be used rather than `;` in order to avoid the script being terminated immediately after a failure in the build command
+
+ubuntu-18.04:
+    image: ubuntu:18.04
+    script:
+        - ./autogen.sh && make -j && make check -j && make install
+        - apt-get install --yes apt-file
+            # necessary to avoid `apt-file is required to install packages on this system. Please install apt-file` during `jhbuild sysdeps --install`
+        - apt-file update
+            # - necessary to avoid `E: The cache is empty. You need to run 'apt-file update' first.` during `jhbuild sysdeps --install`
+            # - `W: Don't know how to handle "https` doesn't seem to be a problem and can be ignored
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sysdeps --install --install-options='--yes --assume-yes --force-yes'
+            # `--force-yes` causes warning `W: --force-yes is deprecated, use one of the options starting with --allow instead.` @TODO: figure out replacement
+        #- env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild bootstrap
+            # - fails due to `jhbuild bootstrap: Repository=gnome.org not found for module id=m4-common. Possible repositories are ragel, igj, sqlite, expat, cmake, launchpad, gnome-http, python, cairo, sourceware, libproxy, pkgconfig, tango, ftp.gnu.org, tukaani.org, git.gnome.org, xorg, sourceforge, xmlsoft, dbus` which is probably a bug
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sanitycheck
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild --no-interact --exit-on-error build --nodeps &> /tmp/build.log || (tail -n 1000 /tmp/build.log; exit 1)
+            # some sysdeps are still not statisfied, so add `--nodeps`
+        - tail -n 1000 /tmp/build.log
+            # this duplication is necessary in order to be able to display the tail of `build.log` both after failure and success because `||` has be used rather than `;` in order to avoid the script being terminated immediately after a failure in the build command
+
+ubuntu-16.04:
+    image: ubuntu:16.04
+    script:
+        - ./autogen.sh && make -j && make check -j && make install
+        - apt-get install --yes apt-file
+            # necessary to avoid `apt-file is required to install packages on this system. Please install apt-file` during `jhbuild sysdeps --install`
+        - apt-file update
+            # - necessary to avoid `E: The cache is empty. You need to run 'apt-file update' first.` during `jhbuild sysdeps --install`
+            # - `W: Don't know how to handle "https` doesn't seem to be a problem and can be ignored
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sysdeps --install --install-options='--yes --assume-yes --force-yes'
+            # `--force-yes` causes warning `W: --force-yes is deprecated, use one of the options starting with --allow instead.` @TODO: figure out replacement
+        #- env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild bootstrap
+            # - fails due to `jhbuild bootstrap: Repository=gnome.org not found for module id=m4-common. Possible repositories are ragel, igj, sqlite, expat, cmake, launchpad, gnome-http, python, cairo, sourceware, libproxy, pkgconfig, tango, ftp.gnu.org, tukaani.org, git.gnome.org, xorg, sourceforge, xmlsoft, dbus` which is probably a bug
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sanitycheck
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild --no-interact --exit-on-error build --nodeps &> /tmp/build.log || (tail -n 1000 /tmp/build.log; exit 1)
+            # some sysdeps are still not statisfied, so add `--nodeps`
+        - tail -n 1000 /tmp/build.log
+            # this duplication is necessary in order to be able to display the tail of `build.log` both after failure and success because `||` has be used rather than `;` in order to avoid the script being terminated immediately after a failure in the build command
+
+ubuntu-14.04:
+    image: ubuntu:14.04
+    script:
+        - apt-get update && apt-get build-dep --yes gettext && apt-get install --yes wget && wget https://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.1.tar.gz && tar xf gettext-0.19.8.1.tar.gz && cd gettext-0.19.8.1 && ./configure && make -j && make -j install && ldconfig && cd .. 
+            # - `ldconfig` necessary in order to avoid `msgfmt: error while loading shared libraries: libgettextsrc-0.19.8.1.so: cannot open shared object file: No such file or directory`
+        - ./autogen.sh && make -j && make check -j && make install
+        - apt-get install --yes apt-file
+            # necessary to avoid `apt-file is required to install packages on this system. Please install apt-file` during `jhbuild sysdeps --install`
+        - apt-file update
+            # - necessary to avoid `E: The cache is empty. You need to run 'apt-file update' first.` during `jhbuild sysdeps --install`
+            # - `W: Don't know how to handle "https` doesn't seem to be a problem and can be ignored
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sysdeps --install --install-options='--yes --assume-yes --force-yes'
+            # `--force-yes` causes warning `W: --force-yes is deprecated, use one of the options starting with --allow instead.` @TODO: figure out replacement
+        #- env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild bootstrap
+            # - fails due to `jhbuild bootstrap: Repository=gnome.org not found for module id=m4-common. Possible repositories are ragel, igj, sqlite, expat, cmake, launchpad, gnome-http, python, cairo, sourceware, libproxy, pkgconfig, tango, ftp.gnu.org, tukaani.org, git.gnome.org, xorg, sourceforge, xmlsoft, dbus` which is probably a bug
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild sanitycheck
+        - env JHBUILD_RUN_AS_ROOT="" $HOME/.local/bin/jhbuild --no-interact --exit-on-error build --nodeps &> /tmp/build.log || (tail -n 1000 /tmp/build.log; exit 1)
+            # some sysdeps are still not statisfied, so add `--nodeps`
+        - tail -n 1000 /tmp/build.log
+            # this duplication is necessary in order to be able to display the tail of `build.log` both after failure and success because `||` has be used rather than `;` in order to avoid the script being terminated immediately after a failure in the build command
