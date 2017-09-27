@@ -46,7 +46,13 @@ class cmd_sysdeps(cmd_build):
                         help=_('Machine readable list of all sysdeps')),
             make_option('--install',
                         action='store_true', default = False,
-                        help=_('Install pkg-config modules via system'))])
+                        help=_('Install pkg-config modules via system')),
+            make_option('--install-options', action="store", type="string",
+                        dest="install_options",
+                        help=_('options to pass to the detected system '
+                                + 'installation command (use this e.g. to pass '
+                                + '--assume-yes to `apt-get` in a headless '
+                                + 'environment)'))])
 
     def run(self, config, options, args, help=None):
 
@@ -211,6 +217,6 @@ class cmd_sysdeps(cmd_build):
             else:
                 logging.info(_("Installing dependencies on system: %s") % \
                                ' '.join(pkg[0] for pkg in uninstalled))
-                installer.install(uninstalled)
+                installer.install(uninstalled, install_options=options.install_options)
 
 register_command(cmd_sysdeps)
