@@ -46,7 +46,12 @@ class cmd_sysdeps(cmd_build):
                         help=_('Machine readable list of all sysdeps')),
             make_option('--install',
                         action='store_true', default = False,
-                        help=_('Install pkg-config modules via system'))])
+                        help=_('Install pkg-config modules via system')),
+            make_option('--sysdeps-assume-yes',
+                        action="store_true", default = False,
+                        dest="sysdeps_assume_yes",
+                        help=_('assume yes/the default answer to interactive questions during installation of system '
+                                + 'dependencies"'))])
 
     def run(self, config, options, args, help=None):
 
@@ -211,6 +216,6 @@ class cmd_sysdeps(cmd_build):
             else:
                 logging.info(_("Installing dependencies on system: %s") % \
                                ' '.join(pkg[0] for pkg in uninstalled))
-                installer.install(uninstalled)
+                installer.install(uninstalled, sysdeps_assume_yes=options.sysdeps_assume_yes)
 
 register_command(cmd_sysdeps)
