@@ -217,7 +217,7 @@ class SystemInstall(object):
         else:
             raise SystemExit(_('No suitable root privilege command found; you should install "pkexec"'))
 
-    def install(self, uninstalled):
+    def install(self, uninstalled, install_options):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
         raise NotImplementedError()
 
@@ -280,7 +280,10 @@ class PKSystemInstall(SystemInstall):
         txn.connect_to_signal('Destroy', lambda *args: self._loop.quit())
         return txn_tx, txn
 
-    def install(self, uninstalled):
+    def install(self, uninstalled, install_options):
+        """Computes packages and installs them.
+        @param install_options ignored
+        """
         logging.info(_('Computing packages to install. This might be slow. Please wait.'))
         pk_package_ids = set()
         uninstalled_pkgconfigs = get_uninstalled_pkgconfigs(uninstalled)
@@ -352,7 +355,10 @@ class PacmanSystemInstall(SystemInstall):
             else:
                 logging.info(_('Successfully updated pkgfile cache'))
 
-    def install(self, uninstalled):
+    def install(self, uninstalled, install_options):
+        """Computes packages and installs them.
+        @param install_options ignored
+        """
         uninstalled_pkgconfigs = get_uninstalled_pkgconfigs(uninstalled)
         uninstalled_filenames = get_uninstalled_filenames(uninstalled)
         logging.info(_('Using pacman to install packages.  Please wait.'))
@@ -435,13 +441,21 @@ class AptSystemInstall(SystemInstall):
                            '(%(filename)s)') % {'id'       : modname,
                                                 'filename' : filename})
 
-    def _install_packages(self, native_packages):
+    def _install_packages(self, native_packages, install_options):
+        """Computes packages and installs them.
+        @param install_options options passed to `apt-get` before the `install`
+        subcommand (see `man apt-get` for details)
+        """
         logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
-        args = self._root_command_prefix_args + ['apt-get', 'install']
+        apt_cmd_line = ['apt-get']
+        if install_options != None:
+            apt_cmd_line += str.split(install_options)
+        apt_cmd_line += ['install']
+        args = self._root_command_prefix_args + apt_cmd_line
         args.extend(native_packages)
         subprocess.check_call(args)
 
-    def install(self, uninstalled):
+    def install(self, uninstalled, install_options):
         logging.info(_('Using apt-file to search for providers; this may be extremely slow. Please wait. Patience!'))
         native_packages = []
 
@@ -472,7 +486,7 @@ class AptSystemInstall(SystemInstall):
                 self._append_native_package_or_warn(modname, '/usr/include/%s' % filename, native_packages, True)
 
         if native_packages:
-            self._install_packages(native_packages)
+            self._install_packages(native_packages, install_options=install_options)
         else:
             logging.info(_('Nothing to install'))
 
