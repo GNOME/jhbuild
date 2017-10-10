@@ -122,6 +122,17 @@ the module and we will just change it to use a tarball anyway.
     <branch/>
   </autotools>
 
+  <cmake id="brotli">
+    <branch repo="github-tar"
+            version="1.0.1"
+            module="google/brotli/archive/v${version}.tar.gz"
+            hash="sha256:6870f9c2c63ef58d7da36e5212a3e1358427572f6ac5a8b5a73a815cf3e0c4a6"
+            size="23731694"
+            rename-tarball="brotli-${version}.tar.gz"
+            checkoutdir="brotli">
+    </branch>
+  </cmake>
+
   <autotools id="cairomm-1.0" autogen-sh="configure">
     <branch module="releases/cairomm-${version}.tar.gz"
             version="1.13.1"
@@ -1878,6 +1889,7 @@ the module and we will just change it to use a tarball anyway.
     <dependencies>
       <dep package="c++"/>
       <dep package="at-spi2-core"/>
+      <dep package="brotli"/>
       <dep package="cairo"/>
       <dep package="enchant"/>
       <dep package="fontconfig"/>
@@ -1914,10 +1926,25 @@ the module and we will just change it to use a tarball anyway.
       <if condition-set="wayland">
         <dep package="wayland"/>
       </if>
+      <dep package="woff2"/>
     </dependencies>
     <suggests>
       <dep package="gst-libav"/>
     </suggests>
+  </cmake>
+
+  <cmake id="woff2">
+    <branch repo="github-tar"
+            version="1.0.1"
+            module="google/woff2/archive/v${version}.tar.gz"
+            hash="sha256:3e2ee65da8daf15b4162604b611f18ff44a27839238051bfb7f7e7d84edb6218"
+            size="38870"
+            rename-tarball="woff2-${version}.tar.gz"
+            checkoutdir="woff2">
+    </branch>
+    <dependencies>
+      <dep package="brotli"/>
+    </dependencies>
   </cmake>
 
   <autotools id="xtrans">
