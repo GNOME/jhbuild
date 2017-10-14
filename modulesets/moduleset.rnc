@@ -210,8 +210,7 @@ attlist.source &=
   attribute href { text },
   attribute size { text }?,
   attribute md5sum { text }?,
-  attribute hash { text }?,
-  attribute rename-tarball { text }?
+  attribute hash { text }?
 patches = element patches { attlist.patches, patch* }
 attlist.patches &= empty
 patch = element patch { attlist.patch, empty }
@@ -264,7 +263,8 @@ attlist.branch &=
   attribute version { text }?,
   attribute size { text }?,
   attribute md5sum { text }?,
-  attribute hash { text }?
+  attribute hash { text }?,
+  attribute rename-tarball { text }?
 # override-checkoutdir and update-new-dirs are CVS only
 # source-subdir is tarballs only
 quilt = element quilt { attlist.quilt, branch }
