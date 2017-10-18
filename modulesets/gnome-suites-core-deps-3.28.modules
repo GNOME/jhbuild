@@ -194,7 +194,7 @@ the module and we will just change it to use a tarball anyway.
     <suggests>
       <dep package="gdk-pixbuf"/>
       <if condition-set="wayland">
-        <dep package="gudev"/>
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </autotools>
@@ -274,7 +274,7 @@ the module and we will just change it to use a tarball anyway.
       <if condition-set="linux">
         <dep package="libgusb"/>
         <dep package="libusb1"/>
-        <dep package="gudev"/>
+        <dep package="libgudev"/>
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
@@ -355,7 +355,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="appstream-glib"/>
       <dep package="gcab"/>
       <dep package="glib"/>
-      <dep package="gudev"/>
+      <dep package="libgudev"/>
       <dep package="libarchive"/>
       <dep package="libgusb"/>
       <dep package="libsoup"/>
@@ -732,7 +732,7 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
     <suggests>
       <if condition-set="linux">
-        <dep package="gudev"/>
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </meson>
@@ -755,7 +755,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
       <if condition-set="linux">
-        <dep package="gudev"/>
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </meson>
@@ -937,8 +937,8 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </autotools>
 
-  <autotools id="gudev" autogenargs="--disable-umockdev">
-    <branch checkoutdir="libgudev" module="libgudev"/>
+  <autotools id="libgudev" autogenargs="--disable-umockdev">
+    <branch />
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1296,7 +1296,7 @@ the module and we will just change it to use a tarball anyway.
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
-      <dep package="gudev"/>
+      <dep package="libgudev"/>
     </dependencies>
   </autotools>
 
@@ -1482,7 +1482,7 @@ the module and we will just change it to use a tarball anyway.
             size="473700"/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gudev"/>
+      <dep package="libgudev"/>
     </dependencies>
   </autotools>
 
@@ -1566,7 +1566,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="dbus-glib"/>
       <dep package="gtk-doc"/>
       <dep package="polkit-gobject"/>
-      <dep package="gudev"/>
+      <dep package="libgudev"/>
       <dep package="ppp"/>
       <dep package="libmbim"/>
       <dep package="libqmi"/>
