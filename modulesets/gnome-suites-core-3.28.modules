@@ -113,12 +113,12 @@
     </suggests>
   </autotools>
 
-  <autotools id="glib-networking" autogenargs="--enable-installed-tests">
+  <meson id="glib-networking" mesonargs="-Dinstalled_tests=true">
     <if condition-set="freebsd">
-      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+      <autogenargs value="-Dca_certificates_path=/usr/local/share/certs/ca-root-nss.crt"/>
     </if>
     <if condition-set="macos">
-      <autogenargs value="--without-pkcs11 --without-ca-certificates"/>
+      <autogenargs value="-Dpkcs11_support=false -Dtls_support=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -130,7 +130,7 @@
         <dep package="p11-kit"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gnome-backgrounds">
     <branch/>
