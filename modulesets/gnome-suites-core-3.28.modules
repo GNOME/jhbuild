@@ -115,10 +115,10 @@
 
   <meson id="glib-networking" mesonargs="-Dinstalled_tests=true">
     <if condition-set="freebsd">
-      <autogenargs value="-Dca_certificates_path=/usr/local/share/certs/ca-root-nss.crt"/>
+      <mesonargs value="-Dca_certificates_path=/usr/local/share/certs/ca-root-nss.crt"/>
     </if>
     <if condition-set="macos">
-      <autogenargs value="-Dpkcs11_support=false -Dtls_support=false"/>
+      <mesonargs value="-Dpkcs11_support=false -Dtls_support=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -437,6 +437,9 @@
     <if condition-unset="linux">
       <mesonargs value="-Denable-admin=false"/>
     </if>
+    <if condition-unset="systemd">
+      <mesonargs value="-Denable-logind=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="avahi-client"/>
@@ -466,9 +469,6 @@
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
-      </if>
-      <if condition-unset="systemd">
-        <mesonargs value="-Denable-logind=false"/>
       </if>
     </dependencies>
   </meson>
