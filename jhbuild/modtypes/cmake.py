@@ -134,7 +134,8 @@ class CMakeModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         if self.use_ninja:
             self.ensure_ninja_binary()
-            buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
+            ninja_cmd = '{} {}'.format(self.ninja_binary, self.get_makeargs(buildscript))
+            buildscript.execute(ninja_cmd, cwd=builddir, extra_env=self.extra_env)
         else:
             self.make(buildscript)
     do_build.depends = [PHASE_CONFIGURE]

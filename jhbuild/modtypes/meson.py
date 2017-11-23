@@ -141,7 +141,8 @@ class MesonModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
         self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
+        ninja_cmd = '{} {}'.format(self.ninja_binary, self.get_makeargs(buildscript))
+        buildscript.execute(ninja_cmd, cwd=builddir, extra_env=self.extra_env)
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
