@@ -383,13 +383,13 @@
     </after>
   </meson>
 
-  <autotools id="gnome-shell-extensions" autogenargs="--enable-extensions=classic-mode">
+  <meson id="gnome-shell-extensions" mesonargs="-Dextension_set=classic">
     <branch repo="gitlab.gnome.org" checkoutdir="gnome-shell-extensions" module="GNOME/gnome-shell-extensions.git"/>
     <dependencies>
       <dep package="gnome-shell"/>
       <dep package="gnome-menus"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-themes-standard" autogenargs="--disable-gtk2-engine">
     <branch/>
