@@ -59,9 +59,9 @@
     </dependencies>
   </meson>
 
-  <autotools id="at-spi2-core">
+  <meson id="at-spi2-core">
     <if condition-unset="x11">
-      <autogenargs value="--disable-x11"/>
+      <mesonargs value="-Denable-x11=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -75,7 +75,7 @@
         <dep package="xkbcommon-x11"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="dconf">
     <branch/>
