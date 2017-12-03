@@ -103,6 +103,15 @@
     </dependencies>
   </autotools>
 
+  <meson id="libmanette">
+    <branch repo="gitlab.gnome.org" checkoutdir="libmanette" module="aplazas/libmanette.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gudev"/>
+      <dep package="libevdev"/>
+    </dependencies>
+  </meson>
+
   <cmake id="libgit2"
          cmakeargs="-DTHREADSAFE:BOOL=1">
     <branch repo="tarball.github.com"
@@ -566,6 +575,7 @@
       <dep package="clutter-gtk"/>
       <dep package="vala"/>
       <dep package="yelp-tools"/>
+      <dep package="libmanette"/>
     </dependencies>
   </autotools>
 
