@@ -279,6 +279,9 @@
   </autotools>
 
   <meson id="gnome-session">
+    <if condition-unset="systemd">
+      <mesonargs value='-Dsystemd=false -Dconsolekit=true'/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="egl"/>
