@@ -544,6 +544,9 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="gnome-online-accounts">
+    <if condition-set="freebsd">
+      <autogenargs value="--disable-kerberos"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="gtk+-3"/>
