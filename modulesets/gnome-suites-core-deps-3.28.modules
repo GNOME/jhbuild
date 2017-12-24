@@ -794,11 +794,11 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="gtk+" mesonargs="-Denable-broadway-backend=true">
-    <if condition-set="x11">
-      <mesonargs value="-Denable-x11-backend=true"/>
+    <if condition-unset="x11">
+      <mesonargs value="-Denable-x11-backend=false"/>
     </if>
-    <if condition-set="wayland">
-      <mesonargs value="-Denable-wayland-backend=true"/>
+    <if condition-unset="wayland">
+      <mesonargs value="-Denable-wayland-backend=false"/>
     </if>
     <if condition-set="mir">
       <mesonargs value="-Denable-mir-backend=true"/>
