@@ -441,12 +441,12 @@
     </dependencies>
   </autotools>
 
-  <meson id="gvfs" mesonargs="-Dwith-systemduserunitdir=no -Dwith-tmpfilesdir=no -Denable-installed-tests=true">
+  <meson id="gvfs" mesonargs="-Dsystemduserunitdir=no -Dtmpfilesdir=no -Dinstalled_tests=true">
     <if condition-unset="linux">
-      <mesonargs value="-Denable-admin=false"/>
+      <mesonargs value="-Dadmin=false"/>
     </if>
     <if condition-unset="systemd">
-      <mesonargs value="-Denable-logind=false"/>
+      <mesonargs value="-Dlogind=false"/>
     </if>
     <branch/>
     <dependencies>
