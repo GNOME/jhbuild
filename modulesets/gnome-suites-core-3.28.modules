@@ -448,6 +448,11 @@
     <if condition-unset="systemd">
       <mesonargs value="-Dlogind=false"/>
     </if>
+    <!-- FreeBSD's libusb doesn't implement libusb_interrupt_event_handler
+         https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224454 -->
+    <if condition-set="freebsd">
+      <mesonargs value="-Dlibusb=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="avahi"/>
@@ -470,7 +475,6 @@
       <dep package="libplist"/>
       <dep package="libsecret"/>
       <dep package="libsoup"/>
-      <dep package="libusb1"/>
       <dep package="libxml2"/>
       <dep package="polkit-gobject"/>
       <dep package="smbclient"/>
@@ -479,6 +483,9 @@
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
+      </if>
+      <if condition-unset="freebsd">
+        <dep package="libusb1"/>
       </if>
     </dependencies>
   </meson>
