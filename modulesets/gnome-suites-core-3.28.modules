@@ -341,6 +341,9 @@
     <if condition-unset="linux">
       <mesonargs value="-Dnetworkmanager=false"/>
     </if>
+    <if condition-unset="systemd">
+      <mesonargs value="-Dsystemd=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
