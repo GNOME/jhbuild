@@ -1251,6 +1251,9 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="libgusb">
+    <if condition-set="freebsd">
+      <mesonargs value='-Dusb_ids=/usr/local/share/usbids/usb.ids'/>
+    </if>
     <branch repo="github.com" checkoutdir="libgusb" module="hughsie/libgusb.git"/>
     <dependencies>
       <dep package="glib"/>
