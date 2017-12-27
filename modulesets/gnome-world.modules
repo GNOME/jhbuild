@@ -3594,6 +3594,21 @@
     </suggests>
   </autotools>
 
+  <autotools id="libnice"
+             autogenargs="--enable-gupnp"
+             supports-non-srcdir-builds="no">
+    <pkg-config>nice.pc</pkg-config>
+    <branch repo="nice.freedesktop.org"
+            module="libnice-${version}.tar.gz"
+            version="0.1.14"
+            hash="sha256:be120ba95d4490436f0da077ffa8f767bf727b82decf2bf499e39becc027809c"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gupnp-igd"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="glade">
     <if condition-set="macos">
       <autogenargs value="--disable-man-pages"/>
