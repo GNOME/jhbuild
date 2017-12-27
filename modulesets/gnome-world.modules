@@ -112,6 +112,8 @@
     href="http://download.mono-project.com/sources/"/>
   <repository type="tarball" name="launchpad.net/tarball"
       href="https://launchpad.net/"/>
+  <repository type="tarball" name="github-tar"
+      href="https://github.com/"/>
   <repository type="tarball" name="monogithub"
     href="https://github.com/downloads/mono/dbus-sharp/"/>
   <repository type="tarball" name="github.com/metabrainz"
@@ -2938,6 +2940,7 @@
       <dep package="gtk+-2"/>
       <dep package="intltool"/>
       <dep package="gegl"/>
+      <dep package="libmypaint"/>
       <if condition-set="macos">
         <dep package="gtk-mac-integration"/>
       </if>
@@ -2949,6 +2952,20 @@
       <dep package="libgnome-keyring"/>
       <dep package="dbus-glib"/>
     </suggests>
+  </autotools>
+
+  <autotools id="libmypaint">
+    <pkg-config>libmypaint.pc</pkg-config>
+    <branch repo="github-tar"
+            version="1.3.0"
+            module="mypaint/libmypaint/releases/download/v${version}/libmypaint-${version}.tar.xz"
+            hash="sha256:6a07d9d57fea60f68d218a953ce91b168975a003db24de6ac01ad69dcc94a671"/>
+    <dependencies>
+      <dep package="gegl"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="json"/>
+    </dependencies>
   </autotools>
 
   <autotools id="gnome-media">
