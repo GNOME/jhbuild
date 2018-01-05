@@ -254,7 +254,10 @@ class PKSystemInstall(SystemInstall):
             try:
                 import glib
             except:
-                raise SystemExit(_('Error: python-gobject package not found.'))
+                try:
+                    from gi.repository import GLib as glib
+                except:
+                    raise SystemExit(_('Error: python-gobject package not found.'))
             self._loop = glib.MainLoop()
         if self._sysbus is None:
             try:
