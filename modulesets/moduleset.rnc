@@ -73,7 +73,7 @@ attlist.mirror &=
 attlist.include &= attribute href { text }
 # As parsed by get_dependencies()
 dependencieselements = dependencies?, suggests?, after?, systemdependencies?
-argsif = element if { attlist.if, argsif*, autogenargs*, makeargs*, makeinstallargs* }
+argsif = element if { attlist.if & argsif* & autogenargs* & makeargs* & makeinstallargs* }
 autotools =
   element autotools {
     attlist.autotools, argsif*, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch, dependencieselements
@@ -150,7 +150,7 @@ attlist.distutils &=
   [ a:defaultValue = "yes" ]
   attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
-cmakeargsif = element if { attlist.if, cmakeargsif*, cmakeargs*, makeargs* }
+cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* }
 cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-config?, branch?, dependencieselements }
 attlist.cmake &=
   attribute id { text },
@@ -160,7 +160,7 @@ attlist.cmake &=
   attribute force-non-srcdir-builds { "yes" | "no" }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
-mesonargsif = element if { attlist.if, mesonargsif*, mesonargs*, makeargs* }
+mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & makeargs* }
 meson = element meson { attlist.meson, mesonargsif*, mesonargs*, makeargs*, pkg-config?, branch?, dependencieselements }
 attlist.meson &=
   attribute id { text },
@@ -231,7 +231,7 @@ tested = element tested { attlist.tested, empty }
 attlist.tested &= attribute package { text }
 # Other children
 attlist.if = attribute condition-set { text } | attribute condition-unset { text }
-depif = element if { attlist.if, depif*, dep* }
+depif = element if { attlist.if & depif* & dep* }
 dependencies = element dependencies { attlist.dependencies & depif* & dep* }
 attlist.dependencies &= empty
 suggests = element suggests { attlist.suggests & depif* & dep* }
