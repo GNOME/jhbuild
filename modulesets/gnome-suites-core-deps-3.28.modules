@@ -185,7 +185,9 @@ the module and we will just change it to use a tarball anyway.
         <dep package="libxkbcommon"/>
       </if>
       <if condition-set="wayland">
-        <dep package="wayland"/>
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
         <dep package="libxkbcommon"/>
       </if>
     </dependencies>
@@ -244,7 +246,9 @@ the module and we will just change it to use a tarball anyway.
         <dep package="xcb-dri2" />
       </if>
       <if condition-set="wayland">
-        <dep package="wayland"/>
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
         <dep package="wayland-egl"/>
         <dep package="gbm"/>
       </if>
@@ -821,7 +825,9 @@ the module and we will just change it to use a tarball anyway.
       </if>
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>
-        <dep package="wayland"/>
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
         <dep package="wayland-egl"/>
         <dep package="wayland-protocols"/>
       </if>
@@ -864,7 +870,9 @@ the module and we will just change it to use a tarball anyway.
       </if>
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>
-        <dep package="wayland"/>
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
         <dep package="wayland-egl"/>
         <dep package="wayland-protocols"/>
       </if>
@@ -1839,7 +1847,9 @@ the module and we will just change it to use a tarball anyway.
     <branch repo="git.freedesktop.org"
             module="wayland/wayland-protocols"/>
     <dependencies>
-      <dep package="wayland"/>
+      <if condition-set="linux">
+        <dep package="wayland"/>
+      </if>
     </dependencies>
   </autotools>
 
@@ -1907,7 +1917,9 @@ the module and we will just change it to use a tarball anyway.
         <dep package="libXt"/>
       </if>
       <if condition-set="wayland">
-        <dep package="wayland"/>
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
       </if>
     </dependencies>
     <suggests>

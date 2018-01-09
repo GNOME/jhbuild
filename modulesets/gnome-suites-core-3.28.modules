@@ -226,7 +226,7 @@
   </meson>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
-    <if condition-unset="udev">
+    <if condition-unset="udev-hwdb">
       <autogenargs value="--disable-udev"/>
     </if>
     <branch/>
@@ -241,7 +241,7 @@
       <dep package="iso-codes"/>
       <dep package="yelp-tools"/> <!-- for the docs -->
       <dep package="xkeyboard-config"/>
-      <if condition-set="udev">
+      <if condition-set="udev-hwdb">
         <dep package="libudev"/>
       </if>
     </dependencies>
@@ -560,10 +560,12 @@
         <dep package="libgudev"/>
         <dep package="gbm"/>
         <dep package="libdrm"/>
-        <dep package="libinput"/>
-        <dep package="libsystemd"/>
-        <dep package="wayland"/>
         <dep package="xwayland"/>
+        <if condition-set="linux">
+          <dep package="libinput"/>
+          <dep package="libsystemd"/>
+          <dep package="wayland"/>
+        </if>
       </if>
     </dependencies>
   </autotools>
