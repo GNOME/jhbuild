@@ -2692,8 +2692,8 @@
       <dep package="gtk+-3"/>
     </dependencies>
     <suggests>
-      <if condition-set="linux">
-        <dep package="gudev"/>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </autotools>
@@ -2714,8 +2714,8 @@
     <suggests>
       <dep package="pulseaudio"/>
       <dep package="gdk-pixbuf"/>
-      <if condition-set="linux">
-        <dep package="gudev"/>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </autotools>
@@ -3077,8 +3077,8 @@
       <dep package="libcanberra"/>
     </dependencies>
     <suggests>
-      <if condition-set="linux">
-        <dep package="gudev"/>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
@@ -3142,8 +3142,8 @@
       <dep package="pygobject-python2"/>
       <dep package="totem-pl-parser"/>
       <dep package="yelp-tools"/>
-      <if condition-set="linux">
-        <dep package="gudev"/>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
       </if>
     </dependencies>
     <suggests>
@@ -3176,7 +3176,7 @@
       <dep package="gtk+-3"/>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
-      <dep package="gudev"/>
+      <dep package="libgudev"/>
       <dep package="json-glib"/>
       <dep package="libgee"/>
       <dep package="libraw"/>
@@ -3568,7 +3568,9 @@
       <dep package="libchamplain"/>
       <if condition-set="linux">
         <dep package="NetworkManager"/>
-        <dep package="gudev"/>
+      </if>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
       </if>
     </suggests>
   </autotools>
