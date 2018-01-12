@@ -89,6 +89,16 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
+      <dep package="gobject-introspection"/>
+    </dependencies>
+  </meson>
+
+  <meson id="libdazzle">
+    <branch repo="gitlab.gnome.org" checkoutdir="libdazzle" module="GNOME/libdazzle.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+-3"/>
+      <dep package="gobject-introspection"/>
     </dependencies>
   </meson>
 
@@ -282,7 +292,7 @@
     <if condition-unset="linux">
       <mesonargs value="-Dwith_flatpak=false"/>
     </if>
-    <branch/>
+    <branch repo="gitlab.gnome.org" checkoutdir="gnome-builder" module="GNOME/gnome-builder.git"/>
     <dependencies>
       <dep package="devhelp"/>
       <dep package="gjs"/>
