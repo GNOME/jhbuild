@@ -174,7 +174,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="gnome-control-center" supports-non-srcdir-builds="no">
+  <meson id="gnome-control-center">
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
@@ -223,7 +223,7 @@
         <dep package="NetworkManager"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
     <if condition-unset="udev">
