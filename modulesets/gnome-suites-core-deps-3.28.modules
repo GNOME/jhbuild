@@ -263,6 +263,15 @@ the module and we will just change it to use a tarball anyway.
     <if condition-unset="systemd">
       <mesonargs value="-Denable-systemd=false"/>
     </if>
+    <if condition-unset="linux">
+      <mesonargs value="-Denable-udev-rules=false"/>
+    </if>
+    <if condition-unset="udev-hwdb">
+      <!-- Setting the path of pnp.ids file is required to disable hwdb -->
+      <if condition-set="freebsd">
+        <mesonargs value="-Dwith-pnp-ids=/usr/local/share/pnpids/pnp.ids"/>
+      </if>
+    </if>
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
     <dependencies>
       <dep package="argyll"/>
@@ -270,6 +279,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="dbus"/>
       <dep package="sqlite3"/>
       <dep package="lcms2"/>
+      <dep package="libgudev"/>
       <dep package="gobject-introspection"/>
       <dep package="docbook-utils"/>
       <dep package="docbook-xml"/>
@@ -279,7 +289,6 @@ the module and we will just change it to use a tarball anyway.
       <if condition-set="linux">
         <dep package="libgusb"/>
         <dep package="libusb1"/>
-        <dep package="libgudev"/>
       </if>
       <if condition-set="systemd">
         <dep package="libsystemd"/>
