@@ -454,7 +454,7 @@
       <mesonargs value="-Dlogind=false"/>
     </if>
     <if condition-unset="udev">
-      <mesonargs value="-Dgudev=false -Dcdda=false"/>
+      <mesonargs value="-Dgudev=false -Dcdda=false -Dgphoto2=false -Dmtp=false"/>
     </if>
     <!-- FreeBSD's libusb doesn't implement libusb_interrupt_event_handler
          https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224454 -->
@@ -472,12 +472,9 @@
       <dep package="libarchive"/>
       <dep package="libbluray"/>
       <dep package="libcap"/>
-      <dep package="libcdio-paranoia"/>
       <dep package="libgcrypt"/>
       <dep package="libgdata"/>
-      <dep package="libgphoto2"/>
       <dep package="libimobiledevice"/>
-      <dep package="libmtp"/>
       <dep package="libnfs"/>
       <dep package="libplist"/>
       <dep package="libsecret"/>
@@ -492,7 +489,10 @@
         <dep package="libsystemd"/>
       </if>
       <if condition-set="udev">
+        <dep package="libcdio-paranoia"/>
+        <dep package="libgphoto2"/>
         <dep package="libgudev"/>
+        <dep package="libmtp"/>
       </if>
       <if condition-unset="freebsd">
         <dep package="libusb1"/>
