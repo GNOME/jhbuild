@@ -1035,9 +1035,9 @@
     </dependencies>
   </meson>
 
-  <meson id="gnome-software" mesonargs="-Denable-rpm=false">
+  <meson id="gnome-software">
     <if condition-unset="linux">
-      <mesonargs value="-Denable-ostree=false -Denable-firmware=false -Denable-flatpak=false -Denable-fwupd=false"/>
+      <mesonargs value="-Denable-firmware=false -Denable-flatpak=false -Denable-fwupd=false"/>
     </if>
     <if condition-unset="udev">
       <mesonargs value="-Denable-gudev=false"/>
