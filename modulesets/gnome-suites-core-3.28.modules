@@ -301,13 +301,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="gnome-settings-daemon">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-rfkill --disable-network-manager"/>
-    </if>
-    <if condition-unset="udev">
-      <autogenargs value="--disable-gudev"/>
-    </if>
+  <meson id="gnome-settings-daemon">
     <branch/>
     <dependencies>
       <dep package="colord"/>
@@ -340,7 +334,7 @@
     <suggests>
       <!-- <dep package="xkbfile"/> -->
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="gnome-shell">
     <if condition-unset="linux">
