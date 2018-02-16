@@ -302,6 +302,15 @@
   </meson>
 
   <meson id="gnome-settings-daemon">
+    <if condition-unset="linux">
+      <mesonargs value="-Dnetwork_manager=false -Drfkill=false"/>
+    </if>
+    <if condition-unset="wayland">
+      <mesonargs value="-Dwayland=false"/>
+    </if>
+    <if condition-unset="udev">
+      <mesonargs value="-Dgudev=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="colord"/>
