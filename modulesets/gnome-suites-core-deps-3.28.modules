@@ -131,13 +131,18 @@ the module and we will just change it to use a tarball anyway.
     </branch>
   </cmake>
 
-  <autotools id="cairo">
+  <autotools id="cairo" autogenargs="--enable-gl">
+    <if condition-set="quartz">
+      <autogenargs value="--enable-quartz --disable-gl"/>
+    </if>
     <branch repo="git.freedesktop.org" module="cairo"/>
     <dependencies>
-      <if condition-set="linux">
+      <if condition-unset="quartz">
         <dep package="fontconfig"/>
         <dep package="freetype2"/>
         <dep package="gl"/>
+      </if>
+      <if condition-set="x11">
         <dep package="libXext"/>
         <dep package="libXrender"/>
         <dep package="x11"/>
