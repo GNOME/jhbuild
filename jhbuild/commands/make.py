@@ -89,8 +89,16 @@ class cmd_make(Command):
             if not default_repo:
                 logging.error(_('No module matching current directory %r in the moduleset') % (modname, ))
                 return False
-            from jhbuild.modtypes.autotools import AutogenModule
-            module = AutogenModule(modname, default_repo.branch(modname))
+
+            # Try meson first, then autotools
+            print (os.path.join(self.get_cwd(), 'meson.build'))
+            if os.path.exists(os.path.join(self.get_cwd(), 'meson.build')):
+                from jhbuild.modtypes.meson import MesonModule
+                module = MesonModule(modname, default_repo.branch(modname))
+            else:
+                from jhbuild.modtypes.autotools import AutogenModule
+                module = AutogenModule(modname, default_repo.branch(modname))
+
             module.config = config
             logging.info(_('module "%(modname)s" does not exist, created automatically using repository "%(reponame)s"') % \
                          {'modname': modname, 'reponame': default_repo.name})
