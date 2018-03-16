@@ -1710,16 +1710,15 @@ the module and we will just change it to use a tarball anyway.
   </distutils>
 
   <!-- Python 3 build of pygobject -->
-  <autotools id="pygobject" autogenargs="--with-python=python3">
+  <distutils id="pygobject" python3="1">
     <branch repo="gitlab.gnome.org" module="GNOME/pygobject.git"/>
     <dependencies>
-      <dep package="m4-common"/>
       <dep package="glib"/>
       <dep package="py3cairo"/>
       <dep package="python3-devel"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </autotools>
+  </distutils>
 
   <autotools id="sound-theme-freedesktop">
     <branch repo="people.freedesktop.org"

@@ -772,16 +772,15 @@
   </distutils>
 
   <!-- Python 2 build of pygobject, until everything gets ported to Python 3 -->
-  <autotools id="pygobject-python2" autogenargs="--with-python=python2">
+  <distutils id="pygobject-python2">
     <branch module="pygobject" checkoutdir="pygobject-python2"/>
     <dependencies>
-      <dep package="m4-common"/>
       <dep package="glib"/>
       <dep package="py2cairo"/>
       <dep package="python2-devel"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </autotools>
+  </distutils>
 
   <autotools id="pygtk">
     <branch/>
