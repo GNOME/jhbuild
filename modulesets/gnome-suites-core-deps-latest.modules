@@ -859,9 +859,6 @@ the module and we will just change it to use a tarball anyway.
       <dep package="gtk-doc"/>
       <dep package="gobject-introspection"/>
       <dep package="graphene"/>
-      <dep package="gst-plugins-bad"/>
-      <dep package="gst-plugins-base"/>
-      <dep package="gstreamer"/>
       <dep package="libepoxy"/>
       <dep package="m4-common"/>
       <if condition-unset="quartz">
@@ -883,6 +880,10 @@ the module and we will just change it to use a tarball anyway.
       <!-- Many GTK+ apps require desktop-file-validate. -->
       <dep package="desktop-file-utils"/>
       <dep package="shared-mime-info"/>
+      <!-- GStreamer is the default media backend, but it is optional -->
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gstreamer"/>
     </suggests>
   </meson>
 
