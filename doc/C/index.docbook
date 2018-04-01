@@ -259,6 +259,18 @@
               available CPU cores. Defaults to <literal>''</literal>.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry>
+          <term>
+            <link linkend="cfg-mesonargs"><varname>mesonargs</varname></link>
+          </term>
+          <listitem>
+            <simpara>A string containing arguments passed to the
+              <command>meson</command> invocation of all modules. Can be
+              overridden for particular modules using the
+              <link linkend="cfg-module-mesonargs">
+              <varname>module_mesonargs</varname></link> dictionary.</simpara>
+          </listitem>
+        </varlistentry>
       </variablelist>
     </section>
 
@@ -2000,6 +2012,19 @@ Optional packages: (JHBuild will build the missing packages)
               <varname>makecheck</varname>. If a particular module isn't listed
               in the dictionary, the global <varname>makecheck</varname> will be
               used.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-module-mesonargs">
+          <term>
+            <varname>module_mesonargs</varname>
+          </term>
+          <listitem>
+            <simpara>A dictionary mapping module names to strings specifying
+              the arguments to be passed to <command>meson</command>. The
+              setting in <varname>module_mesonargs</varname> is used instead
+              of the global <varname>mesonargs</varname> setting. If a
+              particular module isn’t listed in the dictionary, the global
+              <varname>mesonargs</varname> will be used.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-module-nopoison">
