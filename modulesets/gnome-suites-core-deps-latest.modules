@@ -791,13 +791,14 @@ the module and we will just change it to use a tarball anyway.
             checkoutdir="gst-plugins-base"/>
     <dependencies>
       <dep package="gstreamer"/>
-      <dep package="gtk+-3"/>
       <dep package="iso-codes"/>
     </dependencies>
     <suggests>
       <if condition-set="udev">
         <dep package="libgudev"/>
       </if>
+      <!-- The examples require GTK+ 3, but they are optional -->
+      <dep package="gtk+-3"/>
     </suggests>
   </meson>
 
