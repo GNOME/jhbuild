@@ -250,6 +250,18 @@
         </varlistentry>
         <varlistentry>
           <term>
+            <link linkend="cfg-cmakeargs"><varname>cmakeargs</varname></link>
+          </term>
+          <listitem>
+            <simpara>A string containing arguments passed to the
+              <command>cmake</command> invocation of all modules. Can be
+              overridden for particular modules using the
+              <link linkend="cfg-module-cmakeargs">
+              <varname>module_cmakeargs</varname></link> dictionary.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
             <link linkend="cfg-makeargs"><varname>makeargs</varname></link>
           </term>
           <listitem>
@@ -1987,6 +1999,19 @@ Optional packages: (JHBuild will build the missing packages)
               <varname>checkout_mode</varname> setting.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-module-cmakeargs">
+          <term>
+            <varname>module_cmakeargs</varname>
+          </term>
+          <listitem>
+            <simpara>A dictionary mapping module names to strings specifying
+              the arguments to be passed to <command>cmake</command>. The
+              setting in <varname>module_cmakeargs</varname> is used instead
+              of the global <varname>cmakeargs</varname> setting. If a
+              particular module isn’t listed in the dictionary, the global
+              <varname>cmakeargs</varname> will be used.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-module-makeargs">
           <term>
             <varname>module_makeargs</varname>
@@ -3040,6 +3065,7 @@ Optional packages: (JHBuild will build the missing packages)
 
 <programlisting>
   &lt;cmake id="<replaceable>modulename</replaceable>"
+            [ cmakeargs="<replaceable>cmakeargs</replaceable>" ]
             [ skip-install="<replaceable>skip-install</replaceable>" ]
             [ cmakedir="<replaceable>cmakedir</replaceable>" ]
             [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]&gt;
@@ -3057,6 +3083,9 @@ Optional packages: (JHBuild will build the missing packages)
   &lt;/after&gt;
 &lt;/cmake&gt;
 </programlisting>
+        <para>The <sgmltag class="attribute">cmakeargs</sgmltag> attribute is
+          used to specify additional arguments to pass to
+          <command>cmake</command>.</para>
 
         <para>The <sgmltag class="attribute">cmakedir</sgmltag> attribute
           specifies the subdirectory where cmake will run in relation to srcdir.
