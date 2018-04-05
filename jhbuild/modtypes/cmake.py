@@ -24,13 +24,13 @@ import shutil
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, register_module_type, MakeModule
+     Package, DownloadableModule, register_module_type, MakeModule, NinjaModule
 from jhbuild.modtypes.autotools import collect_args
 from jhbuild.commands.sanitycheck import inpath
 
 __all__ = [ 'CMakeModule' ]
 
-class CMakeModule(MakeModule, DownloadableModule):
+class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
     """Base type for modules that use CMake build system."""
     type = 'cmake'
 
@@ -42,9 +42,10 @@ class CMakeModule(MakeModule, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
-                 cmakeargs='', makeargs='',
+                 cmakeargs='', makeargs='', ninjaargs='',
                  skip_install_phase=False):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
+        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs)
         self.cmakeargs = cmakeargs
         self.supports_non_srcdir_builds = True
         self.skip_install_phase = skip_install_phase
@@ -52,16 +53,6 @@ class CMakeModule(MakeModule, DownloadableModule):
         self.supports_install_destdir = True
         self.use_ninja = True
         self.cmakedir = None
-
-    def ensure_ninja_binary(self):
-        for f in ['ninja', 'ninja-build']:
-            if inpath(f, os.environ['PATH'].split(os.pathsep)):
-                self.ninja_binary = f
-                return
-
-        self.use_ninja = False
-
-        raise CommandError(_('%s not found') % 'ninja')
 
     def eval_args(self, args):
         args = Package.eval_args(self, args)
@@ -122,8 +113,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Cleaning'), self)
         builddir = self.get_builddir(buildscript)
         if self.use_ninja:
-            self.ensure_ninja_binary()
-            buildscript.execute(self.ninja_binary + ' clean', cwd=builddir, extra_env=self.extra_env)
+            self.ninja(buildscript, 'clean')
         else:
             self.make(buildscript, 'clean')
     do_clean.depends = [PHASE_CONFIGURE]
@@ -133,8 +123,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         buildscript.set_action(_('Building'), self)
         builddir = self.get_builddir(buildscript)
         if self.use_ninja:
-            self.ensure_ninja_binary()
-            buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
+            self.ninja(buildscript)
         else:
             self.make(buildscript)
     do_build.depends = [PHASE_CONFIGURE]
@@ -142,10 +131,10 @@ class CMakeModule(MakeModule, DownloadableModule):
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        if not self.use_ninja:
+        if self.use_ninja:
             self.make(buildscript, 'package_source')
         else:
-            raise CommandError(_('%s does not support dist') % 'ninja')
+            self.ninja(buildscript, 'package_source')
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -157,10 +146,7 @@ class CMakeModule(MakeModule, DownloadableModule):
         builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
         if self.use_ninja:
-            self.ensure_ninja_binary()
-            extra_env = self.extra_env or {}
-            extra_env['DESTDIR'] = destdir
-            buildscript.execute(self.ninja_binary + ' install', cwd=builddir, extra_env=extra_env)
+            self.ninja(buildscript, 'install', env={'DESTDIR': destdir})
         else:
             self.make(buildscript, 'install DESTDIR={}'.format(destdir))
         self.process_install(buildscript, self.get_revision())
@@ -180,10 +166,15 @@ class CMakeModule(MakeModule, DownloadableModule):
 def parse_cmake(node, config, uri, repositories, default_repo):
     instance = CMakeModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['cmake', instance.get_makecmd(config)]
+    instance.dependencies += [
+        'cmake',
+        instance.get_ninjacmd(config),
+        instance.get_makecmd(config),
+    ]
 
     instance.cmakeargs = collect_args(instance, node, 'cmakeargs')
     instance.makeargs = collect_args(instance, node, 'makeargs')
+    instance.ninjaargs = collect_args(instance, node, 'ninjaargs')
 
     if node.hasAttribute('skip-install'):
         skip_install = node.getAttribute('skip-install')

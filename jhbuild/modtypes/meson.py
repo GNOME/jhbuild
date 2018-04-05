@@ -24,17 +24,16 @@ import shutil
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
-     Package, DownloadableModule, register_module_type, MakeModule
+     Package, DownloadableModule, register_module_type, NinjaModule
 from jhbuild.modtypes.autotools import collect_args
 from jhbuild.commands.sanitycheck import inpath
 from jhbuild.utils import fileutils
 
 __all__ = [ 'MesonModule' ]
 
-class MesonModule(MakeModule, DownloadableModule):
+class MesonModule(NinjaModule, DownloadableModule):
     """Base type for modules that use Meson build system."""
     type = 'meson'
-    ninja_binary = ''
 
     PHASE_CHECKOUT = DownloadableModule.PHASE_CHECKOUT
     PHASE_FORCE_CHECKOUT = DownloadableModule.PHASE_FORCE_CHECKOUT
@@ -46,22 +45,14 @@ class MesonModule(MakeModule, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
-                 mesonargs='', makeargs='',
+                 mesonargs='', ninjaargs='',
                  skip_install_phase=False):
-        MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
+        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs)
         self.mesonargs = mesonargs
         self.supports_non_srcdir_builds = True
         self.skip_install_phase = skip_install_phase
         self.force_non_srcdir_builds = True
         self.supports_install_destdir = True
-
-    def ensure_ninja_binary(self):
-        for f in ['ninja', 'ninja-build']:
-            if inpath(f, os.environ['PATH'].split(os.pathsep)):
-                self.ninja_binary = f
-                return
-
-        raise CommandError(_('%s not found') % 'ninja')
 
     def eval_args(self, args):
         args = Package.eval_args(self, args)
@@ -131,33 +122,26 @@ class MesonModule(MakeModule, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        builddir = self.get_builddir(buildscript)
-        self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary + ' clean', cwd=builddir, extra_env=self.extra_env)
+        self.ninja(buildscript, 'clean')
     do_clean.depends = [PHASE_CONFIGURE]
     do_clean.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        builddir = self.get_builddir(buildscript)
-        self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary, cwd=builddir, extra_env=self.extra_env)
+        self.ninja(buildscript)
     do_build.depends = [PHASE_CONFIGURE]
-    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
+    do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
+            PHASE_CLEAN]
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        builddir = self.get_builddir(buildscript)
-        self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary + ' test', cwd=builddir, extra_env=self.extra_env)
+        self.ninja(buildscript, 'test')
     do_check.depends = [PHASE_BUILD]
     do_check.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
-        builddir = self.get_builddir(buildscript)
-        self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary + ' dist', cwd=builddir, extra_env=self.extra_env)
+        self.ninja(buildscript, 'dist')
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -166,12 +150,8 @@ class MesonModule(MakeModule, DownloadableModule):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
-        builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
-        extra_env = (self.extra_env or {}).copy()
-        extra_env['DESTDIR'] = destdir
-        self.ensure_ninja_binary()
-        buildscript.execute(self.ninja_binary + ' install', cwd=builddir, extra_env=extra_env)
+        self.ninja(buildscript, 'install', env={'DESTDIR': destdir})
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
@@ -183,10 +163,10 @@ class MesonModule(MakeModule, DownloadableModule):
 def parse_meson(node, config, uri, repositories, default_repo):
     instance = MesonModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['meson', instance.get_makecmd(config)]
+    instance.dependencies += ['meson', instance.get_ninjacmd(config)]
 
     instance.mesonargs = collect_args(instance, node, 'mesonargs')
-    instance.makeargs = collect_args(instance, node, 'makeargs')
+    instance.ninjaargs = collect_args(instance, node, 'ninjaargs')
 
     if node.hasAttribute('skip-install'):
         skip_install = node.getAttribute('skip-install')

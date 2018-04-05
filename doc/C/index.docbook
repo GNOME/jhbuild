@@ -283,6 +283,15 @@
               <varname>module_mesonargs</varname></link> dictionary.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry>
+          <term>
+            <link linkend="cfg-ninjaargs"><varname>ninjaargs</varname></link>
+          </term>
+          <listitem>
+            <simpara>A string listing additional arguments to be passed to
+              <command>ninja</command>. Defaults to <literal>''</literal>.</simpara>
+          </listitem>
+        </varlistentry>
       </variablelist>
     </section>
 
@@ -2025,6 +2034,19 @@ Optional packages: (JHBuild will build the missing packages)
               used.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-module-ninjaargs">
+          <term>
+            <varname>module_ninjaargs</varname>
+          </term>
+          <listitem>
+            <simpara>A dictionary mapping module names to strings specifying
+              the arguments to pass to <command>ninja</command>. The setting in
+              <varname>module_ninjaargs</varname> replaces the value of
+              <varname>ninjaargs</varname>. If a particular module isn't listed
+              in the dictionary, the global <varname>ninjaargs</varname> will be
+              used.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-module-makecheck">
           <term>
             <varname>module_makecheck</varname>
@@ -3066,8 +3088,11 @@ Optional packages: (JHBuild will build the missing packages)
 <programlisting>
   &lt;cmake id="<replaceable>modulename</replaceable>"
             [ cmakeargs="<replaceable>cmakeargs</replaceable>" ]
+            [ ninjaargs="<replaceable>ninjaargs</replaceable>" ]
+            [ makeargs="<replaceable>makeargs</replaceable>" ]
             [ skip-install="<replaceable>skip-install</replaceable>" ]
             [ cmakedir="<replaceable>cmakedir</replaceable>" ]
+            [ use-ninja="<replaceable>use-ninja</replaceable>" ]
             [ force-non-srcdir-builds="<replaceable>force-non-srcdir-builds</replaceable>" ]&gt;
   &lt;branch [ ... ] &gt;
     [...]
@@ -3087,6 +3112,14 @@ Optional packages: (JHBuild will build the missing packages)
           used to specify additional arguments to pass to
           <command>cmake</command>.</para>
 
+        <para>The <sgmltag class="attribute">ninjaargs</sgmltag> attribute is
+          used to specify additional arguments to pass to
+          <command>ninja</command>.</para>
+
+        <para>The <sgmltag class="attribute">makeargs</sgmltag> attribute is
+          used to specify additional arguments to pass to
+          <command>make</command>.</para>
+
         <para>The <sgmltag class="attribute">cmakedir</sgmltag> attribute
           specifies the subdirectory where cmake will run in relation to srcdir.
         </para>
@@ -3094,17 +3127,24 @@ Optional packages: (JHBuild will build the missing packages)
         <para>The <sgmltag class="attribute">force-non-srcdir-builds</sgmltag>
           attribute is used to mark modules that can't be cleanly built from
           the source directory, but can be built from outside it.</para>
+
+        <para>The <sgmltag class="attribute">use-ninja</sgmltag>
+          attribute is used to mark modules should be built using the
+          Ninja backend for cmake, instead of the Make backend. The
+          default is to use the Ninja backend.</para>
       </section>
 
       <section id="moduleset-syntax-defs-meson">
         <title>Meson</title>
 
         <para>The <sgmltag class="element">meson</sgmltag> element is used to
-          define a module which is built using the Meson build system.</para>
+          define a module which is configured using the Meson build system and
+          built using the Ninja build tool.</para>
 
 <programlisting>
   &lt;meson id="<replaceable>modulename</replaceable>"
             [ mesonargs="<replaceable>mesonargs</replaceable>" ]
+            [ ninjaargs="<replaceable>ninjaargs</replaceable>" ]
             [ skip-install="<replaceable>skip-install</replaceable>" ]&gt;
   &lt;branch [ ... ] &gt;
     [...]
@@ -3123,6 +3163,9 @@ Optional packages: (JHBuild will build the missing packages)
         <para>The <sgmltag class="attribute">mesonargs</sgmltag> attribute is
           used to specify additional arguments to pass to
           <command>meson</command>.</para>
+        <para>The <sgmltag class="attribute">ninjaargs</sgmltag> attribute is
+          used to specify additional arguments to pass to
+          <command>ninja</command>.</para>
       </section>
 
       <section id="moduleset-syntax-defs-distutils">

@@ -35,6 +35,7 @@ import logging
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
+from jhbuild.commands.sanitycheck import inpath
 import jhbuild.utils.fileutils as fileutils
 
 _module_types = {}
@@ -513,6 +514,53 @@ them into the prefix."""
         instance.dependencies += instance.branch.repository.get_sysdeps()
         return instance
 
+class NinjaModule(Package):
+    '''A base class for modules that use the command 'ninja' within the build
+    process.'''
+    def __init__(self, name, branch=None,
+                 ninjaargs='',
+                 ninjainstallargs='',
+                 ninjafile='build.ninja'):
+        Package.__init__(self, name, branch=branch)
+        self.ninjacmd = None
+        self.ninjaargs = ninjaargs
+        self.ninjainstallargs = ninjainstallargs
+        self.ninjafile = ninjafile
+
+    def get_ninjaargs(self, buildscript):
+        ninjaargs = ' %s %s' % (self.ninjaargs,
+                                self.config.module_ninjaargs.get(
+                                  self.name, self.config.ninjaargs))
+        if not self.supports_parallel_build:
+            ninjaargs = re.sub(r'-j\w*\d+', '', ninjaargs) + ' -j 1'
+        return self.eval_args(ninjaargs).strip()
+
+    def get_ninjacmd(self, config):
+        if self.ninjacmd:
+            return self.ninjacmd
+        for cmd in ['ninja', 'ninja-build']:
+            if inpath(cmd, os.environ['PATH'].split(os.pathsep)):
+                self.ninjacmd = cmd
+                break
+        return self.ninjacmd
+
+    def ninja(self, buildscript, target='', ninjaargs=None, env=None):
+        ninjacmd = os.environ.get('NINJA', self.get_ninjacmd(buildscript.config))
+        if ninjacmd is None:
+            raise BuildStateError(_('ninja not found; use NINJA to point to a specific ninja binary'))
+
+        if ninjaargs is None:
+            ninjaargs = self.get_ninjaargs(buildscript)
+
+        extra_env = (self.extra_env or {}).copy()
+        for k in (env or {}):
+            extra_env[k] = env[k]
+
+        cmd = '{ninja} {ninjaargs} {target}'.format(ninja=ninjacmd,
+                                                    ninjaargs=ninjaargs,
+                                                    target=target)
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
+
 class MakeModule(Package):
     '''A base class for modules that use the command 'make' within the build
     process.'''
@@ -547,7 +595,7 @@ class MakeModule(Package):
         makecmd = os.environ.get('MAKE', self.get_makecmd(buildscript.config))
 
         if makeargs is None:
-            makeargs = self.get_makeargs(self, buildscript)
+            makeargs = self.get_makeargs(buildscript)
 
         cmd = '{pre}{make} {makeargs} {target}'.format(pre=pre,
                                                         make=makecmd,

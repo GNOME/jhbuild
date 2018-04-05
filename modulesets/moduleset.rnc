@@ -150,22 +150,24 @@ attlist.distutils &=
   [ a:defaultValue = "yes" ]
   attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
-cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* }
+cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* & ninjaargs* }
 cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-config?, branch?, dependencieselements }
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
   attribute makeargs { text }?,
+  attribute ninjaargs { text }?,
+  attribute use-ninja { "yes" | "no" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?,
   attribute force-non-srcdir-builds { "yes" | "no" }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
-mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & makeargs* }
+mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* }
 meson = element meson { attlist.meson, mesonargsif*, mesonargs*, makeargs*, pkg-config?, branch?, dependencieselements }
 attlist.meson &=
   attribute id { text },
   attribute mesonargs { text }?,
-  attribute makeargs { text }?
+  attribute ninjaargs { text }?
 mesonargs = element mesonargs { attlist.mesonargs }
 attlist.mesonargs &= attribute value { text }
 perl = element perl { attlist.perl, branch?, dependencies?, after? }
