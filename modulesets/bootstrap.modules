@@ -19,13 +19,14 @@
   <repository type="tarball" name="sqlite" href="https://www.sqlite.org/"/>
   <repository type="tarball" name="libproxy" href="http://libproxy.googlecode.com/files/"/>
   <repository type="tarball" name="cmake" href="http://www.cmake.org/files/"/>
+  <repository type="tarball" name="expat" href="https://github.com/libexpat/libexpat/releases/download/"/>
   <repository type="git" name="gnome.org" href="git://git.gnome.org/"/>
 
   <autotools id="xorg-macros">
     <branch repo="xorg"
-            module="releases/individual/util/util-macros-1.19.0.tar.gz" version="1.19.0"
-            size="96185"
-            hash="sha256:0d4df51b29023daf2f63aebf3ebc638ea88efedfd560ab5866741ab3f92acaa1"/>
+            module="releases/individual/util/util-macros-${version}.tar.bz2" version="1.19.2"
+            size="84139"
+            hash="sha256:d7e43376ad220411499a79735020f9d145fdc159284867e99467e0d771f3e712"/>
   </autotools>
 
   <autotools id="gettext" autogen-sh="configure">
@@ -38,16 +39,16 @@
 
   <autotools id="bison" autogen-sh="configure">
     <branch repo="ftp.gnu.org"
-            module="bison/bison-3.0.2.tar.gz" version="3.0.2"
-            size="3261770"
-            hash="sha256:cdf29d1a4c0f7d5b0c181bc8818fe6816d3b6ad4fcc8f6c0e5540a228c3f81ed"/>
+            module="bison/bison-${version}.tar.xz" version="3.0.4"
+            size="1973796"
+            hash="sha256:a72428c7917bdf9fa93cb8181c971b6e22834125848cf1d03ce10b1bb0716fe1"/>
   </autotools>
 
   <autotools id="m4" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
-	    module="m4/m4-1.4.17.tar.bz2" version="1.4.17"
-	    size="1438525"
-            hash="sha256:8e4e1f963932136ed45dcd5afb0c6e237e96a6fcdcd2a2fa6755040859500d70" />
+	    module="m4/m4-${version}.tar.xz" version="1.4.18"
+	    size="1207688"
+            hash="sha256:f2c1e86ca0a404ff281631bdc8377638992744b175afb806e25871a24a934e07" />
   </autotools>
 
   <autotools id="autoconf" autogen-sh="configure" bootstrap="true">
@@ -62,66 +63,66 @@
 
   <autotools id="libtool" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
-            module="libtool/libtool-2.4.2.tar.gz" version="2.4.2"
-            size="2632347" md5sum="d2f3b7d4627e69e13514a40e72a24d50"
-            hash="sha256:b38de44862a987293cd3d8dfae1c409d514b6c4e794ebc93648febf9afc38918"
-            checkoutdir="libtool-2.4.2">
+            module="libtool/libtool-${version}.tar.xz" version="2.4.6"
+            size="973080" md5sum="1bfb9b923f2c1339b4d2ce1807064aa5"
+            hash="sha256:7c87a8c2c8c0fc9cd5019e402bed4292462d00a718a7cd5f11218153bf28b26f">
     </branch>
   </autotools>
 
   <autotools id="automake" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
-            module="automake/automake-1.14.1.tar.gz" version="1.14.1"
-            hash="sha256:814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
-            size="2240681"/>
+            module="automake/automake-${version}.tar.xz" version="1.16.1"
+            hash="sha256:5d05bb38a23fd3312b10aea93840feec685bdf4a41146e78882848165d3ae921"
+            size="1534936"/>
     <dependencies>
       <dep package="autoconf"/>
     </dependencies>
   </autotools>
 
   <autotools id="pkg-config" autogen-sh="configure" autogenargs="--with-internal-glib">
-    <branch repo="pkgconfig" module="pkg-config-0.28.tar.gz" version="0.28"
-            size="1931203" hash="sha256:6b6eb31c6ec4421174578652c7e141fdaae2dabad1021f420d8713206ac1f845"/>
+    <branch repo="pkgconfig" module="pkg-config-${version}.tar.gz" version="0.29.2"
+            size="2016830" hash="sha256:6fc69c01688c9458a57eb9a1664c9aba372ccda420a02bf4429fe610e7e7d591"/>
   </autotools>
 
   <!-- cmakes ./configure is picky about invalid flags so we manually set it -->
   <autotools id="cmake" autogen-template="%(srcdir)s/configure --prefix=%(prefix)s">
     <branch repo="cmake"
-            module="v3.1/cmake-3.1.0.tar.gz" version="3.1.0"
-            size="5955836"
-            hash="sha256:8bdc3fa3f2da81bc10c772a6b64cc9052acc2901d42e1e1b2588b40df224aad9"/>
+            module="v3.11/cmake-${version}.tar.gz" version="3.11.0"
+            size="7948287"
+            hash="sha256:c313bee371d4d255be2b4e96fd59b11d58bc550a7c78c021444ae565709a656b"/>
   </autotools>
 
   <autotools id="python" autogenargs="--enable-shared" autogen-sh="configure">
     <pkg-config>python-2.7.pc</pkg-config>
-    <branch repo="python"
-            module="2.7.12/Python-2.7.12.tar.xz"
-            version="2.7.12"
-            hash="md5:57dffcee9cee8bb2ab5f82af1d8e9a69"
-            size="12390820">
+    <branch repo="python" module="${version}/Python-${version}.tar.xz"
+            version="2.7.14" hash="md5:1f6db41ad91d9eb0a6f0c769b8613c5b"
+            size="12576112">
       <patch file="https://git.gnome.org/browse/gtk-osx/plain/patches/python2-linkflags.patch" strip="1"/>
     </branch>
   </autotools>
 
   <autotools id="xz" autogen-sh="configure">
-    <branch repo="tukaani.org" module="xz/xz-5.0.1.tar.bz2" version="5.0.1"
-            size="1005959" md5sum="cb6c7a58cec4d663a395c54d186ca0c6"
-            hash="sha256:9b380f502d37085a60821484a3a13747454638927cc36033be64970512451ed8"/>
+    <branch repo="tukaani.org" module="xz/xz-${version}.tar.bz2" version="5.2.3"
+            size="1207242" md5sum="1592e7ca3eece099b03b35f4d9179e7c"
+            hash="sha256:fd9ca16de1052aac899ad3495ad20dfa906c27b4a5070102a2ec35ca3a4740c1"/>
   </autotools>
 
   <autotools id="intltool" autogen-sh="configure">
-    <branch repo="launchpad" module="intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz" version="0.50.2"
-            size="189483" hash="sha256:67f25c5c6fb71d095793a7f895b245e65e829e8bde68c6c8b4c912144ff34406"/>
+    <branch repo="launchpad" version="0.51.0" size="162286"
+            module="intltool/trunk/${version}/+download/intltool-${version}.tar.gz"
+            hash="md5:12e517cac2b57a0121cda351570f1e63"/>
   </autotools>
 
   <autotools id="libxslt" autogen-sh="configure">
-    <branch repo="xmlsoft" module="libxslt-1.1.28.tar.gz" version="1.1.28"
-            size="3435907" hash="sha256:5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"/>
+    <branch repo="xmlsoft" module="libxslt-${version}.tar.gz" version="1.1.32"
+            size="3440715"
+            hash="sha256:526ecd0abaf4a7789041622c3950c0e7f2c4c8835471515fd77eec684a355460"/>
   </autotools>
 
   <autotools id="libxml2" autogen-sh="configure">
-    <branch repo="xmlsoft" module="libxml2-2.9.2.tar.gz" version="2.9.2"
-            size="5444991" hash="sha256:5178c30b151d044aefb1b08bf54c3003a0ac55c59c866763997529d60770d5bc"/>
+    <branch repo="xmlsoft" module="libxml2-${version}.tar.gz" version="2.9.8"
+            size="5469097"
+            hash="sha256:0b74e51595654f958148759cfef0993114ddccccbb6f31aee018f3558e8e2732"/>
   </autotools>
 
   <autotools id="gtk-osx-docbook" autogen-sh="configure" supports-non-srcdir-builds="no">
@@ -133,42 +134,52 @@
        https://sourceware.org/ml/libffi-discuss/2014/msg00078.html -->
   <autotools id="libffi" autogen-sh="configure"
              autogenargs="--disable-multi-os-directory">
-    <branch repo="sourceware" module="libffi/libffi-3.0.13.tar.gz" version="3.0.13"
-            size="845747" hash="sha256:1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c"/>
+    <branch repo="sourceware" module="libffi/libffi-${version}.tar.gz"
+            version="3.2.1" size="940837"
+            hash="sha256:d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37"/>
   </autotools>
 
   <autotools id="libpng" autogen-sh="configure">
-    <branch repo="sourceforge" module="libpng/libpng-1.6.17.tar.xz" version="1.6.17"
-            hash="md5:430a9b76b78533235cd4b9b26ce75c7e"/>
+    <branch repo="sourceforge" module="libpng/libpng-${version}.tar.xz" version="1.6.34"
+            hash="md5:c05b6ca7190a5e387b78657dbe5536b2"/>
   </autotools>
 
   <autotools id="vala-bootstrap" autogen-sh="configure">
-    <branch repo="gnome-http" module="vala/0.20/vala-0.20.1.tar.xz" version="0.20.1" checkoutdir="vala-0.20.1"
-            size="2627808" hash="sha256:9cb7ecd18a23525e401c204d4d08341c7d911cd5d78078eee10b747ecb45e481"/>
+    <branch repo="gnome-http" module="vala/0.40/vala-${version}.tar.xz"
+            version="0.40.2" checkoutdir="vala-${version}"
+            hash="sha256:75a3dc2de36873d8ceab168b2fde1b2c378a1f7104a3b3391ba3acf579c674b3"/>
+  </autotools>
+
+  <autotools id="expat" autogen-sh="configure">
+    <branch repo="expat" module="R_2_2_5/expat-2.2.5.tar.bz2" version="2.2.5"/>
   </autotools>
 
   <autotools id="dbus" autogen-sh="configure">
-    <branch repo="dbus" module="dbus-1.10.12.tar.gz" version="1.10.12"/>
+    <branch repo="dbus" module="dbus-${version}.tar.gz" version="1.12.6"/>
   </autotools>
 
   <autotools id="pixman" autogen-sh="configure">
-    <branch repo="cairo" module="pixman-0.32.6.tar.gz" version="0.32.6"
-            size="816702" hash="sha256:3dfed13b8060eadabf0a4945c7045b7793cc7e3e910e748a8bb0f0dc3e794904"/>
+    <branch repo="cairo" module="pixman-${version}.tar.gz" version="0.34.0"
+            hash="sha1:a1b1683c1a55acce9d928fea1ab6ceb79142ddc7">
+      <patch file="pixman-bfo104886-clang5.patch" strip="1"/>
+    </branch>
   </autotools>
 
   <autotools id="libtasn1" autogen-sh="configure">
-    <branch repo="ftp.gnu.org" module="libtasn1/libtasn1-4.10.tar.gz" version="4.10"
-            size="1887057" hash="sha256:681a4d9a0d259f2125713f2e5766c5809f151b3a1392fd91390f780b4b8f5a02"/>
+    <branch repo="ftp.gnu.org" module="libtasn1/libtasn1-${version}.tar.gz"
+            version="4.13" size="1891703"
+            hash="sha256:7e528e8c317ddd156230c4e31d082cd13e7ddeb7a54824be82632209550c8cca"/>
   </autotools>
 
   <autotools id="libjpeg" autogen-sh="configure">
-    <branch repo="igj" module="jpegsrc.v9b.tar.gz" version="9b"
-            checkoutdir="jpeg-9b"/>
+    <branch repo="igj" module="jpegsrc.v${version}.tar.gz" version="9c"
+            checkoutdir="jpeg-${version}"/>
   </autotools>
 
   <autotools id="sqlite" autogenargs="--enable-threadsafe" autogen-sh="configure">
-    <branch repo="sqlite" module="2013/sqlite-autoconf-3080200.tar.gz" version="30802000"
-            size="1917056" hash="sha256:a0851d06092c8208e4dd947f569f40db476b472b22e3e10e2f52f3c5e94fef92"/>
+    <branch repo="sqlite" module="2018/sqlite-autoconf-3230000.tar.gz"
+            version="3.23.0"
+            hash="sha1:ef55baa06f46808b9798f8447ba6a0115b23c5d2"/>
   </autotools>
 
   <!-- GNOME’s cache for autoconf-archive.
@@ -191,11 +202,12 @@
         <dep package="cmake"/>
         <dep package="python"/>
         <dep package="intltool"/>
-        <dep package="libxslt"/>
         <dep package="libxml2"/>
+        <dep package="libxslt"/>
         <dep package="gtk-osx-docbook"/>
         <dep package="libffi"/>
         <dep package="libpng"/>
+        <dep package="expat"/>
         <dep package="dbus"/>
         <dep package="pixman"/>
         <dep package="libtasn1"/>
