@@ -952,7 +952,9 @@ the module and we will just change it to use a tarball anyway.
       <dep package="docbook-xml"/>
       <dep package="docbook-xsl"/>
       <dep package="cc"/>
-      <dep package="source-highlight"/>
+      <if condition-unset="macos"> <!-- fall back to vim on macos -->
+        <dep package="source-highlight"/>
+      </if>
     </dependencies>
   </autotools>
 
