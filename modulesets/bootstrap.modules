@@ -129,11 +129,12 @@
              size="1985073" hash="sha256:1550665e4130c64914d26036785be1878a5867fd2bd9b954a30d0c82dee98789"/>
   </autotools>
 
-  <autotools id="libffi" autogen-sh="configure">
+  <!-- disable-multi-os-directory: see
+       https://sourceware.org/ml/libffi-discuss/2014/msg00078.html -->
+  <autotools id="libffi" autogen-sh="configure"
+             autogenargs="--disable-multi-os-directory">
     <branch repo="sourceware" module="libffi/libffi-3.0.13.tar.gz" version="3.0.13"
-            size="845747" hash="sha256:1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c">
-      <patch file="libffi-toolexeclibdir.patch" strip="0"/>
-    </branch>
+            size="845747" hash="sha256:1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c"/>
   </autotools>
 
   <autotools id="libpng" autogen-sh="configure">
