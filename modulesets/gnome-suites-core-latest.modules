@@ -239,11 +239,13 @@
       <dep package="gtk+-3"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="iso-codes"/>
-      <dep package="libseccomp"/>
       <dep package="yelp-tools"/> <!-- for the docs -->
       <dep package="xkeyboard-config"/>
       <if condition-set="udev-hwdb">
         <dep package="libudev"/>
+      </if>
+      <if condition-set="linux">
+        <dep package="libseccomp"/>
       </if>
     </dependencies>
   </autotools>
