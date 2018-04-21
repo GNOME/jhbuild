@@ -286,17 +286,17 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="colord"
-         mesonargs="-Denable-bash-completion=false -Denable-vala=true">
+         mesonargs="-Dbash_completion=false -Dvapi=true">
     <if condition-unset="systemd">
-      <mesonargs value="-Denable-systemd=false"/>
+      <mesonargs value="-Dsystemd=false"/>
     </if>
     <if condition-unset="linux">
-      <mesonargs value="-Denable-udev-rules=false"/>
+      <mesonargs value="-Dudev_rules=false"/>
     </if>
     <if condition-unset="udev-hwdb">
       <!-- Setting the path of pnp.ids file is required to disable hwdb -->
       <if condition-set="freebsd">
-        <mesonargs value="-Dwith-pnp-ids=/usr/local/share/pnpids/pnp.ids"/>
+        <mesonargs value="-Dpnp_ids=/usr/local/share/pnpids/pnp.ids"/>
       </if>
     </if>
     <branch repo="github.com" checkoutdir="colord" module="hughsie/colord.git"/>
