@@ -371,7 +371,10 @@ class TerminalBuildScript(buildscript.BuildScript):
                 uprint(_('exit shell to continue with build'))
                 os.system(user_shell)
                 if unlink_srcdir:
-                    os.unlink('.jhbuild-srcdir')
+                    try:
+                        os.unlink('.jhbuild-srcdir')
+                    except OSError:
+                        pass
                 os.chdir(cwd) # restor working directory
             elif val == '5':
                 self.config.reload()
