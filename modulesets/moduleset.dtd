@@ -106,20 +106,23 @@
 	python3 CDATA	#FIXED "1"
 	supports-non-srcdir-builds (yes|no) "yes">
 
+<!ELEMENT ninjaargs EMPTY>
+<!ATTLIST ninjaargs value CDATA #REQUIRED>
+
 <!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
 	makeargs	CDATA	#IMPLIED
-        ninjaargs       CDATA   #IMPLIED
-        use-ninja (yes|no) "yes"
+	ninjaargs	CDATA	#IMPLIED
+	use-ninja (yes|no) "yes"
 	supports-non-srcdir-builds (yes|no) "yes"
 	force-non-srcdir-builds (yes|no) "no">
 
 <!ELEMENT cmakeargs EMPTY>
 <!ATTLIST cmakeargs value CDATA #REQUIRED>
 
-<!ELEMENT meson (if*,mesonargs*,makeargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ELEMENT meson (if*,mesonargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
 <!ATTLIST meson
 	id		CDATA	#REQUIRED
 	mesonargs	CDATA	#IMPLIED

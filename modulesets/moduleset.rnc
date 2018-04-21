@@ -151,7 +151,7 @@ attlist.distutils &=
   attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
 cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* & ninjaargs* }
-cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, pkg-config?, branch?, dependencieselements }
+cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, ninjaargs*, pkg-config?, branch?, dependencieselements }
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
@@ -162,8 +162,10 @@ attlist.cmake &=
   attribute force-non-srcdir-builds { "yes" | "no" }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
+ninjaargs = element ninjaargs { attlist.ninjaargs }
+attlist.ninjaargs &= attribute value { text }
 mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* }
-meson = element meson { attlist.meson, mesonargsif*, mesonargs*, makeargs*, pkg-config?, branch?, dependencieselements }
+meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, pkg-config?, branch?, dependencieselements }
 attlist.meson &=
   attribute id { text },
   attribute mesonargs { text }?,
