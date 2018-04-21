@@ -846,18 +846,18 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </autotools>
 
-  <meson id="gtk+" mesonargs="-Denable-broadway-backend=true">
+  <meson id="gtk+" mesonargs="-Dbroadway-backend=true">
     <if condition-unset="x11">
-      <mesonargs value="-Denable-x11-backend=false"/>
+      <mesonargs value="-Dx11-backend=false"/>
     </if>
     <if condition-unset="wayland">
-      <mesonargs value="-Denable-wayland-backend=false"/>
+      <mesonargs value="-Dwayland-backend=false"/>
     </if>
     <if condition-set="mir">
-      <mesonargs value="-Denable-mir-backend=true"/>
+      <mesonargs value="-Dmir-backend=true"/>
     </if>
     <if condition-set="quartz">
-      <mesonargs value="-Denable-quartz-backend=true"/>
+      <mesonargs value="-Dquartz-backend=true"/>
     </if>
     <branch repo="gitlab.gnome.org" checkoutdir="gtk+" module="GNOME/gtk.git"/>
     <dependencies>
