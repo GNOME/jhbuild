@@ -91,7 +91,6 @@ class cmd_make(Command):
                 return False
 
             # Try meson first, then autotools
-            print (os.path.join(self.get_cwd(), 'meson.build'))
             if os.path.exists(os.path.join(self.get_cwd(), 'meson.build')):
                 from jhbuild.modtypes.meson import MesonModule
                 module = MesonModule(modname, default_repo.branch(modname))
