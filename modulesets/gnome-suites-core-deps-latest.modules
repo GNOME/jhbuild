@@ -1349,6 +1349,23 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </meson>
 
+  <meson id="libepoxy">
+    <pkg-config>epoxy.pc</pkg-config>
+    <branch repo="github-tar"
+            module="anholt/libepoxy/releases/download//${version}/libepoxy-${version}.tar.xz"
+            version="1.5.0"
+            checkoutdir="libepoxy-${version}"
+            hash="sha256:4c94995398a6ebf691600dda2e9685a0cac261414175c2adf4645cdfab42a5d5"
+            />
+    <dependencies>
+      <dep package="egl"/>
+      <dep package="gl"/>
+      <if condition-set="x11">
+        <dep package="x11"/>
+      </if>
+    </dependencies>
+  </meson>
+
   <meson id="libinput">
     <branch repo="git.freedesktop.org" checkoutdir="libinput" module="wayland/libinput.git" />
     <dependencies>
