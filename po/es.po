@@ -7,15 +7,15 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009, 2010, 2011.
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008-2017.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008-2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-26 18:08+0000\n"
-"PO-Revision-Date: 2017-05-10 09:58+0200\n"
+"POT-Creation-Date: 2018-04-11 14:18+0000\n"
+"PO-Revision-Date: 2018-04-30 15:51+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -170,7 +170,7 @@ msgstr "Actualizar uno o más módulos desde el sistema de control de versiones"
 
 #: jhbuild/commands/base.py:104 jhbuild/commands/base.py:142
 #: jhbuild/commands/base.py:383 jhbuild/commands/rdepends.py:52
-#: jhbuild/moduleset.py:180
+#: jhbuild/moduleset.py:181
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "No se encontró el módulo «%s»."
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Update and compile one or more modules"
 msgstr "Actualizar y compilar uno o más módulos"
 
-#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:95
+#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:103
 #: jhbuild/commands/uninstall.py:50
 #, python-format
 msgid ""
@@ -750,8 +750,7 @@ msgstr "no se puede escribir en el prefijo de instalación (%s)"
 #: jhbuild/commands/sanitycheck.py:134 jhbuild/commands/sanitycheck.py:140
 #: jhbuild/commands/sanitycheck.py:142 jhbuild/commands/sanitycheck.py:144
 #: jhbuild/commands/sanitycheck.py:150 jhbuild/commands/sanitycheck.py:154
-#: jhbuild/modtypes/cmake.py:63 jhbuild/modtypes/cmake.py:104
-#: jhbuild/modtypes/meson.py:62 jhbuild/modtypes/meson.py:102
+#: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
 #: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
 #: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
@@ -1254,19 +1253,19 @@ msgstr "Recargar configuración"
 msgid "choice: "
 msgstr "selección:"
 
-#: jhbuild/frontends/terminal.py:362
+#: jhbuild/frontends/terminal.py:371
 msgid "exit shell to continue with build"
 msgstr "salga de la consola para continuar con la construcción"
 
-#: jhbuild/frontends/terminal.py:372
+#: jhbuild/frontends/terminal.py:383
 msgid "invalid choice"
 msgstr "selección no válida"
 
-#: jhbuild/frontends/terminal.py:380
+#: jhbuild/frontends/terminal.py:391
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Escriba «sí» para confirmar la acción:"
 
-#: jhbuild/frontends/terminal.py:385
+#: jhbuild/frontends/terminal.py:396
 msgid "yes"
 msgstr "sí"
 
@@ -1318,86 +1317,82 @@ msgstr "Interrumpido"
 msgid "EOF"
 msgstr "EOF"
 
-#: jhbuild/modtypes/autotools.py:215 jhbuild/modtypes/cmake.py:90
-#: jhbuild/modtypes/linux.py:109 jhbuild/modtypes/meson.py:92
+#: jhbuild/modtypes/autotools.py:223 jhbuild/modtypes/cmake.py:82
+#: jhbuild/modtypes/linux.py:109 jhbuild/modtypes/meson.py:85
 #: jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "Configurando"
 
-#: jhbuild/modtypes/autotools.py:246 jhbuild/modtypes/cmake.py:120
-#: jhbuild/modtypes/linux.py:141 jhbuild/modtypes/meson.py:131
+#: jhbuild/modtypes/autotools.py:254 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/linux.py:141 jhbuild/modtypes/meson.py:124
 #: jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "Limpiando"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:260 jhbuild/modtypes/cmake.py:123
 #: jhbuild/modtypes/distutils.py:58 jhbuild/modtypes/linux.py:154
-#: jhbuild/modtypes/meson.py:139 jhbuild/modtypes/perl.py:52
+#: jhbuild/modtypes/meson.py:130 jhbuild/modtypes/perl.py:52
 #: jhbuild/modtypes/waf.py:93
 msgid "Building"
 msgstr "Construyendo"
 
-#: jhbuild/modtypes/autotools.py:283 jhbuild/modtypes/waf.py:111
+#: jhbuild/modtypes/autotools.py:291 jhbuild/modtypes/meson.py:137
+#: jhbuild/modtypes/waf.py:111
 msgid "Checking"
 msgstr "Comprobando"
 
-#: jhbuild/modtypes/autotools.py:293 jhbuild/modtypes/cmake.py:142
-#: jhbuild/modtypes/waf.py:123
+#: jhbuild/modtypes/autotools.py:301 jhbuild/modtypes/cmake.py:133
+#: jhbuild/modtypes/meson.py:143 jhbuild/modtypes/waf.py:123
 msgid "Creating tarball for"
 msgstr "Creando archivo tar para"
 
-#: jhbuild/modtypes/autotools.py:299
+#: jhbuild/modtypes/autotools.py:307
 msgid "Dist checking"
 msgstr "Distchecking"
 
-#: jhbuild/modtypes/autotools.py:308
+#: jhbuild/modtypes/autotools.py:316
 msgid "Uninstalling old installed version"
 msgstr "Desinstalar una versión antigua instalada"
 
-#: jhbuild/modtypes/autotools.py:311 jhbuild/modtypes/cmake.py:154
-#: jhbuild/modtypes/distutils.py:69 jhbuild/modtypes/meson.py:150
+#: jhbuild/modtypes/autotools.py:319 jhbuild/modtypes/cmake.py:145
+#: jhbuild/modtypes/distutils.py:69 jhbuild/modtypes/meson.py:152
 #: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:134
 msgid "Installing"
 msgstr "Instalando"
 
-#: jhbuild/modtypes/autotools.py:333
+#: jhbuild/modtypes/autotools.py:341
 msgid "Distcleaning"
 msgstr "Distcleaning"
 
-#: jhbuild/modtypes/autotools.py:365
+#: jhbuild/modtypes/autotools.py:377
 #, python-format
 msgid "<%s/> tag must contain value=''"
 msgstr "la etiqueta <%s/> debe contener value=''"
 
-#: jhbuild/modtypes/cmake.py:146
-#, python-format
-msgid "%s does not support dist"
-msgstr "%s no soporta la distribución"
-
-#: jhbuild/modtypes/__init__.py:60
+#: jhbuild/modtypes/__init__.py:61
 #, python-format
 msgid "unknown module type %s"
 msgstr "tipo de módulo %s desconocido"
 
-#: jhbuild/modtypes/__init__.py:77
+#: jhbuild/modtypes/__init__.py:78
 #, python-format
 msgid "dep node for module %s is missing package attribute"
 msgstr ""
 "el atributo de nodo de dependencia del módulo %s no se encuentra en el "
 "paquete"
 
-#: jhbuild/modtypes/__init__.py:86 jhbuild/modtypes/__init__.py:93
+#: jhbuild/modtypes/__init__.py:87 jhbuild/modtypes/__init__.py:94
 #, python-format
 msgid "%(node)s node for %(module)s module is missing %(attribute)s attribute"
 msgstr ""
 "falta el atributo %(attribute)s para el nodo %(node)s del módulo %(module)s"
 
-#: jhbuild/modtypes/__init__.py:142
+#: jhbuild/modtypes/__init__.py:143
 #, python-format
 msgid "no <branch> element found for %s"
 msgstr "no se encontró un elemento <branch> para %s"
 
-#: jhbuild/modtypes/__init__.py:151
+#: jhbuild/modtypes/__init__.py:152
 #, python-format
 msgid ""
 "Repository=%(missing)s not found for module id=%(module)s. Possible "
@@ -1406,7 +1401,7 @@ msgstr ""
 "No se encontró el repositorio=%(missing)s para kconfig en el id de módulo="
 "%(module)s. Los posibles repositorios son %(possible)s"
 
-#: jhbuild/modtypes/__init__.py:158
+#: jhbuild/modtypes/__init__.py:159
 #, python-format
 msgid ""
 "No repository for module id=%(module)s. Either set branch/repo or default "
@@ -1415,22 +1410,22 @@ msgstr ""
 "No se ha encontrado el repositorio para el módulo id=%(module)s. Establezca "
 "el repositorio, la rama o el repositorio predeterminado."
 
-#: jhbuild/modtypes/__init__.py:227
+#: jhbuild/modtypes/__init__.py:228
 #, python-format
 msgid "Deleting .la file: %r"
 msgstr "Eliminando el archivo .la: %r"
 
-#: jhbuild/modtypes/__init__.py:249
+#: jhbuild/modtypes/__init__.py:250
 #, python-format
 msgid "Deleting dir file: %r"
 msgstr "Eliminando el archivo de carpeta: %r"
 
-#: jhbuild/modtypes/__init__.py:320
+#: jhbuild/modtypes/__init__.py:321
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
 msgstr "Moviendo DESTDIR %r temporal al prefijo de construcción"
 
-#: jhbuild/modtypes/__init__.py:342
+#: jhbuild/modtypes/__init__.py:343
 #, python-format
 msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
@@ -1439,27 +1434,27 @@ msgstr ""
 "Quedan archivos en la carpeta de compilación %(dest)r; es posible que el "
 "módulo haya instalado archivos fuera del prefijo."
 
-#: jhbuild/modtypes/__init__.py:360
+#: jhbuild/modtypes/__init__.py:361
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
 msgstr "Falló la instalación del módulo en el DESTDIR %(dest)r"
 
-#: jhbuild/modtypes/__init__.py:376
+#: jhbuild/modtypes/__init__.py:377
 #, python-format
 msgid "%d files remaining from previous build"
 msgstr "Quedan %d archivos pendientes de una construcción anterior"
 
-#: jhbuild/modtypes/__init__.py:379 jhbuild/utils/packagedb.py:226
+#: jhbuild/modtypes/__init__.py:380 jhbuild/utils/packagedb.py:226
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Eliminado: %(file)r"
 
-#: jhbuild/modtypes/__init__.py:384
+#: jhbuild/modtypes/__init__.py:385
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
 msgstr "Falló al eliminar el archivo %(file)r: %(msg)s"
 
-#: jhbuild/modtypes/__init__.py:392
+#: jhbuild/modtypes/__init__.py:393
 #, python-format
 msgid ""
 "Install encountered errors: %(num)d errors raised, %(files)d files copied. "
@@ -1470,32 +1465,37 @@ msgstr ""
 "archivos copiados. Los errores son:\n"
 "  %(err)s"
 
-#: jhbuild/modtypes/__init__.py:399
+#: jhbuild/modtypes/__init__.py:400
 #, python-format
 msgid "Install complete: %d files copied"
 msgstr "Instalación completada: %d archivos copiados"
 
-#: jhbuild/modtypes/__init__.py:447
+#: jhbuild/modtypes/__init__.py:448
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "Omitiendo %s (no actualizado)"
 
-#: jhbuild/modtypes/__init__.py:459
+#: jhbuild/modtypes/__init__.py:460
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Omitiendo %s (paquete y dependencias no actualizados)"
 
-#: jhbuild/modtypes/__init__.py:568 jhbuild/modtypes/__init__.py:594
+#: jhbuild/modtypes/__init__.py:550
+msgid "ninja not found; use NINJA to point to a specific ninja binary"
+msgstr ""
+"ninja no encontrado; use NINJA para apuntar a un binario específico de ninja"
+
+#: jhbuild/modtypes/__init__.py:616 jhbuild/modtypes/__init__.py:642
 #: jhbuild/modtypes/linux.py:81 jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "Verificando"
 
-#: jhbuild/modtypes/__init__.py:572
+#: jhbuild/modtypes/__init__.py:620
 #, python-format
 msgid "source directory %s was not created"
 msgstr "no se creó la carpeta origen %s"
 
-#: jhbuild/modtypes/__init__.py:597
+#: jhbuild/modtypes/__init__.py:645
 msgid "wipe directory and start over"
 msgstr "borrar carpeta y empezar de nuevo"
 
@@ -1547,45 +1547,45 @@ msgstr "el módulo «%(module)s» tiene un atributo tamaño no válido («%(size
 msgid "Python XML packages are required but could not be found"
 msgstr "Se necesitan los paquetes XML de Python pero no se han encontrado"
 
-#: jhbuild/moduleset.py:94
+#: jhbuild/moduleset.py:95
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "solucionado tipo de módulo «%(orig)s» a «%(new)s»"
 
-#: jhbuild/moduleset.py:133
+#: jhbuild/moduleset.py:134
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s depende de un módulo «%(invalid)s» desconocido"
 
-#: jhbuild/moduleset.py:146
+#: jhbuild/moduleset.py:147
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Dependencias circulares detectadas: %s"
 
-#: jhbuild/moduleset.py:297
+#: jhbuild/moduleset.py:298
 msgid "Unknown module:"
 msgstr "Módulo desconocido:"
 
-#: jhbuild/moduleset.py:436
+#: jhbuild/moduleset.py:437
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr ""
 "<if> debe tener exactamente un condition-set='' o un condition-unset=''"
 
-#: jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:456
 #, python-format
 msgid "could not download %s: %s"
 msgstr "no se pudo descargar %s: %s"
 
-#: jhbuild/moduleset.py:460 jhbuild/moduleset.py:462
+#: jhbuild/moduleset.py:461 jhbuild/moduleset.py:463
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "falló al analizar %s: %s"
 
-#: jhbuild/moduleset.py:497
+#: jhbuild/moduleset.py:498
 msgid "Duplicate repository:"
 msgstr "Duplicar repositorio:"
 
-#: jhbuild/moduleset.py:600
+#: jhbuild/moduleset.py:601
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1633,23 +1633,23 @@ msgstr ""
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:257
+#: jhbuild/utils/systeminstall.py:260
 msgid "Error: python-gobject package not found."
 msgstr "Error: paquete python-gobject no encontrado."
 
-#: jhbuild/utils/systeminstall.py:263
+#: jhbuild/utils/systeminstall.py:266
 msgid "Error: dbus-python package not found."
 msgstr "Error: paquete dbus-python no encontrado."
 
-#: jhbuild/utils/systeminstall.py:281
+#: jhbuild/utils/systeminstall.py:284
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr "Calculando paquetes que instalar. Esto puede ser lento, espere."
 
-#: jhbuild/utils/systeminstall.py:311
+#: jhbuild/utils/systeminstall.py:314
 msgid "Nothing available to install"
 msgstr "No hay nada disponible que instalar"
 
-#: jhbuild/utils/systeminstall.py:314
+#: jhbuild/utils/systeminstall.py:317
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1658,7 +1658,7 @@ msgstr ""
 "Instalando:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:315
+#: jhbuild/utils/systeminstall.py:318
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "`pkmon' to monitor progress."
@@ -1666,68 +1666,68 @@ msgstr ""
 "Esto puede tardar mucho tiempo. No apague el equipo. Puede ejecutar «pkmon» "
 "para monitorizar el progreso."
 
-#: jhbuild/utils/systeminstall.py:321
+#: jhbuild/utils/systeminstall.py:324
 msgid "Complete!"
 msgstr "Completado."
 
-#: jhbuild/utils/systeminstall.py:334
+#: jhbuild/utils/systeminstall.py:337
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile no encontrado, instalando automáticamente"
 
-#: jhbuild/utils/systeminstall.py:336
+#: jhbuild/utils/systeminstall.py:339
 msgid "Failed to install pkgfile"
 msgstr "Falló instalar pkgfile"
 
-#: jhbuild/utils/systeminstall.py:342
+#: jhbuild/utils/systeminstall.py:345
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr ""
 "la caché de pkgfile es antigua o no existe, actualizando automáticamente"
 
-#: jhbuild/utils/systeminstall.py:345
+#: jhbuild/utils/systeminstall.py:348
 msgid "Failed to create pkgfile cache"
 msgstr "Falló al crear la caché de pkgfile"
 
-#: jhbuild/utils/systeminstall.py:348
+#: jhbuild/utils/systeminstall.py:351
 msgid "Failed to update pkgfile cache"
 msgstr "Falló al actualizar la caché de pkgfile"
 
-#: jhbuild/utils/systeminstall.py:350
+#: jhbuild/utils/systeminstall.py:353
 msgid "Successfully updated pkgfile cache"
 msgstr "Caché de pkgfile actualizada correctamente"
 
-#: jhbuild/utils/systeminstall.py:355
+#: jhbuild/utils/systeminstall.py:358
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Usando pacman para instalar paquetes. Espere."
 
-#: jhbuild/utils/systeminstall.py:359 jhbuild/utils/systeminstall.py:377
-#: jhbuild/utils/systeminstall.py:474
+#: jhbuild/utils/systeminstall.py:362 jhbuild/utils/systeminstall.py:380
+#: jhbuild/utils/systeminstall.py:477
 msgid "Nothing to install"
 msgstr "No hay nada para instalar"
 
-#: jhbuild/utils/systeminstall.py:374
+#: jhbuild/utils/systeminstall.py:377
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Proveedor para «%s» no encontrado, ignorando"
 
-#: jhbuild/utils/systeminstall.py:382
+#: jhbuild/utils/systeminstall.py:385
 msgid "Install failed"
 msgstr "Falló al instalar"
 
-#: jhbuild/utils/systeminstall.py:384
+#: jhbuild/utils/systeminstall.py:387
 msgid "Completed!"
 msgstr "Completado."
 
-#: jhbuild/utils/systeminstall.py:431
+#: jhbuild/utils/systeminstall.py:434
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "No se encontró ningún paquete nativo para %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:436
+#: jhbuild/utils/systeminstall.py:439
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalando: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:442
+#: jhbuild/utils/systeminstall.py:445
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
@@ -1929,93 +1929,96 @@ msgstr "no se pudo analizar la salida «svn info» para %s"
 msgid "Error checking for conflicts"
 msgstr "Error al comprobar los conflictos"
 
-#: jhbuild/versioncontrol/tarball.py:90
+#: jhbuild/versioncontrol/tarball.py:93
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr ""
 "la rama de %s es incorrecta., compruebe el archivo del conjunto de módulos."
 
-#: jhbuild/versioncontrol/tarball.py:126
+#: jhbuild/versioncontrol/tarball.py:133
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "El URL no tiene un componente de nombre de archivo: %s"
 
-#: jhbuild/versioncontrol/tarball.py:169
+#: jhbuild/versioncontrol/tarball.py:176
 msgid "file not downloaded"
 msgstr "archivo no descargado"
 
-#: jhbuild/versioncontrol/tarball.py:174
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "tamaño del archivo descargado incorrecto (se esperaba %(size1)d, se obtuvo "
 "%(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:180
+#: jhbuild/versioncontrol/tarball.py:187
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "atributo hash no válido en módulo: %s"
 
-#: jhbuild/versioncontrol/tarball.py:193
+#: jhbuild/versioncontrol/tarball.py:200
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr ""
 "el hash del archivo no es correcto (se esperaba %(sum1)s, se obtuvo %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:196
+#: jhbuild/versioncontrol/tarball.py:203
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "omitiendo la comprobación de hash (falta soporte para %s)"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:207
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "la carpeta del archivo tar (%s) debe ser escribible"
 
-#: jhbuild/versioncontrol/tarball.py:212
+#: jhbuild/versioncontrol/tarball.py:219
 msgid "unable to find wget or curl"
 msgstr "no se ha podido encontrar wget o curl"
 
-#: jhbuild/versioncontrol/tarball.py:228
+#: jhbuild/versioncontrol/tarball.py:235
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "no se puede crear la carpeta del archivo tar (%s)"
 
-#: jhbuild/versioncontrol/tarball.py:240
+#: jhbuild/versioncontrol/tarball.py:247
 #, python-format
 msgid "failed to unpack %s"
 msgstr "falló al descomprimir %s"
 
-#: jhbuild/versioncontrol/tarball.py:243
+#: jhbuild/versioncontrol/tarball.py:250
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "no se pudo descomprimir el archivo tar (se esperaba %s dir)"
 
-#: jhbuild/versioncontrol/tarball.py:258
+#: jhbuild/versioncontrol/tarball.py:265
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "no se pudo descargar el parche (error: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:260
+#: jhbuild/versioncontrol/tarball.py:267
 msgid "could not download patch"
 msgstr "no se pudo descargar el parche"
 
-#: jhbuild/versioncontrol/tarball.py:292
+#: jhbuild/versioncontrol/tarball.py:299
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Falló al buscar el parche: %s"
 
-#: jhbuild/versioncontrol/tarball.py:294
+#: jhbuild/versioncontrol/tarball.py:301
 msgid "Applying patch"
 msgstr "Aplicando parche"
 
-#: jhbuild/versioncontrol/tarball.py:302
+#: jhbuild/versioncontrol/tarball.py:309
 msgid "unable to find quilt"
 msgstr "no se pudo encontrar quilt"
 
-#: jhbuild/versioncontrol/tarball.py:313
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "could not checkout quilt patch set"
 msgstr "no se pudo subir el conjunto de parches"
+
+#~ msgid "%s does not support dist"
+#~ msgstr "%s no soporta la distribución"
 
 #~ msgid "%s not found (usually part of the package 'subversion')"
 #~ msgstr ""
