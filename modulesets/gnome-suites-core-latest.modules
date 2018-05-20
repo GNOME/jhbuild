@@ -1076,6 +1076,9 @@
   </meson>
 
   <meson id="gnome-system-monitor">
+    <if condition-unset="systemd">
+      <mesonargs value="-Dsystemd=false"/>
+    </if>
     <branch />
     <dependencies>
       <dep package="glib"/>
