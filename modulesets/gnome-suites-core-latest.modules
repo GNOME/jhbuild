@@ -175,6 +175,9 @@
   </meson>
 
   <meson id="gnome-control-center">
+    <if condition-unset="wayland">
+      <mesonargs value="-Dwayland=false"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
