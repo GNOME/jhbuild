@@ -39,7 +39,7 @@
 <!-- Core User Shell -->
 
   <autotools id="adwaita-icon-theme">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="hicolor-icon-theme"/>
       <dep package="gnome-common"/>
@@ -90,7 +90,7 @@
     <if condition-unset="linux">
       <autogenargs value="--without-plymouth"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="dbus-glib"/>
@@ -175,7 +175,7 @@
   </meson>
 
   <meson id="gnome-control-center">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="clutter-gtk"/>
@@ -229,7 +229,7 @@
     <if condition-unset="udev-hwdb">
       <autogenargs value="--disable-udev"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="libxkbfile"/>
@@ -248,14 +248,14 @@
   </autotools>
 
   <autotools id="gnome-getting-started-docs">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="yelp-tools"/>
     </dependencies>
   </autotools>
 
   <autotools id="gnome-keyring">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="dbus"/>
@@ -282,7 +282,7 @@
     <if condition-unset="systemd">
       <mesonargs value='-Dsystemd=false -Dsystemd_journal=false -Dconsolekit=true'/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="egl"/>
       <dep package="intltool"/>
@@ -311,7 +311,7 @@
     <if condition-unset="udev">
       <mesonargs value="-Dgudev=false"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="colord"/>
       <dep package="geoclue"/>
@@ -352,7 +352,7 @@
     <if condition-unset="systemd">
       <mesonargs value="-Dsystemd=false"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="caribou"/>
@@ -418,7 +418,7 @@
   </autotools>
 
   <autotools id="gnome-user-docs">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="yelp-tools"/>
     </dependencies>
@@ -466,7 +466,7 @@
     <if condition-set="freebsd">
       <mesonargs value="-Dlibusb=false"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="avahi"/>
       <dep package="dbus"/>
@@ -530,7 +530,7 @@
     <if condition-unset="wayland">
       <autogenargs value="--disable-wayland-egl-server"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="egl"/>
@@ -716,7 +716,7 @@
   </meson>
 
   <meson id="epiphany">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="WebKit"/>
       <dep package="appstream-glib"/>
@@ -743,7 +743,7 @@
 
   <autotools id="evince" autogenargs="--enable-introspection"
                          supports-parallel-builds="no">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="glib"/>
@@ -791,7 +791,7 @@
   </autotools>
 
   <meson id="gnome-boxes">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="WebKit"/>
       <dep package="glib"/>
@@ -832,7 +832,7 @@
   </autotools>
 
   <meson id="gnome-calendar">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="gnome-online-accounts"/>
@@ -886,7 +886,7 @@
   </meson>
 
   <meson id="gnome-disk-utility">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="glib"/>
@@ -901,7 +901,7 @@
   </meson>
 
   <meson id="gnome-documents">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="evince"/>
       <dep package="gjs"/>
@@ -932,7 +932,7 @@
   </meson>
 
   <autotools id="gnome-initial-setup">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="geoclue"/>
@@ -959,7 +959,7 @@
   </autotools>
 
   <autotools id="gnome-logs">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="intltool"/>
@@ -971,7 +971,7 @@
   </autotools>
 
   <autotools id="gnome-maps">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="clutter-gtk"/>
       <dep package="gjs"/>
@@ -992,7 +992,7 @@
   </autotools>
 
   <meson id="gnome-music">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="gobject-introspection"/>
       <dep package="gnome-online-accounts"/>
@@ -1009,7 +1009,7 @@
 
   <autotools id="gnome-photos"
              supports-non-srcdir-builds="no">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="babl"/>
       <dep package="gegl"/>
@@ -1049,7 +1049,7 @@
     <if condition-unset="udev">
       <mesonargs value="-Denable-gudev=false"/>
     </if>
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="glib"/>
@@ -1081,7 +1081,7 @@
   </autotools>
 
   <autotools id="gnome-terminal" autogenargs="--disable-migration">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="dconf"/>
       <dep package="intltool"/>
@@ -1100,7 +1100,7 @@
   </autotools>
 
   <meson id="gnome-todo">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="gnome-online-accounts"/>
@@ -1152,7 +1152,7 @@
   </meson>
 
   <autotools id="orca">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="gtk+-3"/>
       <dep package="at-spi2-atk"/> <!-- to make Orca's gui accessible -->
@@ -1168,7 +1168,7 @@
   </autotools>
 
   <meson id="simple-scan">
-    <branch/>
+    <branch revision="gnome-3-28"/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="gdk-pixbuf"/>
