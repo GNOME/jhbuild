@@ -549,12 +549,12 @@ the module and we will just change it to use a tarball anyway.
     </branch>
   </autotools>
 
-  <autotools id="glib" autogenargs="--enable-installed-tests --disable-libmount">
+  <meson id="glib" mesonargs="-Dlibmount=false">
     <if condition-set="freebsd">
-      <autogenargs value="--disable-dtrace --with-libiconv=gnu"/>
+      <mesonargs value="-Ddtrace=false -Diconv=gnu"/>
     </if>
     <if condition-set="macos">
-      <autogenargs value="--with-pcre=internal"/>
+      <mesonargs value="-Dinternal_pcre=true"/>
     </if>
     <branch repo="gitlab.gnome.org" checkoutdir="glib" module="GNOME/glib.git"/>
     <dependencies>
@@ -571,7 +571,7 @@ the module and we will just change it to use a tarball anyway.
         <dep package="shared-mime-info"/>
       </if>
     </after>
-  </autotools>
+  </meson>
 
   <autotools id="glibmm-2.4" supports-non-srcdir-builds="no">
     <branch repo="gitlab.gnome.org" checkoutdir="glibmm-2.4" module="GNOME/glibmm.git" revision="glibmm-2-56"/>
