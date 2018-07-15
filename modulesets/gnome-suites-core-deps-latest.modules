@@ -1484,7 +1484,9 @@ the module and we will just change it to use a tarball anyway.
     <if condition-unset="gnu-elf">
       <autogenargs value="--disable-Bsymbolic"/>
     </if>
-    <branch />
+    <branch repo="gitlab.gnome.org"
+            checkoutdir="librsvg"
+            module="GNOME/librsvg.git"/>
     <dependencies>
       <dep package="cargo"/>
       <dep package="libxml2"/>
