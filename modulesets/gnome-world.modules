@@ -3330,22 +3330,28 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnome-games"
-             autogenargs="--enable-vala">
-    <branch/>
+  <meson id="gnome-games">
+    <branch repo="gitlab.gnome.org"
+            checkoutdir="gnome-games"
+            module="GNOME/gnome-games.git"/>
     <dependencies>
       <dep package="glib"/>
+      <dep package="gnome-themes-extra"/>
       <dep package="grilo"/>
       <dep package="grilo-plugins"/>
       <dep package="gtk+-3"/>
       <dep package="gvfs"/>
       <dep package="libarchive"/>
+      <dep package="libmanette"/>
+      <dep package="librsvg"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
       <dep package="retro-gtk"/>
+      <dep package="sqlite3"/>
       <dep package="tracker"/>
       <dep package="vala"/>
-      <dep package="gnome-themes-standard"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="zeitgeist" supports-non-srcdir-builds="no">
     <branch repo="gitlab.freedesktop.org"
