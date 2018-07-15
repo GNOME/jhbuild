@@ -1157,7 +1157,7 @@
   <autotools id="glom">
     <branch/>
     <dependencies>
-      <dep package="libxmlplusplus"/>
+      <dep package="libxmlplusplus-3"/>
       <dep package="libgdamm"/>
       <dep package="iso-codes"/>
       <dep package="gtksourceviewmm-3"/>
@@ -2746,8 +2746,16 @@
     </dependencies>
   </autotools>
 
+  <autotools id="libxmlplusplus-3">
+    <branch repo="gitlab.gnome.org" checkoutdir="libxmlplusplus-3" module="GNOME/libxmlplusplus.git" revision="libxml++-3-2"/>
+    <dependencies>
+      <dep package="libxml2"/>
+      <dep package="glibmm-2.4"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="libxmlplusplus">
-    <branch/>
+    <branch repo="gitlab.gnome.org" checkoutdir="libxmlplusplus" module="GNOME/libxmlplusplus.git"/>
     <dependencies>
       <dep package="libxml2"/>
       <dep package="glibmm"/>
@@ -2980,7 +2988,7 @@
     <dependencies>
       <dep package="glibmm"/>
       <dep package="libxml2"/>
-      <dep package="libxmlplusplus"/>
+      <dep package="libxmlplusplus-3"/>
       <dep package="gtkmm-3"/>
     </dependencies>
   </autotools>
