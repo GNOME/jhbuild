@@ -596,9 +596,9 @@ the module and we will just change it to use a tarball anyway.
     <branch/>
   </autotools>
 
-  <meson id="gnome-online-accounts">
+  <autotools id="gnome-online-accounts">
     <if condition-set="freebsd">
-      <mesonargs value="-Dkerberos=false"/>
+      <autogenargs value="--disable-kerberos"/>
     </if>
     <branch/>
     <dependencies>
@@ -613,7 +613,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="m4-common"/>
       <dep package="telepathy-glib"/>
     </dependencies>
-  </meson>
+  </autotools>
 
   <autotools id="gnome-online-miners">
     <branch/>
