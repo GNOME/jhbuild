@@ -1866,10 +1866,8 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </meson>
 
-  <autotools id="tracker"
-             autogenargs="--with-unicode-support=libicu --with-bash-completion-dir=${prefix}/share/bash-completion/completions"
-             check-target="false"
-             supports-non-srcdir-builds="no">
+  <meson id="tracker"
+         mesonargs="-Dunicode_support=icu -Dbash_completion=${prefix}/share/bash-completion/completions">
     <branch repo="gitlab.gnome.org"
             checkoutdir="tracker"
             module="GNOME/tracker.git"/>
@@ -1889,7 +1887,7 @@ the module and we will just change it to use a tarball anyway.
         <dep package="NetworkManager"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="tracker-miners"
              check-target="false"
