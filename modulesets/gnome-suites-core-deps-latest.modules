@@ -646,7 +646,7 @@ the module and we will just change it to use a tarball anyway.
       <dep package="m4-common"/>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="mozjs52"/>
+      <dep package="mozjs60"/>
       <if condition-set="coverage">
         <dep package="lcov"/>
       </if>
@@ -1649,20 +1649,19 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </autotools>
 
-  <autotools id="mozjs52" autogen-sh="js/src/configure"
+  <autotools id="mozjs60" autogen-sh="js/src/configure"
              force-non-srcdir-builds="yes"
              supports-unknown-configure-options="no"
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
              autogenargs="--enable-posix-nspr-emulation --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
     <!-- prefix option must have an = sign in mozilla's configure -->
-    <pkg-config>mozjs-52.pc</pkg-config>
-    <branch repo="gnome-download" version="52.2.1gnome1"
-            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.gz"
-            hash="sha256:31697943b1dbbb51ba9aee35b8269a353c487d7af4d336010b90054dc4f9b0af"
-            size="37334801"/>
+    <pkg-config>mozjs-60.pc</pkg-config>
+    <branch repo="gnome-download" version="60.1.0"
+            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.bz2"
+            hash="sha256:834ffe877fdbbd81315ae3c101221fa404096c354483a86c1a02ece19fca68fd"
+            size="32494225"/>
     <dependencies>
       <dep package="libffi"/>
-      <dep package="libicu"/>
       <dep package="python2"/>
       <dep package="zlib"/>
     </dependencies>
