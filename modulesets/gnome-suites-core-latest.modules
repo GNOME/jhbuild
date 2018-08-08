@@ -308,6 +308,9 @@
   </meson>
 
   <meson id="gnome-settings-daemon">
+    <branch repo="gitlab.gnome.org"
+            checkoutdir="gnome-settings-daemon"
+            module="GNOME/gnome-settings-daemon.git"/>
     <if condition-unset="linux">
       <mesonargs value="-Dnetwork_manager=false -Drfkill=false"/>
     </if>
