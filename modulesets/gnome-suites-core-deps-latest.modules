@@ -14,6 +14,8 @@
     href="https://gitlab.com/"/>
 <repository type="git" name="pagure.io"
     href="https://pagure.io/"/>
+<repository type="git" name="salsa.debian.org"
+    href="https://salsa.debian.org/"/>
 
 <!-- WARNING: github.com is only allowed here under one of two conditions:
 
@@ -32,8 +34,6 @@ the module and we will just change it to use a tarball anyway.
     href="https://download.gnome.org/sources/"/>
 <repository type="tarball" name="cairo.org"
     href="https://cairographics.org/"/>
-<repository type="tarball" name="iso-codes"
-    href="https://pkg-isocodes.alioth.debian.org/downloads/"/>
 <repository type="tarball" name="sourceforge.net"
     href="https://sourceforge.net/projects/"/>
 <repository type="tarball" name="webkitgtk.org"
@@ -1172,11 +1172,10 @@ the module and we will just change it to use a tarball anyway.
 
   <autotools id="iso-codes">
     <pkg-config>iso-codes.pc</pkg-config>
-    <branch repo="iso-codes"
-            module="iso-codes-3.51.tar.xz"
-            version="3.51"
-            hash="sha256:5222f79d92ac021a56c7080616c13655c50f7b1ff1a31ec0308da14a684ad77f"
-            size="3626932"/>
+    <branch repo="salsa.debian.org"
+            checkoutdir="iso-codes"
+            module="iso-codes-team/iso-codes.git"
+            revision="iso-codes-3.79"/>
   </autotools>
 
   <meson id="json-glib">
