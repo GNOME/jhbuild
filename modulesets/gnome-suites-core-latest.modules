@@ -308,9 +308,6 @@
   </meson>
 
   <meson id="gnome-settings-daemon">
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="gnome-settings-daemon"
-            module="GNOME/gnome-settings-daemon.git"/>
     <if condition-unset="linux">
       <mesonargs value="-Dnetwork_manager=false -Drfkill=false"/>
     </if>
@@ -320,7 +317,9 @@
     <if condition-unset="udev">
       <mesonargs value="-Dgudev=false"/>
     </if>
-    <branch/>
+    <branch repo="gitlab.gnome.org"
+            checkoutdir="gnome-settings-daemon"
+            module="GNOME/gnome-settings-daemon.git"/>
     <dependencies>
       <dep package="colord"/>
       <dep package="geoclue"/>
@@ -355,16 +354,15 @@
   </meson>
 
   <meson id="gnome-shell">
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="gnome-shell"
-            module="GNOME/gnome-shell.git"/>
     <if condition-unset="linux">
       <mesonargs value="-Dnetworkmanager=false"/>
     </if>
     <if condition-unset="systemd">
       <mesonargs value="-Dsystemd=false"/>
     </if>
-    <branch/>
+    <branch repo="gitlab.gnome.org"
+            checkoutdir="gnome-shell"
+            module="GNOME/gnome-shell.git"/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="caribou"/>
