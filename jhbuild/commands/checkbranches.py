@@ -60,7 +60,7 @@ class cmd_checkbranches(Command):
 
             try:
                 if get_output(['git', 'ls-remote',
-                        'git://git.gnome.org/%s' % mod.name,
+                        'https://git.gnome.org/browse/%s' % mod.name,
                         'refs/heads/%s' % branch]):
                     uprint(_('%(module)s is missing branch definition for %(branch)s') % {'module': mod.name, 'branch': branch})
             except CommandError:
