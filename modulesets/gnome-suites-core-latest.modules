@@ -51,7 +51,7 @@
   </autotools>
 
   <meson id="at-spi2-atk">
-    <branch repo="gitlab.gnome.org" checkoutdir="at-spi2-atk" module="GNOME/at-spi2-atk.git"/>
+    <branch/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
@@ -65,7 +65,7 @@
     <if condition-unset="x11">
       <mesonargs value="-Denable-x11=false"/>
     </if>
-    <branch repo="gitlab.gnome.org" checkoutdir="at-spi2-core" module="GNOME/at-spi2-core.git"/>
+    <branch/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="glib"/>
@@ -319,9 +319,7 @@
     <if condition-unset="udev">
       <mesonargs value="-Dgudev=false"/>
     </if>
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="gnome-settings-daemon"
-            module="GNOME/gnome-settings-daemon.git"/>
+    <branch/>
     <dependencies>
       <dep package="colord"/>
       <dep package="geoclue"/>
@@ -362,9 +360,7 @@
     <if condition-unset="systemd">
       <mesonargs value="-Dsystemd=false"/>
     </if>
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="gnome-shell"
-            module="GNOME/gnome-shell.git"/>
+    <branch/>
     <dependencies>
       <dep package="accountsservice"/>
       <dep package="caribou"/>
@@ -412,7 +408,7 @@
   </meson>
 
   <meson id="gnome-shell-extensions" mesonargs="-Dextension_set=classic">
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-shell-extensions" module="GNOME/gnome-shell-extensions.git"/>
+    <branch/>
     <dependencies>
       <dep package="gnome-shell"/>
       <dep package="gnome-menus"/>
@@ -420,7 +416,7 @@
   </meson>
 
   <autotools id="gnome-themes-extra" autogenargs="--disable-gtk2-engine">
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-themes-extra" module="GNOME/gnome-themes-extra.git"/>
+    <branch/>
     <dependencies>
       <dep package="intltool"/>
       <dep package="cantarell-fonts"/>
@@ -806,7 +802,7 @@
   </autotools>
 
   <meson id="gnome-boxes">
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-boxes" module="GNOME/gnome-boxes.git"/>
+    <branch/>
     <dependencies>
       <dep package="WebKit"/>
       <dep package="glib"/>
@@ -830,7 +826,7 @@
   </meson>
 
   <meson id="gnome-calculator">
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-calculator" module="GNOME/gnome-calculator.git"/>
+    <branch/>
     <dependencies>
       <dep package="appstream-glib"/>
       <dep package="intltool"/>
@@ -884,7 +880,7 @@
   </meson>
 
   <meson id="gnome-contacts">
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-contacts" module="GNOME/gnome-contacts.git"/>
+    <branch/>
     <dependencies>
       <dep package="folks"/>
       <dep package="glib"/>
@@ -1089,7 +1085,7 @@
     <if condition-unset="systemd">
       <mesonargs value="-Dsystemd=false"/>
     </if>
-    <branch repo="gitlab.gnome.org" checkoutdir="gnome-system-monitor" module="GNOME/gnome-system-monitor.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libgtop"/>
@@ -1154,7 +1150,7 @@
   </autotools>
 
   <meson id="nautilus" mesonargs="-Dselinux=false">
-    <branch repo="gitlab.gnome.org" checkoutdir="nautilus" module="GNOME/nautilus.git"/>
+    <branch/>
     <dependencies>
       <dep package="gettext"/>
       <dep package="glib"/>
@@ -1188,7 +1184,7 @@
   </autotools>
 
   <meson id="simple-scan">
-    <branch repo="gitlab.gnome.org" checkoutdir="simple-scan" module="GNOME/simple-scan.git"/>
+    <branch/>
     <dependencies>
       <dep package="cairo"/>
       <dep package="gdk-pixbuf"/>

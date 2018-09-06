@@ -98,7 +98,7 @@ the module and we will just change it to use a tarball anyway.
   </meson>
 
   <meson id="atk">
-    <branch repo="gitlab.gnome.org" checkoutdir="atk" module="GNOME/atk.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -115,7 +115,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="atkmm">
-    <branch repo="gitlab.gnome.org" checkoutdir="atkmm" module="GNOME/atkmm.git"/>
+    <branch/>
     <dependencies>
       <dep package="glibmm"/>
       <dep package="atk"/>
@@ -447,9 +447,7 @@ the module and we will just change it to use a tarball anyway.
   </meson>
 
  <autotools id="gnome-autoar">
-   <branch repo="gitlab.gnome.org"
-           checkoutdir="gnome-autoar"
-           module="GNOME/gnome-autoar.git"/>
+   <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -477,7 +475,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="gdk-pixbuf">
-    <branch repo="gitlab.gnome.org" checkoutdir="gdk-pixbuf" module="GNOME/gdk-pixbuf.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -558,7 +556,7 @@ the module and we will just change it to use a tarball anyway.
     <if condition-set="macos">
       <mesonargs value="-Dinternal_pcre=true"/>
     </if>
-    <branch repo="gitlab.gnome.org" checkoutdir="glib" module="GNOME/glib.git"/>
+    <branch/>
     <dependencies>
       <dep package="gettext"/>
       <dep package="gtk-doc"/>
@@ -584,7 +582,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="glibmm" supports-non-srcdir-builds="no">
-    <branch repo="gitlab.gnome.org" checkoutdir="glibmm" module="GNOME/glibmm.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libsigcplusplus"/>
@@ -657,7 +655,7 @@ the module and we will just change it to use a tarball anyway.
 
   <autotools id="gobject-introspection"
              autogenargs="--with-python=python3">
-    <branch repo="gitlab.gnome.org" checkoutdir="gobject-introspection" module="GNOME/gobject-introspection.git"/>
+    <branch/>
     <dependencies>
       <dep package="bison"/>
       <dep package="flex"/>
@@ -733,7 +731,7 @@ the module and we will just change it to use a tarball anyway.
   </meson>
 
   <autotools id="gsound" autogenargs="--disable-gtk-doc">
-    <branch repo="gitlab.gnome.org" checkoutdir="gsound" module="GNOME/gsound.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -862,7 +860,7 @@ the module and we will just change it to use a tarball anyway.
     <if condition-set="quartz">
       <mesonargs value="-Dquartz-backend=true"/>
     </if>
-    <branch repo="gitlab.gnome.org" checkoutdir="gtk+" module="GNOME/gtk.git"/>
+    <branch/>
     <dependencies>
       <dep package="atk"/>
       <dep package="glib"/>
@@ -983,7 +981,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="gtkmm">
-    <branch repo="gitlab.gnome.org" checkoutdir="gtkmm" module="GNOME/gtkmm.git"/>
+    <branch/>
     <dependencies>
       <dep package="cairomm"/>
       <dep package="pangomm"/>
@@ -1181,7 +1179,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="json-glib">
-    <branch repo="gitlab.gnome.org" checkoutdir="json-glib" module="GNOME/json-glib.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
@@ -1485,9 +1483,7 @@ the module and we will just change it to use a tarball anyway.
     <if condition-unset="gnu-elf">
       <autogenargs value="--disable-Bsymbolic"/>
     </if>
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="librsvg"
-            module="GNOME/librsvg.git"/>
+    <branch/>
     <dependencies>
       <dep package="cargo"/>
       <dep package="libxml2"/>
@@ -1574,7 +1570,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="libzapojit">
-    <branch repo="gitlab.gnome.org" checkoutdir="libzapojit" module="GNOME/libzapojit.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
@@ -1628,7 +1624,7 @@ the module and we will just change it to use a tarball anyway.
   </distutils>
 
   <autotools id="mm-common">
-    <branch repo="gitlab.gnome.org" checkoutdir="mm-common" module="GNOME/mm-common.git"/>
+    <branch/>
   </autotools>
 
   <autotools id="mobile-broadband-provider-info">
@@ -1670,9 +1666,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <meson id="pango">
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="pango"
-            module="GNOME/pango.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="cairo"/>
@@ -1701,7 +1695,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="pangomm">
-    <branch repo="gitlab.gnome.org" checkoutdir="pangomm" module="GNOME/pangomm.git"/>
+    <branch/>
     <dependencies>
       <dep package="glibmm"/>
       <dep package="cairomm"/>
@@ -1730,7 +1724,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="pyatspi2" autogenargs="--with-python=python3" >
-    <branch repo="gitlab.gnome.org" checkoutdir="pyatspi2" module="GNOME/pyatspi2.git"/>
+    <branch/>
     <dependencies>
       <dep package="pygobject"/>
     </dependencies>
@@ -1750,7 +1744,7 @@ the module and we will just change it to use a tarball anyway.
 
   <!-- Python 3 build of pygobject -->
   <distutils id="pygobject" python3="1">
-    <branch repo="gitlab.gnome.org" module="GNOME/pygobject.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="pycairo"/>
@@ -1869,9 +1863,7 @@ the module and we will just change it to use a tarball anyway.
 
   <meson id="tracker"
          mesonargs="-Dunicode_support=icu -Dbash_completion=${prefix}/share/bash-completion/completions">
-    <branch repo="gitlab.gnome.org"
-            checkoutdir="tracker"
-            module="GNOME/tracker.git"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
@@ -1928,7 +1920,7 @@ the module and we will just change it to use a tarball anyway.
   </autotools>
 
   <autotools id="vala" supports-non-srcdir-builds="no">
-    <branch repo="gitlab.gnome.org" checkoutdir="vala" module="GNOME/vala.git"/>
+    <branch/>
     <dependencies>
       <dep package="bison"/>
       <dep package="flex"/>
