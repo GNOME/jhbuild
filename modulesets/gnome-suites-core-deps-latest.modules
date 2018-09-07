@@ -1528,7 +1528,7 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </autotools>
 
-  <autotools id="libsoup" autogenargs="--disable-tls-check">
+  <meson id="libsoup" mesonargs="-Dtls_check=false -Dvapi=true">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1542,7 +1542,7 @@ the module and we will just change it to use a tarball anyway.
     <suggests>
       <dep package="glib-networking"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="libvirt-glib" autogenargs="--enable-werror=no">
     <branch repo="github.com"
