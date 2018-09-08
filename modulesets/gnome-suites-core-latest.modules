@@ -228,7 +228,7 @@
     </suggests>
   </meson>
 
-  <autotools id="gnome-desktop" autogenargs="--with-gnome-distributor=JHBuild">
+  <meson id="gnome-desktop" mesonargs="-Dgnome_distributor=JHBuild">
     <if condition-unset="udev-hwdb">
       <autogenargs value="--disable-udev"/>
     </if>
@@ -251,7 +251,7 @@
         <dep package="libseccomp"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-getting-started-docs">
     <branch/>
