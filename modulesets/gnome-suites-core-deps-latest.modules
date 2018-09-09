@@ -1880,9 +1880,7 @@ the module and we will just change it to use a tarball anyway.
     </suggests>
   </meson>
 
-  <autotools id="tracker-miners"
-             check-target="false"
-             supports-non-srcdir-builds="no">
+  <meson id="tracker-miners">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1906,7 +1904,7 @@ the module and we will just change it to use a tarball anyway.
         <dep package="NetworkManager"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="uhttpmock" supports-non-srcdir-builds="no">
     <branch repo="github.com" checkoutdir="uhttpmock" module="pwithnall/uhttpmock.git"/>
