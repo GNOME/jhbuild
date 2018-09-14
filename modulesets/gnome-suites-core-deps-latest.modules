@@ -500,12 +500,12 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </autotools>
 
-  <autotools id="geoclue" autogenargs="--with-systemdsystemunitdir=no">
+  <meson id="geoclue">
     <if condition-unset="linux">
-      <autogenargs value="--disable-3g-source --disable-modem-gps-source --disable-cdma-source"/>
+      <mesonargs value="-D3g-source=false -Dmodem-gps-source=false -Dcdma-source=false"/>
     </if>
     <if condition-set="macos">
-      <autogenargs value="--disable-nmea-source"/>
+      <mesonargs value="-Dnmea-source=false"/>
     </if>
     <branch repo="git.freedesktop.org"/>
     <dependencies>
@@ -517,7 +517,7 @@ the module and we will just change it to use a tarball anyway.
         <dep package="ModemManager"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="geocode-glib">
     <branch/>
