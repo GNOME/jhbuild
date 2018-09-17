@@ -1266,7 +1266,7 @@
 
 <!-- Core OS Services -->
 
-  <autotools id="accountsservice" autogenargs="--with-systemdsystemunitdir=no">
+  <meson id="accountsservice">
     <branch repo="git.freedesktop.org" module="accountsservice"/>
     <dependencies>
       <dep package="glib"/>
@@ -1276,7 +1276,7 @@
         <dep package="libsystemd"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="NetworkManager"
              autogenargs="PYTHON=python3 --with-udev-dir=${libdir}/udev --with-systemdsystemunitdir=no --with-crypto=gnutls --disable-more-warnings --disable-json-validation --disable-ovs">
