@@ -549,7 +549,7 @@ the module and we will just change it to use a tarball anyway.
 
   <meson id="glib" mesonargs="-Dlibmount=false">
     <if condition-set="freebsd">
-      <mesonargs value="-Ddtrace=false -Diconv=gnu"/>
+      <mesonargs value="-Db_lundef=false -Ddtrace=false -Diconv=gnu -Dxattr=false"/>
     </if>
     <if condition-set="macos">
       <mesonargs value="-Dinternal_pcre=true"/>
