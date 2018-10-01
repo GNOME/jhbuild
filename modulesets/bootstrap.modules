@@ -48,9 +48,11 @@
 
   <autotools id="m4" autogen-sh="configure" bootstrap="true">
     <branch repo="ftp.gnu.org"
-	    module="m4/m4-${version}.tar.xz" version="1.4.18"
-	    size="1207688"
-            hash="sha256:f2c1e86ca0a404ff281631bdc8377638992744b175afb806e25871a24a934e07" />
+            module="m4/m4-${version}.tar.xz" version="1.4.18"
+            size="1207688"
+            hash="sha256:f2c1e86ca0a404ff281631bdc8377638992744b175afb806e25871a24a934e07">
+      <patch file="https://raw.githubusercontent.com/macports/macports-ports/edf0ee1e2cf/devel/m4/files/secure_snprintf.patch" strip="0"/>
+    </branch>
   </autotools>
 
   <autotools id="autoconf" autogen-sh="configure" bootstrap="true">
