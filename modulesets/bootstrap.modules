@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 <moduleset>
   <repository type="tarball" name="ftp.gnu.org" href="http://ftp.gnu.org/gnu/"/>
+  <repository type="tarball" name="savannah.gnu.org" href="https://download.savannah.gnu.org/releases/"/>
   <repository type="tarball" name="xorg" href="http://xorg.freedesktop.org/"/>
   <repository type="tarball" name="pkgconfig" href="http://pkgconfig.freedesktop.org/releases/"/>
   <repository type="tarball" name="python" href="http://www.python.org/ftp/python/"/>
@@ -189,6 +190,16 @@
             hash="sha256:4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"/>
   </autotools>
 
+  <autotools id="freetype2" autogen-sh="configure">
+    <branch repo="savannah.gnu.org" module="freetype/freetype-${version}.tar.bz2"
+            version="2.9.1"
+            hash="sha256:db8d87ea720ea9d5edc5388fc7a0497bb11ba9fe972245e0f7f4c7e8b1e1e84d">
+    </branch>
+    <dependencies>
+      <dep package="zlib"/>
+    </dependencies>
+  </autotools>
+
   <!-- GNOME’s cache for autoconf-archive.
        Please keep this comment for greppability. -->
   <autotools id="m4-common">
@@ -221,6 +232,7 @@
         <dep package="libjpeg"/>
         <dep package="sqlite"/>
         <dep package="zlib"/>
+        <dep package="freetype2"/>
         <dep package="xorg-macros"/>
       </if>
     </dependencies>
