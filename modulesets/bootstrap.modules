@@ -20,6 +20,7 @@
   <repository type="tarball" name="libproxy" href="http://libproxy.googlecode.com/files/"/>
   <repository type="tarball" name="cmake" href="http://www.cmake.org/files/"/>
   <repository type="tarball" name="expat" href="https://github.com/libexpat/libexpat/releases/download/"/>
+  <repository type="tarball" name="zlib" href="https://www.zlib.net/"/>
   <repository type="git" name="gitlab.gnome.org" href="https://gitlab.gnome.org/"/>
 
   <autotools id="xorg-macros">
@@ -182,6 +183,12 @@
             hash="sha1:ef55baa06f46808b9798f8447ba6a0115b23c5d2"/>
   </autotools>
 
+  <autotools id="zlib" autogen-sh="configure">
+    <branch repo="zlib" module="zlib-${version}.tar.xz"
+            version="1.2.11"
+            hash="sha256:4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066"/>
+  </autotools>
+
   <!-- GNOME’s cache for autoconf-archive.
        Please keep this comment for greppability. -->
   <autotools id="m4-common">
@@ -213,6 +220,7 @@
         <dep package="libtasn1"/>
         <dep package="libjpeg"/>
         <dep package="sqlite"/>
+        <dep package="zlib"/>
         <dep package="xorg-macros"/>
       </if>
     </dependencies>
