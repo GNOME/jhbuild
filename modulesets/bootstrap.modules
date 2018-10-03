@@ -22,6 +22,7 @@
   <repository type="tarball" name="cmake" href="http://www.cmake.org/files/"/>
   <repository type="tarball" name="expat" href="https://github.com/libexpat/libexpat/releases/download/"/>
   <repository type="tarball" name="zlib" href="https://www.zlib.net/"/>
+  <repository type="tarball" name="itstool.org" href="http://files.itstool.org/itstool/"/>
   <repository type="git" name="gitlab.gnome.org" href="https://gitlab.gnome.org/"/>
 
   <autotools id="xorg-macros">
@@ -202,6 +203,12 @@
     </dependencies>
   </autotools>
 
+  <autotools id="itstool" autogen-sh="autoreconf">
+    <branch repo="itstool.org" module="itstool-2.0.2.tar.bz2" version="2.0.2" hash="sha256:bf909fb59b11a646681a8534d5700fec99be83bb2c57badf8c1844512227033a" size="96748">
+      <patch file="itstool.use-correct-libxml.patch" strip="1"/>
+    </branch>
+  </autotools>
+
   <!-- GNOME’s cache for autoconf-archive.
        Please keep this comment for greppability. -->
   <autotools id="m4-common">
@@ -235,6 +242,7 @@
         <dep package="sqlite"/>
         <dep package="zlib"/>
         <dep package="freetype2"/>
+        <dep package="itstool"/>
         <dep package="xorg-macros"/>
       </if>
     </dependencies>
