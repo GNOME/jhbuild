@@ -23,6 +23,7 @@
   <repository type="tarball" name="expat" href="https://github.com/libexpat/libexpat/releases/download/"/>
   <repository type="tarball" name="zlib" href="https://www.zlib.net/"/>
   <repository type="tarball" name="itstool.org" href="http://files.itstool.org/itstool/"/>
+  <repository type="tarball" name="fontconfig" href="http://www.freedesktop.org/software/fontconfig/release/"/>
   <repository type="git" name="gitlab.gnome.org" href="https://gitlab.gnome.org/"/>
 
   <autotools id="xorg-macros">
@@ -203,6 +204,13 @@
     </dependencies>
   </autotools>
 
+  <autotools id="fontconfig" autogen-sh="autoreconf" autogenargs="--disable-docs">
+    <branch repo="fontconfig" version="2.13.1" module="fontconfig-${version}.tar.gz"/>
+    <dependencies>
+      <dep package="freetype2"/>
+    </dependencies>
+  </autotools>
+
   <autotools id="itstool" autogen-sh="autoreconf">
     <branch repo="itstool.org" module="itstool-2.0.2.tar.bz2" version="2.0.2" hash="sha256:bf909fb59b11a646681a8534d5700fec99be83bb2c57badf8c1844512227033a" size="96748">
       <patch file="itstool.use-correct-libxml.patch" strip="1"/>
@@ -242,6 +250,7 @@
         <dep package="sqlite"/>
         <dep package="zlib"/>
         <dep package="freetype2"/>
+        <dep package="fontconfig"/>
         <dep package="itstool"/>
         <dep package="xorg-macros"/>
       </if>
