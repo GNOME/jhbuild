@@ -382,6 +382,11 @@ the module and we will just change it to use a tarball anyway.
     </dependencies>
   </cmake>
 
+  <cmake id="exiv2"
+         cmakeargs="-DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF -DEXIV2_ENABLE_BUILD_SAMPLES=OFF">
+    <branch repo="github.com" checkoutdir="exiv2" module="Exiv2/exiv2.git" revision="0.26"/>
+  </cmake>
+
   <autotools id="folks"
              autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings"
              supports-non-srcdir-builds="no"
