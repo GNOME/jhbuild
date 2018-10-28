@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild-help master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild"
-"&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-11 14:18+0000\n"
-"PO-Revision-Date: 2018-04-16 06:46-0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/"
+"enter_bug.cgi?product=jhbuild&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2018-10-28 18:36+0000\n"
+"PO-Revision-Date: 2018-10-28 19:22-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -190,12 +190,17 @@ msgstr ""
 #. (itstool) path: section/screen
 #: C/index.docbook:100
 #, no-wrap
+#| msgid ""
+#| "<prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>\n"
+#| "<computeroutput>...</computeroutput>\n"
+#| "<prompt>$</prompt>"
 msgid ""
-"<prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>\n"
+"<prompt>$</prompt> <userinput>git clone https://gitlab.gnome.org/GNOME/jhbuild.git</userinput>\n"
 "<computeroutput>...</computeroutput>\n"
 "<prompt>$</prompt>"
 msgstr ""
-"<prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>\n"
+"<prompt>$</prompt> <userinput>git clone https://gitlab.gnome.org/GNOME/"
+"jhbuild.git</userinput>\n"
 "<computeroutput>...</computeroutput>\n"
 "<prompt>$</prompt>"
 
@@ -533,21 +538,17 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:287
-#| msgid "<link linkend=\"cfg-makeargs\"><varname>makeargs</varname></link>"
 msgid "<link linkend=\"cfg-ninjaargs\"><varname>ninjaargs</varname></link>"
 msgstr "<link linkend=\"cfg-ninjaargs\"><varname>ninjaargs</varname></link>"
 
 #. (itstool) path: listitem/simpara
 #: C/index.docbook:291
-#| msgid ""
-#| "A string listing arguments to pass to <command>Xvfb</command> if running "
-#| "graphical tests."
 msgid ""
 "A string listing additional arguments to be passed to <command>ninja</"
 "command>. Defaults to <literal>''</literal>."
 msgstr ""
-"Uma string listando argumentos a serem passados para o "
-"<command>ninja</command>. Por padrão, usa <literal>''</literal>."
+"Uma string listando argumentos a serem passados para o <command>ninja</"
+"command>. Por padrão, usa <literal>''</literal>."
 
 #. (itstool) path: section/title
 #: C/index.docbook:299
@@ -3559,18 +3560,11 @@ msgstr ""
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2038
-#| msgid "<varname>module_makeargs</varname>"
 msgid "<varname>module_ninjaargs</varname>"
 msgstr "<varname>module_ninjaargs</varname>"
 
 #. (itstool) path: listitem/simpara
 #: C/index.docbook:2042
-#| msgid ""
-#| "A dictionary mapping module names to strings specifying the arguments to "
-#| "pass to <command>make</command>. The setting in <varname>module_makeargs</"
-#| "varname> replaces the value of <varname>makeargs</varname>. If a "
-#| "particular module isn't listed in the dictionary, the global "
-#| "<varname>makeargs</varname> will be used."
 msgid ""
 "A dictionary mapping module names to strings specifying the arguments to "
 "pass to <command>ninja</command>. The setting in <varname>module_ninjaargs</"
@@ -3580,9 +3574,9 @@ msgid ""
 msgstr ""
 "Um dicionário mapeando os nomes de módulos em strings especificando os "
 "argumentos a serem passados para <command>ninja</command>. A configuração em "
-"<varname>module_ninjaargs</varname> substitui o valor de "
-"<varname>ninjaargs</varname>. Se um módulo em particular não está listado no "
-"dicionário, a global <varname>ninjaargs</varname> será usada."
+"<varname>module_ninjaargs</varname> substitui o valor de <varname>ninjaargs</"
+"varname>. Se um módulo em particular não está listado no dicionário, a "
+"global <varname>ninjaargs</varname> será usada."
 
 #. (itstool) path: varlistentry/term
 #: C/index.docbook:2051
@@ -5516,26 +5510,6 @@ msgstr ""
 #. (itstool) path: section/programlisting
 #: C/index.docbook:3088
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "  &lt;cmake id=\"<replaceable>modulename</replaceable>\"\n"
-#| "            [ cmakeargs=\"<replaceable>cmakeargs</replaceable>\" ]\n"
-#| "            [ skip-install=\"<replaceable>skip-install</replaceable>\" ]\n"
-#| "            [ cmakedir=\"<replaceable>cmakedir</replaceable>\" ]\n"
-#| "            [ force-non-srcdir-builds=\"<replaceable>force-non-srcdir-builds</replaceable>\" ]&gt;\n"
-#| "  &lt;branch [ ... ] &gt;\n"
-#| "    [...]\n"
-#| "  &lt;/branch&gt;\n"
-#| "\n"
-#| "  &lt;dependencies&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/dependencies&gt;\n"
-#| "  &lt;after&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/after&gt;\n"
-#| "&lt;/cmake&gt;\n"
 msgid ""
 "\n"
 "  &lt;cmake id=\"<replaceable>modulename</replaceable>\"\n"
@@ -5565,12 +5539,10 @@ msgstr ""
 "      [ cmakeargs=\"<replaceable>argumentos-cmake</replaceable>\" ]\n"
 "      [ ninjaargs=\"<replaceable>argumentos-ninja</replaceable>\" ]\n"
 "      [ makeargs=\"<replaceable>argumentos-make</replaceable>\" ]\n"
-"      [ skip-install=\"<replaceable>instalação-para-ignorar</replaceable>\" ]"
-"\n"
+"      [ skip-install=\"<replaceable>instalação-para-ignorar</replaceable>\" ]\n"
 "      [ cmakedir=\"<replaceable>dir-cmake</replaceable>\" ]\n"
 "      [ use-ninja=\"<replaceable>usar-ninja</replaceable>\" ]\n"
-"      [ force-non-srcdir-builds=\"<replaceable>força-compilação-não-"
-"srcdir</replaceable>\" ]&gt;\n"
+"      [ force-non-srcdir-builds=\"<replaceable>força-compilação-não-srcdir</replaceable>\" ]&gt;\n"
 "  &lt;branch [ ... ] &gt;\n"
 "    [...]\n"
 "  &lt;/branch&gt;\n"
@@ -5597,16 +5569,13 @@ msgstr ""
 
 #. (itstool) path: section/para
 #: C/index.docbook:3115 C/index.docbook:3166
-#| msgid ""
-#| "The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
-#| "specify additional arguments to pass to <command>make</command>."
 msgid ""
 "The <sgmltag class=\"attribute\">ninjaargs</sgmltag> attribute is used to "
 "specify additional arguments to pass to <command>ninja</command>."
 msgstr ""
 "O atributo <sgmltag class=\"attribute\">ninjaargs</sgmltag> é usado para "
-"especificar argumentos adicionais a ser passados para o "
-"<command>ninja</command>."
+"especificar argumentos adicionais a ser passados para o <command>ninja</"
+"command>."
 
 #. (itstool) path: section/para
 #: C/index.docbook:3119 C/index.docbook:3262
@@ -5630,10 +5599,6 @@ msgstr ""
 
 #. (itstool) path: section/para
 #: C/index.docbook:3131
-#| msgid ""
-#| "The <sgmltag class=\"attribute\">force-non-srcdir-builds</sgmltag> "
-#| "attribute is used to mark modules that can't be cleanly built from the "
-#| "source directory, but can be built from outside it."
 msgid ""
 "The <sgmltag class=\"attribute\">use-ninja</sgmltag> attribute is used to "
 "mark modules should be built using the Ninja backend for cmake, instead of "
@@ -5650,9 +5615,6 @@ msgstr "Meson"
 
 #. (itstool) path: section/para
 #: C/index.docbook:3140
-#| msgid ""
-#| "The <sgmltag class=\"element\">meson</sgmltag> element is used to define "
-#| "a module which is built using the Meson build system."
 msgid ""
 "The <sgmltag class=\"element\">meson</sgmltag> element is used to define a "
 "module which is configured using the Meson build system and built using the "
@@ -5665,24 +5627,6 @@ msgstr ""
 #. (itstool) path: section/programlisting
 #: C/index.docbook:3144
 #, no-wrap
-#| msgid ""
-#| "\n"
-#| "  &lt;meson id=\"<replaceable>modulename</replaceable>\"\n"
-#| "            [ mesonargs=\"<replaceable>mesonargs</replaceable>\" ]\n"
-#| "            [ skip-install=\"<replaceable>skip-install</replaceable>\" ]&gt;\n"
-#| "  &lt;branch [ ... ] &gt;\n"
-#| "    [...]\n"
-#| "  &lt;/branch&gt;\n"
-#| "\n"
-#| "  &lt;dependencies&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/dependencies&gt;\n"
-#| "  &lt;after&gt;\n"
-#| "    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
-#| "    ...\n"
-#| "  &lt;/after&gt;\n"
-#| "&lt;/meson&gt;\n"
 msgid ""
 "\n"
 "  &lt;meson id=\"<replaceable>modulename</replaceable>\"\n"
@@ -5707,8 +5651,7 @@ msgstr ""
 "  &lt;meson id=\"<replaceable>nome-do-módulo</replaceable>\"\n"
 "            [ mesonargs=\"<replaceable>argumentos-meson</replaceable>\" ]\n"
 "            [ ninjaargs=\"<replaceable>argumentos-ninja</replaceable>\" ]\n"
-"            [ skip-install=\"<replaceable>instalação para "
-"ignorar</replaceable>\" ]&gt;\n"
+"            [ skip-install=\"<replaceable>instalação para ignorar</replaceable>\" ]&gt;\n"
 "  &lt;branch [ ... ] &gt;\n"
 "    [...]\n"
 "  &lt;/branch&gt;\n"
