@@ -16,6 +16,8 @@
     href="https://pagure.io/"/>
 <repository type="git" name="salsa.debian.org"
     href="https://salsa.debian.org/"/>
+  <repository type="git" name="source.puri.sm"
+      href="https://source.puri.sm"/>
 
 <!--
   WARNING: You should use github-tar and build from a release tarball;
@@ -1276,6 +1278,16 @@
       <dep package="glib"/>
       <dep package="libxml2"/>
       <dep package="libarchive"/>
+    </dependencies>
+  </meson>
+
+  <meson id="libhandy">
+    <branch repo="source.puri.sm" module="Librem5/libhandy"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+      <dep package="vala"/>
     </dependencies>
   </meson>
 
