@@ -522,18 +522,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mutter" autogenargs="--enable-compile-warnings=maximum --enable-installed-tests">
-    <if condition-set="x11">
-      <autogenargs value="--enable-xlib-egl-platform"/>
-    </if>
+  <meson id="mutter">
     <if condition-set="wayland">
-      <autogenargs value="--enable-wayland-egl-platform --enable-wayland-egl-server --enable-kms-egl-platform"/>
+      <mesonargs value="-Dwayland=true"/>
       <if condition-set="freebsd">
-        <autogenargs value="--with-xwayland-path=/usr/local/bin/Xwayland"/>
+        <mesonargs value="-Dxwayland_path=/usr/local/bin/Xwayland"/>
       </if>
     </if>
     <if condition-unset="wayland">
-      <autogenargs value="--disable-wayland-egl-server"/>
+      <mesonargs value="-Dwayland=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -581,7 +578,7 @@
         </if>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="network-manager-applet"
              autogenargs="--enable-more-warnings=no --disable-migration --without-bluetooth --without-team --without-selinux">
