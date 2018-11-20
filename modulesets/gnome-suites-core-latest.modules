@@ -574,6 +574,7 @@
         <if condition-set="linux">
           <dep package="libinput"/>
           <dep package="libsystemd"/>
+          <dep package="pipewire"/>
           <dep package="wayland"/>
         </if>
       </if>
@@ -1336,6 +1337,15 @@
       </if>
     </suggests>
   </autotools>
+
+  <meson id="pipewire">
+    <branch repo="github.com" module="PipeWire/pipewire"/>
+    <dependencies>
+      <dep package="alsa"/>
+      <dep package="dbus"/>
+      <dep package="libv4l2"/>
+    </dependencies>
+  </meson>
 
   <autotools id="upower"
              supports-non-srcdir-builds="no"
