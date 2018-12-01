@@ -523,6 +523,12 @@
   </autotools>
 
   <meson id="mutter">
+    <if condition-unset="linux">
+      <mesonargs value="-Dremote_desktop=false -Dudev=false"/>
+    </if>
+    <if condition-unset="systemd">
+      <mesonargs value="-Dnative_backend=false"/>
+    </if>
     <if condition-set="wayland">
       <mesonargs value="-Dwayland=true"/>
       <if condition-set="freebsd">
@@ -530,7 +536,7 @@
       </if>
     </if>
     <if condition-unset="wayland">
-      <mesonargs value="-Dwayland=false"/>
+      <mesonargs value="-Dwayland=false -Dtests=false"/>
     </if>
     <branch/>
     <dependencies>
