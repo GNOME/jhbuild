@@ -1792,6 +1792,18 @@ Optional packages: (JHBuild will build the missing packages)
               the one it will build).</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-cmakeargs">
+          <term>
+            <varname>cmakeargs</varname>
+          </term>
+          <listitem>
+            <simpara>A string containing arguments passed to the
+              <command>cmake</command> invocation of all modules. Can be
+              overridden for particular modules using the
+              <varname>module_cmakeargs</varname> dictionary.
+              Defaults to <literal>''</literal>.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-copy-dir">
           <term>
             <varname>copy_dir</varname>
@@ -1985,6 +1997,18 @@ Optional packages: (JHBuild will build the missing packages)
               the <option>--distcheck</option> option.</simpara>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-mesonargs">
+          <term>
+            <varname>mesonargs</varname>
+          </term>
+          <listitem>
+            <simpara>A string containing arguments passed to the
+              <command>meson</command> invocation of all modules. Can be
+              overridden for particular modules using the
+              <varname>module_mesonargs</varname> dictionary. Defaults
+              to <literal>''</literal>.</simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-module-autogenargs">
           <term>
             <varname>module_autogenargs</varname>
@@ -2034,19 +2058,6 @@ Optional packages: (JHBuild will build the missing packages)
               used.</simpara>
           </listitem>
         </varlistentry>
-        <varlistentry id="cfg-module-ninjaargs">
-          <term>
-            <varname>module_ninjaargs</varname>
-          </term>
-          <listitem>
-            <simpara>A dictionary mapping module names to strings specifying
-              the arguments to pass to <command>ninja</command>. The setting in
-              <varname>module_ninjaargs</varname> replaces the value of
-              <varname>ninjaargs</varname>. If a particular module isn't listed
-              in the dictionary, the global <varname>ninjaargs</varname> will be
-              used.</simpara>
-          </listitem>
-        </varlistentry>
         <varlistentry id="cfg-module-makecheck">
           <term>
             <varname>module_makecheck</varname>
@@ -2072,6 +2083,19 @@ Optional packages: (JHBuild will build the missing packages)
               of the global <varname>mesonargs</varname> setting. If a
               particular module isn’t listed in the dictionary, the global
               <varname>mesonargs</varname> will be used.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-module-ninjaargs">
+          <term>
+            <varname>module_ninjaargs</varname>
+          </term>
+          <listitem>
+            <simpara>A dictionary mapping module names to strings specifying
+              the arguments to pass to <command>ninja</command>. The setting in
+              <varname>module_ninjaargs</varname> replaces the value of
+              <varname>ninjaargs</varname>. If a particular module isn't listed
+              in the dictionary, the global <varname>ninjaargs</varname> will be
+              used.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-module-nopoison">
@@ -2159,6 +2183,15 @@ Optional packages: (JHBuild will build the missing packages)
               dramatically improve desktop interactivity for parallel builds
               while having only a negligible impact on build throughput.
             </simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-ninjaargs">
+          <term>
+            <varname>ninjaargs</varname>
+          </term>
+          <listitem>
+            <simpara>A string listing additional arguments to be passed to
+              <command>ninja</command>. Defaults to <literal>''</literal>.</simpara>
           </listitem>
         </varlistentry>
         <varlistentry id="cfg-nobuild">
