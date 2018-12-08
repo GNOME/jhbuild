@@ -790,8 +790,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gssdp" makeargs="CFLAGS=-Wno-error">
-    <branch revision="gssdp_1.0"/>
+  <meson id="gssdp">
+    <branch />
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
@@ -799,7 +799,7 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="gstreamer" mesonargs="-Dgtk_doc=disabled">
     <branch repo="git.freedesktop.org"
@@ -1069,9 +1069,9 @@
     </suggests>
   </autotools>
 
-  <autotools id="gupnp"
-             autogenargs="--with-context-manager=network-manager">
-    <branch revision="gupnp-1.0"/>
+  <meson id="gupnp"
+             mesonargs="-Dcontext_manager=network-manager">
+    <branch />
     <dependencies>
       <dep package="gssdp"/>
       <dep package="glib"/>
@@ -1085,7 +1085,7 @@
         <dep package="NetworkManager"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="gupnp-av">
     <branch />
