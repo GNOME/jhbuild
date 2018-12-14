@@ -1,0 +1,29 @@
+From 123f77132adc792a3189e027aaf14123afcedfb4 Mon Sep 17 00:00:00 2001
+From: Jeremy Bicha <jbicha@ubuntu.com>
+Date: Mon, 4 Sep 2017 07:05:48 -0400
+Subject: [PATCH] 3.26: Add Tweaks runtime deps
+
+after discussion in #gnome-hackers
+https://git.gnome.org/browse/gnome-tweak-tool/tree/README
+---
+ modulesets/gnome-apps-3.26.modules | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/modulesets/gnome-apps-3.26.modules b/modulesets/gnome-apps-3.26.modules
+index af78ee42..5ee395bb 100644
+--- a/modulesets/gnome-apps-3.26.modules
++++ b/modulesets/gnome-apps-3.26.modules
+@@ -335,7 +335,9 @@
+   <meson id="gnome-tweak-tool">
+     <branch/>
+     <dependencies>
+-      <dep package="python3-devel"/>
++      <dep package="gnome-shell"/>
++      <dep package="nautilus"/>
++      <dep package="pygobject"/>
+     </dependencies>
+   </meson>
+ 
+-- 
+2.14.1
+
