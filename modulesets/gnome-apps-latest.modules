@@ -288,9 +288,9 @@
     </suggests>
   </meson>
 
-  <meson id="gnome-builder" mesonargs="-Dwith_sysmon=false -Dwith_sysprof=false">
+  <meson id="gnome-builder" mesonargs="-Dplugin_sysprof=false">
     <if condition-unset="linux">
-      <mesonargs value="-Dwith_flatpak=false"/>
+      <mesonargs value="-Dplugin_flatpak=false"/>
     </if>
     <branch/>
     <dependencies>
