@@ -447,14 +447,13 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gsettings-desktop-schemas" autogenargs="--enable-introspection=yes">
+  <meson id="gsettings-desktop-schemas">
     <branch/>
     <dependencies>
       <dep package="glib"/>
-      <dep package="gnome-common"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gvfs" mesonargs="-Dsystemduserunitdir=no -Dtmpfilesdir=no -Dinstalled_tests=true -Ddbus_service_dir=${prefix}/share/dbus-1/services">
     <if condition-unset="linux">
