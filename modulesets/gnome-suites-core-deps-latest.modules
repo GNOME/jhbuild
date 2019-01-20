@@ -408,16 +408,9 @@
     </suggests>
   </autotools>
 
-  <autotools id="fribidi"
-             autogen-sh="autoreconf"
-             supports-non-srcdir-builds="no"
-             autogenargs="--disable-docs"
-             makeargs="-j1">
+  <meson id="fribidi" mesonargs="-Ddocs=false">
     <branch repo="github.com" checkoutdir="fribidi" module="fribidi/fribidi"/>
-    <dependencies>
-      <dep package="glib"/>
-    </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="fwupd"
          mesonargs="-Denable-colorhug=false -Denable-dell=false -Denable-synaptics=false">
