@@ -1538,9 +1538,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libsecret">
+  <meson id="libsecret">
     <if condition-set="macos">
-      <autogenargs value="--disable-manpages"/>
+      <mesonargs value="-Dmanpage=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -1550,7 +1550,7 @@
     <suggests>
       <dep package="libgcrypt"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="libsigcplusplus-2.0">
     <branch repo="github.com"
