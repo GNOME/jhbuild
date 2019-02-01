@@ -1129,10 +1129,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="gnome-weather" autogenargs="--disable-dogtail">
-    <if condition-set="coverage">
-      <autogenargs value="--enable-coverage"/>
-    </if>
+  <meson id="gnome-weather">
     <branch/>
     <dependencies>
       <dep package="m4-common"/>
@@ -1145,11 +1142,8 @@
       <dep package="intltool"/>
       <dep package="libgweather"/>
       <dep package="gjs"/>
-      <if condition-set="coverage">
-        <dep package="lcov"/>
-      </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="nautilus" mesonargs="-Dselinux=false">
     <branch/>
