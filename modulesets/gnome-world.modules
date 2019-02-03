@@ -1611,14 +1611,15 @@
    </dependencies>
  </distutils>
 
- <autotools id="d-feet" autogenargs="--disable-tests">
+ <meson id="d-feet">
+   <mesonargs value="-Dtests=false">
    <branch/>
    <dependencies>
      <dep package="pygobject"/>
      <dep package="glib"/>
      <dep package="gtk+-3"/>
    </dependencies>
- </autotools>
+ </meson>
 
   <autotools id="notify-sharp" autogen-sh="autoreconf">
     <branch repo="hg.circular-chaos.org"/>
