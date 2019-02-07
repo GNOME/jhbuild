@@ -783,8 +783,8 @@
     </dependencies>
   </meson>
 
-  <meson id="gedit">
-    <branch/>
+  <autotools id="gedit">
+    <branch revision="gnome-3-30"/>
     <dependencies>
       <dep package="libpeas"/>
       <dep package="yelp-tools"/>
@@ -798,7 +798,7 @@
     <suggests>
       <dep package="gspell"/>
     </suggests>
-  </meson>
+  </autotools>
 
   <meson id="gnome-boxes">
     <branch/>
@@ -970,17 +970,15 @@
     </suggests>
   </meson>
 
-  <autotools id="gnome-logs">
+  <meson id="gnome-logs">
     <branch/>
     <dependencies>
-      <dep package="appstream-glib"/>
-      <dep package="intltool"/>
       <dep package="gsettings-desktop-schemas"/>
       <dep package="gtk+-3"/>
+      <dep package="itstool"/>
       <dep package="libsystemd"/>
-      <dep package="yelp-tools"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gnome-maps">
     <branch/>
