@@ -76,12 +76,13 @@ class GitRepository(Repository):
     branches, making it easy to switch to a mirror URI.
     """
 
-    init_xml_attrs = ['href']
+    init_xml_attrs = ['href', 'module-template']
 
-    def __init__(self, config, name, href):
+    def __init__(self, config, name, href, module_template='%(module)s'):
         Repository.__init__(self, config, name)
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
+        self.module_template = module_template
 
     branch_xml_attrs = ['module', 'subdir', 'checkoutdir', 'revision', 'tag']
 
@@ -117,7 +118,7 @@ class GitRepository(Repository):
                 base_href = self.href
             else:
                 base_href = self.href + '/'
-            module = base_href + module
+            module = base_href + self.module_template % { 'module' : module }
 
         if mirror_module:
             return GitBranch(self, mirror_module, subdir, checkoutdir,
