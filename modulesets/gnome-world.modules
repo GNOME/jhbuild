@@ -2471,18 +2471,15 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-ugly"
-             autogenargs="--disable-fatal-warnings"
-             supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
+  <meson id="gst-plugins-ugly">
+    <branch repo="gitlab.freedesktop.org"
             checkoutdir="gst-plugins-ugly"
-            module="gst-plugins-ugly"
-            revision="1.6"/>
+            module="gstreamer/gst-plugins-ugly.git"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="linux-user-chroot">
     <branch/>
