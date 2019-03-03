@@ -288,6 +288,25 @@
     </suggests>
   </meson>
 
+  <meson id="gnome-books">
+    <branch/>
+    <dependencies>
+      <dep package="evince"/>
+      <dep package="gjs"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+-3"/>
+      <dep package="gnome-desktop"/>
+      <dep package="tracker"/>
+      <dep package="tracker-miners"/>
+      <dep package="gnome-online-accounts"/>
+      <dep package="gnome-online-miners"/>
+      <dep package="libgdata"/>
+      <dep package="liboauth"/>
+      <dep package="WebKit"/>
+    </dependencies>
+  </meson>
+
   <meson id="gnome-builder" mesonargs="-Dplugin_sysprof=false">
     <if condition-unset="linux">
       <mesonargs value="-Dplugin_flatpak=false"/>
@@ -355,7 +374,6 @@
       <dep package="libgepub"/>
       <dep package="liboauth"/>
       <dep package="libzapojit"/>
-      <dep package="m4-common"/>
       <dep package="WebKit"/>
     </dependencies>
   </meson>
