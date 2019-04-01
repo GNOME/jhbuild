@@ -458,15 +458,12 @@
     </dependencies>
   </meson>
 
-  <autotools id="glade">
+  <meson id="glade">
     <if condition-set="macos">
-      <autogenargs value="--disable-man-pages"/>
+      <mesonargs value="-Dman=false"/>
     </if>
     <branch/>
     <dependencies>
-      <dep package="intltool"/>
-      <dep package="gnome-common"/>
-      <dep package="gtk-doc" />
       <dep package="gtk+-3"/>
       <dep package="libxml2"/>
       <dep package="yelp-tools"/>
@@ -474,7 +471,7 @@
         <dep package="gtk-mac-integration"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
  <autotools id="gnome-autoar">
    <branch/>
