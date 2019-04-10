@@ -433,9 +433,6 @@
   </autotools>
 
   <autotools id="gnome-user-share">
-    <if condition-unset="linux">
-      <autogenargs value="--disable-bluetooth"/>
-    </if>
     <branch/>
     <dependencies>
       <dep package="avahi"/>
@@ -444,9 +441,6 @@
       <dep package="libcanberra"/>
       <dep package="libnotify"/>
       <dep package="nautilus"/>
-      <if condition-set="linux">
-        <dep package="gnome-bluetooth"/>
-      </if>
     </dependencies>
   </autotools>
 
