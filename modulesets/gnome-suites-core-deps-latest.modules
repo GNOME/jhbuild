@@ -919,18 +919,18 @@
     </suggests>
   </meson>
 
-  <autotools id="gtk+-3" autogenargs="--enable-broadway-backend --enable-installed-tests">
+  <meson id="gtk+-3" mesonargs="-Dbroadway_backend=true -Dman=true">
     <if condition-set="x11">
-      <autogenargs value="--enable-x11-backend"/>
+      <mesonargs value="-Dx11_backend=true"/>
     </if>
     <if condition-set="wayland">
-      <autogenargs value="--enable-wayland-backend"/>
-    </if>
-    <if condition-set="mir">
-      <autogenargs value="--enable-mir-backend"/>
+      <mesonargs value="-Dwayland_backend=true"/>
     </if>
     <if condition-set="quartz">
-      <autogenargs value="--enable-quartz-backend"/>
+      <mesonargs value="-Dquartz_backend=true"/>
+    </if>
+    <if condition-set="macos">
+      <mesonargs value="-Dman=false"/>
     </if>
     <branch repo="gitlab.gnome.org" checkoutdir="gtk+-3" module="GNOME/gtk.git" revision="gtk-3-24"/>
     <dependencies>
@@ -965,7 +965,7 @@
       <dep package="desktop-file-utils"/>
       <dep package="shared-mime-info"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="gtk-doc">
     <branch/>
