@@ -2071,25 +2071,16 @@
     </dependencies>
   </cmake>
 
- <autotools id="vte"
-            autogenargs="--enable-introspection=yes"
-            supports-non-srcdir-builds="no"
-            uninstall-before-install="true">
-    <!-- We uninstall the old copy before installing to avoid the version from
-         the installed pkg-config file winding up in the new vapi. See bug #762780. -->
-    <if condition-unset="gnu-elf">
-      <autogenargs value="--disable-Bsymbolic"/>
-    </if>
+ <meson id="vte">
     <branch/>
     <dependencies>
-      <dep package="intltool"/>
       <dep package="glib"/>
       <dep package="gtk+-3"/>
       <dep package="gnutls"/>
       <dep package="pcre2"/>
       <dep package="vala"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="yelp-tools">
     <branch/>
