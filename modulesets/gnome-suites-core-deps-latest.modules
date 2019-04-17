@@ -390,10 +390,8 @@
     <branch repo="github.com" checkoutdir="exiv2" module="Exiv2/exiv2.git" revision="0.27"/>
   </cmake>
 
-  <autotools id="folks"
-             autogenargs="--enable-eds-backend --disable-libsocialweb-backend --disable-fatal-warnings"
-             supports-non-srcdir-builds="no"
-             uninstall-before-install="true">
+  <meson id="folks"
+             mesonargs="-Deds-backend=true -Dtelepathy_backend=true -Dlibsocialweb_backend=false">
     <branch/>
     <dependencies>
       <dep package="dbus"/>
@@ -408,7 +406,7 @@
     <suggests>
       <dep package="telepathy-logger"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="fribidi" mesonargs="-Ddocs=false">
     <branch repo="github.com" checkoutdir="fribidi" module="fribidi/fribidi"/>
