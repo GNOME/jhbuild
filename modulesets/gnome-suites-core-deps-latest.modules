@@ -1209,7 +1209,7 @@
     </suggests>
   </meson>
 
- <autotools id="libchamplain" autogenargs="--enable-vala">
+ <meson id="libchamplain" mesonargs="-Dintrospection=true -Dvapi=true">
    <branch/>
    <dependencies>
      <dep package="glib"/>
@@ -1222,7 +1222,7 @@
      <dep package="libsoup"/>
      <dep package="clutter-gtk"/>
    </suggests>
- </autotools>
+ </meson>
 
   <autotools id="libcroco" supports-non-srcdir-builds="no">
     <if condition-unset="gnu-elf">
