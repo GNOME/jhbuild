@@ -1396,6 +1396,22 @@
     </dependencies>
   </meson>
 
+  <cmake id="libical"
+         cmakeargs="-DUSE_INTEROPERABLE_VTIMEZONES:BOOL=true
+                    -DICAL_ALLOW_EMPTY_PROPERTIES:BOOL=true
+                    -DGOBJECT_INTROSPECTION:BOOL=true
+                    -DICAL_GLIB:BOOL=true
+                    -DICAL_GLIB_VAPI:BOOL=true
+                    -DSHARED_ONLY:BOOL=true">
+    <branch repo="github-tar"
+            version="3.0.5"
+            checkoutdir="libical"
+            module="libical/libical/releases/download/v${version}/libical-${version}.tar.gz"
+            hash="7ad550c8c49c9b9983658e3ab3e68b1eee2439ec17b169a6b1e6ecb5274e78e6"
+            size="881800">
+    </branch>
+  </cmake>
+
   <meson id="libinput" mesonargs="-Ddocumentation=false">
     <branch repo="git.freedesktop.org" checkoutdir="libinput" module="wayland/libinput.git" />
     <dependencies>
