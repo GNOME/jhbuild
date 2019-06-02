@@ -8,8 +8,6 @@
     href="https://gitlab.gnome.org/"/>
 <repository type="git" name="gitlab.gnome.org/GNOME" default="yes"
     href="https://gitlab.gnome.org/GNOME/"/>
-<repository type="git" name="git.freedesktop.org"
-    href="https://anongit.freedesktop.org/git/"/>
 <repository type="git" name="gitlab.freedesktop.org"
     href="https://gitlab.freedesktop.org/"/>
 <repository type="git" name="gitlab.com"
@@ -146,7 +144,9 @@
     <if condition-set="quartz">
       <autogenargs value="--enable-quartz --disable-gl"/>
     </if>
-    <branch repo="git.freedesktop.org" module="cairo"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="cairo/cairo.git"
+            checkoutdir="cairo"/>
     <dependencies>
       <if condition-unset="quartz">
         <dep package="fontconfig"/>
@@ -177,7 +177,9 @@
   </autotools>
 
   <autotools id="cairomm">
-    <branch repo="git.freedesktop.org" module="cairomm"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="cairo/cairomm.git"
+            checkoutdir="cairomm"/>
     <dependencies>
        <dep package="cairo"/>
        <dep package="libsigcplusplus"/>
@@ -534,7 +536,9 @@
     <if condition-set="macos">
       <mesonargs value="-Dnmea-source=false"/>
     </if>
-    <branch repo="git.freedesktop.org"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="geoclue/geoclue.git"
+            checkoutdir="geoclue"/>
     <dependencies>
       <dep package="avahi"/>
       <dep package="libnotify"/>
@@ -1413,7 +1417,9 @@
   </cmake>
 
   <meson id="libinput" mesonargs="-Ddocumentation=false">
-    <branch repo="git.freedesktop.org" checkoutdir="libinput" module="wayland/libinput.git" />
+    <branch repo="gitlab.freedesktop.org"
+            checkoutdir="libinput"
+            module="libinput/libinput.git" />
     <dependencies>
       <dep package="check"/>
       <dep package="libevdev"/>
@@ -1425,8 +1431,9 @@
   </meson>
 
   <autotools id="libmbim">
-    <branch repo="git.freedesktop.org"
-            module="libmbim/libmbim.git"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="mobile-broadband/libmbim.git"/
+            checkoutdir="libmbim">
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
@@ -1500,7 +1507,9 @@
   </autotools>
 
   <autotools id="libqmi">
-    <branch repo="git.freedesktop.org" module="libqmi.git"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="mobile-broadband/libqmi.git"
+            checkoutdir="libqmi"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
@@ -1687,8 +1696,9 @@
 
   <autotools id="ModemManager"
              autogenargs="--with-udev-base-dir=${libdir}/udev --with-systemdsystemunitdir=no --disable-more-warnings">
-    <branch repo="git.freedesktop.org"
-	    module="ModemManager/ModemManager.git" checkoutdir="ModemManager" />
+    <branch repo="gitlab.freedesktop.org"
+             module="mobile-broadband/ModemManager.git"
+             checkoutdir="ModemManager" />
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus-glib"/>
@@ -1778,7 +1788,9 @@
   </meson>
 
   <autotools id="pixman" autogenargs="--disable-gtk">
-    <branch repo="git.freedesktop.org" module="pixman"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="pixman/pixman.git"
+            checkoutdir="pixman"/>
   </autotools>
 
   <autotools id="pyatspi2" autogenargs="--with-python=python3" >
@@ -1876,8 +1888,9 @@
              supports-non-srcdir-builds="no"
              autogenargs="--enable-vala-bindings --disable-fatal-warnings">
     <pkg-config>telepathy-glib.pc</pkg-config>
-    <branch repo="git.freedesktop.org"
-            module="telepathy/telepathy-glib"/>
+    <branch repo="github.com"
+            module="TelepathyIM/telepathy-glib.git"
+            checkoutdir="telepathy-glib"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -1890,8 +1903,9 @@
 
   <autotools id="telepathy-logger" supports-non-srcdir-builds="no">
     <pkg-config>telepathy-logger-0.2.pc</pkg-config>
-    <branch repo="git.freedesktop.org"
-            module="telepathy/telepathy-logger"/>
+    <branch repo="github.com"
+            module="TelepathyIM/telepathy-logger"
+            checkoutdir="telepathy-logger"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -1988,8 +2002,9 @@
   </autotools>
 
   <autotools id="wayland-protocols">
-    <branch repo="git.freedesktop.org"
-            module="wayland/wayland-protocols"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="wayland/wayland-protocols.git"
+            checkoutdir="wayland-protocols"/>
     <dependencies>
       <if condition-set="linux">
         <dep package="wayland"/>
@@ -1999,8 +2014,9 @@
 
   <autotools id="wayland"
              autogenargs="--disable-documentation">
-    <branch repo="git.freedesktop.org"
-            module="wayland/wayland"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="wayland/wayland.git"
+            checkoutdir="wayland"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="doxygen"/>

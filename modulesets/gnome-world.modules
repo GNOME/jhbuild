@@ -10,12 +10,6 @@
       href="https://gitlab.gnome.org/GNOME/"/>
   <repository type="svn" name="svn.abisource.com"
       href="http://svn.abisource.com/"/>
-  <repository type="git" name="wayland.freedesktop.org"
-      href="git://anongit.freedesktop.org/git/wayland"/>
-  <repository type="git" name="gstreamer.freedesktop.org"
-      href="git://anongit.freedesktop.org/gstreamer/"/>
-  <repository type="git" name="fprint.freedesktop.org"
-      href="git://anongit.freedesktop.org/libfprint/"/>
   <repository type="cvs" name="elysium-project.sf.net"
       cvsroot=":pserver:anonymous@elysium-project.cvs.sourceforge.net:/cvsroot/elysium-project"
       password=""/>
@@ -82,8 +76,6 @@
       href="git://git.ardour.org/"/>
   <repository type="git" name="gitorious.org"
       href="https://gitorious.org/"/>
-  <repository type="git" name="telepathy.freedesktop.org"
-      href="git://anongit.freedesktop.org/telepathy/"/>
   <repository type="tarball" name="samba.org"
       href="https://ftp.samba.org/pub/"/>
   <repository type="tarball" name="sourceforge.net"
@@ -594,8 +586,9 @@
   </autotools>
 
   <autotools id="libva">
-    <branch repo="git.freedesktop.org"
-            module="vaapi/libva"/>
+    <branch repo="github.com"
+            module="intel/libva.git"
+            checkoutdir="libva"/>
   </autotools>
 
   <autotools id="gstreamer-vaapi">
@@ -609,9 +602,9 @@
   </autotools>
 
   <autotools id="libva-intel-driver">
-    <branch repo="git.freedesktop.org"
+    <branch repo="github.com"
             checkoutdir="libva-intel-driver"
-            module="vaapi/intel-driver"
+            module="intel/intel-vaapi-driver"
             revision="v1.0-branch"/>
     <dependencies>
       <dep package="libva"/>

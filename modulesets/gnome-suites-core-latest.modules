@@ -9,8 +9,6 @@
       href="https://gitlab.gnome.org/"/>
   <repository type="git" name="gitlab.gnome.org/GNOME" default="yes"
       href="https://gitlab.gnome.org/GNOME/"/>
-  <repository type="git" name="git.freedesktop.org"
-      href="https://anongit.freedesktop.org/git/"/>
   <repository type="git" name="gitlab.freedesktop.org"
       href="https://gitlab.freedesktop.org/"/>
   <repository type="git" name="github.com"
@@ -618,9 +616,10 @@
   <autotools id="telepathy-mission-control"
              autogenargs="--disable-upower"
              supports-non-srcdir-builds="no">
-    <branch repo="git.freedesktop.org"
-            module="telepathy/telepathy-mission-control"
-            revision="telepathy-mission-control-5.16"/>
+    <branch repo="github.com"
+            module="TelepathyIM/telepathy-mission-control.git"
+            revision="telepathy-mission-control-5.16"
+            checkoutdir="telepathy-mission-control"/>
     <dependencies>
       <dep package="dbus"/>
       <dep package="dbus-glib"/>
@@ -1234,7 +1233,9 @@
 <!-- Core OS Services -->
 
   <meson id="accountsservice">
-    <branch repo="git.freedesktop.org" module="accountsservice"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="accountsservice/accountsservice.git"
+            checkoutdir="accountsservice"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
@@ -1247,8 +1248,8 @@
 
   <autotools id="NetworkManager"
              autogenargs="PYTHON=python3 --with-udev-dir=${libdir}/udev --with-systemdsystemunitdir=no --with-crypto=gnutls --disable-more-warnings --disable-json-validation --disable-ovs">
-    <branch repo="git.freedesktop.org"
-	          module="NetworkManager/NetworkManager.git"
+    <branch repo="gitlab.freedesktop.org"
+            module="NetworkManager/NetworkManager.git"
             checkoutdir="NetworkManager"/>
     <dependencies>
       <dep package="libndp"/>
