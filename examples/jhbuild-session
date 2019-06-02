@@ -11,6 +11,11 @@ XDG_CONFIG_DIRS=${GNOME}/etc/xdg
 
 export PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH GDK_USE_XFT XDG_DATA_DIRS XDG_CONFIG_DIRS
 
+# Pick up systemd units defined in jhbuild
+mkdir -p "$XDG_RUNTIME_DIR/systemd/user.control"
+command cp -r ${GNOME}/lib/systemd/user/* "$XDG_RUNTIME_DIR/systemd/user.control"
+systemctl --user daemon-reload
+
 #exec valgrind --tool=memcheck --log-file=/tmp/session-grind.log ${GNOME}/bin/gnome-session
 exec ${GNOME}/bin/gnome-session --debug
 
