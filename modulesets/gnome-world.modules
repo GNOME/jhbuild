@@ -694,7 +694,9 @@
   </autotools>
 
   <meson id="libfprint">
-    <branch repo="fprint.freedesktop.org" module="libfprint"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="libfprint/libfprint.git"
+            checkoutdir="libfprint"/>
     <dependencies>
       <dep package="libusb1"/>
       <dep package="nss"/>
@@ -703,7 +705,9 @@
   </meson>
 
   <autotools id="fprintd">
-    <branch repo="fprint.freedesktop.org" module="fprintd"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="libfprint/fprintd.git"
+            checkoutdir="fprintd"/>
     <dependencies>
       <dep package="libfprint"/>
       <dep package="dbus-glib"/>
@@ -3414,7 +3418,9 @@
   </autotools>
 
   <meson id="weston">
-    <branch repo="wayland.freedesktop.org"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="wayland/weston.git"
+            checkoutdir="weston"/>
     <dependencies>
       <dep package="wayland-protocols"/>
       <dep package="wayland"/>
@@ -3559,7 +3565,9 @@
   </autotools>
 
   <autotools id="telepathy-farstream" autogenargs="--disable-python" supports-non-srcdir-builds="no">
-    <branch repo="telepathy.freedesktop.org"/>
+    <branch repo="github.com"
+            module="TelepathyIM/telepathy-farstream.git"
+            checkoutdir="telepathy-farstream"/>
     <dependencies>
       <dep package="telepathy-glib"/>
       <dep package="farstream"/>
