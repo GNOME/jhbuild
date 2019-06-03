@@ -576,15 +576,6 @@
     <branch/>
   </autotools>
 
-  <autotools id="gst-openmax" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-openmax"/>
-    <dependencies>
-      <dep package="gstreamer-0.10"/>
-      <dep package="gst-plugins-base-0.10"/>
-      <dep package="gst-plugins-bad-0.10"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="libva">
     <branch repo="github.com"
             module="intel/libva.git"
@@ -632,8 +623,10 @@
   <autotools id="gst-plugins-bad-0.10"
              autogenargs="--disable-tests --disable-fatal-warnings"
              supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-bad"
-            revision="0.10" checkoutdir="gst-plugins-bad-0.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-plugins-bad.git"
+            revision="0.10"
+            checkoutdir="gst-plugins-bad-0.10"/>
     <dependencies>
       <dep package="gstreamer-0.10"/>
       <dep package="gst-plugins-base-0.10"/>
@@ -641,8 +634,10 @@
   </autotools>
 
   <autotools id="gst-plugins-ugly-0.10" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-ugly"
-            revision="0.10" checkoutdir="gst-plugins-ugly-0.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-plugins-ugly.git"
+            revision="0.10"
+            checkoutdir="gst-plugins-ugly-0.10"/>
     <dependencies>
       <dep package="gstreamer-0.10"/>
       <dep package="gst-plugins-base-0.10"/>
@@ -650,27 +645,12 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gst-plugins-gl" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-gl"/>
-    <dependencies>
-      <dep package="gstreamer-0.10"/>
-      <dep package="gst-plugins-base-0.10"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="gst-ffmpeg" autogenargs="-- --disable-tests" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-ffmpeg"
-            revision="0.10"/>
-    <dependencies>
-      <dep package="gstreamer-0.10"/>
-      <dep package="gst-plugins-base-0.10"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gst-libav"
              autogenargs="--disable-fatal-warnings">
-    <branch repo="gstreamer.freedesktop.org" revision="1.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            revision="1.10"
+            module="gstreamer/gst-libav.git"
+            checkoutdir="gst-libav"/>
     <dependencies>
       <dep package="gstreamer"/>
       <dep package="gst-plugins-base"/>
@@ -678,7 +658,8 @@
   </autotools>
 
   <autotools id="gst-python2" autogenargs="PYTHON=python2">
-    <branch repo="gstreamer.freedesktop.org" module="gst-python"
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-python.git"
             checkoutdir="gst-python2"/>
     <dependencies>
       <dep package="pygobject-python2"/>
@@ -688,7 +669,9 @@
   </autotools>
 
   <autotools id="gst-python" autogenargs="PYTHON=python3">
-    <branch repo="gstreamer.freedesktop.org"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-python.git"
+            checkoutdir="gst-python"/>
     <dependencies>
       <dep package="pygobject"/>
       <dep package="gstreamer"/>
@@ -699,9 +682,10 @@
   <autotools id="gst-python-0.10"
              makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS="
              supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-python"
-            revision="0.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-python.git"
+            revision="0.10"
+            checkoutdir="gst-python-0.10"/>
     <dependencies>
       <dep package="pygobject2"/>
       <dep package="gstreamer-0.10"/>
@@ -1199,19 +1183,10 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gnonlin"
-             makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS=">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gnonlin"/>
-    <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-  </autotools>
-
   <autotools id="gst-editing-services">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-editing-services"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-editing-services.git"
+            checkoutdir="gst-editing-services.git"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gstreamer"/>
@@ -1903,8 +1878,10 @@
   </meson>
 
   <autotools id="gst-rtsp-server-0.10">
-    <branch repo="gstreamer.freedesktop.org" module="gst-rtsp-server"
-            revision="0.10" checkoutdir="gst-rtsp-server-0.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-rtsp-server.git"
+            revision="0.10"
+            checkoutdir="gst-rtsp-server-0.10"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gstreamer-0.10"/>
@@ -1913,7 +1890,9 @@
   </autotools>
 
   <autotools id="gst-rtsp-server">
-    <branch repo="gstreamer.freedesktop.org" module="gst-rtsp-server"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-rtsp-server.git"
+            checkoutdir="gst-rtsp-server"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="gstreamer"/>
@@ -2657,8 +2636,8 @@
   <autotools id="gstreamer-0.10"
              autogenargs="--disable-tests --disable-fatal-warnings"
              supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gstreamer"
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gstreamer.git"
             revision="0.10"
             checkoutdir="gstreamer-0.10"/>
     <dependencies>
@@ -2672,8 +2651,8 @@
              autogenargs="--with-gtk=3.0 --disable-tests --disable-gnome_vfs"
              makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS="
              supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org"
-            module="gst-plugins-base"
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-plugins-base.git"
             revision="0.10"
             checkoutdir="gst-plugins-base-0.10"/>
     <dependencies>
@@ -2688,7 +2667,10 @@
   </autotools>
 
   <autotools id="gst-plugins-good-0.10" autogenargs="--with-gtk=3.0 --disable-tests --disable-examples" makeargs="GLIB_EXTRA_CFLAGS=-UG_DISABLE_DEPRECATED ERROR_CFLAGS= ERROR_CXXFLAGS=" supports-non-srcdir-builds="no">
-    <branch repo="gstreamer.freedesktop.org" module="gst-plugins-good" revision="0.10"/>
+    <branch repo="gitlab.freedesktop.org"
+            module="gstreamer/gst-plugins-good"
+            revision="0.10"
+            checkoutdir="gst-plugins-good-0.10"/>
     <dependencies>
       <dep package="gstreamer-0.10"/>
       <dep package="gst-plugins-base-0.10"/>
