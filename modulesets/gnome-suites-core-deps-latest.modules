@@ -669,6 +669,9 @@
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
       <dep package="mozjs60"/>
+      <if condition-set="linux">
+        <dep package="sysprof-capture"/>
+      </if>
       <if condition-set="coverage">
         <dep package="lcov"/>
       </if>
@@ -1881,6 +1884,14 @@
             hash="sha256:20350bc4309039fdf0d29ee4fd0033cde27bccf33501e13b3c1befafde9d0c9c"
             size="74471"/>
     <dependencies>
+    </dependencies>
+  </meson>
+
+  <meson id="sysprof-capture"
+         mesonargs="-Denable_gtk=false -Dhelp=false -Dlibsysprof=false -Dwith_sysprofd=none">
+    <branch module="sysprof"/>
+    <dependencies>
+      <dep package="glib"/>
     </dependencies>
   </meson>
 
