@@ -39,6 +39,8 @@
     href="https://sourceforge.net/projects/"/>
 <repository type="tarball" name="webkitgtk.org"
     href="https://webkitgtk.org/releases/"/>
+<repository type="tarball" name="wpewebkit.org"
+    href="https://wpewebkit.org/releases/"/>
 <repository type="tarball" name="freedesktop.org"
     href="https://freedesktop.org/software/"/>
 <repository type="tarball" name="people.freedesktop.org"
@@ -2035,6 +2037,24 @@
     </dependencies>
   </autotools>
 
+  <cmake id="libwpe">
+    <branch repo="wpewebkit.org"
+            module="libwpe-1.3.0.tar.xz"
+            version="1.3.0"
+            hash="sha256:68986647af2433e74f830a06a497ed536dbc8721b04026ed82611a584be71148"/>
+  </cmake>
+
+  <cmake id="wpebackend-fdo">
+    <branch repo="wpewebkit.org"
+            module="wpebackend-fdo-1.3.1.tar.xz"
+            version="1.3.1"
+            hash="sha256:b0d136aa9ce9f94b1d06b258ed68c4a7b588b2e692d448d9c6eedb72edf56739"/>
+    <dependencies>
+      <dep package="libwpe"/>
+      <dep package="glib"/>
+    </dependencies>
+  </cmake>
+
   <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_PLUGIN_PROCESS_GTK2=OFF">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
@@ -2044,9 +2064,9 @@
     </if>
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
-            module="webkitgtk-2.25.1.tar.xz" version="2.25.1"
-            hash="sha256:af6ac2a0d886719bcdbe0e7b67983b5486af1f99e71da2a64dcfba21a6814b4a"
-            size="19143004"/>
+            module="webkitgtk-2.25.2.tar.xz" version="2.25.2"
+            hash="sha256:7c352f1a8ca4227c0f3c19662eb88e41788953c8869d7193fe250a8cfcc1cbfc"
+            size="19174000"/>
     <dependencies>
       <dep package="c++"/>
       <dep package="at-spi2-core"/>
@@ -2090,6 +2110,7 @@
         <if condition-set="linux">
           <dep package="wayland"/>
         </if>
+        <dep package="wpebackend-fdo"/>
       </if>
     </dependencies>
     <suggests>
