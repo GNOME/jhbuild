@@ -3377,11 +3377,8 @@
     </suggests>
   </autotools>
 
-  <autotools id="libgda"
-             autogenargs="--with-java=no --disable-tools --enable-gda-gi --enable-gdaui-gi --enable-vala --enable-gdaui-vala">
-    <if condition-set="freebsd">
-      <autogenargs value="LIBCRYPTO_CFLAGS=' ' LIBCRYPTO_LIBS='-lcrypto' --with-bdb=/usr/local --with-bdb-libdir-name=lib/db5 --with-bdb-includedir-name=include/db5"/>
-    </if>
+  <meson id="libgda"
+         mesonargs="-Denable-gda-gi=true -Denable-tools=false -Dwith-ui=true">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -3390,7 +3387,7 @@
       <dep package="openssl"/>
       <dep package="vala"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="java-gnome" autogen-sh="configure" skip-autogen="never">
     <branch repo="research.operationaldynamics.com"
