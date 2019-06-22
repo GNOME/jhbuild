@@ -879,9 +879,6 @@
     <if condition-unset="wayland">
       <mesonargs value="-Dwayland-backend=false"/>
     </if>
-    <if condition-set="mir">
-      <mesonargs value="-Dmir-backend=true"/>
-    </if>
     <if condition-set="quartz">
       <mesonargs value="-Dquartz-backend=true"/>
     </if>
@@ -932,6 +929,9 @@
     </if>
     <if condition-set="wayland">
       <mesonargs value="-Dwayland_backend=true"/>
+    </if>
+    <if condition-set="mir">
+      <mesonargs value="-Dmir_backend=true"/>
     </if>
     <if condition-set="quartz">
       <mesonargs value="-Dquartz_backend=true"/>
