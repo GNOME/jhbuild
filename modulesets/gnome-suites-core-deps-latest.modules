@@ -1274,7 +1274,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="libgdata">
+  <meson id="libgdata" mesonargs="-Dgtk_doc=false">
     <pkg-config>libgdata.pc</pkg-config>
     <branch/>
     <dependencies>
@@ -1286,10 +1286,9 @@
       <dep package="libxml2"/>
       <dep package="libsoup"/>
       <dep package="liboauth"/>
-      <dep package="m4-common"/>
       <dep package="uhttpmock"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="libgee" supports-non-srcdir-builds="no">
     <pkg-config>gee-0.8.pc</pkg-config>
