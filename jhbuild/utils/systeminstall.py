@@ -24,6 +24,7 @@ import shlex
 import subprocess
 import pipes
 import imp
+import textwrap
 import time
 from StringIO import StringIO
 
@@ -178,6 +179,20 @@ def systemdependencies_met(module_name, sysdeps, config):
             try:
                 imp.find_module(value)
             except:
+                dep_met = False
+
+        elif dep_type == 'python3':
+            python3_script = textwrap.dedent('''
+                import imp
+                import sys
+                try:
+                    imp.find_module(sys.argv[1])
+                except:
+                    exit(1)
+                ''').strip('\n')
+            try:
+                subprocess.check_call(['python3', '-c', python3_script, value])
+            except (subprocess.CalledProcessError, OSError):
                 dep_met = False
 
         elif dep_type == 'xml':
