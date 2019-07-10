@@ -367,8 +367,17 @@ class GitBranch(Branch):
                            % (cmd_desc, stdout))
 
     def _export(self, buildscript):
-        # FIXME: should implement this properly
         self._checkout(buildscript)
+
+        filename = self.get_module_basename() + '-' + self.tag + '.zip'
+
+        if self.config.export_dir is not None:
+            path = os.path.join(self.config.export_dir, filename)
+        else:
+            path = os.path.join(self.checkoutroot, filename)
+
+        git_extra_args = {'cwd': self.get_checkoutdir(), 'extra_env': get_git_extra_env()}
+        buildscript.execute(['git', 'archive', '-o', path, 'HEAD'], **git_extra_args)
 
     def _update_submodules(self, buildscript):
         if os.path.exists(os.path.join(self.get_checkoutdir(), '.gitmodules')):

@@ -28,6 +28,7 @@ except ImportError:
 import urlparse
 import urllib2
 import logging
+import zipfile
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -253,7 +254,9 @@ class TarballBranch(Branch):
         if self.patches:
             self._do_patches(buildscript)
 
-    def _do_patches(self, buildscript):
+    def _get_patch_files(self, buildscript):
+        patch_files = []
+
         # now patch the working tree
         for (patch, patchstrip) in self.patches:
             patchfile = ''
@@ -298,6 +301,14 @@ class TarballBranch(Branch):
                 else:
                     raise CommandError(_('Failed to find patch: %s') % patch)
 
+            patch_files.append((patchfile, patch, patchstrip))
+
+        return patch_files
+
+    def _do_patches(self, buildscript):
+        # now patch the working tree
+        patch_files = self._get_patch_files(buildscript)
+        for (patchfile, patch, patchstrip) in patch_files:
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
             # patchfile can be a relative file
             buildscript.execute('patch -p%d < "%s"'
@@ -323,6 +334,21 @@ class TarballBranch(Branch):
                             cwd=self.srcdir,
                             extra_env={'QUILT_PATCHES' : self.quilt.srcdir})
 
+    def _export(self, buildscript):
+        filename = os.path.basename(self.raw_srcdir) + '.zip'
+
+        if self.config.export_dir is not None:
+            path = os.path.join(self.config.export_dir, filename)
+        else:
+            path = os.path.join(self.checkoutroot, filename)
+
+        with zipfile.ZipFile(path, 'w') as zipped_path:
+            patch_files = self._get_patch_files(buildscript)
+            for (patchfile, patch, patchstrip) in patch_files:
+                zipped_path.write(patchfile, arcname='patches/' + patch)
+
+            zipped_path.write(self._local_tarball, arcname=os.path.basename(self._local_tarball))
+
     def checkout(self, buildscript):
         if self.checkout_mode == 'clobber':
             self._wipedir(buildscript, self.raw_srcdir)
@@ -330,6 +356,9 @@ class TarballBranch(Branch):
             self._download_and_unpack(buildscript)
         if self.quilt:
             self._quilt_checkout(buildscript)
+
+        if self.checkout_mode == 'export':
+            self._export(buildscript)
 
     def may_checkout(self, buildscript):
         if os.path.exists(self._local_tarball):

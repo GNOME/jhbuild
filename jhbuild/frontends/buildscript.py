@@ -60,6 +60,15 @@ class BuildScript:
             if not os.access(self.config.copy_dir, os.R_OK|os.W_OK|os.X_OK):
                 raise FatalError(_('checkout copy dir (%s) must be writable') % self.config.copy_dir)
 
+        if self.config.export_dir and not os.path.exists(self.config.export_dir):
+            try:
+                os.makedirs(self.config.export_dir)
+            except OSError:
+                raise FatalError(
+                        _('checkout export dir (%s) can not be created') % self.config.export_dir)
+            if not os.access(self.config.export_dir, os.R_OK|os.W_OK|os.X_OK):
+                raise FatalError(_('checkout export dir (%s) must be writable') % self.config.export_dir)
+
         self.subprocess_nice_args = []
         if config.nice_build:
             chrt_args = ['chrt', '--idle', '0']
