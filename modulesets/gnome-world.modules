@@ -1314,7 +1314,10 @@
     </dependencies>
   </metamodule>
 
-  <autotools id="gucharmap" autogenargs="--with-unicode-data=download">
+  <meson id="gucharmap">
+    <if condition-set="freebsd">
+      <mesonargs value="-Ducd_path=/usr/local/share/unicode/ucd"/>
+    </if>
     <branch/>
     <dependencies>
       <dep package="intltool"/>
@@ -1322,7 +1325,7 @@
       <dep package="gtk+-3"/>
       <dep package="yelp-tools"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gupnp-tools">
     <branch />
