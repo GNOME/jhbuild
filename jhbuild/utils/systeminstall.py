@@ -215,7 +215,7 @@ class SystemInstall(object):
         elif cmds.has_command('sudo'):
             self._root_command_prefix_args = ['sudo']
         else:
-            raise SystemExit(_('No suitable root privilege command found; you should install "pkexec"'))
+            raise SystemExit(_('No suitable root privilege command found; you should install "sudo" or "pkexec" (or the system package that provides it)'))
 
     def install(self, uninstalled):
         """Takes a list of pkg-config identifiers and uses a system-specific method to install them."""
