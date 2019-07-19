@@ -13,7 +13,10 @@ AM_MAINTAINER_MODE([enable])
 
 # Check for programs
 AC_PROG_CC
-AM_PATH_PYTHON
+AM_PATH_PYTHON([], [
+	AS_CASE(["$PYTHON_VERSION"],
+		[2.*], [],
+		[AC_MSG_ERROR([JHBuild only works with python 2])])])
 PKG_PROG_PKG_CONFIG
 
 # i18n
