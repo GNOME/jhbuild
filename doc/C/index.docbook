@@ -1787,7 +1787,7 @@ Optional packages: (JHBuild will build the missing packages)
               <literal>update</literal> (update checkout directory),
               <literal>clobber</literal> (wipe out directory before checking out
               the sources), <literal>export</literal> (wipe out directory then
-              create an unversioned copy of the sources) and
+              create a tarball of the sources containing any patches) and
               <literal>copy</literal> (checkout in a directory different from
               the one it will build).</simpara>
           </listitem>
@@ -1810,6 +1810,17 @@ Optional packages: (JHBuild will build the missing packages)
           </term>
           <listitem>
             <simpara>A string specifying the directory to copy to, if the copy
+              <link linkend="cfg-checkout-mode">
+              <varname>checkout_mode</varname></link> is in use. Defaults to the
+              checkout directory.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry id="cfg-export-dir">
+          <term>
+            <varname>export_dir</varname>
+          </term>
+          <listitem>
+            <simpara>A string specifying the directory to export to, if the export
               <link linkend="cfg-checkout-mode">
               <varname>checkout_mode</varname></link> is in use. Defaults to the
               checkout directory.</simpara>
