@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2019-07-12 06:33+0000\n"
-"PO-Revision-Date: 2019-07-12 10:35-0300\n"
+"POT-Creation-Date: 2019-07-22 11:20+0000\n"
+"PO-Revision-Date: 2019-07-22 12:54-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -751,7 +751,7 @@ msgstr "o prefixo de instalação (%s) não é gravável"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
 #: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
-#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:473 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
@@ -1079,32 +1079,44 @@ msgstr "diretório fonte (%s) não pôde ser criado"
 msgid "checkout copy dir (%s) must be writable"
 msgstr "diretório fonte (%s) deve ser gravável"
 
-#: jhbuild/frontends/buildscript.py:111
+#: jhbuild/frontends/buildscript.py:68
+#, python-format
+#| msgid "checkout copy dir (%s) can not be created"
+msgid "checkout export dir (%s) can not be created"
+msgstr "diretório de exportação (%s) não pôde ser criado"
+
+#: jhbuild/frontends/buildscript.py:70
+#, python-format
+#| msgid "checkout copy dir (%s) must be writable"
+msgid "checkout export dir (%s) must be writable"
+msgstr "diretório de exportação (%s) deve ser gravável"
+
+#: jhbuild/frontends/buildscript.py:120
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "Pulando %s (instalado recentemente)"
 
-#: jhbuild/frontends/buildscript.py:120
+#: jhbuild/frontends/buildscript.py:129
 #, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "módulo %(mod)s será compilado mesmo com falha em %(dep)s"
 
-#: jhbuild/frontends/buildscript.py:123
+#: jhbuild/frontends/buildscript.py:132
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "módulo %(mod)s não compilado por %(dep)s não estar compilável"
 
-#: jhbuild/frontends/buildscript.py:242
+#: jhbuild/frontends/buildscript.py:251
 #, python-format
 msgid "Ignoring uninstalled package: %s"
 msgstr "Ignorando pacote não instalado: %s"
 
-#: jhbuild/frontends/buildscript.py:261
+#: jhbuild/frontends/buildscript.py:270
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Executando o script disparador pós-instalação: %r"
 
-#: jhbuild/frontends/buildscript.py:269 jhbuild/frontends/gtkui.py:596
+#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s retornou com um código de erro (%(rc)s)"
@@ -1617,8 +1629,6 @@ msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Falha ao excluir %(file)r: %(msg)s"
 
 #: jhbuild/utils/systeminstall.py:218
-#| msgid ""
-#| "No suitable root privilege command found; you should install \"pkexec\""
 msgid ""
 "No suitable root privilege command found; you should install \"sudo\" or "
 "\"pkexec\" (or the system package that provides it)"
@@ -1756,7 +1766,7 @@ msgstr "Falhou ao descomprimir %s (arquivo vazio?)"
 
 #: jhbuild/versioncontrol/bzr.py:74 jhbuild/versioncontrol/darcs.py:55
 #: jhbuild/versioncontrol/fossil.py:49 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:67
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:68
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
@@ -1807,8 +1817,8 @@ msgstr "Utilize o script changecvsroot.py para corrigir isso."
 
 #: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
 #: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
-#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
-#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:583 jhbuild/versioncontrol/git.py:623
+#: jhbuild/versioncontrol/git.py:699 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "data baseada em checkout ainda tem suporte ainda\n"
@@ -1848,7 +1858,7 @@ msgstr "O comando %s não retornou nenhuma saída"
 msgid "Command %s did not include commit line: %r"
 msgstr "Comando %s não incluiu a linha de commit: %r"
 
-#: jhbuild/versioncontrol/git.py:436
+#: jhbuild/versioncontrol/git.py:445
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1856,7 +1866,7 @@ msgstr ""
 "Falhou ao atualizar o módulo como alternado para o git (você deve verificar "
 "por mudanças e após remover o diretório)."
 
-#: jhbuild/versioncontrol/git.py:437
+#: jhbuild/versioncontrol/git.py:446
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1864,7 +1874,7 @@ msgstr ""
 "Falhou ao atualizar o módulo (faltando .git) (você deve verificar por "
 "mudanças e após remover o diretório)."
 
-#: jhbuild/versioncontrol/git.py:541
+#: jhbuild/versioncontrol/git.py:550
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1872,7 +1882,7 @@ msgstr ""
 "Manipulação externa falhou\n"
 " Se você está executando o git versão < 1.5.6 é recomendado que atualize.\n"
 
-#: jhbuild/versioncontrol/git.py:586
+#: jhbuild/versioncontrol/git.py:595
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
@@ -1927,90 +1937,90 @@ msgstr "não foi possível analisar saída do “svn info” para %s"
 msgid "Error checking for conflicts"
 msgstr "Erro ao verificar por conflitos"
 
-#: jhbuild/versioncontrol/tarball.py:93
+#: jhbuild/versioncontrol/tarball.py:94
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr ""
 "ramo para %s não está correto, verifique o arquivo de coleção de módulos."
 
-#: jhbuild/versioncontrol/tarball.py:133
+#: jhbuild/versioncontrol/tarball.py:134
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "a URL não possui componente para nome de arquivo: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:177
 msgid "file not downloaded"
 msgstr "arquivo não baixado"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:182
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "o tamanho do arquivo baixado está incorreto (experado %(size1)d, obtido "
 "%(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:188
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "atributo de hash inválido no módulo %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:201
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "o hash do arquivo está incorreto (esperada %(sum1)s, obtida %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:204
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "verificação de hash pulada (falta suporte para %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:208
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "o diretório do tarball (%s) não é gravável"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:220
 msgid "unable to find wget or curl"
 msgstr "impossível encontrar o wget ou curl"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:236
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "diretório de tarball (%s) não pôde ser criado"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:248
 #, python-format
 msgid "failed to unpack %s"
 msgstr "falhou ao descompactar %s"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:251
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "não é possível descomprimir tarball (experado diretório %s)"
 
-#: jhbuild/versioncontrol/tarball.py:265
+#: jhbuild/versioncontrol/tarball.py:268
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "não foi possível baixar o arquivo de correção (erro: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:267
+#: jhbuild/versioncontrol/tarball.py:270
 msgid "could not download patch"
 msgstr "não foi possível baixar o arquivo de correção"
 
-#: jhbuild/versioncontrol/tarball.py:299
+#: jhbuild/versioncontrol/tarball.py:302
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Falhou ao encontrar patch: %s"
 
-#: jhbuild/versioncontrol/tarball.py:301
+#: jhbuild/versioncontrol/tarball.py:312
 msgid "Applying patch"
 msgstr "Aplicando arquivo de correção"
 
-#: jhbuild/versioncontrol/tarball.py:309
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "unable to find quilt"
 msgstr "não foi possível encontrar quilt"
 
-#: jhbuild/versioncontrol/tarball.py:320
+#: jhbuild/versioncontrol/tarball.py:331
 msgid "could not checkout quilt patch set"
 msgstr "não foi possível obter definição de patch quilt"
 
