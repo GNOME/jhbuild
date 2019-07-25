@@ -95,6 +95,7 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
         if not inpath('cmake', os.environ['PATH'].split(os.pathsep)):
             raise CommandError(_('%s not found') % 'cmake')
         baseargs = '-DCMAKE_INSTALL_PREFIX=%s -DCMAKE_INSTALL_LIBDIR=lib' % prefix
+        baseargs += ' -DCMAKE_PREFIX_PATH=%s -DCMAKE_LIBRARY_PATH=%s' % (prefix, prefix + '/lib')
         cmakeargs = self.get_cmakeargs()
         if self.use_ninja:
             baseargs += ' -G Ninja'
