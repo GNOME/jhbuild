@@ -240,6 +240,9 @@ def setup_env(prefix):
     perl5lib = os.path.join(prefix, 'lib', 'perl5')
     addpath('PERL5LIB', perl5lib)
 
+    # CMAKE_PREFIX_PATH
+    addpath('CMAKE_PREFIX_PATH', prefix)
+
     # These two variables are so that people who use "jhbuild shell"
     # can tweak their shell prompts and such to show "I'm under jhbuild".
     # The first variable is the obvious one to look for; the second
