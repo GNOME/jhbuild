@@ -1,24 +1,23 @@
 # Swedish translation for jhbuild.
-# Copyright © 2008-2017 Free Software Foundation, Inc.
+# Copyright © 2008-2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the jhbuild package.
 # Daniel Nylander <po@danielnylander.se>, 2008-2011.
 # Sebastian Rasmussen <sebras@gmail.com>, 2014, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016, 2017.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-11 14:18+0000\n"
-"PO-Revision-Date: 2018-04-11 19:23+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
+"POT-Creation-Date: 2019-07-22 11:20+0000\n"
+"PO-Revision-Date: 2019-07-25 13:21+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: autogen.sh:103
 #, sh-format
@@ -268,7 +267,7 @@ msgstr ""
 msgid "Update and compile one or more modules"
 msgstr "Uppdatera och kompilera en eller flera moduler"
 
-#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:103
+#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:102
 #: jhbuild/commands/uninstall.py:50
 #, python-format
 msgid ""
@@ -739,7 +738,7 @@ msgstr "installationsprefixet (%s) är inte skrivbart"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
 #: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
-#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:473 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
@@ -1001,11 +1000,6 @@ msgstr "Byggverktyg för GNOME"
 msgid "Build GNOME modules"
 msgstr "Bygg GNOME-moduler"
 
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: jhbuild.desktop.in.in:9
-msgid "applications-development"
-msgstr "applications-development"
-
 #: jhbuild/frontends/autobuild.py:72
 #, python-format
 msgid "Server Error, retrying in %d seconds"
@@ -1057,39 +1051,49 @@ msgstr "utcheckningsroten (%s) måste vara skrivbar"
 #: jhbuild/frontends/buildscript.py:59
 #, python-format
 msgid "checkout copy dir (%s) can not be created"
-msgstr "katalog för utcheckningskopia (%s) kan inte skapas"
+msgstr "kopieringskatalog för utcheckning (%s) kan inte skapas"
 
 #: jhbuild/frontends/buildscript.py:61
 #, python-format
 msgid "checkout copy dir (%s) must be writable"
-msgstr "katalog för utcheckningskopia (%s) måste vara skrivbar"
+msgstr "kopieringskatalog för utcheckning (%s) måste vara skrivbar"
 
-#: jhbuild/frontends/buildscript.py:111
+#: jhbuild/frontends/buildscript.py:68
+#, python-format
+msgid "checkout export dir (%s) can not be created"
+msgstr "exportkatalog för utcheckning (%s) kan inte skapas"
+
+#: jhbuild/frontends/buildscript.py:70
+#, python-format
+msgid "checkout export dir (%s) must be writable"
+msgstr "exportkatalog för utcheckning (%s) måste vara skrivbar"
+
+#: jhbuild/frontends/buildscript.py:120
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "Hoppar över %s (installerad tidigare)"
 
-#: jhbuild/frontends/buildscript.py:120
+#: jhbuild/frontends/buildscript.py:129
 #, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "modulen %(mod)s kommer att byggas även om %(dep)s misslyckades"
 
-#: jhbuild/frontends/buildscript.py:123
+#: jhbuild/frontends/buildscript.py:132
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modulen %(mod)s byggdes inte på grund av icke-byggbar %(dep)s"
 
-#: jhbuild/frontends/buildscript.py:242
+#: jhbuild/frontends/buildscript.py:251
 #, python-format
 msgid "Ignoring uninstalled package: %s"
 msgstr "Ignorerar avinstallerat paket: %s"
 
-#: jhbuild/frontends/buildscript.py:261
+#: jhbuild/frontends/buildscript.py:270
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Kört skripten för efter-installationsutlösare: %r"
 
-#: jhbuild/frontends/buildscript.py:269 jhbuild/frontends/gtkui.py:596
+#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s returnerade en felkod (%(rc)s)"
@@ -1236,15 +1240,15 @@ msgstr "val: "
 msgid "exit shell to continue with build"
 msgstr "avsluta skalet för att fortsätta bygga"
 
-#: jhbuild/frontends/terminal.py:383
+#: jhbuild/frontends/terminal.py:386
 msgid "invalid choice"
 msgstr "ogiltigt val"
 
-#: jhbuild/frontends/terminal.py:391
+#: jhbuild/frontends/terminal.py:394
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Skriv ”ja” för att bekräfta åtgärden: "
 
-#: jhbuild/frontends/terminal.py:396
+#: jhbuild/frontends/terminal.py:399
 msgid "yes"
 msgstr "ja"
 
@@ -1600,9 +1604,12 @@ msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Misslyckades att ta bort %(file)r: %(msg)s"
 
 #: jhbuild/utils/systeminstall.py:218
-msgid "No suitable root privilege command found; you should install \"pkexec\""
+msgid ""
+"No suitable root privilege command found; you should install \"sudo\" or "
+"\"pkexec\" (or the system package that provides it)"
 msgstr ""
-"Inget lämpligt root-privilegiekommando hittades; du bör installera ”pkexec”"
+"Inget lämpligt root-privilegiekommando hittades; du bör installera ”sudo” "
+"eller ”pkexec” (eller systempaketet som tillhandahåller det)"
 
 #: jhbuild/utils/systeminstall.py:247 jhbuild/utils/systeminstall.py:250
 #, python-format
@@ -1732,7 +1739,7 @@ msgstr "Misslyckades med att packa upp %s (tom fil?)"
 
 #: jhbuild/versioncontrol/bzr.py:74 jhbuild/versioncontrol/darcs.py:55
 #: jhbuild/versioncontrol/fossil.py:49 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:67
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:68
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
@@ -1783,8 +1790,8 @@ msgstr ""
 
 #: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
 #: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
-#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
-#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:583 jhbuild/versioncontrol/git.py:623
+#: jhbuild/versioncontrol/git.py:699 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "datumbaserad utcheckning stöds ännu inte\n"
@@ -1824,7 +1831,7 @@ msgstr "Kommandot %s returnerade inget data"
 msgid "Command %s did not include commit line: %r"
 msgstr "Kommandot %s inkluderade inte en commit-rad: %r"
 
-#: jhbuild/versioncontrol/git.py:436
+#: jhbuild/versioncontrol/git.py:445
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1832,7 +1839,7 @@ msgstr ""
 "Misslyckades med att uppdatera modulen eftersom den bytt till git (du bör "
 "leta efter ändringar och sedan ta bort katalogen)."
 
-#: jhbuild/versioncontrol/git.py:437
+#: jhbuild/versioncontrol/git.py:446
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1840,7 +1847,7 @@ msgstr ""
 "Misslyckades med att uppdatera modulen (saknar .git) (du bör leta efter "
 "ändringar och sedan ta bort katalogen)."
 
-#: jhbuild/versioncontrol/git.py:541
+#: jhbuild/versioncontrol/git.py:550
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1848,7 +1855,7 @@ msgstr ""
 "Extern hantering misslyckades\n"
 " Om du kör git version < 1.5.6 så rekommenderas det att du uppdaterar.\n"
 
-#: jhbuild/versioncontrol/git.py:586
+#: jhbuild/versioncontrol/git.py:595
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Kan inte få senaste revision från %s. Kontrollera modulens plats."
@@ -1901,89 +1908,92 @@ msgstr "kunde inte tolka utdata från ”svn info” för %s"
 msgid "Error checking for conflicts"
 msgstr "Fel vid kontroll efter konflikter"
 
-#: jhbuild/versioncontrol/tarball.py:93
+#: jhbuild/versioncontrol/tarball.py:94
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "gren för %s är inte korrekt, kontrollera moduluppsättningsfilen."
 
-#: jhbuild/versioncontrol/tarball.py:133
+#: jhbuild/versioncontrol/tarball.py:134
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL:en har ingen filnamnskomponent: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:177
 msgid "file not downloaded"
 msgstr "filen inte hämtad"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:182
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr "hämtad filstorlek är felaktig (förväntade %(size1)d, fick %(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:188
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "ogiltigt hashattribut på modulen %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:201
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "filens kontrollsumma är felaktig (förväntade %(sum1)s, fick %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:204
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "hoppade över kontrollsumma (saknar stöd för %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:208
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "katalog för tar-arkiv (%s) måste vara skrivbar"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:220
 msgid "unable to find wget or curl"
 msgstr "kunde inte hitta wget eller curl"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:236
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "katalog för tar-arkiv (%s) kan inte skapas"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:248
 #, python-format
 msgid "failed to unpack %s"
 msgstr "misslyckades med att packa upp %s"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:251
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "kunde inte packa upp tar-arkiv (förväntade katalogen %s)"
 
-#: jhbuild/versioncontrol/tarball.py:265
+#: jhbuild/versioncontrol/tarball.py:268
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "kunde inte hämta programfix (fel: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:267
+#: jhbuild/versioncontrol/tarball.py:270
 msgid "could not download patch"
 msgstr "kunde inte hämta programfix"
 
-#: jhbuild/versioncontrol/tarball.py:299
+#: jhbuild/versioncontrol/tarball.py:302
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Misslyckades med att hitta programfix: %s"
 
-#: jhbuild/versioncontrol/tarball.py:301
+#: jhbuild/versioncontrol/tarball.py:312
 msgid "Applying patch"
 msgstr "Tillämpar programfix"
 
-#: jhbuild/versioncontrol/tarball.py:309
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "unable to find quilt"
 msgstr "kunde inte hitta quilt"
 
-#: jhbuild/versioncontrol/tarball.py:320
+#: jhbuild/versioncontrol/tarball.py:331
 msgid "could not checkout quilt patch set"
 msgstr "kunde inte checka ut quilt-programfixuppsättning"
+
+#~ msgid "applications-development"
+#~ msgstr "applications-development"
 
 #~ msgid "%s does not support dist"
 #~ msgstr "%s stöder inte dist"
