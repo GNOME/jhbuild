@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2019-07-12 06:33+0000\n"
-"PO-Revision-Date: 2019-07-12 13:46+0700\n"
+"POT-Creation-Date: 2019-07-22 11:20+0000\n"
+"PO-Revision-Date: 2019-07-26 17:44+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -735,7 +735,7 @@ msgstr "awalan pemasangan (%s) tak dapat ditulisi"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
 #: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
-#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:473 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
@@ -1056,32 +1056,42 @@ msgstr "dir salin checkout (%s) tak dapat dibuat"
 msgid "checkout copy dir (%s) must be writable"
 msgstr "dir salin checkout (%s) mesti dapat ditulisi"
 
-#: jhbuild/frontends/buildscript.py:111
+#: jhbuild/frontends/buildscript.py:68
+#, python-format
+msgid "checkout export dir (%s) can not be created"
+msgstr "dir ekspor checkout (%s) tak dapat dibuat"
+
+#: jhbuild/frontends/buildscript.py:70
+#, python-format
+msgid "checkout export dir (%s) must be writable"
+msgstr "dir ekspor checkout (%s) mesti dapat ditulisi"
+
+#: jhbuild/frontends/buildscript.py:120
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "Melewati %s (baru-baru ini dipasang)"
 
-#: jhbuild/frontends/buildscript.py:120
+#: jhbuild/frontends/buildscript.py:129
 #, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "modul %(mod)s akan dibangun walaupun %(dep)s gagal"
 
-#: jhbuild/frontends/buildscript.py:123
+#: jhbuild/frontends/buildscript.py:132
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "modul %(mod)s tak dibangun karena %(dep)s tak dapat dibangun"
 
-#: jhbuild/frontends/buildscript.py:242
+#: jhbuild/frontends/buildscript.py:251
 #, python-format
 msgid "Ignoring uninstalled package: %s"
 msgstr "Mengabaikan paket yang tak terpasang: %s"
 
-#: jhbuild/frontends/buildscript.py:261
+#: jhbuild/frontends/buildscript.py:270
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Menjalankan skrip picu pasca pemasangan: %r"
 
-#: jhbuild/frontends/buildscript.py:269 jhbuild/frontends/gtkui.py:596
+#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s mengembalikan kode galat (%(rc)s)"
@@ -1729,7 +1739,7 @@ msgstr "Gagal unpack %s (berkas kosong?)"
 
 #: jhbuild/versioncontrol/bzr.py:74 jhbuild/versioncontrol/darcs.py:55
 #: jhbuild/versioncontrol/fossil.py:49 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:67
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:68
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
@@ -1780,8 +1790,8 @@ msgstr "Pertimbangkan pakaian skrip changecvsroot.py untuk memperbaiki ini."
 
 #: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
 #: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
-#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
-#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:583 jhbuild/versioncontrol/git.py:623
+#: jhbuild/versioncontrol/git.py:699 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "checkout berbasis tanggal belum didukung\n"
@@ -1821,7 +1831,7 @@ msgstr "Perintah %s tidak mengembalikan keluaran"
 msgid "Command %s did not include commit line: %r"
 msgstr "Perintah %s tak termasuk baris commit: %r"
 
-#: jhbuild/versioncontrol/git.py:436
+#: jhbuild/versioncontrol/git.py:445
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1829,7 +1839,7 @@ msgstr ""
 "Gagal memutakhirkan modul karena telah bertukar ke git (Anda mesti memeriksa "
 "perubahan lalu menghapus direktori)."
 
-#: jhbuild/versioncontrol/git.py:437
+#: jhbuild/versioncontrol/git.py:446
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1837,7 +1847,7 @@ msgstr ""
 "Gagal memutakhirkan direktori (.git hilang) (Anda mesti memeriksa perubahan "
 "lalu menghapus direktori)."
 
-#: jhbuild/versioncontrol/git.py:541
+#: jhbuild/versioncontrol/git.py:550
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1846,7 +1856,7 @@ msgstr ""
 " Bila Anda menjalankan git versi < 1.5.6 disarankan agar Anda "
 "memutakhirkan.\n"
 
-#: jhbuild/versioncontrol/git.py:586
+#: jhbuild/versioncontrol/git.py:595
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Tak bisa mendapat revisi terakhir dari %s. Periksalah lokasi modul."
@@ -1899,88 +1909,88 @@ msgstr "tak bisa mengurai keluaran \"svn info\" bagi %s"
 msgid "Error checking for conflicts"
 msgstr "Galat saat memeriksa konflik"
 
-#: jhbuild/versioncontrol/tarball.py:93
+#: jhbuild/versioncontrol/tarball.py:94
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "branch untuk %s salah, periksa berkas moduleset."
 
-#: jhbuild/versioncontrol/tarball.py:133
+#: jhbuild/versioncontrol/tarball.py:134
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL tak memiliki komponen nama berkas: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:177
 msgid "file not downloaded"
 msgstr "berkas tak diunduh"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:182
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "ukuran berkas yang diunduh salah (diharapkan %(size1)d, didapat %(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:188
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "atribut hash tak valid pada modul %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:201
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "hash berkas salah (diharapkan %(sum1)s, didapat %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:204
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "pemeriksaan hash dilewati (kehilangan dukungan bagi %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:208
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "dir tarball (%s) harus dapat ditulisi"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:220
 msgid "unable to find wget or curl"
 msgstr "tak bisa temukan wget atau curl"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:236
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "dir tarball (%s) tak dapat dibuat"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:248
 #, python-format
 msgid "failed to unpack %s"
 msgstr "gagal unpack %s"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:251
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "tak bisa unpack tarball (diharapkan dir %s)"
 
-#: jhbuild/versioncontrol/tarball.py:265
+#: jhbuild/versioncontrol/tarball.py:268
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "tak bisa mengunduh patch (galat: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:267
+#: jhbuild/versioncontrol/tarball.py:270
 msgid "could not download patch"
 msgstr "tak bisa mengunduh patch"
 
-#: jhbuild/versioncontrol/tarball.py:299
+#: jhbuild/versioncontrol/tarball.py:302
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Gagal menemukan patch: %s"
 
-#: jhbuild/versioncontrol/tarball.py:301
+#: jhbuild/versioncontrol/tarball.py:312
 msgid "Applying patch"
 msgstr "Menerapkan patch"
 
-#: jhbuild/versioncontrol/tarball.py:309
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "unable to find quilt"
 msgstr "tak bisa temukan quilt"
 
-#: jhbuild/versioncontrol/tarball.py:320
+#: jhbuild/versioncontrol/tarball.py:331
 msgid "could not checkout quilt patch set"
 msgstr "tak bisa checkout set patch quilt"
 
