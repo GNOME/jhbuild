@@ -369,7 +369,15 @@ class GitBranch(Branch):
     def _export(self, buildscript):
         self._checkout(buildscript)
 
-        filename = self.get_module_basename() + '-' + self.tag + '.zip'
+        try:
+            output = get_output(['git', 'rev-parse', 'HEAD'],
+                    cwd = self.get_checkoutdir(), get_stderr=False,
+                    extra_env=get_git_extra_env())
+            tag = output.strip()
+        except:
+            tag = 'unknown'
+
+        filename = self.get_module_basename() + '-' + tag + '.zip'
 
         if self.config.export_dir is not None:
             path = os.path.join(self.config.export_dir, filename)
