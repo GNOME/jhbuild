@@ -1519,8 +1519,8 @@
     </dependencies>
   </autotools>
 
-  <autotools id="libpeas"
-             autogenargs="--enable-python3">
+  <meson id="libpeas"
+             autogenargs="-Dpython2=false -Dpython3=true">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1528,7 +1528,7 @@
       <dep package="gtk+-3"/>
       <dep package="pygobject"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="libqmi">
     <branch repo="gitlab.freedesktop.org"
