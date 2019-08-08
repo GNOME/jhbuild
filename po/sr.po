@@ -7,10 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=jhbuild&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-11 14:18+0000\n"
-"PO-Revision-Date: 2018-04-20 20:35+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
+"POT-Creation-Date: 2019-07-22 11:20+0000\n"
+"PO-Revision-Date: 2019-08-08 18:58+0200\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -20,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #: autogen.sh:103
 #, sh-format
@@ -261,7 +260,7 @@ msgstr ""
 msgid "Update and compile one or more modules"
 msgstr "Ажурирај и компајлирај један или више модула"
 
-#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:103
+#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:102
 #: jhbuild/commands/uninstall.py:50
 #, python-format
 msgid ""
@@ -732,7 +731,7 @@ msgstr "Инсталациони префикс (%s) није уписив"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
 #: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
 #: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
-#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:473 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
@@ -991,11 +990,6 @@ msgstr "Гном алатка градње"
 msgid "Build GNOME modules"
 msgstr "Изгради Гном модуле"
 
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: jhbuild.desktop.in.in:9
-msgid "applications-development"
-msgstr "applications-development"
-
 #: jhbuild/frontends/autobuild.py:72
 #, python-format
 msgid "Server Error, retrying in %d seconds"
@@ -1055,32 +1049,42 @@ msgstr "фасцикла овере умножавања (%s) не може би
 msgid "checkout copy dir (%s) must be writable"
 msgstr "фасцикла овере умножавања (%s) мора бити уписива"
 
-#: jhbuild/frontends/buildscript.py:111
+#: jhbuild/frontends/buildscript.py:68
+#, python-format
+msgid "checkout export dir (%s) can not be created"
+msgstr "фасцикла овере извоза (%s) не може бити направљена"
+
+#: jhbuild/frontends/buildscript.py:70
+#, python-format
+msgid "checkout export dir (%s) must be writable"
+msgstr "фасцикла овере извоза (%s) мора бити уписива"
+
+#: jhbuild/frontends/buildscript.py:120
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "Прескачем %s (скоро инсталиран)"
 
-#: jhbuild/frontends/buildscript.py:120
+#: jhbuild/frontends/buildscript.py:129
 #, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "Модул %(mod)s ће бити изграђен чак иако је зависност %(dep)s неуспешна"
 
-#: jhbuild/frontends/buildscript.py:123
+#: jhbuild/frontends/buildscript.py:132
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr "Модул %(mod)s није изграђен због тога што се не могу изградити %(dep)s"
 
-#: jhbuild/frontends/buildscript.py:242
+#: jhbuild/frontends/buildscript.py:251
 #, python-format
 msgid "Ignoring uninstalled package: %s"
 msgstr "Занемарујем уклоњене пакете: %s"
 
-#: jhbuild/frontends/buildscript.py:261
+#: jhbuild/frontends/buildscript.py:270
 #, python-format
 msgid "Running post-installation trigger script: %r"
 msgstr "Извршавам пост-инсталациону окидачку скрипту: %r"
 
-#: jhbuild/frontends/buildscript.py:269 jhbuild/frontends/gtkui.py:596
+#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "Наредба %(command)s је вратила излазни код (%(rc)s)"
@@ -1227,15 +1231,15 @@ msgstr "избор: "
 msgid "exit shell to continue with build"
 msgstr "напусти шкољку да би се наставила градња"
 
-#: jhbuild/frontends/terminal.py:383
+#: jhbuild/frontends/terminal.py:386
 msgid "invalid choice"
 msgstr "неисправан избор"
 
-#: jhbuild/frontends/terminal.py:391
+#: jhbuild/frontends/terminal.py:394
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Унесите „da“ да бисте потврдили радњу: "
 
-#: jhbuild/frontends/terminal.py:396
+#: jhbuild/frontends/terminal.py:399
 msgid "yes"
 msgstr "da"
 
@@ -1590,10 +1594,12 @@ msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Нисам успео да уклоним %(file)r: %(msg)s"
 
 #: jhbuild/utils/systeminstall.py:218
-msgid "No suitable root privilege command found; you should install \"pkexec\""
+msgid ""
+"No suitable root privilege command found; you should install \"sudo\" or "
+"\"pkexec\" (or the system package that provides it)"
 msgstr ""
 "Нема одговарајуће наредбе са овлашћењима администратора; требало би да "
-"инсталирате „pkexec“"
+"инсталирате „sudo“ или „pkexec“ (или системски пакет који пружа ове алате)"
 
 #: jhbuild/utils/systeminstall.py:247 jhbuild/utils/systeminstall.py:250
 #, python-format
@@ -1723,7 +1729,7 @@ msgstr "Нисам успео да распакујем %s (празна дат�
 
 #: jhbuild/versioncontrol/bzr.py:74 jhbuild/versioncontrol/darcs.py:55
 #: jhbuild/versioncontrol/fossil.py:49 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:67
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:68
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr "грана за %(name)s је погрешно премошћена, проверите ваше %(filename)s"
@@ -1773,8 +1779,8 @@ msgstr "Размислите о употреби „changecvsroot.py“ скри
 
 #: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
 #: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
-#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
-#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:583 jhbuild/versioncontrol/git.py:623
+#: jhbuild/versioncontrol/git.py:699 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "овера по датуму још није подржана\n"
@@ -1813,7 +1819,7 @@ msgstr "Наредба %s није дала никакав излаз"
 msgid "Command %s did not include commit line: %r"
 msgstr "Наредба „%s“ нема опис предаје: %r"
 
-#: jhbuild/versioncontrol/git.py:436
+#: jhbuild/versioncontrol/git.py:445
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1821,7 +1827,7 @@ msgstr ""
 "Неуспех при ажурирању модула јер је модул пребачен у гит (треба да проверите "
 "измене и онда да уклоните ову фасциклу)."
 
-#: jhbuild/versioncontrol/git.py:437
+#: jhbuild/versioncontrol/git.py:446
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1829,7 +1835,7 @@ msgstr ""
 "Нисам успео да ажурирам модул (недостаје .git) (проверите измене па уклоните "
 "ову фасциклу)."
 
-#: jhbuild/versioncontrol/git.py:541
+#: jhbuild/versioncontrol/git.py:550
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1838,7 +1844,7 @@ msgstr ""
 "Ако користите издање гита које је мање од 1.5.6, препоручујемо да ажурирате "
 "ваш гит.\n"
 
-#: jhbuild/versioncontrol/git.py:586
+#: jhbuild/versioncontrol/git.py:595
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
@@ -1893,91 +1899,94 @@ msgstr "не могу да обрадим излаз „svn info“ наредб
 msgid "Error checking for conflicts"
 msgstr "Грешка приликом провере сукоба"
 
-#: jhbuild/versioncontrol/tarball.py:93
+#: jhbuild/versioncontrol/tarball.py:94
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "грана за %s није тачна, проверите датотеку са комплетом овог модула."
 
-#: jhbuild/versioncontrol/tarball.py:133
+#: jhbuild/versioncontrol/tarball.py:134
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "УРЛ нема део са именом датотеке: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:177
 msgid "file not downloaded"
 msgstr "датотека није преузета"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:182
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "величина преузете датотеке је неисправна (очекивано %(size1)d, добијено "
 "%(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:188
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "неисправна особина хеш за модул %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:201
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "хеш датотеке је неисправан (очекивано %(sum1)s, добијено %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:204
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "прескочио сам проверу хеша (недостаје подршка за %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:208
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "фасцикла (%s) тар-лопте мора бити уписива"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:220
 msgid "unable to find wget or curl"
 msgstr "не могу да нађем алатку „curl“ или „wget“"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:236
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "фасцикла (%s) тар-лопте не може бити направљена"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:248
 #, python-format
 msgid "failed to unpack %s"
 msgstr "нисам успео да распакујем %s"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:251
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "не могу да распакујем тар-лопту (очекивана је %s фасцикла)"
 
-#: jhbuild/versioncontrol/tarball.py:265
+#: jhbuild/versioncontrol/tarball.py:268
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "Не могу да скинем закрпу (грешка: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:267
+#: jhbuild/versioncontrol/tarball.py:270
 msgid "could not download patch"
 msgstr "не могу да преузмем закрпу"
 
-#: jhbuild/versioncontrol/tarball.py:299
+#: jhbuild/versioncontrol/tarball.py:302
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "Не могу да пронађем закрпу: %s"
 
-#: jhbuild/versioncontrol/tarball.py:301
+#: jhbuild/versioncontrol/tarball.py:312
 msgid "Applying patch"
 msgstr "Примењујем закрпу"
 
-#: jhbuild/versioncontrol/tarball.py:309
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "unable to find quilt"
 msgstr "Не могу да нађем „quilt“"
 
-#: jhbuild/versioncontrol/tarball.py:320
+#: jhbuild/versioncontrol/tarball.py:331
 msgid "could not checkout quilt patch set"
 msgstr "немогу да оверим комплет закрпи програма „quilt“"
+
+#~ msgid "applications-development"
+#~ msgstr "applications-development"
 
 #~ msgid "%s does not support dist"
 #~ msgstr "„%s“ не подржава дистрибуцију"
