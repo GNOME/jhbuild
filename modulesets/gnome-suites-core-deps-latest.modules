@@ -511,7 +511,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="gegl" autogenargs="--without-libavformat --without-jasper">
+  <meson id="gegl" mesonargs="-Dlibav=disabled -Djasper=disabled">
     <branch/>
     <dependencies>
       <dep package="babl"/>
@@ -525,7 +525,7 @@
       <dep package="libraw"/>
       <dep package="librsvg"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="geoclue">
     <if condition-unset="linux">
