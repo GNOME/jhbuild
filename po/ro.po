@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
 "POT-Creation-Date: 2019-08-19 16:18+0000\n"
-"PO-Revision-Date: 2019-08-21 13:09+0200\n"
+"PO-Revision-Date: 2019-08-21 22:41+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Team\n"
 "Language: ro\n"
@@ -692,7 +692,7 @@ msgstr "Compilează și instalează modulul pentru directorul curent"
 #: jhbuild/commands/make.py:78
 #, python-format
 msgid "The current directory is not in the checkout root %r"
-msgstr ""
+msgstr "Directorul curent nu este în rădăcina adusă %r"
 
 #: jhbuild/commands/make.py:90
 #, python-format
@@ -752,6 +752,8 @@ msgstr "%s negăsit"
 msgid ""
 "Could not find XML catalog (usually part of the package 'libxml2-utils')"
 msgstr ""
+"Nu s-a putut găsi catalogul XML (de obicei face parte din pachetul „libxml2-"
+"utils”)"
 
 #: jhbuild/commands/sanitycheck.py:109
 #, python-format
@@ -767,6 +769,8 @@ msgid ""
 "Could not find the Perl module %s (usually part of package 'libxml-parser-"
 "perl' or 'perl-XML-Parser')"
 msgstr ""
+"Nu s-a putut găsi modulul Perl %s (de obicei face parte din pachetul „libxml-"
+"parser-perl” sau „perl-XML-Parser”)"
 
 #: jhbuild/commands/sanitycheck.py:121
 msgid "curl or wget not found"
@@ -802,6 +806,8 @@ msgstr ""
 #: jhbuild/commands/sysdeps.py:35
 msgid "Check and install tarball dependencies using system packages"
 msgstr ""
+"Verifică și instalează dependențele pentru tarball folosind pachetele din "
+"sistem"
 
 #: jhbuild/commands/sysdeps.py:43
 msgid "Machine readable list of missing sysdeps"
@@ -886,6 +892,8 @@ msgstr "Modulul %(mod)r nu este instalat"
 #, python-format
 msgid "Invalid condition set modifier: '%s'.  Must start with '+' or '-'."
 msgstr ""
+"Set de modificator de condiții nevalid: „%s”.  Trebuie să înceapă cu „+” sau "
+"„-”."
 
 #: jhbuild/config.py:116
 msgid "could not load config defaults"
@@ -978,6 +986,11 @@ msgid ""
 "older version of jhbuild or of a broken package.  Please consider removing "
 "your install and checkout directories and starting fresh."
 msgstr ""
+"Prefixul de instalarea al dumneavoastră conține un director „lib64”, care nu "
+"mai este suportat de jhbuild.  Aceasta este rezultatul unei construiri "
+"anterioare cu o versiune mai veche de jhbuild sau al unui pachet "
+"deteriorat.  Considerați eliminarea instalării dumneavoastră și aduceți "
+"directoarele apoi începeți de la zero."
 
 #: jhbuild/config.py:396
 msgid "Failed to parse 'min_age' relative time"
@@ -1055,16 +1068,14 @@ msgid "checkout copy dir (%s) must be writable"
 msgstr "copia dir de plecare (%s) trebuie să fie inscriptibilă"
 
 #: jhbuild/frontends/buildscript.py:68
-#, fuzzy, python-format
-#| msgid "checkout copy dir (%s) can not be created"
+#, python-format
 msgid "checkout export dir (%s) can not be created"
-msgstr "dir copie de plecare (%s) nu poate fi creat"
+msgstr "directorul de export pentru aducere (%s) nu poate fi creat"
 
 #: jhbuild/frontends/buildscript.py:70
-#, fuzzy, python-format
-#| msgid "checkout copy dir (%s) must be writable"
+#, python-format
 msgid "checkout export dir (%s) must be writable"
-msgstr "copia dir de plecare (%s) trebuie să fie inscriptibilă"
+msgstr "directorul de export pentru aducere (%s) trebuie să fie inscriptibil"
 
 #: jhbuild/frontends/buildscript.py:120
 #, python-format
@@ -1072,8 +1083,7 @@ msgid "Skipping %s (installed recently)"
 msgstr "Se omite (%s) (instalat recent)"
 
 #: jhbuild/frontends/buildscript.py:129
-#, fuzzy, python-format
-#| msgid "module %(mod)s will be build even though %(dep)s failed"
+#, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "modulul %(mod)s va fi construit chiar dacă %(dep)s a eșuat"
 
@@ -1331,10 +1341,8 @@ msgid "Creating tarball for"
 msgstr "Se creează tarball pentru"
 
 #: jhbuild/modtypes/autotools.py:307
-#, fuzzy
-#| msgid "Distcleaning"
 msgid "Dist checking"
-msgstr "Se curăță dist"
+msgstr "Se verifică dist"
 
 #: jhbuild/modtypes/autotools.py:316
 msgid "Uninstalling old installed version"
@@ -1366,10 +1374,11 @@ msgid "dep node for module %s is missing package attribute"
 msgstr "nodului dep pentru modulul %s îi lipsește un atribut de pachet"
 
 #: jhbuild/modtypes/__init__.py:87 jhbuild/modtypes/__init__.py:94
-#, fuzzy, python-format
-#| msgid "dep node for module %s is missing package attribute"
+#, python-format
 msgid "%(node)s node for %(module)s module is missing %(attribute)s attribute"
-msgstr "nodului dep pentru modulul %s îi lipsește un atribut de pachet"
+msgstr ""
+"Nodului %(node)s pentru modulul %(module)s îi lipsește atributul "
+"%(attribute)s"
 
 #: jhbuild/modtypes/__init__.py:143
 #, python-format
@@ -1377,15 +1386,13 @@ msgid "no <branch> element found for %s"
 msgstr "niciun element <branch> găsit pentru %s"
 
 #: jhbuild/modtypes/__init__.py:152
-#, fuzzy, python-format
-#| msgid ""
-#| "Repository=%s not found for module id=%s. Possible repositories are %s"
+#, python-format
 msgid ""
 "Repository=%(missing)s not found for module id=%(module)s. Possible "
 "repositories are %(possible)s"
 msgstr ""
-"Nu s-a putut găsi depozitul=%s pentru modulul id=%s. Depozitele posibile "
-"sunt %s"
+"Nu s-a putut găsi depozitul=%(missing)s pentru modulul id=%(module)s. "
+"Depozitele posibile sunt %(possible)s"
 
 #: jhbuild/modtypes/__init__.py:159
 #, python-format
@@ -1409,7 +1416,7 @@ msgstr "Se șterge fișierul dir: %s"
 #: jhbuild/modtypes/__init__.py:321
 #, python-format
 msgid "Moving temporary DESTDIR %r into build prefix"
-msgstr ""
+msgstr "Se mută dosarul destinație temporar %r în prefixul de construire"
 
 #: jhbuild/modtypes/__init__.py:343
 #, python-format
@@ -1417,16 +1424,18 @@ msgid ""
 "Files remaining in buildroot %(dest)r; module may have installed files "
 "outside of prefix."
 msgstr ""
+"Fișiere rămase în rădăcina construirii %(dest)r; modulul poate avea "
+"instalate fișiere în afara prefixului."
 
 #: jhbuild/modtypes/__init__.py:361
 #, python-format
 msgid "Module failed to install into DESTDIR %(dest)r"
-msgstr ""
+msgstr "Instalarea modulului în dosarul destinație %(dest)r a eșuat"
 
 #: jhbuild/modtypes/__init__.py:377
 #, python-format
 msgid "%d files remaining from previous build"
-msgstr ""
+msgstr "%d fișiere rămase din construirea anterioară"
 
 #: jhbuild/modtypes/__init__.py:380 jhbuild/utils/packagedb.py:226
 #, python-format
@@ -1436,7 +1445,7 @@ msgstr "Șterse: %(file)r"
 #: jhbuild/modtypes/__init__.py:385
 #, python-format
 msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
-msgstr ""
+msgstr "Eșec la ștergerea fișierului ce nu mai este instalat %(file)r: %(msg)s"
 
 #: jhbuild/modtypes/__init__.py:393
 #, python-format
@@ -1445,6 +1454,9 @@ msgid ""
 "The errors are:\n"
 "  %(err)s"
 msgstr ""
+"Instalarea a întâmpinat erori: %(num)d erori apărute, %(files)d fișiere "
+"copiate. Erorile sunt:\n"
+"  %(err)s"
 
 #: jhbuild/modtypes/__init__.py:400
 #, python-format
@@ -1503,28 +1515,22 @@ msgid "Installing kernel headers"
 msgstr "Se instalează anteturile pentru nucleul de sistem"
 
 #: jhbuild/modtypes/linux.py:240
-#, fuzzy, python-format
-#| msgid ""
-#| "Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-#| "are %s"
+#, python-format
 msgid ""
 "Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. "
 "Possible repositories are %(possible)s"
 msgstr ""
-"Nu s-a putut găsi depozitul=%s pentru kconfig în linux id=%s. Depozitele "
-"posibile sunt %s"
+"Nu s-a putut găsi depozitul=%(missing)s pentru kconfig în linux id="
+"%(linux_id)s. Depozitele posibile sunt %(possible)s"
 
 #: jhbuild/modtypes/linux.py:246
-#, fuzzy, python-format
-#| msgid ""
-#| "Default Repository=%s not found for kconfig in module id=%s. Possible "
-#| "repositories are %s"
+#, python-format
 msgid ""
 "Default repository=%(missing)s not found for kconfig in linux id="
 "%(linux_id)s. Possible repositories are %(possible)s"
 msgstr ""
-"Nu s-a putut găsi depozitul=%s implicit pentru kconfig în modulul id=%s. "
-"Depozitele posibile sunt %s"
+"Nu s-a putut găsi depozitul=%(missing)s implicit pentru kconfig în modulul "
+"id=%(linux_id)s. Depozitele posibile sunt %(possible)s"
 
 #: jhbuild/modtypes/tarball.py:68
 #, python-format
@@ -1532,10 +1538,8 @@ msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "modulul „%(module)s” nu are atributul dimensiunii valid („%(size)s”)"
 
 #: jhbuild/moduleset.py:34 jhbuild/utils/httpcache.py:46
-#, fuzzy
-#| msgid "Python xml packages are required but could not be found"
 msgid "Python XML packages are required but could not be found"
-msgstr "Sunt necesare pachete xml Python dar nu au putut fi găsite"
+msgstr "Sunt necesare pachete XML Python dar nu au putut fi găsite"
 
 #: jhbuild/moduleset.py:95
 #, python-format
@@ -1559,6 +1563,7 @@ msgstr "Modul necunoscut:"
 #: jhbuild/moduleset.py:437
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr ""
+"<if> trebuie să aibă unul dintre condition-set='' sau condition-unset=''"
 
 #: jhbuild/moduleset.py:456
 #, python-format
@@ -1575,18 +1580,13 @@ msgid "Duplicate repository:"
 msgstr "Depozit duplicat:"
 
 #: jhbuild/moduleset.py:601
-#, fuzzy, python-format
-#| msgid ""
-#| "Modulesets were edited locally but JHBuild is configured to get them from "
-#| "the network, perhaps you need to add use_local_modulesets = True to your ."
-#| "jhbuildrc."
+#, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
 "the network, perhaps you need to add use_local_modulesets = True to your %s."
 msgstr ""
 "Seturile de module au fost editate local dar JHBuild este configurat să le "
-"obțină de pe rețea, ar trebui să adăugați use_local_modulesets = True la ."
-"jhbuildrc."
+"obțină de pe rețea, ar trebui să adăugați use_local_modulesets = True la %s."
 
 #: jhbuild/utils/cmds.py:40
 msgid "Call to undefined command"
@@ -1621,6 +1621,8 @@ msgid ""
 "No suitable root privilege command found; you should install \"sudo\" or "
 "\"pkexec\" (or the system package that provides it)"
 msgstr ""
+"Nu a fost găsită nicio comandă potrivită cu drepturi de root; ar trebui să "
+"instalați „sudo” sau „pkexec” (sau pachetul de sistem ce îl oferă)"
 
 #: jhbuild/utils/systeminstall.py:247 jhbuild/utils/systeminstall.py:250
 #, python-format
@@ -1659,6 +1661,8 @@ msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "`pkmon' to monitor progress."
 msgstr ""
+"Aceasta poate dura un timp îndelungat. Nu opriți calculatorul. Puteți rula "
+"„pkmon” pentru a monitoriza progresul."
 
 #: jhbuild/utils/systeminstall.py:324
 msgid "Complete!"
@@ -1674,7 +1678,7 @@ msgstr "Eșec la instalarea pkgfile"
 
 #: jhbuild/utils/systeminstall.py:345
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
-msgstr ""
+msgstr "Cache-ul pkgfile este vechi sau nu există, se actualizează automat"
 
 #: jhbuild/utils/systeminstall.py:348
 msgid "Failed to create pkgfile cache"
