@@ -1212,10 +1212,12 @@
              autogenargs="--disable-lua-extension --with-python=python3"
              supports-non-srcdir-builds="no">
     <branch repo="github-tar"
-            version="1.10.0"
+            version="1.11.1"
             module="libpinyin/ibus-libpinyin/releases/download/${version}/ibus-libpinyin-${version}.tar.gz"
             checkoutdir="ibus-libpinyin-${version}"
-            hash="sha256:6cc4f80d2348f93ed408d52fb33b45736f51ae33335a869e8a3bb6460957087b"/>
+            hash="sha256:80f530ccb88d44c51cfbb20d1191d50b0d4240c2a087de4e3aae89c6e26381ae">
+      <patch file="https://github.com/libpinyin/ibus-libpinyin/commit/75806735002f940927648b5abd04a4b6704518fc.patch" strip="1"/>
+    </branch>
     <dependencies>
       <dep package="ibus"/>
       <dep package="libpinyin"/>
