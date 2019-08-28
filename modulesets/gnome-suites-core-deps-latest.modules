@@ -341,10 +341,13 @@
   <autotools id="enchant-2"
              autogen-sh="configure"
              autogenargs="--with-hunspell --with-hunspell-dir=/usr/share/myspell">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-hunspell-dir=/usr/local/share/hunspell"/>
+    </if>
     <branch repo="github-tar"
-            version="2.2.3"
+            version="2.2.5"
             module="AbiWord/enchant/releases/download/v${version}/enchant-${version}.tar.gz"
-            hash="sha256:abd8e915675cff54c0d4da5029d95c528362266557c61c7149d53fa069b8076d">
+            hash="sha256:ffce4ea00dbda1478d91c3e1538cadfe5761d9d6c0ceb27bc3dba51882fe1c47">
     </branch>
     <dependencies>
       <dep package="hunspell"/>
