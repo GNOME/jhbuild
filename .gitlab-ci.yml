@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v1
+  script:
+    - mkdir _build && cd _build
+    - ../autogen.sh
+    - make
+    - make install
+    - make distcheck
