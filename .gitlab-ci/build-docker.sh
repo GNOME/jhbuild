@@ -2,6 +2,6 @@
 
 set -e
 
-TAG="registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v1"
+TAG="registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v2"
 
 sudo docker build --tag "${TAG}" --file "Dockerfile" .
