@@ -1,5 +1,6 @@
 stages:
   - test
+  - deploy
 
 test:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v2
@@ -9,6 +10,14 @@ test:
     - make
     - make install
     - make distcheck
+    - cd ../doc
+    - xmlto html -m custom.xsl C/index.docbook -o public
+    - cp jhbuild.css public
+    - mv public ..
+  artifacts:
+    paths:
+      - public
+
 
 ubuntu-19.04-glib:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v2
@@ -23,3 +32,15 @@ ubuntu-19.04-glib:
     - jhbuild --no-interact --exit-on-error sysdeps --install --assume-yes glib
     - sudo apt install -y zlib1g-dev docbook-xml docbook-xsl python3-setuptools
     - jhbuild --no-interact --exit-on-error build glib
+
+pages:
+  image: alpine:latest
+  stage: deploy
+  needs: ["test"]
+  script:
+   - echo
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
