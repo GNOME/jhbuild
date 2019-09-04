@@ -17,6 +17,8 @@ ubuntu-19.04-glib:
     - make
     - make install
     - export PATH=$HOME/.local/bin:$PATH
+    - mkdir -p $HOME/.config
+    - echo "use_local_modulesets = True" >> $HOME/.config/jhbuildrc
     - sudo apt-file update
     - jhbuild --no-interact --exit-on-error sysdeps --install --assume-yes glib
     - sudo apt install -y zlib1g-dev docbook-xml docbook-xsl python3-setuptools
