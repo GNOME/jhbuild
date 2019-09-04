@@ -65,6 +65,8 @@
     href="https://download.savannah.gnu.org/releases/"/>
 <repository type="tarball" name="gnome-download"
     href="https://download.gnome.org/"/>
+<repository type="tarball" name="pypi.org"
+    href="https://pypi.org/packages/source/"/>
 
 <include href="gnome-sysdeps-latest.modules"/>
 
@@ -1702,6 +1704,15 @@
       <dep package="libxkbcommon"/>
     </dependencies>
   </cmake>
+
+  <distutils id="python3-pygments" python3="1">
+    <branch repo="pypi.org"
+            version="2.4.2"
+            module="p/pygments/Pygments-${version}.tar.gz"
+            checkoutdir="python3-pygments-${version}"
+            hash="sha256:881c4c157e45f30af185c1ffe8d549d48ac9127433f2c380c24b84572ad66297">
+    </branch>
+  </distutils>
 
   <distutils id="meson" python3="1">
     <branch repo="github-tar"
