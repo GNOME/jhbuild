@@ -2,10 +2,22 @@ stages:
   - test
 
 test:
-  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v1
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v2
   script:
     - mkdir _build && cd _build
     - ../autogen.sh
     - make
     - make install
     - make distcheck
+
+ubuntu-19.04-glib:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v2
+  script:
+    - ./autogen.sh
+    - make
+    - make install
+    - export PATH=$HOME/.local/bin:$PATH
+    - sudo apt-file update
+    - jhbuild --no-interact --exit-on-error sysdeps --install --assume-yes glib
+    - sudo apt install -y zlib1g-dev docbook-xml docbook-xsl python3-setuptools python3-pygments python3-dev
+    - jhbuild --no-interact --exit-on-error build glib
