@@ -10,10 +10,10 @@ test:
     - make
     - make install
     - make distcheck
-    - cd ../doc
-    - xmlto html -m custom.xsl C/index.docbook -o public
-    - cp jhbuild.css public
-    - mv public ..
+    - cd ..
+    - mkdir public
+    - cd public
+    - yelp-build html ../doc/C/index.docbook
   artifacts:
     paths:
       - public

@@ -16,7 +16,6 @@ RUN apt update && apt install -y \
     python \
     sudo \
     trang \
-    xmlto \
     yelp-tools
 
 RUN useradd -u 1000 -ms /bin/bash user
