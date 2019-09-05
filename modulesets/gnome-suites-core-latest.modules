@@ -77,12 +77,20 @@
     </dependencies>
   </meson>
 
+  <autotools id="bash-completion">
+    <branch repo="github.com"
+            module="scop/bash-completion.git"
+            revision="master"
+            checkoutdir="bash-completion"/>
+  </autotools>
+
   <meson id="dconf">
     <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="dbus"/>
       <dep package="vala"/>
+      <dep package="bash-completion"/>
     </dependencies>
   </meson>
 
