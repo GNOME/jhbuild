@@ -24,6 +24,7 @@ jhbuild.desktop: jhbuild.desktop.in
 endif
 
 EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
+	README.rst \
 	modulesets/moduleset.xsl \
 	autogen.sh \
 	jhbuild.desktop.in.in jhbuild.desktop.in
