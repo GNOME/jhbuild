@@ -1712,6 +1712,14 @@
     </branch>
   </distutils>
 
+  <distutils id="python3-setuptools" python3="1">
+    <branch repo="pypi.org"
+            module="s/setuptools/setuptools-${version}.zip"
+            version="41.2.0"
+            checkoutdir="python3-setuptools-${version}"
+            hash="sha256:66b86bbae7cc7ac2e867f52dc08a6bd064d938bac59dfec71b9b565dd36d6012"/>
+  </distutils>
+
   <distutils id="meson" python3="1">
     <branch repo="github-tar"
             version="0.51.2"
@@ -1721,6 +1729,7 @@
     </branch>
     <dependencies>
       <dep package="ninja"/>
+      <dep package="python3-setuptools"/>
     </dependencies>
   </distutils>
 
