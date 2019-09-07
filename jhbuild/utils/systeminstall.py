@@ -412,8 +412,10 @@ class AptSystemInstall(SystemInstall):
     def __init__(self):
         SystemInstall.__init__(self)
 
-    def _apt_file_result_pkgconfig(self):
-        apt_file_result = subprocess.check_output(["apt-file", "search", "--regex", "\\.pc$"])
+    def _apt_file_result(self, regexp):
+        if regexp is None or regexp is "":
+            raise RuntimeError("regexp mustn't be None or empty")
+        apt_file_result = subprocess.check_output(["apt-file", "search", "--regexp", regexp])
         ret_value = []
         for line in StringIO(apt_file_result):
             parts = line.split(':', 1)
@@ -424,48 +426,50 @@ class AptSystemInstall(SystemInstall):
             ret_value.append((name, path))
         return ret_value
 
-    def _apt_file_result_regexp(self, paths):
-        regexp = self._build_apt_file_path_regexp(paths)
-        if regexp is None:
-            return []
-        apt_file_result = subprocess.check_output(["apt-file", "search", "--regex", regexp])
-        ret_value = []
-        for line in StringIO(apt_file_result):
-            parts = line.split(':', 1)
-            if len(parts) != 2:
-                continue
-            name = parts[0]
-            path = parts[1].strip()
-            ret_value.append((name, path))
-        return ret_value
-
-    def _build_apt_file_path_regexp(self, paths):
+    def _build_apt_file_path_regexp_exact(self, paths):
         if len(paths) == 0:
             return None
         first_path = paths[0][1]
+        if first_path.startswith("/"):
+            first_path = first_path[1:]
         ret_value = re.escape(first_path)
-        for modname, path in paths:
+        for modname, path in paths[1:]:
             if path.startswith("/"):
                 path = path[1:]
             ret_value += "|" + re.escape(path)
         return ret_value
 
+    def _build_apt_file_path_regexp_pc_or_c_includes(self, paths):
+        if len(paths) == 0:
+            return None
+        first_path = paths[0][1]
+        if first_path.startswith("/"):
+            first_path = first_path[1:]
+        ret_value = re.escape(first_path)
+        for modname, path in paths[1:]:
+            if path.startswith("/"):
+                path = path[1:]
+            ret_value += "|.*/" + re.escape(path)
+        return ret_value
+
     def _name_match_pkg(self, pkg, apt_file_result, native_packages):
         for name, path in apt_file_result:
-            if path.endswith(pkg):
+            if path.endswith("/" + pkg):
                 native_packages.append(name)
                 return True
         return False
 
-    def _name_match_exact(self, binary, apt_file_result, native_packages):
+    def _name_match_exact(self, exact_path_to_match, apt_file_result, native_packages):
         for name, path in apt_file_result:
-            if path == binary:
+            if path == exact_path_to_match:
                 native_packages.append(name)
                 return True
         return False
 
     def _append_native_packages_or_warn_pkgconfig(self, pkgconfigs, native_packages):
-        apt_file_result = self._apt_file_result_pkgconfig()
+        if len(pkgconfigs) == 0:
+            return
+        apt_file_result = self._apt_file_result(regexp="\\.pc$")
         for modname, pkg in pkgconfigs:
             if not self._name_match_pkg(pkg, apt_file_result, native_packages):
                 logging.info(_('No native package found for %(id)s '
@@ -473,7 +477,10 @@ class AptSystemInstall(SystemInstall):
                                                     'filename' : pkg})
 
     def _append_native_packages_or_warn_exact(self, paths, native_packages):
-        apt_file_result = self._apt_file_result_regexp(paths)
+        if len(paths) == 0:
+            return
+        exact_regexp = self._build_apt_file_path_regexp_exact(paths)
+        apt_file_result = self._apt_file_result(exact_regexp)
         for modname, path in paths:
             if not self._name_match_exact(path, apt_file_result, native_packages):
                 logging.info(_('No native package found for %(id)s '
@@ -481,7 +488,10 @@ class AptSystemInstall(SystemInstall):
                                                     'filename' : path})
 
     def _append_native_packages_or_warn_c_includes(self, c_includes, native_packages, multiarch):
-        apt_file_result = self._apt_file_result_regexp(c_includes)
+        if len(c_includes) == 0:
+            return
+        c_includes_regexp = self._build_apt_file_path_regexp_pc_or_c_includes(c_includes)
+        apt_file_result = self._apt_file_result(c_includes_regexp)
         for modname, filename in c_includes:
             # Try multiarch first, so we print the non-multiarch location on failure.
             if (multiarch == None or
@@ -505,7 +515,7 @@ class AptSystemInstall(SystemInstall):
         logging.info(_('Using apt-file to search for providers; this may be extremely slow. Please wait. Patience!'))
         native_packages = []
 
-        pkgconfigs = [(modname, '/%s.pc' % pkg) for modname, pkg in
+        pkgconfigs = [(modname, '%s.pc' % pkg) for modname, pkg in
                       get_uninstalled_pkgconfigs(uninstalled)]
         self._append_native_packages_or_warn_pkgconfig(pkgconfigs, native_packages)
 
