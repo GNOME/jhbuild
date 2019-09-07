@@ -413,6 +413,17 @@ class AptSystemInstall(SystemInstall):
         SystemInstall.__init__(self)
 
     def _apt_file_result_pkgconfig(self):
+
+        def get_pkg_config_search_paths():
+            output = subprocess.check_output(
+                ["pkg-config", "--variable", "pc_path", "pkg-config"])
+            return output.strip().split(os.pathsep)
+
+        # Various packages include zlib.pc (emscripten, mingw) so look only in
+        # the default pkg-config search paths
+        search_paths = get_pkg_config_search_paths()
+        search_paths = tuple(os.path.join(p, "") for p in search_paths)
+
         apt_file_result = subprocess.check_output(["apt-file", "search", "--regex", "\\.pc$"])
         ret_value = []
         for line in StringIO(apt_file_result):
@@ -421,7 +432,8 @@ class AptSystemInstall(SystemInstall):
                 continue
             name = parts[0]
             path = parts[1].strip()
-            ret_value.append((name, path))
+            if path.startswith(search_paths):
+                ret_value.append((name, path))
         return ret_value
 
     def _apt_file_result_regexp(self, paths):
