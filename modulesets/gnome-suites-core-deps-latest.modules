@@ -100,6 +100,25 @@
     </dependencies>
   </meson>
 
+  <autotools id="asciidoc"
+             autogen-sh="autoreconf"
+             supports-non-srcdir-builds="no">
+    <branch repo="github-tar"
+            version="8.6.10"
+            module="asciidoc/asciidoc/archive/${version}.tar.gz"
+            hash="sha256:9e52f8578d891beaef25730a92a6e723596ddbd07bfe0d2a56486fcf63a0b983"
+            size="577208"
+            rename-tarball="asciidoc-${version}.tar.gz"
+            checkoutdir="asciidoc-${version}">
+      <patch file="asciidoc-set-PYTHON.patch" strip="1"/>
+    </branch>
+    <dependencies>
+      <dep package="python2"/>
+      <dep package="libxslt"/>
+      <dep package="docbook-xsl"/>
+    </dependencies>
+  </autotools>
+
   <meson id="atk">
     <branch/>
     <dependencies>

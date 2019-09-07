@@ -1,0 +1,11 @@
+--- asciidoc-orig/Makefile.in	2017-09-28 22:10:02.000000000 -0300
++++ asciidoc/Makefile.in    	2019-09-07 14:58:10.321694702 -0300
+@@ -107,7 +107,7 @@
+ 	$(INSTALL_DATA) $($@) $(DESTDIR)/$($<)/
+ 
+ $(manp): %.1 : %.1.txt
+-	python a2x.py -f manpage $<
++	$(PYTHON) a2x.py -f manpage $<
+ 
+ docs:
+ 	$(INSTALL) -d $(DESTDIR)/$(docdir)
