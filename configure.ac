@@ -56,14 +56,10 @@ AC_CONFIG_FILES([
 	triggers/Makefile
 	jhbuild.desktop.in
 	jhbuild/Makefile
-	jhbuild/buildbot/Makefile
-	jhbuild/buildbot/status/web/Makefile
-	jhbuild/buildbot/status/Makefile
 	jhbuild/commands/Makefile
 	jhbuild/frontends/Makefile
 	jhbuild/modtypes/Makefile
 	jhbuild/utils/Makefile
 	jhbuild/versioncontrol/Makefile
-	buildbot/Makefile
 ])
 AC_OUTPUT
