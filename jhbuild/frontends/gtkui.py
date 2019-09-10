@@ -282,10 +282,10 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             modules = [self.modules_list_model.get(
                     self.module_combo.get_active_iter(), 0)[0]]
 
-            self.modulelist = self.module_set.get_module_list \
-                                  (modules, self.config.skip,
-                                   tags = self.config.tags,
-                                   include_suggests=not self.config.ignore_suggests)
+            self.modulelist = self.module_set.get_module_list(
+                                    modules, self.config.skip,
+                                    tags = self.config.tags,
+                                    include_suggests=not self.config.ignore_suggests)
         else:
             self.orig_modulelist = None
 

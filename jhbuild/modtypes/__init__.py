@@ -45,19 +45,19 @@ def register_module_type(name, parse_func):
 def register_lazy_module_type(name, module):
     def parse_func(node, config, uri, repositories, default_repo):
         old_func = _module_types[name]
-        mod = __import__(module)
+        __import__(module)
         assert _module_types[name] != old_func, (
             'module did not register new parser_func for %s' % name)
         return _module_types[name](node, config, uri, repositories, default_repo)
     _module_types[name] = parse_func
 
 def parse_xml_node(node, config, uri, repositories, default_repo):
-    if not _module_types.has_key(node.nodeName):
+    if node.nodeName not in _module_types:
         try:
             __import__('jhbuild.modtypes.%s' % node.nodeName)
         except ImportError:
             pass
-    if not _module_types.has_key(node.nodeName):
+    if node.nodeName not in _module_types:
         raise FatalError(_('unknown module type %s') % node.nodeName)
 
     parser = _module_types[node.nodeName]
@@ -102,7 +102,8 @@ def get_dependencies(node):
                 lst.append((typ, name, altdeps))
 
     for childnode in node.childNodes:
-        if childnode.nodeType != childnode.ELEMENT_NODE: continue
+        if childnode.nodeType != childnode.ELEMENT_NODE:
+            continue
         if childnode.nodeName == 'dependencies':
             add_to_list(dependencies, childnode)
         elif childnode.nodeName == 'suggests':
@@ -125,7 +126,7 @@ def get_node_content(node):
 def find_first_child_node(node, name):
     for childnode in node.childNodes:
         if (childnode.nodeType == childnode.ELEMENT_NODE and
-            childnode.nodeName == name):
+                childnode.nodeName == name):
             return childnode
     return None
 
@@ -174,7 +175,7 @@ class Package:
     PHASE_START = 'start'
     PHASE_DONE  = 'done'
     def __init__(self, name, branch=None, dependencies = [], after = [],
-                  suggests = [], systemdependencies = [], pkg_config=None):
+                 suggests = [], systemdependencies = [], pkg_config=None):
         self.name = name
         self.branch = branch
         self.dependencies = dependencies
@@ -224,11 +225,11 @@ class Package:
             if os.path.isdir(subpath):
                 self._clean_la_files_in_dir(buildscript, subpath)
             elif name.endswith('.la'):
-                    try:
-                        logging.info(_('Deleting .la file: %r') % (subpath, ))
-                        os.unlink(subpath)
-                    except OSError:
-                        pass
+                try:
+                    logging.info(_('Deleting .la file: %r') % (subpath, ))
+                    os.unlink(subpath)
+                except OSError:
+                    pass
 
     def _clean_la_files(self, buildscript, installroot):
         """This method removes all .la files. See bug 654013."""
@@ -317,7 +318,6 @@ them into the prefix."""
         new_contents = fileutils.accumulate_dirtree_contents(destdir_prefix)
         errors = []
         if os.path.isdir(destdir_prefix):
-            destdir_install = True
             logging.info(_('Moving temporary DESTDIR %r into build prefix') % (destdir, ))
             num_copied = self._process_install_files(destdir, destdir_prefix,
                                                      buildscript.config.prefix,
@@ -335,7 +335,7 @@ them into the prefix."""
                 assert target.startswith(buildscript.config.prefix)
                 try:
                     os.rmdir(target)
-                except OSError as e:
+                except OSError:
                     pass
 
             remaining_files = os.listdir(destdir)
@@ -431,7 +431,7 @@ them into the prefix."""
         return hasattr(self, 'do_' + phase)
 
     def check_build_policy(self, buildscript):
-        if not buildscript.config.build_policy in ('updated', 'updated-deps'):
+        if buildscript.config.build_policy not in ('updated', 'updated-deps'):
             return
 
         # Always trigger a build for dirty branches if supported by the version
@@ -530,7 +530,7 @@ class NinjaModule(Package):
     def get_ninjaargs(self, buildscript):
         ninjaargs = ' %s %s' % (self.ninjaargs,
                                 self.config.module_ninjaargs.get(
-                                  self.name, self.config.ninjaargs))
+                                    self.name, self.config.ninjaargs))
         if not self.supports_parallel_build:
             ninjaargs = re.sub(r'-j\w*\d+', '', ninjaargs) + ' -j 1'
         return self.eval_args(ninjaargs).strip()
@@ -565,7 +565,7 @@ class MakeModule(Package):
     '''A base class for modules that use the command 'make' within the build
     process.'''
     def __init__(self, name, branch=None, makeargs='', makeinstallargs='',
-                  makefile='Makefile', needs_gmake=False):
+                 makefile='Makefile', needs_gmake=False):
         Package.__init__(self, name, branch=branch)
         self.makeargs = makeargs
         self.makeinstallargs = makeinstallargs
@@ -598,9 +598,9 @@ class MakeModule(Package):
             makeargs = self.get_makeargs(buildscript)
 
         cmd = '{pre}{make} {makeargs} {target}'.format(pre=pre,
-                                                        make=makecmd,
-                                                        makeargs=makeargs,
-                                                        target=target)
+                                                       make=makecmd,
+                                                       makeargs=makeargs,
+                                                       target=target)
         buildscript.execute(cmd, cwd = self.get_builddir(buildscript), extra_env = self.extra_env)
 
 class DownloadableModule:

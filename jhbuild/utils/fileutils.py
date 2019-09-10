@@ -71,8 +71,8 @@ Returns a list, where each item is a 2-tuple:
             results.append((path, True, ''))
         except OSError as e:
             if (isdir
-                and allow_nonempty_dirs
-                and len(os.listdir(path)) > 0):
+                    and allow_nonempty_dirs
+                    and len(os.listdir(path)) > 0):
                 results.append((path, False, None))
             else:
                 results.append((path, False, e.strerror))

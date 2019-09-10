@@ -20,8 +20,7 @@
 __all__ = [
     'CVSRepository',
     'login',
-    'get_sticky_tag',
-    ]
+]
 __metaclass__ = type
 
 import sys
@@ -66,14 +65,16 @@ def descramble(password):
     return ''.join([chr(_shifts[ord(ch)]) for ch in password[1:]])
 
 def _canonicalise_cvsroot(cvsroot):
-    if not cvsroot.startswith(':pserver:'): return cvsroot
+    if not cvsroot.startswith(':pserver:'):
+        return cvsroot
     parts = cvsroot.split(':')
     if parts[3].startswith('/'):
         parts[3] = '2401' + parts[3]
     return ':'.join(parts)
 
 def login(cvsroot, password=None):
-    if not cvsroot.startswith(':pserver:'): return
+    if not cvsroot.startswith(':pserver:'):
+        return
     cvsroot = _canonicalise_cvsroot(cvsroot)
     cvspass = os.path.join(os.environ['HOME'], '.cvspass')
 
@@ -97,7 +98,7 @@ def login(cvsroot, password=None):
                 break
     except IOError:
         pass
-     # if we have a password, just write it directly to the .cvspass file
+    # if we have a password, just write it directly to the .cvspass file
     if password is not None:
         fp = open(cvspass, 'a')
         fp.write('/1 %s %s\n' % (cvsroot, scramble(password)))

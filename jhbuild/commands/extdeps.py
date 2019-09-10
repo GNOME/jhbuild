@@ -98,7 +98,7 @@ class cmd_extdeps(Command):
         title = _('External deps for GNOME')
         for ms in moduleset:
             try:
-                gnome_ver = re.findall('\d+\.\d+', ms)[0]
+                gnome_ver = re.findall('\\d+\\.\\d+', ms)[0]
             except IndexError:
                 continue
             title = _('External deps for GNOME %s') % gnome_ver
@@ -110,7 +110,7 @@ class cmd_extdeps(Command):
 
         module_list.sort(lambda x,y: cmp(x.name.lower(), y.name.lower()))
         for mod in module_list:
-            #if not mod.moduleset_name.startswith('gnome-suites-core-deps-base'):
+            # if not mod.moduleset_name.startswith('gnome-suites-core-deps-base'):
             #    continue
 
             if not hasattr(mod.branch, 'version'):
@@ -161,7 +161,8 @@ class cmd_extdeps(Command):
     def compute_rdeps(self, module):
         rdeps = []
         for mod in self.module_set.modules.values():
-            if mod.type == 'meta': continue
+            if mod.type == 'meta':
+                continue
             if module.name in mod.dependencies:
                 rdeps.append(mod.name)
         rdeps.sort(lambda x,y: cmp(x.lower(), y.lower()))

@@ -96,8 +96,10 @@ class Cache:
             return # doesn't look like a cache
 
         for node in document.documentElement.childNodes:
-            if node.nodeType != node.ELEMENT_NODE: continue
-            if node.nodeName != 'entry': continue
+            if node.nodeType != node.ELEMENT_NODE:
+                continue
+            if node.nodeName != 'entry':
+                continue
             uri = node.getAttribute('uri')
             local = str(node.getAttribute('local'))
             if node.hasAttribute('modified'):
@@ -148,7 +150,8 @@ class Cache:
         # get the basename from the URI
         parts = urlparse.urlparse(uri, allow_fragments=False)
         base = parts[2].split('/')[-1]
-        if not base: base = 'index.html'
+        if not base:
+            base = 'index.html'
 
         is_unique = False
         while not is_unique:
@@ -238,5 +241,6 @@ def load(uri, nonetwork=False, age=None):
     '''Downloads the file associated with the URI, and returns a local
     file name for contents.'''
     global _cache
-    if not _cache: _cache = Cache()
+    if not _cache:
+        _cache = Cache()
     return _cache.load(uri, nonetwork=nonetwork, age=age)

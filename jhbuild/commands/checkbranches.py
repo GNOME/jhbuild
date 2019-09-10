@@ -52,7 +52,7 @@ class cmd_checkbranches(Command):
                 continue
             if not mod.branch or not mod.branch.repository.__class__.__name__ == 'GitRepository':
                 continue
-            if not 'git.gnome.org' in mod.branch.repository.href:
+            if 'git.gnome.org' not in mod.branch.repository.href:
                 continue
             if mod.branch.branch:
                 # there is already a branch defined

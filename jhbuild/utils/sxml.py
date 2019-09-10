@@ -72,6 +72,7 @@ class sxml:
         def _trans(k):
             table = {'klass': 'class'}
             return table.get(k, k)
+
         def tag(*targs, **kw):
             def render(args):
                 return ('<%s%s>%s</%s>'

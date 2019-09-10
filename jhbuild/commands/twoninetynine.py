@@ -54,7 +54,7 @@ class LibGnomeUi(ShellCheck):
                     "gnome-desktop-thumbnail.h|"\
                     "gnome-bg-crossfade.h|"\
                     "gnome-bg.h'", # gnome-desktop installs stuff under libgnomeui/
-        "find -name '*.py' | xargs grep 'import .*gnome\.ui'",
+        "find -name '*.py' | xargs grep 'import .*gnome\\.ui'",
     )
 
 class LibGnomeCanvas(ShellCheck):

@@ -70,8 +70,10 @@ def cmdline2list(cmd_string):
             if character=='\\':
                 escape = True
             elif character=='"':
-                if in_quotes: in_quotes = False
-                else:         in_quotes = True
+                if in_quotes:
+                    in_quotes = False
+                else:
+                    in_quotes = True
             elif (character==' ' or character==9) and not in_quotes:
                 result.append(current_element)
                 current_element = ""

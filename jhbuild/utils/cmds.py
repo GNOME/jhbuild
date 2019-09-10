@@ -102,7 +102,6 @@ class Pipeline(subprocess.Popen):
         self.children = []
         close_stdin = False
         for index, cmd in enumerate(commands):
-            first_command = (index == 0)
             more_commands = index + 1 < len(commands)
 
             if more_commands:
@@ -235,7 +234,7 @@ def has_command(cmd):
 
         # also check for cmd.exe on Windows
         if sys.platform.startswith('win') and os.path.exists(prog + ".exe"):
-             return True
+            return True
     return False
 
 def compare_version(version, minver):

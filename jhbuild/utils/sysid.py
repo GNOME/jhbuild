@@ -137,7 +137,7 @@ def ensure_loaded():
 
             # this must be left here so that at least one will be found
             ('', ['x11'])
-        ]
+    ]
 
     for prefix, flags in conditions_sets:
         if sys.platform.startswith(prefix):

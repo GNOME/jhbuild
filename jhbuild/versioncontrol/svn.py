@@ -65,7 +65,8 @@ def get_info(filename):
         ['svn', 'info', filename], extra_env=get_svn_extra_env())
     ret = {}
     for line in output.splitlines():
-        if ':' not in line: continue
+        if ':' not in line:
+            continue
         key, value = line.split(':', 1)
         ret[key.lower().strip()] = value.strip()
     return ret
@@ -76,7 +77,8 @@ def get_subdirs(url):
         ['svn', 'ls', '-R', url], extra_env=get_svn_extra_env())
     ret = []
     for line in output.splitlines():
-        if not line[-1] == '/': continue
+        if not line[-1] == '/':
+            continue
         ret.append (line)
     return ret
 
@@ -85,7 +87,8 @@ def get_externals(url):
             extra_env=get_svn_extra_env())
     ret = {}
     for line in output.splitlines():
-        if ' ' not in line: continue
+        if ' ' not in line:
+            continue
         key, value = line.split(' ')
         ret[key.strip()] = value
     return ret
@@ -344,9 +347,9 @@ class SubversionBranch(Branch):
 
     def to_sxml(self):
         return (call_with_info(lambda rev:
-                                   [sxml.branch(repo=self.repository.name,
-                                                module=self.module,
-                                                revision=rev)],
+                    [sxml.branch(repo=self.repository.name,
+                                 module=self.module,
+                                 revision=rev)],
                                self.srcdir, 'last changed rev')
                 or [sxml.branch(repo=self.repository.name,
                                 module=self.module)])

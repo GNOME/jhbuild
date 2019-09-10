@@ -111,7 +111,6 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
 
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
-        builddir = self.get_builddir(buildscript)
         if self.use_ninja:
             self.ninja(buildscript, 'clean')
         else:
@@ -121,7 +120,6 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        builddir = self.get_builddir(buildscript)
         if self.use_ninja:
             self.ninja(buildscript)
         else:
@@ -143,7 +141,6 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
 
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
-        builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
         if self.use_ninja:
             self.ninja(buildscript, 'install', env={'DESTDIR': destdir})

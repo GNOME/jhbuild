@@ -234,8 +234,8 @@ class cmd_build(BuildCommand):
 
         module_set = jhbuild.moduleset.load(config)
         modules = args or config.modules
-        full_module_list = module_set.get_full_module_list \
-                               (modules, config.skip,
+        full_module_list = module_set.get_full_module_list(
+                                modules, config.skip,
                                 include_suggests=not config.ignore_suggests,
                                 include_afters=options.build_optional_modules)
         full_module_list = module_set.remove_tag_modules(full_module_list,
@@ -325,7 +325,7 @@ class cmd_buildone(BuildCommand):
             modname = modname.rstrip(os.sep)
             try:
                 module = module_set.get_module(modname, ignore_case=True)
-            except KeyError as e:
+            except KeyError:
                 default_repo = jhbuild.moduleset.get_default_repo()
                 if not default_repo:
                     continue

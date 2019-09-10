@@ -35,15 +35,21 @@ term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
 
-try: t_bold = cmds.get_output(['tput', 'bold'])
+try:
+    t_bold = cmds.get_output(['tput', 'bold'])
 except:
-    try: t_bold = cmds.get_output(['tput', 'md'])
-    except: t_bold = ''
+    try:
+        t_bold = cmds.get_output(['tput', 'md'])
+    except:
+        t_bold = ''
 
-try: t_reset = cmds.get_output(['tput', 'sgr0'])
+try:
+    t_reset = cmds.get_output(['tput', 'sgr0'])
 except:
-    try: t_reset = cmds.get_output(['tput', 'me'])
-    except: t_reset = ''
+    try:
+        t_reset = cmds.get_output(['tput', 'me'])
+    except:
+        t_reset = ''
 
 t_colour = [''] * 16
 try:
@@ -88,7 +94,7 @@ phase_map = {
     'unpack':         'checkout.png',
     'patch':          'checkout.png',
     'configure':      'configure.png',
-    #'clean':          'clean.png',
+    # 'clean':          'clean.png',
     'build':          'build.png',
     'check':          'check.png',
     'install':        'install.png',
@@ -198,7 +204,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     raise FatalError(_('%(configuration_variable)s invalid key'
                                        ' %(key)s' % \
                                        {'configuration_variable' :
-                                            '\'print_command_pattern\'',
+                                        '\'print_command_pattern\'',
                                         'key' : e}))
 
         kws['stdin'] = subprocess.PIPE
@@ -230,6 +236,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         output = []
         if hint in ('cvs', 'svn', 'hg-update.py'):
             conflicts = []
+
             def format_line(line, error_output, conflicts = conflicts, output = output):
                 if line.startswith('C '):
                     conflicts.append(line)
@@ -238,7 +245,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                     output.append(line)
                     return
 
-                if line[-1] == '\n': line = line[:-1]
+                if line[-1] == '\n':
+                    line = line[:-1]
 
                 if line.startswith('C '):
                     print '%s%s%s' % (t_colour[12], line, t_reset)
@@ -256,7 +264,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                     sys.stdout.write('%s  %s%s\n'
                                      % (t_colour[12], line, t_reset))
                 # make sure conflicts fail
-                if p.returncode == 0 and hint == 'cvs': p.returncode = 1
+                if p.returncode == 0 and hint == 'cvs':
+                    p.returncode = 1
         elif self.config.quiet_mode:
             def format_line(line, error_output, output = output):
                 output.append(line)
@@ -394,6 +403,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
                     val = udecode(val)
                     val = val.strip()
+
                     def normalize(s):
                         return unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').lower()
                     if normalize(val) in ('yes', normalize(_('yes')), _('yes').lower()):

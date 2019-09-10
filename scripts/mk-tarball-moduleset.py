@@ -28,7 +28,7 @@ def read_deps(filename):
     line = fp.readline()
     while line:
         pkg, dep_pkgs = line.split(':', 1)
-        assert not deps_dict.has_key(pkg), '%s repeated' % pkg
+        assert pkg not in deps_dict, '%s repeated' % pkg
         dep_pkgs = [ dep.strip() for dep in dep_pkgs.split() ]
         deps.append((pkg, dep_pkgs))
         deps_dict[pkg] = dep_pkgs
@@ -36,7 +36,7 @@ def read_deps(filename):
     # verify that all dependencies are listed
     for pkg in deps_dict.keys():
         for dep in deps_dict[pkg]:
-            assert deps_dict.has_key(dep), 'dependency %s not found' % dep
+            assert dep in deps_dict, 'dependency %s not found' % dep
     return deps
 
 class SourceRepo:
@@ -86,7 +86,6 @@ class SourceRepo:
             source_node.setAttribute('href',
                                      urlparse.urljoin(self.uribase, filename))
             info = os.stat(os.path.join(self.sourcedir, filename))
-            size = info[stat.ST_SIZE]
             source_node.setAttribute('size', str(info[stat.ST_SIZE]))
 
             sum = md5.new()
