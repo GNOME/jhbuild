@@ -113,20 +113,18 @@ class Config:
             raise FatalError(_('could not load config defaults'))
 
         old_config = os.path.join(os.path.expanduser('~'), '.jhbuildrc')
-        new_config = os.path.join \
-                         (os.environ.get \
-                             ('XDG_CONFIG_HOME',
-                              os.path.join(os.path.expanduser('~'), '.config')),
-                          'jhbuildrc')
+        new_config = os.path.join(os.environ.get('XDG_CONFIG_HOME',
+            os.path.join(os.path.expanduser('~'), '.config')),
+            'jhbuildrc')
 
         if filename:
             if not os.path.exists(filename):
                 raise FatalError(_('could not load config file, %s is missing') % filename)
         else:
             if os.path.isfile(old_config) \
-                and not os.path.islink(old_config) \
-                and os.path.isfile(new_config) \
-                and not os.path.islink(new_config):
+                    and not os.path.islink(old_config) \
+                    and os.path.isfile(new_config) \
+                    and not os.path.islink(new_config):
                 raise FatalError(_('The default location of the configuration '
                                    'file has changed. Please move %(old_path)s'
                                    ' to %(new_path)s.' \
@@ -236,7 +234,7 @@ class Config:
             config['repos'].update(config['svnroots'])
 
         # environment variables
-        if config.has_key('cflags') and config['cflags']:
+        if 'cflags' in config and config['cflags']:
             os.environ['CFLAGS'] = config['cflags']
         if config.get('installprog') and os.path.exists(config['installprog']):
             os.environ['INSTALL'] = config['installprog']
@@ -254,7 +252,8 @@ class Config:
             setattr(self, name, config[name])
 
         # default tarballdir to checkoutroot
-        if not self.tarballdir: self.tarballdir = self.checkoutroot
+        if not self.tarballdir:
+            self.tarballdir = self.checkoutroot
 
         # Ensure top_builddir is absolute
         if not os.path.isabs(self.top_builddir):
@@ -289,7 +288,7 @@ class Config:
         if not os.path.isabs(self.tarballdir):
             raise FatalError(_('%s must be an absolute path') % 'tarballdir')
         if (self.tinderbox_outputdir and
-            not os.path.isabs(self.tinderbox_outputdir)):
+                not os.path.isabs(self.tinderbox_outputdir)):
             raise FatalError(_('%s must be an absolute path') %
                              'tinderbox_outputdir')
 
@@ -324,11 +323,11 @@ class Config:
 
     def update_build_targets(self):
         # update build targets according to old flags
-        if self.makecheck and not 'check' in self.build_targets:
+        if self.makecheck and 'check' not in self.build_targets:
             self.build_targets.insert(0, 'check')
-        if self.makeclean and not 'clean' in self.build_targets:
+        if self.makeclean and 'clean' not in self.build_targets:
             self.build_targets.insert(0, 'clean')
-        if self.makedistclean and not 'distclean' in self.build_targets:
+        if self.makedistclean and 'distclean' not in self.build_targets:
             self.build_targets.insert(0, 'distclean')
         if self.nobuild:
             # nobuild actually means "checkout"
@@ -336,9 +335,9 @@ class Config:
                 if phase in self.build_targets:
                     self.build_targets.remove(phase)
             self.build_targets.append('checkout')
-        if self.makedist and not 'dist' in self.build_targets:
+        if self.makedist and 'dist' not in self.build_targets:
             self.build_targets.append('dist')
-        if self.makedistcheck and not 'distcheck' in self.build_targets:
+        if self.makedistcheck and 'distcheck' not in self.build_targets:
             self.build_targets.append('distcheck')
 
     def set_from_cmdline_options(self, options=None):
@@ -349,19 +348,19 @@ class Config:
         if hasattr(options, 'autogen') and options.autogen:
             self.alwaysautogen = True
         if hasattr(options, 'check') and (
-                options.check and not 'check' in self.build_targets):
+                options.check and 'check' not in self.build_targets):
             self.build_targets.insert(0, 'check')
         if hasattr(options, 'clean') and (
-                options.clean and not 'clean' in self.build_targets):
+                options.clean and 'clean' not in self.build_targets):
             self.build_targets.insert(0, 'clean')
         if hasattr(options, 'distclean') and (
-                options.distclean and not 'distclean' in self.build_targets):
+                options.distclean and 'distclean' not in self.build_targets):
             self.build_targets.insert(0, 'distclean')
         if hasattr(options, 'dist') and (
-                options.dist and not 'dist' in self.build_targets):
+                options.dist and 'dist' not in self.build_targets):
             self.build_targets.append('dist')
         if hasattr(options, 'distcheck') and (
-                options.distcheck and not 'distcheck' in self.build_targets):
+                options.distcheck and 'distcheck' not in self.build_targets):
             self.build_targets.append('distcheck')
         if hasattr(options, 'ignore_suggests') and options.ignore_suggests:
             self.ignore_suggests = True
@@ -374,10 +373,10 @@ class Config:
             for item in options.tags:
                 self.tags += item.split(',')
         if hasattr(options, 'sticky_date') and options.sticky_date is not None:
-                self.sticky_date = options.sticky_date
+            self.sticky_date = options.sticky_date
         if hasattr(options, 'xvfb') and options.noxvfb is not None:
-                self.noxvfb = options.noxvfb
-        if hasattr(options, 'trycheckout') and  options.trycheckout:
+            self.noxvfb = options.noxvfb
+        if hasattr(options, 'trycheckout') and options.trycheckout:
             self.trycheckout = True
         if hasattr(options, 'nopoison') and options.nopoison:
             self.nopoison = True
@@ -392,7 +391,7 @@ class Config:
                 raise FatalError(_('Failed to parse \'min_age\' relative '
                                    'time'))
         if (hasattr(options, 'check_sysdeps') and
-            options.check_sysdeps is not None):
+                options.check_sysdeps is not None):
             self.check_sysdeps = options.check_sysdeps
 
     def __setattr__(self, k, v):

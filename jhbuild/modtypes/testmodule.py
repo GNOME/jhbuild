@@ -48,10 +48,10 @@ class TestModule(Package, DownloadableModule):
         self.test_type    = test_type
         self.tested_pkgs  = tested_pkgs
 
-        ### modify environ for tests to be working
-        if os.environ.has_key('LDTP_DEBUG'):
+        # modify environ for tests to be working
+        if 'LDTP_DEBUG' in os.environ:
             del os.environ['LDTP_DEBUG'] # get rid of verbose LDTP output
-        if not os.environ.has_key('GNOME_ACCESSIBILITY') or os.environ['GNOME_ACCESSIBILITY'] != 1:
+        if 'GNOME_ACCESSIBILITY' not in os.environ or os.environ['GNOME_ACCESSIBILITY'] != 1:
             os.environ['GNOME_ACCESSIBILITY'] = '1'
 
     def get_srcdir(self, buildscript):
@@ -241,8 +241,8 @@ class TestModule(Package, DownloadableModule):
         except OSError:
             return -1
         
-        time.sleep(2) #allow Xvfb to start
-        if xvfb.poll() != None:
+        time.sleep(2) # allow Xvfb to start
+        if xvfb.poll() is not None:
             return -1
         return xvfb.pid
 
@@ -257,14 +257,14 @@ class TestModule(Package, DownloadableModule):
         except OSError:
             return -1
         time.sleep(1)
-        if ldtp.poll() != None:
+        if ldtp.poll() is not None:
             return -1
         return ldtp.pid
     
     def do_ldtp_test(self, buildscript):
         src_dir = self.get_srcdir(buildscript)
         old_debug = os.getenv('LDTP_DEBUG')
-        if old_debug != None:
+        if old_debug is not None:
             del os.environ['LDTP_DEBUG']
 
         ldtp_pid = self._start_ldtp()
@@ -284,7 +284,7 @@ class TestModule(Package, DownloadableModule):
             raise BuildStateError('error %s during test' % e.returncode)
         os.kill(ldtp_pid, signal.SIGINT)
         
-        if old_debug != None:
+        if old_debug is not None:
             os.environ['LDTP_DEBUG'] = old_debug
         
         log_file = self.get_ldtp_log_file(os.path.join (src_dir,'run.xml'))
@@ -301,13 +301,11 @@ class TestModule(Package, DownloadableModule):
     def do_dogtail_test(self, buildscript):
         src_dir = self.get_srcdir(buildscript)
         test_cases = []
-        failed = False
         all_files = os.listdir(src_dir)
         for file in all_files:
             if file[-3:] == '.py':
                 test_cases.append(file)
 
-        status = ''
         if buildscript.config.noxvfb:
             extra_env = {}
         else:

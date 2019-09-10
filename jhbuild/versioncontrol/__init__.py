@@ -172,14 +172,14 @@ class Branch:
         raise NotImplementedError
 
     def _copy(self, buildscript, copydir):
-         module = self.module
-         if self.checkoutdir:
-             module = self.checkoutdir
-         fromdir = os.path.join(copydir, os.path.basename(module))
-         todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
-         if os.path.exists(todir):
-             self._wipedir(buildscript, self.srcdir)
-         buildscript.execute(['cp', '-R', fromdir, todir])
+        module = self.module
+        if self.checkoutdir:
+            module = self.checkoutdir
+        fromdir = os.path.join(copydir, os.path.basename(module))
+        todir = os.path.join(self.config.checkoutroot, os.path.basename(module))
+        if os.path.exists(todir):
+            self._wipedir(buildscript, self.srcdir)
+        buildscript.execute(['cp', '-R', fromdir, todir])
 
     def to_sxml(self):
         """Return an sxml representation of this checkout."""

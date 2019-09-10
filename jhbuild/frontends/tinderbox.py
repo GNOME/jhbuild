@@ -219,7 +219,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 raise FatalError(_('%(configuration_variable)s invalid key'
                                    ' %(key)s' % \
                                    {'configuration_variable' :
-                                        '\'print_command_pattern\'',
+                                    '\'print_command_pattern\'',
                                     'key' : e}))
 
         kws['stdin'] = subprocess.PIPE
@@ -227,19 +227,21 @@ class TinderboxBuildScript(buildscript.BuildScript):
         kws['stderr'] = subprocess.PIPE
         if hint == 'cvs':
             def format_line(line, error_output, fp=self.modulefp):
-                if line[-1] == '\n': line = line[:-1]
+                if line[-1] == '\n':
+                    line = line[:-1]
                 if line.startswith('C '):
                     fp.write('<span class="conflict">%s</span>\n'
-                                        % escape(line))
+                             % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
             kws['stderr'] = subprocess.STDOUT
         else:
             def format_line(line, error_output, fp=self.modulefp):
-                if line[-1] == '\n': line = line[:-1]
+                if line[-1] == '\n':
+                    line = line[:-1]
                 if error_output:
                     fp.write('<span class="error">%s</span>\n'
-                                        % escape(line))
+                             % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
 
@@ -348,7 +350,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                     raise FatalError(_('%(configuration_variable)s invalid key'
                                        ' %(key)s' % \
                                        {'configuration_variable' :
-                                            '\'help_website\'',
+                                        '\'help_website\'',
                                         'key' : e}))
 
             self.indexfp.write('<td class="failure">failed%s</td>\n' %
@@ -386,7 +388,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
         self.triedcheckout = None
 
         if (self.modulefp and self.config.help_website and
-            self.config.help_website[0] and self.config.help_website[1]):
+                self.config.help_website[0] and self.config.help_website[1]):
             try:
                 help_url = self.config.help_website[1] % \
                                {'module' : module.name}
@@ -403,7 +405,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
                 raise FatalError(_('%(configuration_variable)s invalid key'
                                    ' %(key)s' % \
                                    {'configuration_variable' :
-                                        '\'help_website\'',
+                                    '\'help_website\'',
                                     'key' : e}))
         return 'fail'
 

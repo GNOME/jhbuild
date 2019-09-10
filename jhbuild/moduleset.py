@@ -87,7 +87,7 @@ class ModuleSet:
 
     def get_module(self, module_name, ignore_case = False):
         module_name = module_name.rstrip(os.sep)
-        if self.modules.has_key(module_name) or not ignore_case:
+        if module_name in self.modules or not ignore_case:
             return self.modules[module_name]
         module_name_lower = module_name.lower()
         for module in self.modules.keys():
@@ -108,8 +108,8 @@ class ModuleSet:
         return module_list
 
     def get_full_module_list(self, module_names='all', skip=[],
-                                include_suggests=True, include_afters=False,
-                                warn_about_circular_dependencies=True):
+                             include_suggests=True, include_afters=False,
+                             warn_about_circular_dependencies=True):
 
         def dep_resolve(node, resolved, seen, after):
             ''' Recursive depth-first search of the dependency tree. Creates
@@ -129,12 +129,12 @@ class ModuleSet:
                              if not after_module]
             for edge_name in edges:
                 edge = self.modules.get(edge_name)
-                if edge == None:
+                if edge is None:
                     if node not in [i[0] for i in resolved]:
                         self._warn(_('%(module)s has a dependency on unknown'
                                      ' "%(invalid)s" module') % \
-                                         {'module'  : node.name,
-                                          'invalid' : edge_name})
+                                   {'module'  : node.name,
+                                    'invalid' : edge_name})
                 elif edge_name not in skip and edge not in resolved_deps:
                     if edge in seen:
                         # circular dependency detected
@@ -168,7 +168,7 @@ class ModuleSet:
                 elif not after:
                     # a dependency exists for an after, flag to keep
                     for index, item in enumerate(resolved):
-                        if item[1] == True and item[0] == node:
+                        if item[1] is True and item[0] == node:
                             resolved[index] = (node, False)
 
         if module_names == 'all':
@@ -246,8 +246,7 @@ class ModuleSet:
 
         return_list = []
 
-        installed_pkgconfig = systeminstall.get_installed_pkgconfigs \
-                                (self.config)
+        installed_pkgconfig = systeminstall.get_installed_pkgconfigs(self.config)
 
         for module in modules:
             if isinstance(module, SystemModule):
@@ -319,15 +318,15 @@ class ModuleSet:
             
             for dep in self.modules[modname].dependencies:
                 fp.write('  "%s" -> "%s";\n' % (modname, dep))
-                if not inlist.has_key(dep):
+                if dep not in inlist:
                     modules.append(dep)
                 inlist[dep] = None
 
             if suggests:
                 for dep in self.modules[modname].after + self.modules[modname].suggests:
-                    if self.modules.has_key(dep):
+                    if dep in self.modules:
                         fp.write('  "%s" -> "%s" [style=dotted];\n' % (modname, dep))
-                        if not inlist.has_key(dep):
+                        if dep not in inlist:
                             modules.append(dep)
                         inlist[dep] = None
 
@@ -507,7 +506,7 @@ def _parse_module_set(config, uri):
                     if mirror.hasAttribute(attr):
                         kws[attr.replace('-','_')] = mirror.getAttribute(attr)
                 mirrors[mirror_type] = mirror_class(config, name, **kws)
-                #mirrors[mirror_type].moduleset_uri = uri
+                # mirrors[mirror_type].moduleset_uri = uri
             setattr(repositories[name], "mirrors", mirrors)
         if node.nodeName == 'cvsroot':
             cvsroot = node.getAttribute('root')
@@ -577,7 +576,7 @@ def warn_local_modulesets(config):
         # checkout was not done via git
         return
 
-    if type(config.moduleset) == type([]):
+    if isinstance(config.moduleset, list):
         modulesets = config.moduleset
     else:
         modulesets = [ config.moduleset ]

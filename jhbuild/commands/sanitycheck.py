@@ -104,7 +104,7 @@ class cmd_sanitycheck(Command):
                                  ('http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl',
                                   'DocBook XSL Stylesheets')]:
                 try:
-                    data = get_output(['xmlcatalog', '/etc/xml/catalog', item])
+                    get_output(['xmlcatalog', '/etc/xml/catalog', item])
                 except:
                     uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\')') % name)
 
@@ -126,12 +126,12 @@ class cmd_sanitycheck(Command):
         else:
             try:
                 git_help = os.popen('git --help', 'r').read()
-                if not 'clone' in git_help:
+                if 'clone' not in git_help:
                     uprint(_('Installed git program is not the right git'))
                 else:
                     if not check_version(['git', '--version'],
                                  r'git version ([\d.]+)', '1.5.6'):
-                         uprint(_('%s not found') % 'git >= 1.5.6')
+                        uprint(_('%s not found') % 'git >= 1.5.6')
             except:
                 uprint(_('Could not check git program'))
 

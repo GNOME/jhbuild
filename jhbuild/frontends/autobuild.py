@@ -142,18 +142,20 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         kws['stderr'] = subprocess.PIPE
         if hint in ('cvs', 'svn', 'hg-update.py'):
             def format_line(line, error_output, fp=self.phasefp):
-                if line[-1] == '\n': line = line[:-1]
+                if line[-1] == '\n':
+                    line = line[:-1]
                 if self.verbose:
                     print line
                 if line.startswith('C '):
                     fp.write('<span class="conflict">%s</span>\n'
-                                        % escape(line))
+                             % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
             kws['stderr'] = subprocess.STDOUT
         else:
             def format_line(line, error_output, fp=self.phasefp):
-                if line[-1] == '\n': line = line[:-1]
+                if line[-1] == '\n':
+                    line = line[:-1]
                 if self.verbose:
                     if error_output:
                         print >> sys.stderr, line
@@ -161,7 +163,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                         print line
                 if error_output:
                     fp.write('<span class="error">%s</span>\n'
-                                        % escape(line))
+                             % escape(line))
                 else:
                     fp.write('%s\n' % escape(line))
 
@@ -256,7 +258,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                 self.modules = jhbuild.moduleset.load_tests(self.config)
 
             if module in self.modules.modules.keys() \
-                   and self.modules.modules[module].test_type == 'ldtp':
+                    and self.modules.modules[module].test_type == 'ldtp':
                 self._upload_logfile(module)
 
         if isinstance(error, Exception):
@@ -270,7 +272,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
 
     def _upload_ldtp_logfile (self, module):
         test_module = self.modules.modules[module]
-        src_dir =  test_module.get_srcdir()
+        src_dir = test_module.get_srcdir()
         if not os.path.exists (os.path.join(src_dir,'run.xml')):
             return
         logfile = test_module.get_ldtp_log_file (os.path.join(src_dir,'run.xml'))

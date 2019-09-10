@@ -19,7 +19,7 @@
 
 from optparse import make_option
 
-from jhbuild.errors import UsageError
+from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands.base import Command, register_command
 import jhbuild.frontends
 import optparse

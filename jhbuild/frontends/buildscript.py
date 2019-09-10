@@ -74,7 +74,7 @@ class BuildScript:
             chrt_args = ['chrt', '--idle', '0']
             devnull = open(os.devnull, 'w')
             if (cmds.has_command('chrt') and
-                subprocess.call(chrt_args + ['true'], stdout=devnull, stderr=devnull) == 0):
+                    subprocess.call(chrt_args + ['true'], stdout=devnull, stderr=devnull) == 0):
                 self.subprocess_nice_args.extend(chrt_args)
 
             elif cmds.has_command('nice'):
@@ -109,7 +109,6 @@ class BuildScript:
         self.start_build()
         
         failures = [] # list of modules that couldn't be built
-        successes = []
         self.module_num = 0
         for module in self.modulelist:
             self.module_num = self.module_num + 1
@@ -307,7 +306,7 @@ class BuildScript:
         # remove duplicates
         phases = []
         for phase in tmp_phases:
-            if not phase in phases:
+            if phase not in phases:
                 phases.append(phase)
 
         return phases

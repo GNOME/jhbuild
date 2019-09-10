@@ -52,6 +52,8 @@ import jhbuild.frontends.terminal
 import jhbuild.moduleset
 import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
+from jhbuild.main import _encoding
+
 
 def uencode(s):
     if type(s) is unicode:
@@ -151,9 +153,9 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
 
     def get_module_list(self, seed, skip=[], tags=[], include_suggests=True,
                         include_afters=False):
-        return [x.name for x in self.moduleset.get_module_list \
-                                    (seed, skip, tags, include_suggests,
-                                     include_afters)]
+        return [x.name for x in self.moduleset.get_module_list(
+                    seed, skip, tags, include_suggests,
+                    include_afters)]
 
     def test_standalone_one(self):
         '''A standalone module'''
@@ -273,6 +275,7 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         '''deps ommitted because satisfied by system dependencies'''
         class TestBranch(jhbuild.versioncontrol.tarball.TarballBranch):
             version = None
+
             def __init__(self):
                 pass
 

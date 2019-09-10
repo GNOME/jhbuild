@@ -57,20 +57,20 @@ class Trigger(object):
             raise ValueError(_("No keys specified in trigger script %r") % (filepath, ))
         
     def matches(self, files_list):
-       """@files_list should be a list of absolute file paths.  Return True if this trigger script
-should be run."""
-       if self._executable is not None:
-           if not cmds.has_command(self._executable):
-               return False
-       for path in files_list:
-           for r in self._rematches:
-               match = r.search(path)
-               if match:
-                   return True
-           for literal in self._literal_matches:
-               if path.find(literal) >= 0:
-                   return True
-       return False
+        """@files_list should be a list of absolute file paths.  Return True if this trigger script
+        should be run."""
+        if self._executable is not None:
+            if not cmds.has_command(self._executable):
+                return False
+        for path in files_list:
+            for r in self._rematches:
+                match = r.search(path)
+                if match:
+                    return True
+            for literal in self._literal_matches:
+                if path.find(literal) >= 0:
+                    return True
+        return False
 
     def command(self):
         """Returns the command required to execute the trigger script."""

@@ -57,7 +57,8 @@ def parse_tarball(node, config, uri, repositories, default_repo):
         makefile = node.getAttribute('makefile')
 
     for childnode in node.childNodes:
-        if childnode.nodeType != childnode.ELEMENT_NODE: continue
+        if childnode.nodeType != childnode.ELEMENT_NODE:
+            continue
         if childnode.nodeName == 'source':
             source_url = childnode.getAttribute('href')
             if childnode.hasAttribute('size'):
@@ -73,8 +74,10 @@ def parse_tarball(node, config, uri, repositories, default_repo):
                 source_hash = childnode.getAttribute('hash')
         elif childnode.nodeName == 'patches':
             for patch in childnode.childNodes:
-                if patch.nodeType != patch.ELEMENT_NODE: continue
-                if patch.nodeName != 'patch': continue
+                if patch.nodeType != patch.ELEMENT_NODE:
+                    continue
+                if patch.nodeName != 'patch':
+                    continue
                 patchfile = patch.getAttribute('file')
                 if patch.hasAttribute('strip'):
                     patchstrip = int(patch.getAttribute('strip'))

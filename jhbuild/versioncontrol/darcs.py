@@ -53,8 +53,8 @@ class DarcsRepository(Repository):
             module = self.config.branches[name]
             if not module:
                 raise FatalError(_('branch for %(name)s has wrong override, check your %(filename)s') % \
-                                   {'name'     : name,
-                                    'filename' : self.config.filename})
+                                 {'name'     : name,
+                                  'filename' : self.config.filename})
         else:
             if module is None:
                 module = name
@@ -101,7 +101,7 @@ class DarcsBranch(Branch):
             path = os.path.join(self.srcdir, filename)
             try:
                 stat = os.stat(path)
-            except OSError as e:
+            except OSError:
                 continue
             os.chmod(path, stat.st_mode | 0111)
 
