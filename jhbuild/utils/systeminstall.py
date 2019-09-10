@@ -453,13 +453,6 @@ class AptSystemInstall(SystemInstall):
             ret_value += "|.*/" + re.escape(path)
         return ret_value
 
-    def _name_match_pkg(self, pkg, apt_file_result, native_packages):
-        for name, path in apt_file_result:
-            if path.endswith("/" + pkg):
-                native_packages.append(name)
-                return True
-        return False
-
     def _name_match_exact(self, exact_path_to_match, apt_file_result, native_packages):
         for name, path in apt_file_result:
             if path == exact_path_to_match:
@@ -470,9 +463,24 @@ class AptSystemInstall(SystemInstall):
     def _append_native_packages_or_warn_pkgconfig(self, pkgconfigs, native_packages):
         if len(pkgconfigs) == 0:
             return
+
+        def get_pkg_config_search_paths():
+            output = subprocess.check_output(
+                ["pkg-config", "--variable", "pc_path", "pkg-config"])
+            return output.strip().split(os.pathsep)
+
+        # Various packages include zlib.pc (emscripten, mingw) so look only in
+        # the default pkg-config search paths
+        search_paths = get_pkg_config_search_paths()
+        search_paths = tuple(os.path.join(p, "") for p in search_paths)
+
         apt_file_result = self._apt_file_result(regexp="\\.pc$")
         for modname, pkg in pkgconfigs:
-            if not self._name_match_pkg(pkg, apt_file_result, native_packages):
+            for name, path in apt_file_result:
+                if path.endswith("/" + pkg) and path.startswith(search_paths):
+                    native_packages.append(name)
+                    break
+            else:
                 logging.info(_('No native package found for %(id)s '
                                '(%(filename)s)') % {'id'       : modname,
                                                     'filename' : pkg})
