@@ -139,10 +139,10 @@ def systemdependencies_met(module_name, sysdeps, config):
         paths += extract_path_from_cflags(os.environ.get('CXXFLAGS', ''))
         # check include paths incorrectly configured in makeargs
         paths += extract_path_from_cflags(config.makeargs)
-        paths += extract_path_from_cflags(config.module_autogenargs.get
-                                             (module_name, ''))
-        paths += extract_path_from_cflags(config.module_makeargs.get
-                                             (module_name, ''))
+        paths += extract_path_from_cflags(config.module_autogenargs.get(
+            module_name, ''))
+        paths += extract_path_from_cflags(config.module_makeargs.get(
+            module_name, ''))
         paths += os.environ.get('C_INCLUDE_PATH', '').split(':')
         paths += os.environ.get('CPLUS_INCLUDE_PATH', '').split(':')
         paths = list(set(paths)) # remove duplicates
@@ -287,7 +287,6 @@ class PKSystemInstall(SystemInstall):
             self._pkdbus = dbus.Interface(self._sysbus.get_object('org.freedesktop.PackageKit',
                                                                   '/org/freedesktop/PackageKit'),
                                           'org.freedesktop.PackageKit')
-            properties = dbus.Interface(self._pkdbus, 'org.freedesktop.DBus.Properties')
         txn_path = self._pkdbus.CreateTransaction()
         txn = self._sysbus.get_object('org.freedesktop.PackageKit', txn_path)
         txn_tx = self._dbus.Interface(txn, 'org.freedesktop.PackageKit.Transaction')
@@ -413,7 +412,7 @@ class AptSystemInstall(SystemInstall):
         SystemInstall.__init__(self)
 
     def _apt_file_result(self, regexp):
-        if regexp is None or regexp is "":
+        if regexp is None or regexp == "":
             raise RuntimeError("regexp mustn't be None or empty")
         apt_file_result = subprocess.check_output(["apt-file", "search", "--regexp", regexp])
         ret_value = []
@@ -494,7 +493,7 @@ class AptSystemInstall(SystemInstall):
         apt_file_result = self._apt_file_result(c_includes_regexp)
         for modname, filename in c_includes:
             # Try multiarch first, so we print the non-multiarch location on failure.
-            if (multiarch == None or
+            if (multiarch is None or
                     not self._name_match_exact('/usr/include/%s/%s' % (multiarch, filename), apt_file_result, native_packages)):
                 if not self._name_match_exact('/usr/include/%s' % filename, apt_file_result, native_packages):
                     logging.info(_('No native package found for %(id)s '

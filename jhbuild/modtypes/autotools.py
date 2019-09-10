@@ -83,7 +83,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
-        builddir = self.get_srcdir(buildscript);
+        builddir = self.get_srcdir(buildscript)
         if buildscript.config.buildroot and self.supports_non_srcdir_builds:
             d = buildscript.config.builddir_pattern % (
                 self.branch.checkoutdir or self.branch.get_module_basename())
@@ -96,7 +96,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         try:
             other_stbuf = os.stat(other)
             potential_stbuf = os.stat(potential)
-        except OSError as e:
+        except OSError:
             return False
         return potential_stbuf.st_mtime > other_stbuf.st_mtime
 
@@ -151,7 +151,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         # can safely assume it will be the same as {prefix} and substitute it
         # right now, so the printed command can be copy/pasted afterwards.
         # (GNOME #580272)
-        if not '--exec-prefix' in template:
+        if '--exec-prefix' not in template:
             cmd = cmd.replace('${exec_prefix}', vars['prefix'])
 
         self.configure_cmd = cmd
@@ -311,7 +311,7 @@ class AutogenModule(MakeModule, DownloadableModule):
 
     def do_install(self, buildscript):
         if self.uninstall_before_install:
-            packagedb =  buildscript.moduleset.packagedb
+            packagedb = buildscript.moduleset.packagedb
             if packagedb.check(self.name):
                 buildscript.set_action(_('Uninstalling old installed version'), self)
                 packagedb.uninstall(self.name)

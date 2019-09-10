@@ -286,7 +286,7 @@ class GitBranch(Branch):
 
     def rebase_current_branch(self, buildscript):
         """Pull the current branch if it is tracking a remote branch."""
-        branch = self.get_current_branch();
+        branch = self.get_current_branch()
         if not self.is_tracking_a_remote_branch(branch):
             return
 
@@ -340,18 +340,18 @@ class GitBranch(Branch):
 
     def exists(self):
         try:
-            refs = get_output(['git', 'ls-remote', self.module],
-                    extra_env=get_git_extra_env())
+            get_output(['git', 'ls-remote', self.module],
+                       extra_env=get_git_extra_env())
         except:
             return False
 
-        #FIXME: Parse output from ls-remote to work out if tag/branch is present
+        # FIXME: Parse output from ls-remote to work out if tag/branch is present
 
         return True
 
     def _get_commit_from_date(self):
         cmd = ['git', 'log', '--max-count=1', '--first-parent',
-                '--until=%s' % self.config.sticky_date, 'master']
+               '--until=%s' % self.config.sticky_date, 'master']
         cmd_desc = ' '.join(cmd)
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                 cwd=self.get_checkoutdir(),
@@ -553,7 +553,7 @@ class GitSvnBranch(GitBranch):
                     if not comment_line.search(line):
                         ext += ' ' + line
 
-                match = re.compile("^(\.) (.+)").search(". " + ext)
+                match = re.compile("^(\\.) (.+)").search(". " + ext)
             except OSError:
                 raise FatalError(_("External handling failed\n If you are running git version < 1.5.6 it is recommended you update.\n"))
 

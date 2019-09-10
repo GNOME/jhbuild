@@ -66,8 +66,8 @@ class TarballRepository(Repository):
             module = self.config.branches[name]
             if not module:
                 raise FatalError(_('branch for %(name)s has wrong override, check your %(filename)s') % \
-                                   {'name'     : name,
-                                    'filename' : self.config.filename})
+                                 {'name'     : name,
+                                  'filename' : self.config.filename})
         else:
             if module is None:
                 module = name
@@ -94,7 +94,8 @@ class TarballRepository(Repository):
             raise FatalError(_('branch for %s is not correct, check the moduleset file.') % name)
         # patches represented as children of the branch node
         for childnode in branchnode.childNodes:
-            if childnode.nodeType != childnode.ELEMENT_NODE: continue
+            if childnode.nodeType != childnode.ELEMENT_NODE:
+                continue
             if childnode.nodeName == 'patch':
                 patchfile = childnode.getAttribute('file')
                 if childnode.hasAttribute('strip'):
@@ -238,7 +239,7 @@ class TarballBranch(Branch):
             self._check_tarball()
         except BuildStateError:
             # don't have the tarball, try downloading it and check again
-            res = self._download_tarball(buildscript, localfile)
+            self._download_tarball(buildscript, localfile)
             self._check_tarball()
 
         # now to unpack it

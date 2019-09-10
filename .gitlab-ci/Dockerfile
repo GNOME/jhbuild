@@ -14,6 +14,7 @@ RUN apt update && apt install -y \
     patch \
     pkg-config \
     python \
+    python-flake8 \
     sudo \
     trang \
     yelp-tools

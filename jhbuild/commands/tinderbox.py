@@ -82,8 +82,8 @@ class cmd_tinderbox(BuildCommand):
             raise UsageError(_('output directory for tinderbox build not specified'))
 
         module_set = jhbuild.moduleset.load(config)
-        full_module_list = module_set.get_full_module_list \
-                               (args or config.modules, config.skip)
+        full_module_list = module_set.get_full_module_list(
+            args or config.modules, config.skip)
         module_list = module_set.remove_system_modules(full_module_list)
 
         # remove modules up to startat
