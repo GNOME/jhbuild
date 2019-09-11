@@ -818,7 +818,9 @@
     </dependencies>
     <suggests>
       <dep package="graphene"/>
-      <dep package="vulkan"/>
+      <if condition-set="linux">
+        <dep package="vulkan"/>
+      </if>
     </suggests>
   </meson>
 
@@ -924,7 +926,9 @@
       </if>
     </dependencies>
     <suggests>
-      <dep package="vulkan"/>
+      <if condition-set="linux">
+        <dep package="vulkan"/>
+      </if>
       <!-- Many GTK+ apps require desktop-file-validate. -->
       <dep package="desktop-file-utils"/>
       <dep package="shared-mime-info"/>
