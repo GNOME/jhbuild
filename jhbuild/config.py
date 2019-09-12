@@ -55,10 +55,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'copy_dir', 'export_dir', 'module_checkout_mode', 'build_policy',
                 'trycheckout', 'min_age', 'nopoison', 'module_nopoison',
                 'forcecheck', 'makecheck_advisory', 'quiet_mode',
-                'progress_bar', 'module_extra_env', 'jhbuildbot_master',
-                'jhbuildbot_slavename', 'jhbuildbot_password',
-                'jhbuildbot_svn_commits_box', 'jhbuildbot_slaves_dir',
-                'jhbuildbot_dir', 'jhbuildbot_mastercfg',
+                'progress_bar', 'module_extra_env',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'mirror_policy', 'module_mirror_policy', 'dvcs_mirror_dir',
                 'shallow_clone', 'build_targets', 'cmakeargs', 'module_cmakeargs',
@@ -246,8 +243,7 @@ class Config:
 
         for path_key in ('checkoutroot', 'buildroot', 'top_builddir',
                          'tinderbox_outputdir', 'tarballdir', 'copy_dir',
-                         'jhbuildbot_slaves_dir', 'jhbuildbot_dir',
-                         'jhbuildbot_mastercfg', 'modulesets_dir',
+                         'modulesets_dir',
                          'dvcs_mirror_dir', 'static_analyzer_outputdir',
                          'prefix'):
             if config.get(path_key):

@@ -1,4 +1,4 @@
-SUBDIRS = buildbot commands frontends modtypes utils versioncontrol
+SUBDIRS = commands frontends modtypes utils versioncontrol
 
 appdir = $(pythondir)/jhbuild/
 
