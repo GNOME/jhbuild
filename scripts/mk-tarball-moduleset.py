@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import print_function
+
 import sys
 import os
 import stat
@@ -114,8 +116,8 @@ def main(args):
     exceptions = ConfigParser.ConfigParser()
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print usage
-            print help
+            print(usage)
+            print(help)
             sys.exit(0)
         elif opt in ('-d', '--dependencies'):
             dependencies = arg
