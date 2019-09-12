@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import sys, os, errno
 import optparse
 import traceback
@@ -31,6 +33,7 @@ import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.moduleset import warn_local_modulesets
+from jhbuild.utils.compat import text_type
 
 
 if sys.platform == 'darwin':
@@ -52,13 +55,13 @@ except (locale.Error, AssertionError):
     _encoding = 'ascii'
 
 def uencode(s):
-    if type(s) is unicode:
+    if isinstance(s, text_type):
         return s.encode(_encoding, 'replace')
     else:
         return s
 
 def udecode(s):
-    if type(s) is not unicode:
+    if not isinstance(s, text_type):
         return s.decode(_encoding, 'replace')
     else:
         return s
@@ -66,9 +69,9 @@ def udecode(s):
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        print uencode(s),
+        print(uencode(s), end=' ')
     s = args[-1]
-    print uencode(s)
+    print(uencode(s))
 
 __builtin__.__dict__['uprint'] = uprint
 __builtin__.__dict__['uencode'] = uencode
