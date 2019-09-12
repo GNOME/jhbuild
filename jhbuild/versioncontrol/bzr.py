@@ -115,7 +115,8 @@ class BzrBranch(Branch):
     def get_revspec(self):
         return self._revspec
 
-    def set_revspec(self, (tag, revspec)):
+    def set_revspec(self, value):
+        tag, revspec = value
         if revspec:
             self._revspec = ['-r%s' % revspec]
         elif tag:

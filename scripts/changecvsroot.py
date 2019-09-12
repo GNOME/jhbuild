@@ -21,15 +21,13 @@
 import os
 
 def changecvsroot(oldroot, newroot, *dirs):
-    def handle((oldroot, newroot), dirname, fnames):
-        if os.path.basename(dirname) == 'CVS' and 'Root' in fnames:
-            r = open(os.path.join(dirname, 'Root'), 'r').read().strip()
+    for root, dirs, files in os.walk(dir):
+        if os.path.basename(root) == 'CVS' and 'Root' in files:
+            r = open(os.path.join(root, 'Root'), 'r').read().strip()
             if r == oldroot:
-                fp = open(os.path.join(dirname, 'Root'), 'w')
+                fp = open(os.path.join(root, 'Root'), 'w')
                 fp.write('%s\n' % newroot)
                 fp.close()
-    for dir in dirs:
-        os.path.walk(dir, handle, (oldroot, newroot))
 
 if __name__ == '__main__':
     import sys

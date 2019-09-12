@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import os
 import sys 
 import logging
@@ -549,5 +551,5 @@ _classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall]
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     installer = SystemInstall.find_best()
-    print "Using %r" % (installer, )
+    print("Using %r" % (installer, ))
     installer.install(sys.argv[1:])
