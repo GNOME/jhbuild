@@ -58,7 +58,7 @@ def undo_update(parent):
     print 'Update failed, updating to parent revision'
     env = dict(os.environ)
     env['HGMERGE'] = 'false'
-    hg = call(['hg', 'update', '--noninteractive', '-q', parent], env=env)
+    call(['hg', 'update', '--noninteractive', '-q', parent], env=env)
 
 def pull_and_update():
     parent = get_parent()

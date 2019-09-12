@@ -91,33 +91,33 @@ def setup_env_defaults(system_libdirs):
                 addpath('PKG_CONFIG_PATH', full_name)
 
     # GI_TYPELIB_PATH
-    if not 'GI_TYPELIB_PATH' in os.environ:
+    if 'GI_TYPELIB_PATH' not in os.environ:
         for dirname in reversed(system_libdirs):
             full_name = os.path.join(dirname, 'girepository-1.0')
             if os.path.exists(full_name):
                 addpath('GI_TYPELIB_PATH', full_name)
 
     # XDG_DATA_DIRS
-    if not 'XDG_DATA_DIRS' in os.environ:
+    if 'XDG_DATA_DIRS' not in os.environ:
         os.environ['XDG_DATA_DIRS'] = '/usr/local/share:/usr/share'
 
     # XDG_CONFIG_DIRS
-    if not 'XDG_CONFIG_DIRS' in os.environ:
+    if 'XDG_CONFIG_DIRS' not in os.environ:
         os.environ['XDG_CONFIG_DIRS']='/etc/xdg'
 
     # ACLOCAL_PATH
-    if not 'ACLOCAL_PATH' in os.environ:
+    if 'ACLOCAL_PATH' not in os.environ:
         os.environ['ACLOCAL_PATH']='/usr/share/aclocal'
 
     # get rid of gdkxft from the env -- it will cause problems.
-    if os.environ.has_key('LD_PRELOAD'):
+    if 'LD_PRELOAD' in os.environ:
         valarr = os.environ['LD_PRELOAD'].split(' ')
         for x in valarr[:]:
             if x.find('libgdkxft.so') >= 0:
                 valarr.remove(x)
         os.environ['LD_PRELOAD'] = ' '.join(valarr)
 
-    if os.environ.has_key('CONFIG_SITE'):
+    if 'CONFIG_SITE' in os.environ:
         del os.environ['CONFIG_SITE']
 
 def setup_env(prefix):

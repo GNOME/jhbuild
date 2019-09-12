@@ -45,18 +45,24 @@ except ImportError:
 from jhbuild.errors import FatalError
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
-from jhbuild.utils import httpcache
+from jhbuild.utils import httpcache, cmds
 from jhbuild.modtypes import MetaModule
 
-try: t_bold = cmds.get_output(['tput', 'bold'])
+try:
+    t_bold = cmds.get_output(['tput', 'bold'])
 except:
-    try: t_bold = cmds.get_output(['tput', 'md'])
-    except: t_bold = ''
+    try:
+        t_bold = cmds.get_output(['tput', 'md'])
+    except:
+        t_bold = ''
 
-try: t_reset = cmds.get_output(['tput', 'sgr0'])
+try:
+    t_reset = cmds.get_output(['tput', 'sgr0'])
 except:
-    try: t_reset = cmds.get_output(['tput', 'me'])
-    except: t_reset = ''
+    try:
+        t_reset = cmds.get_output(['tput', 'me'])
+    except:
+        t_reset = ''
 
 HTML_AT_TOP = '''<html>
 <head>
@@ -141,7 +147,7 @@ class Check:
     def fix_false_positive(self, false_positive):
         if not false_positive:
             return
-        if false_positive ==  'n/a':
+        if false_positive == 'n/a':
             raise ExcludedModuleException()
         self.status = 'ok'
 
@@ -319,7 +325,7 @@ class DeprecatedSymbolsCheck(SymbolsCheck):
             except:
                 raise CouldNotPerformCheckException()
             for keyword in tree.findall('//{http://www.devhelp.net/book}keyword'):
-                if not keyword.attrib.has_key('deprecated'):
+                if 'deprecated' not in keyword.attrib:
                     continue
                 name = keyword.attrib.get('name').replace('enum ', '').replace('()', '').strip()
                 symbols.append(name)
@@ -410,7 +416,7 @@ class cmd_goalreport(Command):
         for module_num, mod in enumerate(self.module_list):
             if mod.type in ('meta', 'tarball'):
                 continue
-            if not mod.branch or not mod.branch.repository.__class__.__name__ in (
+            if not mod.branch or mod.branch.repository.__class__.__name__ not in (
                     'SubversionRepository', 'GitRepository'):
                 if not mod.moduleset_name.startswith('gnome-external-deps'):
                     continue
@@ -421,7 +427,7 @@ class cmd_goalreport(Command):
             tree_id = mod.branch.tree_id()
             valid_cache = (tree_id and results.get(mod.name, {}).get('tree-id') == tree_id)
 
-            if not mod.name in results:
+            if mod.name not in results:
                 results[mod.name] = {
                     'results': {}
                 }
@@ -476,6 +482,7 @@ class cmd_goalreport(Command):
         print >> output, '</thead>'
         print >> output, '<tbody>'
 
+        processed_modules = {'gnome-common': True}
         suites = []
         for module_key, module in module_set.modules.items():
             if not isinstance(module_set.get_module(module_key), MetaModule):
@@ -483,15 +490,13 @@ class cmd_goalreport(Command):
             if module_key.endswith('upcoming-deprecations'):
                 # mark deprecated modules as processed, so they don't show in "Others"
                 try:
-                    metamodule = module_set.get_module(meta_key)
+                    metamodule = module_set.get_module(module_key)
                 except KeyError:
                     continue
                 for module_name in metamodule.dependencies:
                     processed_modules[module_name] = True
             else:
                 suites.append([module_key, module_key.replace('meta-', '')])
-
-        processed_modules = {'gnome-common': True}
 
         not_other_module_names = []
         for suite_key, suite_label in suites:
@@ -511,13 +516,13 @@ class cmd_goalreport(Command):
 
         external_deps = [x for x in results.keys() if \
                          x in [y.name for y in self.module_list] and \
-                         not x in processed_modules and \
+                         x not in processed_modules and \
                          module_set.get_module(x).moduleset_name.startswith('gnome-external-deps')]
         if external_deps:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
                     1+len(self.checks)+self.repeat_row_header, 'External Dependencies')
             for module_name in sorted(external_deps):
-                if not module_name in results:
+                if module_name not in results:
                     continue
                 r = results[module_name].get('results')
                 try:
@@ -527,12 +532,12 @@ class cmd_goalreport(Command):
                 print >> output, self.get_mod_line(module_name, r, version_number=version)
 
         other_module_names = [x for x in results.keys() if \
-                              not x in processed_modules and not x in external_deps]
+                              x not in processed_modules and x not in external_deps]
         if other_module_names:
             print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
                     1+len(self.checks)+self.repeat_row_header, 'Others')
             for module_name in sorted(other_module_names):
-                if not module_name in results:
+                if module_name not in results:
                     continue
                 r = results[module_name].get('results')
                 print >> output, self.get_mod_line(module_name, r)
@@ -648,7 +653,7 @@ class cmd_goalreport(Command):
             nb_with_bugs_done = 0
             for module_name in module_names:
                 k = (module_name, check.__name__)
-                if not k in self.bugs or not check.__name__ in results[module_name]['results']:
+                if k not in self.bugs or check.__name__ not in results[module_name]['results']:
                     continue
                 nb_with_bugs += 1
                 if results[module_name]['results'][check.__name__][0] == 'ok':

@@ -50,8 +50,8 @@ class MonotoneRepository(Repository):
             module = self.config.branches[module]
             if not module:
                 raise FatalError(_('branch for %(name)s has wrong override, check your %(filename)s') % \
-                                   {'name'     : name,
-                                    'filename' : self.config.filename})
+                                 {'name'     : name,
+                                  'filename' : self.config.filename})
 
         if not branch:
             branch = self.defbranch

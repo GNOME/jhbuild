@@ -51,7 +51,7 @@ class cmd_sysdeps(cmd_build):
                         action="store_true", default = False,
                         dest="assume_yes",
                         help=_('assume yes/the default answer to interactive questions during installation of system '
-                                + 'dependencies"'))])
+                               + 'dependencies"'))])
 
     def run(self, config, options, args, help=None):
 
@@ -79,7 +79,7 @@ class cmd_sysdeps(cmd_build):
         if options.dump_all:
             for module in module_list:
                 if (isinstance(module, SystemModule) or isinstance(module.branch, TarballBranch) and
-                                                        module.pkg_config is not None):
+                        module.pkg_config is not None):
                     if module.pkg_config is not None:
                         print 'pkgconfig:{0}'.format(module.pkg_config[:-3]) # remove .pc
 
@@ -215,7 +215,7 @@ class cmd_sysdeps(cmd_build):
                 logging.info(_("No uninstalled system dependencies to install for modules: %r") % (modules, ))
             else:
                 logging.info(_("Installing dependencies on system: %s") % \
-                               ' '.join(pkg[0] for pkg in uninstalled))
+                             ' '.join(pkg[0] for pkg in uninstalled))
                 installer.install(uninstalled, assume_yes=options.assume_yes)
 
 register_command(cmd_sysdeps)

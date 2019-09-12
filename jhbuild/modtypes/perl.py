@@ -76,7 +76,7 @@ class PerlModule(Package, DownloadableModule):
 
     def xml_tag_and_attrs(self):
         return 'perl', [('id', 'name', None),
-                         ('makeargs', 'makeargs', '')]
+                        ('makeargs', 'makeargs', '')]
 
 
 def parse_perl(node, config, uri, repositories, default_repo):

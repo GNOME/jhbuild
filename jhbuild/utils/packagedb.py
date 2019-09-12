@@ -68,7 +68,7 @@ class PackageEntry:
         if value is None:
             self._manifest = value
             return
-        self._manifest = [x.strip() for x in value if not '\n' in value]
+        self._manifest = [x.strip() for x in value if '\n' not in value]
         if len(self._manifest) != len(value):
             logging.error(_('package %s has files with embedded new lines') % self.package)
 
@@ -190,7 +190,8 @@ class PackageDB:
         if entry is None:
             return False
         if version is not None:
-            if entry.version != version: return False
+            if entry.version != version:
+                return False
         return True
 
     def installdate(self, package, version=None):

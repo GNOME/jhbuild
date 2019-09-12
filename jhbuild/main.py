@@ -94,7 +94,7 @@ def main(args):
         localedir = None
     gettext.install('jhbuild', localedir=localedir, unicode=True)
 
-    if not 'JHBUILD_RUN_AS_ROOT' in os.environ and hasattr(os, 'getuid') and os.getuid() == 0:
+    if 'JHBUILD_RUN_AS_ROOT' not in os.environ and hasattr(os, 'getuid') and os.getuid() == 0:
         sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))
         sys.exit(1)
 
@@ -139,9 +139,12 @@ def main(args):
         sys.stderr.write('jhbuild: %s\n' % exc.args[0].encode(_encoding, 'replace'))
         sys.exit(1)
 
-    if options.moduleset: config.moduleset = options.moduleset
-    if options.nointeract: config.interact = False
-    if options.exit_on_error: config.exit_on_error = True
+    if options.moduleset:
+        config.moduleset = options.moduleset
+    if options.nointeract:
+        config.interact = False
+    if options.exit_on_error:
+        config.exit_on_error = True
 
     if not args or args[0][0] == '-':
         command = 'build' # default to cvs update + compile

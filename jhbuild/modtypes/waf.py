@@ -126,7 +126,7 @@ class WafModule(Package, DownloadableModule):
         else:
             cmd = [self.waf_cmd, 'dist']
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript),
-                                extra_env={'PYTHON': self.python_cmd})
+                            extra_env={'PYTHON': self.python_cmd})
     do_dist.depends = [PHASE_BUILD]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
