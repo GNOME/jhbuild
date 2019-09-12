@@ -614,7 +614,7 @@ class GitSvnBranch(GitBranch):
             cmd = ['git', 'svn', 'show-ignore']
             s = get_output(cmd, cwd = self.get_checkoutdir(copydir),
                     extra_env=get_git_extra_env())
-            fd = file(os.path.join(
+            fd = open(os.path.join(
                         self.get_checkoutdir(copydir), '.git/info/exclude'), 'a')
             fd.write(s)
             fd.close()

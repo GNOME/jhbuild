@@ -21,6 +21,8 @@ import os
 import sys
 import subprocess as real_subprocess
 
+from .compat import file_type
+
 PIPE = real_subprocess.PIPE
 STDOUT = real_subprocess.STDOUT
 
@@ -131,7 +133,7 @@ class Popen(real_subprocess.Popen):
         if self.__emulate_close_fds:
             for f in self.stdin, self.stdout, self.stderr:
                 # This somehow tells us if we are dealing with a pipe.
-                if isinstance(f, file) and f.name == '<fdopen>':
+                if isinstance(f, file_type) and f.name == '<fdopen>':
                     # Not that it actually matters.
                     f.close()
             sys.stdout.flush()

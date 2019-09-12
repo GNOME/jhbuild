@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 __metaclass__ = type
 __all__ = [
     'Command',
@@ -99,8 +101,8 @@ class BuildCommand(Command):
             else:
                 return ''
 
-        print _('Required packages:')
-        print _('  System installed packages which are too old:')
+        print(_('Required packages:'))
+        print(_('  System installed packages which are too old:'))
         have_too_old = False
         for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
             if (installed_version is not None) and (not new_enough) and systemmodule:
@@ -110,19 +112,19 @@ class BuildCommand(Command):
                                                   req_version,
                                                   installed_version)))
         if not have_too_old:
-            print _('    (none)')
+            print(_('    (none)'))
 
-        print _('  No matching system package installed:')
+        print(_('  No matching system package installed:'))
         have_missing = False
         for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
             if installed_version is None and (not new_enough) and systemmodule:
                 have_missing = True
-                print ('    %s %s' % (module.name,
-                                      fmt_details(module.pkg_config,
-                                                  req_version,
-                                                  installed_version)))
+                print('    %s %s' % (module.name,
+                                     fmt_details(module.pkg_config,
+                                                 req_version,
+                                                 installed_version)))
         if not have_missing:
-            print _('    (none)')
+            print(_('    (none)'))
 
 
 def print_help():
