@@ -17,6 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from .compat import string_types, text_type
 
 
 """
@@ -41,12 +42,12 @@ __all__ = ['sxml', 'sxml_to_string']
 # from Django, originally. used to make sure xml is utf-8.
 def smart_str(s, encoding='utf-8', errors='strict'):
     # Returns a bytestring version of 's', encoded as specified in 'encoding'.
-    if not isinstance(s, basestring):
+    if not isinstance(s, string_types):
         try:
             return str(s)
         except UnicodeEncodeError:
-            return unicode(s).encode(encoding, errors)
-    elif isinstance(s, unicode):
+            return text_type(s).encode(encoding, errors)
+    elif isinstance(s, text_type):
         return s.encode(encoding, errors)
     elif s and encoding != 'utf-8':
         return s.decode('utf-8', errors).encode(encoding, errors)

@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 __all__ = []
 __metaclass__ = type
 
@@ -72,7 +74,7 @@ def get_info(filename):
     return ret
 
 def get_subdirs(url):
-    print _("Getting SVN subdirs: this operation might be long...")
+    print(_("Getting SVN subdirs: this operation might be long..."))
     output = get_output(
         ['svn', 'ls', '-R', url], extra_env=get_svn_extra_env())
     ret = []

@@ -18,6 +18,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import os
 import sys
 import re
@@ -51,11 +53,11 @@ def update():
         # going to revert the update.
         if index != -1:
             out = out[:index]
-    print out
+    print(out)
     return hg.returncode == 0
 
 def undo_update(parent):
-    print 'Update failed, updating to parent revision'
+    print('Update failed, updating to parent revision')
     env = dict(os.environ)
     env['HGMERGE'] = 'false'
     call(['hg', 'update', '--noninteractive', '-q', parent], env=env)
@@ -75,7 +77,7 @@ if __name__ == '__main__':
     try:
         ret = pull_and_update()
     except OSError as e:
-        print '%s: %s' % (sys.argv[0], e)
+        print('%s: %s' % (sys.argv[0], e))
 
     if ret:
         exit_code = 0

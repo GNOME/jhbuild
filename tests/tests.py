@@ -19,6 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
 
 import os
 import shutil
@@ -47,6 +48,7 @@ from jhbuild.errors import UsageError, CommandError
 from jhbuild.modtypes import Package
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.distutils import DistutilsModule
+from jhbuild.utils.compat import text_type
 import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
@@ -56,7 +58,7 @@ from jhbuild.main import _encoding
 
 
 def uencode(s):
-    if type(s) is unicode:
+    if isinstance(s, text_type):
         return s.encode(_encoding, 'replace')
     else:
         return s
@@ -64,9 +66,9 @@ def uencode(s):
 def uprint(*args):
     '''Print Unicode string encoded for the terminal'''
     for s in args[:-1]:
-        print uencode(s),
+        print(uencode(s), end=' ')
     s = args[-1]
-    print uencode(s)
+    print(uencode(s))
 __builtin__.__dict__['uprint'] = uprint
 __builtin__.__dict__['uencode'] = uencode
 

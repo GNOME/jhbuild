@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import os
 import re
 import socket
@@ -204,7 +206,7 @@ class SymbolsCheck(Check):
                 filenames = [x for x in filenames if \
                              os.path.splitext(x)[-1] in ('.c', '.cc', '.cpp', '.h', '.glade')]
                 for filename in filenames:
-                    for s in symbol_regex.findall(file(os.path.join(base, filename)).read()):
+                    for s in symbol_regex.findall(open(os.path.join(base, filename)).read()):
                         deprecated_and_used[s] = True
         except UnicodeDecodeError:
             raise ExcludedModuleException()
@@ -257,7 +259,7 @@ class GrepCheck(Check):
                 filenames = [x for x in filenames if \
                              os.path.splitext(x)[-1] in ('.c', '.cc', '.cpp', '.h', '.glade')]
                 for filename in filenames:
-                    if self.grep in file(os.path.join(base, filename)).read():
+                    if self.grep in open(os.path.join(base, filename)).read():
                         self.nb_occurences += 1
         except UnicodeDecodeError:
             raise ExcludedModuleException()
@@ -405,7 +407,7 @@ class cmd_goalreport(Command):
             cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
         if options.cache:
             try:
-                results = cPickle.load(file(os.path.join(cachedir, options.cache)))
+                results = cPickle.load(open(os.path.join(cachedir, options.cache)))
             except:
                 pass
 
@@ -463,24 +465,24 @@ class cmd_goalreport(Command):
         if not os.path.exists(cachedir):
             os.makedirs(cachedir)
         if options.cache:
-            cPickle.dump(results, file(os.path.join(cachedir, options.cache), 'w'))
+            cPickle.dump(results, open(os.path.join(cachedir, options.cache), 'w'))
 
-        print >> output, HTML_AT_TOP % {'title': self.title}
+        print(HTML_AT_TOP % {'title': self.title}, file=output)
         if self.page_intro:
-            print >> output, self.page_intro
-        print >> output, '<table>'
-        print >> output, '<thead>'
-        print >> output, '<tr><td></td>'
+            print(self.page_intro, file=output)
+        print('<table>', file=output)
+        print('<thead>', file=output)
+        print('<tr><td></td>', file=output)
         for check in self.checks:
-            print >> output, '<th>%s</th>' % check.__name__
-        print >> output, '<td></td></tr>'
+            print('<th>%s</th>' % check.__name__, file=output)
+        print('<td></td></tr>', file=output)
         if [x for x in self.checks if x.header_note]:
-            print >> output, '<tr><td></td>'
+            print('<tr><td></td>', file=output)
             for check in self.checks:
-                print >> output, '<td>%s</td>' % (check.header_note or '')
-            print >> output, '</tr>'
-        print >> output, '</thead>'
-        print >> output, '<tbody>'
+                print('<td>%s</td>' % (check.header_note or ''), file=output)
+            print('</tr>', file=output)
+        print('</thead>', file=output)
+        print('<tbody>', file=output)
 
         processed_modules = {'gnome-common': True}
         suites = []
@@ -504,13 +506,13 @@ class cmd_goalreport(Command):
             module_names = [x for x in metamodule.dependencies if x in results]
             if not module_names:
                 continue
-            print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    1+len(self.checks)+self.repeat_row_header, suite_label)
+            print('<tr><td class="heading" colspan="%d">%s</td></tr>' % (
+                    1+len(self.checks)+self.repeat_row_header, suite_label), file=output)
             for module_name in module_names:
                 if module_name in not_other_module_names:
                     continue
                 r = results[module_name].get('results')
-                print >> output, self.get_mod_line(module_name, r)
+                print(self.get_mod_line(module_name, r), file=output)
                 processed_modules[module_name] = True
             not_other_module_names.extend(module_names)
 
@@ -519,8 +521,8 @@ class cmd_goalreport(Command):
                          x not in processed_modules and \
                          module_set.get_module(x).moduleset_name.startswith('gnome-external-deps')]
         if external_deps:
-            print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    1+len(self.checks)+self.repeat_row_header, 'External Dependencies')
+            print('<tr><td class="heading" colspan="%d">%s</td></tr>' % (
+                    1+len(self.checks)+self.repeat_row_header, 'External Dependencies'), file=output)
             for module_name in sorted(external_deps):
                 if module_name not in results:
                     continue
@@ -529,52 +531,52 @@ class cmd_goalreport(Command):
                     version = module_set.get_module(module_name).branch.version
                 except:
                     version = None
-                print >> output, self.get_mod_line(module_name, r, version_number=version)
+                print(self.get_mod_line(module_name, r, version_number=version), file=output)
 
         other_module_names = [x for x in results.keys() if \
                               x not in processed_modules and x not in external_deps]
         if other_module_names:
-            print >> output, '<tr><td class="heading" colspan="%d">%s</td></tr>' % (
-                    1+len(self.checks)+self.repeat_row_header, 'Others')
+            print('<tr><td class="heading" colspan="%d">%s</td></tr>' % (
+                    1+len(self.checks)+self.repeat_row_header, 'Others'), file=output)
             for module_name in sorted(other_module_names):
                 if module_name not in results:
                     continue
                 r = results[module_name].get('results')
-                print >> output, self.get_mod_line(module_name, r)
-        print >> output, '</tbody>'
-        print >> output, '<tfoot>'
+                print(self.get_mod_line(module_name, r), file=output)
+        print('</tbody>', file=output)
+        print('<tfoot>', file=output)
 
-        print >> output, '<tr><td></td>'
+        print('<tr><td></td>', file=output)
         for check in self.checks:
-            print >> output, '<th>%s</th>' % check.__name__
-        print >> output, '<td></td></tr>'
+            print('<th>%s</th>' % check.__name__, file=output)
+        print('<td></td></tr>', file=output)
 
-        print >> output, self.get_stat_line(results, not_other_module_names)
-        print >> output, '</tfoot>'
-        print >> output, '</table>'
+        print(self.get_stat_line(results, not_other_module_names), file=output)
+        print('</tfoot>', file=output)
+        print('</table>', file=output)
 
         if (options.bugfile and options.bugfile.startswith('http://')) or \
                 (options.falsepositivesfile and options.falsepositivesfile.startswith('http://')):
-            print >> output, '<div id="data">'
-            print >> output, '<p>The following data sources are used:</p>'
-            print >> output, '<ul>'
+            print('<div id="data">', file=output)
+            print('<p>The following data sources are used:</p>', file=output)
+            print('<ul>', file=output)
             if options.bugfile.startswith('http://'):
-                print >> output, '  <li><a href="%s">Bugs</a></li>' % options.bugfile
+                print('  <li><a href="%s">Bugs</a></li>' % options.bugfile, file=output)
             if options.falsepositivesfile.startswith('http://'):
-                print >> output, '  <li><a href="%s">False positives</a></li>' % options.falsepositivesfile
-            print >> output, '</ul>'
-            print >> output, '</div>'
+                print('  <li><a href="%s">False positives</a></li>' % options.falsepositivesfile, file=output)
+            print('</ul>', file=output)
+            print('</div>', file=output)
 
-        print >> output, '<div id="footer">'
-        print >> output, 'Generated:', time.strftime('%Y-%m-%d %H:%M:%S %z')
-        print >> output, 'on ', socket.getfqdn()
-        print >> output, '</div>'
+        print('<div id="footer">', file=output)
+        print('Generated:', time.strftime('%Y-%m-%d %H:%M:%S %z'), file=output)
+        print('on ', socket.getfqdn(), file=output)
+        print('</div>', file=output)
 
-        print >> output, '</body>'
-        print >> output, '</html>'
+        print('</body>', file=output)
+        print('</html>', file=output)
 
         if output != sys.stdout:
-            file(options.output, 'w').write(output.getvalue())
+            open(options.output, 'w').write(output.getvalue())
 
         if output != sys.stdout and config.progress_bar:
             sys.stdout.write('\n')
@@ -688,7 +690,7 @@ class cmd_goalreport(Command):
             except Exception as e:
                 logging.warning('could not download %s: %s' % (filename, e))
                 return
-        for line in file(filename):
+        for line in open(filename):
             line = line.strip()
             if not line:
                 continue
@@ -735,7 +737,7 @@ class cmd_goalreport(Command):
             except Exception as e:
                 logging.warning('could not download %s: %s' % (filename, e))
                 return
-        for line in file(filename):
+        for line in open(filename):
             line = line.strip()
             if not line:
                 continue

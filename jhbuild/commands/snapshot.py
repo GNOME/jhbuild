@@ -19,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+from __future__ import print_function
 
 import urllib2
 from optparse import make_option
@@ -55,7 +55,7 @@ class cmd_snapshot(Command):
              + [m.to_sxml() for m in checked_out_mods]
              + [m.to_sxml() for m in meta])
 
-        print '<?xml version="1.0"?>\n'
-        print sxml_to_string(x)
+        print('<?xml version="1.0"?>\n')
+        print(sxml_to_string(x))
 
 register_command(cmd_snapshot)

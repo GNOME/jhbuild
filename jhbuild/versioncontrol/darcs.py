@@ -103,7 +103,7 @@ class DarcsBranch(Branch):
                 stat = os.stat(path)
             except OSError:
                 continue
-            os.chmod(path, stat.st_mode | 0111)
+            os.chmod(path, stat.st_mode | 0o111)
 
     def checkout(self, buildscript):
         if not inpath('darcs', os.environ['PATH'].split(os.pathsep)):
@@ -116,6 +116,6 @@ class DarcsBranch(Branch):
         # this
         if not os.path.exists(self.srcdir):
             return None
-        return hashlib.md5(file(os.path.join(self.srcdir, '_darcs', 'inventory')).read()).hexdigest()
+        return hashlib.md5(open(os.path.join(self.srcdir, '_darcs', 'inventory')).read()).hexdigest()
 
 register_repo_type('darcs', DarcsRepository)

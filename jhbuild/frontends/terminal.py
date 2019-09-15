@@ -18,6 +18,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import sys
 import os
 import signal
@@ -30,6 +32,7 @@ from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
 from jhbuild.utils import notify
 from jhbuild.errors import CommandError, FatalError
+from jhbuild.utils.compat import input, string_types
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -180,7 +183,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             except OSError:
                 pass
 
-        if isinstance(command, (str, unicode)):
+        if isinstance(command, string_types):
             kws['shell'] = True
             print_args['command'] = command
         else:
@@ -197,7 +200,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not self.config.quiet_mode:
             if self.config.print_command_pattern:
                 try:
-                    print self.config.print_command_pattern % print_args
+                    print(self.config.print_command_pattern % print_args)
                 except TypeError as e:
                     raise FatalError('\'print_command_pattern\' %s' % e)
                 except KeyError as e:
@@ -249,13 +252,13 @@ class TerminalBuildScript(buildscript.BuildScript):
                     line = line[:-1]
 
                 if line.startswith('C '):
-                    print '%s%s%s' % (t_colour[12], line, t_reset)
+                    print('%s%s%s' % (t_colour[12], line, t_reset))
                 elif line.startswith('M '):
-                    print '%s%s%s' % (t_colour[10], line, t_reset)
+                    print('%s%s%s' % (t_colour[10], line, t_reset))
                 elif line.startswith('? '):
-                    print '%s%s%s' % (t_colour[8], line, t_reset)
+                    print('%s%s%s' % (t_colour[8], line, t_reset))
                 else:
-                    print line
+                    print(line)
 
             cmds.pprint_output(p, format_line)
             if conflicts:
@@ -282,7 +285,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             if p.wait() != 0:
                 if self.config.quiet_mode:
-                    print ''.join(output)
+                    print(''.join(output))
                 raise CommandError(_('########## Error running %s')
                                    % print_args['command'], p.returncode)
         except OSError:
@@ -305,8 +308,8 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             self.message(_('the following modules were not built'))
             for module in failures:
-                print module,
-            print
+                print(module, end=' ')
+            print('')
 
     def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
@@ -353,7 +356,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     altphase_label = altphase
                 uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
-            val = raw_input(uencode(_('choice: ')))
+            val = input(uencode(_('choice: ')))
             val = udecode(val)
             val = val.strip()
             if val == '1':
@@ -400,7 +403,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 except AttributeError:
                     needs_confirmation = False
                 if needs_confirmation:
-                    val = raw_input(uencode(_('Type "yes" to confirm the action: ')))
+                    val = input(uencode(_('Type "yes" to confirm the action: ')))
                     val = udecode(val)
                     val = val.strip()
 

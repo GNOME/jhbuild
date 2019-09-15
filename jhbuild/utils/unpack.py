@@ -50,9 +50,9 @@ def unpack_zip_file(localfile, target_directory):
     def attr_to_file_perm(host, attr):
         if host == 0:
             if attr & 1:
-                perm = 0444
+                perm = 0o444
             else:
-                perm = 0666
+                perm = 0o666
         else:
             perm = attr
             perm &= 0x08FF0000
@@ -64,9 +64,9 @@ def unpack_zip_file(localfile, target_directory):
         if host == 0:
             # attr & 16 should be true (this is directory bit)
             if attr & 1:
-                perm = 0444
+                perm = 0o444
             else:
-                perm = 0666
+                perm = 0o666
         else:
             perm = attr
             perm &= 0xFFFF0000

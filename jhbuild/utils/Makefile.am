@@ -3,6 +3,7 @@ appdir = $(pythondir)/jhbuild/utils/
 app_PYTHON = \
 	__init__.py \
 	cmds.py \
+	compat.py \
 	fileutils.py \
 	httpcache.py \
 	notify.py \
