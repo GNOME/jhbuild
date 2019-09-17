@@ -14,6 +14,7 @@ jhbuild: jhbuild.in
 		-e s!\@libexecdir\@!$(libexecdir)!	\
 		-e s!\@libdir\@!$(libdir)!		\
 		-e s!\@pythondir\@!$(pythondir)!	\
+		-e s!\@python\@!$(PYTHON)!	\
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
 		< $< > $@
