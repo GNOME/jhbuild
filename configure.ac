@@ -13,10 +13,29 @@ AM_MAINTAINER_MODE([enable])
 
 # Check for programs
 AC_PROG_CC
-AM_PATH_PYTHON([], [
-	AS_CASE(["$PYTHON_VERSION"],
-		[2.*], [],
-		[AC_MSG_ERROR([JHBuild only works with python 2])])])
+
+# Option to specify python interpreter to use; this just sets $PYTHON, so that
+# we will fall back to reading $PYTHON if --with-python is not given
+AC_ARG_WITH(python,
+  AS_HELP_STRING([--with-python=PATH],[Path to Python interpreter; searches $PATH if only a program name is given; if not given, searches for a few standard names such as "python3" or "python2"]),
+  [PYTHON="$withval"], [])
+if test x"$PYTHON" = xyes; then
+	AC_MSG_ERROR([--with-python option requires a path or program argument])
+fi
+if test -n "$PYTHON" && ! which "$PYTHON"; then
+	AC_MSG_ERROR([Python interpreter $PYTHON does not exist])
+fi
+
+# If PYTHON is set we use it, otherwise we only allow Python 2 until the Python 3 port is complete
+if test -n "$PYTHON"; then
+	AM_PATH_PYTHON([2.7])
+else
+	AM_PATH_PYTHON([], [
+		AS_CASE(["$PYTHON_VERSION"],
+			[2.*], [],
+			[AC_MSG_ERROR([JHBuild only works with python 2])])])
+fi
+
 PKG_PROG_PKG_CONFIG
 
 # i18n
