@@ -10,14 +10,14 @@ set -e
 
 BINDIR=$1
 DEST="$BINDIR/python2"
-PYTHON=$(which python 2>/dev/null || true);
+PYTHON=$(command -v python 2>/dev/null || true);
 
 die() { echo "$1" >&2 ; exit 2; }
 
 test -n "$BINDIR" || die "Usage: $0 BINDIR"
 test -d "$BINDIR" || die "$0: '$BINDIR' is not a directory"
 
-which python2 2>/dev/null && exit 0 # 'python2' is already on PATH
+command -v python2 2>/dev/null && exit 0 # 'python2' is already on PATH
 
 test -x "$PYTHON" || die "$0: Unable to find 'python' in the PATH"
 

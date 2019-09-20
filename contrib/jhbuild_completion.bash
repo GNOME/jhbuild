@@ -38,11 +38,11 @@ _jhbuild()
 	update|updateone|build|buildone|list|dot|info|-t|-s|-a|-n|-c)
 		# FIXME: some of these options can take multiple module names
 		# give them a list of modules
-		command_list="`jhbuild list -a`"
+		command_list="$(jhbuild list -a)"
 		;;
 	run)
 		# give them a list of commands
-		COMP_WORDS=(COMP_WORDS[0] $cur)
+		COMP_WORDS=("${COMP_WORDS[0]}" "$cur")
 		COMP_CWORD=1
 		_command
 		;;
@@ -58,7 +58,7 @@ _jhbuild()
 		command_list="gui update updateone build buildone tinderbox run shell sanitycheck bootstrap list dot info"
 
 		v=false
-		if [ $COMP_CWORD -gt 2 ]; then
+		if [ "$COMP_CWORD" -gt 2 ]; then
 			for i in $command_list; do
 				if [ "${COMP_WORDS[COMP_CWORD-2]}" == "$i" ]; then
 					v=true
@@ -67,7 +67,7 @@ _jhbuild()
 			done
 		fi
 		
-		if $v; then
+		if "$v"; then
 		   	command_list=""
 		fi
 		;;
@@ -75,7 +75,7 @@ _jhbuild()
 	
 	for i in $command_list; do
 		if [ -z "${i/$cur*}" ]; then
-			COMPREPLY=( ${COMPREPLY[@]} $i )
+			COMPREPLY=( "${COMPREPLY[@]}" "$i" )
 		fi
 	done
 }
