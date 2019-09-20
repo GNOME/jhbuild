@@ -19,8 +19,8 @@
 # IfExecutable: install-info
 # REMatch: ^share/info/.*\.info
 
-rm -f $JHBUILD_PREFIX/share/info/dir-new
-for info in $JHBUILD_PREFIX/share/info/*.info; do
-  install-info $info $JHBUILD_PREFIX/share/info/dir-new
+rm -f "$JHBUILD_PREFIX/share/info/dir-new"
+for info in "$JHBUILD_PREFIX/share/info/"*.info; do
+  install-info "$info" "$JHBUILD_PREFIX/share/info/dir-new"
 done
-mv $JHBUILD_PREFIX/share/info/dir-new $JHBUILD_PREFIX/share/info/dir
+mv "$JHBUILD_PREFIX/share/info/dir-new" "$JHBUILD_PREFIX/share/info/dir"

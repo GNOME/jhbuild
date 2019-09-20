@@ -13,12 +13,12 @@ branch="gnome-${branch//./-}"
 
 join \
      <( # list of modules defined in jhbuild without branch tag
-	"`dirname "$0"`/find-branch-moduleset" "$branch" |
+	"$(dirname "$0")/find-branch-moduleset" "$branch" |
 	grep "<cvsmodule" |
 	grep -v "$branch" |
 	sed 's/.*cvsmodule.*id="\([^"]*\)".*/\1/' |
 	sort
       ) \
      <( # list of modules in CVS with branch tag
-	"`dirname "$0"`/find-branch-modules" "$branch"
+	"$(dirname "$0")/find-branch-modules" "$branch"
       )

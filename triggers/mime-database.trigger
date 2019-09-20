@@ -19,4 +19,4 @@
 # IfExecutable: update-mime-database
 # REMatch: /mime/packages/.*\.xml
 
-update-mime-database $JHBUILD_PREFIX/share/mime
+update-mime-database "$JHBUILD_PREFIX/share/mime"
