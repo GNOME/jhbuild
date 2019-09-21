@@ -49,7 +49,7 @@ def print_help(parser):
     parser.exit()
 
 def main(args):
-    localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
+    localedir = os.path.join(DATADIR, 'locale')
     if not os.path.exists(localedir):
         localedir = None
     gettext.install('jhbuild', localedir=localedir, unicode=True)
