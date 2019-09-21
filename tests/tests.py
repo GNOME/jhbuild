@@ -121,6 +121,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
         config.top_builddir = os.path.join(config.prefix, '_jhbuild')
         os.makedirs(config.checkoutroot)
         os.makedirs(config.prefix)
+        config.buildroot = None
         config.interact = False
         config.quiet_mode = True # Not enough to disable output entirely
         config.progress_bar = False
@@ -581,6 +582,7 @@ class SimpleBranch(object):
     def __init__(self, name, dir_path):
         self.branchname = name
         self.srcdir = dir_path
+        self.checkoutdir = None
 
     def checkout(self, buildscript):
         pass
@@ -590,6 +592,9 @@ class SimpleBranch(object):
 
     def tree_id(self):
         return 'made-up-tree-id'
+
+    def get_module_basename(self):
+        return 'made-up-module-basename'
 
 
 def restore_environ(env):
