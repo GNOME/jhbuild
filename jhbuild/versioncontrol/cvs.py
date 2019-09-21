@@ -25,11 +25,7 @@ __metaclass__ = type
 
 import sys
 import os
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
-
+import hashlib
 import git
 
 from jhbuild.errors import BuildStateError, CommandError

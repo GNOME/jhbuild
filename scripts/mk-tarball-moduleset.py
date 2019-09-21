@@ -6,7 +6,7 @@ import sys
 import os
 import stat
 import re
-import md5
+import hashlib
 import getopt
 import urlparse
 import ConfigParser
@@ -90,7 +90,7 @@ class SourceRepo:
             info = os.stat(os.path.join(self.sourcedir, filename))
             source_node.setAttribute('size', str(info[stat.ST_SIZE]))
 
-            sum = md5.new()
+            sum = hashlib.new("md5")
             fp = open(os.path.join(self.sourcedir, filename), 'rb')
             data = fp.read(4096)
             while data:

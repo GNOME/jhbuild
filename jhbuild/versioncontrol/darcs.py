@@ -22,11 +22,7 @@ __metaclass__ = type
 
 import os
 import urlparse
-
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
+import hashlib
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type

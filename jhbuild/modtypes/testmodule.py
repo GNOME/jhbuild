@@ -20,11 +20,7 @@
 __metaclass__ = type
 
 import os, time, signal, subprocess, random, tempfile
-
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
+import hashlib
 
 from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.modtypes import \
