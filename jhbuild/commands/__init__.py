@@ -31,6 +31,7 @@ import sys
 import os
 
 from jhbuild.errors import UsageError, FatalError
+from jhbuild.utils import try_import_module
 
 
 class OptionParser(optparse.OptionParser):
@@ -136,10 +137,7 @@ def print_help():
         name, ext = os.path.splitext(fname)
         if not ext == '.py':
             continue
-        try:
-            __import__('jhbuild.commands.%s' % name)
-        except ImportError:
-            pass
+        try_import_module('jhbuild.commands.%s' % name)
 
     uprint(_('JHBuild commands are:'))
     commands = [(x.name, x.doc) for x in get_commands().values()]
@@ -174,10 +172,7 @@ def get_commands():
 def run(command, config, args, help):
     # if the command hasn't been registered, load a module by the same name
     if command not in _commands:
-        try:
-            __import__('jhbuild.commands.%s' % command)
-        except ImportError:
-            pass
+        try_import_module('jhbuild.commands.%s' % command)
     if command not in _commands:
         import jhbuild.moduleset
         module_set = jhbuild.moduleset.load(config)

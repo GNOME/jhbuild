@@ -31,11 +31,12 @@ import os
 import re
 import shutil
 import logging
+import importlib
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, try_import_module
 import jhbuild.utils.fileutils as fileutils
 
 _module_types = {}
@@ -45,7 +46,7 @@ def register_module_type(name, parse_func):
 def register_lazy_module_type(name, module):
     def parse_func(node, config, uri, repositories, default_repo):
         old_func = _module_types[name]
-        __import__(module)
+        importlib.import_module(module)
         assert _module_types[name] != old_func, (
             'module did not register new parser_func for %s' % name)
         return _module_types[name](node, config, uri, repositories, default_repo)
@@ -53,10 +54,7 @@ def register_lazy_module_type(name, module):
 
 def parse_xml_node(node, config, uri, repositories, default_repo):
     if node.nodeName not in _module_types:
-        try:
-            __import__('jhbuild.modtypes.%s' % node.nodeName)
-        except ImportError:
-            pass
+        try_import_module('jhbuild.modtypes.%s' % node.nodeName)
     if node.nodeName not in _module_types:
         raise FatalError(_('unknown module type %s') % node.nodeName)
 

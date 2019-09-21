@@ -14,6 +14,8 @@
 
 import os
 import sys
+import importlib
+import pkgutil
 
 
 def inpath(filename, path):
@@ -24,3 +26,11 @@ def inpath(filename, path):
         if sys.platform.startswith('win') and os.path.isfile(os.path.join(dir, filename + '.exe')):
             return True
     return False
+
+
+def try_import_module(module_name):
+    """Like importlib.import_module() but doesn't raise if the module doesn't exist"""
+
+    if pkgutil.get_loader(module_name) is None:
+        return
+    return importlib.import_module(module_name)

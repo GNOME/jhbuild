@@ -27,6 +27,7 @@ __all__ = [
 __metaclass__ = type
 
 from jhbuild.errors import FatalError, BuildStateError
+from jhbuild.utils import try_import_module
 import os
 
 class Repository:
@@ -191,10 +192,7 @@ def register_repo_type(name, repo_class):
 
 def get_repo_type(name):
     if name not in _repo_types:
-        try:
-            __import__('jhbuild.versioncontrol.%s' % name)
-        except ImportError:
-            pass
+        try_import_module('jhbuild.versioncontrol.%s' % name)
     if name not in _repo_types:
         raise FatalError(_('unknown repository type %s') % name)
     return _repo_types[name]
