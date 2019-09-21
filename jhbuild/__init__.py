@@ -15,5 +15,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+# We used to import pygtk which sets things to utf-8 and masks ascii encoding errors.
+# It's usually what we want, and there are not many downsides, so replicate it here.
+import sys
+if sys.version_info[0] == 2:
+    import __builtin__
+    __builtin__.reload(sys)
+    sys.setdefaultencoding("utf-8")
+
 from jhbuild import monkeypatch
 del monkeypatch
