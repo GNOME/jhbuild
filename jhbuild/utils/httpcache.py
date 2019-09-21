@@ -36,11 +36,7 @@ import time
 from email.utils import parsedate_tz, mktime_tz
 import StringIO
 import gzip
-
-try:
-    import xml.dom.minidom
-except ImportError:
-    raise SystemExit(_('Python XML packages are required but could not be found'))
+import xml.dom.minidom
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
