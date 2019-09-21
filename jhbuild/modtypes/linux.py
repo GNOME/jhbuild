@@ -26,7 +26,7 @@ import errno
 
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
-     register_module_type, MakeModule
+     register_module_type, MakeModule, get_branch
 
 __all__ = [ 'LinuxModule' ]
 
@@ -227,6 +227,7 @@ def get_kconfigs(node, repositories, default_repo):
     id = node.getAttribute('id')
 
     kconfigs = []
+    kconfig = None
 
     for childnode in node.childNodes:
         if childnode.nodeType != childnode.ELEMENT_NODE or childnode.nodeName != 'kconfig':
@@ -238,7 +239,7 @@ def get_kconfigs(node, repositories, default_repo):
                 repo = repositories[repo_name]
             except KeyError:
                 raise FatalError(_('Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. Possible repositories are %(possible)s'
-                                    % {'missing': repo_name, 'linux_id': id, 'possible': repositories}))
+                                   % {'missing': repo_name, 'linux_id': id, 'possible': repositories}))
         else:
             try:
                 repo = repositories[default_repo]
