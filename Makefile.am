@@ -27,7 +27,25 @@ EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	README.rst \
 	modulesets/moduleset.xsl \
 	autogen.sh \
-	jhbuild.desktop.in.in jhbuild.desktop.in
+	jhbuild.desktop.in.in jhbuild.desktop.in \
+	tests/test_main.py \
+	tests/mock.py \
+	tests/autotools/autogen.sh \
+	tests/autotools/configure.in \
+	tests/autotools/hello.c \
+	tests/autotools/Makefile.am \
+	tests/distutils/hello \
+	tests/distutils/setup.py \
+	tests/hello/autogen.sh \
+	tests/hello/configure.in \
+	tests/hello/hello-frontend.c \
+	tests/hello/Makefile.am \
+	tests/libhello/autogen.sh \
+	tests/libhello/configure.in \
+	tests/libhello/libhello.c \
+	tests/libhello/libhello.h \
+	tests/libhello/libhello.pc.in \
+	tests/libhello/Makefile.am
 
 CLEANFILES = \
 	$(desktop_DATA)
@@ -38,17 +56,7 @@ MAINTAINERCLEANFILES = \
 install-exec-local:
 	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)
 
-# Check the modulesets for validity.
-# This is a lower-level check than `jhbuild checkmodulesets` (which analyses the
-# module graph), and doesn't require jhbuild to be built and installed.
-#
-# This will fail if xmllint or trang isn't installed.
-check-modulesets:
-	xmllint --noout --dtdvalid $(srcdir)/modulesets/moduleset.dtd $(MODULESETS)
-	trang $(srcdir)/modulesets/moduleset.rnc $(builddir)/moduleset.rng
-	xmllint --noout --relaxng $(builddir)/moduleset.rng $(MODULESETS)
-	rm -f $(builddir)/moduleset.rng
-.PHONY: check-modulesets
+check:
+	$(PYTHON) -m unittest discover -v -s $(top_srcdir)/tests
 
-check: check-modulesets
 .PHONY: check

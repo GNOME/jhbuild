@@ -26,6 +26,7 @@ import shutil
 import logging
 import subprocess
 import sys
+import glob
 import tempfile
 import unittest
 
@@ -33,9 +34,11 @@ import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 __builtin__.__dict__['N_'] = lambda x: x
 
+SRCDIR = os.path.join(os.path.dirname(__file__), '..')
+
 __builtin__.__dict__['PKGDATADIR'] = None
 __builtin__.__dict__['DATADIR'] = None
-__builtin__.__dict__['SRCDIR'] = os.path.join(os.path.dirname(__file__), '..')
+__builtin__.__dict__['SRCDIR'] = SRCDIR
 
 sys.path.insert(0, SRCDIR)
 
@@ -83,6 +86,64 @@ if sys.platform.startswith('win'):
             cmdline = 'test "no quotes" != \\"no\\ quotes\\"'
             cmd_list = subprocess_win32.cmdline2list (cmdline)
             self.assertEqual (cmd_list, ['test', 'no quotes', '!=', '"no\\ quotes"'])
+
+
+def has_xmllint():
+    try:
+        subprocess.check_output(['xmllint'], stderr=subprocess.STDOUT)
+    except OSError:
+        return False
+    except subprocess.CalledProcessError:
+        pass
+    return True
+
+
+def has_trang():
+    try:
+        subprocess.check_output(['trang2'], stderr=subprocess.STDOUT)
+    except OSError:
+        return False
+    except subprocess.CalledProcessError:
+        pass
+    return True
+
+
+class ModulesetXMLTest(unittest.TestCase):
+    """Check the modulesets for validity.
+
+    This is a lower-level check than `jhbuild checkmodulesets` (which analyses the
+    module graph), and doesn't require jhbuild to be built and installed.
+    """
+
+    @unittest.skipUnless(has_xmllint(), "no xmllint")
+    def test_dtd(self):
+        modulesets = os.path.join(SRCDIR, 'modulesets')
+        modules = glob.glob(os.path.join(modulesets, '*.modules'))
+        dtd = os.path.join(modulesets, 'moduleset.dtd')
+        try:
+            subprocess.check_output(
+                ['xmllint', '--noout', '--dtdvalid', dtd] + modules, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            raise Exception(e.output)
+
+    @unittest.skipUnless(has_xmllint(), "no xmllint")
+    @unittest.skipUnless(has_trang(), "no trang")
+    def test_relaxng(self):
+        modulesets = os.path.join(SRCDIR, 'modulesets')
+        modules = glob.glob(os.path.join(modulesets, '*.modules'))
+        rnc = os.path.join(modulesets, 'moduleset.rnc')
+        temp_dir = tempfile.mkdtemp()
+        rng = os.path.join(temp_dir, 'moduleset.rng')
+        try:
+            subprocess.check_output(
+                ['trang', rnc, rng], stderr=subprocess.STDOUT)
+            subprocess.check_output(
+                ['xmllint', '--noout', '--relaxng', rng] + modules, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            raise Exception(e.output)
+        finally:
+            shutil.rmtree(temp_dir)
+
 
 class _TestConfig(jhbuild.config.Config):
 
@@ -132,6 +193,9 @@ class JhbuildConfigTestCase(unittest.TestCase):
         branch_dir = os.path.join(config.checkoutroot, src_name)
         shutil.copytree(os.path.join(os.path.dirname(__file__), src_name),
                         branch_dir)
+        # With 'make distcheck' the source is read only, so we need to chmod
+        # after copying
+        os.chmod(branch_dir, 0o777)
         return SimpleBranch(src_name, branch_dir)
 
     def make_terminal_buildscript(self, config, module_list):
