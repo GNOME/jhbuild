@@ -30,7 +30,7 @@ except ImportError:
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 
 class DarcsRepository(Repository):
     """A class representing a Darcs repository.

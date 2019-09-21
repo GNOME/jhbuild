@@ -34,7 +34,7 @@ from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 import jhbuild.versioncontrol.svn
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 from jhbuild.utils.sxml import sxml
 
 # Make sure that the urlparse module considers git:// and git+ssh://

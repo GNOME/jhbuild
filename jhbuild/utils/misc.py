@@ -1,8 +1,3 @@
-# jhbuild - a tool to ease building collections of source packages
-# Copyright (C) 2001-2004  James Henstridge
-#
-#   __init__.py: module for miscelaneous utility functions
-#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -17,4 +12,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from .misc import inpath
+import os
+import sys
+
+
+def inpath(filename, path):
+    for dir in path:
+        if os.path.isfile(os.path.join(dir, filename)):
+            return True
+        # also check for filename.exe on Windows
+        if sys.platform.startswith('win') and os.path.isfile(os.path.join(dir, filename + '.exe')):
+            return True
+    return False
