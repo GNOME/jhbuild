@@ -21,6 +21,7 @@ __metaclass__ = type
 
 import os
 
+from jhbuild.utils import _
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type
 

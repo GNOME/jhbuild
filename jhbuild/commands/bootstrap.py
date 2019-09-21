@@ -19,6 +19,7 @@
 
 from jhbuild.commands import register_command
 from jhbuild.commands.base import cmd_build
+from jhbuild.utils import N_
 
 class cmd_bootstrap(cmd_build):
     doc = N_('Build support tools')

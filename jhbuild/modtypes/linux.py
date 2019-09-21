@@ -27,6 +27,7 @@ import errno
 from jhbuild.errors import FatalError, BuildStateError
 from jhbuild.modtypes import \
      register_module_type, MakeModule, get_branch
+from jhbuild.utils import _
 
 __all__ = [ 'LinuxModule' ]
 

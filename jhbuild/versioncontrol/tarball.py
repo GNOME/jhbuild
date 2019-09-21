@@ -32,7 +32,7 @@ from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils.cmds import has_command, get_output
 from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
-from jhbuild.utils import httpcache
+from jhbuild.utils import httpcache, _
 from jhbuild.utils.sxml import sxml
 
 

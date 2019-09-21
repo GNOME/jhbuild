@@ -26,6 +26,7 @@ import logging
 import xml.dom.minidom
 import xml.parsers.expat
 
+from jhbuild.utils import _
 from jhbuild.errors import UsageError, FatalError, \
              CommandError, UndefinedRepositoryError
 from jhbuild import modtypes

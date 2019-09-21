@@ -21,6 +21,7 @@ __metaclass__ = type
 
 import logging
 
+from jhbuild.utils import _
 from jhbuild.modtypes import register_module_type, get_dependencies, find_first_child_node_content
 
 def parse_tarball(node, config, uri, repositories, default_repo):

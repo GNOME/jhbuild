@@ -24,7 +24,7 @@ import subprocess
 import sys
 
 from jhbuild.utils import trigger
-from jhbuild.utils import cmds
+from jhbuild.utils import cmds, _
 from jhbuild.errors import FatalError, CommandError, SkipToPhase, SkipToEnd
 from jhbuild.utils.compat import string_types
 

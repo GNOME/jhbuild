@@ -24,7 +24,7 @@ import tempfile
 
 from jhbuild.utils.cmds import has_command
 from jhbuild.errors import CommandError
-from jhbuild.utils import fileutils
+from jhbuild.utils import fileutils, _
 
 
 def unpack_tar_file(localfile, target_directory):

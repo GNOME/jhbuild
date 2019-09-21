@@ -24,13 +24,11 @@ import optparse
 import logging
 
 import gettext
-import __builtin__
-__builtin__.__dict__['N_'] = lambda x: x
 
 import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
-from jhbuild.utils import uprint, _encoding
+from jhbuild.utils import uprint, _encoding, install_translation, _
 from jhbuild.moduleset import warn_local_modulesets
 
 
@@ -52,7 +50,7 @@ def main(args):
     localedir = os.path.join(DATADIR, 'locale')
     if not os.path.exists(localedir):
         localedir = None
-    gettext.install('jhbuild', localedir=localedir, unicode=True)
+    install_translation(gettext.translation('jhbuild', localedir=localedir, fallback=True))
 
     if 'JHBUILD_RUN_AS_ROOT' not in os.environ and hasattr(os, 'getuid') and os.getuid() == 0:
         sys.stderr.write(_('You should not run jhbuild as root.\n').encode(_encoding, 'replace'))

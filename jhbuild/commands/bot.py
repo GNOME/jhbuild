@@ -27,6 +27,7 @@ from optparse import make_option
 
 from jhbuild.commands import Command, register_command
 from jhbuild.errors import FatalError
+from jhbuild.utils import N_, _
 
 
 class cmd_bot(Command):

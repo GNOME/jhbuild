@@ -24,6 +24,7 @@ import subprocess
 import sys
 from signal import SIGINT
 from jhbuild.errors import CommandError
+from jhbuild.utils import _
 from jhbuild.utils.compat import string_types
 
 def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):

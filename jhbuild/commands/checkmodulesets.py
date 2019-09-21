@@ -20,6 +20,7 @@
 import logging
 
 import jhbuild.moduleset
+from jhbuild.utils import N_, _
 from jhbuild.commands import Command, register_command
 
 class cmd_checkmodulesets(Command):

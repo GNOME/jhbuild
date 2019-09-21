@@ -23,7 +23,7 @@ from optparse import make_option
 
 import jhbuild.moduleset
 import jhbuild.frontends
-from jhbuild.utils import uprint
+from jhbuild.utils import uprint, N_, _
 from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.modtypes import MetaModule

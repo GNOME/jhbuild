@@ -22,7 +22,7 @@ from optparse import make_option
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 from jhbuild.utils.cmds import get_output
-from jhbuild.utils import uprint
+from jhbuild.utils import uprint, N_, _
 from jhbuild.errors import CommandError
 
 class cmd_checkbranches(Command):

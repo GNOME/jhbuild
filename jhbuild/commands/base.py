@@ -25,7 +25,7 @@ import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, BuildCommand, register_command
-from jhbuild.utils import uprint
+from jhbuild.utils import uprint, N_, _
 
 
 class cmd_update(Command):

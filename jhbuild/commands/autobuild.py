@@ -21,6 +21,7 @@ from optparse import make_option
 
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands.base import Command, register_command
+from jhbuild.utils import N_, _
 import jhbuild.frontends
 
 class cmd_autobuild(Command):

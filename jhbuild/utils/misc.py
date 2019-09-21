@@ -75,3 +75,20 @@ def uprint(*args):
         print(uencode(s), end=' ')
     s = args[-1]
     print(uencode(s))
+
+def N_(x):
+    return text_type(x)
+
+_ugettext = None
+
+def _(x):
+    x = text_type(x)
+    if _ugettext is not None:
+        return _ugettext(x)
+    return x
+
+
+def install_translation(translation):
+    global _ugettext
+
+    _ugettext = translation.ugettext

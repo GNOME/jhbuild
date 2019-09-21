@@ -24,6 +24,7 @@ import jhbuild.frontends
 from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.modtypes.autotools import AutogenModule
+from jhbuild.utils import N_, _
 
 
 class cmd_uninstall(Command):
