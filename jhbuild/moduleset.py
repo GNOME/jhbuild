@@ -23,16 +23,11 @@ import os
 import sys
 import urlparse
 import logging
+import xml.dom.minidom
+import xml.parsers.expat
 
 from jhbuild.errors import UsageError, FatalError, \
              CommandError, UndefinedRepositoryError
-
-try:
-    import xml.dom.minidom
-    import xml.parsers.expat
-except ImportError:
-    raise FatalError(_('Python XML packages are required but could not be found'))
-
 from jhbuild import modtypes
 from jhbuild.versioncontrol import get_repo_type
 from jhbuild.utils import httpcache
