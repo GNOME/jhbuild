@@ -31,6 +31,7 @@ from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
 from jhbuild.utils import notify
+from jhbuild.utils import uprint, uencode, udecode
 from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.compat import input, string_types
 

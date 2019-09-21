@@ -30,7 +30,7 @@ import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, BuildCommand, register_command
-
+from jhbuild.utils import uprint
 from jhbuild.config import parse_relative_time
 
 

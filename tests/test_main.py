@@ -51,30 +51,11 @@ from jhbuild.errors import UsageError, CommandError
 from jhbuild.modtypes import Package
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.distutils import DistutilsModule
-from jhbuild.utils.compat import text_type
 import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
 import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
-from jhbuild.main import _encoding
-
-
-def uencode(s):
-    if isinstance(s, text_type):
-        return s.encode(_encoding, 'replace')
-    else:
-        return s
-
-def uprint(*args):
-    '''Print Unicode string encoded for the terminal'''
-    for s in args[:-1]:
-        print(uencode(s), end=' ')
-    s = args[-1]
-    print(uencode(s))
-__builtin__.__dict__['uprint'] = uprint
-__builtin__.__dict__['uencode'] = uencode
-
 
 import mock
 
