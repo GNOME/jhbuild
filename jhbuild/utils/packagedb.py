@@ -27,10 +27,7 @@ try:
 except ImportError:
     import md5 as hashlib
 
-try:
-    import xml.etree.ElementTree as ET
-except ImportError:
-    import elementtree.ElementTree as ET
+import xml.etree.ElementTree as ET
 
 from jhbuild.utils import fileutils
 
