@@ -34,10 +34,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-try:
-    import elementtree.ElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
 
 try:
     import curses
