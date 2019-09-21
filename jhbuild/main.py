@@ -23,6 +23,7 @@ import sys, os, errno
 import optparse
 import traceback
 import logging
+import locale
 
 import gettext
 import __builtin__
@@ -36,23 +37,22 @@ from jhbuild.moduleset import warn_local_modulesets
 from jhbuild.utils.compat import text_type
 
 
-if sys.platform == 'darwin':
-    # work around locale.getpreferredencoding() returning an empty string in
-    # Mac OS X, see http://bugzilla.gnome.org/show_bug.cgi?id=534650 and
-    # http://bazaar-vcs.org/DarwinCommandLineArgumentDecoding
-    sys.platform = 'posix'
+def _get_encoding():
     try:
-        import locale
-    finally:
-        sys.platform = 'darwin'
-else:
-    import locale
+        encoding = locale.getpreferredencoding()
+    except locale.Error:
+        encoding = ""
+    if not encoding:
+        # work around locale.getpreferredencoding() returning an empty string in
+        # Mac OS X, see http://bugzilla.gnome.org/show_bug.cgi?id=534650
+        if sys.platform == "darwin":
+            encoding = "utf-8"
+        else:
+            encoding = "ascii"
+    return encoding
 
-try:
-    _encoding = locale.getpreferredencoding()
-    assert _encoding
-except (locale.Error, AssertionError):
-    _encoding = 'ascii'
+_encoding = _get_encoding()
+
 
 def uencode(s):
     if isinstance(s, text_type):
