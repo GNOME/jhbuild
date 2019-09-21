@@ -21,11 +21,7 @@ import os
 import time
 import logging
 import errno
-
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
+import hashlib
 
 import xml.etree.ElementTree as ET
 

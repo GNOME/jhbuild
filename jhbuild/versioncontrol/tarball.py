@@ -21,10 +21,7 @@ __all__ = []
 __metaclass__ = type
 
 import os
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
+import hashlib
 import urlparse
 import urllib2
 import logging
@@ -77,7 +74,7 @@ class TarballRepository(Repository):
             checkoutdir = checkoutdir.replace('${version}', version)
         if size is not None:
             size = int(size)
-        if md5sum and (not hash or hashlib.__name__ == 'md5'):
+        if md5sum and not hash:
             hash = 'md5:' + md5sum
         if rename_tarball is not None:
             rename_tarball = rename_tarball.replace('${name}', name).replace('${version}', version)

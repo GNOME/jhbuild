@@ -22,10 +22,7 @@ __metaclass__ = type
 
 import os
 import stat
-try:
-    import hashlib
-except ImportError:
-    import md5 as hashlib
+import hashlib
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.modtypes import \
