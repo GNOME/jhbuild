@@ -84,7 +84,7 @@ if sys.platform.startswith('win'):
             cmd_list = subprocess_win32.cmdline2list (cmdline)
             self.assertEqual (cmd_list, ['test', 'no quotes', '!=', '"no\\ quotes"'])
 
-class TestConfig(jhbuild.config.Config):
+class _TestConfig(jhbuild.config.Config):
 
     # The Config base class calls setup_env() in the constructor, but
     # we need to override some attributes before calling it.
@@ -115,7 +115,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
 
     def make_config(self):
         temp_dir = self.make_temp_dir()
-        config = TestConfig(None, [])
+        config = _TestConfig(None, [])
         config.checkoutroot = os.path.abspath(os.path.join(temp_dir, 'checkout'))
         config.prefix = os.path.abspath(os.path.join(temp_dir, 'prefix'))
         config.top_builddir = os.path.join(config.prefix, '_jhbuild')
