@@ -19,17 +19,16 @@
 
 __metaclass__ = type
 
-import os, time, signal, sys, subprocess, random, tempfile
+import os, time, signal, subprocess, random, tempfile
 
 try:
     import hashlib
 except ImportError:
     import md5 as hashlib
 
-from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type
-from jhbuild.modtypes.autotools import AutogenModule
 
 import xml.dom.minidom
 

@@ -22,11 +22,11 @@ __metaclass__ = type
 import os
 import shutil
 
-from jhbuild.errors import BuildStateError, CommandError
+from jhbuild.errors import CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, NinjaModule
 from jhbuild.modtypes.autotools import collect_args
-from jhbuild.utils import inpath, fileutils
+from jhbuild.utils import inpath
 
 __all__ = [ 'MesonModule' ]
 

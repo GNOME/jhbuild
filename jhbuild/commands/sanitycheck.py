@@ -17,9 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys
 import os
-import re
 
 from jhbuild.commands import Command, register_command
 from jhbuild.utils.cmds import get_output, check_version
@@ -138,10 +136,12 @@ class cmd_sanitycheck(Command):
         # check for "sysdeps --install" deps:
         try:
             import glib
+            glib
         except:
             uprint(_('%s not found') % 'python-gobject')
         try:
             import dbus.glib
+            dbus.glib
         except:
             uprint(_('%s not found') % 'dbus-python')
 

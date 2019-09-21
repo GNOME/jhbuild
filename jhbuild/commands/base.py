@@ -18,11 +18,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import optparse
-import re
-import stat
-import sys
-import time
 from optparse import make_option
 import logging
 
@@ -31,7 +26,6 @@ import jhbuild.frontends
 from jhbuild.errors import UsageError, FatalError, CommandError
 from jhbuild.commands import Command, BuildCommand, register_command
 from jhbuild.utils import uprint
-from jhbuild.config import parse_relative_time
 
 
 class cmd_update(Command):

@@ -27,7 +27,6 @@ import traceback
 import time
 import types
 import logging
-import __builtin__
 
 from jhbuild.environment import setup_env, setup_env_defaults, addpath
 from jhbuild.errors import FatalError
@@ -37,6 +36,7 @@ from jhbuild.utils.compat import execfile
 if sys.platform.startswith('win'):
     # For munging paths for MSYS's benefit
     import jhbuild.utils.subprocess_win32
+    jhbuild.utils.subprocess_win32
 
 __all__ = [ 'Config' ]
 
@@ -400,6 +400,7 @@ class Config:
         if k == 'quiet_mode' and v:
             try:
                 import curses
+                curses
                 logging.getLogger().setLevel(logging.ERROR)
             except ImportError:
                 logging.warning(

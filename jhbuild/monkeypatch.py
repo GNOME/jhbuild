@@ -18,7 +18,6 @@
 # extras not found in old versions of Python
 
 import sys
-import __builtin__
 
 # Windows lacks all sorts of subprocess features that we need to kludge around
 if sys.platform.startswith('win'):

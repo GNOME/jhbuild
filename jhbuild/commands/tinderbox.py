@@ -22,7 +22,6 @@ from optparse import make_option
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands import Command, BuildCommand, register_command
 import jhbuild.frontends
-import optparse
 
 
 class cmd_tinderbox(BuildCommand):

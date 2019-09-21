@@ -20,7 +20,6 @@
 # Author: Colin Walters <walters@verbum.org>
 
 import os
-import sys
 import errno
 
 def _accumulate_dirtree_contents_recurse(path, contents):

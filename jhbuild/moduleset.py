@@ -24,7 +24,7 @@ import sys
 import urlparse
 import logging
 
-from jhbuild.errors import UsageError, FatalError, DependencyCycleError, \
+from jhbuild.errors import UsageError, FatalError, \
              CommandError, UndefinedRepositoryError
 
 try:
@@ -277,7 +277,6 @@ class ModuleSet:
 
     def write_dot(self, modules=None, fp=sys.stdout, suggests=False, clusters=False):
         from jhbuild.modtypes import MetaModule
-        from jhbuild.modtypes.autotools import AutogenModule
         from jhbuild.versioncontrol.tarball import TarballBranch
         
         if modules is None:

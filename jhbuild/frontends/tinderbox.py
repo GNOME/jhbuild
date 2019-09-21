@@ -20,7 +20,6 @@
 import os
 import time
 import subprocess
-import locale
 import logging
 import codecs
 import sys
@@ -31,7 +30,6 @@ from jhbuild.utils import sysid
 from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.compat import string_types, text_type
 import buildscript
-import commands
 
 index_header = '''<html>
   <head>

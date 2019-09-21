@@ -27,7 +27,6 @@ import urlparse
 import subprocess
 import re
 import urllib
-import sys
 import logging
 
 from jhbuild.errors import FatalError, CommandError

@@ -22,7 +22,7 @@ __metaclass__ = type
 import os
 import shutil
 
-from jhbuild.errors import BuildStateError, CommandError
+from jhbuild.errors import CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, MakeModule, NinjaModule
 from jhbuild.modtypes.autotools import collect_args

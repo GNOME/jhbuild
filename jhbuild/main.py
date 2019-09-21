@@ -21,7 +21,6 @@ from __future__ import print_function
 
 import sys, os, errno
 import optparse
-import traceback
 import logging
 
 import gettext
@@ -31,7 +30,6 @@ __builtin__.__dict__['N_'] = lambda x: x
 import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
-from jhbuild.utils.cmds import get_output
 from jhbuild.utils import uprint, _encoding
 from jhbuild.moduleset import warn_local_modulesets
 
