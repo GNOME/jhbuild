@@ -173,7 +173,7 @@ def pprint_output(pipe, format_line):
         read_set.append(pipe.stdout)
     if pipe.stderr:
         read_set.append(pipe.stderr)
-    if not sys.stdin.closed:
+    if not getattr(sys.stdin, "closed", True):
         read_set.append(sys.stdin)
 
     out_data = err_data = ''
