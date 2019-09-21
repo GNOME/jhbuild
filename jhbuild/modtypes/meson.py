@@ -26,8 +26,7 @@ from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, NinjaModule
 from jhbuild.modtypes.autotools import collect_args
-from jhbuild.commands.sanitycheck import inpath
-from jhbuild.utils import fileutils
+from jhbuild.utils import inpath, fileutils
 
 __all__ = [ 'MesonModule' ]
 

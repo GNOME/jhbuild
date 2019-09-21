@@ -29,7 +29,7 @@ import subprocess
 from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 from jhbuild.utils.sxml import sxml
 
 import bzr, git

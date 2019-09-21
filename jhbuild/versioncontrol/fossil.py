@@ -28,7 +28,7 @@ from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 
 class FossilRepository(Repository):
     """A class representing a Fossil repository."""

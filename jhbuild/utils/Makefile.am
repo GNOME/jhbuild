@@ -6,6 +6,7 @@ app_PYTHON = \
 	compat.py \
 	fileutils.py \
 	httpcache.py \
+	misc.py \
 	notify.py \
 	packagedb.py \
 	sxml.py \

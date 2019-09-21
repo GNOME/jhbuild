@@ -26,7 +26,7 @@ from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type, MakeModule, NinjaModule
 from jhbuild.modtypes.autotools import collect_args
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 
 __all__ = [ 'CMakeModule' ]
 
