@@ -24,7 +24,6 @@ import sys
 import logging
 import shlex
 import subprocess
-import pipes
 import imp
 import textwrap
 import time

@@ -20,13 +20,10 @@
 import logging
 import os
 import pipes
-import sys
-import time
 from optparse import make_option
 
 import jhbuild.moduleset
 import jhbuild.frontends
-from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 
 class cmd_make(Command):

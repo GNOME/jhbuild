@@ -18,11 +18,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import logging
-from optparse import make_option
 
 import jhbuild.moduleset
 import jhbuild.frontends
-from jhbuild.errors import UsageError, FatalError
+from jhbuild.errors import FatalError
 from jhbuild.commands import Command, register_command
 from jhbuild.modtypes.autotools import AutogenModule
 

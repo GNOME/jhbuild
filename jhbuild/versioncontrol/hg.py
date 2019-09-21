@@ -22,7 +22,6 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import sys
 import urlparse
 from subprocess import Popen, PIPE
 

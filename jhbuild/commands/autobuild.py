@@ -22,7 +22,6 @@ from optparse import make_option
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.commands.base import Command, register_command
 import jhbuild.frontends
-import optparse
 
 class cmd_autobuild(Command):
     doc = N_('Build modules non-interactively and upload results to JhAutobuild')

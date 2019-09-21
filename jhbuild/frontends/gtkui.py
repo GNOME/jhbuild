@@ -29,7 +29,6 @@ import fcntl
 import select
 import subprocess
 
-import gobject
 import gtk
 import pango
 try:

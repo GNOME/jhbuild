@@ -18,11 +18,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os
-import sys
 import time
 import logging
 import errno
-import xml.dom.minidom as DOM
+
 try:
     import hashlib
 except ImportError:
@@ -32,8 +31,6 @@ try:
     import xml.etree.ElementTree as ET
 except ImportError:
     import elementtree.ElementTree as ET
-
-from StringIO import StringIO
 
 from jhbuild.utils import fileutils
 

@@ -23,7 +23,6 @@ import sys
 import os
 from distutils.sysconfig import get_python_lib
 
-from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 
 if sys.platform.startswith('win'):

@@ -30,7 +30,7 @@ import optparse
 import sys
 import os
 
-from jhbuild.errors import UsageError, FatalError
+from jhbuild.errors import FatalError
 from jhbuild.utils import try_import_module, uprint, uencode
 
 
@@ -189,3 +189,6 @@ def run(command, config, args, help):
 
 
 from jhbuild.commands import base
+
+# flake8: base inits things at import
+base

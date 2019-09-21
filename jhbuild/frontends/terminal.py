@@ -25,7 +25,6 @@ import os
 import signal
 import subprocess
 import unicodedata
-import locale
 
 from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds

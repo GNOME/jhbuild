@@ -21,9 +21,6 @@
 
 from __future__ import print_function
 
-import urllib2
-from optparse import make_option
-
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 

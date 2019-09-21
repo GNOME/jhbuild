@@ -44,7 +44,6 @@ try:
 except ImportError:
     curses = None
 
-from jhbuild.errors import FatalError
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 from jhbuild.utils import httpcache, cmds

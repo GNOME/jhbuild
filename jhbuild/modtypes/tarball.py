@@ -19,7 +19,6 @@
 
 __metaclass__ = type
 
-import sys
 import logging
 
 try:
