@@ -35,10 +35,7 @@ import urlparse
 import time
 import rfc822
 import StringIO
-try:
-    import gzip
-except ImportError:
-    gzip = None
+import gzip
 
 try:
     import xml.dom.minidom
@@ -188,8 +185,7 @@ class Cache:
             raise RuntimeError(_('file not in cache, but not allowed to check network'))
 
         request = urllib2.Request(uri)
-        if gzip:
-            request.add_header('Accept-encoding', 'gzip')
+        request.add_header('Accept-encoding', 'gzip')
         if entry:
             if entry.modified:
                 request.add_header('If-Modified-Since', entry.modified)
@@ -201,7 +197,7 @@ class Cache:
 
             # get data, and gunzip it if it is encoded
             data = response.read()
-            if gzip and response.headers.get('Content-Encoding', '') == 'gzip':
+            if response.headers.get('Content-Encoding', '') == 'gzip':
                 try:
                     data = gzip.GzipFile(fileobj=StringIO.StringIO(data)).read()
                 except:
