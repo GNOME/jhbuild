@@ -23,6 +23,7 @@ import re
 
 from jhbuild.commands import Command, register_command
 from jhbuild.utils.cmds import get_output, check_version
+from jhbuild.utils import inpath
 from jhbuild.errors import UsageError, CommandError
 
 def get_aclocal_path():
@@ -31,15 +32,6 @@ def get_aclocal_path():
     data = get_output(['aclocal', '--print-ac-dir'])
     path.append(data[:-1])
     return path
-
-def inpath(filename, path):
-    for dir in path:
-        if os.path.isfile(os.path.join(dir, filename)):
-            return True
-        # also check for filename.exe on Windows
-        if sys.platform.startswith('win') and os.path.isfile(os.path.join(dir, filename + '.exe')):
-            return True
-    return False
 
 
 class cmd_sanitycheck(Command):

@@ -27,7 +27,7 @@ import re
 from jhbuild.errors import FatalError, BuildStateError, CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 
 __all__ = [ 'WafModule' ]
 

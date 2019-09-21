@@ -35,7 +35,7 @@ import logging
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
-from jhbuild.commands.sanitycheck import inpath
+from jhbuild.utils import inpath
 import jhbuild.utils.fileutils as fileutils
 
 _module_types = {}
