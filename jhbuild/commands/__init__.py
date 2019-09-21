@@ -31,7 +31,7 @@ import sys
 import os
 
 from jhbuild.errors import UsageError, FatalError
-from jhbuild.utils import try_import_module
+from jhbuild.utils import try_import_module, uprint, uencode
 
 
 class OptionParser(optparse.OptionParser):

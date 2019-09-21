@@ -23,7 +23,7 @@ import re
 
 from jhbuild.commands import Command, register_command
 from jhbuild.utils.cmds import get_output, check_version
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, uprint
 from jhbuild.errors import UsageError, CommandError
 
 def get_aclocal_path():

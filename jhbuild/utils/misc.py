@@ -12,11 +12,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from __future__ import print_function
+
 import os
 import sys
 import importlib
 import pkgutil
+import locale
 
+from .compat import text_type
 
 def inpath(filename, path):
     for dir in path:
@@ -34,3 +38,40 @@ def try_import_module(module_name):
     if pkgutil.get_loader(module_name) is None:
         return
     return importlib.import_module(module_name)
+
+
+def _get_encoding():
+    try:
+        encoding = locale.getpreferredencoding()
+    except locale.Error:
+        encoding = ""
+    if not encoding:
+        # work around locale.getpreferredencoding() returning an empty string in
+        # Mac OS X, see http://bugzilla.gnome.org/show_bug.cgi?id=534650
+        if sys.platform == "darwin":
+            encoding = "utf-8"
+        else:
+            encoding = "ascii"
+    return encoding
+
+_encoding = _get_encoding()
+
+
+def uencode(s):
+    if isinstance(s, text_type):
+        return s.encode(_encoding, 'replace')
+    else:
+        return s
+
+def udecode(s):
+    if not isinstance(s, text_type):
+        return s.decode(_encoding, 'replace')
+    else:
+        return s
+
+def uprint(*args):
+    '''Print Unicode string encoded for the terminal'''
+    for s in args[:-1]:
+        print(uencode(s), end=' ')
+    s = args[-1]
+    print(uencode(s))

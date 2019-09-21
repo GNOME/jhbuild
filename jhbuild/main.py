@@ -23,7 +23,6 @@ import sys, os, errno
 import optparse
 import traceback
 import logging
-import locale
 
 import gettext
 import __builtin__
@@ -33,49 +32,9 @@ import jhbuild.config
 import jhbuild.commands
 from jhbuild.errors import UsageError, FatalError
 from jhbuild.utils.cmds import get_output
+from jhbuild.utils import uprint, _encoding
 from jhbuild.moduleset import warn_local_modulesets
-from jhbuild.utils.compat import text_type
 
-
-def _get_encoding():
-    try:
-        encoding = locale.getpreferredencoding()
-    except locale.Error:
-        encoding = ""
-    if not encoding:
-        # work around locale.getpreferredencoding() returning an empty string in
-        # Mac OS X, see http://bugzilla.gnome.org/show_bug.cgi?id=534650
-        if sys.platform == "darwin":
-            encoding = "utf-8"
-        else:
-            encoding = "ascii"
-    return encoding
-
-_encoding = _get_encoding()
-
-
-def uencode(s):
-    if isinstance(s, text_type):
-        return s.encode(_encoding, 'replace')
-    else:
-        return s
-
-def udecode(s):
-    if not isinstance(s, text_type):
-        return s.decode(_encoding, 'replace')
-    else:
-        return s
-
-def uprint(*args):
-    '''Print Unicode string encoded for the terminal'''
-    for s in args[:-1]:
-        print(uencode(s), end=' ')
-    s = args[-1]
-    print(uencode(s))
-
-__builtin__.__dict__['uprint'] = uprint
-__builtin__.__dict__['uencode'] = uencode
-__builtin__.__dict__['udecode'] = udecode
 
 class LoggingFormatter(logging.Formatter):
     def __init__(self):
