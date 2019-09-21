@@ -165,6 +165,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
         os.makedirs(config.prefix)
         config.buildroot = None
         config.interact = False
+        config.use_local_modulesets = True
         config.quiet_mode = True # Not enough to disable output entirely
         config.progress_bar = False
         config.real_setup_env()
