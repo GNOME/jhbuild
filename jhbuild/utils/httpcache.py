@@ -38,6 +38,8 @@ import StringIO
 import gzip
 import xml.dom.minidom
 
+from jhbuild.utils import _
+
 def _parse_isotime(string):
     if string[-1] != 'Z':
         return time.mktime(time.strptime(string, '%Y-%m-%dT%H:%M:%S'))

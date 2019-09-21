@@ -22,7 +22,7 @@ from optparse import make_option
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 from jhbuild.errors import FatalError
-from jhbuild.utils import uprint
+from jhbuild.utils import uprint, N_, _
 
 
 class cmd_rdepends(Command):

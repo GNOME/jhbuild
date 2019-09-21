@@ -26,7 +26,7 @@ import sys
 import locale
 import socket
 
-from jhbuild.utils import cmds
+from jhbuild.utils import cmds, _
 from jhbuild.utils.compat import text_type, string_types
 from jhbuild.errors import CommandError
 import buildscript

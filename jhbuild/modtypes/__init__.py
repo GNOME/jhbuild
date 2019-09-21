@@ -36,7 +36,7 @@ import importlib
 from jhbuild.errors import FatalError, CommandError, BuildStateError, \
              SkipToEnd, UndefinedRepositoryError
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils import inpath, try_import_module
+from jhbuild.utils import inpath, try_import_module, N_, _
 import jhbuild.utils.fileutils as fileutils
 
 _module_types = {}

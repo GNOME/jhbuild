@@ -31,6 +31,7 @@ from StringIO import StringIO
 import re
 
 import cmds
+from . import _
 
 def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""

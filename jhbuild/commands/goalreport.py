@@ -43,7 +43,7 @@ except ImportError:
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
-from jhbuild.utils import httpcache, cmds
+from jhbuild.utils import httpcache, cmds, _
 from jhbuild.modtypes import MetaModule
 
 try:

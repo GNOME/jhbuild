@@ -20,7 +20,7 @@
 import os
 import re
 
-from jhbuild.utils import cmds
+from jhbuild.utils import cmds, _
 
 class Trigger(object):
     SUFFIX = '.trigger'

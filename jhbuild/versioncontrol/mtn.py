@@ -26,7 +26,7 @@ import os
 from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, _
 
 class MonotoneRepository(Repository):
     """A class representing a Monotone database."""

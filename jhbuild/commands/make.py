@@ -25,6 +25,7 @@ from optparse import make_option
 import jhbuild.moduleset
 import jhbuild.frontends
 from jhbuild.commands import Command, register_command
+from jhbuild.utils import N_, _
 
 class cmd_make(Command):
     doc = N_('Compile and install the module for the current directory')

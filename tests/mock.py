@@ -26,6 +26,7 @@ import jhbuild.frontends.buildscript
 import jhbuild.versioncontrol
 import jhbuild.errors
 import jhbuild.config
+from jhbuild.utils import _
 
 class Config(jhbuild.config.Config):
     buildroot = tempfile.mkdtemp(prefix='jhbuild-tests-')

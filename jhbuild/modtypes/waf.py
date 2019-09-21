@@ -26,6 +26,7 @@ import os
 from jhbuild.errors import CommandError
 from jhbuild.modtypes import \
      Package, DownloadableModule, register_module_type
+from jhbuild.utils import _
 
 __all__ = [ 'WafModule' ]
 

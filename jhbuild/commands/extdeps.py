@@ -25,6 +25,7 @@ import socket
 import sys
 import time
 
+from jhbuild.utils import _
 from jhbuild.utils.compat import cmp
 
 try:

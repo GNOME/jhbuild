@@ -19,6 +19,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from jhbuild.commands import Command, register_command
+from jhbuild.utils import N_
 import jhbuild.frontends
 
 class cmd_gui(Command):

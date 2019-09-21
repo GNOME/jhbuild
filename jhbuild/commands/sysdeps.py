@@ -30,6 +30,7 @@ from jhbuild.commands.base import cmd_build
 from jhbuild.utils.systeminstall import SystemInstall
 from jhbuild.modtypes.systemmodule import SystemModule
 from jhbuild.versioncontrol.tarball import TarballBranch
+from jhbuild.utils import N_, _
 from jhbuild.utils import cmds
 
 class cmd_sysdeps(cmd_build):

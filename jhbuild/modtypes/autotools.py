@@ -28,6 +28,7 @@ from jhbuild.errors import FatalError, CommandError
 from jhbuild.modtypes import \
      DownloadableModule, register_module_type, MakeModule
 from jhbuild.versioncontrol.tarball import TarballBranch
+from jhbuild.utils import _
 
 __all__ = [ 'AutogenModule' ]
 

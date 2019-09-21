@@ -23,7 +23,7 @@ from __future__ import print_function
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
-
+from jhbuild.utils import N_
 from jhbuild.utils.sxml import sxml, sxml_to_string
 
 

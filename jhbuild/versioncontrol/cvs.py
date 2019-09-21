@@ -30,7 +30,7 @@ import git
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
 
 

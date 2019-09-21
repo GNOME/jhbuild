@@ -40,7 +40,7 @@ import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
-from jhbuild.utils import notify
+from jhbuild.utils import notify, _
 from jhbuild.utils.compat import string_types, cmp
 
 from terminal import t_bold, t_reset

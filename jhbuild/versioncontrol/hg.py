@@ -27,7 +27,7 @@ from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, _
 
 class HgRepository(Repository):
     """A class representing a Mercurial repository.

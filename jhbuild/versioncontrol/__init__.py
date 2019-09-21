@@ -27,7 +27,7 @@ __all__ = [
 __metaclass__ = type
 
 from jhbuild.errors import FatalError
-from jhbuild.utils import try_import_module
+from jhbuild.utils import try_import_module, _
 import os
 
 class Repository:

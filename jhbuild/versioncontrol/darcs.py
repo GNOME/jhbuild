@@ -26,7 +26,7 @@ import hashlib
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath
+from jhbuild.utils import inpath, _
 
 class DarcsRepository(Repository):
     """A class representing a Darcs repository.

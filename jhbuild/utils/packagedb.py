@@ -25,7 +25,7 @@ import hashlib
 
 import xml.etree.ElementTree as ET
 
-from jhbuild.utils import fileutils
+from jhbuild.utils import fileutils, _
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
