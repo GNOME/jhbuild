@@ -209,7 +209,7 @@ class SubversionBranch(Branch):
                 'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
                 })
             return True
-        except:
+        except CommandError:
             return False
 
     def _export(self, buildscript):

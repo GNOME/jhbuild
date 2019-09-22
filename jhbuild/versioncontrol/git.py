@@ -341,7 +341,7 @@ class GitBranch(Branch):
         try:
             get_output(['git', 'ls-remote', self.module],
                        extra_env=get_git_extra_env())
-        except:
+        except CommandError:
             return False
 
         # FIXME: Parse output from ls-remote to work out if tag/branch is present
@@ -373,7 +373,7 @@ class GitBranch(Branch):
                     cwd = self.get_checkoutdir(), get_stderr=False,
                     extra_env=get_git_extra_env())
             tag = output.strip()
-        except:
+        except CommandError:
             tag = 'unknown'
 
         filename = self.get_module_basename() + '-' + tag + '.zip'
@@ -621,7 +621,7 @@ class GitSvnBranch(GitBranch):
             fd.close()
             buildscript.execute(cmd, cwd=self.get_checkoutdir(copydir),
                     extra_env=get_git_extra_env())
-        except:
+        except (CommandError, EnvironmentError):
             pass
 
         # FIXME, git-svn should support externals
@@ -664,7 +664,7 @@ class GitSvnBranch(GitBranch):
                 # is known to fail on some versions
                 cmd = "git svn show-ignore >> .git/info/exclude"
                 buildscript.execute(cmd, **git_extra_args)
-            except:
+            except CommandError:
                 pass
 
         # FIXME, git-svn should support externals

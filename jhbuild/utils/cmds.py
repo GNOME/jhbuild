@@ -259,7 +259,7 @@ def compare_version(version, minver):
 def check_version(cmd, regexp, minver, extra_env=None):
     try:
         data = get_output(cmd, extra_env=extra_env)
-    except:
+    except CommandError:
         return False
     match = re.match(regexp, data, re.MULTILINE)
     if not match:

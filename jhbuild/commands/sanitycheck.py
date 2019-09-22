@@ -84,7 +84,7 @@ class cmd_sanitycheck(Command):
         xmlcatalog = True
         try:
             get_output(['which', 'xmlcatalog'])
-        except:
+        except CommandError:
             xmlcatalog = False
             uprint(_('Could not find XML catalog (usually part of the package \'libxml2-utils\')'))
 
@@ -95,14 +95,14 @@ class cmd_sanitycheck(Command):
                                   'DocBook XSL Stylesheets')]:
                 try:
                     get_output(['xmlcatalog', '/etc/xml/catalog', item])
-                except:
+                except CommandError:
                     uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\')') % name)
 
         # Perl module used by tools such as intltool:
         perlmod = 'XML::Parser'
         try:
             get_output(['perl', '-M%s' % perlmod, '-e', 'exit'])
-        except:
+        except CommandError:
             uprint(_('Could not find the Perl module %s (usually part of package \'libxml-parser-perl\' or \'perl-XML-Parser\')') % perlmod)
 
         # check for a downloading util:
@@ -122,7 +122,7 @@ class cmd_sanitycheck(Command):
                     if not check_version(['git', '--version'],
                                  r'git version ([\d.]+)', '1.5.6'):
                         uprint(_('%s not found') % 'git >= 1.5.6')
-            except:
+            except EnvironmentError:
                 uprint(_('Could not check git program'))
 
         # check for flex/bison:
@@ -137,12 +137,12 @@ class cmd_sanitycheck(Command):
         try:
             import glib
             glib
-        except:
+        except ImportError:
             uprint(_('%s not found') % 'python-gobject')
         try:
             import dbus.glib
             dbus.glib
-        except:
+        except ImportError:
             uprint(_('%s not found') % 'dbus-python')
 
     def check_m4(self):

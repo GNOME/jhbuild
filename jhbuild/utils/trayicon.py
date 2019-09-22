@@ -46,7 +46,7 @@ class TrayIcon:
             for item in caps:
                 if item == "persistence":
                     return
-        except:
+        except Exception:
             pass
 
         try:

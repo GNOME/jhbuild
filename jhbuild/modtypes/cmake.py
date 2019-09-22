@@ -87,7 +87,7 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
                 # Clear CMake files so we get a clean configure.
                 os.unlink(os.path.join(builddir, 'CMakeCache.txt'))
                 shutil.rmtree(os.path.join(builddir, 'CMakeFiles'))
-            except:
+            except EnvironmentError:
                 pass
         else:
             os.makedirs(builddir)

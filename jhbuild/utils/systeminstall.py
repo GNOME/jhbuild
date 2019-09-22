@@ -131,7 +131,7 @@ def systemdependencies_met(module_name, sysdeps, config):
             return paths
         try:
             multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
-        except:
+        except (EnvironmentError, subprocess.CalledProcessError):
             multiarch = None
         # search /usr/include and its multiarch subdir (if any) by default
         paths = [ os.path.join(os.sep, 'usr', 'include')]
@@ -183,7 +183,7 @@ def systemdependencies_met(module_name, sysdeps, config):
         elif dep_type == 'python2':
             try:
                 imp.find_module(value)
-            except:
+            except Exception:
                 dep_met = False
 
         elif dep_type == 'python3':
@@ -212,8 +212,7 @@ def systemdependencies_met(module_name, sysdeps, config):
             try:
                 # no xmlcatalog installed will (correctly) fail the check
                 subprocess.check_output(['xmlcatalog', xml_catalog, value])
-
-            except:
+            except (EnvironmentError, subprocess.CalledProcessError):
                 dep_met = False
 
         # check alternative dependencies
@@ -273,16 +272,16 @@ class PKSystemInstall(SystemInstall):
         if self._loop is None:
             try:
                 import glib
-            except:
+            except ImportError:
                 try:
                     from gi.repository import GLib as glib
-                except:
+                except ImportError:
                     raise SystemExit(_('Error: python-gobject package not found.'))
             self._loop = glib.MainLoop()
         if self._sysbus is None:
             try:
                 import dbus.glib
-            except:
+            except ImportError:
                 raise SystemExit(_('Error: dbus-python package not found.'))
             import dbus
             self._dbus = dbus
@@ -540,7 +539,7 @@ class AptSystemInstall(SystemInstall):
         multiarch = None
         try:
             multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
-        except:
+        except (EnvironmentError, subprocess.CalledProcessError):
             # Really need GCC to continue. Yes, this is fragile.
             self._install_packages(['gcc'])
             multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
