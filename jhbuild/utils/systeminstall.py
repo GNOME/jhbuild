@@ -271,13 +271,10 @@ class PKSystemInstall(SystemInstall):
     def _get_new_transaction(self):
         if self._loop is None:
             try:
-                import glib
+                from gi.repository import GLib
             except ImportError:
-                try:
-                    from gi.repository import GLib as glib
-                except ImportError:
-                    raise SystemExit(_('Error: python-gobject package not found.'))
-            self._loop = glib.MainLoop()
+                raise SystemExit(_('Error: python-gobject package not found.'))
+            self._loop = GLib.MainLoop()
         if self._sysbus is None:
             try:
                 import dbus.glib
