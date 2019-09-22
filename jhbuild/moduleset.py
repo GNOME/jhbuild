@@ -21,7 +21,6 @@ from __future__ import generators
 
 import os
 import sys
-import urlparse
 import logging
 import xml.dom.minidom
 import xml.parsers.expat
@@ -38,7 +37,8 @@ from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.modtypes.systemmodule import SystemModule
 from jhbuild.versioncontrol.tarball import TarballBranch
 from jhbuild.utils import systeminstall
-from jhbuild.utils import fileutils
+from jhbuild.utils import fileutils, urlutils
+from jhbuild.utils.compat import iteritems
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -344,7 +344,7 @@ class ModuleSet:
         if self.raise_exception_on_warning:
             raise UsageError(msg)
         else:
-            logging.warn(msg)
+            logging.warning(msg)
 
 
 def load(config, uri=None):
@@ -364,7 +364,7 @@ def load(config, uri=None):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
                 uri = os.path.join(config.modulesets_dir, uri)
-        elif not urlparse.urlparse(uri)[0]:
+        elif not urlutils.urlparse(uri)[0]:
             uri = 'https://gitlab.gnome.org/GNOME/jhbuild/raw/master/modulesets' \
                   '/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
@@ -386,7 +386,7 @@ def load(config, uri=None):
 def load_tests (config, uri=None):
     ms = load (config, uri)
     ms_tests = ModuleSet(config = config)
-    for app, module in ms.modules.iteritems():
+    for app, module in iteritems(ms.modules):
         if module.__class__ == TestModule:
             ms_tests.modules[app] = module
     return ms_tests
@@ -526,7 +526,7 @@ def _parse_module_set(config, uri):
     for node in _child_elements(document.documentElement):
         if node.nodeName == 'include':
             href = node.getAttribute('href')
-            inc_uri = urlparse.urljoin(uri, href)
+            inc_uri = urlutils.urljoin(uri, href)
             try:
                 inc_moduleset = _parse_module_set(config, inc_uri)
             except UndefinedRepositoryError:

@@ -24,6 +24,7 @@ import os
 from distutils.sysconfig import get_python_lib
 
 from jhbuild.utils.cmds import get_output
+from jhbuild.utils.compat import maplist
 
 if sys.platform.startswith('win'):
     from jhbuild.utils import subprocess_win32
@@ -166,7 +167,7 @@ def setup_env(prefix):
         # Running 'man -p' without specifying a manual page name causes it to
         # exit with status 1.
         systemmanpath = get_output('man -p || true', extra_env={'MANPATH': ''})
-        systemmanpath = map(os.path.dirname, systemmanpath.strip().split('\n'))
+        systemmanpath = maplist(os.path.dirname, systemmanpath.strip().split('\n'))
     elif sys.platform.startswith('openbsd'):
         # I cannot find a command that prints the default search path on
         # OpenBSD, so I add paths found in the default /etc/man.conf here.

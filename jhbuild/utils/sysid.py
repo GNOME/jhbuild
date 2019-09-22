@@ -59,6 +59,7 @@ def read_os_release():
                 continue
 
         fields[field] = value
+    release_file.close()
 
     if 'ID' not in fields or 'VERSION_ID' not in fields:
         return False

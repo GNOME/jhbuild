@@ -30,13 +30,13 @@ import glob
 import tempfile
 import unittest
 
-import __builtin__
+from jhbuild.utils.compat import builtins, iteritems
 
 SRCDIR = os.path.join(os.path.dirname(__file__), '..')
 
-__builtin__.__dict__['PKGDATADIR'] = None
-__builtin__.__dict__['DATADIR'] = None
-__builtin__.__dict__['SRCDIR'] = SRCDIR
+builtins.__dict__['PKGDATADIR'] = None
+builtins.__dict__['DATADIR'] = None
+builtins.__dict__['SRCDIR'] = SRCDIR
 
 sys.path.insert(0, SRCDIR)
 
@@ -645,7 +645,7 @@ def restore_environ(env):
     # os.environ.clear() doesn't appear to change underlying environment.
     for key in os.environ.keys():
         del os.environ[key]
-    for key, value in env.iteritems():
+    for key, value in iteritems(env):
         os.environ[key] = value
 
 
@@ -678,8 +678,8 @@ class EndToEndTest(JhbuildConfigTestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout.strip(), 'Hello world (distutils)')
-        self.assertEquals(proc.wait(), 0)
+        self.assertEqual(stdout.strip(), b'Hello world (distutils)')
+        self.assertEqual(proc.wait(), 0)
 
     def test_autotools(self):
         config = self.make_config()
@@ -690,8 +690,8 @@ class EndToEndTest(JhbuildConfigTestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout.strip(), 'Hello world (autotools)')
-        self.assertEquals(proc.wait(), 0)
+        self.assertEqual(stdout.strip(), b'Hello world (autotools)')
+        self.assertEqual(proc.wait(), 0)
 
     # Won't pass under stock MSYS because pkgconfig isn't installed in base
     # path. Will work if you set ACLOCAL_FLAGS, PATH and PKG_CONFIG_PATH to
@@ -707,8 +707,8 @@ class EndToEndTest(JhbuildConfigTestCase):
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
-        self.assertEquals(stdout.strip(), 'Hello world (library test)')
-        self.assertEquals(proc.wait(), 0)
+        self.assertEqual(stdout.strip(), b'Hello world (library test)')
+        self.assertEqual(proc.wait(), 0)
 
 class UtilsTest(JhbuildConfigTestCase):
 

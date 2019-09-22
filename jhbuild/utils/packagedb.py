@@ -25,7 +25,7 @@ import hashlib
 
 import xml.etree.ElementTree as ET
 
-from jhbuild.utils import fileutils, _
+from jhbuild.utils import fileutils, _, open_text
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -50,7 +50,7 @@ class PackageEntry:
         if not os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
             return None
         self._manifest = []
-        for line in open(os.path.join(self.dirname, 'manifests', self.package)):
+        for line in open_text(os.path.join(self.dirname, 'manifests', self.package)):
             self._manifest.append(line.strip())
         return self._manifest
 
@@ -69,13 +69,13 @@ class PackageEntry:
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'info'))
         writer = fileutils.SafeWriter(os.path.join(self.dirname, 'info', self.package))
         ET.ElementTree(self.to_xml()).write(writer.fp)
-        writer.fp.write('\n')
+        writer.fp.write(b'\n')
         writer.commit()
 
         # write manifest
         fileutils.mkdir_with_parents(os.path.join(self.dirname, 'manifests'))
         writer = fileutils.SafeWriter(os.path.join(self.dirname, 'manifests', self.package))
-        writer.fp.write('\n'.join(self.manifest).encode('utf-8', 'backslashreplace') + '\n')
+        writer.fp.write('\n'.join(self.manifest).encode('utf-8', 'backslashreplace') + b'\n')
         writer.commit()
 
     def remove(self):
@@ -116,8 +116,8 @@ class PackageEntry:
     @classmethod
     def open(cls, dirname, package):
         try:
-            info = open (os.path.join (dirname, 'info', package))
-            doc = ET.parse(info)
+            with open(os.path.join (dirname, 'info', package), "rb") as info:
+                doc = ET.parse(info)
             node = doc.getroot()
 
             if node.tag == 'entry':
@@ -169,7 +169,7 @@ class PackageDB:
             metadata = {}
         metadata['installed-date'] = time.time() # now
         if configure_cmd:
-            metadata['configure-hash'] = hashlib.md5(configure_cmd).hexdigest()
+            metadata['configure-hash'] = hashlib.md5(configure_cmd.encode("utf-8")).hexdigest()
         pkg = PackageEntry(package, version, metadata, self.dirname)
         pkg.manifest = contents
         pkg.write()

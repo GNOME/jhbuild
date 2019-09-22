@@ -19,8 +19,9 @@ import sys
 import importlib
 import pkgutil
 import locale
+import codecs
 
-from .compat import text_type
+from .compat import text_type, PY2, builtins, PY3
 
 def inpath(filename, path):
     for dir in path:
@@ -72,7 +73,24 @@ def udecode(s):
 def uprint(*args, **kwargs):
     '''Print Unicode string encoded for the terminal'''
 
-    print(*[uencode(s) for s in args], **kwargs)
+    if PY2:
+        flush = kwargs.pop("flush", False)
+        file = kwargs.get("file", sys.stdout)
+        print(*[uencode(s) for s in args], **kwargs)
+        if flush:
+            file.flush()
+    else:
+        print(*args, **kwargs)
+
+
+def uinput(prompt=None):
+    if PY2:
+        if prompt is not None:
+            prompt = uencode(prompt)
+        return udecode(builtins.raw_input(prompt))
+    else:
+        return builtins.input(prompt)
+
 
 def N_(x):
     return text_type(x)
@@ -89,4 +107,28 @@ def _(x):
 def install_translation(translation):
     global _ugettext
 
-    _ugettext = translation.ugettext
+    if PY2:
+        _ugettext = translation.ugettext
+    else:
+        _ugettext = translation.gettext
+
+
+def open_text(filename, mode="r", encoding="utf-8"):
+    """An open() which removes some differences between Python 2 and 3 and
+    has saner defaults.
+    Unlike the builtin open by default utf-8 is used and not the locale
+    encoding (which is ANSI on Windows for example, not very helpful)
+    For Python 2, files are opened in text mode like with Python 3.
+    """
+
+    if mode not in ("r", "w"):
+        raise ValueError("mode %r not supported, must be 'r' or 'w'" % mode)
+
+    if PY3:
+        return open(filename, mode, encoding=encoding)
+    else:
+        # We can't use io.open() here as its write method is too strict and
+        # only allows unicode instances and not everything in the codebase
+        # forces unicode at the moment. codecs.open() on the other hand
+        # happily takes ASCII str and decodes it.
+        return codecs.open(filename, mode, encoding=encoding)
