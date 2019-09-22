@@ -109,7 +109,7 @@ class Config:
         env_prepends.clear()
         try:
             execfile(_defaults_file, self._config)
-        except:
+        except Exception:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
 
@@ -183,7 +183,7 @@ class Config:
         '''Read configuration variables from a file.'''
         try:
             execfile(filename, self._config)
-        except:
+        except Exception:
             traceback.print_exc()
             raise FatalError(_('Could not include config file (%s)') % filename)
 
@@ -300,7 +300,7 @@ class Config:
         if not os.path.exists(self.prefix):
             try:
                 os.makedirs(self.prefix)
-            except:
+            except EnvironmentError:
                 raise FatalError(_('install prefix (%s) can not be created') % self.prefix)
 
         if not os.path.exists(self.top_builddir):

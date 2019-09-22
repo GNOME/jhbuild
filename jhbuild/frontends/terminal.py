@@ -40,18 +40,18 @@ del term
 
 try:
     t_bold = cmds.get_output(['tput', 'bold'])
-except:
+except CommandError:
     try:
         t_bold = cmds.get_output(['tput', 'md'])
-    except:
+    except CommandError:
         t_bold = u''
 
 try:
     t_reset = cmds.get_output(['tput', 'sgr0'])
-except:
+except CommandError:
     try:
         t_reset = cmds.get_output(['tput', 'me'])
-    except:
+    except CommandError:
         t_reset = u''
 
 t_colour = [u''] * 16
@@ -59,17 +59,17 @@ try:
     for i in range(8):
         t_colour[i] = cmds.get_output(['tput', 'setf', '%d' % i])
         t_colour[i+8] = t_bold + t_colour[i]
-except:
+except CommandError:
     try:
         for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
             t_colour[index] = cmds.get_output(['tput', 'setaf', '%d' % i])
             t_colour[index+8] = t_bold + t_colour[index]
-    except:
+    except CommandError:
         try:
             for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
                 t_colour[index] = cmds.get_output(['tput', 'AF', '%d' % i])
                 t_colour[index+8] = t_bold + t_colour[index]
-        except:
+        except CommandError:
             pass
 
 
@@ -82,7 +82,7 @@ except ImportError:
 else:
     try:
         curses.setupterm()
-    except:
+    except curses.error:
         pass
 
 # tray icon stuff ...
@@ -318,7 +318,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             error_message = error.args[0]
             self.message('%s: %s' % (summary, error_message))
-        except:
+        except Exception:
             error_message = None
             self.message(summary)
         self.trayicon.set_icon(os.path.join(icondir, 'error.png'))
@@ -393,7 +393,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 try:
                     val = int(val)
                     selected_phase = altphases[val - nb_options]
-                except:
+                except (ValueError, IndexError):
                     uprint(_('invalid choice'))
                     continue
                 try:

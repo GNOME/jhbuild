@@ -143,7 +143,7 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
                 unpack_zip_file(localfile, target_directory)
             else:
                 raise CommandError(_('Failed to unpack %s (unknown archive type)') % localfile)
-        except:
+        except Exception:
             raise CommandError(_('Failed to unpack %s') % localfile)
 
     if checkoutdir:

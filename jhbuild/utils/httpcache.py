@@ -83,7 +83,7 @@ class Cache:
         cindex = os.path.join(self.cachedir, 'index.xml')
         try:
             document = xml.dom.minidom.parse(cindex)
-        except:
+        except Exception:
             return # treat like an empty cache
         if document.documentElement.nodeName != 'cache':
             document.unlink()
@@ -197,7 +197,7 @@ class Cache:
             if response.headers.get('Content-Encoding', '') == 'gzip':
                 try:
                     data = gzip.GzipFile(fileobj=BytesIO(data)).read()
-                except:
+                except Exception:
                     data = ''
 
             expires = response.headers.get('Expires')

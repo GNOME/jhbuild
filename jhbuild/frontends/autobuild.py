@@ -48,7 +48,7 @@ def fix_encoding(string):
     for encoding in [charset, 'utf-8', 'iso-8859-15']:
         try:
             s = text_type(string, encoding)
-        except:
+        except ValueError:
             continue
         break
     return s.encode('us-ascii', 'xmlcharrefreplace')

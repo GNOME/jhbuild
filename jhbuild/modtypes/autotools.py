@@ -226,7 +226,7 @@ class AutogenModule(MakeModule, DownloadableModule):
         try:
             if not (os.stat(os.path.join(srcdir, self.autogen_sh))[stat.ST_MODE] & 0o111):
                 os.chmod(os.path.join(srcdir, self.autogen_sh), 0o755)
-        except:
+        except EnvironmentError:
             pass
 
         if self.autogen_sh == 'autoreconf':

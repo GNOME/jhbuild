@@ -140,7 +140,7 @@ class BzrBranch(Branch):
     def branchname(self):
         try:
             return get_output(['bzr', 'nick', self.srcdir])
-        except:
+        except CommandError:
             return None
     branchname = property(branchname)
 
@@ -148,7 +148,7 @@ class BzrBranch(Branch):
         try:
             get_output(['bzr', 'ls', self.module])
             return True
-        except:
+        except CommandError:
             return False
 
     def create_mirror(self, buildscript):
@@ -174,7 +174,7 @@ class BzrBranch(Branch):
                 info = get_output(cmd, cwd=cwd)
                 if info.find('checkout of branch: %s' % self.checkoutdir) == -1:
                     raise NameError
-            except:
+            except (CommandError, NameError):
                 raise FatalError(_("""
 Path %s does not seem to be a checkout from dvcs_mirror_dir.
 Remove it or change your dvcs_mirror_dir settings.""") % self.srcdir)

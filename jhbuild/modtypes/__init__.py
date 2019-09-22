@@ -636,7 +636,7 @@ class DownloadableModule:
             builddir = self.get_builddir(buildscript)
             if os.path.exists(builddir):
                 shutil.rmtree(builddir)
-        except:
+        except Exception:
             pass
         buildscript.set_action(_('Checking out'), self)
         self.branch.force_checkout(buildscript)

@@ -34,10 +34,10 @@ def read_os_release():
 
     try:
         release_file = open('/etc/os-release')
-    except:
+    except EnvironmentError:
         try:
             release_file = open('/usr/lib/os-release')
-        except:
+        except EnvironmentError:
             return False
 
     fields = {}
@@ -55,7 +55,7 @@ def read_os_release():
         if value.startswith("'") or value.startswith('"'):
             try:
                 value = ast.literal_eval(value)
-            except:
+            except Exception:
                 continue
 
         fields[field] = value
@@ -91,7 +91,7 @@ def get_macos_info():
 
         return True
 
-    except:
+    except (EnvironmentError, subprocess.CalledProcessError):
         return False
 
 def get_freebsd_info():
@@ -103,7 +103,7 @@ def get_freebsd_info():
 
         sys_name = 'FreeBSD ' + ver
         return True
-    except:
+    except (EnvironmentError, subprocess.CalledProcessError):
         pass
 
     try:
@@ -111,7 +111,7 @@ def get_freebsd_info():
 
         sys_name = 'FreeBSD ' + ver
         return True
-    except:
+    except (EnvironmentError, subprocess.CalledProcessError):
         return False
 
 def ensure_loaded():

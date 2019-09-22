@@ -290,7 +290,7 @@ class TestModule(Package, DownloadableModule):
             flag, status = self.check_groups(groups)
             if flag:
                 raise BuildStateError(status)
-        except:
+        except Exception:
             raise BuildStateError('malformed log file')
 
     def do_dogtail_test(self, buildscript):

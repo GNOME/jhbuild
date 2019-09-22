@@ -379,7 +379,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         try:
             error_message = error.args[0]
             self.message('%s: %s' % (summary, error_message))
-        except:
+        except Exception:
             error_message = None
             self.message(summary)
 

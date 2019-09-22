@@ -37,6 +37,7 @@ except ImportError:
     curses = None
 
 import jhbuild.moduleset
+from jhbuild.errors import CommandError
 from jhbuild.commands import Command, register_command
 from jhbuild.utils import httpcache, cmds, _
 from jhbuild.modtypes import MetaModule
@@ -44,18 +45,18 @@ from jhbuild.utils.compat import BytesIO
 
 try:
     t_bold = cmds.get_output(['tput', 'bold'])
-except:
+except CommandError:
     try:
         t_bold = cmds.get_output(['tput', 'md'])
-    except:
+    except CommandError:
         t_bold = ''
 
 try:
     t_reset = cmds.get_output(['tput', 'sgr0'])
-except:
+except CommandError:
     try:
         t_reset = cmds.get_output(['tput', 'me'])
-    except:
+    except CommandError:
         t_reset = ''
 
 HTML_AT_TOP = '''<html>
@@ -316,7 +317,7 @@ class DeprecatedSymbolsCheck(SymbolsCheck):
             try:
                 devhelp_path = os.path.join(self.config.devhelp_dirname, devhelp_filename)
                 tree = ET.parse(devhelp_path)
-            except:
+            except Exception:
                 raise CouldNotPerformCheckException()
             for keyword in tree.findall('//{http://www.devhelp.net/book}keyword'):
                 if 'deprecated' not in keyword.attrib:
@@ -372,7 +373,7 @@ class cmd_goalreport(Command):
             if curses and config.progress_bar:
                 try:
                     curses.setupterm()
-                except:
+                except Exception:
                     curses = None
         else:
             output = sys.stdout
@@ -400,7 +401,7 @@ class cmd_goalreport(Command):
         if options.cache:
             try:
                 results = pickle.load(open(os.path.join(cachedir, options.cache)))
-            except:
+            except Exception:
                 pass
 
         self.repeat_row_header = 0
@@ -521,7 +522,7 @@ class cmd_goalreport(Command):
                 r = results[module_name].get('results')
                 try:
                     version = module_set.get_module(module_name).branch.version
-                except:
+                except Exception:
                     version = None
                 print(self.get_mod_line(module_name, r, version_number=version), file=output)
 
