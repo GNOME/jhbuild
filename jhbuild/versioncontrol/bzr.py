@@ -111,10 +111,12 @@ class BzrBranch(Branch):
         self._revspec = None
         self.revspec = (tag, revspec)
 
-    def get_revspec(self):
+    @property
+    def revspec(self):
         return self._revspec
 
-    def set_revspec(self, value):
+    @revspec.setter
+    def revspec(self, value):
         tag, revspec = value
         if revspec:
             self._revspec = ['-r%s' % revspec]
@@ -125,24 +127,23 @@ class BzrBranch(Branch):
             self._revspec = ['-rdate:%s' % self.config.sticky_date]
         else:
             self._revspec = []
-    revspec = property(get_revspec, set_revspec)
 
+    @property
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.checkoutroot, self.get_module_basename())
-    srcdir = property(srcdir)
 
     def get_module_basename(self):
         return self.checkoutdir
 
+    @property
     def branchname(self):
         try:
             return get_output(['bzr', 'nick', self.srcdir])
         except CommandError:
             return None
-    branchname = property(branchname)
 
     def exists(self):
         try:

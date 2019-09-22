@@ -309,7 +309,8 @@ class FilenamesCheck(Check):
 class DeprecatedSymbolsCheck(SymbolsCheck):
     cached_symbols = {}
 
-    def load_deprecated_symbols(self):
+    @property
+    def symbols(self):
         if self.cached_symbols.get(self.devhelp_filenames):
             return self.cached_symbols.get(self.devhelp_filenames)
         symbols = []
@@ -326,7 +327,6 @@ class DeprecatedSymbolsCheck(SymbolsCheck):
                 symbols.append(name)
         DeprecatedSymbolsCheck.cached_symbols[self.devhelp_filenames] = symbols
         return symbols
-    symbols = property(load_deprecated_symbols)
 
 
 class cmd_goalreport(Command):

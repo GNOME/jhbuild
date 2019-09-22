@@ -197,9 +197,9 @@ class Package:
         args = args.replace('${libdir}', libdir)
         return args
 
-    def get_extra_env(self):
+    @property
+    def extra_env(self):
         return self.config.module_extra_env.get(self.name)
-    extra_env = property(get_extra_env)
 
     def get_srcdir(self, buildscript):
         raise NotImplementedError
@@ -362,7 +362,7 @@ them into the prefix."""
             to_delete = set()
             previous_entry = buildscript.moduleset.packagedb.get(self.name)
             if previous_entry:
-                previous_contents = previous_entry.get_manifest()
+                previous_contents = previous_entry.manifest
                 if previous_contents:
                     to_delete.update(fileutils.filter_files_by_prefix(self.config, previous_contents))
 

@@ -79,20 +79,20 @@ class Branch:
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
 
-    def get_checkout_mode(self):
+    @property
+    def checkout_mode(self):
         checkout_mode = self.config.checkout_mode
         return self.config.module_checkout_mode.get(self.module, checkout_mode)
-    checkout_mode = property(get_checkout_mode)
 
+    @property
     def srcdir(self):
         """Return the directory where this branch is checked out."""
         raise NotImplementedError
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         """Return an identifier for this branch or None."""
         raise NotImplementedError
-    branchname = property(branchname)
 
     def exists(self):
         """Return True if branch exists or False if not.

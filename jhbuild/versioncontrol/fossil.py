@@ -58,6 +58,7 @@ class FossilRepository(Repository):
 class FossilBranch(Branch):
     """A class representing a Fossil branch."""
 
+    @property
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
@@ -65,18 +66,14 @@ class FossilBranch(Branch):
             return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
 
-    srcdir = property(srcdir)
-
+    @property
     def repositoryfile(self):
         return os.path.join(self.checkoutroot,
                             os.path.basename(self.checkoutdir)  + '.fossil')
 
-    repositoryfile = property(repositoryfile)
-
+    @property
     def branchname(self):
         return None
-
-    branchname = property(branchname)
 
     def _checkout(self, buildscript):
         if self.config.sticky_date:

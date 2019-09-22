@@ -123,6 +123,7 @@ class TarballBranch(Branch):
         self.source_subdir = source_subdir
         self.tarball_name = tarball_name
 
+    @property
     def _local_tarball(self):
         if self.tarball_name:
             return os.path.join(self.config.tarballdir, self.tarball_name)
@@ -131,8 +132,8 @@ class TarballBranch(Branch):
             raise FatalError(_('URL has no filename component: %s') % self.module)
         localfile = os.path.join(self.config.tarballdir, basename)
         return localfile
-    _local_tarball = property(_local_tarball)
 
+    @property
     def raw_srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
@@ -155,17 +156,16 @@ class TarballBranch(Branch):
         if localdir.endswith('.src'):
             localdir = localdir[:-4]
         return localdir
-    raw_srcdir = property(raw_srcdir)
 
+    @property
     def srcdir(self):
         if self.source_subdir:
             return os.path.join(self.raw_srcdir, self.source_subdir)
         return self.raw_srcdir
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return self.version
-    branchname = property(branchname)
 
     def _check_tarball(self):
         """Check whether the tarball has been downloaded correctly."""
