@@ -188,13 +188,13 @@ class Branch(jhbuild.versioncontrol.Branch):
     def __init__(self, tmpdir):
         self._tmpdir = tmpdir
 
+    @property
     def srcdir(self):
         return self._tmpdir
-    srcdir = property(srcdir)
 
+    @property
     def checkoutdir(self):
         return self._tmpdir
-    checkoutdir = property(checkoutdir)
 
     def checkout(self, buildscript):
         pass

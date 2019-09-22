@@ -225,16 +225,16 @@ class CVSBranch(Branch):
         self.update_new_dirs = update_new_dirs
         self.override_checkoutdir = override_checkoutdir
 
+    @property
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.checkoutroot, self.module)
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return self.revision
-    branchname = property(branchname)
 
     def _export(self, buildscript):
         cmd = ['cvs', '-z3', '-q', '-d', self.repository.cvsroot,

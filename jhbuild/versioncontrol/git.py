@@ -152,6 +152,7 @@ class GitBranch(Branch):
             name = name[:-4]
         return name
  
+    @property
     def srcdir(self):
         path_elements = [self.checkoutroot]
         if self.checkoutdir:
@@ -161,11 +162,10 @@ class GitBranch(Branch):
         if self.subdir:
             path_elements.append(self.subdir)
         return os.path.join(*path_elements)
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return self.branch
-    branchname = property(branchname)
 
     def execute_git_predicate(self, predicate):
         """A git command wrapper for the cases, where only the boolean outcome
@@ -678,12 +678,12 @@ class GitCvsBranch(GitBranch):
     def may_checkout(self, buildscript):
         return Branch.may_checkout(self, buildscript)
 
+    @property
     def branchname(self):
         for b in ['remotes/' + str(self.branch), self.branch, 'trunk', 'master']:
             if self.branch_exist(b):
                 return b
         raise
-    branchname = property(branchname)
 
     def _checkout(self, buildscript, copydir=None):
 

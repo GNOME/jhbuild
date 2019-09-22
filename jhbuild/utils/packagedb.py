@@ -44,7 +44,9 @@ class PackageEntry:
         self.dirname = dirname
 
     _manifest = None
-    def get_manifest(self):
+
+    @property
+    def manifest(self):
         if self._manifest:
             return self._manifest
         if not os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
@@ -54,15 +56,14 @@ class PackageEntry:
             self._manifest.append(line.strip())
         return self._manifest
 
-    def set_manifest(self, value):
+    @manifest.setter
+    def manifest(self, value):
         if value is None:
             self._manifest = value
             return
         self._manifest = [x.strip() for x in value if '\n' not in value]
         if len(self._manifest) != len(value):
             logging.error(_('package %s has files with embedded new lines') % self.package)
-
-    manifest = property(get_manifest, set_manifest)
 
     def write(self):
         # write info file

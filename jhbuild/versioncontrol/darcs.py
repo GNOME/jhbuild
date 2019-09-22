@@ -60,17 +60,17 @@ class DarcsRepository(Repository):
 class DarcsBranch(Branch):
     """A class representing a Darcs branch."""
 
+    @property
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return None
-    branchname = property(branchname)
 
     def _checkout(self, buildscript):
         cmd = ['darcs', 'get', self.module]

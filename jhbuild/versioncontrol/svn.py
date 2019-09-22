@@ -191,17 +191,17 @@ class SubversionBranch(Branch):
         self.module_name = module_name
         self.revision = revision
 
+    @property
     def srcdir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
         else:
             return os.path.join(self.checkoutroot,
                                 os.path.basename(self.module))
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return self.revision
-    branchname = property(branchname)
 
     def exists(self):
         try:

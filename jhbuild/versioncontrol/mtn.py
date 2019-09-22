@@ -67,6 +67,7 @@ class MonotoneBranch(Branch):
         self.branch = branch
         self.mtn_module = module
 
+    @property
     def _codir(self):
         if self.checkoutdir:
             return os.path.join(self.checkoutroot, self.checkoutdir)
@@ -74,18 +75,17 @@ class MonotoneBranch(Branch):
             return os.path.join(self.checkoutroot, self.branch)
         else:
             return os.path.join(self.checkoutroot, self.name)
-    _codir = property(_codir)
 
+    @property
     def srcdir(self):
         if self.mtn_module:
             return os.path.join(self._codir, self.mtn_module)
         else:
             return self._codir
-    srcdir = property(srcdir)
 
+    @property
     def branchname(self):
         return self.branch
-    branchname = property(branchname)
 
     def _init(self, buildscript):
         """Initializes the monotone database"""
