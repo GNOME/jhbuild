@@ -339,7 +339,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         if not self.config.interact:
             return 'fail'
         while True:
-            print
+            print()
             uprint('  [1] %s' % _('Rerun phase %s') % phase)
             if nextphase:
                 uprint('  [2] %s' % _('Ignore error and continue to %s') % nextphase)

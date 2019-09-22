@@ -144,7 +144,7 @@ def print_help():
     commands.sort()
     for name, description in commands:
         uprint('  %-15s %s' % (name, description))
-    print
+    print()
     uprint(_('For more information run "jhbuild <command> --help"'))
 
 # handle registration of new commands

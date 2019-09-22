@@ -42,7 +42,7 @@ class LoggingFormatter(logging.Formatter):
 
 def print_help(parser):
     parser.print_help()
-    print
+    print()
     jhbuild.commands.print_help()
     parser.exit()
 
