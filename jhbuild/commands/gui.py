@@ -29,15 +29,15 @@ class cmd_gui(Command):
     usage_args = ''
 
     def run(self, config, options, args, help=None):
-        import pygtk
-        pygtk.require('2.0')
-        import gtk
+        import gi
+        gi.require_version("Gtk", "3.0")
+        from gi.repository import Gtk
 
         # request GTK build script.
         config.buildscript = 'gtkui'
 
         build = jhbuild.frontends.get_buildscript(config)
         build.show()
-        gtk.main()
+        Gtk.main()
 
 register_command(cmd_gui)
