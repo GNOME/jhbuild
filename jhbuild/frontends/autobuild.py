@@ -29,14 +29,14 @@ import socket
 from jhbuild.utils import cmds, _
 from jhbuild.utils.compat import text_type, string_types
 from jhbuild.errors import CommandError
-import buildscript
+from . import buildscript
 
 import xmlrpclib
 import zlib
 from cStringIO import StringIO
 
-from tinderbox import get_distro
-from terminal import TerminalBuildScript, trayicon, t_bold, t_reset
+from .tinderbox import get_distro
+from .terminal import TerminalBuildScript, trayicon, t_bold, t_reset
 import jhbuild.moduleset
 
 def escape(string):

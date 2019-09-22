@@ -29,7 +29,7 @@ from jhbuild.utils import cmds
 from jhbuild.utils import sysid, _
 from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.compat import string_types, text_type
-import buildscript
+from . import buildscript
 
 index_header = '''<html>
   <head>

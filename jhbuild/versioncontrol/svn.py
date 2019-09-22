@@ -32,8 +32,6 @@ from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
 
-import bzr, git
-
 svn_one_five = None # is this svn 1.5
 
 def _make_uri(repo, path):
@@ -130,6 +128,8 @@ class SubversionRepository(Repository):
     branch_xml_attrs = ['module', 'checkoutdir', 'revision', 'tag']
 
     def branch(self, name, module=None, checkoutdir=None, revision=None, tag=None):
+        from . import bzr, git
+
         module_href = None
         if name in self.config.branches:
             if self.config.branches[name]:

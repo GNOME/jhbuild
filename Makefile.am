@@ -30,6 +30,7 @@ EXTRA_DIST = $(PATCHES) $(MODULESETS) $(DTDS) \
 	jhbuild.desktop.in.in jhbuild.desktop.in \
 	tests/test_main.py \
 	tests/mock.py \
+	tests/__init__.py \
 	tests/autotools/autogen.sh \
 	tests/autotools/configure.in \
 	tests/autotools/hello.c \
@@ -57,6 +58,6 @@ install-exec-local:
 	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)
 
 check:
-	$(PYTHON) -m unittest discover -v -s $(top_srcdir)/tests
+	$(PYTHON) -m unittest discover -v -t $(top_srcdir) -s $(top_srcdir)/tests
 
 .PHONY: check

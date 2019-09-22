@@ -32,7 +32,6 @@ import logging
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-import jhbuild.versioncontrol.svn
 from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
 
@@ -586,6 +585,8 @@ class GitSvnBranch(GitBranch):
                 extbranch._checkout(buildscript)
 
     def _checkout(self, buildscript, copydir=None):
+        from . import svn
+
         if self.config.sticky_date:
             raise FatalError(_('date based checkout not yet supported\n'))
 
@@ -595,7 +596,7 @@ class GitSvnBranch(GitBranch):
 
         # FIXME (add self.revision support)
         try:
-            last_revision = jhbuild.versioncontrol.svn.get_info (self.module)['last changed rev']
+            last_revision = svn.get_info (self.module)['last changed rev']
             if not self.revision:
                 cmd.extend(['-r', last_revision])
         except KeyError:

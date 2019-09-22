@@ -26,7 +26,6 @@ __metaclass__ = type
 import sys
 import os
 import hashlib
-import git
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
@@ -190,6 +189,8 @@ class CVSRepository(Repository):
 
     def branch(self, name, module=None, checkoutdir=None, revision=None,
                update_new_dirs='yes', override_checkoutdir='yes'):
+        from . import git
+
         if module is None:
             module = name
         # allow remapping of branch for module:

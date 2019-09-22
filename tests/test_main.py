@@ -55,7 +55,7 @@ import jhbuild.moduleset
 import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
 
-import mock
+from . import mock
 
 if sys.platform.startswith('win'):
     import jhbuild.utils.subprocess_win32 as subprocess_win32
