@@ -30,44 +30,44 @@ from jhbuild.frontends import buildscript
 from jhbuild.utils import cmds
 from jhbuild.utils import trayicon
 from jhbuild.utils import notify
-from jhbuild.utils import uprint, uencode, udecode, _
+from jhbuild.utils import uprint, _, udecode, uinput
 from jhbuild.errors import CommandError, FatalError
-from jhbuild.utils.compat import input, string_types
+from jhbuild.utils.compat import string_types
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
 del term
 
 try:
-    t_bold = cmds.get_output(['tput', 'bold'])
+    t_bold = udecode(cmds.get_output(['tput', 'bold']))
 except:
     try:
-        t_bold = cmds.get_output(['tput', 'md'])
+        t_bold = udecode(cmds.get_output(['tput', 'md']))
     except:
-        t_bold = ''
+        t_bold = u''
 
 try:
-    t_reset = cmds.get_output(['tput', 'sgr0'])
+    t_reset = udecode(cmds.get_output(['tput', 'sgr0']))
 except:
     try:
-        t_reset = cmds.get_output(['tput', 'me'])
+        t_reset = udecode(cmds.get_output(['tput', 'me']))
     except:
-        t_reset = ''
+        t_reset = u''
 
-t_colour = [''] * 16
+t_colour = [u''] * 16
 try:
     for i in range(8):
-        t_colour[i] = cmds.get_output(['tput', 'setf', '%d' % i])
+        t_colour[i] = udecode(cmds.get_output(['tput', 'setf', '%d' % i]))
         t_colour[i+8] = t_bold + t_colour[i]
 except:
     try:
         for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
-            t_colour[index] = cmds.get_output(['tput', 'setaf', '%d' % i])
+            t_colour[index] = udecode(cmds.get_output(['tput', 'setaf', '%d' % i]))
             t_colour[index+8] = t_bold + t_colour[index]
     except:
         try:
             for index, i in enumerate([0, 4, 2, 6, 1, 5, 3, 7]):
-                t_colour[index] = cmds.get_output(['tput', 'AF', '%d' % i])
+                t_colour[index] = udecode(cmds.get_output(['tput', 'AF', '%d' % i]))
                 t_colour[index+8] = t_bold + t_colour[index]
         except:
             pass
@@ -129,7 +129,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             self.display_status_line(progress_percent, module_num, msg)
 
         if is_xterm:
-            sys.stdout.write('\033]0;jhbuild:%s%s\007' % (uencode(msg), progress))
+            uprint('\033]0;jhbuild:%s%s\007' % (msg, progress), end='', file=sys.stdout)
             sys.stdout.flush()
         self.trayicon.set_tooltip('%s%s' % (msg, progress))
 
@@ -161,9 +161,9 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             output += ' ' * (columns-text_width)
 
-        sys.stdout.write('\r'+output)
+        uprint('\r'+output, end='')
         if self.is_end_of_build:
-            sys.stdout.write('\n')
+            uprint()
         sys.stdout.flush()
 
 
@@ -285,7 +285,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             if p.wait() != 0:
                 if self.config.quiet_mode:
-                    print(''.join(output))
+                    print(b''.join(output))
                 raise CommandError(_('########## Error running %s')
                                    % print_args['command'], p.returncode)
         except OSError:
@@ -356,8 +356,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                     altphase_label = altphase
                 uprint('  [%d] %s' % (i, _('Go to phase "%s"') % altphase_label))
                 i += 1
-            val = input(uencode(_('choice: ')))
-            val = udecode(val)
+            val = uinput(_('choice: '))
             val = val.strip()
             if val == '1':
                 return phase
@@ -403,8 +402,7 @@ class TerminalBuildScript(buildscript.BuildScript):
                 except AttributeError:
                     needs_confirmation = False
                 if needs_confirmation:
-                    val = input(uencode(_('Type "yes" to confirm the action: ')))
-                    val = udecode(val)
+                    val = uinput(_('Type "yes" to confirm the action: '))
                     val = val.strip()
 
                     def normalize(s):

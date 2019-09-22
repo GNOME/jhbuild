@@ -30,15 +30,14 @@ and draws ideas from feedparser.py.  Strategies include:
 
 import os
 import sys
-import urllib2
-import urlparse
 import time
 from email.utils import parsedate_tz, mktime_tz
-import StringIO
 import gzip
 import xml.dom.minidom
 
 from jhbuild.utils import _
+from jhbuild.utils import urlutils
+from jhbuild.utils.compat import BytesIO
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -143,7 +142,7 @@ class Cache:
         '''picks a unique name for a new entry in the cache.
         Very simplistic.'''
         # get the basename from the URI
-        parts = urlparse.urlparse(uri, allow_fragments=False)
+        parts = urlutils.urlparse(uri, allow_fragments=False)
         base = parts[2].split('/')[-1]
         if not base:
             base = 'index.html'
@@ -163,7 +162,7 @@ class Cache:
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
-        parts = urlparse.urlparse(uri)
+        parts = urlutils.urlparse(uri)
         if parts[0] in ('', 'file'):
             return parts[2]
         if sys.platform.startswith('win') and uri[1] == ':':
@@ -182,7 +181,7 @@ class Cache:
         if nonetwork:
             raise RuntimeError(_('file not in cache, but not allowed to check network'))
 
-        request = urllib2.Request(uri)
+        request = urlutils.Request(uri)
         request.add_header('Accept-encoding', 'gzip')
         if entry:
             if entry.modified:
@@ -191,13 +190,13 @@ class Cache:
                 request.add_header('If-None-Match', entry.etag)
 
         try:
-            response = urllib2.urlopen(request)
+            response = urlutils.urlopen(request)
 
             # get data, and gunzip it if it is encoded
             data = response.read()
             if response.headers.get('Content-Encoding', '') == 'gzip':
                 try:
-                    data = gzip.GzipFile(fileobj=StringIO.StringIO(data)).read()
+                    data = gzip.GzipFile(fileobj=BytesIO(data)).read()
                 except:
                     data = ''
 
@@ -211,7 +210,7 @@ class Cache:
             fp = open(filename, 'wb')
             fp.write(data)
             fp.close()
-        except urllib2.HTTPError as e:
+        except urlutils.HTTPError as e:
             if e.code == 304: # not modified; update validated
                 expires = e.hdrs.get('Expires')
                 filename = os.path.join(self.cachedir, entry.local)
