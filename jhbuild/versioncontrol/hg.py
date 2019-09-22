@@ -22,12 +22,11 @@ __all__ = []
 __metaclass__ = type
 
 import os
-import urlparse
 from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _
+from jhbuild.utils import inpath, _, urlutils
 
 class HgRepository(Repository):
     """A class representing a Mercurial repository.
@@ -56,7 +55,7 @@ class HgRepository(Repository):
             if module is None:
                 module = name
             if not self.href.startswith('ssh://'):
-                module = urlparse.urljoin(self.href, module)
+                module = urlutils.urljoin(self.href, module)
             else:
                 module = self.href + module
         return HgBranch(self, module, checkoutdir)

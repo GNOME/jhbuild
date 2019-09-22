@@ -38,6 +38,7 @@ from jhbuild.errors import FatalError, CommandError, BuildStateError, \
 from jhbuild.utils.sxml import sxml
 from jhbuild.utils import inpath, try_import_module, N_, _
 import jhbuild.utils.fileutils as fileutils
+from jhbuild.utils.compat import filterlist
 
 _module_types = {}
 def register_module_type(name, parse_func):
@@ -325,7 +326,7 @@ them into the prefix."""
             # $JHBUILD_PREFIX/_jhbuild/root-foo/$JHBUILD_PREFIX
             # Remove them one by one to clean the tree to the state we expect,
             # so we can better spot leftovers or broken things.
-            prefix_dirs = filter(lambda x: x != '', stripped_prefix.split(os.sep))
+            prefix_dirs = filterlist(lambda x: x != '', stripped_prefix.split(os.sep))
             while len(prefix_dirs) > 0:
                 dirname = prefix_dirs.pop()
                 subprefix = os.path.join(*([destdir] + prefix_dirs))
@@ -450,7 +451,7 @@ them into the prefix."""
             install_date = buildscript.moduleset.packagedb.installdate(self.name)
             for dep in self.dependencies:
                 install_date_dep = buildscript.moduleset.packagedb.installdate(dep)
-                if install_date_dep > install_date:
+                if install_date_dep is not None and install_date is not None and install_date_dep > install_date:
                     # a dependency has been updated
                     return None
             else:

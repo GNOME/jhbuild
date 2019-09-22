@@ -27,27 +27,28 @@ import subprocess
 import imp
 import textwrap
 import time
-from StringIO import StringIO
 import re
 
-import cmds
-from . import _
+from .compat import TextIO
+from . import cmds
+from . import _, udecode
 
 def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""
     pkgversions = {}
     try:
         proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, close_fds=True)
-        stdout = proc.communicate()[0]
+        stdout = udecode(proc.communicate()[0])
         proc.wait()
         pkgs = []
-        for line in StringIO(stdout):
+        for line in TextIO(stdout):
             pkg, rest = line.split(None, 1)
             pkgs.append(pkg)
 
         # see if we can get the versions "the easy way"
         try:
             stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs)
+            stdout = udecode(stdout)
             versions = stdout.splitlines()
             if len(versions) == len(pkgs):
                 return dict(zip(pkgs, versions))
@@ -62,6 +63,7 @@ def get_installed_pkgconfigs(config):
             args.append(pkg)
             proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
             stdout = proc.communicate()[0]
+            stdout = udecode(stdout)
             proc.wait()
             pkgversions[pkg] = stdout.strip()
     except (subprocess.CalledProcessError, OSError): # pkg-config not installed
@@ -417,8 +419,9 @@ class AptSystemInstall(SystemInstall):
         if regexp is None or regexp == "":
             raise RuntimeError("regexp mustn't be None or empty")
         apt_file_result = subprocess.check_output(["apt-file", "search", "--regexp", regexp])
+        apt_file_result = udecode(apt_file_result)
         ret_value = []
-        for line in StringIO(apt_file_result):
+        for line in TextIO(apt_file_result):
             parts = line.split(':', 1)
             if len(parts) != 2:
                 continue
@@ -467,6 +470,7 @@ class AptSystemInstall(SystemInstall):
         def get_pkg_config_search_paths():
             output = subprocess.check_output(
                 ["pkg-config", "--variable", "pc_path", "pkg-config"])
+            output = udecode(output)
             return output.strip().split(os.pathsep)
 
         # Various packages include zlib.pc (emscripten, mingw) so look only in

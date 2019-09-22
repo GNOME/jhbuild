@@ -29,7 +29,7 @@ import hashlib
 
 from jhbuild.errors import BuildStateError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _
+from jhbuild.utils import inpath, _, uprint
 from jhbuild.utils.sxml import sxml
 
 
@@ -101,7 +101,7 @@ def login(cvsroot, password=None):
     else:
         # call cvs login ..
         if os.system('cvs -d %s login' % cvsroot) != 0:
-            sys.stderr.write(_('could not log into %s\n') % cvsroot)
+            uprint(_('could not log into %s') % cvsroot, file=sys.stderr)
             sys.exit(1)
 
 def check_sticky_tag(filename):

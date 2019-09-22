@@ -24,7 +24,7 @@ import subprocess
 import sys
 from signal import SIGINT
 from jhbuild.errors import CommandError
-from jhbuild.utils import _
+from jhbuild.utils import _, udecode
 from jhbuild.utils.compat import string_types
 
 def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
@@ -66,7 +66,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
     stdout, stderr = p.communicate()
     if p.returncode != 0:
         raise CommandError(_('Error running %s') % cmd, p.returncode)
-    return stdout
+    return udecode(stdout)
 
 class Pipeline(subprocess.Popen):
     '''A class that wraps a sequence of subprocess.Popen() objects
@@ -177,7 +177,7 @@ def pprint_output(pipe, format_line):
     if not getattr(sys.stdin, "closed", True):
         read_set.append(sys.stdin)
 
-    out_data = err_data = ''
+    out_data = err_data = b''
     try:
         while read_set:
             rlist, wlist, xlist = select.select(read_set, [], [])
@@ -190,8 +190,8 @@ def pprint_output(pipe, format_line):
                     if sys.stdin in read_set:
                         read_set.remove(sys.stdin)
                 out_data += out_chunk
-                while '\n' in out_data:
-                    pos = out_data.find('\n')
+                while b'\n' in out_data:
+                    pos = out_data.find(b'\n')
                     format_line(out_data[:pos+1], False)
                     out_data = out_data[pos+1:]
 
@@ -201,8 +201,8 @@ def pprint_output(pipe, format_line):
                     pipe.stderr.close()
                     read_set.remove(pipe.stderr)
                 err_data += err_chunk
-                while '\n' in err_data:
-                    pos = err_data.find('\n')
+                while b'\n' in err_data:
+                    pos = err_data.find(b'\n')
                     format_line(err_data[:pos+1], True)
                     err_data = err_data[pos+1:]
 
@@ -244,14 +244,14 @@ def compare_version(version, minver):
     for i, ver in enumerate(version):
         part = re.sub(r'^[^\d]*(\d*).*$', r'\1', ver)
         if not part:
-            version[i] = None
+            version[i] = float("-inf")
         else:
             version[i] = int(part)
     minver = minver.split('.')
     for i, ver in enumerate(minver):
         part = re.sub(r'^[^\d]*(\d*).*$', r'\1', ver)
         if not part:
-            minver[i] = None
+            minver[i] = float("-inf")
         else:
             minver[i] = int(part)
     return version >= minver

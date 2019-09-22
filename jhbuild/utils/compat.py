@@ -20,16 +20,25 @@ PY3 = not PY2
 
 if PY2:
     import __builtin__ as builtins
+    from StringIO import StringIO as BytesIO
+    BytesIO
+    from StringIO import StringIO as TextIO
+    TextIO
 
     cmp = builtins.cmp
     text_type = builtins.unicode
     string_types = (str, builtins.unicode)
     file_type = builtins.file
-    input = builtins.raw_input
     execfile = builtins.execfile
+
+    def iteritems(d):
+        return d.iteritems()
+
+    filterlist = filter
 elif PY3:
     import builtins
     from io import IOBase
+    from io import BytesIO, StringIO as TextIO
 
     def cmp(a, b):
         return (a > b) - (a < b)
@@ -37,7 +46,6 @@ elif PY3:
     text_type = str
     string_types = (str,)
     file_type = IOBase
-    input = input
 
     def execfile(filename, globals=None, locals=None):
         if globals is None:
@@ -53,3 +61,9 @@ elif PY3:
             source = f.read()
         code = compile(source, filename, "exec")
         exec(code, globals, locals)
+
+    def iteritems(d):
+        return iter(d.items())
+
+    def filterlist(*args, **kwargs):
+        return list(filter(*args, **kwargs))

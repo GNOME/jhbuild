@@ -2,17 +2,16 @@ stages:
   - test
   - deploy
 
-test:
+test-py2:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
   script:
     - mkdir _build && cd _build
-    - ../autogen.sh
+    - ../autogen.sh --with-python=python2
     - make
     - make install
     - make distcheck
     - cd ..
     - python2 -m flake8 .
-    - python3 -m flake8 .
     - mkdir public
     - cd public
     - yelp-build html ../doc/C/index.docbook
@@ -20,8 +19,21 @@ test:
     paths:
       - public
 
+test-py3:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
+  script:
+    - mkdir _build && cd _build
+    - ../autogen.sh --with-python=python3
+    - make
+    - make install
+    - make distcheck
+    - cd ..
+    - python3 -m flake8 .
+  artifacts:
+    paths:
+      - public
 
-ubuntu-19.04-glib:
+ubuntu-19.04-py2-glib:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
   script:
     - ./autogen.sh
@@ -31,6 +43,22 @@ ubuntu-19.04-glib:
     - mkdir -p $HOME/.config
     - echo "use_local_modulesets = True" >> $HOME/.config/jhbuildrc
     - sudo apt-file update
+    - jhbuild help
+    - jhbuild --no-interact --exit-on-error sysdeps --install --assume-yes glib
+    - sudo apt install -y docbook-xml docbook-xsl
+    - jhbuild --no-interact --exit-on-error build glib
+
+ubuntu-19.04-py3-glib:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
+  script:
+    - ./autogen.sh --with-python=python3
+    - make
+    - make install
+    - export PATH=$HOME/.local/bin:$PATH
+    - mkdir -p $HOME/.config
+    - echo "use_local_modulesets = True" >> $HOME/.config/jhbuildrc
+    - sudo apt-file update
+    - jhbuild help
     - jhbuild --no-interact --exit-on-error sysdeps --install --assume-yes glib
     - sudo apt install -y docbook-xml docbook-xsl
     - jhbuild --no-interact --exit-on-error build glib
@@ -38,7 +66,7 @@ ubuntu-19.04-glib:
 pages:
   image: alpine:latest
   stage: deploy
-  needs: ["test"]
+  needs: ["test-py2"]
   script:
    - echo
   artifacts:

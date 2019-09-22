@@ -128,7 +128,7 @@ class SafeWriter(object):
     def __init__(self, filename):
         self.filename = filename
         self.tmpname = filename + '.tmp'
-        self.fp = open(self.tmpname, 'w')
+        self.fp = open(self.tmpname, 'wb')
 
     def commit(self):
         self.fp.flush()
