@@ -20,6 +20,8 @@ PY3 = not PY2
 
 if PY2:
     import __builtin__ as builtins
+    from StringIO import StringIO as BytesIO
+    BytesIO
 
     cmp = builtins.cmp
     text_type = builtins.unicode
@@ -27,9 +29,15 @@ if PY2:
     file_type = builtins.file
     input = builtins.raw_input
     execfile = builtins.execfile
+
+    def iteritems(d):
+        return d.iteritems()
+
+    filterlist = filter
 elif PY3:
     import builtins
     from io import IOBase
+    from io import BytesIO as BytesIO
 
     def cmp(a, b):
         return (a > b) - (a < b)
@@ -53,3 +61,9 @@ elif PY3:
             source = f.read()
         code = compile(source, filename, "exec")
         exec(code, globals, locals)
+
+    def iteritems(d):
+        return iter(d.items())
+
+    def filterlist(*args, **kwargs):
+        return list(filter(*args, **kwargs))
