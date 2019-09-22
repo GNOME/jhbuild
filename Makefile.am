@@ -54,6 +54,9 @@ CLEANFILES = \
 MAINTAINERCLEANFILES = \
 	jhbuild.desktop.in
 
+DISTCHECK_CONFIGURE_FLAGS = \
+	--with-python=$(PYTHON)
+
 install-exec-local:
 	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)
 
