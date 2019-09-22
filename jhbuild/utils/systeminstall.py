@@ -27,10 +27,10 @@ import subprocess
 import imp
 import textwrap
 import time
-from StringIO import StringIO
 import re
 
-import cmds
+from .compat import BytesIO
+from . import cmds
 from . import _
 
 def get_installed_pkgconfigs(config):
@@ -41,7 +41,7 @@ def get_installed_pkgconfigs(config):
         stdout = proc.communicate()[0]
         proc.wait()
         pkgs = []
-        for line in StringIO(stdout):
+        for line in BytesIO(stdout):
             pkg, rest = line.split(None, 1)
             pkgs.append(pkg)
 
@@ -418,7 +418,7 @@ class AptSystemInstall(SystemInstall):
             raise RuntimeError("regexp mustn't be None or empty")
         apt_file_result = subprocess.check_output(["apt-file", "search", "--regexp", regexp])
         ret_value = []
-        for line in StringIO(apt_file_result):
+        for line in BytesIO(apt_file_result):
             parts = line.split(':', 1)
             if len(parts) != 2:
                 continue

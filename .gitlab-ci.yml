@@ -2,17 +2,16 @@ stages:
   - test
   - deploy
 
-test:
+test-python2:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
   script:
     - mkdir _build && cd _build
-    - ../autogen.sh
+    - ../autogen.sh --with-python=python2
     - make
     - make install
     - make distcheck
     - cd ..
     - python2 -m flake8 .
-    - python3 -m flake8 .
     - mkdir public
     - cd public
     - yelp-build html ../doc/C/index.docbook
@@ -20,6 +19,19 @@ test:
     paths:
       - public
 
+test-python3:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
+  script:
+    - mkdir _build && cd _build
+    - ../autogen.sh --with-python=python3
+    - make
+    - make install
+    - make distcheck
+    - cd ..
+    - python3 -m flake8 .
+  artifacts:
+    paths:
+      - public
 
 ubuntu-19.04-glib:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
@@ -38,7 +50,7 @@ ubuntu-19.04-glib:
 pages:
   image: alpine:latest
   stage: deploy
-  needs: ["test"]
+  needs: ["test-python2"]
   script:
    - echo
   artifacts:

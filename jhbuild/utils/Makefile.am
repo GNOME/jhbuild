@@ -14,5 +14,6 @@ app_PYTHON = \
 	systeminstall.py \
 	trigger.py \
 	trayicon.py \
-	unpack.py
+	unpack.py \
+	urlutils.py
 
