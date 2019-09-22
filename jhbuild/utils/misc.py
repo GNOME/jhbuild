@@ -69,12 +69,10 @@ def udecode(s):
     else:
         return s
 
-def uprint(*args):
+def uprint(*args, **kwargs):
     '''Print Unicode string encoded for the terminal'''
-    for s in args[:-1]:
-        print(uencode(s), end=' ')
-    s = args[-1]
-    print(uencode(s))
+
+    print(*[uencode(s) for s in args], **kwargs)
 
 def N_(x):
     return text_type(x)
