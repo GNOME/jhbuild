@@ -18,8 +18,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import pygtk
-pygtk.require('2.0')
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk, Pango, GLib
+
+try:
+    gi.require_version('Vte', '2.91')
+    from gi.repository import Vte
+except (ImportError, ValueError):
+    Vte = None
 
 import sys
 import time
@@ -29,19 +36,12 @@ import fcntl
 import select
 import subprocess
 
-import gtk
-import pango
-try:
-    import vte
-except ImportError:
-    vte = None
-
 from . import buildscript
 import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
 from jhbuild.utils import notify, _
-from jhbuild.utils.compat import string_types, cmp
+from jhbuild.utils.compat import string_types
 
 from .terminal import t_bold, t_reset
 
@@ -50,7 +50,7 @@ class ExitRequestedException(Exception):
     pass
 
 
-class AppWindow(gtk.Window, buildscript.BuildScript):
+class AppWindow(Gtk.Window, buildscript.BuildScript):
     default_module_iter = None
     active_iter = None
     child_pid = None
@@ -62,17 +62,17 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.module_set = jhbuild.moduleset.load(config)
         buildscript.BuildScript.__init__(self, config, module_list, module_set=self.module_set)
         self.config = config
-        gtk.Window.__init__(self)
+        Gtk.Window.__init__(self)
         self.set_resizable(False)
-        theme = gtk.icon_theme_get_default()
+        theme = Gtk.IconTheme.get_default()
         if theme.has_icon('applications-development'):
-            gtk.window_set_default_icon_list(
-                    theme.load_icon('applications-development', 16, ()),
-                    theme.load_icon('applications-development', 24, ()),
-                    theme.load_icon('applications-development', 32, ()),
-                    theme.load_icon('applications-development', 48, ()),
-                    theme.load_icon('applications-development', 64, ()),
-                    theme.load_icon('applications-development', 128, ())
+            self.set_default_icon_list([
+                    theme.load_icon('applications-development', 16, 0),
+                    theme.load_icon('applications-development', 24, 0),
+                    theme.load_icon('applications-development', 32, 0),
+                    theme.load_icon('applications-development', 48, 0),
+                    theme.load_icon('applications-development', 64, 0),
+                    theme.load_icon('applications-development', 128, 0)]
                     )
         self.set_title('JHBuild')
 
@@ -87,7 +87,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
     def create_modules_list_model(self):
         # name, separator, startat
-        self.modules_list_model = gtk.ListStore(str, bool, str)
+        self.modules_list_model = Gtk.ListStore(str, bool, str)
         full_module_list = self.module_set.get_full_module_list()
         for module in full_module_list:
             if isinstance(module, MetaModule):
@@ -126,57 +126,57 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.hide()
         if self.child_pid:
             os.kill(self.child_pid, signal.SIGKILL)
-        if gtk.main_level():
-            gtk.main_quit()
+        if Gtk.main_level():
+            Gtk.main_quit()
 
     def create_ui(self):
         self.set_border_width(5)
-        app_vbox = gtk.VBox(spacing=5)
+        app_vbox = Gtk.VBox(spacing=5)
 
-        self.module_hbox = gtk.HBox(spacing=5)
-        app_vbox.pack_start(self.module_hbox, fill=False, expand=False)
+        self.module_hbox = Gtk.HBox(spacing=5)
+        app_vbox.pack_start(self.module_hbox, False, False, 9)
 
-        label = gtk.Label()
+        label = Gtk.Label()
         label.set_markup('<b>%s</b>' % _('Choose Module:'))
-        self.module_hbox.pack_start(label, fill=False, expand=False)
+        self.module_hbox.pack_start(label, False, False, 0)
 
-        self.module_combo = gtk.ComboBox(self.modules_list_model)
-        cell = gtk.CellRendererText()
+        self.module_combo = Gtk.ComboBox.new_with_model(self.modules_list_model)
+        cell = Gtk.CellRendererText()
         self.module_combo.pack_start(cell, True)
         self.module_combo.add_attribute(cell, 'text', 0)
         self.module_combo.changed_signal_id = self.module_combo.connect(
                 'changed', self.on_module_selection_changed_cb)
 
         self.module_combo.set_row_separator_func(lambda x,y: x.get(y, 1)[0])
-        self.module_hbox.pack_start(self.module_combo, fill=True)
+        self.module_hbox.pack_start(self.module_combo, False, True, 0)
 
-        separator = gtk.VSeparator()
-        self.module_hbox.pack_start(separator, fill=False, expand=False)
-        preferences = gtk.Button(stock=gtk.STOCK_PREFERENCES)
+        separator = Gtk.VSeparator()
+        self.module_hbox.pack_start(separator, False, True, 0)
+        preferences = Gtk.Button(stock=Gtk.STOCK_PREFERENCES)
         preferences.connect('clicked', self.on_preferences_cb)
-        self.module_hbox.pack_start(preferences, fill=False, expand=False)
+        self.module_hbox.pack_start(preferences, False, True, 0)
 
-        self.progressbar = gtk.ProgressBar()
+        self.progressbar = Gtk.ProgressBar()
         self.progressbar.set_text(_('Build Progress'))
-        app_vbox.pack_start(self.progressbar, fill=False, expand=False)
+        app_vbox.pack_start(self.progressbar, False, True, 0)
 
-        expander = gtk.Expander(_('Terminal'))
+        expander = Gtk.Expander.new(_('Terminal'))
         expander.set_expanded(False)
-        app_vbox.pack_start(expander, fill=False, expand=False)
-        sclwin = gtk.ScrolledWindow()
+        app_vbox.pack_start(expander, False, False, 0)
+        sclwin = Gtk.ScrolledWindow()
         sclwin.set_size_request(-1, 300)
-        sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sclwin.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS)
         expander.add(sclwin)
-        if vte:
-            self.terminal = vte.Terminal()
+        if Vte:
+            self.terminal = Vte.Terminal()
             self.terminal.connect('child-exited', self.on_vte_child_exit_cb)
         else:
             os.environ['TERM'] = 'dumb' # avoid commands printing vt sequences
-            self.terminal = gtk.TextView()
+            self.terminal = Gtk.TextView()
             self.terminal.set_size_request(800, -1)
             textbuffer = self.terminal.get_buffer()
             terminal_bold_tag = textbuffer.create_tag('bold')
-            terminal_bold_tag.set_property('weight', pango.WEIGHT_BOLD)
+            terminal_bold_tag.set_property('weight', Pango.Weight.BOLD)
             terminal_mono_tag = textbuffer.create_tag('mono')
             terminal_mono_tag.set_property('family', 'Monospace')
             terminal_stdout_tag = textbuffer.create_tag('stdout')
@@ -186,25 +186,25 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             terminal_stderr_tag.set_property('foreground', 'red')
             terminal_stdin_tag = textbuffer.create_tag('stdin')
             terminal_stdin_tag.set_property('family', 'Monospace')
-            terminal_stdin_tag.set_property('style', pango.STYLE_ITALIC)
+            terminal_stdin_tag.set_property('style', Pango.Style.ITALIC)
             self.terminal.set_editable(False)
-            self.terminal.set_wrap_mode(gtk.WRAP_CHAR)
+            self.terminal.set_wrap_mode(Gtk.WrapMode.CHAR)
         sclwin.add(self.terminal)
         self.terminal_sclwin = sclwin
 
         self.error_hbox = self.create_error_hbox()
-        app_vbox.pack_start(self.error_hbox, fill=False, expand=False)
+        app_vbox.pack_start(self.error_hbox, False, False, 0)
 
-        buttonbox = gtk.HButtonBox()
-        buttonbox.set_layout(gtk.BUTTONBOX_END)
-        app_vbox.pack_start(buttonbox, fill=False, expand=False)
+        buttonbox = Gtk.HButtonBox()
+        buttonbox.set_layout(Gtk.ButtonBoxStyle.END)
+        app_vbox.pack_start(buttonbox, False, False, 0)
 
         # Translators: This is a button label (to start build)
-        self.build_button = gtk.Button(_('Start'))
+        self.build_button = Gtk.Button(_('Start'))
         self.build_button.connect('clicked', self.on_build_cb)
         buttonbox.add(self.build_button)
 
-        button = gtk.Button(stock=gtk.STOCK_HELP)
+        button = Gtk.Button(stock=Gtk.STOCK_HELP)
         button.connect('clicked', self.on_help_cb)
         buttonbox.add(button)
         buttonbox.set_child_secondary(button, True)
@@ -215,38 +215,38 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
 
     def create_error_hbox(self):
-        error_hbox = gtk.HBox(False, 8)
-        image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_BUTTON)
-        error_hbox.pack_start(image, fill=False, expand=False)
+        error_hbox = Gtk.HBox(False, 8)
+        image = Gtk.Image()
+        image.set_from_stock(Gtk.STOCK_DIALOG_ERROR, Gtk.IconSize.BUTTON)
+        error_hbox.pack_start(image, False, False, 0)
         image.set_alignment(0.5, 0.5)
 
-        vbox = gtk.VBox(False, 6)
+        vbox = Gtk.VBox(False, 6)
         error_hbox.pack_start (vbox, True, True, 0)
 
-        self.error_label = gtk.Label()
-        vbox.pack_start(self.error_label, fill=True, expand=True)
+        self.error_label = Gtk.Label()
+        vbox.pack_start(self.error_label, True, True, 0)
         self.error_label.set_use_markup(True)
         self.error_label.set_line_wrap(True)
         self.error_label.set_alignment(0, 0.5)
 
         # label, code
-        second_hbox = gtk.HBox()
-        vbox.pack_start(second_hbox)
+        second_hbox = Gtk.HBox()
+        vbox.pack_start(second_hbox, True, True, 0)
 
-        self.error_resolution_model = gtk.ListStore(str, str)
-        self.error_combo = gtk.ComboBox(self.error_resolution_model)
+        self.error_resolution_model = Gtk.ListStore(str, str)
+        self.error_combo = Gtk.ComboBox.new_with_model(self.error_resolution_model)
         self.error_combo.connect('changed', self.on_error_resolution_changed_cb)
         self.error_combo.set_row_separator_func(lambda x,y: (x.get(y, 0)[0] == ''))
-        cell = gtk.CellRendererText()
+        cell = Gtk.CellRendererText()
         self.error_combo.pack_start(cell, True)
         self.error_combo.add_attribute(cell, 'markup', 0)
-        second_hbox.pack_start(self.error_combo)
+        second_hbox.pack_start(self.error_combo, True, True, 0)
 
-        self.error_apply_button = gtk.Button(stock = gtk.STOCK_APPLY)
+        self.error_apply_button = Gtk.Button(stock = Gtk.STOCK_APPLY)
         self.error_apply_button.set_sensitive(False)
         self.error_apply_button.connect('clicked', self.on_resolution_apply_clicked)
-        second_hbox.pack_start(self.error_apply_button, fill=False, expand=False)
+        second_hbox.pack_start(self.error_apply_button, False, False, 0)
 
         return error_hbox
 
@@ -266,8 +266,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         self.error_resolution = self.error_resolution_model.get(iter, 1)[0]
 
     def on_help_cb(self, *args):
-        gtk.show_uri(gtk.gdk.screen_get_default(),
-                'help:jhbuild', gtk.get_current_event_time())
+        Gtk.show_uri(Gdk.Screen.get_default(),
+                'help:jhbuild', Gtk.get_current_event_time())
 
     def on_preferences_cb(self, *args):
         if not self.preference_dialog:
@@ -307,7 +307,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         current_module = self.modules_list_model.get(old_selected_iter, 0)[0]
         dlg = SelectModulesDialog(self, current_module)
         response = dlg.run()
-        if response != gtk.RESPONSE_OK:
+        if response != Gtk.ResponseType.OK:
             dlg.destroy()
             self.module_combo.set_active_iter(old_selected_iter)
             return
@@ -322,13 +322,13 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         return False
 
     def build(self):
-        if gtk.main_level() == 0 and self.orig_modulelist:
+        if Gtk.main_level() == 0 and self.orig_modulelist:
             # gtkui called from a "normal" command, not from jhbuild gui
             self.modulelist = self.orig_modulelist
             self.show()
             self.build_button.emit('clicked')
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             try:
                 return self.rc
             except AttributeError:
@@ -355,8 +355,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
     def start_module(self, module):
         idx = [x.name for x in self.modulelist].index(module)
         self.progressbar.set_fraction((1.0*idx) / len(self.modulelist))
-        if vte:
-            self.terminal.feed('%s*** %s ***%s\n\r' % (t_bold, module, t_reset))
+        if Vte:
+            self.terminal.feed(('%s*** %s ***%s\n\r' % (t_bold, module, t_reset)).encode("utf-8"))
         else:
             textbuffer = self.terminal.get_buffer()
             textbuffer.insert_with_tags_by_name(
@@ -386,7 +386,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         if not self.is_active():
             self.set_urgency_hint(True)
         self.notify.notify(summary=summary, body=error_message,
-                icon=gtk.STOCK_DIALOG_ERROR, expire=5)
+                icon=Gtk.STOCK_DIALOG_ERROR, expire=5)
 
         self.error_label.set_markup('<b>%s</b>' % _(summary))
         self.error_resolution_model.clear()
@@ -421,8 +421,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
         while True:
             self.error_resolution = None
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
                 if self.quit:
                     return 'fail'
             if not self.error_resolution:
@@ -451,7 +451,7 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         else:
             short_command = command[0]
 
-        if vte is None:
+        if Vte is None:
             textbuffer = self.terminal.get_buffer()
 
             if isinstance(command, string_types):
@@ -500,8 +500,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
 
             while read_set:
                 # Allow the frontend to get a little time
-                while gtk.events_pending():
-                    gtk.main_iteration()
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
                     if self.quit:
                         raise ExitRequestedException()
 
@@ -534,8 +534,8 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
                 else:
                     mark = textbuffer.create_mark('end', textbuffer.get_end_iter(), False)
 
-                if self.terminal_sclwin.get_vadjustment().upper == \
-                        (self.terminal_sclwin.size_request()[1] + 
+                if self.terminal_sclwin.get_vadjustment().get_upper() == \
+                        (self.terminal_sclwin.size_request().height + 
                          self.terminal_sclwin.get_vadjustment().get_value()):
                     # currently at the bottom of the textview, therefore scroll
                     # automatically
@@ -556,19 +556,23 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
         else:
             # use the vte widget
             if isinstance(command, string_types):
-                self.terminal.feed(' $ ' + command + '\n\r')
+                self.terminal.feed((' $ ' + command + '\n\r').encode("utf-8"))
                 command = [os.environ.get('SHELL', '/bin/sh'), '-c', command]
             else:
-                self.terminal.feed(' $ ' + ' '.join(command) + '\n\r')
+                self.terminal.feed((' $ ' + ' '.join(command) + '\n\r').encode("utf-8"))
 
             kws = {}
             if extra_env is not None:
                 env = os.environ.copy()
                 env.update(extra_env)
                 kws['envv'] = ['%s=%s' % x for x in env.items()]
+            else:
+                kws['envv'] = None
 
             if cwd:
-                kws['directory'] = cwd
+                kws['working_directory'] = cwd
+            else:
+                kws['working_directory'] = None
 
             self.vte_fork_running = True
             self.vte_child_exit_status = None
@@ -578,10 +582,15 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             #  - directory keyword could not be set to None (GNOME bug 583129)
             # The bugs have been fixed, but for compatibility reasons the old
             # compatibility code is still in place.
-            self.child_pid = self.terminal.fork_command(
-                    command=command[0], argv=command, **kws)
+            self.child_pid = self.terminal.spawn_sync(
+                    pty_flags=Vte.PtyFlags.DEFAULT,
+                    spawn_flags=GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP,
+                    child_setup=None,
+                    child_setup_data=None,
+                    cancellable=None,
+                    argv=command, **kws)[1]
             while self.vte_fork_running:
-                gtk.main_iteration()
+                Gtk.main_iteration()
                 if self.quit:
                     raise ExitRequestedException()
             self.child_pid = None
@@ -596,14 +605,14 @@ class AppWindow(gtk.Window, buildscript.BuildScript):
             raise CommandError(_('%(command)s returned with an error code (%(rc)s)') % {
                     'command': short_command, 'rc': rc})
 
-    def on_vte_child_exit_cb(self, terminal):
+    def on_vte_child_exit_cb(self, terminal, status):
         self.vte_fork_running = False
-        self.vte_child_exit_status = self.terminal.get_child_exit_status()
+        self.vte_child_exit_status = status
 
 
-class SelectModulesDialog(gtk.Dialog):
+class SelectModulesDialog(Gtk.Dialog):
     def __init__(self, parent, default_module=None):
-        gtk.Dialog.__init__(self, '', parent)
+        Gtk.Dialog.__init__(self, '', parent)
         self.app = parent
         self.create_model()
         self.create_ui()
@@ -618,18 +627,18 @@ class SelectModulesDialog(gtk.Dialog):
         self.connect('response', self.on_response_cb)
 
     def create_model(self):
-        self.modules_model = gtk.ListStore(str)
+        self.modules_model = Gtk.ListStore(str)
         modules = [x.name for x in self.app.module_set.get_full_module_list()]
-        for module in sorted(modules, lambda x,y: cmp(x.lower(), y.lower())):
+        for module in sorted(modules, key=lambda x: x.lower()):
             self.modules_model.append((module,))
 
     def create_frame(self, label, child):
-        frame = gtk.Frame('')
+        frame = Gtk.Frame.new('')
         frame.set_border_width(3)
-        frame.set_shadow_type(gtk.SHADOW_NONE)
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
         frame.get_label_widget().set_markup('<b>%s</b>' % label)
 
-        alignment = gtk.Alignment()
+        alignment = Gtk.Alignment()
         alignment.set_padding(0, 0, 12, 0)
         frame.add(alignment)
         alignment.add(child)
@@ -637,40 +646,43 @@ class SelectModulesDialog(gtk.Dialog):
         return frame
 
     def create_ui(self):
-        vbox = gtk.VBox()
+        vbox = Gtk.VBox()
         self.vbox.add(vbox)
 
-        sclwin = gtk.ScrolledWindow()
-        sclwin.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sclwin = Gtk.ScrolledWindow()
+        sclwin.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS)
         sclwin.set_size_request(-1, 200)
-        vbox.pack_start(self.create_frame(_('Module'), sclwin))
+        vbox.pack_start(self.create_frame(_('Module'), sclwin), True, True, 0)
 
-        self.treeview = gtk.TreeView(self.modules_model)
+        self.treeview = Gtk.TreeView(self.modules_model)
         self.treeview.set_headers_visible(False)
         sclwin.add(self.treeview)
         selection = self.treeview.get_selection()
         selection.connect('changed', self.on_selection_changed_cb)
 
-        renderer = gtk.CellRendererText()
-        tv_col = gtk.TreeViewColumn('', renderer, text=0)
+        renderer = Gtk.CellRendererText()
+        tv_col = Gtk.TreeViewColumn('', renderer, text=0)
         tv_col.set_expand(True)
         tv_col.set_min_width(200)
         self.treeview.append_column(tv_col)
 
-        self.startat_model = gtk.ListStore(str)
-        self.combo_startat = gtk.ComboBox(self.startat_model)
-        cell = gtk.CellRendererText()
+        self.startat_model = Gtk.ListStore(str)
+        self.combo_startat = Gtk.ComboBox.new_with_model(self.startat_model)
+        cell = Gtk.CellRendererText()
         self.combo_startat.pack_start(cell, True)
         self.combo_startat.add_attribute(cell, 'text', 0)
-        vbox.pack_start(self.create_frame(_('Start At'), self.combo_startat))
+        vbox.pack_start(self.create_frame(_('Start At'), self.combo_startat), True, True, 0)
 
         self.vbox.show_all()
 
-        self.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
-        self.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
+        self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
     def on_selection_changed_cb(self, selection, *args):
         iter = selection.get_selected()[1]
+        if iter is None:
+            self.startat_model.clear()
+            return
         self.selected_module = self.modules_model.get(iter, 0)[0]
 
         old_start_at = None
@@ -689,11 +701,13 @@ class SelectModulesDialog(gtk.Dialog):
 
         if new_active_iter:
             self.combo_startat.set_active_iter(new_active_iter)
-        else:
+        elif len(self.startat_model):
             self.combo_startat.set_active_iter(self.startat_model[0].iter)
+        else:
+            self.combo_startat.set_active_iter(None)
 
     def on_response_cb(self, dlg, response_id, *args):
-        if response_id != gtk.RESPONSE_OK:
+        if response_id != Gtk.ResponseType.OK:
             return
 
         old_start_at_iter = self.combo_startat.get_active_iter()
@@ -701,18 +715,18 @@ class SelectModulesDialog(gtk.Dialog):
         if old_start_at_iter:
             self.startat = self.startat_model.get(old_start_at_iter, 0)[0]
 
-        return gtk.RESPONSE_OK
+        return Gtk.ResponseType.OK
 
-class PreferencesDialog(gtk.Dialog):
+class PreferencesDialog(Gtk.Dialog):
     def __init__(self, parent, default_module=None):
-        gtk.Dialog.__init__(self, _('Preferences'), parent)
+        Gtk.Dialog.__init__(self, _('Preferences'), parent)
         self.app = parent
         self.create_ui()
         self.connect('response', self.on_response_cb)
         self.connect('delete-event', self.on_response_cb)
 
     def create_ui(self):
-        vbox = gtk.VBox(spacing=5)
+        vbox = Gtk.VBox(spacing=5)
         vbox.set_border_width(5)
         self.vbox.add(vbox)
 
@@ -720,13 +734,13 @@ class PreferencesDialog(gtk.Dialog):
                 ('nonetwork', _('Disable network access')),
                 ('alwaysautogen', _('Always run autogen.sh')),
                 ('nopoison', _('Don\'t poison modules on failure'))):
-            checkbutton = gtk.CheckButton(label)
+            checkbutton = Gtk.CheckButton(label)
             checkbutton.set_active(getattr(self.app.config, key))
             checkbutton.connect('toggled', self.on_toggled_key, key)
-            vbox.pack_start(checkbutton, expand=False, fill=False)
+            vbox.pack_start(checkbutton, False, False, 0)
 
         self.vbox.show_all()
-        self.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
+        self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)
 
     def on_toggled_key(self, checkbutton, key):
         setattr(self.app.config, key, checkbutton.get_active())
