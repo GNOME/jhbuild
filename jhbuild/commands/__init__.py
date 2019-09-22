@@ -32,7 +32,7 @@ import os
 
 from jhbuild.errors import FatalError
 from jhbuild.utils import try_import_module, uprint, uencode, N_, _
-
+from jhbuild.utils.compat import iteritems
 
 class OptionParser(optparse.OptionParser):
     def exit(self, status=0, msg=None):
@@ -79,7 +79,7 @@ class BuildCommand(Command):
     def required_system_dependencies_installed(self, module_state):
         '''Returns true if all required system dependencies are installed for
         modules in module_state.'''
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in iteritems(module_state):
             if systemmodule:
                 if not new_enough:
                     return False
@@ -105,7 +105,7 @@ class BuildCommand(Command):
         print(_('Required packages:'))
         print(_('  System installed packages which are too old:'))
         have_too_old = False
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in iteritems(module_state):
             if (installed_version is not None) and (not new_enough) and systemmodule:
                 have_too_old = True
                 print ('    %s %s' % (module.name,
@@ -117,7 +117,7 @@ class BuildCommand(Command):
 
         print(_('  No matching system package installed:'))
         have_missing = False
-        for module, (req_version, installed_version, new_enough, systemmodule) in module_state.iteritems():
+        for module, (req_version, installed_version, new_enough, systemmodule) in iteritems(module_state):
             if installed_version is None and (not new_enough) and systemmodule:
                 have_missing = True
                 print('    %s %s' % (module.name,

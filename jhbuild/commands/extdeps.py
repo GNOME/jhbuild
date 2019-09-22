@@ -26,12 +26,7 @@ import sys
 import time
 
 from jhbuild.utils import _
-from jhbuild.utils.compat import cmp
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from jhbuild.utils.compat import cmp, BytesIO
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
@@ -85,7 +80,7 @@ class cmd_extdeps(Command):
 
     def run(self, config, options, args, help=None):
         if options.output:
-            output = StringIO()
+            output = BytesIO()
         else:
             output = sys.stdout
 

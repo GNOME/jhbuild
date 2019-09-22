@@ -285,7 +285,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         try:
             if p.wait() != 0:
                 if self.config.quiet_mode:
-                    print(''.join(output))
+                    print(b''.join(output))
                 raise CommandError(_('########## Error running %s')
                                    % print_args['command'], p.returncode)
         except OSError:

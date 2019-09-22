@@ -26,14 +26,9 @@ import sys
 import subprocess
 import time
 import types
-import cPickle
+import pickle
 import logging
 from optparse import make_option
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 import xml.etree.ElementTree as ET
 
 try:
@@ -45,6 +40,7 @@ import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
 from jhbuild.utils import httpcache, cmds, _
 from jhbuild.modtypes import MetaModule
+from jhbuild.utils.compat import BytesIO
 
 try:
     t_bold = cmds.get_output(['tput', 'bold'])
@@ -371,7 +367,7 @@ class cmd_goalreport(Command):
 
     def run(self, config, options, args, help=None):
         if options.output:
-            output = StringIO()
+            output = BytesIO()
             global curses
             if curses and config.progress_bar:
                 try:
@@ -403,7 +399,7 @@ class cmd_goalreport(Command):
             cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
         if options.cache:
             try:
-                results = cPickle.load(open(os.path.join(cachedir, options.cache)))
+                results = pickle.load(open(os.path.join(cachedir, options.cache)))
             except:
                 pass
 
@@ -461,7 +457,7 @@ class cmd_goalreport(Command):
         if not os.path.exists(cachedir):
             os.makedirs(cachedir)
         if options.cache:
-            cPickle.dump(results, open(os.path.join(cachedir, options.cache), 'w'))
+            pickle.dump(results, open(os.path.join(cachedir, options.cache), 'w'))
 
         print(HTML_AT_TOP % {'title': self.title}, file=output)
         if self.page_intro:

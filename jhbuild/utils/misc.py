@@ -20,7 +20,7 @@ import importlib
 import pkgutil
 import locale
 
-from .compat import text_type
+from .compat import text_type, PY2
 
 def inpath(filename, path):
     for dir in path:
@@ -72,7 +72,10 @@ def udecode(s):
 def uprint(*args, **kwargs):
     '''Print Unicode string encoded for the terminal'''
 
-    print(*[uencode(s) for s in args], **kwargs)
+    if PY2:
+        print(*[uencode(s) for s in args], **kwargs)
+    else:
+        print(*args, **kwargs)
 
 def N_(x):
     return text_type(x)
@@ -89,4 +92,7 @@ def _(x):
 def install_translation(translation):
     global _ugettext
 
-    _ugettext = translation.ugettext
+    if PY2:
+        _ugettext = translation.ugettext
+    else:
+        _ugettext = translation.gettext

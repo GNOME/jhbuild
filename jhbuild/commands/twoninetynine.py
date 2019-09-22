@@ -24,7 +24,7 @@ import re
 from jhbuild.commands import Command, register_command
 from jhbuild.utils import _
 
-from goalreport import cmd_goalreport, ExcludedModuleException, \
+from .goalreport import cmd_goalreport, ExcludedModuleException, \
          Check, ShellCheck, DeprecatedSymbolsCheck, FIND_C
 
 class LibBonobo(ShellCheck):
