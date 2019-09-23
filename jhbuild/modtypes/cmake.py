@@ -153,7 +153,7 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
         return 'cmake', [('id', 'name', None),
                          ('skip-install', 'skip_install_phase', False),
                          ('use-ninja', 'use_ninja', True),
-                         ('cmakedir', None),
+                         ('cmakedir', 'cmakedir', None),
                          ('supports-non-srcdir-builds',
                           'supports_non_srcdir_builds', True),
                          ('force-non-srcdir-builds',

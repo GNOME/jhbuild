@@ -495,6 +495,8 @@ them into the prefix."""
 
     def branch_to_sxml(self):
         """Serialize this module's checkout branch as sxml."""
+        if self.branch is None:
+            return [sxml.branch]
         return self.branch.to_sxml()
 
     @classmethod
