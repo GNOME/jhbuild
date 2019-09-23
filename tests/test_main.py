@@ -54,6 +54,7 @@ import jhbuild.frontends.terminal
 import jhbuild.moduleset
 import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
+from jhbuild.utils.sxml import sxml_to_string
 
 from . import mock
 
@@ -183,7 +184,17 @@ class JhbuildConfigTestCase(unittest.TestCase):
         module_set.packagedb = mock.PackageDB()
         return jhbuild.frontends.terminal.TerminalBuildScript(config, module_list, module_set)
 
-    
+
+class CMakeModuleTest(unittest.TestCase):
+
+    def test_to_sxml(self):
+        from jhbuild.modtypes.cmake import CMakeModule
+
+        mod = CMakeModule("foo")
+        self.assertEqual(
+            sxml_to_string(mod.to_sxml()),
+            '<cmake id="foo"><dependencies></dependencies>\n<branch></branch></cmake>')
+
 
 class ModuleOrderingTestCase(JhbuildConfigTestCase):
     '''Module Ordering'''
