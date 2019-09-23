@@ -120,17 +120,17 @@ def systemdependencies_met(module_name, sysdeps, config):
                 shell_split = shlex.split
             try:
                 while True:
-                    arg = itr.next()
+                    arg = next(itr)
                     if arg.strip() in ['-I', '-isystem']:
                         # extract paths handling quotes and multiple paths
-                        paths += shell_split(itr.next())[0].split(os.pathsep)
+                        paths += shell_split(next(itr))[0].split(os.pathsep)
                     elif arg.startswith('-I'):
                         paths += shell_split(arg[2:])[0].split(os.pathsep)
             except StopIteration:
                 pass
             return paths
         try:
-            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+            multiarch = udecode(subprocess.check_output(['gcc', '-print-multiarch'])).strip()
         except (EnvironmentError, subprocess.CalledProcessError):
             multiarch = None
         # search /usr/include and its multiarch subdir (if any) by default
@@ -385,7 +385,7 @@ class PacmanSystemInstall(SystemInstall):
 
         for name, filename in uninstalled_filenames:
             try:
-                result = subprocess.check_output(['pkgfile', '--raw', filename])
+                result = udecode(subprocess.check_output(['pkgfile', '--raw', filename]))
                 if result:
                     package_names.add(result.split('\n')[0])
             except subprocess.CalledProcessError:
@@ -535,11 +535,11 @@ class AptSystemInstall(SystemInstall):
         # Get multiarch include directory, e.g. /usr/include/x86_64-linux-gnu
         multiarch = None
         try:
-            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+            multiarch = udecode(subprocess.check_output(['gcc', '-print-multiarch'])).strip()
         except (EnvironmentError, subprocess.CalledProcessError):
             # Really need GCC to continue. Yes, this is fragile.
             self._install_packages(['gcc'])
-            multiarch = subprocess.check_output(['gcc', '-print-multiarch']).strip()
+            multiarch = udecode(subprocess.check_output(['gcc', '-print-multiarch'])).strip()
 
         c_includes = get_uninstalled_c_includes(uninstalled)
         self._append_native_packages_or_warn_c_includes(c_includes, native_packages, multiarch)

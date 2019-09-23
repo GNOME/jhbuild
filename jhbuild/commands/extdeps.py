@@ -25,8 +25,8 @@ import socket
 import sys
 import time
 
-from jhbuild.utils import _
-from jhbuild.utils.compat import cmp, BytesIO
+from jhbuild.utils import _, open_text
+from jhbuild.utils.compat import TextIO
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
@@ -80,7 +80,7 @@ class cmd_extdeps(Command):
 
     def run(self, config, options, args, help=None):
         if options.output:
-            output = BytesIO()
+            output = TextIO()
         else:
             output = sys.stdout
 
@@ -108,7 +108,7 @@ class cmd_extdeps(Command):
         print('<table>', file=output)
         print('<tbody>', file=output)
 
-        module_list.sort(lambda x,y: cmp(x.name.lower(), y.name.lower()))
+        module_list.sort(key=lambda x: x.name.lower())
         for mod in module_list:
             # if not mod.moduleset_name.startswith('gnome-suites-core-deps-base'):
             #    continue
@@ -155,7 +155,7 @@ class cmd_extdeps(Command):
         print('</html>', file=output)
 
         if output != sys.stdout:
-            open(options.output, 'w').write(output.getvalue())
+            open_text(options.output, 'w').write(output.getvalue())
 
 
     def compute_rdeps(self, module):
@@ -165,7 +165,7 @@ class cmd_extdeps(Command):
                 continue
             if module.name in mod.dependencies:
                 rdeps.append(mod.name)
-        rdeps.sort(lambda x,y: cmp(x.lower(), y.lower()))
+        rdeps.sort(key=lambda x: x.lower())
         return rdeps
 
 register_command(cmd_extdeps)

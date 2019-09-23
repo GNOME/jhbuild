@@ -39,9 +39,9 @@ except ImportError:
 import jhbuild.moduleset
 from jhbuild.errors import CommandError
 from jhbuild.commands import Command, register_command
-from jhbuild.utils import httpcache, cmds, _
+from jhbuild.utils import httpcache, cmds, _, open_text
 from jhbuild.modtypes import MetaModule
-from jhbuild.utils.compat import BytesIO
+from jhbuild.utils.compat import TextIO
 
 try:
     t_bold = cmds.get_output(['tput', 'bold'])
@@ -368,7 +368,7 @@ class cmd_goalreport(Command):
 
     def run(self, config, options, args, help=None):
         if options.output:
-            output = BytesIO()
+            output = TextIO()
             global curses
             if curses and config.progress_bar:
                 try:
@@ -400,7 +400,7 @@ class cmd_goalreport(Command):
             cachedir = os.path.join(os.environ['HOME'], '.cache','jhbuild')
         if options.cache:
             try:
-                results = pickle.load(open(os.path.join(cachedir, options.cache)))
+                results = pickle.load(open(os.path.join(cachedir, options.cache), "rb"))
             except Exception:
                 pass
 
@@ -458,7 +458,7 @@ class cmd_goalreport(Command):
         if not os.path.exists(cachedir):
             os.makedirs(cachedir)
         if options.cache:
-            pickle.dump(results, open(os.path.join(cachedir, options.cache), 'w'))
+            pickle.dump(results, open(os.path.join(cachedir, options.cache), 'wb'))
 
         print(HTML_AT_TOP % {'title': self.title}, file=output)
         if self.page_intro:
@@ -569,7 +569,7 @@ class cmd_goalreport(Command):
         print('</html>', file=output)
 
         if output != sys.stdout:
-            open(options.output, 'w').write(output.getvalue())
+            open_text(options.output, 'w').write(output.getvalue())
 
         if output != sys.stdout and config.progress_bar:
             sys.stdout.write('\n')
@@ -758,7 +758,7 @@ class cmd_goalreport(Command):
         if not curses:
             return
         columns = curses.tigetnum('cols')
-        width = columns / 2
+        width = columns // 2
         num_hashes = int(round(progress * width))
         progress_bar = '[' + (num_hashes * '=') + ((width - num_hashes) * '-') + ']'
 
