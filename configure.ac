@@ -26,14 +26,32 @@ if test -n "$PYTHON" && ! command -v "$PYTHON" > /dev/null; then
 	AC_MSG_ERROR([Python interpreter $PYTHON does not exist])
 fi
 
-# If PYTHON is set we use it, otherwise we only allow Python 2 until the Python 3 port is complete
+# All this is supposed to do is check the Python version against python_min_ver
+# and python3_min_ver and prefer Python 3.x if nothing is set.
+m4_define(python_min_ver, 2.7)
+m4_define(python3_min_ver, 3.5)
 if test -n "$PYTHON"; then
-	AM_PATH_PYTHON([2.7])
+	AM_PATH_PYTHON([python_min_ver])
+	AM_PYTHON_CHECK_VERSION([$PYTHON], [3.0],
+				build_py3k=true,
+				build_py3k=false)
+	if test $build_py3k = true ; then
+		AC_MSG_CHECKING([for $PYTHON >=] python3_min_ver)
+		AM_PYTHON_CHECK_VERSION([$PYTHON], python3_min_ver,
+					[AC_MSG_RESULT(yes)],
+					[AC_MSG_ERROR(too old)])
+	fi
 else
-	AM_PATH_PYTHON([], [
-		AS_CASE(["$PYTHON_VERSION"],
-			[2.*], [],
-			[AC_MSG_ERROR([JHBuild only works with python 2])])])
+	AM_PATH_PYTHON([python3_min_ver], [], [
+		unset PYTHON;
+		# XXX: AM_PATH_PYTHON caching is broken and always returns the result of the first use
+		unset am_cv_pathless_PYTHON;
+		AM_PATH_PYTHON([python_min_ver], [
+			AS_CASE(["$PYTHON_VERSION"],
+				[2.*], [],
+				[AC_MSG_ERROR([JHBuild requires Python ] python_min_ver [or] python3_min_ver)])
+		])
+	])
 fi
 
 PKG_PROG_PKG_CONFIG
