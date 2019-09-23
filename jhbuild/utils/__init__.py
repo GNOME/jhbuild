@@ -17,6 +17,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from .misc import inpath, try_import_module, udecode, uprint, N_, _, install_translation, uinput, open_text
+from .misc import inpath, try_import_module, udecode, uprint, N_, _, install_translation, uinput, open_text, bprint
 
-inpath, try_import_module, udecode, uprint, N_, _, install_translation, uinput, open_text
+inpath, try_import_module, udecode, uprint, N_, _, install_translation, uinput, open_text, bprint

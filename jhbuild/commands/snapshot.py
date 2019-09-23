@@ -23,7 +23,7 @@ from __future__ import print_function
 
 import jhbuild.moduleset
 from jhbuild.commands import Command, register_command
-from jhbuild.utils import N_
+from jhbuild.utils import N_, bprint
 from jhbuild.utils.sxml import sxml, sxml_to_string
 
 
@@ -52,7 +52,7 @@ class cmd_snapshot(Command):
              + [m.to_sxml() for m in checked_out_mods]
              + [m.to_sxml() for m in meta])
 
-        print('<?xml version="1.0"?>\n')
-        print(sxml_to_string(x))
+        bprint(b'<?xml version="1.0"?>\n')
+        bprint(sxml_to_string(x).encode("utf-8") + b'\n')
 
 register_command(cmd_snapshot)
