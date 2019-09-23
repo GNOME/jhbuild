@@ -17,12 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from .compat import string_types, text_type
-
-
 """
-An s-expression syntax for XML documents, together with a serializer to
-UTF-8.
+An s-expression syntax for XML documents.
 
 Use like this:
 
@@ -38,22 +34,6 @@ Use like this:
 
 __all__ = ['sxml', 'sxml_to_string']
 
-
-# from Django, originally. used to make sure xml is utf-8.
-def smart_str(s, encoding='utf-8', errors='strict'):
-    # Returns a bytestring version of 's', encoded as specified in 'encoding'.
-    if not isinstance(s, string_types):
-        try:
-            return str(s)
-        except UnicodeEncodeError:
-            return text_type(s).encode(encoding, errors)
-    elif isinstance(s, text_type):
-        return s.encode(encoding, errors)
-    elif s and encoding != 'utf-8':
-        return s.decode('utf-8', errors).encode(encoding, errors)
-    else:
-        return s
-
 def quote(s):
     quoted = {'"': '&quot;',
               '&': '&amp;',
@@ -63,10 +43,10 @@ def quote(s):
 
 def sxml_to_string(expr):
     if not isinstance(expr, list):
-        return smart_str(quote(expr))
+        return quote(expr)
     operator = expr[0]
     args = [sxml_to_string(arg) for arg in expr[1:]]
-    return smart_str(operator(args))
+    return operator(args)
 
 class sxml:
     def __getattr__(self, attr):

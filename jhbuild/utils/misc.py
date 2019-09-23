@@ -70,6 +70,16 @@ def udecode(s):
     else:
         return s
 
+def bprint(data):
+    '''Write some binary data as is to stdout'''
+
+    assert isinstance(data, bytes)
+    if PY2:
+        sys.stdout.write(data)
+    else:
+        sys.stdout.flush()
+        sys.stdout.buffer.write(data)
+
 def uprint(*args, **kwargs):
     '''Print Unicode string encoded for the terminal'''
 
