@@ -19,4 +19,4 @@
 # IfExecutable: glib-compile-schemas
 # REMatch: ^share/glib-2.0/schemas/
 
-glib-compile-schemas $JHBUILD_PREFIX/share/glib-2.0/schemas
+glib-compile-schemas "$JHBUILD_PREFIX/share/glib-2.0/schemas"
