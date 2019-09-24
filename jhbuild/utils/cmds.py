@@ -197,7 +197,7 @@ def pprint_output(pipe, format_line):
 
             if pipe.stderr in rlist:
                 err_chunk = os.read(pipe.stderr.fileno(), 10000)
-                if err_chunk == '':
+                if err_chunk == b'':
                     pipe.stderr.close()
                     read_set.remove(pipe.stderr)
                 err_data += err_chunk
