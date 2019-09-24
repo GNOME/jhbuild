@@ -24,7 +24,6 @@ import sys
 import logging
 import shlex
 import subprocess
-import imp
 import textwrap
 import time
 import re
@@ -180,14 +179,9 @@ def systemdependencies_met(module_name, sysdeps, config):
             if not found:
                 dep_met = False
 
-        elif dep_type == 'python2':
-            try:
-                imp.find_module(value)
-            except Exception:
-                dep_met = False
-
-        elif dep_type == 'python3':
-            python3_script = textwrap.dedent('''
+        elif dep_type in ('python2', 'python3'):
+            command = dep_type
+            python_script = textwrap.dedent('''
                 import imp
                 import sys
                 try:
@@ -196,7 +190,7 @@ def systemdependencies_met(module_name, sysdeps, config):
                     exit(1)
                 ''').strip('\n')
             try:
-                subprocess.check_call(['python3', '-c', python3_script, value])
+                subprocess.check_call([command, '-c', python_script, value])
             except (subprocess.CalledProcessError, OSError):
                 dep_met = False
 
