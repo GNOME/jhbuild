@@ -47,7 +47,11 @@ def print_help(parser):
     parser.exit()
 
 def main(args):
-    localedir = os.path.join(DATADIR, 'locale')
+    if DATADIR is not None:
+        localedir = os.path.join(DATADIR, 'locale')
+    else:
+        localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
+
     if not os.path.exists(localedir):
         localedir = None
     install_translation(gettext.translation('jhbuild', localedir=localedir, fallback=True))
