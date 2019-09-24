@@ -21,12 +21,10 @@ import os
 import time
 import subprocess
 import logging
-import codecs
 import sys
 
-from jhbuild.main import _encoding
 from jhbuild.utils import cmds
-from jhbuild.utils import sysid, _
+from jhbuild.utils import sysid, _, udecode, open_text
 from jhbuild.errors import CommandError, FatalError
 from jhbuild.utils.compat import string_types, text_type
 from . import buildscript
@@ -135,7 +133,7 @@ buildlog_footer = '''
 
 def escape(string):
     if not isinstance(string, text_type):
-        string = text_type(string, _encoding, 'replace')
+        string = udecode(string)
     string = string.replace('&', '&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
@@ -162,8 +160,6 @@ class TinderboxBuildScript(buildscript.BuildScript):
             os.makedirs(self.outputdir)
 
         os.environ['TERM'] = 'dumb'
-
-        self.charset = _encoding
 
     def timestamp(self):
         tm = time.time()
@@ -287,12 +283,12 @@ class TinderboxBuildScript(buildscript.BuildScript):
             buildplatform += '<tr><th align="left">%s</th><td>%s</td></tr>\n' \
                              % (key, val)
         buildplatform += '</table>\n'
-        
-        self.indexfp = codecs.open(os.path.join(self.outputdir, 'index.html'),
-                'w', encoding=self.charset, errors='xmlcharrefreplace')
+
+        self.indexfp = open_text(os.path.join(self.outputdir, 'index.html'),
+                'w', encoding='utf-8', errors='xmlcharrefreplace')
 
         self.indexfp.write(index_header % { 'buildplatform': buildplatform,
-                                            'charset': self.charset })
+                                            'charset': 'UTF-8' })
         self.indexfp.flush()
 
     def end_build(self, failures):
@@ -318,16 +314,16 @@ class TinderboxBuildScript(buildscript.BuildScript):
                            '<td><a href="%s">%s</a></td>'
                            '<td>\n' % (self.timestamp(), self.modulefilename,
                                        module))
-        self.modulefp = codecs.open(
+        self.modulefp = open_text(
                 os.path.join(self.outputdir, self.modulefilename), 'w',
-                encoding=self.charset, errors='xmlcharrefreplace')
+                encoding='utf-8', errors='xmlcharrefreplace')
 
         for handle in logging.getLogger().handlers:
             if isinstance(handle, logging.StreamHandler):
                 handle.stream = self.modulefp
 
         self.modulefp.write(buildlog_header % { 'module': module,
-                                                'charset': self.charset })
+                                                'charset': 'UTF-8' })
     def end_module(self, module, failed):
         if failed:
             self.message('Failed')
