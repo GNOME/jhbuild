@@ -21,6 +21,8 @@ import sys
 import subprocess
 import ast
 
+from . import udecode
+
 sys_id = None
 sys_name = None
 default_conditions = None
@@ -84,7 +86,7 @@ def get_macos_info():
     global sys_id
 
     try:
-        ver = subprocess.check_output('sw_vers -productVersion')
+        ver = udecode(subprocess.check_output('sw_vers -productVersion'))
 
         sys_name = 'Mac OS X ' + ver
         sys_id = 'macos-' + ver
@@ -99,7 +101,7 @@ def get_freebsd_info():
     global sys_id
 
     try:
-        ver = subprocess.check_output('freebsd-version').strip()
+        ver = udecode(subprocess.check_output('freebsd-version')).strip()
 
         sys_name = 'FreeBSD ' + ver
         return True
@@ -107,7 +109,7 @@ def get_freebsd_info():
         pass
 
     try:
-        ver = subprocess.check_output(['uname', '-r']).strip()
+        ver = udecode(subprocess.check_output(['uname', '-r'])).strip()
 
         sys_name = 'FreeBSD ' + ver
         return True
