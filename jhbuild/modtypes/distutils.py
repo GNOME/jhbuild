@@ -41,7 +41,7 @@ class DistutilsModule(Package, DownloadableModule):
         Package.__init__(self, name, branch=branch)
         self.supports_non_srcdir_builds = supports_non_srcdir_builds
         self.supports_install_destdir = True
-        self.python = os.environ.get('PYTHON', 'python')
+        self.python = os.environ.get('PYTHON', 'python2')
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
