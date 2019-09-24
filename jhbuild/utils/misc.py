@@ -123,7 +123,7 @@ def install_translation(translation):
         _ugettext = translation.gettext
 
 
-def open_text(filename, mode="r", encoding="utf-8"):
+def open_text(filename, mode="r", encoding="utf-8", errors="strict"):
     """An open() which removes some differences between Python 2 and 3 and
     has saner defaults.
     Unlike the builtin open by default utf-8 is used and not the locale
@@ -135,10 +135,10 @@ def open_text(filename, mode="r", encoding="utf-8"):
         raise ValueError("mode %r not supported, must be 'r' or 'w'" % mode)
 
     if PY3:
-        return open(filename, mode, encoding=encoding)
+        return open(filename, mode, encoding=encoding, errors=errors)
     else:
         # We can't use io.open() here as its write method is too strict and
         # only allows unicode instances and not everything in the codebase
         # forces unicode at the moment. codecs.open() on the other hand
         # happily takes ASCII str and decodes it.
-        return codecs.open(filename, mode, encoding=encoding)
+        return codecs.open(filename, mode, encoding=encoding, errors=errors)
