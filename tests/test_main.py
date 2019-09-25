@@ -55,6 +55,7 @@ import jhbuild.moduleset
 import jhbuild.utils.cmds
 import jhbuild.versioncontrol.tarball
 from jhbuild.utils.sxml import sxml_to_string
+from jhbuild.utils.cmds import pprint_output
 
 from . import mock
 
@@ -123,6 +124,19 @@ class ModulesetXMLTest(unittest.TestCase):
             raise Exception(e.output)
         finally:
             shutil.rmtree(temp_dir)
+
+
+class CmdTestCase(unittest.TestCase):
+
+    def test_pprint_output(self):
+        try:
+            p = subprocess.Popen(
+                ["echo", "foo\nbar"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except OSError:
+            raise unittest.SkipTest("no echo command")
+        arguments = []
+        pprint_output(p, lambda *args: arguments.append(args))
+        self.assertEqual(arguments, [('foo\n', False), ('bar\n', False)])
 
 
 class _TestConfig(jhbuild.config.Config):

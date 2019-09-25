@@ -177,6 +177,9 @@ def pprint_output(pipe, format_line):
     if not getattr(sys.stdin, "closed", True):
         read_set.append(sys.stdin)
 
+    def format_line_text(data, *args):
+        return format_line(udecode(data), *args)
+
     out_data = err_data = b''
     try:
         while read_set:
@@ -192,7 +195,7 @@ def pprint_output(pipe, format_line):
                 out_data += out_chunk
                 while b'\n' in out_data:
                     pos = out_data.find(b'\n')
-                    format_line(out_data[:pos+1], False)
+                    format_line_text(out_data[:pos+1], False)
                     out_data = out_data[pos+1:]
 
             if pipe.stderr in rlist:
@@ -203,7 +206,7 @@ def pprint_output(pipe, format_line):
                 err_data += err_chunk
                 while b'\n' in err_data:
                     pos = err_data.find(b'\n')
-                    format_line(err_data[:pos+1], True)
+                    format_line_text(err_data[:pos+1], True)
                     err_data = err_data[pos+1:]
 
             # safeguard against tinderbox that close stdin
@@ -214,9 +217,9 @@ def pprint_output(pipe, format_line):
 
         # flush the remainder of stdout/stderr data lacking newlines
         if out_data:
-            format_line(out_data, False)
+            format_line_text(out_data, False)
         if err_data:
-            format_line(err_data, True)
+            format_line_text(err_data, True)
 
     except KeyboardInterrupt:
         # interrupt received.  Send SIGINT to child process.
