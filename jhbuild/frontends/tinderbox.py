@@ -24,9 +24,9 @@ import logging
 import sys
 
 from jhbuild.utils import cmds
-from jhbuild.utils import sysid, _, udecode, open_text
+from jhbuild.utils import sysid, _, open_text
 from jhbuild.errors import CommandError, FatalError
-from jhbuild.utils.compat import string_types, text_type
+from jhbuild.utils.compat import string_types
 from . import buildscript
 
 index_header = '''<html>
@@ -132,8 +132,7 @@ buildlog_footer = '''
 '''
 
 def escape(string):
-    if not isinstance(string, text_type):
-        string = udecode(string)
+    assert isinstance(string, string_types)
     string = string.replace('&', '&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
