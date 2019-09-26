@@ -87,7 +87,7 @@ class cmd_extdeps(Command):
         config.partial_build = False
         self.module_set = jhbuild.moduleset.load(config)
         if options.list_all_modules:
-            module_list = self.module_set.modules.values()
+            module_list = list(self.module_set.modules.values())
         else:
             module_list = self.module_set.get_module_list(args or config.modules, config.skip)
 
