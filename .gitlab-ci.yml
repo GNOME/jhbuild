@@ -5,13 +5,20 @@ stages:
 test-py2:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
   script:
+    # autotools install
     - mkdir _build && cd _build
     - ../autogen.sh --with-python=python2
     - make
     - make install
     - make distcheck
     - cd ..
+    # simple install
+    - ./autogen.sh --simple-install --with-python=python2
+    - make install
+    - $HOME/.local/bin/jhuild jhbuild help
+    # flake 8
     - python2 -m flake8 .
+    # docs
     - mkdir public
     - cd public
     - yelp-build html ../doc/C/index.docbook
@@ -22,12 +29,18 @@ test-py2:
 test-py3:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v3
   script:
+    # autotools install
     - mkdir _build && cd _build
     - ../autogen.sh --with-python=python3
     - make
     - make install
     - make distcheck
     - cd ..
+    # simple install
+    - ./autogen.sh --simple-install --with-python=python3
+    - make install
+    - $HOME/.local/bin/jhuild jhbuild help
+    # flake 8
     - python3 -m flake8 .
   artifacts:
     paths:
