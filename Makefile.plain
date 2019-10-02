@@ -24,7 +24,7 @@ install: include-check
 	@echo "Creating $(bindir)/jhbuild"
 	@mkdir -p $(bindir)
 	@sed -e "s,@jhbuilddir@,`pwd`,g" \
-		-e "s,@python@,python2,g" \
+		-e "s,@python@,$(python),g" \
 		-e "s,USE_CHECKOUT_SRC = False,USE_CHECKOUT_SRC = True," < \
 		scripts/jhbuild.in > $(bindir)/jhbuild
 	@chmod a+x $(bindir)/jhbuild
