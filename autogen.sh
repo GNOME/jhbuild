@@ -80,6 +80,7 @@ setup_i18n()
 parse_commandline()
 {
   enable_autotools=$TRUE
+  python="python3"
 
   while [ -n "$1" ]; do
     case "$1" in
@@ -90,9 +91,15 @@ parse_commandline()
       --prefix=*)
         prefix="$(echo "$1" | cut -d= -f2)"
         ;;
+
+      --with-python=*)
+        python="$(echo "$1" | cut -d= -f2)"
+        ;;
     esac
     shift
   done
+
+  python="$(basename $python)"
 }
 
 # configure JHBuild to build and install without autotools via a plain
@@ -133,6 +140,7 @@ configure_without_autotools()
          "run."
     echo "prefix=$prefix"
     echo "bindir=$bindir"
+    echo "python=$python"
     echo "datarootdir=$datarootdir"
     echo "desktopdir=$desktopdir"
     if [ "$msgfmtl_available" -ne 0 ]; then
