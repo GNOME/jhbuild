@@ -99,7 +99,7 @@ parse_commandline()
     shift
   done
 
-  python="$(basename $python)"
+  python="$(basename "$python")"
 }
 
 # configure JHBuild to build and install without autotools via a plain
