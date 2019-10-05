@@ -20,6 +20,8 @@
       href="http://osiris.chipx86.com/svn/osiris-misc/"/>
   <repository type="git" name="github.com"
     href="git://github.com/"/>
+  <repository type="git" name="gitlab.com"
+    href="https://gitlab.com/"/>
   <repository type="svn" name="svn.tinymail.org"
     href="https://svn.tinymail.org/svn/tinymail/" />
   <repository type="git" name="git.maemo.org"
@@ -788,13 +790,12 @@
     </suggests>
   </autotools>
 
-  <distutils id="dogtail">
-    <branch repo="fedorahosted.org" module="dogtail.git"/>
+  <distutils id="dogtail" python3="1">
+    <branch repo="gitlab.com" module="dogtail/dogtail.git"/>
     <dependencies>
-      <dep package="pycairo-python2"/>
-      <dep package="pyatspi2-python2"/>
-      <dep package="pygobject-python2"/>
-      <dep package="pygtk"/>
+      <dep package="pycairo"/>
+      <dep package="pyatspi2"/>
+      <dep package="pygobject"/>
     </dependencies>
   </distutils>
 
