@@ -1673,6 +1673,16 @@
     <branch/>
   </autotools>
 
+  <meson id="malcontent">
+    <branch repo="gitlab.freedesktop.org"
+            module="pwithnall/malcontent.git"/>
+    <dependencies>
+      <dep package="dbus"/>
+      <dep package="glib"/>
+      <dep package="polkit-gobject"/>
+    </dependencies>
+  </meson>
+
   <cmake id="mir" cmakeargs="-DMIR_ENABLE_TESTS=0 -DMIR_PLATFORM=mesa">
     <branch repo="mir"
             module="0.8/${version}/+download/mir-${version}.tar.bz2"
