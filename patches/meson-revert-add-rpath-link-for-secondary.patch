@@ -1,0 +1,286 @@
+From 06a8f07e4eafab117028ab4ce70197ba3b6f21f4 Mon Sep 17 00:00:00 2001
+From: Ting-Wei Lan <lantw@src.gnome.org>
+Date: Mon, 21 Oct 2019 22:10:16 +0800
+Subject: [PATCH] Revert "Add `-Wl,-rpath-link` for secondary dependencies"
+
+This reverts commit 7b9c348102792030859ed0001a51416506a0a092.
+
+The commit 7b9c348102792030859ed0001a51416506a0a092 breaks JHBuild
+environments seriously on systems using GNU ld.bfd. JHBuild always does
+native builds, so -Wl,-rpath-link is unnecessary because LD_LIBRARY_PATH
+is sufficient. Adding -Wl,-rpath-link on the command line overrides the
+order specified by LD_LIBRARY_PATH, causing a lot of troubles when it is
+added in a wrong order.
+
+Works around https://github.com/mesonbuild/meson/issues/6027.
+---
+ mesonbuild/dependencies/base.py               | 48 ++-----------------
+ run_unittests.py                              | 39 ---------------
+ .../unit/67 rpath-link secondary/app/app.c    |  4 --
+ .../67 rpath-link secondary/app/meson.build   |  5 --
+ .../unit/67 rpath-link secondary/libA/liba.c  |  1 -
+ .../unit/67 rpath-link secondary/libA/liba.h  |  1 -
+ .../67 rpath-link secondary/libA/meson.build  | 14 ------
+ .../unit/67 rpath-link secondary/libB/libb.c  |  3 --
+ .../unit/67 rpath-link secondary/libB/libb.h  |  1 -
+ .../67 rpath-link secondary/libB/meson.build  | 16 -------
+ 10 files changed, 3 insertions(+), 129 deletions(-)
+ delete mode 100644 test cases/unit/67 rpath-link secondary/app/app.c
+ delete mode 100644 test cases/unit/67 rpath-link secondary/app/meson.build
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libA/liba.c
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libA/liba.h
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libA/meson.build
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libB/libb.c
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libB/libb.h
+ delete mode 100644 test cases/unit/67 rpath-link secondary/libB/meson.build
+
+diff --git a/mesonbuild/dependencies/base.py b/mesonbuild/dependencies/base.py
+index 61485905..9e5c25ce 100644
+--- a/mesonbuild/dependencies/base.py
++++ b/mesonbuild/dependencies/base.py
+@@ -33,7 +33,6 @@ from .. import mesonlib
+ from ..compilers import clib_langs
+ from ..environment import BinaryTable, Environment, MachineInfo
+ from ..cmake import CMakeExecutor, CMakeTraceParser, CMakeException
+-from ..linkers import GnuLikeDynamicLinkerMixin
+ from ..mesonlib import MachineChoice, MesonException, OrderedSet, PerMachine
+ from ..mesonlib import Popen_safe, version_compare_many, version_compare, listify, stringlistify, extract_as_list, split_args
+ from ..mesonlib import Version, LibType
+@@ -747,18 +746,16 @@ class PkgConfigDependency(ExternalDependency):
+                                       (self.name, out))
+         self.compile_args = self._convert_mingw_paths(self._split_args(out))
+ 
+-    def _search_libs(self, out, out_raw, out_all):
++    def _search_libs(self, out, out_raw):
+         '''
+         @out: PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 pkg-config --libs
+         @out_raw: pkg-config --libs
+-        @out_all: pkg-config --libs --static
+ 
+         We always look for the file ourselves instead of depending on the
+         compiler to find it with -lfoo or foo.lib (if possible) because:
+         1. We want to be able to select static or shared
+         2. We need the full path of the library to calculate RPATH values
+         3. De-dup of libraries is easier when we have absolute paths
+-        4. We need to find the directories in which secondary dependencies reside
+ 
+         Libraries that are provided by the toolchain or are not found by
+         find_library() will be added with -L -l pairs.
+@@ -808,18 +805,6 @@ class PkgConfigDependency(ExternalDependency):
+                 continue
+             if arg.startswith('-L') and arg[2:] not in prefix_libpaths:
+                 system_libpaths.add(arg[2:])
+-        # collect all secondary library paths
+-        secondary_libpaths = OrderedSet()
+-        all_args = self._convert_mingw_paths(shlex.split(out_all))
+-        for arg in all_args:
+-            if arg.startswith('-L') and not arg.startswith(('-L-l', '-L-L')):
+-                path = arg[2:]
+-                if not os.path.isabs(path):
+-                    # Resolve the path as a compiler in the build directory would
+-                    path = os.path.join(self.env.get_build_dir(), path)
+-                if path not in prefix_libpaths and path not in system_libpaths:
+-                    secondary_libpaths.add(path)
+-
+         # Use this re-ordered path list for library resolution
+         libpaths = list(prefix_libpaths) + list(system_libpaths)
+         # Track -lfoo libraries to avoid duplicate work
+@@ -827,12 +812,8 @@ class PkgConfigDependency(ExternalDependency):
+         # Track not-found libraries to know whether to add library paths
+         libs_notfound = []
+         libtype = LibType.STATIC if self.static else LibType.PREFER_SHARED
+-        # Generate link arguments for this library, by
+-        # first appending secondary link arguments for ld
++        # Generate link arguments for this library
+         link_args = []
+-        if self.clib_compiler and self.clib_compiler.linker and isinstance(self.clib_compiler.linker, GnuLikeDynamicLinkerMixin):
+-            link_args = ['-Wl,-rpath-link,' + p for p in secondary_libpaths]
+-
+         for lib in full_args:
+             if lib.startswith(('-L-l', '-L-L')):
+                 # These are D language arguments, add them as-is
+@@ -902,26 +883,6 @@ class PkgConfigDependency(ExternalDependency):
+         libcmd = [self.name, '--libs']
+         if self.static:
+             libcmd.append('--static')
+-        # We need to find *all* secondary dependencies of a library
+-        #
+-        # Say we have libA.so, located in /non/standard/dir1/, and
+-        # libB.so, located in /non/standard/dir2/, which links to
+-        # libA.so. Now when linking exeC to libB.so, the linker will
+-        # walk the complete symbol tree to determine that all undefined
+-        # symbols can be resolved. Because libA.so lives in a directory
+-        # not known to the linker by default, you will get errors like
+-        #
+-        #   ld: warning: libA.so, needed by /non/standard/dir2/libB.so,
+-        #       not found (try using -rpath or -rpath-link)
+-        #   ld: /non/standard/dir2/libB.so: undefined reference to `foo()'
+-        #
+-        # To solve this, we load the -L paths of *all* dependencies, by
+-        # relying on --static to provide us with a complete picture. All
+-        # -L paths that are found via a --static lookup but that are not
+-        # contained in the normal lookup have to originate from secondary
+-        # dependencies. See also:
+-        #   http://www.kaizou.org/2015/01/linux-libraries/
+-        libcmd_all = [self.name, '--libs', '--static']
+         # Force pkg-config to output -L fields even if they are system
+         # paths so we can do manual searching with cc.find_library() later.
+         env = os.environ.copy()
+@@ -937,10 +898,7 @@ class PkgConfigDependency(ExternalDependency):
+         if ret != 0:
+             raise DependencyException('Could not generate libs for %s:\n\n%s' %
+                                       (self.name, out_raw))
+-        ret, out_all = self._call_pkgbin(libcmd_all)
+-        if ret != 0:
+-            mlog.warning('Could not determine complete list of dependencies for %s' % self.name)
+-        self.link_args, self.raw_link_args = self._search_libs(out, out_raw, out_all)
++        self.link_args, self.raw_link_args = self._search_libs(out, out_raw)
+ 
+     def get_pkgconfig_variable(self, variable_name, kwargs):
+         options = ['--variable=' + variable_name, self.name]
+diff --git a/run_unittests.py b/run_unittests.py
+index ec328212..7f5b4f55 100755
+--- a/run_unittests.py
++++ b/run_unittests.py
+@@ -5425,45 +5425,6 @@ class LinuxlikeTests(BasePlatformTests):
+                       override_envvars={'PKG_CONFIG_PATH': pkg_dir})
+             self.build()
+ 
+-    @skipIfNoPkgconfig
+-    def test_pkgconfig_secondary_dependencies(self):
+-        '''
+-        Check that Meson gets -Wl,-rpath-link right for secondary dependencies
+-
+-        This test requires at least two libraries, as -Wl,-rpath-link is only
+-        required for dependencies of dependencies (i.e. secondary dependencies).
+-        '''
+-        with tempfile.TemporaryDirectory() as tempdirname:
+-            testdirbase = os.path.join(self.unit_test_dir, '67 rpath-link secondary')
+-
+-            # build libA
+-            testdirlibA = os.path.join(testdirbase, 'libA')
+-            testlibAprefix = os.path.join(tempdirname, 'libAprefix')
+-            self.init(testdirlibA, extra_args=['--prefix=' + testlibAprefix,
+-                                               '--libdir=lib',
+-                                               '--default-library=shared'], default_args=False)
+-            self.build()
+-            self.install(use_destdir=False)
+-
+-            # build libB (uses libA)
+-            pkg_dir = [os.path.join(testlibAprefix, 'lib/pkgconfig')]
+-            self.new_builddir()
+-            testdirlibB = os.path.join(testdirbase, 'libB')
+-            testlibBprefix = os.path.join(tempdirname, 'libBprefix')
+-            self.init(testdirlibB, extra_args=['--prefix=' + testlibBprefix,
+-                                               '--libdir=lib',
+-                                               '--default-library=shared'], default_args=False,
+-                      override_envvars={'PKG_CONFIG_PATH': ':'.join(pkg_dir)})
+-            self.build()
+-            self.install(use_destdir=False)
+-
+-            # build executable (uses libB, secondary dependency on libA)
+-            pkg_dir.append(os.path.join(testlibBprefix, 'lib/pkgconfig'))
+-            self.new_builddir()
+-            self.init(os.path.join(testdirbase, 'app'),
+-                      override_envvars={'PKG_CONFIG_PATH': ':'.join(pkg_dir)})
+-            self.build()
+-
+     @skipIfNoPkgconfig
+     def test_static_archive_stripping(self):
+         '''
+diff --git a/test cases/unit/67 rpath-link secondary/app/app.c b/test cases/unit/67 rpath-link secondary/app/app.c
+deleted file mode 100644
+index f33b1a99..00000000
+--- a/test cases/unit/67 rpath-link secondary/app/app.c	
++++ /dev/null
+@@ -1,4 +0,0 @@
+-#include <stdio.h>
+-#include <libb.h>
+-
+-int main() { printf("The answer is: %d\n", libB_func()); }
+diff --git a/test cases/unit/67 rpath-link secondary/app/meson.build b/test cases/unit/67 rpath-link secondary/app/meson.build
+deleted file mode 100644
+index 3d85a32f..00000000
+--- a/test cases/unit/67 rpath-link secondary/app/meson.build	
++++ /dev/null
+@@ -1,5 +0,0 @@
+-project('app', ['c'])
+-
+-b = dependency('test-b')
+-
+-executable('app', 'app.c', dependencies : [b])
+diff --git a/test cases/unit/67 rpath-link secondary/libA/liba.c b/test cases/unit/67 rpath-link secondary/libA/liba.c
+deleted file mode 100644
+index 620a9949..00000000
+--- a/test cases/unit/67 rpath-link secondary/libA/liba.c	
++++ /dev/null
+@@ -1 +0,0 @@
+-int libA_func() { return 42; }
+diff --git a/test cases/unit/67 rpath-link secondary/libA/liba.h b/test cases/unit/67 rpath-link secondary/libA/liba.h
+deleted file mode 100644
+index ed4fa7dd..00000000
+--- a/test cases/unit/67 rpath-link secondary/libA/liba.h	
++++ /dev/null
+@@ -1 +0,0 @@
+-int libA_func();
+diff --git a/test cases/unit/67 rpath-link secondary/libA/meson.build b/test cases/unit/67 rpath-link secondary/libA/meson.build
+deleted file mode 100644
+index 383bed02..00000000
+--- a/test cases/unit/67 rpath-link secondary/libA/meson.build	
++++ /dev/null
+@@ -1,14 +0,0 @@
+-project('lib', ['c'])
+-
+-a = library('test-a', 'liba.c', install: true)
+-
+-install_headers(files('liba.h'))
+-
+-import('pkgconfig').generate(
+-    a,
+-    version: '0.0',
+-    description: 'test library',
+-    filebase: 'test-a',
+-    name: 'test library',
+-    subdirs: ['.']
+-)
+diff --git a/test cases/unit/67 rpath-link secondary/libB/libb.c b/test cases/unit/67 rpath-link secondary/libB/libb.c
+deleted file mode 100644
+index d097066c..00000000
+--- a/test cases/unit/67 rpath-link secondary/libB/libb.c	
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#include <liba.h>
+-
+-int libB_func() { return libA_func(); }
+diff --git a/test cases/unit/67 rpath-link secondary/libB/libb.h b/test cases/unit/67 rpath-link secondary/libB/libb.h
+deleted file mode 100644
+index c5de0c22..00000000
+--- a/test cases/unit/67 rpath-link secondary/libB/libb.h	
++++ /dev/null
+@@ -1 +0,0 @@
+-int libB_func();
+diff --git a/test cases/unit/67 rpath-link secondary/libB/meson.build b/test cases/unit/67 rpath-link secondary/libB/meson.build
+deleted file mode 100644
+index 3bfd0d22..00000000
+--- a/test cases/unit/67 rpath-link secondary/libB/meson.build	
++++ /dev/null
+@@ -1,16 +0,0 @@
+-project('lib', ['c'])
+-
+-libA_dep = dependency('test-a')
+-
+-b = library('test-b', 'libb.c', install: true, dependencies : libA_dep)
+-
+-install_headers(files('libb.h'))
+-
+-import('pkgconfig').generate(
+-    b,
+-    version: '0.0',
+-    description: 'test library',
+-    filebase: 'test-b',
+-    name: 'test library',
+-    subdirs: ['.']
+-)
+-- 
+2.23.0
+
