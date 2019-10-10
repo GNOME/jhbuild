@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2019-09-22 18:50+0000\n"
-"PO-Revision-Date: 2019-09-23 14:12+0700\n"
+"POT-Creation-Date: 2019-09-24 16:37+0000\n"
+"PO-Revision-Date: 2019-10-10 15:26+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -30,20 +30,29 @@ msgstr "Mengkonfigurasi $PKG_NAME tanpa autotools"
 msgid "Unable to create file $srcdir/Makefile.inc"
 msgstr "Tak bisa membuat berkas $srcdir/Makefile.inc"
 
-#: autogen.sh:143
+#: autogen.sh:144
 #, sh-format
 msgid "Unable to read file $makefile"
 msgstr "Tak bisa membaca berkas $makefile"
 
-#: autogen.sh:148
+#: autogen.sh:149
 #, sh-format
 msgid "Unable to copy $makefile to $srcdir/Makefile"
 msgstr "Tak bisa menyalin $makefile ke $srcdir/Makefile"
 
-#: autogen.sh:153
+#: autogen.sh:154
 #, sh-format
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Sekarang ketikkan 'make' untuk mengkompail $PKG_NAME"
+
+#: autogen.sh:214
+#, sh-format
+msgid ""
+"**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
+"directory"
+msgstr ""
+"**Galat**: Direktori `$srcdir' tidak terlihat seperti direktori $PKG_NAME "
+"tingkat atas"
 
 #: autogen.sh:268
 msgid "WARNING: aclocal not available (usually part of package 'autoconf')"
@@ -472,11 +481,11 @@ msgstr "di-patch"
 msgid "and %d others."
 msgstr "dan %d lainnya."
 
-#: jhbuild/commands/goalreport.py:332
+#: jhbuild/commands/goalreport.py:333
 msgid "Report GNOME modules status wrt various goals"
 msgstr "Laporkan status modul GNOME menurut berbagai tujuan"
 
-#: jhbuild/commands/goalreport.py:355
+#: jhbuild/commands/goalreport.py:356
 msgid "check to perform"
 msgstr "pemeriksaan yang akan dilakukan"
 
@@ -718,8 +727,8 @@ msgstr "awalan pemasangan (%s) tak dapat ditulisi"
 #: jhbuild/commands/sanitycheck.py:132 jhbuild/commands/sanitycheck.py:134
 #: jhbuild/commands/sanitycheck.py:141 jhbuild/commands/sanitycheck.py:146
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
-#: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:302
-#: jhbuild/versioncontrol/darcs.py:105 jhbuild/versioncontrol/fossil.py:106
+#: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
+#: jhbuild/versioncontrol/darcs.py:105 jhbuild/versioncontrol/fossil.py:103
 #: jhbuild/versioncontrol/git.py:480 jhbuild/versioncontrol/hg.py:104
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:321
 #, python-format
@@ -1084,7 +1093,7 @@ msgstr "Mengabaikan paket yang tak terpasang: %s"
 msgid "Running post-installation trigger script: %r"
 msgstr "Menjalankan skrip picu pasca pemasangan: %r"
 
-#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:596
+#: jhbuild/frontends/buildscript.py:278 jhbuild/frontends/gtkui.py:605
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "%(command)s mengembalikan kode galat (%(rc)s)"
@@ -1151,32 +1160,32 @@ msgstr "Ke fasa \"%s\""
 msgid "Open Terminal"
 msgstr "Buka Terminal"
 
-#: jhbuild/frontends/gtkui.py:591
+#: jhbuild/frontends/gtkui.py:600
 #, python-format
 msgid "%(command)s died with signal %(rc)s"
 msgstr "%(command)s mati dengan sinyal %(rc)s"
 
-#: jhbuild/frontends/gtkui.py:646
+#: jhbuild/frontends/gtkui.py:655
 msgid "Module"
 msgstr "Modul"
 
-#: jhbuild/frontends/gtkui.py:665
+#: jhbuild/frontends/gtkui.py:674
 msgid "Start At"
 msgstr "Mulai Pada"
 
-#: jhbuild/frontends/gtkui.py:708
+#: jhbuild/frontends/gtkui.py:722
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: jhbuild/frontends/gtkui.py:720
+#: jhbuild/frontends/gtkui.py:734
 msgid "Disable network access"
 msgstr "Nonaktifkan akses jaringan"
 
-#: jhbuild/frontends/gtkui.py:721
+#: jhbuild/frontends/gtkui.py:735
 msgid "Always run autogen.sh"
 msgstr "Selalu jalankan autogen.sh"
 
-#: jhbuild/frontends/gtkui.py:722
+#: jhbuild/frontends/gtkui.py:736
 msgid "Don't poison modules on failure"
 msgstr "Jangan racuni modul saat gagal"
 
@@ -1244,15 +1253,15 @@ msgstr "Ketikkan \"ya\" untuk konfirmasi aksi:"
 msgid "yes"
 msgstr "ya"
 
-#: jhbuild/main.py:56
+#: jhbuild/main.py:60
 msgid "You should not run jhbuild as root.\n"
 msgstr "Anda mestinya tak menjalankan jbuild sebagai root.\n"
 
-#: jhbuild/main.py:64
+#: jhbuild/main.py:68
 msgid "%prog [ -f config ] command [ options ... ]"
 msgstr "%prog [ -f config ] perintah [ opsi ... ]"
 
-#: jhbuild/main.py:66
+#: jhbuild/main.py:70
 msgid ""
 "Build a set of modules from diverse repositories in correct dependency order "
 "(such as GNOME)."
@@ -1260,35 +1269,35 @@ msgstr ""
 "Bangun sekumpulan modul dari repositori yang tersebar dalam urutan "
 "kebergantungan yang benar (seperti misalnya GNOME)."
 
-#: jhbuild/main.py:71
+#: jhbuild/main.py:75
 msgid "Display this help and exit"
 msgstr "Tampilkan bantuan ini dan keluar"
 
-#: jhbuild/main.py:78
+#: jhbuild/main.py:82
 msgid "use a non default configuration file"
 msgstr "gunakan berkas konfigurasi bukan bawaan"
 
-#: jhbuild/main.py:81
+#: jhbuild/main.py:85
 msgid "use a non default module set"
 msgstr "gunakan set modul bukan bawaan"
 
-#: jhbuild/main.py:84
+#: jhbuild/main.py:88
 msgid "do not prompt for input"
 msgstr "jangan minta sesuatu dari masukan"
 
-#: jhbuild/main.py:87
+#: jhbuild/main.py:91
 msgid "exit immediately when the build fails"
 msgstr "keluar seketika ketika build gagal"
 
-#: jhbuild/main.py:90
+#: jhbuild/main.py:94
 msgid "modify the condition set"
 msgstr "ubah set kondisi"
 
-#: jhbuild/main.py:125
+#: jhbuild/main.py:129
 msgid "Interrupted"
 msgstr "Diinterupsi"
 
-#: jhbuild/main.py:128
+#: jhbuild/main.py:132
 msgid "EOF"
 msgstr "EOF"
 
@@ -1416,7 +1425,7 @@ msgstr "Modul gagal dipasang ke DESTDIR %(dest)r"
 msgid "%d files remaining from previous build"
 msgstr "%d berkas tersisa dari pembangunan sebelumnya"
 
-#: jhbuild/modtypes/__init__.py:379 jhbuild/utils/packagedb.py:217
+#: jhbuild/modtypes/__init__.py:379 jhbuild/utils/packagedb.py:218
 #, python-format
 msgid "Deleted: %(file)r"
 msgstr "Dihapus: %(file)r"
@@ -1452,22 +1461,22 @@ msgstr "Melewati %s (tak dimutakhirkan)"
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "Melewati %s (paket dan kebergantungan tak dimutakhirkan)"
 
-#: jhbuild/modtypes/__init__.py:549
+#: jhbuild/modtypes/__init__.py:551
 msgid "ninja not found; use NINJA to point to a specific ninja binary"
 msgstr ""
 "ninja tidak ditemukan; gunakan NINJA untuk menunjuk ke biner ninja tertentu"
 
-#: jhbuild/modtypes/__init__.py:615 jhbuild/modtypes/__init__.py:641
+#: jhbuild/modtypes/__init__.py:617 jhbuild/modtypes/__init__.py:643
 #: jhbuild/modtypes/linux.py:82 jhbuild/modtypes/linux.py:89
 msgid "Checking out"
 msgstr "Sedang check out"
 
-#: jhbuild/modtypes/__init__.py:619
+#: jhbuild/modtypes/__init__.py:621
 #, python-format
 msgid "source directory %s was not created"
 msgstr "direktori sumber %s tak dibuat"
 
-#: jhbuild/modtypes/__init__.py:644
+#: jhbuild/modtypes/__init__.py:646
 msgid "wipe directory and start over"
 msgstr "sapu bersih direktori dan mulai lagi dari awal"
 
@@ -1573,12 +1582,12 @@ msgstr "Pemanggilan ke perintah yang tak didefinisikan"
 msgid "file not in cache, but not allowed to check network"
 msgstr "berkas tak ada di singgahan, tapi tak diijinkan memerika ke jaringan"
 
-#: jhbuild/utils/packagedb.py:63
+#: jhbuild/utils/packagedb.py:66
 #, python-format
 msgid "package %s has files with embedded new lines"
 msgstr "paket %s memiliki berkas dengan baris baru tertempel"
 
-#: jhbuild/utils/packagedb.py:204
+#: jhbuild/utils/packagedb.py:205
 #, python-format
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
@@ -1587,12 +1596,12 @@ msgstr ""
 "tak ada manifes bagi '%s', tak bisa membongkar.  Cobalah membangun lagi, "
 "lalu membongkar."
 
-#: jhbuild/utils/packagedb.py:221
+#: jhbuild/utils/packagedb.py:222
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Gagal menghapus %(file)r: %(msg)s"
 
-#: jhbuild/utils/systeminstall.py:238
+#: jhbuild/utils/systeminstall.py:237
 msgid ""
 "No suitable root privilege command found; you should install \"sudo\" or "
 "\"pkexec\" (or the system package that provides it)"
@@ -1600,28 +1609,28 @@ msgstr ""
 "Tak ditemukan perintah privilese root yang sesuai; Anda mesti memasang \"sudo"
 "\" atau \"pkexec\" (atau paket sistem yang menyediakannya)"
 
-#: jhbuild/utils/systeminstall.py:267 jhbuild/utils/systeminstall.py:270
+#: jhbuild/utils/systeminstall.py:266 jhbuild/utils/systeminstall.py:269
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:280
+#: jhbuild/utils/systeminstall.py:276
 msgid "Error: python-gobject package not found."
 msgstr "Galat: paket python-gobject tidak ditemukan."
 
-#: jhbuild/utils/systeminstall.py:286
+#: jhbuild/utils/systeminstall.py:282
 msgid "Error: dbus-python package not found."
 msgstr "Galat: paket dbus-python tidak ditemukan."
 
-#: jhbuild/utils/systeminstall.py:303
+#: jhbuild/utils/systeminstall.py:299
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr "Menghitung paket yang akan dipasang. Ini mungkin lambat. Mohon tunggu."
 
-#: jhbuild/utils/systeminstall.py:333
+#: jhbuild/utils/systeminstall.py:329
 msgid "Nothing available to install"
 msgstr "Tak satupun tersedia untuk dipasang"
 
-#: jhbuild/utils/systeminstall.py:336
+#: jhbuild/utils/systeminstall.py:332
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1630,7 +1639,7 @@ msgstr ""
 "Memasang:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:337
+#: jhbuild/utils/systeminstall.py:333
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "`pkmon' to monitor progress."
@@ -1638,68 +1647,68 @@ msgstr ""
 "Ini mungkin makan waktu sangat lama. Jangan matikan komputer Anda. Anda "
 "dapat menjalankan 'pkmon' untuk memantau kemajuan."
 
-#: jhbuild/utils/systeminstall.py:343
+#: jhbuild/utils/systeminstall.py:339
 msgid "Complete!"
 msgstr "Lengkap!"
 
-#: jhbuild/utils/systeminstall.py:356
+#: jhbuild/utils/systeminstall.py:352
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile tak ditemukan, dipasang secara otomatis"
 
-#: jhbuild/utils/systeminstall.py:358
+#: jhbuild/utils/systeminstall.py:354
 msgid "Failed to install pkgfile"
 msgstr "Gagal memasang pkgfile"
 
-#: jhbuild/utils/systeminstall.py:364
+#: jhbuild/utils/systeminstall.py:360
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr "singgahan pkgfile tua atau tidak ada, dimutakhirkan secara otomatis"
 
-#: jhbuild/utils/systeminstall.py:367
+#: jhbuild/utils/systeminstall.py:363
 msgid "Failed to create pkgfile cache"
 msgstr "Gagal membuat singgahan pkgfile"
 
-#: jhbuild/utils/systeminstall.py:370
+#: jhbuild/utils/systeminstall.py:366
 msgid "Failed to update pkgfile cache"
 msgstr "Gagal memutakhirkan singgahan pkgfile"
 
-#: jhbuild/utils/systeminstall.py:372
+#: jhbuild/utils/systeminstall.py:368
 msgid "Successfully updated pkgfile cache"
 msgstr "Sukses memutakhirkan singgahan pkgfile"
 
-#: jhbuild/utils/systeminstall.py:377
+#: jhbuild/utils/systeminstall.py:373
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Memakai pacman untuk memasang paket.  Mohon tunggu."
 
-#: jhbuild/utils/systeminstall.py:381 jhbuild/utils/systeminstall.py:399
-#: jhbuild/utils/systeminstall.py:554
+#: jhbuild/utils/systeminstall.py:377 jhbuild/utils/systeminstall.py:395
+#: jhbuild/utils/systeminstall.py:550
 msgid "Nothing to install"
 msgstr "Tak ada yang perlu dipasang"
 
-#: jhbuild/utils/systeminstall.py:396
+#: jhbuild/utils/systeminstall.py:392
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Penyedia bagi \"%s\" tak ditemukan, diabaikan"
 
-#: jhbuild/utils/systeminstall.py:404
+#: jhbuild/utils/systeminstall.py:400
 msgid "Install failed"
 msgstr "Pemasangan gagal"
 
-#: jhbuild/utils/systeminstall.py:406
+#: jhbuild/utils/systeminstall.py:402
 msgid "Completed!"
 msgstr "Lengkap!"
 
-#: jhbuild/utils/systeminstall.py:488 jhbuild/utils/systeminstall.py:499
-#: jhbuild/utils/systeminstall.py:513
+#: jhbuild/utils/systeminstall.py:484 jhbuild/utils/systeminstall.py:495
+#: jhbuild/utils/systeminstall.py:509
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Tak ditemukan paket native bagi %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:518
+#: jhbuild/utils/systeminstall.py:514
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Memasang: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:528
+#: jhbuild/utils/systeminstall.py:524
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
@@ -1735,11 +1744,11 @@ msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
 "branch bagi %(name)s memiliki penimpaan yang salah, periksa %(filename)s Anda"
 
-#: jhbuild/versioncontrol/bzr.py:122
+#: jhbuild/versioncontrol/bzr.py:124
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "atribut tak dipakai lagi. Gunakan revspec sebagai gantinya."
 
-#: jhbuild/versioncontrol/bzr.py:178
+#: jhbuild/versioncontrol/bzr.py:179
 #, python-format
 msgid ""
 "\n"
@@ -1779,7 +1788,7 @@ msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Pertimbangkan pakaian skrip changecvsroot.py untuk memperbaiki ini."
 
 #: jhbuild/versioncontrol/darcs.py:81 jhbuild/versioncontrol/darcs.py:87
-#: jhbuild/versioncontrol/fossil.py:83 jhbuild/versioncontrol/fossil.py:96
+#: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
 #: jhbuild/versioncontrol/git.py:592 jhbuild/versioncontrol/git.py:632
 #: jhbuild/versioncontrol/git.py:708 jhbuild/versioncontrol/hg.py:88
 #: jhbuild/versioncontrol/hg.py:94
@@ -1904,7 +1913,7 @@ msgstr "Galat saat memeriksa konflik"
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr "branch untuk %s salah, periksa berkas moduleset."
 
-#: jhbuild/versioncontrol/tarball.py:131
+#: jhbuild/versioncontrol/tarball.py:132
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL tak memiliki komponen nama berkas: %s"
