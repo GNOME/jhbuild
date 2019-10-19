@@ -28,7 +28,7 @@ import subprocess
 from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _, urlutils
+from jhbuild.utils import inpath, _, urlutils, udecode
 from jhbuild.utils.sxml import sxml
 from jhbuild.utils.urlutils import urlparse_mod
 
@@ -313,6 +313,7 @@ class SubversionBranch(Branch):
                     stdout = subprocess.PIPE, **kws).communicate()[0]
         except OSError as e:
             raise CommandError(str(e))
+        output = udecode(output)
         if '\nConflict' in output:
             raise CommandError(_('Error checking for conflicts'))
 
