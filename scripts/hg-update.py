@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 #
 # hg-update - pull and update a mercurial repository
 #
@@ -27,7 +27,7 @@ import re
 from subprocess import Popen, call, PIPE, STDOUT
 
 def get_parent():
-    hg = Popen(['hg', 'parents', '--template', '{rev}'], stdout=PIPE)
+    hg = Popen(['hg', 'parents', '--template', '{rev}'], stdout=PIPE, universal_newlines=True)
     try:
         return hg.stdout.read().split()[0]
     except IndexError:
@@ -43,7 +43,7 @@ def update():
     env['HGMERGE'] = '/bin/false'
     env['LANG'] = 'C'
     hg = Popen(['hg', 'update', '--noninteractive'], stdout=PIPE,
-               stderr=STDOUT, env=env)
+               stderr=STDOUT, env=env, universal_newlines=True)
     out = hg.communicate()[0]
     if hg.returncode != 0:
         # Use CVS-like format for conflicts.

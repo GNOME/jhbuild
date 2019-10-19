@@ -22,11 +22,12 @@ __all__ = []
 __metaclass__ = type
 
 import os
+import sys
 from subprocess import Popen, PIPE
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _, urlutils
+from jhbuild.utils import inpath, _, urlutils, udecode
 
 class HgRepository(Repository):
     """A class representing a Mercurial repository.
@@ -97,7 +98,7 @@ class HgBranch(Branch):
         else:
             hg_update_path = os.path.join(PKGDATADIR, 'hg-update.py')
         hg_update_path = os.path.normpath(hg_update_path)
-        buildscript.execute([hg_update_path], 'hg', cwd=self.srcdir)
+        buildscript.execute([sys.executable, hg_update_path], 'hg', cwd=self.srcdir)
 
     def checkout(self, buildscript):
         if not inpath('hg', os.environ['PATH'].split(os.pathsep)):
@@ -111,7 +112,7 @@ class HgBranch(Branch):
                        cwd=self.srcdir)
         except OSError as e:
             raise CommandError(str(e))
-        return hg.stdout.read().strip()
+        return udecode(hg.stdout.read()).strip()
 
     def tree_id(self):
         if not os.path.exists(self.srcdir):
