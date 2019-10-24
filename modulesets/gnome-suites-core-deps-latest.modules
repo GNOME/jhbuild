@@ -672,7 +672,7 @@
       <dep package="mozjs60"/>
       <dep package="readline"/>
       <if condition-set="linux">
-        <dep package="sysprof-capture"/>
+        <dep package="sysprof"/>
       </if>
       <if condition-set="coverage">
         <dep package="lcov"/>
@@ -1945,9 +1945,9 @@
     </dependencies>
   </meson>
 
-  <meson id="sysprof-capture"
+  <meson id="sysprof"
          mesonargs="-Denable_gtk=false -Dhelp=false -Dlibsysprof=false -Dwith_sysprofd=none">
-    <branch module="sysprof"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
     </dependencies>
