@@ -1320,12 +1320,17 @@
     </suggests>
   </autotools>
 
-  <meson id="pipewire">
+  <meson id="pipewire"
+          mesonargs="-Dpipewire-jack=false -Djack=false -Dvulkan=false">
     <branch repo="gitlab.freedesktop.org" module="pipewire/pipewire"/>
     <dependencies>
       <dep package="alsa"/>
+      <dep package="bluez"/>
+      <dep package="sbc"/>
       <dep package="dbus"/>
       <dep package="libv4l"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="pulseaudio"/>
     </dependencies>
   </meson>
 
