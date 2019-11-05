@@ -1809,17 +1809,17 @@
     </dependencies>
   </meson>
 
-  <autotools id="pangomm-1.4">
-    <branch repo="gitlab.gnome.org" checkoutdir="pangomm-1.4" module="GNOME/pangomm.git" revision="pangomm-2-42"/>
+  <meson id="pangomm-1.4">
+    <branch checkoutdir="pangomm-1.4" module="pangomm" revision="pangomm-2-42"/>
     <dependencies>
       <dep package="glibmm-2.4"/>
       <dep package="cairomm-1.0"/>
       <dep package="pango"/>
       <dep package="atk"/>
     </dependencies>
-  </autotools>
+  </meson>
 
-  <autotools id="pangomm">
+  <meson id="pangomm">
     <branch/>
     <dependencies>
       <dep package="glibmm"/>
@@ -1827,7 +1827,7 @@
       <dep package="pango"/>
       <dep package="atk"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="pcre2"
              autogenargs="--enable-jit --enable-pcre2-8 --enable-pcre2-16 --enable-pcre2-32">
