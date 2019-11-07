@@ -109,6 +109,12 @@ configure_without_autotools()
 {
   eval_gettext "Configuring \$PKG_NAME without autotools"; echo
 
+  python_major=$($python -c "import sys; sys.stdout.write(str(sys.version_info[0]))");
+  if [ "$python_major" != "3" ]; then
+    echo "Requires Python 3, Python $python_major found."
+    exit 1;
+  fi
+
   makefile="$srcdir/Makefile.plain"
   if [ "x$MSYSTEM" != "x" ]; then
     makefile="$srcdir/Makefile.windows"

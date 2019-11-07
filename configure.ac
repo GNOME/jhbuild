@@ -17,7 +17,7 @@ AC_PROG_CC
 # Option to specify python interpreter to use; this just sets $PYTHON, so that
 # we will fall back to reading $PYTHON if --with-python is not given
 AC_ARG_WITH(python,
-  AS_HELP_STRING([--with-python=PATH],[Path to Python interpreter; searches $PATH if only a program name is given; if not given, searches for a few standard names such as "python3" or "python2"]),
+  AS_HELP_STRING([--with-python=PATH],[Path to Python interpreter; searches $PATH if only a program name is given; if not given, searches for a few standard names such as "python3"]),
   [PYTHON="$withval"], [])
 if test x"$PYTHON" = xyes; then
 	AC_MSG_ERROR([--with-python option requires a path or program argument])
@@ -26,33 +26,8 @@ if test -n "$PYTHON" && ! command -v "$PYTHON" > /dev/null; then
 	AC_MSG_ERROR([Python interpreter $PYTHON does not exist])
 fi
 
-# All this is supposed to do is check the Python version against python_min_ver
-# and python3_min_ver and prefer Python 3.x if nothing is set.
-m4_define(python_min_ver, 2.7)
 m4_define(python3_min_ver, 3.5)
-if test -n "$PYTHON"; then
-	AM_PATH_PYTHON([python_min_ver])
-	AM_PYTHON_CHECK_VERSION([$PYTHON], [3.0],
-				build_py3k=true,
-				build_py3k=false)
-	if test $build_py3k = true ; then
-		AC_MSG_CHECKING([for $PYTHON >=] python3_min_ver)
-		AM_PYTHON_CHECK_VERSION([$PYTHON], python3_min_ver,
-					[AC_MSG_RESULT(yes)],
-					[AC_MSG_ERROR(too old)])
-	fi
-else
-	AM_PATH_PYTHON([python3_min_ver], [], [
-		unset PYTHON;
-		# XXX: AM_PATH_PYTHON caching is broken and always returns the result of the first use
-		unset am_cv_pathless_PYTHON;
-		AM_PATH_PYTHON([python_min_ver], [
-			AS_CASE(["$PYTHON_VERSION"],
-				[2.*], [],
-				[AC_MSG_ERROR([JHBuild requires Python ] python_min_ver [or] python3_min_ver)])
-		])
-	])
-fi
+AM_PATH_PYTHON([python3_min_ver])
 
 AC_SUBST([PYTHON_BASENAME], [$(basename "$PYTHON")])
 
