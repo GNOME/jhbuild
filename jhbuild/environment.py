@@ -211,6 +211,17 @@ def setup_env(prefix):
     addpath('XDG_CONFIG_DIRS', xdgconfigdir)
 
     # XCURSOR_PATH
+    if not os.environ.get('XCURSOR_PATH'):
+        # The XCURSOR_PATH envvar overrides the default paths,
+        # so include them here.
+        xcursorpath = [ os.path.join(os.environ['HOME'], '.local', 'share', 'icons'),
+                        os.path.join(os.environ['HOME'], '.icons'),
+                        '/usr/share/icons',
+                        '/usr/share/pixmaps',
+                        '/usr/X11R6/lib/X11/icons' ]
+        for xcursorpathdir in xcursorpath:
+            addpath('XCURSOR_PATH', xcursorpathdir, prepend=False)
+
     xcursordir = os.path.join(prefix, 'share', 'icons')
     addpath('XCURSOR_PATH', xcursordir)
 
