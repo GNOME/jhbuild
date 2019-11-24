@@ -248,6 +248,7 @@ class cmd_build(BuildCommand):
             return 0
 
         if config.check_sysdeps:
+            install_cmd = 'jhbuild sysdeps --install' + (' ' + ' '.join(args) if args else '')
             module_state = module_set.get_module_state(full_module_list)
             if not self.required_system_dependencies_installed(module_state):
                 self.print_system_dependencies(module_state)
@@ -255,7 +256,7 @@ class cmd_build(BuildCommand):
                                    ' Install using the command %(cmd)s or to '
                                    'ignore system dependencies use command-line'
                                    ' option %(opt)s' \
-                                   % {'cmd' : "'jhbuild sysdeps --install'",
+                                   % {'cmd' : "'%s'" % install_cmd,
                                       'opt' : '--nodeps'}))
 
         build = jhbuild.frontends.get_buildscript(config, module_list, module_set=module_set)
