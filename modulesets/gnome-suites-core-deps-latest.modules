@@ -1728,14 +1728,12 @@
 
   <distutils id="meson" python3="1">
     <branch repo="github-tar"
-            version="0.52.0"
+            version="0.52.1"
             module="mesonbuild/meson/releases/download/${version}/meson-${version}.tar.gz"
             checkoutdir="meson-${version}"
-            hash="sha256:d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32">
+            hash="sha256:0c277472e49950a5537e3de3e60c57b80dbf425788470a1a8ed27446128fc035">
       <patch file="meson-dont-use-rpath-on-pkg-config-deps.patch" strip="1"/>
       <patch file="meson-sort-libpaths-with-pkg-config-path.patch" strip="1"/>
-      <patch file="meson-revert-add-rpath-link-for-secondary.patch" strip="1"/>
-      <patch file="https://github.com/mesonbuild/meson/commit/212a05b87ed34f921dfd07142305389dbfa9bb7d.patch" strip="1"/>
     </branch>
     <dependencies>
       <dep package="ninja"/>
