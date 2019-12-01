@@ -109,7 +109,7 @@ def main(args):
         config.exit_on_error = True
 
     if not args or args[0][0] == '-':
-        command = 'build' # default to cvs update + compile
+        command = 'help'
     else:
         command = args[0]
         args = args[1:]
