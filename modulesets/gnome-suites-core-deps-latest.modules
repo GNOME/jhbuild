@@ -656,16 +656,15 @@
     </dependencies>
   </meson>
 
-  <autotools id="gjs" autogenargs="--enable-installed-tests">
+  <meson id="gjs" mesonargs="-Dinstalled_tests=true">
     <if condition-set="coverage">
-      <autogenargs value="--enable-coverage"/>
+      <mesonargs value="-Db_coverage=true"/>
     </if>
     <if condition-unset="linux">
-      <autogenargs value="--disable-profiler"/>
+      <mesonargs value="-Dprofiler=disabled"/>
     </if>
     <branch/>
     <dependencies>
-      <dep package="m4-common"/>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
       <dep package="mozjs60"/>
@@ -677,7 +676,7 @@
         <dep package="lcov"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gobject-introspection">
     <branch/>
