@@ -1159,6 +1159,9 @@
     <if condition-set="freebsd">
       <autogenargs value="--with-ucd-dir=/usr/local/share/unicode/ucd"/>
     </if>
+    <if condition-set="debian">
+      <autogenargs value="--with-ucd-dir=/usr/share/unicode"/>
+    </if>
     <branch repo="github-tar"
             version="1.5.21"
             module="ibus/ibus/releases/download/${version}/ibus-${version}.tar.gz"
