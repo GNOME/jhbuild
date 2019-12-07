@@ -57,9 +57,6 @@ MAINTAINERCLEANFILES = \
 DISTCHECK_CONFIGURE_FLAGS = \
 	--with-python=$(PYTHON)
 
-install-exec-local:
-	$(srcdir)/scripts/debian-python2-postinstall-hook.sh $(DESTDIR)$(bindir)
-
 check:
 	$(PYTHON) -bb -m unittest discover -v -t $(top_srcdir) -s $(top_srcdir)/tests
 
