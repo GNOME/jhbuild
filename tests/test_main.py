@@ -699,6 +699,7 @@ class EndToEndTest(JhbuildConfigTestCase):
         module_list = [DistutilsModule('hello',
                                        self.make_branch(config, 'distutils'))]
         module_list[0].config = self.config
+        module_list[0].python = 'python3'
         build = self.make_terminal_buildscript(config, module_list)
         with_stdout_hidden(build.build)
         proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
