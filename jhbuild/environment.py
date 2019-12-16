@@ -211,6 +211,9 @@ def setup_env(prefix):
     addpath('XDG_CONFIG_DIRS', xdgconfigdir)
 
     # XCURSOR_PATH
+    xcursordir = '/usr/share/icons'
+    if os.path.exists(xcursordir):
+        addpath('XCURSOR_PATH', xcursordir)
     xcursordir = os.path.join(prefix, 'share', 'icons')
     addpath('XCURSOR_PATH', xcursordir)
 
