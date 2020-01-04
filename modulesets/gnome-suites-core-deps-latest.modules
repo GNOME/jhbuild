@@ -483,9 +483,9 @@
     </dependencies>
   </autotools>
 
-  <autotools id="gcr">
+  <meson id="gcr" mesonargs="-Dgtk_doc=false">
     <if condition-unset="x11">
-      <autogenargs value="--without-gtk"/>
+      <mesonargs value="-Dgtk=false -Dgtk_doc=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -499,7 +499,7 @@
         <dep package="gtk+-3"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gdk-pixbuf">
     <branch/>
