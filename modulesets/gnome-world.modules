@@ -2854,10 +2854,10 @@
     </dependencies>
   </meson>
 
-  <autotools id="gimp" autogenargs="--disable-print --without-gnomevfs">
+  <meson id="gimp" mesonargs="-Dprint=false">
     <branch/>
     <dependencies>
-      <dep package="gtk+-2"/>
+      <dep package="gtk+-3"/>
       <dep package="intltool"/>
       <dep package="gegl"/>
       <dep package="libmypaint"/>
@@ -2870,9 +2870,8 @@
       <dep package="librsvg"/>
       <dep package="poppler"/>
       <dep package="libgnome-keyring"/>
-      <dep package="dbus-glib"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <autotools id="libmypaint">
     <pkg-config>libmypaint.pc</pkg-config>
