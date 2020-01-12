@@ -35,38 +35,40 @@ from . import _, udecode
 def get_installed_pkgconfigs(config):
     """Returns a dictionary mapping pkg-config names to their current versions on the system."""
     pkgversions = {}
+    cmd = ['pkg-config', '--list-all']
     try:
-        proc = subprocess.Popen(['pkg-config', '--list-all'], stdout=subprocess.PIPE, close_fds=True)
-        stdout = udecode(proc.communicate()[0])
-        proc.wait()
-        pkgs = []
-        for line in TextIO(stdout):
-            pkg, rest = line.split(None, 1)
-            pkgs.append(pkg)
-
-        # see if we can get the versions "the easy way"
-        try:
-            stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs)
-            stdout = udecode(stdout)
-            versions = stdout.splitlines()
-            if len(versions) == len(pkgs):
-                return dict(zip(pkgs, versions))
-        except (subprocess.CalledProcessError, OSError):
-            pass
-
-        # We have to rather inefficiently repeatedly fork to work around
-        # broken pkg-config installations - if any package has a missing
-        # dependency pkg-config will fail entirely.
-        for pkg in pkgs:
-            args = ['pkg-config', '--modversion']
-            args.append(pkg)
-            proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
-            stdout = proc.communicate()[0]
-            stdout = udecode(stdout)
-            proc.wait()
-            pkgversions[pkg] = stdout.strip()
+        stdout = subprocess.check_output(cmd, universal_newlines=True)
     except (subprocess.CalledProcessError, OSError): # pkg-config not installed
+        logging.error("{} failed".format(cmd))
+        return pkgversions
+
+    pkgs = []
+    for line in stdout.splitlines():
+        pkg, rest = line.split(None, 1)
+        pkgs.append(pkg)
+
+    # see if we can get the versions "the easy way"
+    try:
+        stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs, universal_newlines=True)
+    except (subprocess.CalledProcessError, OSError):
         pass
+    else:
+        versions = stdout.splitlines()
+        if len(versions) == len(pkgs):
+            return dict(zip(pkgs, versions))
+
+    # We have to rather inefficiently repeatedly fork to work around
+    # broken pkg-config installations - if any package has a missing
+    # dependency pkg-config will fail entirely.
+    for pkg in pkgs:
+        cmd = ['pkg-config', '--modversion', pkg]
+        try:
+            stdout = subprocess.check_output(cmd, universal_newlines=True)
+        except (subprocess.CalledProcessError, OSError):
+            logging.error("{} failed".format(cmd))
+            continue
+        pkgversions[pkg] = stdout.strip()
+
     return pkgversions
 
 def get_uninstalled_pkgconfigs(uninstalled):
