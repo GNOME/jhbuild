@@ -1293,12 +1293,9 @@
   </autotools>
 
   <!-- Vala disabled for https://github.com/hughsie/PackageKit/issues/212 -->
-  <autotools id="PackageKit" autogenargs="--disable-vala --disable-tests --disable-qt --disable-browser-plugin --disable-bash-completion --with-systemdsystemunitdir=no" makeargs="CFLAGS=-Wno-error">
+  <meson id="PackageKit" mesonargs="-Dbash_completion=false -Dsystemdsystemunitdir=no">
     <if condition-unset="linux">
-      <autogenargs value="--disable-systemd --disable-systemd-updates"/>
-    </if>
-    <if condition-set="bsd">
-      <autogenargs value="--enable-ports"/>
+      <autogenargs value="-Dsystemd=false -Doffline-update=false"/>
     </if>
 
     <branch repo="github.com" module="hughsie/PackageKit.git"/>
@@ -1320,7 +1317,7 @@
         <dep package="libgudev"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="pipewire"
           mesonargs="-Dpipewire-jack=false -Djack=false -Dvulkan=false">
