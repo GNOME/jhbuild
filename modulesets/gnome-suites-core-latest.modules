@@ -1295,7 +1295,7 @@
   <!-- Vala disabled for https://github.com/hughsie/PackageKit/issues/212 -->
   <meson id="PackageKit" mesonargs="-Dbash_completion=false -Dsystemdsystemunitdir=no">
     <if condition-unset="linux">
-      <autogenargs value="-Dsystemd=false -Doffline-update=false"/>
+      <mesonargs value="-Dsystemd=false -Doffline-update=false"/>
     </if>
 
     <branch repo="github.com" module="hughsie/PackageKit.git"/>
