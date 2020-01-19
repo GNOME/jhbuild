@@ -1793,6 +1793,23 @@
     </dependencies>
   </autotools>
 
+  <autotools id="mozjs68" autogen-sh="js/src/configure"
+             supports-unknown-configure-options="no"
+             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
+             autogenargs="--enable-posix-nspr-emulation --enable-unaligned-private-values --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
+    <!-- prefix option must have an = sign in mozilla's configure -->
+    <pkg-config>mozjs-68.pc</pkg-config>
+    <branch repo="gnome-download" version="68.4.2"
+            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.bz2"
+            hash="sha256:097fb482aa0e57fb117fde6816fbabfedcb862ee81906990363954f47ce93227"
+            size="70569055"/>
+    <dependencies>
+      <dep package="libffi"/>
+      <dep package="zlib"/>
+      <dep package="cargo"/>
+    </dependencies>
+  </autotools>
+
   <meson id="pango">
     <branch/>
     <dependencies>
