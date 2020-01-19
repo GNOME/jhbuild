@@ -1797,6 +1797,9 @@
              supports-unknown-configure-options="no"
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
              autogenargs="--enable-posix-nspr-emulation --enable-unaligned-private-values --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
+    <if condition-set="freebsd">
+      <autogenargs value="LLVM_CONFIG=llvm-config90"/>
+    </if>
     <!-- prefix option must have an = sign in mozilla's configure -->
     <pkg-config>mozjs-68.pc</pkg-config>
     <branch repo="gnome-download" version="68.4.2"
@@ -1807,6 +1810,8 @@
       <dep package="libffi"/>
       <dep package="zlib"/>
       <dep package="cargo"/>
+      <dep package="llvm"/>
+      <dep package="libclang"/>
     </dependencies>
   </autotools>
 
