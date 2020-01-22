@@ -32,6 +32,8 @@
       href="git://anongit.freedesktop.org/git/"/>
   <repository type="bzr" name="launchpad.net"
       href="lp:"/>
+  <repository type="git" name="git.launchpad.net"
+      href="https://git.launchpad.net/" />
   <repository type="bzr" name="bzr.burtonini.com"
       href="http://burtonini.com/bzr/"/>
   <repository type="svn" name="elisa.code.fluendo.com"
@@ -3605,4 +3607,141 @@
     </dependencies>
   </meson>
 
+  <cmake id="compiz" force-non-srcdir-builds="yes"
+         cmakeargs="-DCOMPIZ_BUILD_TESTING=OFF -DCOMPIZ_WERROR=OFF -DCOMPIZ_DEFAULT_PLUGINS=core,composite,opengl,decor,resize,place,move">
+    <branch repo="git.launchpad.net" />
+    <dependencies>
+      <dep package="boost" />
+      <dep package="cairo" />
+      <dep package="dbus-glib" />
+      <dep package="glib" />
+      <dep package="glibmm" />
+      <dep package="gtk+-3" />
+      <dep package="gnome-control-center" />
+      <dep package="gsettings-desktop-schemas" />
+      <dep package="intltool" />
+      <dep package="libnotify" />
+      <dep package="libjpeg" />
+      <dep package="libpng" />
+      <dep package="librsvg" />
+      <dep package="libwnck" />
+      <dep package="libxml2" />
+      <dep package="libX11" />
+      <dep package="libXcomposite" />
+      <dep package="libXcursor" />
+      <dep package="libXdamage" />
+      <dep package="libXext" />
+      <dep package="libXfixes" />
+      <dep package="libXi" />
+      <dep package="libXinerama" />
+      <dep package="libXrandr" />
+      <dep package="metacity" />
+      <dep package="pango" />
+      <dep package="pkg-config" />
+      <dep package="protobuf" />
+      <dep package="sm" />
+      <dep package="startup-notification" />
+    </dependencies>
+  </cmake>
+
+  <autotools id="gnome-applets" autogenargs="--enable-mini-commander">
+    <branch />
+    <dependencies>
+      <dep package="intltool" />
+      <dep package="gnome-panel" />
+      <dep package="libgtop" />
+      <dep package="libgnomekbd" />
+      <dep package="gucharmap" />
+      <dep package="libgweather" />
+      <dep package="gdk-pixbuf" />
+      <dep package="gtk+-3" />
+      <dep package="glib" />
+      <dep package="libxklavier" />
+      <dep package="libwnck" />
+      <dep package="libnotify" />
+      <dep package="m4-common" />
+      <dep package="dbus" />
+      <dep package="dbus-glib" />
+      <dep package="pygobject" />
+      <dep package="adwaita-icon-theme" />
+      <dep package="libxml2" />
+      <dep package="polkit-gobject" />
+    </dependencies>
+    <after>
+      <dep package="gnome-control-center" />
+    </after>
+  </autotools>
+
+  <autotools id="gnome-flashback">
+    <branch />
+    <dependencies>
+      <dep package="ibus" />
+      <dep package="gnome-bluetooth" />
+      <dep package="gnome-desktop" />
+      <dep package="gtk+-3" />
+      <dep package="m4-common" />
+      <dep package="polkit-agent" />
+    </dependencies>
+  </autotools>
+
+  <autotools id="gnome-panel">
+    <branch />
+    <dependencies>
+      <dep package="intltool" />
+      <dep package="gnome-desktop" />
+      <dep package="libwnck" />
+      <dep package="evolution-data-server" />
+      <dep package="gnome-menus" />
+      <dep package="dbus-glib" />
+      <dep package="librsvg" />
+      <dep package="libgweather" />
+      <dep package="m4-common" />
+      <dep package="yelp-tools" />
+    </dependencies>
+    <suggests>
+      <dep package="polkit-gobject" />
+    </suggests>
+  </autotools>
+
+  <autotools id="metacity">
+    <branch />
+    <dependencies>
+      <dep package="gdk-pixbuf" />
+      <dep package="gtk+-3" />
+      <dep package="gsettings-desktop-schemas" />
+      <dep package="libcanberra-gtk3" />
+      <dep package="m4-common" />
+      <dep package="zenity" />
+    </dependencies>
+  </autotools>
+
+  <metamodule id="meta-gnome-flashback-common">
+    <dependencies>
+      <dep package="gnome-applets" />
+      <dep package="gnome-flashback" />
+      <dep package="gnome-panel" />
+      <dep package="gnome-screensaver" />
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-flashback-compiz">
+    <dependencies>
+      <dep package="meta-gnome-flashback-common" />
+      <dep package="compiz" />
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-flashback-metacity">
+    <dependencies>
+      <dep package="meta-gnome-flashback-common" />
+      <dep package="metacity" />
+    </dependencies>
+  </metamodule>
+
+  <metamodule id="meta-gnome-flashback">
+    <dependencies>
+      <dep package="meta-gnome-flashback-compiz" />
+      <dep package="meta-gnome-flashback-metacity" />
+    </dependencies>
+  </metamodule>
 </moduleset>
