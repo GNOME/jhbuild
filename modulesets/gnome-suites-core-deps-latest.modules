@@ -1614,6 +1614,17 @@
     </dependencies>
   </meson>
 
+  <autotools id="libpsl" autogenargs="--enable-runtime=libicu --enable-builtin=libicu">
+    <branch repo="github-tar"
+            version="0.21.0"
+            module="rockdaboot/libpsl/releases/download/libpsl-${version}/libpsl-${version}.tar.gz"
+            checkoutdir="libpsl-${version}"
+            hash="sha256:41bd1c75a375b85c337b59783f5deb93dbb443fb0a52d257f403df7bd653ee12"/>
+    <dependencies>
+      <dep package="libicu"/>
+    </dependencies>
+  </autotools>
+
   <meson id="libsoup" mesonargs="-Dtls_check=false -Dvapi=enabled">
     <branch/>
     <dependencies>
