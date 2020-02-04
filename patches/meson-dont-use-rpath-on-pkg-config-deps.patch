@@ -1,8 +1,7 @@
-From 24eb4c9248c34f482a9a1d166f779d91456ac536 Mon Sep 17 00:00:00 2001
+From 34685678f91ab89f74820c0fb58cc3c2a46cf8cc Mon Sep 17 00:00:00 2001
 From: Ting-Wei Lan <lantw@src.gnome.org>
 Date: Thu, 4 Oct 2018 23:03:30 +0800
-Subject: [PATCH 1/2] backends: Use raw_link_args to check for the need of
- RPATH
+Subject: [PATCH] backends: Use raw_link_args to check for the need of RPATH
 
 Function rpaths_for_bundled_shared_libraries assumes it needs RPATH when
 linking arguments of an external dependency has exactly one argument and
@@ -32,10 +31,10 @@ Works around https://github.com/mesonbuild/meson/issues/4270.
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/mesonbuild/backend/backends.py b/mesonbuild/backend/backends.py
-index 4d3f5d9b..6d39e1cb 100644
+index 2a07058a..564ceb3e 100644
 --- a/mesonbuild/backend/backends.py
 +++ b/mesonbuild/backend/backends.py
-@@ -402,7 +402,7 @@ class Backend:
+@@ -403,7 +403,7 @@ class Backend:
          for dep in target.external_deps:
              if not isinstance(dep, (dependencies.ExternalLibrary, dependencies.PkgConfigDependency)):
                  continue
@@ -45,10 +44,10 @@ index 4d3f5d9b..6d39e1cb 100644
                  continue
              # The only link argument is an absolute path to a library file.
 diff --git a/run_unittests.py b/run_unittests.py
-index bfd7a546..29226fa9 100755
+index 676604f4..17cb94ff 100755
 --- a/run_unittests.py
 +++ b/run_unittests.py
-@@ -5680,7 +5680,7 @@ c = ['{0}']
+@@ -5910,7 +5910,7 @@ c = ['{0}']
          # Test that installed libraries works
          self.new_builddir()
          self.prefix = oldprefix
@@ -58,5 +57,5 @@ index bfd7a546..29226fa9 100755
          testdir = os.path.join(self.unit_test_dir, '69 static link')
          env = {'PKG_CONFIG_LIBDIR': os.path.join(libdir, 'pkgconfig')}
 -- 
-2.23.0
+2.25.0
 
