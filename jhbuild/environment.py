@@ -268,3 +268,31 @@ def setup_env(prefix):
         addpath('PYTHONPATH', os.path.join(PKGDATADIR, 'sitecustomize'))
     else:
         addpath('PYTHONPATH', os.path.join(SRCDIR, 'jhbuild', 'sitecustomize'))
+
+    # SYSTEMD unit and generators paths, this only makes sense if
+    # XDG_RUNTIME_DIR is set.
+    if 'XDG_RUNTIME_DIR' in os.environ:
+        # The following variables allow launching a full blown desktop including
+        # its own systemd instance. It is intended for use together with the
+        # gnome-launch-systemd script provided by gnome-session for testing
+        # purposes. It also requires an environment generator to ensure that
+        # the jhbuild environment is fully imported into systemd.
+        # Ensure an empty postfix so that systemd appends the default paths
+        addpath('SYSTEMD_UNIT_PATH', '')
+        addpath('SYSTEMD_GENERATOR_PATH', '')
+        addpath('SYSTEMD_ENVIRONMENT_GENERATOR_PATH', '')
+
+        # Generator paths are easy, just add the correct directories from lib
+        addpath('SYSTEMD_GENERATOR_PATH', os.path.join(libdir, 'systemd/user-generators'))
+        addpath('SYSTEMD_ENVIRONMENT_GENERATOR_PATH', os.path.join(libdir, 'systemd/user-environment-generators'))
+
+        # For the systemd unit path, it makes sense to include some more directories
+        # to ensure correct priority from systemd (i.e. we intentionally repeat some
+        # default paths here). The first is the one we really care about.
+        addpath('SYSTEMD_UNIT_PATH', os.path.join(libdir, 'systemd/user'))
+        addpath('SYSTEMD_UNIT_PATH', os.path.join(os.environ['XDG_RUNTIME_DIR'], 'systemd/generator'))
+        addpath('SYSTEMD_UNIT_PATH', os.path.join(os.environ['XDG_RUNTIME_DIR'], 'systemd/user'))
+        addpath('SYSTEMD_UNIT_PATH', os.path.join(prefix, 'etc/systemd/user'))
+        # permit higher priority user configurations?
+        # addpath('SYSTEMD_UNIT_PATH', os.path.join(xdg_config_dir, 'systemd/user'))
+        addpath('SYSTEMD_UNIT_PATH', os.path.join(os.environ['XDG_RUNTIME_DIR'], 'systemd/generator.early'))
