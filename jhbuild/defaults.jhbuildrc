@@ -147,7 +147,7 @@ export_dir = None
 extra_prefixes = []
 try:
     # Debian-style multiarch
-    system_libdirs = ['/usr/lib/' + sys._multiarch, '/usr/lib']
+    system_libdirs = ['/usr/lib/' + sys.implementation._multiarch, '/usr/lib']
 
 except AttributeError:
     # Check the python path and make some reasonable guesses
