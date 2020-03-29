@@ -339,6 +339,23 @@
     </dependencies>
   </meson>
 
+  <autotools id="enchant-2"
+             autogen-sh="configure"
+             autogenargs="--with-hunspell --with-hunspell-dir=/usr/share/myspell">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-hunspell-dir=/usr/local/share/hunspell"/>
+    </if>
+    <branch repo="github-tar"
+            version="2.2.6"
+            module="AbiWord/enchant/releases/download/v${version}/enchant-${version}.tar.gz"
+            hash="sha256:8048c5bd26190b21279745cfecd05808c635bc14912e630340cd44a49b87d46d">
+    </branch>
+    <dependencies>
+      <dep package="hunspell"/>
+      <dep package="glib"/>
+    </dependencies>
+  </autotools>
+
   <cmake id="evolution-data-server"
          cmakeargs="-DENABLE_INTROSPECTION=ON -DENABLE_VALA_BINDINGS=ON -DENABLE_UOA=OFF -DENABLE_GOOGLE_AUTH=OFF">
     <if condition-set="freebsd">
