@@ -2143,7 +2143,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="wayland-protocols">
+  <meson id="wayland-protocols">
     <branch repo="gitlab.freedesktop.org"
             module="wayland/wayland-protocols.git"
             checkoutdir="wayland-protocols"/>
@@ -2152,10 +2152,10 @@
         <dep package="wayland"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
-  <autotools id="wayland"
-             autogenargs="--disable-documentation">
+  <meson id="wayland"
+             mesonargs="-Ddocumentation=false">
     <branch repo="gitlab.freedesktop.org"
             module="wayland/wayland.git"
             checkoutdir="wayland"/>
@@ -2164,7 +2164,7 @@
       <dep package="doxygen"/>
       <dep package="xmlto"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <cmake id="libwpe">
     <branch repo="wpewebkit.org"
