@@ -3530,4 +3530,21 @@
       <dep package="meta-gnome-flashback-metacity" />
     </dependencies>
   </metamodule>
+
+  <meson id="libshumate" mesonargs="-Dintrospection=true -Dvapi=true">
+    <branch repo="gitlab.gnome.org"
+            module="mlundblad/libshumate.git"
+            checkoutdir="libshumate"/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk+"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+    <suggests>
+      <dep package="libsoup"/>
+   </suggests>
+  </meson>
 </moduleset>
