@@ -1133,7 +1133,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="harfbuzz" autogenargs="--with-gobject=yes">
+  <meson id="harfbuzz" mesonargs="-Dintrospection=enabled -Dgobject=enabled">
     <branch repo="github.com"
             module="harfbuzz/harfbuzz"
             checkoutdir="harfbuzz"/>
@@ -1141,10 +1141,11 @@
       <dep package="c++"/>
       <dep package="freetype2"/>
       <dep package="glib"/>
+      <dep package="gobject-introspection"/>
       <dep package="libicu"/>
       <dep package="ragel"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="hicolor-icon-theme" supports-non-srcdir-builds="no"
              check-target="false">
