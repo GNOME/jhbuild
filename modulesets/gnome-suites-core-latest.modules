@@ -87,19 +87,17 @@
     </dependencies>
   </meson>
 
-  <autotools id="gdm" autogenargs="--with-systemdsystemunitdir=no --with-log-dir=${prefix}/var/log/gdm">
+  <meson id="gdm" mesonargs="-Dsystemdsystemunitdir='' -Dlog-dir=${prefix}/var/log/gdm">
     <if condition-unset="linux">
-      <autogenargs value="--without-plymouth"/>
+      <mesonargs value="-Dplymouth=disabled"/>
     </if>
     <branch/>
     <dependencies>
       <dep package="accountsservice"/>
-      <dep package="dbus-glib"/>
       <dep package="dconf"/>
       <dep package="fontconfig"/>
       <dep package="glib"/>
       <dep package="gtk+-3"/>
-      <dep package="intltool"/>
       <dep package="libcanberra"/>
       <dep package="nss"/>
       <dep package="pam"/>
@@ -111,10 +109,9 @@
       </if>
     </dependencies>
     <suggests>
-      <dep package="upower"/>
       <dep package="yelp-tools"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="glib-networking" mesonargs="-Dinstalled_tests=true">
     <if condition-set="freebsd">
