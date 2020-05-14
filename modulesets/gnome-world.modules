@@ -174,8 +174,7 @@
     </suggests>
   </autotools>
 
-  <cmake id="FeedReader"
-         cmakeargs="-DUSE_WEBKIT_4=ON -DWITH_LIBUNITY=OFF">
+  <meson id="FeedReader">
     <branch repo="github.com" checkoutdir="FeedReader" module="jangernert/FeedReader.git"/>
     <dependencies>
       <dep package="gtk+-3"/>
@@ -191,7 +190,7 @@
       <dep package="librest"/>
       <dep package="libnotify"/>
     </dependencies>
-  </cmake>
+  </meson>
 
   <autotools id="gconf"
              autogenargs="--enable-gtk --with-gtk=3.0 --disable-orbit">
