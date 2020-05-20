@@ -7,18 +7,22 @@ packages, called “modules”.
 JHBuild was originally written for building GNOME, but has since been
 extended to be usable with other projects.
 
-JHBuild requires Python >= 2.3
+JHBuild requires Python >= 3.5
 
 Installing JHBuild
 ------------------
 
 Refer to the 'Getting Started' section of the JHBuild manual:
 
-  yelp /jhbuild-source-dir/doc/C/index.docbook
+  http://library.gnome.org/devel/jhbuild/stable/getting-started.html.en
 
 Or refer to the on-line JHBuild manual at:
 
-  http://library.gnome.org/devel/jhbuild/stable/getting-started.html.en
+  https://developer.gnome.org/jhbuild/stable/index.html.en
+  
+More info is available at:
+  
+  https://developer.gnome.org/Jhbuild/
 
 Using JHBuild
 -------------
