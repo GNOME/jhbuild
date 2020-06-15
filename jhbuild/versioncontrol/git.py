@@ -236,9 +236,19 @@ class GitBranch(Branch):
                 extra_env=get_git_extra_env())
         return self.execute_git_predicate( ['git', 'show-ref', wanted_ref])
 
+    def get_default_branch_name(self):
+        try:
+            default_branch = get_output(['git', 'symbolic-ref', '--short',
+                               'refs/remotes/origin/HEAD'],
+                               cwd=self.get_checkoutdir(),
+                               extra_env=get_git_extra_env()).strip()
+        except CommandError:
+            return 'master'
+        return default_branch.replace('origin/', '')
+
     def get_branch_switch_destination(self):
         current_branch = self.get_current_branch()
-        wanted_branch = self.branch or 'master'
+        wanted_branch = self.branch or self.get_default_branch_name()
 
         # Always switch away from a detached head.
         if not current_branch:
