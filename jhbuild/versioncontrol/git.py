@@ -32,7 +32,7 @@ from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils import urlutils
+from jhbuild.utils import urlutils, udecode
 from jhbuild.utils.urlutils import urlparse_mod
 from jhbuild.utils.compat import iterkeys
 
@@ -365,7 +365,7 @@ class GitBranch(Branch):
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                 cwd=self.get_checkoutdir(),
                                 env=get_git_extra_env())
-        stdout = proc.communicate()[0]
+        stdout = udecode(proc.communicate()[0])
         if not stdout.strip():
             raise CommandError(_('Command %s returned no output') % cmd_desc)
         for line in stdout.splitlines():
