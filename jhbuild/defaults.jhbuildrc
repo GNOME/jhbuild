@@ -145,11 +145,11 @@ export_dir = None
 
 # attempt to detect the system library path
 extra_prefixes = []
-try:
+if hasattr(sys.implementation, '_multiarch') and \
+   os.path.exists('/usr/lib/' + sys.implementation._multiarch):
     # Debian-style multiarch
     system_libdirs = ['/usr/lib/' + sys.implementation._multiarch, '/usr/lib']
-
-except AttributeError:
+else:
     # Check the python path and make some reasonable guesses
     system_libdirs = []
     for path in sys.path:
