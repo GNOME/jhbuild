@@ -145,7 +145,7 @@ export_dir = None
 
 # attempt to detect the system library path
 extra_prefixes = []
-if hasattr(sys.implementation, '_multiarch') and \
+if hasattr(sys, 'implementation') and hasattr(sys.implementation, '_multiarch') and \
    os.path.exists('/usr/lib/' + sys.implementation._multiarch):
     # Debian-style multiarch
     system_libdirs = ['/usr/lib/' + sys.implementation._multiarch, '/usr/lib']
