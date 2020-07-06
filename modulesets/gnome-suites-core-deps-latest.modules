@@ -2120,6 +2120,46 @@
     </suggests>
   </meson>
 
+  <meson id="tracker"
+         mesonargs="-Dunicode_support=icu -Dbash_completion_dir=${prefix}/share/bash-completion/completions">
+    <branch revision="master"/>
+    <dependencies>
+      <dep package="asciidoc"/>
+      <dep package="glib"/>
+      <dep package="json-glib"/>
+      <dep package="libicu"/>
+      <dep package="libsoup"/>
+      <dep package="sqlite3"/>
+      <dep package="vala"/>
+    </dependencies>
+  </meson>
+
+  <meson id="tracker-miners">
+    <branch revision="master"/>
+    <dependencies>
+      <dep package="asciidoc"/>
+      <dep package="glib"/>
+      <dep package="tracker"/>
+      <dep package="libpng"/>
+      <dep package="libgrss"/>
+      <if condition-set="linux">
+        <dep package="libseccomp"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="dconf"/>
+      <dep package="gstreamer"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="libgsf"/>
+      <dep package="poppler"/>
+      <dep package="totem-pl-parser"/>
+      <dep package="upower"/>
+      <if condition-set="linux">
+        <dep package="NetworkManager"/>
+      </if>
+    </suggests>
+  </meson>
+
   <autotools id="uhttpmock" supports-non-srcdir-builds="no">
     <branch repo="gitlab.com" checkoutdir="uhttpmock" module="uhttpmock/uhttpmock.git"/>
     <dependencies>
