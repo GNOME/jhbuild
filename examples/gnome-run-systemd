@@ -1,0 +1,314 @@
+#!/bin/sh
+# This script is not intended for use by end users. It allows running a full
+# blown GNOME session in parallel to an existing one. There are a few possible
+# use cases:
+#  * Starting a nested GNOME environment for testing purposes under the
+#    currently logged in user.
+#  * Starting a session inside a virtual development environment (e.g. jhbuild)
+#    which requires updating paths relevant to systemd.
+#  * Starting virtual GNOME sessions to run integration tests in parallel.
+# In all cases a private systemd user instance will be launched.
+#
+# To start a private systemd user instance, it needs to be run in a way where
+# it can create cgroups. In certain cases, you may need to launch it e.g. using
+# systemd-run [--user] rather than running it directly.
+#
+# This started session needs its own $XDG_RUNTIME_DIR. However, to create a
+# virtual environment (e.g. jhbuild) it is a requirement to know the directory
+# in advance.
+#
+# This script assumes that a "normal" GNOME session is launched (i.e. the
+# session is managed by gnome-session and GNOME shell will be started).
+#
+# Environment variables that will be used when defined:
+#  * XDG_RUNTIME_DIR: Used to place a new nested runtime directory into. If
+#    --current-runtime is given, then this pre-prepared (but unused) runtime
+#    will be used. This may be required to configure a virtual environment
+#    before launching it.
+#  * SYSTEMD_BINARY: The systemd binary to launch, or /usr/lib/systemd/systemd
+#  * SYSTEMD_*_PATH:
+#    Unit and generator paths from a virtual environment, see systemd(1) for
+#    more information.
+#    Note that if generator paths are set, then simple emulation code may be
+#    run to support older versions of systemd (<= v245). This emulation is not
+#    very good but should be sufficient in most cases.
+#  * JHBUILD: jhbuild binary to run, default: jhbuild
+#
+# Note that by choice, most environment variables will leak into the new
+# session. Some are explicitly propagated (e.g. $PATH) while others are
+# explicitly removed.
+#
+# Environment variables that are *not* affected but needed for proper emulation
+# of certain sessions:
+# * XDG_CURRENT_DESKTOP:
+#   The current desktop as defined in the .desktop file for the session
+#   (DesktopNames key). This script never reads that session definition, and
+#   to e.g. emulate a GDM greeter, it needs to be set to "GNOME-Greeter:GNOME".
+#   For convenience the --xdg-desktop parameter is provided to set it.
+#   Will be set to "GNOME" if undefined.
+# * DESKTOP_SESSION, XDG_SESSION_DESKTOP, GDMSESSION:
+#   The .desktop file that the display manager loaded for the session
+#   definition. Usually, this will be unused.
+
+BUILTIN=
+USE_JHBUILD=
+REUSE_RUNTIME=
+# Resolve the default session type
+SESSION="$(G_MESSAGES_DEBUG= gsettings get org.gnome.desktop.session session-name | sed -n "s/^'\(.*\)'$/\1/p" )"
+
+# Parse commend line arguments
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --session)
+            SESSION="$2"
+            shift
+            ;;
+        --xdg-desktop)
+            XDG_CURRENT_DESKTOP="$2"
+            shift
+            ;;
+        -a|--autostart)
+            GNOME_SESSION_AUTOSTART_DIR="$2"
+            export GNOME_SESSION_AUTOSTART_DIR
+            shift
+            ;;
+        --builtin)
+            BUILTIN=--builtin
+            ;;
+        --current-runtime)
+            REUSE_RUNTIME=1
+            ;;
+        --jhbuild)
+            USE_JHBUILD=1
+            ;;
+        --nested)
+            # nested sessions are always wayland sessions
+            NESTED=--nested
+            XDG_SESSION_TYPE=wayland
+            ;;
+        *)
+            echo "Invalid argument $1"
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ "x$BUILTIN" != "x" -a "x$NESTED" != "x" ]; then
+    echo "ERROR: --builtin cannot be combined with --nested!"
+    exit 1
+fi
+
+if [ "$REUSE_RUNTIME" != "1" ]; then
+    XDG_RUNTIME_DIR="$( mktemp -d -p $XDG_RUNTIME_DIR nested-XXXXXX)"
+    export XDG_RUNTIME_DIR
+fi
+
+# Ensure we have a usable XDG runtime directory by checking the DBus socket is not created yet.
+if [ -e "$XDG_RUNTIME_DIR/bus" ]; then
+    echo "ERROR: Runtime directory $XDG_RUNTIME_DIR appears to be used already. Use one of --jhbuild, --runtime or setting \$XDG_RUNTIME_DIR to a usable directory"
+    exit 1
+fi
+
+# In the jhbuild case, we need to re-exec ourselves
+if [ "$USE_JHBUILD" = "1" ]; then
+    JHBUILD="${JHBUILD:-jhbuild}"
+    exec $JHBUILD run "$0" --current-runtime $BUILTIN $NESTED
+fi
+
+##########################
+
+# Remove some variables from the environment (they are still locally available)
+# Note that we need to either restore $DISPLAY or pass it to the nested shell
+export -n SYSTEMD_BINARY
+export -n DISPLAY WAYLAND_DISPLAY
+export -n SESSION_MANAGER
+export -n DBUS_SESSION_BUS_ADDRESS
+export -n JOURNAL_STREAM
+# TODO: Probably should remove more or have a whitelist
+
+# Ensure we have an XDG session type set; falling back to wayland
+# (this can happen when launching the script from a TTY login)
+XDG_SESSION_TYPE=${XDG_SESSION_TYPE:-wayland}
+export XDG_SESSION_TYPE
+
+# Ensure XDG_CURRENT_DESKTOP is set to an appropriate value
+XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-GNOME}
+export XDG_CURRENT_DESKTOP
+
+SYSTEMD_BINARY=${SYSTEMD_BINARY:-/usr/lib/systemd/systemd}
+test -x "$SYSTEMD_BINARY" || ( echo "Systemd binary $SYSTEMD_BINARY is not executable!";  exit 1 )
+
+# We need to funnel in some variables from the outside (i.e. $PATH); to do so
+# we need to add an environment generator
+EXTRA_ENVIRONMENT_GENERATOR=$XDG_RUNTIME_DIR/environment-generator.extra
+SYSTEMD_ENVIRONMENT_GENERATOR_PATH="$EXTRA_ENVIRONMENT_GENERATOR:$SYSTEMD_ENVIRONMENT_GENERATOR_PATH"
+
+mkdir -p "$EXTRA_ENVIRONMENT_GENERATOR"
+cat >"$EXTRA_ENVIRONMENT_GENERATOR/00-gnome-run-systemd" <<%EOF
+#/bin/sh
+
+# Import the \$PATH variable from the outside into the inside; systemd discards
+# this variable otherwise.
+echo "PATH=\"$PATH\""
+%EOF
+chmod +x "$EXTRA_ENVIRONMENT_GENERATOR/00-gnome-run-systemd"
+
+
+###############################################################################
+# Start emulation code to support old systemd versions, this should be removed
+# as soon as possible. (systemd <= 245)
+###############################################################################
+
+if [ "$( $SYSTEMD_BINARY --version | sed -n "s/^systemd \([0-9]*\).*$/\1/p" )" -le 245 ]; then
+    echo "WARNING: systemd version 246 is required to handle generators correctly!"
+    echo "WARNING: Running generators explicitly resulting in highest priority!"
+    echo "WARNING: Environment generators will be run at startup and uploading variables directly"
+    echo "WARNING: This is dangerous, please upgrade systemd!"
+
+    EMULATED_GENERATOR_DIR="$XDG_RUNTIME_DIR/systemd/generators.emulated"
+    SYSTEMD_UNIT_PATH="$EMULATED_GENERATOR_DIR:$SYSTEMD_UNIT_PATH"
+
+    mkdir -p "$EMULATED_GENERATOR_DIR"
+    while true; do
+        dir="$( echo "$SYSTEMD_GENERATOR_PATH" | cut -d : -f 1 )"
+        SYSTEMD_GENERATOR_PATH="$( echo "$SYSTEMD_GENERATOR_PATH" | cut -s -d : -f 2- )"
+
+        echo "running generators in $dir"
+        if [ "x$dir" = "x" ]; then
+            break
+        fi
+        for generator in "$dir"/*; do
+            echo "running generator $generator"
+            # And run them all, just using the same highest priority unit directory
+            test -x "$generator" && "$generator" $EMULATED_GENERATOR_DIR $EMULATED_GENERATOR_DIR $EMULATED_GENERATOR_DIR
+        done
+    done
+
+    # Next up, we need to deal with the environment. This must be done after
+    # systemd has launched by submitting the environment variables from the
+    # generators via dbus. We write out a script that can do this into
+    # XDG_RUNTIME_DIR.
+    cat >"$XDG_RUNTIME_DIR/environment-generator-emulator" <<%EOF
+#!/bin/sh
+
+SYSTEMD_ENVIRONMENT_GENERATOR_PATH="$SYSTEMD_ENVIRONMENT_GENERATOR_PATH"
+
+# NOTE: We assume that we can simply eval the output from generators!
+while true; do
+    dir="\$( echo "\$SYSTEMD_ENVIRONMENT_GENERATOR_PATH" | cut -d : -f 1 )"
+    SYSTEMD_ENVIRONMENT_GENERATOR_PATH="\$( echo "\$SYSTEMD_ENVIRONMENT_GENERATOR_PATH" | cut -s -d : -f 2- )"
+
+    if [ "x\$dir" = "x" ]; then
+        break
+    fi
+
+    for generator in "\$dir"/* ; do
+        if [ ! -x "\$generator" ]; then
+            continue
+        fi
+        # And run them all, just using the same highest priority unit directory
+        env="\$( "\$generator" )"
+        # It should be a valid script, evaluate everything
+        eval "\$env"
+        # Find out which variables were set, export them for later scripts and
+        # import them into systemd
+        vars="\$( echo "\$env" | sed -n "s/\([^=]*\)=.*/\1/p" )"
+        for var in \$vars; do
+            export "\$var"
+            systemctl --user import-environment "\$var"
+        done
+    done
+done
+%EOF
+    chmod +x "$XDG_RUNTIME_DIR/environment-generator-emulator"
+    mkdir -p "$XDG_RUNTIME_DIR/systemd/user"
+    cat >"$XDG_RUNTIME_DIR/systemd/user/environment-generator-emulation.service" <<%EOF
+[Unit]
+Description=Emulate SYSTEMD_ENVIORNMENT_GENERATOR_PATH
+DefaultDependencies=no
+Before=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=%t/environment-generator-emulator
+%EOF
+    mkdir -p "$XDG_RUNTIME_DIR/systemd/user/basic.target.wants"
+    ln -s ../environment-generator-emulation.service "$XDG_RUNTIME_DIR/systemd/user/basic.target.wants"
+fi
+
+###############################################################################
+# End emulation code to support old systemd versions.
+###############################################################################
+
+
+if [ "x$NESTED" != "x" ]; then
+    # Override the gnome-shell unit to pass --nested
+    # For now, handle both org.gnome.Shell-wayland.service and gnome-shell-wayland.service
+    mkdir -p "$XDG_RUNTIME_DIR/systemd/user/org.gnome.Shell@wayland.service.d"
+    ln -s "org.gnome.Shell@wayland.service.d" "$XDG_RUNTIME_DIR/systemd/user/gnome-shell-wayland.service.d"
+    cat - >"$XDG_RUNTIME_DIR/systemd/user/org.gnome.Shell@wayland.service.d/99-nested.conf" <<%EOF
+[Service]
+Environment=DISPLAY=$DISPLAY
+ExecStart=
+ExecStart=$( which gnome-shell ) --nested
+%EOF
+
+else
+    # Standard X11/wayland startup, DISPLAY needs to be forwarded if set
+    export DISPLAY
+fi
+
+
+# Set $UNIT and modify systemd so that we can just launch into it.
+if [ "x$BUILTIN" != "x" ]; then
+    # Handle --builtin fallback resulting in non-systemd startup; we create a
+    # service unit for the gnome-session which causes a systemd exit when the
+    # unit quits.
+
+    UNIT="gnome-session-launch.service"
+    mkdir -p "$XDG_RUNTIME_DIR/systemd/user/"
+    cat - >"$XDG_RUNTIME_DIR/systemd/user/$UNIT" <<%EOF
+[Unit]
+Description=GNOME session running in non-systemd managed mode
+
+[Service]
+ExecStart=gnome-session --builtin --session "$SESSION"
+ExecStopPost=systemctl --user exit
+
+TimeoutStopSec=5s
+%EOF
+
+else
+    # Handle normal session start using systemd. We take a shortcut here and
+    # let systemd start our target unit directly.
+    # Hook gnome-session-shutdown.target so that it makes the user instance
+    # quit. Then we can just exec into systemd.
+    UNIT="gnome-session-$XDG_SESSION_TYPE@$SESSION.target"
+
+    mkdir -p "$XDG_RUNTIME_DIR/systemd/user/gnome-session-shutdown.target.d"
+    cat - >"$XDG_RUNTIME_DIR/systemd/user/gnome-session-shutdown.target.d/99-quit.conf" <<%EOF
+[Unit]
+Before=shutdown.target exit.target
+Wants=exit.target
+%EOF
+
+fi
+
+# Add a unit to delete our temporary nested directory when systemd quits
+cat - >"$XDG_RUNTIME_DIR/systemd/user/wipe-runtime-dir.service" <<%EOF
+[Unit]
+DefaultDependencies=no
+After=shutdown.target gnome-session-shutdown.target
+Before=exit.target
+
+[Service]
+Type=oneshot
+ExecStart=rm -rf $XDG_RUNTIME_DIR
+RemainAfterExit=no
+%EOF
+mkdir -p "$XDG_RUNTIME_DIR/systemd/user/exit.target.wants"
+ln -s ../wipe-runtime-dir.service "$XDG_RUNTIME_DIR/systemd/user/exit.target.wants"
+
+# Finally, execute systemd (assume it can manage cgroups where we run).
+exec $SYSTEMD_BINARY --user --unit "$UNIT"
