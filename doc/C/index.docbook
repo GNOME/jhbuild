@@ -2294,6 +2294,19 @@ Optional packages: (JHBuild will build the missing packages)
 <programlisting>repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'</programlisting>
           </listitem>
         </varlistentry>
+        <varlistentry id="cfg-shallow-clone">
+          <term>
+            <varname>shallow_clone</varname>
+          </term>
+          <listitem>
+              <simpara>A boolean value specifying if JHBuild should prefer
+                smaller version control downloads. Equivalent to
+                <command>git clone --depth 1</command> or
+                <command>bzr co --light</command>.
+                Defaults to <constant>False</constant>.
+             </simpara>
+          </listitem>
+        </varlistentry>
         <varlistentry id="cfg-skip">
           <term>
             <varname>skip</varname>
