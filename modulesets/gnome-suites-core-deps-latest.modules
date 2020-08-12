@@ -664,7 +664,7 @@
     <dependencies>
       <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="mozjs68"/>
+      <dep package="mozjs78"/>
       <dep package="readline"/>
       <if condition-set="linux">
         <dep package="sysprof"/>
@@ -1821,38 +1821,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mozjs60" autogen-sh="js/src/configure"
+  <autotools id="mozjs78" autogen-sh="js/src/configure"
              force-non-srcdir-builds="yes"
              supports-unknown-configure-options="no"
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--enable-posix-nspr-emulation --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
-    <!-- prefix option must have an = sign in mozilla's configure -->
-    <pkg-config>mozjs-60.pc</pkg-config>
-    <branch repo="gnome-download" version="60.8.0"
-            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.bz2"
-            hash="sha256:697331336c3d65b80ded9ca87b4a8ceb804e5342b476eaa133ac638102a9dc5d"
-            size="32802956"/>
-    <dependencies>
-      <dep package="libffi"/>
-      <dep package="python2"/>
-      <dep package="zlib"/>
-    </dependencies>
-  </autotools>
-
-  <autotools id="mozjs68" autogen-sh="js/src/configure"
-             force-non-srcdir-builds="yes"
-             supports-unknown-configure-options="no"
-             autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--enable-posix-nspr-emulation --enable-unaligned-private-values --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
+             autogenargs="--with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
     <if condition-set="freebsd">
       <autogenargs value="LLVM_CONFIG=llvm-config90"/>
     </if>
     <!-- prefix option must have an = sign in mozilla's configure -->
-    <pkg-config>mozjs-68.pc</pkg-config>
-    <branch repo="gnome-download" version="68.4.2"
-            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.bz2"
-            hash="sha256:097fb482aa0e57fb117fde6816fbabfedcb862ee81906990363954f47ce93227"
-            size="70569055"/>
+    <pkg-config>mozjs-78.pc</pkg-config>
+    <branch repo="gnome-download" version="78.0.1gnome"
+            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.xz"
+            hash="sha256:78d762012be9eb460b5805da4f919d1a12b15f4040f126c98a42c4dddac7339e"
+            size="55053292"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="zlib"/>
