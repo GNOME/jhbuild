@@ -137,9 +137,9 @@
     </branch>
   </cmake>
 
-  <autotools id="cairo" autogenargs="--enable-gl">
+  <meson id="cairo">
     <if condition-set="quartz">
-      <autogenargs value="--enable-quartz --disable-gl"/>
+      <mesonargs value="-Dgl-backend=disabled"/>
     </if>
     <branch repo="gitlab.freedesktop.org"
             module="cairo/cairo.git"
@@ -159,7 +159,7 @@
       <dep package="libpng"/>
       <dep package="zlib"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="cairomm-1.0">
     <branch repo="gitlab.freedesktop.org"
