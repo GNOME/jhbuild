@@ -5,836 +5,1205 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-03 18:52+0200\n"
-"PO-Revision-Date: 2011-06-03 18:52+0200\n"
-"Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
+"POT-Creation-Date: 2019-04-01 06:39+0000\n"
+"PO-Revision-Date: 2019-04-25 19:17+0200\n"
+"Last-Translator: Carles Ferrando Garcia <carles.ferrando@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@llistes.softcatala.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#: ../jhbuild.desktop.in.in.h:1
-msgid "Build GNOME modules"
-msgstr "Construeix els mòduls del GNOME"
+#: autogen.sh:103
+#, sh-format
+msgid "Configuring $PKG_NAME without autotools"
+msgstr "S'està configurant $PKG_NAME sense autotools"
 
-#: ../jhbuild.desktop.in.in.h:2
-msgid "GNOME Build Tool"
-msgstr "Eina de construcció del GNOME"
+#: autogen.sh:120 autogen.sh:125
+#, sh-format
+msgid "Unable to create file $srcdir/Makefile.inc"
+msgstr "No s'ha pogut crear el fitxer $srcdir/Makefile.inc"
 
-#: ../jhbuild/commands/autobuild.py:27
+#: autogen.sh:143
+#, sh-format
+msgid "Unable to read file $makefile"
+msgstr "No s'ha pogut llegir el fitxer $makefile"
+
+#: autogen.sh:148
+#, sh-format
+msgid "Unable to copy $makefile to $srcdir/Makefile"
+msgstr "No s'ha pogut copiar $makefile en $srcdir/Makefile"
+
+#: autogen.sh:153
+#, sh-format
+msgid "Now type `make' to compile $PKG_NAME"
+msgstr "Ara escriu  «make» per compilar $PKG_NAME"
+
+#: autogen.sh:268
+msgid "WARNING: aclocal not available (usually part of package 'autoconf')"
+msgstr ""
+"AVÍS: «aclocal» no està disponible (normalment és part del paquet «autoconf»)"
+
+#: autogen.sh:271
+msgid "WARNING: automake not available (usually part of package 'automake')"
+msgstr ""
+"AVÍS: «automake» no està disponible (normalment és part del paquet "
+"«automake»)"
+
+#: autogen.sh:274
+msgid "WARNING: autopoint not available (usually part of package 'gettext')"
+msgstr ""
+"AVÍS: «autopoint» no està disponible (normalment és part del paquet "
+"«gettext»)"
+
+#: autogen.sh:277
+msgid "WARNING: pkg-config not available (usually part of package 'pkgconfig')"
+msgstr ""
+"AVÍS: «pkg-config» no està disponible (normalment és part del paquet "
+"«pkgconfig»)"
+
+#: autogen.sh:280
+msgid ""
+"WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
+msgstr ""
+"AVÍS: « yelp-tools» no està disponible (normalment és part del paquet «yelp-"
+"tools»)"
+
+#: jhbuild/commands/autobuild.py:28
 msgid "Build modules non-interactively and upload results to JhAutobuild"
 msgstr ""
 "Construeix els mòduls de manera no interactiva i puja els resultats a "
 "JhAutobuild"
 
-#: ../jhbuild/commands/autobuild.py:35 ../jhbuild/commands/base.py:213
-#: ../jhbuild/commands/base.py:307 ../jhbuild/commands/tinderbox.py:37
+#: jhbuild/commands/autobuild.py:36 jhbuild/commands/base.py:172
+#: jhbuild/commands/base.py:283 jhbuild/commands/make.py:42
+#: jhbuild/commands/tinderbox.py:38
 msgid "always run autogen.sh"
 msgstr "executa sempre autogen.sh"
 
-#: ../jhbuild/commands/autobuild.py:38 ../jhbuild/commands/base.py:216
-#: ../jhbuild/commands/base.py:310 ../jhbuild/commands/tinderbox.py:40
+#: jhbuild/commands/autobuild.py:39 jhbuild/commands/base.py:178
+#: jhbuild/commands/base.py:286 jhbuild/commands/make.py:45
+#: jhbuild/commands/tinderbox.py:44
 msgid "run make clean before make"
 msgstr "executa «make clean» (neteja) abans d'executar «make»"
 
-#: ../jhbuild/commands/autobuild.py:41 ../jhbuild/commands/base.py:225
-#: ../jhbuild/commands/base.py:319
+#: jhbuild/commands/autobuild.py:42 jhbuild/commands/base.py:187
+#: jhbuild/commands/base.py:298
 msgid "run make distcheck after building"
 msgstr "executa «make distcheck» després de la construcció"
 
-#: ../jhbuild/commands/autobuild.py:44 ../jhbuild/commands/base.py:46
-#: ../jhbuild/commands/base.py:237 ../jhbuild/commands/base.py:475
-#: ../jhbuild/commands/clean.py:38 ../jhbuild/commands/tinderbox.py:49
+#: jhbuild/commands/autobuild.py:45 jhbuild/commands/base.py:47
+#: jhbuild/commands/base.py:199 jhbuild/commands/base.py:437
+#: jhbuild/commands/clean.py:38 jhbuild/commands/tinderbox.py:53
 msgid "treat the given modules as up to date"
 msgstr "tracta els mòduls donats com a actualitzats"
 
-#: ../jhbuild/commands/autobuild.py:47 ../jhbuild/commands/base.py:49
-#: ../jhbuild/commands/base.py:240 ../jhbuild/commands/clean.py:41
-#: ../jhbuild/commands/tinderbox.py:52
+#: jhbuild/commands/autobuild.py:48 jhbuild/commands/base.py:202
+#: jhbuild/commands/clean.py:41 jhbuild/commands/tinderbox.py:56
 msgid "start building at the given module"
 msgstr "inicia la construcció al mòdul donat"
 
-#: ../jhbuild/commands/autobuild.py:50
+#: jhbuild/commands/autobuild.py:51
 msgid "jhautobuild report URL"
 msgstr "URL dels informes de jhautobuild"
 
-#: ../jhbuild/commands/autobuild.py:53
+#: jhbuild/commands/autobuild.py:54
 msgid "verbose mode"
 msgstr "mode detallat"
 
-#: ../jhbuild/commands/autobuild.py:70
-msgid "report url for autobuild not specified"
+#: jhbuild/commands/autobuild.py:71
+msgid "report URL for autobuild not specified"
 msgstr "no s'ha especificat l'URL dels informes de l'«autobuild»"
 
-#: ../jhbuild/commands/autobuild.py:81 ../jhbuild/commands/base.py:72
-#: ../jhbuild/commands/base.py:284 ../jhbuild/commands/base.py:514
-#: ../jhbuild/commands/clean.py:55 ../jhbuild/commands/tinderbox.py:86
+#: jhbuild/commands/autobuild.py:82 jhbuild/commands/base.py:73
+#: jhbuild/commands/base.py:249 jhbuild/commands/base.py:475
+#: jhbuild/commands/clean.py:55 jhbuild/commands/tinderbox.py:94
 #, python-format
 msgid "%s not in module list"
 msgstr "%s no és a la llista de mòduls"
 
-#: ../jhbuild/commands/base.py:37
+#: jhbuild/commands/base.py:38
 msgid "Update all modules from version control"
 msgstr "Actualitza tots els mòduls des del sistema de control de versions"
 
-#: ../jhbuild/commands/base.py:40 ../jhbuild/commands/base.py:88
-#: ../jhbuild/commands/base.py:122 ../jhbuild/commands/base.py:207
-#: ../jhbuild/commands/base.py:301 ../jhbuild/commands/base.py:466
-#: ../jhbuild/commands/tinderbox.py:31
+#: jhbuild/commands/base.py:41 jhbuild/commands/base.py:89
+#: jhbuild/commands/base.py:123 jhbuild/commands/base.py:166
+#: jhbuild/commands/base.py:277 jhbuild/commands/base.py:428
+#: jhbuild/commands/tinderbox.py:32
 msgid "[ options ... ] [ modules ... ]"
 msgstr "[ opcions ... ] [ mòduls ... ]"
 
-#: ../jhbuild/commands/base.py:52 ../jhbuild/commands/base.py:243
-#: ../jhbuild/commands/base.py:481
-msgid "build only modules with the given tags"
-msgstr "construeix només els mòduls amb les etiquetes donades"
+#: jhbuild/commands/base.py:50
+msgid "start updating at the given module"
+msgstr "inicia l'actualitació al mòdul donat"
 
-#: ../jhbuild/commands/base.py:55 ../jhbuild/commands/base.py:94
-#: ../jhbuild/commands/base.py:246 ../jhbuild/commands/base.py:328
-#: ../jhbuild/commands/tinderbox.py:55
+#: jhbuild/commands/base.py:53
+msgid "update only modules with the given tags"
+msgstr "actualitza només els mòduls amb les etiquetes donades"
+
+#: jhbuild/commands/base.py:56 jhbuild/commands/base.py:95
+#: jhbuild/commands/base.py:208 jhbuild/commands/base.py:307
+#: jhbuild/commands/tinderbox.py:59
 msgid "set a sticky date when checking out modules"
 msgstr "estableix una data enganxosa quan es comprovin els mòduls"
 
-#: ../jhbuild/commands/base.py:58 ../jhbuild/commands/base.py:228
-#: ../jhbuild/commands/base.py:484
+#: jhbuild/commands/base.py:59 jhbuild/commands/base.py:190
+#: jhbuild/commands/base.py:446
 msgid "ignore all soft-dependencies"
 msgstr "ignora totes les dependències toves"
 
-#: ../jhbuild/commands/base.py:85
+#: jhbuild/commands/base.py:86
 msgid "Update one or more modules from version control"
 msgstr "Actualitza un o més mòduls des del sistema de control de versions"
 
-#: ../jhbuild/commands/base.py:103 ../jhbuild/commands/base.py:138
-#: ../jhbuild/commands/base.py:407 ../jhbuild/commands/base.py:424
-#: ../jhbuild/commands/rdepends.py:52
+#: jhbuild/commands/base.py:104 jhbuild/commands/base.py:142
+#: jhbuild/commands/base.py:383 jhbuild/commands/rdepends.py:52
+#: jhbuild/moduleset.py:181
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "No s'ha pogut trobar un mòdul amb el nom «%s»."
 
-#: ../jhbuild/commands/base.py:106 ../jhbuild/commands/base.py:141
-#: ../jhbuild/commands/base.py:363 ../jhbuild/commands/rdepends.py:47
-#: ../jhbuild/commands/uninstall.py:45
+#: jhbuild/commands/base.py:107 jhbuild/commands/base.py:145
+#: jhbuild/commands/base.py:340 jhbuild/commands/rdepends.py:47
+#: jhbuild/commands/uninstall.py:58
 msgid "This command requires a module parameter."
 msgstr "Aquesta ordre requereix un paràmetre de mòdul."
 
-#: ../jhbuild/commands/base.py:119
+#: jhbuild/commands/base.py:120
 msgid "Clean one or more modules"
 msgstr "Neteja un o més mòduls"
 
-#: ../jhbuild/commands/base.py:128
+#: jhbuild/commands/base.py:129
 msgid "honour the makeclean setting in config file"
 msgstr "fes cas a l'opció «makeclean» del fitxer de configuració"
 
-#: ../jhbuild/commands/base.py:145
+#: jhbuild/commands/base.py:132 jhbuild/commands/base.py:175
+#: jhbuild/commands/base.py:289 jhbuild/commands/tinderbox.py:41
+msgid "completely clean source tree"
+msgstr "neteja completament l'origen del arbre"
+
+#: jhbuild/commands/base.py:149
 msgid "clean command called while makeclean is set to False, skipped."
 msgstr ""
 "s'ha cridat l'ordre «clean» tot i que «makeclean» és «False» (fals), "
 "s'ignorarà."
 
-#: ../jhbuild/commands/base.py:192
-msgid ""
-"bootstrap moduleset has been updated since the last time you used it, "
-"perhaps you should run jhbuild bootstrap."
-msgstr ""
-"S'ha actualitzat el conjunt de mòduls d'arrencada des de l'última vegada que "
-"el veu utilitzar, hauríeu d'executar «jhbuild bootstrap»."
-
-#: ../jhbuild/commands/base.py:198
-#, python-format
-msgid ""
-"some bootstrap modules have been updated, perhaps you should update them: %s."
-msgstr ""
-"s'han actualitzat alguns mòduls d'arrencada, hauríeu d'actualitzar-los: %s."
-
-#: ../jhbuild/commands/base.py:204
+#: jhbuild/commands/base.py:163
 msgid "Update and compile all modules (the default)"
 msgstr "Actualitza i compila tots els mòduls (predeterminat)"
 
-#: ../jhbuild/commands/base.py:219 ../jhbuild/commands/base.py:313
+#: jhbuild/commands/base.py:181 jhbuild/commands/base.py:292
+#: jhbuild/commands/make.py:48
 msgid "run make check after building"
 msgstr "executa «make check» després de la construcció"
 
-#: ../jhbuild/commands/base.py:222 ../jhbuild/commands/base.py:316
+#: jhbuild/commands/base.py:184 jhbuild/commands/base.py:295
 msgid "run make dist after building"
 msgstr "executa «make dist» després de la construcció"
 
-#: ../jhbuild/commands/base.py:231 ../jhbuild/commands/base.py:322
-#: ../jhbuild/commands/tinderbox.py:43
+#: jhbuild/commands/base.py:193 jhbuild/commands/base.py:301
+#: jhbuild/commands/tinderbox.py:47
 msgid "skip version control update"
 msgstr "no actualitzis el codi font"
 
-#: ../jhbuild/commands/base.py:234 ../jhbuild/commands/base.py:325
+#: jhbuild/commands/base.py:196 jhbuild/commands/base.py:304
+#: jhbuild/commands/make.py:51
 msgid "quiet (no output)"
 msgstr "silenciós (sense sortida)"
 
-#: ../jhbuild/commands/base.py:249 ../jhbuild/commands/base.py:331
+#: jhbuild/commands/base.py:205 jhbuild/commands/base.py:443
+msgid "build only modules with the given tags"
+msgstr "construeix només els mòduls amb les etiquetes donades"
+
+#: jhbuild/commands/base.py:211 jhbuild/commands/base.py:310
 msgid "run tests in real X and not in Xvfb"
 msgstr "executa els tests en un X real i no en Xvfb"
 
-#: ../jhbuild/commands/base.py:252 ../jhbuild/commands/tinderbox.py:58
+#: jhbuild/commands/base.py:214 jhbuild/commands/tinderbox.py:62
 msgid "try to force checkout and autogen on failure"
 msgstr ""
 "si es produeix un error realitza una actualització del codi i executa "
 "l'«autogen»"
 
-#: ../jhbuild/commands/base.py:255 ../jhbuild/commands/tinderbox.py:61
+#: jhbuild/commands/base.py:217 jhbuild/commands/tinderbox.py:65
 msgid "don't poison modules on failure"
 msgstr "no contaminis els mòduls si es produeix un error"
 
-#: ../jhbuild/commands/base.py:258 ../jhbuild/commands/base.py:334
-#: ../jhbuild/commands/tinderbox.py:64
+#: jhbuild/commands/base.py:220 jhbuild/commands/base.py:313
+#: jhbuild/commands/tinderbox.py:68
 msgid "build even if policy says not to"
 msgstr "construeix fins i tot si la política diu que no"
 
-#: ../jhbuild/commands/base.py:261
+#: jhbuild/commands/base.py:223
 msgid "also build soft-dependencies that could be skipped"
 msgstr "construeix també les dependències no necessàries que es podrien ometre"
 
-#: ../jhbuild/commands/base.py:264 ../jhbuild/commands/base.py:337
+#: jhbuild/commands/base.py:226 jhbuild/commands/base.py:316
 msgid "skip modules installed less than the given time ago"
 msgstr "omet els mòduls instal·lats abans del temps donat"
 
-#: ../jhbuild/commands/base.py:288
+#: jhbuild/commands/base.py:229 jhbuild/commands/tinderbox.py:71
+msgid "ignore missing system dependencies"
+msgstr "ignora les dependències de sistema perdudes"
+
+#: jhbuild/commands/base.py:253
 msgid "requested module is in the ignore list, nothing to do."
 msgstr ""
 "el mòdul sol·licitat és a la llista de mòduls a ignorar, no s'ha de fer res."
 
-#: ../jhbuild/commands/base.py:298
+#: jhbuild/commands/base.py:260 jhbuild/commands/tinderbox.py:100
+#, python-format
+msgid ""
+"Required system dependencies not installed. Install using the command "
+"%(cmd)s or to ignore system dependencies use command-line option %(opt)s"
+msgstr ""
+"Les dependències del sistema requerides no estan instal·lades. Instal·leu-"
+"les usant l’ordre %(cmd)s o bé ignoreu les dependències del sistema "
+"utilitzant l’opció de la línia d'ordres %(opt)s"
+
+#: jhbuild/commands/base.py:274
 msgid "Update and compile one or more modules"
 msgstr "Actualitza i compila un o més mòduls"
 
-#: ../jhbuild/commands/base.py:358
+#: jhbuild/commands/base.py:335 jhbuild/commands/make.py:102
+#: jhbuild/commands/uninstall.py:50
 #, python-format
 msgid ""
-"module \"%s\" does not exist, created automatically using repository \"%s\""
+"module \"%(modname)s\" does not exist, created automatically using "
+"repository \"%(reponame)s\""
 msgstr ""
-"no existeix el mòdul «%s», s'ha creat automàticament amb el repositori «%s»"
+"no existeix el mòdul «%(modname)s», s'ha creat automàticament amb el "
+"repositori «%(reponame)s»"
 
-#: ../jhbuild/commands/base.py:372
+#: jhbuild/commands/base.py:348
 msgid "Run a command under the JHBuild environment"
 msgstr "Executa una comanda dins l'entorn JHBuild"
 
-#: ../jhbuild/commands/base.py:375
+#: jhbuild/commands/base.py:351
 msgid "[ options ... ] program [ arguments ... ]"
 msgstr "[ opcions ... ] programa [ paràmetres ... ]"
 
-#: ../jhbuild/commands/base.py:381
+#: jhbuild/commands/base.py:357
 msgid "run command in build dir of the given module"
 msgstr "executa l'ordre en el directori de construcció del mòdul donat"
 
-#: ../jhbuild/commands/base.py:384
+#: jhbuild/commands/base.py:360
 msgid "run command in checkout dir of the given module"
 msgstr "executa l'ordre en el directori del codi font del mòdul donat"
 
-#: ../jhbuild/commands/base.py:397 ../jhbuild/commands/base.py:441
+#: jhbuild/commands/base.py:373 jhbuild/commands/base.py:403
 #, python-format
 msgid "Unable to execute the command '%(command)s': %(err)s"
 msgstr "No s'ha pogut executar l'ordre «%(command)s': %(err)s»"
 
-#: ../jhbuild/commands/base.py:415 ../jhbuild/commands/base.py:432
+#: jhbuild/commands/base.py:394
 #, python-format
 msgid "Unable to execute the command '%s'"
 msgstr "No s'ha pogut executar l'ordre «%s»"
 
-#: ../jhbuild/commands/base.py:439 ../jhbuild/frontends/gtkui.py:444
-#: ../jhbuild/frontends/terminal.py:145
+#: jhbuild/commands/base.py:401 jhbuild/frontends/gtkui.py:447
+#: jhbuild/frontends/terminal.py:163
 msgid "No command given"
 msgstr "No s'ha donat cap ordre"
 
-#: ../jhbuild/commands/base.py:448
+#: jhbuild/commands/base.py:410
 msgid "Start a shell under the JHBuild environment"
 msgstr "Inicia un terminal dins l'entorn JHBuild"
 
-#: ../jhbuild/commands/base.py:463
+#: jhbuild/commands/base.py:425
 msgid "List the modules that would be built"
 msgstr "Llista els mòduls que es construiran"
 
-#: ../jhbuild/commands/base.py:472
+#: jhbuild/commands/base.py:434
 msgid "show which revision will be built"
 msgstr "mostra quina revisió es construirà"
 
-#: ../jhbuild/commands/base.py:478
+#: jhbuild/commands/base.py:440
 msgid "start list at the given module"
 msgstr "inicia la llista al mòdul donat"
 
-#: ../jhbuild/commands/base.py:487
+#: jhbuild/commands/base.py:449
 msgid "also list soft-dependencies that could be skipped"
 msgstr "llista també les dependències toves que es podrien ometre"
 
-#: ../jhbuild/commands/base.py:490
+#: jhbuild/commands/base.py:452
 msgid "list all modules, not only those that would be built"
 msgstr "llista tots els mòduls, no només els que s'han de construir"
 
-#: ../jhbuild/commands/base.py:497
-#, python-format
-msgid "Conflicting options specified ('%s' and '%s')"
-msgstr "S'han especificat opcions no complementàries («%s» i «%s»)"
+#: jhbuild/commands/base.py:459
+msgid "Conflicting options specified ('--start-at' and '--all-modules')"
+msgstr ""
+"S'han especificat opcions amb conflictes ('--start-at' i '--all-modules')"
 
-#: ../jhbuild/commands/base.py:530
+#: jhbuild/commands/base.py:491
 msgid "Output a Graphviz dependency graph for one or more modules"
 msgstr "Genera un gràfic de dependències Graphviz d'un mòdul o més d'un"
 
-#: ../jhbuild/commands/base.py:533 ../jhbuild/commands/info.py:40
-#: ../jhbuild/commands/uninstall.py:32
+#: jhbuild/commands/base.py:494 jhbuild/commands/base.py:527
+#: jhbuild/commands/info.py:41 jhbuild/commands/uninstall.py:34
 msgid "[ modules ... ]"
 msgstr "[ mòduls ...]"
 
-#: ../jhbuild/commands/base.py:539
+#: jhbuild/commands/base.py:500
 msgid "add dotted lines to soft dependencies"
 msgstr "afegeix línies puntuades a les dependències toves"
 
-#: ../jhbuild/commands/base.py:542
+#: jhbuild/commands/base.py:503
 msgid "group modules from metamodule together"
 msgstr "agrupa tots junts els mòduls de metamòduls"
 
-#: ../jhbuild/commands/bootstrap.py:34
-msgid "Build required support tools"
-msgstr "Construeix les eines de suport necessàries"
-
-#: ../jhbuild/commands/bootstrap.py:43
-msgid "do not use system installed modules"
-msgstr "no utilitzis els mòduls instal·lats del sistema"
-
-#: ../jhbuild/commands/bootstrap.py:85
-#, python-format
-msgid ""
-"some modules (%s) were automatically ignored as a sufficient enough version "
-"was found installed on your system. Use --ignore-system if you want to build "
-"them nevertheless."
+#: jhbuild/commands/base.py:524
+msgid "Run post-install triggers for named modules (or all)"
 msgstr ""
-"s'han ignorat automàticament alguns mòduls (%s) ja que hi ha una versió prou "
-"recent en el sistema. Utilitzeu «--ignore-system» si els voleu construir "
-"igualment."
+"Executeu els disparadors post-instal·lació per als mòduls anomenats (o tots)"
 
-#: ../jhbuild/commands/bot.py:54
+#: jhbuild/commands/bootstrap.py:24
+msgid "Build support tools"
+msgstr "Construeix les eines de suport"
+
+#: jhbuild/commands/bot.py:54
 msgid "Control buildbot"
 msgstr "Controla el buildbot"
 
-#: ../jhbuild/commands/bot.py:57 ../jhbuild/commands/__init__.py:45
+#: jhbuild/commands/bot.py:57 jhbuild/commands/__init__.py:46
+#: jhbuild/commands/make.py:36
 msgid "[ options ... ]"
 msgstr "[ opcions ... ]"
 
-#: ../jhbuild/commands/bot.py:63
+#: jhbuild/commands/bot.py:63
 msgid "setup a buildbot environment"
 msgstr "configura un entorn de buildbot"
 
-#: ../jhbuild/commands/bot.py:66
+#: jhbuild/commands/bot.py:66
 msgid "start a buildbot slave server"
 msgstr "inicia un servidor esclau de buildbot"
 
-#: ../jhbuild/commands/bot.py:69
+#: jhbuild/commands/bot.py:69
 msgid "stop a buildbot slave server"
 msgstr "para un servidor esclau de buildbot"
 
-#: ../jhbuild/commands/bot.py:72
+#: jhbuild/commands/bot.py:72
 msgid "start a buildbot master server"
 msgstr "inicia un servidor mestre de buildbot"
 
-#: ../jhbuild/commands/bot.py:75
+#: jhbuild/commands/bot.py:75
 msgid "reload a buildbot master server configuration"
 msgstr "recarrega una configuració del servidor mestre de buildbot"
 
-#: ../jhbuild/commands/bot.py:78
+#: jhbuild/commands/bot.py:78
 msgid "stop a buildbot master server"
 msgstr "para un servidor mestre de buildbot"
 
-#: ../jhbuild/commands/bot.py:81
+#: jhbuild/commands/bot.py:81
 msgid "start as daemon"
 msgstr "inicia'l com un dimoni"
 
-#: ../jhbuild/commands/bot.py:84
-msgid "pid file location"
-msgstr "ubicació del fitxer pid"
+#: jhbuild/commands/bot.py:84
+msgid "PID file location"
+msgstr "ubicació del fitxer PID"
 
-#: ../jhbuild/commands/bot.py:87
+#: jhbuild/commands/bot.py:87
 msgid "log file location"
 msgstr "ubicació del fitxer de registre"
 
-#: ../jhbuild/commands/bot.py:90
+#: jhbuild/commands/bot.py:90
 msgid "directory with slave files (only with --start-server)"
 msgstr "directori amb carpetes esclaves (només amb --start-server)"
 
-#: ../jhbuild/commands/bot.py:93
+#: jhbuild/commands/bot.py:93
 msgid "directory with buildbot work files (only with --start-server)"
 msgstr ""
 "el directori amb fitxers de treball del buildbot (només amb --start-server)"
 
-#: ../jhbuild/commands/bot.py:96
+#: jhbuild/commands/bot.py:96
 msgid "master cfg file location (only with --start-server)"
 msgstr "ubicació del fitxer de configuració mestre (només amb --start-server)"
 
-#: ../jhbuild/commands/bot.py:99
+#: jhbuild/commands/bot.py:99
 msgid "exec a buildbot step (internal use only)"
 msgstr "executa un pas del buildbot (només d'us intern)"
 
-#: ../jhbuild/commands/bot.py:118
+#: jhbuild/commands/bot.py:115
 msgid "buildbot and twisted not found, run jhbuild bot --setup"
 msgstr ""
 "no s'han trobat ni el buildbot ni el twisted, executeu «jhbuild bot --setup»"
 
-#: ../jhbuild/commands/bot.py:294
+#: jhbuild/commands/bot.py:292
 #, python-format
 msgid "No description for slave %s."
 msgstr "L'esclau %s no té descripció."
 
 #. parse error
-#: ../jhbuild/commands/bot.py:299
+#: jhbuild/commands/bot.py:297
 #, python-format
 msgid "Failed to parse slave config for %s."
 msgstr "No s'ha pogut analitzar la configuració de l'esclau %s."
 
-#: ../jhbuild/commands/bot.py:806 ../jhbuild/commands/bot.py:814
+#: jhbuild/commands/bot.py:804 jhbuild/commands/bot.py:812
 msgid "failed to get buildbot PID"
 msgstr "no s'ha pogut obtenir l'identificador de procés (PID) del buildbot"
 
-#: ../jhbuild/commands/checkbranches.py:28
+#: jhbuild/commands/checkbranches.py:28
 msgid ""
 "Check modules in GNOME Git repository have the correct branch definition"
 msgstr ""
 "Verifica que els mòduls del repositori git del GNOME tenen la definició de "
 "branca correcta"
 
-#: ../jhbuild/commands/checkbranches.py:63
+#: jhbuild/commands/checkbranches.py:65
 #, python-format
 msgid "%(module)s is missing branch definition for %(branch)s"
 msgstr "al mòdul %(module)s li falta la definició de branca per %(branch)s"
 
-#: ../jhbuild/commands/checkmodulesets.py:30
-msgid "Check if modules in jhbuild have the correct definition"
+#: jhbuild/commands/checkmodulesets.py:30
+msgid "Check if modules in JHBuild have the correct definition"
 msgstr "Comprova si els mòduls del JHBuild estan ben definits"
 
-#: ../jhbuild/commands/checkmodulesets.py:42
+#: jhbuild/commands/checkmodulesets.py:43
 #, python-format
 msgid "%(module)s is unreachable (%(href)s)"
 msgstr "El mòdul %(module)s és inaccessible (%(href)s)"
 
-#: ../jhbuild/commands/checkmodulesets.py:45
+#: jhbuild/commands/checkmodulesets.py:46
 #, python-format
 msgid "Cannot check %(module)s (%(href)s)"
 msgstr "No es pot obtenir el mòdul %(module)s (%(href)s)"
 
-#: ../jhbuild/commands/clean.py:29
+#: jhbuild/commands/clean.py:29
 msgid "Clean all modules"
 msgstr "Neteja tots els mòduls"
 
-#: ../jhbuild/commands/gui.py:30
+#: jhbuild/commands/extdeps.py:70
+msgid "Report details on GNOME external dependencies"
+msgstr "Informa dels detalls de les dependències externes del GNOME"
+
+#: jhbuild/commands/extdeps.py:98
+msgid "External deps for GNOME"
+msgstr "Dependències externes del GNOME"
+
+#: jhbuild/commands/extdeps.py:104
+#, python-format
+msgid "External deps for GNOME %s"
+msgstr "Dependències externes del GNOME %s"
+
+#: jhbuild/commands/extdeps.py:138
+msgid "patched"
+msgstr " Apedaçat"
+
+#: jhbuild/commands/extdeps.py:142
+#, python-format
+msgid "and %d others."
+msgstr "i els altres %d."
+
+#: jhbuild/commands/goalreport.py:332
+msgid "Report GNOME modules status wrt various goals"
+msgstr ""
+"L'informe sobre l'estat dels mòduls del GNOME respecte a diversos objectius"
+
+#: jhbuild/commands/goalreport.py:355
+msgid "check to perform"
+msgstr "comproveu per realitzar"
+
+#: jhbuild/commands/gui.py:30
 msgid "Build targets from a GUI app"
 msgstr "Construeix els objectius des d'una aplicació gràfica"
 
-#: ../jhbuild/commands/info.py:37
+#: jhbuild/commands/info.py:38
 msgid "Display information about one or more modules"
 msgstr "Mostra informació sobre un o més mòduls"
 
-#: ../jhbuild/commands/info.py:52 ../jhbuild/commands/uninstall.py:42
+#: jhbuild/commands/info.py:47
+msgid ""
+"only display information for installed modules. This will not list system "
+"dependencies. If one or more module names are specified and at least one "
+"module is not installed, then the command will return 1."
+msgstr ""
+"Mostra només informació per als mòduls instal·lats. Això no llistarà les "
+"dependències del sistema. Si s’especifiquen un o més noms de mòduls i no "
+"s’ha instal·lat almenys un mòdul, llavors l’ordre tornarà 1."
+
+#: jhbuild/commands/info.py:64
 #, python-format
 msgid "unknown module %s"
 msgstr "es desconeix el mòdul %s"
 
-#: ../jhbuild/commands/info.py:61
+#: jhbuild/commands/info.py:86
 msgid "Name:"
 msgstr "Nom:"
 
-#: ../jhbuild/commands/info.py:62
+#: jhbuild/commands/info.py:87
 msgid "Module Set:"
 msgstr "Conjunt de mòduls:"
 
-#: ../jhbuild/commands/info.py:63
+#: jhbuild/commands/info.py:88
 msgid "Type:"
 msgstr "Tipus:"
 
-#: ../jhbuild/commands/info.py:66 ../jhbuild/commands/info.py:69
+#: jhbuild/commands/info.py:91 jhbuild/commands/info.py:95
+msgid "Install version:"
+msgstr "Instal·la la versió:"
+
+#: jhbuild/commands/info.py:92 jhbuild/commands/info.py:96
 msgid "Install date:"
 msgstr "Data d'instal·lació:"
 
-#: ../jhbuild/commands/info.py:69
+#: jhbuild/commands/info.py:95 jhbuild/commands/info.py:96
 msgid "not installed"
 msgstr "no instal·lat"
 
-#: ../jhbuild/commands/info.py:74
+#: jhbuild/commands/info.py:101
 msgid "CVS Root:"
 msgstr "Arrel CVS:"
 
-#: ../jhbuild/commands/info.py:75
+#: jhbuild/commands/info.py:102
 msgid "CVS Module:"
 msgstr "Mòdul CVS:"
 
-#: ../jhbuild/commands/info.py:77
+#: jhbuild/commands/info.py:104
 msgid "CVS Revision:"
 msgstr "Revisió CVS:"
 
-#: ../jhbuild/commands/info.py:79
+#: jhbuild/commands/info.py:106
 msgid "Subversion Module:"
 msgstr "Mòdul Subversion:"
 
-#: ../jhbuild/commands/info.py:81
-msgid "Arch Version:"
-msgstr "Versió de l'arxiu:"
-
-#: ../jhbuild/commands/info.py:83
+#: jhbuild/commands/info.py:108
 msgid "Darcs Archive:"
 msgstr "Arxiu Darcs:"
 
-#: ../jhbuild/commands/info.py:85
+#: jhbuild/commands/info.py:110
 msgid "Git Module:"
 msgstr "Mòdul git:"
 
-#: ../jhbuild/commands/info.py:87
+#: jhbuild/commands/info.py:112
 msgid "Git Origin Module:"
 msgstr "Mòdul origin git:"
 
-#: ../jhbuild/commands/info.py:91
+#: jhbuild/commands/info.py:116
 msgid "Git Branch:"
 msgstr "Branca git:"
 
-#: ../jhbuild/commands/info.py:93
+#: jhbuild/commands/info.py:118
 msgid "Git Tag:"
 msgstr "Etiqueta git:"
 
-#: ../jhbuild/commands/info.py:95
+#: jhbuild/commands/info.py:120
 msgid "URL:"
 msgstr "URL:"
 
-#: ../jhbuild/commands/info.py:96
+#: jhbuild/commands/info.py:121
 msgid "Version:"
 msgstr "Versió:"
 
-#: ../jhbuild/commands/info.py:99
+#: jhbuild/commands/info.py:124
 msgid "Tree-ID:"
 msgstr "Identificador de l'arbre:"
 
-#: ../jhbuild/commands/info.py:104
+#: jhbuild/commands/info.py:129
 msgid "Sourcedir:"
 msgstr "Carpeta del codi font:"
 
-#: ../jhbuild/commands/info.py:110
+#: jhbuild/commands/info.py:135
 msgid "Requires:"
 msgstr "Requereix:"
 
-#: ../jhbuild/commands/info.py:114
+#: jhbuild/commands/info.py:139
 msgid "Required by:"
 msgstr "Requerit per:"
 
-#: ../jhbuild/commands/info.py:116
+#: jhbuild/commands/info.py:141
 msgid "Suggests:"
 msgstr "Suggereix:"
 
-#: ../jhbuild/commands/info.py:118
+#: jhbuild/commands/info.py:143
 msgid "After:"
 msgstr "Després:"
 
-#: ../jhbuild/commands/info.py:122
+#: jhbuild/commands/info.py:147
 msgid "Before:"
 msgstr "Abans:"
 
-#: ../jhbuild/commands/__init__.py:80
+#: jhbuild/commands/__init__.py:92 jhbuild/commands/sysdeps.py:58
+#, python-format
+msgid "required=%s"
+msgstr "Requerit=%s"
+
+#: jhbuild/commands/__init__.py:94 jhbuild/commands/sysdeps.py:60
+#, python-format
+msgid "installed=%s"
+msgstr "instal·lat=%s"
+
+#. Translators: This is used to separate items of package metadata
+#: jhbuild/commands/__init__.py:96 jhbuild/commands/sysdeps.py:62
+msgid ", "
+msgstr ","
+
+#: jhbuild/commands/__init__.py:98 jhbuild/commands/sysdeps.py:64
+#, python-format
+msgid "(%s)"
+msgstr "(%s)"
+
+#: jhbuild/commands/__init__.py:102 jhbuild/commands/sysdeps.py:140
+msgid "Required packages:"
+msgstr "Paquets necessaris:"
+
+#: jhbuild/commands/__init__.py:103 jhbuild/commands/sysdeps.py:141
+#: jhbuild/commands/sysdeps.py:172
+msgid "  System installed packages which are too old:"
+msgstr "Pàquets de sistema instal·lats que són massa antics:"
+
+#: jhbuild/commands/__init__.py:113 jhbuild/commands/__init__.py:125
+#: jhbuild/commands/sysdeps.py:150 jhbuild/commands/sysdeps.py:166
+#: jhbuild/commands/sysdeps.py:181 jhbuild/commands/sysdeps.py:194
+msgid "    (none)"
+msgstr "(Cap)"
+
+#: jhbuild/commands/__init__.py:115 jhbuild/commands/sysdeps.py:152
+#: jhbuild/commands/sysdeps.py:183
+msgid "  No matching system package installed:"
+msgstr "No s’ha instal·lat cap paquet de sistema coincident:"
+
+#: jhbuild/commands/__init__.py:142
 msgid "JHBuild commands are:"
 msgstr "Les ordres del JHBuild són:"
 
-#: ../jhbuild/commands/__init__.py:86
+#: jhbuild/commands/__init__.py:148
 msgid "For more information run \"jhbuild <command> --help\""
 msgstr "Per a més informació executeu «jhbuild <ordre> --help»"
 
-#: ../jhbuild/commands/__init__.py:95
-msgid "Information about available jhbuild commands"
-msgstr "Informació sobre les ordres disponibles del jhbuild"
+#: jhbuild/commands/__init__.py:157
+msgid "Information about available JHBuild commands"
+msgstr "Informació sobre les ordres JHBuild disponibles"
 
-#: ../jhbuild/commands/__init__.py:118
-msgid "command not found"
-msgstr "no s'ha trobat l'ordre"
+#: jhbuild/commands/__init__.py:184
+#, python-format
+msgid "no such command (did you mean \"jhbuild build %s\"?)"
+msgstr "no hi ha cap ordre (volíeu dir «jhbuild build %s»?)"
 
-#: ../jhbuild/commands/rdepends.py:28
+#: jhbuild/commands/__init__.py:186
+#, python-format
+msgid "no such command (did you mean \"jhbuild run %s\"?)"
+msgstr "no hi ha cap ordre (volíeu dir «jhbuild run %s»?)"
+
+#: jhbuild/commands/make.py:33
+msgid "Compile and install the module for the current directory"
+msgstr "Compila i instal·la el mòdul al directori actual"
+
+#: jhbuild/commands/make.py:78
+#, python-format
+msgid "The current directory is not in the checkout root %r"
+msgstr ""
+"El directori actual no es troba al directori on es baixarà el codi font %r"
+
+#: jhbuild/commands/make.py:90
+#, python-format
+msgid "No module matching current directory %r in the moduleset"
+msgstr ""
+"No hi ha cap mòdul que coincideixi amb el directori actual  %r al conjunt de "
+"mòduls"
+
+#: jhbuild/commands/rdepends.py:28
 msgid "Display reverse-dependencies of a module"
 msgstr "Mostra les dependències inverses d'un mòdul"
 
-#: ../jhbuild/commands/rdepends.py:31
+#: jhbuild/commands/rdepends.py:31
 msgid "[ module ]"
 msgstr "[ mòdul ]"
 
-#: ../jhbuild/commands/rdepends.py:37
+#: jhbuild/commands/rdepends.py:37
 msgid "display dependency path next to modules"
 msgstr "mostra el camí de dependència al costat dels mòduls"
 
-#: ../jhbuild/commands/rdepends.py:40
+#: jhbuild/commands/rdepends.py:40
 msgid "limit display to modules directly depending on given module"
 msgstr ""
 "limita la visualització als mòduls que depenguin directament del mòdul donat"
 
-#: ../jhbuild/commands/sanitycheck.py:52
+#: jhbuild/commands/sanitycheck.py:46
 msgid "Check that required support tools are available"
 msgstr "Comprova que hi hagi les eines de suport necessàries"
 
-#: ../jhbuild/commands/sanitycheck.py:59
+#: jhbuild/commands/sanitycheck.py:53
 msgid "no extra arguments expected"
 msgstr "no s'esperaven arguments extres"
 
-#: ../jhbuild/commands/sanitycheck.py:64
+#: jhbuild/commands/sanitycheck.py:65
 #, python-format
 msgid "checkout root (%s) is not writable"
 msgstr "no es pot escriure a l'arrel d'on es baixarà el codi (%s)"
 
-#: ../jhbuild/commands/sanitycheck.py:67
+#: jhbuild/commands/sanitycheck.py:68
 #, python-format
 msgid "install prefix (%s) is not writable"
 msgstr "no es pot escriure a l'arrel d'on s'instal·larà el codi (%s)"
 
-#: ../jhbuild/commands/sanitycheck.py:72 ../jhbuild/commands/sanitycheck.py:75
-#: ../jhbuild/commands/sanitycheck.py:78 ../jhbuild/commands/sanitycheck.py:81
-#: ../jhbuild/commands/sanitycheck.py:84
-#: ../jhbuild/commands/sanitycheck.py:126
-#: ../jhbuild/commands/sanitycheck.py:130
-#: ../jhbuild/commands/sanitycheck.py:138
-#: ../jhbuild/commands/sanitycheck.py:147
-#: ../jhbuild/commands/sanitycheck.py:153
-#: ../jhbuild/commands/sanitycheck.py:155
-#: ../jhbuild/commands/sanitycheck.py:157
-#: ../jhbuild/versioncontrol/arch.py:155 ../jhbuild/versioncontrol/bzr.py:204
-#: ../jhbuild/versioncontrol/cvs.py:297 ../jhbuild/versioncontrol/darcs.py:108
-#: ../jhbuild/versioncontrol/fossil.py:105
-#: ../jhbuild/versioncontrol/git.py:442 ../jhbuild/versioncontrol/hg.py:101
-#: ../jhbuild/versioncontrol/mtn.py:140 ../jhbuild/versioncontrol/svn.py:311
+#: jhbuild/commands/sanitycheck.py:75 jhbuild/commands/sanitycheck.py:78
+#: jhbuild/commands/sanitycheck.py:81 jhbuild/commands/sanitycheck.py:85
+#: jhbuild/commands/sanitycheck.py:88 jhbuild/commands/sanitycheck.py:125
+#: jhbuild/commands/sanitycheck.py:134 jhbuild/commands/sanitycheck.py:140
+#: jhbuild/commands/sanitycheck.py:142 jhbuild/commands/sanitycheck.py:144
+#: jhbuild/commands/sanitycheck.py:150 jhbuild/commands/sanitycheck.py:154
+#: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:95
+#: jhbuild/versioncontrol/bzr.py:218 jhbuild/versioncontrol/cvs.py:304
+#: jhbuild/versioncontrol/darcs.py:110 jhbuild/versioncontrol/fossil.py:107
+#: jhbuild/versioncontrol/git.py:464 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:316
 #, python-format
 msgid "%s not found"
 msgstr "no s'ha trobat %s"
 
-#: ../jhbuild/commands/sanitycheck.py:93
+#: jhbuild/commands/sanitycheck.py:99
+msgid ""
+"Could not find XML catalog (usually part of the package 'libxml2-utils')"
+msgstr ""
+"No s'ha pogut trobar el catàleg XML (normalment forma part del paquet "
+"«libxml2-utils»)"
+
+#: jhbuild/commands/sanitycheck.py:109
+#, python-format
+msgid ""
+"Could not find %s in XML catalog (usually part of package 'docbook-xsl')"
+msgstr ""
+"No s'ha pogut trobar %s en el catàleg XML (normalment forma part del paquet "
+"«docbook-xsl»)"
+
+#: jhbuild/commands/sanitycheck.py:116
+#, python-format
+msgid ""
+"Could not find the Perl module %s (usually part of package 'libxml-parser-"
+"perl' or 'perl-XML-Parser')"
+msgstr ""
+"No s'ha pogut trobar %s en el mòdul Perl (normalment forma part del paquet "
+"«libxml-parser-perl« o «perl-XML-Parser»)"
+
+#: jhbuild/commands/sanitycheck.py:121
+msgid "curl or wget not found"
+msgstr "no s'ha trobat curl o wget"
+
+#: jhbuild/commands/sanitycheck.py:130
+msgid "Installed git program is not the right git"
+msgstr "El programa git instal·lat no és el correcte"
+
+#: jhbuild/commands/sanitycheck.py:136
+msgid "Could not check git program"
+msgstr "No s'ha pogut comprovar el programa git"
+
+#: jhbuild/commands/sanitycheck.py:164
 #, python-format
 msgid "aclocal can't see %s macros"
 msgstr "l'ordre «aclocal» no pot arribar a les macros %s"
 
-#: ../jhbuild/commands/sanitycheck.py:98
+#: jhbuild/commands/sanitycheck.py:169
 #, python-format
-msgid "Please copy the lacking macros (%s) in one of the following paths: %s"
-msgstr "Copieu les macros que falten (%s) a un dels camins següents: %s"
+msgid ""
+"Please copy the lacking macros (%(macros)s) in one of the following paths: "
+"%(path)s"
+msgstr ""
+"Copieu les macros que falten  (%(macros)s) a un dels camins següents: "
+"%(path)s"
 
-#: ../jhbuild/commands/sanitycheck.py:106
-msgid "Could not find XML catalog"
-msgstr "No s'ha pogut trobar el catàleg XML"
-
-#: ../jhbuild/commands/sanitycheck.py:115
-#, python-format
-msgid "Could not find %s in XML catalog"
-msgstr "No s'ha pogut trobar %s en el catàleg XML"
-
-#: ../jhbuild/commands/sanitycheck.py:122
-#, python-format
-msgid "Could not find the perl module %s"
-msgstr "No s'ha pogut trobar el mòdul de PERL %s"
-
-#: ../jhbuild/commands/sanitycheck.py:134
-#, python-format
-msgid "%s or %s not found"
-msgstr "no s'ha trobat %s o %s"
-
-#: ../jhbuild/commands/sanitycheck.py:143
-msgid "Installed git program is not the right git"
-msgstr "El programa git instal·lat no és el correcte"
-
-#: ../jhbuild/commands/sanitycheck.py:149
-msgid "Could not check git program"
-msgstr "No s'ha pogut comprovar el programa git"
-
-#: ../jhbuild/commands/snapshot.py:34
+#: jhbuild/commands/snapshot.py:34
 msgid "Print out a moduleset for the exact versions that are checked out"
 msgstr ""
 "Mostra un conjunt de mòduls amb les versions exactes que s'estan baixant"
 
-#: ../jhbuild/commands/tinderbox.py:28
+#: jhbuild/commands/sysdeps.py:35
+msgid "Check and install tarball dependencies using system packages"
+msgstr ""
+"Comproveu i instal·leu les dependències de l'arxiu tar mitjançant els "
+"paquets del sistema"
+
+#: jhbuild/commands/sysdeps.py:43
+msgid "Machine readable list of missing sysdeps"
+msgstr ""
+"Llista de màquines que es poden llegir de dependències de sistema perdudes"
+
+#: jhbuild/commands/sysdeps.py:46
+msgid "Machine readable list of all sysdeps"
+msgstr "Llista de màquines llegibles de totes les dependències de sistema"
+
+#: jhbuild/commands/sysdeps.py:49
+msgid "Install pkg-config modules via system"
+msgstr "S'estan instal·lant els mòduls pkg-config a través del sistema"
+
+#: jhbuild/commands/sysdeps.py:129
+msgid "System installed packages which are new enough:"
+msgstr "Paquets instal·lats del sistema que són prou nous:"
+
+#: jhbuild/commands/sysdeps.py:138
+msgid "  (none)"
+msgstr "(cap)"
+
+#: jhbuild/commands/sysdeps.py:171
+msgid "Optional packages: (JHBuild will build the missing packages)"
+msgstr "Paquets opcionals: (JHBuild construirà els paquets que falten)"
+
+#: jhbuild/commands/sysdeps.py:202
+#, python-format
+msgid ""
+"%(cmd)s is required to install packages on this system. Please install "
+"%(cmd)s."
+msgstr "Cal %(cmd)s per instal·lar paquets en el sistema. Instal·leu %(cmd)s."
+
+#: jhbuild/commands/sysdeps.py:207
+msgid "Don't know how to install packages on this system"
+msgstr "No sabeu com instal·lar paquets en aquest sistema"
+
+#: jhbuild/commands/sysdeps.py:210
+#, python-format
+msgid "No uninstalled system dependencies to install for modules: %r"
+msgstr ""
+"Dependències del sistema no instal·lades que cal per instal·lar el mòduls: %r"
+
+#: jhbuild/commands/sysdeps.py:212
+#, python-format
+msgid "Installing dependencies on system: %s"
+msgstr "S'estan instal·lant les dependències al sistema: %s"
+
+#: jhbuild/commands/tinderbox.py:29
 msgid "Build modules non-interactively and store build logs"
 msgstr "Construeix els mòduls en segon pla i desa els registres de construcció"
 
-#: ../jhbuild/commands/tinderbox.py:46
+#: jhbuild/commands/tinderbox.py:50
 msgid "directory to store build logs in"
 msgstr "directori on desar-hi els registres de construcció"
 
-#: ../jhbuild/commands/tinderbox.py:75
+#: jhbuild/commands/tinderbox.py:82
 msgid "output directory for tinderbox build not specified"
 msgstr ""
 "no s'ha especificat el directori de sortida de la construcció del tinderbox"
 
-#: ../jhbuild/commands/uninstall.py:29
+#: jhbuild/commands/twoninetynine.py:161
+msgid "Report GNOME modules status wrt 3.0 goals"
+msgstr "Informe de l'estat del mòduls GNOME respecte als objectius 3.0"
+
+#: jhbuild/commands/uninstall.py:31
 msgid "Uninstall all modules"
 msgstr "Desinstal·la tots els mòduls"
 
-#: ../jhbuild/frontends/autobuild.py:72
+#: jhbuild/commands/uninstall.py:48
+#, python-format
+msgid "unknown module %s and no default repository to try an automatic module"
+msgstr ""
+"mòdul desconegut %s i cap dipòsit predeterminat per provar un mòdul automàtic"
+
+#: jhbuild/commands/uninstall.py:64
+#, python-format
+msgid "Module %(mod)r is not installed"
+msgstr "El mòdul  %(mod)r no s'ha instal·lat"
+
+#: jhbuild/config.py:93
+#, python-format
+msgid "Invalid condition set modifier: '%s'.  Must start with '+' or '-'."
+msgstr ""
+"La condició del modificador del paràmetre «%s» és invàlida: Ha de començar "
+"amb «+» o «-»."
+
+#: jhbuild/config.py:116
+msgid "could not load config defaults"
+msgstr "no s'ha pogut carregar la configuració predeterminada"
+
+#: jhbuild/config.py:127
+#, python-format
+msgid "could not load config file, %s is missing"
+msgstr "no s'ha pogut carregar el fitxer de configuració, manca %s"
+
+#: jhbuild/config.py:133
+#, python-format
+msgid ""
+"The default location of the configuration file has changed. Please move "
+"%(old_path)s to %(new_path)s."
+msgstr ""
+"La ubicació per defecte del fitxer de configuració ha canviat. Moveu  "
+"%(old_path)s a %(new_path)s."
+
+#: jhbuild/config.py:192
+#, python-format
+msgid "Could not include config file (%s)"
+msgstr "No s'ha pogut incloure el fitxer de configuració (%s)"
+
+#: jhbuild/config.py:206
+msgid "could not load config file"
+msgstr "no s'ha pogut carregar el fitxer de configuració"
+
+#: jhbuild/config.py:220
+#, python-format
+msgid "unknown keys defined in configuration file: %s"
+msgstr "s'han definit claus desconegudes en el fitxer de configuració: %s"
+
+#: jhbuild/config.py:227
+#, python-format
+msgid ""
+"the \"%s\" configuration variable is deprecated, you should use "
+"\"repos['gnome.org']\"."
+msgstr ""
+"la variable de configuració «%s» és obsoleta, hauríeu d'utilitzar "
+"«repos['gnome.org']»."
+
+#: jhbuild/config.py:232 jhbuild/config.py:237
+#, python-format
+msgid ""
+"the \"%s\" configuration variable is deprecated, you should use \"repos\"."
+msgstr ""
+"la variable de configuració «%s» és obsoleta, hauríeu d'utilitzar «repos»."
+
+#: jhbuild/config.py:271
+msgid "invalid checkout mode"
+msgstr "el mode de baixada del codi font no és vàlid"
+
+#: jhbuild/config.py:275
+#, python-format
+msgid "invalid checkout mode (module: %s)"
+msgstr "el mode de baixada del codi font no és vàlid (mòdul: %s)"
+
+#: jhbuild/config.py:277
+msgid "copy mode requires copy_dir to be set"
+msgstr "el mode de còpia requereix que existeixi la variable «copy_dir»"
+
+#: jhbuild/config.py:282
+#, python-format
+msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
+msgstr ""
+"no s'ha trobat el directori de conjunts de mòduls (%s), s'ha inhabilitat "
+"«use_local_modulesets»"
+
+#: jhbuild/config.py:288 jhbuild/config.py:290 jhbuild/config.py:292
+#: jhbuild/config.py:294 jhbuild/config.py:297
+#, python-format
+msgid "%s must be an absolute path"
+msgstr "%s ha de ser un camí absolut"
+
+#: jhbuild/config.py:308
+#, python-format
+msgid "install prefix (%s) can not be created"
+msgstr "no es pot crear el prefix d'instal·lació (%s)"
+
+#: jhbuild/config.py:315
+#, python-format
+msgid "working directory (%s) can not be created"
+msgstr "no s'ha pogut crear el directori de treball (%s)"
+
+#: jhbuild/config.py:318
+msgid ""
+"Your install prefix contains a 'lib64' directory, which is no longer "
+"supported by jhbuild.  This is likely the result of a previous build with an "
+"older version of jhbuild or of a broken package.  Please consider removing "
+"your install and checkout directories and starting fresh."
+msgstr ""
+"El vostre prefix d’instal·lació conté un directori «lib64», que ja no és "
+"compatible amb jhbuild. És probable que sigui el resultat d’una construcció "
+"anterior amb una versió anterior de jhbuild o d’un paquet trencat. Penseu en "
+"esborrar els directoris d’instal·lació i de comprovació i començar de nou."
+
+#: jhbuild/config.py:396
+msgid "Failed to parse 'min_age' relative time"
+msgstr "No s'ha pogut analitzar el temps relatiu «min_age»"
+
+#: jhbuild/config.py:410
+msgid ""
+"quiet mode has been disabled because the Python curses module is missing."
+msgstr ""
+"s'ha inhabilitat el mode silenciós perquè manca el mòdul «curses» de Python."
+
+#: jhbuild.desktop.in.in:4
+msgid "GNOME Build Tool"
+msgstr "Eina de construcció del GNOME"
+
+#: jhbuild.desktop.in.in:5
+msgid "Build GNOME modules"
+msgstr "Construeix els mòduls del GNOME"
+
+#: jhbuild/frontends/autobuild.py:72
 #, python-format
 msgid "Server Error, retrying in %d seconds"
 msgstr ""
 "S'ha produït un error en el servidor, es tornarà a intentar en %d segons"
 
-#: ../jhbuild/frontends/autobuild.py:76
+#: jhbuild/frontends/autobuild.py:76
 msgid "Server Error, aborting"
 msgstr "S'ha produït un error en el servidor, s'avorta"
 
-#: ../jhbuild/frontends/autobuild.py:178
+#: jhbuild/frontends/autobuild.py:180
 #, python-format
 msgid "Error: %s"
 msgstr "Error: %s"
 
-#: ../jhbuild/frontends/autobuild.py:183 ../jhbuild/utils/cmds.py:66
+#: jhbuild/frontends/autobuild.py:185 jhbuild/utils/cmds.py:66
 #, python-format
 msgid "Error running %s"
 msgstr "S'ha produït un error en executar %s"
 
-#: ../jhbuild/frontends/autobuild.py:210
+#: jhbuild/frontends/autobuild.py:212
 msgid "ERROR: Wrong credentials, please check username/password"
 msgstr ""
 "Error: les credencials són incorrectes; verifiqueu l'usuari i contrasenya"
 
-#: ../jhbuild/frontends/autobuild.py:216
+#: jhbuild/frontends/autobuild.py:218
 #, python-format
 msgid "Starting Build #%s"
 msgstr "S'està iniciant la construcció #%s"
 
-#: ../jhbuild/frontends/autobuild.py:230
+#: jhbuild/frontends/autobuild.py:232
 #, python-format
 msgid "**** Starting module %s ****"
 msgstr "**** S'està iniciant el mòdul %s ****"
 
-#: ../jhbuild/frontends/buildscript.py:38
+#: jhbuild/frontends/buildscript.py:43
 #, python-format
 msgid "install prefix (%s) must be writable"
 msgstr "S'ha de poder escriure al directori d'instal·lació (%s)"
 
-#: ../jhbuild/frontends/buildscript.py:45
+#: jhbuild/frontends/buildscript.py:50
 #, python-format
 msgid "checkout root (%s) can not be created"
 msgstr "No s'ha pogut crear el directori on es baixarà el codi font (%s)"
 
-#: ../jhbuild/frontends/buildscript.py:47
+#: jhbuild/frontends/buildscript.py:52
 #, python-format
 msgid "checkout root (%s) must be writable"
 msgstr "s'ha de poder escriure al directori on es baixarà el codi font (%s)"
 
-#: ../jhbuild/frontends/buildscript.py:54
+#: jhbuild/frontends/buildscript.py:59
 #, python-format
 msgid "checkout copy dir (%s) can not be created"
 msgstr "no s'ha pogut crear el directori de còpia del codi font (%s)"
 
-#: ../jhbuild/frontends/buildscript.py:56
+#: jhbuild/frontends/buildscript.py:61
 #, python-format
 msgid "checkout copy dir (%s) must be writable"
 msgstr "s'ha de poder escriure al directori de còpia del codi font (%s)"
 
-#: ../jhbuild/frontends/buildscript.py:63
-#, python-format
-msgid "could not create directory %s"
-msgstr "no s'ha pogut crear el directori %s"
-
-#: ../jhbuild/frontends/buildscript.py:87
+#: jhbuild/frontends/buildscript.py:111
 #, python-format
 msgid "Skipping %s (installed recently)"
 msgstr "S'omet %s (s'ha instal·lat fa poc)"
 
-#: ../jhbuild/frontends/buildscript.py:96
+#: jhbuild/frontends/buildscript.py:120
 #, python-format
 msgid "module %(mod)s will be built even though %(dep)s failed"
 msgstr "es construirà el mòdul %(mod)s tot i que el mòdul %(dep)s hagi fallat"
 
-#: ../jhbuild/frontends/buildscript.py:99
+#: jhbuild/frontends/buildscript.py:123
 #, python-format
 msgid "module %(mod)s not built due to non buildable %(dep)s"
 msgstr ""
 "no es construirà el mòdul %(mod)s perquè no s'ha pogut construir el mòdul "
 "%(dep)s"
 
-#: ../jhbuild/frontends/gtkui.py:100
-msgid "Others..."
-msgstr "Altres..."
-
-#: ../jhbuild/frontends/gtkui.py:141
-msgid "Choose Module:"
-msgstr "Trieu el mòdul:"
-
-#: ../jhbuild/frontends/gtkui.py:161
-msgid "Build Progress"
-msgstr "Progrés de construcció"
-
-#: ../jhbuild/frontends/gtkui.py:164
-msgid "Terminal"
-msgstr "Terminal"
-
-#. Translators: This is a button label (to start build)
-#: ../jhbuild/frontends/gtkui.py:204
-msgid "Start"
-msgstr "Inicia"
-
-#: ../jhbuild/frontends/gtkui.py:348
-msgid "Build Completed"
-msgstr "S'ha completat la construcció"
-
-#: ../jhbuild/frontends/gtkui.py:374 ../jhbuild/frontends/terminal.py:255
+#: jhbuild/frontends/buildscript.py:242
 #, python-format
-msgid "Error during phase %(phase)s of %(module)s"
-msgstr "S'ha produït un error en la fase %(phase)s del mòdul %(module)s"
+msgid "Ignoring uninstalled package: %s"
+msgstr "S'està ignorant el paquet no instal·lat: %s"
 
-#: ../jhbuild/frontends/gtkui.py:391
-msgid "Pick an Action"
-msgstr "Trieu una acció"
-
-#: ../jhbuild/frontends/gtkui.py:394 ../jhbuild/frontends/terminal.py:282
+#: jhbuild/frontends/buildscript.py:261
 #, python-format
-msgid "Rerun phase %s"
-msgstr "Torna a executar la fase %s"
+msgid "Running post-installation trigger script: %r"
+msgstr "S'està executant el script disparador de postinstal·lació: %r"
 
-#: ../jhbuild/frontends/gtkui.py:397 ../jhbuild/frontends/terminal.py:284
-#, python-format
-msgid "Ignore error and continue to %s"
-msgstr "Ignora l'error i continua a %s"
-
-#: ../jhbuild/frontends/gtkui.py:400 ../jhbuild/frontends/terminal.py:286
-msgid "Ignore error and continue to next module"
-msgstr "Ignora l'error i continua amb el mòdul següent"
-
-#: ../jhbuild/frontends/gtkui.py:402 ../jhbuild/frontends/terminal.py:287
-msgid "Give up on module"
-msgstr "Abandona el mòdul"
-
-#: ../jhbuild/frontends/gtkui.py:409 ../jhbuild/frontends/terminal.py:296
-#, python-format
-msgid "Go to phase \"%s\""
-msgstr "Vés a la fase «%s»"
-
-#: ../jhbuild/frontends/gtkui.py:412
-msgid "Open Terminal"
-msgstr "Obra un terminal"
-
-#: ../jhbuild/frontends/gtkui.py:586
-#, python-format
-msgid "%(command)s died with signal %(rc)s"
-msgstr "s'ha finalitzat l'ordre %(command)s amb el senyal %(rc)s"
-
-#: ../jhbuild/frontends/gtkui.py:590
+#: jhbuild/frontends/buildscript.py:269 jhbuild/frontends/gtkui.py:596
 #, python-format
 msgid "%(command)s returned with an error code (%(rc)s)"
 msgstr "l'ordre %(command)s ha retornat amb el codi d'error (%(rc)s)"
 
-#: ../jhbuild/frontends/gtkui.py:640
+#: jhbuild/frontends/gtkui.py:99
+msgid "Others..."
+msgstr "Altres..."
+
+#: jhbuild/frontends/gtkui.py:140
+msgid "Choose Module:"
+msgstr "Trieu el mòdul:"
+
+#: jhbuild/frontends/gtkui.py:160
+msgid "Build Progress"
+msgstr "Progrés de construcció"
+
+#: jhbuild/frontends/gtkui.py:163
+msgid "Terminal"
+msgstr "Terminal"
+
+#. Translators: This is a button label (to start build)
+#: jhbuild/frontends/gtkui.py:203
+msgid "Start"
+msgstr "Inicia"
+
+#: jhbuild/frontends/gtkui.py:348
+msgid "Build Completed"
+msgstr "S'ha completat la construcció"
+
+#: jhbuild/frontends/gtkui.py:377 jhbuild/frontends/terminal.py:304
+#, python-format
+msgid "Error during phase %(phase)s of %(module)s"
+msgstr "S'ha produït un error en la fase %(phase)s del mòdul %(module)s"
+
+#: jhbuild/frontends/gtkui.py:394
+msgid "Pick an Action"
+msgstr "Trieu una acció"
+
+#: jhbuild/frontends/gtkui.py:397 jhbuild/frontends/terminal.py:331
+#, python-format
+msgid "Rerun phase %s"
+msgstr "Torna a executar la fase %s"
+
+#: jhbuild/frontends/gtkui.py:400 jhbuild/frontends/terminal.py:333
+#, python-format
+msgid "Ignore error and continue to %s"
+msgstr "Ignora l'error i continua a %s"
+
+#: jhbuild/frontends/gtkui.py:403 jhbuild/frontends/terminal.py:335
+msgid "Ignore error and continue to next module"
+msgstr "Ignora l'error i continua amb el mòdul següent"
+
+#: jhbuild/frontends/gtkui.py:405 jhbuild/frontends/terminal.py:336
+msgid "Give up on module"
+msgstr "Abandona el mòdul"
+
+#: jhbuild/frontends/gtkui.py:412 jhbuild/frontends/terminal.py:345
+#, python-format
+msgid "Go to phase \"%s\""
+msgstr "Vés a la fase «%s»"
+
+#: jhbuild/frontends/gtkui.py:415
+msgid "Open Terminal"
+msgstr "Obra un terminal"
+
+#: jhbuild/frontends/gtkui.py:591
+#, python-format
+msgid "%(command)s died with signal %(rc)s"
+msgstr "s'ha finalitzat l'ordre %(command)s amb el senyal %(rc)s"
+
+#: jhbuild/frontends/gtkui.py:646
 msgid "Module"
 msgstr "Mòdul"
 
-#: ../jhbuild/frontends/gtkui.py:659
+#: jhbuild/frontends/gtkui.py:665
 msgid "Start At"
 msgstr "Inicia a"
 
-#: ../jhbuild/frontends/gtkui.py:702
+#: jhbuild/frontends/gtkui.py:708
 msgid "Preferences"
 msgstr "Preferències"
 
-#: ../jhbuild/frontends/gtkui.py:714
+#: jhbuild/frontends/gtkui.py:720
 msgid "Disable network access"
 msgstr "Inhabilita l'accés a la xarxa"
 
-#: ../jhbuild/frontends/gtkui.py:715
+#: jhbuild/frontends/gtkui.py:721
 msgid "Always run autogen.sh"
 msgstr "Executa sempre l'autogen.sh"
 
-#: ../jhbuild/frontends/gtkui.py:716
+#: jhbuild/frontends/gtkui.py:722
 msgid "Don't poison modules on failure"
 msgstr "No contaminis els mòduls si fallen"
 
-#: ../jhbuild/frontends/terminal.py:211
+#: jhbuild/frontends/terminal.py:198 jhbuild/frontends/tinderbox.py:219
+#: jhbuild/frontends/tinderbox.py:348 jhbuild/frontends/tinderbox.py:403
+#, python-format
+msgid "%(configuration_variable)s invalid key %(key)s"
+msgstr "%(configuration_variable)s clau invàlida %(key)s"
+
+#: jhbuild/frontends/terminal.py:254
 msgid ""
 "\n"
 "Conflicts during checkout:\n"
@@ -843,264 +1212,556 @@ msgstr ""
 "Conflictes durant la baixada del codi:\n"
 
 #. it could happen on a really badly-timed ctrl-c (see bug 551641)
-#: ../jhbuild/frontends/terminal.py:234 ../jhbuild/frontends/terminal.py:237
+#: jhbuild/frontends/terminal.py:277 jhbuild/frontends/terminal.py:281
 #, python-format
 msgid "########## Error running %s"
 msgstr "########## S'ha produït un error en executar %s"
 
-#: ../jhbuild/frontends/terminal.py:246
+#: jhbuild/frontends/terminal.py:295
 msgid "success"
 msgstr "correcte"
 
-#: ../jhbuild/frontends/terminal.py:248
+#: jhbuild/frontends/terminal.py:297
 msgid "the following modules were not built"
 msgstr "no s'han construït els mòduls següents"
 
-#: ../jhbuild/frontends/terminal.py:270 ../jhbuild/frontends/tinderbox.py:349
+#: jhbuild/frontends/terminal.py:319 jhbuild/frontends/tinderbox.py:379
 msgid "automatically retrying configure"
 msgstr "es reintenta automàticament l'script de configuració"
 
-#: ../jhbuild/frontends/terminal.py:274 ../jhbuild/frontends/tinderbox.py:354
+#: jhbuild/frontends/terminal.py:323 jhbuild/frontends/tinderbox.py:384
 msgid "automatically forcing a fresh checkout"
 msgstr "s'està forçant a baixar-se el codi font de nou"
 
-#: ../jhbuild/frontends/terminal.py:288
+#: jhbuild/frontends/terminal.py:337
 msgid "Start shell"
 msgstr "Inicia un terminal"
 
-#: ../jhbuild/frontends/terminal.py:289
+#: jhbuild/frontends/terminal.py:338
 msgid "Reload configuration"
 msgstr "Recarrega la configuració"
 
-#: ../jhbuild/frontends/terminal.py:298
+#: jhbuild/frontends/terminal.py:347
 msgid "choice: "
 msgstr "elecció:"
 
-#: ../jhbuild/frontends/terminal.py:313
+#: jhbuild/frontends/terminal.py:371
 msgid "exit shell to continue with build"
 msgstr "sortiu del terminal per continuar ambla construcció"
 
-#: ../jhbuild/frontends/terminal.py:323
+#: jhbuild/frontends/terminal.py:386
 msgid "invalid choice"
 msgstr "elecció incorrecte"
 
-#: ../jhbuild/frontends/terminal.py:331
+#: jhbuild/frontends/terminal.py:394
 msgid "Type \"yes\" to confirm the action: "
 msgstr "Teclegeu «sí» per confirmar l'acció: "
 
-#: ../jhbuild/frontends/terminal.py:334
+#: jhbuild/frontends/terminal.py:399
 msgid "yes"
 msgstr "sí"
 
-#: ../jhbuild/modtypes/ant.py:60 ../jhbuild/modtypes/autotools.py:210
-#: ../jhbuild/modtypes/cmake.py:112 ../jhbuild/modtypes/distutils.py:59
-#: ../jhbuild/modtypes/linux.py:161 ../jhbuild/modtypes/perl.py:55
-#: ../jhbuild/modtypes/waf.py:94
-msgid "Building"
-msgstr "S'està construint"
+#: jhbuild/main.py:98
+msgid "You should not run jhbuild as root.\n"
+msgstr "No hauríeu d'executar el JHBuild com a usuari primari.\n"
 
-#: ../jhbuild/modtypes/ant.py:65
-msgid "Missing ant build tool"
-msgstr "Manca l'eina de construcció «ant»"
+#: jhbuild/main.py:106
+msgid "%prog [ -f config ] command [ options ... ]"
+msgstr "%prog [ -f configuració ] ordre [ opcions ... ]"
 
-#. Quoting David Schleef:
-#. "It's not clear to me how to install a typical
-#. ant-based project, so I left that out."
-#. -- http://bugzilla.gnome.org/show_bug.cgi?id=537037
-#: ../jhbuild/modtypes/ant.py:78 ../jhbuild/modtypes/autotools.py:264
-#: ../jhbuild/modtypes/cmake.py:130 ../jhbuild/modtypes/distutils.py:71
-#: ../jhbuild/modtypes/perl.py:69 ../jhbuild/modtypes/waf.py:129
-msgid "Installing"
-msgstr "S'està instal·lant"
+#: jhbuild/main.py:108
+msgid ""
+"Build a set of modules from diverse repositories in correct dependency order "
+"(such as GNOME)."
+msgstr ""
+"Construeix un conjunt de mòduls de diversos repositoris en l'ordre de "
+"dependències correcte (com a GNOME)."
 
-#: ../jhbuild/modtypes/autotools.py:107 ../jhbuild/modtypes/cmake.py:84
-#: ../jhbuild/modtypes/linux.py:116 ../jhbuild/modtypes/waf.py:76
+#: jhbuild/main.py:113
+msgid "Display this help and exit"
+msgstr "Mostra aquest missatge d'ajuda i surt"
+
+#: jhbuild/main.py:120
+msgid "use a non default configuration file"
+msgstr "utilitza un fitxer de configuració específic"
+
+#: jhbuild/main.py:123
+msgid "use a non default module set"
+msgstr "utilitza un conjunt de mòduls específic"
+
+#: jhbuild/main.py:126
+msgid "do not prompt for input"
+msgstr "no demanis res"
+
+#: jhbuild/main.py:129
+msgid "exit immediately when the build fails"
+msgstr "surt enseguida quan la construcció falli"
+
+#: jhbuild/main.py:132
+msgid "modify the condition set"
+msgstr "modifica el paràmetre condició"
+
+#: jhbuild/main.py:164
+msgid "Interrupted"
+msgstr "Interromput"
+
+#: jhbuild/main.py:167
+msgid "EOF"
+msgstr "EOF"
+
+#: jhbuild/modtypes/autotools.py:223 jhbuild/modtypes/cmake.py:82
+#: jhbuild/modtypes/linux.py:109 jhbuild/modtypes/meson.py:85
+#: jhbuild/modtypes/waf.py:76
 msgid "Configuring"
 msgstr "S'està configurant"
 
-#: ../jhbuild/modtypes/autotools.py:200 ../jhbuild/modtypes/cmake.py:103
-#: ../jhbuild/modtypes/linux.py:148 ../jhbuild/modtypes/waf.py:87
+#: jhbuild/modtypes/autotools.py:254 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/linux.py:141 jhbuild/modtypes/meson.py:124
+#: jhbuild/modtypes/waf.py:85
 msgid "Cleaning"
 msgstr "S'està netejant"
 
-#: ../jhbuild/modtypes/autotools.py:230 ../jhbuild/modtypes/waf.py:108
+#: jhbuild/modtypes/autotools.py:260 jhbuild/modtypes/cmake.py:123
+#: jhbuild/modtypes/distutils.py:58 jhbuild/modtypes/linux.py:154
+#: jhbuild/modtypes/meson.py:130 jhbuild/modtypes/perl.py:52
+#: jhbuild/modtypes/waf.py:93
+msgid "Building"
+msgstr "S'està construint"
+
+#: jhbuild/modtypes/autotools.py:291 jhbuild/modtypes/meson.py:137
+#: jhbuild/modtypes/waf.py:111
 msgid "Checking"
 msgstr "S'està comprovant"
 
-#: ../jhbuild/modtypes/autotools.py:244 ../jhbuild/modtypes/autotools.py:254
-#: ../jhbuild/modtypes/cmake.py:121 ../jhbuild/modtypes/waf.py:119
+#: jhbuild/modtypes/autotools.py:301 jhbuild/modtypes/cmake.py:133
+#: jhbuild/modtypes/meson.py:143 jhbuild/modtypes/waf.py:123
 msgid "Creating tarball for"
 msgstr "S'està creant un arxiu per"
 
-#: ../jhbuild/modtypes/autotools.py:276
+#: jhbuild/modtypes/autotools.py:307
+msgid "Dist checking"
+msgstr "S'està comprovant la distribució"
+
+#: jhbuild/modtypes/autotools.py:316
+msgid "Uninstalling old installed version"
+msgstr "S'està desinstal·lant una versió antiga"
+
+#: jhbuild/modtypes/autotools.py:319 jhbuild/modtypes/cmake.py:145
+#: jhbuild/modtypes/distutils.py:69 jhbuild/modtypes/meson.py:152
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:134
+msgid "Installing"
+msgstr "S'està instal·lant"
+
+#: jhbuild/modtypes/autotools.py:341
 msgid "Distcleaning"
 msgstr "S'està netejant la distribució"
 
-#: ../jhbuild/modtypes/autotools.py:293 ../jhbuild/modtypes/waf.py:136
-msgid "Uninstalling"
-msgstr "S'està desinstal·lant"
+#: jhbuild/modtypes/autotools.py:377
+#, python-format
+msgid "<%s/> tag must contain value=''"
+msgstr "L'etiqueta <%s/> ha de contindre el valor=\""
 
-#: ../jhbuild/modtypes/__init__.py:56
+#: jhbuild/modtypes/__init__.py:61
 #, python-format
 msgid "unknown module type %s"
 msgstr "es desconeix el tipus de mòdul %s"
 
-#: ../jhbuild/modtypes/__init__.py:72
+#: jhbuild/modtypes/__init__.py:78
 #, python-format
 msgid "dep node for module %s is missing package attribute"
 msgstr "al node de dependència del mòdul %s li manca l'atribut de paquet"
 
-#: ../jhbuild/modtypes/__init__.py:95
+#: jhbuild/modtypes/__init__.py:87 jhbuild/modtypes/__init__.py:94
+#, python-format
+msgid "%(node)s node for %(module)s module is missing %(attribute)s attribute"
+msgstr "al node %(node)s del mòdul %(module)s li manca l'atribut %(attribute)s"
+
+#: jhbuild/modtypes/__init__.py:143
 #, python-format
 msgid "no <branch> element found for %s"
 msgstr "no hi ha cap element <branch> per %s"
 
-#: ../jhbuild/modtypes/__init__.py:103
-#, python-format
-msgid "Repository=%s not found for module id=%s. Possible repositories are %s"
-msgstr ""
-"No s'ha trobat el repositori=%s per l'identificador del mòdul=%s. El "
-"repositoris possibles són %s"
-
-#: ../jhbuild/modtypes/__init__.py:110
+#: jhbuild/modtypes/__init__.py:152
 #, python-format
 msgid ""
-"Default Repository=%s not found for module id=%s. Possible repositories are "
-"%s"
+"Repository=%(missing)s not found for module id=%(module)s. Possible "
+"repositories are %(possible)s"
 msgstr ""
-"No s'ha trobat el repositori predeterminat=%s per l'identificador de mòdul="
-"%s. El repositoris possibles són %s"
+"No s'ha trobat el diposit=%(missing)s per l'identificador del mòdul="
+"%(module)s. El deposits possibles són %(possible)s"
 
-#: ../jhbuild/modtypes/__init__.py:192
+#: jhbuild/modtypes/__init__.py:159
+#, python-format
+msgid ""
+"No repository for module id=%(module)s. Either set branch/repo or default "
+"repository."
+msgstr ""
+"No hi ha diposit per a l'identificador del mòdul =%(module)s. Definiu la "
+"branca/repo o diposit per defecte."
+
+#: jhbuild/modtypes/__init__.py:228
+#, python-format
+msgid "Deleting .la file: %r"
+msgstr "S'està suprimint el fitxer .la: %r"
+
+#: jhbuild/modtypes/__init__.py:250
+#, python-format
+msgid "Deleting dir file: %r"
+msgstr "S'està suprimint el fitxer dir: %r"
+
+#: jhbuild/modtypes/__init__.py:321
+#, python-format
+msgid "Moving temporary DESTDIR %r into build prefix"
+msgstr "S'està movent temporalment DESTDIR %r a la construcció  prefix"
+
+#: jhbuild/modtypes/__init__.py:343
+#, python-format
+msgid ""
+"Files remaining in buildroot %(dest)r; module may have installed files "
+"outside of prefix."
+msgstr ""
+"Els fitxers que queden al buildroot %(dest)r; el mòdul pot tenir fitxers "
+"instal·lats fora del prefix."
+
+#: jhbuild/modtypes/__init__.py:361
+#, python-format
+msgid "Module failed to install into DESTDIR %(dest)r"
+msgstr "El mòdul ha fallat en instal·lar dins de DESTDIR %(dest)r"
+
+#: jhbuild/modtypes/__init__.py:377
+#, python-format
+msgid "%d files remaining from previous build"
+msgstr "queden %d fitxers de la construcció anterior"
+
+#: jhbuild/modtypes/__init__.py:380 jhbuild/utils/packagedb.py:226
+#, python-format
+msgid "Deleted: %(file)r"
+msgstr "Suprimit: %(file)r"
+
+#: jhbuild/modtypes/__init__.py:385
+#, python-format
+msgid "Failed to delete no longer installed file %(file)r: %(msg)s"
+msgstr ""
+"Error en esborrar el fitxer que ja no està instal·lat  %(file)r: %(msg)s"
+
+#: jhbuild/modtypes/__init__.py:393
+#, python-format
+msgid ""
+"Install encountered errors: %(num)d errors raised, %(files)d files copied. "
+"The errors are:\n"
+"  %(err)s"
+msgstr ""
+"Errors detectats en la instal·lació: %(num)d errors produïts,%(files)d "
+"fitxers copiats. Els errors són:\n"
+"  %(err)s"
+
+#: jhbuild/modtypes/__init__.py:400
+#, python-format
+msgid "Install complete: %d files copied"
+msgstr "Instal·lació completada: %d fitxers copiats"
+
+#: jhbuild/modtypes/__init__.py:448
 #, python-format
 msgid "Skipping %s (not updated)"
 msgstr "S'omet %s (no s'ha actualitzat)"
 
-#: ../jhbuild/modtypes/__init__.py:204
+#: jhbuild/modtypes/__init__.py:460
 #, python-format
 msgid "Skipping %s (package and dependencies not updated)"
 msgstr "S'omet %s (no s'ha actualitzat ni el paquet ni les seves dependències)"
 
-#: ../jhbuild/modtypes/__init__.py:256 ../jhbuild/modtypes/__init__.py:274
-#: ../jhbuild/modtypes/linux.py:85 ../jhbuild/modtypes/linux.py:92
+#: jhbuild/modtypes/__init__.py:550
+msgid "ninja not found; use NINJA to point to a specific ninja binary"
+msgstr ""
+"no s'ha trobat ninja; useu NINJA per apuntar a un binari especific ninja"
+
+#: jhbuild/modtypes/__init__.py:616 jhbuild/modtypes/__init__.py:642
+#: jhbuild/modtypes/linux.py:81 jhbuild/modtypes/linux.py:88
 msgid "Checking out"
 msgstr "S'està baixant el codi font"
 
-#: ../jhbuild/modtypes/__init__.py:260
+#: jhbuild/modtypes/__init__.py:620
 #, python-format
 msgid "source directory %s was not created"
 msgstr "no s'ha creat el directori pel codi font %s"
 
-#: ../jhbuild/modtypes/__init__.py:277
+#: jhbuild/modtypes/__init__.py:645
 msgid "wipe directory and start over"
 msgstr "suprimeix el directori i torna a iniciar"
 
-#: ../jhbuild/modtypes/linux.py:46
+#: jhbuild/modtypes/linux.py:45
 #, python-format
 msgid "kconfig file %s was not created"
 msgstr "no s'ha pogut crear el fitxer kconfig %s"
 
-#: ../jhbuild/modtypes/linux.py:100
+#: jhbuild/modtypes/linux.py:93
 msgid "make mrproper"
 msgstr "make mrproper"
 
-#: ../jhbuild/modtypes/linux.py:174
+#: jhbuild/modtypes/linux.py:167
 msgid "Installing kernel"
 msgstr "S'està instal·lant el nucli"
 
-#: ../jhbuild/modtypes/linux.py:192
+#: jhbuild/modtypes/linux.py:185
 msgid "Installing modules"
 msgstr "S'estan instal·lant els mòduls"
 
-#: ../jhbuild/modtypes/linux.py:207
+#: jhbuild/modtypes/linux.py:200
 msgid "Installing kernel headers"
 msgstr "S'està instal·lant les capçaleres del nucli"
 
-#: ../jhbuild/modtypes/linux.py:245
+#: jhbuild/modtypes/linux.py:240
 #, python-format
 msgid ""
-"Repository=%s not found for kconfig in linux id=%s. Possible repositories "
-"are %s"
+"Repository=%(missing)s not found for kconfig in linux id=%(linux_id)s. "
+"Possible repositories are %(possible)s"
 msgstr ""
-"No s'ha trobat el respositori=%s per la configuració kconfig de "
-"l'identificador de linux=%s. Els repositoris possibles són %s"
+"No s'ha trobat el respositori=%(missing)s per la configuració kconfig de "
+"l'identificador de linux=%(linux_id)s. Els repositoris possibles són "
+"%(possible)s"
 
-#: ../jhbuild/modtypes/linux.py:250
+#: jhbuild/modtypes/linux.py:246
 #, python-format
 msgid ""
-"Default Repository=%s not found for kconfig in module id=%s. Possible "
-"repositories are %s"
+"Default repository=%(missing)s not found for kconfig in linux id="
+"%(linux_id)s. Possible repositories are %(possible)s"
 msgstr ""
-"No s'ha trobat el respositori predeterminat=%s per la configuració kconfig "
-"de l'identificador de linux=%s. Els repositoris possibles són %s"
+"No s'ha trobat el respositori=%(missing)s per la configuració kconfig de "
+"l'identificador de linux=%(linux_id)s. Els repositoris possibles són "
+"%(possible)s"
 
-#: ../jhbuild/modtypes/tarball.py:68
+#: jhbuild/modtypes/tarball.py:68
 #, python-format
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "el mòdul '%(module)s té un atribut de mida no vàlid  («%(size)s»)"
 
-#: ../jhbuild/utils/cmds.py:40
+#: jhbuild/moduleset.py:34 jhbuild/utils/httpcache.py:46
+msgid "Python XML packages are required but could not be found"
+msgstr "Es necessiten els paquets d'XML de Python, però no s'han trobat"
+
+#: jhbuild/moduleset.py:95
+#, python-format
+msgid "fixed case of module '%(orig)s' to '%(new)s'"
+msgstr "s'ha arreglat la capitalització del mòdul «%(orig)s» a «%(new)s»"
+
+#: jhbuild/moduleset.py:134
+#, python-format
+msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
+msgstr ""
+"el mòdul %(module)s té una dependència a un mòdul «%(invalid)s» desconegut"
+
+#: jhbuild/moduleset.py:147
+#, python-format
+msgid "Circular dependencies detected: %s"
+msgstr "S'han detectat dependències circulars: %s"
+
+#: jhbuild/moduleset.py:298
+msgid "Unknown module:"
+msgstr "Mòdul desconegut:"
+
+#: jhbuild/moduleset.py:437
+msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
+msgstr "<if> ha de tenir exactament una condition-set='' o condition-unset=''"
+
+#: jhbuild/moduleset.py:456
+#, python-format
+msgid "could not download %s: %s"
+msgstr "no s'ha pogut baixar %s: %s"
+
+#: jhbuild/moduleset.py:461 jhbuild/moduleset.py:463
+#, python-format
+msgid "failed to parse %s: %s"
+msgstr "no s'ha pogut analitzar %s: %s"
+
+#: jhbuild/moduleset.py:498
+msgid "Duplicate repository:"
+msgstr "Repositori duplicat:"
+
+#: jhbuild/moduleset.py:601
+#, python-format
+msgid ""
+"Modulesets were edited locally but JHBuild is configured to get them from "
+"the network, perhaps you need to add use_local_modulesets = True to your %s."
+msgstr ""
+"S'han editat els conjunt de mòduls localment però el JHBuild està configurat "
+"per obtindre'ls des de la xarxa. Potser voleu afegir la línia "
+"«use_local_modulesets = True» al vostre %s."
+
+#: jhbuild/utils/cmds.py:40
 msgid "Call to undefined command"
 msgstr "S'ha cridat una ordre no definida"
 
-#: ../jhbuild/utils/httpcache.py:46 ../jhbuild/utils/packagedb.py:24
-#: ../jhbuild/moduleset.py:34
-msgid "Python xml packages are required but could not be found"
-msgstr "Es necessiten els paquets d'XML de Python, però no s'han trobat"
-
-#: ../jhbuild/utils/httpcache.py:184
+#: jhbuild/utils/httpcache.py:185
 msgid "file not in cache, but not allowed to check network"
 msgstr "El fitxer no està a la memòria cau i no es permet accedir a la xarxa"
 
-#: ../jhbuild/utils/unpack.py:144
+#: jhbuild/utils/packagedb.py:73
+#, python-format
+msgid "package %s has files with embedded new lines"
+msgstr "el paquet %s conté fitxers amb línies noves incrustades"
+
+#: jhbuild/utils/packagedb.py:213
+#, python-format
+msgid ""
+"no manifest for '%s', can't uninstall.  Try building again, then "
+"uninstalling."
+msgstr ""
+"no hi ha manifest per a «%s», no es pot desinstal·lar. Intenteu construir-lo "
+"de nou, llavors desinstal·leu-lo."
+
+#: jhbuild/utils/packagedb.py:230
+#, python-format
+msgid "Failed to delete %(file)r: %(msg)s"
+msgstr "Errada en suprimir  %(file)r: %(msg)s"
+
+#: jhbuild/utils/systeminstall.py:218
+msgid "No suitable root privilege command found; you should install \"pkexec\""
+msgstr ""
+"No s'ha trobat cap ordre amb privilegis d'administració adequats; haureu "
+"d’instal·lar «pkexec»"
+
+#: jhbuild/utils/systeminstall.py:247 jhbuild/utils/systeminstall.py:250
+#, python-format
+msgid "PackageKit: %s"
+msgstr "PackageKit: %s"
+
+#: jhbuild/utils/systeminstall.py:260
+msgid "Error: python-gobject package not found."
+msgstr "Error: el paquet python-gobject  no s'ha trobat."
+
+#: jhbuild/utils/systeminstall.py:266
+msgid "Error: dbus-python package not found."
+msgstr "Error: el paquet dbus-python  no s'ha trobat."
+
+#: jhbuild/utils/systeminstall.py:284
+msgid "Computing packages to install. This might be slow. Please wait."
+msgstr "Hi ha paquets de computació per instal·lar. Això pot anar lentament."
+
+#: jhbuild/utils/systeminstall.py:314
+msgid "Nothing available to install"
+msgstr "Res disponible per instal·lar"
+
+#: jhbuild/utils/systeminstall.py:317
+#, python-format
+msgid ""
+"Installing:\n"
+"  %s"
+msgstr ""
+"S'està instal·lant:\n"
+"  %s"
+
+#: jhbuild/utils/systeminstall.py:318
+msgid ""
+"This might take a very long time. Do not turn off your computer. You can run "
+"`pkmon' to monitor progress."
+msgstr ""
+"Això pot trigar molt de temps. No apaguis el teu ordinador. Podeu executar "
+"«pkmon» per supervisar el progrés."
+
+#: jhbuild/utils/systeminstall.py:324
+msgid "Complete!"
+msgstr "S'ha completat la construcció!"
+
+#: jhbuild/utils/systeminstall.py:337
+msgid "pkgfile not found, automatically installing"
+msgstr "No s'ha trobat pkgfile, s'instal·la automaticament"
+
+#: jhbuild/utils/systeminstall.py:339
+msgid "Failed to install pkgfile"
+msgstr "No s'ha pogut instal·lat pkgfile"
+
+#: jhbuild/utils/systeminstall.py:345
+msgid "pkgfile cache is old or doesn't exist, automatically updating"
+msgstr ""
+"la memòria cau de pkgfile és antiga o no existeix, s'actualitza de forma "
+"automàtica"
+
+#: jhbuild/utils/systeminstall.py:348
+msgid "Failed to create pkgfile cache"
+msgstr "Errada en crear la memòria cau de pkgfile"
+
+#: jhbuild/utils/systeminstall.py:351
+msgid "Failed to update pkgfile cache"
+msgstr "Errada en actualitzar la memòria cau de pkgfile"
+
+#: jhbuild/utils/systeminstall.py:353
+msgid "Successfully updated pkgfile cache"
+msgstr "S'ha actualitzat amb èxit la memòria cau de pkgfile"
+
+#: jhbuild/utils/systeminstall.py:358
+msgid "Using pacman to install packages.  Please wait."
+msgstr "S'està usant pacman per instal·lar paquets. Espereu."
+
+#: jhbuild/utils/systeminstall.py:362 jhbuild/utils/systeminstall.py:380
+#: jhbuild/utils/systeminstall.py:477
+msgid "Nothing to install"
+msgstr "Res per instal·lar"
+
+#: jhbuild/utils/systeminstall.py:377
+#, python-format
+msgid "Provider for \"%s\" was not found, ignoring"
+msgstr "N0 s'ha trobat el proveïdor «%s», s'ignora"
+
+#: jhbuild/utils/systeminstall.py:385
+msgid "Install failed"
+msgstr "Instal·lació fallida"
+
+#: jhbuild/utils/systeminstall.py:387
+msgid "Completed!"
+msgstr "Completada!"
+
+#: jhbuild/utils/systeminstall.py:434
+#, python-format
+msgid "No native package found for %(id)s (%(filename)s)"
+msgstr "No s'ha trobat cap paquet nadiu per %(id)s (%(filename)s)"
+
+#: jhbuild/utils/systeminstall.py:439
+#, python-format
+msgid "Installing: %(pkgs)s"
+msgstr "S'està instal·lant: %(pkgs)s"
+
+#: jhbuild/utils/systeminstall.py:445
+msgid ""
+"Using apt-file to search for providers; this may be extremely slow. Please "
+"wait. Patience!"
+msgstr ""
+"Utilitzeu apt-file per cercar proveïdors; això pot ser molt lent. Espereu. "
+"Paciència!"
+
+#: jhbuild/utils/trigger.py:57
+#, python-format
+msgid "No keys specified in trigger script %r"
+msgstr "No s'han especificat claus al script disparador %r"
+
+#: jhbuild/utils/unpack.py:145
 #, python-format
 msgid "Failed to unpack %s (unknown archive type)"
 msgstr "No s'ha pogut desempaquetar %s (es desconeix el tipus d'arxiu)"
 
-#: ../jhbuild/utils/unpack.py:146
+#: jhbuild/utils/unpack.py:147
 #, python-format
 msgid "Failed to unpack %s"
 msgstr "No s'ha pogut desempaquetar %s"
 
-#: ../jhbuild/utils/unpack.py:152
+#: jhbuild/utils/unpack.py:153
 #, python-format
 msgid "Failed to unpack %s (empty file?)"
 msgstr "No s'ha pogut desempaquetar %s (el fitxer és buit?)"
 
-#: ../jhbuild/versioncontrol/arch.py:40 ../jhbuild/versioncontrol/arch.py:83
+#: jhbuild/versioncontrol/bzr.py:74 jhbuild/versioncontrol/darcs.py:55
+#: jhbuild/versioncontrol/fossil.py:49 jhbuild/versioncontrol/hg.py:53
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:67
 #, python-format
-msgid "could not register archive %s"
-msgstr "no s'ha pogut registrar l'arxiu %s"
-
-#: ../jhbuild/versioncontrol/arch.py:80
-#, python-format
-msgid "archive %s not registered"
-msgstr "no s'ha registrat l'arxiu %s"
-
-#: ../jhbuild/versioncontrol/arch.py:92 ../jhbuild/versioncontrol/bzr.py:74
-#: ../jhbuild/versioncontrol/darcs.py:55
-#: ../jhbuild/versioncontrol/fossil.py:49 ../jhbuild/versioncontrol/hg.py:53
-#: ../jhbuild/versioncontrol/mtn.py:52 ../jhbuild/versioncontrol/tarball.py:67
-#, python-format
-msgid "branch for %s has wrong override, check your .jhbuildrc"
+msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
-"La branca %s té una sobreescriptura errònia, verifiqueu el fitxer .jhbuildrc"
+"La branca %(name)s té una sobreescriptura errònia, verifiqueu el fitxer "
+"%(filename)s"
 
-#: ../jhbuild/versioncontrol/arch.py:128 ../jhbuild/versioncontrol/arch.py:141
-#: ../jhbuild/versioncontrol/darcs.py:84 ../jhbuild/versioncontrol/darcs.py:90
-#: ../jhbuild/versioncontrol/fossil.py:82
-#: ../jhbuild/versioncontrol/fossil.py:95 ../jhbuild/versioncontrol/git.py:548
-#: ../jhbuild/versioncontrol/git.py:588 ../jhbuild/versioncontrol/git.py:664
-#: ../jhbuild/versioncontrol/hg.py:85 ../jhbuild/versioncontrol/hg.py:91
-msgid "date based checkout not yet supported\n"
-msgstr ""
-"encara no es pot utilitzar la baixada de codi font a partir d'una data\n"
-
-#: ../jhbuild/versioncontrol/bzr.py:117
+#: jhbuild/versioncontrol/bzr.py:122
 msgid "attribute is deprecated. Use revspec instead."
 msgstr "l'atribut és obsolet, utilitzeu l'atribut «revspec»."
 
-#: ../jhbuild/versioncontrol/bzr.py:173
+#: jhbuild/versioncontrol/bzr.py:178
 #, python-format
 msgid ""
 "\n"
@@ -1112,47 +1773,56 @@ msgstr ""
 "dvcs_mirror_dir.\n"
 "Suprimiu o canvieu el paràmetre dvcs_mirror_dir."
 
-#: ../jhbuild/versioncontrol/cvs.py:104
+#: jhbuild/versioncontrol/cvs.py:108
 #, python-format
 msgid "could not log into %s\n"
 msgstr "no s'ha pogut entrar a %s\n"
 
-#: ../jhbuild/versioncontrol/cvs.py:122
+#: jhbuild/versioncontrol/cvs.py:126
 #, python-format
 msgid "%s is not managed by CVS"
 msgstr "%s no està gestionat des de CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:274
+#: jhbuild/versioncontrol/cvs.py:281
 #, python-format
 msgid "\"%s\" does not appear to be a CVS working copy"
 msgstr "«%s» no sembla que sigui una còpia d'un repositori CVS"
 
-#: ../jhbuild/versioncontrol/cvs.py:277
+#: jhbuild/versioncontrol/cvs.py:284
 #, python-format
 msgid ""
 "working copy points at the wrong repository (expected %(root1)s but got "
 "%(root2)s). "
 msgstr ""
 "la còpia fa referència a un repositori equivocat (s'esperava %(root1)s però "
-"hi ha %(root2)s)."
+"hi ha %(root2)s). "
 
-#: ../jhbuild/versioncontrol/cvs.py:279
+#: jhbuild/versioncontrol/cvs.py:286
 msgid "Consider using the changecvsroot.py script to fix this."
 msgstr "Podeu utilitzar l'script changecvsroot.py per arreglar-ho."
 
-#: ../jhbuild/versioncontrol/git.py:111
-msgid "ignored bad branch redefinition for module:"
-msgstr "S'ha ignorat el canvi de branca mal especificat per al mòdul:"
+#: jhbuild/versioncontrol/darcs.py:86 jhbuild/versioncontrol/darcs.py:92
+#: jhbuild/versioncontrol/fossil.py:84 jhbuild/versioncontrol/fossil.py:97
+#: jhbuild/versioncontrol/git.py:574 jhbuild/versioncontrol/git.py:614
+#: jhbuild/versioncontrol/git.py:690 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/hg.py:96
+msgid "date based checkout not yet supported\n"
+msgstr ""
+"encara no es pot utilitzar la baixada de codi font a partir d'una data\n"
 
-#: ../jhbuild/versioncontrol/git.py:196
+#: jhbuild/versioncontrol/git.py:111
+msgid "ignored bad branch redefinition for module:"
+msgstr "S'ha ignorat el canvi de branca mal especificada per al mòdul:"
+
+#: jhbuild/versioncontrol/git.py:204
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Necessiteu el git-1.5.6 del juny de 2008 perquè funcioni"
 
-#: ../jhbuild/versioncontrol/git.py:210
+#: jhbuild/versioncontrol/git.py:218
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "No s'esperava: el directori del codi font no és un repositori git:"
 
-#: ../jhbuild/versioncontrol/git.py:266
+#: jhbuild/versioncontrol/git.py:275
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1161,21 +1831,21 @@ msgstr ""
 "No existeix la branca demanada «%s». Ni en local ni en el repositori remot "
 "«origin»."
 
-#: ../jhbuild/versioncontrol/git.py:274
+#: jhbuild/versioncontrol/git.py:283
 msgid "Refusing to switch a dirty tree."
 msgstr "No s'ha pogut canviar perquè l'arbre no està net."
 
-#: ../jhbuild/versioncontrol/git.py:350
+#: jhbuild/versioncontrol/git.py:361
 #, python-format
 msgid "Command %s returned no output"
 msgstr "L'ordre %s no ha retornat cap valor"
 
-#: ../jhbuild/versioncontrol/git.py:355
+#: jhbuild/versioncontrol/git.py:366
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "L'ordre %s no ha inclòs la línia de la confirmació: %r"
 
-#: ../jhbuild/versioncontrol/git.py:417
+#: jhbuild/versioncontrol/git.py:436
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1183,7 +1853,7 @@ msgstr ""
 "No s'ha pogut actualitzar el mòdul ja que s'ha canviat al git (hauríeu de "
 "comprovar els canvis i suprimir el directori)."
 
-#: ../jhbuild/versioncontrol/git.py:418
+#: jhbuild/versioncontrol/git.py:437
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1191,7 +1861,7 @@ msgstr ""
 "No s'ha pogut actualitzar el mòdul (manca el directori .git) (hauríeu de "
 "comprovar els canvis i suprimir el directori)."
 
-#: ../jhbuild/versioncontrol/git.py:515
+#: jhbuild/versioncontrol/git.py:541
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1199,352 +1869,247 @@ msgstr ""
 "S'ha produït un error de gestió extern\n"
 " Si teniu una versió menor al git-1.5.6 es recomana que l'actualitzeu.\n"
 
-#: ../jhbuild/versioncontrol/git.py:560
+#: jhbuild/versioncontrol/git.py:586
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
 "No s'ha pogut obtenir l'última revisió des de %s. Comproveu la ubicació del "
 "mòdul."
 
-#: ../jhbuild/versioncontrol/__init__.py:186
+#: jhbuild/versioncontrol/__init__.py:199
 #, python-format
 msgid "unknown repository type %s"
 msgstr "Es desconeix el tipus de repositori %s"
 
-#: ../jhbuild/versioncontrol/mtn.py:91
+#: jhbuild/versioncontrol/mtn.py:93
 #, python-format
 msgid "Initializing %s"
 msgstr "S'està inicialitzant %s"
 
-#: ../jhbuild/versioncontrol/mtn.py:99
+#: jhbuild/versioncontrol/mtn.py:101
 #, python-format
 msgid "Pulling branch %(branch)s from %(server)s"
 msgstr "S'està agafant la branca %(branch)s des de %(server)s"
 
-#: ../jhbuild/versioncontrol/mtn.py:117
+#: jhbuild/versioncontrol/mtn.py:119
 #, python-format
 msgid "branch %(branch)s has %(num)d heads"
 msgstr "la branca %(branch)s té %(num)d capçaleres"
 
-#: ../jhbuild/versioncontrol/mtn.py:123
+#: jhbuild/versioncontrol/mtn.py:125
 #, python-format
 msgid "Checking out branch '%(branch)s' to directory '%(dir)s'"
 msgstr "S'està baixant la branca «%(branch)s» al directori «%(dir)s»"
 
-#: ../jhbuild/versioncontrol/mtn.py:132
+#: jhbuild/versioncontrol/mtn.py:134
 #, python-format
 msgid "Updating working copy %s"
 msgstr "S'està actualitzant la còpia de treball %s"
 
-#: ../jhbuild/versioncontrol/svn.py:74
+#: jhbuild/versioncontrol/svn.py:74
 msgid "Getting SVN subdirs: this operation might be long..."
 msgstr ""
 "S'estan obtenint els subdirectoris SVN: aquesta operació pot durar força "
 "estona..."
 
-#: ../jhbuild/versioncontrol/svn.py:97
+#: jhbuild/versioncontrol/svn.py:97
 #, python-format
 msgid "could not get Subversion URI for %s"
 msgstr "no s'ha pogut obtenir l'URI de SVN per %s"
 
-#: ../jhbuild/versioncontrol/svn.py:100
+#: jhbuild/versioncontrol/svn.py:100
 #, python-format
 msgid "could not parse \"svn info\" output for %s"
 msgstr "no s'ha pogut analitzar la sortida de l'ordre «svn info» per %s"
 
-#: ../jhbuild/versioncontrol/svn.py:307
+#: jhbuild/versioncontrol/svn.py:312
 msgid "Error checking for conflicts"
 msgstr "S'ha produït un error en la comprovació de si hi ha conflictes"
 
-#: ../jhbuild/versioncontrol/tarball.py:85
+#: jhbuild/versioncontrol/tarball.py:93
 #, python-format
 msgid "branch for %s is not correct, check the moduleset file."
 msgstr ""
 "la branca de %s no és correcte, comproveu el fitxer del conjunt de mòduls."
 
-#: ../jhbuild/versioncontrol/tarball.py:121
+#: jhbuild/versioncontrol/tarball.py:133
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "L'URL no té cap part que especifiqui el nom de fitxer: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:164
+#: jhbuild/versioncontrol/tarball.py:176
 msgid "file not downloaded"
 msgstr "no s'ha baixat el fitxer"
 
-#: ../jhbuild/versioncontrol/tarball.py:169
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "la mida del fitxer baixar no és correcte (s'esperava %(size1)d però s'ha "
 "obtingut %(size2)d)"
 
-#: ../jhbuild/versioncontrol/tarball.py:175
+#: jhbuild/versioncontrol/tarball.py:187
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "l'atribut de suma de verificació no és vàlid al mòdul %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:188
+#: jhbuild/versioncontrol/tarball.py:200
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr ""
 "la suma de verificació del fitxer no és vàlida (s'esperava %(sum1)s i s'ha "
 "obtingut %(sum2)s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:191
+#: jhbuild/versioncontrol/tarball.py:203
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr ""
 "s'ha omès la comprovació de la suma de verificació (no hi ha cap programa "
 "per %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:200
-#, python-format
-msgid "tarball dir (%s) can not be created"
-msgstr "no s'ha pogut crear el directori per arxius (%s)"
-
-#: ../jhbuild/versioncontrol/tarball.py:202
+#: jhbuild/versioncontrol/tarball.py:207
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "s'ha de poder escriure al directori per arxius (%s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:220
+#: jhbuild/versioncontrol/tarball.py:219
 msgid "unable to find wget or curl"
 msgstr "no s'ha pogut trobar ni el wget ni el curl"
 
-#: ../jhbuild/versioncontrol/tarball.py:228
+#: jhbuild/versioncontrol/tarball.py:235
+#, python-format
+msgid "tarball dir (%s) can not be created"
+msgstr "no s'ha pogut crear el directori per arxius (%s)"
+
+#: jhbuild/versioncontrol/tarball.py:247
 #, python-format
 msgid "failed to unpack %s"
 msgstr "no s'ha pogut desempaquetar %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:231
+#: jhbuild/versioncontrol/tarball.py:250
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "no s'ha pogut desempaquetar l'arxiu (falta el directori %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:246
+#: jhbuild/versioncontrol/tarball.py:265
 #, python-format
 msgid "could not download patch (error: %s)"
 msgstr "no s'ha pogut baixar el pedaç (error: %s)"
 
-#: ../jhbuild/versioncontrol/tarball.py:248
+#: jhbuild/versioncontrol/tarball.py:267
 msgid "could not download patch"
 msgstr "no s'ha pogut baixar el pedaç"
 
-#: ../jhbuild/versioncontrol/tarball.py:280
+#: jhbuild/versioncontrol/tarball.py:299
 #, python-format
 msgid "Failed to find patch: %s"
 msgstr "S'ha produït un error en cercar-se el pedaç: %s"
 
-#: ../jhbuild/versioncontrol/tarball.py:282
+#: jhbuild/versioncontrol/tarball.py:301
 msgid "Applying patch"
 msgstr "S'està aplicant el pedaç"
 
-#: ../jhbuild/versioncontrol/tarball.py:290
+#: jhbuild/versioncontrol/tarball.py:309
 msgid "unable to find quilt"
 msgstr "no s'ha pogut trobar el quilt"
 
-#: ../jhbuild/versioncontrol/tarball.py:301
+#: jhbuild/versioncontrol/tarball.py:320
 msgid "could not checkout quilt patch set"
 msgstr "no s'ha pogut baixar el conjunt de pedaços del quilt"
 
-#: ../jhbuild/config.py:168
-msgid ""
-"JHBuild start script has been installed in ~/.local/bin/jhbuild, you should "
-"remove the old version that is still in ~/bin/ (or make it a symlink to ~/."
-"local/bin/jhbuild)"
-msgstr ""
-"L'script d'inicialització del JHBuild s'ha instal·lat a ~/.local/bin/"
-"jhbuild, hauríeu de suprimir la versió antiga que encara hi ha a ~/bin/ (o "
-"fer un enllaç simbòlic a ~/.local/bin/jhbuild)"
+#~ msgid ""
+#~ "bootstrap moduleset has been updated since the last time you used it, "
+#~ "perhaps you should run jhbuild bootstrap."
+#~ msgstr ""
+#~ "S'ha actualitzat el conjunt de mòduls d'arrencada des de l'última vegada "
+#~ "que el veu utilitzar, hauríeu d'executar «jhbuild bootstrap»."
 
-#: ../jhbuild/config.py:180
-msgid ""
-"Obsolete JHBuild start script, make sure it is removed then do run 'make "
-"install'"
-msgstr ""
-"L'script d'inicialització del JHBuild és obsolet, assegureu-vos de suprimir-"
-"lo i després executeu l'ordre «make install»"
+#~ msgid ""
+#~ "some bootstrap modules have been updated, perhaps you should update them: "
+#~ "%s."
+#~ msgstr ""
+#~ "s'han actualitzat alguns mòduls d'arrencada, hauríeu d'actualitzar-los: "
+#~ "%s."
 
-#: ../jhbuild/config.py:188
-msgid "could not load config defaults"
-msgstr "no s'ha pogut carregar la configuració predeterminada"
+#~ msgid "do not use system installed modules"
+#~ msgstr "no utilitzis els mòduls instal·lats del sistema"
 
-#: ../jhbuild/config.py:192
-#, python-format
-msgid "could not load config file, %s is missing"
-msgstr "no s'ha pogut carregar el fitxer de configuració, manca %s"
+#~ msgid ""
+#~ "some modules (%s) were automatically ignored as a sufficient enough "
+#~ "version was found installed on your system. Use --ignore-system if you "
+#~ "want to build them nevertheless."
+#~ msgstr ""
+#~ "s'han ignorat automàticament alguns mòduls (%s) ja que hi ha una versió "
+#~ "prou recent en el sistema. Utilitzeu «--ignore-system» si els voleu "
+#~ "construir igualment."
 
-#: ../jhbuild/config.py:208
-#, python-format
-msgid "Could not include config file (%s)"
-msgstr "No s'ha pogut incloure el fitxer de configuració (%s)"
+#~ msgid "Arch Version:"
+#~ msgstr "Versió de l'arxiu:"
 
-#: ../jhbuild/config.py:221
-msgid "could not load config file"
-msgstr "no s'ha pogut carregar el fitxer de configuració"
+#~ msgid "command not found"
+#~ msgstr "no s'ha trobat l'ordre"
 
-#: ../jhbuild/config.py:235
-#, python-format
-msgid "unknown keys defined in configuration file: %s"
-msgstr "s'han definit claus desconegudes en el fitxer de configuració: %s"
+#~ msgid "Could not find XML catalog"
+#~ msgstr "No s'ha pogut trobar el catàleg XML"
 
-#: ../jhbuild/config.py:242
-#, python-format
-msgid ""
-"the \"%s\" configuration variable is deprecated, you should use \"repos"
-"['gnome.org']\"."
-msgstr ""
-"la variable de configuració «%s» és obsoleta, hauríeu d'utilitzar «repos"
-"['gnome.org']»."
+#~ msgid "Could not find the perl module %s"
+#~ msgstr "No s'ha pogut trobar el mòdul de PERL %s"
 
-#: ../jhbuild/config.py:247 ../jhbuild/config.py:252
-#, python-format
-msgid ""
-"the \"%s\" configuration variable is deprecated, you should use \"repos\"."
-msgstr ""
-"la variable de configuració «%s» és obsoleta, hauríeu d'utilitzar «repos»."
+#~ msgid "could not create directory %s"
+#~ msgstr "no s'ha pogut crear el directori %s"
 
-#: ../jhbuild/config.py:273
-msgid "invalid checkout mode"
-msgstr "el mode de baixada del codi font no és vàlid"
+#~ msgid "Missing ant build tool"
+#~ msgstr "Manca l'eina de construcció «ant»"
 
-#: ../jhbuild/config.py:277
-#, python-format
-msgid "invalid checkout mode (module: %s)"
-msgstr "el mode de baixada del codi font no és vàlid (mòdul: %s)"
+#~ msgid "Uninstalling"
+#~ msgstr "S'està desinstal·lant"
 
-#: ../jhbuild/config.py:279
-msgid "copy mode requires copy_dir to be set"
-msgstr "el mode de còpia requereix que existeixi la variable «copy_dir»"
+#~ msgid ""
+#~ "Default Repository=%s not found for module id=%s. Possible repositories "
+#~ "are %s"
+#~ msgstr ""
+#~ "No s'ha trobat el repositori predeterminat=%s per l'identificador de "
+#~ "mòdul=%s. El repositoris possibles són %s"
 
-#: ../jhbuild/config.py:284
-#, python-format
-msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
-msgstr ""
-"no s'ha trobat el directori de conjunts de mòduls (%s), s'ha inhabilitat "
-"«use_local_modulesets»"
+#~ msgid "could not register archive %s"
+#~ msgstr "no s'ha pogut registrar l'arxiu %s"
 
-#: ../jhbuild/config.py:296
-#, python-format
-msgid "install prefix (%s) can not be created"
-msgstr "no es pot crear el prefix d'instal·lació (%s)"
+#~ msgid "archive %s not registered"
+#~ msgstr "no s'ha registrat l'arxiu %s"
 
-#: ../jhbuild/config.py:388
-#, python-format
-msgid "Can't create %s directory"
-msgstr "No s'ha pogut crear el directori %s"
+#~ msgid ""
+#~ "JHBuild start script has been installed in ~/.local/bin/jhbuild, you "
+#~ "should remove the old version that is still in ~/bin/ (or make it a "
+#~ "symlink to ~/.local/bin/jhbuild)"
+#~ msgstr ""
+#~ "L'script d'inicialització del JHBuild s'ha instal·lat a ~/.local/bin/"
+#~ "jhbuild, hauríeu de suprimir la versió antiga que encara hi ha a ~/bin/ "
+#~ "(o fer un enllaç simbòlic a ~/.local/bin/jhbuild)"
 
-#: ../jhbuild/config.py:472
-#, python-format
-msgid "Could not create GConf config (%s)"
-msgstr "No s'ha pogut crear la configuració al GConf (%s)"
+#~ msgid ""
+#~ "Obsolete JHBuild start script, make sure it is removed then do run 'make "
+#~ "install'"
+#~ msgstr ""
+#~ "L'script d'inicialització del JHBuild és obsolet, assegureu-vos de "
+#~ "suprimir-lo i després executeu l'ordre «make install»"
 
-#: ../jhbuild/config.py:559
-msgid "Failed to parse 'min_age' relative time"
-msgstr "No s'ha pogut analitzar el temps relatiu «min_age»"
+#~ msgid "Can't create %s directory"
+#~ msgstr "No s'ha pogut crear el directori %s"
 
-#: ../jhbuild/config.py:569
-msgid ""
-"quiet mode has been disabled because the Python curses module is missing."
-msgstr ""
-"s'ha inhabilitat el mode silenciós perquè manca el mòdul «curses» de Python."
+#~ msgid "Could not create GConf config (%s)"
+#~ msgstr "No s'ha pogut crear la configuració al GConf (%s)"
 
-#: ../jhbuild/main.py:98
-msgid "You should not run jhbuild as root.\n"
-msgstr "No hauríeu d'executar el JHBuild com a usuari primari.\n"
+#~ msgid "module \"%s\" not found"
+#~ msgstr "no s'ha trobat el mòdul «%s»"
 
-#: ../jhbuild/main.py:106
-msgid "%prog [ -f config ] command [ options ... ]"
-msgstr "%prog [ -f configuració ] ordre [ opcions ... ]"
+#~ msgid "Invalid placeholder in string: line %d, col %d"
+#~ msgstr "Hi ha un espai variable erroni en la cadena: línia %d, columna %d"
 
-#: ../jhbuild/main.py:108
-msgid ""
-"Build a set of modules from diverse repositories in correct dependency order "
-"(such as GNOME)."
-msgstr ""
-"Construeix un conjunt de mòduls de diversos repositoris en l'ordre de "
-"dependències correcte (com a GNOME)."
+#~ msgid "Too many positional arguments"
+#~ msgstr "Hi ha massa arguments posicionals"
 
-#: ../jhbuild/main.py:112
-msgid "Display this help and exit"
-msgstr "Mostra aquest missatge d'ajuda i surt"
-
-#: ../jhbuild/main.py:119
-msgid "use a non default configuration file"
-msgstr "utilitza un fitxer de configuració específic"
-
-#: ../jhbuild/main.py:122
-msgid "use a non default module set"
-msgstr "utilitza un conjunt de mòduls específic"
-
-#: ../jhbuild/main.py:125
-msgid "do not prompt for input"
-msgstr "no demanis res"
-
-#: ../jhbuild/main.py:156
-msgid "Interrupted"
-msgstr "Interromput"
-
-#: ../jhbuild/main.py:159
-msgid "EOF"
-msgstr "EOF"
-
-#: ../jhbuild/moduleset.py:63
-#, python-format
-msgid "fixed case of module '%(orig)s' to '%(new)s'"
-msgstr "s'ha arreglat la capitalització del mòdul «%(orig)s» a «%(new)s»"
-
-#: ../jhbuild/moduleset.py:78
-#, python-format
-msgid "module \"%s\" not found"
-msgstr "no s'ha trobat el mòdul «%s»"
-
-#: ../jhbuild/moduleset.py:93 ../jhbuild/moduleset.py:97
-#, python-format
-msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
-msgstr ""
-"el mòdul %(module)s té una dependència a un mòdul «%(invalid)s» desconegut"
-
-#: ../jhbuild/moduleset.py:251
-msgid "Unknown module:"
-msgstr "Mòdul desconegut:"
-
-#: ../jhbuild/moduleset.py:320 ../jhbuild/moduleset.py:350
-#, python-format
-msgid "failed to parse %s: %s"
-msgstr "no s'ha pogut analitzar %s: %s"
-
-#: ../jhbuild/moduleset.py:345
-#, python-format
-msgid "could not download %s: %s"
-msgstr "no s'ha pogut baixar %s: %s"
-
-#: ../jhbuild/moduleset.py:377
-msgid "Duplicate repository:"
-msgstr "Repositori duplicat:"
-
-#: ../jhbuild/moduleset.py:481
-msgid ""
-"Modulesets were edited locally but JHBuild is configured to get them from "
-"the network, perhaps you need to add use_local_modulesets = True to your ."
-"jhbuildrc."
-msgstr ""
-"S'han editat els conjunt de mòduls localment però el JHBuild està configurat "
-"per obtindre'ls des de la xarxa. Potser voleu afegir la línia "
-"«use_local_modulesets = True» al vostre .jhbuildrc"
-
-#: ../jhbuild/monkeypatch.py:102
-#, python-format
-msgid "Invalid placeholder in string: line %d, col %d"
-msgstr "Hi ha un espai variable erroni en la cadena: línia %d, columna %d"
-
-#: ../jhbuild/monkeypatch.py:107 ../jhbuild/monkeypatch.py:133
-msgid "Too many positional arguments"
-msgstr "Hi ha massa arguments posicionals"
-
-#: ../jhbuild/monkeypatch.py:127 ../jhbuild/monkeypatch.py:160
-msgid "Unrecognized named group in pattern"
-msgstr "No s'ha reconegut cap nom de grup en el patró"
+#~ msgid "Unrecognized named group in pattern"
+#~ msgstr "No s'ha reconegut cap nom de grup en el patró"
 
 #~ msgid "unable to parse '%s' as relative time."
 #~ msgstr "no s'ha pogut analitzar «%s» com a temps relatiu."
