@@ -878,7 +878,7 @@
     </suggests>
   </meson>
 
-  <meson id="gtk+" mesonargs="-Dbroadway-backend=true">
+  <meson id="gtk4" mesonargs="-Dbroadway-backend=true">
     <if condition-set="x11">
       <mesonargs value="-Dx11-backend=true"/>
     </if>
@@ -897,7 +897,7 @@
     <if condition-unset="quartz">
       <mesonargs value="-Dquartz-backend=false"/>
     </if>
-    <branch repo="gitlab.gnome.org" checkoutdir="gtk+" module="GNOME/gtk.git"/>
+    <branch repo="gitlab.gnome.org" checkoutdir="gtk" module="GNOME/gtk.git"/>
     <dependencies>
       <dep package="atk"/>
       <dep package="glib"/>
@@ -1046,7 +1046,7 @@
     <dependencies>
       <dep package="cairomm"/>
       <dep package="pangomm"/>
-      <dep package="gtk+"/>
+      <dep package="gtk4"/>
       <dep package="glib"/>
     </dependencies>
   </meson>
@@ -1067,7 +1067,7 @@
     <dependencies>
       <dep package="libxml2"/>
       <dep package="shared-mime-info"/>
-      <dep package="gtk+"/>
+      <dep package="gtk4"/>
     </dependencies>
   </meson>
 
