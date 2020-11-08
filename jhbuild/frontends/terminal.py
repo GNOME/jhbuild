@@ -146,7 +146,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             progress = 1
 
         columns = curses.tigetnum('cols')
-        width = columns / 2
+        width = int(columns / 2)
         num_hashes = int(round(progress * width))
         progress_bar = '[' + (num_hashes * '=') + ((width - num_hashes) * '-') + ']'
 
