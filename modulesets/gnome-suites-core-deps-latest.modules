@@ -1915,17 +1915,17 @@
     </suggests>
   </autotools>
 
-  <distutils id="pycairo" python3="1">
+  <meson id="pycairo">
     <branch repo="github.com"
             module="pygobject/pycairo.git"
             checkoutdir="pycairo-python3"/>
     <dependencies>
       <dep package="python3-devel"/>
+      <dep package="cairo"/>
     </dependencies>
-  </distutils>
+  </meson>
 
-  <!-- Python 3 build of pygobject -->
-  <distutils id="pygobject" python3="1">
+  <meson id="pygobject">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -1933,7 +1933,7 @@
       <dep package="python3-devel"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </distutils>
+  </meson>
 
   <autotools id="sound-theme-freedesktop">
     <branch repo="people.freedesktop.org"
