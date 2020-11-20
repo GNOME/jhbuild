@@ -1078,7 +1078,7 @@
     </dependencies>
   </meson>
 
-  <autotools id="libgudev" autogenargs="--disable-umockdev">
+  <meson id="libgudev" mesonargs="-Dtests=disabled">
     <branch />
     <dependencies>
       <dep package="glib"/>
@@ -1086,7 +1086,7 @@
     <suggests>
       <dep package="gobject-introspection"/>
     </suggests>
-  </autotools>
+  </meson>
 
   <meson id="gupnp"
              mesonargs="-Dcontext_manager=network-manager">
