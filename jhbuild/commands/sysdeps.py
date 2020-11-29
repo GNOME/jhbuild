@@ -54,7 +54,7 @@ class cmd_sysdeps(cmd_build):
                         action="store_true", default = False,
                         dest="assume_yes",
                         help=_('assume yes/the default answer to interactive questions during installation of system '
-                               + 'dependencies"'))])
+                               + 'dependencies'))])
 
     def run(self, config, options, args, help=None):
 
