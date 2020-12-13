@@ -3,7 +3,7 @@ stages:
   - deploy
 
 test-py3:
-  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v4
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v5
   script:
     # autotools install
     - mkdir _build && cd _build
@@ -26,8 +26,8 @@ test-py3:
     paths:
       - public
 
-ub19.04-py3-glib:
-  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v4
+ub20.04-py3-glib:
+  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v5
   script:
     - ./autogen.sh --with-python=python3
     - make
