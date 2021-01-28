@@ -1669,7 +1669,7 @@
     </suggests>
   </meson>
 
-  <autotools id="libvirt-glib" autogenargs="--enable-werror=no">
+  <meson id="libvirt-glib" mesonargs="-Dgit_werror=disabled">
     <branch repo="github.com"
             checkoutdir="libvirt"
             module="libvirt/libvirt-glib.git"/>
@@ -1679,7 +1679,7 @@
       <dep package="libvirt"/>
       <dep package="vala"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="libwacom">
     <branch repo="github.com"
