@@ -1763,6 +1763,19 @@
     </branch>
   </distutils>
 
+  <distutils id="python3-lxml" python3="1">
+    <branch repo="pypi.org"
+            version="4.6.2"
+            module="l/lxml/lxml-${version}.tar.gz"
+            checkoutdir="python3-lxml-${version}"
+            hash="sha256:cd11c7e8d21af997ee8079037fff88f16fda188a9776eb4b81c7e4c9c0a7d7fc">
+    </branch>
+    <dependencies>
+      <dep package="python3-setuptools"/>
+      <dep package="python3-devel"/>
+    </dependencies>
+  </distutils>
+
   <distutils id="python3-markdown" python3="1">
     <branch repo="pypi.org"
             version="3.2.2"
@@ -2330,6 +2343,7 @@
       <dep package="itstool"/>
       <dep package="xmllint"/>
       <dep package="xsltproc"/>
+      <dep package="python3-lxml"/>
     </dependencies>
   </meson>
 
