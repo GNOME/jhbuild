@@ -96,7 +96,7 @@ class cmd_sanitycheck(Command):
                 try:
                     get_output(['xmlcatalog', '/etc/xml/catalog', item])
                 except CommandError:
-                    uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\')') % name)
+                    uprint(_('Could not find %s in XML catalog (usually part of package \'docbook-xsl\' or \'docbook5-style-xsl\')') % name)
 
         # Perl module used by tools such as intltool:
         perlmod = 'XML::Parser'

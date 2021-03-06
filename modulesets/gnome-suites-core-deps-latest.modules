@@ -1011,7 +1011,12 @@
       <dep package="libtool"/>
       <dep package="gettext"/>
       <dep package="docbook-xml"/>
-      <dep package="docbook-xsl"/>
+      <if condition-set="fedora">
+        <dep package="docbook5-style-xsl"/>
+      </if>
+      <if condition-unset="fedora">
+        <dep package="docbook-xsl"/>
+      </if>
       <dep package="python3-pygments"/>
       <dep package="python3-devel"/>
       <dep package="cc"/>
@@ -1511,7 +1516,12 @@
       <dep package="glib"/>
       <dep package="gtk+-3"/>
       <dep package="gobject-introspection"/>
-      <dep package="docbook-xsl"/>
+      <if condition-set="fedora">
+        <dep package="docbook5-style-xsl"/>
+      </if>
+      <if condition-unset="fedora">
+        <dep package="docbook-xsl"/>
+      </if>
       <dep package="docbook-xml"/>
       <dep package="xsltproc"/>
     </dependencies>
