@@ -1669,6 +1669,23 @@
     </suggests>
   </meson>
 
+  <meson id="libsoup3" mesonargs="-Dtls_check=false -Dvapi=enabled">
+    <branch module="libsoup.git"
+            checkoutdir="libsoup3"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libxml2"/>
+      <dep package="libpsl"/>
+      <dep package="sqlite3"/>
+      <dep package="gobject-introspection"/>
+      <dep package="vala"/>
+      <dep package="brotli"/>
+    </dependencies>
+    <suggests>
+      <dep package="glib-networking"/>
+    </suggests>
+  </meson>
+
   <meson id="libvirt-glib" mesonargs="-Dgit_werror=disabled">
     <branch repo="github.com"
             checkoutdir="libvirt"
