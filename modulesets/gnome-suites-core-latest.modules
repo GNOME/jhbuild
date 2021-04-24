@@ -1262,8 +1262,8 @@
     </dependencies>
   </meson>
 
-  <autotools id="NetworkManager"
-             autogenargs="PYTHON=python3 --with-udev-dir=${libdir}/udev --with-systemdsystemunitdir=no --with-crypto=gnutls --disable-more-warnings --disable-json-validation --disable-ovs">
+  <meson id="NetworkManager"
+         mesonargs="-Dlibaudit=no -Dovs=false -Dnmtui=false -Dqt=false -Dcrypto=gnutls">
     <branch repo="gitlab.freedesktop.org"
             module="NetworkManager/NetworkManager.git"
             revision="main"
@@ -1292,7 +1292,7 @@
         <dep package="libsystemd"/>
       </if>
     </dependencies>
-  </autotools>
+  </meson>
 
   <!-- Vala disabled for https://github.com/hughsie/PackageKit/issues/212 -->
   <meson id="PackageKit" mesonargs="-Dbash_completion=false -Dsystemdsystemunitdir=no">
