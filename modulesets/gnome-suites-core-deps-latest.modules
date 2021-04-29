@@ -817,7 +817,10 @@
     </suggests>
   </meson>
 
-  <meson id="gst-plugins-base" mesonargs="-Dgtk_doc=disabled">
+  <meson id="gst-plugins-base" mesonargs="-Dgtk_doc=disabled -Dgl_winsys=wayland -Dgl_platform=egl">
+    <if condition-set="x11">
+      <mesonargs value="-Dgl_winsys=wayland,x11 -Dgl_platform=egl,glx"/>
+    </if>
     <branch repo="gitlab.freedesktop.org"
             module="gstreamer/gst-plugins-base.git"
             checkoutdir="gst-plugins-base"/>
@@ -825,6 +828,7 @@
       <dep package="gstreamer"/>
       <dep package="graphene"/>
       <dep package="iso-codes"/>
+      <dep package="gl"/>
       <if condition-set="x11">
         <dep package="x11-xcb"/>
       </if>
