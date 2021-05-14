@@ -2267,7 +2267,7 @@
             hash="sha256:63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9"/>
   </cmake>
 
-  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo">
+  <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_SOUP2=ON">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
     </if>
@@ -2277,9 +2277,9 @@
     <pkg-config>webkit2gtk-4.0.pc</pkg-config>
     <branch repo="webkitgtk.org"
             module="webkitgtk-${version}.tar.xz"
-            version="2.32.1"
-            hash="sha256:136117317f70f66486f71b8edf5e46f8776403c5d8a296e914b11a36ef836917"
-            size="23321600"/>
+            version="2.33.1"
+            hash="sha256:0697463f435a2c156cffae470aa623033c1f4033da826d107a0ace8b7a0d89d5"
+            size="24638856"/>
     <dependencies>
       <dep package="c++"/>
       <dep package="at-spi2-core"/>
@@ -2297,6 +2297,7 @@
       <dep package="gtk+-3"/>
       <dep package="harfbuzz"/>
       <dep package="hyphen"/>
+      <dep package="lcms2"/>
       <dep package="libicu"/>
       <dep package="libjpeg"/>
       <dep package="openjpeg"/>
