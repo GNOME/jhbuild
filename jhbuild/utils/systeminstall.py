@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 
+import glob
 import os
 import sys 
 import logging
@@ -27,6 +28,7 @@ import subprocess
 import textwrap
 import time
 import re
+import fnmatch
 
 from .compat import TextIO
 from . import cmds
@@ -180,6 +182,25 @@ def systemdependencies_met(module_name, sysdeps, config):
                     break
             if not found:
                 dep_met = False
+        elif dep_type.lower() == 'c_include_glob':
+            if c_include_search_paths is None:
+                c_include_search_paths = get_c_include_search_paths(config)
+
+            if os.path.isabs(value):
+                matches = glob.glob(value)
+                if matches:
+                    return True
+
+            for path in c_include_search_paths:
+                filename_glob = os.path.normpath(os.path.join(path, value))
+
+                for root, dirs, files in os.walk(path):
+                    for file in files:
+                        candidate_filepath = os.path.join(root, file)
+                        if fnmatch.fnmatch(candidate_filepath, filename_glob):
+                            return True
+
+            dep_met = False
 
         elif dep_type in ('python2', 'python3'):
             command = dep_type

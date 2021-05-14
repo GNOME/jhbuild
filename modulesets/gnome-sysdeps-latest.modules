@@ -531,22 +531,8 @@
     <branch repo="system"/>
     <systemdependencies>
       <dep type="c_include" name="clang-c/Index.h">
-        <!-- Debian. FIXME: This is definitely broken. https://bugzilla.gnome.org/show_bug.cgi?id=781872 -->
-        <altdep type="c_include" name="../lib/llvm-12/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-11/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-10/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-9/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-8/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-7/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-6.0/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-5.0/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-4.0/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.9/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.8/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.7/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.6/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.5/include/clang-c/Index.h"/>
-        <altdep type="c_include" name="../lib/llvm-3.4/include/clang-c/Index.h"/>
+        <!-- Debian -->
+        <altdep type="c_include_glob" name="/usr/lib/llvm-*/include/clang-c/Index.h"/>
         <!-- FreeBSD -->
         <altdep type="c_include" name="../llvm90/include/clang-c/Index.h"/>
         <altdep type="c_include" name="../llvm80/include/clang-c/Index.h"/>
@@ -948,19 +934,7 @@
     <systemdependencies>
       <dep type="c_include" name="llvm-c/Core.h">
         <!-- Debian -->
-        <altdep type="c_include" name="llvm-c-10/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-9/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-8/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-7/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-6.0/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-5.0/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-4.0/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.9/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.8/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.7/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.6/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.5/llvm-c/Core.h"/>
-        <altdep type="c_include" name="llvm-c-3.4/llvm-c/Core.h"/>
+        <altdep type="c_include_glob" name="llvm-c-*/llvm-c/Core.h"/>
         <!-- FreeBSD -->
         <altdep type="c_include" name="../llvm90/include/llvm-c/Core.h"/>
         <altdep type="c_include" name="../llvm80/include/llvm-c/Core.h"/>
