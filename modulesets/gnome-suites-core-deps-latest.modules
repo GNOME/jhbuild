@@ -2333,6 +2333,73 @@
     </suggests>
   </cmake>
 
+  <cmake id="WebKit-4.1" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo">
+    <if condition-unset="x11">
+      <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
+    </if>
+    <if condition-unset="wayland">
+      <cmakeargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
+    </if>
+    <pkg-config>webkit2gtk-4.1.pc</pkg-config>
+    <branch repo="webkitgtk.org"
+            checkoutdir="WebKit-4.1"
+            module="webkitgtk-${version}.tar.xz"
+            version="2.33.1"
+            hash="sha256:0697463f435a2c156cffae470aa623033c1f4033da826d107a0ace8b7a0d89d5"
+            size="24638856"/>
+    <dependencies>
+      <dep package="c++"/>
+      <dep package="at-spi2-core"/>
+      <dep package="brotli"/>
+      <dep package="cairo"/>
+      <dep package="enchant-2"/>
+      <dep package="fontconfig"/>
+      <dep package="freetype2"/>
+      <dep package="geoclue"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gperf"/>
+      <dep package="gst-plugins-bad"/>
+      <dep package="gst-plugins-base"/>
+      <dep package="gst-plugins-good"/>
+      <dep package="gtk+-3"/>
+      <dep package="harfbuzz"/>
+      <dep package="hyphen"/>
+      <dep package="lcms2"/>
+      <dep package="libicu"/>
+      <dep package="libjpeg"/>
+      <dep package="openjpeg"/>
+      <dep package="libnotify"/>
+      <dep package="libpng"/>
+      <dep package="libsecret"/>
+      <dep package="libsoup3"/>
+      <dep package="libwebp"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <!-- Either libGL or libGLES is required. -->
+      <dep package="mesa-libGLES"/>
+      <dep package="pango"/>
+      <dep package="ruby"/>
+      <dep package="sqlite3"/>
+      <dep package="upower"/>
+      <dep package="woff2"/>
+      <if condition-set="x11">
+        <dep package="libXcomposite"/>
+        <dep package="libXdamage"/>
+        <dep package="libXrender"/>
+        <dep package="libXt"/>
+      </if>
+      <if condition-set="wayland">
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
+        <dep package="wpebackend-fdo"/>
+      </if>
+    </dependencies>
+    <suggests>
+      <dep package="gst-libav"/>
+    </suggests>
+  </cmake>
+
   <cmake id="woff2">
     <branch repo="github-tar"
             version="1.0.2"
