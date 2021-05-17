@@ -78,6 +78,19 @@
     </dependencies>
   </meson>
 
+  <meson id="appstream" mesonargs="-Dstemming=false -Dvapi=true">
+    <branch repo="github.com" checkoutdir="appstream" module="ximion/appstream.git"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="libcurl"/>
+      <dep package="libxml2"/>
+      <dep package="libyaml"/>
+      <dep package="lmdb"/>
+      <dep package="vala"/>
+    </dependencies>
+  </meson>
+
   <meson id="appstream-glib" mesonargs="-Dstemmer=false -Drpm=false">
     <branch repo="github.com" checkoutdir="appstream-glib" module="hughsie/appstream-glib.git"/>
     <dependencies>

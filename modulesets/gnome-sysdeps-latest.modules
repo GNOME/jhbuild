@@ -690,6 +690,11 @@
     </systemdependencies>
   </systemmodule>
 
+  <systemmodule id="libcurl">
+    <pkg-config>libcurl.pc</pkg-config>
+    <branch repo="system"/>
+  </systemmodule>
+
   <systemmodule id="libdb">
     <branch repo="system"/>
     <systemdependencies>
@@ -976,6 +981,13 @@
         <altdep type="c_include" name="../llvm34/include/llvm-c/Core.h"/>
         <altdep type="c_include" name="../llvm-devel/include/llvm-c/Core.h"/>
       </dep>
+    </systemdependencies>
+  </systemmodule>
+
+  <systemmodule id="lmdb">
+    <branch repo="system"/>
+    <systemdependencies>
+      <dep type="c_include" name="lmdb.h"/>
     </systemdependencies>
   </systemmodule>
 
