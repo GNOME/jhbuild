@@ -483,7 +483,7 @@
     </dependencies>
   </meson>
 
- <autotools id="gnome-autoar">
+ <meson id="gnome-autoar" mesonargs="-Dvapi=true">
    <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -491,7 +491,7 @@
       <dep package="libarchive"/>
       <dep package="gnome-common"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="gcr" mesonargs="-Dgtk_doc=false">
     <if condition-unset="x11">
