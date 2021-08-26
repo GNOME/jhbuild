@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2020-11-29 15:49+0000\n"
-"PO-Revision-Date: 2021-01-05 10:28+0100\n"
+"POT-Creation-Date: 2021-08-22 02:54+0000\n"
+"PO-Revision-Date: 2021-08-26 12:17+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.38.0\n"
+"X-Generator: Gtranslator 40.0\n"
 
 #: autogen.sh:110
 #, sh-format
@@ -825,9 +825,6 @@ msgid "Install pkg-config modules via system"
 msgstr "Instalar módulos de pkg-config a través del sistema"
 
 #: jhbuild/commands/sysdeps.py:56
-#| msgid ""
-#| "assume yes/the default answer to interactive questions during "
-#| "installation of system dependencies\""
 msgid ""
 "assume yes/the default answer to interactive questions during installation "
 "of system dependencies"
@@ -1678,64 +1675,70 @@ msgid "Complete!"
 msgstr "Completado."
 
 #: jhbuild/utils/systeminstall.py:348
+#| msgid "Using yum to install packages.  Please wait."
+msgid "Using dnf to install packages.  Please wait."
+msgstr "Usando dnf para instalar paquetes. Espere."
+
+#: jhbuild/utils/systeminstall.py:352 jhbuild/utils/systeminstall.py:362
+#: jhbuild/utils/systeminstall.py:410 jhbuild/utils/systeminstall.py:428
+#: jhbuild/utils/systeminstall.py:583
+msgid "Nothing to install"
+msgstr "No hay nada para instalar"
+
+#: jhbuild/utils/systeminstall.py:370 jhbuild/utils/systeminstall.py:433
+msgid "Install failed"
+msgstr "Falló al instalar"
+
+#: jhbuild/utils/systeminstall.py:372 jhbuild/utils/systeminstall.py:435
+msgid "Completed!"
+msgstr "Completado."
+
+#: jhbuild/utils/systeminstall.py:385
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile no encontrado, instalando automáticamente"
 
-#: jhbuild/utils/systeminstall.py:350
+#: jhbuild/utils/systeminstall.py:387
 msgid "Failed to install pkgfile"
 msgstr "Falló instalar pkgfile"
 
-#: jhbuild/utils/systeminstall.py:356
+#: jhbuild/utils/systeminstall.py:393
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr ""
 "la caché de pkgfile es antigua o no existe, actualizando automáticamente"
 
-#: jhbuild/utils/systeminstall.py:359
+#: jhbuild/utils/systeminstall.py:396
 msgid "Failed to create pkgfile cache"
 msgstr "Falló al crear la caché de pkgfile"
 
-#: jhbuild/utils/systeminstall.py:362
+#: jhbuild/utils/systeminstall.py:399
 msgid "Failed to update pkgfile cache"
 msgstr "Falló al actualizar la caché de pkgfile"
 
-#: jhbuild/utils/systeminstall.py:364
+#: jhbuild/utils/systeminstall.py:401
 msgid "Successfully updated pkgfile cache"
 msgstr "Caché de pkgfile actualizada correctamente"
 
-#: jhbuild/utils/systeminstall.py:369
+#: jhbuild/utils/systeminstall.py:406
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Usando pacman para instalar paquetes. Espere."
 
-#: jhbuild/utils/systeminstall.py:373 jhbuild/utils/systeminstall.py:391
-#: jhbuild/utils/systeminstall.py:546
-msgid "Nothing to install"
-msgstr "No hay nada para instalar"
-
-#: jhbuild/utils/systeminstall.py:388
+#: jhbuild/utils/systeminstall.py:425
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Proveedor para «%s» no encontrado, ignorando"
 
-#: jhbuild/utils/systeminstall.py:396
-msgid "Install failed"
-msgstr "Falló al instalar"
-
-#: jhbuild/utils/systeminstall.py:398
-msgid "Completed!"
-msgstr "Completado."
-
-#: jhbuild/utils/systeminstall.py:480 jhbuild/utils/systeminstall.py:491
-#: jhbuild/utils/systeminstall.py:505
+#: jhbuild/utils/systeminstall.py:517 jhbuild/utils/systeminstall.py:528
+#: jhbuild/utils/systeminstall.py:542
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "No se encontró ningún paquete nativo para %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:510
+#: jhbuild/utils/systeminstall.py:547
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalando: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:520
+#: jhbuild/utils/systeminstall.py:557
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
@@ -2050,9 +2053,6 @@ msgstr "no se pudo subir el conjunto de parches"
 #~ msgid "%s not found (usually part of the package 'subversion')"
 #~ msgstr ""
 #~ "No se pudo encontrar %s (normalmente es parte del paquete «subversion»)"
-
-#~ msgid "Using yum to install packages.  Please wait."
-#~ msgstr "Usando yum para instalar paquetes. Espere."
 
 #~ msgid ""
 #~ "Installing:\n"
