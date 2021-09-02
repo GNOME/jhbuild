@@ -1340,9 +1340,8 @@
     </dependencies>
   </meson>
 
-  <autotools id="upower"
-             supports-non-srcdir-builds="no"
-             autogenargs="--with-systemdsystemunitdir=no">
+  <meson id="upower"
+         mesonargs="-Dsystemdsystemunitdir=no">
     <branch repo="gitlab.freedesktop.org" module="upower/upower.git" />
     <dependencies>
       <dep package="glib"/>
@@ -1353,7 +1352,7 @@
         <dep package="libgudev"/>
       </if>
     </suggests>
-  </autotools>
+  </meson>
 
 
 <!-- Meta Modules -->
