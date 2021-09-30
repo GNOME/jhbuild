@@ -796,7 +796,7 @@
     </suggests>
   </meson>
 
-  <meson id="gstreamer" mesonargs="-Dgtk_doc=disabled">
+  <meson id="gstreamer" mesonargs="-Dgtk_doc=disabled -Dbase=enabled -Dgood=enabled -Dbad=enabled -Dlibav=enabled">
     <branch repo="gitlab.freedesktop.org"
             module="gstreamer/gstreamer.git"
             checkoutdir="gstreamer"/>
@@ -804,7 +804,35 @@
       <dep package="glib"/>
       <dep package="libxml2"/>
       <dep package="gobject-introspection"/>
+      <dep package="graphene"/>
+      <dep package="iso-codes"/>
+      <if condition-set="x11">
+        <dep package="x11-xcb"/>
+      </if>
+      <dep package="flac"/>
+      <dep package="libvpx"/>
+      <dep package="taglib"/>
+      <dep package="wavpack"/>
+      <if condition-unset="macos">
+        <dep package="libv4l"/>
+      </if>
+      <dep package="libavfilter"/>
+      <dep package="libavformat"/>
+      <dep package="libavcodec"/>
+      <dep package="libavutil"/>
     </dependencies>
+    <suggests>
+      <if condition-set="linux">
+        <dep package="vulkan"/>
+      </if>
+      <if condition-set="udev">
+        <dep package="libgudev"/>
+      </if>
+      <!-- The examples require GTK+ 3, but they are optional -->
+      <dep package="gtk+-3"/>
+      <dep package="pulseaudio"/>
+      <dep package="yasm"/>
+    </suggests>
   </meson>
 
   <meson id="graphene">
@@ -813,81 +841,6 @@
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
     </dependencies>
-  </meson>
-
-  <meson id="gst-plugins-bad">
-    <branch repo="gitlab.freedesktop.org"
-            checkoutdir="gst-plugins-bad"
-            module="gstreamer/gst-plugins-bad.git"/>
-    <dependencies>
-      <dep package="gst-plugins-base"/>
-    </dependencies>
-    <suggests>
-      <dep package="graphene"/>
-      <if condition-set="linux">
-        <dep package="vulkan"/>
-      </if>
-    </suggests>
-  </meson>
-
-  <meson id="gst-plugins-base" mesonargs="-Dgtk_doc=disabled">
-    <branch repo="gitlab.freedesktop.org"
-            module="gstreamer/gst-plugins-base.git"
-            checkoutdir="gst-plugins-base"/>
-    <dependencies>
-      <dep package="gstreamer"/>
-      <dep package="graphene"/>
-      <dep package="iso-codes"/>
-      <if condition-set="x11">
-        <dep package="x11-xcb"/>
-      </if>
-    </dependencies>
-    <suggests>
-      <if condition-set="udev">
-        <dep package="libgudev"/>
-      </if>
-      <!-- The examples require GTK+ 3, but they are optional -->
-      <dep package="gtk+-3"/>
-    </suggests>
-  </meson>
-
-  <meson id="gst-plugins-good">
-    <branch repo="gitlab.freedesktop.org"
-            module="gstreamer/gst-plugins-good.git"
-            checkoutdir="gst-plugins-good"/>
-    <dependencies>
-      <dep package="gst-plugins-base"/>
-      <dep package="flac"/>
-      <dep package="libvpx"/>
-      <dep package="taglib"/>
-      <dep package="wavpack"/>
-      <if condition-unset="macos">
-        <dep package="libv4l"/>
-      </if>
-    </dependencies>
-    <suggests>
-      <dep package="pulseaudio"/>
-      <dep package="gdk-pixbuf"/>
-      <if condition-set="udev">
-        <dep package="libgudev"/>
-      </if>
-    </suggests>
-  </meson>
-
-  <meson id="gst-libav">
-    <branch repo="gitlab.freedesktop.org"
-            checkoutdir="gst-libav"
-            module="gstreamer/gst-libav.git"/>
-    <dependencies>
-      <dep package="gst-plugins-base"/>
-      <dep package="libavfilter"/>
-      <dep package="libavformat"/>
-      <dep package="libavcodec"/>
-      <dep package="libavutil"/>
-    </dependencies>
-    <suggests>
-      <dep package="yasm"/>
-    </suggests>
   </meson>
 
   <meson id="gtk4" mesonargs="-Dbroadway-backend=true">
