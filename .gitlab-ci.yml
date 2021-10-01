@@ -28,6 +28,10 @@ test-py3:
 
 ub20.04-py3-glib:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v5
+  before_script:
+    # Update for root cert updates
+    - sudo apt-get update
+    - sudo apt-get upgrade -y
   script:
     - ./autogen.sh --with-python=python3
     - make
