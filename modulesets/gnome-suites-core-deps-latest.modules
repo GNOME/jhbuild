@@ -1817,6 +1817,17 @@
     <branch/>
   </autotools>
 
+  <meson id="polkit">
+    <branch repo="gitlab.freedesktop.org"
+             module="polkit/polkit.git"
+             checkoutdir="polkit"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="expat"/>
+      <dep package="pam"/>
+    </dependencies>
+  </meson>
+
   <autotools id="ModemManager"
              autogenargs="--with-udev-base-dir=${libdir}/udev --with-systemdsystemunitdir=no --disable-more-warnings">
     <branch repo="gitlab.freedesktop.org"
