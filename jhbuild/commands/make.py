@@ -88,8 +88,12 @@ class cmd_make(Command):
                 logging.error(_('No module matching current directory %r in the moduleset') % (modname, ))
                 return False
 
-            # Try meson first, then autotools
-            if os.path.exists(os.path.join(self.get_cwd(), 'meson.build')):
+            # Try distutils, then meson, then autotools
+            if os.path.exists(os.path.join(self.get_cwd(), 'setup.py')):
+                from jhbuild.modtypes.distutils import DistutilsModule
+                module = DistutilsModule(modname, default_repo.branch(modname))
+                module.python = os.environ.get('PYTHON3', 'python3')
+            elif os.path.exists(os.path.join(self.get_cwd(), 'meson.build')):
                 from jhbuild.modtypes.meson import MesonModule
                 module = MesonModule(modname, default_repo.branch(modname))
             else:
