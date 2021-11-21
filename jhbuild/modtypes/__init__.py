@@ -545,7 +545,7 @@ class NinjaModule(Package):
                 break
         return self.ninjacmd
 
-    def ninja(self, buildscript, target='', ninjaargs=None, env=None):
+    def ninja(self, buildscript, target='', pre='', ninjaargs=None, env=None):
         ninjacmd = os.environ.get('NINJA', self.get_ninjacmd(buildscript.config))
         if ninjacmd is None:
             raise BuildStateError(_('ninja not found; use NINJA to point to a specific ninja binary'))
@@ -557,9 +557,10 @@ class NinjaModule(Package):
         for k in (env or {}):
             extra_env[k] = env[k]
 
-        cmd = '{ninja} {ninjaargs} {target}'.format(ninja=ninjacmd,
-                                                    ninjaargs=ninjaargs,
-                                                    target=target)
+        cmd = '{pre}{ninja} {ninjaargs} {target}'.format(pre=pre,
+                                                         ninja=ninjacmd,
+                                                         ninjaargs=ninjaargs,
+                                                         target=target)
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
 
 class MakeModule(Package):

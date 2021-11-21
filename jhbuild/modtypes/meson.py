@@ -126,14 +126,14 @@ class MesonModule(NinjaModule, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        self.ninja(buildscript)
+        self.ninja(buildscript, pre='meson devenv ')
     do_build.depends = [PHASE_CONFIGURE]
     do_build.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE,
             PHASE_CLEAN]
 
     def do_check(self, buildscript):
         buildscript.set_action(_('Checking'), self)
-        self.ninja(buildscript, 'test')
+        self.ninja(buildscript, 'test', pre='meson devenv ')
     do_check.depends = [PHASE_BUILD]
     do_check.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
@@ -149,7 +149,7 @@ class MesonModule(NinjaModule, DownloadableModule):
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         destdir = self.prepare_installroot(buildscript)
-        self.ninja(buildscript, 'install', env={'DESTDIR': destdir})
+        self.ninja(buildscript, 'install', pre='meson devenv ', env={'DESTDIR': destdir})
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
