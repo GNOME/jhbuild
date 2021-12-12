@@ -1551,6 +1551,17 @@
     </dependencies>
   </meson>
 
+  <meson id="libqrtr-glib">
+    <branch repo="gitlab.freedesktop.org"
+            module="mobile-broadband/libqrtr-glib.git"
+            checkoutdir="libqrtr-glib"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </meson>
+
   <meson id="libqmi">
     <branch repo="gitlab.freedesktop.org"
             module="mobile-broadband/libqmi.git"
@@ -1558,6 +1569,7 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gtk-doc"/>
+      <dep package="libqrtr-glib"/>
     </dependencies>
   </meson>
 
