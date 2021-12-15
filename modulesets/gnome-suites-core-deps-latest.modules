@@ -1493,6 +1493,22 @@
     </suggests>
   </meson>
 
+  <meson id="libnma-gtk4" mesonargs="-Dlibnma_gtk4=true">
+    <branch repo="gitlab.gnome.org" checkoutdir="libnma-gtk4" module="GNOME/libnma"/>
+    <dependencies>
+      <dep package="file"/>
+      <dep package="gcr"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk4"/>
+      <dep package="iso-codes"/>
+      <dep package="NetworkManager"/>
+    </dependencies>
+    <suggests>
+      <dep package="mobile-broadband-provider-info"/>
+    </suggests>
+  </meson>
+
   <meson id="libnotify">
     <branch/>
     <dependencies>
