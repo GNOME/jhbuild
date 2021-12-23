@@ -1,4 +1,4 @@
-From dbc06d6ce90a7eb3ee21b24a028291798724bd80 Mon Sep 17 00:00:00 2001
+From c59e5d172418085b7ab4467f8244292cb2293a78 Mon Sep 17 00:00:00 2001
 From: Ting-Wei Lan <lantw@src.gnome.org>
 Date: Thu, 4 Oct 2018 23:03:30 +0800
 Subject: [PATCH] backends: Use raw_link_args to check for the need of RPATH
@@ -27,18 +27,18 @@ by the method.
 Works around https://github.com/mesonbuild/meson/issues/4270.
 ---
  mesonbuild/backend/backends.py                 |  2 +-
- run_unittests.py                               | 18 +++++++++++-------
  test cases/unit/80 global-rpath/meson.build    |  4 +++-
  .../unit/80 global-rpath/meson_options.txt     |  1 +
  .../unit/80 global-rpath/yonder/meson.build    |  2 --
+ unittests/linuxliketests.py                    | 18 +++++++++++-------
  5 files changed, 16 insertions(+), 11 deletions(-)
  create mode 100644 test cases/unit/80 global-rpath/meson_options.txt
 
 diff --git a/mesonbuild/backend/backends.py b/mesonbuild/backend/backends.py
-index 4c61abf6a..eb76c06a8 100644
+index d71cae308e1..6b1c76f5bd8 100644
 --- a/mesonbuild/backend/backends.py
 +++ b/mesonbuild/backend/backends.py
-@@ -612,7 +612,7 @@ class Backend:
+@@ -718,7 +718,7 @@ def rpaths_for_bundled_shared_libraries(self, target: build.BuildTarget, exclude
          for dep in target.external_deps:
              if not isinstance(dep, (dependencies.ExternalLibrary, dependencies.PkgConfigDependency)):
                  continue
@@ -47,11 +47,39 @@ index 4c61abf6a..eb76c06a8 100644
              if len(la) != 1 or not os.path.isabs(la[0]):
                  continue
              # The only link argument is an absolute path to a library file.
-diff --git a/run_unittests.py b/run_unittests.py
-index b2b7367b0..48487a70e 100755
---- a/run_unittests.py
-+++ b/run_unittests.py
-@@ -6809,13 +6809,15 @@ class LinuxlikeTests(BasePlatformTests):
+diff --git a/test cases/unit/80 global-rpath/meson.build b/test cases/unit/80 global-rpath/meson.build
+index c67d9e08b98..267e7edd819 100644
+--- a/test cases/unit/80 global-rpath/meson.build	
++++ b/test cases/unit/80 global-rpath/meson.build	
+@@ -1,3 +1,5 @@
+ project('global-rpath', 'cpp')
+-yonder_dep = dependency('yonder')
++cpp = meson.get_compiler('cpp')
++yonder_libdir = get_option('yonder_libdir')
++yonder_dep = cpp.find_library('yonder', dirs: [yonder_libdir])
+ executable('rpathified', 'rpathified.cpp', dependencies: [yonder_dep], install: true)
+diff --git a/test cases/unit/80 global-rpath/meson_options.txt b/test cases/unit/80 global-rpath/meson_options.txt
+new file mode 100644
+index 00000000000..19bf2556959
+--- /dev/null
++++ b/test cases/unit/80 global-rpath/meson_options.txt	
+@@ -0,0 +1 @@
++option('yonder_libdir', type: 'string')
+diff --git a/test cases/unit/80 global-rpath/yonder/meson.build b/test cases/unit/80 global-rpath/yonder/meson.build
+index e32f3833019..a3ee7f595ea 100644
+--- a/test cases/unit/80 global-rpath/yonder/meson.build	
++++ b/test cases/unit/80 global-rpath/yonder/meson.build	
+@@ -1,5 +1,3 @@
+ project('yonder', 'cpp')
+ yonder = shared_library('yonder', 'yonder.cpp', install: true)
+ install_headers('yonder.h')
+-pkgconfig = import('pkgconfig')
+-pkgconfig.generate(yonder)
+diff --git a/unittests/linuxliketests.py b/unittests/linuxliketests.py
+index 2bcf5c933a4..0f96738b2eb 100644
+--- a/unittests/linuxliketests.py
++++ b/unittests/linuxliketests.py
+@@ -247,13 +247,15 @@ def test_pkgconfig_uninstalled(self):
          self.init(testdir)
          self.build()
  
@@ -69,7 +97,7 @@ index b2b7367b0..48487a70e 100755
          self.build()
          self.run_tests()
  
-@@ -7475,9 +7477,9 @@ class LinuxlikeTests(BasePlatformTests):
+@@ -929,9 +931,9 @@ def test_global_rpath(self):
          oldinstalldir = self.installdir
  
          # Build and install an external library without DESTDIR.
@@ -80,7 +108,7 @@ index b2b7367b0..48487a70e 100755
          yonder_libdir = os.path.join(yonder_prefix, self.libdir)
          self.prefix = yonder_prefix
          self.installdir = yonder_prefix
-@@ -7501,13 +7503,15 @@ class LinuxlikeTests(BasePlatformTests):
+@@ -955,13 +957,15 @@ def test_global_rpath(self):
              # (as systems like buildroot and guix are wont to do)
              # and verify install preserves that rpath.
              self.new_builddir()
@@ -99,7 +127,7 @@ index b2b7367b0..48487a70e 100755
              self.build()
              self.install(use_destdir=False)
              got_rpath = get_rpath(os.path.join(yonder_prefix, 'bin/rpathified'))
-@@ -8029,7 +8033,7 @@ class LinuxlikeTests(BasePlatformTests):
+@@ -1526,7 +1530,7 @@ def test_static_link(self):
          # Test that installed libraries works
          self.new_builddir()
          self.prefix = oldprefix
@@ -108,34 +136,3 @@ index b2b7367b0..48487a70e 100755
                        '--fatal-meson-warnings']
          testdir = os.path.join(self.unit_test_dir, '67 static link')
          env = {'PKG_CONFIG_LIBDIR': os.path.join(libdir, 'pkgconfig')}
-diff --git a/test cases/unit/80 global-rpath/meson.build b/test cases/unit/80 global-rpath/meson.build
-index c67d9e08b..267e7edd8 100644
---- a/test cases/unit/80 global-rpath/meson.build	
-+++ b/test cases/unit/80 global-rpath/meson.build	
-@@ -1,3 +1,5 @@
- project('global-rpath', 'cpp')
--yonder_dep = dependency('yonder')
-+cpp = meson.get_compiler('cpp')
-+yonder_libdir = get_option('yonder_libdir')
-+yonder_dep = cpp.find_library('yonder', dirs: [yonder_libdir])
- executable('rpathified', 'rpathified.cpp', dependencies: [yonder_dep], install: true)
-diff --git a/test cases/unit/80 global-rpath/meson_options.txt b/test cases/unit/80 global-rpath/meson_options.txt
-new file mode 100644
-index 000000000..19bf25569
---- /dev/null
-+++ b/test cases/unit/80 global-rpath/meson_options.txt	
-@@ -0,0 +1 @@
-+option('yonder_libdir', type: 'string')
-diff --git a/test cases/unit/80 global-rpath/yonder/meson.build b/test cases/unit/80 global-rpath/yonder/meson.build
-index e32f38330..a3ee7f595 100644
---- a/test cases/unit/80 global-rpath/yonder/meson.build	
-+++ b/test cases/unit/80 global-rpath/yonder/meson.build	
-@@ -1,5 +1,3 @@
- project('yonder', 'cpp')
- yonder = shared_library('yonder', 'yonder.cpp', install: true)
- install_headers('yonder.h')
--pkgconfig = import('pkgconfig')
--pkgconfig.generate(yonder)
--- 
-2.31.1
-

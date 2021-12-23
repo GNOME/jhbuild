@@ -20,18 +20,21 @@ diff --git a/mesonbuild/modules/pkgconfig.py b/mesonbuild/modules/pkgconfig.py
 index a37dd4f6..cf86785a 100644
 --- a/mesonbuild/modules/pkgconfig.py
 +++ b/mesonbuild/modules/pkgconfig.py
-@@ -437,10 +437,7 @@ class PkgConfigModule(ExtensionModule):
+@@ -546,12 +546,8 @@ class PkgConfigModule(ExtensionModule):
          pcfile = filebase + '.pc'
-         pkgroot = kwargs.get('install_dir', default_install_dir)
+         pkgroot = pkgroot_name = kwargs.get('install_dir', default_install_dir)
          if pkgroot is None:
 -            if mesonlib.is_freebsd():
 -                pkgroot = os.path.join(state.environment.coredata.get_option(mesonlib.OptionKey('prefix')), 'libdata', 'pkgconfig')
+-                pkgroot_name = os.path.join('{prefix}', 'libdata', 'pkgconfig')
 -            else:
 -                pkgroot = os.path.join(state.environment.coredata.get_option(mesonlib.OptionKey('libdir')), 'pkgconfig')
+-                pkgroot_name = os.path.join('{libdir}', 'pkgconfig')
 +            pkgroot = os.path.join(state.environment.coredata.get_option(mesonlib.OptionKey('libdir')), 'pkgconfig')
++            pkgroot_name = os.path.join('{libdir}', 'pkgconfig')
          if not isinstance(pkgroot, str):
              raise mesonlib.MesonException('Install_dir must be a string.')
-         self.generate_pkgconfig_file(state, deps, subdirs, name, description, url,
+         self._generate_pkgconfig_file(state, deps, subdirs, name, description, url,
 -- 
 2.24.1
 
