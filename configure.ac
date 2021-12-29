@@ -26,7 +26,7 @@ if test -n "$PYTHON" && ! command -v "$PYTHON" > /dev/null; then
 	AC_MSG_ERROR([Python interpreter $PYTHON does not exist])
 fi
 
-m4_define(python3_min_ver, 3.5)
+m4_define(python3_min_ver, 3.7)
 AM_PATH_PYTHON([python3_min_ver])
 
 AC_SUBST([PYTHON_BASENAME], [$(basename "$PYTHON")])
