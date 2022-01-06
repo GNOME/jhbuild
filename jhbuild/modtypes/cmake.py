@@ -130,9 +130,9 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
     def do_dist(self, buildscript):
         buildscript.set_action(_('Creating tarball for'), self)
         if self.use_ninja:
-            self.make(buildscript, 'package_source')
-        else:
             self.ninja(buildscript, 'package_source')
+        else:
+            self.make(buildscript, 'package_source')
     do_dist.depends = [PHASE_CONFIGURE]
     do_dist.error_phases = [PHASE_FORCE_CHECKOUT, PHASE_CONFIGURE]
 
