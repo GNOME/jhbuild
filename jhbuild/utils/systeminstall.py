@@ -225,7 +225,8 @@ def systemdependencies_met(module_name, sysdeps, config):
 
 class SystemInstall(object):
     def __init__(self):
-        if cmds.has_command('pkexec'):
+        # pkexec is broken in toolbox, avoid it if we're running in a toolbox
+        if cmds.has_command('pkexec') and not os.path.isfile('/run/.toolboxenv'):
             self._root_command_prefix_args = ['pkexec']
         elif cmds.has_command('sudo'):
             self._root_command_prefix_args = ['sudo']
