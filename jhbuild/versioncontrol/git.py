@@ -238,13 +238,26 @@ class GitBranch(Branch):
 
     def get_default_branch_name(self):
         try:
-            default_branch = get_output(['git', 'symbolic-ref', '--short',
-                               'refs/remotes/origin/HEAD'],
-                               cwd=self.get_checkoutdir(),
-                               extra_env=get_git_extra_env()).strip()
+            out = get_output(['git', 'ls-remote', '--symref', 'origin', 'HEAD'],
+                    cwd=self.get_checkoutdir(),
+                    extra_env=get_git_extra_env()).strip()
         except CommandError:
-            return 'master'
-        return default_branch.replace('origin/', '')
+            logging.warning('get_default_branch_name() command error, so defaulting to \'main\'')
+            return 'main'
+
+        ind = out.find("ref: ")
+        if ind == -1:
+            logging.warning('Unexpected get_default_branch_name() output, so defaulting to \'main\'')
+            return 'main'
+
+        tmp = out[ind:].split("\t", maxsplit=1)
+        if len(tmp) == 2 and tmp[1][0:4] == "HEAD":
+            default_branch = tmp[0].split("/")[-1]
+        else:
+            logging.warning('Unexpected get_default_branch_name() output, so defaulting to \'main\'')
+            default_branch = 'main'
+
+        return default_branch
 
     def get_branch_switch_destination(self):
         current_branch = self.get_current_branch()
