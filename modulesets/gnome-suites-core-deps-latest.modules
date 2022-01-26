@@ -1832,6 +1832,30 @@
     </dependencies>
   </distutils>
 
+  <distutils id="textwrap3" python3="1">
+    <branch repo="github.com"
+            module="jonathaneunice/textwrap3.git"
+            checkoutdir="textwrap3"/>
+  </distutils>
+
+  <distutils id="ansiwrap" python3="1">
+    <branch repo="github.com"
+            module="jonathaneunice/ansiwrap.git"
+            checkoutdir="ansiwrap"/>
+    <dependencies>
+      <dep package="textwrap3"/>
+    </dependencies>
+  </distutils>
+
+  <distutils id="console-menu" python3="1">
+    <branch repo="github.com"
+            module="aegirhall/console-menu.git"
+            checkoutdir="console-menu"/>
+    <dependencies>
+      <dep package="ansiwrap"/>
+    </dependencies>
+  </distutils>
+
   <meson id="mm-common" mesonargs="-Duse-network=true">
     <branch/>
   </meson>
