@@ -675,9 +675,8 @@
     </if>
     <branch/>
     <dependencies>
-      <dep package="dbus-glib"/>
       <dep package="gobject-introspection"/>
-      <dep package="mozjs78"/>
+      <dep package="mozjs91"/>
       <dep package="readline"/>
       <if condition-set="linux">
         <dep package="sysprof"/>
@@ -1877,20 +1876,20 @@
     </dependencies>
   </autotools>
 
-  <autotools id="mozjs78" autogen-sh="js/src/configure"
+  <autotools id="mozjs91" autogen-sh="js/src/configure"
              force-non-srcdir-builds="yes"
              supports-unknown-configure-options="no"
              autogen-template="%(srcdir)s/%(autogen-sh)s --prefix=%(prefix)s %(autogenargs)s"
-             autogenargs="--with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf">
+             autogenargs="--with-system-zlib --with-intl-api --disable-jemalloc">
+    <!-- prefix option must have an = sign in mozilla's configure -->
     <if condition-set="freebsd">
       <autogenargs value="LLVM_CONFIG=llvm-config90"/>
     </if>
-    <!-- prefix option must have an = sign in mozilla's configure -->
-    <pkg-config>mozjs-78.pc</pkg-config>
-    <branch repo="gnome-download" version="78.11.0"
-            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.bz2"
-            hash="sha256:5ad54ac2b0368b9748e08756658eb988d65e5bb088d91baf43267486bcbf1d26"
-            size="70531559"/>
+    <pkg-config>mozjs-91.pc</pkg-config>
+    <branch repo="gnome-download" version="91.5.0"
+            module="teams/releng/tarballs-needing-help/mozjs/mozjs-${version}.tar.xz"
+            hash="sha256:2f57cde35246a54a7abd25454ab5adfa076a8e6515509475eb6a37d048b7a156"
+            size="70715356"/>
     <dependencies>
       <dep package="libffi"/>
       <dep package="zlib"/>
