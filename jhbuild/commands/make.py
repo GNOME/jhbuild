@@ -51,7 +51,8 @@ class cmd_make(Command):
 
     def run(self, config, options, args, help=None):
         # Grab the cwd before anything changes it
-        cwd = self.get_cwd()
+        cwd = os.path.realpath(self.get_cwd())
+        checkoutroot = os.path.realpath(config.checkoutroot)
 
         # Explicitly don't touch the network for this
         options.nonetwork = True
@@ -72,11 +73,11 @@ class cmd_make(Command):
 
         module_set = jhbuild.moduleset.load(config)
 
-        if not cwd.startswith(config.checkoutroot):
-            logging.error(_('The current directory is not in the checkout root %r') % (config.checkoutroot, ))
+        if not cwd.startswith(checkoutroot):
+            logging.error(_('The current directory is not in the checkout root %r') % (checkoutroot, ))
             return False
 
-        cwd = cwd[len(config.checkoutroot):]
+        cwd = cwd[len(checkoutroot):]
         cwd = cwd.lstrip(os.sep)
         modname, _slash, _rest = cwd.partition(os.sep)
 
