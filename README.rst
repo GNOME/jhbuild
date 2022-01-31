@@ -9,6 +9,10 @@ extended to be usable with other projects.
 
 JHBuild requires Python >= 3.5
 
+Non-developers that wish to test GNOME can use the GNOME OS nightly VM images: https://os.gnome.org
+
+Developers tend to either use JHBuild for their modules, or follow workflows like this_ to set up a whole session, in case they are working on the compositor.
+
 Installing JHBuild
 ------------------
 
@@ -157,3 +161,5 @@ implementations :), please file them at:
   https://gitlab.gnome.org/GNOME/jhbuild/issues/new
 
 This will ensure your request is not lost.
+
+.. _this: https://blogs.gnome.org/fmuellner/2020/03/02/shell-hacking-on-silverblue/
