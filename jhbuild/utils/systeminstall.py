@@ -586,8 +586,7 @@ class AptSystemInstall(SystemInstall):
     def detect(cls):
         return cmds.has_command('apt-file')
 
-# Ordered from best to worst. DNF is only last because its newer than PackageKit.
-_classes = [AptSystemInstall, PacmanSystemInstall, PKSystemInstall, DNFSystemInstall]
+_classes = [AptSystemInstall, PacmanSystemInstall, DNFSystemInstall, PKSystemInstall]
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
