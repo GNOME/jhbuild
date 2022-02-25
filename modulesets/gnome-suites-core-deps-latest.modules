@@ -1584,12 +1584,12 @@
     </dependencies>
   </meson>
 
-  <autotools id="librest">
+  <meson id="librest">
     <if condition-set="freebsd">
-      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+      <mesonargs value="-Dca_certificates=true -Dca_certificates_path=/usr/local/share/certs/ca-root-nss.crt"/>
     </if>
     <if condition-set="macos">
-      <autogenargs value="--without-ca-certificates"/>
+      <mesonargs value="-Dca_certificates=false"/>
     </if>
     <branch revision="librest-0-7"/>
     <dependencies>
@@ -1597,7 +1597,7 @@
       <dep package="libsoup"/>
       <dep package="libxml2"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="librsvg" supports-non-srcdir-builds="no" autogenargs="--enable-vala=yes">
     <if condition-unset="gnu-elf">
