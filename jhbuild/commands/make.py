@@ -88,7 +88,8 @@ class cmd_make(Command):
                 logging.error(_('No module matching current directory %r in the moduleset') % (modname, ))
                 return False
 
-            # Try distutils, then meson, then autotools
+            # Try distutils, then meson, then autotools (if autogen.sh exists), then
+            # cmake and fallback to autotools
             if os.path.exists(os.path.join(self.get_cwd(), 'setup.py')):
                 from jhbuild.modtypes.distutils import DistutilsModule
                 module = DistutilsModule(modname, default_repo.branch(modname))
@@ -96,6 +97,12 @@ class cmd_make(Command):
             elif os.path.exists(os.path.join(self.get_cwd(), 'meson.build')):
                 from jhbuild.modtypes.meson import MesonModule
                 module = MesonModule(modname, default_repo.branch(modname))
+            elif os.path.exists(os.path.join(self.get_cwd(), 'autogen.sh')):
+                from jhbuild.modtypes.autotools import AutogenModule
+                module = AutogenModule(modname, default_repo.branch(modname))
+            elif os.path.exists(os.path.join(self.get_cwd(), 'CMakeLists.txt')):
+                from jhbuild.modtypes.cmake import CMakeModule
+                module = CMakeModule(modname, default_repo.branch(modname))
             else:
                 from jhbuild.modtypes.autotools import AutogenModule
                 module = AutogenModule(modname, default_repo.branch(modname))
