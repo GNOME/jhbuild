@@ -1624,12 +1624,14 @@
     <branch/>
     <dependencies>
       <dep package="cargo"/>
-      <dep package="libxml2"/>
-      <dep package="glib"/>
       <dep package="gdk-pixbuf"/>
+      <dep package="gi-docgen"/>
+      <dep package="glib"/>
       <dep package="gnome-common"/>
-      <dep package="pango"/>
       <dep package="gobject-introspection"/>
+      <dep package="libxml2"/>
+      <dep package="pango"/>
+      <dep package="python3-docutils"/>
       <dep package="vala"/>
     </dependencies>
   </autotools>
@@ -1801,6 +1803,14 @@
       <dep package="libxkbcommon"/>
     </dependencies>
   </cmake>
+
+  <distutils id="python3-docutils" python3="1">
+    <branch repo="pypi.org"
+            module="d/docutils/docutils-${version}.tar.gz"
+            version="0.18.1"
+            checkoutdir="python3-docutils-${version}"
+            hash="sha256:679987caf361a7539d76e584cbeddc311e3aee937877c87346f31debc63e9d06"/>
+  </distutils>
 
   <distutils id="python3-jinja2" python3="1">
     <branch repo="pypi.org"
