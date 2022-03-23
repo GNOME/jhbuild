@@ -1630,6 +1630,9 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
+      <dep package="python3-jinja2"/>
+      <dep package="python3-toml"/>
+      <dep package="python3-typogrify"/>
     </dependencies>
     <suggests>
       <dep package="libgcrypt"/>
@@ -1787,6 +1790,14 @@
     </dependencies>
   </cmake>
 
+  <distutils id="python3-jinja2" python3="1">
+    <branch repo="pypi.org"
+            module="j/jinja2/Jinja2-${version}.tar.gz"
+            version="3.0.3"
+            checkoutdir="python3-jinja2-${version}"
+            hash="sha256:611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"/>
+  </distutils>
+
   <distutils id="python3-libevdev" python3="1">
     <branch repo="pypi.org"
             module="l/libevdev/libevdev-${version}.tar.gz"
@@ -1848,6 +1859,22 @@
             version="59.3.0"
             checkoutdir="python3-setuptools-${version}"
             hash="sha256:da27016d4b3b89cc9b672d93597520e44afa3f87a9aac32d3f084f37fa667ce7"/>
+  </distutils>
+
+  <distutils id="python3-toml" python3="1">
+    <branch repo="pypi.org"
+            module="t/toml/toml-${version}.tar.gz"
+            version="0.10.2"
+            checkoutdir="python3-toml-${version}"
+            hash="sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"/>
+  </distutils>
+
+  <distutils id="python3-typogrify" python3="1">
+    <branch repo="pypi.org"
+            module="t/typogrify/typogrify-${version}.tar.gz"
+            version="2.0.7"
+            checkoutdir="python3-typogrify-${version}"
+            hash="sha256:8be4668cda434163ce229d87ca273a11922cb1614cb359970b7dc96eed13cb38"/>
   </distutils>
 
   <distutils id="meson" python3="1">
