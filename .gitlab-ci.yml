@@ -5,6 +5,8 @@ stages:
 test-py3:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v5
   script:
+    # verify modulesets
+    - xmllint --noout modulesets/*.{xml,xsl,modules}
     # autotools install
     - mkdir _build && cd _build
     - ../autogen.sh --with-python=python3
