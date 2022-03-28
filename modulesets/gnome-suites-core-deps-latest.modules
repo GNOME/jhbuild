@@ -647,7 +647,7 @@
     <dependencies>
       <dep package="gtk+-3"/>
       <dep package="WebKit"/>
-      <dep package="librest"/>
+      <dep package="librest-0.7"/>
       <dep package="libsoup"/>
       <dep package="libsecret"/>
       <dep package="json-glib"/>
@@ -768,7 +768,7 @@
       <dep package="libgdata"/>
       <dep package="libmediaart"/>
       <dep package="liboauth"/>
-      <dep package="librest"/>
+      <dep package="librest-0.7"/>
       <dep package="libsoup"/>
       <dep package="sqlite3"/>
       <dep package="tracker"/>
@@ -1332,7 +1332,7 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
-      <dep package="librest"/>
+      <dep package="librest-0.7"/>
       <dep package="libsoup"/>
       <dep package="gnome-online-accounts"/>
     </dependencies>
@@ -1341,7 +1341,7 @@
   <autotools id="libgovirt">
     <branch/>
     <dependencies>
-      <dep package="librest"/>
+      <dep package="librest-0.7"/>
       <dep package="gobject-introspection"/>
     </dependencies>
   </autotools>
@@ -1609,13 +1609,30 @@
     <if condition-set="macos">
       <mesonargs value="-Dca_certificates=false"/>
     </if>
-    <branch revision="librest-0-7"/>
+    <branch/>
     <dependencies>
       <dep package="glib"/>
       <dep package="libsoup"/>
       <dep package="libxml2"/>
     </dependencies>
   </meson>
+
+  <autotools id="librest-0.7">
+    <if condition-set="freebsd">
+      <autogenargs value="--with-ca-certificates=/usr/local/share/certs/ca-root-nss.crt"/>
+    </if>
+    <if condition-set="macos">
+      <autogenargs value="--without-ca-certificates"/>
+    </if>
+    <branch revision="librest-0-7"
+            module="librest"
+            checkoutdir="librest-0.7"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </autotools>
 
   <autotools id="librsvg" supports-non-srcdir-builds="no" autogenargs="--enable-vala=yes">
     <if condition-unset="gnu-elf">
@@ -1757,7 +1774,7 @@
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
-      <dep package="librest"/>
+      <dep package="librest-0.7"/>
       <dep package="libsoup"/>
       <dep package="gnome-online-accounts"/>
     </dependencies>
