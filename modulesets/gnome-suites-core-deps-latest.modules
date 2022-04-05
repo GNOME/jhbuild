@@ -2405,14 +2405,6 @@
     </dependencies>
   </meson>
 
-  <cmake id="openjpeg">
-    <branch repo="github-tar"
-            module="uclouvain/openjpeg/archive/v${version}.tar.gz"
-            checkoutdir="openjpeg-${version}"
-            version="2.3.1"
-            hash="sha256:63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9"/>
-  </cmake>
-
   <cmake id="WebKit" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_SOUP2=ON">
     <if condition-unset="x11">
       <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
@@ -2444,7 +2436,6 @@
       <dep package="lcms2"/>
       <dep package="libicu"/>
       <dep package="libjpeg"/>
-      <dep package="openjpeg"/>
       <dep package="libnotify"/>
       <dep package="libpng"/>
       <dep package="libsecret"/>
@@ -2454,6 +2445,7 @@
       <dep package="libxslt"/>
       <!-- Either libGL or libGLES is required. -->
       <dep package="mesa-libGLES"/>
+      <dep package="openjpeg"/>
       <dep package="pango"/>
       <dep package="ruby"/>
       <dep package="sqlite3"/>
