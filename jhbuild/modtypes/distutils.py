@@ -77,7 +77,7 @@ class DistutilsModule(Package, DownloadableModule):
         cmd.extend(['install', 
                     '--prefix', prefix,
                     '--install-script', os.path.join(prefix, 'bin'),
-                    '--install-lib', os.path.join(prefix, 'bin'),
+                    '--install-lib', os.path.join(prefix, 'lib'),
                     '--install-data', os.path.join(prefix, 'share'),
                     '--root', destdir])
         buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
