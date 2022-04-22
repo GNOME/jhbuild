@@ -70,15 +70,11 @@ class DistutilsModule(Package, DownloadableModule):
         srcdir = self.get_srcdir(buildscript)
         builddir = self.get_builddir(buildscript)
         destdir = self.prepare_installroot(buildscript)
-        prefix = buildscript.config.prefix
         cmd = [self.python, 'setup.py']
         if srcdir != builddir:
             cmd.extend(['build', '--build-base', builddir])
         cmd.extend(['install', 
-                    '--prefix', prefix,
-                    '--install-script', os.path.join(prefix, 'bin'),
-                    '--install-lib', os.path.join(prefix, 'lib'),
-                    '--install-data', os.path.join(prefix, 'share'),
+                    '--prefix', buildscript.config.prefix,
                     '--root', destdir])
         buildscript.execute(cmd, cwd = srcdir, extra_env = self.extra_env)
         self.process_install(buildscript, self.get_revision())
