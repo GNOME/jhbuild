@@ -110,20 +110,11 @@
     </dependencies>
   </meson>
 
-  <meson id="atk">
-    <branch/>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="gobject-introspection"/>
-      <dep package="gtk-doc"/>
-    </dependencies>
-  </meson>
-
   <meson id="atkmm-1.6">
     <branch checkoutdir="atkmm-1.6" module="atkmm" revision="atkmm-2-28"/>
     <dependencies>
       <dep package="glibmm-2.4"/>
-      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
     </dependencies>
   </meson>
 
@@ -131,7 +122,7 @@
     <branch/>
     <dependencies>
       <dep package="glibmm"/>
-      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
     </dependencies>
   </meson>
 
@@ -215,7 +206,7 @@
     <branch/>
     <dependencies>
       <dep package="cogl"/>
-      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="json-glib"/>
@@ -892,7 +883,7 @@
         <dep package="libXcursor"/>
       </if>
       <if condition-unset="quartz">
-        <dep package="at-spi2-atk"/>
+        <dep package="at-spi2-core"/>
       </if>
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>
@@ -942,7 +933,7 @@
     </if>
     <branch repo="gitlab.gnome.org" checkoutdir="gtk+-3" module="GNOME/gtk.git" revision="gtk-3-24"/>
     <dependencies>
-      <dep package="atk"/>
+      <dep package="at-spi2-core"/>
       <dep package="glib"/>
       <dep package="cairo"/>
       <dep package="pango"/>
@@ -953,9 +944,6 @@
       <dep package="cups"/>
       <if condition-set="x11">
         <dep package="libXcursor"/>
-      </if>
-      <if condition-unset="quartz">
-        <dep package="at-spi2-atk"/>
       </if>
       <if condition-set="wayland">
         <dep package="libxkbcommon"/>

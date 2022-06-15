@@ -48,17 +48,6 @@
     </dependencies>
   </autotools>
 
-  <meson id="at-spi2-atk">
-    <branch/>
-    <dependencies>
-      <dep package="dbus"/>
-      <dep package="glib"/>
-      <dep package="atk"/>
-      <dep package="libxml2"/>
-      <dep package="at-spi2-core"/>
-    </dependencies>
-  </meson>
-
   <meson id="at-spi2-core">
     <if condition-unset="x11">
       <mesonargs value="-Denable-x11=false"/>
@@ -68,6 +57,7 @@
       <dep package="dbus"/>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
+      <dep package="libxml2"/>
       <if condition-set="x11">
         <dep package="libXtst"/>
         <dep package="x11"/>
@@ -1152,7 +1142,7 @@
     <branch/>
     <dependencies>
       <dep package="gtk+-3"/>
-      <dep package="at-spi2-atk"/> <!-- to make Orca's gui accessible -->
+      <dep package="at-spi2-core"/>
       <dep package="gobject-introspection"/>
       <dep package="intltool"/>
       <dep package="pyatspi2"/>
@@ -1487,9 +1477,7 @@
   <!-- Platform metamodule -->
   <metamodule id="meta-gnome-devel-platform">
     <dependencies>
-      <dep package="atk"/>
       <dep package="at-spi2-core"/>
-      <dep package="at-spi2-atk"/>
       <dep package="glib"/>
       <dep package="gtk+-3"/>
       <dep package="pango"/>
