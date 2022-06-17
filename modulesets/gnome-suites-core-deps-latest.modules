@@ -630,9 +630,9 @@
     <branch/>
   </autotools>
 
-  <autotools id="gnome-online-accounts">
+  <meson id="gnome-online-accounts">
     <if condition-set="freebsd">
-      <autogenargs value="--disable-kerberos --disable-fedora"/>
+      <mesonargs value="-Dkerberos=false -Dfedora=false"/>
     </if>
     <branch/>
     <dependencies>
@@ -646,7 +646,7 @@
       <dep package="libxml2"/>
       <dep package="m4-common"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="gnome-online-miners">
     <branch/>
