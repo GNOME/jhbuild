@@ -2,6 +2,9 @@ from distutils import sysconfig
 import sys
 import os
 
+if 'JHBUILD_PREFIX' in os.environ:
+    sys.path.insert(1, os.environ['JHBUILD_PREFIX'] + '/lib/python3/dist-packages')
+
 if 'JHBUILD_PREFIXES' in os.environ:
     for prefix in reversed(os.environ['JHBUILD_PREFIXES'].split(':')):
         sitedir = sysconfig.get_python_lib(prefix=prefix)

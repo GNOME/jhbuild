@@ -4,7 +4,7 @@ GNOME=/opt/gnome
 
 PATH=${GNOME}/bin:${GNOME}/sbin:${PATH}
 LD_LIBRARY_PATH=${GNOME}/lib:${LD_LIBRARY_PATH}
-PYTHONPATH=${GNOME}/lib/python2.7/site-packages:/usr/lib/python2.7/site-packages
+PYTHONPATH=${GNOME}/lib/python3.10/site-packages:${GNOME}/lib/python3/dist-packages:/usr/lib/python3.10/site-packages
 PKG_CONFIG_PATH=${GNOME}/lib/pkgconfig:${GNOME}/share/pkgconfig:/usr/lib/pkgconfig
 XDG_DATA_DIRS=${GNOME}/share:/usr/share
 XDG_CONFIG_DIRS=${GNOME}/etc/xdg
@@ -18,4 +18,3 @@ systemctl --user daemon-reload
 
 #exec valgrind --tool=memcheck --log-file=/tmp/session-grind.log "${GNOME}/bin/gnome-session"
 exec "${GNOME}/bin/gnome-session" --debug
-
