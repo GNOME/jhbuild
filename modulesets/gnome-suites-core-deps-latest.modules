@@ -2509,6 +2509,67 @@
     </dependencies>
   </cmake>
 
+  <cmake id="WebKit5.0" cmakeargs="-DPORT=GTK -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_GTK4=ON">
+    <if condition-unset="x11">
+      <cmakeargs value="-DENABLE_X11_TARGET=OFF"/>
+    </if>
+    <if condition-unset="wayland">
+      <cmakeargs value="-DENABLE_WAYLAND_TARGET=OFF"/>
+    </if>
+    <pkg-config>webkit2gtk-5.0.pc</pkg-config>
+    <branch repo="webkitgtk.org"
+            module="webkitgtk-${version}.tar.xz"
+            version="2.36.3"
+            hash="sha256:732fcf8c4ec644b8ed28b46ebbd7c1ebab9d9e0afea9bdf5e5d12786afc478d1"
+            size="26600236"/>
+    <dependencies>
+      <dep package="c++"/>
+      <dep package="at-spi2-core"/>
+      <dep package="brotli"/>
+      <dep package="cairo"/>
+      <dep package="enchant-2"/>
+      <dep package="fontconfig"/>
+      <dep package="freetype2"/>
+      <dep package="geoclue"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gperf"/>
+      <dep package="gstreamer"/>
+      <dep package="gtk4"/>
+      <dep package="harfbuzz"/>
+      <dep package="hyphen"/>
+      <dep package="lcms2"/>
+      <dep package="libicu"/>
+      <dep package="libjpeg"/>
+      <dep package="libnotify"/>
+      <dep package="libpng"/>
+      <dep package="libsecret"/>
+      <dep package="libsoup3"/>
+      <dep package="libwebp"/>
+      <dep package="libxml2"/>
+      <dep package="libxslt"/>
+      <!-- Either libGL or libGLES is required. -->
+      <dep package="mesa-libGLES"/>
+      <dep package="openjpeg"/>
+      <dep package="pango"/>
+      <dep package="ruby"/>
+      <dep package="sqlite3"/>
+      <dep package="upower"/>
+      <dep package="woff2"/>
+      <if condition-set="x11">
+        <dep package="libXcomposite"/>
+        <dep package="libXdamage"/>
+        <dep package="libXrender"/>
+        <dep package="libXt"/>
+      </if>
+      <if condition-set="wayland">
+        <if condition-set="linux">
+          <dep package="wayland"/>
+        </if>
+        <dep package="wpebackend-fdo"/>
+      </if>
+    </dependencies>
+  </cmake>
+
   <cmake id="woff2">
     <branch repo="github-tar"
             version="1.0.2"
