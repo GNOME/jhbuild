@@ -31,7 +31,7 @@ install: include-check
 
 	@echo "Creating $(desktopdir)/jhbuild.desktop"
 	@mkdir -p $(desktopdir)
-	@sed "s,^_,,g;s,^Exec=.*$$,Exec=$(bindir)/jhbuild gui,;s,^X-GNOME-Bugzilla-Version=.*$$,," \
+	@sed "s,^_,,g;s,^Exec=.*$$,Exec=$(bindir)/jhbuild gui," \
 		< jhbuild.desktop.in.in > $(desktopdir)/jhbuild.desktop
 
 # if ~/bin/jbuild exists, it is most likely an old version, and it will
