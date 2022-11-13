@@ -566,6 +566,17 @@
     </dependencies>
   </meson>
 
+  <meson id="geocode-glib-1">
+    <branch checkoutdir="geocode-glib-1" module="geocode-glib"/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="json-glib"/>
+      <dep package="libsoup"/>
+      <dep package="gobject-introspection"/>
+      <dep package="gtk-doc"/>
+    </dependencies>
+  </meson>
+
   <meson id="geocode-glib">
     <mesonargs value="-Dsoup2=false"/>
     <branch/>
@@ -1375,7 +1386,7 @@
     <branch checkoutdir="libgweather-3" module="libgweather" revision="libgweather-3"/>
     <dependencies>
       <dep package="libxml2"/>
-      <dep package="geocode-glib"/>
+      <dep package="geocode-glib-1"/>
       <dep package="glib"/>
       <dep package="gobject-introspection"/>
       <dep package="gtk+-3"/>
