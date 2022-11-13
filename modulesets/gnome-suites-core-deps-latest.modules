@@ -1966,8 +1966,8 @@
     </dependencies>
   </meson>
 
-  <autotools id="ModemManager"
-             autogenargs="--with-udev-base-dir=${libdir}/udev --with-systemdsystemunitdir=no --disable-more-warnings">
+  <meson id="ModemManager"
+             mesonargs="-Dudevdir=${libdir}/udev -Dvapi=true">
     <branch repo="gitlab.freedesktop.org"
              module="mobile-broadband/ModemManager.git"
              checkoutdir="ModemManager" />
@@ -1981,7 +1981,7 @@
       <dep package="libmbim"/>
       <dep package="libqmi"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <autotools id="mozjs102" autogen-sh="js/src/configure"
              force-non-srcdir-builds="yes"
