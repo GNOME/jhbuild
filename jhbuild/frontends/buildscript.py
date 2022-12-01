@@ -116,7 +116,7 @@ class BuildScript(object):
 
             if self.config.min_age is not None:
                 installdate = self.moduleset.packagedb.installdate(module.name)
-                if installdate > self.config.min_age:
+                if installdate is not None and installdate > self.config.min_age:
                     self.message(_('Skipping %s (installed recently)') % module.name)
                     continue
 
