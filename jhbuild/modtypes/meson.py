@@ -94,7 +94,7 @@ class MesonModule(NinjaModule, DownloadableModule):
             raise CommandError(_('%s not found') % 'meson')
         baseargs = '--prefix %s --libdir %s' % (prefix, self.get_libdir())
         mesonargs = self.get_mesonargs()
-        cmd = 'meson %s %s %s' % (baseargs, mesonargs, srcdir)
+        cmd = 'meson setup %s %s %s' % (baseargs, mesonargs, srcdir)
         buildscript.execute(cmd, cwd=builddir, extra_env=self.extra_env)
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
