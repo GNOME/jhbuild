@@ -446,7 +446,7 @@ class GitBranch(Branch):
             extra_opts.append('-q')
 
         if self.config.shallow_clone:
-            extra_opts.append('--depth=1')
+            extra_opts += ['--depth=1', '--no-single-branch']
 
         self.update_dvcs_mirror(buildscript)
 
@@ -454,8 +454,10 @@ class GitBranch(Branch):
         if self.checkoutdir:
             cmd.append(self.checkoutdir)
 
-        if self.branch is not None:
-            cmd.extend(['-b', self.branch])
+        if self.tag:
+            cmd.extend(['--branch', self.tag])
+        elif self.branch:
+            cmd.extend(['--branch', self.branch])
 
         if copydir:
             buildscript.execute(cmd, cwd=copydir, extra_env=get_git_extra_env())
