@@ -80,6 +80,16 @@ class DistutilsModule(Package, DownloadableModule):
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
+    @property
+    def extra_env(self):
+        return {
+            **(super().extra_env or {}),
+            # Setuptools v60+ changes the way it builds wheels (prefix/local/lib)
+            # See https://github.com/pypa/setuptools/issues/2896
+            # See https://gitlab.gnome.org/GNOME/jhbuild/-/issues/286
+            'SETUPTOOLS_USE_DISTUTILS': 'stdlib',
+        }
+
     def xml_tag_and_attrs(self):
         return 'distutils', [('id', 'name', None),
                              ('supports-non-srcdir-builds',
