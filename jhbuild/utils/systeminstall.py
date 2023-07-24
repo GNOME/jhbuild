@@ -49,10 +49,11 @@ def get_installed_pkgconfigs(config):
 
     # see if we can get the versions "the easy way"
     try:
-        stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs, universal_newlines=True)
+        stdout = subprocess.check_output(['pkg-config', '--modversion'] + pkgs, universal_newlines=True, stderr=subprocess.DEVNULL)
     except (subprocess.CalledProcessError, OSError):
         pass
     else:
+        print('Success')
         versions = stdout.splitlines()
         if len(versions) == len(pkgs):
             return dict(zip(pkgs, versions))
@@ -63,7 +64,7 @@ def get_installed_pkgconfigs(config):
     for pkg in pkgs:
         cmd = ['pkg-config', '--modversion', pkg]
         try:
-            stdout = subprocess.check_output(cmd, universal_newlines=True)
+            stdout = subprocess.check_output(cmd, universal_newlines=True, stderr=subprocess.DEVNULL)
         except (subprocess.CalledProcessError, OSError):
             logging.error("{} failed".format(cmd))
             continue
