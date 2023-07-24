@@ -226,11 +226,9 @@ class ModuleSet:
                             new_enough = compare_version(installed_version,
                                                          required_version)
                 elif systemmodule:
-                    new_enough = systeminstall.systemdependencies_met \
-                                     (module.name, module.systemdependencies,
-                                      self.config)
-                    if new_enough:
-                        installed_version = 'unknown'
+                    new_enough, installed_version = systeminstall.systemdependencies_met(
+                        module.name, module.systemdependencies,
+                        self.config, required_version)
                 module_state[module] = (required_version, installed_version,
                                         new_enough, systemmodule)
         return module_state

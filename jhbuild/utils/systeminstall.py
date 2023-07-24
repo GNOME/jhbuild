@@ -28,6 +28,7 @@ import textwrap
 import time
 import re
 
+from .cmds import compare_version
 from .compat import TextIO
 from . import cmds
 from . import _, udecode
@@ -103,7 +104,70 @@ def get_uninstalled_filenames(uninstalled):
             uninstalled_filenames.append((module_name, os.path.join('/usr/include', value)))
     return uninstalled_filenames
 
-def systemdependencies_met(module_name, sysdeps, config):
+
+# Taken from mesonbuild/utils/universal.py
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2012-2020 The Meson development team
+def _extract_version_string(text):
+    # Usually of the type 4.1.4 but compiler output may contain
+    # stuff like this:
+    # (Sourcery CodeBench Lite 2014.05-29) 4.8.3 20140320 (prerelease)
+    # Limiting major version number to two digits seems to work
+    # thus far. When we get to GCC 100, this will break, but
+    # if we are still relevant when that happens, it can be
+    # considered an achievement in itself.
+    #
+    # This regex is reaching magic levels. If it ever needs
+    # to be updated, do not complexify but convert to something
+    # saner instead.
+    # We'll demystify it a bit with a verbose definition.
+    version_regex = re.compile(r"""
+    (?<!                # Zero-width negative lookbehind assertion
+        (
+            \d          # One digit
+            | \.        # Or one period
+        )               # One occurrence
+    )
+    # Following pattern must not follow a digit or period
+    (
+        \d{1,2}         # One or two digits
+        (
+            \.\d+       # Period and one or more digits
+        )+              # One or more occurrences
+        (
+            -[a-zA-Z0-9]+   # Hyphen and one or more alphanumeric
+        )?              # Zero or one occurrence
+    )                   # One occurrence
+    """, re.VERBOSE)
+    match = version_regex.search(text)
+    if match:
+        return match.group(0)
+
+    # try a simpler regex that has like "blah 2020.01.100 foo" or "blah 2020.01 foo"
+    version_regex = re.compile(r"(\d{1,4}\.\d{1,4}\.?\d{0,4})")
+    match = version_regex.search(text)
+    if match:
+        return match.group(0)
+
+    return None
+
+def _get_binary_version(filepath):
+    try:
+        output = subprocess.check_output([filepath, '--version'],
+                                         stderr=subprocess.DEVNULL).decode()
+    except FileNotFoundError:
+        logging.warning('Failed to find binary {}'.format(filepath))
+        return
+    except UnicodeDecodeError:
+        logging.warning('Failed to decode output of {}'.format(filepath))
+        return
+    except subprocess.CalledProcessError:
+        # The process likely doesn't support --version
+        return
+
+    return _extract_version_string(output)
+
+def systemdependencies_met(module_name, sysdeps, config, required_version=None):
     '''Returns True of the system dependencies are met for module_name'''
     def get_c_include_search_paths(config):
         '''returns a list of C include paths (-I) from the environment and the
@@ -156,6 +220,7 @@ def systemdependencies_met(module_name, sysdeps, config):
     c_include_search_paths = None
     for dep_type, value, altdeps in sysdeps:
         dep_met = True
+        version_found = None
         if dep_type.lower() == 'path':
             if os.path.split(value)[0]:
                 if not os.path.isfile(value) and not os.access(value, os.X_OK):
@@ -166,6 +231,7 @@ def systemdependencies_met(module_name, sysdeps, config):
                 for path in pathdirs:
                     filename = os.path.join(path, value)
                     if os.path.isfile(filename) and os.access(filename, os.X_OK):
+                        version_found = _get_binary_version(filename)
                         break
                 else:
                     dep_met = False
@@ -214,14 +280,18 @@ def systemdependencies_met(module_name, sysdeps, config):
         # check alternative dependencies
         if not dep_met and altdeps:
             for altdep in altdeps:
-                if systemdependencies_met(module_name, [ altdep ], config):
+                found, version = systemdependencies_met(module_name, [ altdep ], config)
+                if found:
                     dep_met = True
+                    version_found = version
                     break
 
-        if not dep_met:
-            return False
+        if required_version and version_found:
+            dep_met = compare_version(version_found, required_version)
 
-    return True
+        return dep_met, version_found
+
+    return True, None
 
 class SystemInstall(object):
     def __init__(self):
