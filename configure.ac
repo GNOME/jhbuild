@@ -43,14 +43,6 @@ GETTEXT_PACKAGE=AC_PACKAGE_TARNAME
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package])
 
-# Documentation
-AC_ARG_ENABLE(
-	doc_installation,
-	AS_HELP_STRING([--enable-doc-installation=@<:@no/yes@:>@], [install the documentation files]),
-	[enable_doc_installation=$enableval],
-	[enable_doc_installation=no])
-AM_CONDITIONAL([DOC_INSTALLATION_ENABLED],[test "x$enable_doc_installation" = "xyes"])
-
 # GUI
 AC_ARG_ENABLE(
 	gui,

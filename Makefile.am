@@ -1,8 +1,4 @@
-SUBDIRS = po examples scripts triggers jhbuild
-
-if DOC_INSTALLATION_ENABLED
-SUBDIRS += doc
-endif
+SUBDIRS = po examples scripts triggers jhbuild doc
 
 PATCHES = $(wildcard $(top_srcdir)/patches/*.patch)
 MODULESETS = $(wildcard $(top_srcdir)/modulesets/*.modules)
