@@ -45,7 +45,7 @@ def print_help(parser):
     parser.exit()
 
 def main(args):
-    if DATADIR is not None:
+    if 'DATADIR' in __builtins__:
         localedir = os.path.join(DATADIR, 'locale')
     else:
         localedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mo'))
