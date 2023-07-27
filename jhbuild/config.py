@@ -113,6 +113,17 @@ class Config:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
 
+        xdg_config_dirs = os.environ.get('XDG_CONFIG_DIRS', '/etc/xdg').split(':')
+        for xdg_config_dir in xdg_config_dirs:
+            try:
+                config_path = os.path.join(xdg_config_dir, 'jhbuildrc')
+                execfile(config_path, self._config)
+            except FileNotFoundError:
+                pass
+            except Exception:
+                traceback.print_exc()
+                raise FatalError(_('could not load system config %s' % config_path))
+
         old_config = os.path.join(os.path.expanduser('~'), '.jhbuildrc')
         new_config = os.path.join(os.environ.get('XDG_CONFIG_HOME',
             os.path.join(os.path.expanduser('~'), '.config')),
