@@ -53,7 +53,6 @@ def get_installed_pkgconfigs(config):
     except (subprocess.CalledProcessError, OSError):
         pass
     else:
-        print('Success')
         versions = stdout.splitlines()
         if len(versions) == len(pkgs):
             return dict(zip(pkgs, versions))
