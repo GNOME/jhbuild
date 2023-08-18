@@ -6,8 +6,8 @@
 msgid ""
 msgstr "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2022-07-12 11:19+0000\n"
-"PO-Revision-Date: 2023-03-05 10:00+0100\n"
+"POT-Creation-Date: 2023-08-03 02:47+0000\n"
+"PO-Revision-Date: 2023-08-18 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -705,7 +705,7 @@ msgstr "Instalazio-aurrizkia (%s) ez da idazgarria"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:105 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:503 jhbuild/versioncontrol/hg.py:105
+#: jhbuild/versioncontrol/git.py:505 jhbuild/versioncontrol/hg.py:105
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:322
 #, python-format
 msgid "%s not found"
@@ -851,92 +851,97 @@ msgstr "Baldintzen multzoaren aldatzaile baliogabea: '%s'.  Hasieran '+' edo '-'
 msgid "could not load config defaults"
 msgstr "ezin izan dira konfigurazioaren balio lehenetsiak kargatu"
 
-#: jhbuild/config.py:123
+#: jhbuild/config.py:125
+#, python-format
+msgid "could not load system config %s"
+msgstr "ezin izan da %s(r)en sistema-konfigurazioa kargatu"
+
+#: jhbuild/config.py:134
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "ezin izan da konfigurazio-fitxategia kargatu, %s falta da"
 
-#: jhbuild/config.py:129
+#: jhbuild/config.py:140
 #, python-format
 msgid ""
 "The default location of the configuration file has changed. Please move "
 "%(old_path)s to %(new_path)s."
 msgstr "Konfigurazio-fitxategiaren kokaleku lehenetsia aldatu egin da. Eraman %(old_path)s %(new_path)s kokaleku berrira."
 
-#: jhbuild/config.py:188
+#: jhbuild/config.py:199
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Ezin izan da konfigurazio-fitxategia sartu (%s)"
 
-#: jhbuild/config.py:202
+#: jhbuild/config.py:213
 msgid "could not load config file"
 msgstr "ezin izan da konfigurazio-fitxategia kargatu"
 
-#: jhbuild/config.py:216
+#: jhbuild/config.py:227
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "gako ezezagunak definitu dira konfigurazio-fitxategian: %s"
 
-#: jhbuild/config.py:223
+#: jhbuild/config.py:234
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use "
 "\"repos['gnome.org']\"."
 msgstr "\"%s\" konfigurazio-aldagia zaharkituta dago, \"repos['gnome.org']\" erabili behar da."
 
-#: jhbuild/config.py:228 jhbuild/config.py:233
+#: jhbuild/config.py:239 jhbuild/config.py:244
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr "\"%s\" konfigurazio-aldagia zaharkituta dago, \"repos\" erabili behar da."
 
-#: jhbuild/config.py:267
+#: jhbuild/config.py:278
 msgid "invalid checkout mode"
 msgstr "erauzte-modu baliogabea"
 
-#: jhbuild/config.py:271
+#: jhbuild/config.py:282
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "erauzte-modu baliogabea (modulua: %s)"
 
-#: jhbuild/config.py:273
+#: jhbuild/config.py:284
 msgid "copy mode requires copy_dir to be set"
 msgstr "kopiatze-modua erabitzeko copy_dir ezarri behar da"
 
-#: jhbuild/config.py:278
+#: jhbuild/config.py:289
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr "ez da aurkitu modulu multzoen direktorioa (%s), use_local_modulesets desgaitu da"
 
-#: jhbuild/config.py:284 jhbuild/config.py:286 jhbuild/config.py:288
-#: jhbuild/config.py:290 jhbuild/config.py:293
+#: jhbuild/config.py:295 jhbuild/config.py:297 jhbuild/config.py:299
+#: jhbuild/config.py:301 jhbuild/config.py:304
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s bide-izenak absolutua izan behar du"
 
-#: jhbuild/config.py:304
+#: jhbuild/config.py:315
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "ezin izan da instalazio-aurrizkia (%s) sortu"
 
-#: jhbuild/config.py:311
+#: jhbuild/config.py:322
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "ezin izan da laneko direktorioa (%s) sortu"
 
-#: jhbuild/config.py:314
+#: jhbuild/config.py:325
 msgid ""
 "Your install prefix contains a 'lib64' directory, which is no longer "
 "supported by jhbuild.  This is likely the result of a previous build with an "
 "older version of jhbuild or of a broken package.  Please consider removing "
 "your install and checkout directories and starting fresh."
-msgstr "Zure instalazio-aurrizkiak 'lib64' direktorioa du, baina jhbuild aplikazioak dagoeneko ez du hori onartzen. ZIur asko aurreko jhbuil bertsio batekin eraikitako aurreko eraikuntza baten emaitza da edo hautsita dagoen pakete bat da. Beharbada zure instalazioa kendu beharko zenuke, direktorioak berriro erauzi eta zerotik hasi."
+msgstr "Zure instalazio-aurrizkiak 'lib64' direktorioa du, baina jhbuild aplikazioak dagoeneko ez du hori onartzen.  ZIur asko aurreko jhbuil bertsio batekin eraikitako aurreko eraikuntza baten emaitza da edo hautsita dagoen pakete bat da.  Beharbada zure instalazioa kendu beharko zenuke, direktorioak berriro erauzi eta zerotik hasi."
 
-#: jhbuild/config.py:392
+#: jhbuild/config.py:403
 msgid "Failed to parse 'min_age' relative time"
 msgstr "Ezin izan da 'min_age' denbora erlatiboa analizatu"
 
-#: jhbuild/config.py:407
+#: jhbuild/config.py:418
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr "modu lasaia desgaitu da Python curses modulua falta delako."
@@ -1447,8 +1452,8 @@ msgstr "Biltegia=%(missing)s ez da aurkitu kdonfig-erako id=%(linux_id)s linuxen
 #: jhbuild/modtypes/linux.py:248
 #, python-format
 msgid ""
-"Default repository=%(missing)s not found for kconfig in linux id="
-"%(linux_id)s. Possible repositories are %(possible)s"
+"Default repository=%(missing)s not found for kconfig in linux "
+"id=%(linux_id)s. Possible repositories are %(possible)s"
 msgstr "Biltegi lehenetsia=%(missing)s ez da aurkitu kdonfig-erako id=%(linux_id)s linuxen. Balizko biltegiak: %(possible)s"
 
 #: jhbuild/modtypes/tarball.py:64
@@ -1518,41 +1523,41 @@ msgstr "%s paketeak kapsulatutako lerro berriak dituzten fitxategiak ditu"
 msgid ""
 "no manifest for '%s', can't uninstall.  Try building again, then "
 "uninstalling."
-msgstr "ez dago manifesturik '%s'(e)rako, ezin da desinstalatu. Saiatu berriro eraikitzen eta ondoren berriro desinstalatzen."
+msgstr "ez dago manifesturik '%s'(e)rako, ezin da desinstalatu.  Saiatu berriro eraikitzen eta ondoren berriro desinstalatzen."
 
 #: jhbuild/utils/packagedb.py:222
 #, python-format
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Huts egin du %(file)r fitxategiaren ezabaketak: %(msg)s"
 
-#: jhbuild/utils/systeminstall.py:233
+#: jhbuild/utils/systeminstall.py:234
 msgid ""
 "No suitable root privilege command found; you should install \"sudo\" or "
 "\"pkexec\" (or the system package that provides it)"
 msgstr "Ez da aurkitu erro-pribilegioak hartzeko komandorik; \"sudo\" edo \"pkexec\" instalatu beharko zenuke (edo sistemak duen antzeko aplikazioren bat)"
 
-#: jhbuild/utils/systeminstall.py:262 jhbuild/utils/systeminstall.py:265
+#: jhbuild/utils/systeminstall.py:263 jhbuild/utils/systeminstall.py:266
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:272
+#: jhbuild/utils/systeminstall.py:273
 msgid "Error: python-gobject package not found."
 msgstr "Errorea: python-gobject paketea ez da aurkitu."
 
-#: jhbuild/utils/systeminstall.py:278
+#: jhbuild/utils/systeminstall.py:279
 msgid "Error: dbus-python package not found."
 msgstr "Errorea: dbus-python paketea ez da aurkitu."
 
-#: jhbuild/utils/systeminstall.py:295
+#: jhbuild/utils/systeminstall.py:296
 msgid "Computing packages to install. This might be slow. Please wait."
-msgstr "Instalatuko diren paketeak kalkulatzen. Denbora bat behar du, itxaron."
+msgstr "Instalatuko diren paketeak kalkulatzen. Eragiketa hau motela izan daiteke. Itxaron."
 
-#: jhbuild/utils/systeminstall.py:325
+#: jhbuild/utils/systeminstall.py:326
 msgid "Nothing available to install"
 msgstr "Ez dago ezer eskuragarri instalaziorako"
 
-#: jhbuild/utils/systeminstall.py:328
+#: jhbuild/utils/systeminstall.py:329
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1560,83 +1565,83 @@ msgid ""
 msgstr "Instalatzen:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:329
+#: jhbuild/utils/systeminstall.py:330
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "'pkmon' to monitor progress."
 msgstr "Honek denbora luzea behar dezake. Ez itzali ordenagailua. Nahi baduzu, 'pkmon' exekutatu dezakezu aurrerapena behatzeko."
 
-#: jhbuild/utils/systeminstall.py:335
+#: jhbuild/utils/systeminstall.py:336
 msgid "Complete!"
 msgstr "Osatuta!"
 
-#: jhbuild/utils/systeminstall.py:348
+#: jhbuild/utils/systeminstall.py:349
 msgid "Using dnf to install packages.  Please wait."
-msgstr "dnf erabiltzen paketeak instalatzeko. Itxaron."
+msgstr "dnf erabiltzen paketeak instalatzeko.  Itxaron."
 
-#: jhbuild/utils/systeminstall.py:352 jhbuild/utils/systeminstall.py:362
-#: jhbuild/utils/systeminstall.py:410 jhbuild/utils/systeminstall.py:428
-#: jhbuild/utils/systeminstall.py:583
+#: jhbuild/utils/systeminstall.py:353 jhbuild/utils/systeminstall.py:363
+#: jhbuild/utils/systeminstall.py:411 jhbuild/utils/systeminstall.py:429
+#: jhbuild/utils/systeminstall.py:584
 msgid "Nothing to install"
 msgstr "Ez dago instalatzeko ezer"
 
-#: jhbuild/utils/systeminstall.py:370 jhbuild/utils/systeminstall.py:433
+#: jhbuild/utils/systeminstall.py:371 jhbuild/utils/systeminstall.py:434
 msgid "Install failed"
 msgstr "Instalazioak huts egin du"
 
-#: jhbuild/utils/systeminstall.py:372 jhbuild/utils/systeminstall.py:435
+#: jhbuild/utils/systeminstall.py:373 jhbuild/utils/systeminstall.py:436
 msgid "Completed!"
 msgstr "Osatuta!"
 
-#: jhbuild/utils/systeminstall.py:385
+#: jhbuild/utils/systeminstall.py:386
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile ez da aurkitu, automatikoki instalatzen"
 
-#: jhbuild/utils/systeminstall.py:387
+#: jhbuild/utils/systeminstall.py:388
 msgid "Failed to install pkgfile"
 msgstr "Ezin izan da pkgfile instalatu"
 
-#: jhbuild/utils/systeminstall.py:393
+#: jhbuild/utils/systeminstall.py:394
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr "pkgfile cachea zaharra da edo ez da existitzen, automatikoki instalatzen"
 
-#: jhbuild/utils/systeminstall.py:396
+#: jhbuild/utils/systeminstall.py:397
 msgid "Failed to create pkgfile cache"
 msgstr "Huts egin du pkgfile cachea sortzeak"
 
-#: jhbuild/utils/systeminstall.py:399
+#: jhbuild/utils/systeminstall.py:400
 msgid "Failed to update pkgfile cache"
 msgstr "Huts egin du pkgfile cachea eguneratzeak"
 
-#: jhbuild/utils/systeminstall.py:401
+#: jhbuild/utils/systeminstall.py:402
 msgid "Successfully updated pkgfile cache"
 msgstr "pkgfile cachea ondo eguneratu da"
 
-#: jhbuild/utils/systeminstall.py:406
+#: jhbuild/utils/systeminstall.py:407
 msgid "Using pacman to install packages.  Please wait."
-msgstr "pacman erabiltzen paketeak instalatzeko. Itxaron."
+msgstr "pacman erabiltzen paketeak instalatzeko.  Itxaron."
 
-#: jhbuild/utils/systeminstall.py:425
+#: jhbuild/utils/systeminstall.py:426
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Ez da aurkitu \"%s\" elementurako hornitzailerik, ez ikusiarena egiten"
 
-#: jhbuild/utils/systeminstall.py:517 jhbuild/utils/systeminstall.py:528
-#: jhbuild/utils/systeminstall.py:542
+#: jhbuild/utils/systeminstall.py:518 jhbuild/utils/systeminstall.py:529
+#: jhbuild/utils/systeminstall.py:543
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Ez da jatorrizko paketerik aurkitu %(id)s (%(filename)s) fitxategietarako"
 
-#: jhbuild/utils/systeminstall.py:547
+#: jhbuild/utils/systeminstall.py:548
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Instalatzen: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:557
+#: jhbuild/utils/systeminstall.py:558
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
-msgstr "Hornitzaileak aurkitzeko apt-file erabiltzen; hori oso motela izan daiteke. Itxaron, mesedez."
+msgstr "Hornitzaileak aurkitzeko apt-file erabiltzen; hori oso motela izan daiteke. Itxaron. Lasai."
 
 #: jhbuild/utils/trigger.py:55
 #, python-format
@@ -1707,8 +1712,8 @@ msgstr "Beharbada changecvsroot.py scripta erabili daiteke hau konpontzeko."
 
 #: jhbuild/versioncontrol/darcs.py:81 jhbuild/versioncontrol/darcs.py:87
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:615 jhbuild/versioncontrol/git.py:655
-#: jhbuild/versioncontrol/git.py:731 jhbuild/versioncontrol/hg.py:89
+#: jhbuild/versioncontrol/git.py:617 jhbuild/versioncontrol/git.py:657
+#: jhbuild/versioncontrol/git.py:733 jhbuild/versioncontrol/hg.py:89
 #: jhbuild/versioncontrol/hg.py:95
 msgid "date based checkout not yet supported\n"
 msgstr "datan oinarritutako erauzkteak ez dira onartzen oraindik\n"
@@ -1730,7 +1735,7 @@ msgstr "Espero gabekoa: Checkoutdir ez da git biltegi bat:"
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
 "in the origin remote."
-msgstr "Eskatutako \"%s\" ez dago erabilgarri, ez lokalean ez urruneko jatorrian."
+msgstr "Eskatutako \"%s\" adarra ez dago eskuragarri. Ez lokalean, ez urruneko jatorrian."
 
 #: jhbuild/versioncontrol/git.py:305
 msgid "Refusing to switch a dirty tree."
@@ -1746,26 +1751,26 @@ msgstr "%s komandoak ez du ezer itzuli"
 msgid "Command %s did not include commit line: %r"
 msgstr "%s komandoak ez du egikaritze-lerroa: %r"
 
-#: jhbuild/versioncontrol/git.py:475
+#: jhbuild/versioncontrol/git.py:477
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
 msgstr "Moduluaren eguneratzeak huts egin du, git-era aldatu baita (aldaketak begiratu beharko zenituzke, eta ondoren, direktorioa kendu)"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:478
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
 msgstr "Moduluaren eguneratzeak huts egin du (.git falta da) (aldaketak begiratu beharko zenituzke, eta ondoren, direktorioa kendu)"
 
-#: jhbuild/versioncontrol/git.py:580
+#: jhbuild/versioncontrol/git.py:582
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
 msgstr "Kanpoko maneiuak huts egin du\n"
 " git bertsioa 1.5.6 baino zaharragoa bada, eguneratu egin beharko zenuke.\n"
 
-#: jhbuild/versioncontrol/git.py:627
+#: jhbuild/versioncontrol/git.py:629
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Ezin da %s(r)en azken berrikuspena eskuratu. Egiaztatu moduluaren kokalekua egokia dela."
