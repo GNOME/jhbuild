@@ -5,12 +5,10 @@ stages:
 documentation:
   image: docker.io/sphinxdoc/sphinx
   script:
-    - mkdir public
-    - cd public
-    - sphinx-build ../doc ./html ../doc/*.rst
+    - sphinx-build ./doc ./html ./doc/*.rst
   artifacts:
     paths:
-      - public
+      - html
 
 test-py3:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v5
@@ -53,11 +51,11 @@ ub20.04-py3-glib:
 pages:
   image: alpine:latest
   stage: deploy
-  needs: ["test-py3"]
+  needs: ["documentation"]
   script:
    - echo
   artifacts:
     paths:
-      - public
+      - html
   only:
     - master
