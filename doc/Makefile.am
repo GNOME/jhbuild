@@ -1,10 +1,10 @@
 documentation_files = \
 	index.rst \
-	configuration.rst \
-	commands.rst \
-	gnome.rst \
-	modulesets.rst \
-	getting_started.rst
+	config-reference.rst \
+	command-reference.rst \
+	jhbuild-and-gnome.rst \
+	moduleset-syntax.rst \
+	getting-started.rst
 
 EXTRA_DIST = \
 	conf.py \

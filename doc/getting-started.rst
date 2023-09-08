@@ -78,7 +78,7 @@ module set. JHBuild will unpack source trees to ``~/jhbuild/checkout/``
 and install all files to subdirectories of ``~/jhbuild/install/``. The
 two directories must be writable.
 
-Configuration variables are documented in :doc:`configuration`. The most commonly used variables are:
+Configuration variables are documented in :doc:`config-reference`. The most commonly used variables are:
 
 :ref:`repos`
 

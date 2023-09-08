@@ -33,8 +33,8 @@ separate install prefix without interfering with the rest of the system.
 .. toctree::
    :maxdepth: 2
 
-   getting_started
-   gnome
-   commands
-   configuration
-   modulesets
+   getting-started
+   jhbuild-and-gnome
+   command-reference
+   config-reference
+   moduleset-syntax
