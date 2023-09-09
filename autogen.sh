@@ -2,12 +2,11 @@
 #
 # JHBuild configuration script.
 #
-# For installation instructions please refer to the JHBuild manual:
-#   yelp /jhbuild-source-dir/doc/C/index.docbook
+# For installation instructions please refer to the JHBuild manual in doc
 #
 # Or refer to the on-line JHBuild manual at:
 #
-#  http://library.gnome.org/devel/jhbuild/stable/getting-started.html.en
+#  https://gnome.pages.gitlab.gnome.org/jhbuild/getting-started.html
 #
 # Usage:
 # ./autogen.sh [OPTION]
@@ -17,10 +16,10 @@
 #                         are not installed.
 #      --prefix=PREFIX    Install JHBuild to PREFIX. Defaults to ~/.local
 #
-# If autotools and yelp-tools are available, this configuration script
+# If autotools is available, this configuration script
 # will configure JHBuild to install via autotools.
 #
-# If autotools and yelp-tools are not available, this configuration
+# If autotools is are not available, this configuration
 # script will configure JHBuild to install via a plain Makefile.
 #
 # autogen.sh is used to configure JHBuild because the most common way to obtain
@@ -244,24 +243,17 @@ pkg_config_available=$?
 hash autopoint 2>& -
 autopoint_available=$?
 
-# Check yelp-tools is installed.
-hash yelp-build 2>&-
-yelp_tools_available=$?
-
 parse_commandline "$@"
 
 autotools_dependencies_met=$FALSE
 if [ "$autoconf_available" -eq "$TRUE" ] && \
    [ "$automake_available" -eq "$TRUE" ] && \
    [ "$pkg_config_available" -eq "$TRUE" ] && \
-   [ "$autopoint_available" -eq "$TRUE" ] && \
-   [ "$yelp_tools_available" -eq "$TRUE" ]; then
+   [ "$autopoint_available" -eq "$TRUE" ]; then
     autotools_dependencies_met=$TRUE
 fi
 
-# As a hack, force use of autotools if NOCONFIGURE is specified; this
-# allows the gnome-ostree build system to work which doesn't have
-# yelp, but also can't pass options to autogen.sh
+# As a hack, force use of autotools if NOCONFIGURE is specified
 force_autotools=$FALSE
 if test -n "$NOCONFIGURE"; then
   force_autotools=$TRUE
@@ -289,9 +281,6 @@ else
   fi
   if [ "$pkg_config_available" -ne "$TRUE" ]; then
     gettext "WARNING: pkg-config not available (usually part of package 'pkgconfig')"; echo
-  fi
-  if [ "$yelp_tools_available" -ne "$TRUE" ]; then
-    gettext "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"; echo
   fi
   configure_without_autotools
 fi
