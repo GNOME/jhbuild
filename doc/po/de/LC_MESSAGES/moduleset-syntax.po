@@ -1,0 +1,797 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, JHBuild Contributors
+# This file is distributed under the same license as the JHBuild package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: JHBuild \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-09 10:34-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: ../moduleset-syntax.rst:2
+msgid "Module Set File Syntax"
+msgstr ""
+
+#: ../moduleset-syntax.rst:4
+msgid ""
+"JHBuild uses XML files to describe the dependencies between modules. A "
+"RELAX-NG schema and Document Type Definition are included with JHBuild in"
+" the ``modulesets/`` directory. The RELAX-NG schema can be used to edit "
+"module set files using ``nxml-mode`` in Emacs."
+msgstr ""
+
+#: ../moduleset-syntax.rst:9
+msgid ""
+"The top-level element in a module set file is ``moduleset`` element. No "
+"XML namespace is used. The elements below the top-level come in three "
+"types: module sources, include statements and module definitions."
+msgstr ""
+
+#: ../moduleset-syntax.rst:13
+msgid ""
+"Content in the moduleset file can be conditionally included by use of the"
+" ``<if>`` tag to surround the conditional content. It is currently only "
+"possible to predicate the inclusion on whether a particular condition "
+"flag is set or not, using ``<if condition-set='cond'>`` or ``<if "
+"condition-unset='cond'>``. Conditions are set by default on a per-OS "
+"basis but can be influenced by way of the ``conditions`` variable in "
+"jhbuildrc or the ``--conditions=`` commandline argument."
+msgstr ""
+
+#: ../moduleset-syntax.rst:22 ../moduleset-syntax.rst:810
+msgid "Module Sources"
+msgstr ""
+
+#: ../moduleset-syntax.rst:24
+msgid ""
+"Rather than listing the full location of every module, a number of "
+"\"module sources\" are listed in the module set, and then referenced by "
+"name in the module definitions. As well as reducing the amount of "
+"redundant information in the module set, it makes it easy for a user to "
+"specify an alternative source for those modules (for CVS and Subversion, "
+"it is common for developers and users to use different repository access "
+"methods)."
+msgstr ""
+
+#: ../moduleset-syntax.rst:32
+msgid ""
+"The ``repository`` element is used to describe all types of repository. "
+"The ``branch`` element is used inside module definition to specify "
+"additional settings."
+msgstr ""
+
+#: ../moduleset-syntax.rst:53
+msgid "The ``name`` attribute is a unique identifier for the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:55
+msgid ""
+"The ``default`` attribute specifies whether this repository is the "
+"default source for this module set."
+msgstr ""
+
+#: ../moduleset-syntax.rst:58
+msgid ""
+"The ``type`` attribute specifies the type of repository. It can be one "
+"of: ``bzr``, ``cvs``, ``darcs``, ``fossil``, ``git``, ``hg``, ``mnt``, "
+"``svn``, ``tarball``. Other attributes depend on the type, as well as the"
+" branch used inside module definitions. Those are described below in the "
+"repository type sub-sections."
+msgstr ""
+
+#: ../moduleset-syntax.rst:64
+msgid ""
+"The ``developer-href-example`` attribute is used to specify the format of"
+" the URL for the repository used by developers. This is informational "
+"only."
+msgstr ""
+
+#: ../moduleset-syntax.rst:68
+msgid "The ``branch`` element is used inside module definitions."
+msgstr ""
+
+#: ../moduleset-syntax.rst:87
+msgid ""
+"All attributes have sensible defaults and depend on the module and "
+"repository definitions. Common attributes are described here."
+msgstr ""
+
+#: ../moduleset-syntax.rst:90
+msgid "The ``repo`` attribute is used to specify non-default repository name."
+msgstr ""
+
+#: ../moduleset-syntax.rst:92
+msgid ""
+"The ``module`` attribute is used to specify module name to checkout from "
+"the repository. Defaults to module id."
+msgstr ""
+
+#: ../moduleset-syntax.rst:95
+msgid ""
+"The ``checkoutdir`` attribute is used to specify the checkout directory "
+"name. Defaults to module id."
+msgstr ""
+
+#: ../moduleset-syntax.rst:98
+msgid "Other attributes are described below"
+msgstr ""
+
+#: ../moduleset-syntax.rst:101
+msgid "Bazaar"
+msgstr ""
+
+#: ../moduleset-syntax.rst:103
+msgid ""
+"This repository type is used to define a Bazaar repository. It is "
+"recommended to have Bazaar 1.16 or higher."
+msgstr ""
+
+#: ../moduleset-syntax.rst:112
+#, python-format
+msgid ""
+"Additional attributes are: ``trunk-template`` (defaults to "
+"``\"%(module)s\"``) and ``branches-template`` (defaults to "
+"``\"%(module)s/%(branch)s``\"). These attributes are used to specify "
+"templates for constructing URL. A ``branch`` element in the module "
+"definitions can specify branch and user attributes. These values will be "
+"substituted in the templates. If either of those are defined branches-"
+"template is used, otherwise trunk-template is used. This way you can "
+"override repository to build modules from your personal branch or build "
+"many modules from a repository with non-standard layout."
+msgstr ""
+
+#: ../moduleset-syntax.rst:122
+msgid ""
+"An addition ``branch`` element accepts ``revspec`` attribute to anchor on"
+" a particular revision. Any valid ``bzr revspec`` is accepted, for "
+"example ``date:yesterday, -5, tag:0.1`` to get first revision since "
+"yesterday, 5 commits behind the tip or tag \"0.1\". See ``bzr help "
+"revisionspec`` for all possible values."
+msgstr ""
+
+#: ../moduleset-syntax.rst:128
+msgid "For example repository with template attributes defined:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:138
+msgid "Example ``branch`` elements for the above repository:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:156
+msgid "CVS"
+msgstr ""
+
+#: ../moduleset-syntax.rst:158
+msgid "This repository type is used to define a CVS repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:160
+msgid ""
+"The ``password`` attribute is used to specify the password to the "
+"repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:163
+msgid "The ``cvsroot`` attribute is used to specify the root of the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:172
+msgid ""
+"Additional attributes are: ``revision``, ``update-new-dirs`` and "
+"``override-checkoutdir``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:176
+msgid "Darcs"
+msgstr ""
+
+#: ../moduleset-syntax.rst:178
+msgid "This repository type is used to define a Darcs repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:186
+msgid "Git"
+msgstr ""
+
+#: ../moduleset-syntax.rst:188
+msgid "This repository type is used to define a Git repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:196 ../moduleset-syntax.rst:293
+msgid "It allows the following attributes on the ``branch`` element:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:198
+msgid ""
+"The ``revision`` attribute is used to specify a local or remote-tracking "
+"branch to switch to in the update phase. It defaults to 'master'. It is "
+"possible to override this attribute with the ``branches`` configuration "
+"variable. The switch will only be performed, if the current branch is "
+"tracking a remote branch, to not disturb your own work."
+msgstr ""
+
+#: ../moduleset-syntax.rst:204
+msgid ""
+"The ``tag`` attribute is used to specify a revision to unconditionally "
+"check out in the update phase. It overrides the ``revision`` attribute."
+msgstr ""
+
+#: ../moduleset-syntax.rst:216
+msgid "Mercurial"
+msgstr ""
+
+#: ../moduleset-syntax.rst:218
+msgid "This repository type is used to define a Mercurial repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:230
+msgid "Monotone"
+msgstr ""
+
+#: ../moduleset-syntax.rst:232
+msgid "This repository type is used to define a Monotone repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:234
+msgid "The ``server`` attribute is used to specify the repository server."
+msgstr ""
+
+#: ../moduleset-syntax.rst:236
+msgid ""
+"The ``database`` attribute is used to specify the database to use for the"
+" repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:239
+msgid ""
+"The ``defbranch`` attribute is used specify the branch of the repository "
+"to use."
+msgstr ""
+
+#: ../moduleset-syntax.rst:249
+msgid "Subversion"
+msgstr ""
+
+#: ../moduleset-syntax.rst:251
+msgid "This repository type is used to define a Subversion repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:259
+msgid ""
+"It allows a revision on the ``branch`` element. This attribute defines "
+"the branch to checkout or, if it is a number, a specific revision to "
+"checkout."
+msgstr ""
+
+#: ../moduleset-syntax.rst:268
+#, python-format
+msgid ""
+"It is possible to specify custom ``svn`` layout using trunk-template "
+"(defaults to \"%(module)s/trunk\"), branches-template (defaults to "
+"\"%(module)s/branches/%(branch)s\") and tags-template (defaults to "
+"\"%(module)s/tags/%(tag)s\")"
+msgstr ""
+
+#: ../moduleset-syntax.rst:274
+msgid "System"
+msgstr ""
+
+#: ../moduleset-syntax.rst:276
+msgid ""
+"This repository type is used to define a fake system repository. A system"
+" repository is required to create any :ref:`systemmodule`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:284
+msgid "Tarballs"
+msgstr ""
+
+#: ../moduleset-syntax.rst:286
+msgid "This repository type is used to define a tarball repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:295
+msgid ""
+"The ``module`` attribute specifies the file to download and compile, the "
+"``version`` attribute specifies the module version."
+msgstr ""
+
+#: ../moduleset-syntax.rst:298
+msgid ""
+"The size and hash, as well as the obsolete md5sum, attributes are "
+"optional. If these attributes are present, they are used to check that "
+"the source package was downloaded correctly."
+msgstr ""
+
+#: ../moduleset-syntax.rst:302
+msgid ""
+"The ``rename-tarball`` can be used to rename the tarball file when "
+"downloading, in case the original name conflicts with another module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:305
+msgid ""
+"Any number of ``patch`` elements may be nested inside the ``branch`` "
+"element. These patches are applied, in order, to the source tree after "
+"unpacking. The ``file`` attribute gives the patch filename, and the "
+"``strip`` attribute says how many levels of directories to prune when "
+"applying the patch."
+msgstr ""
+
+#: ../moduleset-syntax.rst:310 ../moduleset-syntax.rst:924
+msgid ""
+"For module sets shipped with JHBuild, the patch files are looked up in "
+"the ``jhbuild/patches/`` directory; for module sets referred by URI, the "
+"patch files are looked for in the same directory as the moduleset file, "
+"or in its ``patches/`` subdirectory. It is also possible for the file "
+"attribute to specify a URI, in which case it will be downloaded from that"
+" location."
+msgstr ""
+
+#: ../moduleset-syntax.rst:325
+msgid ""
+"A tarball ``branch`` element may also contain quilt elements which "
+"specify nested branch to import."
+msgstr ""
+
+#: ../moduleset-syntax.rst:329
+msgid "Including Other Module Sets"
+msgstr ""
+
+#: ../moduleset-syntax.rst:331
+msgid ""
+"JHBuild allows one module set to include the contents of another by "
+"reference using the ``include`` element."
+msgstr ""
+
+#: ../moduleset-syntax.rst:338
+msgid ""
+"The href is a URI reference to the module set to be included, relative to"
+" the file containing the ``include`` element."
+msgstr ""
+
+#: ../moduleset-syntax.rst:341
+msgid ""
+"Only module definitions are imported from the referenced module set - "
+"module sources are not. Multiple levels of includes are allowed, but "
+"include loops are not (there isn't any code to handle loops at the "
+"moment)."
+msgstr ""
+
+#: ../moduleset-syntax.rst:347
+msgid "Module Definitions"
+msgstr ""
+
+#: ../moduleset-syntax.rst:349
+msgid ""
+"There are various types of module definitions that can be used in a "
+"module set file, and the list can easily be extended. Only the most "
+"common ones will be mentioned here."
+msgstr ""
+
+#: ../moduleset-syntax.rst:353
+msgid ""
+"They are all basically composed of a ``branch`` element describing how to"
+" get the module and ``dependencies``, ``suggests`` and ``after`` elements"
+" to declare the dependencies of the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:357
+msgid ""
+"Any modules listed in the ``dependencies`` element will be added to the "
+"module list for ``jhbuild build`` if it isn't already included, and make "
+"sure the dependent modules are built first."
+msgstr ""
+
+#: ../moduleset-syntax.rst:361
+msgid ""
+"After generating the modules list, the modules listed in the suggests "
+"element will be used to further sort the modules list (although it will "
+"not pull any additional modules). This is intended for cases where a "
+"module has an optional dependency on another module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:369
+msgid "autotools"
+msgstr ""
+
+#: ../moduleset-syntax.rst:371
+msgid ""
+"The ``autotools`` element is used to define a module which is compiled "
+"using the GNU Autotools build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:407
+msgid ""
+"The autogenargs and makeargs and ``makeinstallargs`` attributes are used "
+"to specify additional arguments to pass to ``autogen.sh``, ``make`` and "
+"``make install`` respectively."
+msgstr ""
+
+#: ../moduleset-syntax.rst:411
+msgid ""
+"The ``autogen-sh`` attribute specifies the name of the autogen.sh script "
+"to run. The value ``autoreconf`` can be used if your module has no "
+"``autogen.sh`` script equivalent. In that case, JHBuild will run "
+"``autoreconf -fi``, followed by the proper ``configure``. skip-autogen "
+"chooses whether or not to run autogen.sh, it is a boolean with an extra "
+"``never`` value to tell JHBuild to never skip running ``autogen.sh``. "
+"``skip-install`` is a boolean attribute specifying whether to skip ``make"
+" install`` command on the module. makefile specifies the filename of the "
+"makefile to use."
+msgstr ""
+
+#: ../moduleset-syntax.rst:421
+msgid ""
+"The ``uninstall-before-install`` specifies any old installed files from "
+"the module should before removed before running the install step. This "
+"can be used to work around a problem where libtool tries to link one "
+"library it is installing against another library it is installing, but "
+"because of jhbuild's use of ``DESTDIR``, finds the old installed library "
+"instead. The downside of specifying this is that it could cause problems "
+"if the user is currently running code that relies on installed files from"
+" the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:430
+msgid ""
+"The ``supports-non-srcdir-builds`` attribute is used to mark modules that"
+" can't be cleanly built using a separate source directory."
+msgstr ""
+
+#: ../moduleset-syntax.rst:433 ../moduleset-syntax.rst:500
+msgid ""
+"The ``force-non-srcdir-builds`` attribute is used to mark modules that "
+"can't be cleanly built from the source directory, but can be built from "
+"outside it."
+msgstr ""
+
+#: ../moduleset-syntax.rst:437
+msgid ""
+"The ``autogen-template`` attribute can be used if you need finer control "
+"over the autogen command line. It is a python format string, which will "
+"be substituted with the following variables: ``srcdir``, ``autogen-sh``, "
+"``prefix``, ``libdir``, and ``autogenargs``. For example, here is the "
+"default autogen-template:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:447
+msgid ""
+"The ``check-target`` attribute must be specified (with false as value) "
+"for modules that do not have a ``make check`` target."
+msgstr ""
+
+#: ../moduleset-syntax.rst:450
+msgid ""
+"The ``supports-static-analyzer`` attribute must be specified (with false "
+"as value) for modules which don’t support being built under a static "
+"analysis tool such as ``scan-build``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:454
+msgid ""
+"The ``supports-unknown-configure-options`` attribute is used to mark "
+"modules that will error out if an unknown option is passed to "
+"``configure``. Global configure options will not be used for that module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:459
+msgid "cmake"
+msgstr ""
+
+#: ../moduleset-syntax.rst:461
+msgid ""
+"The ``cmake`` element is used to define a module which is built using the"
+" CMake build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:488
+msgid ""
+"The ``cmakeargs`` attribute is used to specify additional arguments to "
+"pass to ``cmake``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:491 ../moduleset-syntax.rst:539
+msgid ""
+"The ``ninjaargs`` attribute is used to specify additional arguments to "
+"pass to ``ninja``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:494 ../moduleset-syntax.rst:609
+msgid ""
+"The ``makeargs`` attribute is used to specify additional arguments to "
+"pass to ``make``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:497
+msgid ""
+"The ``cmakedir`` attribute specifies the subdirectory where cmake will "
+"run in relation to srcdir."
+msgstr ""
+
+#: ../moduleset-syntax.rst:504
+msgid ""
+"The ``use-ninja`` attribute is used to mark modules should be built using"
+" the Ninja backend for cmake, instead of the Make backend. The default is"
+" to use the Ninja backend."
+msgstr ""
+
+#: ../moduleset-syntax.rst:511
+msgid "meson"
+msgstr ""
+
+#: ../moduleset-syntax.rst:513
+msgid ""
+"The ``meson`` element is used to define a module which is configured "
+"using the Meson build system and built using the Ninja build tool."
+msgstr ""
+
+#: ../moduleset-syntax.rst:536
+msgid ""
+"The ``mesonargs`` attribute is used to specify additional arguments to "
+"pass to ``meson``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:545
+msgid "distutils"
+msgstr ""
+
+#: ../moduleset-syntax.rst:547
+msgid ""
+"The ``distutils`` element is used to define a module which is built using"
+" python's distutils."
+msgstr ""
+
+#: ../moduleset-syntax.rst:571
+msgid "linux"
+msgstr ""
+
+#: ../moduleset-syntax.rst:573
+msgid ""
+"The ``linux`` element defines a module used to build a linux kernel. In "
+"addition, a separate kernel configuration can be chosen using the kconfig"
+" subelement."
+msgstr ""
+
+#: ../moduleset-syntax.rst:605
+msgid "perl"
+msgstr ""
+
+#: ../moduleset-syntax.rst:607
+msgid "The ``perl`` element is used to build perl modules."
+msgstr ""
+
+#: ../moduleset-syntax.rst:635
+msgid "systemmodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:637
+msgid ""
+"The ``systemmodule`` element is used to specify modules that must be "
+"provided by the system. The module should be installed by your "
+"distributions package management system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:649
+msgid ""
+"If the system module does not provide a pkg-config file, "
+"systemdependencies tag can be used to identify the dependencies. Two "
+"values are supported by the ``type`` attribute of the dep tag:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:653
+msgid "``path`` value. The path is searched for the matching program name."
+msgstr ""
+
+#: ../moduleset-syntax.rst:655
+msgid ""
+"``c_include`` value. The C include path is searched for the matching "
+"header name. name may include a sub-directory. The C include search path "
+"can modified by setting ``CPPFLAGS`` within the configuration variables "
+"``cflags`` or :ref:`module_autogenargs`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:676
+msgid ""
+"If the system module may be installed in different locations or installed"
+" with different names by different distributions, altdep tag can be used "
+"as subelements of dep tag to specify alternative locations or names. "
+"altdep tag support the same attributes as dep tag does."
+msgstr ""
+
+#: ../moduleset-syntax.rst:708
+msgid "waf"
+msgstr ""
+
+#: ../moduleset-syntax.rst:710
+msgid ""
+"The ``waf`` element is used to define a module which is built using the "
+"Waf build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:713
+msgid ""
+"The ``waf-command`` attribute is used to specify the waf command script "
+"to use; it defaults to ``waf``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:716
+msgid ""
+"The ``python-command`` attribute is used to specify the Python executable"
+" to use; it defaults to ``python``. This is useful to build modules "
+"against version 3 of Python."
+msgstr ""
+
+#: ../moduleset-syntax.rst:742
+msgid "testmodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:744
+msgid ""
+"The ``testmodule`` element is used to create a module which runs a suite "
+"of tests using LDTP or Dogtail."
+msgstr ""
+
+#: ../moduleset-syntax.rst:771
+msgid ""
+"The ``type`` attribute gives the type of tests to be run in the module. "
+"'dogtail' uses python to invoke all .py files. 'ldtp' invokes 'ldtprunner"
+" run.xml'."
+msgstr ""
+
+#: ../moduleset-syntax.rst:775
+msgid ""
+"Unless the :ref:`noxvfb` configuration option is set, an Xvfb server is "
+"started to run the tests in."
+msgstr ""
+
+#: ../moduleset-syntax.rst:781
+msgid "metamodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:783
+msgid ""
+"The ``metamodule`` element defines a module that doesn't actually do "
+"anything. The only purpose of a module of this type is its dependencies."
+msgstr ""
+
+#: ../moduleset-syntax.rst:786
+msgid ""
+"For example, meta-gnome-desktop depends on all the key components of the "
+"GNOME desktop, therefore telling JHBuild to install it actually installs "
+"the full desktop."
+msgstr ""
+
+#: ../moduleset-syntax.rst:803
+msgid ""
+"The ``id`` attribute gives the name of the module. The child elements are"
+" handled as for :ref:`autotools`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:807
+msgid "Deprecated Elements"
+msgstr ""
+
+#: ../moduleset-syntax.rst:815
+msgid "cvsroot"
+msgstr ""
+
+#: ../moduleset-syntax.rst:817
+msgid ""
+"The ``cvsroot`` element is now deprecated - the ``repository`` element "
+"should be used instead."
+msgstr ""
+
+#: ../moduleset-syntax.rst:820
+msgid "The ``cvsroot`` element is used to describe a CVS repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:829
+msgid ""
+"The ``name`` attribute should be a unique identifier for the CVS "
+"repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:831 ../moduleset-syntax.rst:857
+msgid ""
+"The ``default`` attribute says whether this is the default module source "
+"for this module set file."
+msgstr ""
+
+#: ../moduleset-syntax.rst:834
+msgid ""
+"The ``root`` attribute lists the CVS root used for anonymous access to "
+"this repository, and the ``password`` attribute gives the password used "
+"for anonymous access."
+msgstr ""
+
+#: ../moduleset-syntax.rst:841
+msgid "svnroot"
+msgstr ""
+
+#: ../moduleset-syntax.rst:843
+msgid ""
+"The ``svnroot`` element is now deprecated - the ``repository`` element "
+"should be used instead."
+msgstr ""
+
+#: ../moduleset-syntax.rst:846
+msgid "The ``svnroot`` element is used to describe a Subversion repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:854
+msgid ""
+"The ``name`` attribute should be a unique identifier for the Subversion "
+"repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:860
+msgid ""
+"The ``href`` attribute lists the base URL for the repository. This will "
+"probably be either a ``http``, ``https`` or ``svn`` URL."
+msgstr ""
+
+#: ../moduleset-syntax.rst:864
+msgid "Deprecated Module Types"
+msgstr ""
+
+#: ../moduleset-syntax.rst:868
+msgid ""
+"This section describes deprecated elements, they may still be used in "
+"existing module sets but it is advised not to use them anymore."
+msgstr ""
+
+#: ../moduleset-syntax.rst:874
+msgid "tarball"
+msgstr ""
+
+#: ../moduleset-syntax.rst:878
+msgid ""
+"This deprecated element is just a thin wrapper around both autotools "
+"module type and tarball repository type."
+msgstr ""
+
+#: ../moduleset-syntax.rst:881
+msgid ""
+"The ``tarball`` element is used to define a module that is to be built "
+"from a tarball."
+msgstr ""
+
+#: ../moduleset-syntax.rst:911
+msgid "The ``id`` and ``version`` attributes are used to identify the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:913
+msgid ""
+"The ``source`` element specifies the file to download and compile. The "
+"``href`` attribute is mandatory, while the ``size`` and ``hash``, as well"
+" as the obsolete ``md5sum``, attributes are optional. If these last two "
+"attributes are present, they are used to check that the source package "
+"was downloaded correctly."
+msgstr ""
+
+#: ../moduleset-syntax.rst:919
+msgid ""
+"The ``patches`` element is used to specify one or more patches to apply "
+"to the source tree after unpacking, the ``file`` attribute gives the "
+"patch filename, and the ``strip`` attribute says how many levels of "
+"directories to prune when applying the patch."
+msgstr ""
+
+#: ../moduleset-syntax.rst:931
+msgid ""
+"The other attributes and the ``dependencies``, ``suggests`` and ``after``"
+" elements are processed as for :ref:`autotools`."
+msgstr ""
+

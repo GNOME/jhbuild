@@ -1,0 +1,207 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, JHBuild Contributors
+# This file is distributed under the same license as the JHBuild package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: JHBuild \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-09 10:34-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: ../jhbuild-and-gnome.rst:2
+msgid "JHBuild and GNOME"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:4
+msgid "This section provides guidance on building, installing and running GNOME."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:8
+msgid "Building GNOME"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:10
+msgid "To build GNOME some development packages are required. This includes:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:12
+msgid ""
+"DocBook XML DTD and XSLT stylesheets. These need to be registered in the "
+"XML catalog (``/etc/xml/catalog``)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:15
+msgid "X libraries."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:17
+msgid "``libsmbclient`` from Samba (used for browsing Windows networks)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:19
+msgid "``libbz2`` from bzip2."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:21
+msgid "``libpng``, ``libjpeg`` and ``libtiff`` (used for image loading)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:23
+msgid ""
+"If installing distribution packages, and if applicable for your "
+"distribution, install the corresponding “dev” or “devel” packages. A list"
+" of `package names <http://live.gnome.org/JhbuildDependencies>`__ for "
+"different distributions is maintained on the GNOME wiki."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:29
+msgid "Running a Single GNOME Application"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:31
+msgid ""
+"This section details how to run a single GNOME application. The "
+"application will run within the current desktop environment. To run the "
+"application within the complete JHBuild GNOME see `Running the GNOME "
+"Desktop Environment <#running-gnome>`__."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:36
+msgid ""
+"Launch a JHBuild shell. The JHBuild shell has all the necessary "
+"environment variables set."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:43
+msgid "Verify the correct application will be run. For example:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:50
+msgid "Run the application:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:56
+msgid "Alternatively, run the application using the ``run`` command:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:63
+msgid "Running the GNOME Desktop Environment"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:65
+msgid ""
+"Create a new user account to run the JHBuild GNOME. Running JHBuild GNOME"
+" using a different user account is recommended to avoid problems caused "
+"by user settings stored in the home directory. This manual refers to the "
+"new account as ``gnomedev``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:70
+msgid ""
+"Setup JHBuild on the new ``gnomedev`` account. Copy or soft-link "
+"``~/.config/jhbuildrc`` and ``~/.local/bin/jhbuild`` to ``gnomedev`` home"
+" directory."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:74
+msgid ""
+"Open a terminal as the user ``gnomedev``. Permanently add "
+"``~/.local/bin`` to the ``PATH`` variable, run the following command:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:81
+msgid "Test JHBuild works:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:89
+msgid "Setup GNOME to run from the display manager"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:91
+msgid "Build and install JHBuild GNOME."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:93
+msgid ""
+"Enable system services. JHBuild GNOME will use the ``/usr/bin`` system "
+"D-Bus daemon and the system services within ``/usr/share/dbus-1/system-"
+"services/``. JHBuild GNOME will use the JHBuild session D-Bus daemon and "
+"the services within ``~/jhbuild/install//share/dbus-1/services/``. "
+"Replace ``~/jhbuild/install`` with GNOME install ``prefix`` in the "
+"command below:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:108
+msgid ""
+"Create a GNOME startup script at ``/usr/bin/gnome-jhbuild-session`` with "
+"the following, replacing ``~/jhbuild/install`` with GNOME install "
+"``prefix``:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:124
+msgid "Make the file ``/usr/bin/gnome-jhbuild-session`` executable:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:130
+msgid ""
+"To add a new session entry in the display manager, create "
+"``/usr/share/xsessions/gnome-jhbuild.desktop`` and enter:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:143
+msgid "Restart ``gdm``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:146
+msgid "Running GNOME from the display manager"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:148
+msgid ""
+"To run the JHBuild GNOME, select the GNOME (JHBuild) session at the "
+"display manager before entering ``gnomedev`` login credentials. If "
+"successful, JHBuild GNOME will be displayed. If unsuccessful, check the "
+"log file. The log file will be located at "
+"``~gnomedev/.cache/gdm/session.log`` or ``~gnomedev/.xsession-errors``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:155
+msgid "Static Analysis"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:157
+msgid ""
+"JHBuild supports running static analysis tools on the code in modules as "
+"they’re built. To enable this, set the ``static_analyzer`` configuration "
+"variable to ``True`` in the ``.jhbuildrc`` configuration file."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:161
+msgid ""
+"If enabled, every time a module is built using JHBuild, the build process"
+" will be wrapped in a static analyzer, which will generate a report of "
+"any problems it finds with the code. These reports are saved as HTML "
+"files in subdirectories of ``/tmp/jhbuild_static_analyzer`` (by default; "
+"the path can be changed using the ``static_analyzer_outputdir`` "
+"configuration variable)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:168
+msgid ""
+"Static analysis currently only works for modules which use autotools as "
+"their build system. It requires the ``scan-build`` program to be "
+"installed, although the command it uses can be changed by modifying the "
+"``static_analyzer_template`` configuration variable."
+msgstr ""
+

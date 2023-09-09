@@ -1,0 +1,351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, JHBuild Contributors
+# This file is distributed under the same license as the JHBuild package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: JHBuild \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-09 10:34-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: ../getting-started.rst:2
+msgid "Getting Started"
+msgstr ""
+
+#: ../getting-started.rst:4
+msgid ""
+"JHBuild requires a few set up steps to be run before building software. "
+"JHBuild requires some prerequisite software, and it is necessary to "
+"install prerequisite tools needed to obtain and build the software "
+"modules."
+msgstr ""
+
+#: ../getting-started.rst:10
+msgid "Installing JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:12
+msgid "JHBuild requires a Python runtime. Verify Python >= 3.7 is installed."
+msgstr ""
+
+#: ../getting-started.rst:14
+msgid ""
+"The recommended way to download JHBuild is via the version control "
+"system, ``git``. This can be achieved with the following command. It is "
+"recommended to run the command from a new directory where all source code"
+" will be installed, for example, ``~/jhbuild/checkout``."
+msgstr ""
+
+#: ../getting-started.rst:25
+msgid ""
+"This will download JHBuild into a new folder named ``jhbuild`` under the "
+"current directory. Now to build and install JHBuild:"
+msgstr ""
+
+#: ../getting-started.rst:39
+msgid ""
+"If gnome-common, yelp-tools and autotools are available, ``autogen.sh`` "
+"will configure JHBuild to install via autotools. If gnome-common, yelp-"
+"tools and autotools are not available, ``autogen.sh`` will configure "
+"JHBuild to install via a plain Makefile. To always use the plain Makefile"
+" method pass ``--simple-install`` to ``autogen.sh``."
+msgstr ""
+
+#: ../getting-started.rst:45
+msgid ""
+"If the above steps complete successfully, a small shell script will be "
+"installed in ``~/.local/bin`` to start JHBuild. Add ``~/.local/bin`` to "
+"the ``PATH``:"
+msgstr ""
+
+#: ../getting-started.rst:54
+msgid ""
+"To permanently add ``~/.local/bin`` to the :envvar:`PATH` variable, run "
+"the following command:"
+msgstr ""
+
+#: ../getting-started.rst:63
+msgid "Configuring JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:65
+msgid ""
+"JHBuild can be configured via a configuration file. The default location "
+"is ``~/.config/jhbuildrc``. If a configuration file does not exist, the "
+"defaults are used. The configuration file uses Python syntax. An example "
+"is provided, see ``examples/sample.jhbuildrc``. Copy "
+"``examples/sample.jhbuildrc`` to ``~/.config/jhbuildrc`` and customize as"
+" required."
+msgstr ""
+
+#: ../getting-started.rst:72
+msgid ""
+"It will also load any ``jhbuildrc`` files in :envvar:`XDG_CONFIG_DIRS` "
+"directories. This is useful for system-wide configuration."
+msgstr ""
+
+#: ../getting-started.rst:75
+msgid ""
+"The sample configuration will make JHBuild build the meta-gnome-core and "
+"meta-gnome-apps-tested modules and dependencies from the ``gnome-apps`` "
+"module set. JHBuild will unpack source trees to ``~/jhbuild/checkout/`` "
+"and install all files to subdirectories of ``~/jhbuild/install/``. The "
+"two directories must be writable."
+msgstr ""
+
+#: ../getting-started.rst:81
+msgid ""
+"Configuration variables are documented in :doc:`config-reference`. The "
+"most commonly used variables are:"
+msgstr ""
+
+#: ../getting-started.rst:83
+msgid ":ref:`repos`"
+msgstr ""
+
+#: ../getting-started.rst:85
+msgid ""
+"A dictionary that can be used to specify an alternative repository "
+"location for a particular repository. This configuration variable is "
+"useful to a module developer. By default, JHBuild will check out code "
+"from repositories using an anonymous repository location. The dictionary "
+"keys are short repository names and the values are alternative repository"
+" location strings. For example:"
+msgstr ""
+
+#: ../getting-started.rst:96
+msgid ":ref:`moduleset`"
+msgstr ""
+
+#: ../getting-started.rst:98
+msgid ""
+"A string or list of strings specifying the name(s) of the module set(s) "
+"to use. This can either be the filename of a moduleset included with "
+"JHBuild (excluding the path and extension), or a full HTTP URL to an "
+"externally managed moduleset. HTTP URL modulesets are cached locally. If "
+"a module with the same name is present in more than one moduleset, the "
+"last set listed takes priority. Modulesets provided with JHBuild are "
+"updated to match the current GNOME development release."
+msgstr ""
+
+#: ../getting-started.rst:107
+msgid ":ref:`modules`"
+msgstr ""
+
+#: ../getting-started.rst:109
+msgid ""
+"A list of strings specifying the modules to build. The list of modules "
+"actually built will be recursively expanded to include all the "
+"dependencies unless the :ref:`buildone` command is used. Defaults to "
+"``['meta-gnome-desktop']``."
+msgstr ""
+
+#: ../getting-started.rst:114
+msgid ":ref:`checkoutroot`"
+msgstr ""
+
+#: ../getting-started.rst:116
+msgid ""
+"A string specifying the directory to unpack source trees to. If "
+":ref:`buildroot` is set to ``None``, builds will occur in this directory "
+"too. Defaults to ``~/jhbuild/checkout``."
+msgstr ""
+
+#: ../getting-started.rst:120
+msgid ":ref:`prefix`"
+msgstr ""
+
+#: ../getting-started.rst:122
+msgid ""
+"A string specifying the prefix to install modules to. ``prefix`` must be "
+"an absolute path. This directory must be writable. Defaults to "
+"``'~/jhbuild/install/'``."
+msgstr ""
+
+#: ../getting-started.rst:126
+msgid ":ref:`autogenargs`"
+msgstr ""
+
+#: ../getting-started.rst:128
+msgid ""
+"A string containing arguments passed to the ``autogen.sh`` script of all "
+"modules. Can be overridden for particular modules using the "
+":ref:`autogenargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:132
+msgid ":ref:`cmakeargs`"
+msgstr ""
+
+#: ../getting-started.rst:134
+msgid ""
+"A string containing arguments passed to the ``cmake`` invocation of all "
+"modules. Can be overridden for particular modules using the "
+":ref:`cmakeargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:138
+msgid ":ref:`makeargs`"
+msgstr ""
+
+#: ../getting-started.rst:140
+msgid ""
+"A string listing additional arguments to be passed to ``make``. JHBuild "
+"will automatically append the parallel execution option (``-j``) based "
+"upon available CPU cores. Defaults to ``''``."
+msgstr ""
+
+#: ../getting-started.rst:144
+msgid ":ref:`mesonargs`"
+msgstr ""
+
+#: ../getting-started.rst:146
+msgid ""
+"A string containing arguments passed to the :command:`meson` invocation "
+"of all modules. Can be overridden for particular modules using the "
+":ref:`mesonargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:150
+msgid ":ref:`ninjaargs`"
+msgstr ""
+
+#: ../getting-started.rst:152
+msgid ""
+"A string listing additional arguments to be passed to :command:`ninja`. "
+"Defaults to ``''``."
+msgstr ""
+
+#: ../getting-started.rst:156
+msgid "Build Prerequisites"
+msgstr ""
+
+#: ../getting-started.rst:158
+msgid ""
+"Before any modules can be built, it is necessary to have certain build "
+"tools installed. Common build tools include the GNU Autotools (autoconf, "
+"automake, libtool and gettext), The GNU Toolchain (binutils, gcc, g++), "
+"make, pkg-config and Python, depending on which modules will be built."
+msgstr ""
+
+#: ../getting-started.rst:163
+msgid ""
+"JHBuild can check the tools are installed using the :ref:`sanitycheck` "
+"command:"
+msgstr ""
+
+#: ../getting-started.rst:170
+msgid ""
+"If this command displays any messages, please install the required "
+"package from your distribution's repository. A list of `package names "
+"<http://live.gnome.org/JhbuildDependencies>`__ for different "
+"distributions is maintained on the GNOME wiki. Run the ``sanitycheck`` "
+"command again after installing the distribution's packages to ensure the "
+"required tools are present."
+msgstr ""
+
+#: ../getting-started.rst:178
+msgid "Using JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:180
+msgid ""
+"After set up is complete, JHBuild can be used to build software. To build"
+" all the modules selected in the ``~/.config/jhbuildrc`` file, run the "
+"following command:"
+msgstr ""
+
+#: ../getting-started.rst:188
+msgid ""
+"JHBuild will download, configure, compile and install each of the "
+"modules. If an error occurs at any stage, JHBuild will present a menu "
+"asking what to do. The choices include dropping to a shell to fix the "
+"error, rerunning the build from various stages, giving up on the module, "
+"or ignore the error and continue."
+msgstr ""
+
+#: ../getting-started.rst:196
+msgid ""
+"Giving up on a module will cause any modules depending on the module to "
+"fail."
+msgstr ""
+
+#: ../getting-started.rst:199
+msgid "Below is an example of the menu displayed:"
+msgstr ""
+
+#: ../getting-started.rst:214
+msgid ""
+"It is also possible to build a different set of modules and their "
+"dependencies by passing the module names as arguments to the ``build`` "
+"command. For example, to build gtk+:"
+msgstr ""
+
+#: ../getting-started.rst:222
+msgid ""
+"If JHBuild is cancelled part way through a build, it is possible to "
+"resume the build at a particular module using the ``--start-at`` option:"
+msgstr ""
+
+#: ../getting-started.rst:229
+msgid ""
+"To build one or more modules, ignoring their dependencies, JHBuild "
+"provides the ``buildone`` command. For the ``buildone`` command to "
+"complete successfully, all dependencies must be previously built and "
+"installed or provided by distribution packages."
+msgstr ""
+
+#: ../getting-started.rst:238
+msgid ""
+"When actively developing a module, you are likely in a source working "
+"directory. The ``make`` will invoke the build system and install the "
+"module. This will be a key part of your edit-compile-install-test cycle."
+msgstr ""
+
+#: ../getting-started.rst:246
+msgid ""
+"To get a list of the modules and dependencies JHBuild will build, and the"
+" order they will be built, use the ``list`` command:"
+msgstr ""
+
+#: ../getting-started.rst:253
+msgid "To get information about a particular module, use the ``info`` command:"
+msgstr ""
+
+#: ../getting-started.rst:259
+msgid ""
+"To download or update all the software sources without building, use the "
+"``update`` command. The ``update`` command provides an opportunity to "
+"modify the sources before building and can be useful if internet "
+"bandwidth varies."
+msgstr ""
+
+#: ../getting-started.rst:268
+msgid ""
+"Later, JHBuild can build everything without downloading or updating the "
+"sources:"
+msgstr ""
+
+#: ../getting-started.rst:275
+msgid ""
+"To run a particular command with the same environment used by JHBuild, "
+"use the ``run`` command:"
+msgstr ""
+
+#: ../getting-started.rst:282
+msgid ""
+"To start a shell with the same environment used by JHBuild, use the "
+"``shell`` command:"
+msgstr ""
+
