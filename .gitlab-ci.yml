@@ -6,6 +6,11 @@ documentation:
   image: docker.io/sphinxdoc/sphinx
   script:
     - sphinx-build ./doc ./html ./doc/*.rst
+    - |
+      for dir in ./doc/po/*; do
+        lang="$(basename "$dir")"
+        sphinx-build -Dlanguage="$lang" ./doc ./html/"$lang" ./doc/*.rst
+      done
   artifacts:
     paths:
       - html
