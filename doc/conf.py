@@ -16,10 +16,29 @@ html_context = {
     'gitlab_repo': 'jhbuild',
     'gitlab_version': 'master',
     'conf_py_path': '/doc/',
-    
+
+    # FIXME: Must keep in sync with languageLoader.js
+    'languages': [
+        'en',
+        'cs',
+        'de',
+        'el',
+        'es',
+        'fr',
+        'ja',
+        'ko',
+        'pt_BR',
+        'ru',
+        'sl',
+        'sv',
+        'zh_CN',
+    ],
 }
 html_theme_options = {
 }
+html_js_files = [
+    'languageLoader.js',
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
