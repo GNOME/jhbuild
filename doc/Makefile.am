@@ -14,10 +14,10 @@ docs: conf.py $(documentation_files)
 	sphinx-build-3 $(srcdir) $(builddir)/build $(documentation_files)
 
 docs-pot: conf.py $(documentation_files)
-	sphinx-build-3 -b gettext $(srcdir) $(builddir)/build $(documentation_files)
+	sphinx-build-3 -b gettext $(srcdir) $(builddir)/pot
 
 docs-po: docs-pot
-	sphinx-intl-3 update -p $(builddir)/build
+	sphinx-intl-3 update -p $(builddir)/pot
 
-docs-mo: docs-pot
+docs-mo: docs-po
 	sphinx-intl-3 build

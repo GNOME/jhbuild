@@ -1,0 +1,3895 @@
+# Russian translation for jhbuild.
+# Copyright (C) 2013 jhbuild's COPYRIGHT HOLDER
+# This file is distributed under the same license as the jhbuild package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: jhbuild master\n"
+"POT-Creation-Date: 2013-12-19 14:29+0000\n"
+"PO-Revision-Date: 2013-12-22 01:21+0400\n"
+"Last-Translator: Yuri Myasoedov <ymyasoedov@yandex.ru>\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Yuri Myasoedov <ymyasoedov@yandex.ru>, 2013"
+
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#.
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.docbook:1112(imagedata)
+msgctxt "_"
+msgid ""
+"external ref='figures/jhbuild_sample_dot_output.png' "
+"md5='af9fe7edb29fcaefeadfb2f5987aa6e4'"
+msgstr ""
+"external ref='figures/jhbuild_sample_dot_output.png' "
+"md5='af9fe7edb29fcaefeadfb2f5987aa6e4'"
+
+#: C/index.docbook:7(articleinfo/title)
+msgid "JHBuild Manual"
+msgstr "Руководство JHBuild"
+
+#: C/index.docbook:9(authorgroup/author)
+msgid "<firstname>James</firstname> <surname>Henstridge</surname>"
+msgstr "<firstname>James</firstname> <surname>Henstridge</surname>"
+
+#: C/index.docbook:13(authorgroup/author)
+msgid "<firstname>C.J.</firstname> <surname>Adams-Collier</surname>"
+msgstr "<firstname>C.J.</firstname> <surname>Adams-Collier</surname>"
+
+#: C/index.docbook:17(authorgroup/author)
+msgid "<firstname>Frederic</firstname> <surname>Peters</surname>"
+msgstr "<firstname>Frederic</firstname> <surname>Peters</surname>"
+
+#: C/index.docbook:21(authorgroup/author)
+msgid "<firstname>David</firstname> <surname>Turner</surname>"
+msgstr "<firstname>David</firstname> <surname>Turner</surname>"
+
+#: C/index.docbook:26(articleinfo/copyright)
+msgid "<year>2004, 2008</year> <holder>James Henstridge</holder>"
+msgstr "<year>2004, 2008</year> <holder>James Henstridge</holder>"
+
+#: C/index.docbook:31(revhistory/revision)
+msgid "<revnumber>JHBuild Manual v0.5</revnumber> <date>January 2008</date>"
+msgstr ""
+
+#: C/index.docbook:35(revhistory/revision)
+msgid "<revnumber>JHBuild Manual v0.1</revnumber> <date>August 2007</date>"
+msgstr ""
+
+#: C/index.docbook:41(abstract/para)
+msgid ""
+"JHBuild is a tool used to build the whole GNOME desktop from the version "
+"control system. JHBuild can also be customized to build other projects too."
+msgstr ""
+"JHBuild — это инструмент для сборки рабочего стола GNOME из системы контроля "
+"версий. JHBuild можно также настроить для сборки других проектов."
+
+#: C/index.docbook:48(section/title)
+msgid "Introduction"
+msgstr "Введение"
+
+#: C/index.docbook:50(section/para)
+msgid ""
+"JHBuild is a tool designed to ease building collections of source packages, "
+"called <quote>modules</quote>. JHBuild uses <quote>module set</quote> files "
+"to describe the modules available to build. The <quote>module set</quote> "
+"files include dependency information that allows JHBuild to discover what "
+"modules need to be built and in what order."
+msgstr ""
+"JHBuild — это инструмент, созданный для упрощения сборки наборов пакетов с "
+"исходными кодами, которые называются <quote>модулями</quote>. JHBuild "
+"использует файлы <quote>набора модулей</quote> для описания того, какие "
+"модули доступны для сборки. Файлы <quote>набора модулей</quote> включают в "
+"себя информацию о зависимостях, что позволяет JHBuild определять, какие "
+"модули и в каком порядке нужно собрать."
+
+#: C/index.docbook:57(section/para)
+#, fuzzy
+msgid ""
+"JHBuild was originally written for building <ulink url=\"http://www.gnome.org"
+"\">GNOME</ulink>, but has since been extended to be usable with other "
+"projects. A <quote>module set</quote> file can be hosted on a web server, "
+"allowing for build rules independent of the JHBuild project."
+msgstr ""
+"Изначально JHBuild был написал для сборки <ulink url=\"http://www.gnome.org"
+"\">GNOME</ulink>, но затем его стало возможным использовать с другими "
+"проектами. Файл <quote>набора модулей</quote> может располагаться на веб-"
+"сервере, что позволяет строить правила независимо от проекта JHBuild."
+
+#: C/index.docbook:63(section/para)
+msgid ""
+"JHBuild can build modules from a variety of sources, including <ulink url="
+"\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://subversion."
+"tigris.org/\">Subversion</ulink>, <ulink url=\"http://www.bazaar-vcs.org/"
+"\">Bazaar</ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, <ulink "
+"url=\"http://git.or.cz/\">Git</ulink> and <ulink url=\"http://www.selenic."
+"com/mercurial/\">Mercurial</ulink> repositories, as well as Tar and Zip "
+"archives hosted on web or FTP sites. JHBuild can build modules using a "
+"variety of build systems, including Autotools, CMake, WAF, Python Distutils "
+"and Perl Makefiles."
+msgstr ""
+"JHBuild может собирать модули из различных источников, включая репозитории "
+"<ulink url=\"http://www.cvshome.org/\">CVS</ulink>, <ulink url=\"http://"
+"subversion.tigris.org/\">Subversion</ulink>, <ulink url=\"http://www.bazaar-"
+"vcs.org/\">Bazaar</ulink>, <ulink url=\"http://darcs.net/\">Darcs</ulink>, "
+"<ulink url=\"http://git.or.cz/\">Git</ulink> и <ulink url=\"http://www."
+"selenic.com/mercurial/\">Mercurial</ulink>, а также из архивов в формате tar "
+"и zip, находящихся на веб-сайтах и FTP-серверах. JHBuild может собирать "
+"модули используя различные системы сборки, включая Autotools, CMake, WAF, "
+"Python Distutils и Perl Makefiles."
+
+#: C/index.docbook:74(section/para)
+msgid ""
+"JHBuild is not intended as a replacement for the distribution's package "
+"management system. Instead, it makes it easy to build software into a "
+"separate install prefix without interfering with the rest of the system."
+msgstr ""
+"JHBuild не призван заменить систему управления пакетами дистрибутива. "
+"Наоборот, с помощью него можно собирать программы в отдельном каталоге, "
+"чтобы избежать конфликтов с системой."
+
+#: C/index.docbook:81(section/title)
+msgid "Getting Started"
+msgstr "Начало работы"
+
+#: C/index.docbook:83(section/para)
+msgid ""
+"JHBuild requires a few set up steps to be run before building software. "
+"JHBuild requires some prerequisite software, and it is necessary to install "
+"prerequisite tools needed to obtain and build the software modules."
+msgstr ""
+"Перед первым запуском JHBuild необходимо выполнить несколько шагов. Для "
+"работы JHBuild требуются дополнительные программы, поэтому необходимо "
+"установить эти программы, чтобы JHBuild смог получать и собирать программные "
+"модули."
+
+#: C/index.docbook:89(section/title)
+msgid "Installing JHBuild"
+msgstr "Установка JHBuild"
+
+#: C/index.docbook:91(section/para)
+msgid ""
+"JHBuild requires a Python runtime. Verify Python &gt;= 2.3 is installed."
+msgstr ""
+"Для работы JHBuild требуется Python. Проверьте, что установлен Python &gt;= "
+"2.3."
+
+#: C/index.docbook:94(section/para)
+msgid ""
+"The recommended way to download JHBuild is via the version control system, "
+"<command>git</command>. This can be achieved with the following command. It "
+"is recommended to run the command from a new directory where all source code "
+"will be installed, for example, <filename>~/checkout/gnome</filename>."
+msgstr ""
+"Рекомендуем устанавливать JHBuild через систему контроля версий "
+"<command>git</command>. Это можно сделать с помощью следующей команды "
+"(рекомендуем выполнить эту команду в каталоге, в который будет "
+"устанавливаться весь исходный код, например, <filename>~/checkout/gnome</"
+"filename>):"
+
+#: C/index.docbook:100(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt>"
+msgstr ""
+"<prompt>$</prompt> <userinput>git clone git://git.gnome.org/jhbuild</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt>"
+
+#: C/index.docbook:104(section/para)
+msgid ""
+"This will download JHBuild into a new folder named <filename>jhbuild</"
+"filename> under the current directory. Now to build and install JHBuild:"
+msgstr ""
+"JHBuild загрузится в текущий каталог в папку <filename>jhbuild</filename>. "
+"Теперь соберите и установите JHBuild:"
+
+#: C/index.docbook:108(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>cd jhbuild</userinput>\n"
+"<prompt>$</prompt> <userinput>./autogen.sh</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt> <userinput>make</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt> <userinput>make install</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt>"
+msgstr ""
+"<prompt>$</prompt> <userinput>cd jhbuild</userinput>\n"
+"<prompt>$</prompt> <userinput>./autogen.sh</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt> <userinput>make</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt> <userinput>make install</userinput>\n"
+"<computeroutput>...</computeroutput>\n"
+"<prompt>$</prompt>"
+
+#: C/index.docbook:117(section/para)
+msgid ""
+"If <application>gnome-common</application>, <application>yelp-tools</"
+"application> and <application>autotools</application> are available, "
+"<filename>autogen.sh</filename> will configure JHBuild to install via "
+"<application>autotools</application>. If <application>gnome-common</"
+"application>, <application>yelp-tools</application> and "
+"<application>autotools</application> are not available, <filename>autogen."
+"sh</filename> will configure JHBuild to install via a plain Makefile. To "
+"always use the plain Makefile method pass <option>--simple-install</option> "
+"to <filename>autogen.sh</filename>."
+msgstr ""
+"Если <application>gnome-common</application>, <application>yelp-tools</"
+"application> и <application>autotools</application> доступны, "
+"<filename>autogen.sh</filename> настроит JHBuild на установки с помощью "
+"<application>autotools</application>. Если <application>gnome-common</"
+"application>, <application>yelp-tools</application> и "
+"<application>autotools</application> недоступны, <filename>autogen.sh</"
+"filename> настроит JHBuild на установку с помощью обычного Makefile. Чтобы "
+"всегда использовать метод установки через Makefile, передайте "
+"<filename>autogen.sh</filename> параметр <option>--simple-install</option>."
+
+#: C/index.docbook:130(section/para)
+msgid ""
+"If the above steps complete successfully, a small shell script will be "
+"installed in <filename>~/.local/bin</filename> to start JHBuild. Add "
+"<filename>~/.local/bin</filename> to the <envar>PATH</envar>:"
+msgstr ""
+"Если указанные выше шаги успешно выполнены, в каталог <filename>~/.local/"
+"bin</filename> будет установлен небольшой сценарий для запуска JHBuild. "
+"Добавьте <filename>~/.local/bin</filename> в переменную среды <envar>PATH</"
+"envar>:"
+
+#: C/index.docbook:134(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>PATH=$PATH:~/.local/bin</userinput>\n"
+"<prompt>$</prompt>"
+msgstr ""
+"<prompt>$</prompt> <userinput>PATH=$PATH:~/.local/bin</userinput>\n"
+"<prompt>$</prompt>"
+
+#: C/index.docbook:137(section/para)
+msgid ""
+"To permanently add <filename>~/.local/bin</filename> to the <envar>PATH</"
+"envar> variable, run the following command:"
+msgstr ""
+"Чтобы перманентно добавить <filename>~/.local/bin</filename> в переменную "
+"среды <envar>PATH</envar>, выполните следующую команду:"
+
+#: C/index.docbook:140(section/screen)
+#, no-wrap
+msgid ""
+"\n"
+"<prompt>$</prompt> <userinput>echo 'PATH=$PATH:~/.local/bin' &gt;&gt; ~/.bashrc</userinput>\n"
+"<prompt>$</prompt>"
+msgstr ""
+"\n"
+"<prompt>$</prompt> <userinput>echo 'PATH=$PATH:~/.local/bin' &gt;&gt; ~/.bashrc</userinput>\n"
+"<prompt>$</prompt>"
+
+#: C/index.docbook:146(section/title)
+msgid "Configuring JHBuild"
+msgstr "Настройка JHBuild"
+
+#: C/index.docbook:148(section/para)
+msgid ""
+"JHBuild can be configured via a configuration file. The default location is "
+"<filename>~/.config/jhbuildrc</filename>. If a configuration file does not "
+"exist, the defaults are used. The configuration file uses Python syntax. An "
+"example is provided, see <filename>examples/sample.jhbuildrc</filename>. "
+"Copy <filename>examples/sample.jhbuildrc</filename> to <filename>~/.config/"
+"jhbuildrc</filename> and customize as required."
+msgstr ""
+
+#: C/index.docbook:157(section/para)
+msgid ""
+"The sample configuration will make JHBuild build the <application>meta-gnome-"
+"core</application> and <application>meta-gnome-apps-tested</application> "
+"modules and dependencies from the <systemitem>gnome-apps</systemitem> module "
+"set. JHBuild will unpack source trees to <filename>~/checkout/gnome</"
+"filename> and install all files to subdirectories of <filename>/opt/gnome</"
+"filename>. The two directories must be writable."
+msgstr ""
+
+#: C/index.docbook:166(section/para)
+msgid ""
+"Configuration variables are documented in <xref linkend=\"config-reference\"/"
+">. The most commonly used variables are:"
+msgstr ""
+
+#: C/index.docbook:173(varlistentry/term)
+msgid "<link linkend=\"cfg-repos\"><varname>repos</varname></link>"
+msgstr ""
+
+#: C/index.docbook:177(listitem/simpara)
+msgid ""
+"A dictionary that can be used to specify an alternative repository location "
+"for a particular repository. This configuration variable is useful to a "
+"module developer. By default, JHBuild will check out code from repositories "
+"using an anonymous repository location. The dictionary keys are short "
+"repository names and the values are alternative repository location strings. "
+"For example:"
+msgstr ""
+
+#: C/index.docbook:185(listitem/programlisting)
+#, no-wrap
+msgid "repos['git.gnome.org'] = 'ssh://<replaceable>username</replaceable>@git.gnome.org/git/'"
+msgstr ""
+
+#: C/index.docbook:189(varlistentry/term)
+msgid "<link linkend=\"cfg-moduleset\"><varname>moduleset</varname></link>"
+msgstr ""
+
+#: C/index.docbook:193(listitem/simpara)
+#: C/index.docbook:1927(listitem/simpara)
+msgid ""
+"A string or list of strings specifying the name(s) of the module set(s) to "
+"use. This can either be the filename of a moduleset included with JHBuild "
+"(excluding the path and extension), or a full HTTP URL to an externally "
+"managed moduleset. HTTP URL modulesets are cached locally. If a module with "
+"the same name is present in more than one moduleset, the last set listed "
+"takes priority. Modulesets provided with JHBuild are updated to match the "
+"current GNOME development release."
+msgstr ""
+
+#: C/index.docbook:204(varlistentry/term)
+msgid "<link linkend=\"cfg-modules\"><varname>modules</varname></link>"
+msgstr ""
+
+#: C/index.docbook:208(listitem/simpara)
+#: C/index.docbook:1914(listitem/simpara)
+msgid ""
+"A list of strings specifying the modules to build. The list of modules "
+"actually built will be recursively expanded to include all the dependencies "
+"unless the <link linkend=\"command-reference-buildone\"> <command>buildone</"
+"command></link> command is used. Defaults to <literal>['meta-gnome-"
+"desktop']</literal>."
+msgstr ""
+
+#: C/index.docbook:217(varlistentry/term)
+msgid ""
+"<link linkend=\"cfg-checkoutroot\"><varname>checkoutroot</varname></link>"
+msgstr ""
+
+#: C/index.docbook:221(listitem/simpara)
+msgid ""
+"A string specifying the directory to unpack source trees to. Unless <link "
+"linkend=\"cfg-buildroot\"> <varname>buildroot</varname></link> is set, "
+"builds will occur in this directory too. Defaults to <filename>~/checkout/"
+"gnome</filename>."
+msgstr ""
+
+#: C/index.docbook:229(varlistentry/term)
+msgid "<link linkend=\"cfg-prefix\"><varname>prefix</varname></link>"
+msgstr ""
+
+#: C/index.docbook:233(listitem/simpara)
+#: C/index.docbook:2045(listitem/simpara)
+msgid ""
+"A string specifying the prefix to install modules to. <varname>prefix</"
+"varname> must be an absolute path. This directory must be writable. Defaults "
+"to <literal>'/opt/gnome'</literal>."
+msgstr ""
+
+#: C/index.docbook:240(varlistentry/term)
+msgid "<link linkend=\"cfg-autogenargs\"><varname>autogenargs</varname></link>"
+msgstr ""
+
+#: C/index.docbook:244(listitem/simpara)
+msgid ""
+"A string containing arguments passed to the <command>autogen.sh</command> "
+"script of all modules. Can be overridden for particular modules using the "
+"<link linkend=\"cfg-module-autogenargs\"> <varname>module_autogenargs</"
+"varname></link> dictionary."
+msgstr ""
+
+#: C/index.docbook:252(varlistentry/term)
+msgid "<link linkend=\"cfg-makeargs\"><varname>makeargs</varname></link>"
+msgstr ""
+
+#: C/index.docbook:256(listitem/simpara)
+#: C/index.docbook:1776(listitem/simpara)
+msgid ""
+"A string listing additional arguments to be passed to <command>make</"
+"command>. JHBuild will automatically append the parallel execution option "
+"(<option>-j</option>) based upon available CPU cores. Defaults to "
+"<literal>''</literal>."
+msgstr ""
+
+#: C/index.docbook:266(section/title)
+msgid "Build Prerequisites"
+msgstr ""
+
+#: C/index.docbook:268(section/para)
+msgid ""
+"Before any modules can be built, it is necessary to have certain build tools "
+"installed. Common build tools include the GNU Autotools "
+"(<application>autoconf</application>, <application>automake</application>, "
+"<application>libtool</application> and <application>gettext</application>), "
+"The GNU Toolchain (<application>binutils</application>, <application>gcc</"
+"application>, <application>g++</application>), make, pkg-config and Python, "
+"depending on which modules will be built."
+msgstr ""
+
+#: C/index.docbook:277(section/para)
+msgid ""
+"JHBuild can check the tools are installed using the <command>sanitycheck</"
+"command> command:"
+msgstr ""
+
+#: C/index.docbook:280(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild sanitycheck</userinput>"
+msgstr ""
+
+#: C/index.docbook:282(section/para)
+msgid ""
+"If this command displays any messages, please install the required package "
+"from your distribution's repository. A list of <ulink url=\"http://live."
+"gnome.org/JhbuildDependencies\">package names </ulink> for different "
+"distributions is maintained on the GNOME wiki. Run the <command>sanitycheck</"
+"command> command again after installing the distribution's packages to "
+"ensure the required tools are present."
+msgstr ""
+
+#: C/index.docbook:292(section/title)
+msgid "Using JHBuild"
+msgstr ""
+
+#: C/index.docbook:294(section/para)
+msgid ""
+"After set up is complete, JHBuild can be used to build software. To build "
+"all the modules selected in the <filename>~/.config/jhbuildrc</filename> "
+"file, run the following command:"
+msgstr ""
+
+#: C/index.docbook:299(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild build</userinput>"
+msgstr ""
+
+#: C/index.docbook:301(section/para)
+msgid ""
+"JHBuild will download, configure, compile and install each of the modules. "
+"If an error occurs at any stage, JHBuild will present a menu asking what to "
+"do. The choices include dropping to a shell to fix the error, rerunning the "
+"build from various stages, giving up on the module, or ignore the error and "
+"continue."
+msgstr ""
+
+#: C/index.docbook:308(note/simpara)
+msgid ""
+"Giving up on a module will cause any modules depending on the module to fail."
+msgstr ""
+
+#: C/index.docbook:312(section/para)
+msgid "Below is an example of the menu displayed:"
+msgstr ""
+
+#: C/index.docbook:314(section/screen)
+#, no-wrap
+msgid ""
+"  [1] Rerun phase build\n"
+"  [2] Ignore error and continue to install\n"
+"  [3] Give up on module\n"
+"  [4] Start shell\n"
+"  [5] Reload configuration\n"
+"  [6] Go to phase \"wipe directory and start over\"\n"
+"  [7] Go to phase \"configure\"\n"
+"  [8] Go to phase \"clean\"\n"
+"  [9] Go to phase \"distclean\"\n"
+"<prompt>choice:</prompt> "
+msgstr ""
+
+#: C/index.docbook:325(section/para)
+msgid ""
+"It is also possible to build a different set of modules and their "
+"dependencies by passing the module names as arguments to the <command>build</"
+"command> command. For example, to build gtk+:"
+msgstr ""
+
+#: C/index.docbook:329(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild build gtk+</userinput>"
+msgstr ""
+
+#: C/index.docbook:331(section/para) C/index.docbook:352(section/para)
+msgid ""
+"If JHBuild is cancelled part way through a build, it is possible to resume "
+"the build at a particular module using the <option>--start-at</option> "
+"option:"
+msgstr ""
+
+#: C/index.docbook:335(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild build --start-at=pango</userinput>"
+msgstr ""
+
+#: C/index.docbook:337(section/para)
+msgid ""
+"To build one or more modules, ignoring their dependencies, JHBuild provides "
+"the <command>buildone</command> command. For the <command>buildone</command> "
+"command to complete successfully, all dependencies must be previously built "
+"and installed or provided by distribution packages."
+msgstr ""
+
+#: C/index.docbook:343(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild buildone gtk+</userinput>"
+msgstr ""
+
+#: C/index.docbook:345(section/para)
+msgid ""
+"When actively developing a module, you are likely in a source working "
+"directory. The <command>make</command> will invoke the build system and "
+"install the module. This will be a key part of your edit-compile-install-"
+"test cycle."
+msgstr ""
+
+#: C/index.docbook:350(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild make</userinput>"
+msgstr ""
+
+#: C/index.docbook:356(section/para)
+msgid ""
+"To get a list of the modules and dependencies JHBuild will build, and the "
+"order they will be built, use the <command>list</command> command:"
+msgstr ""
+
+#: C/index.docbook:360(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild list</userinput>"
+msgstr ""
+
+#: C/index.docbook:362(section/para)
+msgid ""
+"To get information about a particular module, use the <command>info</"
+"command> command:"
+msgstr ""
+
+#: C/index.docbook:365(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild info gtk+</userinput>"
+msgstr ""
+
+#: C/index.docbook:367(section/para)
+msgid ""
+"To download or update all the software sources without building, use the "
+"<command>update</command> command. The <command>update</command> command "
+"provides an opportunity to modify the sources before building and can be "
+"useful if internet bandwidth varies."
+msgstr ""
+
+#: C/index.docbook:372(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild update</userinput>"
+msgstr ""
+
+#: C/index.docbook:374(section/para)
+msgid ""
+"Later, JHBuild can build everything without downloading or updating the "
+"sources:"
+msgstr ""
+
+#: C/index.docbook:377(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild build --no-network</userinput>"
+msgstr ""
+
+#: C/index.docbook:379(section/para)
+msgid ""
+"To run a particular command with the same environment used by JHBuild, use "
+"the <command>run</command> command:"
+msgstr ""
+
+#: C/index.docbook:382(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild run <replaceable>program</replaceable></userinput>"
+msgstr ""
+
+#: C/index.docbook:384(section/para)
+msgid ""
+"To start a shell with the same environment used by JHBuild, use the "
+"<command>shell</command> command:"
+msgstr ""
+
+#: C/index.docbook:387(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild shell</userinput>"
+msgstr ""
+
+#: C/index.docbook:392(section/title)
+msgid "JHBuild and GNOME"
+msgstr ""
+
+#: C/index.docbook:394(section/para)
+msgid ""
+"This section provides guidance on building, installing and running GNOME."
+msgstr ""
+
+#: C/index.docbook:398(section/title)
+msgid "Building GNOME"
+msgstr ""
+
+#: C/index.docbook:400(section/para)
+msgid "To build GNOME some development packages are required. This includes:"
+msgstr ""
+
+#: C/index.docbook:405(listitem/simpara)
+msgid ""
+"DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML "
+"catalog (<filename>/etc/xml/catalog</filename>)."
+msgstr ""
+
+#: C/index.docbook:410(listitem/simpara)
+msgid "X libraries"
+msgstr ""
+
+#: C/index.docbook:413(listitem/simpara)
+msgid ""
+"<filename>libsmbclient</filename> from Samba (used for browsing Windows "
+"networks)."
+msgstr ""
+
+#: C/index.docbook:417(listitem/simpara)
+msgid "<filename>libbz2</filename> from bzip2."
+msgstr ""
+
+#: C/index.docbook:420(listitem/simpara)
+msgid ""
+"<filename>libpng</filename>, <filename>libjpeg</filename> and "
+"<filename>libtiff</filename> (used for image loading)."
+msgstr ""
+
+#: C/index.docbook:425(section/para)
+msgid ""
+"If installing distribution packages, and if applicable for your "
+"distribution, install the corresponding <quote>dev</quote> or <quote>devel</"
+"quote> packages. A list of <ulink url=\"http://live.gnome.org/"
+"JhbuildDependencies\">package names</ulink> for different distributions is "
+"maintained on the GNOME wiki."
+msgstr ""
+
+#: C/index.docbook:434(section/title)
+msgid "Running a Single GNOME Application"
+msgstr ""
+
+#: C/index.docbook:436(section/para)
+msgid ""
+"This section details how to run a single GNOME application. The application "
+"will run within the current desktop environment. To run the application "
+"within the complete JHBuild GNOME see <xref linkend=\"running-gnome\"/>."
+msgstr ""
+
+#: C/index.docbook:441(section/para)
+msgid ""
+"Launch a JHBuild shell. The JHBuild shell has all the necessary environment "
+"variables set."
+msgstr ""
+
+#: C/index.docbook:444(section/screen)
+#, no-wrap
+msgid "<prompt>$ </prompt><userinput>jhbuild shell</userinput>"
+msgstr ""
+
+#: C/index.docbook:446(section/para)
+msgid "Verify the correct application will be run. For example:"
+msgstr ""
+
+#: C/index.docbook:448(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$ </prompt><userinput>which gedit</userinput>\n"
+"/opt/gnome/bin/gedit"
+msgstr ""
+
+#: C/index.docbook:451(section/para)
+msgid "Run the application:"
+msgstr ""
+
+#: C/index.docbook:453(section/screen)
+#, no-wrap
+msgid "<prompt>$ </prompt><userinput>gedit &amp;</userinput>"
+msgstr ""
+
+#: C/index.docbook:455(section/para)
+msgid ""
+"Alternatively, run the application using the <command>run</command> command:"
+msgstr ""
+
+#: C/index.docbook:458(section/screen)
+#, no-wrap
+msgid "<prompt>$ </prompt><userinput>jhbuild run gedit</userinput>"
+msgstr ""
+
+#: C/index.docbook:462(section/title)
+msgid "Running the GNOME Desktop Environment"
+msgstr ""
+
+#: C/index.docbook:464(section/para)
+msgid ""
+"Create a new user account to run the JHBuild GNOME. Running JHBuild GNOME "
+"using different user account is recommended to avoid problems caused by user "
+"settings stored in the home directory. This manual refers to the new account "
+"as <systemitem class=\"username\">gnomedev</systemitem>."
+msgstr ""
+
+#: C/index.docbook:470(section/para)
+msgid ""
+"Setup JHBuild on the new <systemitem class=\"username\">gnomedev</"
+"systemitem> account. Copy or soft-link <filename>~/.config/jhbuildrc</"
+"filename> and <filename>~/.local/bin/jhbuild</filename> to <systemitem class="
+"\"username\">gnomedev</systemitem> home directory."
+msgstr ""
+
+#: C/index.docbook:477(section/para)
+msgid ""
+"Open a terminal as the user <systemitem class=\"username\">gnomedev</"
+"systemitem>. Permanently add <filename>~/.local/bin</filename> to the "
+"<envar>PATH</envar> variable, run the following command:"
+msgstr ""
+
+#: C/index.docbook:482(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>echo PATH=$PATH:~/.local/bin &gt;&gt; ~/.bashrc</userinput>"
+msgstr ""
+
+#: C/index.docbook:484(section/para)
+msgid "Test JHBuild works:"
+msgstr ""
+
+#: C/index.docbook:486(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>jhbuild run pkg-config gtk+-2.0 --modversion</userinput>\n"
+"2.20.1"
+msgstr ""
+
+#: C/index.docbook:490(section/title)
+msgid "Setup GNOME to run from the display manager"
+msgstr ""
+
+#: C/index.docbook:492(section/para)
+msgid "Build and install JHBuild GNOME."
+msgstr ""
+
+#: C/index.docbook:494(section/para)
+msgid ""
+"Enable system services. JHBuild GNOME will use the <filename>/usr/bin</"
+"filename> system <application>D-Bus</application> daemon and the system "
+"services within <filename>/usr/share/dbus-1/system-services/</filename>. "
+"JHBuild GNOME will use the JHBuild session <application>D-Bus</application> "
+"daemon and the services within <filename><replaceable>/opt/gnome</"
+"replaceable>/share/dbus-1/services/</filename>. Replace <filename>/opt/"
+"gnome</filename> with GNOME install <varname>prefix</varname> in the command "
+"below:"
+msgstr ""
+
+#: C/index.docbook:504(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>\n"
+"<prompt>$ </prompt><userinput>ln -s /var/run/dbus <replaceable>/opt/gnome</replaceable>/var/run/dbus</userinput>\n"
+"<prompt>$ </prompt><userinput>rm -rf <replaceable>/opt/gnome</replaceable>/var/lib/dbus/machine-id</userinput>\n"
+"<prompt>$ </prompt><userinput>ln -s /var/lib/dbus/machine-id <replaceable>/opt/gnome</replaceable>/var/lib/dbus/machine-id</userinput>"
+msgstr ""
+
+#: C/index.docbook:509(section/para)
+msgid ""
+"Create a GNOME startup script at <filename>/usr/bin/gnome-jhbuild-session</"
+"filename> with the following, replacing <filename>/opt/gnome</filename> with "
+"GNOME install <varname>prefix</varname>:"
+msgstr ""
+
+#: C/index.docbook:514(section/programlisting)
+#, no-wrap
+msgid ""
+"#!/bin/sh\n"
+"\n"
+"GNOME=<replaceable>/opt/gnome</replaceable>\n"
+" \n"
+"GDK_USE_XFT=1\n"
+"XDG_DATA_DIRS=$XDG_DATA_DIRS:$GNOME/share\n"
+"XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$GNOME/etc/xdg\n"
+"\n"
+"jhbuild run gnome-session\n"
+msgstr ""
+
+#: C/index.docbook:525(section/para)
+msgid ""
+"Make the file <filename>/usr/bin/gnome-jhbuild-session</filename> executable:"
+msgstr ""
+
+#: C/index.docbook:528(section/screen)
+#, no-wrap
+msgid "<prompt>$ </prompt><userinput>chmod a+x /usr/bin/gnome-jhbuild-session</userinput>"
+msgstr ""
+
+#: C/index.docbook:530(section/para)
+msgid ""
+"To add a new session entry in the display manager, create <filename>/usr/"
+"share/xsessions/gnome-jhbuild.desktop</filename> and enter:"
+msgstr ""
+
+#: C/index.docbook:534(section/programlisting)
+#, no-wrap
+msgid ""
+"[Desktop Entry]\n"
+"Name=GNOME (JHBuild)\n"
+"Comment=This session logs you into GNOME testing session\n"
+"TryExec=/usr/bin/gnome-jhbuild-session\n"
+"Exec=/usr/bin/gnome-jhbuild-session\n"
+"Icon=\n"
+"Type=Application"
+msgstr ""
+
+#: C/index.docbook:542(section/para)
+msgid "Restart <command>gdm</command>."
+msgstr ""
+
+#: C/index.docbook:548(section/title)
+msgid "Running GNOME from the display manager"
+msgstr ""
+
+#: C/index.docbook:550(section/para)
+msgid ""
+"To run the JHBuild GNOME, select the GNOME (JHBuild) session at the display "
+"manager before entering <systemitem class=\"username\">gnomedev</systemitem> "
+"login credentials. If successful, JHBuild GNOME will be displayed. If "
+"unsuccessful, check the log file. The log file will be located at "
+"<filename>~gnomedev/.cache/gdm/session.log</filename> or "
+"<filename>~gnomedev/.xsession-errors</filename>."
+msgstr ""
+
+#: C/index.docbook:562(section/title)
+msgid "Buildbot Integration"
+msgstr ""
+
+#: C/index.docbook:564(section/para)
+msgid ""
+"Coupled with the <ulink url=\"http://buildbot.net\">Buildbot</ulink> "
+"project, JHBuild can also function as a continuous integration tool. The "
+"Buildbot configuration is used by the GNOME project at <ulink url=\"http://"
+"build.gnome.org\">build.gnome.org</ulink>."
+msgstr ""
+
+#: C/index.docbook:570(section/title)
+msgid "Configuring a Buildbot Slave"
+msgstr ""
+
+#: C/index.docbook:572(section/para)
+msgid ""
+"A Buildbot slave is a variation of a normal JHBuild installation that serves "
+"the requests of a Buildbot master. It is recommended to set up JHBuild and "
+"complete a build with most modules building successfully before adding the "
+"Buildbot customizations."
+msgstr ""
+
+#: C/index.docbook:577(section/para)
+msgid ""
+"Buildbot commands are options to the <command>bot</command> command. To "
+"download and install the extra required software, run the following command:"
+msgstr ""
+
+#: C/index.docbook:581(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild bot --setup</userinput>"
+msgstr ""
+
+#: C/index.docbook:583(section/para)
+msgid ""
+"Once this step has completed successfully, three new configuration variables "
+"are required in <filename>~/.config/jhbuildrc</filename>."
+msgstr ""
+
+#: C/index.docbook:588(note/para)
+msgid ""
+"It is not possible to use an alternate configuration file, the <link linkend="
+"\"option-file\"><option>--file</option></link> will not get desired effects."
+msgstr ""
+
+#: C/index.docbook:593(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"jhbuildbot_master = 'build.gnome.org:9070'\n"
+"jhbuildbot_slavename = 'slavename'\n"
+"jhbuildbot_password = 'password'\n"
+msgstr ""
+
+#: C/index.docbook:599(section/para)
+msgid ""
+"<varname>jhbuildbot_master</varname> is a string specifying the Buildbot "
+"master server; it defaults to <literal>'build.gnome.org:9070'</literal>. "
+"<varname>jhbuildbot_slavename</varname> and <varname>jhbuildbot_password</"
+"varname> identify the slave on the master server. Contact the Buildbot "
+"master administrators to obtain the slave name and password."
+msgstr ""
+
+#: C/index.docbook:608(note/para)
+msgid ""
+"The administrators of <ulink url=\"http://build.gnome.org\">build.gnome.org</"
+"ulink> can be reached on the <ulink url=\"mailto:build-brigade-list@gnome.org"
+"\">Build Brigade mailing list</ulink>."
+msgstr ""
+
+#: C/index.docbook:623(section/title)
+msgid "Command Reference"
+msgstr ""
+
+#: C/index.docbook:625(section/para)
+msgid "JHBuild uses a command line syntax similar to tools like CVS:"
+msgstr ""
+
+#: C/index.docbook:627(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild</command> <arg><replaceable>global-options</replaceable></"
+"arg> <arg choice=\"plain\"><replaceable>command</replaceable></arg> "
+"<arg><replaceable>command-arguments</replaceable></arg>"
+msgstr ""
+
+#: C/index.docbook:633(section/para)
+msgid "The global JHBuild options are:"
+msgstr ""
+
+#: C/index.docbook:637(varlistentry/term)
+msgid ""
+"<option>-f</option>, <option>--file</option> <replaceable>config</"
+"replaceable>"
+msgstr ""
+
+#: C/index.docbook:642(listitem/simpara)
+msgid ""
+"Use an alternative configuration file instead of the default <filename>~/."
+"config/jhbuildrc</filename>."
+msgstr ""
+
+#: C/index.docbook:647(varlistentry/term)
+msgid ""
+"<option>-m</option>, <option>--moduleset</option> <replaceable>moduleset</"
+"replaceable>"
+msgstr ""
+
+#: C/index.docbook:652(listitem/simpara)
+msgid ""
+"Use a module set other than the module set listed in the configuration file. "
+"This option can be a relative path if the module set is located in the "
+"JHBuild moduleset folder, or an absolute path if located elsewhere."
+msgstr ""
+
+#: C/index.docbook:659(varlistentry/term)
+msgid "<option>--no-interact</option>"
+msgstr ""
+
+#: C/index.docbook:663(listitem/simpara)
+msgid ""
+"Do not prompt the user for any input. This option is useful if leaving a "
+"build unattended, in order to ensure the build is not interrupted."
+msgstr ""
+
+#: C/index.docbook:670(section/para)
+msgid "Command specific options are listed below."
+msgstr ""
+
+#: C/index.docbook:673(section/title)
+msgid "autobuild"
+msgstr ""
+
+#: C/index.docbook:675(section/para)
+msgid ""
+"The <command>autobuild</command> command automatically builds the modules as "
+"specified in the configuration file, and then upload the results to "
+"JhAutobuild."
+msgstr ""
+
+#: C/index.docbook:679(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild autobuild</command> <arg>--autogen</arg> <arg>--clean</arg> "
+"<arg>--distcheck</arg> <arg rep=\"repeat\">--skip=<replaceable>module</"
+"replaceable></arg> <arg>--start-at=<replaceable>module</replaceable></arg> "
+"<arg>--report-url=<replaceable>reporturl</replaceable></arg> <arg>--verbose</"
+"arg>"
+msgstr ""
+
+#: C/index.docbook:689(section/para)
+msgid ""
+"The <option>--autogen</option>, <option>--clean</option>, <option>--"
+"distcheck</option>, <option>--skip</option> and <option>--start-at</option> "
+"options are processed as per the <link linkend=\"command-reference-build"
+"\"><command>build</command></link> command."
+msgstr ""
+
+#: C/index.docbook:697(varlistentry/term)
+msgid ""
+"<option>--report-url=<replaceable>reporturl</replaceable></option>, <option>-"
+"r <replaceable>reporturl</replaceable></option>"
+msgstr ""
+
+#: C/index.docbook:702(listitem/simpara)
+msgid "This option specifies the JhAutobuild URL to report to."
+msgstr ""
+
+#: C/index.docbook:707(varlistentry/term)
+msgid "<option>--verbose</option>, <option>-v</option>"
+msgstr ""
+
+#: C/index.docbook:711(listitem/simpara)
+msgid "If specified, JHBuild's output will be more verbose."
+msgstr ""
+
+#: C/index.docbook:719(section/title)
+msgid "bootstrap"
+msgstr ""
+
+#: C/index.docbook:721(section/para)
+msgid ""
+"The <command>bootstrap</command> command installs a set of build utilities. "
+"The build utilities include <application>autoconf</application>, "
+"<application>automake</application> and similar utilities. The recommended "
+"method to install the build utilities is via your distribution's package "
+"management system. The <command>bootstrap</command> should only be used if "
+"the build utilities are not provided by your distribution's package "
+"management system, for example on <systemitem class=\"osname\">Mac OS</"
+"systemitem>."
+msgstr ""
+
+#: C/index.docbook:730(section/cmdsynopsis)
+msgid "<command>jhbuild bootstrap</command>"
+msgstr ""
+
+#: C/index.docbook:733(section/para)
+msgid ""
+"The <command>bootstrap</command> command builds modules using the same "
+"method as the <command>build</command> command, but uses the "
+"<filename>bootstrap.modules</filename> moduleset."
+msgstr ""
+
+#: C/index.docbook:737(section/para)
+msgid ""
+"See the <link linkend=\"command-reference-build\"><command>build</command></"
+"link> command documentation for available options."
+msgstr ""
+
+#: C/index.docbook:743(section/title)
+msgid "build"
+msgstr ""
+
+#: C/index.docbook:745(section/para)
+msgid ""
+"The <command>build</command> command builds one or more packages, including "
+"their dependencies."
+msgstr ""
+
+#: C/index.docbook:748(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild build</command> <arg>--autogen</arg> <arg>--clean</arg> "
+"<arg>--check</arg> <arg>--dist</arg> <arg>--distcheck</arg> <arg>--"
+"distclean</arg> <arg>--ignore-suggests</arg> <arg>--no-network</arg> <arg "
+"rep=\"repeat\">--skip=<replaceable>module</replaceable></arg> <arg>--start-"
+"at=<replaceable>module</replaceable></arg> <arg>--tags=<replaceable>tags</"
+"replaceable></arg> <arg>-D <replaceable>date</replaceable></arg> <arg>--no-"
+"xvfb</arg> <arg>--try-checkout</arg> <arg>--no-poison</arg> <arg>--force</"
+"arg> <arg>--build-optional-modules</arg> <arg>--min-age=<replaceable>time</"
+"replaceable></arg> <arg>--nodeps</arg> <arg rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:771(section/para) C/index.docbook:1064(section/para)
+#: C/index.docbook:1088(section/para) C/index.docbook:1170(section/para)
+msgid ""
+"If no module names are provided on the command line, the <link linkend=\"cfg-"
+"modules\">modules</link> list from the configuration file will be used."
+msgstr ""
+
+#: C/index.docbook:777(varlistentry/term)
+msgid "<option>-a</option>, <option>--autogen</option>"
+msgstr ""
+
+#: C/index.docbook:781(listitem/simpara)
+msgid "Always run <command>autogen.sh</command> before building modules."
+msgstr ""
+
+#: C/index.docbook:786(varlistentry/term)
+msgid "<option>-c</option>, <option>--clean</option>"
+msgstr ""
+
+#: C/index.docbook:790(listitem/simpara)
+msgid "Run <command>make clean</command> before building modules."
+msgstr ""
+
+#: C/index.docbook:795(varlistentry/term)
+msgid "<option>--check</option>"
+msgstr ""
+
+#: C/index.docbook:799(listitem/simpara)
+msgid "Run <command>make check</command> after building modules."
+msgstr ""
+
+#: C/index.docbook:804(varlistentry/term)
+msgid "<option>-d</option>, <option>--dist</option>"
+msgstr ""
+
+#: C/index.docbook:808(listitem/simpara)
+msgid "Run <command>make dist</command> after building modules."
+msgstr ""
+
+#: C/index.docbook:813(varlistentry/term)
+msgid "<option>--distcheck</option>"
+msgstr ""
+
+#: C/index.docbook:817(listitem/simpara)
+msgid "Run <command>make distcheck</command> after building modules."
+msgstr ""
+
+#: C/index.docbook:822(varlistentry/term)
+msgid "<option>--distclean</option>"
+msgstr ""
+
+#: C/index.docbook:826(listitem/simpara)
+msgid ""
+"For git modules, run <command>git clean -dfx</command> before building "
+"modules. For other modules, run <command>make distclean</command> before "
+"building modules."
+msgstr ""
+
+#: C/index.docbook:831(note/simpara)
+msgid "This option will delete any uncommited changes."
+msgstr ""
+
+#: C/index.docbook:837(varlistentry/term)
+msgid "<option>--ignore-suggests</option>"
+msgstr ""
+
+#: C/index.docbook:841(listitem/simpara)
+msgid "Do not build soft dependencies."
+msgstr ""
+
+#: C/index.docbook:845(varlistentry/term)
+msgid "<option>-n</option>, <option>--no-network</option>"
+msgstr ""
+
+#: C/index.docbook:849(listitem/simpara)
+msgid ""
+"Do not access the network when building modules. This will skip download or "
+"update stages in a build. If a module can't be built without network access, "
+"the module build will fail."
+msgstr ""
+
+#: C/index.docbook:856(varlistentry/term)
+msgid ""
+"<option>-s</option>, <option>--skip</option>=<replaceable>module,...</"
+"replaceable>"
+msgstr ""
+
+#: C/index.docbook:861(listitem/simpara)
+msgid ""
+"Do not build the listed modules. Used to skip the building of specified "
+"dependencies."
+msgstr ""
+
+#: C/index.docbook:866(varlistentry/term)
+msgid "<option>--tags</option>=<replaceable>tag,...</replaceable>"
+msgstr ""
+
+#: C/index.docbook:870(listitem/simpara)
+msgid ""
+"Ignore modules that do not match <replaceable>tag</replaceable>. Modules are "
+"automatically attributed a tag matching the name of the module's module set."
+msgstr ""
+
+#: C/index.docbook:877(varlistentry/term)
+msgid ""
+"<option>-t</option>, <option>--start-at</option>=<replaceable>module</"
+"replaceable>"
+msgstr ""
+
+#: C/index.docbook:882(listitem/simpara)
+msgid ""
+"Start at the named module rather than at the beginning of the list. This "
+"option is useful if the build was interrupted."
+msgstr ""
+
+#: C/index.docbook:888(varlistentry/term)
+msgid "<option>-D</option> <replaceable>date</replaceable>"
+msgstr ""
+
+#: C/index.docbook:892(listitem/simpara)
+msgid ""
+"If supported by the underlying version control system, update the source "
+"tree to the specified date before building. An ISO date format is required, "
+"e.g. <literal>\"2009-09-18 02:32Z\"</literal>."
+msgstr ""
+
+#: C/index.docbook:899(varlistentry/term)
+msgid "<option>-x</option>, <option>--no-xvfb</option>"
+msgstr ""
+
+#: C/index.docbook:903(listitem/simpara)
+msgid ""
+"Run graphical tests on the actual X server rather than in a simulated Xvfb."
+msgstr ""
+
+#: C/index.docbook:908(varlistentry/term)
+msgid "<option>-C</option>, <option>--try-checkout</option>"
+msgstr ""
+
+#: C/index.docbook:912(listitem/simpara)
+msgid ""
+"If the build fails, and if supported by the version control system, force a "
+"checkout and run <command>autogen.sh</command> before retrying the build."
+msgstr ""
+
+#: C/index.docbook:918(varlistentry/term)
+msgid "<option>-N</option>, <option>--no-poison</option>"
+msgstr ""
+
+#: C/index.docbook:922(listitem/simpara)
+msgid ""
+"If one or more of a module's dependencies failed, this option forces JHBuild "
+"to try to build the module anyway."
+msgstr ""
+
+#: C/index.docbook:927(varlistentry/term)
+msgid "<option>-f</option>, <option>--force</option>"
+msgstr ""
+
+#: C/index.docbook:931(listitem/simpara)
+msgid "Build the modules even if policy states it is not required."
+msgstr ""
+
+#: C/index.docbook:936(varlistentry/term)
+msgid "<option>--build-optional-modules</option>"
+msgstr ""
+
+#: C/index.docbook:940(listitem/simpara)
+msgid ""
+"Modules listed as optional dependencies, may not be required to build the "
+"module. This option forces JHBuild to build optional dependencies."
+msgstr ""
+
+#: C/index.docbook:946(varlistentry/term)
+msgid "<option>--min-age</option>=<replaceable>time</replaceable>"
+msgstr ""
+
+#: C/index.docbook:950(listitem/simpara)
+msgid ""
+"Skip modules installed more recently than the specified relative time. The "
+"<replaceable>time</replaceable> string format is a number followed by a "
+"unit. The following units are supported: seconds (s), minutes (m), hours (h) "
+"and days (d). For example, <option>--min-age=2h</option> will skip modules "
+"built less than two hours ago."
+msgstr ""
+
+#: C/index.docbook:959(varlistentry/term)
+msgid "<option>--nodeps</option>"
+msgstr ""
+
+#: C/index.docbook:963(listitem/simpara)
+msgid ""
+"Ignore missing system dependencies. To ignore a single system dependency add "
+"the module to <link linkend=\"cfg-skip\"><varname>skip</varname></link>."
+msgstr ""
+
+#: C/index.docbook:972(section/title)
+msgid "make"
+msgstr ""
+
+#: C/index.docbook:974(section/para)
+msgid ""
+"The <command>make</command> command is for actively developing on a "
+"particular module. It requires the current directory be a source checkout, "
+"and does the equivalent of <command>buildone -nf $(basename $(pwd))</"
+"command>."
+msgstr ""
+
+#: C/index.docbook:979(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild make</command> <arg>--clean</arg> <arg>--check</arg> <arg>--"
+"distcheck</arg> <arg>--quiet</arg>"
+msgstr ""
+
+#: C/index.docbook:986(section/para)
+msgid ""
+"The options are the same as those available for the <link linkend=\"command-"
+"reference-build\"><command>buildone</command></link> command."
+msgstr ""
+
+#: C/index.docbook:993(section/title)
+msgid "buildone"
+msgstr ""
+
+#: C/index.docbook:995(section/para)
+msgid ""
+"The <command>buildone</command> command is similar to <command>build</"
+"command>, but it does not build the dependent modules. It is useful for "
+"rebuilding one or more modules."
+msgstr ""
+
+#: C/index.docbook:999(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild buildone</command> <arg>--autogen</arg> <arg>--clean</arg> "
+"<arg>--check</arg> <arg>--distcheck</arg> <arg>--distclean</arg> <arg>--no-"
+"network</arg> <arg>-D <replaceable>date</replaceable></arg> <arg>--no-xvfb</"
+"arg> <arg>--force</arg> <arg>--min-age=<replaceable>time</replaceable></arg> "
+"<arg>--nodeps</arg> <arg choice=\"plain\" rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1014(section/para)
+msgid ""
+"The <option>--autogen</option>, <option>--check</option>, <option>--clean</"
+"option>, <option>-d</option>, <option>--distcheck</option>, <option>--"
+"distclean</option>, <option>--no-network</option>, <option>-D</option>, "
+"<option>-x</option> and <option>--nodeps</option> options are processed as "
+"per the <link linkend=\"command-reference-build\"><command>build</command></"
+"link> command."
+msgstr ""
+
+#: C/index.docbook:1022(section/para) C/index.docbook:1511(section/para)
+msgid "At least one module must be listed on the command line."
+msgstr ""
+
+#: C/index.docbook:1026(section/title)
+msgid "checkbranches"
+msgstr ""
+
+#: C/index.docbook:1028(section/para)
+msgid ""
+"The <command>checkbranches</command> checks the module's branches are "
+"defined correctly within the version control system and the branches are "
+"consistent with the module set."
+msgstr ""
+
+#: C/index.docbook:1032(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild checkbranches</command> <arg rep=\"repeat\">--"
+"branch=<replaceable>branch</replaceable></arg>"
+msgstr ""
+
+#: C/index.docbook:1038(varlistentry/term)
+msgid ""
+"<option>--branch</option>=<replaceable>branch</replaceable>, <option>-b</"
+"option> <replaceable>branch</replaceable>"
+msgstr ""
+
+#: C/index.docbook:1043(listitem/simpara)
+msgid "The branch to check."
+msgstr ""
+
+#: C/index.docbook:1048(section/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>jhbuild -m gnome-2.20 checkbranches</userinput>\n"
+"libgnomecanvas is missing branch definition for gnome-2-20\n"
+"<prompt>$</prompt>"
+msgstr ""
+
+#: C/index.docbook:1054(section/title)
+msgid "clean"
+msgstr ""
+
+#: C/index.docbook:1056(section/para)
+msgid ""
+"The <command>clean</command> command cleans the build directories of one or "
+"more modules."
+msgstr ""
+
+#: C/index.docbook:1059(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild clean</command> <arg rep=\"repeat\">--"
+"skip=<replaceable>module</replaceable></arg> <arg>--start-"
+"at=<replaceable>module</replaceable></arg>"
+msgstr ""
+
+#: C/index.docbook:1068(section/para)
+msgid ""
+"See the <link linkend=\"command-reference-build\"><command>build</command></"
+"link> command documentation for a description of available options."
+msgstr ""
+
+#: C/index.docbook:1074(section/title)
+msgid "dot"
+msgstr ""
+
+#: C/index.docbook:1076(section/para)
+msgid ""
+"The <command>dot</command> command generates a file describing the directed "
+"graph formed by the dependencies between a set of modules. This file can "
+"then be processed using the <ulink url=\"http://www.graphviz.org/"
+"\">GraphViz</ulink> software to produce a diagram."
+msgstr ""
+
+#: C/index.docbook:1082(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild dot</command> <arg>--soft-deps</arg> <arg>--clusters</arg> "
+"<arg rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1092(section/para)
+msgid ""
+"The <option>--soft-deps</option> option adds dotted lines from the modules "
+"to the soft dependencies. The <option>--clusters</option> option groups "
+"modules from <link linkend=\"moduleset-syntax-defs-metamodule\">metamodules</"
+"link> together."
+msgstr ""
+
+#: C/index.docbook:1098(section/para)
+msgid ""
+"The output of the dot command can be piped to the dot utility to generate a "
+"PostScript file:"
+msgstr ""
+
+#: C/index.docbook:1101(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tps &gt; dependencies.ps</userinput>"
+msgstr ""
+
+#: C/index.docbook:1103(section/para)
+msgid "Or a PNG image:"
+msgstr ""
+
+#: C/index.docbook:1105(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild dot <replaceable>modules</replaceable> | dot -Tpng &gt; dependencies.png</userinput>"
+msgstr ""
+
+#: C/index.docbook:1108(figure/title)
+msgid "Sample JHBuild dot output"
+msgstr ""
+
+#: C/index.docbook:1120(section/title)
+msgid "gui"
+msgstr ""
+
+#: C/index.docbook:1122(section/para)
+msgid ""
+"The <command>gui</command> command starts a graphical interface to JHBuild "
+"which can be used to select modules to build and change some options."
+msgstr ""
+
+#: C/index.docbook:1126(section/cmdsynopsis)
+msgid "<command>jhbuild gui</command>"
+msgstr ""
+
+#: C/index.docbook:1129(section/para)
+msgid ""
+"The graphical interface is rendered using GTK, so extra support libraries "
+"are required."
+msgstr ""
+
+#: C/index.docbook:1134(section/title)
+msgid "info"
+msgstr ""
+
+#: C/index.docbook:1136(section/para)
+msgid ""
+"The <command>info</command> command displays information about one or more "
+"modules."
+msgstr ""
+
+#: C/index.docbook:1139(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild info</command> <arg choice=\"plain\" rep=\"repeat\">module</"
+"arg>"
+msgstr ""
+
+#: C/index.docbook:1143(section/para)
+msgid ""
+"The command displays the module name, type, dependencies, dependent "
+"packages, the source directory, and the time it was last installed with "
+"JHBuild. If available, information specific to the module type such as the "
+"CVS repository or download URL will also be displayed."
+msgstr ""
+
+#: C/index.docbook:1149(section/para)
+msgid ""
+"If there is no module specified the command will display information about "
+"all the modules defined in the module set."
+msgstr ""
+
+#: C/index.docbook:1154(section/title)
+msgid "list"
+msgstr ""
+
+#: C/index.docbook:1156(section/para)
+msgid ""
+"The <command>list</command> command displays the expanded list of modules "
+"the <command>build</command> command would build."
+msgstr ""
+
+#: C/index.docbook:1159(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild list</command> <arg>-a</arg> <arg>-r</arg> <arg>-s</arg> "
+"<arg>--start-at=<replaceable>module</replaceable></arg> <arg>--"
+"tags=<replaceable>tags</replaceable></arg> <arg>--ignore-suggests</arg> "
+"<arg>--list-optional-modules</arg> <arg rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1174(section/para)
+msgid ""
+"The <option>--skip</option>, <option>--start-at</option>, <option>--tags</"
+"option>, and <option>--ignore-suggests</option> options are processed as per "
+"the <link linkend=\"command-reference-build\"><command>build</command></"
+"link> command."
+msgstr ""
+
+#: C/index.docbook:1182(varlistentry/term)
+msgid "<option>-a</option>, <option>--all-modules</option>"
+msgstr ""
+
+#: C/index.docbook:1186(listitem/simpara)
+msgid ""
+"List all the modules from the module set regardless of the build "
+"dependencies."
+msgstr ""
+
+#: C/index.docbook:1191(varlistentry/term)
+msgid "<option>-r</option>, <option>--show-revision</option>"
+msgstr ""
+
+#: C/index.docbook:1195(listitem/simpara)
+msgid ""
+"If a module is set to a branch, show the branch name with the module name."
+msgstr ""
+
+#: C/index.docbook:1200(varlistentry/term)
+msgid "<option>--list-optional-modules</option>"
+msgstr ""
+
+#: C/index.docbook:1204(listitem/simpara)
+msgid "This option forces JHBuild to list optional dependencies."
+msgstr ""
+
+#: C/index.docbook:1212(section/title)
+msgid "rdepends"
+msgstr ""
+
+#: C/index.docbook:1214(section/para)
+msgid ""
+"The <command>rdepends</command> command displays the reverse dependencies of "
+"a module."
+msgstr ""
+
+#: C/index.docbook:1217(section/cmdsynopsis)
+msgid "<command>jhbuild rdepends</command> <arg>module</arg>"
+msgstr ""
+
+#: C/index.docbook:1223(varlistentry/term)
+msgid "<option>--dependencies</option>"
+msgstr ""
+
+#: C/index.docbook:1227(listitem/simpara)
+msgid "Show dependency path next to modules."
+msgstr ""
+
+#: C/index.docbook:1231(varlistentry/term)
+msgid "<option>--direct</option>"
+msgstr ""
+
+#: C/index.docbook:1235(listitem/simpara)
+msgid "Limit display to modules directly depending on specified module."
+msgstr ""
+
+#: C/index.docbook:1243(section/title)
+msgid "run"
+msgstr ""
+
+#: C/index.docbook:1245(section/para)
+msgid ""
+"The <command>run</command> command runs the specified command using the same "
+"environment that JHBuild uses when building modules."
+msgstr ""
+
+#: C/index.docbook:1249(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild run</command> <arg>--in-builddir</arg> <arg>--in-"
+"checkoutdir</arg> <arg choice=\"plain\"><replaceable>program</replaceable></"
+"arg> <arg rep=\"repeat\"><replaceable>argument</replaceable></arg>"
+msgstr ""
+
+#: C/index.docbook:1256(section/para)
+msgid ""
+"If using JHBuild to build GNOME, this command can be useful in X startup "
+"scripts."
+msgstr ""
+
+#: C/index.docbook:1261(varlistentry/term)
+msgid "<option>--in-builddir</option>=<replaceable>module</replaceable>"
+msgstr ""
+
+#: C/index.docbook:1265(listitem/simpara)
+msgid "Run the command in the build directory of the specified module."
+msgstr ""
+
+#: C/index.docbook:1273(varlistentry/term)
+msgid "<option>--in-checkoutdir</option>=<replaceable>module</replaceable>"
+msgstr ""
+
+#: C/index.docbook:1277(listitem/simpara)
+msgid "Run the command in the source directory of the specified module."
+msgstr ""
+
+#: C/index.docbook:1285(section/title)
+msgid "sanitycheck"
+msgstr ""
+
+#: C/index.docbook:1287(section/para)
+msgid ""
+"The <command>sanitycheck</command> command performs a number of checks to "
+"verify the build environment is okay."
+msgstr ""
+
+#: C/index.docbook:1290(section/cmdsynopsis)
+msgid "<command>jhbuild sanitycheck</command>"
+msgstr ""
+
+#: C/index.docbook:1293(section/para)
+msgid "Some of the checks include:"
+msgstr ""
+
+#: C/index.docbook:1297(listitem/simpara)
+msgid "The checkout and install prefixes are writable."
+msgstr ""
+
+#: C/index.docbook:1300(listitem/simpara)
+msgid "The required build tools are installed."
+msgstr ""
+
+#: C/index.docbook:1303(listitem/simpara)
+msgid ""
+"Some commonly used macros are available in the search paths of the "
+"<command>aclocal</command> commands associated with the various versions of "
+"<command>automake</command>."
+msgstr ""
+
+#: C/index.docbook:1308(listitem/simpara)
+msgid "The XML catalog contains the DocBook DTD and stylesheets."
+msgstr ""
+
+#: C/index.docbook:1315(section/title)
+msgid "shell"
+msgstr ""
+
+#: C/index.docbook:1317(section/para)
+msgid ""
+"The <command>shell</command> command starts the user's shell with the same "
+"environment as JHBuild uses when building modules."
+msgstr ""
+
+#: C/index.docbook:1320(section/cmdsynopsis)
+msgid "<command>jhbuild shell</command>"
+msgstr ""
+
+#: C/index.docbook:1323(section/para)
+msgid "This command is equivalent to the following:"
+msgstr ""
+
+#: C/index.docbook:1325(section/screen)
+#, no-wrap
+msgid "<prompt>$</prompt> <userinput>jhbuild run $SHELL</userinput>"
+msgstr ""
+
+#: C/index.docbook:1327(section/para)
+msgid ""
+"The <envar>UNDER_JHBUILD</envar> environment variable will be set to \"true"
+"\" when this shell is active. You can use the presence of that variable to "
+"customize your shell's prompt to indicate that you indeed are under a "
+"jhbuild-controlled shell. For example, you may want to put this in your "
+"<filename>.bashrc</filename>:"
+msgstr ""
+
+#: C/index.docbook:1333(section/screen)
+#, no-wrap
+msgid ""
+"\n"
+"\tif [ -n \"$UNDER_JHBUILD\" ]; then\n"
+"\t    PS1=\"[jhbuild] $PS1\"\n"
+"\tfi\n"
+"      "
+msgstr ""
+
+#: C/index.docbook:1339(section/para)
+msgid ""
+"This will make your bash shell display <literal>[jhbuild]</literal> before "
+"your normal prompt, making it easier to see which shells are under a jhbuild "
+"environment."
+msgstr ""
+
+#: C/index.docbook:1345(section/title)
+msgid "sysdeps"
+msgstr ""
+
+#: C/index.docbook:1347(section/para)
+msgid "The <command>sysdeps</command> command displays:"
+msgstr ""
+
+#: C/index.docbook:1351(listitem/simpara)
+msgid ""
+"a list of installed system packages which will be used during the build. "
+"JHBuild will not build these modules and opt to use the system package "
+"instead."
+msgstr ""
+
+#: C/index.docbook:1356(listitem/simpara)
+msgid ""
+"a list of required packages. To begin a build the packages must be provided "
+"by your system."
+msgstr ""
+
+#: C/index.docbook:1360(listitem/simpara)
+msgid ""
+"a list of optional packages. The corresponding system package was not found "
+"or too old. JHBuild will build the module. Optional packages will not be "
+"displayed if <link linkend=\"cfg-partial-build\"><varname>partial_build</"
+"varname></link> is <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1368(section/cmdsynopsis)
+msgid "<command>jhbuild sysdeps</command> <arg>--install</arg>"
+msgstr ""
+
+#: C/index.docbook:1374(varlistentry/term)
+msgid "<option>--install</option>"
+msgstr ""
+
+#: C/index.docbook:1378(listitem/simpara)
+msgid ""
+"This option installs system packages which are dependencies of the "
+"moduleset. The installation method depends on your distribution. System "
+"packages are installed using <application>PackageKit</application>, if "
+"available. For distributions using <application>APT</application> such as "
+"<systemitem class=\"osname\">Debian</systemitem> and <systemitem class="
+"\"osname\">Ubuntu</systemitem>, this option requires <application>apt-file</"
+"application> to be installed."
+msgstr ""
+
+#: C/index.docbook:1392(example/title)
+msgid "<command>sysdeps</command> example"
+msgstr ""
+
+#: C/index.docbook:1393(example/screen)
+#, no-wrap
+msgid ""
+"<prompt>$</prompt> <userinput>jhbuild sysdeps</userinput>\n"
+"System installed packages which are new enough:\n"
+"  speex (speex.pc required=1.2rc1, installed=1.2rc1)\n"
+"  lcms2 (lcms2.pc required=2.2, installed=2.2)\n"
+"...\n"
+"Required packages:\n"
+"  System installed packages which are too old:\n"
+"    (none)\n"
+"  No matching system package installed:\n"
+"    zlib (zlib.pc required=1.2)\n"
+"Optional packages: (JHBuild will build the missing packages)\n"
+"  System installed packages which are too old:\n"
+"    WebKit (webkitgtk-3.0.pc required=1.5.1, installed=1.4.0)\n"
+"    ...\n"
+"  No matching system package installed:\n"
+"    pulseaudio (libpulse.pc required=2.0)\n"
+"    ..."
+msgstr ""
+
+#: C/index.docbook:1414(section/title)
+msgid "tinderbox"
+msgstr ""
+
+#: C/index.docbook:1416(section/para)
+msgid ""
+"The <command>tinderbox</command> command is similar to <command>build</"
+"command>, but writes all terminal output to HTML files suitable for "
+"publishing on a website. It can be used to set up systems similar to "
+"Mozilla's Tinderbox, or Debian's Buildd."
+msgstr ""
+
+#: C/index.docbook:1421(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild tinderbox</command> <arg>--autogen</arg> <arg>--clean</arg> "
+"<arg>--distclean</arg> <arg>--no-network</arg> <arg>--"
+"output=<replaceable>directory</replaceable></arg> <arg rep=\"repeat\">--"
+"skip=<replaceable>module</replaceable></arg> <arg>--start-"
+"at=<replaceable>module</replaceable></arg> <arg>-D <replaceable>date</"
+"replaceable></arg> <arg>-C</arg> <arg>-N</arg> <arg>-f</arg> <arg>--nodeps</"
+"arg> <arg rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1437(section/para)
+msgid ""
+"The <option>--autogen</option>, <option>--clean</option>, <option>--"
+"distclean</option>, <option>--no-network</option>, <option>--skip</option>, "
+"<option>--start-at</option>, <option>-D</option>, <option>-C</option>, "
+"<option>-N</option>, <option>-f</option> and <option>--nodeps</option> "
+"options are processed as per the <link linkend=\"command-reference-build"
+"\"><command>build</command></link> command."
+msgstr ""
+
+#: C/index.docbook:1448(varlistentry/term)
+msgid ""
+"<option>-o</option>, <option>--output</option>=<replaceable>directory</"
+"replaceable>"
+msgstr ""
+
+#: C/index.docbook:1453(listitem/simpara)
+msgid ""
+"The directory to write the HTML files. JHBuild will create an index "
+"(<filename>index.html</filename>) and a HTML file for each module."
+msgstr ""
+
+#: C/index.docbook:1462(section/title)
+msgid "uninstall"
+msgstr ""
+
+#: C/index.docbook:1464(section/para)
+msgid ""
+"The <command>uninstall</command> command uninstalls one or more modules."
+msgstr ""
+
+#: C/index.docbook:1467(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild uninstall</command> <arg choice=\"plain\" rep=\"repeat"
+"\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1473(section/title)
+msgid "update"
+msgstr ""
+
+#: C/index.docbook:1475(section/para)
+msgid ""
+"The <command>update</command> command is similar to <command>build</"
+"command>, but only performs the download or update stage for modules without "
+"building them."
+msgstr ""
+
+#: C/index.docbook:1479(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild update</command> <arg rep=\"repeat\">--"
+"skip=<replaceable>module</replaceable></arg> <arg>--start-"
+"at=<replaceable>module</replaceable></arg> <arg>--tags=<replaceable>tags</"
+"replaceable></arg> <arg>--ignore-suggests</arg> <arg>-D <replaceable>date</"
+"replaceable></arg> <arg rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1488(section/para)
+msgid ""
+"The <option>--skip</option>, <option>--start-at</option>, <option>--tags</"
+"option>, <option>--ignore-suggests</option> and <option>-D</option> options "
+"are processed as per the <link linkend=\"command-reference-build"
+"\"><command>build</command></link> command."
+msgstr ""
+
+#: C/index.docbook:1496(section/title)
+msgid "updateone"
+msgstr ""
+
+#: C/index.docbook:1498(section/para)
+msgid ""
+"The <command>updateone</command> command is similar to <command>update</"
+"command>, but it does not update the dependent modules. It is useful for "
+"updating one or more modules."
+msgstr ""
+
+#: C/index.docbook:1502(section/cmdsynopsis)
+msgid ""
+"<command>jhbuild updateone</command> <arg>-D <replaceable>date</"
+"replaceable></arg> <arg choice=\"plain\" rep=\"repeat\">module</arg>"
+msgstr ""
+
+#: C/index.docbook:1507(section/para)
+msgid ""
+"The <option>-D</option> option is processed as per the <link linkend="
+"\"command-reference-build\"><command>build</command></link> command."
+msgstr ""
+
+#: C/index.docbook:1516(section/title)
+msgid "Configuration File Reference"
+msgstr ""
+
+#: C/index.docbook:1518(section/para)
+msgid ""
+"The <filename>~/.config/jhbuildrc</filename> file uses standard Python "
+"syntax. The file is run, and the resulting variables defined in the "
+"namespace are used to control how JHBuild acts. A set of default values are "
+"inserted into the namespace before running the user's configuration file."
+msgstr ""
+
+#: C/index.docbook:1524(section/para)
+msgid ""
+"Boolean configuration variables are set using syntax as demonstrated in the "
+"following example:"
+msgstr ""
+
+#: C/index.docbook:1527(section/programlisting)
+#, no-wrap
+msgid "use_local_modulesets = True"
+msgstr ""
+
+#: C/index.docbook:1529(section/para)
+msgid ""
+"String configuration variables are set using syntax as demonstrated in the "
+"following example:"
+msgstr ""
+
+#: C/index.docbook:1532(section/programlisting)
+#, no-wrap
+msgid "autogenargs = '--disable-static --disable-gtk-doc'"
+msgstr ""
+
+#: C/index.docbook:1534(section/para)
+msgid ""
+"List configuration variables are set using syntax as demonstrated in the "
+"following example:"
+msgstr ""
+
+#: C/index.docbook:1537(section/programlisting)
+#, no-wrap
+msgid "skip = ['mozilla', 'pulseaudio']"
+msgstr ""
+
+#: C/index.docbook:1539(section/para)
+msgid ""
+"Dictionary configuration variables are set using syntax as demonstrated in "
+"the following example:"
+msgstr ""
+
+#: C/index.docbook:1542(section/programlisting)
+#: C/index.docbook:2107(listitem/programlisting)
+#, no-wrap
+msgid "repos['git.gnome.org'] = 'ssh://username@git.gnome.org/git/'"
+msgstr ""
+
+#: C/index.docbook:1545(section/title)
+msgid "Configuration Variables"
+msgstr ""
+
+#: C/index.docbook:1550(varlistentry/term)
+msgid "<varname>alwaysautogen</varname>"
+msgstr ""
+
+#: C/index.docbook:1554(listitem/simpara)
+msgid ""
+"A boolean value if set to <constant>True</constant>, always run "
+"<command>autogen.sh</command>. This is equivalent to passing <option>--"
+"autogen</option> option to JHBuild. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1561(varlistentry/term)
+msgid "<varname>autogenargs</varname>"
+msgstr ""
+
+#: C/index.docbook:1565(listitem/simpara)
+msgid ""
+"A string containing arguments passed to the <command>autogen.sh</command> "
+"script of all modules. Can be overridden for particular modules using the "
+"<varname>module_autogenargs</varname> dictionary."
+msgstr ""
+
+#: C/index.docbook:1572(varlistentry/term)
+msgid "<varname>branches</varname>"
+msgstr ""
+
+#: C/index.docbook:1576(listitem/simpara)
+msgid ""
+"A dictionary specifying which branch to use for specific modules. This is "
+"useful if you are making some changes on a branch of a module and want "
+"JHBuild to build that branch instead of the one listed in the module set."
+msgstr ""
+
+#: C/index.docbook:1581(listitem/simpara)
+msgid "The definition of branches depends on the module VCS:"
+msgstr ""
+
+#: C/index.docbook:1586(listitem/simpara)
+msgid "CVS: revision. E.g. <literal>'BRANCH-PROJECT-0_8'</literal>"
+msgstr ""
+
+#: C/index.docbook:1590(listitem/simpara)
+msgid ""
+"Bazaar: URI of module branch. E.g. <literal>'http://bzr.example.net/project/"
+"gnome-2-28'</literal>"
+msgstr ""
+
+#: C/index.docbook:1595(listitem/simpara)
+msgid ""
+"Git: tuple, with first part being an optional repository (or the None value) "
+"and the second part the name of the branch. E.g. <literal>('git://git."
+"example.net/project', 'gnome-2-28')</literal>"
+msgstr ""
+
+#: C/index.docbook:1601(example/title)
+msgid "Simple example"
+msgstr ""
+
+#: C/index.docbook:1602(example/programlisting)
+#, no-wrap
+msgid "branches['modulename'] = (None, 'branchname')"
+msgstr ""
+
+#: C/index.docbook:1606(listitem/simpara)
+msgid ""
+"Subversion: URI of module branch E.g. <literal>'svn://svn.example.net/"
+"project/gnome-2-28'</literal>"
+msgstr ""
+
+#: C/index.docbook:1614(varlistentry/term)
+msgid "<varname>builddir_pattern</varname>"
+msgstr ""
+
+#: C/index.docbook:1618(listitem/simpara)
+msgid ""
+"A <function>printf</function> style formatting pattern used to generate "
+"build directory names. This is only used when using separate source and "
+"build trees. The <literal>%s</literal> in the format string will be replaced "
+"with <varname>checkoutdir</varname>. Defaults to <literal>'%s'</literal>."
+msgstr ""
+
+#: C/index.docbook:1627(varlistentry/term)
+msgid "<varname>buildroot</varname>"
+msgstr ""
+
+#: C/index.docbook:1631(listitem/simpara)
+msgid ""
+"A string specifying the parent directory to place build trees. Defaults to "
+"<constant>None</constant>, which causes builds to be performed within the "
+"source trees."
+msgstr ""
+
+#: C/index.docbook:1637(varlistentry/term)
+msgid "<varname>buildscript</varname>"
+msgstr ""
+
+#: C/index.docbook:1641(listitem/simpara)
+msgid ""
+"A string specifying which buildscript to use. The recommended setting is the "
+"default, <literal>terminal</literal>. In particular, do not set to "
+"<literal>gtk</literal>."
+msgstr ""
+
+#: C/index.docbook:1647(varlistentry/term)
+msgid "<varname>build_policy</varname>"
+msgstr ""
+
+#: C/index.docbook:1651(listitem/simpara)
+msgid ""
+"A string specifying which modules to build. The three possible options are "
+"<literal>all</literal>, to build all modules requested, <literal>updated</"
+"literal> to build only modules which have changed, or <literal>updated-deps</"
+"literal> to build modules which have changed or which have dependencies "
+"which have changed. Defaults to <literal>updated-deps</literal>."
+msgstr ""
+
+#: C/index.docbook:1660(varlistentry/term)
+msgid "<varname>checkoutroot</varname>"
+msgstr ""
+
+#: C/index.docbook:1664(listitem/simpara)
+msgid ""
+"A string specifying the directory to unpack source trees to. Unless "
+"<varname>buildroot</varname> is set, builds will occur in this directory "
+"too. Defaults to <filename>~/checkout/gnome</filename>."
+msgstr ""
+
+#: C/index.docbook:1671(varlistentry/term)
+msgid "<varname>checkout_mode</varname>"
+msgstr ""
+
+#: C/index.docbook:1675(listitem/simpara)
+msgid ""
+"A string specifying how the checkout is performed for directories in version "
+"control. Defaults to <literal>update</literal>. This can be set per module "
+"using <varname>module_checkout_mode</varname>. Possible values are "
+"<literal>update</literal> (update checkout directory), <literal>clobber</"
+"literal> (wipe out directory before checking out the sources), "
+"<literal>export</literal> (wipe out directory then create an unversioned "
+"copy of the sources) and <literal>copy</literal> (checkout in a directory "
+"different from the one it will build)."
+msgstr ""
+
+#: C/index.docbook:1688(varlistentry/term)
+msgid "<varname>copy_dir</varname>"
+msgstr ""
+
+#: C/index.docbook:1692(listitem/simpara)
+msgid ""
+"A string specifying the directory to copy to, if the copy <link linkend="
+"\"cfg-checkout-mode\"> <varname>checkout_mode</varname></link> is in use. "
+"Defaults to the checkout directory."
+msgstr ""
+
+#: C/index.docbook:1699(varlistentry/term)
+msgid "<varname>cvs_program</varname>"
+msgstr ""
+
+#: C/index.docbook:1703(listitem/simpara)
+msgid ""
+"A string specifying which program to use for CVS support. This can be "
+"<literal>git-cvsimport</literal>, or <literal>cvs</literal>. Defaults to "
+"<literal>cvs</literal>."
+msgstr ""
+
+#: C/index.docbook:1710(varlistentry/term)
+msgid "<varname>dvcs_mirror_dir</varname>"
+msgstr ""
+
+#: C/index.docbook:1714(listitem/simpara)
+msgid ""
+"A string specifying a local mirror directory. JHBuild will create local "
+"mirrors of repositories at the specified directory. The mirrors can be "
+"shared by multiple repository groups, saving space and time because hard-"
+"links will be used for local clones. The commands <command>update</command> "
+"and <command>updateone</command> will create the mirrors and fetch new "
+"commits from the online repositories. This option is only supported by Git "
+"and Bazaar repositories."
+msgstr ""
+
+#: C/index.docbook:1725(varlistentry/term)
+msgid "<varname>help_website</varname>"
+msgstr ""
+
+#: C/index.docbook:1729(listitem/simpara)
+msgid ""
+"A tuple specifying a help website name and URL. The website is displayed in "
+"the tinderbox html for failed modules. <varname>%(module)s</varname> in the "
+"URL will be replaced with the module name. To disable, set "
+"<varname>help_website</varname> to <literal>None</literal>. Defaults to "
+"<literal>('Gnome Live!', 'http://live.gnome.org/JhbuildIssues/%(module)s')</"
+"literal>."
+msgstr ""
+
+#: C/index.docbook:1739(varlistentry/term)
+msgid "<varname>installprog</varname>"
+msgstr ""
+
+#: C/index.docbook:1743(listitem/simpara)
+msgid ""
+"A string specifying a program to use as replacement for <literal>/usr/bin/"
+"install</literal>. If available, defaults to the <literal>install-check</"
+"literal> wrapper provided by JHBuild. The <literal>install-check</literal> "
+"wrapper optimizes header installation to reduce the time taken for rebuilds."
+msgstr ""
+
+#: C/index.docbook:1751(varlistentry/term)
+msgid "<varname>ignore_suggests</varname>"
+msgstr ""
+
+#: C/index.docbook:1755(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to ignore soft dependencies when "
+"calculating the dependency tree. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1761(varlistentry/term)
+msgid "<varname>interact</varname>"
+msgstr ""
+
+#: C/index.docbook:1765(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to interact with the user. Setting this "
+"value to <constant>False</constant> is equivalent to passing the <option>--"
+"no-interact</option> option. Defaults to <constant>True</constant>."
+msgstr ""
+
+#: C/index.docbook:1772(varlistentry/term)
+msgid "<varname>makeargs</varname>"
+msgstr ""
+
+#: C/index.docbook:1783(varlistentry/term)
+msgid "<varname>makecheck</varname>"
+msgstr ""
+
+#: C/index.docbook:1787(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to run <command>make check</command> "
+"after <command>make</command>. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1793(varlistentry/term)
+msgid "<varname>makecheck_advisory</varname>"
+msgstr ""
+
+#: C/index.docbook:1797(listitem/simpara)
+msgid ""
+"A boolean value specifying whether failures when running <command>make "
+"check</command> should be advisory only and not cause a build failure. "
+"Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1804(varlistentry/term)
+msgid "<varname>makeclean</varname>"
+msgstr ""
+
+#: C/index.docbook:1808(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to run <command>make clean</command> "
+"before <command>make</command>. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1814(varlistentry/term)
+msgid "<varname>makedist</varname>"
+msgstr ""
+
+#: C/index.docbook:1818(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to run <command>make dist</command> after "
+"<command>make</command>. Defaults to <constant>False</constant>. This "
+"setting is equivalent to passing the <option>--dist</option> option."
+msgstr ""
+
+#: C/index.docbook:1825(varlistentry/term)
+msgid "<varname>makedistcheck</varname>"
+msgstr ""
+
+#: C/index.docbook:1829(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to run <command>make distcheck</command> "
+"after <command>make</command>. Defaults to <constant>False</constant>. This "
+"setting is equivalent to passing the <option>--distcheck</option> option."
+msgstr ""
+
+#: C/index.docbook:1836(varlistentry/term)
+msgid "<varname>module_autogenargs</varname>"
+msgstr ""
+
+#: C/index.docbook:1840(listitem/simpara)
+msgid ""
+"A dictionary mapping module names to strings specifying the arguments to be "
+"passed to <command>autogen.sh</command>. The setting in "
+"<varname>module_autogenargs</varname> is used instead of the global "
+"<varname>autogenargs</varname> setting. If a particular module isn't listed "
+"in the dictionary, the global <varname>autogenargs</varname> will be used."
+msgstr ""
+
+#: C/index.docbook:1849(varlistentry/term)
+msgid "<varname>module_checkout_mode</varname>"
+msgstr ""
+
+#: C/index.docbook:1853(listitem/simpara)
+msgid ""
+"A dictionary specifying which checkout mode to use for modules. This "
+"overrides the global <varname>checkout_mode</varname> setting."
+msgstr ""
+
+#: C/index.docbook:1859(varlistentry/term)
+msgid "<varname>module_makeargs</varname>"
+msgstr ""
+
+#: C/index.docbook:1863(listitem/simpara)
+msgid ""
+"A dictionary mapping module names to strings specifying the arguments to "
+"pass to <command>make</command>. The setting in <varname>module_makeargs</"
+"varname> replaces the value of <varname>makeargs</varname>. If a particular "
+"module isn't listed in the dictionary, the global <varname>makeargs</"
+"varname> will be used."
+msgstr ""
+
+#: C/index.docbook:1872(varlistentry/term)
+msgid "<varname>module_makecheck</varname>"
+msgstr ""
+
+#: C/index.docbook:1876(listitem/simpara)
+msgid ""
+"A dictionary mapping module names to boolean values specifying whether to "
+"run <command>make check</command> after <command>make</command>. The setting "
+"in <varname>module_makecheck</varname> replaces the value of "
+"<varname>makecheck</varname>. If a particular module isn't listed in the "
+"dictionary, the global <varname>makecheck</varname> will be used."
+msgstr ""
+
+#: C/index.docbook:1886(varlistentry/term)
+msgid "<varname>module_nopoison</varname>"
+msgstr ""
+
+#: C/index.docbook:1890(listitem/simpara)
+msgid ""
+"A dictionary mapping module names to boolean values. If a module is set to "
+"<constant>True</constant>, JHBuild will attempt to build dependent modules "
+"even if the specified module failed. The setting in "
+"<varname>module_nopoison</varname> replaces the value of <varname>nopoison</"
+"varname>. If a particular module isn't listed in the dictionary, the global "
+"<varname>nopoison</varname> will be used."
+msgstr ""
+
+#: C/index.docbook:1900(varlistentry/term)
+msgid "<varname>module_extra_env</varname>"
+msgstr ""
+
+#: C/index.docbook:1904(listitem/simpara)
+msgid ""
+"A dictionary mapping module names to dictionaries with extra environment "
+"variables to pass when executing commands for the module."
+msgstr ""
+
+#: C/index.docbook:1910(varlistentry/term)
+msgid "<varname>modules</varname>"
+msgstr ""
+
+#: C/index.docbook:1923(varlistentry/term)
+msgid "<varname>moduleset</varname>"
+msgstr ""
+
+#: C/index.docbook:1938(varlistentry/term)
+msgid "<varname>modulesets_dir</varname>"
+msgstr ""
+
+#: C/index.docbook:1942(listitem/simpara)
+msgid ""
+"A string specifying the directory containing the modulesets to use. Defaults "
+"to the <filename>modulesets/</filename> directory in JHBuild sources."
+msgstr ""
+
+#: C/index.docbook:1949(varlistentry/term)
+msgid "<varname>nice_build</varname>"
+msgstr ""
+
+#: C/index.docbook:1953(listitem/simpara)
+msgid ""
+"Run builds under the <constant>SCHED_IDLE</constant> priority on Linux, "
+"<command>nice</command> on other Unix. This can dramatically improve desktop "
+"interactivity for parallel builds while having only a negligible impact on "
+"build throughput."
+msgstr ""
+
+#: C/index.docbook:1961(varlistentry/term)
+msgid "<varname>nobuild</varname>"
+msgstr ""
+
+#: C/index.docbook:1965(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> JHBuild will not build "
+"modules, but just download and unpack the sources. The default vale is "
+"<constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1971(varlistentry/term)
+msgid "<varname>nonetwork</varname>"
+msgstr ""
+
+#: C/index.docbook:1975(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to access the network. This affects "
+"checking out or updating CVS modules, downloading tarballs and updating "
+"module sets. Setting this to <constant>True</constant> is equivalent to "
+"passing the <option>--no-network</option> option. Defaults to "
+"<constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:1984(varlistentry/term)
+msgid "<varname>nonotify</varname>"
+msgstr ""
+
+#: C/index.docbook:1988(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to emit notifications using the "
+"notification daemon. If set to <constant>False</constant>, notifications are "
+"emitted. Defaults to <constant>True</constant>."
+msgstr ""
+
+#: C/index.docbook:1995(varlistentry/term)
+msgid "<varname>nopoison</varname>"
+msgstr ""
+
+#: C/index.docbook:1999(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> JHBuild attempts to "
+"build modules even if one or more of the module's dependencies failed to "
+"build. This option is equivalent to the <option>--no-poison</option> "
+"argument. The default value is <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:2007(varlistentry/term)
+msgid "<varname>notrayicon</varname>"
+msgstr ""
+
+#: C/index.docbook:2011(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to show an icon in the system tray using "
+"Zenity. If set to <constant>False</constant>, notifications are emitted. "
+"Defaults to <constant>True</constant>."
+msgstr ""
+
+#: C/index.docbook:2018(varlistentry/term)
+msgid "<varname>noxvfb</varname>"
+msgstr ""
+
+#: C/index.docbook:2022(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> JHBuild will run any "
+"graphical tests on the real X server, rather than using <command>Xvfb</"
+"command>. This option is equivalent to passing <option>--no-xvfb</option>. "
+"The default value is <constant>False</constant>"
+msgstr ""
+
+#: C/index.docbook:2030(varlistentry/term)
+msgid "<varname>partial_build</varname>"
+msgstr ""
+
+#: C/index.docbook:2034(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> JHBuild will not build "
+"dependency modules if corresponding system packages are installed and "
+"sufficient version. Defaults to <constant>True</constant>."
+msgstr ""
+
+#: C/index.docbook:2041(varlistentry/term)
+msgid "<varname>prefix</varname>"
+msgstr ""
+
+#: C/index.docbook:2052(varlistentry/term)
+msgid "<varname>pretty_print</varname>"
+msgstr ""
+
+#: C/index.docbook:2056(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to pretty format the subprocess output. "
+"Only CVS output supports pretty printing. Disable if the pretty printing "
+"causes problems. Defaults to <literal>True</literal>."
+msgstr ""
+
+#: C/index.docbook:2063(varlistentry/term)
+msgid "<varname>print_command_pattern</varname>"
+msgstr ""
+
+#: C/index.docbook:2067(listitem/simpara)
+msgid ""
+"A string displayed before JHBuild executes a command. <varname>%(command)s</"
+"varname> in the string will be replaced with the command about to be "
+"executed. <varname>%(cwd)s</varname> in the string will be replaced with the "
+"current working directory. Defaults to <literal>'%(command)s'</literal>."
+msgstr ""
+
+#: C/index.docbook:2075(varlistentry/term)
+msgid "<varname>progress_bar</varname>"
+msgstr ""
+
+#: C/index.docbook:2079(listitem/simpara)
+msgid ""
+"A boolean value specifying whether to display a progress bar during <link "
+"linkend=\"cfg-quiet-mode\">quiet mode </link>. Defaults to <literal>True</"
+"literal>."
+msgstr ""
+
+#: C/index.docbook:2085(varlistentry/term)
+msgid "<varname>quiet_mode</varname>"
+msgstr ""
+
+#: C/index.docbook:2089(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> disables the output of "
+"running commands. Defaults to <literal>False</literal>."
+msgstr ""
+
+#: C/index.docbook:2095(varlistentry/term)
+msgid "<varname>repos</varname>"
+msgstr ""
+
+#: C/index.docbook:2099(listitem/simpara)
+msgid ""
+"A dictionary specifying an alternative repository location for a particular "
+"repository. This configuration variable is useful to a module developer. By "
+"default, JHBuild will check out code from repositories using an anonymous "
+"repository location. The dictionary keys are short repository names and the "
+"values are the alternative repository location strings. For example:"
+msgstr ""
+
+#: C/index.docbook:2111(varlistentry/term)
+msgid "<varname>skip</varname>"
+msgstr ""
+
+#: C/index.docbook:2115(listitem/simpara)
+msgid ""
+"A list of modules to skip. This <option>--skip</option> command line option "
+"extends the list. This list is empty by default. If the list contains the "
+"special value <literal>'*'</literal>, JHBuild will skip all modules not "
+"explicitly listed in the <varname>modules</varname> variable. This may be "
+"useful if you want to build modules without their implicit dependencies."
+msgstr ""
+
+#: C/index.docbook:2125(varlistentry/term)
+msgid "<varname>sticky_date</varname>"
+msgstr ""
+
+#: C/index.docbook:2129(listitem/simpara)
+msgid ""
+"A string if set, and if supported by the underlying version control system, "
+"JHBuild will update the source tree to the specified date before building. "
+"An ISO date format is required, e.g. <literal>'<replaceable>yyyy</"
+"replaceable>-<replaceable>mm</replaceable>-<replaceable>dd</replaceable>'</"
+"literal>. Defaults to <constant>None</constant>."
+msgstr ""
+
+#: C/index.docbook:2138(varlistentry/term)
+msgid "<varname>svn_program</varname>"
+msgstr ""
+
+#: C/index.docbook:2142(listitem/simpara)
+msgid ""
+"A string specifying which program to use for subversion support. This can be "
+"<literal>svn</literal>, <literal>git-svn</literal> or <literal>bzr</"
+"literal>. Defaults to <literal>svn</literal>."
+msgstr ""
+
+#: C/index.docbook:2149(varlistentry/term)
+msgid "<varname>tarballdir</varname>"
+msgstr ""
+
+#: C/index.docbook:2153(listitem/simpara)
+msgid ""
+"A string if set, tarballs will be downloaded to the specified directory "
+"instead of <varname>checkoutroot</varname>. This is useful if you have "
+"multiple JHBuild environments or regularly clear out <varname>checkoutroot</"
+"varname> and want to reduce bandwidth usage."
+msgstr ""
+
+#: C/index.docbook:2161(varlistentry/term)
+msgid "<varname>tinderbox_outputdir</varname>"
+msgstr ""
+
+#: C/index.docbook:2165(listitem/simpara)
+msgid ""
+"A string specifying the directory to store <command>jhbuild tinderbox</"
+"command> output. This string can be overridden by the <option>--output</"
+"option> option. Defaults to <constant>None</constant>, so either the command "
+"line option must be used or this variable must be set in the configuration "
+"file."
+msgstr ""
+
+#: C/index.docbook:2174(varlistentry/term)
+msgid "<varname>trycheckout</varname>"
+msgstr ""
+
+#: C/index.docbook:2178(listitem/simpara)
+msgid ""
+"A boolean value, if set to <constant>True</constant> JHBuild will "
+"automatically try to solve failures by 1) running <command>autogen.sh</"
+"command> again, and 2) checking out a newer version of a module from version "
+"control. This setting is equivalent to passing the <option>--try-checkout</"
+"option> option."
+msgstr ""
+
+#: C/index.docbook:2187(varlistentry/term)
+msgid "<varname>use_lib64</varname>"
+msgstr ""
+
+#: C/index.docbook:2191(listitem/simpara)
+msgid ""
+"A boolean value that specifies whether to install libraries to "
+"<filename>lib64</filename> directories. If set, <literal>--libdir=\\"
+"${exec_prefix}/lib64</literal> will be passed to configure. Defaults to "
+"<constant>True</constant> if running on <literal>x86_64</literal>, "
+"<literal>ppc64</literal> or <literal>s390x</literal> Linux, and "
+"<constant>False</constant> on other systems."
+msgstr ""
+
+#: C/index.docbook:2201(varlistentry/term)
+msgid "<varname>use_local_modulesets</varname>"
+msgstr ""
+
+#: C/index.docbook:2205(listitem/simpara)
+msgid ""
+"A boolean value that specifies to use modulesets that were checked out along "
+"the JHBuild source code; instead of downloading them on-the-fly from GNOME "
+"version control system. Defaults to <constant>False</constant>."
+msgstr ""
+
+#: C/index.docbook:2212(varlistentry/term)
+msgid "<varname>xvfbargs</varname>"
+msgstr ""
+
+#: C/index.docbook:2216(listitem/simpara)
+msgid ""
+"A string listing arguments to pass to <command>Xvfb</command> if running "
+"graphical tests."
+msgstr ""
+
+#: C/index.docbook:2224(section/title)
+msgid "Other Configuration File Structures"
+msgstr ""
+
+#: C/index.docbook:2226(section/para)
+msgid ""
+"In addition to the above variables, there are other settings that can be set "
+"in the configuration file:"
+msgstr ""
+
+#: C/index.docbook:2231(varlistentry/term)
+msgid "<varname>os.environ</varname>"
+msgstr ""
+
+#: C/index.docbook:2235(listitem/para)
+msgid ""
+"A dictionary representing the environment. This environment is passed to "
+"processes that JHBuild spawns."
+msgstr ""
+
+#: C/index.docbook:2238(listitem/para)
+msgid ""
+"Some influential environment variables include <envar>CPPFLAGS</envar>, "
+"<envar>CFLAGS</envar>, <envar>INSTALL</envar> and <envar>LDFLAGS</envar>. "
+"For example:"
+msgstr ""
+
+#: C/index.docbook:2243(listitem/programlisting)
+#, no-wrap
+msgid "os.environ['CFLAGS'] = '-O0 -g'"
+msgstr ""
+
+#: C/index.docbook:2247(varlistentry/term)
+msgid ""
+"<function>addpath</function>(<parameter>envvar</parameter>, "
+"<parameter>pathname</parameter>)"
+msgstr ""
+
+#: C/index.docbook:2252(listitem/para)
+msgid ""
+"This will add a directory to the <envar>PATH</envar> environment variable. "
+"<function>addpath</function> will correctly handle the case when the "
+"environment variable is initially empty (having a stray colon at the "
+"beginning or end of an environment variable can have unexpected "
+"consequences)."
+msgstr ""
+
+#: C/index.docbook:2258(listitem/para)
+msgid ""
+"<function>addpath</function> has special handling for the "
+"<envar>ACLOCAL_FLAGS</envar> environment variable, which expects paths to be "
+"listed in the form <literal>-I <replaceable>pathname</replaceable></literal>."
+msgstr ""
+
+#: C/index.docbook:2265(varlistentry/term)
+msgid ""
+"<function>prependpath</function>(<parameter>envvar</parameter>, "
+"<parameter>pathname</parameter>)"
+msgstr ""
+
+#: C/index.docbook:2270(listitem/para)
+msgid ""
+"After processing the configuration file, JHBuild will alter some paths based "
+"on variables such as <varname>prefix</varname> (e.g. adding <literal>$prefix/"
+"bin</literal> to the start of <envar>PATH</envar>)."
+msgstr ""
+
+#: C/index.docbook:2275(listitem/para)
+msgid ""
+"The <function>prependpath</function> function works like <function>addpath</"
+"function>, except that the environment variable is modified after JHBuild "
+"has made its changes to the environment."
+msgstr ""
+
+#: C/index.docbook:2286(section/title)
+msgid "Module Set File Syntax"
+msgstr ""
+
+#: C/index.docbook:2288(section/para)
+msgid ""
+"JHBuild uses XML files to describe the dependencies between modules. A RELAX-"
+"NG schema and Document Type Definition are included with JHBuild in the "
+"<filename>modulesets/</filename> directory. The RELAX-NG schema can be used "
+"to edit module set files using <literal>nxml-mode</literal> in Emacs."
+msgstr ""
+
+#: C/index.docbook:2294(section/para)
+msgid ""
+"The top-level element in a module set file is <sgmltag class=\"element"
+"\">moduleset</sgmltag> element. No XML namespace is used. The elements below "
+"the top-level come in three types: module sources, include statements and "
+"module definitions."
+msgstr ""
+
+#: C/index.docbook:2300(section/title) C/index.docbook:3075(section/title)
+msgid "Module Sources"
+msgstr ""
+
+#: C/index.docbook:2302(section/para)
+msgid ""
+"Rather than listing the full location of every module, a number of \"module "
+"sources\" are listed in the module set, and then referenced by name in the "
+"module definitions. As well as reducing the amount of redundant information "
+"in the module set, it makes it easy for a user to specify an alternative "
+"source for those modules (for CVS and Subversion, it is common for "
+"developers and users to use different repository access methods)."
+msgstr ""
+
+#: C/index.docbook:2310(section/para)
+msgid ""
+"The <sgmltag class=\"element\">repository</sgmltag> element is used to "
+"describe all types of repository. The <sgmltag class=\"element\">branch</"
+"sgmltag> element is used inside module definition to specify additional "
+"settings."
+msgstr ""
+
+#: C/index.docbook:2315(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository name=\"<replaceable>name</replaceable>\"\n"
+"  type=\"<replaceable>type</replaceable>\"\n"
+"  [ default=\"<replaceable>default</replaceable>\" ]\n"
+"  [ password=\"<replaceable>password</replaceable>\" ]\n"
+"  [ cvsroot=\"<replaceable>cvsroot</replaceable>\" ]\n"
+"  [ archive=\"<replaceable>archive</replaceable>\" ]\n"
+"  [ href=\"<replaceable>href</replaceable>\" ]\n"
+"  [ server=\"<replaceable>server</replaceable>\" ]\n"
+"  [ database=\"<replaceable>database</replaceable>\" ]\n"
+"  [ defbranch=\"<replaceable>defbranch</replaceable>\" ]\n"
+"  [ trunk-template=\"<replaceable>trunk-template</replaceable>\" ]\n"
+"  [ branches-template=\"<replaceable>branches-template</replaceable>\" ]\n"
+"  [ tags-template=\"<replaceable>tags-template</replaceable>\" ]\n"
+"  [ developer-href-example=\"<replaceable>developer-href-example</replaceable>\" ] /&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2332(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">name</sgmltag> attribute is a unique "
+"identifier for the repository."
+msgstr ""
+
+#: C/index.docbook:2335(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">default</sgmltag> attribute specifies "
+"whether this repository is the default source for this module set."
+msgstr ""
+
+#: C/index.docbook:2339(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">type</sgmltag> attribute specifies the type "
+"of repository. It can be one of: <literal>bzr</literal>, <literal>cvs</"
+"literal>, <literal>darcs</literal>, <literal>fossil</literal>, <literal>git</"
+"literal>, <literal>hg</literal>, <literal>mnt</literal>, <literal>svn</"
+"literal>, <literal>tarball</literal>. Other attributes depend on the "
+"<sgmltag class=\"attribute\">type</sgmltag>, as well as the <sgmltag class="
+"\"element\">branch</sgmltag> used inside module definitions. Those are "
+"described below in the repository type sub-sections."
+msgstr ""
+
+#: C/index.docbook:2351(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">developer-href-example</sgmltag> attribute "
+"is used to specify the format of the URL for the repository used by "
+"developers. This is informational only."
+msgstr ""
+
+#: C/index.docbook:2355(section/para)
+msgid ""
+"The <sgmltag class=\"element\">branch</sgmltag> element is used inside "
+"module definitions."
+msgstr ""
+
+#: C/index.docbook:2358(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch\n"
+"  [ repo=\"<replaceable>repository</replaceable>\" ]\n"
+"  [ module=\"<replaceable>module name</replaceable>\" ]\n"
+"  [ checkoutdir=\"<replaceable>checkoutdir</replaceable>\" ]\n"
+"  [ revision=\"<replaceable>revision</replaceable>\" ]\n"
+"  [ tag=\"<replaceable>tag</replaceable>\" ]\n"
+"  [ update-new-dirs=\"<replaceable>update-new-dirs</replaceable>\" ]\n"
+"  [ override-checkoutdir=\"<replaceable>override-checkoutdir</replaceable>\" ]\n"
+"  [ subdir=\"<replaceable>subdir</replaceable>\" ]\n"
+"  [ branch=\"<replaceable>branch</replaceable>\" ]\n"
+"  [ version=\"<replaceable>version</replaceable>\" ]\n"
+"  [ size=\"<replaceable>size</replaceable>\" ]\n"
+"  [ source-subdir=\"<replaceable>source-subdir</replaceable>\" ]\n"
+"  [ hash=\"<replaceable>hash</replaceable>\" ]/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2375(section/para)
+msgid ""
+"All atributes have sensible defaults and depend on the module and repository "
+"definitions. Common attributes are described here."
+msgstr ""
+
+#: C/index.docbook:2378(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">repo</sgmltag> attribute is used to specify "
+"non-default repository name."
+msgstr ""
+
+#: C/index.docbook:2381(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">module</sgmltag> attribute is used to "
+"specify module name to checkout from the repository. Defaults to module id."
+msgstr ""
+
+#: C/index.docbook:2385(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">checkoutdir</sgmltag> attribute is used to "
+"specify the checkout directory name. Defaults to module id."
+msgstr ""
+
+#: C/index.docbook:2389(section/para)
+msgid "Other attributes are described below"
+msgstr ""
+
+#: C/index.docbook:2392(section/title)
+msgid "Bazaar"
+msgstr ""
+
+#: C/index.docbook:2394(section/para)
+msgid ""
+"This repository type is used to define a Bazaar repository. It is "
+"recommended to have Bazaar 1.16 or higher."
+msgstr ""
+
+#: C/index.docbook:2397(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
+"      href=\"lp:\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2402(section/para)
+msgid ""
+"Additional attributes are: <sgmltag class=\"attribute\">trunk-template</"
+"sgmltag> (defaults to <literal>\"%(module)s\"</literal>) and <sgmltag class="
+"\"attribute\">branches-template</sgmltag> (defaults to <literal>\"%(module)s/"
+"%(branch)s</literal>\"). These attributes are used to specify templates for "
+"constructing URL. A <sgmltag class=\"element\">branch</sgmltag> element in "
+"the module definitions can specify <sgmltag class=\"attribute\">branch</"
+"sgmltag> and <sgmltag class=\"attribute\">user</sgmltag> attributes. These "
+"values will be substitued in the templates. If either of those are defined "
+"<sgmltag class=\"attribute\">branches-template</sgmltag> is used, otherwise "
+"<sgmltag class=\"attribute\">trunk-template</sgmltag> is used. This way you "
+"can ovveride repository to build modules from your personal branch or build "
+"many modules fron a repository with non-standard layout."
+msgstr ""
+
+#: C/index.docbook:2418(section/para)
+msgid ""
+"An addition <sgmltag class=\"element\">branch</sgmltag> element accepts "
+"<sgmltag class=\"attribute\">revspec</sgmltag> attibute to anchor on a "
+"particular revision. Any valid <literal>bzr revspec</literal> is accepted, "
+"for example <literal>date:yesterday, -5, tag:0.1</literal> to get first "
+"revision since yesterday, 5 commits behind the tip or tag \"0.1\". See "
+"<literal>bzr help revisionspec</literal> for all possible values."
+msgstr ""
+
+#: C/index.docbook:2426(section/para)
+msgid ""
+"For example repository with <sgmltag class=\"attribute\">template</sgmltag> "
+"attributes defined:"
+msgstr ""
+
+#: C/index.docbook:2430(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"bzr\" name=\"launchpad.net\"\n"
+"      href=\"lp:\"\n"
+"      trunk-template=\"~bzr-pqm/%(module)s/bzr.dev\"\n"
+"      branches-template=\"~bzr-pqm/%(module)s/%(branch)s\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2437(section/para)
+msgid ""
+"Example <sgmltag class=\"element\">branch</sgmltag> elements for the above "
+"repository:"
+msgstr ""
+
+#: C/index.docbook:2440(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch repo=\"launchpad.net\"\n"
+"      module=\"bzr\"\n"
+"      checkoutdir=\"bzr-next\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2446(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch repo=\"launchpad.net\"\n"
+"      module=\"bzr\"\n"
+"      branch=\"2.2\"\n"
+"      checkoutdir=\"bzr-beta\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2455(section/title)
+msgid "CVS"
+msgstr ""
+
+#: C/index.docbook:2457(section/para)
+msgid "This repository type is used to define a CVS repository."
+msgstr ""
+
+#: C/index.docbook:2459(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">password</sgmltag> attribute is used to "
+"specify the password to the repository."
+msgstr ""
+
+#: C/index.docbook:2462(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">cvsroot</sgmltag> attribute is used to "
+"specify the root of the repository."
+msgstr ""
+
+#: C/index.docbook:2465(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"cvs\" name=\"tango.freedesktop.org\"\n"
+"    cvsroot=\":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango\"\n"
+"    password=\"\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2473(section/para)
+msgid ""
+"Additional attributes are: <sgmltag class=\"attribute\">revision</sgmltag>, "
+"<sgmltag class=\"attribute\">update-new-dirs</sgmltag> and <sgmltag class="
+"\"attribute\">override-checkoutdir</sgmltag>."
+msgstr ""
+
+#: C/index.docbook:2480(section/title)
+msgid "Darcs"
+msgstr ""
+
+#: C/index.docbook:2482(section/para)
+msgid "This repository type is used to define a Darcs repository."
+msgstr ""
+
+#: C/index.docbook:2485(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"darcs\" name=\"telepathy.freedesktop.org\"\n"
+"      href=\"http://projects.collabora.co.uk/darcs/telepathy/\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2492(section/title)
+msgid "Git"
+msgstr ""
+
+#: C/index.docbook:2494(section/para)
+msgid "This repository type is used to define a Git repository."
+msgstr ""
+
+#: C/index.docbook:2496(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"git\" name=\"git.freedesktop.org\"\n"
+"    href=\"git://anongit.freedesktop.org/git/\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2501(section/para) C/index.docbook:2623(section/para)
+msgid ""
+"It allows the following attributes on the <sgmltag class=\"element\">branch</"
+"sgmltag> element:"
+msgstr ""
+
+#: C/index.docbook:2505(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">revision</sgmltag> attribute is used to "
+"specify a local or remote-tracking branch to switch to in the update phase. "
+"It defaults to 'master'. It is possible to override this attribute with the "
+"<varname>branches</varname> configuration variable. The switch will only be "
+"performed, if the current branch is tracking a remote branch, to not disturb "
+"your own work."
+msgstr ""
+
+#: C/index.docbook:2512(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">tag</sgmltag> attribute is used to specify "
+"a revision to unconditionally check out in the update phase. It overrides "
+"the <sgmltag class=\"attribute\">revision</sgmltag> attribute."
+msgstr ""
+
+#: C/index.docbook:2522(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch repo=\"git.freedesktop.org\" module=\"swfdec/swfdec\"\n"
+"        checkoutdir=\"swfdec\"\n"
+"        revision=\"<replaceable>local-or-remote-branch</replaceable>\"\n"
+"        tag=\"<replaceable>tree-ish</replaceable>\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2531(section/title)
+msgid "Mercurial"
+msgstr ""
+
+#: C/index.docbook:2533(section/para)
+msgid "This repository type is used to define a Mercurial repository."
+msgstr ""
+
+#: C/index.docbook:2536(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"hg\" name=\"hg.gtk-vnc\"\n"
+"    href=\"http://gtk-vnc.codemonkey.ws/hg/\" /&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2541(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch repo=\"hg.gtk-vnc\" module=\"outgoing.hg\" checkoutdir=\"gtk-vnc\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2547(section/title)
+msgid "Monotone"
+msgstr ""
+
+#: C/index.docbook:2549(section/para)
+msgid "This repository type is used to define a Monotone repository."
+msgstr ""
+
+#: C/index.docbook:2552(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">server</sgmltag> attribute is used to "
+"specify the repository server."
+msgstr ""
+
+#: C/index.docbook:2555(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">database</sgmltag> attribute is used to "
+"specify the database to use for the repository."
+msgstr ""
+
+#: C/index.docbook:2558(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">defbranch</sgmltag> attribute is used "
+"specify the branch of the repository to use."
+msgstr ""
+
+#: C/index.docbook:2561(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"mtn\" name=\"pidgin.im\"\n"
+"    server=\"pidgin.im\" database=\"pidgin.im.mtn\"\n"
+"    defbranch=\"im.pidgin.pidgin\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2569(section/title)
+msgid "Subversion"
+msgstr ""
+
+#: C/index.docbook:2571(section/para)
+msgid "This repository type is used to define a Subversion repository."
+msgstr ""
+
+#: C/index.docbook:2574(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"svn\" name=\"svn.gnome.org\" default=\"yes\"\n"
+"    href=\"http://svn.gnome.org/svn/\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2581(section/para)
+msgid ""
+"It allows a <sgmltag class=\"attribute\">revision</sgmltag> on the <sgmltag "
+"class=\"element\">branch</sgmltag> element. This attribute defines the "
+"branch to checkout or, if it is a number, a specific revision to checkout."
+msgstr ""
+
+#: C/index.docbook:2586(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch revision=\"gnome-2-20\"/&gt;\n"
+"        "
+msgstr ""
+
+#: C/index.docbook:2590(section/para)
+msgid ""
+"It is possible to specify custom <literal>svn</literal> layout using "
+"<sgmltag class=\"attribute\">trunk-template</sgmltag> (defaults to "
+"\"%(module)s/trunk\"), <sgmltag class=\"attribute\">branches-template</"
+"sgmltag> (defaults to \"%(module)s/branches/%(branch)s\") and <sgmltag class="
+"\"attribute\">tags-template</sgmltag> (defaults to \"%(module)s/tags/%(tag)s"
+"\")"
+msgstr ""
+
+#: C/index.docbook:2600(section/title)
+msgid "System"
+msgstr ""
+
+#: C/index.docbook:2602(section/para)
+msgid ""
+"This repository type is used to define a fake system repository. A system "
+"repository is required to create <link linkend=\"moduleset-syntax-defs-"
+"systemmodule\"><sgmltag class=\"element\">systemmodules</sgmltag></link>."
+msgstr ""
+
+#: C/index.docbook:2607(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"system\" name=\"system\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2613(section/title)
+msgid "Tarballs"
+msgstr ""
+
+#: C/index.docbook:2615(section/para)
+msgid "This repository type is used to define a tarball repository."
+msgstr ""
+
+#: C/index.docbook:2618(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;repository type=\"tarball\" name=\"dbus/dbus-python\"\n"
+"    href=\"http://dbus.freedesktop.org/releases/dbus-python/\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2627(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">module</sgmltag> attribute specifies the "
+"file to download and compile, the <sgmltag class=\"attribute\">version</"
+"sgmltag> attribute specifies the module version."
+msgstr ""
+
+#: C/index.docbook:2633(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">size</sgmltag> and <sgmltag class="
+"\"attribute\">hash</sgmltag>, as well as the obsolete <sgmltag class="
+"\"attribute\">md5sum</sgmltag>, attributes are optional. If these attributes "
+"are present, they are used to check that the source package was downloaded "
+"correctly."
+msgstr ""
+
+#: C/index.docbook:2639(section/para)
+msgid ""
+"Any number of <sgmltag class=\"element\">patch</sgmltag> elements may be "
+"nested inside the <sgmltag class=\"element\">branch</sgmltag> element. These "
+"patches are applied, in order, to the source tree after unpacking. The "
+"<sgmltag class=\"attribute\">file</sgmltag> attribute gives the patch "
+"filename, and the <sgmltag class=\"attribute\">strip</sgmltag> attribute "
+"says how many levels of directories to prune when applying the patch."
+msgstr ""
+
+#: C/index.docbook:2647(section/para) C/index.docbook:3207(section/para)
+msgid ""
+"For module sets shipped with JHBuild, the patch files are looked up in the "
+"<filename>jhbuild/patches/</filename> directory; for module sets referred by "
+"URI, the patch files are looked for in the same directory as the moduleset "
+"file, or in its <filename>patches/</filename> subdirectory. It is also "
+"possible for the <sgmltag class=\"attribute\">file</sgmltag> attribute to "
+"specify a URI, in which case it will be downloaded from that location."
+msgstr ""
+
+#: C/index.docbook:2655(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;branch module=\"dbus-python-0.80.2.tar.gz\" version=\"0.80.2\"\n"
+"    repo=\"dbus/dbus-python\"\n"
+"    hash=\"md5:2807bc85215c995bd595e01edd9d2077\" size=\"453499\"&gt;\n"
+"  &lt;patch file=\"dbus-glib-build.patch\" strip=\"1\" /&gt;\n"
+"&lt;/branch&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2663(section/para)
+msgid ""
+"A tarball <sgmltag class=\"element\">branch</sgmltag> element may also "
+"contain <sgmltag class=\"element\">quilt</sgmltag> elements which specify "
+"nested <sgmltag class=\"element\">branch</sgmltag> to import."
+msgstr ""
+
+#: C/index.docbook:2671(section/title)
+msgid "Including Other Module Sets"
+msgstr ""
+
+#: C/index.docbook:2673(section/para)
+msgid ""
+"JHBuild allows one module set to include the contents of another by "
+"reference using the <sgmltag class=\"element\">include</sgmltag> element."
+msgstr ""
+
+#: C/index.docbook:2677(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;include href=\"<replaceable>uri</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2681(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">href</sgmltag> is a URI reference to the "
+"module set to be included, relative to the file containing the <sgmltag "
+"class=\"element\">include</sgmltag> element."
+msgstr ""
+
+#: C/index.docbook:2685(section/para)
+msgid ""
+"Only module definitions are imported from the referenced module set - module "
+"sources are not. Multiple levels of includes are allowed, but include loops "
+"are not (there isn't any code to handle loops at the moment)."
+msgstr ""
+
+#: C/index.docbook:2692(section/title)
+msgid "Module Definitions"
+msgstr ""
+
+#: C/index.docbook:2694(section/para)
+msgid ""
+"There are various types of module definitions that can be used in a module "
+"set file, and the list can easily be extended. Only the most common ones "
+"will be mentioned here."
+msgstr ""
+
+#: C/index.docbook:2698(section/para)
+msgid ""
+"They are all basically composed of a <sgmltag class=\"element\">branch</"
+"sgmltag> element describing how to get the module and <sgmltag class="
+"\"element\">dependencies</sgmltag>, <sgmltag class=\"element\">suggests</"
+"sgmltag> and <sgmltag class=\"element\">after</sgmltag> elements to declare "
+"the dependencies of the module."
+msgstr ""
+
+#: C/index.docbook:2705(section/para)
+msgid ""
+"Any modules listed in the <sgmltag class=\"element\">dependencies</sgmltag> "
+"element will be added to the module list for <command>jhbuild build</"
+"command> if it isn't already included, and make sure the dependent modules "
+"are built first."
+msgstr ""
+
+#: C/index.docbook:2710(section/para)
+msgid ""
+"After generating the modules list, the modules listed in the <sgmltag class="
+"\"element\">suggests</sgmltag> element will be used to further sort the "
+"modules list (although it will not pull any additional modules). This is "
+"intended for cases where a module has an optional dependency on another "
+"module."
+msgstr ""
+
+#: C/index.docbook:2717(section/title)
+msgid "autotools"
+msgstr ""
+
+#: C/index.docbook:2719(section/para)
+msgid ""
+"The <sgmltag class=\"element\">autotools</sgmltag> element is used to define "
+"a module which is compiled using the GNU Autotools build system."
+msgstr ""
+
+#: C/index.docbook:2723(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;autotools id=\"<replaceable>id</replaceable>\"\n"
+"\t      [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+"\t      [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+"\t      [ makeinstallargs=\"<replaceable>makeinstallargs</replaceable>\" ]\n"
+"\t      [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n"
+"\t      [ makefile=\"<replaceable>makefile</replaceable>\" ]\n"
+"\t      [ skip-autogen=\"<replaceable>skip-autogen</replaceable>\" ]\n"
+"\t      [ skip-install=\"<replaceable>skip-install</replaceable>\" ]\n"
+"\t      [ autogen-template=\"<replaceable>autogen-template</replaceable>\" ]\n"
+"\t      [ check-target=\"<replaceable>check-target</replaceable>\" ]\n"
+"\t      [ supports-non-srcdir-builds=\"<replaceable>supports-non-srcdir-builds</replaceable>\" ]&gt;\n"
+"\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"\n"
+"&lt;/autotools&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2752(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">autogenargs</sgmltag> and <sgmltag class="
+"\"attribute\">makeargs</sgmltag> and <sgmltag class=\"attribute"
+"\">makeinstallargs</sgmltag> attributes are used to specify additional "
+"arguments to pass to <command>autogen.sh</command>, <command>make</command> "
+"and <command>make install</command> respectively."
+msgstr ""
+
+#: C/index.docbook:2759(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">autogen-sh</sgmltag> attribute specifies "
+"the name of the autogen.sh script to run. The value <literal>autoreconf</"
+"literal> can be used if your module has no <command>autogen.sh</command> "
+"script equivalent. In that case, JHBuild will run <command>autoreconf -fi</"
+"command>, followed by the proper <command>configure</command>. <sgmltag "
+"class=\"attribute\">skip-autogen</sgmltag> chooses whether or not to run "
+"autogen.sh, it is a boolean with an extra <literal>never</literal> value to "
+"tell JHBuild to never skip running <command>autogen.sh</command>. <sgmltag "
+"class=\"attribute\">skip-install</sgmltag> is a boolean attribute specifying "
+"whether to skip <command>make install</command> command on the module. "
+"<sgmltag class=\"attribute\">makefile</sgmltag> specifies the filename of "
+"the makefile to use."
+msgstr ""
+
+#: C/index.docbook:2774(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">supports-non-srcdir-builds</sgmltag> "
+"attribute is used to mark modules that can't be cleanly built using a "
+"separate source directory."
+msgstr ""
+
+#: C/index.docbook:2779(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">autogen-template</sgmltag> attribute can be "
+"used if you need finer control over the autogen command line. It is a python "
+"format string, which will be substituted with the following variables: "
+"<varname>srcdir</varname>, <varname>autogen-sh</varname>, <varname>prefix</"
+"varname>, <varname>libdir</varname>, and <varname>autogenargs</varname>. For "
+"example, here is the default autogen-template:"
+msgstr ""
+
+#: C/index.docbook:2787(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"%(srcdir)s/%(autogen-sh)s --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s\n"
+msgstr ""
+
+#: C/index.docbook:2791(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">check-target</sgmltag> attribute must be "
+"specified (with false as value) for modules that do not have a <command>make "
+"check</command> target."
+msgstr ""
+
+#: C/index.docbook:2797(section/title)
+msgid "cmake"
+msgstr ""
+
+#: C/index.docbook:2799(section/para)
+msgid ""
+"The <sgmltag class=\"element\">cmake</sgmltag> element is used to define a "
+"module which is built using the CMake build system."
+msgstr ""
+
+#: C/index.docbook:2802(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;cmake id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"&lt;/cmake&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2821(section/title)
+msgid "distutils"
+msgstr ""
+
+#: C/index.docbook:2823(section/para)
+msgid ""
+"The <sgmltag class=\"element\">distutils</sgmltag> element is used to define "
+"a module which is built using python's distutils"
+msgstr ""
+
+#: C/index.docbook:2826(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;distutils id=\"<replaceable>modulename</replaceable>\"\n"
+"            [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"&lt;/distutils&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2846(section/title)
+msgid "linux"
+msgstr ""
+
+#: C/index.docbook:2848(section/para)
+msgid ""
+"The <sgmltag class=\"element\">linux</sgmltag> element defines a module used "
+"to build a linux kernel. In addition, a separate kernel configuration can be "
+"chosen using the <sgmltag class=\"element\">kconfig</sgmltag> subelement."
+msgstr ""
+
+#: C/index.docbook:2853(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;linux id=\"<replaceable>id</replaceable>\"\n"
+"\t  [ makeargs=\"<replaceable>makeargs</replaceable>\" ]&gt;\n"
+"\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"\n"
+"  &lt;kconfig [ repo=\"<replaceable>repo</replaceable>\" ]\n"
+"\t    version=\"<replaceable>version</replaceable>\"\n"
+"\t    [ module=\"<replaceable>module</replaceable>\" ]\n"
+"\t    [ config=\"<replaceable>config</replaceable>\" ] /&gt;\n"
+"\n"
+"&lt;/linux&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2880(section/title)
+msgid "perl"
+msgstr ""
+
+#: C/index.docbook:2882(section/para)
+msgid ""
+"The <sgmltag class=\"element\">perl</sgmltag> element is used to build perl "
+"modules."
+msgstr ""
+
+#: C/index.docbook:2885(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">makeargs</sgmltag> attribute is used to "
+"specify additional arguments to pass to <command>make</command>."
+msgstr ""
+
+#: C/index.docbook:2889(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;perl id=\"<replaceable>modulename</replaceable>\"\n"
+"\t [ makeargs=\"<replaceable>makeargs</replaceable>\" ]&gt;\n"
+"\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"\n"
+"&lt;/perl&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2911(section/title)
+msgid "systemmodule"
+msgstr ""
+
+#: C/index.docbook:2913(section/para)
+msgid ""
+"The <sgmltag class=\"element\">systemmodule</sgmltag> element is used to "
+"specify modules that must be provided by the system. The module should be "
+"installed by your distributions package management system."
+msgstr ""
+
+#: C/index.docbook:2918(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;systemmodule id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"  &lt;pkg-config&gt;<replaceable>pkg-config</replaceable>.pc&lt;/pkg-config&gt;\n"
+"\n"
+"  &lt;branch repo=\"<replaceable>system</replaceable>\" version=\"<replaceable>version</replaceable>\" /&gt;\n"
+"&lt;/systemmodule&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2926(section/para)
+msgid ""
+"If the system module does not provide a pkg-config file, <sgmltag class="
+"\"element\">systemdependencies</sgmltag> tag can be used to identify the "
+"dependencies. Two values are supported by the <sgmltag class=\"attribute"
+"\">type</sgmltag> attribute of the <sgmltag class=\"element\">dep</sgmltag> "
+"tag:"
+msgstr ""
+
+#: C/index.docbook:2934(listitem/simpara)
+msgid ""
+"<sgmltag class=\"attvalue\">path</sgmltag> value. The path is searched for "
+"the matching program name."
+msgstr ""
+
+#: C/index.docbook:2938(listitem/simpara)
+msgid ""
+"<sgmltag class=\"attvalue\">c_include</sgmltag> value. The C include path is "
+"searched for the matching header name. <sgmltag class=\"attribute\">name</"
+"sgmltag> may include a sub-directory. The C include search path can modified "
+"by setting <varname>CPPFLAGS</varname> within the configuration variables "
+"<varname>cflags</varname> or <link linkend=\"cfg-module-autogenargs"
+"\"><varname>module_autogenargs</varname></link>."
+msgstr ""
+
+#: C/index.docbook:2949(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;systemmodule id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"  &lt;branch repo=\"<replaceable>system</replaceable>\" version=\"<replaceable>version</replaceable>\" /&gt;\n"
+"  &lt;systemdependencies&gt;\n"
+"    &lt;dep type=\"path\" name=\"<replaceable>executable-name</replaceable>\" /&gt;\n"
+"  &lt;/systemdependencies&gt;\n"
+"&lt;/systemmodule&gt;\n"
+"\n"
+"&lt;systemmodule id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"  &lt;branch repo=\"<replaceable>system</replaceable>\" version=\"<replaceable>version</replaceable>\" /&gt;\n"
+"  &lt;systemdependencies&gt;\n"
+"    &lt;dep type=\"c_include\" name=\"<replaceable>header-name</replaceable>\" /&gt;\n"
+"  &lt;/systemdependencies&gt;\n"
+"&lt;/systemmodule&gt;\n"
+msgstr ""
+
+#: C/index.docbook:2967(section/title)
+msgid "waf"
+msgstr ""
+
+#: C/index.docbook:2969(section/para)
+msgid ""
+"The <sgmltag class=\"element\">waf</sgmltag> element is used to define a "
+"module which is built using the Waf build system."
+msgstr ""
+
+#: C/index.docbook:2972(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">waf-command</sgmltag> attribute is used to "
+"specify the waf command script to use; it defaults to <command>waf</command>."
+msgstr ""
+
+#: C/index.docbook:2976(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">python-command</sgmltag> attribute is used "
+"to specify the Python executable to use; it defaults to <command>python</"
+"command>. This is useful to build modules against version 3 of Python."
+msgstr ""
+
+#: C/index.docbook:2981(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;waf id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"\t [ python-command=\"<replaceable>python-command</replaceable>\" ]\n"
+"\t [ waf-command=\"<replaceable>waf-command</replaceable>\" ]&gt;\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"&lt;/waf&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3002(section/title)
+msgid "testmodule"
+msgstr ""
+
+#: C/index.docbook:3004(section/para)
+msgid ""
+"The <sgmltag class=\"element\">testmodule</sgmltag> element is used to "
+"create a module which runs a suite of tests using LDTP or Dogtail."
+msgstr ""
+
+#: C/index.docbook:3008(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;testmodule id=\"<replaceable>id</replaceable>\"\n"
+"\t       type=\"<replaceable>type</replaceable>\"&gt;\n"
+"\n"
+"  &lt;branch [ ... ] &gt;\n"
+"    [...]\n"
+"  &lt;/branch&gt;\n"
+"\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;after&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/after&gt;\n"
+"\n"
+"  &lt;testedmodules&gt;\n"
+"    &lt;tested package=\"<replaceable>package</replaceable>\" /&gt;\n"
+"  &lt;/testedmodules&gt;\n"
+"\n"
+"&lt;/testmodule&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3032(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">type</sgmltag> attribute gives the type of "
+"tests to be run in the module. 'dogtail' uses python to invoke all .py "
+"files. 'ldtp' invokes 'ldtprunner run.xml'."
+msgstr ""
+
+#: C/index.docbook:3036(section/para)
+msgid ""
+"Unless the noxvfb configuration option is set, an Xvfb server is started to "
+"run the tests in"
+msgstr ""
+
+#: C/index.docbook:3041(section/title)
+msgid "metamodule"
+msgstr ""
+
+#: C/index.docbook:3043(section/para)
+msgid ""
+"The <sgmltag class=\"element\">metamodule</sgmltag> element defines a module "
+"that doesn't actually do anything. The only purpose of a module of this type "
+"is its dependencies."
+msgstr ""
+
+#: C/index.docbook:3047(section/para)
+msgid ""
+"For example, meta-gnome-desktop depends on all the key components of the "
+"GNOME desktop, therefore telling JHBuild to install it actually installs the "
+"full desktop."
+msgstr ""
+
+#: C/index.docbook:3051(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"&lt;metamodule id=\"<replaceable>modulename</replaceable>\"&gt;\n"
+"  &lt;dependencies&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/dependencies&gt;\n"
+"  &lt;suggests&gt;\n"
+"    &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"    ...\n"
+"  &lt;/suggests&gt;\n"
+"&lt;/metamodule&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3064(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">id</sgmltag> attribute gives the name of "
+"the module. The child elements are handled as for <link linkend=\"moduleset-"
+"syntax-defs-autotools\"><sgmltag class=\"element\">autotools</sgmltag></"
+"link>."
+msgstr ""
+
+#: C/index.docbook:3072(section/title)
+msgid "Deprecated Elements"
+msgstr ""
+
+#: C/index.docbook:3078(section/title)
+msgid "cvsroot"
+msgstr ""
+
+#: C/index.docbook:3080(section/para)
+msgid ""
+"The <sgmltag class=\"element\">cvsroot</sgmltag> element is now deprecated - "
+"the <sgmltag class=\"element\">repository</sgmltag> element should be used "
+"instead."
+msgstr ""
+
+#: C/index.docbook:3084(section/para)
+msgid ""
+"The <sgmltag class=\"element\">cvsroot</sgmltag> element is used to describe "
+"a CVS repository."
+msgstr ""
+
+#: C/index.docbook:3087(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"  &lt;cvsroot name=\"<replaceable>rootname</replaceable>\"\n"
+"           [ default=\"<replaceable>yes|no</replaceable>\" ]\n"
+"           root=\"<replaceable>anon-cvsroot</replaceable>\"\n"
+"           password=\"<replaceable>anon-password</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3094(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
+"identifier for the CVS repository."
+msgstr ""
+
+#: C/index.docbook:3097(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
+"this is the default module source for this module set file."
+msgstr ""
+
+#: C/index.docbook:3101(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">root</sgmltag> attribute lists the CVS root "
+"used for anonymous access to this repository, and the <sgmltag class="
+"\"attribute\">password</sgmltag> attribute gives the password used for "
+"anonymous access."
+msgstr ""
+
+#: C/index.docbook:3108(section/title)
+msgid "svnroot"
+msgstr ""
+
+#: C/index.docbook:3110(section/para)
+msgid ""
+"The <sgmltag class=\"element\">svnroot</sgmltag> element is now deprecated - "
+"the <sgmltag class=\"element\">repository</sgmltag> element should be used "
+"instead."
+msgstr ""
+
+#: C/index.docbook:3114(section/para)
+msgid ""
+"The <sgmltag class=\"element\">svnroot</sgmltag> element is used to describe "
+"a Subversion repository."
+msgstr ""
+
+#: C/index.docbook:3117(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"  &lt;svnroot name=\"<replaceable>rootname</replaceable>\"\n"
+"           [ default=\"<replaceable>yes|no</replaceable>\" ]\n"
+"           href=\"<replaceable>anon-svnroot</replaceable>\"/&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3123(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">name</sgmltag> attribute should be a unique "
+"identifier for the Subversion repository."
+msgstr ""
+
+#: C/index.docbook:3126(section/para)
+msgid ""
+"If <sgmltag class=\"attribute\">default</sgmltag> attribute says whether "
+"this is the default module source for this module set file."
+msgstr ""
+
+#: C/index.docbook:3130(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">href</sgmltag> attribute lists the base URL "
+"for the repository. This will probably be either a <literal>http</literal>, "
+"<literal>https</literal> or <literal>svn</literal> URL."
+msgstr ""
+
+#: C/index.docbook:3140(section/title)
+msgid "Deprecated Module Types"
+msgstr ""
+
+#: C/index.docbook:3143(warning/para)
+msgid ""
+"This section describes deprecated elements, they may still be used in "
+"existing module sets but it is advised not to use them anymore."
+msgstr ""
+
+#: C/index.docbook:3149(section/title)
+msgid "tarball"
+msgstr ""
+
+#: C/index.docbook:3152(important/para)
+msgid ""
+"This deprecated element is just a thin wrapper around both <sgmltag class="
+"\"element\">autotools</sgmltag> module type and <sgmltag class=\"element"
+"\">tarball</sgmltag> repository type."
+msgstr ""
+
+#: C/index.docbook:3157(section/para)
+msgid ""
+"The <sgmltag class=\"element\">tarball</sgmltag> element is used to define a "
+"module that is to be built from a tarball."
+msgstr ""
+
+#: C/index.docbook:3160(section/programlisting)
+#, no-wrap
+msgid ""
+"\n"
+"  &lt;tarball id=\"<replaceable>modulename</replaceable>\"\n"
+"              [ version=\"<replaceable>version</replaceable>\" ]\n"
+"              [ checkourdir=\"<replaceable>checkoutdir</replaceable>\" ]\n"
+"              [ autogenargs=\"<replaceable>autogenargs</replaceable>\" ]\n"
+"              [ makeargs=\"<replaceable>makeargs</replaceable>\" ]\n"
+"              [ autogen-sh=\"<replaceable>autogen-sh</replaceable>\" ]\n"
+"              [ supports-non-srcdir-builds=\"<replaceable>yes|no</replaceable>\" ]&gt;\n"
+"    &lt;source href=\"<replaceable>source-url</replaceable>\"\n"
+"            [ size=\"<replaceable>source-size</replaceable>\" ]\n"
+"            [ hash=\"<replaceable>source-algo:source-hash</replaceable>\" ]\n"
+"            [ md5sum=\"<replaceable>source-md5sum</replaceable>\" ]/&gt;\n"
+"    &lt;patches&gt;\n"
+"      &lt;patch file=\"<replaceable>filename</replaceable>\" strip=\"<replaceable>level</replaceable>\"/&gt;\n"
+"      ...\n"
+"    &lt;/patches&gt;\n"
+"    &lt;dependencies&gt;\n"
+"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"      ...\n"
+"    &lt;/dependencies&gt;\n"
+"    &lt;suggests&gt;\n"
+"      &lt;dep package=\"<replaceable>modulename</replaceable>\"/&gt;\n"
+"      ...\n"
+"    &lt;/suggests&gt;\n"
+"  &lt;/tarball&gt;\n"
+msgstr ""
+
+#: C/index.docbook:3187(section/para)
+msgid ""
+"The <sgmltag class=\"attribute\">id</sgmltag> and <sgmltag class=\"attribute"
+"\">version</sgmltag> attributes are used to identify the module."
+msgstr ""
+
+#: C/index.docbook:3191(section/para)
+msgid ""
+"The <sgmltag class=\"element\">source</sgmltag> element specifies the file "
+"to download and compile. The <sgmltag class=\"attribute\">href</sgmltag> "
+"attribute is mandatory, while the <sgmltag class=\"attribute\">size</"
+"sgmltag> and <sgmltag class=\"attribute\">hash</sgmltag>, as well as the "
+"obsolete <sgmltag class=\"attribute\">md5sum</sgmltag>, attributes are "
+"optional. If these last two attributes are present, they are used to check "
+"that the source package was downloaded correctly."
+msgstr ""
+
+#: C/index.docbook:3200(section/para)
+msgid ""
+"The <sgmltag class=\"element\">patches</sgmltag> element is used to specify "
+"one or more patches to apply to the source tree after unpacking, the "
+"<sgmltag class=\"attribute\">file</sgmltag> attribute gives the patch "
+"filename, and the <sgmltag class=\"attribute\">strip</sgmltag> attribute "
+"says how many levels of directories to prune when applying the patch."
+msgstr ""
+
+#: C/index.docbook:3215(section/para)
+msgid ""
+"The other attributes and the <sgmltag class=\"element\">dependencies</"
+"sgmltag>, <sgmltag class=\"element\">suggests</sgmltag> and <sgmltag class="
+"\"element\">after</sgmltag> elements are processed as for <link linkend="
+"\"moduleset-syntax-defs-autotools\">autotools</link>."
+msgstr ""
