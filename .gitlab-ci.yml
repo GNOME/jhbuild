@@ -5,6 +5,7 @@ stages:
 documentation:
   image: docker.io/sphinxdoc/sphinx
   script:
+    - python3 -m pip install sphinx_rtd_theme
     - sphinx-build ./doc ./html ./doc/*.rst
     - |
       for dir in ./doc/po/*; do
