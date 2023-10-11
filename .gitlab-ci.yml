@@ -8,7 +8,7 @@ documentation:
     - python3 -m pip install sphinx_rtd_theme
     - sphinx-build ./doc ./html ./doc/*.rst
     - |
-      for dir in ./doc/po/*; do
+      for dir in ./doc/po/*/; do
         lang="$(basename "$dir")"
         sphinx-build -Dlanguage="$lang" ./doc ./html/"$lang" ./doc/*.rst
       done
