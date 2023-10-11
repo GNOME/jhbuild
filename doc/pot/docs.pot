@@ -1,0 +1,2174 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, JHBuild Contributors
+# This file is distributed under the same license as the JHBuild package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: JHBuild \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-10 19:15-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../command-reference.rst:2
+msgid "Command Reference"
+msgstr ""
+
+#: ../command-reference.rst:4
+msgid "JHBuild uses a command line syntax similar to tools like CVS:"
+msgstr ""
+
+#: ../command-reference.rst:10
+msgid "The global JHBuild options are:"
+msgstr ""
+
+#: ../command-reference.rst:14
+msgid "``-f``, ``--file`` <config>"
+msgstr ""
+
+#: ../command-reference.rst:13
+msgid "Use an alternative configuration file instead of the default ``~/.config/jhbuildrc``."
+msgstr ""
+
+#: ../command-reference.rst:20
+msgid "``-m``, ``--moduleset`` <moduleset>"
+msgstr ""
+
+#: ../command-reference.rst:17
+msgid "Use a module set other than the module set listed in the configuration file. This option can be a relative path if the module set is located in the JHBuild moduleset folder, or an absolute path if located elsewhere."
+msgstr ""
+
+#: ../command-reference.rst:25
+msgid "``--no-interact``"
+msgstr ""
+
+#: ../command-reference.rst:23
+msgid "Do not prompt the user for any input. This option is useful if leaving a build unattended, in order to ensure the build is not interrupted."
+msgstr ""
+
+#: ../command-reference.rst:30
+msgid "``--exit-on-error``"
+msgstr ""
+
+#: ../command-reference.rst:28
+msgid "Exit immediately if a module fails to build. This option is primarily useful in noninteractive mode, in order to ensure jhbuild does not continue to build any additional modules."
+msgstr ""
+
+#: ../command-reference.rst:38
+msgid "``--conditions``"
+msgstr ""
+
+#: ../command-reference.rst:33
+msgid "Modify the condition flags to be different than those determined on the basis of the OS and those specified in jhbuildrc. Modifications are specified like ``-wayland`` or ``+docs`` in order to remove or add conditions. Multiple modifications can be separated by a comma like ``--conditions=+docs,-wayland`` or you can split them across multiple ``--conditions`` arguments."
+msgstr ""
+
+#: ../command-reference.rst:40
+msgid "Additionally, JHBuild checks the presence, and value, of the following environment variables:"
+msgstr ""
+
+#: ../command-reference.rst:45
+msgid "By default, JHBuild does not run when using the root user, to avoid destructive operations that may affect the whole system. In certain cases, though, it's acceptable to run JHBuild as root; for instance, inside a container, or in a continuous integration environment. Exporting the :envvar:`JHBUILD_RUN_AS_ROOT` will disable the user id check at startup."
+msgstr ""
+
+#: ../command-reference.rst:52
+msgid "Command specific options are listed below."
+msgstr ""
+
+#: ../command-reference.rst:57
+msgid "autobuild"
+msgstr ""
+
+#: ../command-reference.rst:59
+msgid "The ``autobuild`` command automatically builds the modules as specified in the configuration file, and then upload the results to JhAutobuild."
+msgstr ""
+
+#: ../command-reference.rst:67
+msgid "The ``--autogen``, ``--clean``, ``--distcheck``, ``--skip`` and ``--start-at`` options are processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../command-reference.rst:72
+msgid "``--report-url=reporturl``, ``-r reporturl``"
+msgstr ""
+
+#: ../command-reference.rst:72
+msgid "This option specifies the JhAutobuild URL to report to."
+msgstr ""
+
+#: ../command-reference.rst:75
+msgid "``--verbose``, ``-v``"
+msgstr ""
+
+#: ../command-reference.rst:75
+msgid "If specified, JHBuild's output will be more verbose."
+msgstr ""
+
+#: ../command-reference.rst:80
+msgid "bootstrap"
+msgstr ""
+
+#: ../command-reference.rst:82
+msgid "The ``bootstrap`` command installs a set of build utilities. The build utilities include autoconf, automake and similar utilities. The recommended method to install the build utilities is via your distribution's package management system. The ``bootstrap`` should only be used if the build utilities are not provided by your distribution's package management system, for example on ``Mac OS``."
+msgstr ""
+
+#: ../command-reference.rst:89
+msgid "jhbuild bootstrap The ``bootstrap`` command builds modules using the same method as the ``build`` command, but uses the ``bootstrap.modules`` moduleset."
+msgstr ""
+
+#: ../command-reference.rst:93
+msgid "See the :ref:`build` command documentation for available options."
+msgstr ""
+
+#: ../command-reference.rst:98
+msgid "build"
+msgstr ""
+
+#: ../command-reference.rst:100
+msgid "The ``build`` command builds one or more packages, including their dependencies."
+msgstr ""
+
+#: ../command-reference.rst:104
+msgid "::"
+msgstr ""
+
+#: ../command-reference.rst:104
+msgid "jhbuild build [--autogen] [--clean] [--check] [--dist] [--distcheck] [--distclean] [--ignore-suggests] [--no-network] [--skip=module...] [--start-at=module] [--tags=tags] [-D date] [--no-xvfb] [--try-checkout] [--no-poison] [--force] [--build-optional-modules] [--min-age=time] [--nodeps] [module...]"
+msgstr ""
+
+#: ../command-reference.rst:106
+#: ../command-reference.rst:257
+#: ../command-reference.rst:363
+msgid "If no module names are provided on the command line, the :ref:`modules` list from the configuration file will be used."
+msgstr ""
+
+#: ../command-reference.rst:110
+msgid "``-a``, ``--autogen``"
+msgstr ""
+
+#: ../command-reference.rst:110
+msgid "Always run ``autogen.sh`` before building modules."
+msgstr ""
+
+#: ../command-reference.rst:113
+msgid "``-c``, ``--clean``"
+msgstr ""
+
+#: ../command-reference.rst:113
+msgid "Run ``make clean`` before building modules."
+msgstr ""
+
+#: ../command-reference.rst:116
+msgid "``--check``"
+msgstr ""
+
+#: ../command-reference.rst:116
+msgid "Run ``make check`` after building modules."
+msgstr ""
+
+#: ../command-reference.rst:119
+msgid "``-d``, ``--dist``"
+msgstr ""
+
+#: ../command-reference.rst:119
+msgid "Run ``make dist`` after building modules."
+msgstr ""
+
+#: ../command-reference.rst:122
+msgid "``--distcheck``"
+msgstr ""
+
+#: ../command-reference.rst:122
+msgid "Run ``make distcheck`` after building modules."
+msgstr ""
+
+#: ../command-reference.rst:130
+msgid "``--distclean``"
+msgstr ""
+
+#: ../command-reference.rst:125
+msgid "For git modules, run ``git clean -dfx`` before building modules. For other modules, run ``make distclean`` before building modules."
+msgstr ""
+
+#: ../command-reference.rst:130
+msgid "This option will delete any uncommitted changes."
+msgstr ""
+
+#: ../command-reference.rst:133
+msgid "``--ignore-suggests``"
+msgstr ""
+
+#: ../command-reference.rst:133
+msgid "Do not build soft dependencies."
+msgstr ""
+
+#: ../command-reference.rst:138
+msgid "``-n``, ``--no-network``"
+msgstr ""
+
+#: ../command-reference.rst:136
+msgid "Do not access the network when building modules. This will skip download or update stages in a build. If a module can't be built without network access, the module build will fail."
+msgstr ""
+
+#: ../command-reference.rst:142
+msgid "``-s``, ``--skip``\\ =<module,...>"
+msgstr ""
+
+#: ../command-reference.rst:141
+msgid "Do not build the listed modules. Used to skip the building of specified dependencies."
+msgstr ""
+
+#: ../command-reference.rst:146
+msgid "``--tags``\\ =<tag,...>"
+msgstr ""
+
+#: ../command-reference.rst:145
+msgid "Ignore modules that do not match <tag>. Modules are automatically attributed a tag matching the name of the module's module set."
+msgstr ""
+
+#: ../command-reference.rst:150
+msgid "``-t``, ``--start-at``\\ =<module>"
+msgstr ""
+
+#: ../command-reference.rst:149
+msgid "Start at the named module rather than at the beginning of the list. This option is useful if the build was interrupted."
+msgstr ""
+
+#: ../command-reference.rst:155
+msgid "``-D`` <date>"
+msgstr ""
+
+#: ../command-reference.rst:153
+msgid "If supported by the underlying version control system, update the source tree to the specified date before building. An ISO date format is required, e.g. ``\"2009-09-18 02:32Z\"``."
+msgstr ""
+
+#: ../command-reference.rst:159
+msgid "``-x``, ``--no-xvfb``"
+msgstr ""
+
+#: ../command-reference.rst:158
+msgid "Run graphical tests on the actual X server rather than in a simulated Xvfb."
+msgstr ""
+
+#: ../command-reference.rst:163
+msgid "``-C``, ``--try-checkout``"
+msgstr ""
+
+#: ../command-reference.rst:162
+msgid "If the build fails, and if supported by the version control system, force a checkout and run ``autogen.sh`` before retrying the build."
+msgstr ""
+
+#: ../command-reference.rst:167
+msgid "``-N``, ``--no-poison``"
+msgstr ""
+
+#: ../command-reference.rst:166
+msgid "If one or more of a module's dependencies failed, this option forces JHBuild to try to build the module anyway."
+msgstr ""
+
+#: ../command-reference.rst:170
+msgid "``-f``, ``--force``"
+msgstr ""
+
+#: ../command-reference.rst:170
+msgid "Build the modules even if policy states it is not required."
+msgstr ""
+
+#: ../command-reference.rst:175
+msgid "``--build-optional-modules``"
+msgstr ""
+
+#: ../command-reference.rst:173
+msgid "Modules listed as optional dependencies, may not be required to build the module. This option forces JHBuild to build optional dependencies."
+msgstr ""
+
+#: ../command-reference.rst:182
+msgid "``--min-age``\\ =<time>"
+msgstr ""
+
+#: ../command-reference.rst:178
+msgid "Skip modules installed more recently than the specified relative time. The <time> string format is a number followed by a unit. The following units are supported: seconds (s), minutes (m), hours (h) and days (d). For example, ``--min-age=2h`` will skip modules built less than two hours ago."
+msgstr ""
+
+#: ../command-reference.rst:186
+msgid "``--nodeps``"
+msgstr ""
+
+#: ../command-reference.rst:185
+msgid "Ignore missing system dependencies. To ignore a single system dependency add the module to ```skip`` <#cfg-skip>`__."
+msgstr ""
+
+#: ../command-reference.rst:191
+msgid "make"
+msgstr ""
+
+#: ../command-reference.rst:193
+msgid "The ``make`` command is for actively developing on a particular module. It requires the current directory be a source checkout, and does the equivalent of ``buildone -nf $(basename $(pwd))``."
+msgstr ""
+
+#: ../command-reference.rst:202
+msgid "The options are the same as those available for the :ref:`buildone` command."
+msgstr ""
+
+#: ../command-reference.rst:208
+msgid "buildone"
+msgstr ""
+
+#: ../command-reference.rst:210
+msgid "The ``buildone`` command is similar to ``build``, but it does not build the dependent modules. It is useful for rebuilding one or more modules."
+msgstr ""
+
+#: ../command-reference.rst:217
+msgid "The ``--autogen``, ``--check``, ``--clean``, ``-d``, ``--distcheck``, ``--distclean``, ``--no-network``, ``-D``, ``-x`` and ``--nodeps`` options are processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../command-reference.rst:221
+#: ../command-reference.rst:593
+msgid "At least one module must be listed on the command line."
+msgstr ""
+
+#: ../command-reference.rst:226
+msgid "checkbranches"
+msgstr ""
+
+#: ../command-reference.rst:228
+msgid "The ``checkbranches`` checks the module's branches are defined correctly within the version control system and the branches are consistent with the module set."
+msgstr ""
+
+#: ../command-reference.rst:237
+msgid "``--branch``\\ =<branch>, ``-b`` <branch>"
+msgstr ""
+
+#: ../command-reference.rst:237
+msgid "The branch to check."
+msgstr ""
+
+#: ../command-reference.rst:248
+msgid "clean"
+msgstr ""
+
+#: ../command-reference.rst:250
+msgid "The ``clean`` command cleans the build directories of one or more modules."
+msgstr ""
+
+#: ../command-reference.rst:261
+msgid "See the :ref:`build` command documentation for a description of available options."
+msgstr ""
+
+#: ../command-reference.rst:266
+msgid "dot"
+msgstr ""
+
+#: ../command-reference.rst:268
+msgid "The ``dot`` command generates a file describing the directed graph formed by the dependencies between a set of modules. This file can then be processed using the `GraphViz <http://www.graphviz.org/>`__ software to produce a diagram."
+msgstr ""
+
+#: ../command-reference.rst:277
+msgid "If no module names are provided on the command line, the `modules <#cfg-modules>`__ list from the configuration file will be used."
+msgstr ""
+
+#: ../command-reference.rst:281
+msgid "The ``--soft-deps`` option adds dotted lines from the modules to the soft dependencies. The ``--clusters`` option groups modules from :ref:`metamodule`'s together."
+msgstr ""
+
+#: ../command-reference.rst:285
+msgid "The output of the dot command can be piped to the dot utility to generate a PostScript file:"
+msgstr ""
+
+#: ../command-reference.rst:292
+msgid "Or a PNG image:"
+msgstr ""
+
+#: ../command-reference.rst:302
+msgid "Sample JHBuild dot output"
+msgstr ""
+
+#: ../command-reference.rst:307
+msgid "gui"
+msgstr ""
+
+#: ../command-reference.rst:309
+msgid "The ``gui`` command starts a graphical interface to JHBuild which can be used to select modules to build and change some options."
+msgstr ""
+
+#: ../command-reference.rst:316
+msgid "The graphical interface is rendered using GTK, so extra support libraries are required."
+msgstr ""
+
+#: ../command-reference.rst:322
+msgid "info"
+msgstr ""
+
+#: ../command-reference.rst:324
+msgid "The ``info`` command displays information about one or more modules."
+msgstr ""
+
+#: ../command-reference.rst:330
+msgid "The command displays the module name, type, dependencies, dependent packages, the source directory, and the time it was last installed with JHBuild. If available, information specific to the module type such as the CVS repository or download URL will also be displayed."
+msgstr ""
+
+#: ../command-reference.rst:335
+msgid "If there is no module specified the command will display information about all the modules defined in the module set."
+msgstr ""
+
+#: ../command-reference.rst:338
+msgid "If the ``--installed`` option is specified, the output will be filtered to include only installed packages. This resulting output only contains modules that were actually built and installed by jhbuild. The output does not include system dependencies."
+msgstr ""
+
+#: ../command-reference.rst:345
+msgid "If the ``--installed`` option is specified together with one or more module names, then only the installed modules (not including system dependencies) are printed out. If at least one module is not installed, then the command will exit with a return value of 1."
+msgstr ""
+
+#: ../command-reference.rst:354
+msgid "list"
+msgstr ""
+
+#: ../command-reference.rst:356
+msgid "The ``list`` command displays the expanded list of modules the ``build`` command would build."
+msgstr ""
+
+#: ../command-reference.rst:367
+msgid "The ``--skip``, ``--start-at``, ``--tags``, and ``--ignore-suggests`` options are processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../command-reference.rst:372
+msgid "``-a``, ``--all-modules``"
+msgstr ""
+
+#: ../command-reference.rst:371
+msgid "List all the modules from the module set regardless of the build dependencies."
+msgstr ""
+
+#: ../command-reference.rst:376
+msgid "``-r``, ``--show-revision``"
+msgstr ""
+
+#: ../command-reference.rst:375
+msgid "If a module is set to a branch, show the branch name with the module name."
+msgstr ""
+
+#: ../command-reference.rst:379
+msgid "``--list-optional-modules``"
+msgstr ""
+
+#: ../command-reference.rst:379
+msgid "This option forces JHBuild to list optional dependencies."
+msgstr ""
+
+#: ../command-reference.rst:384
+msgid "rdepends"
+msgstr ""
+
+#: ../command-reference.rst:386
+msgid "The ``rdepends`` command displays the reverse dependencies of a module."
+msgstr ""
+
+#: ../command-reference.rst:393
+msgid "``--dependencies``"
+msgstr ""
+
+#: ../command-reference.rst:393
+msgid "Show dependency path next to modules."
+msgstr ""
+
+#: ../command-reference.rst:396
+msgid "``--direct``"
+msgstr ""
+
+#: ../command-reference.rst:396
+msgid "Limit display to modules directly depending on specified module."
+msgstr ""
+
+#: ../command-reference.rst:401
+msgid "run"
+msgstr ""
+
+#: ../command-reference.rst:403
+msgid "The ``run`` command runs the specified command using the same environment that JHBuild uses when building modules."
+msgstr ""
+
+#: ../command-reference.rst:410
+msgid "If using JHBuild to build GNOME, this command can be useful in X startup scripts."
+msgstr ""
+
+#: ../command-reference.rst:414
+msgid "``--in-builddir``\\ =<module>"
+msgstr ""
+
+#: ../command-reference.rst:414
+msgid "Run the command in the build directory of the specified module."
+msgstr ""
+
+#: ../command-reference.rst:417
+msgid "``--in-checkoutdir``\\ =<module>"
+msgstr ""
+
+#: ../command-reference.rst:417
+msgid "Run the command in the source directory of the specified module."
+msgstr ""
+
+#: ../command-reference.rst:422
+msgid "sanitycheck"
+msgstr ""
+
+#: ../command-reference.rst:424
+msgid "The ``sanitycheck`` command performs a number of checks to verify the build environment is okay."
+msgstr ""
+
+#: ../command-reference.rst:431
+msgid "Some of the checks include:"
+msgstr ""
+
+#: ../command-reference.rst:433
+msgid "The checkout and install prefixes are writable."
+msgstr ""
+
+#: ../command-reference.rst:435
+msgid "The required build tools are installed."
+msgstr ""
+
+#: ../command-reference.rst:437
+msgid "Some commonly used macros are available in the search paths of the ``aclocal`` commands associated with the various versions of ``automake``."
+msgstr ""
+
+#: ../command-reference.rst:441
+msgid "The XML catalog contains the DocBook DTD and stylesheets."
+msgstr ""
+
+#: ../command-reference.rst:446
+msgid "shell"
+msgstr ""
+
+#: ../command-reference.rst:448
+msgid "The ``shell`` command starts the user's shell with the same environment as JHBuild uses when building modules."
+msgstr ""
+
+#: ../command-reference.rst:455
+msgid "This command is equivalent to the following:"
+msgstr ""
+
+#: ../command-reference.rst:463
+msgid "The ``UNDER_JHBUILD`` environment variable will be set to \"true\" when this shell is active. You can use the presence of that variable to customize your shell's prompt to indicate that you indeed are under a jhbuild-controlled shell. For example, you may want to put this in your ``.bashrc``:"
+msgstr ""
+
+#: ../command-reference.rst:476
+msgid "This will make your bash shell display ``[jhbuild]`` before your normal prompt, making it easier to see which shells are under a jhbuild environment."
+msgstr ""
+
+#: ../command-reference.rst:483
+msgid "sysdeps"
+msgstr ""
+
+#: ../command-reference.rst:485
+msgid "The ``sysdeps`` command displays:"
+msgstr ""
+
+#: ../command-reference.rst:487
+msgid "a list of installed system packages which will be used during the build. JHBuild will not build these modules and opt to use the system package instead."
+msgstr ""
+
+#: ../command-reference.rst:491
+msgid "a list of required packages. To begin a build the packages must be provided by your system."
+msgstr ""
+
+#: ../command-reference.rst:494
+msgid "a list of optional packages. The corresponding system package was not found or too old. JHBuild will build the module. Optional packages will not be displayed if ```partial_build`` <#cfg-partial-build>`__ is ``False``."
+msgstr ""
+
+#: ../command-reference.rst:508
+msgid "``--install``"
+msgstr ""
+
+#: ../command-reference.rst:504
+msgid "This option installs system packages which are dependencies of the moduleset. The installation method depends on your distribution. System packages are installed using PackageKit, if available. For distributions using APT such as ``Debian`` and ``Ubuntu``, this option requires apt-file to be installed."
+msgstr ""
+
+#: ../command-reference.rst:533
+msgid "tinderbox"
+msgstr ""
+
+#: ../command-reference.rst:535
+msgid "The ``tinderbox`` command is similar to ``build``, but writes all terminal output to HTML files suitable for publishing on a website. It can be used to set up systems similar to Mozilla's Tinderbox, or Debian's Buildd."
+msgstr ""
+
+#: ../command-reference.rst:544
+msgid "The ``--autogen``, ``--clean``, ``--distclean``, ``--no-network``, ``--skip``, ``--start-at``, ``-D``, ``-C``, ``-N``, ``-f`` and ``--nodeps`` options are processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../command-reference.rst:550
+msgid "``-o``, ``--output``\\ =<directory>"
+msgstr ""
+
+#: ../command-reference.rst:549
+msgid "The directory to write the HTML files. JHBuild will create an index (``index.html``) and a HTML file for each module."
+msgstr ""
+
+#: ../command-reference.rst:555
+msgid "uninstall"
+msgstr ""
+
+#: ../command-reference.rst:557
+msgid "The ``uninstall`` command uninstalls one or more modules."
+msgstr ""
+
+#: ../command-reference.rst:566
+msgid "update"
+msgstr ""
+
+#: ../command-reference.rst:568
+msgid "The ``update`` command is similar to ``build``, but only performs the download or update stage for modules without building them."
+msgstr ""
+
+#: ../command-reference.rst:575
+msgid "The ``--skip``, ``--start-at``, ``--tags``, ``--ignore-suggests`` and ``-D`` options are processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../command-reference.rst:581
+msgid "updateone"
+msgstr ""
+
+#: ../command-reference.rst:583
+msgid "The ``updateone`` command is similar to ``update``, but it does not update the dependent modules. It is useful for updating one or more modules."
+msgstr ""
+
+#: ../command-reference.rst:591
+msgid "The ``-D`` option is processed as per the :ref:`build` command."
+msgstr ""
+
+#: ../config-reference.rst:7
+msgid "Configuration File Reference"
+msgstr ""
+
+#: ../config-reference.rst:9
+msgid "The ``~/.config/jhbuildrc`` file uses standard Python syntax. The file is run, and the resulting variables defined in the namespace are used to control how JHBuild acts. A set of default values are inserted into the namespace before running the user's configuration file."
+msgstr ""
+
+#: ../config-reference.rst:14
+msgid "Boolean configuration variables are set using syntax as demonstrated in the following example:"
+msgstr ""
+
+#: ../config-reference.rst:21
+msgid "String configuration variables are set using syntax as demonstrated in the following example:"
+msgstr ""
+
+#: ../config-reference.rst:28
+msgid "List configuration variables are set using syntax as demonstrated in the following example:"
+msgstr ""
+
+#: ../config-reference.rst:35
+msgid "Dictionary configuration variables are set using syntax as demonstrated in the following example:"
+msgstr ""
+
+#: ../config-reference.rst:43
+msgid "Configuration Variables"
+msgstr ""
+
+#: ../config-reference.rst:48
+msgid "``alwaysautogen``"
+msgstr ""
+
+#: ../config-reference.rst:50
+msgid "A boolean value if set to ``True``, always run ``autogen.sh``. This is equivalent to passing ``--autogen`` option to JHBuild. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:57
+msgid "``autogenargs``"
+msgstr ""
+
+#: ../config-reference.rst:59
+msgid "A string containing arguments passed to the ``autogen.sh`` script of all modules. Can be overridden for particular modules using the :ref:`module_autogenargs` dictionary."
+msgstr ""
+
+#: ../config-reference.rst:66
+msgid "``branches``"
+msgstr ""
+
+#: ../config-reference.rst:68
+msgid "A dictionary specifying which branch to use for specific modules. This is useful if you are making some changes on a branch of a module and want JHBuild to build that branch instead of the one listed in the module set."
+msgstr ""
+
+#: ../config-reference.rst:73
+msgid "The definition of branches depends on the module VCS:"
+msgstr ""
+
+#: ../config-reference.rst:75
+msgid "CVS: revision. E.g. ``'BRANCH-PROJECT-0_8'``"
+msgstr ""
+
+#: ../config-reference.rst:77
+msgid "Bazaar: URI of module branch. E.g. ``'http://bzr.example.net/project/gnome-2-28'``"
+msgstr ""
+
+#: ../config-reference.rst:80
+msgid "Git: tuple, with first part being an optional repository (or the None value) and the second part the name of the branch. E.g. ``('git://git.example.net/project', 'gnome-2-28')``"
+msgstr ""
+
+#: ../config-reference.rst:88
+msgid "Subversion: URI of module branch. E.g. ``'svn://svn.example.net/project/gnome-2-28'``"
+msgstr ""
+
+#: ../config-reference.rst:94
+msgid "``builddir_pattern``"
+msgstr ""
+
+#: ../config-reference.rst:96
+msgid "A ``printf`` style formatting pattern used to generate build directory names. This is only used when using separate source and build trees. The ``%s`` in the format string will be replaced with ``checkoutdir``. Defaults to ``'%s'``."
+msgstr ""
+
+#: ../config-reference.rst:104
+msgid "``buildroot``"
+msgstr ""
+
+#: ../config-reference.rst:106
+msgid "A string specifying the parent directory to place build trees. Defaults to ``~/.cache/jhbuild/build``. Setting the value to ``None`` causes builds to be performed within the source trees."
+msgstr ""
+
+#: ../config-reference.rst:113
+msgid "``buildscript``"
+msgstr ""
+
+#: ../config-reference.rst:115
+msgid "A string specifying which buildscript to use. The recommended setting is the default, ``terminal``. In particular, do not set to ``gtk``."
+msgstr ""
+
+#: ../config-reference.rst:121
+msgid "``build_policy``"
+msgstr ""
+
+#: ../config-reference.rst:123
+msgid "A string specifying which modules to build. The three possible options are ``all``, to build all modules requested, ``updated`` to build only modules which have changed, or ``updated-deps`` to build modules which have changed or which have dependencies which have changed. Defaults to ``updated-deps``."
+msgstr ""
+
+#: ../config-reference.rst:132
+msgid "``checkoutroot``"
+msgstr ""
+
+#: ../config-reference.rst:134
+msgid "A string specifying the directory to unpack source trees to. Unless ``buildroot`` is set, builds will occur in this directory too. Defaults to ``~/checkout/gnome``."
+msgstr ""
+
+#: ../config-reference.rst:141
+msgid "``checkout_mode``"
+msgstr ""
+
+#: ../config-reference.rst:143
+msgid "A string specifying how the checkout is performed for directories in version control. Defaults to ``update``. This can be set per module using :ref:`module_checkout_mode`. Possible values are ``update`` (update checkout directory), ``clobber`` (wipe out directory before checking out the sources), ``export`` (wipe out directory then create a tarball of the sources containing any patches) and ``copy`` (checkout in a directory different from the one it will build)."
+msgstr ""
+
+#: ../config-reference.rst:154
+msgid "``cmakeargs``"
+msgstr ""
+
+#: ../config-reference.rst:156
+msgid "A string containing arguments passed to the ``cmake`` invocation of all modules. Can be overridden for particular modules using the :ref:`module_cmakeargs` dictionary. Defaults to ``''``."
+msgstr ""
+
+#: ../config-reference.rst:163
+msgid "``copy_dir``"
+msgstr ""
+
+#: ../config-reference.rst:165
+msgid "A string specifying the directory to copy to, if the copy :ref:`checkout_mode` is in use. Defaults to the checkout directory."
+msgstr ""
+
+#: ../config-reference.rst:171
+msgid "``export_dir``"
+msgstr ""
+
+#: ../config-reference.rst:173
+msgid "A string specifying the directory to export to, if the export :ref:`checkout_mode` is in use. Defaults to the checkout directory."
+msgstr ""
+
+#: ../config-reference.rst:179
+msgid "``cvs_program``"
+msgstr ""
+
+#: ../config-reference.rst:181
+msgid "A string specifying which program to use for CVS support. This can be ``git-cvsimport``, or ``cvs``. Defaults to ``cvs``."
+msgstr ""
+
+#: ../config-reference.rst:187
+msgid "``disable_Werror``"
+msgstr ""
+
+#: ../config-reference.rst:189
+msgid "A boolean value (default ``True``) which controls if ``--disable-Werror`` will be passed to automake builds. Many packages use this flag as a way to disable fatal compiler warnings. The value of ``True`` is selected as a reasonable default for those using jhbuild as a means to get an up-to-date version of software packages without being side-tracked by build failures in other people's modules. Setting this value to ``False`` may make sense for those using jhbuild as part of a continuous integration or testing system."
+msgstr ""
+
+#: ../config-reference.rst:201
+msgid "``dvcs_mirror_dir``"
+msgstr ""
+
+#: ../config-reference.rst:203
+msgid "A string specifying a local mirror directory. JHBuild will create local mirrors of repositories at the specified directory. The mirrors can be shared by multiple repository groups, saving space and time because hard-links will be used for local clones. The commands ``update`` and ``updateone`` will create the mirrors and fetch new commits from the online repositories. This option is only supported by Git and Bazaar repositories."
+msgstr ""
+
+#: ../config-reference.rst:214
+msgid "``exit_on_error``"
+msgstr ""
+
+#: ../config-reference.rst:216
+msgid "A boolean value specifying whether to exit immediately when a module fails to build. This is primarily useful in noninteractive mode, in order to prevent additional modules from building after one fails. Setting this value to ``True`` is equivalent to passing the ``--exit-on-error`` option. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:225
+msgid "``extra_prefixes``"
+msgstr ""
+
+#: ../config-reference.rst:227
+msgid "A list of strings specifying, in precedence order, the list of extra prefixes. JHBuild sets many environment variables (such as ``LD_LIBRARY_PATH``, ``PKG_CONFIG_PATH`` and ``XDG_DATA_DIRS``) based on the ``prefix`` variable. Adding directories to ``extra_prefixes`` will cause these prefixes to be included as well, at a lower precedence than the JHBuild ``prefix``, but at a higher precedence than system directories. This variable is empty by default except on systems that install software in ``/usr/local``, in which case it contains this directory."
+msgstr ""
+
+#: ../config-reference.rst:240
+msgid "``help_website``"
+msgstr ""
+
+#: ../config-reference.rst:242
+msgid "A tuple specifying a help website name and URL. The website is displayed in the tinderbox html for failed modules. ``%(module)s`` in the URL will be replaced with the module name. To disable, set ``help_website`` to ``None``. Defaults to ``('Gnome Live!', 'http://live.gnome.org/JhbuildIssues/%(module)s')``."
+msgstr ""
+
+#: ../config-reference.rst:251
+msgid "``installprog``"
+msgstr ""
+
+#: ../config-reference.rst:253
+msgid "A string specifying a program to use as replacement for ``/usr/bin/install``."
+msgstr ""
+
+#: ../config-reference.rst:259
+msgid "``ignore_suggests``"
+msgstr ""
+
+#: ../config-reference.rst:261
+msgid "A boolean value specifying whether to ignore soft dependencies when calculating the dependency tree. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:267
+msgid "``interact``"
+msgstr ""
+
+#: ../config-reference.rst:269
+msgid "A boolean value specifying whether to interact with the user. Setting this value to ``False`` is equivalent to passing the ``--no-interact`` option. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:276
+msgid "``makeargs``"
+msgstr ""
+
+#: ../config-reference.rst:278
+msgid "A string listing additional arguments to be passed to :command:`make`. JHBuild will automatically append the parallel execution option (``-j``) based upon available CPU cores. Defaults to ``''``."
+msgstr ""
+
+#: ../config-reference.rst:285
+msgid "``makecheck``"
+msgstr ""
+
+#: ../config-reference.rst:287
+msgid "A boolean value specifying whether to run :command:`make check` after :command:`make`. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:293
+msgid "``makecheck_advisory``"
+msgstr ""
+
+#: ../config-reference.rst:295
+msgid "A boolean value specifying whether failures when running :command:`make check` should be advisory only and not cause a build failure. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:302
+msgid "``makeclean``"
+msgstr ""
+
+#: ../config-reference.rst:304
+msgid "A boolean value specifying whether to run :command:`make clean` before :command:`make`. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:310
+msgid "``makedist``"
+msgstr ""
+
+#: ../config-reference.rst:312
+msgid "A boolean value specifying whether to run :command:`make dist` after :command:`make`. Defaults to ``False``. This setting is equivalent to passing the ``--dist`` option."
+msgstr ""
+
+#: ../config-reference.rst:319
+msgid "``makedistcheck``"
+msgstr ""
+
+#: ../config-reference.rst:321
+msgid "A boolean value specifying whether to run ``make distcheck`` after :command:`make`. Defaults to ``False``. This setting is equivalent to passing the ``--distcheck`` option."
+msgstr ""
+
+#: ../config-reference.rst:328
+msgid "``mesonargs``"
+msgstr ""
+
+#: ../config-reference.rst:330
+msgid "A string containing arguments passed to the :command:`meson` invocation of all modules. Can be overridden for particular modules using the ``module_mesonargs`` dictionary. Defaults to ``''``."
+msgstr ""
+
+#: ../config-reference.rst:337
+msgid "``module_autogenargs``"
+msgstr ""
+
+#: ../config-reference.rst:339
+msgid "A dictionary mapping module names to strings specifying the arguments to be passed to ``autogen.sh``. The setting in :ref:`module_autogenargs` is used instead of the global :ref:`autogenargs` setting. If a particular module isn't listed in the dictionary, the global :ref:`autogenargs` will be used."
+msgstr ""
+
+#: ../config-reference.rst:348
+msgid "``module_checkout_mode``"
+msgstr ""
+
+#: ../config-reference.rst:349
+msgid "A dictionary specifying which checkout mode to use for modules. This overrides the global :ref:`checkout_mode` setting."
+msgstr ""
+
+#: ../config-reference.rst:355
+msgid "``module_cmakeargs``"
+msgstr ""
+
+#: ../config-reference.rst:357
+msgid "A dictionary mapping module names to strings specifying the arguments to be passed to :command:`cmake`. The setting in :ref:`module_cmakeargs` is used instead of the global :ref:`cmakeargs` setting. If a particular module isn’t listed in the dictionary, the global :ref:`cmakeargs` will be used."
+msgstr ""
+
+#: ../config-reference.rst:366
+msgid "``module_makeargs``"
+msgstr ""
+
+#: ../config-reference.rst:368
+msgid "A dictionary mapping module names to strings specifying the arguments to pass to :command:`make`. The setting in :ref:`module_makeargs` replaces the value of :ref:`makeargs`. If a particular module isn't listed in the dictionary, the global :ref:`makeargs` will be used."
+msgstr ""
+
+#: ../config-reference.rst:376
+msgid "``module_makecheck``"
+msgstr ""
+
+#: ../config-reference.rst:378
+msgid "A dictionary mapping module names to boolean values specifying whether to run ``make check`` after ``make``. The setting in :ref:`module_makecheck` replaces the value of :ref:`makecheck`. If a particular module isn't listed in the dictionary, the global :ref:`makecheck` will be used."
+msgstr ""
+
+#: ../config-reference.rst:387
+msgid "``module_mesonargs``"
+msgstr ""
+
+#: ../config-reference.rst:389
+msgid "A dictionary mapping module names to strings specifying the arguments to be passed to ``meson``. The setting in :ref:`module_mesonargs` is used instead of the global :ref:`mesonargs` setting. If a particular module isn’t listed in the dictionary, the global :ref:`mesonargs` will be used."
+msgstr ""
+
+#: ../config-reference.rst:398
+msgid "``module_ninjaargs``"
+msgstr ""
+
+#: ../config-reference.rst:400
+msgid "A dictionary mapping module names to strings specifying the arguments to pass to ``ninja``. The setting in :ref:`module_ninjaargs` replaces the value of :ref:`ninjaargs`. If a particular module isn't listed in the dictionary, the global :ref:`ninjaargs` will be used."
+msgstr ""
+
+#: ../config-reference.rst:408
+msgid "``module_nopoison``"
+msgstr ""
+
+#: ../config-reference.rst:410
+msgid "A dictionary mapping module names to boolean values. If a module is set to ``True``, JHBuild will attempt to build dependent modules even if the specified module failed. The setting in :ref:`module_nopoison` replaces the value of :ref:`nopoison`. If a particular module isn't listed in the dictionary, the global :ref:`nopoison` will be used."
+msgstr ""
+
+#: ../config-reference.rst:419
+msgid "``module_extra_env``"
+msgstr ""
+
+#: ../config-reference.rst:420
+msgid "A dictionary mapping module names to dictionaries with extra environment variables to pass when executing commands for the module."
+msgstr ""
+
+#: ../config-reference.rst:426
+msgid "``module_static_analyzer``"
+msgstr ""
+
+#: ../config-reference.rst:428
+msgid "Dictionary mapping module names to boolean values indicating whether static analysis should be performed while building that module. This allows the global :ref:`static_analyzer` configuration option to be overridden."
+msgstr ""
+
+#: ../config-reference.rst:436
+msgid "``modules``"
+msgstr ""
+
+#: ../config-reference.rst:438
+#: ../getting-started.rst:109
+msgid "A list of strings specifying the modules to build. The list of modules actually built will be recursively expanded to include all the dependencies unless the :ref:`buildone` command is used. Defaults to ``['meta-gnome-desktop']``."
+msgstr ""
+
+#: ../config-reference.rst:446
+msgid "``moduleset``"
+msgstr ""
+
+#: ../config-reference.rst:448
+#: ../getting-started.rst:98
+msgid "A string or list of strings specifying the name(s) of the module set(s) to use. This can either be the filename of a moduleset included with JHBuild (excluding the path and extension), or a full HTTP URL to an externally managed moduleset. HTTP URL modulesets are cached locally. If a module with the same name is present in more than one moduleset, the last set listed takes priority. Modulesets provided with JHBuild are updated to match the current GNOME development release."
+msgstr ""
+
+#: ../config-reference.rst:460
+msgid "``modulesets_dir``"
+msgstr ""
+
+#: ../config-reference.rst:462
+msgid "A string specifying the directory containing the modulesets to use. Defaults to the ``modulesets/`` directory in JHBuild sources."
+msgstr ""
+
+#: ../config-reference.rst:468
+msgid "``nice_build``"
+msgstr ""
+
+#: ../config-reference.rst:470
+msgid "Run builds under the ``SCHED_IDLE`` priority on Linux, ``nice`` on other Unix. This can dramatically improve desktop interactivity for parallel builds while having only a negligible impact on build throughput."
+msgstr ""
+
+#: ../config-reference.rst:478
+msgid "``ninjaargs``"
+msgstr ""
+
+#: ../config-reference.rst:480
+msgid "A string listing additional arguments to be passed to ``ninja``. Defaults to ``''``."
+msgstr ""
+
+#: ../config-reference.rst:486
+msgid "``nobuild``"
+msgstr ""
+
+#: ../config-reference.rst:488
+msgid "A boolean value, if set to ``True`` JHBuild will not build modules, but just download and unpack the sources. The default value is ``False``."
+msgstr ""
+
+#: ../config-reference.rst:495
+msgid "``nonetwork``"
+msgstr ""
+
+#: ../config-reference.rst:497
+msgid "A boolean value specifying whether to access the network. This affects checking out or updating CVS modules, downloading tarballs and updating module sets. Setting this to ``True`` is equivalent to passing the ``--no-network`` option. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:505
+msgid "``nonotify``"
+msgstr ""
+
+#: ../config-reference.rst:507
+msgid "A boolean value specifying whether to emit notifications using the notification daemon. If set to ``False``, notifications are emitted. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:514
+msgid "``nopoison``"
+msgstr ""
+
+#: ../config-reference.rst:516
+msgid "A boolean value, if set to ``True`` JHBuild attempts to build modules even if one or more of the module's dependencies failed to build. This option is equivalent to the ``--no-poison`` argument. The default value is ``False``."
+msgstr ""
+
+#: ../config-reference.rst:524
+msgid "``notrayicon``"
+msgstr ""
+
+#: ../config-reference.rst:526
+msgid "A boolean value specifying whether to show an icon in the system tray using Zenity. If set to ``False``, an icon is shown. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:533
+msgid "``noxvfb``"
+msgstr ""
+
+#: ../config-reference.rst:535
+msgid "A boolean value, if set to ``True`` JHBuild will run any graphical tests on the real X server, rather than using ``Xvfb``. This option is equivalent to passing ``--no-xvfb``. The default value is ``False``."
+msgstr ""
+
+#: ../config-reference.rst:543
+msgid "``partial_build``"
+msgstr ""
+
+#: ../config-reference.rst:545
+msgid "A boolean value, if set to ``True`` JHBuild will not build dependency modules if corresponding system packages are installed and sufficient version. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:552
+msgid "``prefix``"
+msgstr ""
+
+#: ../config-reference.rst:554
+#: ../getting-started.rst:122
+msgid "A string specifying the prefix to install modules to. ``prefix`` must be an absolute path. This directory must be writable. Defaults to ``'~/jhbuild/install/'``."
+msgstr ""
+
+#: ../config-reference.rst:561
+msgid "``pretty_print``"
+msgstr ""
+
+#: ../config-reference.rst:563
+msgid "A boolean value specifying whether to pretty format the subprocess output. Only CVS output supports pretty printing. Disable if the pretty printing causes problems. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:570
+msgid "``print_command_pattern``"
+msgstr ""
+
+#: ../config-reference.rst:572
+msgid "A string displayed before JHBuild executes a command. ``%(command)s`` in the string will be replaced with the command about to be executed. ``%(cwd)s`` in the string will be replaced with the current working directory. Defaults to ``'%(command)s'``."
+msgstr ""
+
+#: ../config-reference.rst:580
+msgid "``progress_bar``"
+msgstr ""
+
+#: ../config-reference.rst:582
+msgid "A boolean value specifying whether to display a progress bar during :ref:`quiet_mode`. Defaults to ``True``."
+msgstr ""
+
+#: ../config-reference.rst:588
+msgid "``quiet_mode``"
+msgstr ""
+
+#: ../config-reference.rst:590
+msgid "A boolean value, if set to ``True`` disables the output of running commands. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:596
+msgid "``repos``"
+msgstr ""
+
+#: ../config-reference.rst:598
+msgid "A dictionary specifying an alternative repository location for a particular repository. This configuration variable is useful to a module developer. By default, JHBuild will check out code from repositories using an anonymous repository location. The dictionary keys are short repository names and the values are the alternative repository location strings. For example:"
+msgstr ""
+
+#: ../config-reference.rst:612
+msgid "``shallow_clone``"
+msgstr ""
+
+#: ../config-reference.rst:614
+msgid "A boolean value specifying if JHBuild should prefer smaller version control downloads. Equivalent to ``git clone --depth 1`` or ``bzr co --light``. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:621
+msgid "``skip``"
+msgstr ""
+
+#: ../config-reference.rst:623
+msgid "A list of modules to skip. This ``--skip`` command line option extends the list. This list is empty by default. If the list contains the special value ``'*'``, JHBuild will skip all modules not explicitly listed in the ``modules`` variable. This may be useful if you want to build modules without their implicit dependencies."
+msgstr ""
+
+#: ../config-reference.rst:632
+msgid "``static_analyzer``"
+msgstr ""
+
+#: ../config-reference.rst:634
+msgid "A boolean value: if set to ``True``, run a static analysis tool on each module as it’s being built. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:640
+msgid "``static_analyzer_outputdir``"
+msgstr ""
+
+#: ../config-reference.rst:642
+msgid "Root directory below which static analysis reports will be saved (if :ref:`static_analyzer` is ``True``). Defaults to ``/tmp/jhbuild_static_analyzer``."
+msgstr ""
+
+#: ../config-reference.rst:649
+msgid "``static_analyzer_template``"
+msgstr ""
+
+#: ../config-reference.rst:651
+msgid "Command template for the static analyzer. This has the parameters ``outputdir`` (the value of the :ref:`static_analyzer_outputdir` configuration variable) and ``module`` (the name of the module currently being built) substituted into it ``printf``-style. The resulting command is used as a prefix to ``make`` when building a module. Defaults to ``scan-build``."
+msgstr ""
+
+#: ../config-reference.rst:661
+msgid "``sticky_date``"
+msgstr ""
+
+#: ../config-reference.rst:663
+msgid "A string if set, and if supported by the underlying version control system, JHBuild will update the source tree to the specified date before building. An ISO date format is required, e.g. ``'yyyy-mm-dd'``. Defaults to ``None``."
+msgstr ""
+
+#: ../config-reference.rst:671
+msgid "``svn_program``"
+msgstr ""
+
+#: ../config-reference.rst:673
+msgid "A string specifying which program to use for subversion support. This can be ``svn``, ``git-svn`` or ``bzr``. Defaults to ``svn``."
+msgstr ""
+
+#: ../config-reference.rst:679
+msgid "``system_libdirs``"
+msgstr ""
+
+#: ../config-reference.rst:681
+msgid "A list of strings specifying the system library paths. This is used when setting the default values of some environment variables, such as ``PKG_CONFIG_PATH``."
+msgstr ""
+
+#: ../config-reference.rst:688
+msgid "``tarballdir``"
+msgstr ""
+
+#: ../config-reference.rst:690
+msgid "A string if set, tarballs will be downloaded to the specified directory instead of :ref:`checkoutroot`. This is useful if you have multiple JHBuild environments or regularly clear out :ref:`checkoutroot` and want to reduce bandwidth usage. Defaults to ``'~/.cache/jhbuild/downloads'``."
+msgstr ""
+
+#: ../config-reference.rst:699
+msgid "``tinderbox_outputdir``"
+msgstr ""
+
+#: ../config-reference.rst:701
+msgid "A string specifying the directory to store ``jhbuild tinderbox`` output. This string can be overridden by the ``--output`` option. Defaults to ``None``, so either the command line option must be used or this variable must be set in the configuration file."
+msgstr ""
+
+#: ../config-reference.rst:709
+msgid "``trycheckout``"
+msgstr ""
+
+#: ../config-reference.rst:711
+msgid "A boolean value, if set to ``True`` JHBuild will automatically try to solve failures by 1) running ``autogen.sh`` again, and 2) checking out a newer version of a module from version control. This setting is equivalent to passing the ``--try-checkout`` option."
+msgstr ""
+
+#: ../config-reference.rst:719
+msgid "``use_local_modulesets``"
+msgstr ""
+
+#: ../config-reference.rst:721
+msgid "A boolean value that specifies to use modulesets that were checked out along the JHBuild source code; instead of downloading them on-the-fly from GNOME version control system. Defaults to ``False``."
+msgstr ""
+
+#: ../config-reference.rst:728
+msgid "``xvfbargs``"
+msgstr ""
+
+#: ../config-reference.rst:730
+msgid "A string listing arguments to pass to ``Xvfb`` if running graphical tests."
+msgstr ""
+
+#: ../config-reference.rst:736
+msgid "``conditions``"
+msgstr ""
+
+#: ../config-reference.rst:738
+msgid "A set of condition (strings) that can influence the modules that are built and the options that are used for building them. You should use ``conditions.add()`` and ``conditions.discard()`` to modify the list if you want to make changes."
+msgstr ""
+
+#: ../config-reference.rst:743
+msgid "The original set of conditions is determined on a per-OS basis and can be modified using the ``--conditions=`` commandline argument. The changes made by ``--conditions`` are visible at the time that jhbuildrc is sourced, so you can set other variables based on the current value of the set, but ``--conditions`` will be applied again after any changes made by jhbuildrc."
+msgstr ""
+
+#: ../config-reference.rst:751
+msgid "Other Configuration File Structures"
+msgstr ""
+
+#: ../config-reference.rst:753
+msgid "In addition to the above variables, there are other settings that can be set in the configuration file:"
+msgstr ""
+
+#: ../config-reference.rst:758
+msgid "A dictionary representing the environment. This environment is passed to processes that JHBuild spawns."
+msgstr ""
+
+#: ../config-reference.rst:761
+msgid "Some influential environment variables include ``CPPFLAGS``, ``CFLAGS``, ``INSTALL`` and ``LDFLAGS``. For example:"
+msgstr ""
+
+#: ../config-reference.rst:770
+msgid "This will add a directory to the ``PATH`` environment variable. ``addpath`` will correctly handle the case when the environment variable is initially empty (having a stray colon at the beginning or end of an environment variable can have unexpected consequences)."
+msgstr ""
+
+#: ../config-reference.rst:777
+msgid "After processing the configuration file, JHBuild will alter some paths based on variables such as ``prefix`` (e.g. adding ``$prefix/bin`` to the start of ``PATH``)."
+msgstr ""
+
+#: ../config-reference.rst:781
+msgid "The ``prependpath`` function works like ``addpath``, except that the environment variable is modified after JHBuild has made its changes to the environment."
+msgstr ""
+
+#: ../getting-started.rst:2
+msgid "Getting Started"
+msgstr ""
+
+#: ../getting-started.rst:4
+msgid "JHBuild requires a few set up steps to be run before building software. JHBuild requires some prerequisite software, and it is necessary to install prerequisite tools needed to obtain and build the software modules."
+msgstr ""
+
+#: ../getting-started.rst:10
+msgid "Installing JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:12
+msgid "JHBuild requires a Python runtime. Verify Python >= 3.7 is installed."
+msgstr ""
+
+#: ../getting-started.rst:14
+msgid "The recommended way to download JHBuild is via the version control system, ``git``. This can be achieved with the following command. It is recommended to run the command from a new directory where all source code will be installed, for example, ``~/jhbuild/checkout``."
+msgstr ""
+
+#: ../getting-started.rst:25
+msgid "This will download JHBuild into a new folder named ``jhbuild`` under the current directory. Now to build and install JHBuild:"
+msgstr ""
+
+#: ../getting-started.rst:39
+msgid "If gnome-common, yelp-tools and autotools are available, ``autogen.sh`` will configure JHBuild to install via autotools. If gnome-common, yelp-tools and autotools are not available, ``autogen.sh`` will configure JHBuild to install via a plain Makefile. To always use the plain Makefile method pass ``--simple-install`` to ``autogen.sh``."
+msgstr ""
+
+#: ../getting-started.rst:45
+msgid "If the above steps complete successfully, a small shell script will be installed in ``~/.local/bin`` to start JHBuild. Add ``~/.local/bin`` to the ``PATH``:"
+msgstr ""
+
+#: ../getting-started.rst:54
+msgid "To permanently add ``~/.local/bin`` to the :envvar:`PATH` variable, run the following command:"
+msgstr ""
+
+#: ../getting-started.rst:63
+msgid "Configuring JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:65
+msgid "JHBuild can be configured via a configuration file. The default location is ``~/.config/jhbuildrc``. If a configuration file does not exist, the defaults are used. The configuration file uses Python syntax. An example is provided, see ``examples/sample.jhbuildrc``. Copy ``examples/sample.jhbuildrc`` to ``~/.config/jhbuildrc`` and customize as required."
+msgstr ""
+
+#: ../getting-started.rst:72
+msgid "It will also load any ``jhbuildrc`` files in :envvar:`XDG_CONFIG_DIRS` directories. This is useful for system-wide configuration."
+msgstr ""
+
+#: ../getting-started.rst:75
+msgid "The sample configuration will make JHBuild build the meta-gnome-core and meta-gnome-apps-tested modules and dependencies from the ``gnome-apps`` module set. JHBuild will unpack source trees to ``~/jhbuild/checkout/`` and install all files to subdirectories of ``~/jhbuild/install/``. The two directories must be writable."
+msgstr ""
+
+#: ../getting-started.rst:81
+msgid "Configuration variables are documented in :doc:`config-reference`. The most commonly used variables are:"
+msgstr ""
+
+#: ../getting-started.rst:83
+msgid ":ref:`repos`"
+msgstr ""
+
+#: ../getting-started.rst:85
+msgid "A dictionary that can be used to specify an alternative repository location for a particular repository. This configuration variable is useful to a module developer. By default, JHBuild will check out code from repositories using an anonymous repository location. The dictionary keys are short repository names and the values are alternative repository location strings. For example:"
+msgstr ""
+
+#: ../getting-started.rst:96
+msgid ":ref:`moduleset`"
+msgstr ""
+
+#: ../getting-started.rst:107
+msgid ":ref:`modules`"
+msgstr ""
+
+#: ../getting-started.rst:114
+msgid ":ref:`checkoutroot`"
+msgstr ""
+
+#: ../getting-started.rst:116
+msgid "A string specifying the directory to unpack source trees to. If :ref:`buildroot` is set to ``None``, builds will occur in this directory too. Defaults to ``~/jhbuild/checkout``."
+msgstr ""
+
+#: ../getting-started.rst:120
+msgid ":ref:`prefix`"
+msgstr ""
+
+#: ../getting-started.rst:126
+msgid ":ref:`autogenargs`"
+msgstr ""
+
+#: ../getting-started.rst:128
+msgid "A string containing arguments passed to the ``autogen.sh`` script of all modules. Can be overridden for particular modules using the :ref:`autogenargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:132
+msgid ":ref:`cmakeargs`"
+msgstr ""
+
+#: ../getting-started.rst:134
+msgid "A string containing arguments passed to the ``cmake`` invocation of all modules. Can be overridden for particular modules using the :ref:`cmakeargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:138
+msgid ":ref:`makeargs`"
+msgstr ""
+
+#: ../getting-started.rst:140
+msgid "A string listing additional arguments to be passed to ``make``. JHBuild will automatically append the parallel execution option (``-j``) based upon available CPU cores. Defaults to ``''``."
+msgstr ""
+
+#: ../getting-started.rst:144
+msgid ":ref:`mesonargs`"
+msgstr ""
+
+#: ../getting-started.rst:146
+msgid "A string containing arguments passed to the :command:`meson` invocation of all modules. Can be overridden for particular modules using the :ref:`mesonargs` dictionary."
+msgstr ""
+
+#: ../getting-started.rst:150
+msgid ":ref:`ninjaargs`"
+msgstr ""
+
+#: ../getting-started.rst:152
+msgid "A string listing additional arguments to be passed to :command:`ninja`. Defaults to ``''``."
+msgstr ""
+
+#: ../getting-started.rst:156
+msgid "Build Prerequisites"
+msgstr ""
+
+#: ../getting-started.rst:158
+msgid "Before any modules can be built, it is necessary to have certain build tools installed. Common build tools include the GNU Autotools (autoconf, automake, libtool and gettext), The GNU Toolchain (binutils, gcc, g++), make, pkg-config and Python, depending on which modules will be built."
+msgstr ""
+
+#: ../getting-started.rst:163
+msgid "JHBuild can check the tools are installed using the :ref:`sanitycheck` command:"
+msgstr ""
+
+#: ../getting-started.rst:170
+msgid "If this command displays any messages, please install the required package from your distribution's repository. A list of `package names <http://live.gnome.org/JhbuildDependencies>`__ for different distributions is maintained on the GNOME wiki. Run the ``sanitycheck`` command again after installing the distribution's packages to ensure the required tools are present."
+msgstr ""
+
+#: ../getting-started.rst:178
+msgid "Using JHBuild"
+msgstr ""
+
+#: ../getting-started.rst:180
+msgid "After set up is complete, JHBuild can be used to build software. To build all the modules selected in the ``~/.config/jhbuildrc`` file, run the following command:"
+msgstr ""
+
+#: ../getting-started.rst:188
+msgid "JHBuild will download, configure, compile and install each of the modules. If an error occurs at any stage, JHBuild will present a menu asking what to do. The choices include dropping to a shell to fix the error, rerunning the build from various stages, giving up on the module, or ignore the error and continue."
+msgstr ""
+
+#: ../getting-started.rst:196
+msgid "Giving up on a module will cause any modules depending on the module to fail."
+msgstr ""
+
+#: ../getting-started.rst:199
+msgid "Below is an example of the menu displayed:"
+msgstr ""
+
+#: ../getting-started.rst:214
+msgid "It is also possible to build a different set of modules and their dependencies by passing the module names as arguments to the ``build`` command. For example, to build gtk+:"
+msgstr ""
+
+#: ../getting-started.rst:222
+msgid "If JHBuild is cancelled part way through a build, it is possible to resume the build at a particular module using the ``--start-at`` option:"
+msgstr ""
+
+#: ../getting-started.rst:229
+msgid "To build one or more modules, ignoring their dependencies, JHBuild provides the ``buildone`` command. For the ``buildone`` command to complete successfully, all dependencies must be previously built and installed or provided by distribution packages."
+msgstr ""
+
+#: ../getting-started.rst:238
+msgid "When actively developing a module, you are likely in a source working directory. The ``make`` will invoke the build system and install the module. This will be a key part of your edit-compile-install-test cycle."
+msgstr ""
+
+#: ../getting-started.rst:246
+msgid "To get a list of the modules and dependencies JHBuild will build, and the order they will be built, use the ``list`` command:"
+msgstr ""
+
+#: ../getting-started.rst:253
+msgid "To get information about a particular module, use the ``info`` command:"
+msgstr ""
+
+#: ../getting-started.rst:259
+msgid "To download or update all the software sources without building, use the ``update`` command. The ``update`` command provides an opportunity to modify the sources before building and can be useful if internet bandwidth varies."
+msgstr ""
+
+#: ../getting-started.rst:268
+msgid "Later, JHBuild can build everything without downloading or updating the sources:"
+msgstr ""
+
+#: ../getting-started.rst:275
+msgid "To run a particular command with the same environment used by JHBuild, use the ``run`` command:"
+msgstr ""
+
+#: ../getting-started.rst:282
+msgid "To start a shell with the same environment used by JHBuild, use the ``shell`` command:"
+msgstr ""
+
+#: ../index.rst:3
+msgid "JHBuild Manual"
+msgstr ""
+
+#: ../index.rst:6
+msgid "Introduction"
+msgstr ""
+
+#: ../index.rst:8
+msgid "JHBuild is a tool designed to ease building collections of source packages, called “modules”. JHBuild uses “module set” files to describe the modules available to build. The “module set” files include dependency information that allows JHBuild to discover what modules need to be built and in what order."
+msgstr ""
+
+#: ../index.rst:14
+msgid "JHBuild was originally written for building `GNOME <http://www.gnome.org>`__, but has since been extended to be usable with other projects. A “module set” file can be hosted on a web server, allowing for build rules independent of the JHBuild project."
+msgstr ""
+
+#: ../index.rst:19
+msgid "JHBuild can build modules from a variety of sources, including `CVS <http://www.cvshome.org/>`__, `Subversion <http://subversion.tigris.org/>`__, `Bazaar <http://www.bazaar-vcs.org/>`__, `Darcs <http://darcs.net/>`__, `Git <http://git.or.cz/>`__ and `Mercurial <http://www.selenic.com/mercurial/>`__ repositories, as well as Tar and Zip archives hosted on web or FTP sites. JHBuild can build modules using a variety of build systems, including Autotools, CMake, Meson, WAF, Python Distutils and Perl Makefiles."
+msgstr ""
+
+#: ../index.rst:29
+msgid "JHBuild is not intended as a replacement for the distribution's package management system. Instead, it makes it easy to build software into a separate install prefix without interfering with the rest of the system."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:2
+msgid "JHBuild and GNOME"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:4
+msgid "This section provides guidance on building, installing and running GNOME."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:8
+msgid "Building GNOME"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:10
+msgid "To build GNOME some development packages are required. This includes:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:12
+msgid "DocBook XML DTD and XSLT stylesheets. These need to be registered in the XML catalog (``/etc/xml/catalog``)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:15
+msgid "X libraries."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:17
+msgid "``libsmbclient`` from Samba (used for browsing Windows networks)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:19
+msgid "``libbz2`` from bzip2."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:21
+msgid "``libpng``, ``libjpeg`` and ``libtiff`` (used for image loading)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:23
+msgid "If installing distribution packages, and if applicable for your distribution, install the corresponding “dev” or “devel” packages. A list of `package names <http://live.gnome.org/JhbuildDependencies>`__ for different distributions is maintained on the GNOME wiki."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:29
+msgid "Running a Single GNOME Application"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:31
+msgid "This section details how to run a single GNOME application. The application will run within the current desktop environment. To run the application within the complete JHBuild GNOME see `Running the GNOME Desktop Environment <#running-gnome>`__."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:36
+msgid "Launch a JHBuild shell. The JHBuild shell has all the necessary environment variables set."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:43
+msgid "Verify the correct application will be run. For example:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:50
+msgid "Run the application:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:56
+msgid "Alternatively, run the application using the ``run`` command:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:63
+msgid "Running the GNOME Desktop Environment"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:65
+msgid "Create a new user account to run the JHBuild GNOME. Running JHBuild GNOME using a different user account is recommended to avoid problems caused by user settings stored in the home directory. This manual refers to the new account as ``gnomedev``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:70
+msgid "Setup JHBuild on the new ``gnomedev`` account. Copy or soft-link ``~/.config/jhbuildrc`` and ``~/.local/bin/jhbuild`` to ``gnomedev`` home directory."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:74
+msgid "Open a terminal as the user ``gnomedev``. Permanently add ``~/.local/bin`` to the ``PATH`` variable, run the following command:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:81
+msgid "Test JHBuild works:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:89
+msgid "Setup GNOME to run from the display manager"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:91
+msgid "Build and install JHBuild GNOME."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:93
+msgid "Enable system services. JHBuild GNOME will use the ``/usr/bin`` system D-Bus daemon and the system services within ``/usr/share/dbus-1/system-services/``. JHBuild GNOME will use the JHBuild session D-Bus daemon and the services within ``~/jhbuild/install//share/dbus-1/services/``. Replace ``~/jhbuild/install`` with GNOME install ``prefix`` in the command below:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:108
+msgid "Create a GNOME startup script at ``/usr/bin/gnome-jhbuild-session`` with the following, replacing ``~/jhbuild/install`` with GNOME install ``prefix``:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:124
+msgid "Make the file ``/usr/bin/gnome-jhbuild-session`` executable:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:130
+msgid "To add a new session entry in the display manager, create ``/usr/share/xsessions/gnome-jhbuild.desktop`` and enter:"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:143
+msgid "Restart ``gdm``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:146
+msgid "Running GNOME from the display manager"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:148
+msgid "To run the JHBuild GNOME, select the GNOME (JHBuild) session at the display manager before entering ``gnomedev`` login credentials. If successful, JHBuild GNOME will be displayed. If unsuccessful, check the log file. The log file will be located at ``~gnomedev/.cache/gdm/session.log`` or ``~gnomedev/.xsession-errors``."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:155
+msgid "Static Analysis"
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:157
+msgid "JHBuild supports running static analysis tools on the code in modules as they’re built. To enable this, set the ``static_analyzer`` configuration variable to ``True`` in the ``.jhbuildrc`` configuration file."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:161
+msgid "If enabled, every time a module is built using JHBuild, the build process will be wrapped in a static analyzer, which will generate a report of any problems it finds with the code. These reports are saved as HTML files in subdirectories of ``/tmp/jhbuild_static_analyzer`` (by default; the path can be changed using the ``static_analyzer_outputdir`` configuration variable)."
+msgstr ""
+
+#: ../jhbuild-and-gnome.rst:168
+msgid "Static analysis currently only works for modules which use autotools as their build system. It requires the ``scan-build`` program to be installed, although the command it uses can be changed by modifying the ``static_analyzer_template`` configuration variable."
+msgstr ""
+
+#: ../moduleset-syntax.rst:2
+msgid "Module Set File Syntax"
+msgstr ""
+
+#: ../moduleset-syntax.rst:4
+msgid "JHBuild uses XML files to describe the dependencies between modules. A RELAX-NG schema and Document Type Definition are included with JHBuild in the ``modulesets/`` directory. The RELAX-NG schema can be used to edit module set files using ``nxml-mode`` in Emacs."
+msgstr ""
+
+#: ../moduleset-syntax.rst:9
+msgid "The top-level element in a module set file is ``moduleset`` element. No XML namespace is used. The elements below the top-level come in three types: module sources, include statements and module definitions."
+msgstr ""
+
+#: ../moduleset-syntax.rst:13
+msgid "Content in the moduleset file can be conditionally included by use of the ``<if>`` tag to surround the conditional content. It is currently only possible to predicate the inclusion on whether a particular condition flag is set or not, using ``<if condition-set='cond'>`` or ``<if condition-unset='cond'>``. Conditions are set by default on a per-OS basis but can be influenced by way of the ``conditions`` variable in jhbuildrc or the ``--conditions=`` commandline argument."
+msgstr ""
+
+#: ../moduleset-syntax.rst:22
+#: ../moduleset-syntax.rst:810
+msgid "Module Sources"
+msgstr ""
+
+#: ../moduleset-syntax.rst:24
+msgid "Rather than listing the full location of every module, a number of \"module sources\" are listed in the module set, and then referenced by name in the module definitions. As well as reducing the amount of redundant information in the module set, it makes it easy for a user to specify an alternative source for those modules (for CVS and Subversion, it is common for developers and users to use different repository access methods)."
+msgstr ""
+
+#: ../moduleset-syntax.rst:32
+msgid "The ``repository`` element is used to describe all types of repository. The ``branch`` element is used inside module definition to specify additional settings."
+msgstr ""
+
+#: ../moduleset-syntax.rst:53
+msgid "The ``name`` attribute is a unique identifier for the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:55
+msgid "The ``default`` attribute specifies whether this repository is the default source for this module set."
+msgstr ""
+
+#: ../moduleset-syntax.rst:58
+msgid "The ``type`` attribute specifies the type of repository. It can be one of: ``bzr``, ``cvs``, ``darcs``, ``fossil``, ``git``, ``hg``, ``mnt``, ``svn``, ``tarball``. Other attributes depend on the type, as well as the branch used inside module definitions. Those are described below in the repository type sub-sections."
+msgstr ""
+
+#: ../moduleset-syntax.rst:64
+msgid "The ``developer-href-example`` attribute is used to specify the format of the URL for the repository used by developers. This is informational only."
+msgstr ""
+
+#: ../moduleset-syntax.rst:68
+msgid "The ``branch`` element is used inside module definitions."
+msgstr ""
+
+#: ../moduleset-syntax.rst:87
+msgid "All attributes have sensible defaults and depend on the module and repository definitions. Common attributes are described here."
+msgstr ""
+
+#: ../moduleset-syntax.rst:90
+msgid "The ``repo`` attribute is used to specify non-default repository name."
+msgstr ""
+
+#: ../moduleset-syntax.rst:92
+msgid "The ``module`` attribute is used to specify module name to checkout from the repository. Defaults to module id."
+msgstr ""
+
+#: ../moduleset-syntax.rst:95
+msgid "The ``checkoutdir`` attribute is used to specify the checkout directory name. Defaults to module id."
+msgstr ""
+
+#: ../moduleset-syntax.rst:98
+msgid "Other attributes are described below"
+msgstr ""
+
+#: ../moduleset-syntax.rst:101
+msgid "Bazaar"
+msgstr ""
+
+#: ../moduleset-syntax.rst:103
+msgid "This repository type is used to define a Bazaar repository. It is recommended to have Bazaar 1.16 or higher."
+msgstr ""
+
+#: ../moduleset-syntax.rst:112
+msgid "Additional attributes are: ``trunk-template`` (defaults to ``\"%(module)s\"``) and ``branches-template`` (defaults to ``\"%(module)s/%(branch)s``\"). These attributes are used to specify templates for constructing URL. A ``branch`` element in the module definitions can specify branch and user attributes. These values will be substituted in the templates. If either of those are defined branches-template is used, otherwise trunk-template is used. This way you can override repository to build modules from your personal branch or build many modules from a repository with non-standard layout."
+msgstr ""
+
+#: ../moduleset-syntax.rst:122
+msgid "An addition ``branch`` element accepts ``revspec`` attribute to anchor on a particular revision. Any valid ``bzr revspec`` is accepted, for example ``date:yesterday, -5, tag:0.1`` to get first revision since yesterday, 5 commits behind the tip or tag \"0.1\". See ``bzr help revisionspec`` for all possible values."
+msgstr ""
+
+#: ../moduleset-syntax.rst:128
+msgid "For example repository with template attributes defined:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:138
+msgid "Example ``branch`` elements for the above repository:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:156
+msgid "CVS"
+msgstr ""
+
+#: ../moduleset-syntax.rst:158
+msgid "This repository type is used to define a CVS repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:160
+msgid "The ``password`` attribute is used to specify the password to the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:163
+msgid "The ``cvsroot`` attribute is used to specify the root of the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:172
+msgid "Additional attributes are: ``revision``, ``update-new-dirs`` and ``override-checkoutdir``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:176
+msgid "Darcs"
+msgstr ""
+
+#: ../moduleset-syntax.rst:178
+msgid "This repository type is used to define a Darcs repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:186
+msgid "Git"
+msgstr ""
+
+#: ../moduleset-syntax.rst:188
+msgid "This repository type is used to define a Git repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:196
+#: ../moduleset-syntax.rst:293
+msgid "It allows the following attributes on the ``branch`` element:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:198
+msgid "The ``revision`` attribute is used to specify a local or remote-tracking branch to switch to in the update phase. It defaults to 'master'. It is possible to override this attribute with the ``branches`` configuration variable. The switch will only be performed, if the current branch is tracking a remote branch, to not disturb your own work."
+msgstr ""
+
+#: ../moduleset-syntax.rst:204
+msgid "The ``tag`` attribute is used to specify a revision to unconditionally check out in the update phase. It overrides the ``revision`` attribute."
+msgstr ""
+
+#: ../moduleset-syntax.rst:216
+msgid "Mercurial"
+msgstr ""
+
+#: ../moduleset-syntax.rst:218
+msgid "This repository type is used to define a Mercurial repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:230
+msgid "Monotone"
+msgstr ""
+
+#: ../moduleset-syntax.rst:232
+msgid "This repository type is used to define a Monotone repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:234
+msgid "The ``server`` attribute is used to specify the repository server."
+msgstr ""
+
+#: ../moduleset-syntax.rst:236
+msgid "The ``database`` attribute is used to specify the database to use for the repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:239
+msgid "The ``defbranch`` attribute is used specify the branch of the repository to use."
+msgstr ""
+
+#: ../moduleset-syntax.rst:249
+msgid "Subversion"
+msgstr ""
+
+#: ../moduleset-syntax.rst:251
+msgid "This repository type is used to define a Subversion repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:259
+msgid "It allows a revision on the ``branch`` element. This attribute defines the branch to checkout or, if it is a number, a specific revision to checkout."
+msgstr ""
+
+#: ../moduleset-syntax.rst:268
+msgid "It is possible to specify custom ``svn`` layout using trunk-template (defaults to \"%(module)s/trunk\"), branches-template (defaults to \"%(module)s/branches/%(branch)s\") and tags-template (defaults to \"%(module)s/tags/%(tag)s\")"
+msgstr ""
+
+#: ../moduleset-syntax.rst:274
+msgid "System"
+msgstr ""
+
+#: ../moduleset-syntax.rst:276
+msgid "This repository type is used to define a fake system repository. A system repository is required to create any :ref:`systemmodule`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:284
+msgid "Tarballs"
+msgstr ""
+
+#: ../moduleset-syntax.rst:286
+msgid "This repository type is used to define a tarball repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:295
+msgid "The ``module`` attribute specifies the file to download and compile, the ``version`` attribute specifies the module version."
+msgstr ""
+
+#: ../moduleset-syntax.rst:298
+msgid "The size and hash, as well as the obsolete md5sum, attributes are optional. If these attributes are present, they are used to check that the source package was downloaded correctly."
+msgstr ""
+
+#: ../moduleset-syntax.rst:302
+msgid "The ``rename-tarball`` can be used to rename the tarball file when downloading, in case the original name conflicts with another module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:305
+msgid "Any number of ``patch`` elements may be nested inside the ``branch`` element. These patches are applied, in order, to the source tree after unpacking. The ``file`` attribute gives the patch filename, and the ``strip`` attribute says how many levels of directories to prune when applying the patch."
+msgstr ""
+
+#: ../moduleset-syntax.rst:310
+#: ../moduleset-syntax.rst:924
+msgid "For module sets shipped with JHBuild, the patch files are looked up in the ``jhbuild/patches/`` directory; for module sets referred by URI, the patch files are looked for in the same directory as the moduleset file, or in its ``patches/`` subdirectory. It is also possible for the file attribute to specify a URI, in which case it will be downloaded from that location."
+msgstr ""
+
+#: ../moduleset-syntax.rst:325
+msgid "A tarball ``branch`` element may also contain quilt elements which specify nested branch to import."
+msgstr ""
+
+#: ../moduleset-syntax.rst:329
+msgid "Including Other Module Sets"
+msgstr ""
+
+#: ../moduleset-syntax.rst:331
+msgid "JHBuild allows one module set to include the contents of another by reference using the ``include`` element."
+msgstr ""
+
+#: ../moduleset-syntax.rst:338
+msgid "The href is a URI reference to the module set to be included, relative to the file containing the ``include`` element."
+msgstr ""
+
+#: ../moduleset-syntax.rst:341
+msgid "Only module definitions are imported from the referenced module set - module sources are not. Multiple levels of includes are allowed, but include loops are not (there isn't any code to handle loops at the moment)."
+msgstr ""
+
+#: ../moduleset-syntax.rst:347
+msgid "Module Definitions"
+msgstr ""
+
+#: ../moduleset-syntax.rst:349
+msgid "There are various types of module definitions that can be used in a module set file, and the list can easily be extended. Only the most common ones will be mentioned here."
+msgstr ""
+
+#: ../moduleset-syntax.rst:353
+msgid "They are all basically composed of a ``branch`` element describing how to get the module and ``dependencies``, ``suggests`` and ``after`` elements to declare the dependencies of the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:357
+msgid "Any modules listed in the ``dependencies`` element will be added to the module list for ``jhbuild build`` if it isn't already included, and make sure the dependent modules are built first."
+msgstr ""
+
+#: ../moduleset-syntax.rst:361
+msgid "After generating the modules list, the modules listed in the suggests element will be used to further sort the modules list (although it will not pull any additional modules). This is intended for cases where a module has an optional dependency on another module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:369
+msgid "autotools"
+msgstr ""
+
+#: ../moduleset-syntax.rst:371
+msgid "The ``autotools`` element is used to define a module which is compiled using the GNU Autotools build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:407
+msgid "The autogenargs and makeargs and ``makeinstallargs`` attributes are used to specify additional arguments to pass to ``autogen.sh``, ``make`` and ``make install`` respectively."
+msgstr ""
+
+#: ../moduleset-syntax.rst:411
+msgid "The ``autogen-sh`` attribute specifies the name of the autogen.sh script to run. The value ``autoreconf`` can be used if your module has no ``autogen.sh`` script equivalent. In that case, JHBuild will run ``autoreconf -fi``, followed by the proper ``configure``. skip-autogen chooses whether or not to run autogen.sh, it is a boolean with an extra ``never`` value to tell JHBuild to never skip running ``autogen.sh``. ``skip-install`` is a boolean attribute specifying whether to skip ``make install`` command on the module. makefile specifies the filename of the makefile to use."
+msgstr ""
+
+#: ../moduleset-syntax.rst:421
+msgid "The ``uninstall-before-install`` specifies any old installed files from the module should before removed before running the install step. This can be used to work around a problem where libtool tries to link one library it is installing against another library it is installing, but because of jhbuild's use of ``DESTDIR``, finds the old installed library instead. The downside of specifying this is that it could cause problems if the user is currently running code that relies on installed files from the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:430
+msgid "The ``supports-non-srcdir-builds`` attribute is used to mark modules that can't be cleanly built using a separate source directory."
+msgstr ""
+
+#: ../moduleset-syntax.rst:433
+#: ../moduleset-syntax.rst:500
+msgid "The ``force-non-srcdir-builds`` attribute is used to mark modules that can't be cleanly built from the source directory, but can be built from outside it."
+msgstr ""
+
+#: ../moduleset-syntax.rst:437
+msgid "The ``autogen-template`` attribute can be used if you need finer control over the autogen command line. It is a python format string, which will be substituted with the following variables: ``srcdir``, ``autogen-sh``, ``prefix``, ``libdir``, and ``autogenargs``. For example, here is the default autogen-template:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:447
+msgid "The ``check-target`` attribute must be specified (with false as value) for modules that do not have a ``make check`` target."
+msgstr ""
+
+#: ../moduleset-syntax.rst:450
+msgid "The ``supports-static-analyzer`` attribute must be specified (with false as value) for modules which don’t support being built under a static analysis tool such as ``scan-build``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:454
+msgid "The ``supports-unknown-configure-options`` attribute is used to mark modules that will error out if an unknown option is passed to ``configure``. Global configure options will not be used for that module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:459
+msgid "cmake"
+msgstr ""
+
+#: ../moduleset-syntax.rst:461
+msgid "The ``cmake`` element is used to define a module which is built using the CMake build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:488
+msgid "The ``cmakeargs`` attribute is used to specify additional arguments to pass to ``cmake``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:491
+#: ../moduleset-syntax.rst:539
+msgid "The ``ninjaargs`` attribute is used to specify additional arguments to pass to ``ninja``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:494
+#: ../moduleset-syntax.rst:609
+msgid "The ``makeargs`` attribute is used to specify additional arguments to pass to ``make``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:497
+msgid "The ``cmakedir`` attribute specifies the subdirectory where cmake will run in relation to srcdir."
+msgstr ""
+
+#: ../moduleset-syntax.rst:504
+msgid "The ``use-ninja`` attribute is used to mark modules should be built using the Ninja backend for cmake, instead of the Make backend. The default is to use the Ninja backend."
+msgstr ""
+
+#: ../moduleset-syntax.rst:511
+msgid "meson"
+msgstr ""
+
+#: ../moduleset-syntax.rst:513
+msgid "The ``meson`` element is used to define a module which is configured using the Meson build system and built using the Ninja build tool."
+msgstr ""
+
+#: ../moduleset-syntax.rst:536
+msgid "The ``mesonargs`` attribute is used to specify additional arguments to pass to ``meson``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:545
+msgid "distutils"
+msgstr ""
+
+#: ../moduleset-syntax.rst:547
+msgid "The ``distutils`` element is used to define a module which is built using python's distutils."
+msgstr ""
+
+#: ../moduleset-syntax.rst:571
+msgid "linux"
+msgstr ""
+
+#: ../moduleset-syntax.rst:573
+msgid "The ``linux`` element defines a module used to build a linux kernel. In addition, a separate kernel configuration can be chosen using the kconfig subelement."
+msgstr ""
+
+#: ../moduleset-syntax.rst:605
+msgid "perl"
+msgstr ""
+
+#: ../moduleset-syntax.rst:607
+msgid "The ``perl`` element is used to build perl modules."
+msgstr ""
+
+#: ../moduleset-syntax.rst:635
+msgid "systemmodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:637
+msgid "The ``systemmodule`` element is used to specify modules that must be provided by the system. The module should be installed by your distributions package management system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:649
+msgid "If the system module does not provide a pkg-config file, systemdependencies tag can be used to identify the dependencies. Two values are supported by the ``type`` attribute of the dep tag:"
+msgstr ""
+
+#: ../moduleset-syntax.rst:653
+msgid "``path`` value. The path is searched for the matching program name."
+msgstr ""
+
+#: ../moduleset-syntax.rst:655
+msgid "``c_include`` value. The C include path is searched for the matching header name. name may include a sub-directory. The C include search path can modified by setting ``CPPFLAGS`` within the configuration variables ``cflags`` or :ref:`module_autogenargs`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:676
+msgid "If the system module may be installed in different locations or installed with different names by different distributions, altdep tag can be used as subelements of dep tag to specify alternative locations or names. altdep tag support the same attributes as dep tag does."
+msgstr ""
+
+#: ../moduleset-syntax.rst:708
+msgid "waf"
+msgstr ""
+
+#: ../moduleset-syntax.rst:710
+msgid "The ``waf`` element is used to define a module which is built using the Waf build system."
+msgstr ""
+
+#: ../moduleset-syntax.rst:713
+msgid "The ``waf-command`` attribute is used to specify the waf command script to use; it defaults to ``waf``."
+msgstr ""
+
+#: ../moduleset-syntax.rst:716
+msgid "The ``python-command`` attribute is used to specify the Python executable to use; it defaults to ``python``. This is useful to build modules against version 3 of Python."
+msgstr ""
+
+#: ../moduleset-syntax.rst:742
+msgid "testmodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:744
+msgid "The ``testmodule`` element is used to create a module which runs a suite of tests using LDTP or Dogtail."
+msgstr ""
+
+#: ../moduleset-syntax.rst:771
+msgid "The ``type`` attribute gives the type of tests to be run in the module. 'dogtail' uses python to invoke all .py files. 'ldtp' invokes 'ldtprunner run.xml'."
+msgstr ""
+
+#: ../moduleset-syntax.rst:775
+msgid "Unless the :ref:`noxvfb` configuration option is set, an Xvfb server is started to run the tests in."
+msgstr ""
+
+#: ../moduleset-syntax.rst:781
+msgid "metamodule"
+msgstr ""
+
+#: ../moduleset-syntax.rst:783
+msgid "The ``metamodule`` element defines a module that doesn't actually do anything. The only purpose of a module of this type is its dependencies."
+msgstr ""
+
+#: ../moduleset-syntax.rst:786
+msgid "For example, meta-gnome-desktop depends on all the key components of the GNOME desktop, therefore telling JHBuild to install it actually installs the full desktop."
+msgstr ""
+
+#: ../moduleset-syntax.rst:803
+msgid "The ``id`` attribute gives the name of the module. The child elements are handled as for :ref:`autotools`."
+msgstr ""
+
+#: ../moduleset-syntax.rst:807
+msgid "Deprecated Elements"
+msgstr ""
+
+#: ../moduleset-syntax.rst:815
+msgid "cvsroot"
+msgstr ""
+
+#: ../moduleset-syntax.rst:817
+msgid "The ``cvsroot`` element is now deprecated - the ``repository`` element should be used instead."
+msgstr ""
+
+#: ../moduleset-syntax.rst:820
+msgid "The ``cvsroot`` element is used to describe a CVS repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:829
+msgid "The ``name`` attribute should be a unique identifier for the CVS repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:831
+#: ../moduleset-syntax.rst:857
+msgid "The ``default`` attribute says whether this is the default module source for this module set file."
+msgstr ""
+
+#: ../moduleset-syntax.rst:834
+msgid "The ``root`` attribute lists the CVS root used for anonymous access to this repository, and the ``password`` attribute gives the password used for anonymous access."
+msgstr ""
+
+#: ../moduleset-syntax.rst:841
+msgid "svnroot"
+msgstr ""
+
+#: ../moduleset-syntax.rst:843
+msgid "The ``svnroot`` element is now deprecated - the ``repository`` element should be used instead."
+msgstr ""
+
+#: ../moduleset-syntax.rst:846
+msgid "The ``svnroot`` element is used to describe a Subversion repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:854
+msgid "The ``name`` attribute should be a unique identifier for the Subversion repository."
+msgstr ""
+
+#: ../moduleset-syntax.rst:860
+msgid "The ``href`` attribute lists the base URL for the repository. This will probably be either a ``http``, ``https`` or ``svn`` URL."
+msgstr ""
+
+#: ../moduleset-syntax.rst:864
+msgid "Deprecated Module Types"
+msgstr ""
+
+#: ../moduleset-syntax.rst:868
+msgid "This section describes deprecated elements, they may still be used in existing module sets but it is advised not to use them anymore."
+msgstr ""
+
+#: ../moduleset-syntax.rst:874
+msgid "tarball"
+msgstr ""
+
+#: ../moduleset-syntax.rst:878
+msgid "This deprecated element is just a thin wrapper around both autotools module type and tarball repository type."
+msgstr ""
+
+#: ../moduleset-syntax.rst:881
+msgid "The ``tarball`` element is used to define a module that is to be built from a tarball."
+msgstr ""
+
+#: ../moduleset-syntax.rst:911
+msgid "The ``id`` and ``version`` attributes are used to identify the module."
+msgstr ""
+
+#: ../moduleset-syntax.rst:913
+msgid "The ``source`` element specifies the file to download and compile. The ``href`` attribute is mandatory, while the ``size`` and ``hash``, as well as the obsolete ``md5sum``, attributes are optional. If these last two attributes are present, they are used to check that the source package was downloaded correctly."
+msgstr ""
+
+#: ../moduleset-syntax.rst:919
+msgid "The ``patches`` element is used to specify one or more patches to apply to the source tree after unpacking, the ``file`` attribute gives the patch filename, and the ``strip`` attribute says how many levels of directories to prune when applying the patch."
+msgstr ""
+
+#: ../moduleset-syntax.rst:931
+msgid "The other attributes and the ``dependencies``, ``suggests`` and ``after`` elements are processed as for :ref:`autotools`."
+msgstr ""
