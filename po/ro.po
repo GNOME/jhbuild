@@ -8,9 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2022-07-12 11:19+0000\n"
-"PO-Revision-Date: 2023-04-18 14:35+0300\n"
-"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"POT-Creation-Date: 2023-10-11 07:37+0000\n"
+"PO-Revision-Date: 2023-10-11 14:34+0300\n"
+"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
+"gmail [dot] com>\n"
 "Language-Team: Gnome Romanian Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -18,35 +19,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && "
 "n%100<=19) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: autogen.sh:110
+#: autogen.sh:109
 #, sh-format
 msgid "Configuring $PKG_NAME without autotools"
 msgstr "Se configurează $PKG_NAME fără autotools"
 
-#: autogen.sh:133 autogen.sh:138
+#: autogen.sh:132 autogen.sh:137
 #, sh-format
 msgid "Unable to create file $srcdir/Makefile.inc"
 msgstr "Nu s-a putut crea fișierul $srcdir/Makefile.inc"
 
-#: autogen.sh:158
+#: autogen.sh:157
 #, sh-format
 msgid "Unable to read file $makefile"
 msgstr "Nu s-a putut citi fișierul $makefile"
 
-#: autogen.sh:163
+#: autogen.sh:162
 #, sh-format
 msgid "Unable to copy $makefile to $srcdir/Makefile"
 msgstr "Nu s-a putut copia $makefile la $srcdir/Makefile"
 
-#: autogen.sh:168
+#: autogen.sh:167
 #, sh-format
 msgid "Now type `make' to compile $PKG_NAME"
 msgstr "Acum tastați „make” pentru a compila $PKG_NAME"
 
-#: autogen.sh:228
+#: autogen.sh:227
 #, sh-format
 msgid ""
 "**Error**: Directory `$srcdir' does not look like the top-level $PKG_NAME "
@@ -55,36 +56,29 @@ msgstr ""
 "**Eroare**: Directorul „$srcdir” nu arată ca un director de nivel înalt "
 "pentru $PKG_NAME"
 
-#: autogen.sh:282
+#: autogen.sh:274
 msgid "WARNING: aclocal not available (usually part of package 'autoconf')"
 msgstr ""
 "AVERTISMENT: aclocal nu este disponibil (de obicei face parte din pachetul "
 "„autoconf”)"
 
-#: autogen.sh:285
+#: autogen.sh:277
 msgid "WARNING: automake not available (usually part of package 'automake')"
 msgstr ""
 "AVERTISMENT: automake nu este disponibil (de obicei face parte din pachetul "
 "„automake”)"
 
-#: autogen.sh:288
+#: autogen.sh:280
 msgid "WARNING: autopoint not available (usually part of package 'gettext')"
 msgstr ""
 "AVERTISMENT: autopoint nu este disponibil (de obicei face parte din pachetul "
 "„gettext”)"
 
-#: autogen.sh:291
+#: autogen.sh:283
 msgid "WARNING: pkg-config not available (usually part of package 'pkgconfig')"
 msgstr ""
 "AVERTISMENT: pkg-config nu este disponibil (de obicei face parte din "
 "pachetul „pkgconfig”)"
-
-#: autogen.sh:294
-msgid ""
-"WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
-msgstr ""
-"AVERTISMENT: yelp-tools nu este disponibil (de obicei face parte din "
-"pachetul „yelp-tools”)"
 
 #: jhbuild/commands/autobuild.py:28
 msgid "Build modules non-interactively and upload results to JhAutobuild"
@@ -737,7 +731,7 @@ msgstr "prefixul de instalare (%s) nu este inscriptibil"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:105 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:503 jhbuild/versioncontrol/hg.py:105
+#: jhbuild/versioncontrol/git.py:505 jhbuild/versioncontrol/hg.py:105
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:322
 #, python-format
 msgid "%s not found"
@@ -902,12 +896,17 @@ msgstr ""
 msgid "could not load config defaults"
 msgstr "nu s-au putut încărca implicitele config"
 
-#: jhbuild/config.py:123
+#: jhbuild/config.py:125
+#, python-format
+msgid "could not load system config %s"
+msgstr "nu s-a putut încărca configurarea sistemului %s"
+
+#: jhbuild/config.py:134
 #, python-format
 msgid "could not load config file, %s is missing"
 msgstr "nu s-a putut încărca fișierul config, lipsește %s"
 
-#: jhbuild/config.py:129
+#: jhbuild/config.py:140
 #, python-format
 msgid ""
 "The default location of the configuration file has changed. Please move "
@@ -916,21 +915,21 @@ msgstr ""
 "Locația implicită a fișierului de configurare s-a modificat. Mutați "
 "%(old_path)s la %(new_path)s."
 
-#: jhbuild/config.py:188
+#: jhbuild/config.py:199
 #, python-format
 msgid "Could not include config file (%s)"
 msgstr "Nu s-a putut include fișierul config (%s)"
 
-#: jhbuild/config.py:202
+#: jhbuild/config.py:213
 msgid "could not load config file"
 msgstr "nu s-a putut încărca fișierul config"
 
-#: jhbuild/config.py:216
+#: jhbuild/config.py:227
 #, python-format
 msgid "unknown keys defined in configuration file: %s"
 msgstr "chei necunoscute definite în fișierul de configuație: %s"
 
-#: jhbuild/config.py:223
+#: jhbuild/config.py:234
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use "
@@ -939,50 +938,50 @@ msgstr ""
 "variabila de configurație „%s” este depășită, ar trebui să folosiți "
 "„repos[„gnome.org”]”."
 
-#: jhbuild/config.py:228 jhbuild/config.py:233
+#: jhbuild/config.py:239 jhbuild/config.py:244
 #, python-format
 msgid ""
 "the \"%s\" configuration variable is deprecated, you should use \"repos\"."
 msgstr ""
 "variabila de configurați „%s” este depășită, ar trebui să folosiți „repos”."
 
-#: jhbuild/config.py:267
+#: jhbuild/config.py:278
 msgid "invalid checkout mode"
 msgstr "mod de plecare nevalid"
 
-#: jhbuild/config.py:271
+#: jhbuild/config.py:282
 #, python-format
 msgid "invalid checkout mode (module: %s)"
 msgstr "mod de plecare nevalid (modul: %s)"
 
-#: jhbuild/config.py:273
+#: jhbuild/config.py:284
 msgid "copy mode requires copy_dir to be set"
 msgstr "modul de copiere necesită copy_dir stabilit"
 
-#: jhbuild/config.py:278
+#: jhbuild/config.py:289
 #, python-format
 msgid "modulesets directory (%s) not found, disabling use_local_modulesets"
 msgstr ""
 "nu s-a putut găsi dosarul modulesets (%s), se dezactivează "
 "use_local_modulesets"
 
-#: jhbuild/config.py:284 jhbuild/config.py:286 jhbuild/config.py:288
-#: jhbuild/config.py:290 jhbuild/config.py:293
+#: jhbuild/config.py:295 jhbuild/config.py:297 jhbuild/config.py:299
+#: jhbuild/config.py:301 jhbuild/config.py:304
 #, python-format
 msgid "%s must be an absolute path"
 msgstr "%s trebuie să fie o cale absolută"
 
-#: jhbuild/config.py:304
+#: jhbuild/config.py:315
 #, python-format
 msgid "install prefix (%s) can not be created"
 msgstr "prefixul de instalare (%s) nu poate fi creat"
 
-#: jhbuild/config.py:311
+#: jhbuild/config.py:322
 #, python-format
 msgid "working directory (%s) can not be created"
 msgstr "dosarul de lucru (%s) nu a putut fi creat"
 
-#: jhbuild/config.py:314
+#: jhbuild/config.py:325
 msgid ""
 "Your install prefix contains a 'lib64' directory, which is no longer "
 "supported by jhbuild.  This is likely the result of a previous build with an "
@@ -995,11 +994,11 @@ msgstr ""
 "deteriorat.  Considerați eliminarea instalării dumneavoastră și aduceți "
 "directoarele apoi începeți de la zero."
 
-#: jhbuild/config.py:392
+#: jhbuild/config.py:403
 msgid "Failed to parse 'min_age' relative time"
 msgstr "S-a eșuat analizarea orei relative „min_age”"
 
-#: jhbuild/config.py:407
+#: jhbuild/config.py:418
 msgid ""
 "quiet mode has been disabled because the Python curses module is missing."
 msgstr "modul liniștit a fost dezactivat deoarece lipsește modulul Python."
@@ -1615,7 +1614,7 @@ msgstr ""
 msgid "Failed to delete %(file)r: %(msg)s"
 msgstr "Eșec la ștergerea %(file)r: %(msg)s"
 
-#: jhbuild/utils/systeminstall.py:233
+#: jhbuild/utils/systeminstall.py:234
 msgid ""
 "No suitable root privilege command found; you should install \"sudo\" or "
 "\"pkexec\" (or the system package that provides it)"
@@ -1623,30 +1622,30 @@ msgstr ""
 "Nu a fost găsită nicio comandă potrivită cu drepturi de root; ar trebui să "
 "instalați „sudo” sau „pkexec” (sau pachetul de sistem ce îl oferă)"
 
-#: jhbuild/utils/systeminstall.py:262 jhbuild/utils/systeminstall.py:265
+#: jhbuild/utils/systeminstall.py:263 jhbuild/utils/systeminstall.py:266
 #, python-format
 msgid "PackageKit: %s"
 msgstr "PackageKit: %s"
 
-#: jhbuild/utils/systeminstall.py:272
+#: jhbuild/utils/systeminstall.py:273
 msgid "Error: python-gobject package not found."
 msgstr "Eroare: pachetul python-gobject nu a fost găsit."
 
-#: jhbuild/utils/systeminstall.py:278
+#: jhbuild/utils/systeminstall.py:279
 msgid "Error: dbus-python package not found."
 msgstr "Eroare: pachetul dbus-python nu a fost găsit."
 
-#: jhbuild/utils/systeminstall.py:295
+#: jhbuild/utils/systeminstall.py:296
 msgid "Computing packages to install. This might be slow. Please wait."
 msgstr ""
 "Se calculează pachetele de instalat. Această acțiune poate fi lentă. "
 "Așteptați."
 
-#: jhbuild/utils/systeminstall.py:325
+#: jhbuild/utils/systeminstall.py:326
 msgid "Nothing available to install"
 msgstr "Nimic disponibil de instalat"
 
-#: jhbuild/utils/systeminstall.py:328
+#: jhbuild/utils/systeminstall.py:329
 #, python-format
 msgid ""
 "Installing:\n"
@@ -1655,7 +1654,7 @@ msgstr ""
 "Se instalează:\n"
 "  %s"
 
-#: jhbuild/utils/systeminstall.py:329
+#: jhbuild/utils/systeminstall.py:330
 msgid ""
 "This might take a very long time. Do not turn off your computer. You can run "
 "'pkmon' to monitor progress."
@@ -1663,73 +1662,73 @@ msgstr ""
 "Aceasta poate dura un timp îndelungat. Nu opriți calculatorul. Puteți rula "
 "„pkmon” pentru a monitoriza progresul."
 
-#: jhbuild/utils/systeminstall.py:335
+#: jhbuild/utils/systeminstall.py:336
 msgid "Complete!"
 msgstr "Finalizat!"
 
-#: jhbuild/utils/systeminstall.py:348
+#: jhbuild/utils/systeminstall.py:349
 msgid "Using dnf to install packages.  Please wait."
 msgstr "Se folosește dnf pentru a instala pachete.  Așteptați."
 
-#: jhbuild/utils/systeminstall.py:352 jhbuild/utils/systeminstall.py:362
-#: jhbuild/utils/systeminstall.py:410 jhbuild/utils/systeminstall.py:428
-#: jhbuild/utils/systeminstall.py:583
+#: jhbuild/utils/systeminstall.py:353 jhbuild/utils/systeminstall.py:363
+#: jhbuild/utils/systeminstall.py:411 jhbuild/utils/systeminstall.py:429
+#: jhbuild/utils/systeminstall.py:584
 msgid "Nothing to install"
 msgstr "Nimic de instalat"
 
-#: jhbuild/utils/systeminstall.py:370 jhbuild/utils/systeminstall.py:433
+#: jhbuild/utils/systeminstall.py:371 jhbuild/utils/systeminstall.py:434
 msgid "Install failed"
 msgstr "Instalarea a eșuat"
 
-#: jhbuild/utils/systeminstall.py:372 jhbuild/utils/systeminstall.py:435
+#: jhbuild/utils/systeminstall.py:373 jhbuild/utils/systeminstall.py:436
 msgid "Completed!"
 msgstr "Finalizată!"
 
-#: jhbuild/utils/systeminstall.py:385
+#: jhbuild/utils/systeminstall.py:386
 msgid "pkgfile not found, automatically installing"
 msgstr "pkgfile nu a fost găsită, se instalează automat"
 
-#: jhbuild/utils/systeminstall.py:387
+#: jhbuild/utils/systeminstall.py:388
 msgid "Failed to install pkgfile"
 msgstr "Eșec la instalarea pkgfile"
 
-#: jhbuild/utils/systeminstall.py:393
+#: jhbuild/utils/systeminstall.py:394
 msgid "pkgfile cache is old or doesn't exist, automatically updating"
 msgstr "cache-ul pkgfile este vechi sau nu există, se actualizează automat"
 
-#: jhbuild/utils/systeminstall.py:396
+#: jhbuild/utils/systeminstall.py:397
 msgid "Failed to create pkgfile cache"
 msgstr "Eșec la crearea cache-ului pentru pkgfile"
 
-#: jhbuild/utils/systeminstall.py:399
+#: jhbuild/utils/systeminstall.py:400
 msgid "Failed to update pkgfile cache"
 msgstr "Eșec la actualizarea cache-ului pentru pkgfile"
 
-#: jhbuild/utils/systeminstall.py:401
+#: jhbuild/utils/systeminstall.py:402
 msgid "Successfully updated pkgfile cache"
 msgstr "Succes la actualizarea cache-ului pentru pkgfile"
 
-#: jhbuild/utils/systeminstall.py:406
+#: jhbuild/utils/systeminstall.py:407
 msgid "Using pacman to install packages.  Please wait."
 msgstr "Se folosește pacman pentru a instala pachete.  Așteptați."
 
-#: jhbuild/utils/systeminstall.py:425
+#: jhbuild/utils/systeminstall.py:426
 #, python-format
 msgid "Provider for \"%s\" was not found, ignoring"
 msgstr "Furnizorul pentru „%s” nu a fost găsit, se ignoră"
 
-#: jhbuild/utils/systeminstall.py:517 jhbuild/utils/systeminstall.py:528
-#: jhbuild/utils/systeminstall.py:542
+#: jhbuild/utils/systeminstall.py:518 jhbuild/utils/systeminstall.py:529
+#: jhbuild/utils/systeminstall.py:543
 #, python-format
 msgid "No native package found for %(id)s (%(filename)s)"
 msgstr "Nu s-a găsit un pachet nativ pentru %(id)s (%(filename)s)"
 
-#: jhbuild/utils/systeminstall.py:547
+#: jhbuild/utils/systeminstall.py:548
 #, python-format
 msgid "Installing: %(pkgs)s"
 msgstr "Se instalează: %(pkgs)s"
 
-#: jhbuild/utils/systeminstall.py:557
+#: jhbuild/utils/systeminstall.py:558
 msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
@@ -1811,8 +1810,8 @@ msgstr ""
 
 #: jhbuild/versioncontrol/darcs.py:81 jhbuild/versioncontrol/darcs.py:87
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:615 jhbuild/versioncontrol/git.py:655
-#: jhbuild/versioncontrol/git.py:731 jhbuild/versioncontrol/hg.py:89
+#: jhbuild/versioncontrol/git.py:617 jhbuild/versioncontrol/git.py:657
+#: jhbuild/versioncontrol/git.py:733 jhbuild/versioncontrol/hg.py:89
 #: jhbuild/versioncontrol/hg.py:95
 msgid "date based checkout not yet supported\n"
 msgstr "verificarea pe bază de dată nu este încă admisă\n"
@@ -1852,7 +1851,7 @@ msgstr "Comanda %s nu a întors niciun rezultat"
 msgid "Command %s did not include commit line: %r"
 msgstr "Comanda %s nu a inclus linia comisă: %r"
 
-#: jhbuild/versioncontrol/git.py:475
+#: jhbuild/versioncontrol/git.py:477
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1860,7 +1859,7 @@ msgstr ""
 "Actualizarea modulului a eșuat deoarece s-a comutat la git (ar trebui să "
 "verificați pentru modificări apoi să eliminați dosarul)."
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:478
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1868,7 +1867,7 @@ msgstr ""
 "Actualizarea modulului a eșuat (lipsește .git) (ar trebui să verificați "
 "pentru modificări apoi să eliminați dosarul)."
 
-#: jhbuild/versioncontrol/git.py:580
+#: jhbuild/versioncontrol/git.py:582
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1876,7 +1875,7 @@ msgstr ""
 "Gestionarea externă a eșuat\n"
 " Dacă rulați versiunea git < 1.5.6 este recomandat să actualizați.\n"
 
-#: jhbuild/versioncontrol/git.py:627
+#: jhbuild/versioncontrol/git.py:629
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
@@ -2017,6 +2016,12 @@ msgstr "nu s-a putut găsi quilt"
 #: jhbuild/versioncontrol/tarball.py:328
 msgid "could not checkout quilt patch set"
 msgstr "nu s-a putut verifica setul de patch quilt"
+
+#~ msgid ""
+#~ "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
+#~ msgstr ""
+#~ "AVERTISMENT: yelp-tools nu este disponibil (de obicei face parte din "
+#~ "pachetul „yelp-tools”)"
 
 #~ msgid "Python XML packages are required but could not be found"
 #~ msgstr "Sunt necesare pachete XML Python dar nu au putut fi găsite"
