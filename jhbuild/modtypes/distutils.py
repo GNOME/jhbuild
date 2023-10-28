@@ -20,6 +20,7 @@
 __metaclass__ = type
 
 import os
+import sys
 
 from jhbuild.utils import _
 from jhbuild.modtypes import \
@@ -82,6 +83,10 @@ class DistutilsModule(Package, DownloadableModule):
 
     @property
     def extra_env(self):
+        # distutils was removed from the stdlib in 3.12.
+        if sys.version_info.major > 3 or sys.version_info.minor >= 12:
+            return super().extra_env
+
         return {
             **(super().extra_env or {}),
             # Setuptools v60+ changes the way it builds wheels (prefix/local/lib)
