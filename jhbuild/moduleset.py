@@ -17,11 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import generators
-
 import os
 import sys
 import logging
+from urllib.parse import urlparse, urljoin
 import xml.dom.minidom
 import xml.parsers.expat
 
@@ -37,8 +36,7 @@ from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.modtypes.systemmodule import SystemModule
 from jhbuild.versioncontrol.tarball import TarballBranch
 from jhbuild.utils import systeminstall
-from jhbuild.utils import fileutils, urlutils
-from jhbuild.utils.compat import iteritems
+from jhbuild.utils import fileutils
 
 __all__ = ['load', 'load_tests', 'get_default_repo']
 
@@ -364,7 +362,7 @@ def load(config, uri=None):
                 uri = os.path.join(config.modulesets_dir, uri + '.modules')
             elif os.path.isfile(os.path.join(config.modulesets_dir, uri)):
                 uri = os.path.join(config.modulesets_dir, uri)
-        elif not urlutils.urlparse(uri)[0]:
+        elif not urlparse(uri)[0]:
             uri = 'https://gitlab.gnome.org/GNOME/jhbuild/raw/master/modulesets' \
                   '/%s.modules' % uri
         ms.modules.update(_parse_module_set(config, uri).modules)
@@ -386,7 +384,7 @@ def load(config, uri=None):
 def load_tests (config, uri=None):
     ms = load (config, uri)
     ms_tests = ModuleSet(config = config)
-    for app, module in iteritems(ms.modules):
+    for app, module in ms.modules.items():
         if module.__class__ == TestModule:
             ms_tests.modules[app] = module
     return ms_tests
@@ -526,7 +524,7 @@ def _parse_module_set(config, uri):
     for node in _child_elements(document.documentElement):
         if node.nodeName == 'include':
             href = node.getAttribute('href')
-            inc_uri = urlutils.urljoin(uri, href)
+            inc_uri = urljoin(uri, href)
             try:
                 inc_moduleset = _parse_module_set(config, inc_uri)
             except UndefinedRepositoryError:

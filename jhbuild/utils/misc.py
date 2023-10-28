@@ -12,16 +12,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
+import builtins
 import os
 import sys
 import importlib
 import pkgutil
 import locale
-import codecs
 
-from .compat import text_type, PY2, builtins, PY3
+
+def execfile(filename, globals=None, locals=None):
+    if globals is None:
+        frame = sys._getframe(1)
+        globals = frame.f_globals
+        if locals is None:
+            locals = frame.f_locals
+        del frame
+    elif locals is None:
+        locals = globals
+
+    with open(filename, "rb") as f:
+        source = f.read()
+    code = compile(source, filename, "exec")
+    exec(code, globals, locals)
+
 
 def inpath(filename, path):
     for dir in path:
@@ -59,13 +72,13 @@ _encoding = _get_encoding()
 
 
 def uencode(s):
-    if isinstance(s, text_type):
+    if isinstance(s, str):
         return s.encode(_encoding, 'replace')
     else:
         return s
 
 def udecode(s):
-    if not isinstance(s, text_type):
+    if not isinstance(s, str):
         return s.decode(_encoding, 'replace')
     else:
         return s
@@ -74,41 +87,26 @@ def bprint(data):
     '''Write some binary data as is to stdout'''
 
     assert isinstance(data, bytes)
-    if PY2:
-        sys.stdout.write(data)
-    else:
-        sys.stdout.flush()
-        sys.stdout.buffer.write(data)
+    sys.stdout.flush()
+    sys.stdout.buffer.write(data)
 
 def uprint(*args, **kwargs):
     '''Print Unicode string encoded for the terminal'''
 
-    if PY2:
-        flush = kwargs.pop("flush", False)
-        file = kwargs.get("file", sys.stdout)
-        print(*[uencode(s) for s in args], **kwargs)
-        if flush:
-            file.flush()
-    else:
-        print(*args, **kwargs)
+    print(*args, **kwargs)
 
 
 def uinput(prompt=None):
-    if PY2:
-        if prompt is not None:
-            prompt = uencode(prompt)
-        return udecode(builtins.raw_input(prompt))
-    else:
-        return builtins.input(prompt)
+    return builtins.input(prompt)
 
 
 def N_(x):
-    return text_type(x)
+    return str(x)
 
 _ugettext = None
 
 def _(x):
-    x = text_type(x)
+    x = str(x)
     if _ugettext is not None:
         return _ugettext(x)
     return x
@@ -117,10 +115,7 @@ def _(x):
 def install_translation(translation):
     global _ugettext
 
-    if PY2:
-        _ugettext = translation.ugettext
-    else:
-        _ugettext = translation.gettext
+    _ugettext = translation.gettext
 
 
 def open_text(filename, mode="r", encoding="utf-8", errors="strict"):
@@ -134,11 +129,4 @@ def open_text(filename, mode="r", encoding="utf-8", errors="strict"):
     if mode not in ("r", "w"):
         raise ValueError("mode %r not supported, must be 'r' or 'w'" % mode)
 
-    if PY3:
-        return open(filename, mode, encoding=encoding, errors=errors)
-    else:
-        # We can't use io.open() here as its write method is too strict and
-        # only allows unicode instances and not everything in the codebase
-        # forces unicode at the moment. codecs.open() on the other hand
-        # happily takes ASCII str and decodes it.
-        return codecs.open(filename, mode, encoding=encoding, errors=errors)
+    return open(filename, mode, encoding=encoding, errors=errors)

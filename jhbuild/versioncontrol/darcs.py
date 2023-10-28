@@ -22,10 +22,11 @@ __metaclass__ = type
 
 import os
 import hashlib
+from urllib.parse import urljoin
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _, urlutils
+from jhbuild.utils import inpath, _
 
 class DarcsRepository(Repository):
     """A class representing a Darcs repository.
@@ -53,7 +54,7 @@ class DarcsRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlutils.urljoin(self.href, module)
+            module = urljoin(self.href, module)
         return DarcsBranch(self, module, checkoutdir)
 
 

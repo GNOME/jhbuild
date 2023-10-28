@@ -28,16 +28,18 @@ and draws ideas from feedparser.py.  Strategies include:
       given, it defaults to 6 hours.
 '''
 
+from io import BytesIO
 import os
 import sys
 import time
 from email.utils import parsedate_tz, mktime_tz
 import gzip
+import urllib.error
+from urllib.parse import urlparse
+import urllib.request
 import xml.dom.minidom
 
 from jhbuild.utils import _
-from jhbuild.utils import urlutils
-from jhbuild.utils.compat import BytesIO
 
 def _parse_isotime(string):
     if string[-1] != 'Z':
@@ -142,7 +144,7 @@ class Cache:
         '''picks a unique name for a new entry in the cache.
         Very simplistic.'''
         # get the basename from the URI
-        parts = urlutils.urlparse(uri, allow_fragments=False)
+        parts = urlparse(uri, allow_fragments=False)
         base = parts[2].split('/')[-1]
         if not base:
             base = 'index.html'
@@ -162,7 +164,7 @@ class Cache:
         '''Downloads the file associated with the URI, and returns a local
         file name for contents.'''
         # pass file URIs straight through -- no need to cache them
-        parts = urlutils.urlparse(uri)
+        parts = urlparse(uri)
         if parts[0] in ('', 'file'):
             return parts[2]
         if sys.platform.startswith('win') and uri[1] == ':':
@@ -181,7 +183,7 @@ class Cache:
         if nonetwork:
             raise RuntimeError(_('file not in cache, but not allowed to check network'))
 
-        request = urlutils.Request(uri)
+        request = urllib.request.Request(uri)
         request.add_header('Accept-encoding', 'gzip')
         if entry:
             if entry.modified:
@@ -190,7 +192,7 @@ class Cache:
                 request.add_header('If-None-Match', entry.etag)
 
         try:
-            response = urlutils.urlopen(request)
+            response = urllib.request.urlopen(request)
 
             # get data, and gunzip it if it is encoded
             data = response.read()
@@ -210,7 +212,7 @@ class Cache:
             fp = open(filename, 'wb')
             fp.write(data)
             fp.close()
-        except urlutils.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if e.code == 304: # not modified; update validated
                 expires = e.hdrs.get('Expires')
                 filename = os.path.join(self.cachedir, entry.local)

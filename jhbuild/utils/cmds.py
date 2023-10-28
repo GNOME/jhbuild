@@ -25,7 +25,6 @@ import sys
 from signal import SIGINT
 from jhbuild.errors import CommandError
 from jhbuild.utils import _, udecode
-from jhbuild.utils.compat import string_types
 
 def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
     '''Return the output (stdout and stderr) from the command.
@@ -42,7 +41,7 @@ def get_output(cmd, cwd=None, extra_env=None, get_stderr = True):
         raise CommandError(_('Call to undefined command'))
 
     kws = {}
-    if isinstance(cmd, string_types):
+    if isinstance(cmd, str):
         kws['shell'] = True
     if cwd is not None:
         kws['cwd'] = cwd
@@ -112,7 +111,7 @@ class Pipeline(subprocess.Popen):
                 c2cwrite = stdout
 
             self.children.append(
-                subprocess.Popen(cmd, shell=isinstance(cmd, string_types),
+                subprocess.Popen(cmd, shell=isinstance(cmd, str),
                                  bufsize=bufsize, close_fds=True,
                                  cwd=cwd, env=env,
                                  stdin=stdin,
@@ -159,7 +158,7 @@ def spawn_child(command, use_pipe=False,
         p = Pipeline(command, cwd=cwd, env=env,
                      stdin=stdin, stdout=stdout, stderr=stderr)
     else:
-        p = subprocess.Popen(command, shell=isinstance(command, string_types),
+        p = subprocess.Popen(command, shell=isinstance(command, str),
                              close_fds=True, cwd=cwd, env=env,
                              stdin=stdin, stdout=stdout, stderr=stderr)
     return p

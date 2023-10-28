@@ -18,8 +18,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
 import sys
 import os
 import signal
@@ -32,7 +30,6 @@ from jhbuild.utils import trayicon
 from jhbuild.utils import notify
 from jhbuild.utils import uprint, _, uinput
 from jhbuild.errors import CommandError, FatalError
-from jhbuild.utils.compat import string_types
 
 term = os.environ.get('TERM', '')
 is_xterm = term.find('xterm') >= 0 or term == 'rxvt'
@@ -183,7 +180,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             except OSError:
                 pass
 
-        if isinstance(command, string_types):
+        if isinstance(command, str):
             kws['shell'] = True
             print_args['command'] = command
         else:

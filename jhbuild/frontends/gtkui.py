@@ -41,7 +41,6 @@ import jhbuild.moduleset
 from jhbuild.modtypes import MetaModule
 from jhbuild.errors import CommandError
 from jhbuild.utils import notify, _
-from jhbuild.utils.compat import string_types
 
 from .terminal import t_bold, t_reset
 
@@ -446,7 +445,7 @@ class AppWindow(Gtk.Window, buildscript.BuildScript):
         if not command:
             raise CommandError(_('No command given'))
 
-        if isinstance(command, string_types):
+        if isinstance(command, str):
             short_command = command.split()[0]
         else:
             short_command = command[0]
@@ -454,7 +453,7 @@ class AppWindow(Gtk.Window, buildscript.BuildScript):
         if Vte is None:
             textbuffer = self.terminal.get_buffer()
 
-            if isinstance(command, string_types):
+            if isinstance(command, str):
                 self.terminal.get_buffer().insert_with_tags_by_name(
                         textbuffer.get_end_iter(),
                         ' $ ' + command + '\n', 'stdin')
@@ -465,7 +464,7 @@ class AppWindow(Gtk.Window, buildscript.BuildScript):
 
             kws = {
                 'close_fds': True,
-                'shell': isinstance(command, string_types),
+                'shell': isinstance(command, str),
                 'stdin': subprocess.PIPE,
                 'stdout': subprocess.PIPE,
                 'stderr': subprocess.PIPE,
@@ -555,7 +554,7 @@ class AppWindow(Gtk.Window, buildscript.BuildScript):
             self.child_pid = None
         else:
             # use the vte widget
-            if isinstance(command, string_types):
+            if isinstance(command, str):
                 self.terminal.feed((' $ ' + command + '\n\r').encode("utf-8"))
                 command = [os.environ.get('SHELL', '/bin/sh'), '-c', command]
             else:

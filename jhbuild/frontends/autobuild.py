@@ -17,8 +17,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
 import os
 import time
 import subprocess
@@ -27,7 +25,6 @@ import locale
 import socket
 
 from jhbuild.utils import cmds, _
-from jhbuild.utils.compat import text_type, string_types
 from jhbuild.errors import CommandError
 from . import buildscript
 
@@ -47,7 +44,7 @@ def fix_encoding(string):
     s = 'VERY BORKEN ENCODING'
     for encoding in [charset, 'utf-8', 'iso-8859-15']:
         try:
-            s = text_type(string, encoding)
+            s = str(string, encoding)
         except ValueError:
             continue
         break
@@ -133,7 +130,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
         kws = {
             'close_fds': True
             }
-        if isinstance(command, string_types):
+        if isinstance(command, str):
             displayed_command = command
             kws['shell'] = True
         else:
@@ -268,7 +265,7 @@ class AutobuildBuildScript(buildscript.BuildScript, TerminalBuildScript):
                 self._upload_logfile(module)
 
         if isinstance(error, Exception):
-            error = text_type(error)
+            error = str(error)
         self.server.end_phase(self.build_id, module, phase, compress_data(log), error)
 
     def handle_error(self, module, phase, nextphase, error, altphases):

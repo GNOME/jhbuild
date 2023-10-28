@@ -26,7 +26,6 @@ import sys
 from jhbuild.utils import cmds
 from jhbuild.utils import sysid, _, open_text
 from jhbuild.errors import CommandError, FatalError
-from jhbuild.utils.compat import string_types
 from . import buildscript
 
 index_header = '''<html>
@@ -132,7 +131,7 @@ buildlog_footer = '''
 '''
 
 def escape(string):
-    assert isinstance(string, string_types)
+    assert isinstance(string, str)
     string = string.replace('&', '&amp;').replace('<','&lt;').replace(
             '>','&gt;').replace('\n','<br/>').replace(
             '\t','&nbsp;&nbsp;&nbsp;&nbsp;')
@@ -196,7 +195,7 @@ class TinderboxBuildScript(buildscript.BuildScript):
             print_args['cwd'] = os.getcwd()
 
         self.modulefp.write('<pre>')
-        if isinstance(command, string_types):
+        if isinstance(command, str):
             kws['shell'] = True
             print_args['command'] = command
         else:

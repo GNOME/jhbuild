@@ -23,6 +23,9 @@ __metaclass__ = type
 import os
 import hashlib
 import logging
+import urllib.error
+import urllib.parse
+import urllib.request
 import zipfile
 
 from jhbuild.errors import FatalError, CommandError, BuildStateError
@@ -32,7 +35,6 @@ from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
 from jhbuild.utils import httpcache, _
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils import urlutils
 
 
 class TarballRepository(Repository):
@@ -67,7 +69,7 @@ class TarballRepository(Repository):
         else:
             if module is None:
                 module = name
-            module = urlutils.urljoin(self.href, module)
+            module = urllib.parse.urljoin(self.href, module)
         module = module.replace('${version}', version)
         if checkoutdir is not None:
             checkoutdir = checkoutdir.replace('${version}', version)
@@ -257,19 +259,19 @@ class TarballBranch(Branch):
         # now patch the working tree
         for (patch, patchstrip) in self.patches:
             patchfile = ''
-            if urlutils.urlparse(patch)[0]:
+            if urllib.parse.urlparse(patch)[0]:
                 # patch name has scheme, get patch from network
                 try:
                     patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urlutils.HTTPError as e:
+                except urllib.error.HTTPError as e:
                     raise BuildStateError(_('could not download patch (error: %s)') % e.code)
-                except urlutils.URLError:
+                except urllib.error.URLError:
                     raise BuildStateError(_('could not download patch'))
             elif self.repository.moduleset_uri:
                 # get it relative to the moduleset uri, either in the same
                 # directory or a patches/ subdirectory
                 for patch_prefix in ('.', 'patches', '../patches'):
-                    uri = urlutils.urljoin(self.repository.moduleset_uri,
+                    uri = urllib.parse.urljoin(self.repository.moduleset_uri,
                             os.path.join(patch_prefix, patch))
                     try:
                         patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)

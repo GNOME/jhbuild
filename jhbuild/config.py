@@ -30,8 +30,7 @@ import logging
 
 from jhbuild.environment import setup_env, setup_env_defaults, addpath
 from jhbuild.errors import FatalError
-from jhbuild.utils import sysid, _
-from jhbuild.utils.compat import execfile
+from jhbuild.utils import execfile, sysid, _
 
 if sys.platform.startswith('win'):
     # For munging paths for MSYS's benefit

@@ -17,8 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
+from io import StringIO
 import os
 import sys 
 import logging
@@ -28,7 +27,6 @@ import textwrap
 import time
 import re
 
-from .compat import TextIO
 from . import cmds
 from . import _, udecode
 
@@ -451,7 +449,7 @@ class AptSystemInstall(SystemInstall):
         apt_file_result = subprocess.check_output(["apt-file", "search", "--regexp", regexp])
         apt_file_result = udecode(apt_file_result)
         ret_value = []
-        for line in TextIO(apt_file_result):
+        for line in StringIO(apt_file_result):
             parts = line.split(':', 1)
             if len(parts) != 2:
                 continue

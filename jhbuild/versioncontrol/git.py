@@ -26,28 +26,27 @@ import stat
 import subprocess
 import re
 import logging
+import urllib.parse
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils import urlutils, udecode
-from jhbuild.utils.urlutils import urlparse_mod
-from jhbuild.utils.compat import iterkeys
+from jhbuild.utils import udecode
 
 # Make sure that the urlparse module considers git:// and git+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
-if 'git' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('git')
-if 'git' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('git')
-if 'git+ssh' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('git+ssh')
-if 'git+ssh' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('git+ssh')
-if 'ssh' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('ssh')
+if 'git' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('git')
+if 'git' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('git')
+if 'git+ssh' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('git+ssh')
+if 'git+ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('git+ssh')
+if 'ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('ssh')
 
 def get_git_extra_env():
     # we run git without the JHBuild LD_LIBRARY_PATH and PATH, as it can
@@ -111,7 +110,7 @@ class GitRepository(Repository):
                 else:
                     if new_module:
                         module = new_module
-        if not (urlutils.urlparse(module)[0] or module[0] == '/'):
+        if not (urllib.parse.urlparse(module)[0] or module[0] == '/'):
             if self.href.endswith('/'):
                 base_href = self.href
             else:
@@ -584,7 +583,7 @@ class GitSvnBranch(GitBranch):
         # only parse the final match
         if match:
             branch = match.group(1)
-            external = urlutils.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
+            external = urllib.parse.unquote(match.group(2).replace("%0A", " ").strip("%20 ")).split()
             revision_expr = re.compile(r"-r(\d*)")
             i = 0
             while i < len(external):
@@ -597,7 +596,7 @@ class GitSvnBranch(GitBranch):
                     externals[external[i]] = (external[i+1], None)
                     i = i+2
         
-        for extdir in iterkeys(externals):
+        for extdir in externals.keys():
             uri = externals[extdir][0]
             revision = externals[extdir][1]
             extdir = cwd+os.sep+extdir

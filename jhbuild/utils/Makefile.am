@@ -3,7 +3,6 @@ appdir = $(pythondir)/jhbuild/utils/
 app_PYTHON = \
 	__init__.py \
 	cmds.py \
-	compat.py \
 	fileutils.py \
 	httpcache.py \
 	misc.py \
@@ -14,6 +13,5 @@ app_PYTHON = \
 	systeminstall.py \
 	trigger.py \
 	trayicon.py \
-	unpack.py \
-	urlutils.py
+	unpack.py
 

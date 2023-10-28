@@ -19,8 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
+import builtins
 import os
 import shutil
 import logging
@@ -29,8 +28,6 @@ import sys
 import glob
 import tempfile
 import unittest
-
-from jhbuild.utils.compat import builtins, iteritems
 
 SRCDIR = os.path.join(os.path.dirname(__file__), '..')
 
@@ -670,7 +667,7 @@ def restore_environ(env):
     # os.environ.clear() doesn't appear to change underlying environment.
     for key in os.environ.keys():
         del os.environ[key]
-    for key, value in iteritems(env):
+    for key, value in env.items():
         os.environ[key] = value
 
 

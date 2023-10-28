@@ -17,20 +17,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from __future__ import print_function
-
 __all__ = []
 __metaclass__ = type
 
 import os
 import subprocess
+import urllib.parse
 
 from jhbuild.errors import CommandError, BuildStateError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _, urlutils, udecode
+from jhbuild.utils import inpath, _, udecode
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils.urlutils import urlparse_mod
 
 svn_one_five = None # is this svn 1.5
 
@@ -42,14 +40,14 @@ def _make_uri(repo, path):
 
 # Make sure that the urlparse module considers svn:// and svn+ssh://
 # schemes to be netloc aware and set to allow relative URIs.
-if 'svn' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('svn')
-if 'svn' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('svn')
-if 'svn+ssh' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('svn+ssh')
-if 'svn+ssh' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('svn+ssh')
+if 'svn' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('svn')
+if 'svn' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('svn')
+if 'svn+ssh' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('svn+ssh')
+if 'svn+ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('svn+ssh')
 
 def get_svn_extra_env():
     # we run Subversion in the C locale, because Subversion localises
@@ -165,9 +163,9 @@ class SubversionRepository(Repository):
 
         # workaround for svn client not handling '..' in URL (#560246, #678869)
         if os.name != 'nt':
-            splitted_href = list(urlutils.urlsplit(module_href))
+            splitted_href = list(urllib.parse.urlsplit(module_href))
             splitted_href[2] = os.path.abspath(splitted_href[2])
-            module_href = urlutils.urlunsplit(splitted_href)
+            module_href = urllib.parse.urlunsplit(splitted_href)
 
         if self.svn_program == 'bzr' and not revision:
             return bzr.BzrBranch(self, module_href, checkoutdir)
@@ -276,11 +274,11 @@ class SubversionBranch(Branch):
 
         uri = get_uri(outputdir)
 
-        if urlutils.urlparse(uri)[:2] != urlutils.urlparse(self.module)[:2]:
+        if urllib.parse.urlparse(uri)[:2] != urllib.parse.urlparse(self.module)[:2]:
             # server and protocol changed, probably because user changed
             # svnroots[] config variable.
-            new_uri = urlutils.urlunparse(
-                    urlutils.urlparse(self.module)[:2] + urlutils.urlparse(uri)[2:])
+            new_uri = urllib.parse.urlunparse(
+                    urllib.parse.urlparse(self.module)[:2] + urllib.parse.urlparse(uri)[2:])
             cmd = ['svn', 'switch', '--relocate', uri, new_uri, '.']
             buildscript.execute(cmd, 'svn', cwd=outputdir,
                     extra_env=get_svn_extra_env())

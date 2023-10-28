@@ -17,11 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from io import IOBase
 import os
 import sys
 import subprocess as real_subprocess
-
-from .compat import file_type
 
 PIPE = real_subprocess.PIPE
 STDOUT = real_subprocess.STDOUT
@@ -133,7 +132,7 @@ class Popen(real_subprocess.Popen):
         if self.__emulate_close_fds:
             for f in self.stdin, self.stdout, self.stderr:
                 # This somehow tells us if we are dealing with a pipe.
-                if isinstance(f, file_type) and f.name == '<fdopen>':
+                if isinstance(f, IOBase) and f.name == '<fdopen>':
                     # Not that it actually matters.
                     f.close()
             sys.stdout.flush()

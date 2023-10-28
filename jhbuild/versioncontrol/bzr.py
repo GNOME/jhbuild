@@ -22,30 +22,30 @@ __metaclass__ = type
 
 import os
 import logging
+import urllib.parse
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _, urlutils
+from jhbuild.utils import inpath, _
 from jhbuild.utils.sxml import sxml
-from jhbuild.utils.urlutils import urlparse_mod
 
 # Make sure that the urlparse module considers bzr://, bzr+ssh://, sftp:// and lp:
 # scheme to be netloc aware and set to allow relative URIs.
-if 'bzr' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('bzr')
-if 'bzr' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('bzr')
-if 'bzr+ssh' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('bzr+ssh')
-if 'bzr+ssh' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('bzr+ssh')
-if 'sftp' not in urlparse_mod.uses_netloc:
-    urlparse_mod.uses_netloc.append('sftp')
-if 'sftp' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('sftp')
-if 'lp' not in urlparse_mod.uses_relative:
-    urlparse_mod.uses_relative.append('lp')
+if 'bzr' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('bzr')
+if 'bzr' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('bzr')
+if 'bzr+ssh' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('bzr+ssh')
+if 'bzr+ssh' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('bzr+ssh')
+if 'sftp' not in urllib.parse.uses_netloc:
+    urllib.parse.uses_netloc.append('sftp')
+if 'sftp' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('sftp')
+if 'lp' not in urllib.parse.uses_relative:
+    urllib.parse.uses_relative.append('lp')
 
 
 class BzrRepository(Repository):
@@ -78,9 +78,9 @@ class BzrRepository(Repository):
             module = name
 
         if revision or branch:
-            template = urlutils.urljoin(self.href, self.branches_template)
+            template = urllib.parse.urljoin(self.href, self.branches_template)
         else:
-            template = urlutils.urljoin(self.href, self.trunk_template)
+            template = urllib.parse.urljoin(self.href, self.trunk_template)
 
         if not module_href:
             module_href = template % {
