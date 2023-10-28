@@ -51,29 +51,6 @@ environment variables:
 
 Command specific options are listed below.
 
-.. _autobuild:
-
-autobuild
----------
-
-The ``autobuild`` command automatically builds the modules as specified
-in the configuration file, and then upload the results to JhAutobuild.
-
-::
-
-    jhbuild autobuild [--autogen] [--clean] [--distcheck] [--skip=module...] [--start-at=module] [--report-url=reporturl] [--verbose]
-
-
-The ``--autogen``, ``--clean``, ``--distcheck``, ``--skip`` and
-``--start-at`` options are processed as per the
-:ref:`build` command.
-
-``--report-url=reporturl``, ``-r reporturl``
-   This option specifies the JhAutobuild URL to report to.
-
-``--verbose``, ``-v``
-   If specified, JHBuild's output will be more verbose.
-
 .. _bootstrap:
 
 bootstrap
