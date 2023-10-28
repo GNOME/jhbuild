@@ -1,6 +1,10 @@
-from distutils import sysconfig
 import sys
 import os
+
+if sys.version_info.major > 3 or sys.version_info.minor >= 12:
+    from setuptools._distutils import sysconfig
+else:
+    from distutils import sysconfig
 
 if 'JHBUILD_PREFIX' in os.environ:
     sys.path.insert(1, os.environ['JHBUILD_PREFIX'] + '/lib/python3/dist-packages')
