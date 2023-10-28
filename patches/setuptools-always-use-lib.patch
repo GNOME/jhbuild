@@ -1,0 +1,13 @@
+diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
+index a40a7231..f5b2dba4 100644
+--- a/setuptools/_distutils/sysconfig.py
++++ b/setuptools/_distutils/sysconfig.py
+@@ -248,7 +248,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
+         if plat_specific or standard_lib:
+             # Platform-specific modules (any module from a non-pure-Python
+             # module distribution) or standard Python library modules.
+-            libdir = getattr(sys, "platlibdir", "lib")
++            libdir = "lib" # JHBuild always uses lib even if the host uses lib64
+         else:
+             # Pure Python
+             libdir = "lib"
