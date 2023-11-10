@@ -47,13 +47,14 @@ class PackageEntry:
 
     @property
     def manifest(self):
-        if self._manifest:
+        if self._manifest is not None:
             return self._manifest
-        if not os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
-            return None
+
         self._manifest = []
-        for line in open_text(os.path.join(self.dirname, 'manifests', self.package)):
-            self._manifest.append(line.strip())
+        if os.path.exists(os.path.join(self.dirname, 'manifests', self.package)):
+            for line in open_text(os.path.join(self.dirname, 'manifests', self.package)):
+                self._manifest.append(line.strip())
+
         return self._manifest
 
     @manifest.setter
