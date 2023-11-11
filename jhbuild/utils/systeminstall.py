@@ -19,7 +19,7 @@
 
 from io import StringIO
 import os
-import sys 
+import sys
 import logging
 import shlex
 import subprocess
@@ -553,6 +553,10 @@ class AptSystemInstall(SystemInstall):
         subprocess.check_call(args)
 
     def install(self, uninstalled, assume_yes):
+        if not cmds.has_command('apt-file'):
+            logging.info(_('Please install apt-file first.'))
+            return
+
         logging.info(_('Using apt-file to search for providers; this may be extremely slow. Please wait. Patience!'))
         native_packages = []
 
@@ -583,7 +587,7 @@ class AptSystemInstall(SystemInstall):
 
     @classmethod
     def detect(cls):
-        return cmds.has_command('apt-file')
+        return cmds.has_command('apt')
 
 _classes = [AptSystemInstall, PacmanSystemInstall, DNFSystemInstall, PKSystemInstall]
 
