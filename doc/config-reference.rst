@@ -625,6 +625,8 @@ Configuration Variables
    the special value ``'*'``, JHBuild will skip all modules not
    explicitly listed in the ``modules`` variable. This may be useful if
    you want to build modules without their implicit dependencies.
+   The list supports ``fnmatch()``-style globs, e.g. ``py*`` to
+   skip all modules starting with ``py``.
 
 .. _static_analyzer:
 

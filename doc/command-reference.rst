@@ -116,7 +116,7 @@ list from the configuration file will be used.
 
 ``-s``, ``--skip``\ =<module,...>
    Do not build the listed modules. Used to skip the building of
-   specified dependencies.
+   specified dependencies. ``fnmatch``-style globs are supported.
 
 ``--tags``\ =<tag,...>
    Ignore modules that do not match <tag>. Modules are automatically

@@ -17,6 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import fnmatch
 import os
 import sys
 import logging
@@ -105,6 +106,13 @@ class ModuleSet:
                              include_suggests=True, include_afters=False,
                              warn_about_circular_dependencies=True):
 
+        def skip_module(module):
+            # '*' has special meaning which overrides any other values
+            if skip and '*' not in skip:
+                if any(fnmatch.fnmatch(module, exp) for exp in skip):
+                    return True
+            return False
+
         def dep_resolve(node, resolved, seen, after):
             ''' Recursive depth-first search of the dependency tree. Creates
             the build order into the list 'resolved'. <after/> modules are
@@ -129,7 +137,7 @@ class ModuleSet:
                                      ' "%(invalid)s" module') % \
                                    {'module'  : node.name,
                                     'invalid' : edge_name})
-                elif edge_name not in skip and edge not in resolved_deps:
+                elif not skip_module(edge_name) and edge not in resolved_deps:
                     if edge in seen:
                         # circular dependency detected
                         circular = True
@@ -165,12 +173,14 @@ class ModuleSet:
                         if item[1] is True and item[0] == node:
                             resolved[index] = (node, False)
 
+        config_modules = getattr(self.config, 'modules', [])
+
         if module_names == 'all':
             module_names = self.modules.keys()
         try:
-            # remove skip modules from module_name list
             modules = [self.get_module(module, ignore_case = True) \
-                       for module in module_names if module not in skip]
+                       for module in module_names \
+                       if module in config_modules or not skip_module(module)]
         except KeyError as e:
             raise UsageError(_("A module called '%s' could not be found.") % e)
 
@@ -186,8 +196,8 @@ class ModuleSet:
 
         if '*' in skip:
             module_list = [module for module in module_list \
-                           if module.name in self.config.modules]
-        
+                           if module.name in config_modules]
+
         return module_list
 
     def get_test_module_list (self, seed, skip=[]):

@@ -234,11 +234,24 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         '''Two standalone modules'''
         self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
 
+    def test_standalone_skip_fnmatch(self):
+        '''Four standalone modules with a fnmatch skip'''
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['ba*']), ['foo', 'corge'])
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['?o']), ['foo', 'bar', 'baz', 'corge'])
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['?o*']), ['bar', 'baz'])
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['*r*']), ['foo', 'baz'])
+
     def test_standalone_dont_skip_config_module(self):
         '''Don't skip the modules=[...] in the config file'''
         self.config.modules = ['foo', 'baz']
         self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['*']), ['foo', 'baz'])
         self.assertEqual(self.get_module_list('all', ['*']), ['foo', 'baz'])
+
+    def test_standalone_dont_skip_config_module_fnmatch(self):
+        '''Don't skip the modules=[...] in the config file even if the fnmatch applies'''
+        self.config.modules = ['foo', 'baz']
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['b*']), ['foo', 'baz', 'corge'])
+        self.assertEqual(self.get_module_list('all', ['b*']), ['foo', 'baz', 'qux', 'quux', 'corge'])
 
     def test_dependency_chain_straight(self):
         '''A straight chain of dependencies'''
@@ -251,6 +264,12 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         self.moduleset.modules['foo'].dependencies = ['bar']
         self.moduleset.modules['bar'].dependencies = ['baz']
         self.assertEqual(self.get_module_list(['foo'], ['bar']), ['foo'])
+
+    def test_dependency_chain_straight_skip_fnmatch(self):
+        '''A straight chain of dependencies, with a module to skip'''
+        self.moduleset.modules['foo'].dependencies = ['bar']
+        self.moduleset.modules['bar'].dependencies = ['baz']
+        self.assertEqual(self.get_module_list(['foo'], ['b?r']), ['foo'])
 
     def test_dependency_chain_bi(self):
         '''A dividing chain of dependencies'''
