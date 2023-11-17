@@ -234,6 +234,12 @@ class ModuleOrderingTestCase(JhbuildConfigTestCase):
         '''Two standalone modules'''
         self.assertEqual(self.get_module_list(['foo', 'bar']), ['foo', 'bar'])
 
+    def test_standalone_dont_skip_config_module(self):
+        '''Don't skip the modules=[...] in the config file'''
+        self.config.modules = ['foo', 'baz']
+        self.assertEqual(self.get_module_list(['foo', 'bar', 'baz', 'corge'], ['*']), ['foo', 'baz'])
+        self.assertEqual(self.get_module_list('all', ['*']), ['foo', 'baz'])
+
     def test_dependency_chain_straight(self):
         '''A straight chain of dependencies'''
         self.moduleset.modules['foo'].dependencies = ['bar']
