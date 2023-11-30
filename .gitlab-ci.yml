@@ -5,12 +5,13 @@ stages:
 documentation:
   image: docker.io/sphinxdoc/sphinx
   script:
-    - python3 -m pip install sphinx_rtd_theme
-    - sphinx-build ./doc ./html ./doc/*.rst
+    - python3 -m pip install sphinx_rtd_theme sphinx-lint
+    - sphinx-build --keep-going -W ./doc ./html ./doc/*.rst
     - |
       for dir in ./doc/po/*/; do
         lang="$(basename "$dir")"
-        sphinx-build -Dlanguage="$lang" ./doc ./html/"$lang" ./doc/*.rst
+        sphinx-build -Dlanguage="$lang" --keep-going ./doc ./html/"$lang" ./doc/*.rst
+        sphinx-lint $dir/LC_MESSAGES/docs.po
       done
   artifacts:
     paths:
