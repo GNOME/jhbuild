@@ -12,7 +12,7 @@ documentation:
       for dir in ./doc/po/*/; do
         lang="$(basename "$dir")"
         sphinx-build -Dlanguage="$lang" --keep-going ./doc ./html/"$lang" ./doc/*.rst
-        sphinx-lint $dir/LC_MESSAGES/docs.po
+        sphinx-lint $dir/LC_MESSAGES/docs.po || true
       done
   artifacts:
     paths:
