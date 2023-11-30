@@ -448,7 +448,7 @@ jhbuild-controlled shell. For example, you may want to put this in your
        if [ -n "$UNDER_JHBUILD" ]; then
            PS1="[jhbuild] $PS1"
        fi
-         
+
 
 This will make your bash shell display ``[jhbuild]`` before your normal
 prompt, making it easier to see which shells are under a jhbuild

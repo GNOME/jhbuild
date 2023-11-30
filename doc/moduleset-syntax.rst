@@ -107,7 +107,7 @@ recommended to have Bazaar 1.16 or higher.
 
    <repository type="bzr" name="launchpad.net"
          href="lp:"/>
-           
+
 
 Additional attributes are: ``trunk-template`` (defaults to ``"%(module)s"``)
 and ``branches-template`` (defaults to ``"%(module)s/%(branch)s``"). These
@@ -133,7 +133,7 @@ For example repository with template attributes defined:
          href="lp:"
          trunk-template="~bzr-pqm/%(module)s/bzr.dev"
          branches-template="~bzr-pqm/%(module)s/%(branch)s"/>
-           
+
 
 Example ``branch`` elements for the above repository:
 
@@ -142,7 +142,7 @@ Example ``branch`` elements for the above repository:
    <branch repo="launchpad.net"
          module="bzr"
          checkoutdir="bzr-next"/>
-           
+
 
 ::
 
@@ -150,7 +150,7 @@ Example ``branch`` elements for the above repository:
          module="bzr"
          branch="2.2"
          checkoutdir="bzr-beta"/>
-           
+
 
 CVS
 ~~~
@@ -167,7 +167,7 @@ The ``cvsroot`` attribute is used to specify the root of the repository.
    <repository type="cvs" name="tango.freedesktop.org"
        cvsroot=":pserver:anoncvs@anoncvs.freedesktop.org:/cvs/tango"
        password=""/>
-           
+
 
 Additional attributes are: ``revision``, ``update-new-dirs`` and
 ``override-checkoutdir``.
@@ -191,7 +191,7 @@ This repository type is used to define a Git repository.
 
    <repository type="git" name="git.freedesktop.org"
        href="git://anongit.freedesktop.org/git/"/>
-           
+
 
 It allows the following attributes on the ``branch`` element:
 
@@ -210,7 +210,7 @@ out in the update phase. It overrides the ``revision`` attribute.
            checkoutdir="swfdec"
            revision="local-or-remote-branch"
            tag="tree-ish"/>
-           
+
 
 Mercurial
 ~~~~~~~~~
@@ -254,7 +254,7 @@ This repository type is used to define a Subversion repository.
 
    <repository type="svn" name="svn.gnome.org" default="yes"
        href="http://svn.gnome.org/svn/"/>
-           
+
 
 It allows a revision on the ``branch`` element. This attribute defines the
 branch to checkout or, if it is a number, a specific revision to
@@ -263,7 +263,7 @@ checkout.
 ::
 
    <branch revision="gnome-2-20"/>
-           
+
 
 It is possible to specify custom ``svn`` layout using trunk-template
 (defaults to "%(module)s/trunk"), branches-template (defaults to

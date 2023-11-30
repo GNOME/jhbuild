@@ -209,7 +209,7 @@ Below is an example of the menu displayed:
      [7] Go to phase "configure"
      [8] Go to phase "clean"
      [9] Go to phase "distclean"
-   choice: 
+   choice:
 
 It is also possible to build a different set of modules and their
 dependencies by passing the module names as arguments to the ``build``
