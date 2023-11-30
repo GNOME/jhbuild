@@ -7,6 +7,7 @@ documentation:
   script:
     - python3 -m pip install sphinx_rtd_theme sphinx-lint
     - sphinx-build --keep-going -W ./doc ./html ./doc/*.rst
+    - sphinx-lint ./doc/*.rst
     - |
       for dir in ./doc/po/*/; do
         lang="$(basename "$dir")"
