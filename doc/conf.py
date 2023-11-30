@@ -6,7 +6,7 @@ extensions = [
     'sphinx_rtd_theme',
 ]
 
-with open(LINGUAS) as f:
+with open('po/LINGUAS') as f:
     languages = ([s.strip('\n') for s in f.readlines()])
 languages.append('en')
 languages.sort()
