@@ -110,7 +110,7 @@ recommended to have Bazaar 1.16 or higher.
 
 
 Additional attributes are: ``trunk-template`` (defaults to ``"%(module)s"``)
-and ``branches-template`` (defaults to ``"%(module)s/%(branch)s``"). These
+and ``branches-template`` (defaults to ``"%(module)s/%(branch)s"``). These
 attributes are used to specify templates for constructing URL. A ``branch``
 element in the module definitions can specify branch and user
 attributes. These values will be substituted in the templates. If either

@@ -63,7 +63,6 @@ distribution's package management system. The ``bootstrap`` should only
 be used if the build utilities are not provided by your distribution's
 package management system, for example on ``Mac OS``.
 
-jhbuild bootstrap
 The ``bootstrap`` command builds modules using the same method as the
 ``build`` command, but uses the ``bootstrap.modules`` moduleset.
 
@@ -78,6 +77,7 @@ The ``build`` command builds one or more packages, including their
 dependencies.
 
 ::
+
     jhbuild build [--autogen] [--clean] [--check] [--dist] [--distcheck] [--distclean] [--ignore-suggests] [--no-network] [--skip=module...] [--start-at=module] [--tags=tags] [-D date] [--no-xvfb] [--try-checkout] [--no-poison] [--force] [--build-optional-modules] [--min-age=time] [--nodeps] [module...]
 
 If no module names are provided on the command line, the :ref:`modules`
@@ -160,7 +160,7 @@ list from the configuration file will be used.
 
 ``--nodeps``
    Ignore missing system dependencies. To ignore a single system
-   dependency add the module to ```skip`` <#cfg-skip>`__.
+   dependency add the module to :ref:`skip`.
 
 .. _make:
 
@@ -470,7 +470,7 @@ The ``sysdeps`` command displays:
 
 3. a list of optional packages. The corresponding system package was not
    found or too old. JHBuild will build the module. Optional packages
-   will not be displayed if ```partial_build`` <#cfg-partial-build>`__
+   will not be displayed if :ref:`partial_build`
    is ``False``.
 
 ::
