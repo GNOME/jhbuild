@@ -36,3 +36,19 @@ exclude_patterns = []
 language = 'en'
 locale_dirs = ['po']
 gettext_compact = 'docs'
+
+# Build _static/languageLoader.js from template adding language codes
+def setup_languageloader(l: list):
+    from string import Template
+    from pathlib import Path
+
+    HERE = Path(__file__).resolve().parent
+    with open(
+        HERE / '_templates' / 'languageLoader.js'
+    ) as languageloader_template_file:
+        template = Template(languageloader_template_file.read())
+    languageloader_path = HERE / '_static' / 'languageLoader.js'
+    languageloader_path.write_text(
+        template.safe_substitute({"LANGUAGES": languages})
+    )
+setup_languageloader(languages)

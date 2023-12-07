@@ -1,20 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 // FIXME: None of the Intl functions actually validate locales... so for now hardcode them.
-const languages = [
-    'cs',
-    'de',
-    'el',
-    'es',
-    'fr',
-    'ja',
-    'ko',
-    'pt_BR',
-    'ru',
-    'sl',
-    'sv',
-    'zh_CN',
-]
+const languages = $LANGUAGES
 
 function loadLanguage(newLang) {
     let url = new URL(window.location.href);
