@@ -149,7 +149,13 @@ class MesonModule(NinjaModule, DownloadableModule):
     def do_install(self, buildscript):
         buildscript.set_action(_('Installing'), self)
         destdir = self.prepare_installroot(buildscript)
-        self.ninja(buildscript, 'install', env={'DESTDIR': destdir})
+
+        extra_env = (self.extra_env or {}).copy()
+        extra_env['DESTDIR'] = destdir
+
+        cmd = 'meson install --no-rebuild'
+        buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
+
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
 
