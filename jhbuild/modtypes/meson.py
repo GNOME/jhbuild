@@ -153,7 +153,7 @@ class MesonModule(NinjaModule, DownloadableModule):
         extra_env = (self.extra_env or {}).copy()
         extra_env['DESTDIR'] = destdir
 
-        cmd = 'meson install --no-rebuild'
+        cmd = 'meson install --no-rebuild --quiet'
         buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
 
         self.process_install(buildscript, self.get_revision())
