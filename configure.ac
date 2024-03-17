@@ -1,6 +1,6 @@
 AC_INIT([jhbuild],
         [3.38.1],
-        [http://bugzilla.gnome.org/enter_bug.cgi?product=jhbuild],
+        [https://gitlab.gnome.org/GNOME/jhbuild/-/issues/],
         [jhbuild])
 
 AC_CONFIG_SRCDIR(jhbuild/main.py)
