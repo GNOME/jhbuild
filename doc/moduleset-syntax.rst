@@ -404,7 +404,7 @@ the GNU Autotools build system.
 
    </autotools>
 
-The autogenargs and makeargs and ``makeinstallargs`` attributes are used to
+The ``autogenargs``, ``makeargs`` and ``makeinstallargs`` attributes are used to
 specify additional arguments to pass to ``autogen.sh``, ``make`` and
 ``make install`` respectively.
 
@@ -415,7 +415,7 @@ run. The value ``autoreconf`` can be used if your module has no
 chooses whether or not to run autogen.sh, it is a boolean with an extra
 ``never`` value to tell JHBuild to never skip running ``autogen.sh``.
 ``skip-install`` is a boolean attribute specifying whether to skip
-``make install`` command on the module. makefile specifies the filename
+``make install`` command on the module. ``makefile`` specifies the filename
 of the makefile to use.
 
 The ``uninstall-before-install`` specifies any old installed files from the
