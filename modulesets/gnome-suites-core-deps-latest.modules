@@ -2093,6 +2093,49 @@
             checkoutdir="pixman"/>
   </meson>
 
+  <autotools id="poppler-data" skip-autogen="true" supports-non-srcdir-builds="no"
+             check-target="false" makeinstallargs="install datadir=${prefix}/share">
+    <branch repo="gitlab.freedesktop.org"
+            module="poppler/poppler-data.git"
+            checkoutdir="poppler/poppler-data"/>
+  </autotools>
+
+  <autotools id="poppler-test-files" supports-non-srcdir-builds="no" skip-autogen="true"
+             skip-install="true" check-target="false"  makeargs="--dry-run clean">
+    <!-- 'poppler' module just needs this repo downloaded alongside to reach for the pdf test files,
+          that's why we don't build or make anything here -->
+    <branch repo="gitlab.freedesktop.org"
+            module="poppler/test.git"
+            checkoutdir="poppler/test"/>
+  </autotools>
+
+  <cmake id="poppler" force-non-srcdir-builds="yes" use-ninja="no"
+         cmakeargs="-DCMAKE_BUILD_TYPE=Debug -DENABLE_CPP=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF
+                    -Dbash_completion=${prefix}/share/bash-completion/completions">
+    <branch repo="gitlab.freedesktop.org"
+            module="poppler/poppler.git"
+            checkoutdir="poppler/poppler"/>
+    <dependencies>
+      <dep package="poppler-data"/>
+      <dep package="poppler-test-files"/>
+      <dep package="boost"/>
+      <dep package="openjpeg"/>
+      <dep package="libjpeg"/>
+      <dep package="libtiff"/>
+      <dep package="lcms2"/>
+      <dep package="libcurl"/>
+      <dep package="nss"/>
+      <dep package="gpgme"/>
+      <dep package="glib"/>
+      <dep package="gobject-introspection"/>
+      <dep package="cairo"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="gtk+-3"/>
+      <dep package="freetype2"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+  </cmake>
+
   <autotools id="pyatspi2" autogenargs="--with-python=python3" >
     <branch/>
     <dependencies>
