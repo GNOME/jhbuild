@@ -1644,10 +1644,7 @@
     </dependencies>
   </autotools>
 
-  <autotools id="librsvg" supports-non-srcdir-builds="no" autogenargs="--enable-vala=yes">
-    <if condition-unset="gnu-elf">
-      <autogenargs value="--disable-Bsymbolic"/>
-    </if>
+  <meson id="librsvg">
     <branch/>
     <dependencies>
       <dep package="cargo"/>
@@ -1661,7 +1658,7 @@
       <dep package="python3-docutils"/>
       <dep package="vala"/>
     </dependencies>
-  </autotools>
+  </meson>
 
   <meson id="libsecret">
     <if condition-set="macos">
