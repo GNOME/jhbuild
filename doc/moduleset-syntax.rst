@@ -436,12 +436,12 @@ user is currently running code that relies on installed files from the
 module.
 
 The ``supports-non-srcdir-builds`` attribute is used to mark modules that
-can't be cleanly built using a separate source directory, it takes the values
-``yes`` or ``no``, default is ``yes``.
+can't be cleanly built using a separate source directory; it takes the values
+``yes`` or ``no``, and the default is ``yes``.
 
 The ``force-non-srcdir-builds`` attribute is used to mark modules that can't
 be cleanly built from the source directory, but can be built from
-outside it, it takes the values ``yes`` or ``no``, default is ``no``.
+outside it; it takes the values ``yes`` or ``no``, and the default is ``no``.
 
 The ``autogen-template`` attribute can be used if you need finer control
 over the autogen command line. It is a python format string, which will
@@ -466,7 +466,7 @@ Global configure options will not be used for that module.
 
 The ``supports-parallel-builds`` attribute can be set to ``no`` if you don't
 want your module to be built using parallel jobs according to number of cpu
-cores/threads. It will affect the ``-j`` flag of ``make``. Default is ``yes``.
+cores/threads. Default is ``yes``.
 
 cmake
 ~~~~~
@@ -513,15 +513,15 @@ The ``cmakedir`` attribute specifies the subdirectory where cmake will run
 in relation to srcdir.
 
 ``skip-install`` is a boolean attribute specifying whether to skip
-``make/ninja install`` command on the module, default is ``false``.
+the install phase of the module; default is ``false``.
 
 The ``supports-non-srcdir-builds`` attribute is used to mark modules that
 can't be cleanly built using a separate source directory, it takes the values
-``yes`` or ``no``, default is ``yes``.
+``yes`` or ``no``; default is ``yes``.
 
 The ``force-non-srcdir-builds`` attribute is used to mark modules that can't
 be cleanly built from the source directory, but can be built from
-outside it. Possible values ``yes`` or ``no``. Default is ``no``.
+outside it. Possible values are ``yes`` or ``no``; default is ``no``.
 
 The ``use-ninja`` attribute is used to mark modules should be built using
 the Ninja backend for cmake, instead of the Make backend. The default is
@@ -529,8 +529,7 @@ to use the Ninja backend.
 
 The ``supports-parallel-builds`` attribute can be set to ``no`` if you don't
 want your module to be built using parallel jobs according to number of cpu
-cores/threads. It will affect the ``-j`` flag of make or ninja commands.
-Default is ``yes``.
+cores/threads. Default is ``yes``.
 
 .. _meson:
 
@@ -567,7 +566,7 @@ The ``ninjaargs`` attribute is used to specify additional arguments to pass
 to ``ninja``.
 
 ``skip-install`` is a boolean attribute specifying whether to skip
-``make/ninja install`` command on the module, default is ``false``.
+the install phase of the module; default is ``false``.
 
 .. _distutils:
 
