@@ -363,6 +363,10 @@ element will be used to further sort the modules list (although it will
 not pull any additional modules). This is intended for cases where a
 module has an optional dependency on another module.
 
+Command argument attributes (eg. ``makeargs``, ``mesonargs`` etc) support
+automatic expansion of the variables ``${prefix}`` and ``${libdir}`` to
+their corresponding values. Eg.``mesonargs="-Dlog-dir=${prefix}/var/log/gdm"``
+
 .. _autotools:
 
 autotools
@@ -387,7 +391,8 @@ the GNU Autotools build system.
              [ supports-non-srcdir-builds="supports-non-srcdir-builds" ]
              [ force-non-srcdir-builds="force-non-srcdir-builds" ]
              [ supports-unknown-configure-options="supports-unknown-configure-options" ]
-             [ supports-static-analyzer="supports-static-analyzer" ]>
+             [ supports-static-analyzer="supports-static-analyzer" ]
+             [ supports-parallel-builds="supports_parallel_build" ]>
 
      <branch [ ... ] >
        [...]
@@ -406,17 +411,20 @@ the GNU Autotools build system.
 
 The ``autogenargs``, ``makeargs`` and ``makeinstallargs`` attributes are used to
 specify additional arguments to pass to ``autogen.sh``, ``make`` and
-``make install`` respectively.
+``make install`` respectively. Take in mind that ``makeinstallargs`` should
+also include the make target to use (typically ``install``) this allows to
+use a different make target for the install phase if needed.
+Eg. ``makeinstallargs="install datadir=${prefix}/share"`` or ``makeinstallargs="my-target"``
 
 The ``autogen-sh`` attribute specifies the name of the autogen.sh script to
 run. The value ``autoreconf`` can be used if your module has no
 ``autogen.sh`` script equivalent. In that case, JHBuild will run
-``autoreconf -fi``, followed by the proper ``configure``. skip-autogen
+``autoreconf -fi``, followed by the proper ``configure``. ``skip-autogen``
 chooses whether or not to run autogen.sh, it is a boolean with an extra
 ``never`` value to tell JHBuild to never skip running ``autogen.sh``.
 ``skip-install`` is a boolean attribute specifying whether to skip
-``make install`` command on the module. ``makefile`` specifies the filename
-of the makefile to use.
+``make install`` command on the module, default is ``false``. ``makefile``
+specifies the filename of the makefile to use.
 
 The ``uninstall-before-install`` specifies any old installed files from the
 module should before removed before running the install step. This can
@@ -428,11 +436,12 @@ user is currently running code that relies on installed files from the
 module.
 
 The ``supports-non-srcdir-builds`` attribute is used to mark modules that
-can't be cleanly built using a separate source directory.
+can't be cleanly built using a separate source directory; it takes the values
+``yes`` or ``no``, and the default is ``yes``.
 
 The ``force-non-srcdir-builds`` attribute is used to mark modules that can't
 be cleanly built from the source directory, but can be built from
-outside it.
+outside it; it takes the values ``yes`` or ``no``, and the default is ``no``.
 
 The ``autogen-template`` attribute can be used if you need finer control
 over the autogen command line. It is a python format string, which will
@@ -455,6 +464,10 @@ The ``supports-unknown-configure-options`` attribute is used to mark modules
 that will error out if an unknown option is passed to ``configure``.
 Global configure options will not be used for that module.
 
+The ``supports-parallel-builds`` attribute can be set to ``no`` if you don't
+want your module to be built using parallel jobs according to number of cpu
+cores/threads. Default is ``yes``.
+
 cmake
 ~~~~~
 
@@ -470,7 +483,9 @@ CMake build system.
                [ skip-install="skip-install" ]
                [ cmakedir="cmakedir" ]
                [ use-ninja="use-ninja" ]
-               [ force-non-srcdir-builds="force-non-srcdir-builds" ]>
+               [ supports-non-srcdir-builds="supports-non-srcdir-builds" ]
+               [ force-non-srcdir-builds="force-non-srcdir-builds" ]
+               [ supports-parallel-builds="supports_parallel_build" ]>
      <branch [ ... ] >
        [...]
      </branch>
@@ -497,13 +512,24 @@ to ``make``.
 The ``cmakedir`` attribute specifies the subdirectory where cmake will run
 in relation to srcdir.
 
+``skip-install`` is a boolean attribute specifying whether to skip
+the install phase of the module; default is ``false``.
+
+The ``supports-non-srcdir-builds`` attribute is used to mark modules that
+can't be cleanly built using a separate source directory, it takes the values
+``yes`` or ``no``; default is ``yes``.
+
 The ``force-non-srcdir-builds`` attribute is used to mark modules that can't
 be cleanly built from the source directory, but can be built from
-outside it.
+outside it. Possible values are ``yes`` or ``no``; default is ``no``.
 
 The ``use-ninja`` attribute is used to mark modules should be built using
 the Ninja backend for cmake, instead of the Make backend. The default is
 to use the Ninja backend.
+
+The ``supports-parallel-builds`` attribute can be set to ``no`` if you don't
+want your module to be built using parallel jobs according to number of cpu
+cores/threads. Default is ``yes``.
 
 .. _meson:
 
@@ -538,6 +564,9 @@ to ``meson``.
 
 The ``ninjaargs`` attribute is used to specify additional arguments to pass
 to ``ninja``.
+
+``skip-install`` is a boolean attribute specifying whether to skip
+the install phase of the module; default is ``false``.
 
 .. _distutils:
 

@@ -96,6 +96,8 @@ attlist.autotools &=
   attribute force-non-srcdir-builds { "yes" | "no" }?,
   attribute supports-parallel-builds { "yes" | "no" }?,
   attribute supports-unknown-configure-options { "yes" | "no" }?,
+  attribute supports-static-analyzer { "true" | "false" }?,
+  attribute skip-install { "true" | "false" }?,
   attribute autogen-template { text }?,
   [ a:defaultValue = "true" ]
   attribute check-target { "true" | "false" }?
@@ -157,7 +159,9 @@ attlist.cmake &=
   attribute cmakeargs { text }?,
   attribute makeargs { text }?,
   attribute ninjaargs { text }?,
+  attribute cmakedir { text }?,
   attribute use-ninja { "yes" | "no" }?,
+  attribute skip-install { "true" | "false" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?,
   attribute force-non-srcdir-builds { "yes" | "no" }?
 cmakeargs = element cmakeargs { attlist.cmakeargs }
@@ -168,6 +172,7 @@ mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* }
 meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, pkg-config?, branch?, dependencieselements }
 attlist.meson &=
   attribute id { text },
+  attribute skip-install { "true" | "false" }?,
   attribute mesonargs { text }?,
   attribute ninjaargs { text }?
 mesonargs = element mesonargs { attlist.mesonargs }

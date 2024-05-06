@@ -62,6 +62,8 @@
 	makefile	CDATA	#IMPLIED
 	bootstrap	(true|false) "false"
 	skip-autogen	(true|false|never) "false"
+	skip-install	(true|false) "false"
+	supports-static-analyzer (true|false) "true"
 	uninstall-before-install (true|false) "false"
 	supports-non-srcdir-builds (yes|no) "yes"
 	force-non-srcdir-builds (yes|no) "no"
@@ -115,7 +117,9 @@
 	cmakeargs	CDATA	#IMPLIED
 	makeargs	CDATA	#IMPLIED
 	ninjaargs	CDATA	#IMPLIED
+	cmakedir	CDATA	#IMPLIED
 	use-ninja (yes|no) "yes"
+	skip-install	(true|false) "false"
 	supports-non-srcdir-builds (yes|no) "yes"
 	force-non-srcdir-builds (yes|no) "no">
 
@@ -126,7 +130,8 @@
 <!ATTLIST meson
 	id		CDATA	#REQUIRED
 	mesonargs	CDATA	#IMPLIED
-	ninjaargs	CDATA	#IMPLIED>
+	ninjaargs	CDATA	#IMPLIED
+	skip-install	(true|false) "false">
 
 <!ELEMENT mesonargs EMPTY>
 <!ATTLIST mesonargs value CDATA #REQUIRED>
