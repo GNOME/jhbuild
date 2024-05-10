@@ -458,8 +458,9 @@ environment.
 
 sysdeps
 -------
-
-The ``sysdeps`` command displays:
+The ``sysdeps`` command displays, for the module names provided in the
+command line (or if none are provided the :ref:`modules` list from the
+configuration file will be used), the following three lists:
 
 1. a list of installed system packages which will be used during the
    build. JHBuild will not build these modules and opt to use the system
@@ -475,7 +476,7 @@ The ``sysdeps`` command displays:
 
 ::
 
-    jhbuild sysdeps [--install]
+    jhbuild sysdeps [--dump] [--dump-all] [--install] [--assume-yes] [module...]
 
 ``--install``
    This option installs system packages which are dependencies of the
@@ -483,6 +484,15 @@ The ``sysdeps`` command displays:
    System packages are installed using PackageKit, if available. For
    distributions using APT such as ``Debian`` and ``Ubuntu``, this
    option requires apt-file to be installed.
+
+   The user would have to confirm the list of packages about to be
+   installed, unless the ``--assume-yes`` option is given.
+
+``--dump``
+   This option prints a machine readable list of missing sysdeps.
+
+``--dump-all``
+   This option prints a machine readable list of all missing sysdeps.
 
 ::
 
