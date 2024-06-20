@@ -212,7 +212,7 @@ class TarballBranch(Branch):
             }
         lines = [
             ['wget', '--continue', self.module, '-O', localfile],
-            ['curl', '--retry', '5', '--retry-all-errors', '--fail', '--continue-at', '-', '-L', self.module, '-o', localfile]
+            ['curl', '--retry', '5', '--fail', '--continue-at', '-', '-L', self.module, '-o', localfile]
             ]
         lines = [line for line in lines if has_command(line[0])]
         if not lines:
