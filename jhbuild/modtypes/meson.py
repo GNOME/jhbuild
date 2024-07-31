@@ -167,7 +167,7 @@ class MesonModule(NinjaModule, DownloadableModule):
 def parse_meson(node, config, uri, repositories, default_repo):
     instance = MesonModule.parse_from_xml(node, config, uri, repositories, default_repo)
 
-    instance.dependencies += ['meson', instance.get_ninjacmd(config)]
+    instance.dependencies += ['meson', 'ninja']
 
     instance.mesonargs = collect_args(instance, node, 'mesonargs')
     instance.ninjaargs = collect_args(instance, node, 'ninjaargs')

@@ -188,11 +188,10 @@ def parse_cmake(node, config, uri, repositories, default_repo):
 
     instance.dependencies.append('cmake')
     if instance.use_ninja:
-        instance.dependencies.append(instance.get_ninjacmd(config))
+        instance.dependencies.append('ninja')
     else:
         instance.dependencies.append(instance.get_makecmd(config))
 
     return instance
 
 register_module_type('cmake', parse_cmake)
-
