@@ -21,7 +21,7 @@
 
 import sys
 import os
-from distutils.sysconfig import get_python_lib
+from sysconfig import get_path
 
 from jhbuild.utils.cmds import get_output
 
@@ -193,7 +193,7 @@ def setup_env(prefix):
     # to lib, so any distutils based build will install .pc files
     # into lib64. To make at least pkg-config happy add the host
     # libdir layout as well.
-    host_libdir = os.path.dirname(get_python_lib(True, True, prefix))
+    host_libdir = os.path.dirname(get_path('platstdlib', vars = {'exec_prefix': prefix}))
     host_pkgconfigdir = os.path.join(host_libdir, 'pkgconfig')
     addpath('PKG_CONFIG_PATH', host_pkgconfigdir)
 
