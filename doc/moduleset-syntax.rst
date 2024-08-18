@@ -568,6 +568,31 @@ to ``ninja``.
 ``skip-install`` is a boolean attribute specifying whether to skip
 the install phase of the module; default is ``false``.
 
+.. _pip:
+
+pip
+~~~
+
+The ``pip`` element is used to define a module which is built using
+python's pip.
+
+::
+
+   <pip id="modulename">
+     <branch [ ... ] >
+       [...]
+     </branch>
+
+     <dependencies>
+       <dep package="modulename"/>
+       ...
+     </dependencies>
+     <after>
+       <dep package="modulename"/>
+       ...
+     </after>
+   </pip>
+
 .. _distutils:
 
 distutils

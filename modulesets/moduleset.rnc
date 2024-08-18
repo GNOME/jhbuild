@@ -8,6 +8,7 @@ moduleset =
      | autotools
      | metamodule
      | tarball
+     | pip
      | distutils
      | perl
      | linux
@@ -143,6 +144,12 @@ attlist.tarball &=
   attribute autogen-sh { text }?,
   [ a:defaultValue = "yes" ]
   attribute supports-non-srcdir-builds { "yes" | "no" }?
+pip =
+  element pip {
+    attlist.pip, branch?, dependencies?, after?
+  }
+attlist.pip &=
+  attribute id { xsd:ID }
 distutils =
   element distutils {
     attlist.distutils, branch?, dependencies?, after?

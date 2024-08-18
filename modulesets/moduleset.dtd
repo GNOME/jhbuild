@@ -1,4 +1,4 @@
-<!ELEMENT moduleset (redirect|repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|meson|systemmodule)+>
+<!ELEMENT moduleset (redirect|repository|include|autotools|metamodule|tarball|pip|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|meson|systemmodule)+>
 <!ATTLIST moduleset
 	name     CDATA  #IMPLIED>
 
@@ -101,6 +101,10 @@
 	makeargs	CDATA	#IMPLIED
 	autogen-sh	CDATA	#IMPLIED
 	supports-non-srcdir-builds (yes|no) "yes">
+
+<!ELEMENT pip (pkg-config?,branch?,dependencies?,after?)>
+<!ATTLIST pip
+	id	ID	#REQUIRED>
 
 <!ELEMENT distutils (pkg-config?,branch?,dependencies?,after?)>
 <!ATTLIST distutils
