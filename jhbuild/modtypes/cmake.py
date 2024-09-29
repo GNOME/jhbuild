@@ -109,6 +109,19 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
     do_configure.depends = [PHASE_CHECKOUT]
     do_configure.error_phases = [PHASE_FORCE_CHECKOUT]
 
+    def skip_configure(self, buildscript, last_phase):
+        # don't skip this stage if we got here from one of the
+        # following phases:
+        if last_phase in [self.PHASE_FORCE_CHECKOUT,
+                          self.PHASE_BUILD,
+                          self.PHASE_INSTALL]:
+            return False
+
+        if buildscript.config.alwaysautogen:
+            return False
+
+        return True
+
     def do_clean(self, buildscript):
         buildscript.set_action(_('Cleaning'), self)
         if self.use_ninja:
