@@ -19,7 +19,7 @@
 
 import logging
 import os
-import pipes
+import shlex
 from optparse import make_option
 
 import jhbuild.moduleset
@@ -68,7 +68,7 @@ class cmd_make(Command):
             # broken, but executing commands as strings is pervasive throughout
             # jhbuild...this is a hack that will probably live until someone just
             # replaces jhbuild entirely.
-            makeargs = '%s %s' % (makeargs, pipes.quote(arg))
+            makeargs = '%s %s' % (makeargs, shlex.quote(arg))
         config.makeargs = makeargs
 
         module_set = jhbuild.moduleset.load(config)
