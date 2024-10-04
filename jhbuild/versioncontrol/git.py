@@ -81,13 +81,15 @@ class GitRepository(Repository):
         # allow user to adjust location of branch.
         self.href = config.repos.get(name, href)
 
-    branch_xml_attrs = ['module', 'subdir', 'checkoutdir', 'revision', 'tag']
+    branch_xml_attrs = ['module', 'subdir', 'checkoutdir', 'revision', 'tag', 'version']
 
     def branch(self, name, module = None, subdir="", checkoutdir = None,
-               revision = None, tag = None):
+               revision = None, tag = None, version = None):
         if module is None:
             module = name
 
+        if version:
+            module = module.replace('${version}', version)
         mirror_module = None
         if self.config.dvcs_mirror_dir:
             mirror_module = get_git_mirror_directory(
@@ -117,11 +119,14 @@ class GitRepository(Repository):
                 base_href = self.href + '/'
             module = base_href + module
 
+        if checkoutdir is not None and version is not None:
+            checkoutdir = checkoutdir.replace('${version}', version)
+
         if mirror_module:
             return GitBranch(self, mirror_module, subdir, checkoutdir,
-                    revision, tag, unmirrored_module=module)
+                    revision, tag, version, unmirrored_module=module)
         else:
-            return GitBranch(self, module, subdir, checkoutdir, revision, tag)
+            return GitBranch(self, module, subdir, checkoutdir, revision, tag, version)
 
     def to_sxml(self):
         return [sxml.repository(type='git', name=self.name, href=self.href)]
@@ -136,11 +141,16 @@ class GitBranch(Branch):
     dirty_branch_suffix = '-dirty'
 
     def __init__(self, repository, module, subdir, checkoutdir=None,
-                 branch=None, tag=None, unmirrored_module=None):
+                 branch=None, tag=None, version=None, unmirrored_module=None):
         Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
         self.branch = branch
         self.tag = tag
+        if version:
+            raise FatalError(_('Cannot set "version" of a git branch without "tag"'))
+            self.version = version
+        else:
+            self.version = tag
         self.unmirrored_module = unmirrored_module
 
     def get_module_basename(self):

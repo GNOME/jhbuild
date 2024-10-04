@@ -36,6 +36,7 @@ from jhbuild.utils.cmds import compare_version, get_output
 from jhbuild.modtypes.testmodule import TestModule
 from jhbuild.modtypes.systemmodule import SystemModule
 from jhbuild.versioncontrol.tarball import TarballBranch
+from jhbuild.versioncontrol.git import GitBranch
 from jhbuild.utils import systeminstall
 from jhbuild.utils import fileutils
 
@@ -215,9 +216,9 @@ class ModuleSet:
         
         module_state = {}
         for module in modules:
-            # only consider SystemModules or modules with <pkg-config>
+            # only consider SystemModules or tarball and git branches with <pkg-config>
             if (isinstance(module, SystemModule) or
-                (isinstance(module.branch, TarballBranch) and
+                (isinstance(module.branch, (TarballBranch, GitBranch)) and
                  module.pkg_config is not None)):
                 required_version = module.branch.version
                 installed_version = None
@@ -256,8 +257,9 @@ class ModuleSet:
             if isinstance(module, SystemModule):
                 continue
             skip = False
-            if module.pkg_config is not None and \
-            isinstance(module.branch, TarballBranch):
+
+            if (isinstance(module.branch, (TarballBranch, GitBranch)) and
+                    module.pkg_config is not None):
                 # Strip off the .pc
                 module_pkg = module.pkg_config[:-3]
                 required_version = module.branch.version
