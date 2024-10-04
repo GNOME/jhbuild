@@ -27,11 +27,12 @@ import subprocess
 import re
 import logging
 import urllib.parse
+import sys
 
 from jhbuild.errors import FatalError, CommandError
 from jhbuild.utils.cmds import get_output, check_version
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
-from jhbuild.utils import inpath, _
+from jhbuild.utils import inpath, _, uprint
 from jhbuild.utils.sxml import sxml
 from jhbuild.utils import udecode
 
@@ -322,22 +323,8 @@ class GitBranch(Branch):
         git_extra_args = {'cwd': self.get_checkoutdir(),
                 'extra_env': get_git_extra_env()}
 
-        stashed = False
-        if self.is_dirty(ignore_submodules=True):
-            stashed = True
-            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'],
-                    **git_extra_args)
-
         buildscript.execute(['git', 'rebase', 'origin/' + branch],
                             **git_extra_args)
-
-        if stashed:
-            # git stash pop was introduced in 1.5.5,
-            if self.check_version_git('1.5.5'):
-                buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
-            else:
-                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'],
-                        **git_extra_args)
 
     def move_to_sticky_date(self, buildscript):
         if self.config.quiet_mode:
@@ -493,6 +480,11 @@ class GitBranch(Branch):
         buildscript.execute(['git', 'remote', 'update', 'origin'],
                 **git_extra_args)
 
+        stashed = False
+        if self.is_dirty(ignore_submodules=True):
+            stashed = True
+            buildscript.execute(['git', 'stash', 'save', 'jhbuild-stash'], **git_extra_args)
+
         if self.config.sticky_date:
             self.move_to_sticky_date(buildscript)
 
@@ -501,6 +493,37 @@ class GitBranch(Branch):
         self.rebase_current_branch(buildscript)
 
         self._update_submodules(buildscript)
+
+        if stashed:
+            # git stash pop was introduced in 1.5.5,
+            if self.check_version_git('1.5.5'):
+                buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
+            else:
+                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'], **git_extra_args)
+
+        if self.patches:
+            self._do_patches(buildscript)
+
+    def _do_patches(self, buildscript):
+        patch_files = self.get_patch_files(buildscript)
+        for (patchfile, patch, patchstrip) in patch_files:
+            self._do_patch(buildscript, patchfile, patch)
+
+    def _do_patch(self, buildscript, patchfile, patch):
+        git_extra_args = {'cwd': self.get_checkoutdir(), 'extra_env': get_git_extra_env()}
+        buildscript.set_action(_('Applying patch'), self, action_target=patch)
+        can_apply = self.execute_git_predicate(['git', 'am', os.path.abspath(patchfile)])
+        if not can_apply:
+            self.execute_git_predicate(['git', 'am', '--abort'])
+            already_applied = self.execute_git_predicate(['git', 'apply', '--reverse', '--check', os.path.abspath(patchfile)])
+            if already_applied:
+                uprint(_("Skipping patch '%s' (already applied)") % patchfile, file=sys.stderr)
+            else:
+                can_apply = self.execute_git_predicate(['git', 'apply', '--check', os.path.abspath(patchfile)])
+                if can_apply:
+                    buildscript.execute(['git', 'apply', os.path.abspath(patchfile)], **git_extra_args)
+                else:
+                    raise FatalError(_("Could not apply patch '%s'\n") % patchfile)
 
     def may_checkout(self, buildscript):
         if buildscript.config.nonetwork and not buildscript.config.dvcs_mirror_dir:

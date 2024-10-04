@@ -26,9 +26,13 @@ __all__ = [
 
 __metaclass__ = type
 
-from jhbuild.errors import FatalError
-from jhbuild.utils import try_import_module, _
 import os
+import urllib.error
+import urllib.parse
+
+from jhbuild.errors import FatalError, CommandError, BuildStateError
+from jhbuild.modtypes import get_branch
+from jhbuild.utils import httpcache, try_import_module, _
 
 class Repository:
     """An abstract class representing a collection of modules."""
@@ -59,7 +63,21 @@ class Repository:
                 kws[attr.replace('-', '_')] = branchnode.getAttribute(attr)
         if branchnode.hasAttribute('id'):
             kws['branch_id'] = branchnode.getAttribute('id')
-        return self.branch(name, **kws)
+        branch = self.branch(name, **kws)
+        # Process downstream patches, if any.
+        for childnode in branchnode.childNodes:
+            if childnode.nodeType != childnode.ELEMENT_NODE:
+                continue
+            if childnode.nodeName == 'patch':
+                patchfile = childnode.getAttribute('file')
+                if childnode.hasAttribute('strip'):
+                    patchstrip = int(childnode.getAttribute('strip'))
+                else:
+                    patchstrip = 0
+                branch.patches.append((patchfile, patchstrip))
+            elif childnode.nodeName == 'quilt':
+                branch.quilt = get_branch(childnode, repositories, default_repo)
+        return branch
 
     def to_sxml(self):
         """Return an sxml representation of this repository."""
@@ -78,6 +96,7 @@ class Branch:
         self.module = module
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
+        self.patches = []
 
     @property
     def checkout_mode(self):
@@ -155,6 +174,57 @@ class Branch:
                     self._update(buildscript)
                 else:
                     self._checkout(buildscript)
+
+    def get_patch_files(self, buildscript):
+        patch_files = []
+
+        # now patch the working tree
+        for (patch, patchstrip) in self.patches:
+            patchfile = ''
+            if urllib.parse.urlparse(patch)[0]:
+                # patch name has scheme, get patch from network
+                try:
+                    patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
+                except urllib.error.HTTPError as e:
+                    raise BuildStateError(_('could not download patch (error: %s)') % e.code)
+                except urllib.error.URLError:
+                    raise BuildStateError(_('could not download patch'))
+            elif self.repository.moduleset_uri:
+                # get it relative to the moduleset uri, either in the same
+                # directory or a patches/ subdirectory
+                for patch_prefix in ('.', 'patches', '../patches'):
+                    uri = urllib.parse.urljoin(self.repository.moduleset_uri,
+                            os.path.join(patch_prefix, patch))
+                    try:
+                        patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
+                    except Exception:
+                        continue
+                    if not os.path.isfile(patchfile):
+                        continue
+                    break
+                else:
+                    patchfile = ''
+
+            if not patchfile:
+                # nothing else, use jhbuild provided patches
+                possible_locations = []
+                if self.config.modulesets_dir:
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, 'patches'))
+                    possible_locations.append(os.path.join(self.config.modulesets_dir, '../patches'))
+                if PKGDATADIR:
+                    possible_locations.append(os.path.join(PKGDATADIR, 'patches'))
+                if SRCDIR:
+                    possible_locations.append(os.path.join(SRCDIR, 'patches'))
+                for dirname in possible_locations:
+                    patchfile = os.path.join(dirname, patch)
+                    if os.path.exists(patchfile):
+                        break
+                else:
+                    raise CommandError(_('Failed to find patch: %s') % patch)
+
+            patch_files.append((patchfile, patch, patchstrip))
+
+        return patch_files
 
     def force_checkout(self, buildscript):
         """A more agressive version of checkout()."""
