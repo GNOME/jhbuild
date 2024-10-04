@@ -31,9 +31,8 @@ import zipfile
 from jhbuild.errors import FatalError, CommandError, BuildStateError
 from jhbuild.versioncontrol import Repository, Branch, register_repo_type
 from jhbuild.utils.cmds import has_command, get_output
-from jhbuild.modtypes import get_branch
 from jhbuild.utils.unpack import unpack_archive
-from jhbuild.utils import httpcache, _
+from jhbuild.utils import _
 from jhbuild.utils.sxml import sxml
 
 
@@ -85,26 +84,6 @@ class TarballRepository(Repository):
                              branch_id=branch_id, source_subdir=source_subdir,
                              tarball_name=rename_tarball)
 
-    def branch_from_xml(self, name, branchnode, repositories, default_repo):
-        try:
-            branch = Repository.branch_from_xml(self, name, branchnode, repositories, default_repo)
-        except TypeError:
-            raise FatalError(_('branch for %s is not correct, check the moduleset file.') % name)
-        # patches represented as children of the branch node
-        for childnode in branchnode.childNodes:
-            if childnode.nodeType != childnode.ELEMENT_NODE:
-                continue
-            if childnode.nodeName == 'patch':
-                patchfile = childnode.getAttribute('file')
-                if childnode.hasAttribute('strip'):
-                    patchstrip = int(childnode.getAttribute('strip'))
-                else:
-                    patchstrip = 0
-                branch.patches.append((patchfile, patchstrip))
-            elif childnode.nodeName == 'quilt':
-                branch.quilt = get_branch(childnode, repositories, default_repo)
-        return branch
-
     def to_sxml(self):
         return [sxml.repository(type='tarball', name=self.name, href=self.href)]
 
@@ -119,7 +98,6 @@ class TarballBranch(Branch):
         self.version = version
         self.source_size = source_size
         self.source_hash = source_hash
-        self.patches = []
         self.quilt = None
         self.branch_id = branch_id
         self.source_subdir = source_subdir
@@ -253,60 +231,9 @@ class TarballBranch(Branch):
         if self.patches:
             self._do_patches(buildscript)
 
-    def _get_patch_files(self, buildscript):
-        patch_files = []
-
-        # now patch the working tree
-        for (patch, patchstrip) in self.patches:
-            patchfile = ''
-            if urllib.parse.urlparse(patch)[0]:
-                # patch name has scheme, get patch from network
-                try:
-                    patchfile = httpcache.load(patch, nonetwork=buildscript.config.nonetwork)
-                except urllib.error.HTTPError as e:
-                    raise BuildStateError(_('could not download patch (error: %s)') % e.code)
-                except urllib.error.URLError:
-                    raise BuildStateError(_('could not download patch'))
-            elif self.repository.moduleset_uri:
-                # get it relative to the moduleset uri, either in the same
-                # directory or a patches/ subdirectory
-                for patch_prefix in ('.', 'patches', '../patches'):
-                    uri = urllib.parse.urljoin(self.repository.moduleset_uri,
-                            os.path.join(patch_prefix, patch))
-                    try:
-                        patchfile = httpcache.load(uri, nonetwork=buildscript.config.nonetwork)
-                    except Exception:
-                        continue
-                    if not os.path.isfile(patchfile):
-                        continue
-                    break
-                else:
-                    patchfile = ''
-
-            if not patchfile:
-                # nothing else, use jhbuild provided patches
-                possible_locations = []
-                if self.config.modulesets_dir:
-                    possible_locations.append(os.path.join(self.config.modulesets_dir, 'patches'))
-                    possible_locations.append(os.path.join(self.config.modulesets_dir, '../patches'))
-                if PKGDATADIR:
-                    possible_locations.append(os.path.join(PKGDATADIR, 'patches'))
-                if SRCDIR:
-                    possible_locations.append(os.path.join(SRCDIR, 'patches'))
-                for dirname in possible_locations:
-                    patchfile = os.path.join(dirname, patch)
-                    if os.path.exists(patchfile):
-                        break
-                else:
-                    raise CommandError(_('Failed to find patch: %s') % patch)
-
-            patch_files.append((patchfile, patch, patchstrip))
-
-        return patch_files
-
     def _do_patches(self, buildscript):
         # now patch the working tree
-        patch_files = self._get_patch_files(buildscript)
+        patch_files = self.get_patch_files(buildscript)
         for (patchfile, patch, patchstrip) in patch_files:
             buildscript.set_action(_('Applying patch'), self, action_target=patch)
             # patchfile can be a relative file
@@ -342,7 +269,7 @@ class TarballBranch(Branch):
             path = os.path.join(self.checkoutroot, filename)
 
         with zipfile.ZipFile(path, 'w') as zipped_path:
-            patch_files = self._get_patch_files(buildscript)
+            patch_files = self.get_patch_files(buildscript)
             for (patchfile, patch, patchstrip) in patch_files:
                 zipped_path.write(patchfile, arcname='patches/' + patch)
 
