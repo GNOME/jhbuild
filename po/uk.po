@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the jhbuild package.
 #
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2023-11-17 13:25+0000\n"
-"PO-Revision-Date: 2023-11-17 17:50+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
+"POT-Creation-Date: 2024-10-09 15:37+0000\n"
+"PO-Revision-Date: 2024-10-09 22:06+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: autogen.sh:109
 #, sh-format
@@ -121,7 +121,7 @@ msgstr "Оновити один або більше модулів з систе
 
 #: jhbuild/commands/base.py:98 jhbuild/commands/base.py:136
 #: jhbuild/commands/base.py:389 jhbuild/commands/rdepends.py:53
-#: jhbuild/moduleset.py:175
+#: jhbuild/moduleset.py:186
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Модуль з назвою '%s' не знайдено."
@@ -611,7 +611,7 @@ msgstr "шлях з префіксом встановлення (%s) недос�
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:504 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1199,7 +1199,7 @@ msgstr "Очищення"
 #: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
-#: jhbuild/modtypes/waf.py:92
+#: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
 msgid "Building"
 msgstr "Збирання"
 
@@ -1223,7 +1223,8 @@ msgstr "Вилучаємо стару встановлену версію"
 
 #: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
-#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:133
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
+#: jhbuild/modtypes/waf.py:133
 msgid "Installing"
 msgstr "Встановлення"
 
@@ -1408,45 +1409,45 @@ msgstr ""
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "модуль '%(module)s' має неправильний атрибут розміру ('%(size)s')"
 
-#: jhbuild/moduleset.py:89
+#: jhbuild/moduleset.py:91
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "виправлено регістр модуля '%(orig)s' на '%(new)s'"
 
-#: jhbuild/moduleset.py:128
+#: jhbuild/moduleset.py:137
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s має залежність від невідомого модуля \"%(invalid)s\""
 
-#: jhbuild/moduleset.py:141
+#: jhbuild/moduleset.py:150
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Виявлено циклічні залежності: %s"
 
-#: jhbuild/moduleset.py:290
+#: jhbuild/moduleset.py:302
 msgid "Unknown module:"
 msgstr "Невідомий модуль:"
 
-#: jhbuild/moduleset.py:429
+#: jhbuild/moduleset.py:441
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr ""
 "<if> має містити лише одну інструкцію condition-set='' або condition-unset=''"
 
-#: jhbuild/moduleset.py:448
+#: jhbuild/moduleset.py:460
 #, python-format
 msgid "could not download %s: %s"
 msgstr "не вдається завантажити %s: %s"
 
-#: jhbuild/moduleset.py:453 jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:465 jhbuild/moduleset.py:467
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "помилка розбору %s: %s"
 
-#: jhbuild/moduleset.py:490
+#: jhbuild/moduleset.py:502
 msgid "Duplicate repository:"
 msgstr "Дублікат репозиторію:"
 
-#: jhbuild/moduleset.py:593
+#: jhbuild/moduleset.py:605
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1686,25 +1687,29 @@ msgstr "Для виправлення скористайтесь сценарі�
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:616 jhbuild/versioncontrol/git.py:656
-#: jhbuild/versioncontrol/git.py:732 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:626 jhbuild/versioncontrol/git.py:666
+#: jhbuild/versioncontrol/git.py:742 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "checkout оснований на даті ще не підтримується\n"
 
-#: jhbuild/versioncontrol/git.py:109
+#: jhbuild/versioncontrol/git.py:111
 msgid "ignored bad branch redefinition for module:"
 msgstr "ігнорується неправильне перевизначення гілки для модуля:"
 
-#: jhbuild/versioncontrol/git.py:202
+#: jhbuild/versioncontrol/git.py:150
+msgid "Cannot set \"version\" of a git branch without \"tag\""
+msgstr "Не можна встановити «version» для гілки git без встановлення «tag»"
+
+#: jhbuild/versioncontrol/git.py:212
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Для роботи потрібен принаймні git-1.5.6 від червня 2008 року"
 
-#: jhbuild/versioncontrol/git.py:216
+#: jhbuild/versioncontrol/git.py:226
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Неочікувано: Checkoutdir не є git-репозиторієм:"
 
-#: jhbuild/versioncontrol/git.py:296
+#: jhbuild/versioncontrol/git.py:306
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1713,21 +1718,21 @@ msgstr ""
 "Запитана гілка \"%s\" недоступна. Ані локально, ані віддалено у віддаленому "
 "origin."
 
-#: jhbuild/versioncontrol/git.py:304
+#: jhbuild/versioncontrol/git.py:314
 msgid "Refusing to switch a dirty tree."
 msgstr "Відмова перемикнути на dirty дерево."
 
-#: jhbuild/versioncontrol/git.py:382
+#: jhbuild/versioncontrol/git.py:392
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Команда %s не повернула виводу"
 
-#: jhbuild/versioncontrol/git.py:387
+#: jhbuild/versioncontrol/git.py:397
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Команда %s не містить commit-рядок: %r"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:486
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1735,7 +1740,7 @@ msgstr ""
 "Помилка при оновленні модуля, оскільки він перейшов на git (слід перевірити "
 "зміни, і потім видалити каталог)."
 
-#: jhbuild/versioncontrol/git.py:477
+#: jhbuild/versioncontrol/git.py:487
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1743,7 +1748,7 @@ msgstr ""
 "Помилка при оновленні модуля (відсутній .git) (слід перевірити зміни, потім "
 "видалити каталог)."
 
-#: jhbuild/versioncontrol/git.py:581
+#: jhbuild/versioncontrol/git.py:591
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1751,7 +1756,7 @@ msgstr ""
 "Помилка у зовнішній обробці\n"
 " Якщо у Вас git версії < 1.5.6 рекомендується оновити її.\n"
 
-#: jhbuild/versioncontrol/git.py:628
+#: jhbuild/versioncontrol/git.py:638
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
