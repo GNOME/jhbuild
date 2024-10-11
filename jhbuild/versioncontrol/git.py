@@ -146,11 +146,9 @@ class GitBranch(Branch):
         self.subdir = subdir
         self.branch = branch
         self.tag = tag
-        if version:
+        self.version = version or tag
+        if version and not tag:
             raise FatalError(_('Cannot set "version" of a git branch without "tag"'))
-            self.version = version
-        else:
-            self.version = tag
         self.unmirrored_module = unmirrored_module
 
     def get_module_basename(self):
