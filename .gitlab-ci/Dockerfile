@@ -18,6 +18,7 @@ RUN apt update && apt install -y \
     python3 \
     python3-flake8 \
     python3-pytest \
+    python3-pytest-cov \
     sudo \
     trang \
     yelp-tools \
