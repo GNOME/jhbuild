@@ -20,7 +20,7 @@ documentation:
 
 test-py3:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v6
-  coverage: /TOTAL.*? (100(?:\.0+)?\%\|[1-9]?\d(?:\.\d+)?\%)$/
+  coverage: /TOTAL\s+\d+\s+\d+\s+(\d+)%/
   script:
     # verify modulesets
     - xmllint --noout modulesets/*.{xml,xsl,modules}
@@ -38,10 +38,13 @@ test-py3:
     # flake 8
     - python3 -m flake8 .
     # Code coverage
-    - python3 -m pytest --junit-xml=coverage.xml --cov=jhbuild tests --verbose || true
+    - python3 -m pytest --junit-xml=junit.xml --cov-report=xml --cov-report=term --cov=jhbuild tests --verbose || true
   artifacts:
     reports:
-      junit: coverage.xml
+      junit: junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
 
 ub20.04-py3-glib:
   image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v6
