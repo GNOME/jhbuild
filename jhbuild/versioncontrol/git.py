@@ -140,9 +140,12 @@ class GitBranch(Branch):
     """A class representing a GIT branch."""
 
     dirty_branch_suffix = '-dirty'
+    git_minimum_version = '1.5.6'
 
     def __init__(self, repository, module, subdir, checkoutdir=None,
                  branch=None, tag=None, version=None, unmirrored_module=None):
+        if not self.check_version_git(self.git_minimum_version):
+            raise FatalError(_('Need at least git-%s to operate' % self.git_minimum_version))
         Branch.__init__(self, repository, module, checkoutdir)
         self.subdir = subdir
         self.branch = branch
@@ -151,6 +154,10 @@ class GitBranch(Branch):
         if version and not tag:
             raise FatalError(_('Cannot set "version" of a git branch without "tag"'))
         self.unmirrored_module = unmirrored_module
+
+    def check_version_git(self, version_spec):
+        return check_version(['git', '--version'], r'git version ([\d.]+)',
+                version_spec, extra_env=get_git_extra_env())
 
     def get_module_basename(self):
         # prevent basename() from returning empty strings on trailing '/'
@@ -207,17 +214,10 @@ class GitBranch(Branch):
     def is_dirty(self, ignore_submodules=True):
         submodule_options = []
         if ignore_submodules:
-            if not self.check_version_git('1.5.6'):
-                raise CommandError(_('Need at least git-1.5.6 from June/08 '
-                        'to operate'))
             submodule_options = ['--ignore-submodules']
         return not self.execute_git_predicate(
                 ['git', 'diff', '--exit-code', '--quiet'] + submodule_options
                 + ['HEAD'])
-
-    def check_version_git(self, version_spec):
-        return check_version(['git', '--version'], r'git version ([\d.]+)',
-                version_spec, extra_env=get_git_extra_env())
 
     def get_current_branch(self):
         """Returns either a branchname or None if head is detached"""
@@ -495,11 +495,7 @@ class GitBranch(Branch):
         self._update_submodules(buildscript)
 
         if stashed:
-            # git stash pop was introduced in 1.5.5,
-            if self.check_version_git('1.5.5'):
-                buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
-            else:
-                buildscript.execute(['git', 'stash', 'apply', 'jhbuild-stash'], **git_extra_args)
+            buildscript.execute(['git', 'stash', 'pop'], **git_extra_args)
 
         if self.patches:
             self._do_patches(buildscript)
@@ -595,8 +591,6 @@ class GitSvnBranch(GitBranch):
                     if rev_match.group(1) > self.revision:
                         break
         except IOError:
-            # we couldn't find an unhandled.log to parse so try
-            # git svn show-externals - note this is broken in git < 1.5.6
             try:
                 output = get_output(['git', 'svn', 'show-externals'], cwd=cwd,
                         extra_env=get_git_extra_env())
@@ -609,7 +603,7 @@ class GitSvnBranch(GitBranch):
 
                 match = re.compile("^(\\.) (.+)").search(". " + ext)
             except OSError:
-                raise FatalError(_("External handling failed\n If you are running git version < 1.5.6 it is recommended you update.\n"))
+                raise FatalError(_("External handling failed\n"))
 
         # only parse the final match
         if match:
