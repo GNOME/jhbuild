@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
-"POT-Creation-Date: 2024-10-09 15:37+0000\n"
-"PO-Revision-Date: 2024-10-10 09:26+0800\n"
+"POT-Creation-Date: 2024-10-14 13:49+0000\n"
+"PO-Revision-Date: 2024-10-15 18:18+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -599,7 +599,7 @@ msgstr "install 的前缀位置(%s) 不可写"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:535 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1151,13 +1151,13 @@ msgstr "EOF"
 msgid "Configuring"
 msgstr "正在配置"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:126
 #: jhbuild/modtypes/linux.py:142 jhbuild/modtypes/meson.py:122
 #: jhbuild/modtypes/waf.py:84
 msgid "Cleaning"
 msgstr "正在清理"
 
-#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
+#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:135
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
 #: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
@@ -1169,7 +1169,7 @@ msgstr "正在构建"
 msgid "Checking"
 msgstr "正在检查"
 
-#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:144
 #: jhbuild/modtypes/meson.py:141 jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "正在创建档案包"
@@ -1182,7 +1182,7 @@ msgstr "Dist 检查"
 msgid "Uninstalling old installed version"
 msgstr "正在卸载旧的安装版本"
 
-#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
+#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:156
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
 #: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
 #: jhbuild/modtypes/waf.py:133
@@ -1580,7 +1580,7 @@ msgstr "解开 %s 失败(空文件？)"
 
 #: jhbuild/versioncontrol/bzr.py:73 jhbuild/versioncontrol/darcs.py:51
 #: jhbuild/versioncontrol/fossil.py:48 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:66
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:65
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr "%(name)s 的分支有覆盖错误，请检查您的 %(filename)s"
@@ -1628,62 +1628,76 @@ msgstr "考虑使用 changecvsroot.py 脚本来修复此问题。"
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:626 jhbuild/versioncontrol/git.py:666
-#: jhbuild/versioncontrol/git.py:742 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:647 jhbuild/versioncontrol/git.py:687
+#: jhbuild/versioncontrol/git.py:763 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "尚未支持基于日期的检出\n"
 
-#: jhbuild/versioncontrol/git.py:111
+#: jhbuild/versioncontrol/git.py:112
 msgid "ignored bad branch redefinition for module:"
 msgstr "已忽略有问题的模块分支重定义："
 
-#: jhbuild/versioncontrol/git.py:150
+#: jhbuild/versioncontrol/git.py:152
 msgid "Cannot set \"version\" of a git branch without \"tag\""
 msgstr "无法为没有“tag”的 git 分支设定“version”"
 
-#: jhbuild/versioncontrol/git.py:212
+#: jhbuild/versioncontrol/git.py:211
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "至少需要08年6月发布的 git-1.5.6 才能工作"
 
-#: jhbuild/versioncontrol/git.py:226
+#: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "异常：检出目录不是一个 git 仓库："
 
-#: jhbuild/versioncontrol/git.py:306
+#: jhbuild/versioncontrol/git.py:305
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
 "in the origin remote."
 msgstr "请求的分支 \"%s\" 不可用。无论本地还是远程都不在初始的远程位置中。"
 
-#: jhbuild/versioncontrol/git.py:314
+#: jhbuild/versioncontrol/git.py:313
 msgid "Refusing to switch a dirty tree."
 msgstr "拒绝切换到一个污染的树。"
 
-#: jhbuild/versioncontrol/git.py:392
+#: jhbuild/versioncontrol/git.py:377
 #, python-format
 msgid "Command %s returned no output"
 msgstr "%s 命令返回了空输出"
 
-#: jhbuild/versioncontrol/git.py:397
+#: jhbuild/versioncontrol/git.py:382
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "%s 命令并未包含提交(commit)行：%r"
 
-#: jhbuild/versioncontrol/git.py:486
+#: jhbuild/versioncontrol/git.py:471
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
 msgstr "在切换到 git 时更新模块失败(您应该检查改动然后移除该目录)。"
 
-#: jhbuild/versioncontrol/git.py:487
+#: jhbuild/versioncontrol/git.py:472
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
 msgstr "更新模块失败(缺少 .git)(您应该检查改动然后移除该目录)。"
 
-#: jhbuild/versioncontrol/git.py:591
+#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/tarball.py:238
+msgid "Applying patch"
+msgstr "正在应用补丁"
+
+#: jhbuild/versioncontrol/git.py:520
+#, python-format
+msgid "Skipping patch '%s' (already applied)"
+msgstr "正在跳过补丁“%s”（已经应用）"
+
+#: jhbuild/versioncontrol/git.py:526
+#, python-format
+msgid "Could not apply patch '%s'\n"
+msgstr "无法应用补丁“%s”\n"
+
+#: jhbuild/versioncontrol/git.py:612
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1691,12 +1705,26 @@ msgstr ""
 "外部处理失败\n"
 "如果您运行的 git 版本 < 1.5.6，建议您更新它。\n"
 
-#: jhbuild/versioncontrol/git.py:638
+#: jhbuild/versioncontrol/git.py:659
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "无法从 %s 获取最新版本。请检查模块位置。"
 
-#: jhbuild/versioncontrol/__init__.py:197
+#: jhbuild/versioncontrol/__init__.py:189
+#, python-format
+msgid "could not download patch (error: %s)"
+msgstr "无法下载补丁(错误：%s)"
+
+#: jhbuild/versioncontrol/__init__.py:191
+msgid "could not download patch"
+msgstr "无法下载补丁"
+
+#: jhbuild/versioncontrol/__init__.py:223
+#, python-format
+msgid "Failed to find patch: %s"
+msgstr "查找补丁失败：%s"
+
+#: jhbuild/versioncontrol/__init__.py:267
 #, python-format
 msgid "unknown repository type %s"
 msgstr "未知的仓库类型 %s"
@@ -1744,89 +1772,70 @@ msgstr "无法解析 %s 的 \"svn info\" 输出"
 msgid "Error checking for conflicts"
 msgstr "检查冲突失败"
 
-#: jhbuild/versioncontrol/tarball.py:92
-#, python-format
-msgid "branch for %s is not correct, check the moduleset file."
-msgstr "%s 分支不正确，请检查模块集文件。"
-
-#: jhbuild/versioncontrol/tarball.py:134
+#: jhbuild/versioncontrol/tarball.py:112
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL 中不含文件名：%s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:154
 msgid "file not downloaded"
 msgstr "文件未下载"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:159
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr "下载文件大小不正确(应为 %(size1)d)，而得到的是 %(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:165
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "%s 模块的 hash 属性无效"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:178
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "文件 hash 不正确(应为 %(sum1)s，而得到是的 %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "已跳过 hash 检查(缺少 %s 支持)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:185
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "档案包目录(%s)必须可写"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:197
 msgid "unable to find wget or curl"
 msgstr "找不到 wget 或 curl"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:213
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "无法创建档案包目录(%s)"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "failed to unpack %s"
 msgstr "解开 %s 失败"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:228
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "无法解开档案包(应为 %s 目录)"
 
-#: jhbuild/versioncontrol/tarball.py:267
-#, python-format
-msgid "could not download patch (error: %s)"
-msgstr "无法下载补丁(错误：%s)"
-
-#: jhbuild/versioncontrol/tarball.py:269
-msgid "could not download patch"
-msgstr "无法下载补丁"
-
-#: jhbuild/versioncontrol/tarball.py:301
-#, python-format
-msgid "Failed to find patch: %s"
-msgstr "查找补丁失败：%s"
-
-#: jhbuild/versioncontrol/tarball.py:311
-msgid "Applying patch"
-msgstr "正在应用补丁"
-
-#: jhbuild/versioncontrol/tarball.py:319
+#: jhbuild/versioncontrol/tarball.py:246
 msgid "unable to find quilt"
 msgstr "找不到 quilt"
 
-#: jhbuild/versioncontrol/tarball.py:330
+#: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "无法检出 quilt 补丁集"
+
+#, python-format
+#~ msgid "branch for %s is not correct, check the moduleset file."
+#~ msgstr "%s 分支不正确，请检查模块集文件。"
 
 #~ msgid ""
 #~ "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
