@@ -58,13 +58,19 @@ class Repository:
     
     def branch_from_xml(self, name, branchnode, repositories, default_repo):
         kws = {}
+        # Collect attributes.
         for attr in self.branch_xml_attrs:
             if branchnode.hasAttribute(attr):
                 kws[attr.replace('-', '_')] = branchnode.getAttribute(attr)
+        # Attribute initialization.
         if branchnode.hasAttribute('id'):
             kws['branch_id'] = branchnode.getAttribute('id')
+        # Create branch and collect patches if any.
         branch = self.branch(name, **kws)
-        # Process downstream patches, if any.
+        self.parse_patches(branch, branchnode, repositories, default_repo)
+        return branch
+
+    def parse_patches(self, branch, branchnode, repositories, default_repo):
         for childnode in branchnode.childNodes:
             if childnode.nodeType != childnode.ELEMENT_NODE:
                 continue
@@ -77,7 +83,14 @@ class Repository:
                 branch.patches.append((patchfile, patchstrip))
             elif childnode.nodeName == 'quilt':
                 branch.quilt = get_branch(childnode, repositories, default_repo)
-        return branch
+
+    def eval_version(self, module, checkoutdir, version):
+        if version:
+            if module:
+                module = module.replace('${version}', version)
+            if checkoutdir:
+                checkoutdir = checkoutdir.replace('${version}', version)
+        return module, checkoutdir
 
     def to_sxml(self):
         """Return an sxml representation of this repository."""

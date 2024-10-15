@@ -66,12 +66,11 @@ class TarballRepository(Repository):
                                  {'name'     : name,
                                   'filename' : self.config.filename})
         else:
-            if module is None:
-                module = name
+            module = module or name
             module = urllib.parse.urljoin(self.href, module)
-        module = module.replace('${version}', version)
-        if checkoutdir is not None:
-            checkoutdir = checkoutdir.replace('${version}', version)
+
+        module, checkoutdir = self.eval_version(module, checkoutdir, version)
+
         if size is not None:
             size = int(size)
         if md5sum and not hash:

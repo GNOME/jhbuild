@@ -86,11 +86,8 @@ class GitRepository(Repository):
 
     def branch(self, name, module = None, subdir="", checkoutdir = None,
                revision = None, tag = None, version = None):
-        if module is None:
-            module = name
-
-        if version:
-            module = module.replace('${version}', version)
+        module = module or name
+        module, checkoutdir = self.eval_version(module, checkoutdir, version)
         mirror_module = None
         if self.config.dvcs_mirror_dir:
             mirror_module = get_git_mirror_directory(
@@ -119,9 +116,6 @@ class GitRepository(Repository):
             else:
                 base_href = self.href + '/'
             module = base_href + module
-
-        if checkoutdir is not None and version is not None:
-            checkoutdir = checkoutdir.replace('${version}', version)
 
         if mirror_module:
             return GitBranch(self, mirror_module, subdir, checkoutdir,
