@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
-"POT-Creation-Date: 2024-10-14 13:49+0000\n"
-"PO-Revision-Date: 2024-10-14 16:06+0200\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2024-10-16 23:35+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -608,7 +608,7 @@ msgstr "predpona namestitve (%s) ni zapisljiva."
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:535 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1680,8 +1680,8 @@ msgstr "Uporabite skript changecvsroot.py za odpravo napake."
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:647 jhbuild/versioncontrol/git.py:687
-#: jhbuild/versioncontrol/git.py:763 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "datumsko določen prevzem še ni podprt\n"
@@ -1690,14 +1690,14 @@ msgstr "datumsko določen prevzem še ni podprt\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "prezrta slaba ponovna določitev veje za modul:"
 
-#: jhbuild/versioncontrol/git.py:152
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "Za delovanje potrebujete vsaj git-%s"
+
+#: jhbuild/versioncontrol/git.py:155
 msgid "Cannot set \"version\" of a git branch without \"tag\""
 msgstr "Ni mogoče nastaviti različice (»version«) veje git brez značke (»tag«)"
-
-#: jhbuild/versioncontrol/git.py:211
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr ""
-"Za delovanje je zahtevana vsaj različica git-1.5.6, objavljena junija 2008"
 
 #: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
@@ -1741,30 +1741,25 @@ msgstr ""
 "Napaka med posodabljanjem modula (manjka .git) (pregledati je treba "
 "spremembe, nato pa odstraniti mapo)."
 
-#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/tarball.py:238
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
 msgid "Applying patch"
 msgstr "Pripenjanje popravka"
 
-#: jhbuild/versioncontrol/git.py:520
+#: jhbuild/versioncontrol/git.py:516
 #, python-format
 msgid "Skipping patch '%s' (already applied)"
 msgstr "Preskakovanje popravka »%s« (že uveljavljen)"
 
-#: jhbuild/versioncontrol/git.py:526
+#: jhbuild/versioncontrol/git.py:522
 #, python-format
 msgid "Could not apply patch '%s'\n"
 msgstr "Ni bilo možno namestiti popravka »%s«\n"
 
-#: jhbuild/versioncontrol/git.py:612
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr ""
-"Zunanje upravljanje je spodletelo\n"
-" V kolikor je v uporabi različica git < 1.5.6, je priporočeno pakete "
-"posodobiti.\n"
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr "Zunanje ravnanje ni uspelo\n"
 
-#: jhbuild/versioncontrol/git.py:659
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Ni mogoče pridobiti zadnje predelave iz %s. Preverite mesto modula."
