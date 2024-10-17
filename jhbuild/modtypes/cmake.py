@@ -112,8 +112,9 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
     def skip_configure(self, buildscript, last_phase):
         # don't skip this stage if we got here from one of the
         # following phases:
-        if last_phase in [self.PHASE_FORCE_CHECKOUT,
-                          self.PHASE_BUILD,
+        if last_phase in [self.PHASE_BUILD,
+                          self.PHASE_CHECKOUT,
+                          self.PHASE_FORCE_CHECKOUT,
                           self.PHASE_INSTALL]:
             return False
 
