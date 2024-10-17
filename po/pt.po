@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
-"POT-Creation-Date: 2024-10-14 13:49+0000\n"
-"PO-Revision-Date: 2024-10-14 18:14+0100\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2024-10-17 14:38+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -612,7 +612,7 @@ msgstr "não pode escrever no prefixo da instalação (%s)"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:535 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1682,8 +1682,8 @@ msgstr "Considere usar o script changecvsroot.py para reparação."
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:647 jhbuild/versioncontrol/git.py:687
-#: jhbuild/versioncontrol/git.py:763 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "checkout baseado em data ainda não suportado\n"
@@ -1692,15 +1692,16 @@ msgstr "checkout baseado em data ainda não suportado\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "má redefinição de ramo ignorada para o módulo:"
 
-#: jhbuild/versioncontrol/git.py:152
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "Necessita de pelo menos do git-%s para funcionar"
+
+#: jhbuild/versioncontrol/git.py:155
 msgid "Cannot set \"version\" of a git branch without \"tag\""
 msgstr ""
 "Não é possível definir a \"versão\" de uma ramificação do git sem a "
 "\"etiqueta\""
-
-#: jhbuild/versioncontrol/git.py:211
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr "Precisa pelo menos do git-1.5.6 de junho/08 para operar"
 
 #: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
@@ -1745,30 +1746,25 @@ msgstr ""
 "Falha ao atualizar o módulo (.git em falta) (deve verificar alterações e "
 "depois remover a pasta)."
 
-#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/tarball.py:238
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
 msgid "Applying patch"
 msgstr "A aplicar a correção"
 
-#: jhbuild/versioncontrol/git.py:520
+#: jhbuild/versioncontrol/git.py:516
 #, python-format
 msgid "Skipping patch '%s' (already applied)"
 msgstr "A ignorar a correção '%s' (já aplicada)"
 
-#: jhbuild/versioncontrol/git.py:526
+#: jhbuild/versioncontrol/git.py:522
 #, python-format
-#| msgid "could not download patch"
 msgid "Could not apply patch '%s'\n"
 msgstr "Não foi possível aplicar a correção '%s'\n"
 
-#: jhbuild/versioncontrol/git.py:612
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr ""
-"Falha da gestão externa\n"
-" Se está a executar o git versão < 1.5.6, recomenda-se que atualize.\n"
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr "Falha no tratamento externo\n"
 
-#: jhbuild/versioncontrol/git.py:659
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
@@ -1900,6 +1896,13 @@ msgstr "impossível localizar o quilt"
 msgid "could not checkout quilt patch set"
 msgstr ""
 "não foi possível fazer a verificação de saída do conjunto de correção quilt"
+
+#~ msgid ""
+#~ "External handling failed\n"
+#~ " If you are running git version < 1.5.6 it is recommended you update.\n"
+#~ msgstr ""
+#~ "Falha da gestão externa\n"
+#~ " Se está a executar o git versão < 1.5.6, recomenda-se que atualize.\n"
 
 #, python-format
 #~ msgid "branch for %s is not correct, check the moduleset file."
