@@ -120,6 +120,11 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
         if buildscript.config.alwaysautogen:
             return False
 
+        srcdir = self.get_srcdir(buildscript)
+        cmakecache_path = os.path.join(srcdir, 'CMakeCache.txt')
+        if not os.path.exists(cmakecache_path):
+            return False
+
         return True
 
     def do_clean(self, buildscript):
