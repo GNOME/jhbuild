@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
-"POT-Creation-Date: 2024-10-14 13:49+0000\n"
-"PO-Revision-Date: 2024-10-15 18:18+0800\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2024-10-17 18:53+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -599,7 +599,7 @@ msgstr "install 的前缀位置(%s) 不可写"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:535 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1628,8 +1628,8 @@ msgstr "考虑使用 changecvsroot.py 脚本来修复此问题。"
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:647 jhbuild/versioncontrol/git.py:687
-#: jhbuild/versioncontrol/git.py:763 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "尚未支持基于日期的检出\n"
@@ -1638,13 +1638,14 @@ msgstr "尚未支持基于日期的检出\n"
 msgid "ignored bad branch redefinition for module:"
 msgstr "已忽略有问题的模块分支重定义："
 
-#: jhbuild/versioncontrol/git.py:152
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "至少需要 git-%s 才能操作"
+
+#: jhbuild/versioncontrol/git.py:155
 msgid "Cannot set \"version\" of a git branch without \"tag\""
 msgstr "无法为没有“tag”的 git 分支设定“version”"
-
-#: jhbuild/versioncontrol/git.py:211
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr "至少需要08年6月发布的 git-1.5.6 才能工作"
 
 #: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
@@ -1683,29 +1684,25 @@ msgid ""
 "remove the directory)."
 msgstr "更新模块失败(缺少 .git)(您应该检查改动然后移除该目录)。"
 
-#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/tarball.py:238
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
 msgid "Applying patch"
 msgstr "正在应用补丁"
 
-#: jhbuild/versioncontrol/git.py:520
+#: jhbuild/versioncontrol/git.py:516
 #, python-format
 msgid "Skipping patch '%s' (already applied)"
 msgstr "正在跳过补丁“%s”（已经应用）"
 
-#: jhbuild/versioncontrol/git.py:526
+#: jhbuild/versioncontrol/git.py:522
 #, python-format
 msgid "Could not apply patch '%s'\n"
 msgstr "无法应用补丁“%s”\n"
 
-#: jhbuild/versioncontrol/git.py:612
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr ""
-"外部处理失败\n"
-"如果您运行的 git 版本 < 1.5.6，建议您更新它。\n"
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr "外部处理失败\n"
 
-#: jhbuild/versioncontrol/git.py:659
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "无法从 %s 获取最新版本。请检查模块位置。"
@@ -1832,6 +1829,13 @@ msgstr "找不到 quilt"
 #: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "无法检出 quilt 补丁集"
+
+#~ msgid ""
+#~ "External handling failed\n"
+#~ " If you are running git version < 1.5.6 it is recommended you update.\n"
+#~ msgstr ""
+#~ "外部处理失败\n"
+#~ "如果您运行的 git 版本 < 1.5.6，建议您更新它。\n"
 
 #, python-format
 #~ msgid "branch for %s is not correct, check the moduleset file."
