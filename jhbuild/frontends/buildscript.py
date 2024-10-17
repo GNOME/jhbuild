@@ -21,7 +21,6 @@
 import os
 import logging
 import subprocess
-import sys
 
 from jhbuild.utils import trigger
 from jhbuild.utils import cmds, _
@@ -182,7 +181,7 @@ class BuildScript(object):
 
                 if error:
                     if self.config.exit_on_error:
-                        sys.exit(1)
+                        self.fatal_error(module, phase, error)
 
                     try:
                         nextphase = build_phases[num_phase+1]
@@ -344,6 +343,10 @@ class BuildScript(object):
 
     def set_action(self, action, module, module_num=-1, action_target=None):
         '''inform the buildscript of a new stage of the build'''
+        raise NotImplementedError
+
+    def fatal_error(self, module, phase, error):
+        '''fatal error during build'''
         raise NotImplementedError
 
     def handle_error(self, module, phase, nextphase, error, altphases):

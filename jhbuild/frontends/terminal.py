@@ -308,6 +308,13 @@ class TerminalBuildScript(buildscript.BuildScript):
                 print(module, end=' ')
             print('')
 
+    def fatal_error(self, module, phase, error):
+        summary = _('Error during phase %(phase)s of %(module)s') % {
+            'phase': phase, 'module': module.name}
+        error_message = error.args[0]
+        uprint('%s: %s' % (summary, error_message), file=sys.stderr)
+        sys.exit(1)
+
     def handle_error(self, module, phase, nextphase, error, altphases):
         '''handle error during build'''
         summary = _('Error during phase %(phase)s of %(module)s') % {
