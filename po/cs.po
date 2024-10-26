@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2023-11-26 17:34+0000\n"
-"PO-Revision-Date: 2024-02-07 15:16+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2024-10-26 11:22+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: autogen.sh:109
 #, sh-format
@@ -125,7 +125,7 @@ msgstr "Aktualizovat jeden nebo více modulů ze systému správy verzí"
 
 #: jhbuild/commands/base.py:98 jhbuild/commands/base.py:136
 #: jhbuild/commands/base.py:389 jhbuild/commands/rdepends.py:53
-#: jhbuild/moduleset.py:175
+#: jhbuild/moduleset.py:186
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Nebyl nalezen modul s názvem „%s“."
@@ -613,7 +613,7 @@ msgstr "prefix instalace (%s) nemá povolen zápis"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:504 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1185,16 +1185,16 @@ msgstr "Konec souboru (EOF)"
 msgid "Configuring"
 msgstr "Nastavuje se"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:126
 #: jhbuild/modtypes/linux.py:142 jhbuild/modtypes/meson.py:122
 #: jhbuild/modtypes/waf.py:84
 msgid "Cleaning"
 msgstr "Čistí se"
 
-#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
+#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:135
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
-#: jhbuild/modtypes/waf.py:92
+#: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
 msgid "Building"
 msgstr "Sestavuje se"
 
@@ -1203,7 +1203,7 @@ msgstr "Sestavuje se"
 msgid "Checking"
 msgstr "Kontroluje se"
 
-#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:144
 #: jhbuild/modtypes/meson.py:141 jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Vytváří se balíček tarball pro"
@@ -1216,9 +1216,10 @@ msgstr "Kontroluje se distribuce (distcheck)"
 msgid "Uninstalling old installed version"
 msgstr "Odinstalovává se stará nainstalovaná verze"
 
-#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
+#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:156
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
-#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:133
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
+#: jhbuild/modtypes/waf.py:133
 msgid "Installing"
 msgstr "Instaluje se"
 
@@ -1403,44 +1404,44 @@ msgstr ""
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "modul „%(module)s“ má neplatný atribut „size“ („%(size)s“)"
 
-#: jhbuild/moduleset.py:89
+#: jhbuild/moduleset.py:91
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "opravená verze modulu „%(orig)s“ do „%(new)s“"
 
-#: jhbuild/moduleset.py:128
+#: jhbuild/moduleset.py:137
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s má závislost na neznámém modul „%(invalid)s“"
 
-#: jhbuild/moduleset.py:141
+#: jhbuild/moduleset.py:150
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Detekovány cyklické závislosti: %s"
 
-#: jhbuild/moduleset.py:290
+#: jhbuild/moduleset.py:302
 msgid "Unknown module:"
 msgstr "Neznámý modul:"
 
-#: jhbuild/moduleset.py:429
+#: jhbuild/moduleset.py:441
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> musí mít právě jedno z condition-set='' nebo condition-unset=''"
 
-#: jhbuild/moduleset.py:448
+#: jhbuild/moduleset.py:460
 #, python-format
 msgid "could not download %s: %s"
 msgstr "nepodařilo se stáhnout %s: %s"
 
-#: jhbuild/moduleset.py:453 jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:465 jhbuild/moduleset.py:467
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "nepodařilo se zpracovat %s: %s"
 
-#: jhbuild/moduleset.py:490
+#: jhbuild/moduleset.py:502
 msgid "Duplicate repository:"
 msgstr "Duplicitní repozitář:"
 
-#: jhbuild/moduleset.py:593
+#: jhbuild/moduleset.py:605
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1625,7 +1626,7 @@ msgstr "Selhalo rozbalení %s (prázdný soubor?)"
 
 #: jhbuild/versioncontrol/bzr.py:73 jhbuild/versioncontrol/darcs.py:51
 #: jhbuild/versioncontrol/fossil.py:48 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:66
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:65
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
@@ -1677,25 +1678,30 @@ msgstr "Zvažte použití skriptu changecvsroot.py k opravě."
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:616 jhbuild/versioncontrol/git.py:656
-#: jhbuild/versioncontrol/git.py:732 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "kontrola založená na datech není zatím podporována\n"
 
-#: jhbuild/versioncontrol/git.py:109
+#: jhbuild/versioncontrol/git.py:112
 msgid "ignored bad branch redefinition for module:"
 msgstr "ignorovat špatnou redefinici větve pro modul:"
 
-#: jhbuild/versioncontrol/git.py:202
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr "Pro práci je zapotřebí minimálně git-1.5.6 z června 2008"
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "Pro práci je zapotřebí minimálně git-%s"
 
-#: jhbuild/versioncontrol/git.py:216
+#: jhbuild/versioncontrol/git.py:155
+msgid "Cannot set \"version\" of a git branch without \"tag\""
+msgstr ""
+
+#: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Neočekáváno: Složka místní kopie není repozitář git:"
 
-#: jhbuild/versioncontrol/git.py:296
+#: jhbuild/versioncontrol/git.py:305
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1704,21 +1710,21 @@ msgstr ""
 "Požadovaná větev „%s“ není dostupná. Ani místně, ani vzdáleně v repozitáři "
 "origin."
 
-#: jhbuild/versioncontrol/git.py:304
+#: jhbuild/versioncontrol/git.py:313
 msgid "Refusing to switch a dirty tree."
 msgstr "Odmítá se přepnutí do nečistého stromu."
 
-#: jhbuild/versioncontrol/git.py:382
+#: jhbuild/versioncontrol/git.py:377
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Příkaz %s nevrátil žádný výstup"
 
-#: jhbuild/versioncontrol/git.py:387
+#: jhbuild/versioncontrol/git.py:382
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Příkaz %s nezahrnuje zařazovací řádek: %r"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:471
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1726,7 +1732,7 @@ msgstr ""
 "Selhala aktualizace modulu, protože je přepnutý do git (měli byste "
 "zkontrolovat změny, než složku odstraníte)."
 
-#: jhbuild/versioncontrol/git.py:477
+#: jhbuild/versioncontrol/git.py:472
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1734,20 +1740,44 @@ msgstr ""
 "Selhala aktualizace modulu, protože chybí .git (měli byste zkontrolovat "
 "změny, než složku odstraníte)."
 
-#: jhbuild/versioncontrol/git.py:581
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr ""
-"Externí obsloužení selhalo\n"
-" Jestli používáte git verze < 1.5.6, je doporučeno jej aktualizovat.\n"
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
+msgid "Applying patch"
+msgstr "Aplikuje se záplata"
 
-#: jhbuild/versioncontrol/git.py:628
+#: jhbuild/versioncontrol/git.py:516
+#, python-format
+msgid "Skipping patch '%s' (already applied)"
+msgstr "Přeskakuje se záplata „%s“ (již aplikováno)"
+
+#: jhbuild/versioncontrol/git.py:522
+#, python-format
+msgid "Could not apply patch '%s'\n"
+msgstr "Nelze aplikovat záplatu „%s“\n"
+
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr ""
+
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Nelze získat poslední revizi z %s. Zkontrolujte umístění modulu."
 
-#: jhbuild/versioncontrol/__init__.py:197
+#: jhbuild/versioncontrol/__init__.py:189
+#, python-format
+msgid "could not download patch (error: %s)"
+msgstr "nelze stáhnout záplatu (chyba: %s)"
+
+#: jhbuild/versioncontrol/__init__.py:191
+msgid "could not download patch"
+msgstr "nelze stáhnout záplatu"
+
+#: jhbuild/versioncontrol/__init__.py:223
+#, python-format
+msgid "Failed to find patch: %s"
+msgstr "Nelze najít záplatu: %s"
+
+#: jhbuild/versioncontrol/__init__.py:267
 #, python-format
 msgid "unknown repository type %s"
 msgstr "neznámý typ repositáře %s"
@@ -1795,91 +1825,79 @@ msgstr "nelze zpracovat výstup „svn info“ pro %s"
 msgid "Error checking for conflicts"
 msgstr "Selhala kontrola konfliktů"
 
-#: jhbuild/versioncontrol/tarball.py:92
-#, python-format
-msgid "branch for %s is not correct, check the moduleset file."
-msgstr "větev pro %s není správná, zkontrolujte soubor sady modulů."
-
-#: jhbuild/versioncontrol/tarball.py:134
+#: jhbuild/versioncontrol/tarball.py:112
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "Adresa URL nemá část s názvem souboru: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:154
 msgid "file not downloaded"
 msgstr "nelze stáhnout soubor"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:159
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "velikost staženého souboru není správná (očekáváno %(size1)d, získáno "
 "%(size2)d)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:165
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "neplatný atribut „hash“ modulu %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:178
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "heš souboru není správný (očekáváno %(sum1)s, získáno %(sum2)s)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "ověření heše vynecháno (chybí podpora pro %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:185
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "složka pro archívy tarball (%s) musí mít povolen zápis"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:197
 msgid "unable to find wget or curl"
 msgstr "nelze nalézt programy „wget“ nebo „curl“"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:213
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "složku pro archívy tarball (%s) nelze vytvořit"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "failed to unpack %s"
 msgstr "nelze rozbalit %s"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:228
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "nelze rozbalit archív tarball (očekávána složka %s)"
 
-#: jhbuild/versioncontrol/tarball.py:267
-#, python-format
-msgid "could not download patch (error: %s)"
-msgstr "nelze stáhnout záplatu (chyba: %s)"
-
-#: jhbuild/versioncontrol/tarball.py:269
-msgid "could not download patch"
-msgstr "nelze stáhnout záplatu"
-
-#: jhbuild/versioncontrol/tarball.py:301
-#, python-format
-msgid "Failed to find patch: %s"
-msgstr "Nelze najít záplatu: %s"
-
-#: jhbuild/versioncontrol/tarball.py:311
-msgid "Applying patch"
-msgstr "Aplikuje se záplata"
-
-#: jhbuild/versioncontrol/tarball.py:319
+#: jhbuild/versioncontrol/tarball.py:246
 msgid "unable to find quilt"
 msgstr "nelze najít program „quilt“"
 
-#: jhbuild/versioncontrol/tarball.py:330
+#: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "nelze zkontrolovat vloženou sadu záplat"
+
+#~ msgid ""
+#~ "External handling failed\n"
+#~ " If you are running git version < 1.5.6 it is recommended you update.\n"
+#~ msgstr ""
+#~ "Externí obsloužení selhalo\n"
+#~ " Jestli používáte git verze < 1.5.6, je doporučeno jej aktualizovat.\n"
+
+#, python-format
+#~ msgid "branch for %s is not correct, check the moduleset file."
+#~ msgstr "větev pro %s není správná, zkontrolujte soubor sady modulů."
 
 #~ msgid ""
 #~ "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
