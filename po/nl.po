@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2023-11-26 17:34+0000\n"
-"PO-Revision-Date: 2024-03-31 15:09+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2024-10-28 10:27+0100\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: autogen.sh:109
 #, sh-format
@@ -123,7 +123,7 @@ msgstr "Een of meerdere modules uit version bijwerken"
 
 #: jhbuild/commands/base.py:98 jhbuild/commands/base.py:136
 #: jhbuild/commands/base.py:389 jhbuild/commands/rdepends.py:53
-#: jhbuild/moduleset.py:175
+#: jhbuild/moduleset.py:186
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Module ‘%s’ kon niet worden gevonden."
@@ -617,7 +617,7 @@ msgstr "installatieprefix (%s) is niet schrijfbaar"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:504 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1192,16 +1192,16 @@ msgstr "EOF"
 msgid "Configuring"
 msgstr "Configureren"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:126
 #: jhbuild/modtypes/linux.py:142 jhbuild/modtypes/meson.py:122
 #: jhbuild/modtypes/waf.py:84
 msgid "Cleaning"
 msgstr "Opschonen"
 
-#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
+#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:135
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
-#: jhbuild/modtypes/waf.py:92
+#: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
 msgid "Building"
 msgstr "Compileren"
 
@@ -1210,7 +1210,7 @@ msgstr "Compileren"
 msgid "Checking"
 msgstr "Controleren"
 
-#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:144
 #: jhbuild/modtypes/meson.py:141 jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Tarball aanmaken voor"
@@ -1223,9 +1223,10 @@ msgstr "Dist controleren"
 msgid "Uninstalling old installed version"
 msgstr "Verouderde geïnstalleerde versie verwijderen"
 
-#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
+#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:156
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
-#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:133
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
+#: jhbuild/modtypes/waf.py:133
 msgid "Installing"
 msgstr "Installeren"
 
@@ -1411,44 +1412,44 @@ msgstr ""
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "module ‘%(module)s’ heeft ongeldig grootte-attribuut (‘%(size)s’)"
 
-#: jhbuild/moduleset.py:89
+#: jhbuild/moduleset.py:91
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "hoofdlettergebruik van module ‘%(orig)s’ verbeterd naar ‘%(new)s’"
 
-#: jhbuild/moduleset.py:128
+#: jhbuild/moduleset.py:137
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s is afhankelijk van een onbekende module ‘%(invalid)s’"
 
-#: jhbuild/moduleset.py:141
+#: jhbuild/moduleset.py:150
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Circulaire afhankelijkheden gedetecteerd: %s"
 
-#: jhbuild/moduleset.py:290
+#: jhbuild/moduleset.py:302
 msgid "Unknown module:"
 msgstr "Onbekende module:"
 
-#: jhbuild/moduleset.py:429
+#: jhbuild/moduleset.py:441
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> moet ofwel condition-set='', ofwel condition-unset='' hebben"
 
-#: jhbuild/moduleset.py:448
+#: jhbuild/moduleset.py:460
 #, python-format
 msgid "could not download %s: %s"
 msgstr "kon %s niet downloaden: %s"
 
-#: jhbuild/moduleset.py:453 jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:465 jhbuild/moduleset.py:467
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "kon %s niet verwerken: %s"
 
-#: jhbuild/moduleset.py:490
+#: jhbuild/moduleset.py:502
 msgid "Duplicate repository:"
 msgstr "Dubbele pakketbron:"
 
-#: jhbuild/moduleset.py:593
+#: jhbuild/moduleset.py:605
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1540,7 +1541,7 @@ msgstr "Voltooid!"
 
 #: jhbuild/utils/systeminstall.py:347
 msgid "Using dnf to install packages.  Please wait."
-msgstr "dnf gebruiken om pakketten te installeren.  Even geduld."
+msgstr "dnf wordt gebruikt om pakketten te installeren.  Even geduld."
 
 #: jhbuild/utils/systeminstall.py:351 jhbuild/utils/systeminstall.py:361
 #: jhbuild/utils/systeminstall.py:409 jhbuild/utils/systeminstall.py:427
@@ -1609,8 +1610,8 @@ msgid ""
 "Using apt-file to search for providers; this may be extremely slow. Please "
 "wait. Patience!"
 msgstr ""
-"apt-file gebruiken voor zoeken naar providers; dit kan extreem traag zijn. "
-"Even geduld!"
+"apt-file wordt gebruikt om te zoeken naar providers; dit kan extreem traag "
+"zijn. Even geduld!"
 
 #: jhbuild/utils/trigger.py:55
 #, python-format
@@ -1634,7 +1635,7 @@ msgstr "Uitpakken van %s mislukt (leeg bestand?)"
 
 #: jhbuild/versioncontrol/bzr.py:73 jhbuild/versioncontrol/darcs.py:51
 #: jhbuild/versioncontrol/fossil.py:48 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:66
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:65
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr "tak voor %(name)s heeft verkeerde override, controleer uw %(filename)s"
@@ -1684,26 +1685,31 @@ msgstr "Gebruik het script changecvsroot.py om dit op te lossen."
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:616 jhbuild/versioncontrol/git.py:656
-#: jhbuild/versioncontrol/git.py:732 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "checkout gebaseerd op datum wordt nog niet ondersteund\n"
 
-#: jhbuild/versioncontrol/git.py:109
+#: jhbuild/versioncontrol/git.py:112
 msgid "ignored bad branch redefinition for module:"
 msgstr "slechte takherdefiniëring genegeerd voor module:"
 
-#: jhbuild/versioncontrol/git.py:202
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr "Voor werking is minstens git-1.5.6 van juni 2008 vereist"
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "Voor werking is minstens git-%s vereist"
 
-#: jhbuild/versioncontrol/git.py:216
+#: jhbuild/versioncontrol/git.py:155
+msgid "Cannot set \"version\" of a git branch without \"tag\""
+msgstr "Kan ‘version’ van een git-branch niet instellen zonder ‘tag’"
+
+#: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Onverwacht: checkoutmap is geen git-pakketbron:"
 
 # Toch maar vertaald, lijkt me duidelijk genoeg. -Justin
-#: jhbuild/versioncontrol/git.py:296
+#: jhbuild/versioncontrol/git.py:305
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1712,21 +1718,21 @@ msgstr ""
 "De gevraagde tak ‘%s’ is niet beschikbaar, noch lokaal, noch extern op de "
 "externe bron."
 
-#: jhbuild/versioncontrol/git.py:304
+#: jhbuild/versioncontrol/git.py:313
 msgid "Refusing to switch a dirty tree."
 msgstr "Overschakelen naar vervuilde boom geweigerd."
 
-#: jhbuild/versioncontrol/git.py:382
+#: jhbuild/versioncontrol/git.py:377
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Opdracht %s leverde geen uitvoer"
 
-#: jhbuild/versioncontrol/git.py:387
+#: jhbuild/versioncontrol/git.py:382
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Opdracht %s bevatte geen commitregel: %r"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:471
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1734,7 +1740,7 @@ msgstr ""
 "Bijwerken module mislukt bij overschakelen naar git (controleer op "
 "wijzigingen en verwijder vervolgens de map)."
 
-#: jhbuild/versioncontrol/git.py:477
+#: jhbuild/versioncontrol/git.py:472
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1742,21 +1748,44 @@ msgstr ""
 "Bijwerken module mislukt (ontbrekende .git) (controleer op wijzigingen en "
 "verwijder vervolgens de map)."
 
-#: jhbuild/versioncontrol/git.py:581
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr ""
-"Externe verwerking mislukt\n"
-" Als u gebruik maakt van een git-versie lager dan 1.5.6 wordt u aanbevolen "
-"deze bij te werken.\n"
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
+msgid "Applying patch"
+msgstr "Patch toepassen"
 
-#: jhbuild/versioncontrol/git.py:628
+#: jhbuild/versioncontrol/git.py:516
+#, python-format
+msgid "Skipping patch '%s' (already applied)"
+msgstr "Patch ‘%s’ wordt overgeslagen (reeds toegepast)"
+
+#: jhbuild/versioncontrol/git.py:522
+#, python-format
+msgid "Could not apply patch '%s'\n"
+msgstr "Kon patch ‘%s’ niet toepassen\n"
+
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr "Externe verwerking mislukt\n"
+
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Kan laatste revisie niet ophalen van %s. Controleer de modulelocatie."
 
-#: jhbuild/versioncontrol/__init__.py:197
+#: jhbuild/versioncontrol/__init__.py:189
+#, python-format
+msgid "could not download patch (error: %s)"
+msgstr "kon patch niet downloaden (fout: %s)"
+
+#: jhbuild/versioncontrol/__init__.py:191
+msgid "could not download patch"
+msgstr "kon patch niet downloaden"
+
+#: jhbuild/versioncontrol/__init__.py:223
+#, python-format
+msgid "Failed to find patch: %s"
+msgstr "Patch niet gevonden: %s"
+
+#: jhbuild/versioncontrol/__init__.py:267
 #, python-format
 msgid "unknown repository type %s"
 msgstr "onbekend type pakketbron %s"
@@ -1804,91 +1833,80 @@ msgstr "kon uitvoer van ‘svn info’ voor %s niet verwerken"
 msgid "Error checking for conflicts"
 msgstr "Fout bij controle op conflicten"
 
-#: jhbuild/versioncontrol/tarball.py:92
-#, python-format
-msgid "branch for %s is not correct, check the moduleset file."
-msgstr "tak voor %s is niet correct, controleer het modulesetbestand."
-
-#: jhbuild/versioncontrol/tarball.py:134
+#: jhbuild/versioncontrol/tarball.py:112
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URL heeft geen bestandsnaamcomponent: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:154
 msgid "file not downloaded"
 msgstr "bestand niet gedownload"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:159
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "gedownloade bestandsgrootte is incorrect (%(size1)d verwacht, maar %(size2)d "
 "gekregen)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:165
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "ongeldig hashattribuut op module %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:178
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "bestandshash is incorrect (%(sum1)s verwacht, maar %(sum2)s gekregen)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "hashcontrole overgeslagen (ondersteuning voor %s ontbreekt)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:185
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "tarballmap (%s) moet schrijfbaar zijn"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:197
 msgid "unable to find wget or curl"
 msgstr "kan wget of curl niet vinden"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:213
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "tarballmap (%s) kan niet aangemaakt worden"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "failed to unpack %s"
 msgstr "uitpakken van %s mislukt"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:228
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "kon tarball niet uitpakken (%s dir verwacht)"
 
-#: jhbuild/versioncontrol/tarball.py:267
-#, python-format
-msgid "could not download patch (error: %s)"
-msgstr "kon patch niet downloaden (fout: %s)"
-
-#: jhbuild/versioncontrol/tarball.py:269
-msgid "could not download patch"
-msgstr "kon patch niet downloaden"
-
-#: jhbuild/versioncontrol/tarball.py:301
-#, python-format
-msgid "Failed to find patch: %s"
-msgstr "Patch niet gevonden: %s"
-
-#: jhbuild/versioncontrol/tarball.py:311
-msgid "Applying patch"
-msgstr "Patch toepassen"
-
-#: jhbuild/versioncontrol/tarball.py:319
+#: jhbuild/versioncontrol/tarball.py:246
 msgid "unable to find quilt"
 msgstr "quilt niet gevonden"
 
-#: jhbuild/versioncontrol/tarball.py:330
+#: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "kon checkout niet uitvoeren op quilt patch set"
+
+#~ msgid ""
+#~ "External handling failed\n"
+#~ " If you are running git version < 1.5.6 it is recommended you update.\n"
+#~ msgstr ""
+#~ "Externe verwerking mislukt\n"
+#~ " Als u gebruik maakt van een git-versie lager dan 1.5.6 wordt u "
+#~ "aanbevolen deze bij te werken.\n"
+
+#, python-format
+#~ msgid "branch for %s is not correct, check the moduleset file."
+#~ msgstr "tak voor %s is niet correct, controleer het modulesetbestand."
 
 #~ msgid ""
 #~ "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
