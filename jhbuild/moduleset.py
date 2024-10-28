@@ -263,7 +263,7 @@ class ModuleSet:
                 # Strip off the .pc
                 module_pkg = module.pkg_config[:-3]
                 required_version = module.branch.version
-                if module_pkg in installed_pkgconfig:
+                if required_version and module_pkg in installed_pkgconfig:
                     installed_version = installed_pkgconfig[module_pkg]
                     skip = compare_version(installed_version, required_version)
             if not skip:
