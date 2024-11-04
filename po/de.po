@@ -6,14 +6,14 @@
 # Daniel Winzen <d@winzen4.de>, 2012.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2016-2017.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2022.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2023.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: jhbuild master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2023-11-17 13:25+0000\n"
-"PO-Revision-Date: 2023-11-25 20:11+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
+"POT-Creation-Date: 2024-10-14 13:49+0000\n"
+"PO-Revision-Date: 2024-10-14 18:56+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Project-Style: gnome\n"
 
 #: autogen.sh:109
@@ -131,7 +131,7 @@ msgstr "Ein oder mehrere Module aus Versionskontrolle aktualisieren"
 
 #: jhbuild/commands/base.py:98 jhbuild/commands/base.py:136
 #: jhbuild/commands/base.py:389 jhbuild/commands/rdepends.py:53
-#: jhbuild/moduleset.py:175
+#: jhbuild/moduleset.py:186
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "Ein Modul namens »%s« konnte nicht gefunden werden."
@@ -625,7 +625,7 @@ msgstr "Installationspräfix (%s) ist nicht schreibbar"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:504 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:535 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1206,16 +1206,16 @@ msgstr "EOF"
 msgid "Configuring"
 msgstr "Konfiguration läuft"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:126
 #: jhbuild/modtypes/linux.py:142 jhbuild/modtypes/meson.py:122
 #: jhbuild/modtypes/waf.py:84
 msgid "Cleaning"
 msgstr "Bereinigen läuft"
 
-#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
+#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:135
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
-#: jhbuild/modtypes/waf.py:92
+#: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
 msgid "Building"
 msgstr "Erstellung läuft"
 
@@ -1224,7 +1224,7 @@ msgstr "Erstellung läuft"
 msgid "Checking"
 msgstr "Überprüfung läuft"
 
-#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:144
 #: jhbuild/modtypes/meson.py:141 jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Tarball wird erstellt für"
@@ -1238,9 +1238,10 @@ msgstr "Globales Bereinigen läuft"
 msgid "Uninstalling old installed version"
 msgstr "Alte installierte Version wird deinstalliert"
 
-#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
+#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:156
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
-#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:133
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
+#: jhbuild/modtypes/waf.py:133
 msgid "Installing"
 msgstr "Installation läuft"
 
@@ -1429,46 +1430,46 @@ msgstr ""
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "Modul »%(module)s« hat ein ungültiges Größen-Attribut (»%(size)s«)"
 
-#: jhbuild/moduleset.py:89
+#: jhbuild/moduleset.py:91
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "Großschreibung für Modul »%(orig)s« wurde zu »%(new)s« korrigiert"
 
-#: jhbuild/moduleset.py:128
+#: jhbuild/moduleset.py:137
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "»%(module)s« hängt vom unbekannten Modul »%(invalid)s« ab"
 
-#: jhbuild/moduleset.py:141
+#: jhbuild/moduleset.py:150
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Zyklische Abhängigkeiten entdeckt: %s"
 
-#: jhbuild/moduleset.py:290
+#: jhbuild/moduleset.py:302
 msgid "Unknown module:"
 msgstr "Unbekanntes Modul:"
 
-#: jhbuild/moduleset.py:429
+#: jhbuild/moduleset.py:441
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr ""
 "Für <if> ist genau eines aus condition-set='' oder condition-unset='' "
 "erforderlich"
 
-#: jhbuild/moduleset.py:448
+#: jhbuild/moduleset.py:460
 #, python-format
 msgid "could not download %s: %s"
 msgstr "%s kann nicht heruntergeladen werden: %s"
 
-#: jhbuild/moduleset.py:453 jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:465 jhbuild/moduleset.py:467
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "Verarbeitung von %s ist gescheitert: %s"
 
-#: jhbuild/moduleset.py:490
+#: jhbuild/moduleset.py:502
 msgid "Duplicate repository:"
 msgstr "Softwarebestand duplizieren:"
 
-#: jhbuild/moduleset.py:593
+#: jhbuild/moduleset.py:605
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1657,11 +1658,11 @@ msgstr "Entpacken von %s ist gescheitert (leere Datei?)"
 
 #: jhbuild/versioncontrol/bzr.py:73 jhbuild/versioncontrol/darcs.py:51
 #: jhbuild/versioncontrol/fossil.py:48 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:66
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:65
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr ""
-"Der Zweig von %(name)s wird falsch überschrieben, überprüfen Sie ihr "
+"Der Zweig von %(name)s wird falsch überschrieben, überprüfen Sie Ihr "
 "%(filename)s"
 
 #: jhbuild/versioncontrol/bzr.py:124
@@ -1710,25 +1711,29 @@ msgstr ""
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:616 jhbuild/versioncontrol/git.py:656
-#: jhbuild/versioncontrol/git.py:732 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:647 jhbuild/versioncontrol/git.py:687
+#: jhbuild/versioncontrol/git.py:763 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "Datumbasiertes Auschecken wird nicht unterstützt\n"
 
-#: jhbuild/versioncontrol/git.py:109
+#: jhbuild/versioncontrol/git.py:112
 msgid "ignored bad branch redefinition for module:"
 msgstr "Falsche Zweigdefinition wird ignoriert für Modul:"
 
-#: jhbuild/versioncontrol/git.py:202
+#: jhbuild/versioncontrol/git.py:152
+msgid "Cannot set \"version\" of a git branch without \"tag\""
+msgstr "»version« eines Git-Zweigs kann ohne »tag« nicht festgelegt werden"
+
+#: jhbuild/versioncontrol/git.py:211
 msgid "Need at least git-1.5.6 from June/08 to operate"
 msgstr "Mindestens git-1.5.6 vom 8. Juni wird zur Ausführung benötigt"
 
-#: jhbuild/versioncontrol/git.py:216
+#: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Unerwartet: Ordner zum Auschecken ist kein Git-Softwarebestand:"
 
-#: jhbuild/versioncontrol/git.py:296
+#: jhbuild/versioncontrol/git.py:305
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
@@ -1736,21 +1741,21 @@ msgid ""
 msgstr ""
 "Der angeforderte Zweig »%s« ist nicht verfügbar, weder lokal noch entfernt."
 
-#: jhbuild/versioncontrol/git.py:304
+#: jhbuild/versioncontrol/git.py:313
 msgid "Refusing to switch a dirty tree."
 msgstr "Switchen eines unkorrekten Baums wurde verweigert."
 
-#: jhbuild/versioncontrol/git.py:382
+#: jhbuild/versioncontrol/git.py:377
 #, python-format
 msgid "Command %s returned no output"
 msgstr "Befehl %s gab nichts zurück"
 
-#: jhbuild/versioncontrol/git.py:387
+#: jhbuild/versioncontrol/git.py:382
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "Befehl %s enthält nicht die Einspielzeile: %r"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:471
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
@@ -1759,7 +1764,7 @@ msgstr ""
 "worden ist (Sie sollten auf eigene Änderungen prüfen und den Ordner dann "
 "löschen)."
 
-#: jhbuild/versioncontrol/git.py:477
+#: jhbuild/versioncontrol/git.py:472
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
@@ -1767,7 +1772,21 @@ msgstr ""
 "Aktualisierung des Moduls ist gescheitert (.git fehlt). Sie sollten auf "
 "Änderungen prüfen und dann den Ordner entfernen."
 
-#: jhbuild/versioncontrol/git.py:581
+#: jhbuild/versioncontrol/git.py:514 jhbuild/versioncontrol/tarball.py:238
+msgid "Applying patch"
+msgstr "Patch wird angewendet"
+
+#: jhbuild/versioncontrol/git.py:520
+#, python-format
+msgid "Skipping patch '%s' (already applied)"
+msgstr "Patch »%s« wird übersprungen (bereits angewendet)"
+
+#: jhbuild/versioncontrol/git.py:526
+#, python-format
+msgid "Could not apply patch '%s'\n"
+msgstr "Patch »%s« konnte nicht angewendet werden\n"
+
+#: jhbuild/versioncontrol/git.py:612
 msgid ""
 "External handling failed\n"
 " If you are running git version < 1.5.6 it is recommended you update.\n"
@@ -1776,14 +1795,28 @@ msgstr ""
 "Aktualisieren Sie Ihre Git-Version, falls diese älter als Version 1.5.6 "
 "ist.\n"
 
-#: jhbuild/versioncontrol/git.py:628
+#: jhbuild/versioncontrol/git.py:659
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr ""
 "Letzte Revision von %s kann nicht erhalten werden. Überprüfen Sie den Ort "
 "des Moduls."
 
-#: jhbuild/versioncontrol/__init__.py:197
+#: jhbuild/versioncontrol/__init__.py:189
+#, python-format
+msgid "could not download patch (error: %s)"
+msgstr "Patch konnte nicht heruntergeladen werden (Fehler: %s)"
+
+#: jhbuild/versioncontrol/__init__.py:191
+msgid "could not download patch"
+msgstr "Patch konnte nicht heruntergeladen werden"
+
+#: jhbuild/versioncontrol/__init__.py:223
+#, python-format
+msgid "Failed to find patch: %s"
+msgstr "Patch kann nicht gefunden werden: %s"
+
+#: jhbuild/versioncontrol/__init__.py:267
 #, python-format
 msgid "unknown repository type %s"
 msgstr "Unbekannter Typ des Softwarebestandes %s"
@@ -1831,94 +1864,75 @@ msgstr "Ausgabe von »svn info« für %s konnte nicht verarbeitet werden"
 msgid "Error checking for conflicts"
 msgstr "Fehler bei der Überprüfung auf Konflikte"
 
-#: jhbuild/versioncontrol/tarball.py:92
-#, python-format
-msgid "branch for %s is not correct, check the moduleset file."
-msgstr "Zweig für %s ist nicht korrekt, überprüfen Sie die Modulsatz-Datei."
-
-#: jhbuild/versioncontrol/tarball.py:134
+#: jhbuild/versioncontrol/tarball.py:112
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "Adresse hat keine Dateinamen-Komponente: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:154
 msgid "file not downloaded"
 msgstr "Datei nicht heruntergeladen"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:159
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr ""
 "Größe der heruntergeladenen Datei ist inkorrekt (%(size1)d wurde erwartet, "
 "%(size2)d erhalten)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:165
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "Ungültiges Prüfsummen-Attribut im Modul %s"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:178
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr ""
 "Prüfsumme der Datei ist nicht korrekt (%(sum1)s wurde erwartet, %(sum2)s "
 "erhalten)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr ""
 "Erstellung der Prüfsumme wurde übersprungen (fehlende Unterstützung für %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:185
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "Tarball-Ordner (%s) muss schreibbar sein"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:197
 msgid "unable to find wget or curl"
 msgstr "»wget« oder »curl« konnten nicht gefunden werden"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:213
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "Tarball-Ordner (%s) konnte nicht erstellt werden"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "failed to unpack %s"
 msgstr "Entpacken von %s ist gescheitert"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:228
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "Tarball konnte nicht entpackt werden (Ordner %s wurde erwartet)"
 
-#: jhbuild/versioncontrol/tarball.py:267
-#, python-format
-msgid "could not download patch (error: %s)"
-msgstr "Patch konnte nicht heruntergeladen werden (Fehler: %s)"
-
-#: jhbuild/versioncontrol/tarball.py:269
-msgid "could not download patch"
-msgstr "Patch konnte nicht heruntergeladen werden"
-
-#: jhbuild/versioncontrol/tarball.py:301
-#, python-format
-msgid "Failed to find patch: %s"
-msgstr "Patch kann nicht gefunden werden: %s"
-
-#: jhbuild/versioncontrol/tarball.py:311
-msgid "Applying patch"
-msgstr "Patch wird angewendet"
-
-#: jhbuild/versioncontrol/tarball.py:319
+#: jhbuild/versioncontrol/tarball.py:246
 msgid "unable to find quilt"
 msgstr "»quilt« konnte nicht gefunden werden"
 
-#: jhbuild/versioncontrol/tarball.py:330
+#: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "Patchset für »quilt« konnte nicht ausgecheckt werden"
+
+#, python-format
+#~ msgid "branch for %s is not correct, check the moduleset file."
+#~ msgstr "Zweig für %s ist nicht korrekt, überprüfen Sie die Modulsatz-Datei."
 
 #~ msgid ""
 #~ "WARNING: yelp-tools not available (usually part of package 'yelp-tools')"
