@@ -2242,9 +2242,24 @@
     </dependencies>
   </meson>
 
+  <autotools id="liburing"
+          supports-non-srcdir-builds="no"
+          autogen-template="%(srcdir)s/configure --prefix=%(prefix)s">
+      <branch repo="github-tar"
+            checkoutdir="liburing-liburing-${version}"
+            version="2.8"
+            module="axboe/liburing/archive/refs/tags/liburing-${version}.tar.gz"
+            hash="sha256:3ed7891d1b2bbe743ef3fb6d0a4970e630aa02d7c7bd3b0212791fb7be815984"
+            size="390788"/>
+    <dependencies>
+    </dependencies>
+  </autotools>
+
   <meson id="libdex">
     <branch/>
     <dependencies>
+      <dep package="glib"/>
+      <dep package="liburing"/>
     </dependencies>
   </meson>
 
