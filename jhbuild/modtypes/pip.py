@@ -19,6 +19,7 @@
 
 import os
 import glob
+import sys
 
 from jhbuild.modtypes import Package, DownloadableModule, register_module_type
 from jhbuild.utils import _
@@ -41,6 +42,7 @@ class PipModule(Package, DownloadableModule):
         self.supports_non_srcdir_builds = True
         self.force_non_srcdir_builds = True
         self.supports_install_destdir = True
+        self.pip_exe = [sys.executable, '-m', 'pip']
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
@@ -57,8 +59,7 @@ class PipModule(Package, DownloadableModule):
 
     def do_build(self, buildscript):
         buildscript.set_action(_('Building'), self)
-        cmd = ['pip', 'wheel']
-        cmd += self.COMMON_PIP_ARGS
+        cmd = self.pip_exe + ['wheel'] + self.COMMON_PIP_ARGS
         cmd += ['--wheel-dir', self.get_builddir(buildscript), self.get_srcdir(buildscript)]
         buildscript.execute(cmd)
 
@@ -70,8 +71,7 @@ class PipModule(Package, DownloadableModule):
         wheels = glob.glob(os.path.join(self.get_builddir(buildscript), "*.whl"))
         assert len(wheels) == 1  # only the module wheel should be in the build dir
         destdir = self.prepare_installroot(buildscript)
-        cmd = ['pip', 'install']
-        cmd += self.COMMON_PIP_ARGS
+        cmd = self.pip_exe + ['install'] + self.COMMON_PIP_ARGS
         cmd += ['--no-index',
                 '--ignore-installed',
                 '--prefix', buildscript.config.prefix,
