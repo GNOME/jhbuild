@@ -1,6 +1,52 @@
+include:
+  - project: 'Infrastructure/freedesktop-ci-templates'
+    ref: '84984c97d31d5b4f39cc2164353634a55d457211'
+    file:
+      - '/templates/ubuntu.yml'
+
 stages:
+  - prepare
   - test
   - deploy
+
+variables:
+  FDO_UPSTREAM_REPO: GNOME/jhbuild
+
+.ubuntu2004-image:
+  variables:
+    FDO_DISTRIBUTION_TAG: '2025-01-15-v4'
+    FDO_DISTRIBUTION_VERSION: '20.04'
+    FDO_USER: 'user'
+
+build-ubuntu2004-image:
+  extends:
+    - '.fdo.container-build@ubuntu'
+    - '.ubuntu2004-image'
+  stage: prepare
+  variables:
+    FDO_DISTRIBUTION_PACKAGES: >-
+      apt-file
+      autoconf
+      automake
+      autopoint
+      build-essential
+      gettext
+      git
+      libtool
+      make
+      patch
+      pkg-config
+      python
+      python3
+      python3-flake8
+      python3-pytest
+      python3-pytest-cov
+      sudo
+      trang
+      wget
+      yelp-tools
+    FDO_DISTRIBUTION_EXEC:
+      echo 'user ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 documentation:
   image: docker.io/sphinxdoc/sphinx
@@ -18,8 +64,11 @@ documentation:
     paths:
       - html
 
-test-py3:
-  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v6
+test-ubuntu2004-basic:
+  stage: test
+  extends:
+    - '.fdo.distribution-image@ubuntu'
+    - '.ubuntu2004-image'
   coverage: /TOTAL\s+\d+\s+\d+\s+(\d+)%/
   script:
     # verify modulesets
@@ -46,8 +95,11 @@ test-py3:
         coverage_format: cobertura
         path: coverage.xml
 
-ub20.04-py3-glib:
-  image: registry.gitlab.gnome.org/gnome/jhbuild/jhbuild:v6
+test-ubuntu2004-glib:
+  stage: test
+  extends:
+    - '.fdo.distribution-image@ubuntu'
+    - '.ubuntu2004-image'
   before_script:
     # Update for root cert updates
     - sudo apt-get update
