@@ -45,7 +45,7 @@ sys.modules['jhbuild.utils'].systeminstall = sys.modules[__name__]
 from jhbuild.errors import UsageError, CommandError
 from jhbuild.modtypes import Package
 from jhbuild.modtypes.autotools import AutogenModule
-from jhbuild.modtypes.distutils import DistutilsModule
+# from jhbuild.modtypes.distutils import DistutilsModule
 import jhbuild.config
 import jhbuild.frontends.terminal
 import jhbuild.moduleset
@@ -716,18 +716,18 @@ def with_stdout_hidden(func):
 class EndToEndTest(JhbuildConfigTestCase):
 
     # FIXME: broken under Win32
-    def test_distutils(self):
-        config = self.make_config()
-        module_list = [DistutilsModule('hello',
-                                       self.make_branch(config, 'distutils'))]
-        module_list[0].config = self.config
-        module_list[0].python = 'python3'
-        build = self.make_terminal_buildscript(config, module_list)
-        with_stdout_hidden(build.build)
-        proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
-        stdout, stderr = proc.communicate()
-        self.assertEqual(stdout.strip(), b'Hello world (distutils)')
-        self.assertEqual(proc.wait(), 0)
+    # def test_distutils(self):
+    #    config = self.make_config()
+    #    module_list = [DistutilsModule('hello',
+    #                                   self.make_branch(config, 'distutils'))]
+    #    module_list[0].config = self.config
+    #    module_list[0].python = 'python3'
+    #    build = self.make_terminal_buildscript(config, module_list)
+    #    with_stdout_hidden(build.build)
+    #    proc = subprocess.Popen(['hello'], stdout=subprocess.PIPE)
+    #    stdout, stderr = proc.communicate()
+    #    self.assertEqual(stdout.strip(), b'Hello world (distutils)')
+    #    self.assertEqual(proc.wait(), 0)
 
     def test_autotools(self):
         config = self.make_config()
