@@ -1,14 +1,14 @@
 # Basque translation for jhbuild.
 # Copyright (C) 2019 jhbuild's COPYRIGHT HOLDER
 # This file is distributed under the same license as the jhbuild package.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2020, 2021.
+# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2019, 2020, 2021, 2025.
 #
 msgid ""
 msgstr "Project-Id-Version: jhbuild master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues\n"
-"POT-Creation-Date: 2023-11-26 17:34+0000\n"
-"PO-Revision-Date: 2023-12-10 10:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/jhbuild/issues/\n"
+"POT-Creation-Date: 2024-10-16 16:07+0000\n"
+"PO-Revision-Date: 2025-05-11 10:00+0100\n"
+"Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +112,7 @@ msgstr "Eguneratu modulu bat edo gehiago bertsio-kontroletik"
 
 #: jhbuild/commands/base.py:98 jhbuild/commands/base.py:136
 #: jhbuild/commands/base.py:389 jhbuild/commands/rdepends.py:53
-#: jhbuild/moduleset.py:175
+#: jhbuild/moduleset.py:186
 #, python-format
 msgid "A module called '%s' could not be found."
 msgstr "'%s' izeneko modulua ez da aurkitu."
@@ -590,7 +590,7 @@ msgstr "Instalazio-aurrizkia (%s) ez da idazgarria"
 #: jhbuild/modtypes/cmake.py:96 jhbuild/modtypes/meson.py:94
 #: jhbuild/versioncontrol/bzr.py:219 jhbuild/versioncontrol/cvs.py:302
 #: jhbuild/versioncontrol/darcs.py:106 jhbuild/versioncontrol/fossil.py:103
-#: jhbuild/versioncontrol/git.py:504 jhbuild/versioncontrol/hg.py:106
+#: jhbuild/versioncontrol/git.py:531 jhbuild/versioncontrol/hg.py:106
 #: jhbuild/versioncontrol/mtn.py:142 jhbuild/versioncontrol/svn.py:320
 #, python-format
 msgid "%s not found"
@@ -1138,16 +1138,16 @@ msgstr "EOF"
 msgid "Configuring"
 msgstr "Konfiguratzen"
 
-#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:113
+#: jhbuild/modtypes/autotools.py:252 jhbuild/modtypes/cmake.py:126
 #: jhbuild/modtypes/linux.py:142 jhbuild/modtypes/meson.py:122
 #: jhbuild/modtypes/waf.py:84
 msgid "Cleaning"
 msgstr "Garbitzen"
 
-#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:122
+#: jhbuild/modtypes/autotools.py:258 jhbuild/modtypes/cmake.py:135
 #: jhbuild/modtypes/distutils.py:59 jhbuild/modtypes/linux.py:155
 #: jhbuild/modtypes/meson.py:128 jhbuild/modtypes/perl.py:52
-#: jhbuild/modtypes/waf.py:92
+#: jhbuild/modtypes/pip.py:59 jhbuild/modtypes/waf.py:92
 msgid "Building"
 msgstr "Eraikitzen"
 
@@ -1156,7 +1156,7 @@ msgstr "Eraikitzen"
 msgid "Checking"
 msgstr "Egiaztatzen"
 
-#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:131
+#: jhbuild/modtypes/autotools.py:299 jhbuild/modtypes/cmake.py:144
 #: jhbuild/modtypes/meson.py:141 jhbuild/modtypes/waf.py:122
 msgid "Creating tarball for"
 msgstr "Tarball-a sortzen honetarako:"
@@ -1169,9 +1169,10 @@ msgstr "Banaketa egiaztatzen"
 msgid "Uninstalling old installed version"
 msgstr "Instalatutako bertsio zaharra desinstalatzen"
 
-#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:143
+#: jhbuild/modtypes/autotools.py:317 jhbuild/modtypes/cmake.py:156
 #: jhbuild/modtypes/distutils.py:70 jhbuild/modtypes/meson.py:150
-#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/waf.py:133
+#: jhbuild/modtypes/perl.py:66 jhbuild/modtypes/pip.py:69
+#: jhbuild/modtypes/waf.py:133
 msgid "Installing"
 msgstr "Instalatzen"
 
@@ -1342,44 +1343,44 @@ msgstr "Biltegi lehenetsia=%(missing)s ez da aurkitu kdonfig-erako id=%(linux_id
 msgid "module '%(module)s' has invalid size attribute ('%(size)s')"
 msgstr "'%(module)s' moduluak tamaina-atributu baliogabea du ('%(size)s')"
 
-#: jhbuild/moduleset.py:89
+#: jhbuild/moduleset.py:91
 #, python-format
 msgid "fixed case of module '%(orig)s' to '%(new)s'"
 msgstr "moduluaren maiuskulak/minuskulak konpondu dira, '%(orig)s' zena orain '%(new)s' da"
 
-#: jhbuild/moduleset.py:128
+#: jhbuild/moduleset.py:137
 #, python-format
 msgid "%(module)s has a dependency on unknown \"%(invalid)s\" module"
 msgstr "%(module)s moduluak mendekotasun bat du \"%(invalid)s\" modulu ezezagunarekin"
 
-#: jhbuild/moduleset.py:141
+#: jhbuild/moduleset.py:150
 #, python-format
 msgid "Circular dependencies detected: %s"
 msgstr "Mendekotasun zirkularrak detektatu dira: %s"
 
-#: jhbuild/moduleset.py:290
+#: jhbuild/moduleset.py:302
 msgid "Unknown module:"
 msgstr "Modulu ezezaguna:"
 
-#: jhbuild/moduleset.py:429
+#: jhbuild/moduleset.py:441
 msgid "<if> must have exactly one of condition-set='' or condition-unset=''"
 msgstr "<if> elementuak condition-set='' edo condition-unset='' bakar bat izan behar du"
 
-#: jhbuild/moduleset.py:448
+#: jhbuild/moduleset.py:460
 #, python-format
 msgid "could not download %s: %s"
 msgstr "ezin da %s deskargatu: %s"
 
-#: jhbuild/moduleset.py:453 jhbuild/moduleset.py:455
+#: jhbuild/moduleset.py:465 jhbuild/moduleset.py:467
 #, python-format
 msgid "failed to parse %s: %s"
 msgstr "huts egin du %s analizatzeak: %s"
 
-#: jhbuild/moduleset.py:490
+#: jhbuild/moduleset.py:502
 msgid "Duplicate repository:"
 msgstr "Bikoiztu biltegia:"
 
-#: jhbuild/moduleset.py:593
+#: jhbuild/moduleset.py:605
 #, python-format
 msgid ""
 "Modulesets were edited locally but JHBuild is configured to get them from "
@@ -1550,7 +1551,7 @@ msgstr "huts egin du %s deskonprimatzeak (fitxategi hutsik dago?)"
 
 #: jhbuild/versioncontrol/bzr.py:73 jhbuild/versioncontrol/darcs.py:51
 #: jhbuild/versioncontrol/fossil.py:48 jhbuild/versioncontrol/hg.py:53
-#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:66
+#: jhbuild/versioncontrol/mtn.py:52 jhbuild/versioncontrol/tarball.py:65
 #, python-format
 msgid "branch for %(name)s has wrong override, check your %(filename)s"
 msgstr "%(name)s elementurako adarrak indargabetze okerra du, begiratu zure %(filename)s"
@@ -1597,70 +1598,100 @@ msgstr "Beharbada changecvsroot.py scripta erabili daiteke hau konpontzeko."
 
 #: jhbuild/versioncontrol/darcs.py:82 jhbuild/versioncontrol/darcs.py:88
 #: jhbuild/versioncontrol/fossil.py:80 jhbuild/versioncontrol/fossil.py:93
-#: jhbuild/versioncontrol/git.py:616 jhbuild/versioncontrol/git.py:656
-#: jhbuild/versioncontrol/git.py:732 jhbuild/versioncontrol/hg.py:90
+#: jhbuild/versioncontrol/git.py:641 jhbuild/versioncontrol/git.py:681
+#: jhbuild/versioncontrol/git.py:757 jhbuild/versioncontrol/hg.py:90
 #: jhbuild/versioncontrol/hg.py:96
 msgid "date based checkout not yet supported\n"
 msgstr "datan oinarritutako erauzkteak ez dira onartzen oraindik\n"
 
-#: jhbuild/versioncontrol/git.py:109
+#: jhbuild/versioncontrol/git.py:112
 msgid "ignored bad branch redefinition for module:"
 msgstr "ez ikusitako adar okerraren birdefinizioa honako modulurako:"
 
-#: jhbuild/versioncontrol/git.py:202
-msgid "Need at least git-1.5.6 from June/08 to operate"
-msgstr "Gutxienez git-1.5.6 (2008ko ekainekoa) behar da honetarako"
+#: jhbuild/versioncontrol/git.py:148
+#, python-format
+msgid "Need at least git-%s to operate"
+msgstr "Gutxienez git-%s behar da honetarako"
 
-#: jhbuild/versioncontrol/git.py:216
+#: jhbuild/versioncontrol/git.py:155
+msgid "Cannot set \"version\" of a git branch without \"tag\""
+msgstr "Ezin da git adar baten \"version\" ezarri \"tag\" ez badago"
+
+#: jhbuild/versioncontrol/git.py:225
 msgid "Unexpected: Checkoutdir is not a git repository:"
 msgstr "Espero gabekoa: Checkoutdir ez da git biltegi bat:"
 
-#: jhbuild/versioncontrol/git.py:296
+#: jhbuild/versioncontrol/git.py:305
 #, python-format
 msgid ""
 "The requested branch \"%s\" is not available. Neither locally, nor remotely "
 "in the origin remote."
 msgstr "Eskatutako \"%s\" adarra ez dago eskuragarri. Ez lokalean, ez urruneko jatorrian."
 
-#: jhbuild/versioncontrol/git.py:304
+#: jhbuild/versioncontrol/git.py:313
 msgid "Refusing to switch a dirty tree."
 msgstr "Zuhaitz zikin batera aldatzea ukatu da."
 
-#: jhbuild/versioncontrol/git.py:382
+#: jhbuild/versioncontrol/git.py:377
 #, python-format
 msgid "Command %s returned no output"
 msgstr "%s komandoak ez du ezer itzuli"
 
-#: jhbuild/versioncontrol/git.py:387
+#: jhbuild/versioncontrol/git.py:382
 #, python-format
 msgid "Command %s did not include commit line: %r"
 msgstr "%s komandoak ez du egikaritze-lerroa: %r"
 
-#: jhbuild/versioncontrol/git.py:476
+#: jhbuild/versioncontrol/git.py:471
 msgid ""
 "Failed to update module as it switched to git (you should check for changes "
 "then remove the directory)."
 msgstr "Moduluaren eguneratzeak huts egin du, git-era aldatu baita (aldaketak begiratu beharko zenituzke, eta ondoren, direktorioa kendu)"
 
-#: jhbuild/versioncontrol/git.py:477
+#: jhbuild/versioncontrol/git.py:472
 msgid ""
 "Failed to update module (missing .git) (you should check for changes then "
 "remove the directory)."
 msgstr "Moduluaren eguneratzeak huts egin du (.git falta da) (aldaketak begiratu beharko zenituzke, eta ondoren, direktorioa kendu)"
 
-#: jhbuild/versioncontrol/git.py:581
-msgid ""
-"External handling failed\n"
-" If you are running git version < 1.5.6 it is recommended you update.\n"
-msgstr "Kanpoko maneiuak huts egin du\n"
-" git bertsioa 1.5.6 baino zaharragoa bada, eguneratu egin beharko zenuke.\n"
+#: jhbuild/versioncontrol/git.py:510 jhbuild/versioncontrol/tarball.py:238
+msgid "Applying patch"
+msgstr "Adabakia aplikatzen"
 
-#: jhbuild/versioncontrol/git.py:628
+#: jhbuild/versioncontrol/git.py:516
+#, python-format
+msgid "Skipping patch '%s' (already applied)"
+msgstr "'%s' adabakia saltatzen (jadanik aplikatuta)"
+
+#: jhbuild/versioncontrol/git.py:522
+#, python-format
+msgid "Could not apply patch '%s'\n"
+msgstr "Ezin da '%s' adabakia aplikatu\n"
+
+#: jhbuild/versioncontrol/git.py:606
+msgid "External handling failed\n"
+msgstr "Kanpoko maneiatzeak huts egin du\n"
+
+#: jhbuild/versioncontrol/git.py:653
 #, python-format
 msgid "Cannot get last revision from %s. Check the module location."
 msgstr "Ezin da %s(r)en azken berrikuspena eskuratu. Egiaztatu moduluaren kokalekua egokia dela."
 
-#: jhbuild/versioncontrol/__init__.py:197
+#: jhbuild/versioncontrol/__init__.py:189
+#, python-format
+msgid "could not download patch (error: %s)"
+msgstr "ezin izan da adabakia deskargatu (errorea: %s)"
+
+#: jhbuild/versioncontrol/__init__.py:191
+msgid "could not download patch"
+msgstr "adabakia ezin izan da deskargatu"
+
+#: jhbuild/versioncontrol/__init__.py:223
+#, python-format
+msgid "Failed to find patch: %s"
+msgstr "Huts egin du adabakia aurkitzeak: %s"
+
+#: jhbuild/versioncontrol/__init__.py:267
 #, python-format
 msgid "unknown repository type %s"
 msgstr "%s biltegi mota ezezaguna"
@@ -1708,89 +1739,80 @@ msgstr "ezin da \"svn info\" irteera analizatu honetarako: %s"
 msgid "Error checking for conflicts"
 msgstr "Errorea gatazkak egiaztatzean"
 
-#: jhbuild/versioncontrol/tarball.py:92
-#, python-format
-msgid "branch for %s is not correct, check the moduleset file."
-msgstr "%s(e)rako adarra ez da zuzena, egiaztatu modulu multzoaren fitxategia ondo dagoela."
-
-#: jhbuild/versioncontrol/tarball.py:134
+#: jhbuild/versioncontrol/tarball.py:112
 #, python-format
 msgid "URL has no filename component: %s"
 msgstr "URLak ez du fitxategi-izenaren osagairik: %s"
 
-#: jhbuild/versioncontrol/tarball.py:176
+#: jhbuild/versioncontrol/tarball.py:154
 msgid "file not downloaded"
 msgstr "fitxategia ez da deskargatu"
 
-#: jhbuild/versioncontrol/tarball.py:181
+#: jhbuild/versioncontrol/tarball.py:159
 #, python-format
 msgid "downloaded file size is incorrect (expected %(size1)d, got %(size2)d)"
 msgstr "deskargatutako fitxategiaren tamaina okerra da (%(size1)d espero zen, %(size2)d eskuratu da)"
 
-#: jhbuild/versioncontrol/tarball.py:187
+#: jhbuild/versioncontrol/tarball.py:165
 #, python-format
 msgid "invalid hash attribute on module %s"
 msgstr "hash atributu baliogabea %s moduluan"
 
-#: jhbuild/versioncontrol/tarball.py:200
+#: jhbuild/versioncontrol/tarball.py:178
 #, python-format
 msgid "file hash is incorrect (expected %(sum1)s, got %(sum2)s)"
 msgstr "fitxategi-hasha okerra da (%(sum1)s espero zen, %(sum2)s eskuratu da)"
 
-#: jhbuild/versioncontrol/tarball.py:203
+#: jhbuild/versioncontrol/tarball.py:181
 #, python-format
 msgid "skipped hash check (missing support for %s)"
 msgstr "hash-egiaztatzea saltatu da (euskarria falta da honetarako: %s)"
 
-#: jhbuild/versioncontrol/tarball.py:207
+#: jhbuild/versioncontrol/tarball.py:185
 #, python-format
 msgid "tarball dir (%s) must be writable"
 msgstr "tarball-aren direktorioak (%s) idazgarria izan behar du"
 
-#: jhbuild/versioncontrol/tarball.py:219
+#: jhbuild/versioncontrol/tarball.py:197
 msgid "unable to find wget or curl"
 msgstr "ez da aurkitu wget edo curl"
 
-#: jhbuild/versioncontrol/tarball.py:235
+#: jhbuild/versioncontrol/tarball.py:213
 #, python-format
 msgid "tarball dir (%s) can not be created"
 msgstr "tarballa-aren direktorioa (%s) ezin izan da sortu"
 
-#: jhbuild/versioncontrol/tarball.py:247
+#: jhbuild/versioncontrol/tarball.py:225
 #, python-format
 msgid "failed to unpack %s"
 msgstr "huts egin du %s deskonprimatzeak"
 
-#: jhbuild/versioncontrol/tarball.py:250
+#: jhbuild/versioncontrol/tarball.py:228
 #, python-format
 msgid "could not unpack tarball (expected %s dir)"
 msgstr "ezin izan da tarball-a deskonprimatu (%s direktorioa espero zen)"
 
-#: jhbuild/versioncontrol/tarball.py:267
-#, python-format
-msgid "could not download patch (error: %s)"
-msgstr "ezin izan da adabakia deskargatu (errorea: %s)"
-
-#: jhbuild/versioncontrol/tarball.py:269
-msgid "could not download patch"
-msgstr "adabakia ezin izan da deskargatu"
-
-#: jhbuild/versioncontrol/tarball.py:301
-#, python-format
-msgid "Failed to find patch: %s"
-msgstr "Huts egin du adabakia aurkitzeak: %s"
-
-#: jhbuild/versioncontrol/tarball.py:311
-msgid "Applying patch"
-msgstr "Adabakia aplikatzen"
-
-#: jhbuild/versioncontrol/tarball.py:319
+#: jhbuild/versioncontrol/tarball.py:246
 msgid "unable to find quilt"
 msgstr "ez da quilt aurkitu"
 
-#: jhbuild/versioncontrol/tarball.py:330
+#: jhbuild/versioncontrol/tarball.py:257
 msgid "could not checkout quilt patch set"
 msgstr "ezin da quilt adabaki multzoa erauzi"
+
+#~ msgid ""
+#~ "External handling failed\n"
+#~ " If you are running git version < 1.5.6 it is recommended you update.\n"
+#~ msgstr ""
+#~ "Kanpoko maneiuak huts egin du\n"
+#~ " git bertsioa 1.5.6 baino zaharragoa bada, eguneratu egin beharko "
+#~ "zenuke.\n"
+
+#, python-format
+#~ msgid "branch for %s is not correct, check the moduleset file."
+#~ msgstr ""
+#~ "%s(e)rako adarra ez da zuzena, egiaztatu modulu multzoaren fitxategia "
+#~ "ondo dagoela."
 
 #~ msgid "Build modules non-interactively and upload results to JhAutobuild"
 #~ msgstr ""
