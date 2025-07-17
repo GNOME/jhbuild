@@ -772,7 +772,7 @@
       <dep package="librest-0.7"/>
       <dep package="libsoup"/>
       <dep package="sqlite3"/>
-      <dep package="tracker"/>
+      <dep package="tinysparql"/>
     </suggests>
   </meson>
 
@@ -2342,7 +2342,7 @@
 
   <meson id="tracker-2"
          mesonargs="-Dunicode_support=icu -Dbash_completion=${prefix}/share/bash-completion/completions">
-    <branch checkoutdir="tracker-2" module="tracker" revision="tracker-2.3"/>
+    <branch checkoutdir="tracker-2" module="tinysparql" revision="tracker-2.3"/>
     <dependencies>
       <dep package="glib"/>
       <dep package="json-glib"/>
@@ -2385,7 +2385,7 @@
     </suggests>
   </meson>
 
-  <meson id="tracker"
+  <meson id="tinysparql"
          mesonargs="-Dunicode_support=icu -Dbash_completion_dir=${prefix}/share/bash-completion/completions">
     <branch revision="master"/>
     <dependencies>
@@ -2404,7 +2404,7 @@
     <dependencies>
       <dep package="asciidoc"/>
       <dep package="glib"/>
-      <dep package="tracker"/>
+      <dep package="tinysparql"/>
       <dep package="libpng"/>
       <dep package="libgrss"/>
       <if condition-set="linux">
