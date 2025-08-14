@@ -16,7 +16,6 @@ import builtins
 import os
 import sys
 import importlib
-import pkgutil
 import locale
 
 
@@ -49,7 +48,7 @@ def inpath(filename, path):
 def try_import_module(module_name):
     """Like importlib.import_module() but doesn't raise if the module doesn't exist"""
 
-    if pkgutil.get_loader(module_name) is None:
+    if importlib.util.find_spec(module_name) is None:
         return
     return importlib.import_module(module_name)
 
