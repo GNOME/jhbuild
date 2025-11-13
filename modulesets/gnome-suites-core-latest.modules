@@ -519,13 +519,12 @@
       <mesonargs value="-Dnative_backend=false"/>
     </if>
     <if condition-set="wayland">
-      <mesonargs value="-Dwayland=true"/>
       <if condition-set="freebsd">
         <mesonargs value="-Dxwayland_path=/usr/local/bin/Xwayland"/>
       </if>
     </if>
     <if condition-unset="wayland">
-      <mesonargs value="-Dwayland=false -Dtests=false"/>
+      <mesonargs value="-Dtests=false"/>
     </if>
     <branch/>
     <dependencies>
