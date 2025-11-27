@@ -185,6 +185,13 @@ class Cache:
 
         request = urllib.request.Request(uri)
         request.add_header('Accept-encoding', 'gzip')
+
+        # This shouldn't be necessary but Anubis used by GNOME's GitLab otherwise blocks us.
+        # This likely works because it matches Curl's default header.
+        # It appears like they want curl to work: https://github.com/TecharoHQ/anubis/discussions/809
+        # Who knows if long term this can be relied upon...
+        request.add_header('Accept', '*/*')
+
         if entry:
             if entry.modified:
                 request.add_header('If-Modified-Since', entry.modified)
