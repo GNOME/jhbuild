@@ -1314,6 +1314,13 @@
     </dependencies>
   </meson>
 
+  <meson id="ministream" mesonargs="-Dintrospection=disabled -Das-compare=disabled -Dtests=false">
+    <branch repo="gitlab.gnome.org" module="sp1rit/ministream.git"/>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </meson>
+
   <meson id="libadwaita" mesonargs="-Dintrospection=enabled -Dvapi=true">
     <branch/>
     <dependencies>
@@ -1321,7 +1328,7 @@
       <dep package="gobject-introspection"/>
       <dep package="gtk4"/>
       <dep package="vala"/>
-      <dep package="appstream-glib"/>
+      <dep package="ministream"/>
     </dependencies>
   </meson>
 
