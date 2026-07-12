@@ -77,7 +77,7 @@ dependencieselements = dependencies?, suggests?, after?, systemdependencies?
 argsif = element if { attlist.if & argsif* & autogenargs* & makeargs* & makeinstallargs* }
 autotools =
   element autotools {
-    attlist.autotools, argsif*, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch, dependencieselements
+    attlist.autotools, argsif*, autogenargs*, makeargs*, makeinstallargs*, pkg-config?, branch+, dependencieselements
   }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
@@ -109,7 +109,7 @@ attlist.makeargs &= attribute value { text }
 makeinstallargs = element makeinstallargs { attlist.autogenargs }
 attlist.makeinstallargs &= attribute value { text }
 waf =
-  element waf { attlist.waf, branch, dependencieselements }
+  element waf { attlist.waf, branch+, dependencieselements }
 # Note: Here the ID type is not used as some existing IDs in modsets are not
 # valid XML ID types - instead CDATA is used
 attlist.waf &=
@@ -131,7 +131,7 @@ tarball =
     attlist.tarball,
     pkg-config?,
     source,
-    branch?,
+    branch*,
     dependencieselements,
     patches?
   }
@@ -146,13 +146,13 @@ attlist.tarball &=
   attribute supports-non-srcdir-builds { "yes" | "no" }?
 pip =
   element pip {
-    attlist.pip, branch?, dependencies?, after?
+    attlist.pip, branch*, dependencies?, after?
   }
 attlist.pip &=
   attribute id { xsd:ID }
 distutils =
   element distutils {
-    attlist.distutils, branch?, dependencies?, after?
+    attlist.distutils, branch*, dependencies?, after?
   }
 attlist.distutils &=
   attribute id { xsd:ID },
@@ -160,7 +160,7 @@ attlist.distutils &=
   attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
 cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* & ninjaargs* }
-cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, ninjaargs*, pkg-config?, branch?, dependencieselements }
+cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, ninjaargs*, pkg-config?, branch*, dependencieselements }
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
@@ -176,7 +176,7 @@ attlist.cmakeargs &= attribute value { text }
 ninjaargs = element ninjaargs { attlist.ninjaargs }
 attlist.ninjaargs &= attribute value { text }
 mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* }
-meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, pkg-config?, branch?, dependencieselements }
+meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, pkg-config?, branch*, dependencieselements }
 attlist.meson &=
   attribute id { text },
   attribute skip-install { "true" | "false" }?,
@@ -184,7 +184,7 @@ attlist.meson &=
   attribute ninjaargs { text }?
 mesonargs = element mesonargs { attlist.mesonargs }
 attlist.mesonargs &= attribute value { text }
-perl = element perl { attlist.perl, branch?, dependencies?, after? }
+perl = element perl { attlist.perl, branch*, dependencies?, after? }
 attlist.perl &=
   attribute id { text },
   attribute makeargs { text }?
@@ -201,7 +201,7 @@ attlist.ant &=
   attribute makeargs { text }?
 testmodule =
   element testmodule {
-    attlist.testmodule, branch?, dependencies?, after?, testedmodules?
+    attlist.testmodule, branch*, dependencies?, after?, testedmodules?
   }
 attlist.testmodule &=
   attribute id { text },

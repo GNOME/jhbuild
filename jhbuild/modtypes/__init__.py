@@ -134,12 +134,15 @@ def find_first_child_node_content(node, name):
         return None
     return get_node_content(childnode)
 
-def get_branch(node, repositories, default_repo, config):
-    """Scan for a <branch> element and create a corresponding Branch object."""
+def get_branch(node, repositories, default_repo, config, index=0):
+    """Create a Branch object for the indexed <branch> child element."""
     name = node.getAttribute('id')
-    childnode = find_first_child_node(node, 'branch')
-    if childnode is None:
+    branchnodes = [child for child in node.childNodes
+                   if child.nodeType == child.ELEMENT_NODE and
+                   child.nodeName == 'branch']
+    if index >= len(branchnodes):
         raise FatalError(_('no <branch> element found for %s') % name)
+    childnode = branchnodes[index]
 
     # look up the repository for this branch ...
     if childnode.hasAttribute('repo'):
@@ -190,8 +193,19 @@ class Package:
     def __repr__(self):
         return "<%s '%s'>" % (self.__class__.__name__, self.name)
 
+    def iter_branches(self):
+        pending = [self.branch]
+        while pending:
+            branch = pending.pop(0)
+            yield branch
+            pending[0:0] = getattr(branch, 'sources', [])
+
     def eval_args(self, args):
         args = args.replace('${prefix}', self.config.prefix)
+        checkoutroot = getattr(self.config, 'checkoutroot', '')
+        buildroot = getattr(self.config, 'buildroot', None) or checkoutroot
+        args = args.replace('${checkoutroot}', checkoutroot)
+        args = args.replace('${buildroot}', buildroot)
         libdir = os.path.join(self.config.prefix, 'lib')
         args = args.replace('${libdir}', libdir)
         return args
@@ -399,7 +413,7 @@ them into the prefix."""
                          (num_copied, ))
 
     def get_revision(self):
-        return self.branch.tree_id()
+        return ';'.join(branch.tree_id() for branch in self.iter_branches())
 
     def skip_phase(self, buildscript, phase, last_phase):
         try:
@@ -504,6 +518,26 @@ them into the prefix."""
         name = node.getAttribute('id')
         instance = cls(name)
         instance.branch = get_branch(node, repositories, default_repo, config)
+        branchnodes = [child for child in node.childNodes
+                       if child.nodeType == child.ELEMENT_NODE and
+                       child.nodeName == 'branch']
+        if len(branchnodes) > 1:
+            checkoutdirs = []
+            for branchnode in branchnodes:
+                checkoutdir = branchnode.getAttribute('checkoutdir')
+                if not checkoutdir:
+                    raise FatalError(
+                        _('all branches for module %s must specify checkoutdir') %
+                        name)
+                if checkoutdir in checkoutdirs:
+                    raise FatalError(
+                        _('duplicate checkoutdir %(checkoutdir)s for module %(module)s') %
+                        {'checkoutdir': checkoutdir, 'module': name})
+                checkoutdirs.append(checkoutdir)
+
+            for index in range(1, len(branchnodes)):
+                instance.branch.sources.append(
+                    get_branch(node, repositories, default_repo, config, index))
         instance.dependencies, instance.after, instance.suggests, instance.systemdependencies = get_dependencies(node)
         instance.supports_parallel_build = (node.getAttribute('supports-parallel-builds') != 'no')
         instance.config = config
@@ -511,7 +545,8 @@ them into the prefix."""
         if pkg_config:
             instance.pkg_config = pkg_config
             instance.dependencies += ['pkg-config']
-        instance.dependencies += instance.branch.repository.get_sysdeps()
+        for branch in instance.iter_branches():
+            instance.dependencies += branch.repository.get_sysdeps()
         return instance
 
 class NinjaModule(Package):
@@ -614,7 +649,8 @@ class DownloadableModule:
     def checkout(self, buildscript):
         srcdir = self.get_srcdir(buildscript)
         buildscript.set_action(_('Checking out'), self)
-        self.branch.checkout(buildscript)
+        for branch in self.iter_branches():
+            branch.checkout(buildscript)
         # did the checkout succeed?
         if not os.path.exists(srcdir):
             raise BuildStateError(_('source directory %s was not created') % srcdir)
@@ -624,7 +660,8 @@ class DownloadableModule:
 
     def skip_checkout(self, buildscript, last_phase):
         # skip the checkout stage if the nonetwork flag is set
-        if not self.branch.may_checkout(buildscript):
+        if not all(branch.may_checkout(buildscript)
+                   for branch in self.iter_branches()):
             if self.check_build_policy(buildscript) == self.PHASE_DONE:
                 raise SkipToEnd()
             return True
@@ -640,7 +677,8 @@ class DownloadableModule:
         except Exception:
             pass
         buildscript.set_action(_('Checking out'), self)
-        self.branch.force_checkout(buildscript)
+        for branch in self.iter_branches():
+            branch.force_checkout(buildscript)
     do_force_checkout.error_phases = [PHASE_FORCE_CHECKOUT]
     do_force_checkout.label = N_('wipe directory and start over')
     do_force_checkout.needs_confirmation = True

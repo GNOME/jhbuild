@@ -42,7 +42,7 @@ import jhbuild.utils.systeminstall
 sys.modules['jhbuild.utils.systeminstall'] = sys.modules[__name__]
 sys.modules['jhbuild.utils'].systeminstall = sys.modules[__name__]
 
-from jhbuild.errors import UsageError, CommandError
+from jhbuild.errors import UsageError, CommandError, FatalError
 from jhbuild.modtypes import Package
 from jhbuild.modtypes.autotools import AutogenModule
 from jhbuild.modtypes.distutils import DistutilsModule
@@ -196,7 +196,7 @@ class JhbuildConfigTestCase(unittest.TestCase):
         return jhbuild.frontends.terminal.TerminalBuildScript(config, module_list, module_set)
 
 
-class CMakeModuleTest(unittest.TestCase):
+class CMakeModuleTest(JhbuildConfigTestCase):
 
     def test_to_sxml(self):
         from jhbuild.modtypes.cmake import CMakeModule
@@ -205,6 +205,97 @@ class CMakeModuleTest(unittest.TestCase):
         self.assertEqual(
             sxml_to_string(mod.to_sxml()),
             '<cmake id="foo"><dependencies></dependencies>\n<branch></branch></cmake>')
+
+
+class MultipleBranchModuleTest(JhbuildConfigTestCase):
+
+    def test_multiple_branches(self):
+        config = self.make_config()
+        moduleset = os.path.join(self.make_temp_dir(), 'multiple.modules')
+        with open(moduleset, 'w') as f:
+            f.write('''<moduleset>
+  <repository type="tarball" name="example" href="https://example.com/"/>
+  <cmake id="toolchain">
+    <branch repo="example" module="llvm.tar.xz" version="1"
+            checkoutdir="llvm"/>
+    <branch repo="example" module="swift.tar.xz" version="1"
+            checkoutdir="swift"/>
+    <branch repo="example" module="cmark.tar.xz" version="1"
+            checkoutdir="cmark"/>
+  </cmake>
+  <meson id="combined-project">
+    <branch repo="example" module="main.tar.xz" version="1"
+            checkoutdir="main"/>
+    <branch repo="example" module="companion.tar.xz" version="1"
+            checkoutdir="companion"/>
+  </meson>
+</moduleset>''')
+
+        module = jhbuild.moduleset.load(config, moduleset).modules['toolchain']
+        self.assertEqual(module.branch.checkoutdir, 'llvm')
+        self.assertEqual([branch.checkoutdir for branch in module.branch.sources],
+                         ['swift', 'cmark'])
+        self.assertEqual(
+            module.eval_args('${checkoutroot}/swift ${buildroot}/llvm'),
+            '%s/swift %s/llvm' % (config.checkoutroot,
+                                  config.buildroot or config.checkoutroot))
+        meson = jhbuild.moduleset.load(config, moduleset).modules['combined-project']
+        self.assertEqual([branch.checkoutdir for branch in meson.iter_branches()],
+                         ['main', 'companion'])
+
+    def test_multiple_branches_require_checkoutdir(self):
+        config = self.make_config()
+        moduleset = os.path.join(self.make_temp_dir(), 'multiple.modules')
+        with open(moduleset, 'w') as f:
+            f.write('''<moduleset>
+  <repository type="tarball" name="example" href="https://example.com/"/>
+  <cmake id="toolchain">
+    <branch repo="example" module="llvm.tar.xz" version="1"
+            checkoutdir="llvm"/>
+    <branch repo="example" module="swift.tar.xz" version="1"/>
+  </cmake>
+</moduleset>''')
+
+        with self.assertRaises(FatalError):
+            jhbuild.moduleset.load(config, moduleset)
+
+    def test_branch_operations_include_additional_sources(self):
+        calls = []
+
+        class TestBranch(jhbuild.versioncontrol.Branch):
+            def __init__(self, name, sources=None):
+                self.name = name
+                self.sources = sources or []
+
+            def checkout(self, buildscript):
+                calls.append(('checkout', self.name))
+
+            def force_checkout(self, buildscript):
+                calls.append(('force', self.name))
+
+            def may_checkout(self, buildscript):
+                return self.name != 'offline'
+
+            def tree_id(self):
+                return self.name
+
+        branch = TestBranch('llvm', [TestBranch('swift'), TestBranch('cmark')])
+        module = Package('toolchain', branch=branch)
+        for item in module.iter_branches():
+            item.checkout(None)
+        for item in module.iter_branches():
+            item.force_checkout(None)
+
+        self.assertEqual(calls, [
+            ('checkout', 'llvm'), ('checkout', 'swift'), ('checkout', 'cmark'),
+            ('force', 'llvm'), ('force', 'swift'), ('force', 'cmark')])
+        self.assertTrue(all(item.may_checkout(None)
+                            for item in module.iter_branches()))
+        self.assertEqual(module.get_revision(), 'llvm;swift;cmark')
+
+        branch.sources.append(TestBranch('offline'))
+        self.assertFalse(all(item.may_checkout(None)
+                             for item in module.iter_branches()))
 
 
 class ModuleOrderingTestCase(JhbuildConfigTestCase):

@@ -50,7 +50,7 @@
 <!ELEMENT redirect EMPTY>
 <!ATTLIST redirect href CDATA #REQUIRED>
 
-<!ELEMENT autotools (if*,autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
+<!ELEMENT autotools (if*,autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch+,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST autotools
@@ -79,7 +79,7 @@
 <!ELEMENT makeinstallargs EMPTY>
 <!ATTLIST makeinstallargs value CDATA #REQUIRED>
 
-<!ELEMENT waf (pkg-config?,branch,dependencies?,suggests?,after?)>
+<!ELEMENT waf (pkg-config?,branch+,dependencies?,suggests?,after?)>
 <!-- Note: Here the ID type is not used as some existing IDs in modsets are not
      valid XML ID types - instead CDATA is used -->
 <!ATTLIST waf
@@ -92,7 +92,7 @@
 
 <!-- tarball module type is deprecated, a tarball repository inside the
      appropriate modtype should be used instead -->
-<!ELEMENT tarball (pkg-config?,source,branch?,dependencies?,suggests?,after?,patches?)>
+<!ELEMENT tarball (pkg-config?,source,branch*,dependencies?,suggests?,after?,patches?)>
 <!ATTLIST tarball
 	id		CDATA	#REQUIRED
 	version		CDATA	#REQUIRED
@@ -102,11 +102,11 @@
 	autogen-sh	CDATA	#IMPLIED
 	supports-non-srcdir-builds (yes|no) "yes">
 
-<!ELEMENT pip (pkg-config?,branch?,dependencies?,after?)>
+<!ELEMENT pip (pkg-config?,branch*,dependencies?,after?)>
 <!ATTLIST pip
 	id	ID	#REQUIRED>
 
-<!ELEMENT distutils (pkg-config?,branch?,dependencies?,after?)>
+<!ELEMENT distutils (pkg-config?,branch*,dependencies?,after?)>
 <!ATTLIST distutils
 	id	ID	#REQUIRED
 	python3 CDATA	#FIXED "1"
@@ -115,7 +115,7 @@
 <!ELEMENT ninjaargs EMPTY>
 <!ATTLIST ninjaargs value CDATA #REQUIRED>
 
-<!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
@@ -130,7 +130,7 @@
 <!ELEMENT cmakeargs EMPTY>
 <!ATTLIST cmakeargs value CDATA #REQUIRED>
 
-<!ELEMENT meson (if*,mesonargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ELEMENT meson (if*,mesonargs*,ninjaargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
 <!ATTLIST meson
 	id		CDATA	#REQUIRED
 	mesonargs	CDATA	#IMPLIED
@@ -140,7 +140,7 @@
 <!ELEMENT mesonargs EMPTY>
 <!ATTLIST mesonargs value CDATA #REQUIRED>
 
-<!ELEMENT perl (pkg-config?,branch?,dependencies?,after?)>
+<!ELEMENT perl (pkg-config?,branch*,dependencies?,after?)>
 <!ATTLIST perl
 	id		CDATA	#REQUIRED
 	makeargs	CDATA	#IMPLIED>
@@ -154,7 +154,7 @@
 	id		CDATA	#REQUIRED
 	supports-parallel-builds (yes|no) "yes">
 
-<!ELEMENT testmodule (pkg-config?,branch?,dependencies?,after?,testedmodules?)>
+<!ELEMENT testmodule (pkg-config?,branch*,dependencies?,after?,testedmodules?)>
 <!ATTLIST testmodule
 	id		CDATA	#REQUIRED
 	type		CDATA	#REQUIRED>

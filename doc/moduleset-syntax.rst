@@ -364,8 +364,35 @@ not pull any additional modules). This is intended for cases where a
 module has an optional dependency on another module.
 
 Command argument attributes (eg. ``makeargs``, ``mesonargs`` etc) support
-automatic expansion of the variables ``${prefix}`` and ``${libdir}`` to
-their corresponding values. Eg.``mesonargs="-Dlog-dir=${prefix}/var/log/gdm"``
+automatic expansion of the variables ``${prefix}``, ``${libdir}``,
+``${checkoutroot}``, and ``${buildroot}`` to their corresponding values.
+Eg.``mesonargs="-Dlog-dir=${prefix}/var/log/gdm"``
+
+Downloadable modules may contain multiple ``branch`` elements when their build
+combines several source trees. The first branch is the module's primary source;
+the remaining branches are checked out before configuration. Every branch in
+such a module must specify a unique ``checkoutdir``.
+
+The primary branch determines the module's source and build directories. Extra
+branches are only additional source checkouts; their locations can be passed to
+the build system with the ``${checkoutroot}`` expansion. Checkout, update, and
+force-checkout operations apply to every branch, and all branch revisions form
+the module revision recorded by JHBuild.
+
+For example, a unified CMake build whose primary source is LLVM can include
+Swift and CMark as additional source trees::
+
+   <cmake id="swift-toolchain"
+          cmakedir="llvm"
+          cmakeargs="-DLLVM_EXTERNAL_SWIFT_SOURCE_DIR=${checkoutroot}/swift
+                     -DLLVM_EXTERNAL_CMARK_SOURCE_DIR=${checkoutroot}/swift-cmark">
+     <branch repo="example" module="llvm-project.tar.xz"
+             checkoutdir="llvm-project"/>
+     <branch repo="example" module="swift.tar.xz"
+             checkoutdir="swift"/>
+     <branch repo="example" module="swift-cmark.tar.xz"
+             checkoutdir="swift-cmark"/>
+   </cmake>
 
 .. _autotools:
 
@@ -474,11 +501,13 @@ cmake
 The ``cmake`` element is used to define a module which is built using the
 CMake build system.
 
+
 ::
 
      <cmake id="modulename"
                [ cmakeargs="cmakeargs" ]
                [ ninjaargs="ninjaargs" ]
+               [ ninjainstallargs="ninjainstallargs" ]
                [ makeargs="makeargs" ]
                [ skip-install="skip-install" ]
                [ cmakedir="cmakedir" ]
@@ -504,7 +533,13 @@ The ``cmakeargs`` attribute is used to specify additional arguments to pass
 to ``cmake``.
 
 The ``ninjaargs`` attribute is used to specify additional arguments to pass
-to ``ninja``.
+to ``ninja`` during both the build and install phases.
+
+The ``ninjainstallargs`` attribute specifies the Ninja target and any
+additional arguments for the install phase. It defaults to ``install``. For
+example, ``ninjainstallargs="install-distribution-stripped"`` runs that target
+instead of ``install``. Arguments from ``ninjaargs`` are also included in the
+install invocation.
 
 The ``makeargs`` attribute is used to specify additional arguments to pass
 to ``make``.
@@ -544,6 +579,7 @@ the Meson build system and built using the Ninja build tool.
      <meson id="modulename"
                [ mesonargs="mesonargs" ]
                [ ninjaargs="ninjaargs" ]
+               [ ninjainstallargs="ninjainstallargs" ]
                [ skip-install="skip-install" ]>
      <branch [ ... ] >
        [...]
@@ -564,6 +600,11 @@ to ``meson``.
 
 The ``ninjaargs`` attribute is used to specify additional arguments to pass
 to ``ninja``.
+
+By default, Meson modules are installed with ``meson install``. If
+``ninjainstallargs`` is set, JHBuild instead invokes Ninja with its value as
+the install target and arguments. Arguments from ``ninjaargs`` are included in
+that invocation.
 
 ``skip-install`` is a boolean attribute specifying whether to skip
 the install phase of the module; default is ``false``.

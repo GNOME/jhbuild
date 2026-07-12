@@ -82,7 +82,8 @@ class Repository:
                     patchstrip = 0
                 branch.patches.append((patchfile, patchstrip))
             elif childnode.nodeName == 'quilt':
-                branch.quilt = get_branch(childnode, repositories, default_repo)
+                branch.quilt = get_branch(childnode, repositories, default_repo,
+                                          branch.config)
 
     def eval_version(self, module, checkoutdir, version):
         if version:
@@ -110,6 +111,7 @@ class Branch:
         self.checkoutdir = checkoutdir
         self.checkoutroot = self.config.checkoutroot
         self.patches = []
+        self.sources = []
 
     @property
     def checkout_mode(self):
