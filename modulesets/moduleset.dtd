@@ -115,12 +115,16 @@
 <!ELEMENT ninjaargs EMPTY>
 <!ATTLIST ninjaargs value CDATA #REQUIRED>
 
-<!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
+<!ELEMENT ninjainstallargs EMPTY>
+<!ATTLIST ninjainstallargs value CDATA #REQUIRED>
+
+<!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,ninjainstallargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
 <!ATTLIST cmake
 	id		CDATA	#REQUIRED
 	cmakeargs	CDATA	#IMPLIED
 	makeargs	CDATA	#IMPLIED
 	ninjaargs	CDATA	#IMPLIED
+	ninjainstallargs CDATA	#IMPLIED
 	cmakedir	CDATA	#IMPLIED
 	use-ninja (yes|no) "yes"
 	skip-install	(true|false) "false"
@@ -130,11 +134,12 @@
 <!ELEMENT cmakeargs EMPTY>
 <!ATTLIST cmakeargs value CDATA #REQUIRED>
 
-<!ELEMENT meson (if*,mesonargs*,ninjaargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
+<!ELEMENT meson (if*,mesonargs*,ninjaargs*,ninjainstallargs*,pkg-config?,branch*,dependencies?,suggests?,after?)>
 <!ATTLIST meson
 	id		CDATA	#REQUIRED
 	mesonargs	CDATA	#IMPLIED
 	ninjaargs	CDATA	#IMPLIED
+	ninjainstallargs CDATA	#IMPLIED
 	skip-install	(true|false) "false">
 
 <!ELEMENT mesonargs EMPTY>

@@ -44,9 +44,10 @@ class MesonModule(NinjaModule, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
-                 mesonargs='', ninjaargs='',
+                 mesonargs='', ninjaargs='', ninjainstallargs='',
                  skip_install_phase=False):
-        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs)
+        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs,
+                             ninjainstallargs=ninjainstallargs)
         self.mesonargs = mesonargs
         self.supports_non_srcdir_builds = True
         self.skip_install_phase = skip_install_phase
@@ -153,8 +154,11 @@ class MesonModule(NinjaModule, DownloadableModule):
         extra_env = (self.extra_env or {}).copy()
         extra_env['DESTDIR'] = destdir
 
-        cmd = 'meson install --no-rebuild --quiet'
-        buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
+        if self.ninjainstallargs:
+            self.ninja(buildscript, self.ninjainstallargs, env=extra_env)
+        else:
+            cmd = 'meson install --no-rebuild --quiet'
+            buildscript.execute(cmd, cwd=self.get_builddir(buildscript), extra_env=extra_env)
 
         self.process_install(buildscript, self.get_revision())
     do_install.depends = [PHASE_BUILD]
@@ -171,6 +175,7 @@ def parse_meson(node, config, uri, repositories, default_repo):
 
     instance.mesonargs = collect_args(instance, node, 'mesonargs')
     instance.ninjaargs = collect_args(instance, node, 'ninjaargs')
+    instance.ninjainstallargs = collect_args(instance, node, 'ninjainstallargs')
 
     if node.hasAttribute('skip-install'):
         skip_install = node.getAttribute('skip-install')

@@ -42,10 +42,11 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
     PHASE_INSTALL = 'install'
 
     def __init__(self, name, branch=None,
-                 cmakeargs='', makeargs='', ninjaargs='',
+                 cmakeargs='', makeargs='', ninjaargs='', ninjainstallargs='',
                  skip_install_phase=False):
         MakeModule.__init__(self, name, branch=branch, makeargs=makeargs)
-        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs)
+        NinjaModule.__init__(self, name, branch=branch, ninjaargs=ninjaargs,
+                             ninjainstallargs=ninjainstallargs)
         self.cmakeargs = cmakeargs
         self.supports_non_srcdir_builds = True
         self.skip_install_phase = skip_install_phase
@@ -164,7 +165,8 @@ class CMakeModule(MakeModule, NinjaModule, DownloadableModule):
         buildscript.set_action(_('Installing'), self)
         destdir = self.prepare_installroot(buildscript)
         if self.use_ninja:
-            self.ninja(buildscript, 'install', env={'DESTDIR': destdir})
+            self.ninja(buildscript, self.ninjainstallargs or 'install',
+                       env={'DESTDIR': destdir})
         else:
             self.make(buildscript, 'install DESTDIR={}'.format(destdir))
         self.process_install(buildscript, self.get_revision())
@@ -187,6 +189,7 @@ def parse_cmake(node, config, uri, repositories, default_repo):
     instance.cmakeargs = collect_args(instance, node, 'cmakeargs')
     instance.makeargs = collect_args(instance, node, 'makeargs')
     instance.ninjaargs = collect_args(instance, node, 'ninjaargs')
+    instance.ninjainstallargs = collect_args(instance, node, 'ninjainstallargs')
 
     if node.hasAttribute('skip-install'):
         skip_install = node.getAttribute('skip-install')

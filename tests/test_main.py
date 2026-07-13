@@ -206,6 +206,41 @@ class CMakeModuleTest(JhbuildConfigTestCase):
             sxml_to_string(mod.to_sxml()),
             '<cmake id="foo"><dependencies></dependencies>\n<branch></branch></cmake>')
 
+    def test_ninja_install_args(self):
+        config = self.make_config()
+        moduleset = os.path.join(self.make_temp_dir(), 'cmake.modules')
+        with open(moduleset, 'w') as f:
+            f.write('''<moduleset>
+  <repository type="tarball" name="example" href="https://example.com/"/>
+  <cmake id="foo" ninjaargs="distribution"
+         ninjainstallargs="install-distribution-stripped">
+    <branch repo="example" module="foo.tar.xz" version="1"/>
+  </cmake>
+</moduleset>''')
+
+        module = jhbuild.moduleset.load(config, moduleset).modules['foo']
+        self.assertEqual(module.ninjaargs, 'distribution')
+        self.assertEqual(module.ninjainstallargs,
+                         'install-distribution-stripped')
+
+
+class MesonModuleTest(JhbuildConfigTestCase):
+
+    def test_ninja_install_args(self):
+        config = self.make_config()
+        moduleset = os.path.join(self.make_temp_dir(), 'meson.modules')
+        with open(moduleset, 'w') as f:
+            f.write('''<moduleset>
+  <repository type="tarball" name="example" href="https://example.com/"/>
+  <meson id="foo" ninjaargs="-v" ninjainstallargs="custom-install">
+    <branch repo="example" module="foo.tar.xz" version="1"/>
+  </meson>
+</moduleset>''')
+
+        module = jhbuild.moduleset.load(config, moduleset).modules['foo']
+        self.assertEqual(module.ninjaargs, '-v')
+        self.assertEqual(module.ninjainstallargs, 'custom-install')
+
 
 class MultipleBranchModuleTest(JhbuildConfigTestCase):
 

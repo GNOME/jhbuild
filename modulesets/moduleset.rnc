@@ -159,13 +159,14 @@ attlist.distutils &=
   [ a:defaultValue = "yes" ]
   attribute python3 { "1" }?,
   attribute supports-non-srcdir-builds { "yes" | "no" }?
-cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* & ninjaargs* }
-cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, ninjaargs*, pkg-config?, branch*, dependencieselements }
+cmakeargsif = element if { attlist.if & cmakeargsif* & cmakeargs* & makeargs* & ninjaargs* & ninjainstallargs* }
+cmake = element cmake { attlist.cmake, cmakeargsif*, cmakeargs*, makeargs*, ninjaargs*, ninjainstallargs*, pkg-config?, branch*, dependencieselements }
 attlist.cmake &=
   attribute id { text },
   attribute cmakeargs { text }?,
   attribute makeargs { text }?,
   attribute ninjaargs { text }?,
+  attribute ninjainstallargs { text }?,
   attribute cmakedir { text }?,
   attribute use-ninja { "yes" | "no" }?,
   attribute skip-install { "true" | "false" }?,
@@ -175,13 +176,16 @@ cmakeargs = element cmakeargs { attlist.cmakeargs }
 attlist.cmakeargs &= attribute value { text }
 ninjaargs = element ninjaargs { attlist.ninjaargs }
 attlist.ninjaargs &= attribute value { text }
-mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* }
-meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, pkg-config?, branch*, dependencieselements }
+ninjainstallargs = element ninjainstallargs { attlist.ninjainstallargs }
+attlist.ninjainstallargs &= attribute value { text }
+mesonargsif = element if { attlist.if & mesonargsif* & mesonargs* & ninjaargs* & ninjainstallargs* }
+meson = element meson { attlist.meson, mesonargsif*, mesonargs*, ninjaargs*, ninjainstallargs*, pkg-config?, branch*, dependencieselements }
 attlist.meson &=
   attribute id { text },
   attribute skip-install { "true" | "false" }?,
   attribute mesonargs { text }?,
-  attribute ninjaargs { text }?
+  attribute ninjaargs { text }?,
+  attribute ninjainstallargs { text }?
 mesonargs = element mesonargs { attlist.mesonargs }
 attlist.mesonargs &= attribute value { text }
 perl = element perl { attlist.perl, branch*, dependencies?, after? }
